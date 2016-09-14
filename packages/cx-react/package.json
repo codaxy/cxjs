@@ -1,6 +1,6 @@
 {
   "name": "cx-react",
-  "version": "16.8.2",
+  "version": "16.8.3",
   "description": "React based rendering for Cx applications.",
   "main": "index.js",
   "scripts": {},

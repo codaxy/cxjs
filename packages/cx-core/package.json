@@ -1,6 +1,6 @@
 {
   "name": "cx-core",
-  "version": "16.9.5",
+  "version": "16.9.6",
   "description": "Cx framework",
   "main": "src/index",
   "jsnext:main": "src/index",
