@@ -5,9 +5,9 @@ import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
 import {ResizeManager} from '../ResizeManager';
 
 /*
-   Dropdown specific features:
-   - ability to position itself next to parent element
-   - monitor scrollable parents and updates it's position
+ Dropdown specific features:
+ - ability to position itself next to parent element
+ - monitor scrollable parents and updates it's position
  */
 
 export class Dropdown extends Overlay {
@@ -17,7 +17,7 @@ export class Dropdown extends Overlay {
          placement: undefined
       })
    }
-   
+
    overlayDidMount(instance, component) {
       super.overlayDidMount(instance, component);
       var scrollableParents = component.scrollableParents = [window];
@@ -60,6 +60,14 @@ export class Dropdown extends Overlay {
       var {el} = component;
       var {data} = instance;
       var x = this.relatedElement.getBoundingClientRect();
+      if (this.trackMouse && component.mousePosition) {
+         x = {
+            left: component.mousePosition.x,
+            right: component.mousePosition.x,
+            top: component.mousePosition.y,
+            bottom: component.mousePosition.y,
+         }
+      }
       var style = {};
       if (this.matchWidth)
          style.minWidth = `${x.right - x.left}px`;
@@ -196,7 +204,7 @@ export class Dropdown extends Overlay {
       var placementOrder = this.placementOrder.split(' ');
       var best = placement;
       var first;
-     
+
       var score = {};
 
       for (var i = 0; i < placementOrder.length; i++) {
@@ -204,7 +212,7 @@ export class Dropdown extends Overlay {
          if (!first)
             first = p;
          var parts = p.split('-');
-         
+
          var primary = parts[0];
          var secondary = parts[1] || 'center';
 
@@ -260,7 +268,7 @@ export class Dropdown extends Overlay {
                break;
          }
       }
-      
+
       if (!(best in score))
          best = first;
 

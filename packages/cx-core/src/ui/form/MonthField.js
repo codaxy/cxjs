@@ -8,7 +8,7 @@ import {Console} from '../../util/Console';
 import {StringTemplate} from '../../data/StringTemplate';
 import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class MonthField extends Field {
@@ -258,7 +258,7 @@ class MonthInput extends VDOM.Component {
                 onKeyDown={ e => this.onKeyDown(e) }
                 onBlur={ e => { this.onBlur(e) } }
                 onFocus={ e => { this.onFocus(e) } }
-                onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance, this.state)}
+                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
                 onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
          />
          { insideButton }

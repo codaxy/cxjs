@@ -3,7 +3,7 @@ import {PureContainer} from '../../PureContainer';
 import {BoundedObject} from '../BoundedObject';
 import {Rect} from '../util/Rect';
 import {Selection} from '../../selection/Selection';
-import {tooltipMouseEnter, tooltipMouseLeave} from '../../overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../../overlay/Tooltip';
 
 export class PieChart extends BoundedObject {
 
@@ -287,7 +287,7 @@ export class PieSlice extends PureContainer {
          <path className={this.CSS.element(this.baseClass, 'slice', stateMods)}
             style={data.style}
             d={d}
-            onMouseEnter={e=>{tooltipMouseEnter(e, instance)}}
+            onMouseMove={e=>{tooltipMouseMove(e, instance)}}
             onMouseLeave={e=>{tooltipMouseLeave(e, instance)}}
             onClick={e=>{this.handleClick(e, instance)}}
          />

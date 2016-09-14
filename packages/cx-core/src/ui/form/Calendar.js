@@ -9,7 +9,7 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
 export class Calendar extends Field {
 
@@ -364,7 +364,7 @@ export class CalendarCmp extends VDOM.Component {
                   onKeyDown={e=>this.handleKeyPress(e)}
                   onMouseDown={e=>e.stopPropagation()}
                   ref={el=>{this.el = el}}
-                  onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance)}
+                  onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
                   onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
                   onWheel={e=>this.handleWheel(e)}
                   onFocus={e=>this.handleFocus(e)}

@@ -4,7 +4,7 @@ import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
 import {parseColor} from '../../util/color/parseColor';
 
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class ColorField extends Field {
@@ -120,7 +120,7 @@ class ColorInput extends VDOM.Component {
                 onFocus={ e => {
                    this.onFocus(e)
                 } }
-                onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance)}
+                onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
                 onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
          />
          { insideButton }

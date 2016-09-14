@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../../Widget';
 import {BoundedObject} from '../BoundedObject';
 import {Rect} from '../util/Rect';
-import {tooltipMouseEnter, tooltipMouseLeave} from '../../overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../../overlay/Tooltip';
 import {captureMouseOrTouch} from '../../overlay/captureMouse';
 import {closest} from '../../../util/DOM';
 import {Selection} from '../../selection/Selection';
@@ -203,8 +203,8 @@ class MarkerComponent extends VDOM.Component {
          cx: (bounds.l + bounds.r) / 2,
          cy: (bounds.t + bounds.b) / 2,
          r: data.size / 2,
-         onMouseEnter: e=> {
-            tooltipMouseEnter(e, instance)
+         onMouseMove: e=> {
+            tooltipMouseMove(e, instance)
          },
          onMouseLeave: e=> {
             tooltipMouseLeave(e, instance)

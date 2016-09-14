@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../Widget';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class Checkbox extends Field {
@@ -27,7 +27,7 @@ export class Checkbox extends Field {
       return <label key={key}
                     className={data.classNames}
                     onMouseDown={stopPropagation}
-                    onMouseEnter={e=>tooltipMouseEnter(e, instance)}
+                    onMouseMove={e=>tooltipMouseMove(e, instance)}
                     onMouseLeave={e=>tooltipMouseLeave(e, instance)}
                     style={data.style}>
          {content}

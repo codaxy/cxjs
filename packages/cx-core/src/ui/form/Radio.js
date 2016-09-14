@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../Widget';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class Radio extends Field {
@@ -46,7 +46,7 @@ export class Radio extends Field {
                     style={data.style}
                     onMouseDown={stopPropagation}
                     onTouchStart={stopPropagation}
-                    onMouseEnter={e=>tooltipMouseEnter(e, instance)}
+                    onMouseMove={e=>tooltipMouseMove(e, instance)}
                     onMouseLeave={e=>tooltipMouseLeave(e, instance)}
                     htmlFor={data.id}>
          {content}

@@ -32,6 +32,24 @@ export class Tooltip extends Dropdown {
          ...super.renderContents(context, instance)
       ]
    }
+
+   overlayDidMount(instance, component) {
+      if (this.pipeMouseTrack)
+         this.pipeMouseTrack((e)=> {
+            component.mousePosition = {
+               x: e.clientX,
+               y: e.clientY
+            };
+            this.updateDropdownPosition(instance, component);
+         });
+      super.overlayDidMount(instance, component);
+   }
+
+   overlayWillUnmount(instance, component) {
+      super.overlayWillUnmount(instance, component);
+      if (this.pipeMouseTrack)
+         this.pipeMouseTrack(null);
+   }
 }
 
 Widget.alias('tooltip', Tooltip);
@@ -40,8 +58,9 @@ Tooltip.prototype.baseClass = 'tooltip';
 Tooltip.prototype.offset = 8;
 Tooltip.prototype.placementOrder = 'right up down left';
 Tooltip.prototype.animate = true;
-Tooltip.prototype.destroyDelay = 500;
+Tooltip.prototype.destroyDelay = 200;
 Tooltip.prototype.matchWidth = false;
+Tooltip.prototype.trackMouse = false;
 
 var tooltips = new WeakMap();
 
@@ -69,7 +88,7 @@ class TooltipState {
       this.element = element;
    }
 
-   check(state) {
+   check(state, e) {
       var {widget, data} = this.instance;
       if (widget.errorTooltipsEnabled && data.error && (!widget.suppressErrorTooltipsUntilVisited || (state && state.visited))) {
          var errorTooltip = {
@@ -77,19 +96,20 @@ class TooltipState {
             items: data.error,
             mod: 'error'
          };
-         this.show('error', errorTooltip, data.error);
+         this.show('error', errorTooltip, data.error, e);
       }
       else if (data.tooltip)
-         this.show('info', data.tooltip);
+         this.show('info', data.tooltip, data.tooltip, e);
       else
          this.destroy();
    }
 
-   show(type, config, test) {
-      if (typeof test == 'undefined')
-         test = config;
-      if (this.dismiss && this.type == type && this.test == test)
+   show(type, config, test, e) {
+      if (this.dismiss && this.type == type && this.test == test) {
+         if (e && this.trackMouse)
+            this.trackMouse(e);
          return;
+      }
       this.destroy();
       this.type = type;
       this.test = test;
@@ -106,6 +126,8 @@ class TooltipState {
             }
          }
       }
+      if (config.trackMouse)
+         config.pipeMouseTrack = x => { this.trackMouse = x };
       this.dismiss = Tooltip.show(this.instance.store, config, this.element);
       tooltips.set(this.element, this);
       Debug.log(tooltipsFlag, 'show', this.element, this.instance);
@@ -144,10 +166,10 @@ class TooltipState {
    }
 }
 
-export function tooltipMouseEnter(e, instance, state) {
+export function tooltipMouseMove(e, instance, state) {
    Debug.log(tooltipsFlag, 'mouse-enter', e.currentTarget, instance);
    var tooltipState = getTooltipState(e.currentTarget, instance);
-   tooltipState.check(state);
+   tooltipState.check(state, e);
 }
 
 export function tooltipMouseLeave(e, instance) {

@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../Widget';
 import {PureContainer} from '../../PureContainer';
-import {tooltipMouseEnter, tooltipMouseLeave} from '../../overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../../overlay/Tooltip';
 import {Selection} from '../../selection/Selection';
 
 export class ColumnBarBase extends PureContainer {
@@ -123,7 +123,7 @@ export class ColumnBarBase extends PureContainer {
                y={bounds.t}
                width={Math.max(0.0001, bounds.width())}
                height={Math.max(0.0001, bounds.height())}
-               onMouseEnter={e=>{tooltipMouseEnter(e, instance)}}
+               onMouseMove={e=>{tooltipMouseMove(e, instance)}}
                onMouseLeave={e=>{tooltipMouseLeave(e, instance)}}
                onClick={e=>{this.handleClick(e, instance)}}
          />

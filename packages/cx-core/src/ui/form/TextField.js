@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../Widget';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class TextField extends Field {
@@ -88,7 +88,7 @@ class Input extends VDOM.Component {
    }
 
    onMouseEnter(e) {      
-      tooltipMouseEnter(e, this.props.instance, this.state);
+      tooltipMouseMove(e, this.props.instance, this.state);
    }
 
    onMouseLeave(e) {

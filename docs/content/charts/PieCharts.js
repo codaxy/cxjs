@@ -53,7 +53,12 @@ export const PieCharts = <cx>
                                   r={80}
                                   r0={20}
                                   offset={5}
-                                  tooltip:tpl="{$record.name}: {$record.value:n;1}"
+                                  tooltip={{
+                                      text: {
+                                          tpl: "Item {$index}: {$record.value:n;2}"
+                                      },
+                                      trackMouse: true
+                                  }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
                                   name:bind="$record.name"
@@ -90,7 +95,12 @@ export const PieCharts = <cx>
                                   r:expr='80'
                                   r0:expr='20'
                                   offset={5}
-                                  tooltip:tpl="Item {$index}: {$record.value:n}"
+                                  tooltip={{
+                                      text: {
+                                          tpl: "Item {$index}: {$record.value:n;2}"
+                                      },
+                                      trackMouse: true
+                                  }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
                                   name:tpl="Item {$index}"

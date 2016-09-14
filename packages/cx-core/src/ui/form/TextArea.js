@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../Widget';
 import {TextField} from './TextField';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class TextArea extends TextField {
@@ -61,7 +61,7 @@ class Input extends VDOM.Component {
                    onChange={ e => this.onChange(e, 'change') }
                    onBlur={ e => { this.onChange(e, 'blur') } }
                    onClick={stopPropagation}
-                   onMouseEnter={e=>tooltipMouseEnter(e, instance, this.state)}
+                   onMouseMove={e=>tooltipMouseMove(e, instance, this.state)}
                    onMouseLeave={e=>tooltipMouseLeave(e, instance)}
          />
       </div>
@@ -72,7 +72,7 @@ class Input extends VDOM.Component {
    }
 
    onMouseEnter(e) {
-      tooltipMouseEnter(e, this.props.instance);
+      tooltipMouseMove(e, this.props.instance);
    }
 
    onMouseLeave(e) {

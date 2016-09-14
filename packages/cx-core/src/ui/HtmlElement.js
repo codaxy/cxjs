@@ -1,6 +1,6 @@
 import {Widget, VDOM} from './Widget';
 import {PureContainer} from './PureContainer';
-import {tooltipMouseEnter, tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
+import {tooltipMouseMove, tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
 import {Url} from '../app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {Console} from '../util/Console';
@@ -182,17 +182,14 @@ class ContainerComponent extends VDOM.Component {
       props.ref = c => { this.el = c };
 
       if (data.tooltip) {
-         var {onMouseEnter, onMouseLeave, onMouseMove} = props;
-         props.onMouseEnter = (e) => {
-            tooltipMouseEnter(e, instance);
-            if (onMouseEnter) onMouseEnter(e);
-         };
+         var {onMouseLeave, onMouseMove} = props;
+
          props.onMouseLeave = (e) => {
             tooltipMouseLeave(e, instance);
             if (onMouseLeave) onMouseLeave(e);
          };
          props.onMouseMove = (e) => {
-            tooltipMouseEnter(e, instance);
+            tooltipMouseMove(e, instance);
             if (onMouseMove) onMouseMove(e);
          }
       }

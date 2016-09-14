@@ -80,6 +80,10 @@ export const Tooltips = <cx>
                <Checkbox value:bind="$page.tooltipVisible">Controlled visibility</Checkbox>
             </div>
 
+             <div tooltip={{ text: "I'm right behind you.", trackMouse: true, offset: 20 }}>
+                 Mouse tracking
+             </div>
+
          </div>
 
          <CodeSnippet putInto="code">{`

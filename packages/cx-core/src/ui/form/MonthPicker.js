@@ -12,7 +12,7 @@ import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {Console} from '../../util/Console';
 import {KeyCode} from '../../util/KeyCode';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
 export class MonthPicker extends Field {
 
@@ -451,7 +451,7 @@ export class MonthPickerComponent extends VDOM.Component {
                   tabIndex={data.disabled ? null : 0}
                   onKeyDown={e=>this.handleKeyPress(e)}
                   onMouseDown={e=>e.stopPropagation()}
-                  onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance)}
+                  onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
                   onMouseLeave={::this.onMouseLeave}
                   onFocus={e=>this.handleFocus(e)}
                   onBlur={::this.handleBlur}

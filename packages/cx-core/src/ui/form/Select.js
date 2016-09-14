@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class Select extends Field {
@@ -76,7 +76,7 @@ class SelectComponent extends VDOM.Component {
                  disabled={data.disabled}
                  onBlur={::this.onBlur}
                  onChange={e=>{ e.preventDefault(); select(e.target.value); }}
-                 onMouseEnter={e=>tooltipMouseEnter(e, instance, this.state)}
+                 onMouseMove={e=>tooltipMouseMove(e, instance, this.state)}
                  onMouseLeave={e=>tooltipMouseLeave(e, instance)}>
             {this.props.children}
          </select>

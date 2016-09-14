@@ -3,7 +3,7 @@ import {Field} from './Field';
 import {Format} from '../../util/Format';
 import {Culture} from '../Culture';
 import {StringTemplate} from '../../data/StringTemplate';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
 import {stopPropagation} from '../eventCallbacks';
 
@@ -124,7 +124,7 @@ class Input extends VDOM.Component {
                 disabled={data.disabled}
                 readOnly={data.readOnly}
                 placeholder={data.placeholder}
-                onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance, this.state)}
+                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
                 onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
                 onInput={ e => this.onChange(e, 'input') }
                 onChange={ e => this.onChange(e, 'change') }

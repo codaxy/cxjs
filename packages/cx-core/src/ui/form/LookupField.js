@@ -9,7 +9,7 @@ import {Console} from '../../util/Console';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../FocusManager';
 import {isFocused} from '../../util/DOM';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseEnter, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
 export class LookupField extends Field {
@@ -422,7 +422,7 @@ class LookupComponent extends VDOM.Component {
               className={CSS.element(widget.baseClass, "input")}
               tabIndex={data.disabled ? null : 0}
               ref={el=>{this.dom.input = el}}
-              onMouseEnter={e=>tooltipMouseEnter(e, this.props.instance, this.state)}
+              onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
               onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
               onClick={ e=> this.onClick(e) }
               onInput={ e => this.onChange(e, 'input') }
