@@ -14,18 +14,23 @@ export const MonthFields = <cx>
     <Md>
         # MonthField
 
-        <CodeSplit>
+        The `MonthField` widget is used for selecting months or month ranges.
 
-            The `MonthField` widget is used for selecting months or month ranges.
+        <CodeSplit>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <MonthField value:bind="$page.date" autoFocus label="Single"/>
-                    <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" />
+                    <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" autoFocus/>
+                    <MonthField value:bind="$page.date" label="Single"/>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{``}</CodeSnippet>
+            <CodeSnippet putInto="code">{`
+                <div layout={LabelsLeftLayout}>
+                    <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" autoFocus/>
+                    <MonthField value:bind="$page.date" label="Single"/>
+                </div>
+            `}</CodeSnippet>
         </CodeSplit>
 
         ## Configuration

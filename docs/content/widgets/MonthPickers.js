@@ -11,26 +11,29 @@ import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import configs from './configs/Calendar';
 
 export const MonthPickers = <cx>
-   <Md>
-      # MonthPickers
+    <Md>
+        # MonthPickers
 
-      <CodeSplit>
+        The `MonthPicker` widget is used for selecting months or month ranges.
 
-         The `MonthPicker` widget is used for selecting months or month ranges.
+        <CodeSplit>
+            <div class="widgets">
+                <MonthPicker range from:bind="$page.from" to:bind="$page.to"/>
+                <MonthPicker value:bind="$page.date"/>
+            </div>
 
-         <div class="widgets">
-            <MonthPicker value:bind="$page.date" />
-            <MonthPicker range from:bind="$page.from" to:bind="$page.to" />
-         </div>
+            <CodeSnippet putInto="code">{`
+                <MonthPicker range from:bind="$page.from" to:bind="$page.to" />
+                <MonthPicker value:bind="$page.date" />
+            `}</CodeSnippet>
+        </CodeSplit>
 
-         <CodeSnippet putInto="code">{``}</CodeSnippet>
-      </CodeSplit>
+        > Use `Enter` key to select a date. Use arrow keys, `Home`, `End`, `Page Up` and `Page Down` keys to navigate
+        the calendar.
 
-      > Use `Enter` key to select a date. Use arrow keys, `Home`, `End`, `Page Up` and `Page Down` keys to navigate the calendar.
+        ## Configuration
 
-      ## Configuration
+        <ConfigTable props={configs}/>
 
-      <ConfigTable props={configs} />
-
-   </Md>
+    </Md>
 </cx>
