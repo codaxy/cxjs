@@ -1,0 +1,44 @@
+@import "../../util/call-once";
+@import "captureMouse";
+
+@if cx-call-once("ui/overlay/Overlay") {
+   %cxb-overlay {
+      left: calc(50% - 250px); //guess
+      top: calc(50% - 100px); //guess
+      min-width: 10px;
+      min-height: 10px;
+      background: #f2f2f2;
+      position: fixed;
+      overflow: visible;
+      box-sizing: border-box;
+
+      &.cxs-inline {
+         z-index: 100000;
+      }
+
+      &.cxs-draggable {
+         cursor: pointer;
+      }
+
+      &:focus {
+         outline: none;
+      }
+   }
+
+   %cxe-overlay-modal-backdrop {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(128, 128, 128, 0.3);
+   }
+
+   .cxb-overlay {
+      @extend %cxb-overlay;
+   }
+
+   .cxe-overlay-modal-backdrop {
+      @extend %cxe-overlay-modal-backdrop;
+   }
+}

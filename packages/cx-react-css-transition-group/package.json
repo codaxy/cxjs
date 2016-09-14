@@ -1,0 +1,19 @@
+{
+  "name": "cx-react-css-transition-group",
+  "version": "16.8.0",
+  "description": "Cx wrapper for ReactCSSTransitionGroup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "react-addons-css-transition-group": "15.3.0"
+  },
+  "peerDependencies": {
+    "cx-core": "*"
+  }
+}
+
+

@@ -1,0 +1,19 @@
+@import "Field";
+
+.cxb-monthfield {
+   @include cxb-field();
+}
+
+.cxe-monthfield-input {
+   @include cxe-field-input(
+      $padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size
+   );
+}
+
+.cxe-monthfield-icon {
+   @include cxe-field-icon($content: "\1F4C5");
+}
+
+.cxe-monthfield-clear {
+   @include cxe-field-clear();
+}

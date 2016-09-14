@@ -1,0 +1,83 @@
+import {Component} from '../../Component';
+
+export class Selection extends Component {
+   
+   isSelected(store, record, index) {
+      return this.bind && store.get(this.bind) === record;
+   }
+
+   getIsSelectedDelegate(store) {
+      return (record, index) => this.isSelected(store, record, index);
+   }
+   
+   select(store, record, index) {
+
+   }
+
+   declareData() {
+      var declaration = {
+         $selection: { structured: true }
+      };
+
+      return Object.assign(declaration, ...arguments);
+   }
+
+   configureWidget(widget) {
+
+      if (this.record || this.index) {
+         widget.$selection = Object.assign(widget.$selection || {}, {
+            record: this.record,
+            index: this.index
+         })
+      }
+
+      return this.declareData();
+   }
+
+   selectInstance(instance) {
+      var {store, data} = instance;
+      if (!data.$selection)
+         throw new Error('Selection model not properly configured. Using the selectInstance method without specified record and index bindings.');
+      return this.select(store, data.$selection.record, data.$selection.index);
+   }
+
+   isInstanceSelected(instance) {
+      var {store, data} = instance;
+      return data.$selection && this.isSelected(store, data.$selection.record, data.$selection.index);
+   }
+}
+
+Selection.namespace = 'ui.selection.';
+
+class SimpleSelection extends Selection {
+
+   isSelected(store, record, index) {
+      return getIsSelectedDelegate(store)(record, index);
+   }
+
+   getIsSelectedDelegate(store) {
+      var selection = this.bind && store.get(this.bind);
+      return (record, index) => record === selection;
+   }
+
+   select(store, record, index) {
+      if (this.bind)
+         store.set(this.bind, record);
+   }
+}
+
+class DummySelection extends Selection {
+   isSelected(store, record, index) {
+      return false;
+   }
+}
+
+DummySelection.prototype.isDummy = true;
+
+Selection.factory = (name) => {
+   if (typeof name == 'object')
+      return new SimpleSelection(name);
+
+   return new DummySelection();
+}
+

@@ -1,0 +1,14 @@
+{
+  "name": "cx-react",
+  "version": "16.8.2",
+  "description": "React based rendering for Cx applications.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "dependencies": {
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0"
+  }
+}

@@ -1,0 +1,30 @@
+.cxb-labelsleftlayout {
+   border-spacing: 0;
+
+   &.cxm-stretch {
+      width: 100%;
+
+      .cxe-labelsleftlayout-label {
+         width: 5em;
+
+         .cxb-label {
+            white-space: nowrap;
+         }
+      }
+   }
+}
+
+.cxe-labelsleftlayout-field {
+   padding: 5px 0 5px 5px;
+}
+
+.cxe-labelsleftlayout-label {
+   text-align: right;
+   vertical-align: top;
+
+   padding: 5px 5px 5px 0;
+
+   .cxb-label {
+      padding-right: 0;
+   }
+}

@@ -1,0 +1,89 @@
+@import 'variables';
+
+.cxb-list {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   overflow: auto;
+   border: 0 solid $cx-border-color;
+
+   @each $rule, $value in map-get($cx-list, default) {
+      #{$rule}: $value;
+   }
+
+   &:hover {
+      @each $rule, $value in map-get($cx-list, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxs-focused {
+      @each $rule, $value in map-get($cx-list, focus) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxm-bordered {
+      border-width: 1px;
+
+      & > .cxe-list-item:not(:first-child) {
+         border-top-width: 1px;
+      }
+   }
+}
+
+.cxe-list-item {
+   margin: 0;
+   border: 0 solid $cx-border-color;
+
+   &.cxs-pad {
+      padding: 5px 10px;
+   }
+
+   @each $rule, $value in map-get($cx-list-item, default) {
+      #{$rule}: $value;
+   }
+
+   .cxs-selectable > & {
+      cursor: pointer;
+   }
+
+   &.cxs-cursor {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+
+      .cxb-list.cxs-focused  > &, .cxb-list:focus > & {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+
+         &:active {
+            @each $rule, $value in map-get($cx-list-item, active) {
+               #{$rule}: $value;
+            }
+         }
+      }
+   }
+
+   &.cxs-selected {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+
+      .cxb-list.cxs-focused > & {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}
+
+.cxe-list-empty-text {
+   margin: 0;
+   padding: 5px 10px;
+
+   color: gray;
+   font-size: smaller;
+}
+

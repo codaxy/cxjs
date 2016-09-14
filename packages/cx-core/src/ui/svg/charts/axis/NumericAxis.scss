@@ -1,0 +1,17 @@
+@import "Axis";
+
+.cxb-numericaxis {
+   @include cxb-axis();
+}
+
+.cxe-numericaxis-ticks {
+   @include cxe-axis-ticks();
+}
+
+.cxe-numericaxis-line {
+   @include cxe-axis-line();
+}
+
+.cxe-numericaxis-label {
+   @include cxe-axis-label();
+}

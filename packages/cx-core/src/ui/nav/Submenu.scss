@@ -1,0 +1,11 @@
+.cxb-submenu {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 10px 20px;
+   list-style: none;
+   cursor: pointer;
+
+   &:focus {
+      outline: none;
+   }
+}

@@ -1,0 +1,96 @@
+@import "Field";
+
+.cxb-monthpicker {
+   @include cxe-field-input($box: false);
+   overflow-y: scroll;
+   overflow-x: hidden;
+   max-height: 30em;
+   position: relative;
+
+   table {
+      border-spacing: 0;
+      width: 100%;
+      font-size: 0.9em;
+   }
+
+   th, td {
+      border-top: 1px solid #eee;
+   }
+
+   tbody:not(:first-child) {
+      tr:first-child {
+         th, td {
+            border-top: 1px solid lightgray;
+         }
+      }
+   }
+
+   th, td {
+      text-align: center;
+      font-size: smaller;
+      line-height: 2em;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+   }
+
+   th {
+      padding: 0 0.5em;
+      color: lightgray;
+   }
+
+   .cxe-monthpicker-year {
+      font-size: 120%;
+      color: gray;
+   }
+
+   td {
+      padding: 0.5em 2em;
+   }
+
+   td.cxs-outside {
+      color: lightgray;
+   }
+
+   td.cxs-unselectable {
+      @each $rule, $value in map-get($cx-list-item, disabled) {
+         #{$rule}: $value;
+      }
+   }
+
+   td.cxs-selected {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+      border-color: transparent;
+   }
+
+   td.cxs-cursor, th.cxs-cursor {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      td.cxs-selected {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+
+      td.cxs-cursor, th.cxs-cursor {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}
+
+.cxb-calendar.cxs-disabled {
+   background-color: transparent;
+   border-color: transparent;
+   color: darken(#fff, 18);
+   cursor: not-allowed;
+}

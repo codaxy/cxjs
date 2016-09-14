@@ -1,0 +1,8 @@
+/.idea
+.vscode
+
+/node_modules
+*.hot-update.js
+npm-debug.log
+dist
+

@@ -1,0 +1,118 @@
+@import 'form/variables';
+
+$cx-button-mods: (
+   primary: (
+      default: (
+         background: #1f99f8,
+         border-color: #1E88E5,
+         color: white
+      ),
+      disabled: (
+         background: transparentize(#1f99f8, 0.5),
+         border-color: transparentize(#1E88E5, 0.9),
+         color: transparentize(white, 0.4),
+      )
+   ),
+
+   danger: (
+      default: (
+         background: #d32f2f,
+         border-color: #c62828,
+         color: white
+      ),
+      disabled: (
+         background: transparentize(#1f99f8, 0.4),
+         border-color: transparentize(#1E88E5, 0.9),
+         color: transparentize(white, 0.5),
+      )
+   )
+) !default;
+
+$cx-button-font: inherit !default;
+$cx-button-font-size: $cx-input-font-size !default;
+$cx-button-padding-left: 10px !default;
+$cx-button-padding-right: 10px !default;
+$cx-button-padding-top: $cx-input-padding-top !default;
+$cx-button-padding-bottom: $cx-input-padding-bottom !default;
+
+.cxb-button {
+   font: $cx-button-font;
+   font-size: $cx-button-font-size;
+   line-height: $cx-input-line-height;
+   padding: $cx-button-padding-top $cx-button-padding-right $cx-button-padding-bottom $cx-button-padding-left;
+   position: relative;
+   display: inline-block;
+   text-align: center;
+   white-space: nowrap;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   border: 1px solid #ccc;
+   background: #eee;
+   box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1);
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+
+
+   &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+      margin: -1px;
+   }
+
+   &:not([disabled]) {
+      &:hover {
+         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+      }
+
+      &:focus {
+         outline: rgba(77, 144, 254, 0.4) solid 1px;
+      }
+
+      &:active {
+         outline: none;
+         top: 1px;
+         box-shadow: none;
+      }
+   }
+
+   &[disabled], &.cxs-disabled {
+      color: gray;
+      box-shadow: none;
+   }
+
+   @each $name, $config in $cx-button-mods {
+      &.cxm-#{$name} {
+         @each $rule, $value in map-get($config, default) {
+            #{$rule}: $value;
+         }
+
+         &[disabled] {
+            @each $rule, $value in map-get($config, disabled) {
+               #{$rule}: $value;
+            }
+         }
+
+         &:hover {
+            @each $rule, $value in map-get($config, hover) {
+               #{$rule}: $value;
+            }
+         }
+
+         &:focus {
+            @each $rule, $value in map-get($config, focus) {
+               #{$rule}: $value;
+            }
+         }
+
+         &:active {
+            @each $rule, $value in map-get($config, active) {
+               #{$rule}: $value;
+            }
+         }
+      }
+   }
+}

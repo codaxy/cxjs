@@ -1,0 +1,11 @@
+.dxb-codesplit .dxe-codesplit-scrollable .cxb-tab.cxm-code {
+    @extend .cxb-tab.cxm-line;
+    color: white;
+    border-bottom-width: 2px;
+    margin-bottom: 10px;
+    background: transparent;
+
+    & > code {
+        padding-left: 0;
+    }
+}

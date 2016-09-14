@@ -1,0 +1,166 @@
+@import "variables";
+@import "../icons/index";
+
+@mixin cxb-field(
+   $box: true,
+   $width: $cx-input-width,
+   $line-height: $cx-input-line-height,
+   $padding-top: $cx-input-padding-top,
+   $padding-right: $cx-input-padding-right,
+   $padding-bottom: $cx-input-padding-bottom,
+   $padding-left: $cx-input-padding-left,
+   $border-top-width: $cx-input-border-top-width,
+   $border-right-width: $cx-input-border-right-width,
+   $border-bottom-width: $cx-input-border-bottom-width,
+   $border-left-width: $cx-input-border-left-width
+)
+{
+   position: relative;
+   display: inline-block;
+   box-sizing: border-box;
+
+   @if $box {
+      width: $width;
+      height: calc(#{$line-height} + #{$padding-top + $padding-bottom} + #{$border-top-width + $border-bottom-width});
+   }
+
+   &.cxs-view-mode {
+      line-height: $line-height;
+      padding: $padding-top $padding-right $padding-bottom $padding-left;
+      border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
+      border-style: solid;
+      border-color: transparent;
+   }
+}
+
+@mixin cxe-field-input(
+   $default: $cx-input-default,
+   $hover: $cx-input-hover,
+   $focus: $cx-input-focus,
+   $error: $cx-input-error,
+   $error-focus: $cx-input-error-focus,
+   $disabled: $cx-input-disabled,
+   $placeholder: $cx-input-placeholder,
+   $box: true,
+   $line-height: $cx-input-line-height,
+   $padding-top: $cx-input-padding-top,
+   $padding-right: $cx-input-padding-right,
+   $padding-bottom: $cx-input-padding-bottom,
+   $padding-left: $cx-input-padding-left,
+   $border-top-width: $cx-input-border-top-width,
+   $border-right-width: $cx-input-border-right-width,
+   $border-bottom-width: $cx-input-border-bottom-width,
+   $border-left-width: $cx-input-border-left-width
+) {
+   box-sizing: border-box;
+
+   line-height: $line-height;
+   padding: $padding-top $padding-right $padding-bottom $padding-left;
+   border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
+
+   @if $box {
+      width: 100%;
+      height: 100%;
+   }
+
+   @each $rule, $value in $default {
+      #{$rule}: $value;
+   }
+
+   &:hover {
+      @each $rule, $value in $hover {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      @each $rule, $value in $focus {
+         #{$rule}: $value;
+      }
+   }
+
+   @if $box {
+      &:disabled, .cxs-disabled > & {
+         @each $rule, $value in $disabled {
+            #{$rule}: $value;
+         }
+      }
+   }
+
+   .cxs-error.cxs-visited > & {
+      @each $rule, $value in $error {
+         #{$rule}: $value;
+      }
+
+      &:focus {
+         @each $rule, $value in $error-focus {
+            #{$rule}: $value;
+         }
+      }
+   }
+
+   @if $box {
+      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
+         @each $rule, $value in $placeholder {
+            #{$rule}: $value;
+         }
+      }
+
+      &::-ms-clear {
+         width: 0;
+         height: 0;
+      }
+   }
+}
+
+@mixin cxe-field-clear(
+   $size: $cx-input-clear-size
+) {
+   @extend %cx-icon-close;
+   background-size: 10px 10px;
+   background-position: center;
+
+   border: none;
+   position: absolute;
+   display: inline-block;
+   font: $cx-input-clear-font;
+   right: $cx-input-padding;
+   top: 50%;
+   margin-top: -$size / 2;
+   height: $size;
+   width: $size;
+   line-height: $size;
+   color: $cx-input-clear-color;
+   border-radius: $size / 2;
+   text-align: center;
+
+   &:hover {
+      background-color: $cx-input-clear-background-hover;
+   }
+}
+
+@mixin cxe-field-icon($content) {
+   background-color: transparent;
+   border: none;
+   position: absolute;
+   display: inline-block;
+   right: $cx-input-padding;
+   top: 50%;
+   margin-top: -$cx-input-icon-size / 2;
+   height: $cx-input-icon-size;
+   width: $cx-input-icon-size;
+   line-height: $cx-input-icon-size;
+   color: lightgray;
+   border-radius: $cx-input-icon-size / 2;
+   text-align: center;
+   cursor: pointer;
+   &:after {
+      content: $content;
+      font: $cx-input-icon-font;
+   }
+}
+
+@mixin cxe-field-empty-text() {
+   color: #aaa;
+}
+

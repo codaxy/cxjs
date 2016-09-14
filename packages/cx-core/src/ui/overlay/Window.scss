@@ -1,0 +1,106 @@
+@import "variables";
+@import "../icons/index";
+@import "Overlay";
+
+.cxb-window {
+   @extend %cxb-overlay;
+   box-sizing: border-box;
+   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29);
+   background: transparent;
+   z-index: 1000;
+
+   &.cxs-resizable {
+      &.cxs-active {
+         box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.29);
+      }
+   }
+
+   &.cxm-alert {
+      min-width: 300px;
+   }
+}
+
+.cxe-window-header {
+   background: rgba(246, 246, 246, 0.9);
+   padding: 10px 15px;
+   position: relative; //put on top of modal backdrop
+   box-sizing: border-box;
+   cursor: pointer;
+
+   .cxs-active & {
+      //background: rgba(6, 178, 255, 0.9);
+   }
+}
+
+.cxe-window-footer {
+   background: rgba(246, 246, 246, 0.9);
+   padding: 10px 20px;
+   position: relative;
+   box-sizing: border-box;
+
+   &:after {
+      clear: both;
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      height: 0;
+   }
+
+   .cxm-alert & {
+      text-align: center;
+   }
+}
+
+.cxe-window-body {
+   background: white;
+   overflow: auto;
+   position: relative; //put on top of modal backdrop
+   box-sizing: border-box;
+
+   .cxm-alert & {
+      padding: 40px;
+      text-align: center;
+   }
+}
+
+.cxe-window-close {
+   @extend %cx-icon-close;
+   position: absolute;
+   right: 5px;
+   top: calc(50% - 15px);
+   background-position: center;
+   background-size: 18px 18px;
+   border: none;
+   width: 30px;
+   float: right;
+   height: 30px;
+   display: block;
+   border-radius: 50%;
+
+   &:hover {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      @each $rule, $value in map-get($cx-list-item, selected-focus) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:active {
+      @each $rule, $value in map-get($cx-list-item, active) {
+         #{$rule}: $value;
+      }
+   }
+}
+
+.cxe-window-modal-backdrop {
+   @extend %cxe-overlay-modal-backdrop;
+}
+
+
+
+

@@ -1,0 +1,8 @@
+.cxe-scattergraph-shape {
+   fill: rgb(128, 128, 128);
+   opacity: 0.8;
+
+   &.cxs-selected {
+      stroke-width: 2px;
+   }
+}

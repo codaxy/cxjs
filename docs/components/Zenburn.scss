@@ -1,0 +1,148 @@
+/**
+ * zenburn theme for `prism.js`
+ * Based on highligh.js zenburn theme
+ * @author Marko Stijak
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+   color: #c5c8c6;
+   text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+   font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace;
+   direction: ltr;
+   text-align: left;
+   white-space: pre;
+   word-spacing: normal;
+   word-break: normal;
+   line-height: 1.5;
+
+   -moz-tab-size: 4;
+   -o-tab-size: 4;
+   tab-size: 4;
+
+   -webkit-hyphens: none;
+   -moz-hyphens: none;
+   -ms-hyphens: none;
+   hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+   padding: 1em;
+   margin: .5em 0;
+   overflow: auto;
+   border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+   background: #3f3f3f;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+   padding: .1em;
+   border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+   color: #7f9f7f;
+}
+
+.token.punctuation {
+   color: #c5c8c6;
+}
+
+.namespace {
+   opacity: 1;
+}
+
+.token.property,
+.token.keyword {
+   color: #e3ceab;
+}
+.token.tag {
+   color: #f4eebf;
+}
+
+.token.class-name {
+   color: #f4eebf;
+   //text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+   color: #8cd0d3;
+}
+
+.token.symbol,
+.token.deleted {
+   color: #f92672;
+}
+
+.token.number {
+   color: #8cd0d3;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+   color: #e3ceab;
+}
+
+.token.variable {
+   color: #dcdcdc;
+}
+
+.token.operator {
+   color: #dcdcdc;
+}
+
+.token.entity {
+   color: #d3d37c;
+   /* text-decoration: underline; */
+}
+
+.token.url {
+   color: #cc9393;
+}
+
+.language-css .token.string,
+.style .token.string {
+   color: #87C38A;
+}
+
+.token.atrule,
+.token.attr-value {
+   color: #cc9393;
+}
+
+.token.function {
+   color: #f4eebf;
+}
+
+.token.regex {
+   color: #E9C062;
+}
+
+.token.important {
+   color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+   font-weight: bold;
+}
+.token.italic {
+   font-style: italic;
+}
+
+.token.entity {
+   cursor: help;
+}

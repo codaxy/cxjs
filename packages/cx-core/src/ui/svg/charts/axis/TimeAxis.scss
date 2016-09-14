@@ -1,0 +1,17 @@
+@import "Axis";
+
+.cxb-timeaxis {
+   @include cxb-axis();
+}
+
+.cxe-timeaxis-ticks {
+   @include cxe-axis-ticks();
+}
+
+.cxe-timeaxis-line {
+   @include cxe-axis-line();
+}
+
+.cxe-timeaxis-label {
+   @include cxe-axis-label();
+}

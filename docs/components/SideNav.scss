@@ -1,0 +1,47 @@
+.cxb-sidenav {
+
+   overflow: hidden;
+
+   .cxe-list-item {
+      padding: 0;
+      position: relative;
+   }
+
+   &:focus {
+      outline: none;
+   }
+
+   .cxe-sidenav-topic {
+      font-size: 12px;
+      font-weight: bold;
+      color: gray;
+      padding: 10px;
+      display: block;
+   }
+
+   .cxe-sidenav-arrow {
+      @extend %cx-icon-dropdown-arrow;
+      background-size: 16px 16px;
+      background-position: center;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      margin-top: -10px;
+      width: 20px;
+      height: 20px;
+      transform: rotate(90deg);
+      transition: transform 0.1s;
+
+      &.cxs-expanded {
+         transform: rotate(0deg);
+      }
+   }
+
+   .cxb-link {
+      padding-left: 20px;
+   }
+
+   a:focus {
+      outline: none;
+   }
+}

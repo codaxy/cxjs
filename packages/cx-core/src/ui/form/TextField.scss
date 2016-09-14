@@ -1,0 +1,13 @@
+@import "Field";
+
+.cxb-textfield {
+   @include cxb-field();
+}
+
+.cxe-textfield-input {
+   @include cxe-field-input();
+}
+
+.cxe-textfield-empty-text {
+   @include cxe-field-empty-text();
+}

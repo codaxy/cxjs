@@ -1,0 +1,146 @@
+@import "../../util/call-once";
+
+@if cx-call-once("ui/forms/ColorPicker") {
+
+   %cx-checker-bg {
+      background-repeat: repeat;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
+   }
+
+   .cxb-colorpicker {
+      @include cxe-field-input($box: false);
+      padding: 10px;
+      font-size: 11px;
+      font-family: monospace;
+
+      &:after {
+         content: '';
+         display: block;
+         clear: both;
+      }
+
+      input {
+         @include cxe-field-input($box: false);
+         line-height: 11px;
+         font-size: 11px;
+         font-family: monospace;
+         padding: 2px;
+      }
+   }
+
+   .cxe-colorpicker-picker {
+      width: 200px;
+      height: 200px;
+      //cursor: crosshair;
+      float: left;
+      position: relative;
+
+      background: -webkit-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -moz-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -ms-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -o-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -o-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+   }
+
+   .cxe-colorpicker-indicator {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      box-sizing: border-box;
+      width: 9px;
+      height: 9px;
+      left: calc(50% - 5px);
+      top: calc(50% - 5px);
+   }
+
+   .cxe-colorpicker-hue {
+      height: 15px;
+      position: relative;
+      background: -moz-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -webkit-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -ms-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -o-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      //margin-bottom: 5px;
+
+      .cxe-colorpicker-indicator {
+         border-color: rgba(0, 0, 0, 0.5);
+         height: calc(100% + 4px);
+         border-radius: 2px;
+         width: 4px;
+         top: -2px;
+      }
+   }
+
+   .cxe-colorpicker-alpha {
+      height: 15px;
+      margin-top: 10px;
+      @extend %cx-checker-bg;
+      position: relative;
+
+      & > div:first-child {
+         width: 100%;
+         height: 100%;
+      }
+
+      .cxe-colorpicker-indicator {
+         border-color: rgba(0, 0, 0, 0.5);
+         top: -2px;
+         height: calc(100% + 4px);
+         border-radius: 2px;
+         width: 4px;
+      }
+   }
+
+   .cxe-colorpicker-details {
+      width: 200px;
+      float: left;
+      margin-left: 10px;
+   }
+
+   .cxe-colorpicker-inputs {
+      margin-top: 10px;
+
+      label {
+         width: 25%;
+         display: inline-block;
+         text-align: right;
+         font-size: 12px;
+
+         input {
+            width: 50%;
+            text-align: center;
+         }
+      }
+   }
+
+   .cxe-colorpicker-preview {
+      margin-top: 20px;
+   }
+
+   .cxe-colorpicker-color {
+      @extend %cx-checker-bg;
+      height: 70px;
+      width: 70px;
+      float: left;
+
+      & > div {
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   .cxe-colorpicker-values {
+      float: left;
+      width: 100px;
+      margin-left: 5px;
+
+      input {
+         width: 120px;
+         display: block;
+      }
+
+      input:not(:last-child) {
+         margin: 0 0 8px 0;
+      }
+   }
+}
+

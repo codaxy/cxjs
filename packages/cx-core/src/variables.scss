@@ -1,0 +1,40 @@
+$cx-border-color: #bfbfbf !default;
+
+$cx-selection-background-color: rgba(135, 206, 250, 0.6);
+
+$cx-list: (
+   default: (),
+   hover: (),
+   focus: (
+      outline: none
+   )
+);
+
+$cx-list-item: (
+   default: (),
+   hover: (
+      background-color: rgba(128, 128, 128, 0.1),
+      outline: none
+   ),
+   hover-focus: (
+      background-color: rgba(123,190,255, 0.15),
+      outline: none,
+   ),
+   selected: (
+      background-color: rgba(128, 128, 128, 0.2),
+   ),
+   selected-focus: (
+      background-color: rgba(123,190,255, 0.4),
+      outline: none,
+   ),
+   active: (
+      //causes flickering
+      //background: rgba(123,190,255, 0.7)
+   ),
+   disabled: (
+      color: lightgray,
+      background-color: #eee,
+      cursor: default
+   )
+);
+

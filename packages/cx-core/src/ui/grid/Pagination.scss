@@ -1,0 +1,72 @@
+@import "../form/variables";
+
+.cxb-pagination {
+   display: inline-block;
+   margin: 0;
+   padding: 0;
+   font: $cx-input-font;
+   box-sizing: border-box;
+   line-height: $cx-input-line-height;
+
+   @each $rule, $value in map-get($cx-list, default) {
+      #{$rule}: $value;
+   }
+
+   &:hover {
+      @each $rule, $value in map-get($cx-list, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      @each $rule, $value in map-get($cx-list, focus) {
+         #{$rule}: $value;
+      }
+   }
+}
+
+.cxe-pagination-page {
+   display: inline-block;
+   box-sizing: border-box;
+   padding: 5px 10px;
+   border: 1px solid lightgray;
+   margin-left: -1px;
+   text-decoration: none;
+   cursor: pointer;
+
+   &:hover, &:focus {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+
+      &:focus {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+
+   &:active {
+      @each $rule, $value in map-get($cx-list-item, active) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxs-active {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+
+      &:focus {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+
+   &.cxs-disabled  {
+      @each $rule, $value in map-get($cx-list-item, disabled) {
+         #{$rule}: $value;
+      }
+   }
+}

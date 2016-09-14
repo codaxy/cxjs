@@ -1,0 +1,16 @@
+{
+  "name": "cx-redux",
+  "version": "16.6.0",
+  "description": "Pair Cx with Redux",
+  "main": "src",
+  "scripts": {},
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "dependencies": {
+    "redux": "^3.5.2"
+  },
+  "peerDependencies": {
+    "cx-core": "latest"
+  }
+}

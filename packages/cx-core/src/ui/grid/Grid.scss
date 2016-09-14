@@ -1,0 +1,273 @@
+@import "../variables";
+
+$cx-grid-header-background-color: #f8f8f8;
+$cx-grid-border-color: lightgray;
+
+.cxb-grid {
+   box-sizing: border-box;
+   position: relative;
+   overflow: hidden;
+
+   table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      width: 100%;
+   }
+
+   .cxs-aligned-left {
+      text-align: left;
+   }
+
+   .cxs-aligned-right {
+      text-align: right;
+   }
+
+   .cxs-aligned-center {
+      text-align: center;
+   }
+
+   &.cxs-scrollable {
+
+      border: 1px solid $cx-grid-border-color;
+
+      th {
+         border-top: none;
+         border-left: none;
+      }
+
+      th:last-child {
+         border-right: none;
+      }
+
+      & > .cxe-grid-scroll-area {
+         overflow-y: auto;
+         height: 100%;
+      }
+
+      & > .cxe-grid-fixed-header {
+         overflow: hidden;
+
+         table {
+            width: auto;
+            table-layout: fixed;
+         }
+
+         .cxe-grid-col-header {
+            background: $cx-grid-header-background-color;
+         }
+      }
+   }
+
+   &.cxm-responsive {
+      display: block;
+      width: 100%;
+
+      & > .cxe-grid-scroll-area {
+         overflow-x: auto;
+      }
+   }
+}
+
+.cxe-grid-col-header {
+   text-align: left;
+   padding: 5px;
+   box-sizing: border-box;
+
+   .cxs-sortable & {
+      border: 1px solid $cx-grid-border-color;
+      background: $cx-grid-header-background-color;
+   }
+
+   &.cxs-sortable {
+
+      cursor: pointer;
+
+      &.cxs-sorted-asc, &.cxs-sorted-desc {
+
+      }
+
+      &:hover, .cxe-grid-fixed-header &:hover {
+         background: lighten($cx-grid-header-background-color, 3%);
+      }
+   }
+
+   &.cxs-sortable::before {
+      content: '\2193';
+      float: right;
+      visibility: hidden;
+   }
+
+   &.cxs-sorted-asc::before {
+      content: '\2193';
+      float: right;
+      visibility: visible;
+   }
+
+   &.cxs-sorted-desc::before {
+      content: '\2191';
+      float: right;
+      visibility: visible;
+   }
+
+   &.cxs-aligned-right.cxs-sortable::before {
+      float: left;
+   }
+}
+
+.cxe-grid-data {
+   td {
+      padding: 0;
+      border-top: 1px solid $cx-grid-border-color;;
+   }
+
+   td.cxs-pad {
+     padding: 5px;
+   }
+}
+
+.cxe-grid-group-caption {
+   font-weight: bold;
+   font-size: 115%;
+
+   td {
+      padding: 5px;
+   }
+
+   &:not(:first-child) {
+      td {
+         padding-top: 15px;
+      }
+   }
+
+   &.cxs-level-2 {
+      font-size: 130%;
+
+      td {
+         border-bottom: 1px solid grey;
+      }
+   }
+
+   &.cxs-level-3 {
+      font-size: 145%;
+
+      td {
+         border-bottom: 1px solid grey;
+      }
+   }
+
+   &.cxs-level-4 {
+      font-size: 160%;
+
+      td {
+         border-bottom: 1px solid grey;
+      }
+   }
+}
+
+.cxe-grid-group-footer {
+   font-weight: bold;
+
+   td {
+      border-top: 1px solid $cx-grid-border-color;
+      padding: 5px;
+   }
+
+   &.cxs-level-2 {
+      font-weight: bold;
+      font-size: 110%;
+
+      td {
+         border-top: 1px solid grey;
+      }
+   }
+
+   &.cxs-level-3 {
+      font-weight: bold;
+      font-size: 120%;
+
+      td {
+         border-top: 1px solid grey;
+      }
+   }
+
+   &.cxs-level-4 {
+      font-weight: bold;
+      font-size: 130%;
+
+      td {
+         border-top: 1px solid grey;
+      }
+   }
+}
+
+&.cxm-bordered {
+
+   th, td {
+      border: 1px solid $cx-grid-border-color;;
+   }
+
+   th {
+      border: 1px solid $cx-grid-border-color;;
+      background: $cx-grid-header-background-color;
+   }
+
+   .cxe-grid-group-footer td, & .cxe-grid-group-caption td {
+      border: none;
+   }
+}
+
+.cxe-grid-fixed-header {
+   position: absolute;
+   left: 0;
+   top: 0;
+   right: 0;
+}
+
+
+.cxb-grid.cxs-selectable {
+
+   @each $rule, $value in map-get($cx-list, default) {
+      #{$rule}: $value;
+   }
+
+   &:hover {
+      @each $rule, $value in map-get($cx-list, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxs-focused, &:focus {
+      @each $rule, $value in map-get($cx-list, focus) {
+         #{$rule}: $value;
+      }
+   }
+
+
+   .cxe-grid-data:hover {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+      cursor: pointer;
+   }
+
+   .cxe-grid-data.cxs-selected {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      .cxe-grid-data:hover {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+         cursor: pointer;
+      }
+
+      .cxe-grid-data.cxs-selected {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}

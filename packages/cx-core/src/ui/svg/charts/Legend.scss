@@ -1,0 +1,34 @@
+.cxb-legend {
+   background: rgba(255, 255, 255, 0.5);
+   text-align: center;
+}
+
+.cxe-legend-entry {
+   display: inline-block;
+   padding: 5px 5px 5px 30px;
+   font-size: smaller;
+   position: relative;
+   margin: 5px;
+   box-sizing: border-box;
+   cursor: pointer;
+
+   .cxb-legend.cxs-vertical {
+      display: block;
+   }
+
+   .cxb-legend.cxs-vertical & {
+      display: block;
+   }
+}
+
+.cxe-legend-svg {
+   position: absolute;
+   left: 5px;
+   top: calc(50% - 10px);
+   width: 20px;
+   height: 20px;
+}
+
+.cxe-legend-shape {
+   fill: #eee;
+}

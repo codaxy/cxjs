@@ -1,0 +1,13 @@
+.cxe-column-rect {
+   stroke-width: 1px;
+   fill: #eee;
+   stroke: #ccc;
+
+   &.cxs-selectable {
+      cursor: pointer;
+   }
+
+   &.cxs-selected {
+      stroke-width: 2px;
+   }
+}

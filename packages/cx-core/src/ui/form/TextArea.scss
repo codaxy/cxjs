@@ -1,0 +1,15 @@
+@import "Field";
+
+.cxb-textarea {
+   @include cxb-field($box: false);
+   min-width: 300px;
+   white-space: pre-wrap;
+}
+
+.cxe-textarea-input {
+   @include cxe-field-input($box: true);
+}
+
+.cxe-textarea-empty-text {
+   @include cxe-field-empty-text();
+}

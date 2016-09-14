@@ -1,0 +1,25 @@
+@import "Field";
+
+.cxb-select {
+   @include cxb-field();
+}
+
+.cxe-select-select {
+   @include cxe-field-input();
+   -webkit-appearance: inherit;
+   -moz-appearance: inherit;
+   padding: ($cx-input-padding - 1px) $cx-input-padding;
+   padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding;
+   @extend %cx-icon-dropdown-arrow;
+   background-color: white;
+   background-position: right $cx-input-padding center;
+
+   text-indent: 0;
+   text-overflow: '';
+
+   &::-ms-expand {
+      display: none;
+      margin: 0;
+      padding: 0;
+   }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "cx-inferno",
+  "version": "16.6.0",
+  "description": "Inferno based rendering for Cx applications.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "dependencies": {
+    "inferno-compat": "^1.0.0-alpha3",
+    "inferno": "^1.0.0-alpha3"
+  }
+}

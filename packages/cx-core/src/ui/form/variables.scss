@@ -1,0 +1,105 @@
+@import "../../variables";
+//  Box
+$cx-input-line-height: 16px !default;
+$cx-input-width: 180px !default;
+
+$cx-input-padding: 5px !default;
+$cx-input-padding-top: $cx-input-padding !default;
+$cx-input-padding-right: $cx-input-padding !default;
+$cx-input-padding-bottom: $cx-input-padding !default;
+$cx-input-padding-left: $cx-input-padding !default;
+
+$cx-input-border-width: 1px !default;
+$cx-input-border-top-width: $cx-input-border-width !default;
+$cx-input-border-right-width: $cx-input-border-width !default;
+$cx-input-border-bottom-width: $cx-input-border-width !default;
+$cx-input-border-left-width: $cx-input-border-width !default;
+
+//height = calc(line-height + border-top + padding-top + padding-bottom + border-bottom)
+
+// Appearance
+
+$cx-input-border-color: $cx-border-color !default;
+
+$cx-input-font-size: 13px !default;
+$cx-input-font-family: inherit !default;
+$cx-input-font: null !default;
+
+
+$cx-input-background-color: white !default;
+$cx-input-color: black !default;
+
+$cx-input-placeholder-color: #87898a !default;
+
+$cx-input-default: (
+   font-size: $cx-input-font-size,
+   font-family: $cx-input-font-family,
+   font: $cx-input-font,
+   border-color: $cx-input-border-color,
+   border-style: solid,
+   background-color: $cx-input-background-color,
+   color: $cx-input-color,
+   outline-offset: 0,
+   margin: 0,
+   border-radius: 0,
+   box-shadow: none,
+   -webkit-appearance: none
+) !default;
+
+$cx-input-placeholder: (
+   color: $cx-input-placeholder-color
+) !default;
+
+$cx-input-hover: (
+) !default;
+
+$cx-input-focus: (
+   border-color: rgba(77, 144, 254, 0.8),
+   outline: none,
+   box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+) !default;
+
+$cx-input-error: (
+   border-color: rgba(220, 0, 9, 0.8)
+) !default;
+
+$cx-input-error-focus: (
+   box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
+) !default;
+
+$cx-input-disabled: (
+   background: rgb(235, 235, 228),
+   color: rgb(84, 84, 84)
+) !default;
+
+
+// Icon
+
+$cx-input-icon-size: 20px !default;
+$cx-input-icon-font: null !default;
+$cx-input-icon-color: 'gray' !default;
+
+
+// Clear
+
+$cx-input-clear-size: 20px !default;
+$cx-input-clear-font: 12px sans-serif !default;
+$cx-input-clear-content: '\00d7' !default;
+$cx-input-clear-color: gray !default;
+$cx-input-clear-background-hover: lightgray !default;
+
+$cx-input-tag-spacing: 3px !default;
+
+$cx-input-checkbox-size: 14px !default;
+$cx-input-radio-size: 14px !default;
+
+
+// Label
+
+$cx-input-label-padding: 6px 3px !default;
+$cx-input-label-border: null !default;
+$cx-input-label-font: null !default;
+$cx-input-label-font-size: 13px !default;
+$cx-input-label-line-height: 16px !default;
+$cx-input-label-background: null !default;
+$cx-input-label-color: null !default;

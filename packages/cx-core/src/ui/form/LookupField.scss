@@ -1,0 +1,128 @@
+@import "Field";
+
+.cxb-lookupfield {
+   @include cxb-field($box: false);
+   min-width: $cx-input-width;
+   cursor: pointer;
+}
+
+.cxe-lookupfield-input {
+   @extend %cx-icon-dropdown-arrow;
+   background-position: right $cx-input-padding center;
+
+   @include cxe-field-input(
+      $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding - $cx-input-tag-spacing
+   );
+}
+
+.cxb-lookupfield.cxs-multiple .cxe-lookupfield-input {
+   padding-top: 0;
+   padding-left: 0;
+   padding-bottom: $cx-input-tag-spacing;
+}
+
+.cxe-lookupfield-tag {
+   background: #e8e8e8;
+   display: inline-block;
+   position: relative;
+   margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
+   box-sizing: border-box;
+   padding: $cx-input-padding - $cx-input-tag-spacing;
+   padding-right: $cx-input-clear-size + 2px;
+}
+
+.cxe-lookupfield-placeholder {
+
+   color: $cx-input-placeholder-color;
+
+   .cxb-lookupfield.cxs-multiple & {
+      display: inline-block;
+      margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
+      box-sizing: border-box;
+      padding: $cx-input-padding - $cx-input-tag-spacing;
+   }
+}
+
+.cxe-lookupfield-tag-value {
+   padding: 0 $cx-input-tag-spacing;
+   display: inline-block;
+}
+
+.cxe-lookupfield-tag-clear {
+   @include cxe-field-clear();
+   right: 0;
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+}
+
+.cxe-lookupfield-lookup-options {
+   padding: 0;
+   margin: 0;
+   min-width: 100%;
+   width: 100%;
+
+   &:focus {
+      @each $rule, $value in map-get($cx-list, focus) {
+         #{$rule}: $value;
+      }
+   }
+
+   & > li {
+      list-style: none;
+      padding: 0.5em 1em;
+      margin: 0;
+      cursor: pointer;
+
+      &.cursor {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.selected {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}
+
+.cxe-lookupfield-query {
+   @include cxe-field-input();
+   margin: 5px;
+   height: auto;
+   width: calc(100% - 10px);
+}
+
+.cxe-lookupfield-dropdown {
+   display: flex;
+   flex-direction: column;
+}
+
+.cxe-lookupfield-message {
+   font-size: smaller;
+   padding: 10px;
+   color: gray;
+   font-style: italic;
+
+   &.cxs-error {
+      color: #9e2f2d;
+   }
+}
+
+.cxe-lookupfield-scroll-container {
+   overflow: auto;
+}
+
+.cxe-lookupfield-arrow {
+   @include cxe-field-icon($content: '\25BE');
+}
+
+.cxe-lookupfield-clear {
+   @include cxe-field-clear;
+   background-color: $cx-input-background-color;
+}
+
+.cxe-lookupfield-empty-text {
+   @include cxe-field-empty-text();
+}

@@ -1,0 +1,64 @@
+@import "../variables";
+
+.cxb-menu {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   list-style: none;
+
+   &.cxs-horizontal {
+      & > .cxe-menu-item {
+         display: inline-block;
+      }
+   }
+}
+
+.cxe-menu-item {
+   padding: 0;
+   position: relative;
+   border: 0 solid transparent;
+
+   &.cxs-focusable {
+
+      &:hover {
+         @each $rule, $value in map-get($cx-list-item, hover) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.cxs-cursor {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}
+
+.cxe-menu-item-body {
+   border: 1px solid transparent;
+
+   & > hr {
+      border: none;
+      border-top: 1px solid lightgray;
+      margin: 10px 20px;
+   }
+
+   & > a {
+      text-decoration: none;
+      color: inherit;
+
+      &:focus {
+         outline: none;
+      }
+   }
+}
+
+.cxm-menu {
+   margin: 10px 20px;
+   display: block;
+}
+
+.cxm-menu-pad {
+   padding: 10px 20px;
+   display: block;
+}

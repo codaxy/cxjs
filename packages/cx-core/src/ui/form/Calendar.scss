@@ -1,0 +1,79 @@
+@import "Field";
+
+.cxb-calendar {
+   @include cxe-field-input($box: false);
+
+   width: 18em;
+   font-size: 0.9em;
+
+   table {
+      border-spacing: 0;
+      width: 100%;
+   }
+
+   td, th {
+      text-align: center;
+      width: 2em;
+      line-height: 2em;
+   }
+
+   td.cxs-today {
+      background: rgba(220, 250, 183, 0.5);
+   }
+
+   td.cxs-outside {
+      color: lightgray;
+   }
+
+   td.cxs-unselectable {
+      @each $rule, $value in map-get($cx-list-item, disabled) {
+         #{$rule}: $value;
+      }
+   }
+
+   td.cxs-cursor, .cxe-calendar-header td:hover {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   td.cxs-selected {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:not(.cxs-disabled) {
+      td {
+         cursor: pointer;
+      }
+   }
+
+   &:focus {
+
+      td.cxs-cursor, .cxe-calendar-header td:hover {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+
+         &:active {
+            @each $rule, $value in map-get($cx-list-item, active) {
+               #{$rule}: $value;
+            }
+         }
+      }
+
+      td.cxs-selected {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+}
+
+.cxb-calendar.cxs-disabled {
+   background-color: transparent;
+   border-color: transparent;
+   color: darken(#fff, 18);
+   cursor: not-allowed;
+}

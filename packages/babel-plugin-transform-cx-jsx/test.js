@@ -1,0 +1,424 @@
+"use strict";
+
+var babel  = require("babel-core");
+var plugin = require("./index");
+
+var assert = require('assert');
+
+function unwrap(code) {
+   return code.substring(0, code.length - 1);
+   //return code.substring(15, code.length-1);
+}
+
+describe('JSCX', function() {
+
+   it("doesn't touch non-wrapped code", function () {
+
+      this.timeout(10000);
+
+      var code = `<div id="123" />`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(unwrap(output), '<div id="123" />');
+   });
+
+   it('converts <cx></cx> to null', function () {
+
+      this.timeout(10000);
+
+      var code = `<cx></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(unwrap(output), 'null');
+   });
+
+   it('allows whitespice within <cx>', function () {
+
+      this.timeout(10000);
+
+      var Container = {};
+
+      var code = `<cx>
+         <Container />
+      </cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Container});
+   });
+
+   it('converts jsx like to config', function () {
+
+      this.timeout(10000);
+
+      var Component = {};
+
+      var code = `<cx><Component></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component});
+   });
+
+   it('converts jsx attributes to config properties', function () {
+
+      this.timeout(10000);
+      var Component = {};
+
+      var code = `<cx><Component id="123"></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, id: "123", jsxAttributes: ['id']});
+   });
+
+   it('converts jsx literal attributes to config properties', function () {
+
+      this.timeout(10000);
+
+      var code = `<cx><Component id={123}></Component></cx>`;
+      var Component = {};
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, id: 123, jsxAttributes: ['id']});
+   });
+
+   it('converts jsx object attributes to config properties', function () {
+
+      this.timeout(10000);
+
+      var Component = {};
+      var code = `<cx><Component value={{ x: 1 }}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, value: {x: 1}, jsxAttributes: ['value']});
+   });
+
+   it('converts jsx function attributes to config properties', function () {
+
+      this.timeout(10000);
+      var Component = {};
+
+      var code = `<cx><Component onClick={e=>{}}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx', 'transform-es2015-arrow-functions']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(typeof eval(output).onClick, "function");
+   });
+
+   it('converts jsx children into children array', function () {
+      this.timeout(10000);
+      var Component = {}, Child = {}, GrandChild = {};
+
+      var code = `<cx><Component><Child><GrandChild></GrandChild></Child></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         children: [{$type: Child, children: [{$type: GrandChild}]}]
+      });
+   });
+
+   it('allows namespaces', function () {
+      this.timeout(10000);
+      var ui = {Component: {}};
+
+      var code = `<cx><ui.Component/></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: ui.Component
+      });
+   });
+
+   it('converts jsx text child into text widget', function () {
+      this.timeout(10000);
+      var Component = {};
+
+      var code = `<cx><Component>Text</Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         children: ['Text']
+      });
+   });
+
+   it('converts dot attributes into object configs', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var code = `<cx><Component value:bind="name" /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         value: {bind: "name"},
+         jsxAttributes: ['value']
+      });
+   });
+
+   it('multiple root elements are converted to a config array', function () {
+      this.timeout(10000);
+
+      var Component = {}, Component2 = {};
+      var code = `<cx><Component /><Component2></Component2></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), [{$type: Component}, {$type: Component2}]);
+   });
+
+   it('allows expressions as children', function () {
+      this.timeout(10000);
+
+      var Component = {};
+
+      var code = `<cx><Component>{true}</Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, children: [true]});
+   });
+
+   it('allows props', function () {
+      this.timeout(10000);
+
+      var Component = {};
+
+      var code = `<cx><Component disabled /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, disabled: true, jsxAttributes: ['disabled']});
+   });
+
+   it('allows spread', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var test = {a: 1, b: 2};
+
+      var code = `<cx><Component {...test} /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component, jsxSpread: [test]});
+   });
+
+   it('allows namespaced components', function () {
+      this.timeout(10000);
+
+      var Component = { Nested: {} };
+
+      var code = `<cx><Component.Nested /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: Component.Nested});
+   });
+
+   it('converts lowercase tags into HtmlElement with tag prop', function () {
+      this.timeout(10000);
+
+      var HtmlElement = { };
+
+      var code = `<cx><div></div></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {$type: HtmlElement, tag: 'div'});
+   });
+
+   it('converts jsx elements in attributes', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var Layout = {};
+
+      var code = `<cx><Component layout={<Layout type="1" />}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         jsxAttributes: ['layout'],
+         layout: {
+            $type: Layout,
+            jsxAttributes: ['type'],
+            type: "1"
+         }
+      });
+   });
+
+   it('converts jsx element arrays in attributes', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var Layout = {};
+
+      var code = `<cx><Component layout={<cx><Layout type="1" /><Layout type="2" /></cx>}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         jsxAttributes: ['layout'],
+         layout: [{
+            $type: Layout,
+            jsxAttributes: ['type'],
+            type: "1"
+         }, {
+            $type: Layout,
+            jsxAttributes: ['type'],
+            type: "2"
+         }]
+      });
+   });
+
+   it('converts jsx elements in structured attributes', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var Layout = {};
+
+      var code = `<cx><Component layout={{ x: <Layout type="1" />}}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         jsxAttributes: ['layout'],
+         layout: {
+            x: {
+               $type: Layout,
+               jsxAttributes: ['type'],
+               type: "1"
+            }
+         }
+      });
+   });
+
+   it('converts jsx elements within arrays', function () {
+      this.timeout(10000);
+
+      var Component = {};
+      var Column = {};
+
+      var code = `<cx><Component columns={[ <Column type="1" /> ]}></Component></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         jsxAttributes: ['columns'],
+         columns: [{
+            $type: Column,
+            jsxAttributes: ['type'],
+            type: "1"
+         }]
+      });
+   });
+
+   it("doesn't touch empty Cx element", function () {
+
+      this.timeout(10000);
+
+      var code = `<Cx id="123" />`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(unwrap(output), '<Cx id="123" />');
+   });
+
+   it("converts only inner content of Cx elements", function () {
+
+      this.timeout(10000);
+
+      var code = `<Cx><Container class="test" /></Cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '), '<Cx items={[{ "$type": Container, "class": "test", "jsxAttributes": ["class"]}]}></Cx>');
+   });
+});

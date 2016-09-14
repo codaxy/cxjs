@@ -1,0 +1,98 @@
+import {Md} from '../../components/Md';
+import {CodeSplit} from '../../components/CodeSplit';
+import {CodeSnippet} from '../../components/CodeSnippet';
+import {ConfigTable} from '../../components/ConfigTable';
+
+import {HtmlElement} from 'cx/ui/HtmlElement';
+import {Content} from 'cx/ui/layout/Content';
+import {Tab} from 'cx/ui/nav/Tab';
+import {Submenu} from 'cx/ui/nav/Submenu';
+import {TextField} from 'cx/ui/form/TextField';
+import {DateField} from 'cx/ui/form/DateField';
+import {Checkbox} from 'cx/ui/form/Checkbox';
+import {Controller} from 'cx/ui/Controller';
+
+import configs from './configs/Tab';
+
+
+class PageController extends Controller {
+   init() {
+      super.init();
+      this.store.set('$page.tab', 'tab1');
+   }
+}
+
+export const Tabs = <cx>
+   <Md>
+      # Tabs
+
+      Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
+      to radio buttons. Tabs are selected on click and only one tab may be active at a time.
+
+      <CodeSplit>
+         <div class="widgets" controller={PageController}>
+            <div style="margin:10px">
+               <Tab tab="tab1" value:bind="$page.tab">Tab 1</Tab>
+               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
+               <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
+               <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
+            </div>
+            <div style="margin:10px">
+               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
+               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
+               <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
+               <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Tab 4</Tab>
+            </div>
+            <div style="margin:10px">
+               <div style="padding-left:10px;white-space:nowrap;">
+                  <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
+                  <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
+                  <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
+                  <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
+               </div>
+               <div style="border: 1px solid lightgray; background: white; padding: 20px">
+                  <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
+                  <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
+                  <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
+                  <div visible:expr="{$page.tab}=='tab4'">Tab 4</div>
+               </div>
+            </div>
+         </div>
+
+         <CodeSnippet putInto="code">{`
+            <div style="margin:10px">
+               <Tab tab="tab1" value:bind="$page.tab">Tab 1</Tab>
+               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
+               <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
+               <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
+            </div>
+            <div style="margin:10px">
+               <Tab tab="tab1" value:bind="$page.tab" mod="pill">Tab 1</Tab>
+               <Tab tab="tab2" value:bind="$page.tab" mod="pill">Tab 2</Tab>
+               <Tab tab="tab3" value:bind="$page.tab" mod="pill">Tab 3</Tab>
+               <Tab tab="tab4" value:bind="$page.tab" mod="pill" disabled>Tab 4</Tab>
+            </div>
+            <div style="margin:10px">
+               <div style="padding-left:10px;white-space:nowrap;">
+                  <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
+                  <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
+                  <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
+                  <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
+               </div>
+               <div style="border: 1px solid lightgray; background: white; padding: 20px">
+                  <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
+                  <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
+                  <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
+                  <div visible:expr="{$page.tab}=='tab4'">Tab 4</div>
+               </div>
+            </div>`}
+         </CodeSnippet>
+
+      </CodeSplit>
+
+      ## Configuration
+
+      <ConfigTable props={configs} />
+
+   </Md>
+</cx>

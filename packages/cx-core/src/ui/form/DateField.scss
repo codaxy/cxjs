@@ -1,0 +1,27 @@
+@import "Field";
+
+$cx-datefield-icon-content: "\1F4C5" !default;
+
+.cxb-datefield {
+   @include cxb-field();
+}
+
+.cxe-datefield-input {
+   @include cxe-field-input(
+      $padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size
+   );
+}
+
+.cxe-datefield-icon {
+   @include cxe-field-icon(
+      $content: $cx-datefield-icon-content
+   );
+}
+
+.cxe-datefield-clear {
+   @include cxe-field-clear();
+}
+
+.cxe-datefield-empty-text {
+   @include cxe-field-empty-text();
+}

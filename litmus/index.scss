@@ -1,0 +1,26 @@
+@import "../packages/cx-core/src/index";
+
+html {
+  height: 100%;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: 'Open Sans', sans-serif;
+}
+
+#app {
+   height: 100%;
+}
+
+section {
+   margin: 10px;
+   border: 1px solid lightgray;
+   padding: 10px 20px;
+
+   h3 {
+      margin: 10px 0 20px 0;
+   }
+}

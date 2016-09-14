@@ -1,0 +1,25 @@
+require('./babel');
+
+var Grouper = require('../src/data/Grouper').Grouper;
+var assert = require('assert');
+
+describe('Grouper', function() {
+   describe('grouping', function () {
+      it('should work', function () {
+         var data = [{
+            key: 1,
+            value: 1
+         }, {
+            key: 2,
+            value: 2
+         }];
+
+         var grouper = new Grouper([{bind:'key'}]);
+         grouper.processAll(data);
+
+         var results = grouper.getResults();
+         //console.log(results);
+         assert.equal(results.length, 2);
+      });
+   });
+});

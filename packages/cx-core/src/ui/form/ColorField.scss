@@ -1,0 +1,30 @@
+@import "Field";
+@import "ColorPicker";
+
+.cxb-colorfield {
+   @include cxb-field();
+}
+
+.cxe-colorfield-input {
+   @include cxe-field-input();
+   font-family: monospace;
+   font-size: 85%;
+   padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size;
+}
+
+.cxe-colorfield-icon {
+   @include cxe-field-icon($content: null);
+   @extend %cx-checker-bg;
+   border-radius: 0;
+   box-sizing: border-box;
+   border: 1px solid #eee;
+
+   div {
+      width: 100%;
+      height: 100%;
+   }
+}
+
+.cxe-colorfield-empty-text {
+   @include cxe-field-empty-text();
+}

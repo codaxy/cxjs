@@ -1,0 +1,11 @@
+.cxb-editongitx {
+   color: lightgray;
+   position: absolute;
+   left: 52em;
+   top: 10px;
+   text-decoration: none;
+
+   &:hover {
+      color: gray;
+   }
+}

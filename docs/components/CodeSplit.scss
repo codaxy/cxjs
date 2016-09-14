@@ -1,0 +1,118 @@
+.dxb-codesplit {
+    margin: 0 -40px;
+    position: relative;
+    //flex-direction: row;
+    //display: flex;
+
+    .dxe-codesplit-left {
+        max-width: calc(50em + 80px);
+        box-sizing: border-box;
+        //display: flex;
+        padding: 0 40px;
+        position: relative;
+
+        .widgets {
+            padding: 20px;
+            align-items: center;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: calc(50em - 40px);
+            background: #f6f6f6;
+        }
+    }
+
+    .dxe-codesplit-right {
+        box-sizing: border-box;
+        max-width: 50em;
+        margin-left: 40px;
+        background: #494949;
+
+        padding: 3px;
+
+        .dxe-codesplit-scrollable {
+
+            //display: flex;
+            //align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            code {
+                background: transparent;
+                padding: 5px;
+                border-radius: 0;
+            }
+
+            pre {
+                background: transparent;
+                padding: 0;
+                margin: 0;
+                display: inline-block;
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar {
+                height: 6px;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 3px;
+            }
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .dxe-codesplit-left {
+
+        }
+
+        .dxe-codesplit-right {
+            position: absolute;
+            top: 0;
+            left: calc(50em + 80px);
+            width: calc(100% - 50em - 80px);
+            padding: 5px 0 3px 3px;
+            margin-left: 0;
+            max-width: none;
+            background: rgba(128, 128, 128, 0.2);
+
+            .dxe-codesplit-scrollable {
+                code {
+                    padding: 0;
+                    padding-left: 10px;
+                }
+            }
+
+            &:after, &:before {
+                top: 50%;
+                left: 0;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            &:after {
+                border-color: rgba(0, 0, 0, 0);
+                border-left-color: white;
+                border-width: 0px;
+                margin-top: -0px;
+            }
+            &:before {
+                border-color: rgba(0, 0, 0, 0);
+                border-left-color: white;
+                border-width: 4px;
+                margin-top: -4px;
+            }
+        }
+    }
+}
+
+

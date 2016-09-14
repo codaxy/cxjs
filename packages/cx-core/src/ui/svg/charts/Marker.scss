@@ -1,0 +1,21 @@
+.cxe-marker-shape {
+   fill: rgb(128, 128, 128);
+   stroke: rgb(128, 128, 128);
+   stroke-width: 1px;
+
+   .cxs-draggable-x > & {
+      cursor: ew-resize;
+   }
+
+   .cxs-draggable-y > & {
+      cursor: ns-resize;
+   }
+
+   .cxs-draggable-xy > & {
+      cursor: move;
+   }
+
+   .cxs-selectable > & {
+      cursor: pointer;
+   }
+}

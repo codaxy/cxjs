@@ -1,0 +1,45 @@
+.dxb-methodtable {
+
+   border-collapse: collapse;
+   max-width: 50em;
+   margin-top: 16px;
+
+   p {
+      margin: 0;
+   }
+
+   th {
+      text-align: left;
+   }
+
+   td:first-child {
+      background: #fbfbfb;
+      font: 14px monospace;
+   }
+
+   td:nth-child(3) {
+      //background: #fbfbfb;
+      font: 12px monospace;
+   }
+
+   td {
+      padding: 5px;
+      border-top: 1px solid #ebebeb;
+   }
+
+   .dxs-important td:first-child
+   {
+      font-weight: bold;
+   }
+
+   .dxs-regular:nth-of-type(1) td
+   {
+      border-color: gray;
+   }
+
+   td.dxs-long {
+      font-size: 11px;
+   }
+}
+
+

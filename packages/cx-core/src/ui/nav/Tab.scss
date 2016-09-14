@@ -1,0 +1,122 @@
+@import "variables";
+
+$cx-tab-defaults: $cx-list-item;
+
+$cx-tab-mods: (
+   classic: (
+      default: (
+         border: 1px solid transparent,
+         margin-bottom: -1px,
+      ),
+      selected: (
+         border: 1px solid lightgray,
+         border-bottom-color: transparent,
+         background-color: white,
+      )
+   ),
+   line: (
+      default: (
+         background-color: transparent !important,
+         border-bottom-width: 2px,
+         border-bottom-style: solid,
+         padding: 5px 10px 3px 10px
+      ),
+      hover: (
+         border-color: rgba(128, 128, 128, 0.2),
+      ),
+      hover-focus: (
+         border-color: rgba(123,190,255, 0.3),
+      ),
+      selected: (
+         border-color: rgba(128, 128, 128, 0.4),
+      ),
+      selected-focus: (
+         border-color: rgba(123,190,255, 0.7),
+      ),
+      active: (),
+      disabled: ()
+   )
+);
+
+.cxb-tab {
+   padding: 5px 10px;
+   text-decoration: none;
+   box-sizing: border-box;
+   display: inline-block;
+   cursor: pointer;
+   border: 0 solid transparent;
+   color: inherit;
+
+   @each $rule, $value in map-get($cx-list-item, default) {
+      #{$rule}: $value;
+   }
+
+   &:hover {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &:focus {
+      @each $rule, $value in map-get($cx-list-item, hover-focus) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxs-active {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+
+      &:focus {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+   }
+
+   &.cxs-disabled {
+      @each $rule, $value in map-get($cx-list-item, disabled) {
+         #{$rule}: $value;
+      }
+      background: none;
+   }
+
+   @each $name, $config in $cx-tab-mods {
+      &.cxm-#{$name} {
+         @each $rule, $value in map-get($config, default) {
+            #{$rule}: $value;
+         }
+
+         &:hover {
+            @each $rule, $value in map-get($config, hover) {
+               #{$rule}: $value;
+            }
+         }
+
+         &:focus {
+            @each $rule, $value in map-get($config, hover-focus) {
+               #{$rule}: $value;
+            }
+         }
+
+         &.cxs-active{
+            @each $rule, $value in map-get($config, selected) {
+               #{$rule}: $value;
+            }
+
+            &:focus {
+               @each $rule, $value in map-get($config, selected-focus) {
+                  #{$rule}: $value;
+               }
+            }
+         }
+
+         &.cxs-disabled {
+            @each $rule, $value in map-get($config, disabled) {
+               #{$rule}: $value;
+            }
+         }
+      }
+   }
+}

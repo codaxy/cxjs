@@ -1,0 +1,24 @@
+{
+  "name": "cx-core",
+  "version": "16.9.5",
+  "description": "Cx framework",
+  "main": "src/index",
+  "jsnext:main": "src/index",
+  "scripts": {},
+  "files": [
+    "README.md",
+    "src",
+    "LICENSE.md",
+    "LICENSE-THIRD-PARTY.md"
+  ],
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://gitlab.com/mstijak/cx/issues"
+  },
+  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "dependencies": {
+    "intl-io": "^0.2.0",
+    "route-parser": "^0.0.5"
+  }
+}

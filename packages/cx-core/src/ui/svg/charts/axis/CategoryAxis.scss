@@ -1,0 +1,17 @@
+@import "Axis";
+
+.cxb-categoryaxis {
+   @include cxb-axis();
+}
+
+.cxe-categoryaxis-ticks {
+   @include cxe-axis-ticks();
+}
+
+.cxe-categoryaxis-line {
+   @include cxe-axis-line();
+}
+
+.cxe-categoryaxis-label {
+   @include cxe-axis-label();
+}

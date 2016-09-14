@@ -1,0 +1,35 @@
+@import "../packages/cx-core/src/index";
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.anchor {
+    text-decoration: none;
+    color: #414340;
+}
+
+#app {
+    height: 100%;
+}
+
+.transition-appear {
+    opacity: 0.1;
+    transition: opacity 0.2s ease-in;
+}
+
+.transition-appear-active {
+    opacity: 1;
+}
+
+@import "app/index";
+@import "content/index";
+@import "components/index";
+

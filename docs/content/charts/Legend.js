@@ -1,0 +1,189 @@
+import {Md} from '../../components/Md';
+import {CodeSplit} from '../../components/CodeSplit';
+import {CodeSnippet} from '../../components/CodeSnippet';
+import {ConfigTable} from '../../components/ConfigTable';
+
+import {HtmlElement} from 'cx/ui/HtmlElement';
+import {Controller} from 'cx/ui/Controller';
+import {Repeater} from 'cx/ui/Repeater';
+
+import {Svg} from 'cx/ui/svg/Svg';
+import {Text} from 'cx/ui/Text';
+import {Rectangle} from 'cx/ui/svg/Rectangle';
+import {Line} from 'cx/ui/svg/Line';
+import {PieChart, PieSlice} from 'cx/ui/svg/charts/PieChart';
+import {LegendEntry} from 'cx/ui/svg/charts/LegendEntry';
+import {ColorMap} from 'cx/ui/svg/charts/ColorMap';
+
+import {KeySelection} from 'cx/ui/selection/KeySelection';
+import {Grid} from 'cx/ui/grid/Grid';
+
+import legendConfigs from './configs/Legend';
+import legendEntryConfigs from './configs/LegendEntry';
+
+class PageController extends Controller {
+    init() {
+        super.init();
+
+        this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
+            id: i,
+            name: 'Item ' + (i+1),
+            value: 50 + Math.random() * 50
+        })));
+    }
+}
+
+export const LegendPage = <cx>
+    <Md>
+        <CodeSplit>
+
+            # Legend
+
+            The `Legend` widget is used to display an index of elements displayed on the chart.
+            Please refer to
+            [LineGraph](~/charts/line-graphs),
+            [BarGraph](~/charts/bar-graphs) or
+            [PieChart](~/charts/pie-charts)
+            articles to see how legends are commonly used.
+
+            Here we'll explain an advanced use case of a legend combined out of `LegendEntry` and `Grid` widgets.
+
+
+            <div class="widgets" controller={PageController}>
+                <Svg style="width:300px; height:300px;">
+                    <ColorMap />
+                    <PieChart angle={360}>
+                        <Repeater records:bind="$page.points">
+                            <PieSlice value:bind='$record.value'
+                                      active:bind='$record.active'
+                                      colorMap="pie"
+                                      r={80}
+                                      r0={20}
+                                      offset={5}
+                                      tooltip:tpl="{$record.name}: {$record.value:n}"
+                                      innerPointRadius={80}
+                                      outerPointRadius={90}
+                                      name:bind="$record.name"
+                                      selection={{
+                                          type: KeySelection,
+                                          bind: '$page.selection',
+                                          records: {bind: '$page.points'},
+                                          record: {bind: '$record'},
+                                          index: {bind: '$index'},
+                                          keyField: 'id'
+                                      }} />
+                        </Repeater>
+                    </PieChart>
+                </Svg>
+
+                <Grid records:bind="$page.points"
+                      style="width: 200px"
+                      columns={[
+                          { field: 'name', pad: false, header: "Item", items: <cx>
+                              <LegendEntry name:bind="$record.name"
+                                           colorMap="pie"
+                                           active:bind='$record.active'
+                                           selection={{
+                                               type: KeySelection,
+                                               bind: '$page.selection',
+                                               records: {bind: '$page.points'},
+                                               record: {bind: '$record'},
+                                               index: {bind: '$index'},
+                                               keyField: 'id'
+                                           }}/>
+                              <Text bind="$record.name" />
+                            </cx>},
+                          { field: 'value', header: 'Value', format: "n;2", align: "right" }
+                      ]}
+                      selection={{
+                          type: KeySelection,
+                          bind: '$page.selection',
+                          keyField: 'id'
+                      }}/>
+            </div>
+
+
+
+
+
+            <CodeSnippet putInto="code" lang="html">{`
+                // There is performance problem with code higlighting of this snippet so lang is set to js instead of jsx.
+
+                class PageController extends Controller {
+                    init() {
+                        super.init();
+                        var value = 100;
+                        this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
+                            id: i,
+                            name: 'Item ' + (i+1),
+                            value: value = (value + (Math.random() - 0.5) * 30),
+                        })));
+                    }
+                }
+                ...
+                <div class="widgets" controller={PageController}>
+                    <Svg style="width:300px; height:300px;">
+                        <ColorMap />
+                        <PieChart angle={360}>
+                            <Repeater records:bind="$page.points">
+                                <PieSlice value:bind='$record.value'
+                                          active:bind='$record.active'
+                                          colorMap="pie"
+                                          r={80}
+                                          r0={20}
+                                          offset={5}
+                                          tooltip:tpl="{$record.name}: {$record.value:n}"
+                                          innerPointRadius={80}
+                                          outerPointRadius={90}
+                                          name:bind="$record.name"
+                                          selection={{
+                                              type: KeySelection,
+                                              bind: '$page.selection',
+                                              records: {bind: '$page.points'},
+                                              record: {bind: '$record'},
+                                              index: {bind: '$index'},
+                                              keyField: 'id'
+                                          }} />
+                            </Repeater>
+                        </PieChart>
+                    </Svg>
+
+                     <Grid records:bind="$page.points"
+                           style="width: 200px"
+                           columns={[
+                               { field: 'name', pad: false, header: "Item", items: <cx>
+                                   <LegendEntry name:bind="$record.name"
+                                                colorMap="pie"
+                                                active:bind='$record.active'
+                                                text:bind="$record.name"
+                                                selection={{
+                                                    type: KeySelection,
+                                                    bind: '$page.selection',
+                                                    records: {bind: '$page.points'},
+                                                    record: {bind: '$record'},
+                                                    index: {bind: '$index'},
+                                                    keyField: 'id'
+                                                }}/>
+                                 </cx>},
+                               { field: 'value', header: 'Value', format: "n;2", align: "right" }
+                           ]}
+                           selection={{
+                               type: KeySelection,
+                               bind: '$page.selection',
+                               keyField: 'id'
+                           }}/>
+                </div>
+            `}</CodeSnippet>
+        </CodeSplit>
+
+        ## `Legend` Configuration
+
+        <ConfigTable props={legendConfigs} />
+
+        ## `LegendEntry` Configuration
+
+        <ConfigTable props={legendEntryConfigs} />
+
+    </Md>
+</cx>;
+

@@ -1,0 +1,14 @@
+.cxb-apperror {
+   position: fixed;
+   padding: 50px;
+   top: calc(50% - 200px);
+   left: calc(50% - 400px);
+   height: 400px;
+   width: 800px;
+   background: white;
+   border: 2px solid red;
+   font-family: monospace;
+   font-size: 14px;
+   overflow: auto;
+   white-space: nowrap;
+}

@@ -1,0 +1,33 @@
+@import "Field";
+
+.cxb-radio {
+   @include cxb-field($box: false);
+   font-size: $cx-input-font-size;
+   line-height: $cx-input-line-height;
+   font: $cx-input-font;
+   padding: $cx-input-padding;
+   min-width: $cx-input-padding + $cx-input-padding + $cx-input-radio-size;
+   border-width: $cx-input-border-top-width $cx-input-border-right-width $cx-input-border-right-width $cx-input-border-left-width;
+   border-style: solid;
+   border-color: transparent;
+}
+
+.cxe-radio-radio {
+   padding: 0;
+   margin: 0 !important;
+   width: $cx-input-radio-size;
+   height: $cx-input-radio-size;
+   top: calc(50% - #{$cx-input-checkbox-size / 2});
+   left: $cx-input-padding;
+   display: inline-block;
+   position: absolute;
+
+   &:focus {
+      outline: rgba(77, 144, 254, 0.4) solid 1px;
+   }
+}
+
+.cxe-radio-text {
+   display: inline-block;
+   margin-left: $cx-input-padding + $cx-input-radio-size;
+}

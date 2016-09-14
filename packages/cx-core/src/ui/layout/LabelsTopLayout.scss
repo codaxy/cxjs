@@ -1,0 +1,44 @@
+.cxb-labelstoplayout {
+   border-spacing: 0;
+
+   &.cxm-stretch {
+      width: 100%;
+
+      //unsure what it does
+      //.cxe-labelstoplayout-label {
+      //   width: 10em;
+      //}
+   }
+}
+
+.cxe-labelstoplayout-field {
+   padding: 0 5px;
+   box-sizing: border-box;
+
+   &:first-child {
+      padding-left: 0;
+   }
+
+   &:last-child {
+      padding-right: 0;
+   }
+}
+
+.cxe-labelstoplayout-label {
+   vertical-align: bottom;
+   padding: 5px 5px 0 5px;
+   box-sizing: border-box;
+
+   .cxb-label {
+      padding-left: 0;
+      padding-bottom: 0;
+   }
+
+   &:first-child {
+      padding-left: 0;
+   }
+
+   &:last-child {
+      padding-right: 0;
+   }
+}

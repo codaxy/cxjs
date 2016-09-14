@@ -1,0 +1,15 @@
+.cxb-bubblegraph {
+   .cxe-bubblegraph-bubble {
+      fill: rgb(128, 128, 128);
+      opacity: 0.5;
+
+      &:hover {
+         opacity: 0.75;
+      }
+
+      &.cxs-selected {
+         stroke: black;
+         stroke-width: 2px;
+      }
+   }
+}

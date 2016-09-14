@@ -1,0 +1,33 @@
+.cxb-cxcredit {
+   width: 50px;
+   height: 50px;
+   opacity: 0.5;
+   transition: opacity 0.3s ease-in-out;
+   background: rgba(255, 255, 255, 0.1);
+
+   &:hover {
+      opacity: 1;
+   }
+
+   svg {
+      width: 100%;
+      height: 100%;
+
+      text {
+         fill: black;
+         font-weight: bold;
+         font-size: 20px;
+         text-anchor: middle;
+      }
+   }
+
+   position: fixed;
+   bottom: 20px;
+   right: 20px;
+
+   &.cxm-inline {
+      position: relative;
+      bottom: auto;
+      right: auto;
+   }
+}

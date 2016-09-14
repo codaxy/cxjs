@@ -1,0 +1,10 @@
+@import "Overlay";
+
+.cxb-dropdown {
+   @extend %cxb-overlay;
+   display: block;
+   left: -10000px;
+   top: -10000px;
+   background: white;
+   box-shadow: 0 10px 50px 1px rgba(0, 0, 0, 0.29);
+}
