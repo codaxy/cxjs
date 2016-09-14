@@ -495,8 +495,15 @@ export class MonthPickerComponent extends VDOM.Component {
       this.setState({
          yearHeight: yearHeight
       }, () => {
-         var {startYear} = this.props.instance.widget;
-         this.dom.el.scrollTop = (this.state.cursorYear - startYear) * this.state.yearHeight;
+         var {widget, data} = this.props.instance;
+         var {startYear} = widget;
+         var yearCount = 1;
+         if (widget.range && data.from && data.to) {
+            yearCount = data.to.getFullYear() - data.from.getFullYear() + 1;
+            if (data.to.getMonth() == 0 && data.to.getDate() == 1)
+               yearCount--;
+         }
+         this.dom.el.scrollTop = (this.state.cursorYear - startYear + yearCount/2) * this.state.yearHeight - this.dom.el.offsetHeight / 2;
       });
    }
 
