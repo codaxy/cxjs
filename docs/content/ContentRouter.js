@@ -10,6 +10,7 @@ import {Controller} from 'cx/ui/Controller';
 import {Url} from 'cx/app/Url';
 import {CSS} from '../app/CSS';
 //import {CSSTransitionGroup} from 'cx-react-css-transition-group/src/CSSTransitionGroup';
+import {trackPageView} from '../ga';
 
 import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
@@ -125,10 +126,7 @@ class ContentController extends Controller {
         }, true);
 
         this.addTrigger('google-analytics', ['url'], url => {
-            if (window.ga) {
-                ga('set', 'page', Url.resolve(url));
-                ga('send', 'pageview');
-            }
+            trackPageView(url);
         });
 
         // #end

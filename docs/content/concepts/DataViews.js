@@ -76,7 +76,7 @@ export const DataViews = <cx>
 
             <div class="widgets">
                 <div>
-                    <div preserveWhitspace>
+                    <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">Winner</Radio>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
@@ -108,7 +108,7 @@ export const DataViews = <cx>
 
             <CodeSnippet putInto="code">{`
                 <div>
-                    <div preserveWhitspace>
+                    <div preserveWhitespace>
                         <Radio value={{bind:"$page.place", defaultValue:"winner"}} option="winner">Winner</Radio>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
