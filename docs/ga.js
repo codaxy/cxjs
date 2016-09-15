@@ -1,4 +1,6 @@
-import {Url} from 'cx/app/Url'
+import {Url} from 'cx/app/Url';
+
+//NOTE: This file will be replaced by the build server
 
 export function setupGoogleAnalytics() {
     //paste GA tracking code here

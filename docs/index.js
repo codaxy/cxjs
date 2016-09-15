@@ -45,8 +45,7 @@ Debug.enable('app-data');
 
 stop = startAppLoop(document.getElementById('app'), store, Main);
 
-import {setupGoogleAnalytics} from "./ga";;
-
 // #if production
+import {setupGoogleAnalytics} from "./ga";;
 setupGoogleAnalytics();
 // #end
