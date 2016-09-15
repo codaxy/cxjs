@@ -53,7 +53,7 @@ export class Field extends PureContainer {
       if (typeof data.enabled != 'undefined')
          data.disabled = !data.enabled;
 
-      if (!data.error)
+      if (!data.error && !data.disabled)
          this.validate(context, instance);
 
       data.stateMods = {...data.stateMods,
