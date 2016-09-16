@@ -32,18 +32,26 @@ export class Layout extends Component {
       instance.children.forEach(child=> child.prepare(context));
    }
 
+   append(result, r) {
+      if (typeof r == 'object' && r) {
+         var first = true;
+         for (var k in r)
+            if (contentAppend(result, r[k], !first))
+               first = false;
+      }
+      else
+         contentAppend(result, r);
+   }
+
    render(context, instance, keyPrefix) {
       var result = [];
       instance.children.forEach((child)=> {
          var r = child.render(context, keyPrefix);
-         if (typeof r == 'object' && r) {
-            var first = true;
-            for (var k in r) 
-               if (contentAppend(result, r[k], !first))
-                  first = false;
+         if (child.widget.layout && child.widget.layout.useParentLayout && Array.isArray(r.content)) {
+            r.content.forEach(r=>this.append(result, r));
          }
          else
-            contentAppend(result, r);
+            this.append(result, r);
       });
       return result;
    }

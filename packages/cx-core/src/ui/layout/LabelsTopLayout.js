@@ -18,8 +18,16 @@ export class LabelsTopLayout extends Layout {
       var {CSS, baseClass} = this;
       children.forEach((c, i)=> {
          var r = c.render(context);
-         labels.push(<td key={i} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
-         inputs.push(<td key={i} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
+         if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+            r.content.forEach((r, j)=> {
+               labels.push(<td key={`${i}-${j}`} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
+               inputs.push(<td key={`${i}-${j}`} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
+            })
+         }
+         else {
+            labels.push(<td key={i} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
+            inputs.push(<td key={i} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
+         }
       });
       return <table key={keyPrefix} className={CSS.block(baseClass, this.mod)}>
          <tbody>

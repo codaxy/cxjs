@@ -17,10 +17,22 @@ export class LabelsLeftLayout extends Layout {
       var {CSS, baseClass} = this;
       children.forEach((c, i)=> {
          var r = c.render(context);
-         result.push(<tr key={i}>
-            <td className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>
-            <td className={CSS.element(baseClass, "field")}>{validContent(r)}</td>
-         </tr>)
+         if (r) {
+            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+               r.content.forEach((r, j)=> {
+                  result.push(<tr key={`${i}-${j}`}>
+                     <td className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>
+                     <td className={CSS.element(baseClass, "field")}>{validContent(r)}</td>
+                  </tr>)
+               })
+            }
+            else {
+               result.push(<tr key={i}>
+                  <td className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>
+                  <td className={CSS.element(baseClass, "field")}>{validContent(r)}</td>
+               </tr>);
+            }
+         }
       });
       return <table key={keyPrefix} className={CSS.block(baseClass, this.mod)}>
          <tbody>{result}</tbody>

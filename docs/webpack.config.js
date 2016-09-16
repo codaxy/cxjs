@@ -165,6 +165,7 @@ switch (process.env.npm_lifecycle_event) {
             devtool: 'eval',
             devServer: {
                 contentBase: '/docs',
+                hot: true,
                 port: 8065,
                 noInfo: false,
                 inline: true,
