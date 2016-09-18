@@ -163,7 +163,7 @@ class ListComponent extends VDOM.Component {
       var {widget} = instance;
       offFocusOut(this);
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(null, this.props.instance);
+         widget.pipeKeyDown(null, instance);
    }
 
    render() {

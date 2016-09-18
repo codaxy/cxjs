@@ -121,7 +121,40 @@ $cx-grid-border-color: lightgray;
    }
 
    td.cxs-pad {
-     padding: 5px;
+      padding: 5px;
+   }
+
+   &.cxs-cursor {
+      @each $rule, $value in map-get($cx-list-item, hover) {
+         #{$rule}: $value;
+      }
+   }
+
+   &.cxs-selected {
+      @each $rule, $value in map-get($cx-list-item, selected) {
+         #{$rule}: $value;
+      }
+   }
+
+   .cxs-focused &, :focus & {
+
+      &.cxs-cursor {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.cxs-selected {
+         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            #{$rule}: $value;
+         }
+      }
+
+      &:active {
+         @each $rule, $value in map-get($cx-list-item, active) {
+            #{$rule}: $value;
+         }
+      }
    }
 }
 
@@ -226,48 +259,20 @@ $cx-grid-border-color: lightgray;
 
 .cxb-grid.cxs-selectable {
 
-   @each $rule, $value in map-get($cx-list, default) {
-      #{$rule}: $value;
-   }
-
-   &:hover {
-      @each $rule, $value in map-get($cx-list, hover) {
+   .cxe-grid-scroll-area {
+      @each $rule, $value in map-get($cx-list, default) {
          #{$rule}: $value;
+      }
+
+      &:focus {
+         @each $rule, $value in map-get($cx-list, focus) {
+            #{$rule}: $value;
+         }
       }
    }
 
-   &.cxs-focused, &:focus {
-      @each $rule, $value in map-get($cx-list, focus) {
-         #{$rule}: $value;
-      }
-   }
+   .cxe-grid-data {
 
-
-   .cxe-grid-data:hover {
-      @each $rule, $value in map-get($cx-list-item, hover) {
-         #{$rule}: $value;
-      }
       cursor: pointer;
-   }
-
-   .cxe-grid-data.cxs-selected {
-      @each $rule, $value in map-get($cx-list-item, selected) {
-         #{$rule}: $value;
-      }
-   }
-
-   &:focus {
-      .cxe-grid-data:hover {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
-            #{$rule}: $value;
-         }
-         cursor: pointer;
-      }
-
-      .cxe-grid-data.cxs-selected {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
-         }
-      }
    }
 }
