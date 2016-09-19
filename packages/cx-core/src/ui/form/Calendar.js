@@ -73,7 +73,7 @@ export class Calendar extends Field {
       }
    }
 
-   render(context, instance, key) {
+   renderInput(context, instance, key) {
       return <CalendarCmp key={key}
                           instance={instance}
                           handleSelect={(e, date) => this.handleSelect(e, instance, date)}

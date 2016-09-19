@@ -19,7 +19,7 @@ export class ColorPicker extends Field {
       }, ...arguments);
    }
 
-   render(context, instance, key) {
+   renderInput(context, instance, key) {
       return <ColorPickerComponent key={key} instance={instance}/>
    }
 

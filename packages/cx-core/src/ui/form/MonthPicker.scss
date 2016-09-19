@@ -6,6 +6,7 @@
    overflow-x: hidden;
    max-height: 30em;
    position: relative;
+   width: 23em;
 
    table {
       border-spacing: 0;
@@ -47,7 +48,7 @@
    }
 
    td {
-      padding: 0.5em 2em;
+      padding: 0.5em 1em;
    }
 
    td.cxs-outside {

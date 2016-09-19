@@ -200,6 +200,7 @@ class MonthInput extends VDOM.Component {
          relatedElement: this.input,
          scrollTracking: true,
          inline: true,
+         placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          items: {
             type: MonthPicker,
             ...this.props.monthPicker,

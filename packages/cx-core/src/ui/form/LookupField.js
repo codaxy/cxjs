@@ -107,7 +107,11 @@ export class LookupField extends Field {
             data.selectedKeys.push(...data.records.map($value=>this.keyBindings.map(b=>Binding.get(b.local).value({$value}))))
       } else {
          var dataViewData = store.getData();
-         data.selectedKeys.push(this.keyBindings.map(b=>Binding.get(b.local).value({dataViewData})))
+         data.selectedKeys.push(this.keyBindings.map(b=>Binding.get(b.local).value(dataViewData)));
+         if (!this.text && Array.isArray(data.options)) {
+            var option = data.options.find($option=>areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
+            data.text = option && option[this.optionTextField] || '';
+         }
       }
    }
 
@@ -411,7 +415,7 @@ class LookupComponent extends VDOM.Component {
             text = this.getPlaceholder(data.placeholder);
          }
       } else {
-         text = data.value != null ? data.text : this.getPlaceholder(data.placeholder);
+         text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
       return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}

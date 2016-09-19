@@ -71,6 +71,7 @@ class ColorInput extends VDOM.Component {
          scrollTracking: true,
          autoFocus: true,
          inline: true,
+         placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          items: {
             type: ColorPicker,
             ...this.props.picker

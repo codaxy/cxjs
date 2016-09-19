@@ -11,7 +11,8 @@
       @include cxe-field-input($box: false);
       padding: 10px;
       font-size: 11px;
-      font-family: monospace;
+      font-family: 'Consolas', monospace;
+      width: 432px;
 
       &:after {
          content: '';
@@ -21,9 +22,9 @@
 
       input {
          @include cxe-field-input($box: false);
-         line-height: 11px;
+         line-height: 12px;
          font-size: 11px;
-         font-family: monospace;
+         font-family: 'Consolas', monospace;
          padding: 2px;
       }
    }
@@ -106,7 +107,7 @@
          font-size: 12px;
 
          input {
-            width: 50%;
+            width: 60%;
             text-align: center;
          }
       }

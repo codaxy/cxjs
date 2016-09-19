@@ -103,7 +103,7 @@ export class MonthPicker extends Field {
       }
    }
 
-   render(context, instance, key) {
+   renderInput(context, instance, key) {
       return <MonthPickerComponent key={key}
                                    instance={instance}
                                    handleSelect={(e, date) => this.handleSelect(e, instance, date)}
