@@ -110,7 +110,7 @@ export class DateField extends Field {
    }
 
    onSelect(instance, date) {
-      var {store} = instance;
+
       instance.setState({
          inputError: false
       });

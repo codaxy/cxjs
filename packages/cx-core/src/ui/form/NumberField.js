@@ -74,6 +74,9 @@ export class NumberField extends Field {
 
    handleChange(e, change, instance, value) {
       if (this.reactOn.indexOf(change) != -1) {
+         instance.setState({
+            inputError: false
+         });
          instance.set('value', value);
       }
    }
