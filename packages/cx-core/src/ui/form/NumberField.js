@@ -235,7 +235,6 @@ class Input extends VDOM.Component {
          var formatted = Format.value(v, fmt);
          //re-parse to avoid differences between formatted value and value in the store
          var culture = Culture.getNumberCulture();
-         console.log(culture);
          v = culture.parse(formatted);
          if (change != 'blur'
             && (e.target.value[e.target.value.length - 1] != '.' && e.target.value[e.target.value.length - 1] != ',')
