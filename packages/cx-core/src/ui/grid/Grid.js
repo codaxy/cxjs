@@ -300,7 +300,6 @@ export class Grid extends Widget {
    renderGroupHeader(context, instance, g, level, group, i, store) {
       var {CSS, baseClass} = this;
       var data = store.getData();
-      data.$group = group;
       var caption = g.caption(data);
       return <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, 'group-caption', ['level-' + level])}>
       <tr>
@@ -312,7 +311,6 @@ export class Grid extends Widget {
    renderGroupFooter(context, instance, g, level, group, i, store) {
       var {CSS, baseClass} = this;
       var data = store.getData();
-      data.$group = group;
       return <tbody key={'f'+i} className={CSS.element(baseClass, 'group-footer', ['level-'+level])}>
       <tr>
          {
@@ -339,28 +337,26 @@ export class Grid extends Widget {
       if (!Array.isArray(records))
          return null;
 
-      var result = [];
-
       records.forEach(record=> {
          if (record.type == 'data')
-            result.push(this.renderRow(context, instance, record));
+            record.vdom = this.renderRow(context, instance, record);
 
          if (record.type == 'group-header') {
+            record.vdom = [];
             var g = record.grouping;
             if (g.caption)
-               result.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
+               record.vdom.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
 
             if (g.showHeader)
-               result.push(this.renderHeader(context, instance, record.key + '-header', {}));
+               record.vdom.push(this.renderHeader(context, instance, record.key + '-header', {}));
          }
 
          if (record.type == 'group-footer') {
             var g = record.grouping;
             if (g.showFooter)
-               result.push(this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store));
+               record.vdom = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store);
          }
       });
-      return result;
    }
 
    onRowClick(e, record, index, store) {
@@ -444,20 +440,23 @@ class GridComponent extends VDOM.Component {
       var {CSS, baseClass} = widget;
 
       var children = instance.records.map((record, i)=> {
-         var {data, store, index, key, selected} = record;
-         var mod = {
-            selected: selected,
-            cursor: i == this.state.cursor
-         };
-         return <GridRowComponent key={key}
-                                  className={CSS.element(baseClass, 'data', mod)}
-                                  onClick={e=>widget.onRowClick(e, data, index, store)}
-                                  onMouseEnter={e=>this.moveCursor(i)}
-                                  isSelected={selected}
-                                  cursor={mod.cursor}
-                                  shouldUpdate={record.shouldUpdate}>
-            {record.vdom}
-         </GridRowComponent>;
+         if (record.type == 'data') {
+            var {data, store, index, key, selected} = record;
+            var mod = {
+               selected: selected,
+               cursor: i == this.state.cursor
+            };
+            return <GridRowComponent key={key}
+                                     className={CSS.element(baseClass, 'data', mod)}
+                                     onClick={e=>widget.onRowClick(e, data, index, store)}
+                                     onMouseEnter={e=>this.moveCursor(i)}
+                                     isSelected={selected}
+                                     cursor={mod.cursor}
+                                     shouldUpdate={record.shouldUpdate}>
+               {record.vdom}
+            </GridRowComponent>
+         }
+         return record.vdom;
       });
 
       return <div className={data.classNames}
