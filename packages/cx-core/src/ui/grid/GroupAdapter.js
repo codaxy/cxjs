@@ -23,7 +23,10 @@ export class GroupAdapter extends ArrayAdapter {
       var inverseLevel = this.groupings.length - level;
 
       if (inverseLevel == 0) {
-         result.push(...records);
+         for (var i = 0; i < records.length; i++) {
+            records[i].store.setStore(parentStore);
+            result.push(records[i]);
+         }
          return;
       }
 
@@ -37,20 +40,24 @@ export class GroupAdapter extends ArrayAdapter {
 
          keys.push(gr.key);
 
+         var $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
+         var groupStore = new ReadOnlyDataView(parentStore, {
+            $group
+         });
+
          var group = {
             type: 'group-header',
             key: keys.map(key=>Object.keys(key).map(k=>key[k]).join(':')).join('|'),
             data: gr.records[0],
-            group: {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel},
+            group: $group,
             grouping,
-            store: parentStore,
+            store: groupStore,
             level: inverseLevel
          };
 
          result.push(group);
 
-         this.processLevel(keys, gr.records, result, parentStore);
-
+         this.processLevel(keys, gr.records, result, groupStore);
 
          result.push({
             ...group,
