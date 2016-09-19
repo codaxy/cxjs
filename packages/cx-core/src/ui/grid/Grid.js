@@ -8,6 +8,9 @@ import {Selection} from '../selection/Selection';
 import {DataAdapter} from './DataAdapter';
 import {GroupAdapter} from './GroupAdapter';
 import {ResizeManager} from '../ResizeManager';
+import {KeyCode} from '../../util/KeyCode';
+import {scrollElementIntoView} from '../../util/scrollElementIntoView';
+import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
 
 export class Grid extends Widget {
 
@@ -70,6 +73,9 @@ export class Grid extends Widget {
       this.selection = Selection.create(this.selection, {
          records: this.records
       });
+
+      if (!this.selection.isDummy)
+         this.focusable = true;
 
       super.init();
 
@@ -208,7 +214,7 @@ export class Grid extends Widget {
             originalRefs: refs.header
          });
 
-      var rows = this.renderRows(context, instance);
+      this.renderRows(context, instance);
 
       refs.header = {};
       var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
@@ -218,8 +224,7 @@ export class Grid extends Widget {
                             header={header}
                             headerRefs={refs.header}
                             fixedHeader={fixedHeader}
-                            fixedHeaderRefs={refs.fixed}>
-         {rows}</GridComponent>
+                            fixedHeaderRefs={refs.fixed} />
    }
 
    renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
@@ -295,7 +300,6 @@ export class Grid extends Widget {
    renderGroupHeader(context, instance, g, level, group, i, store) {
       var {CSS, baseClass} = this;
       var data = store.getData();
-      data.$group = group;
       var caption = g.caption(data);
       return <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, 'group-caption', ['level-' + level])}>
       <tr>
@@ -307,7 +311,6 @@ export class Grid extends Widget {
    renderGroupFooter(context, instance, g, level, group, i, store) {
       var {CSS, baseClass} = this;
       var data = store.getData();
-      data.$group = group;
       return <tbody key={'f'+i} className={CSS.element(baseClass, 'group-footer', ['level-'+level])}>
       <tr>
          {
@@ -334,28 +337,26 @@ export class Grid extends Widget {
       if (!Array.isArray(records))
          return null;
 
-      var result = [];
-
       records.forEach(record=> {
          if (record.type == 'data')
-            result.push(this.renderRow(context, instance, record));
+            record.vdom = this.renderRow(context, instance, record);
 
          if (record.type == 'group-header') {
+            record.vdom = [];
             var g = record.grouping;
             if (g.caption)
-               result.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
+               record.vdom.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
 
             if (g.showHeader)
-               result.push(this.renderHeader(context, instance, record.key + '-header', {}));
+               record.vdom.push(this.renderHeader(context, instance, record.key + '-header', {}));
          }
 
          if (record.type == 'group-footer') {
             var g = record.grouping;
             if (g.showFooter)
-               result.push(this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store));
+               record.vdom = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store);
          }
       });
-      return result;
    }
 
    onRowClick(e, record, index, store) {
@@ -367,15 +368,9 @@ export class Grid extends Widget {
    }
 
    renderRow(context, instance, record) {
-      var {data, store, index, key, selected} = record;
-      var {CSS, baseClass} = instance.widget;
 
       if (this.memoize && record.shouldUpdate === false && record.vdom)
          return record.vdom;
-
-      var mod = {
-         selected: selected
-      };
 
       var cells = [];
 
@@ -395,17 +390,11 @@ export class Grid extends Widget {
             if (ci.data.format)
                v = Format.value(v, ci.data.format);
          }
-         var cls = CSS.expand(ci.data.classNames, CSS.state(state));
+         var cls = this.CSS.expand(ci.data.classNames, this.CSS.state(state));
          cells.push(<td key={i} className={cls} style={ci.data.style}>{v}</td>);
       });
 
-      return record.vdom = <GridRowComponent key={key}
-                               className={CSS.element(baseClass, 'data', mod)}
-                               onClick={e=>this.onRowClick(e, data, index, store)}
-                               isSelected={selected}
-                               shouldUpdate={record.shouldUpdate}>
-         <tr>{cells}</tr>
-      </GridRowComponent>;
+      return record.vdom = <tr>{cells}</tr>;
    }
 
    mapRecords(context, instance) {
@@ -430,8 +419,219 @@ Grid.prototype.recordName = '$record';
 Grid.prototype.remoteSort = false;
 Grid.prototype.lockColumnWidths = false;
 Grid.prototype.lockColumnWidthsRequiredRowCount = 3;
+Grid.prototype.focused = false;
 
 Widget.alias('grid', Grid);
+
+class GridComponent extends VDOM.Component {
+   constructor(props) {
+      super(props);
+      this.dom = {};
+      var {widget} = props.instance;
+      this.state = {
+         cursor: widget.focused && widget.focusable ? 0 : -1,
+         focused: widget.focused
+      }
+   }
+
+   render() {
+      var {instance} = this.props;
+      var {data, widget} = instance;
+      var {CSS, baseClass} = widget;
+
+      var children = instance.records.map((record, i)=> {
+         if (record.type == 'data') {
+            var {data, store, index, key, selected} = record;
+            var mod = {
+               selected: selected,
+               cursor: i == this.state.cursor
+            };
+            return <GridRowComponent key={key}
+                                     className={CSS.element(baseClass, 'data', mod)}
+                                     onClick={e=>widget.onRowClick(e, data, index, store)}
+                                     onMouseEnter={e=>this.moveCursor(i)}
+                                     isSelected={selected}
+                                     cursor={mod.cursor}
+                                     shouldUpdate={record.shouldUpdate}>
+               {record.vdom}
+            </GridRowComponent>
+         }
+         return record.vdom;
+      });
+
+      return <div className={data.classNames}
+                  style={data.style}>
+         <div ref={el=>{this.dom.scroller = el}}
+              tabIndex={widget.focusable ? 0 : null}
+              onScroll={::this.onScroll}
+              className={CSS.element(baseClass, 'scroll-area')}
+              onKeyDown={::this.handleKeyDown}
+              onMouseLeave={::this.handleMouseLeave}
+              onFocus={::this.onFocus}
+              onBlur={::this.onBlur}>
+            <table>
+               {this.props.header}
+               {children}
+            </table>
+         </div>
+         { this.props.fixedHeader && <div ref={el=>{this.dom.fixedHeader = el}}
+                                          className={CSS.element(baseClass, 'fixed-header')}
+                                          style={{
+                  display: this.scrollWidth > 0 ? 'block' : 'none',
+                  right: `${this.scrollWidth || 0}px`
+                  }}>
+            <table>
+               {this.props.fixedHeader}
+            </table>
+         </div> }
+      </div>
+   }
+
+   onScroll(e) {
+      if (this.dom.fixedHeader) {
+         this.dom.fixedHeader.scrollLeft = e.target.scrollLeft;
+      }
+   }
+
+   shouldComponentUpdate(props, state) {
+      return props.instance.shouldUpdate !== false || state != this.state;;
+   }
+
+   componentDidMount() {
+      this.componentDidUpdate();
+      var {widget} = this.props.instance;
+      if (widget.scrollable)
+         this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
+      if (widget.pipeKeyDown)
+         widget.pipeKeyDown(::this.handleKeyDown, this.props.instance);
+   }
+
+   componentWillReceiveProps(props) {
+      var {records} = props.instance;
+      this.setState({
+         cursor: Math.max(Math.min(this.state.cursor, records.length - 1), this.state.focused ? 0 : -1)
+      });
+   }
+
+   componentWillUnmount() {
+      var {instance} = this.props;
+      var {widget} = instance;
+      if (this.offResize)
+         this.offResize();
+      offFocusOut(this);
+      if (widget.pipeKeyDown)
+         widget.pipeKeyDown(null, instance);
+   }
+
+   componentDidUpdate() {
+      this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
+      var {headerRefs, fixedHeaderRefs, instance}= this.props;
+      var {widget, data} = instance;
+
+      if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
+         for (var k in headerRefs) {
+            var c = headerRefs[k];
+            c.style.width = c.offsetWidth + 'px';
+         }
+      }
+
+      if (this.dom.fixedHeader) {
+         for (var k in headerRefs) {
+            var c = headerRefs[k];
+            var fhe = fixedHeaderRefs[k];
+            if (fhe) {
+               fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
+            }
+         }
+         this.dom.fixedHeader.style.display = 'block';
+         this.dom.fixedHeader.style.right = this.scrollWidth + 'px';
+      }
+   }
+
+   moveCursor(index, focused, scrollIntoView) {
+      if (!this.props.instance.widget.focusable)
+         return;
+
+      if (focused != null && this.state.focused != focused)
+         this.setState({
+            focused: focused || this.props.instance.widget.focused
+         });
+
+      this.setState({
+         cursor: index
+      }, () => {
+         if (scrollIntoView) {
+            var item = this.dom.scroller.firstChild.children[index + 1];
+            scrollElementIntoView(item);
+         }
+      });
+   }
+
+   showCursor(focused) {
+      if (this.state.cursor == -1) {
+         var firstSelected = this.props.instance.records.findIndex(x=>x.selected);
+         this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
+      }
+   }
+
+
+   onFocus() {
+      FocusManager.nudge();
+      this.showCursor(true);
+
+      var {widget} = this.props.instance;
+      if (!widget.focused)
+         oneFocusOut(this, this.dom.scroller, ()=> {
+            this.moveCursor(-1, false);
+         });
+
+      this.setState({
+         focused: true
+      });
+   }
+
+   onBlur() {
+      FocusManager.nudge();
+   }
+
+   handleMouseLeave() {
+      if (!this.state.focused)
+         this.moveCursor(-1);
+   }
+
+   handleKeyDown(e) {
+
+      var {instance} = this.props;
+      var {records, widget} = instance;
+
+      if (this.onKeyDown && this.onKeyDown(e, instance) === false)
+         return;
+
+      switch (e.keyCode) {
+         case KeyCode.enter:
+            var record = records[this.state.cursor];
+            if (record)
+               widget.onRowClick(e, record.data, record.index, record.store);
+            break;
+
+         case KeyCode.down:
+            if (this.state.cursor + 1 < records.length) {
+               this.moveCursor(this.state.cursor + 1, true, true);
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+
+         case KeyCode.up:
+            if (this.state.cursor > 0) {
+               this.moveCursor(this.state.cursor - 1, true, true);
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+      }
+   }
+}
 
 class GridColumn extends PureContainer {
    declareData() {
@@ -517,94 +717,17 @@ function initGrouping(grouping) {
    })
 }
 
-class GridComponent extends VDOM.Component {
-   constructor(props) {
-      super(props);
-      this.dom = {};
-   }
-
-   render() {
-      var {data, widget} = this.props.instance;
-      var {CSS, baseClass} = widget;
-
-      return <div className={data.classNames} style={data.style} tabIndex={data.stateMods.selectable ? 0 : null}>
-         <div ref={el=>{this.dom.scroller = el}}
-              onScroll={::this.onScroll}
-              className={CSS.element(baseClass, 'scroll-area')}>
-            <table>
-               {this.props.header}
-               {this.props.children}
-            </table>
-         </div>
-         { this.props.fixedHeader && <div ref={el=>{this.dom.fixedHeader = el}}
-                                          className={CSS.element(baseClass, 'fixed-header')}
-                                          style={{
-                  display: this.scrollWidth > 0 ? 'block' : 'none',
-                  right: `${this.scrollWidth || 0}px`
-                  }}>
-            <table>
-               {this.props.fixedHeader}
-            </table>
-         </div> }
-      </div>
-   }
-
-   onScroll(e) {
-      if (this.dom.fixedHeader) {
-         this.dom.fixedHeader.scrollLeft = e.target.scrollLeft;
-      }
-   }
-
-   shouldComponentUpdate(props) {
-      return props.instance.shouldUpdate !== false;
-   }
-
-   componentDidMount() {
-      this.componentDidUpdate();
-      var {widget} = this.props.instance;
-      if (widget.scrollable)
-         this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
-   }
-
-   componentWillUnmount() {
-      if (this.offResize)
-         this.offResize();
-   }
-
-   componentDidUpdate() {
-      this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
-      var {headerRefs, fixedHeaderRefs, instance}= this.props;
-      var {widget, data} = instance;
-
-      if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
-         for (var k in headerRefs) {
-            var c = headerRefs[k];
-            c.style.width = c.offsetWidth + 'px';
-         }
-      }
-
-      if (this.dom.fixedHeader) {
-         for (var k in headerRefs) {
-            var c = headerRefs[k];
-            var fhe = fixedHeaderRefs[k];
-            if (fhe) {
-               fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
-            }
-         }
-         this.dom.fixedHeader.style.display = 'block';
-         this.dom.fixedHeader.style.right = this.scrollWidth + 'px';
-      }
-   }
-}
-
 class GridRowComponent extends VDOM.Component {
    render() {
-      return <tbody className={this.props.className} onClick={this.props.onClick}>
+      return <tbody className={this.props.className}
+                    onClick={this.props.onClick}
+                    onMouseEnter={this.props.onMouseEnter}>
          {this.props.children}
       </tbody>
    }
 
    shouldComponentUpdate(props) {
-      return props.shouldUpdate !== false;
+      return props.shouldUpdate !== false || props.cursor != this.props.cursor;
    }
 }
+
