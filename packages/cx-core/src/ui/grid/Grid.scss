@@ -6,12 +6,12 @@ $cx-grid-border-color: lightgray;
 .cxb-grid {
    box-sizing: border-box;
    position: relative;
-   overflow: hidden;
 
    table {
       border-spacing: 0;
       border-collapse: collapse;
       width: 100%;
+      position: relative;
    }
 
    .cxs-aligned-left {
@@ -29,6 +29,7 @@ $cx-grid-border-color: lightgray;
    &.cxs-scrollable {
 
       border: 1px solid $cx-grid-border-color;
+      overflow: hidden;
 
       th {
          border-top: none;
@@ -41,6 +42,7 @@ $cx-grid-border-color: lightgray;
 
       & > .cxe-grid-scroll-area {
          overflow-y: auto;
+         position: relative;
          height: 100%;
       }
 

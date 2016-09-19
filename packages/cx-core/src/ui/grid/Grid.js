@@ -232,45 +232,50 @@ export class Grid extends Widget {
       if (!refs)
          refs = {};
       var {CSS, baseClass} = widget;
-      return <tbody key={'h'+key} className={CSS.element(baseClass, 'header')}>
-      <tr>{
-         instance.columns.map((columnInstance, i) => {
-            var c = columnInstance.widget;
-            var mods = [];
+      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
+      <tr>
+         {
+            instance.columns.map((columnInstance, i) => {
+               var c = columnInstance.widget;
+               var mods = [];
 
-            if (c.align)
-               mods.push('aligned-' + c.align);
+               if (c.align)
+                  mods.push('aligned-' + c.align);
 
-            if (c.sortable) {
-               mods.push('sortable');
+               if (c.sortable) {
+                  mods.push('sortable');
 
-               if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-                  mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                  if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                     mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                  }
                }
-            }
 
-            var header = columnInstance.header;
+               var header = columnInstance.header;
 
-            var style = header.data.style;
-            var cls = CSS.element(baseClass, 'col-header', mods);
-            if (header.data.classNames)
-               cls += ' ' + header.data.classNames;
+               var style = header.data.style;
+               var cls = CSS.element(baseClass, 'col-header', mods);
+               if (header.data.classNames)
+                  cls += ' ' + header.data.classNames;
 
-            var content = header.render(context);
+               var content = header.render(context);
 
-            if (fixed && originalRefs[i]) {
-               style = {...style, width: originalRefs[i].offsetWidth + 'px'}
-            };
+               if (fixed && originalRefs[i]) {
+                  style = {...style, width: originalRefs[i].offsetWidth + 'px'}
+               };
 
-            return <th key={i}
-                       ref={c=>{refs[i] = c}}
-                       className={cls}
-                       style={style}
-                       onClick={e=>this.onHeaderClick(e, c, store, instance)}>
-               {getContent(content)}
-            </th>;
-         })
-      }</tr>
+               return <th key={i}
+                          ref={c=> {
+                             refs[i] = c
+                          }}
+                          className={cls}
+                          style={style}
+                          onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+                  {getContent(content)}
+               </th>;
+            })
+         }
+         { fixed && <th className={CSS.element(baseClass, "col-header")} ref={el=>{refs.last = el}} />}
+      </tr>
       </tbody>;
    }
 
@@ -469,16 +474,17 @@ class GridComponent extends VDOM.Component {
               onMouseLeave={::this.handleMouseLeave}
               onFocus={::this.onFocus}
               onBlur={::this.onBlur}>
-            <table>
+
+            <table ref={el=>{this.dom.table = el}}>
                {this.props.header}
                {children}
             </table>
+
          </div>
          { this.props.fixedHeader && <div ref={el=>{this.dom.fixedHeader = el}}
                                           className={CSS.element(baseClass, 'fixed-header')}
                                           style={{
-                  display: this.scrollWidth > 0 ? 'block' : 'none',
-                  right: `${this.scrollWidth || 0}px`
+                  display: this.scrollWidth > 0 ? 'block' : 'none'
                   }}>
             <table>
                {this.props.fixedHeader}
@@ -544,7 +550,12 @@ class GridComponent extends VDOM.Component {
             }
          }
          this.dom.fixedHeader.style.display = 'block';
-         this.dom.fixedHeader.style.right = this.scrollWidth + 'px';
+         fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
+
+         var headerHeight = this.dom.fixedHeader.offsetHeight;
+         this.dom.table.style.marginTop = `${-headerHeight}px`;
+         this.dom.scroller.style.height = `calc(100% - ${headerHeight}px`;
+         this.dom.scroller.style.top = `${headerHeight}px`;
       }
    }
 
