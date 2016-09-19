@@ -165,10 +165,12 @@ class Input extends VDOM.Component {
 
    getPreCursorDigits(text, cursor) {
       var res = '';
+      var culture = Culture.getNumberCulture();
+      var decimalSeparator = culture.decimalSeparator || '.';
       for (var i = 0; i < cursor; i++) {
          if ('0' <= text[i] && text[i] <= '9')
             res += text[i];
-         else if (text[i] == '.') //TODO Read decimal separator from culture
+         else if (text[i] == decimalSeparator)
             res += '.';
          else if (text[i] == '-')
             res += '-';
