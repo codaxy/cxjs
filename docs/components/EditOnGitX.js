@@ -15,7 +15,7 @@ export class EditOnGitX extends Widget {
       var url = data.url || '';
       url = url.replace('~/', '');
 
-      return <a className="cxb-editongitx" key={key} href={`https://gitlab.com/mstijak/Cx/edit/master/docs/content/${url}.js`}>
+      return <a className="cxb-editongitx" key={key} href={`https://github.com/codaxy/cx/edit/master/docs/content/${url}.js`}>
          Edit
       </a>
    }
