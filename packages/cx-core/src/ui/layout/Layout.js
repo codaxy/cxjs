@@ -29,7 +29,9 @@ export class Layout extends Component {
    }
    
    prepare(context, instance) {
-      instance.children.forEach(child=> child.prepare(context));
+      for (var i = 0; i<instance.children.length; i++) {
+         instance.children[i].prepare(context);
+      }
    }
 
    append(result, r) {
@@ -44,20 +46,24 @@ export class Layout extends Component {
    }
 
    render(context, instance, keyPrefix) {
-      var result = [];
-      instance.children.forEach((child)=> {
-         var r = child.render(context, keyPrefix);
+      var result = [],
+         child, r;
+      for (var i = 0; i < instance.children.length; i++) {
+         child = instance.children[i];
+         r = child.render(context, keyPrefix);
          if (child.widget.layout && child.widget.layout.useParentLayout && Array.isArray(r.content)) {
             r.content.forEach(r=>this.append(result, r));
          }
          else
             this.append(result, r);
-      });
+      }
       return result;
    }
 
    cleanup(context, instance) {
-      instance.children.forEach(child=>child.cleanup(context));
+      for (var i = 0; i<instance.children.length; i++) {
+         instance.children[i].cleanup(context);
+      }
       instance.cached.children = instance.children;
    }
 }

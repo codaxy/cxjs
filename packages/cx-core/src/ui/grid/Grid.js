@@ -135,36 +135,47 @@ export class Grid extends Widget {
       var {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      instance.records.forEach(record => {
+      var record;
+      for (var i = 0; i<instance.records.length; i++) {
+         record = instance.records[i];
          if (record.cells) {
             var wasSelected = record.selected;
             record.selected = instance.isSelected(record.data, record.index);
             record.shouldUpdate = wasSelected != record.selected;
-            record.cells.forEach(c => { c.explore(context); });
+            for (var c = 0; c < record.cells.length; c++)
+               record.cells[c].explore(context);
          }
-      });
+      }
    }
 
    prepare(context, instance) {
-      instance.records.forEach(record => {
-         if (record.cells)
-            record.cells.forEach(c => {
-               c.prepare(context);
-               if (c.shouldUpdate)
+      var record, cell;
+      for (var i = 0; i < instance.records.length; i++) {
+         record = instance.records[i];
+         if (record.cells) {
+            for (var c = 0; c < record.cells.length; c++) {
+               cell = record.cells[c];
+               cell.prepare(context);
+               if (cell.shouldUpdate)
                   record.shouldUpdate = true;
                if (record.shouldUpdate)
                   instance.shouldUpdate = true;
-            });
-      });
+            }
+         }
+      }
       instance.columns.forEach(c=>c.prepare(context));
       super.prepare(context, instance);
    }
 
    cleanup(context, instance) {
-      instance.records.forEach(record => {
-         if (record.cells)
-            record.cells.forEach(c => c.cleanup(context));
-      });
+      var record;
+      for (var i = 0; i < instance.records.length; i++) {
+         record = instance.records[i];
+         if (record.cells) {
+            for (var c = 0; c < record.cells.length; c++)
+               record.cells[c].cleanup(context);
+         }
+      }
       instance.columns.forEach(c=>c.cleanup(context));
       super.cleanup(context, instance);
    }
@@ -342,13 +353,16 @@ export class Grid extends Widget {
       if (!Array.isArray(records))
          return null;
 
-      records.forEach(record=> {
+      var record, g;
+
+      for (var i = 0; i < records.length; i++) {
+         record = records[i];
          if (record.type == 'data')
             record.vdom = this.renderRow(context, instance, record);
 
          if (record.type == 'group-header') {
             record.vdom = [];
-            var g = record.grouping;
+            g = record.grouping;
             if (g.caption)
                record.vdom.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
 
@@ -357,11 +371,11 @@ export class Grid extends Widget {
          }
 
          if (record.type == 'group-footer') {
-            var g = record.grouping;
+            g = record.grouping;
             if (g.showFooter)
                record.vdom = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store);
          }
-      });
+      }
    }
 
    onRowClick(e, record, index, store) {
@@ -377,9 +391,10 @@ export class Grid extends Widget {
       if (this.memoize && record.shouldUpdate === false && record.vdom)
          return record.vdom;
 
-      var cells = [];
+      var cells = [], ci;
 
-      record.cells.forEach((ci, i) => {
+      for (var i = 0; i < record.cells.length; i++) {
+         ci = record.cells[i];
          if (!ci.visible)
             return;
          var c = ci.widget;
@@ -397,9 +412,9 @@ export class Grid extends Widget {
          }
          var cls = this.CSS.expand(ci.data.classNames, this.CSS.state(state));
          cells.push(<td key={i} className={cls} style={ci.data.style}>{v}</td>);
-      });
+      }
 
-      return record.vdom = <tr>{cells}</tr>;
+      return <tr>{cells}</tr>;
    }
 
    mapRecords(context, instance) {
@@ -407,9 +422,10 @@ export class Grid extends Widget {
       this.dataAdapter.sort(!this.remoteSort && data.sorters);
       return this.dataAdapter.getRecords(context, instance, data.records, store).map(record => {
          if (record.type == 'data') {
-            record.cells = this.columns.map(c => instance.getChild(context, c, record.key, record.store));
-            record.cells.forEach(c=> {
-               c.repeatable = true;
+            record.cells = this.columns.map(c => {
+               var cell = instance.getChild(context, c, record.key, record.store)
+               cell.repeatable = true;
+               return cell;
             });
          }
          return record;
@@ -530,32 +546,33 @@ class GridComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
       var {headerRefs, fixedHeaderRefs, instance}= this.props;
       var {widget, data} = instance;
 
-      if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
-         for (var k in headerRefs) {
-            var c = headerRefs[k];
-            c.style.width = c.offsetWidth + 'px';
-         }
-      }
-
-      if (this.dom.fixedHeader) {
-         for (var k in headerRefs) {
-            var c = headerRefs[k];
-            var fhe = fixedHeaderRefs[k];
-            if (fhe) {
-               fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
+      if (widget.scrollable) {
+         this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
+         if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
+            for (var k in headerRefs) {
+               var c = headerRefs[k];
+               c.style.width = c.offsetWidth + 'px';
             }
          }
-         this.dom.fixedHeader.style.display = 'block';
-         fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
+         if (this.dom.fixedHeader) {
+            for (var k in headerRefs) {
+               var c = headerRefs[k];
+               var fhe = fixedHeaderRefs[k];
+               if (fhe) {
+                  fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
+               }
+            }
+            this.dom.fixedHeader.style.display = 'block';
+            fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
 
-         var headerHeight = this.dom.fixedHeader.offsetHeight;
-         this.dom.table.style.marginTop = `${-headerHeight}px`;
-         this.dom.scroller.style.height = `calc(100% - ${headerHeight}px`;
-         this.dom.scroller.style.top = `${headerHeight}px`;
+            var headerHeight = this.dom.fixedHeader.offsetHeight;
+            this.dom.table.style.marginTop = `${-headerHeight}px`;
+            this.dom.scroller.style.height = `calc(100% - ${headerHeight}px`;
+            this.dom.scroller.style.top = `${headerHeight}px`;
+         }
       }
    }
 

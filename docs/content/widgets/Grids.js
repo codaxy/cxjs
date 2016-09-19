@@ -21,7 +21,7 @@ class PageController extends Controller {
       super.init();
 
       //init grid data
-      this.store.init('$page.records', Array.from({length: 10}).map((v, i)=>({
+      this.store.init('$page.records', Array.from({length: 100}).map((v, i)=>({
          id: i + 1,
          fullName: casual.full_name,
          continent: casual.continent,
