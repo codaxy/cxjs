@@ -10,7 +10,7 @@ export class MixedModeForm extends Widget
           <h3>Mixed Mode Form</h3>
           <Cx parentInstance={instance}>
              <div>
-                <TextField value:bind="test2" />
+                <TextField value:bind="test" />
                 <TextField value:bind="test" />
              </div>
           </Cx>
