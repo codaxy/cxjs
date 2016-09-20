@@ -1,0 +1,49 @@
+@import "Field";
+
+.cxb-slider {
+   @include cxb-field();
+}
+
+.cxe-slider-axis {
+   margin: 0 12px;
+   background: rgba(128, 128, 128, 0.3);
+   height: 6px;
+   position: relative;
+   top: calc(50% - 3px);
+   border-radius: 3px;
+}
+
+.cxe-slider-range {
+   position: absolute;
+   height: 100%;
+   background: #50d1ff;
+   border-radius: 3px;
+}
+
+.cxe-slider-handle {
+   position: absolute;
+   box-sizing: border-box;
+   left: 0;
+   margin-left: -8px;
+   margin-top: -8px;
+   top: 50%;
+   width: 16px;
+   height: 16px;
+   background: rgb(235, 235, 235);
+   border: 1px solid rgb(204, 204, 204);
+   border-radius: 50%;
+   box-shadow: 0 0 3px rgba(128, 128, 128, 0.5);
+
+   &::after {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -2px;
+      margin-left: -2px;
+      width: 4px;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+   }
+}
+

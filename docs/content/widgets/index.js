@@ -26,3 +26,4 @@ export * from './HtmlElements';
 export * from './MonthPickers';
 export * from './MonthFields';
 export * from './UploadButton';
+export * from './Sliders';

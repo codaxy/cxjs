@@ -1,6 +1,6 @@
 {
   "name": "cx-react",
-  "version": "16.8.3",
+  "version": "16.8.4",
   "description": "React based rendering for Cx applications.",
   "main": "index.js",
   "scripts": {},
@@ -8,7 +8,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://gitlab.com/mstijak/cx#README",
   "dependencies": {
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0"
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   }
 }
