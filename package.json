@@ -67,7 +67,6 @@
     "base-64": "^0.1.0",
     "casual": "^1.5.2",
     "cx-core": "file:./packages/cx-core",
-    "cx-inferno": "file:./packages/cx-inferno",
     "cx-preact": "file:./packages/cx-preact",
     "cx-react": "file:./packages/cx-react",
     "cx-react-css-transition-group": "file:./packages/cx-react-css-transition-group",
