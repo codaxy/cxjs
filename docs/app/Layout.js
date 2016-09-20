@@ -5,7 +5,14 @@ import {CSS} from './CSS';
 
 export const Layout = <cx>
    <div class={CSS.block('layout')}>
-       <div class={CSS.element('layout', 'content')}>
+       <div class={{
+           "dxe-layout-menu": true
+       }}
+       onClick={(e, {store})=>{store.toggle('layout.navOpen')}}></div>
+       <div class={{
+           "dxe-layout-content": true,
+           'dxs-navopen': { bind: 'layout.navOpen' }
+        }}>
           <aside>
              <header>
                 <h1 style="cursor: zoom-in"
