@@ -62,7 +62,9 @@
                 max-width: calc(50em - 40px);
             }
         }
+    }
 
+    @media (min-width: 800px) {
         .dxe-codesplit-right {
             max-width: calc(50em);
         }
