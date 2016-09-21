@@ -1,12 +1,11 @@
 .dxb-layout {
-    //height: calc(100% - 40px);
     height: 100%;
     position: relative;
 }
 
 .dxe-layout-aside {
     transition: left 0.2s ease-in;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: -200px;
     width: 200px;
@@ -31,7 +30,6 @@
         padding: 0;
         font-size: 20px;
         text-align: center;
-
     }
 }
 
@@ -49,9 +47,9 @@
 .dxe-layout-content {
     height: 100%;
     transition: margin-left 0.2s ease-in;
-    //overflow-y: scroll;
-    //overflow-x: hidden;
-    //-webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     display: block; //IE needs this
 
     .dxb-layout.dxs-navopen & {
@@ -68,7 +66,7 @@
 }
 
 .dxe-layout-menu {
-    position: fixed;
+    position: absolute;
     width: 30px;
     height: 30px;
     left: 5px;
@@ -88,7 +86,7 @@
 }
 
 .dxe-layout-search {
-    position: fixed;
+    position: absolute;
     width: 30px;
     height: 30px;
     top: 40px;
