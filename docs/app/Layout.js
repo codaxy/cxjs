@@ -26,7 +26,7 @@ export const Layout = <cx>
 
         <aside class="dxe-layout-aside">
             <header class="dxe-layout-aside-header">
-                <h1 style="cursor: zoom-in">Cx Docs</h1>
+                <h1>Cx Docs</h1>
             </header>
             <div class="dxe-layout-aside-noscroll">
                 <ContentPlaceholder name="aside"/>

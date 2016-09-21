@@ -6,7 +6,7 @@
 
 .dxe-layout-aside {
     transition: left 0.2s ease-in;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -200px;
     width: 200px;
@@ -49,9 +49,9 @@
 .dxe-layout-content {
     height: 100%;
     transition: margin-left 0.2s ease-in;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    //overflow-y: scroll;
+    //overflow-x: hidden;
+    //-webkit-overflow-scrolling: touch;
     display: block; //IE needs this
 
     .dxb-layout.dxs-navopen & {
@@ -68,7 +68,7 @@
 }
 
 .dxe-layout-menu {
-    position: absolute;
+    position: fixed;
     width: 30px;
     height: 30px;
     left: 5px;
@@ -88,7 +88,7 @@
 }
 
 .dxe-layout-search {
-    position: absolute;
+    position: fixed;
     width: 30px;
     height: 30px;
     top: 40px;
