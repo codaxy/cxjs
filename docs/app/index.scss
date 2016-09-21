@@ -1,6 +1,7 @@
 .dxb-layout {
     height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .dxe-layout-aside {
@@ -36,8 +37,9 @@
 .dxe-layout-aside-noscroll {
     width: calc(100% + 20px);
     height: calc(100% - 80px);
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 
     & > div {
         width: 200px;
