@@ -45,14 +45,24 @@ class SearchController extends Controller {
 
     onItemClick(e, {store}) {
         var url = store.get('$record.url');
-        console.log(url);
         History.pushState({}, null, url);
+        if (window.innerWidth < 1000)
+            store.set('search.visible', false);
     }
 }
 
+var searchProps = {
+    style:"width:300px;height:400px;"
+};
+
+if (window.innerWidth > 1000 && window.innerHeight > 800)
+    searchProps.center = true;
+else
+    searchProps.style += "left:40px;top:25px";
+
 export const SearchWindow = <cx>
     <Window visible={{bind:"search.visible", defaultValue: false}}
-            style="width:300px;height:400px;top:50px;left:calc(50% - 150px)"
+            {...searchProps}
             backdrop
             autoFocus={false}
             header={
