@@ -1,11 +1,15 @@
 .cxb-editongitx {
-   color: lightgray;
-   position: absolute;
-   left: 52em;
-   top: 10px;
-   text-decoration: none;
+    max-width: calc(50em + 40px);
+    position: relative;
 
-   &:hover {
-      color: gray;
-   }
+    a {
+        position: absolute;
+        color: lightgray;
+        text-decoration: none;
+        right: 2em;
+        top: -30px;
+        &:hover {
+            color: gray;
+        }
+    }
 }
