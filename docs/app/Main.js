@@ -4,11 +4,12 @@ import {Layout} from './Layout';
 import {Contents} from '../content/Contents';
 import {ContentRouter} from '../content/ContentRouter';
 import {DocumentTitle} from 'cx/ui/DocumentTitle';
+import {PureContainer} from 'cx/ui/PureContainer';
 
 export const Main = <cx>
-   <main outerLayout={Layout}>
+   <PureContainer outerLayout={Layout}>
       <DocumentTitle value="Cx" />
       <Content name="aside" items={Contents} />
       <ContentRouter />
-   </main>
+   </PureContainer>
 </cx>;

@@ -1,64 +1,111 @@
 .dxb-layout {
-   height: 100%;
+    //height: calc(100% - 40px);
+    height: 100%;
+    position: relative;
+}
+
+.dxe-layout-aside {
+    transition: left 0.2s ease-in;
+    position: absolute;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    bottom: 0;
+    background: #343434;
+    background-image: url('./img/38fffa06.png');
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.5);
+
+    .dxb-layout.dxs-navopen & {
+        left: 0;
+    }
+}
+
+.dxe-layout-aside-header {
+    height: 80px;
+    box-sizing: border-box;
+    padding: 40px 10px;
+
+    h1 {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        text-align: center;
+
+    }
+}
+
+.dxe-layout-aside-noscroll {
+    width: calc(100% + 20px);
+    height: calc(100% - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    & > div {
+        width: 200px;
+    }
 }
 
 .dxe-layout-content {
-   //height: calc(100% - 40px);
-   height: 100%;
-   position: relative;
+    height: 100%;
+    transition: margin-left 0.2s ease-in;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: block; //IE needs this
 
-   & > aside {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200px;
-      bottom: 0;
-      background: #343434;
-      background-image: url('./img/38fffa06.png');
+    .dxb-layout.dxs-navopen & {
+        margin-left: 200px;
+    }
 
-      overflow: hidden;
-      color: rgba(255, 255, 255, 0.5);
+    &:focus {
+        outline: none;
+    }
 
-      & > header {
-         height: 80px;
-         box-sizing: border-box;
-         //background: #d3eaf0;
-         padding: 40px 10px;
-
-         h1 {
-            //display: inline-block;
-            margin: 0;
-            padding: 0;
-            font-size: 20px;
-            //line-height: 20px;
-            text-align: center;
-
-         }
-      }
-
-      & > div {
-         width: calc(100% + 20px);
-         height: calc(100% - 80px);
-         overflow-y: auto;
-         overflow-x: hidden;
-
-         & > div {
-            width: 200px;
-         }
-      }
-   }
-
-   & > main {
-      margin-left: 200px;
-      height: 100%;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      display: block; //IE needs this
-
-      &:focus {
-         outline: none;
-      }
-   }
+    @media screen and (max-width: 1000px) {
+        width: 100%;
+    }
 }
+
+.dxe-layout-menu {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 5px;
+    top: 5px;
+    z-index: 1000;
+    transition: left 0.2s ease-in;
+    line-height: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    color: rgba(128, 128, 128, 0.5);
+
+    .dxs-navopen & {
+        left: 165px;
+    }
+}
+
+.dxe-layout-search {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 40px;
+    left: 5px;
+    z-index: 1000;
+    transition: top 0.2s ease-in;
+    line-height: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    color: rgba(128, 128, 128, 0.5);
+
+    .dxs-navopen & {
+        top: 5px;
+    }
+}
+
+
 

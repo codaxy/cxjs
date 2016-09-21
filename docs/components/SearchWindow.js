@@ -52,8 +52,7 @@ class SearchController extends Controller {
 
 export const SearchWindow = <cx>
     <Window visible={{bind:"search.visible", defaultValue: false}}
-            style="width:400px;height:400px"
-            center
+            style="width:300px;height:400px;top:50px;left:calc(50% - 150px)"
             backdrop
             autoFocus={false}
             header={

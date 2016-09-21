@@ -48,15 +48,4 @@ export const SideNav = <cx>
       />
 
    </List>
-</cx>
-
-// export const SideNav = <cx>
-//    <Menu mod="sidenav">
-//    <Repeater records:bind="contents" recordName="$topic">
-//       <a class="topic" text:bind="$topic.topic" href="#" onClick={(e, {store})=>{ store.toggle('$topic.expanded')}}></a>
-//       <Repeater records:bind="$topic.articles" recordName="$article" visible:bind="$topic.expanded">
-//          <Link href:bind="$article.url" text:bind="$article.title" />
-//       </Repeater>
-//    </Repeater>
-//    </Menu>
-// </cx>
+</cx>;

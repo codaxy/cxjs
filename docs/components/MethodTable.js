@@ -34,15 +34,17 @@ export class MethodTable extends PureContainer {
     }
 
     render(context, instance, key) {
-        return <table key={key} className="dxb-methodtable">
-            <tbody>
-            <tr>
-                <th>Signature</th>
-                <th>Description</th>
-            </tr>
-            {this.renderChildren(context, instance)}
-            </tbody>
-        </table>
+        return <div key={key} className="dxb-methodtable">
+            <table>
+                <tbody>
+                <tr>
+                    <th>Signature</th>
+                    <th>Description</th>
+                </tr>
+                {this.renderChildren(context, instance)}
+                </tbody>
+            </table>
+        </div>
     }
 }
 

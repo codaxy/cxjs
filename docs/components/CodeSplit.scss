@@ -1,14 +1,9 @@
 .dxb-codesplit {
-    margin: 0 -40px;
     position: relative;
-    //flex-direction: row;
-    //display: flex;
 
     .dxe-codesplit-left {
-        max-width: calc(50em + 80px);
+
         box-sizing: border-box;
-        //display: flex;
-        padding: 0 40px;
         position: relative;
 
         .widgets {
@@ -17,23 +12,16 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            max-width: calc(50em - 40px);
             background: #f6f6f6;
         }
     }
 
     .dxe-codesplit-right {
         box-sizing: border-box;
-        max-width: 50em;
-        margin-left: 40px;
         background: #494949;
-
         padding: 3px;
 
         .dxe-codesplit-scrollable {
-
-            //display: flex;
-            //align-items: center;
             overflow-x: auto;
             overflow-y: hidden;
 
@@ -66,20 +54,36 @@
         }
     }
 
+    @media (min-width: 700px) {
+        .dxe-codesplit-left {
+            max-width: calc(50em + 40px);
+
+            .widgets {
+                max-width: calc(50em - 40px);
+            }
+        }
+
+        .dxe-codesplit-right {
+            max-width: calc(50em);
+        }
+    }
+
     @media (min-width: 1400px) {
         .dxe-codesplit-left {
+            max-width: calc(50em + 40px);
 
+            .widgets {
+                max-width: calc(50em - 40px);
+            }
         }
 
         .dxe-codesplit-right {
             position: absolute;
             top: 0;
-            left: calc(50em + 80px);
-            width: calc(100% - 50em - 80px);
+            left: calc(50em + 40px);
+            width: calc(100% - 50em - 40px);
             padding: 5px 0 3px 3px;
-            margin-left: 0;
             max-width: none;
-            background: rgba(128, 128, 128, 0.2);
 
             .dxe-codesplit-scrollable {
                 code {
