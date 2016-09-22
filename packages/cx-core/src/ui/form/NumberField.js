@@ -231,12 +231,30 @@ class Input extends VDOM.Component {
          }
 
          if (change == 'wheel') {
+            e.preventDefault();
             var increment = data.increment != null ? data.increment : this.calculateIncrement(v, data.incrementPercentage);
             v = v + (e.deltaY < 0 ? increment : -increment);
             if (widget.snapToIncrement) {
                v = Math.round(v / increment) * increment;
             }
-            e.preventDefault();
+
+            if (data.minValue != null) {
+               if (data.minExclusive) {
+                  if (v <= data.minValue)
+                     return;
+               } else {
+                  v = Math.max(v, data.minValue);
+               }
+            }
+
+            if (data.maxValue != null) {
+               if (data.maxExclusive) {
+                  if (v >= data.maxValue)
+                     return;
+               } else {
+                  v = Math.min(v, data.maxValue);
+               }
+            }
          }
 
          var fmt = data.format;
