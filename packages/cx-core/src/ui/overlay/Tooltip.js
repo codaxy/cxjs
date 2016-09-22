@@ -167,8 +167,9 @@ class TooltipState {
 }
 
 export function tooltipMouseMove(e, instance, state) {
-   Debug.log(tooltipsFlag, 'mouse-enter', e.currentTarget, instance);
-   var tooltipState = getTooltipState(e.currentTarget, instance);
+   var target = typeof e.nodeType == 'number' ? e : e.currentTarget;
+   Debug.log(tooltipsFlag, 'mouse-enter', target, instance);
+   var tooltipState = getTooltipState(target, instance);
    tooltipState.check(state, e);
 }
 

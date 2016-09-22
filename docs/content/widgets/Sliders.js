@@ -18,18 +18,34 @@ export const Sliders = <cx>
 
         <CodeSplit>
 
-            <div class="widgets" layout={LabelsLeftLayout}>
-                <Slider label="Standard" value:bind="$page.to" />
-                <Slider label="Step" value:bind="$page.to" step={10} tooltip={{text:{tpl: '{$page.value:n}', trackMouse: true}}}/>
-                <Slider label="Step" from:bind="$page.from" to:bind="$page.to" step={10} tooltip={{text:{tpl: '{$page.value:n}', trackMouse: true}}}/>
+            <div class="widgets">
+                <div layout={LabelsLeftLayout}>
+                    <Slider label="Standard" value:bind="$page.to" tooltip={{
+                        text:{tpl: '{$page.to:n;2}' },
+                        trackMouse: true,
+                        placement: 'up'
+                    }} />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} />
+                    <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
+                </div>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightyellow"/>
             </div>
 
             <CodeSnippet putInto="code">{`
-            <div class="widgets" layout={LabelsLeftLayout}>
-                <Slider label="Standard" value:bind="$page.to" />
-                <Slider label="Step" value:bind="$page.to" step={10} tooltip={{text:{tpl: '{$page.value:n}', trackMouse: true}}}/>
-                <Slider label="Step" from:bind="$page.from" to:bind="$page.to" step={10} tooltip={{text:{tpl: '{$page.value:n}', trackMouse: true}}}/>
-            </div>
+                <div layout={LabelsLeftLayout}>
+                    <Slider label="Standard" value:bind="$page.to" tooltip={{
+                        text:{tpl: '{$page.to:n;2}' },
+                        trackMouse: true,
+                        placement: 'up'
+                    }} />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} />
+                    <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
+                </div>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>
+                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightyellow"/>
             `}</CodeSnippet>
         </CodeSplit>
 

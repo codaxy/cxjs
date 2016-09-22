@@ -14,7 +14,13 @@ export class Slider extends Field {
          min: undefined,
          max: undefined,
          disabled: undefined,
-         readOnly: undefined
+         readOnly: undefined,
+         rangeStyle: {
+            structured: true
+         },
+         handleStyle: {
+            structured: true
+         }
       }, ...arguments);
    }
 
@@ -35,6 +41,16 @@ export class Slider extends Field {
       super.init();
    }
 
+   prepareData(context, instance) {
+      var {data} = instance;
+      data.stateMods = {
+         ...data.stateMods,
+         horizontal: !this.vertical,
+         vertical: this.vertical
+      }
+      super.prepareData(context, instance);
+   }
+
    renderInput(context, instance, key) {
       return <SliderComponent key={key} instance={instance} />
    }
@@ -43,6 +59,7 @@ export class Slider extends Field {
 Slider.prototype.baseClass = "slider";
 Slider.prototype.min = 0;
 Slider.prototype.max = 100;
+Slider.prototype.vertical = false;
 
 Widget.alias('slider', Slider);
 
@@ -63,20 +80,31 @@ class SliderComponent extends VDOM.Component {
    }
 
    render() {
-      var {data, widget} = this.props.instance;
+      var {instance} = this.props;
+      var {data, widget} = instance;
       var {CSS, baseClass} = widget;
       var {min, max, from, to} = data;
       var {from, to} = this.state;
+
+      from = Math.min(max, Math.max(min, from));
+      to = Math.min(max, Math.max(min, to));
+
+      var handleStyle = CSS.parseStyle(data.handleStyle);
+
       var fromHandleStyle = {
-        left: `${100 * (from - min) / (max - min)}%`
+         ...handleStyle,
+         [widget.vertical ? 'top' : 'left']: `${100 * (from - min) / (max - min)}%`
       };
       var toHandleStyle = {
-         left: `${100 * (to - min) / (max - min)}%`
+         ...handleStyle,
+         [widget.vertical ? 'top' : 'left']: `${100 * (to - min) / (max - min)}%`
       };
       var rangeStyle = {
-         left: `${100 * (from - min) / (max - min)}%`,
-         width: `${100 * (to - from) / (max - min)}%`
+         ...CSS.parseStyle(data.rangeStyle),
+         [widget.vertical ? 'top' : 'left']: `${100 * (from - min) / (max - min)}%`,
+         [widget.vertical ? 'height' : 'width']: `${100 * (to - from) / (max - min)}%`
       };
+
       return <div className={data.classNames}
                   style={data.style}
                   id={data.id}
@@ -97,6 +125,8 @@ class SliderComponent extends VDOM.Component {
                        tabIndex={-1}
                     style={toHandleStyle}
                     onMouseDown={e=>this.onHandleMouseDown(e, 'to')}
+                    onMouseMove={e=>tooltipMouseMove(e, instance, this.state)}
+                    onMouseLeave={e=>this.onHandleMouseLeave(e, 'to')}
                     onTouchStart={e=>this.onHandleMouseDown(e, 'to')}
                     ref={c=>this.dom.to = c}>
                </button>
@@ -106,15 +136,26 @@ class SliderComponent extends VDOM.Component {
       </div>;
    }
 
-   shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
-   }
-
    componentWillReceiveProps(props) {
       this.setState({
          from: props.instance.data.from,
          to: props.instance.data.to
-      })
+      });
+
+      tooltipComponentWillReceiveProps(this.dom.to, props.instance, this.state);
+   }
+
+   componentWillUnmount() {
+      tooltipComponentWillUnmount(this.dom.to, this.props.instance);
+   }
+
+   componentDidMount() {
+      tooltipComponentDidMount(this.dom.to, this.props.instance);
+   }
+
+   onHandleMouseLeave(e, handle) {
+      if (!this.state.drag)
+         tooltipMouseLeave(e, this.props.instance, this.state);
    }
 
    onHandleMouseDown(e, handle) {
@@ -125,9 +166,15 @@ class SliderComponent extends VDOM.Component {
       var pos = getCursorPos(e);
       var dx = pos.clientX - (b.left + b.right) / 2;
       var dy = pos.clientY - (b.top + b.bottom) / 2;
+
+      this.setState({
+         drag: true
+      });
+
       captureMouseOrTouch(e, (e) => {
          var {instance} = this.props;
-         var {value} = this.getValues(e, dx);
+         var {widget} = instance;
+         var {value} = this.getValues(e, widget.vertical ? dy : dx);
 
          if (handle == 'from') {
             if (instance.set('from', value))
@@ -146,16 +193,24 @@ class SliderComponent extends VDOM.Component {
                   this.setState({from: value});
             }
          }
-      }, () => {
 
+         //tooltipMouseMove(this.dom[handle], instance, this.state);
+
+      }, () => {
+         this.setState({
+            drag: false
+         });
       })
    }
 
    getValues(e, d=0) {
-      var {data} = this.props.instance;
+      var {data, widget} = this.props.instance;
       var {min, max} = data;
       var b = this.dom.range.getBoundingClientRect();
-      var pct = Math.max(0, Math.min(1, (e.clientX - b.left - d) / this.dom.range.offsetWidth));
+      var pos = getCursorPos(e);
+      var pct = widget.vertical
+         ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
+         : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range.offsetWidth));
       var delta = (max - min) * pct;
       if (data.step)
          delta = Math.round(delta / data.step) * data.step;

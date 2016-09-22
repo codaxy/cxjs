@@ -45,4 +45,10 @@ export default {
             Base CSS class to be applied on the field. Defaults to `slider`.
         </Md></cx>
     },
+    vertical: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to orient the slider vertically.
+        </Md></cx>
+    },
 };
