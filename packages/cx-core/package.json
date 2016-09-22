@@ -1,7 +1,7 @@
 {
   "name": "cx-core",
-  "version": "16.9.9",
-  "description": "Cx framework",
+  "version": "16.9.10",
+  "description": "Advanced UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "src/index",
   "jsnext:main": "src/index",
   "scripts": {},
