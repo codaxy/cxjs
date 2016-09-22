@@ -66,21 +66,21 @@ export class ArrayAdapter extends DataAdapter {
 
    buildSorter(sorters) {
       if (Array.isArray(sorters) && sorters.length > 0) {
-         if (sorters.every(x=>x.field)) {
+         if (sorters.every(x=>x.field && x.value == null)) {
             //if all sorters are based on record fields access data directly (faster)
             this.sorter = sorter(sorters.map(x=> {
                if (x.field)
                   return {
                      value: {bind: x.field},
                      direction: x.direction
-                  }
+                  };
                return x;
             }), x=>x.data)
          }
          else {
             //if some sorters use computed values, use store data object
             this.sorter = sorter(sorters.map(x=> {
-               if (x.field)
+               if (x.field && x.value == null)
                   return {
                      value: {bind: this.recordName + '.' + x.field},
                      direction: x.direction

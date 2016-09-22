@@ -14,6 +14,14 @@ export class AggregateFunction {
    static distinct() {
       return new Distinct();
    }
+
+   static min() {
+      return new Min();
+   }
+
+   static max() {
+      return new Max();
+   }
 }
 
 class Sum {
@@ -39,7 +47,7 @@ class Avg {
    process(value, count = 1) {
       this.empty = false;
       if (!isNaN(value) && !isNaN(count)) {
-         this.result += value;
+         this.result += value * count;
          this.count += count;
       }
       else
@@ -97,3 +105,49 @@ class Distinct {
 
 Distinct.prototype.result = 0;
 Distinct.prototype.empty = true;
+
+class Max {
+   process(value) {
+      if (!isNaN(value)) {
+         if (this.empty)
+            this.result = value;
+         else if (value > this.result)
+            this.result = value;
+         this.empty = false;
+      }
+      else
+         this.invalid = true;
+   }
+
+   getResult() {
+      if (this.empty || this.invalid)
+         return null;
+      return this.result;
+   }
+}
+
+Max.prototype.result = 0;
+Max.prototype.empty = true;
+
+class Min {
+   process(value) {
+      if (!isNaN(value)) {
+         if (this.empty)
+            this.result = value;
+         else if (value < this.result)
+            this.result = value;
+         this.empty = false;
+      }
+      else
+         this.invalid = true;
+   }
+
+   getResult() {
+      if (this.empty || this.invalid)
+         return null;
+      return this.result;
+   }
+}
+
+Min.prototype.result = 0;
+Min.prototype.empty = true;

@@ -78,6 +78,7 @@ $cx-grid-border-color: lightgray;
    .cxs-sortable & {
       border: 1px solid $cx-grid-border-color;
       background: $cx-grid-header-background-color;
+      position: relative;
    }
 
    &.cxs-sortable {
@@ -95,24 +96,39 @@ $cx-grid-border-color: lightgray;
 
    &.cxs-sortable::before {
       content: '\2193';
-      float: right;
+      position: absolute;
       visibility: hidden;
+      top: 3px;
    }
 
    &.cxs-sorted-asc::before {
       content: '\2193';
-      float: right;
       visibility: visible;
    }
 
    &.cxs-sorted-desc::before {
       content: '\2191';
-      float: right;
       visibility: visible;
    }
 
-   &.cxs-aligned-right.cxs-sortable::before {
-      float: left;
+   &.cxs-sortable:not(.cxs-aligned-right) {
+      padding-right: 15px;
+
+      &::before {
+         right: 5px;
+      }
+   }
+
+   &.cxs-sortable.cxs-aligned-center {
+      padding-left: 15px;
+   }
+
+   &.cxs-sortable.cxs-aligned-right {
+      padding-left: 15px;
+
+      &::before {
+         left: 5px;
+      }
    }
 }
 

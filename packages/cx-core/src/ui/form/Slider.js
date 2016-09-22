@@ -58,6 +58,10 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
+   shouldComponentUpdate(props, state) {
+      return props.instance.shouldUpdate || state != this.state;
+   }
+
    render() {
       var {data, widget} = this.props.instance;
       var {CSS, baseClass} = widget;
@@ -74,6 +78,7 @@ class SliderComponent extends VDOM.Component {
          width: `${100 * (to - from) / (max - min)}%`
       };
       return <div className={data.classNames}
+                  style={data.style}
                   id={data.id}
                   onClick={::this.onClick}>
          <div className={CSS.element(baseClass, "axis")} ref={c=>this.dom.range = c}>
@@ -88,13 +93,15 @@ class SliderComponent extends VDOM.Component {
             }
             {
                widget.showTo &&
-               <div className={CSS.element(baseClass, "handle")}
+               <button type="button" className={CSS.element(baseClass, "handle")}
+                       tabIndex={-1}
                     style={toHandleStyle}
                     onMouseDown={e=>this.onHandleMouseDown(e, 'to')}
                     onTouchStart={e=>this.onHandleMouseDown(e, 'to')}
                     ref={c=>this.dom.to = c}>
-               </div>
+               </button>
             }
+            &nbsp;
          </div>
       </div>;
    }
@@ -111,6 +118,9 @@ class SliderComponent extends VDOM.Component {
    }
 
    onHandleMouseDown(e, handle) {
+      e.preventDefault();
+      e.stopPropagation();
+
       var b = this.dom[handle].getBoundingClientRect();
       var pos = getCursorPos(e);
       var dx = pos.clientX - (b.left + b.right) / 2;

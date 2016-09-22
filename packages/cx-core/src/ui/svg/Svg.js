@@ -26,7 +26,7 @@ export class Svg extends BoundedObject {
 
    prepare(context, instance) {
       var size = instance.size;
-      instance.parentRect = context.parentRect;
+      var pr = context.parentRect;
       context.parentRect = new Rect({
          l: 0,
          t: 0,
@@ -34,7 +34,7 @@ export class Svg extends BoundedObject {
          b: size.height
       });
       super.prepare(context, instance);
-      context.parentRect = instance.parentRect;
+      context.parentRect = pr;
    }
 
    render(context, instance, key) {
@@ -47,8 +47,7 @@ export class Svg extends BoundedObject {
    }
 
    cleanup(context, instance) {
-      if (instance.size)
-         super.cleanup(context, instance);
+      super.cleanup(context, instance);
 
       if (context.options.size) {
          //invalidate cache if only inner content was rendered

@@ -24,8 +24,8 @@
    position: absolute;
    box-sizing: border-box;
    left: 0;
-   margin-left: -8px;
-   margin-top: -8px;
+   margin: -8px 0 0 -8px;
+   padding: 0;
    top: 50%;
    width: 16px;
    height: 16px;
@@ -34,16 +34,21 @@
    border-radius: 50%;
    box-shadow: 0 0 3px rgba(128, 128, 128, 0.5);
 
-   &::after {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-top: -2px;
-      margin-left: -2px;
-      width: 4px;
-      height: 4px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 50%;
+   &:active {
+      background: rgb(220, 220, 220);
    }
+
+   //&::after {
+   //   position: absolute;
+   //   left: 50%;
+   //   top: 50%;
+   //   margin-top: -2px;
+   //   margin-left: -2px;
+   //   width: 4px;
+   //   height: 4px;
+   //   background: rgba(0, 0, 0, 0.2);
+   //   border-radius: 50%;
+   //   content: ' ';
+   //}
 }
 

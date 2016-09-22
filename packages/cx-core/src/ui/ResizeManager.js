@@ -15,13 +15,7 @@ function recycle(slot) {
    delete subscriptions[slot];
 }
 
-window.addEventListener('resize', function(e) {
-   Object.keys(subscriptions).forEach(key=> {
-      var cb = subscriptions[key];
-      if (cb)
-         cb(e);
-   });
-});
+window.addEventListener('resize', () => ResizeManager.notify());
 
 export class ResizeManager {
    static subscribe(callback) {
@@ -30,5 +24,13 @@ export class ResizeManager {
       return function () {
          recycle(slot);
       }
+   }
+
+   static notify() {
+      Object.keys(subscriptions).forEach(key=> {
+         var cb = subscriptions[key];
+         if (cb)
+            cb();
+      });
    }
 }

@@ -41,15 +41,15 @@ export class Grid extends Widget {
 
       this.columns.forEach(c=> {
          c.init();
-         if (c.footer)
+         if (c.footer != null)
             c.footer = getSelector(c.footer);
       });
 
       var aggregates = {};
       this.columns.filter(c=>c.aggregate && c.aggregateField).forEach(c=> {
          aggregates[c.aggregateField] = {
-            value: { bind: this.recordName + '.' + c.field },
-            weight: c.weightField && { bind: this.recordName + '.' + c.weightField },
+            value: c.value != null ? c.value : { bind: this.recordName + '.' + c.field },
+            weight: c.weight != null ? c.weight : c.weightField && { bind: this.recordName + '.' + c.weightField },
             type: c.aggregate
          }
       });
@@ -75,7 +75,7 @@ export class Grid extends Widget {
       });
 
       if (!this.selection.isDummy)
-         this.focusable = true;
+         this.selectable = true;
 
       super.init();
 
@@ -101,11 +101,19 @@ export class Grid extends Widget {
             direction: data.sortDirection
          }];
 
+      if ((!data.sorters || data.sorters.length == 0) && this.defaultSortField)
+         data.sorters = [{
+            field: this.defaultSortField,
+            direction: this.defaultSortDirection || 'ASC'
+         }];
+
       data.stateMods = {
-         selectable: !this.selection.isDummy,
+         selectable: this.selectable,
          scrollable: data.scrollable,
          sortable: this.columns.some(x=>x.sortable)
       };
+
+
 
       super.prepareData(context, instance);
 
@@ -243,50 +251,66 @@ export class Grid extends Widget {
       if (!refs)
          refs = {};
       var {CSS, baseClass} = widget;
-      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-      <tr>
-         {
-            instance.columns.map((columnInstance, i) => {
-               var c = columnInstance.widget;
-               var mods = [];
 
-               if (c.align)
-                  mods.push('aligned-' + c.align);
+      var result = [];
+      var skip = 0;
 
-               if (c.sortable) {
-                  mods.push('sortable');
+      instance.columns.forEach((columnInstance, i) => {
 
-                  if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-                     mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
-                  }
-               }
+         if (skip--)
+            return;
 
-               var header = columnInstance.header;
+         var c = columnInstance.widget;
+         var header = columnInstance.header;
+         var mods = [];
 
-               var style = header.data.style;
-               var cls = CSS.element(baseClass, 'col-header', mods);
-               if (header.data.classNames)
-                  cls += ' ' + header.data.classNames;
+         if (header.widget.align)
+            mods.push('aligned-' + header.widget.align);
+         else if (c.align)
+            mods.push('aligned-' + c.align);
 
-               var content = header.render(context);
+         if (c.sortable) {
+            mods.push('sortable');
 
-               if (fixed && originalRefs[i]) {
-                  style = {...style, width: originalRefs[i].offsetWidth + 'px'}
-               };
-
-               return <th key={i}
-                          ref={c=> {
-                             refs[i] = c
-                          }}
-                          className={cls}
-                          style={style}
-                          onClick={e=>this.onHeaderClick(e, c, store, instance)}>
-                  {getContent(content)}
-               </th>;
-            })
+            if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+               mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+            }
          }
-         { fixed && <th className={CSS.element(baseClass, "col-header")} ref={el=>{refs.last = el}} />}
-      </tr>
+
+
+
+         var style = header.data.style;
+         var cls = CSS.element(baseClass, 'col-header', mods);
+         if (header.data.classNames)
+            cls += ' ' + header.data.classNames;
+
+         var content = header.render(context);
+
+         if (fixed && originalRefs[i]) {
+            style = {...style, width: originalRefs[i].offsetWidth + 'px'}
+         }
+
+         skip = header.data.colSpan - 1;
+
+         result.push(<th key={i}
+                         ref={c=> {
+                            refs[i] = c
+                         }}
+                         colSpan={header.data.colSpan}
+                         className={cls}
+                         style={style}
+                         onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+            {getContent(content)}
+         </th>);
+      });
+
+      if (fixed)
+         result.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
+            refs.last = el
+         }}/>);
+
+      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
+      {result}
       </tbody>;
    }
 
@@ -296,13 +320,17 @@ export class Grid extends Widget {
 
       var {data} = instance;
 
-      if (column.sortable && (column.field || column.sortField)) {
+      if (column.sortable && (column.field || column.sortField || column.value)) {
          var sortField = column.sortField || column.field;
          var dir = 'ASC';
-         if (data.sorters && data.sorters[0].field == sortField && data.sorters[0].direction == 'ASC')
+         if (data.sorters && data.sorters[0].field == sortField && data.sorters[0].value == column.value && data.sorters[0].direction == 'ASC')
             dir = 'DESC';
 
-         var sorters = [{field: sortField, direction: dir}];
+         var sorters = [{
+            field: sortField,
+            direction: dir,
+            value: column.value
+         }];
 
          instance.set('sorters', sorters);
          instance.set('sortField', sortField);
@@ -336,6 +364,10 @@ export class Grid extends Widget {
                   v = c.footer(data);
                else if (c.aggregate && c.aggregateField)
                   v = group[c.aggregateField];
+
+               if (typeof ci.data.format == 'string')
+                  v = Format.value(v, ci.data.format);
+
                var cls = '';
                if (c.align)
                   cls += CSS.state('aligned-' + c.align);
@@ -450,7 +482,7 @@ class GridComponent extends VDOM.Component {
       this.dom = {};
       var {widget} = props.instance;
       this.state = {
-         cursor: widget.focused && widget.focusable ? 0 : -1,
+         cursor: widget.focused && widget.selectable ? 0 : -1,
          focused: widget.focused
       }
    }
@@ -483,7 +515,7 @@ class GridComponent extends VDOM.Component {
       return <div className={data.classNames}
                   style={data.style}>
          <div ref={el=>{this.dom.scroller = el}}
-              tabIndex={widget.focusable ? 0 : null}
+              tabIndex={widget.selectable ? 0 : null}
               onScroll={::this.onScroll}
               className={CSS.element(baseClass, 'scroll-area')}
               onKeyDown={::this.handleKeyDown}
@@ -577,7 +609,7 @@ class GridComponent extends VDOM.Component {
    }
 
    moveCursor(index, focused, scrollIntoView) {
-      if (!this.props.instance.widget.focusable)
+      if (!this.props.instance.widget.selectable)
          return;
 
       if (focused != null && this.state.focused != focused)
@@ -668,6 +700,7 @@ class GridColumn extends PureContainer {
          class: { structured: true },
          className: { structured: true },
          value: undefined,
+         weight: undefined,
          pad: undefined,
          format: undefined
       })
@@ -728,7 +761,8 @@ class GridColumnHeader extends PureContainer {
          text: undefined,
          style: { structured: true },
          class: { structured: true },
-         className: { structured: true }
+         className: { structured: true },
+         colSpan: undefined
       })
    }
 
@@ -737,6 +771,8 @@ class GridColumnHeader extends PureContainer {
       return data.text || super.render(context, instance, key);
    }
 }
+
+GridColumnHeader.prototype.colSpan = 1;
 
 function initGrouping(grouping) {
    grouping.forEach(g=> {

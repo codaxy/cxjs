@@ -4,6 +4,27 @@ import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 
 const defaultFormatter = v => v.toString();
 
+function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
+   minimumFractionDigits = isNaN(minimumFractionDigits) ? minimumFractionDigits : Number(minimumFractionDigits);
+   maximumFractionDigits = isNaN(maximumFractionDigits) ? maximumFractionDigits : Number(maximumFractionDigits);
+
+   if (typeof minimumFractionDigits == 'number') {
+      if (typeof maximumFractionDigits == 'undefined')
+         maximumFractionDigits = minimumFractionDigits;
+      else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
+         maximumFractionDigits = minimumFractionDigits;
+   }
+   else if (minimumFractionDigits == null && maximumFractionDigits == null) {
+      minimumFractionDigits = 0;
+      maximumFractionDigits = 20;
+   }
+
+   return {
+      minimumFractionDigits,
+      maximumFractionDigits
+   }
+}
+
 var formatFactory = {
 
    string: function() {
@@ -13,64 +34,38 @@ var formatFactory = {
    number: function(format, minimumFractionDigits, maximumFractionDigits) {
       var culture = Culture.getNumberCulture();
 
-      minimumFractionDigits = isNaN(minimumFractionDigits) ? minimumFractionDigits : Number(minimumFractionDigits);
-      maximumFractionDigits = isNaN(maximumFractionDigits) ? maximumFractionDigits : Number(maximumFractionDigits);
-
-      if (typeof minimumFractionDigits == 'number') {
-         if (typeof maximumFractionDigits == 'undefined')
-            maximumFractionDigits = minimumFractionDigits;
-         else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
-            maximumFractionDigits = minimumFractionDigits;
-      }
-      else if (minimumFractionDigits == null && maximumFractionDigits == null) {
-         minimumFractionDigits = 0;
-         maximumFractionDigits = 20;
-      }
-
-      var formatter = culture.getFormatter({
-         minimumFractionDigits: minimumFractionDigits,
-         maximumFractionDigits: maximumFractionDigits
-      });
+      var formatter = culture.getFormatter(resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits));
 
       return value => formatter.format(value);
    },
 
    currency: function(format, currency, minimumFractionDigits, maximumFractionDigits) {
       var culture = Culture.getNumberCulture();
-
       currency = currency || Culture.defaultCurrency;
-      minimumFractionDigits = isNaN(minimumFractionDigits) ? minimumFractionDigits : Number(minimumFractionDigits);
-      maximumFractionDigits = isNaN(maximumFractionDigits) ? maximumFractionDigits : Number(maximumFractionDigits);
-
-      if (typeof minimumFractionDigits == 'number') {
-         if (typeof maximumFractionDigits == 'undefined')
-            maximumFractionDigits = minimumFractionDigits;
-         else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
-            maximumFractionDigits = minimumFractionDigits;
-      }
 
       var formatter = culture.getFormatter({
          style: 'currency',
          currency: currency,
-         minimumFractionDigits: minimumFractionDigits,
-         maximumFractionDigits: maximumFractionDigits
+         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits)
       });
 
       return value => formatter.format(value);
    },
 
-   percentage: function() {
+   percentage: function(format, minimumFractionDigits, maximumFractionDigits) {
       var culture = Culture.getNumberCulture();
       var formatter = culture.getFormatter({
-         style: 'percent'
+         style: 'percent',
+         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits)
       });
       return value => formatter.format(value);
    },
 
-   percentSign: function() {
+   percentSign: function(format, minimumFractionDigits, maximumFractionDigits) {
       var culture = Culture.getNumberCulture();
       var formatter = culture.getFormatter({
-         style: 'percent'
+         style: 'percent',
+         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits)
       });
       return value => formatter.format(value / 100);
    },

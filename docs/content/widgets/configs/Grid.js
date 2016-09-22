@@ -69,5 +69,19 @@ export default {
             Set to true to lock column widths after the first render. This is helpful in pagination scenarios to
             maintain consistent looks across pages.
         </Md></cx>
-    }
+    },
+    defaultSortField: {
+        type: 'string',
+        key: false,
+        description: <cx><Md>
+            Default sort field. Used if neither `sortField` or `sorters` are set.
+        </Md></cx>
+    },
+    defaultSortDirection: {
+        type: 'string',
+        key: false,
+        description: <cx><Md>
+            Default sort direction.
+        </Md></cx>
+    },
 };

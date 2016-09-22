@@ -74,7 +74,7 @@ export const PaginationPage = <cx>
                                   Name
                                   <br/>
                                   <TextField value:bind="$page.filter.name" reactOn="enter blur"
-                                             style={{width: '100%'}}/>
+                                             style={{width: 'calc(100% + 10px)'}}/>
                               </div>
                           </cx>, field: 'fullName', sortable: true
                       },
@@ -94,7 +94,7 @@ export const PaginationPage = <cx>
                                   City
                                   <br/>
                                   <TextField value:bind="$page.filter.city" reactOn="enter blur"
-                                             style={{width: '100%'}}/>
+                                             style={{width: 'calc(100% + 10px)'}}/>
                               </div>
                           </cx>, field: 'city', sortable: true
                       }
@@ -169,7 +169,7 @@ export const PaginationPage = <cx>
                                   Name
                                   <br/>
                                   <TextField value:bind="$page.filter.name" reactOn="enter blur"
-                                             style={{width: '100%'}}/>
+                                             style={{width: 'calc(100% + 10px)'}}/>
                               </div>
                           </cx>, field: 'fullName', sortable: true
                       },
@@ -189,7 +189,7 @@ export const PaginationPage = <cx>
                                   City
                                   <br/>
                                   <TextField value:bind="$page.filter.city" reactOn="enter blur"
-                                             style={{width: '100%'}}/>
+                                             style={{width: 'calc(100% + 10px)'}}/>
                               </div>
                           </cx>, field: 'city', sortable: true
                       }
