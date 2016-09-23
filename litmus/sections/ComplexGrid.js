@@ -11,7 +11,7 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 
 class Something extends Controller {
    init() {
-      this.store.set('data', Array.from({length: 18}, (x, i)=>Object.assign({
+      this.store.init('data', Array.from({length: 18}, (x, i)=>Object.assign({
          id: i,
          name: 'XXX',
          target: Math.random() * 10 - 5
@@ -42,7 +42,6 @@ class Something extends Controller {
 export default <cx>
    <div controller={Something}>
       <Grid records:bind="data"
-            scrollable
             style="height:600px"
             lockColumnWidths
             keyField="id"

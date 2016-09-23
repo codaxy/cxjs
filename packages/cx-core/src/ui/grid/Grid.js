@@ -310,7 +310,9 @@ export class Grid extends Widget {
          }}/>);
 
       return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-      {result}
+         <tr>
+            {result}
+         </tr>
       </tbody>;
    }
 
