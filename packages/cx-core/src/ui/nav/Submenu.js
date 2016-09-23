@@ -44,12 +44,19 @@ Submenu.prototype.baseClass = 'submenu';
 Submenu.prototype.hoverFocusTimeout = 200;
 Submenu.prototype.clickToOpen = false;
 Submenu.prototype.horizontal = true;
+Submenu.prototype.memoize = false;
 
 class SubmenuComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
       this.state = {}
+   }
+
+   shouldComponentUpdate(props, state) {
+      return props.instance.shouldComponentUpdate
+         || state != this.state
+         || state.dropdownOpen; //always render as we don't know if dropdown contents has changed
    }
 
    getDropdown() {
