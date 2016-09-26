@@ -6,6 +6,8 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {ColorField} from 'cx/ui/form/ColorField';
 
+import configs from './configs/ColorField';
+
 export const ColorFields = <cx>
    <Md>
       # ColorField
@@ -21,14 +23,16 @@ export const ColorFields = <cx>
 
          <CodeSnippet putInto="code">{`
              <div class="widgets">
-
+            <ColorField value={{bind:"$page.color", defaultValue:'#f88'}} autoFocus />
+            <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
              </div>
          `}</CodeSnippet>
       </CodeSplit>
 
+
       ## Configuration
 
-      <ConfigTable props={{}} />
+      <ConfigTable props={configs} />
 
    </Md>
 </cx>
