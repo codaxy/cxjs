@@ -28,15 +28,6 @@ export const ColorPickers = <cx>
              </div>
          `}</CodeSnippet>
       </CodeSplit>
-         
-        > Use 'Mouse Cursor' to navigate through the ColorPicker. Use the color range pool on the top right corner
-        to choose a color. You can do the same by entering values for H, S and L in the respective fields or R, G
-        and B similarly. The pool field below is used for selecting alpha channel, which you can also select by
-        specifying the value in the A field.
-
-        > Use the color pool on the left side of the picker to choose the shade of the color. H and A values are fixed,
-        while you change the values for S and L.
-         
 
       ## Configuration
 
