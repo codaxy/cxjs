@@ -6,6 +6,8 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {ColorPicker} from 'cx/ui/form/ColorPicker';
 
+import configs from './configs/ColorPicker';
+
 export const ColorPickers = <cx>
    <Md>
       # ColorPicker
@@ -21,14 +23,15 @@ export const ColorPickers = <cx>
 
          <CodeSnippet putInto="code">{`
              <div class="widgets">
-
-             </div>
+            <ColorPicker value:bind="$page.color"/>
+            <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}>
+             </div> 
          `}</CodeSnippet>
       </CodeSplit>
 
       ## Configuration
 
-      <ConfigTable props={{}} />
+      <ConfigTable props={configs} />
 
    </Md>
 </cx>
