@@ -25,7 +25,7 @@ export const ColorPickers = <cx>
              <div class="widgets">
             <ColorPicker value:bind="$page.color"/>
             <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}>
-             </div>
+             </div> 
          `}</CodeSnippet>
       </CodeSplit>
 
