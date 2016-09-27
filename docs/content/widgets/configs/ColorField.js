@@ -7,7 +7,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            RGBA value of the selected color.
+            Either `rgba`, `hsla` or `hex` value of the selected color.
              </Md></cx>
     },
     format: {
