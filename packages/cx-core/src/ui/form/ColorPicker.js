@@ -33,7 +33,7 @@ export class ColorPicker extends Field {
                break;
 
             case 'hsla':
-               value = `rgba(${color.h.toFixed(0)},${color.s.toFixed(0)},${color.l.toFixed(0)},${Math.round(color.a * 100) / 100})`;
+               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)},${color.l.toFixed(0)},${Math.round(color.a * 100) / 100})`;
                break;
 
             case 'hex':
