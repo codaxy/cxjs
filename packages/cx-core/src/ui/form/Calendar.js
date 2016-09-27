@@ -345,6 +345,9 @@ export class CalendarCmp extends VDOM.Component {
                              if (!unselectable)
                                 this.moveCursor(e, dateInst)
                           }}
+                          onMouseLeave={e=> {
+                                this.moveCursor(e, refDate)
+                          }}
                           onMouseDown={e=> {
                              if (!unselectable)
                                 this.props.handleSelect(e, dateInst)
