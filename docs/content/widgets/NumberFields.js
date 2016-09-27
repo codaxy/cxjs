@@ -14,9 +14,10 @@ export const NumberFields = <cx>
    <Md>
       # Number Field
 
+      The `NumberField` control is used for numeric inputs, including currencies and percentages.
+
       <CodeSplit>
 
-         The `NumberField` control is used for numeric inputs, including currencies and percentages.
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>

@@ -23,9 +23,10 @@ export const Radios = <cx>
    <Md>
       # Radio
 
+      Radio buttons are commonly used for making choices within a limited number of options.
+
       <CodeSplit>
 
-         Radio buttons are commonly used for making choices within a limited number of options.
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
