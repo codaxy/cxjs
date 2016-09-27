@@ -14,7 +14,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Represents the format of the selected color representation.
+            Format of the color representation. Either `rgba`, `hsla` or `hex`.
             </Md></cx>
     },
     inputError: {
