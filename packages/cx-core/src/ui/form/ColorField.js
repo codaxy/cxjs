@@ -17,6 +17,7 @@ export class ColorField extends Field {
          enabled: undefined,
          placeholder: undefined,
          required: undefined
+
       }, ...arguments);
    }
 
