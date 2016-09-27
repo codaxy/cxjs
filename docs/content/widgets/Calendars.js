@@ -12,10 +12,9 @@ import configs from './configs/Calendar';
 export const Calendars = <cx>
    <Md>
       # Calendar
+      Calendar is used for selecting dates.
 
       <CodeSplit>
-
-         Calendar is used for selecting dates.
 
          <div class="widgets">
                <Calendar value:bind="$page.date" />
