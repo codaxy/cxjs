@@ -12,9 +12,10 @@ export const ColorPickers = <cx>
    <Md>
       # ColorPicker
 
-      <CodeSplit>
+      The `ColorPicker` widget is used for selecting colors.
 
-         ColorPickers are used for selecting colors.
+
+      <CodeSplit>
 
          <div class="widgets">
             <ColorPicker value:bind="$page.color"/>
