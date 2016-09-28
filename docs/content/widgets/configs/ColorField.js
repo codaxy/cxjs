@@ -7,14 +7,14 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            RGBA value of the selected color.
+            Either `rgba`, `hsla` or `hex` value of the selected color.
              </Md></cx>
     },
     format: {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Represents the format of the selected color representation.
+            Format of the color representation. Either `rgba`, `hsla` or `hex`.
             </Md></cx>
     },
     inputError: {
