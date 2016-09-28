@@ -13,8 +13,6 @@ export const ColorFields = <cx>
       # ColorField
         The `ColorField` widget is used for selecting colors.
 
-
-
         <CodeSplit>
 
 
@@ -32,11 +30,13 @@ export const ColorFields = <cx>
         <div class="widgets">
             <ColorField value={{bind:"$page.color1", defaultValue:'#f88'}} autoFocus />
             <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
+        <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
         </div>
 
         <div class="widgets">
-            <ColorField value={{bind:"$page.color2", defaultValue:'#f44'}} autoFocus />
+            <ColorField value={{bind:"$page.color2", defaultValue:'#f44'}}/>
             <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
+        <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
         </div>
         `}</CodeSnippet>
         </CodeSplit>
