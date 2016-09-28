@@ -9,31 +9,31 @@ import {ColorPicker} from 'cx/ui/form/ColorPicker';
 import configs from './configs/ColorPicker';
 
 export const ColorPickers = <cx>
-   <Md>
-      # ColorPicker
+    <Md>
+        # ColorPicker
 
-      The `ColorPicker` widget is used for selecting colors.
+        The `ColorPicker` widget is used for selecting colors.
 
 
-      <CodeSplit>
+        <CodeSplit>
 
-         <div class="widgets">
-            <ColorPicker value:bind="$page.color"/>
-            <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
-         </div>
+            <div class="widgets">
+                <ColorPicker value:bind="$page.color"/>
+                <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
+            </div>
 
-         <CodeSnippet putInto="code">{`
-             <div class="widgets">
-            <ColorPicker value:bind="$page.color"/>
-            <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}>
-             </div> 
+            <CodeSnippet putInto="code">{`
+            <div class="widgets">
+                <ColorPicker value:bind="$page.color"/>
+                <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}>
+            </div>
          `}</CodeSnippet>
-      </CodeSplit>
+        </CodeSplit>
 
-      ## Configuration
+        ## Configuration
 
-      <ConfigTable props={configs} />
+        <ConfigTable props={configs}/>
 
-   </Md>
+    </Md>
 </cx>
 
