@@ -20,25 +20,23 @@ export const ColorFields = <cx>
 
         <div class="widgets">
             <ColorField value={{bind:"$page.color1", defaultValue:'#f88'}} autoFocus/>
-
-        <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
+            <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
         </div>
 
         <div class="widgets">
             <ColorField value={{bind:"$page.color2", defaultValue:'hsla(360,40%,40%,1'} } format='hsla'/>
-
             <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
         </div>
 
         <CodeSnippet putInto="code">{`
         <div class="widgets">
             <ColorField value={{bind:"$page.color1", defaultValue:'#f88'}} autoFocus />
-        <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
+            <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
         </div>
 
         <div class="widgets">
             <ColorField value={{bind:"$page.color2", defaultValue:'#f44'}} autoFocus />
-        <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
+            <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
         </div>
         `}</CodeSnippet>
         </CodeSplit>
