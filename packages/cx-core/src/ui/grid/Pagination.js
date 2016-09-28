@@ -59,7 +59,7 @@ export class PaginationComponent extends VDOM.Component {
          pageBtns.push(<li key={p < minPage ? '-1' : p > maxPage ? '-2' : p}
                            ref={c=>{this.pageRefs[p] = c;}}
                            className={CSS.element(baseClass, "page", { active: page == p, disabled: p > pageCount || (p < page && page == 1) })}
-                           tabIndex={0}
+                           tabIndex={p==page ? 0 : -1}
                            onKeyDown={e=>this.onKeyDown(e, p)}
                            onMouseDown={e=> {e.stopPropagation(); e.preventDefault();}}
                            onClick={e=>this.props.onSetPage(e, p < minPage ? page - 1 : p > maxPage ? page + 1 : p)}>
