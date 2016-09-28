@@ -13,10 +13,10 @@ export const TextAreas = <cx>
    <Md>
       # Text Area
 
-      <CodeSplit>
+      The `TextArea` control is used for larger text inputs. Besides allowing multi-line input, it's practically
+      the same as the `TextField` control.
 
-         The `TextArea` control is used for larger text inputs. Besides allowing multi-line input, it's practically
-         the same as the `TextField` control.
+      <CodeSplit>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>

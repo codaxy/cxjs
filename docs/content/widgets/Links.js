@@ -25,9 +25,10 @@ const properties = {
 export const Links = <cx>
    <Md>
       # Links
+      Links are used for `pushState` navigation between pages.
 
       <CodeSplit>
-         Links are used for `pushState` navigation between pages.
+
          <div class="widgets">
                <Link href="~/widgets/text-fields">Text Fields</Link>
          </div>
