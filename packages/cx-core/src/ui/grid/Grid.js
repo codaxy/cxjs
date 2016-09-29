@@ -231,7 +231,7 @@ export class Grid extends Widget {
       var fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', {
             fixed: true,
             refs: refs.fixed,
-            originalRefs: refs.header
+            originalRefs: refs.header,
          });
 
       this.renderRows(context, instance);
@@ -255,16 +255,24 @@ export class Grid extends Widget {
 
       var result = [];
       var skip = 0;
+      
+      if(instance.columns[0].field)
+      {
+         return;
+      }
+
+
          instance.columns.forEach((columnInstance, i) => {
 
             if (skip--)
                return;
 
-
-
             var c = columnInstance.widget;
             var header = columnInstance.header;
+
             var mods = [];
+
+
 
             if (header.widget.align)
                mods.push('aligned-' + header.widget.align);
