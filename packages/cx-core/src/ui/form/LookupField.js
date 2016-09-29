@@ -25,6 +25,7 @@ export class LookupField extends Field {
          placeholder: undefined,
          required: undefined,
          options: undefined,
+         width: undefined,
       }, additionalAttributes, ...arguments);
    }
 
@@ -190,7 +191,8 @@ class LookupComponent extends VDOM.Component {
          value: data.formatted,
          dropdownOpen: false,
          cursorKey: null,
-         visited: data.visited
+         visited: data.visited,
+         width: data.width,
       };
 
       this.itemStore = new ReadOnlyDataView(store);
@@ -264,6 +266,7 @@ class LookupComponent extends VDOM.Component {
          return this.dropdown;
 
       var {CSS, baseClass} = this.props.instance.widget;
+      var {data, store} = this.props.instance;
 
       this.list = Widget.create(<cx>
          <ul class={CSS.element(baseClass, "lookup-options")}>
@@ -296,7 +299,7 @@ class LookupComponent extends VDOM.Component {
             if (this.dom.dropdown && this.dom.list) {
                var pos = this.dom.dropdown.getBoundingClientRect();
                var maxHeight = 'none';
-              // var maxWidth = '2px';
+
 
                if (pos.bottom >= window.innerHeight)
                   maxHeight = `${this.dom.list.offsetHeight - pos.bottom + window.innerHeight}px`;
@@ -305,6 +308,7 @@ class LookupComponent extends VDOM.Component {
                   maxHeight = `${this.dom.list.offsetHeight + pos.top}px`;
 
                this.dom.list.style.maxHeight = maxHeight;
+               this.dom.list.style.maxWidth = data.width; // Sredjuje tekst.. moram jos srediti polje !!
             }
          },
          onMeasureDropdownNaturalSize: () => {
