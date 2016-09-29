@@ -24,7 +24,7 @@ export class LookupField extends Field {
          enabled: undefined,
          placeholder: undefined,
          required: undefined,
-         options: undefined
+         options: undefined,
       }, additionalAttributes, ...arguments);
    }
 
@@ -296,6 +296,7 @@ class LookupComponent extends VDOM.Component {
             if (this.dom.dropdown && this.dom.list) {
                var pos = this.dom.dropdown.getBoundingClientRect();
                var maxHeight = 'none';
+              // var maxWidth = '2px';
 
                if (pos.bottom >= window.innerHeight)
                   maxHeight = `${this.dom.list.offsetHeight - pos.bottom + window.innerHeight}px`;
@@ -309,7 +310,7 @@ class LookupComponent extends VDOM.Component {
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {
-                  height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight
+                  height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight,
                }
             }
          }
