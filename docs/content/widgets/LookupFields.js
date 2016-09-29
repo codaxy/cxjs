@@ -58,7 +58,7 @@ export const LookupFields = <cx>
 
          </div>
          <div layout={LabelsLeftLayout}>
-            <LookupField label="Remote Data" records:bind="$page.selectedCities" onQuery={(q, {controller}) => controller.query(q)}  width = '220px' multiple />
+            <LookupField label="Remote Data" records:bind="$page.selectedCities" onQuery={(q, {controller}) => controller.query(q)} multiple />
          </div>
       </div>
 

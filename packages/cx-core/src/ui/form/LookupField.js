@@ -308,7 +308,7 @@ class LookupComponent extends VDOM.Component {
                   maxHeight = `${this.dom.list.offsetHeight + pos.top}px`;
 
                this.dom.list.style.maxHeight = maxHeight;
-               this.dom.list.style.maxWidth = data.width; // Sredjuje tekst.. moram jos srediti polje !!
+               this.dom.list.style.maxWidth = data.width;
             }
          },
          onMeasureDropdownNaturalSize: () => {
