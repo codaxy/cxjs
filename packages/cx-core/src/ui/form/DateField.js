@@ -153,6 +153,7 @@ class DateInput extends VDOM.Component {
          relatedElement: this.input,
          scrollTracking: true,
          inline: true,
+         matchWidth: false,
          placementOrder: 'down-right down down-left up-right up up-left',
          items: {
             type: Calendar,

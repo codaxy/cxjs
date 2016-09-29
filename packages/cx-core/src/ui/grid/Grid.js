@@ -364,11 +364,11 @@ export class Grid extends Widget {
                var v, c = ci.widget;
                if (c.footer)
                   v = c.footer(data);
-               else if (c.aggregate && c.aggregateField)
+               else if (c.aggregate && c.aggregateField) {
                   v = group[c.aggregateField];
-
-               if (typeof ci.data.format == 'string')
-                  v = Format.value(v, ci.data.format);
+                  if (typeof ci.data.format == 'string')
+                     v = Format.value(v, ci.data.format);
+               }
 
                var cls = '';
                if (c.align)
