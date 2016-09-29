@@ -11,7 +11,9 @@ export class TextField extends Field {
          readOnly: undefined,
          enabled: undefined,
          placeholder: undefined,
-         required: undefined
+         required: undefined,
+         minLength: undefined,
+         maxLength: undefined,
       }, ...arguments);
    }
 
@@ -35,14 +37,24 @@ export class TextField extends Field {
       if (!data.error && this.validationRegExp)
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
+
+      if(data.value && data.value.length < data.minLength)
+         data.error = this.validationErrorTextForMinLength;
+
+      if(data.value && data.value.length > data.maxLength)
+         data.value = data.value.toString().substring(0,data.maxLength);
+
    }
 }
+
 
 TextField.prototype.baseClass = "textfield";
 TextField.prototype.reactOn = "input";
 TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = 'Entered value is not valid.';
+TextField.prototype.validationErrorTextForMinLength = "Entered value is less than a minimum";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
+
 
 class Input extends VDOM.Component {
 
@@ -73,6 +85,8 @@ class Input extends VDOM.Component {
                 type={widget.inputType}
                 disabled={data.disabled}
                 readOnly={data.readOnly}
+                minLength={data.minLength}
+                maxLength={data. maxLength}
                 placeholder={data.placeholder}
                 onMouseEnter={::this.onMouseEnter}
                 onMouseLeave={::this.onMouseLeave}
