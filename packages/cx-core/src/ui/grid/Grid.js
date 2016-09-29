@@ -26,7 +26,8 @@ export class Grid extends Widget {
          sorters: undefined,
          scrollable: undefined,
          sortField: undefined,
-         sortDirection: undefined
+         sortDirection: undefined,
+         header2: undefined,
       }, selection, ...arguments);
    }
 
@@ -236,7 +237,7 @@ export class Grid extends Widget {
       this.renderRows(context, instance);
 
       refs.header = {};
-      var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
+         var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
 
       return <GridComponent key={key}
                             instance={instance}
@@ -254,66 +255,66 @@ export class Grid extends Widget {
 
       var result = [];
       var skip = 0;
+         instance.columns.forEach((columnInstance, i) => {
 
-      instance.columns.forEach((columnInstance, i) => {
+            if (skip--)
+               return;
 
-         if (skip--)
-            return;
 
-         var c = columnInstance.widget;
-         var header = columnInstance.header;
-         var mods = [];
 
-         if (header.widget.align)
-            mods.push('aligned-' + header.widget.align);
-         else if (c.align)
-            mods.push('aligned-' + c.align);
+            var c = columnInstance.widget;
+            var header = columnInstance.header;
+            var mods = [];
 
-         if (c.sortable) {
-            mods.push('sortable');
+            if (header.widget.align)
+               mods.push('aligned-' + header.widget.align);
+            else if (c.align)
+               mods.push('aligned-' + c.align);
 
-            if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-               mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+            if (c.sortable) {
+               mods.push('sortable');
+
+               if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                  mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+               }
             }
-         }
 
 
+            var style = header.data.style;
+            var cls = CSS.element(baseClass, 'col-header', mods);
+            if (header.data.classNames)
+               cls += ' ' + header.data.classNames;
 
-         var style = header.data.style;
-         var cls = CSS.element(baseClass, 'col-header', mods);
-         if (header.data.classNames)
-            cls += ' ' + header.data.classNames;
+            var content = header.render(context);
 
-         var content = header.render(context);
+            if (fixed && originalRefs[i]) {
+               style = {...style, width: originalRefs[i].offsetWidth + 'px'}
+            }
 
-         if (fixed && originalRefs[i]) {
-            style = {...style, width: originalRefs[i].offsetWidth + 'px'}
-         }
-
-         skip = header.data.colSpan - 1;
-
-         result.push(<th key={i}
-                         ref={c=> {
+            skip = header.data.colSpan - 1;
+               result.push(<th key={i}
+                               ref={c=> {
                             refs[i] = c
                          }}
-                         colSpan={header.data.colSpan}
-                         className={cls}
-                         style={style}
-                         onClick={e=>this.onHeaderClick(e, c, store, instance)}>
-            {getContent(content)}
-         </th>);
-      });
+                               colSpan={header.data.colSpan}
+                               className={cls}
+                               style={style}
+                               onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+                  {getContent(content)}
+               </th>);
+         });
 
-      if (fixed)
-         result.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
+         if (fixed)
+            result.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
             refs.last = el
          }}/>);
 
-      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
+         return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
          <tr>
             {result}
          </tr>
-      </tbody>;
+         </tbody>;
+
    }
 
    onHeaderClick(e, column, store, instance) {
