@@ -11,7 +11,7 @@ export class TextField extends Field {
          readOnly: undefined,
          enabled: undefined,
          placeholder: undefined,
-         required: undefined
+         required: undefined,
       }, ...arguments);
    }
 
