@@ -14,10 +14,10 @@ export const DateFields = <cx>
    <Md>
       # Date Field
 
-      <CodeSplit>
+      Date field control is used for selecting dates. It supports textual input and picking
+      from a dropdown.
 
-         Date field control is used for selecting dates. It supports textual input and picking
-         from a dropdown.
+      <CodeSplit>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>

@@ -430,7 +430,7 @@ export class Grid extends Widget {
       for (var i = 0; i < record.cells.length; i++) {
          ci = record.cells[i];
          if (!ci.visible)
-            return;
+            continue;
          var c = ci.widget;
          var row = ci.render(context, String(i));
          var v = getContent(row);

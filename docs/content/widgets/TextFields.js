@@ -14,10 +14,11 @@ export const TextFields = <cx>
    <Md>
       # Text Field
 
+      Text field control is used for text input. It's one of the most used controls.
+      Many different states make it an advanced control.
+
       <CodeSplit>
 
-         Text field control is used for text input. It's one of the most used controls.
-         Many different states make it an advanced control.
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
