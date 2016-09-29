@@ -18,12 +18,12 @@ export const NumericAxisPage = <cx>
     <Md>
         # Numeric Axis
 
-        <CodeSplit>
+        The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
+        Other widgets, such as graphs, use it to calculate their position on the chart.
+        On the other side axis adapts its visible range to the data being shown.
+        Axis is also responsive. It selects different tick configuration based on the available space.
 
-            The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
-            Other widgets, such as graphs, use it to calculate their position on the chart.
-            On the other side axis adapts its visible range to the data being shown.
-            Axis is also responsive. It selects different tick configuration based on the available space.
+        <CodeSplit>
 
             <div class="widgets">
                 <Svg style="width:400px;height:300px;" margin="60 60 60 60">

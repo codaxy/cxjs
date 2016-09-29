@@ -22,9 +22,9 @@ export const Checkboxes = <cx>
    <Md>
       # Checkbox
 
-      <CodeSplit>
+      Checkbox is a commonly used widget for expressing binary choices.
 
-         Checkbox is a commonly used widget for expressing binary choices.
+      <CodeSplit>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
