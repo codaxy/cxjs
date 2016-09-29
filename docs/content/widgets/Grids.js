@@ -54,7 +54,7 @@ export const Grids = <cx>
                   mod="responsive"
                   scrollable
                   columns={[
-                  { header: 'Name', field: 'fullName', sortable: true, visible: false },
+                  { header: 'Name', field: 'fullName', sortable: true },
                   { header: 'Continent', field: 'continent', sortable: true },
                   { header: 'Browser', field: 'browser', sortable: true },
                   { header: 'OS', field: 'os', sortable: true },
