@@ -21,7 +21,7 @@ export class TextField extends Field {
       return <Input key={key}
                     instance={instance}
                     handleChange={(e, change) => this.handleChange(e, change, instance)}
-      />
+         />
    }
 
    handleChange(e, change, instance) {
@@ -38,11 +38,11 @@ export class TextField extends Field {
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
 
-      if(data.value && data.value.length < data.minLength)
+      if (data.value && data.value.length < data.minLength)
          data.error = this.validationErrorTextForMinLength;
 
-      if(data.value && data.value.length > data.maxLength)
-         data.value = data.value.toString().substring(0,data.maxLength);
+      if (data.value && data.value.length > data.maxLength)
+         data.value = data.value.toString().substring(0, data.maxLength);
 
    }
 }
@@ -97,7 +97,7 @@ class Input extends VDOM.Component {
                    this.onChange(e, 'blur')
                 } }
                 onClick={stopPropagation}
-         />
+            />
       </div>
    }
 
@@ -105,7 +105,7 @@ class Input extends VDOM.Component {
       return nextProps.instance.shouldUpdate !== false || this.state != nextState;
    }
 
-   onMouseEnter(e) {      
+   onMouseEnter(e) {
       tooltipMouseMove(e, this.props.instance, this.state);
    }
 
@@ -142,7 +142,7 @@ class Input extends VDOM.Component {
       if (data.value != this.input.value)
          this.input.value = data.value || '';
       if (data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipComponentWillReceiveProps(this.input, props.instance, this.state);
    }
 
