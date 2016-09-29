@@ -85,6 +85,7 @@ var contents = [{
         {title: 'Rectangle', url: '~/svg/rectangles'},
         {title: 'Ellipse', url: '~/svg/ellipses'},
         {title: 'Line', url: '~/svg/lines'},
+        {title: 'ClipRect', url: '~/svg/clip-rects'},
     ]
 }, {
     topic: 'Charts',
