@@ -5,7 +5,8 @@ import {Rect} from './util/Rect';
 export class ClipRect extends BoundedObject {
 
    prepareBounds(context, instance) {
-      super.prepareBounds(contet, instance);
+      super.prepareBounds(context, instance);
+      var {data} = instance;
       data.clipId = context.addClipRect(data.bounds);
    }
 
