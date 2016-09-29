@@ -25,9 +25,16 @@ export class TextField extends Field {
    }
 
    handleChange(e, change, instance) {
+
       if (this.reactOn.indexOf(change) != -1) {
-         instance.set('value', e.target.value || null);
+         var {data} = instance;
+         var value = e.target.value;
+         if(data.maxLength != null && value.length > data.maxLength)
+            value = value.substring(0, data.maxLength);
+         instance.set('value', value || null);
+
       }
+
    }
 
    validate(context, instance) {
@@ -38,12 +45,13 @@ export class TextField extends Field {
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
 
-      if (data.value && data.value.length < data.minLength)
-         data.error = this.validationErrorTextForMinLength;
+      if(!data.error) {
+         if (data.value && data.minLength != null && data.value.length < data.minLength)
+            data.error = this.minLengthValidationErrorText;
 
-      if (data.value && data.value.length > data.maxLength)
-         data.value = data.value.toString().substring(0, data.maxLength);
-
+         if (data.value && data.maxLength != null && data.value.length > data.maxLength)
+            data.error = this.maxLengthValidationErrorText;
+      }
    }
 }
 
@@ -52,7 +60,8 @@ TextField.prototype.baseClass = "textfield";
 TextField.prototype.reactOn = "input";
 TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = 'Entered value is not valid.';
-TextField.prototype.validationErrorTextForMinLength = "Entered value is less than a minimum";
+TextField.prototype.minLengthValidationErrorText = "Entered text is too short.";
+TextField.prototype.maxLengthValidationErrorText = "Entered text is too long.";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
 
 

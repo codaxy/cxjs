@@ -49,13 +49,13 @@ export default {
     minLength: {
         type: 'string',
         description: <cx><Md>
-            Minimal length of the input.
+            Minimal length of the input text. `minLengthValidationErrorText` will be displayed if the input text is too short.
         </Md></cx>
     },
     maxLength: {
         type: 'string',
         description: <cx><Md>
-            Maximal length of the input.
+            Maximal length of the input text.`maxLengthValidationErrorText` will be displayed if the input text is too short.
         </Md></cx>
     },
 };
