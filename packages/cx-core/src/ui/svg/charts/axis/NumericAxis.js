@@ -84,8 +84,11 @@ class NumericScale {
       return this.origin + (v + offset - this.scale.min + this.padding) * this.scale.factor;
    }
 
-   track(v, offset = 0) {
-      return (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
+   track(v, offset = 0, constrain = false) {
+      var value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
+      if (constrain)
+         value = Math.max(this.scale.min, Math.min(this.scale.max, value));
+      return value;
    }
 
    hash() {

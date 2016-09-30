@@ -11,6 +11,17 @@ export class Marker extends BoundedObject {
 
    init() {
       this.selection = Selection.create(this.selection);
+
+      if (this.draggable) {
+         this.draggableX = true;
+         this.draggableY = true;
+      }
+
+      if (this.constrain) {
+         this.constrainX = true;
+         this.constrainY = true;
+      }
+
       super.init();
    }
 
@@ -146,18 +157,19 @@ export class Marker extends BoundedObject {
    }
 
    handleClick(e, instance) {
-
+      if (this.onClick)
+         this.onClick(e, instance);
    }
 
    handleDragMove(e, instance, captureData) {
       var cursor = (e.touches && e.touches[0]) || e;
       var svgBounds = captureData.svgEl.getBoundingClientRect();
       if (this.draggableX) {
-         var x = instance.xAxis.track(cursor.clientX - svgBounds.left, this.xOffset);
+         var x = instance.xAxis.track(cursor.clientX - svgBounds.left, this.xOffset, this.constrainX);
          instance.set('x', x);
       }
       if (this.draggableY) {
-         var y = instance.yAxis.track(cursor.clientY - svgBounds.top, this.yOffset);
+         var y = instance.yAxis.track(cursor.clientY - svgBounds.top, this.yOffset, this.constrainY);
          instance.set('y', y);
       }
    }
@@ -174,6 +186,10 @@ Marker.prototype.yAxis = 'y';
 Marker.prototype.baseClass = 'marker';
 Marker.prototype.draggableX = false;
 Marker.prototype.draggableY = false;
+Marker.prototype.draggable = false;
+Marker.prototype.constrainX = false;
+Marker.prototype.constrainY = false;
+Marker.prototype.constrain = false;
 Marker.prototype.pure = false;
 Marker.prototype.legend = 'legend';
 Marker.prototype.legendAction = 'auto';

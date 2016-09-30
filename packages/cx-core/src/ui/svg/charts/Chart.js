@@ -41,10 +41,14 @@ export class Chart extends BoundedObject {
    }
 
    prepareHelpers(context, instance) {
-      super.prepareHelpers(context, instance);
+      if (!context.axes)
+         context.axes = {};
       for (var axis in this.axes) {
-         instance.axes[axis].prepare(context);
+         var axisInstance = instance.axes[axis];
+         axisInstance.prepare(context);
+         context.axes[axis] = this.axes[axis].report(context, axisInstance);
       }
+      super.prepareHelpers(context, instance);
    }
 
    cleanupHelpers(context, instance) {
