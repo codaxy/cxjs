@@ -49,7 +49,7 @@ $cx-grid-border-color: lightgray;
       & > .cxe-grid-fixed-header {
          overflow: hidden;
 
-         table {
+         & > table {
             width: auto;
             table-layout: fixed;
          }

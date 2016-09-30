@@ -185,7 +185,7 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.inline || parentEl)
          return this.renderOverlay();
 
-      return <div></div>;
+      return null;
    }
 
    renderOverlay() {
