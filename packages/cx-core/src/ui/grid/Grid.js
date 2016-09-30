@@ -26,7 +26,7 @@ export class Grid extends Widget {
          sorters: undefined,
          scrollable: undefined,
          sortField: undefined,
-         sortDirection: undefined,
+         sortDirection: undefined
       }, selection, ...arguments);
    }
 
@@ -123,7 +123,7 @@ export class Grid extends Widget {
    initInstance(context, instance) {
       instance.refs = {
          header: {},
-         fixed: {},
+         fixed: {}
       };
 
       super.initInstance(context, instance);
@@ -230,7 +230,7 @@ export class Grid extends Widget {
       var fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', {
             fixed: true,
             refs: refs.fixed,
-            originalRefs: refs.header,
+            originalRefs: refs.header
          });
 
       this.renderRows(context, instance);
@@ -238,7 +238,6 @@ export class Grid extends Widget {
       refs.header = {};
       refs.header2 = {};
          var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
-         var header2 = this.showHeader && this.renderHeader(context, instance, 'header2', {refs:refs.header2})
 
       return <GridComponent key={key}
                             instance={instance}
@@ -888,7 +887,7 @@ class GridColumnHeader extends PureContainer {
          style: { structured: true },
          class: { structured: true },
          className: { structured: true },
-         colSpan: undefined,
+         colSpan: undefined
       })
    }
 
