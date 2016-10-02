@@ -92,6 +92,14 @@ class CategoryScale {
       }
    }
 
+   decodeValue(n) {
+      return n;
+   }
+
+   encodeValue(v) {
+      return v;
+   }
+
    map(v, offset = 0) {
 
       var index = this.valuesMap[v] || 0;

@@ -2,7 +2,7 @@ import {Widget, VDOM} from '../../Widget';
 import {BoundedObject} from '../BoundedObject';
 import {Rect} from '../util/Rect';
 import {tooltipMouseMove, tooltipMouseLeave} from '../../overlay/Tooltip';
-import {captureMouseOrTouch} from '../../overlay/captureMouse';
+import {captureMouseOrTouch, getCursorPos} from '../../overlay/captureMouse';
 import {closest} from '../../../util/DOM';
 import {Selection} from '../../selection/Selection';
 import {getShape} from './shapes';
@@ -162,15 +162,20 @@ export class Marker extends BoundedObject {
    }
 
    handleDragMove(e, instance, captureData) {
-      var cursor = (e.touches && e.touches[0]) || e;
+      var cursor = getCursorPos(e);
       var svgBounds = captureData.svgEl.getBoundingClientRect();
-      if (this.draggableX) {
-         var x = instance.xAxis.track(cursor.clientX - svgBounds.left, this.xOffset, this.constrainX);
-         instance.set('x', x);
+      var {xAxis, yAxis} = instance;
+      if (this.draggableX && xAxis) {
+         var x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset);
+         if (this.constrainX)
+            x = xAxis.constrainValue(x);
+         instance.set('x', xAxis.encodeValue(x));
       }
-      if (this.draggableY) {
-         var y = instance.yAxis.track(cursor.clientY - svgBounds.top, this.yOffset, this.constrainY);
-         instance.set('y', y);
+      if (this.draggableY && yAxis) {
+         var y = yAxis.trackValue(cursor.clientY - svgBounds.top, this.yOffset);
+         if (this.constrainY)
+            y = yAxis.constrainValue(y);
+         instance.set('y', yAxis.encodeValue(y));
       }
    }
 }

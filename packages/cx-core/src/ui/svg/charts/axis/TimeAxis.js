@@ -124,8 +124,8 @@ const miliSeconds = {
 class TimeScale {
    reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted, minTickUnit) {
       this.dateCache = {};
-      this.min = min != null ? this.getValue(min) : null;
-      this.max = max != null ? this.getValue(max) : null;
+      this.min = min != null ? this.decodeValue(min) : null;
+      this.max = max != null ? this.decodeValue(max) : null;
       this.snapToTicks = snapToTicks;
       this.tickDivisions = tickDivisions;
       this.minLabelDistance = minLabelDistance;
@@ -141,7 +141,7 @@ class TimeScale {
       this.stacks = {};
    }
 
-   getValue(date) {
+   decodeValue(date) {
       if (date instanceof Date)
          return date.getTime();
 
@@ -155,6 +155,10 @@ class TimeScale {
          case 'number':
             return date;
       }
+   }
+
+   encodeValue(v) {
+      return new Date(v).toISOString();
    }
 
    getFormat() {
@@ -192,14 +196,18 @@ class TimeScale {
    }
 
    map(v, offset = 0) {
-      return this.origin + (this.getValue(v) + offset - this.scale.minPad) * this.scale.factor;
+      return this.origin + (this.decodeValue(v) + offset - this.scale.minPad) * this.scale.factor;
    }
 
-   track(v, offset = 0, constrain = false) {
-      var value = (this.getValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
+   constrainValue(v) {
+      return Math.max(this.scale.min, Math.min(this.scale.max, v));
+   }
+
+   trackValue(v, offset = 0, constrain = false) {
+      var value = (this.decodeValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
       if (constrain)
-         value = Math.max(this.scale.min, Math.min(this.scale.max, value));
-      return new Date(value).toISOString();
+         value = this.constrainValue(value);
+      return value;
    }
 
    hash() {
@@ -315,7 +323,7 @@ class TimeScale {
    }
 
    acknowledge(value, width = 0, offset = 0) {
-      value = this.getValue(value);
+      value = this.decodeValue(value);
       if (this.minValue == null || value < this.minValue) {
          this.minValue = value;
          this.minValuePad = value + offset - width / 2;
@@ -334,11 +342,11 @@ class TimeScale {
    }
 
    stacknowledge(name, ordinal, value) {
-      return this.getStack(name).acknowledge(ordinal, this.getValue(value));
+      return this.getStack(name).acknowledge(ordinal, this.decodeValue(value));
    }
 
    stack(name, ordinal, value) {
-      var v = this.getStack(name).stack(ordinal, this.getValue(value));
+      var v = this.getStack(name).stack(ordinal, this.decodeValue(value));
       return v != null ? this.map(v) : null;
    }
 

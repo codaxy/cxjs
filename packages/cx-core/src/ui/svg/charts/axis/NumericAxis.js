@@ -64,6 +64,7 @@ NumericAxis.prototype.labelDivisor = 1;
 Axis.alias('numeric', NumericAxis);
 
 class NumericScale {
+
    reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted) {
       this.padding = 0;
       this.min = min;
@@ -84,10 +85,22 @@ class NumericScale {
       return this.origin + (v + offset - this.scale.min + this.padding) * this.scale.factor;
    }
 
-   track(v, offset = 0, constrain = false) {
+   decodeValue(n) {
+      return n;
+   }
+
+   encodeValue(v) {
+      return v;
+   }
+
+   constrainValue(v) {
+      return Math.max(this.scale.min, Math.min(this.scale.max, v));
+   }
+
+   trackValue(v, offset = 0, constrain = false) {
       var value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
       if (constrain)
-         value = Math.max(this.scale.min, Math.min(this.scale.max, value));
+         value = this.constrainValue(v);
       return value;
    }
 

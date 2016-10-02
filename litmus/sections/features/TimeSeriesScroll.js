@@ -72,6 +72,8 @@ export default <cx>
                colorIndex={4}
                x1:bind="$page.range.from"
                x2:bind="$page.range.to"
+               draggableX
+               constrainX
             >
                <ClipRect>
                   <ColumnGraph
