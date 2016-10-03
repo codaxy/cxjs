@@ -2,6 +2,7 @@ import {Widget, VDOM} from '../Widget';
 import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
+import {StringTemplate} from '../../data/StringTemplate';
 
 export class TextField extends Field {
    declareData() {
@@ -20,21 +21,7 @@ export class TextField extends Field {
    renderInput(context, instance, key) {
       return <Input key={key}
                     instance={instance}
-                    handleChange={(e, change) => this.handleChange(e, change, instance)}
-         />
-   }
-
-   handleChange(e, change, instance) {
-
-      if (this.reactOn.indexOf(change) != -1) {
-         var {data} = instance;
-         var value = e.target.value;
-         if(data.maxLength != null && value.length > data.maxLength)
-            value = value.substring(0, data.maxLength);
-         instance.set('value', value || null);
-
-      }
-
+      />
    }
 
    validate(context, instance) {
@@ -45,12 +32,11 @@ export class TextField extends Field {
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
 
-      if(!data.error) {
-         if (data.value && data.minLength != null && data.value.length < data.minLength)
-            data.error = this.minLengthValidationErrorText;
-
-         if (data.value && data.maxLength != null && data.value.length > data.maxLength)
-            data.error = this.maxLengthValidationErrorText;
+      if (!data.error) {
+         if (typeof data.value == 'string' && data.minLength != null && data.value.length < data.minLength)
+            data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
+         else if (typeof data.value == 'string' && data.maxLength != null && data.value.length > data.maxLength)
+            data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);
       }
    }
 }
@@ -59,9 +45,9 @@ export class TextField extends Field {
 TextField.prototype.baseClass = "textfield";
 TextField.prototype.reactOn = "input";
 TextField.prototype.inputType = "text";
-TextField.prototype.validationErrorText = 'Entered value is not valid.';
-TextField.prototype.minLengthValidationErrorText = "Entered text is too short.";
-TextField.prototype.maxLengthValidationErrorText = "Entered text is too long.";
+TextField.prototype.validationErrorText = 'The entered value is not valid.';
+TextField.prototype.minLengthValidationErrorText = "Please enter {[{0}-{1}]} more character(s).";
+TextField.prototype.maxLengthValidationErrorText = "The entered text is longer than the maximum allowed {0} characters.";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
 
 
@@ -86,7 +72,9 @@ class Input extends VDOM.Component {
          style={data.style}
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}>
-         <input ref={el=>{this.input = el}}
+         <input ref={el=> {
+            this.input = el
+         }}
                 className={CSS.element(baseClass, 'input')}
                 defaultValue={data.value}
                 id={data.id}
@@ -94,8 +82,6 @@ class Input extends VDOM.Component {
                 type={widget.inputType}
                 disabled={data.disabled}
                 readOnly={data.readOnly}
-                minLength={data.minLength}
-                maxLength={data. maxLength}
                 placeholder={data.placeholder}
                 onMouseEnter={::this.onMouseEnter}
                 onMouseLeave={::this.onMouseLeave}
@@ -106,7 +92,7 @@ class Input extends VDOM.Component {
                    this.onChange(e, 'blur')
                 } }
                 onClick={stopPropagation}
-            />
+         />
       </div>
    }
 
@@ -160,7 +146,17 @@ class Input extends VDOM.Component {
          this.setState({visited: true});
       }
 
-      this.props.handleChange(e, change)
+      let {instance} = this.props;
+      let {widget, data} = instance;
+
+      if (widget.reactOn.indexOf(change) != -1) {
+         var value = e.target.value;
+         if (data.maxLength != null && value.length > data.maxLength) {
+            value = value.substring(0, data.maxLength);
+            this.input.value = value;
+         }
+         instance.set('value', value || null);
+      }
    }
 }
 
