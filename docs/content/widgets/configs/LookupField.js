@@ -92,4 +92,10 @@ export default {
          Base CSS class to be applied on the field. Defaults to `lookupfield`.
       </Md></cx>
    },
+    width: {
+        type: 'string',
+        description: <cx><Md>
+            Maximal width of the dropdown list.
+        </Md></cx>
+    },
 };
