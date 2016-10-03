@@ -6,6 +6,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
 import {Controller} from 'cx/ui/Controller';
+import {Tab} from 'cx/ui/nav/Tab';
 import {Grid} from 'cx/ui/grid/Grid';
 import {casual} from '../examples/data/casual';
 import {Format} from 'cx/util/Format';
@@ -15,55 +16,57 @@ import plural from 'plural';
 import configs from './configs/Grid';
 import groupingConfigs from './configs/GridGrouping';
 import columnConfigs from './configs/GridColumn';
+import columnHeaderConfigs from './configs/GridColumnHeader';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+    init() {
+        super.init();
 
-      //init grid data
-      this.store.init('$page.records', Array.from({length: 100}).map((v, i)=>({
-         id: i + 1,
-         fullName: casual.full_name,
-         continent: casual.continent,
-         browser: casual.browser,
-         os: casual.operating_system,
-         visits: casual.integer(1, 100)
-      })));
-   }
+        //init grid data
+        this.store.init('$page.records', Array.from({length: 100}).map((v, i)=>({
+            id: i + 1,
+            fullName: casual.full_name,
+            continent: casual.continent,
+            browser: casual.browser,
+            os: casual.operating_system,
+            visits: casual.integer(1, 100)
+        })));
+    }
 }
 
 Format.registerFactory('plural', (format, text) => {
-   return value => plural(text, value);
+    return value => plural(text, value);
 });
 
 export const Grids = <cx>
-   <Md>
+    <Md>
 
-      # Grid
+        # Grid
 
-      Grid is a versatile component used for displaying tabular data. Grid control in Cx has many features such as
-      fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell content (including headers),
-      tree columns, etc.
+        Grid is a versatile component used for displaying tabular data. Grid control in Cx has many features such as
+        fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell
+        content (including headers),
+        tree columns, etc.
 
-      <CodeSplit>
+        <CodeSplit>
 
 
-         <div controller={PageController}>
-            <Grid records:bind='$page.records'
-                  style={{ height: '300px'}}
-                  mod="responsive"
-                  scrollable
-                  columns={[
-                  { header: 'Name', field: 'fullName', sortable: true },
-                  { header: 'Continent', field: 'continent', sortable: true },
-                  { header: 'Browser', field: 'browser', sortable: true },
-                  { header: 'OS', field: 'os', sortable: true },
-                  { header: 'Visits', field: 'visits', sortable: true, align: 'right' }
-               ]}
-               selection={{type: KeySelection, bind:'$page.selection'}}
-            />
-         </div>
-         <CodeSnippet putInto="code">{`
+            <div controller={PageController}>
+                <Grid records:bind='$page.records'
+                      style={{height: '300px'}}
+                      mod="responsive"
+                      scrollable
+                      columns={[
+                          {header: 'Name', field: 'fullName', sortable: true},
+                          {header: 'Continent', field: 'continent', sortable: true},
+                          {header: 'Browser', field: 'browser', sortable: true},
+                          {header: 'OS', field: 'os', sortable: true},
+                          {header: 'Visits', field: 'visits', sortable: true, align: 'right'}
+                      ]}
+                      selection={{type: KeySelection, bind: '$page.selection'}}
+                />
+            </div>
+            <CodeSnippet putInto="code">{`
             class PageController extends Controller {
                init() {
                   super.init();
@@ -96,29 +99,35 @@ export const Grids = <cx>
                selection={{type: KeySelection, bind:'$page.selection'}}
             />
          `}</CodeSnippet>
-      </CodeSplit>
+        </CodeSplit>
 
-      Examples:
+        Examples:
 
-      - [Pagination](~/examples/grid/pagination)
-      - [Multiple selection](~/examples/grid/multiple-selection)
-      - [Grouping](~/examples/grid/grouping)
-      - [Dynamic Grouping](~/examples/grid/dynamic-grouping)
-      - [Inline Editing](~/examples/grid/inline-edit)
-      - [Form Editing](~/examples/grid/form-edit)
-      - [TreeGrid](~/examples/grid/tree-grid)
+        - [Pagination](~/examples/grid/pagination)
+        - [Multiple selection](~/examples/grid/multiple-selection)
+        - [Grouping](~/examples/grid/grouping)
+        - [Dynamic Grouping](~/examples/grid/dynamic-grouping)
+        - [Inline Editing](~/examples/grid/inline-edit)
+        - [Form Editing](~/examples/grid/form-edit)
+        - [TreeGrid](~/examples/grid/tree-grid)
+        - [ComplexHeaders](~/examples/grid/complex-headers)
 
-      ## Configuration
+        ## Configuration
 
-      <ConfigTable props={configs} />
+        <p>
+            <Tab value={{ bind: "$page.configTab", defaultValue: 'grid' }} tab="grid" mod="line">Grid</Tab>
+            <Tab value:bind="$page.configTab" tab="column" mod="line">Column</Tab>
+            <Tab value:bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
+            <Tab value:bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
+        </p>
 
-      ### Column Configuration
+        <ConfigTable props={configs} visible:expr="{$page.configTab}=='grid'"/>
 
-      <ConfigTable props={columnConfigs} />
+        <ConfigTable props={columnConfigs} visible:expr="{$page.configTab}=='column'"/>
 
-      ### Grouping Configuration
+        <ConfigTable props={columnHeaderConfigs} visible:expr="{$page.configTab}=='header'"/>
 
-      <ConfigTable props={groupingConfigs} />
+        <ConfigTable props={groupingConfigs} visible:expr="{$page.configTab}=='grouping'"/>
 
-   </Md>
+    </Md>
 </cx>

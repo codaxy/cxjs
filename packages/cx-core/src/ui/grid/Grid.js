@@ -39,11 +39,7 @@ export class Grid extends Widget {
          recordName: this.recordName
       });
 
-      this.columns.forEach(c=> {
-         c.init();
-         if (c.footer != null)
-            c.footer = getSelector(c.footer);
-      });
+      this.columns.forEach(c=> c.init());
 
       var aggregates = {};
       this.columns.filter(c=>c.aggregate && c.aggregateField).forEach(c=> {
@@ -247,82 +243,105 @@ export class Grid extends Widget {
    }
 
    renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
-      var {data, store, widget} = instance;
+      var {data, widget} = instance;
       if (!refs)
          refs = {};
       var {CSS, baseClass} = widget;
 
-      var result = [];
-      var skip = 0;
+      var result = [[], [], []];
+      var skip = {};
+
+      var empty = [ true, true, true ];
 
       instance.columns.forEach((columnInstance, i) => {
 
-         if (skip--)
-            return;
-
          var c = columnInstance.widget;
-         var header = columnInstance.header;
-         var mods = [];
 
-         if (header.widget.align)
-            mods.push('aligned-' + header.widget.align);
-         else if (c.align)
-            mods.push('aligned-' + c.align);
+         for (let l = 0; l < 3; l++) {
 
-         if (c.sortable) {
-            mods.push('sortable');
+            let colKey = `${i}-${l}`;
 
-            if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-               mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+            if (skip[colKey])
+               continue;
+
+            var header = columnInstance[`header${l + 1}`];
+            let colSpan, rowSpan, style, cls, mods = [], content;
+
+            if (header) {
+               empty[l] = false;
+
+               if (header.widget.align)
+                  mods.push('aligned-' + header.widget.align);
+               else if (c.align)
+                  mods.push('aligned-' + c.align);
+
+               if (c.sortable && header.widget.allowSorting) {
+                  mods.push('sortable');
+
+                  if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                     mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                  }
+               }
+
+               style = header.data.style;
+               if (header.data.classNames)
+                  cls = header.data.classNames;
+
+               content = header.render(context);
+
+               if (fixed && originalRefs[colKey]) {
+                  style = {...style, width: originalRefs[colKey].offsetWidth + 'px'}
+               }
+
+               if (header.data.colSpan > 1 || header.data.rowSpan > 1) {
+                  colSpan = header.data.colSpan;
+                  rowSpan = header.data.rowSpan;
+
+                  for (let r = 0; r < header.data.rowSpan; r++)
+                     for (let c = 0; c < header.data.colSpan; c++)
+                        skip[`${i + c}-${l + r}`] = true;
+               }
             }
+
+            cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
+
+            result[l].push(<th key={i}
+                               ref={c=> {
+                                  refs[colKey] = c
+                               }}
+                               colSpan={colSpan}
+                               rowSpan={rowSpan}
+                               className={cls}
+                               style={style}
+                               onClick={e=>this.onHeaderClick(e, c, instance, l)}>
+               {getContent(content)}
+            </th>);
          }
-
-
-
-         var style = header.data.style;
-         var cls = CSS.element(baseClass, 'col-header', mods);
-         if (header.data.classNames)
-            cls += ' ' + header.data.classNames;
-
-         var content = header.render(context);
-
-         if (fixed && originalRefs[i]) {
-            style = {...style, width: originalRefs[i].offsetWidth + 'px'}
-         }
-
-         skip = header.data.colSpan - 1;
-
-         result.push(<th key={i}
-                         ref={c=> {
-                            refs[i] = c
-                         }}
-                         colSpan={header.data.colSpan}
-                         className={cls}
-                         style={style}
-                         onClick={e=>this.onHeaderClick(e, c, store, instance)}>
-            {getContent(content)}
-         </th>);
       });
 
+      result = result.filter((_, i)=>!empty[i]);
+
       if (fixed)
-         result.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
-            refs.last = el
-         }}/>);
+         result[0].push(<th key="dummy"
+                         rowSpan={result.length}
+                         className={CSS.element(baseClass, "col-header")}
+                         ref={el=> {
+                            refs.last = el
+                         }}/>);
 
       return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-         <tr>
-            {result}
-         </tr>
+      {result.map((h, i)=><tr key={i}>{h}</tr>)}
       </tbody>;
    }
 
-   onHeaderClick(e, column, store, instance) {
+   onHeaderClick(e, column, instance, headerLine) {
       e.preventDefault();
       e.stopPropagation();
 
       var {data} = instance;
+      var header = column[`header${headerLine+1}`];
 
-      if (column.sortable && (column.field || column.sortField || column.value)) {
+      if (header.allowSorting && column.sortable && (column.field || column.sortField || column.value)) {
          var sortField = column.sortField || column.field;
          var dir = 'ASC';
          if (data.sorters && data.sorters[0].field == sortField && data.sorters[0].value == column.value && data.sorters[0].direction == 'ASC')
@@ -533,9 +552,7 @@ class GridComponent extends VDOM.Component {
          </div>
          { this.props.fixedHeader && <div ref={el=>{this.dom.fixedHeader = el}}
                                           className={CSS.element(baseClass, 'fixed-header')}
-                                          style={{
-                  display: this.scrollWidth > 0 ? 'block' : 'none'
-                  }}>
+                                          style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
             <table>
                {this.props.fixedHeader}
             </table>
@@ -563,9 +580,9 @@ class GridComponent extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {records} = props.instance;
+      var {records, widget} = props.instance;
       this.setState({
-         cursor: Math.max(Math.min(this.state.cursor, records.length - 1), this.state.focused ? 0 : -1)
+         cursor: Math.max(Math.min(this.state.cursor, records.length - 1), widget.selectable && this.state.focused ? 0 : -1)
       });
    }
 
@@ -709,30 +726,62 @@ class GridColumn extends PureContainer {
    }
 
    init() {
-      if (isSelector(this.header))
-         this.header = {
-            text: this.header || ''
+
+      if (typeof this.header != 'undefined')
+         this.header1 = this.header;
+
+      if (this.header1 && isSelector(this.header1))
+         this.header1 = {
+            text: this.header1 || ''
          };
-      this.header = Widget.create(GridColumnHeader, this.header);
+
+      if (this.header1 && this.header1)
+         this.header1 = Widget.create(GridColumnHeader, this.header1);
+
+      if (this.header2 && isSelector(this.header2))
+         this.header2 = {
+            text: this.header2 || ''
+         };
+
+      if (this.header2)
+         this.header2 = Widget.create(GridColumnHeader, this.header2);
+
+      if (this.header3 && isSelector(this.header3))
+         this.header3 = {
+            text: this.header3 || ''
+         };
+
+      if (this.header3)
+         this.header3 = Widget.create(GridColumnHeader, this.header3);
 
       if (!this.value && this.field)
-         this.value = { bind: this.recordName + '.' + this.field };
+         this.value = {bind: this.recordName + '.' + this.field};
 
       if (!this.aggregateField && this.field)
          this.aggregateField = this.field;
+
+      if (this.footer != null)
+         this.footer = getSelector(this.footer);
 
       super.init();
    }
 
    initInstance(context, instance) {
-      instance.header = instance.getChild(context, this.header);
+      instance.header1 = this.header1 && instance.getChild(context, this.header1);
+      instance.header2 = this.header2 && instance.getChild(context, this.header2);
+      instance.header3 = this.header3 && instance.getChild(context, this.header3);
    }
 
    explore(context, instance) {
       if (instance.repeatable)
          super.explore(context, instance);
       else {
-         instance.header.explore(context);
+         if (instance.header1)
+            instance.header1.explore(context);
+         if (instance.header2)
+            instance.header2.explore(context);
+         if (instance.header3)
+            instance.header3.explore(context);
       }
    }
 
@@ -740,7 +789,12 @@ class GridColumn extends PureContainer {
       if (instance.repeatable)
          super.prepare(context, instance);
       else {
-         instance.header.prepare(context);
+         if (instance.header1)
+            instance.header1.prepare(context);
+         if (instance.header2)
+            instance.header2.prepare(context);
+         if (instance.header3)
+            instance.header3.prepare(context);
       }
    }
 
@@ -748,7 +802,12 @@ class GridColumn extends PureContainer {
       if (instance.repeatable)
          super.cleanup(context, instance);
       else {
-         instance.header.cleanup(context);
+         if (instance.header1)
+            instance.header1.cleanup(context);
+         if (instance.header2)
+            instance.header2.cleanup(context);
+         if (instance.header3)
+            instance.header3.cleanup(context);
       }
    }
 }
@@ -764,7 +823,8 @@ class GridColumnHeader extends PureContainer {
          style: { structured: true },
          class: { structured: true },
          className: { structured: true },
-         colSpan: undefined
+         colSpan: undefined,
+         rowSpan: undefined
       })
    }
 
@@ -775,6 +835,8 @@ class GridColumnHeader extends PureContainer {
 }
 
 GridColumnHeader.prototype.colSpan = 1;
+GridColumnHeader.prototype.rowSpan = 1;
+GridColumnHeader.prototype.allowSorting = true;
 
 function initGrouping(grouping) {
    grouping.forEach(g=> {
