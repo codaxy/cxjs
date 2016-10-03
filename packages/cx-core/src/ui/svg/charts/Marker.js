@@ -2,7 +2,7 @@ import {Widget, VDOM} from '../../Widget';
 import {BoundedObject} from '../BoundedObject';
 import {Rect} from '../util/Rect';
 import {tooltipMouseMove, tooltipMouseLeave} from '../../overlay/Tooltip';
-import {captureMouseOrTouch} from '../../overlay/captureMouse';
+import {captureMouseOrTouch, getCursorPos} from '../../overlay/captureMouse';
 import {closest} from '../../../util/DOM';
 import {Selection} from '../../selection/Selection';
 import {getShape} from './shapes';
@@ -11,6 +11,17 @@ export class Marker extends BoundedObject {
 
    init() {
       this.selection = Selection.create(this.selection);
+
+      if (this.draggable) {
+         this.draggableX = true;
+         this.draggableY = true;
+      }
+
+      if (this.constrain) {
+         this.constrainX = true;
+         this.constrainY = true;
+      }
+
       super.init();
    }
 
@@ -146,19 +157,25 @@ export class Marker extends BoundedObject {
    }
 
    handleClick(e, instance) {
-
+      if (this.onClick)
+         this.onClick(e, instance);
    }
 
    handleDragMove(e, instance, captureData) {
-      var cursor = (e.touches && e.touches[0]) || e;
+      var cursor = getCursorPos(e);
       var svgBounds = captureData.svgEl.getBoundingClientRect();
-      if (this.draggableX) {
-         var x = instance.xAxis.track(cursor.clientX - svgBounds.left, this.xOffset);
-         instance.set('x', x);
+      var {xAxis, yAxis} = instance;
+      if (this.draggableX && xAxis) {
+         var x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset);
+         if (this.constrainX)
+            x = xAxis.constrainValue(x);
+         instance.set('x', xAxis.encodeValue(x));
       }
-      if (this.draggableY) {
-         var y = instance.yAxis.track(cursor.clientY - svgBounds.top, this.yOffset);
-         instance.set('y', y);
+      if (this.draggableY && yAxis) {
+         var y = yAxis.trackValue(cursor.clientY - svgBounds.top, this.yOffset);
+         if (this.constrainY)
+            y = yAxis.constrainValue(y);
+         instance.set('y', yAxis.encodeValue(y));
       }
    }
 }
@@ -174,6 +191,10 @@ Marker.prototype.yAxis = 'y';
 Marker.prototype.baseClass = 'marker';
 Marker.prototype.draggableX = false;
 Marker.prototype.draggableY = false;
+Marker.prototype.draggable = false;
+Marker.prototype.constrainX = false;
+Marker.prototype.constrainY = false;
+Marker.prototype.constrain = false;
 Marker.prototype.pure = false;
 Marker.prototype.legend = 'legend';
 Marker.prototype.legendAction = 'auto';

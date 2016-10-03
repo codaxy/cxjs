@@ -97,6 +97,10 @@ export const Ranges = <cx>
          `}</CodeSnippet>
       </CodeSplit>
 
+       Examples:
+
+       * [Timeline](~/examples/charts/bar/timeline)
+
       ## Configuration
 
       <ConfigTable props={configs} />

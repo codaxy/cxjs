@@ -15,6 +15,18 @@ Format.registerFactory('yearOrMonth', (format) => {
    }
 });
 
+Format.registerFactory('monthOrDay', (format) => {
+   var month = Format.parse('datetime;MMM');
+   var day = Format.parse('datetime;dd');
+   return function (date) {
+      var d = new Date(date);
+      if (d.getDate() == 1)
+         return month(d);
+      else
+         return day(d);
+   }
+});
+
 export class TimeAxis extends Axis {
 
    init() {
@@ -58,7 +70,7 @@ export class TimeAxis extends Axis {
       var {min, max, normalized, inverted} = instance.data;
       if (!instance.calculator)
          instance.calculator = new TimeScale();
-      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted);
+      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, this.minTickUnit);
    }
 }
 
@@ -69,12 +81,13 @@ TimeAxis.prototype.tickDivisions = {
    second: [[1, 5, 15, 30]],
    minute: [[1, 5, 15, 30]],
    hour: [
-      [1, 2, 4, 8, 24],
-      [1, 3, 6, 12, 24]
+      [1, 2, 4, 8],
+      [1, 3, 6, 12]
    ],
-   day: [[1, 7, 14]],
+   day: [[1]],
+   week: [[1]],
    month: [
-      [1, 3, 6, 12, 60, 120]
+      [1, 3, 6]
    ],
    year: [
       [1, 2, 10],
@@ -86,36 +99,40 @@ TimeAxis.prototype.tickDivisions = {
 
 TimeAxis.prototype.snapToTicks = 0;
 TimeAxis.prototype.tickSize = 15;
-TimeAxis.prototype.minLabelDistance = 50;
-TimeAxis.prototype.minTickDistance = 50;
+TimeAxis.prototype.minLabelDistance = 60;
+TimeAxis.prototype.minTickDistance = 60;
+TimeAxis.prototype.minTickUnit = 'second';
 
-// const miliSeconds = {
-//    year: 3600 * 24 * 365 * 1000,
-//    month: 3600 * 24 * 30 * 1000,
-//    day: 3600 * 24 * 1000,
-//    hour: 3600 * 1000,
-//    minute: 60 * 1000
-// };
+function monthNumber(date) {
+   return date.getFullYear() * 12 + date.getMonth() + (date.getDate() - 1) / 31;
+}
+
+function yearNumber(date) {
+   return monthNumber(date) / 12;
+}
 
 const miliSeconds = {
+   second: 1000,
    minute: 60 * 1000,
    hour: 3600 * 1000,
    day: 3600 * 24 * 1000,
+   week: 3600 * 24 * 7 * 1000,
    month: 3600 * 24 * 30 * 1000,
    year: 3600 * 24 * 365 * 1000
 };
 
 class TimeScale {
-   reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted) {
+   reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted, minTickUnit) {
       this.dateCache = {};
-      this.min = min != null ? this.getValue(min) : null;
-      this.max = max != null ? this.getValue(max) : null;
+      this.min = min != null ? this.decodeValue(min) : null;
+      this.max = max != null ? this.decodeValue(max) : null;
       this.snapToTicks = snapToTicks;
       this.tickDivisions = tickDivisions;
       this.minLabelDistance = minLabelDistance;
       this.minTickDistance = minTickDistance;
       this.tickSizes = [];
       this.normalized = normalized;
+      this.minTickUnit = minTickUnit;
       this.inverted = inverted;
       delete this.minValue;
       delete this.maxValue;
@@ -124,7 +141,7 @@ class TimeScale {
       this.stacks = {};
    }
 
-   getValue(date) {
+   decodeValue(date) {
       if (date instanceof Date)
          return date.getTime();
 
@@ -140,6 +157,10 @@ class TimeScale {
       }
    }
 
+   encodeValue(v) {
+      return new Date(v).toISOString();
+   }
+
    getFormat() {
       switch (this.tickMeasure) {
          case 'year':
@@ -150,17 +171,43 @@ class TimeScale {
                return 'yearOrMonth';
             return 'datetime;yyyy MMM';
 
+         case 'week':
+            return 'datetime;MMMdd';
+
          case 'day':
+            if (new Date(this.scale.min).getFullYear() != new Date(this.scale.max).getFullYear()
+               || new Date(this.scale.min).getMonth() != new Date(this.scale.max).getMonth())
+               return 'monthOrDay';
+
             return 'datetime;yyyy MMM dd';
+
+         case 'hour':
+            return 'datetime;HH:mm';
+
+         case 'minute':
+            return 'datetime;HH:mm:ss';
+
+         case 'second':
+            return 'datetime;mm:ss';
+
+         default:
+            return 'datetime;yyyy MMM dd HH:mm:ss';
       }
    }
 
    map(v, offset = 0) {
-      return this.origin + (this.getValue(v) + offset - this.scale.minPad) * this.scale.factor;
+      return this.origin + (this.decodeValue(v) + offset - this.scale.minPad) * this.scale.factor;
    }
 
-   track(v, offset = 0) {
-      return (this.getValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
+   constrainValue(v) {
+      return Math.max(this.scale.min, Math.min(this.scale.max, v));
+   }
+
+   trackValue(v, offset = 0, constrain = false) {
+      var value = (this.decodeValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
+      if (constrain)
+         value = this.constrainValue(value);
+      return value;
    }
 
    hash() {
@@ -191,24 +238,30 @@ class TimeScale {
       for (var s in this.stacks) {
          var info = this.stacks[s].measure(this.normalized);
          var [min, max, invalid] = info;
-         if (this.min == null || min < this.min)
-            this.min = min;
-         if (this.max == null || max > this.max)
-            this.max = max;
+         if (this.minValue == null || min < this.minValue)
+            this.minValue = min;
+         if (this.max == null || max > this.maxValue)
+            this.maxValue = max;
          this.stacks[s].info = info;
       }
 
-      if (this.minValue != null && (this.min == null || this.minValue < this.min))
-         this.min = this.minValue;
+      if (this.min == null) {
+         if (this.minValue != null)
+            this.min = this.minValue;
+         else
+            this.min = 0;
+      }
+      else
+         this.minValuePad = this.min;
 
-      if (this.min == null)
-         this.min = 0;
-
-      if (this.maxValue != null && (this.max == null || this.maxValue > this.max))
-         this.max = this.maxValue;
-
-      if (this.max == null)
-         this.max = this.normalized ? 1 : 100;
+      if (this.max == null) {
+         if (this.maxValue != null)
+            this.max = this.maxValue;
+         else
+            this.max = this.normalized ? 1 : 100;
+      }
+      else
+         this.maxValuePad = this.max;
 
       this.origin = this.inverted ? this.b : this.a;
 
@@ -219,7 +272,7 @@ class TimeScale {
 
    getScale(tickSizes, measure) {
       var {min, max} = this;
-      if (measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
+      if (typeof this.snapToTicks == 'number' && measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
 
          var size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
 
@@ -237,18 +290,18 @@ class TimeScale {
                size /= miliSeconds.month;
                var minDate = new Date(min);
                var maxDate = new Date(max);
-               var minMonth = minDate.getFullYear() * 12 + minDate.getMonth();
-               var maxMonth = maxDate.getFullYear() * 12 + maxDate.getMonth();
+               var minMonth = monthNumber(minDate);
+               var maxMonth = monthNumber(maxDate);
                minMonth = Math.floor(minMonth / size) * size;
                maxMonth = Math.ceil(maxMonth / size) * size;
                min = new Date(Math.floor(minMonth / 12), minMonth % 12, 1).getTime();
-               max = new Date(Math.floor(maxMonth / 12), maxMonth % 12, 1).getTime();
+               max = new Date(Math.floor(maxMonth / 12), maxMonth % 12 + 1, 1).getTime();
                break;
 
             case 'year':
                size /= miliSeconds.year;
-               var minYear = new Date(min).getFullYear();
-               var maxYear = new Date(max).getFullYear();
+               var minYear = yearNumber(new Date(min));
+               var maxYear = yearNumber(new Date(max));
                minYear = Math.floor(minYear / size) * size;
                maxYear = Math.ceil(maxYear / size) * size;
                min = new Date(minYear, 0, 1).getTime();
@@ -270,7 +323,7 @@ class TimeScale {
    }
 
    acknowledge(value, width = 0, offset = 0) {
-      value = this.getValue(value);
+      value = this.decodeValue(value);
       if (this.minValue == null || value < this.minValue) {
          this.minValue = value;
          this.minValuePad = value + offset - width / 2;
@@ -289,11 +342,11 @@ class TimeScale {
    }
 
    stacknowledge(name, ordinal, value) {
-      return this.getStack(name).acknowledge(ordinal, this.getValue(value));
+      return this.getStack(name).acknowledge(ordinal, this.decodeValue(value));
    }
 
    stack(name, ordinal, value) {
-      var v = this.getStack(name).stack(ordinal, this.getValue(value));
+      var v = this.getStack(name).stack(ordinal, this.decodeValue(value));
       return v != null ? this.map(v) : null;
    }
 
@@ -306,33 +359,29 @@ class TimeScale {
    }
 
    calculateTicks() {
-      // var dist = this.minLabelDistance / Math.abs(this.scale.factor); //dist in seconds
-      //
-      // var measure = 'second';
-      // var unitSize = 1;
-      //
-      // for (var key in miliSeconds)
-      //    if (dist > miliSeconds[key] || key == 'month') {
-      //       measure = key;
-      //       unitSize = miliSeconds[key];
-      //       break;
-      //    }
-      //
-      // this.tickMeasure = measure;
 
+      var minReached = false;
 
-      for (var measure in miliSeconds) {
+      for (var unit in miliSeconds) {
+
+         if (!minReached) {
+            if (unit == this.minTickUnit)
+               minReached = true;
+            else
+               continue;
+         }
+
          var bestLevel = 100;
          var bestTicks = [];
          var bestScale = this.scale;
 
-         var unitSize = miliSeconds[measure];
-         this.tickMeasure = measure;
+         var unitSize = miliSeconds[unit];
+         this.tickMeasure = unit;
 
-         for (var i = 0; i < this.tickDivisions[measure].length && bestLevel > 0; i++) {
-            var divs = this.tickDivisions[measure][i];
+         for (var i = 0; i < this.tickDivisions[unit].length && bestLevel > 0; i++) {
+            var divs = this.tickDivisions[unit][i];
             var tickSizes = divs.map(s=>s * unitSize);
-            var scale = this.getScale(tickSizes, measure);
+            var scale = this.getScale(tickSizes, unit);
             tickSizes.forEach((size, level)=> {
                var tickDistance = size * Math.abs(scale.factor);
                if (tickDistance >= this.minTickDistance && level < bestLevel) {
@@ -354,8 +403,10 @@ class TimeScale {
          var result = [], start, end, minDate, maxDate;
          if (this.tickMeasure == 'year') {
             size /= miliSeconds.year;
-            start = Math.ceil(new Date(this.scale.min).getFullYear() / size) * size;
-            end = Math.floor(new Date(this.scale.max).getFullYear() / size) * size;
+            minDate = new Date(this.scale.min);
+            maxDate = new Date(this.scale.max);
+            start = Math.ceil(yearNumber(minDate) / size) * size;
+            end = Math.floor((yearNumber(maxDate) - 0.01) / size) * size;
             for (var i = start; i <= end; i += size)
                result.push(new Date(i, 0, 1).getTime());
          }
@@ -363,14 +414,14 @@ class TimeScale {
             size /= miliSeconds.month;
             minDate = new Date(this.scale.min);
             maxDate = new Date(this.scale.max);
-            start = Math.ceil((minDate.getFullYear() * 12 + minDate.getMonth()) / size) * size;
-            end = Math.floor((maxDate.getFullYear() * 12 + maxDate.getMonth()) / size) * size;
+            start = Math.ceil(monthNumber(minDate) / size) * size;
+            end = Math.floor((monthNumber(maxDate) - 0.01) / size) * size;
             for (var i = start; i <= end; i += size)
                result.push(new Date(Math.floor(i / 12), i % 12, 1).getTime());
          }
          else {
             start = Math.ceil(this.scale.min / size);
-            end = Math.floor(this.scale.max / size);
+            end = Math.floor((this.scale.max - 0.01) / size);
             for (var i = start; i <= end; i++)
                result.push(i * size);
          }

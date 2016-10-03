@@ -1,5 +1,7 @@
 import {BoundedObject} from '../BoundedObject';
 import {VDOM} from '../../Widget';
+import {captureMouseOrTouch, getCursorPos} from '../../overlay/captureMouse';
+import {closest} from '../../../util/DOM';
 
 export class Range extends BoundedObject {
    declareData() {
@@ -121,10 +123,77 @@ export class Range extends BoundedObject {
                                   x={x1}
                                   y={y1}
                                   width={x2 - x1}
-                                  height={y2 - y1}/>
+                                  height={y2 - y1}
+                                  onMouseDown={e=>this.handleMouseDown(e, instance)}
+                                  onTouchStart={e=>this.handleMouseDown(e, instance)}
+            />
          }
          {this.renderChildren(context, instance)}
       </g>
+   }
+
+   handleClick(e, instance) {
+      if (this.onClick)
+         this.onClick(e, instance);
+   }
+
+   handleMouseDown(e, instance) {
+      if (this.draggableX || this.draggableY) {
+         var svgEl = closest(e.target, el => el.tagName == 'svg');
+         var svgBounds = svgEl.getBoundingClientRect();
+         var cursor = getCursorPos(e);
+         var {data, xAxis, yAxis} = instance;
+
+         var captureData = {
+            svgBounds,
+            start: {
+               x1: data.x1,
+               x2: data.x2,
+               y1: data.y1,
+               y2: data.y2
+            }
+         };
+
+         if (this.draggableX && xAxis)
+            captureData.start.x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset, this.constrainX);
+
+         if (this.draggableY && yAxis)
+            captureData.start.y = yAxis.trackValue(cursor.clientY - svgBounds.top, this.yOffset, this.constrainY);
+
+         if (svgEl)
+            captureMouseOrTouch(e, (e, captureData) => {
+               this.handleDragMove(e, instance, captureData);
+            }, null, captureData, e.target.style.cursor);
+      }
+   }
+
+   handleDragMove(e, instance, captureData) {
+      var cursor = getCursorPos(e);
+      var {xAxis, yAxis} = instance;
+      var {svgBounds, start} = captureData;
+      if (this.draggableX && xAxis) {
+         var dist = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset, this.constrainX) - captureData.start.x;
+         var x1v = xAxis.decodeValue(captureData.start.x1);
+         var x2v = xAxis.decodeValue(captureData.start.x2);
+         if (this.constrainX) {
+            if (dist > 0)
+               dist = Math.min(xAxis.constrainValue(x2v + dist) - x2v, dist);
+            else
+               dist = Math.max(xAxis.constrainValue(x1v + dist) - x1v, dist);
+         }
+         instance.set('x1', xAxis.encodeValue(x1v + dist));
+         instance.set('x2', xAxis.encodeValue(x2v + dist));
+      }
+
+      if (this.draggableY && yAxis) {
+         var dist = yAxis.trackValue(cursor.clientY - svgBounds.left, this.yOffset, this.constrainY) - captureData.start.y;
+         var y1v = yAxis.decodeValue(captureData.start.y1);
+         var y2v = yAxis.decodeValue(captureData.start.y2);
+         if (this.constrainY)
+            dist = Math.max(yAxis.constrainValue(y1v + dist) - y1v, Math.min(yAxis.constrainValue(y2v + dist) - y2v, dist));
+         instance.set('y1', yAxis.encodeValue(y1v + dist));
+         instance.set('y2', yAxis.encodeValue(y2v + dist));
+      }
    }
 }
 

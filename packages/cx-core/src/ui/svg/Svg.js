@@ -26,15 +26,23 @@ export class Svg extends BoundedObject {
 
    prepare(context, instance) {
       var size = instance.size;
-      var pr = context.parentRect;
+      var {parentRect, addClipRect} = context;
       context.parentRect = new Rect({
          l: 0,
          t: 0,
          r: size.width,
          b: size.height
       });
+      instance.clipRects = {};
+      instance.clipRectId = 0;
+      context.addClipRect = rect => {
+         var id = `clip-${++instance.clipRectId}`;
+         instance.clipRects[id] = rect;
+         return id;
+      };
       super.prepare(context, instance);
-      context.parentRect = pr;
+      context.parentRect = parentRect;
+      context.addClipRect = addClipRect;
    }
 
    render(context, instance, key) {
@@ -86,7 +94,18 @@ class SvgComponent extends VDOM.Component {
       else if (this.state.size)
          children = Widget.renderInstance(instance, {size: this.state.size});
 
+      var defs = [];
+      for (var k in instance.clipRects) {
+         let cr = instance.clipRects[k];
+         defs.push(<clipPath key={k} id={k}>
+            <rect x={cr.l} y={cr.t} width={Math.max(0, cr.width())} height={Math.max(0, cr.height())}/>
+         </clipPath>);
+      }
+
       return <svg ref={el=>{this.svg = el}} className={data.classNames} style={data.style}>
+         <defs>
+            {defs}
+         </defs>
          {children}
       </svg>
    }

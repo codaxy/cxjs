@@ -12,6 +12,7 @@ import {FormSection} from './sections/Form';
 import {WindowSection} from './sections/Window';
 import {ListSection} from './sections/List';
 import ComplexGrid from './sections/ComplexGrid';
+import TimeSeries from './sections/features/TimeSeriesScroll';
 
 import {MixedModeForm} from './components/MixedModeForm';
 
@@ -43,6 +44,6 @@ if(module.hot) {
 stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <ComplexGrid />
+      <TimeSeries />
    </div>
 </cx>);
