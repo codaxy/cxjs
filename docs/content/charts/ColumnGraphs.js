@@ -131,8 +131,6 @@ export const ColumnGraphs = <cx>
 
         Examples:
 
-        * [Numeric X Axis](~/examples/charts/column/numeric)
-        * [Category X Axis](~/examples/charts/column/category)
         * [Timeline](~/examples/charts/bar/timeline)
 
         ## Configuration

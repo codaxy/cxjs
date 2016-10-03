@@ -87,28 +87,34 @@ export const Combination = <cx>
                <Grid records:bind="$page.points"
                      sorters:bind="$page.sorters"
                      columns={[
-                        { header: 'Month', field: 'city', sortable: true },
-                        { field: 'v1', format: 'n', align: "right", sortable: true,
+                        { header: 'City', field: 'city', sortable: true },
+                        { field: 'v1', format: 'n;2', align: "right", sortable: true,
                            header: {
                               items: <cx>
-                                 <div>
+                                 <div preserveWhitespace>
                                     V1
                                     <div class="cxs-color-0" style={legendStyle}></div>
                                  </div>
                               </cx>
                            }
                         },
-                        { field: 'v2', format: 'n', align: "right", sortable: true,
+                        { field: 'v2', format: 'n;2', align: "right", sortable: true,
                            header: {
                               items: <cx>
-                                 <div>V2 <div class="cxs-color-2" style={legendStyle}></div></div>
+                                 <div preserveWhitespace>
+                                     V2
+                                     <div class="cxs-color-2" style={legendStyle}></div>
+                                 </div>
                               </cx>
                            }
                         },
-                        { field: 'v3', format: 'n', align: "right", sortable: true,
+                        { field: 'v3', format: 'n;2', align: "right", sortable: true,
                            header: {
                            items: <cx>
-                              <div>V3 <div class="cxs-color-4" style={legendStyle}></div></div>
+                              <div preserveWhitespace>
+                                  V3
+                                  <div class="cxs-color-4" style={legendStyle}></div>
+                              </div>
                            </cx>
                            }
                         }
@@ -176,28 +182,34 @@ export const Combination = <cx>
          <Grid records:bind="$page.points"
                sorters:bind="$page.sorters"
                columns={[
-                  { header: 'Month', field: 'city', sortable: true },
-                  { field: 'v1', format: 'n', align: "right", sortable: true,
+                  { header: 'City', field: 'city', sortable: true },
+                  { field: 'v1', format: 'n;2', align: "right", sortable: true,
                      header: {
                         items: <cx>
-                           <div>
+                           <div preserveWhitespace>
                               V1
                               <div class="cxs-color-0" style={legendStyle}></div>
                            </div>
                         </cx>
                      }
                   },
-                  { field: 'v2', format: 'n', align: "right", sortable: true,
+                  { field: 'v2', format: 'n;2', align: "right", sortable: true,
                      header: {
                         items: <cx>
-                           <div>V2 <div class="cxs-color-2" style={legendStyle}></div></div>
+                           <div preserveWhitespace>
+                               V2
+                               <div class="cxs-color-2" style={legendStyle}></div>
+                           </div>
                         </cx>
                      }
                   },
-                  { field: 'v3', format: 'n', align: "right", sortable: true,
+                  { field: 'v3', format: 'n;2', align: "right", sortable: true,
                      header: {
                      items: <cx>
-                        <div>V3 <div class="cxs-color-4" style={legendStyle}></div></div>
+                        <div preserveWhitespace>
+                            V3
+                            <div class="cxs-color-4" style={legendStyle}></div>
+                        </div>
                      </cx>
                      }
                   }
