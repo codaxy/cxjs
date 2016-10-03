@@ -236,7 +236,8 @@ export class Grid extends Widget {
       this.renderRows(context, instance);
 
       refs.header = {};
-      var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
+      refs.header2 = {};
+         var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
 
       return <GridComponent key={key}
                             instance={instance}
@@ -246,75 +247,181 @@ export class Grid extends Widget {
                             fixedHeaderRefs={refs.fixed} />
    }
 
-   renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
-      var {data, store, widget} = instance;
-      if (!refs)
-         refs = {};
-      var {CSS, baseClass} = widget;
 
-      var result = [];
-      var skip = 0;
+      renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
+         var {data, store, widget} = instance;
+         if (!refs)
+            refs = {};
+         var {CSS, baseClass} = widget;
 
-      instance.columns.forEach((columnInstance, i) => {
+         var results = [];
+         var headers = [];
+         var headers2 = [];
 
-         if (skip--)
-            return;
+         var skip = 0;
+         var skip2 = 0;
 
-         var c = columnInstance.widget;
-         var header = columnInstance.header;
-         var mods = [];
+         var header2exists = 0;
 
-         if (header.widget.align)
-            mods.push('aligned-' + header.widget.align);
-         else if (c.align)
-            mods.push('aligned-' + c.align);
+         instance.columns.forEach((columnInstance, i) => {
 
-         if (c.sortable) {
-            mods.push('sortable');
+            if(columnInstance.header2){
+            if (skip--)
+               return;
 
-            if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-               mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+            if (skip2--)
+               return;
+
+            var c = columnInstance.widget;
+            var header = columnInstance.header;
+            var header2 = columnInstance.header2;
+
+            if(header2.data.text != "")
+               header2exists++;
+            var mods = [];
+            var mods2 = [];
+
+            if (header.widget.align)
+               mods.push('aligned-' + header.widget.align);
+            else if (c.align)
+               mods.push('aligned-' + c.align);
+
+            if (header2.widget.align)
+               mods2.push('aligned-' + header2.widget.align);
+            else if (c.align)
+               mods2.push('aligned-' + c.align);
+
+            if (c.sortable) {
+               mods.push('sortable');
+               mods2.push('sortable');
+
+               if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                  mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                  mods2.push('sorted-' + data.sorters[0].direction.toLowerCase());
+               }
             }
-         }
+
+            var style = header.data.style;
+            var style2 = header2.data.style;
+            var cls = CSS.element(baseClass, 'col-header', mods);
+            var cls2 = CSS.element(baseClass, 'col-header2', mods2);
+
+            if (header.data.classNames)
+               cls += ' ' + header.data.classNames;
+
+            if (header2.data.classNames) {
+               cls2 += ' ' + header2.data.classNames;
+            }
+            var content = header.render(context);
+            var content2 = header2.render(context);
 
 
 
-         var style = header.data.style;
-         var cls = CSS.element(baseClass, 'col-header', mods);
-         if (header.data.classNames)
-            cls += ' ' + header.data.classNames;
+            if (fixed && originalRefs[i]) {
+               style = {...style, width: originalRefs[i].offsetWidth + 'px'}
+            }
 
-         var content = header.render(context);
+            if (fixed && originalRefs[i]) {
+               style2 = {...style2, width: originalRefs[i].offsetWidth + 'px'}
+            }
 
-         if (fixed && originalRefs[i]) {
-            style = {...style, width: originalRefs[i].offsetWidth + 'px'}
-         }
+            skip = header.data.colSpan - 1;
+            skip2 = header2.data.colSpan - 1;
 
-         skip = header.data.colSpan - 1;
-
-         result.push(<th key={i}
-                         ref={c=> {
+            headers.push(<th key={i}
+                            ref={c=> {
                             refs[i] = c
                          }}
-                         colSpan={header.data.colSpan}
-                         className={cls}
-                         style={style}
-                         onClick={e=>this.onHeaderClick(e, c, store, instance)}>
-            {getContent(content)}
-         </th>);
-      });
+                            colSpan={header.data.colSpan}
+                            className={cls}
+                            style={style}
+                            onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+               {getContent(content)}
+            </th>);
 
-      if (fixed)
-         result.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
+            headers2.push(<th key={i}
+                             ref={c=> {
+                            refs[i] = c
+                         }}
+                             colSpan={header2.data.colSpan}
+                             className={cls2}
+                             style={style2}
+                             onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+               {getContent(content2)}
+            </th>);
+
+         }
+            else
+            {
+                  if (skip--)
+                     return;
+
+                  var c = columnInstance.widget;
+                  var header = columnInstance.header;
+                  var mods = [];
+
+                  if (header.widget.align)
+                     mods.push('aligned-' + header.widget.align);
+                  else if (c.align)
+                     mods.push('aligned-' + c.align);
+
+                  if (c.sortable) {
+                     mods.push('sortable');
+
+                     if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                        mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                     }
+                  }
+
+
+
+                  var style = header.data.style;
+                  var cls = CSS.element(baseClass, 'col-header', mods);
+                  if (header.data.classNames)
+                     cls += ' ' + header.data.classNames;
+
+                  var content = header.render(context);
+
+                  if (fixed && originalRefs[i]) {
+                     style = {...style, width: originalRefs[i].offsetWidth + 'px'}
+                  }
+
+                  skip = header.data.colSpan - 1;
+
+                  headers.push(<th key={i}
+                                  ref={c=> {
+                            refs[i] = c
+                         }}
+                                  colSpan={header.data.colSpan}
+                                  className={cls}
+                                  style={style}
+                                  onClick={e=>this.onHeaderClick(e, c, store, instance)}>
+                     {getContent(content)}
+                  </th>);
+            }
+
+         });
+
+
+         if (fixed)
+            headers.push(<th key="dummy" className={CSS.element(baseClass, "col-header")} ref={el=> {
             refs.last = el
          }}/>);
 
-      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-         <tr>
-            {result}
-         </tr>
-      </tbody>;
-   }
+         if (fixed)
+            headers2.push(<th key="dummy" className={CSS.element(baseClass, "col-header2")} ref={el=> {
+            refs.last = el
+         }}/>);
+
+         results.push(<tr>{headers}</tr>);
+
+         if (header2exists > 0)
+            results.push(<tr>{headers2}</tr>);
+
+         return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
+            {results}
+         </tbody>;
+      }
 
    onHeaderClick(e, column, store, instance) {
       e.preventDefault();
@@ -713,7 +820,15 @@ class GridColumn extends PureContainer {
          this.header = {
             text: this.header || ''
          };
+
+      if (isSelector(this.header2))
+         this.header2 = {
+            text: this.header2 || ''
+         };
+
       this.header = Widget.create(GridColumnHeader, this.header);
+      if(this.header2.text != "")
+         this.header2 = Widget.create(GridColumnHeader, this.header2);
 
       if (!this.value && this.field)
          this.value = { bind: this.recordName + '.' + this.field };
@@ -726,6 +841,8 @@ class GridColumn extends PureContainer {
 
    initInstance(context, instance) {
       instance.header = instance.getChild(context, this.header);
+      if(this.header2.text != "")
+         instance.header2 = instance.getChild(context, this.header2);
    }
 
    explore(context, instance) {
@@ -733,6 +850,8 @@ class GridColumn extends PureContainer {
          super.explore(context, instance);
       else {
          instance.header.explore(context);
+         if(this.header2.text != "")
+            instance.header2.explore(context);
       }
    }
 
@@ -741,6 +860,8 @@ class GridColumn extends PureContainer {
          super.prepare(context, instance);
       else {
          instance.header.prepare(context);
+         if(this.header2.text != "")
+            instance.header2.prepare(context);
       }
    }
 
@@ -749,6 +870,8 @@ class GridColumn extends PureContainer {
          super.cleanup(context, instance);
       else {
          instance.header.cleanup(context);
+         if(this.header2.text != "")
+            instance.header2.cleanup(context);
       }
    }
 }
