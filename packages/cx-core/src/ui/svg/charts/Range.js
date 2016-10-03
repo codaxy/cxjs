@@ -125,6 +125,7 @@ export class Range extends BoundedObject {
                                   width={x2 - x1}
                                   height={y2 - y1}
                                   onMouseDown={e=>this.handleMouseDown(e, instance)}
+                                  onTouchStart={e=>this.handleMouseDown(e, instance)}
             />
          }
          {this.renderChildren(context, instance)}
