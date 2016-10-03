@@ -22,7 +22,7 @@ export const TextFields = <cx>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
-               <TextField label="Standard" value:bind="$page.text" autoFocus />
+               <TextField label="Standard" value:bind="$page.text" maxLength = "5" autoFocus />
                <TextField label="Disabled" value:bind="$page.text" disabled />
                <TextField label="Readonly" value:bind="$page.text" readOnly />
                <TextField label="Placeholder" value:bind="$page.text" placeholder="Type something here..." />
