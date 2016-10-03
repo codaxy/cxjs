@@ -174,8 +174,12 @@ export class Range extends BoundedObject {
          var dist = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset, this.constrainX) - captureData.start.x;
          var x1v = xAxis.decodeValue(captureData.start.x1);
          var x2v = xAxis.decodeValue(captureData.start.x2);
-         if (this.constrainX)
-            dist = Math.max(xAxis.constrainValue(x1v + dist) - x1v, Math.min(xAxis.constrainValue(x2v + dist) - x2v, dist));
+         if (this.constrainX) {
+            if (dist > 0)
+               dist = Math.min(xAxis.constrainValue(x2v + dist) - x2v, dist);
+            else
+               dist = Math.max(xAxis.constrainValue(x1v + dist) - x1v, dist);
+         }
          instance.set('x1', xAxis.encodeValue(x1v + dist));
          instance.set('x2', xAxis.encodeValue(x2v + dist));
       }

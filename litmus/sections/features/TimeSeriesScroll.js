@@ -21,9 +21,9 @@ class PageController extends Controller {
          to:  new Date(2012, 0, 1),
       });
 
-      var v = 1000;
+      var v = 2000;
 
-      this.store.set('$page.data', Array.from({length: 20 * 12}, (x, i)=>({
+      this.store.init('$page.data', Array.from({length: 20 * 12}, (x, i)=>({
          date: new Date(1995, i, 1),
          value: v = (v + Math.random() * 300 - 150)
       })));
@@ -45,8 +45,8 @@ export default <cx>
             <ClipRect>
                <ColumnGraph data:bind="$page.data"
                             colorIndex={4}
-                            size={30 * 24 * 60 * 60 * 1000}
-                            offset={15 * 24 * 60 * 60 * 1000}
+                            offset={15 * 24 * 60 * 60 * 1000} //15 days
+                            size={30 * 24 * 60 * 60 * 1000} //30 days
                             xField="date"
                             yField="value" />
             </ClipRect>
@@ -68,13 +68,9 @@ export default <cx>
                yField="value"
             />
 
-            <Range
-               colorIndex={4}
-               x1:bind="$page.range.from"
-               x2:bind="$page.range.to"
-               draggableX
-               constrainX
-            >
+            <Range x1:bind="$page.range.from"
+                   x2:bind="$page.range.to"
+                   hidden>
                <ClipRect>
                   <ColumnGraph
                      data:bind="$page.data"
@@ -85,6 +81,11 @@ export default <cx>
                      yField="value"
                   />
                </ClipRect>
+               <Range colorIndex={4}
+                      x1:bind="$page.range.from"
+                      x2:bind="$page.range.to"
+                      draggableX
+                      constrainX />
             </Range>
 
             <Marker
@@ -103,7 +104,6 @@ export default <cx>
                constrain
             />
 
-            />
          </Chart>
       </Svg>
       <TextField value:bind="$page.x" />

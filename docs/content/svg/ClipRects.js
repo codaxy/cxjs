@@ -19,7 +19,7 @@ export const ClipRects = <cx>
 
         <CodeSplit>
 
-            The `ClipRect` widget can be used to clip the inner contents.
+            The `ClipRect` widget can be used to clip its inner contents.
 
             <div class="widgets">
                 <Svg style="width:200px;height:200px;background:white;margin:5px">
@@ -28,6 +28,10 @@ export const ClipRects = <cx>
                     </ClipRect>
                 </Svg>
             </div>
+
+            Examples:
+
+            * [Timeline](~/examples/charts/bar/timeline)
 
             <CodeSnippet putInto="code">{`
             <div class="widgets">
