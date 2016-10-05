@@ -12,12 +12,9 @@
    box-sizing: border-box;
    cursor: pointer;
 
-   .cxb-legend.cxs-vertical {
-      display: block;
-   }
-
    .cxb-legend.cxs-vertical & {
       display: block;
+      text-align: left;
    }
 }
 

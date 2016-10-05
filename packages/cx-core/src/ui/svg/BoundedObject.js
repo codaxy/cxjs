@@ -49,7 +49,7 @@ export class BoundedObject extends PureContainer {
       var {data} = instance;
 
       if (!context.parentRect)
-        throw new Error('Parent bounds not provided through the context.');
+        throw new Error('Parent bounds were not provided through the context.');
 
       this.prepareBounds(context, instance);
 
