@@ -292,21 +292,8 @@ class LookupComponent extends VDOM.Component {
          renderContents: ::this.renderContents,
          onFocusOut: ::this.closeDropdown,
          memoize: false,
+         constrain: true,
          placementOrder: 'down-right down-left up-right up-left',
-         onDropdownPositionDidUpdate: () => {
-            if (this.dom.dropdown && this.dom.list) {
-               var pos = this.dom.dropdown.getBoundingClientRect();
-               var maxHeight = 'none';
-
-               if (pos.bottom >= window.innerHeight)
-                  maxHeight = `${this.dom.list.offsetHeight - pos.bottom + window.innerHeight}px`;
-
-               if (pos.top <= 0)
-                  maxHeight = `${this.dom.list.offsetHeight + pos.top}px`;
-
-               this.dom.list.style.maxHeight = maxHeight;
-            }
-         },
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {

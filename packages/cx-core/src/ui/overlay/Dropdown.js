@@ -80,41 +80,47 @@ export class Dropdown extends Overlay {
          case 'down-center':
             style.top = `${x.bottom + this.offset}px`;
             style.right = 'auto';
-            style.bottom = 'auto';
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > window.innerHeight)
+               ? '0'
+               : 'auto';
             style.left = `${(x.left + x.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'down-right':
             style.top = `${x.bottom + this.offset}px`;
             style.right = 'auto';
-            style.bottom = 'auto';
             style.left = `${x.left}px`;
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > window.innerHeight)
+               ? '0'
+               : 'auto';
             break;
 
          case 'down-left':
             style.top = `${x.bottom + this.offset}px`;
             style.right = `${window.innerWidth - x.right}px`;
-            style.bottom = 'auto';
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > window.innerHeight)
+               ? '0'
+               : 'auto';
             style.left = 'auto';
             break;
 
          case 'up':
          case 'up-center':
-            style.top = 'auto';
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
             style.right = 'auto';
             style.bottom = `${window.innerHeight - x.top + this.offset}px`;
             style.left = `${(x.left + x.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'up-right':
-            style.top = 'auto';
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
             style.right = 'auto';
             style.bottom = `${window.innerHeight - x.top + this.offset}px`;
             style.left = `${x.left}px`;
             break;
 
          case 'up-left':
-            style.top = 'auto';
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
             style.right = `${window.innerWidth - x.right}px`;
             style.bottom = `${window.innerHeight - x.top + this.offset}px`;
             style.left = 'auto';
@@ -301,5 +307,6 @@ Dropdown.prototype.placement = undefined;
 Dropdown.prototype.matchWidth = true;
 Dropdown.prototype.placementOrder = 'up down right left';
 Dropdown.prototype.placement = null; //default placement
+Dropdown.prototype.constrain = false;
 
 Widget.alias('dropdown', Dropdown);

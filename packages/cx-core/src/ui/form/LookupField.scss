@@ -97,6 +97,7 @@
 .cxe-lookupfield-dropdown {
    display: flex;
    flex-direction: column;
+   height: 100%;
 }
 
 .cxe-lookupfield-message {
@@ -112,6 +113,7 @@
 
 .cxe-lookupfield-scroll-container {
    overflow: auto;
+   flex: 1;
 }
 
 .cxe-lookupfield-arrow {
