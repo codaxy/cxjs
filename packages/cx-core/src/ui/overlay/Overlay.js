@@ -3,6 +3,7 @@ import {PureContainer} from '../PureContainer';
 import {startAppLoop} from '../../app/startAppLoop';
 import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
+import {getViewportSize} from '../../util/getViewportSize';
 import {captureMouseOrTouch} from './captureMouse';
 
 /*
@@ -82,6 +83,7 @@ export class Overlay extends PureContainer
       if (this.center) {
          var {el} = component;
          var rect = el.getBoundingClientRect();
+         var viewport = getViewportSize();
          el.style.left = `${(window.innerWidth - rect.width) / 2}px`;
          el.style.top = `${(window.innerHeight - rect.height) / 2}px`;
       }
