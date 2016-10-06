@@ -103,7 +103,7 @@ export class Field extends PureContainer {
 
    validateRequired(context, instance) {
       var {data} = instance;
-      if (!data.value)
+      if (data.value == null)
          return this.requiredText;
    }
 

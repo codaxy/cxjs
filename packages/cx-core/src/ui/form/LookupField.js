@@ -9,6 +9,7 @@ import {Console} from '../../util/Console';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../FocusManager';
 import {isFocused} from '../../util/DOM';
+import {isTouchDevice} from '../../util/isTouchDevice';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 
@@ -348,7 +349,9 @@ class LookupComponent extends VDOM.Component {
          </div>
       }
       else {
-         content = <div key="msg" ref={el=>{this.dom.list = el}} className={CSS.element(baseClass, "scroll-container")}>
+         content = <div key="msg" ref={el=>{this.dom.list = el}}
+                        className={CSS.element(baseClass, "scroll-container")}
+                        onWheel={::this.onListWheel}>
             {instance.prepareRenderCleanupChild(this.list, this.itemStore, "list", {name: 'lookupfield-list'})}
          </div>
       }
@@ -367,8 +370,17 @@ class LookupComponent extends VDOM.Component {
       </div>
    }
 
+   onListWheel(e) {
+      var {list} = this.dom;
+      if ((list.scrollTop + list.offsetHeight == list.scrollHeight && e.deltaY > 0) ||
+         (list.scrollTop == 0 && e.deltaY < 0)) {
+         e.preventDefault();
+         e.stopPropagation();
+      }
+   }
+
    onDropdownFocus(e) {
-      if (this.dom.query && !isFocused(this.dom.query))
+      if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice())
          FocusManager.focus(this.dom.query);
    }
 
@@ -603,7 +615,9 @@ class LookupComponent extends VDOM.Component {
          this.query('');
          this.setState({
             dropdownOpen: true,
-         }, () => this.dom.dropdown.focus());
+         }, () => {
+            this.dom.dropdown.focus();
+         });
       }
    }
 
