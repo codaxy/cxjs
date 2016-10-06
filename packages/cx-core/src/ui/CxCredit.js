@@ -21,12 +21,11 @@ export class CxCredit extends HtmlElement {
    attachProps(context, instance, props) {
       props.children = <svg>
          <text x="50%" y="50%" dy="0.4em">Cx</text>
-      </svg> ;
-      props.href = "https://cx.codaxy.com/";
+      </svg>;
    }
 }
 
 CxCredit.prototype.baseClass = "cxcredit";
-CxCredit.prototype.tag = "a";
+CxCredit.prototype.tag = "div";
 
 Widget.alias('cx-credit', CxCredit);

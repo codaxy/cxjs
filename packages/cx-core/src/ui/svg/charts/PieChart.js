@@ -177,11 +177,13 @@ export class PieSlice extends PureContainer {
 
       let {data} = instance;
 
+      instance.valid = typeof data.value == 'number' && data.value > 0;
+
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
       if (instance.colorMap && data.name)
          instance.colorMap.acknowledge(data.name);
 
-      if (data.active) {
+      if (instance.valid && data.active) {
          instance.pie.acknowledge(data.stack, data.value);
          super.explore(context, instance);
       }
@@ -189,7 +191,7 @@ export class PieSlice extends PureContainer {
 
    cleanup(context, instance) {
       let {data} = instance;
-      if (data.active) {
+      if (instance.valid && data.active) {
          super.cleanup(context, instance);
       }
    }
@@ -205,7 +207,7 @@ export class PieSlice extends PureContainer {
          }
       }
 
-      if (data.active) {
+      if (instance.valid && data.active) {
          let seg = pie.map(data.stack, data.value);
 
          if (!segment || instance.shouldUpdate || seg.startAngle != segment.startAngle || seg.endAngle != segment.endAngle || pie.shouldUpdate) {
@@ -272,7 +274,7 @@ export class PieSlice extends PureContainer {
 
    render(context, instance, key) {
       var {segment, data} = instance;
-      if (!data.active)
+      if (!instance.valid || !data.active)
          return null;
 
       var stateMods = {
