@@ -264,7 +264,8 @@ class LookupComponent extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
-      var {CSS, baseClass} = this.props.instance.widget;
+      var {widget} = this.props.instance;
+      var {CSS, baseClass} = widget;
 
       this.list = Widget.create(<cx>
          <ul class={CSS.element(baseClass, "lookup-options")}>
@@ -272,12 +273,16 @@ class LookupComponent extends VDOM.Component {
                <li data-option:bind="$option"
                    memoize={false}
                    class={{
-                     selected: (data) => this.props.instance.data.selectedKeys.find(x=>this.areKeysEqual(x, this.getOptionKey(data))) != null,
-                     cursor: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
+                      selected: (data) => this.props.instance.data.selectedKeys.find(x=>this.areKeysEqual(x, this.getOptionKey(data))) != null,
+                      cursor: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
                    }}
                    children={this.props.itemConfig}
-                   onMouseDown={e => {e.preventDefault();}}
-                   onMouseEnter={(e, {store}) => { this.setCursorKey(store.getData())}}
+                   onMouseDown={e => {
+                      e.preventDefault();
+                   }}
+                   onMouseEnter={(e, {store}) => {
+                      this.setCursorKey(store.getData())
+                   }}
                    onClick={(e, inst) => this.onItemClick(e, inst)}
                />
             </Repeater>
@@ -300,7 +305,8 @@ class LookupComponent extends VDOM.Component {
                   height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight
                }
             }
-         }
+         },
+         ...widget.dropdownOptions
       };
 
       return this.dropdown = Widget.create(dropdown);

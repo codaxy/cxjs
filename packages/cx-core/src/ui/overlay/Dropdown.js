@@ -76,9 +76,26 @@ export class Dropdown extends Overlay {
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
 
+      var placement = this.findOptimalPlacement(contentSize, x, data.placement);
+
+      if (this.positioning == 'absolute')
+         this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, x);
+      else
+         this.applyFixedPositioningPlacementStyles(style, placement, contentSize, x);
+
+
+      component.setCustomStyle(style);
+      this.setDirectionClass(component, placement);
+
+      if (this.onDropdownPositionDidUpdate)
+         this.onDropdownPositionDidUpdate(instance, component);
+   }
+
+   applyFixedPositioningPlacementStyles(style, placement, contentSize, x) {
       var viewport = getViewportSize();
 
-      var placement = this.findOptimalPlacement(contentSize, x, data.placement);
+      style.position = "fixed";
+
       switch (placement) {
          case 'down':
          case 'down-center':
@@ -174,12 +191,114 @@ export class Dropdown extends Overlay {
             style.left = 'auto';
             break;
       }
+   }
 
-      component.setCustomStyle(style);
-      this.setDirectionClass(component, placement);
+   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, x) {
+      var viewport = getViewportSize();
 
-      if (this.onDropdownPositionDidUpdate)
-         this.onDropdownPositionDidUpdate(instance, component);
+      style.position = "absolute";
+
+      switch (placement) {
+         case 'down':
+         case 'down-center':
+            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.right = 'auto';
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${x.bottom + this.offset - viewport.height}px`
+               : 'auto';
+            style.left = `${(x.right - x.left - el.offsetWidth) / 2}px`;
+            break;
+
+         case 'down-right':
+            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.right = 'auto';
+            style.left = `0`;
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${x.bottom + this.offset - viewport.height}px`
+               : 'auto';
+            break;
+
+         case 'down-left':
+            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.right = `0`;
+            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${x.bottom + this.offset - viewport.height}px`
+               : 'auto';
+            style.left = 'auto';
+            break;
+
+         case 'up':
+         case 'up-center':
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - x.top}px`
+               : 'auto';
+            style.right = 'auto';
+            style.bottom = `${x.bottom - x.top - this.offset}px`;
+            style.left = `${(x.right - x.left - el.offsetWidth) / 2}px`;
+            break;
+
+         case 'up-right':
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - x.top}px`
+               : 'auto';
+            style.right = 'auto';
+            style.bottom = `${x.bottom - x.top - this.offset}px`;
+            style.left = `0`;
+            break;
+
+         case 'up-left':
+            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - x.top}px`
+               : 'auto';
+            style.right = `0`;
+            style.bottom = `${x.bottom - x.top - this.offset}px`;
+            style.left = 'auto';
+            break;
+
+         case 'right':
+         case 'right-center':
+            style.top = `${(x.bottom - x.top - el.offsetHeight) / 2}px`;
+            style.right = 'auto';
+            style.bottom = 'auto';
+            style.left = `${x.right - x.left + this.offset}px`;
+            break;
+
+         case 'right-down':
+            style.top = `0`;
+            style.right = 'auto';
+            style.bottom = 'auto';
+            style.left = `${x.right - x.left + this.offset}px`;
+            break;
+
+         case 'right-up':
+            style.top = 'auto';
+            style.right = 'auto';
+            style.bottom =  `0`;
+            style.left = `${x.right - x.left + this.offset}px`;
+            break;
+
+         case 'left':
+         case 'left-center':
+            style.top = `${(x.bottom - x.top - el.offsetHeight) / 2}px`;
+            style.right = `${x.right - x.left + this.offset}px`;
+            style.bottom = 'auto';
+            style.left = 'auto';
+            break;
+
+         case 'left-down':
+            style.top = `0`;
+            style.right = `${x.right - x.left + this.offset}px`;
+            style.bottom = 'auto';
+            style.left = 'auto';
+            break;
+
+         case 'left-up':
+            style.top = 'auto';
+            style.right = `${x.right - x.left + this.offset}px`;
+            style.bottom =  `0`;
+            style.left = 'auto';
+            break;
+      }
    }
 
    setDirectionClass(component, placement) {
@@ -313,5 +432,6 @@ Dropdown.prototype.matchWidth = true;
 Dropdown.prototype.placementOrder = 'up down right left';
 Dropdown.prototype.placement = null; //default placement
 Dropdown.prototype.constrain = false;
+Dropdown.prototype.positioning = 'fixed';
 
 Widget.alias('dropdown', Dropdown);
