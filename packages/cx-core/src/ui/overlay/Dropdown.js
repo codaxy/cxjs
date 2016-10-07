@@ -3,6 +3,7 @@ import {CSS} from '../CSS';
 import {Overlay} from './Overlay';
 import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
 import {getViewportSize} from '../../util/getViewportSize';
+import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../ResizeManager';
 
 /*
@@ -60,10 +61,10 @@ export class Dropdown extends Overlay {
    updateDropdownPosition(instance, component) {
       var {el} = component;
       var {data} = instance;
-      var x = this.relatedElement.getBoundingClientRect();
+      var rel = this.relatedElement.getBoundingClientRect();
 
       if (this.trackMouse && component.mousePosition) {
-         x = {
+         rel = {
             left: component.mousePosition.x,
             right: component.mousePosition.x,
             top: component.mousePosition.y,
@@ -72,17 +73,29 @@ export class Dropdown extends Overlay {
       }
       var style = {};
       if (this.matchWidth)
-         style.minWidth = `${x.right - x.left}px`;
+         style.minWidth = `${rel.right - rel.left}px`;
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
 
-      var placement = this.findOptimalPlacement(contentSize, x, data.placement);
+      var placement = this.findOptimalPlacement(contentSize, rel, data.placement);
 
-      if (this.positioning == 'absolute')
-         this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, x);
-      else
-         this.applyFixedPositioningPlacementStyles(style, placement, contentSize, x);
+      switch (this.positioning) {
 
+         case 'absolute':
+            this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el);
+            break;
+
+         case 'auto':
+            if (isTouchDevice())
+               this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el);
+            else
+               this.applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el);
+            break;
+
+         default:
+            this.applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el);
+            break;
+      }
 
       component.setCustomStyle(style);
       this.setDirectionClass(component, placement);
@@ -91,7 +104,7 @@ export class Dropdown extends Overlay {
          this.onDropdownPositionDidUpdate(instance, component);
    }
 
-   applyFixedPositioningPlacementStyles(style, placement, contentSize, x) {
+   applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el) {
       var viewport = getViewportSize();
 
       style.position = "fixed";
@@ -99,27 +112,27 @@ export class Dropdown extends Overlay {
       switch (placement) {
          case 'down':
          case 'down-center':
-            style.top = `${x.bottom + this.offset}px`;
+            style.top = `${rel.bottom + this.offset}px`;
             style.right = 'auto';
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
                ? '0'
                : 'auto';
-            style.left = `${(x.left + x.right - el.offsetWidth) / 2}px`;
+            style.left = `${(rel.left + rel.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'down-right':
-            style.top = `${x.bottom + this.offset}px`;
+            style.top = `${rel.bottom + this.offset}px`;
             style.right = 'auto';
-            style.left = `${x.left}px`;
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+            style.left = `${rel.left}px`;
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
                ? '0'
                : 'auto';
             break;
 
          case 'down-left':
-            style.top = `${x.bottom + this.offset}px`;
-            style.right = `${viewport.width - x.right}px`;
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
+            style.top = `${rel.bottom + this.offset}px`;
+            style.right = `${viewport.width - rel.right}px`;
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
                ? '0'
                : 'auto';
             style.left = 'auto';
@@ -127,73 +140,73 @@ export class Dropdown extends Overlay {
 
          case 'up':
          case 'up-center':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
             style.right = 'auto';
-            style.bottom = `${viewport.height - x.top + this.offset}px`;
-            style.left = `${(x.left + x.right - el.offsetWidth) / 2}px`;
+            style.bottom = `${viewport.height - rel.top + this.offset}px`;
+            style.left = `${(rel.left + rel.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'up-right':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
             style.right = 'auto';
-            style.bottom = `${viewport.height - x.top + this.offset}px`;
-            style.left = `${x.left}px`;
+            style.bottom = `${viewport.height - rel.top + this.offset}px`;
+            style.left = `${rel.left}px`;
             break;
 
          case 'up-left':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
-            style.right = `${viewport.width - x.right}px`;
-            style.bottom = `${viewport.height - x.top + this.offset}px`;
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
+            style.right = `${viewport.width - rel.right}px`;
+            style.bottom = `${viewport.height - rel.top + this.offset}px`;
             style.left = 'auto';
             break;
 
          case 'right':
          case 'right-center':
-            style.top = `${(x.top + x.bottom - el.offsetHeight) / 2}px`;
+            style.top = `${(rel.top + rel.bottom - el.offsetHeight) / 2}px`;
             style.right = 'auto';
             style.bottom = 'auto';
-            style.left = `${x.right + this.offset}px`;
+            style.left = `${rel.right + this.offset}px`;
             break;
 
          case 'right-down':
-            style.top = `${x.top}px`;
+            style.top = `${rel.top}px`;
             style.right = 'auto';
             style.bottom = 'auto';
-            style.left = `${x.right + this.offset}px`;
+            style.left = `${rel.right + this.offset}px`;
             break;
 
          case 'right-up':
             style.top = 'auto';
             style.right = 'auto';
-            style.bottom =  `${viewport.height - x.bottom}px`;
-            style.left = `${x.right + this.offset}px`;
+            style.bottom =  `${viewport.height - rel.bottom}px`;
+            style.left = `${rel.right + this.offset}px`;
             break;
 
          case 'left':
          case 'left-center':
-            style.top = `${(x.top + x.bottom - el.offsetHeight) / 2}px`;
-            style.right = `${viewport.width - x.left + this.offset}px`;
+            style.top = `${(rel.top + rel.bottom - el.offsetHeight) / 2}px`;
+            style.right = `${viewport.width - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-down':
-            style.top = `${x.top}px`;
-            style.right = `${viewport.width - x.left + this.offset}px`;
+            style.top = `${rel.top}px`;
+            style.right = `${viewport.width - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-up':
             style.top = 'auto';
-            style.right = `${viewport.width - x.left + this.offset}px`;
-            style.bottom =  `${viewport.height - x.bottom}px`;
+            style.right = `${viewport.width - rel.left + this.offset}px`;
+            style.bottom =  `${viewport.height - rel.bottom}px`;
             style.left = 'auto';
             break;
       }
    }
 
-   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, x) {
+   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el) {
       var viewport = getViewportSize();
 
       style.position = "absolute";
@@ -201,100 +214,100 @@ export class Dropdown extends Overlay {
       switch (placement) {
          case 'down':
          case 'down-center':
-            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = 'auto';
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${x.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${rel.bottom + this.offset - viewport.height}px`
                : 'auto';
-            style.left = `${(x.right - x.left - el.offsetWidth) / 2}px`;
+            style.left = `${(rel.right - rel.left - el.offsetWidth) / 2}px`;
             break;
 
          case 'down-right':
-            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = 'auto';
             style.left = `0`;
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${x.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${rel.bottom + this.offset - viewport.height}px`
                : 'auto';
             break;
 
          case 'down-left':
-            style.top = `${x.bottom - x.top + this.offset}px`;
+            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = `0`;
-            style.bottom = this.constrain && (x.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${x.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
+               ? `${rel.bottom + this.offset - viewport.height}px`
                : 'auto';
             style.left = 'auto';
             break;
 
          case 'up':
          case 'up-center':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - x.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - rel.top}px`
                : 'auto';
             style.right = 'auto';
-            style.bottom = `${x.bottom - x.top - this.offset}px`;
-            style.left = `${(x.right - x.left - el.offsetWidth) / 2}px`;
+            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
+            style.left = `${(rel.right - rel.left - el.offsetWidth) / 2}px`;
             break;
 
          case 'up-right':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - x.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - rel.top}px`
                : 'auto';
             style.right = 'auto';
-            style.bottom = `${x.bottom - x.top - this.offset}px`;
+            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
             style.left = `0`;
             break;
 
          case 'up-left':
-            style.top = this.constrain && (x.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - x.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
+               ? `${this.offset - rel.top}px`
                : 'auto';
             style.right = `0`;
-            style.bottom = `${x.bottom - x.top - this.offset}px`;
+            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
             style.left = 'auto';
             break;
 
          case 'right':
          case 'right-center':
-            style.top = `${(x.bottom - x.top - el.offsetHeight) / 2}px`;
+            style.top = `${(rel.bottom - rel.top - el.offsetHeight) / 2}px`;
             style.right = 'auto';
             style.bottom = 'auto';
-            style.left = `${x.right - x.left + this.offset}px`;
+            style.left = `${rel.right - rel.left + this.offset}px`;
             break;
 
          case 'right-down':
             style.top = `0`;
             style.right = 'auto';
             style.bottom = 'auto';
-            style.left = `${x.right - x.left + this.offset}px`;
+            style.left = `${rel.right - rel.left + this.offset}px`;
             break;
 
          case 'right-up':
             style.top = 'auto';
             style.right = 'auto';
             style.bottom =  `0`;
-            style.left = `${x.right - x.left + this.offset}px`;
+            style.left = `${rel.right - rel.left + this.offset}px`;
             break;
 
          case 'left':
          case 'left-center':
-            style.top = `${(x.bottom - x.top - el.offsetHeight) / 2}px`;
-            style.right = `${x.right - x.left + this.offset}px`;
+            style.top = `${(rel.bottom - rel.top - el.offsetHeight) / 2}px`;
+            style.right = `${rel.right - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-down':
             style.top = `0`;
-            style.right = `${x.right - x.left + this.offset}px`;
+            style.right = `${rel.right - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-up':
             style.top = 'auto';
-            style.right = `${x.right - x.left + this.offset}px`;
+            style.right = `${rel.right - rel.left + this.offset}px`;
             style.bottom =  `0`;
             style.left = 'auto';
             break;
