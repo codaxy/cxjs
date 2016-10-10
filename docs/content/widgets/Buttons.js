@@ -15,6 +15,8 @@ export const Buttons = <cx>
    <Md>
       # Buttons
 
+      {"`import \{Button\} from 'cx/ui/Button';`"}
+
       Buttons are commonly used UI elements.
 
       <CodeSplit>
