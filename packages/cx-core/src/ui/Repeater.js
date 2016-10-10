@@ -13,7 +13,8 @@ export class Repeater extends PureContainer {
          this.recordsBinding = Binding.get(this.records.bind);
       this.adapter = ArrayAdapter.create(ArrayAdapter, {
          recordName: this.recordName,
-         indexName: this.indexName
+         indexName: this.indexName,
+         keyField: this.keyField
       });
    }
 

@@ -61,7 +61,8 @@ class MenuComponent extends VDOM.Component {
                  onKeyDown={::this.onKeyDown}>
 
          {this.props.children.map((c, i)=> {
-            return <MenuItemComponent key={i}
+            let key = c && typeof c == 'object' && c.key ? c.key : i;
+            return <MenuItemComponent key={key}
                                       cursor={i == this.state.cursor}
                                       instance={this.props.instance}
                                       itemInfo={this.itemInfo}
