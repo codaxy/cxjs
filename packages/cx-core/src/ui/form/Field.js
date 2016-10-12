@@ -4,6 +4,7 @@ import {Label} from './Label';
 import {stopPropagation} from '../eventCallbacks';
 import {isSelector} from '../../data/isSelector';
 import {Localization} from '../Localization';
+import {isPromise} from '../../util/isPromise';
 
 export class Field extends PureContainer {
 
@@ -112,16 +113,44 @@ export class Field extends PureContainer {
 
    validate(context, instance) {
       var {data, state} = instance;
+      state = state || {};
 
       if (!data.error) {
          if (state.inputError)
             data.error = state.inputError;
+         else if (state.validating)
+            data.error = this.validatingText;
          else if (data.required)
             data.error = this.validateRequired(context, instance);
       }
 
-      if (!data.error && this.onValidate)
-         data.error = this.onValidate(data.value);
+      if (!data.error && data.value != null && this.onValidate && !state.validating && data.value != state.lastValidatedValue) {
+         let result = this.onValidate(data.value, instance);
+         if (isPromise(result)) {
+            data.error = this.validatingText;
+            instance.setState({
+               validating: true,
+               lastValidatedValue: data.value
+            });
+            result
+               .then(r=> {
+                  instance.setState({
+                     validating: false,
+                     inputError: r
+                  })
+               })
+               .catch(e=> {
+                  instance.setState({
+                     validating: false,
+                     inputError: 'Validation thrown an exception.'
+                  });
+                  if (this.onValidationException)
+                     this.onValidationException(e, instance);
+               });
+         } else {
+            data.error = result;
+         }
+      }
    }
 
    renderLabel(context, instance, key) {
@@ -185,6 +214,7 @@ Field.prototype.suppressErrorTooltipsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
+Field.prototype.validatingText = "Validation is in progress...";
 
 //Field.prototype.pure = false; //validation through context - recheck
 

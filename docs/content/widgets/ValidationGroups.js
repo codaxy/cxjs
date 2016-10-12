@@ -12,43 +12,47 @@ import configs from './configs/ValidationGroup';
 
 
 export const ValidationGroups = <cx>
-   <Md>
-      # ValidationGroup
+    <Md>
+        # ValidationGroup
 
-      <CodeSplit>
+        <CodeSplit>
 
-         The `ValidationGroup` element is pure container element which allows tracking the state of the form.
-         If any of the fields inside it reports a validation error, invalid state is reported to the data store.
+            The `ValidationGroup` element is pure container element which allows tracking the state of the form.
+            If any of the fields inside it reports a validation error, invalid state is reported to the data store.
 
-         <div class="widgets" style={{
-               borderLeftWidth: '3px',
-               borderLeftStyle: 'solid',
-               borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
-            }}>
-            <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-               <TextField label="First Name" value:bind="$page.firstName" required />
-               <TextField label="Last Name" value:bind="$page.lastName" required />
-            </ValidationGroup>
-         </div>
-
-         <CodeSnippet putInto="code">{`
             <div class="widgets" style={{
-               borderLeftWidth: '3px',
-               borderLeftStyle: 'solid',
-               borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
+                borderLeftWidth: '3px',
+                borderLeftStyle: 'solid',
+                borderLeftColor: {expr: '{$page.valid} ? "lightgreen" : "red"'}
             }}>
-            <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-               <TextField label="First Name" value:bind="$page.firstName" required />
-               <TextField label="Last Name" value:bind="$page.lastName" required />
-            </ValidationGroup>
-         </div>
-         `}</CodeSnippet>
-      </CodeSplit>
+                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
+                    <TextField label="First Name" value:bind="$page.firstName" required/>
+                    <TextField label="Last Name" value:bind="$page.lastName" required/>
+                </ValidationGroup>
+            </div>
 
-      ## Configuration
+            <CodeSnippet putInto="code">{`
+                <div class="widgets" style={{
+                   borderLeftWidth: '3px',
+                   borderLeftStyle: 'solid',
+                   borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
+                }}>
+                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
+                   <TextField label="First Name" value:bind="$page.firstName" required />
+                   <TextField label="Last Name" value:bind="$page.lastName" required />
+                </ValidationGroup>
+             </div>
+             `}</CodeSnippet>
+        </CodeSplit>
 
-      <ConfigTable props={configs} />
+        Examples:
 
-   </Md>
+        * [Validation options](~/examples/form/validation-options)
+
+        ## Configuration
+
+        <ConfigTable props={configs}/>
+
+    </Md>
 </cx>
 
