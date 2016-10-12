@@ -11,6 +11,6 @@
     "redux": "^3.5.2"
   },
   "peerDependencies": {
-    "cx-core": "latest"
+    "cx-core": "*"
   }
 }
