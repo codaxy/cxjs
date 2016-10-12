@@ -85,9 +85,17 @@ class MenuComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
+
+      var {instance} = this.props;
+      var {widget} = instance;
+
+      if (widget.onKeyDown && widget.onKeyDown(e, instance) === false)
+         return;
+
       var keyCode = e.keyCode;
       Debug.log(menuFlag, 'Menu', 'keyDown', this.el, keyCode);
       var {horizontal} = this.props.instance.widget;
+
       //tab
       if (keyCode == KeyCode.tab) {
          if (horizontal)
@@ -114,6 +122,24 @@ class MenuComponent extends VDOM.Component {
                e.preventDefault();
                return;
             }
+      }
+
+      switch (keyCode) {
+         case KeyCode.home:
+            if (this.itemInfo[0].focusable) {
+               this.moveCursor(0, true);
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+
+         case KeyCode.end:
+            if (this.itemInfo[this.props.children.length - 1].focusable) {
+               this.moveCursor(this.props.children.length - 1, true);
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
       }
    }
 
