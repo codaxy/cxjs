@@ -84,4 +84,11 @@ export default {
             Default sort direction.
         </Md></cx>
     },
+    emptyText: {
+        type: 'string',
+        key: false,
+        description: <cx><Md>
+            Text to be displayed instead of an empty table.
+        </Md></cx>
+    },
 };

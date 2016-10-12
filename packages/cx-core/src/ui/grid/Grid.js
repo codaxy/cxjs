@@ -26,7 +26,8 @@ export class Grid extends Widget {
          sorters: undefined,
          scrollable: undefined,
          sortField: undefined,
-         sortDirection: undefined
+         sortDirection: undefined,
+         emptyText: undefined
       }, selection, ...arguments);
    }
 
@@ -494,6 +495,7 @@ Grid.prototype.remoteSort = false;
 Grid.prototype.lockColumnWidths = false;
 Grid.prototype.lockColumnWidthsRequiredRowCount = 3;
 Grid.prototype.focused = false;
+Grid.prototype.emptyText = false;
 
 Widget.alias('grid', Grid);
 
@@ -533,30 +535,50 @@ class GridComponent extends VDOM.Component {
          return record.vdom;
       });
 
-      return <div className={data.classNames}
-                  style={data.style}>
-         <div ref={el=>{this.dom.scroller = el}}
-              tabIndex={widget.selectable ? 0 : null}
-              onScroll={::this.onScroll}
-              className={CSS.element(baseClass, 'scroll-area')}
-              onKeyDown={::this.handleKeyDown}
-              onMouseLeave={::this.handleMouseLeave}
-              onFocus={::this.onFocus}
-              onBlur={::this.onBlur}>
+      var content = [];
 
-            <table ref={el=>{this.dom.table = el}}>
+      if (instance.records.length == 0 && data.emptyText) {
+         content.push(<div key="empty"
+                           className={CSS.element(baseClass, 'empty-text')}>
+            {data.emptyText}
+         </div>);
+      } else {
+         content.push(<div key="scroller"
+                           ref={el=> {
+                              this.dom.scroller = el
+                           }}
+                           tabIndex={widget.selectable ? 0 : null}
+                           onScroll={::this.onScroll}
+                           className={CSS.element(baseClass, 'scroll-area')}
+                           onKeyDown={::this.handleKeyDown}
+                           onMouseLeave={::this.handleMouseLeave}
+                           onFocus={::this.onFocus}
+                           onBlur={::this.onBlur}>
+
+            <table ref={el=> {
+               this.dom.table = el
+            }}>
                {this.props.header}
                {children}
             </table>
+         </div>);
 
-         </div>
-         { this.props.fixedHeader && <div ref={el=>{this.dom.fixedHeader = el}}
-                                          className={CSS.element(baseClass, 'fixed-header')}
-                                          style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
-            <table>
-               {this.props.fixedHeader}
-            </table>
-         </div> }
+         if (this.props.fixedHeader)
+            content.push(<div key="fh"
+                              ref={el=> {
+                                 this.dom.fixedHeader = el
+                              }}
+                              className={CSS.element(baseClass, 'fixed-header')}
+                              style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
+               <table>
+                  {this.props.fixedHeader}
+               </table>
+            </div>);
+      }
+
+      return <div className={data.classNames}
+                  style={data.style}>
+         {content}
       </div>
    }
 
