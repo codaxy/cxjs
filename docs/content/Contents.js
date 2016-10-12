@@ -46,6 +46,7 @@ var contents = [{
         {title: 'ColorField', url: '~/widgets/color-fields'},
         {title: 'ColorPicker', url: '~/widgets/color-pickers'},
         {title: 'Slider', url: '~/widgets/sliders'},
+        {title: 'Label', url: '~/widgets/labels'},
         {title: 'ValidationGroup', url: '~/widgets/validation-groups'},
         {title: 'LabeledContainer', url: '~/widgets/labeled-containers'},
         {title: 'Grid', url: '~/widgets/grids'}

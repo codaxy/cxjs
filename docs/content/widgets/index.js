@@ -27,3 +27,4 @@ export * from './MonthPickers';
 export * from './MonthFields';
 export * from './UploadButton';
 export * from './Sliders';
+export * from './Labels';

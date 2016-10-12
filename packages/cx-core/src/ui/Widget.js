@@ -70,6 +70,9 @@ export class Widget extends Component {
    initComponents() {
       if (arguments.length > 0) {
          this.components = Object.assign(...arguments);
+         for (var k in this.components)
+            if (!this.components[k])
+               delete this.components[k];
       }
    }
 

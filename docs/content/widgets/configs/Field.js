@@ -44,9 +44,9 @@ export default {
         </Md></cx>
     },
     label: {
-        type: 'string',
+        type: 'string/config',
         description: <cx><Md>
-            Field label.
+            Field label. For advanced use cases see [Labels](~/widgets/labels).
         </Md></cx>
     },
     mode: {

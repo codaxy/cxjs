@@ -2,6 +2,7 @@ import {Widget, VDOM} from '../Widget';
 import {PureContainer} from '../PureContainer';
 import {Label} from './Label';
 import {stopPropagation} from '../eventCallbacks';
+import {isSelector} from '../../data/isSelector';
 import {Localization} from '../Localization';
 
 export class Field extends PureContainer {
@@ -26,17 +27,35 @@ export class Field extends PureContainer {
    }
 
    init() {
-      super.init();
-
       if (this.help != null) {
          this.help = Widget.create(PureContainer, {items: this.help});
       }
+
+      if (this.label != null) {
+         let labelConfig = {
+            type: Label,
+            required: this.required,
+            asterisk: this.asterisk
+         };
+
+         if (this.label.isComponentType)
+            labelConfig = this.label;
+         else if (isSelector(this.label))
+            labelConfig.text = this.label;
+         else
+            Object.assign(labelConfig, this.label);
+
+         this.label = Widget.create(labelConfig);
+      }
+
+      super.init();
    }
 
-   initInstance(context, instance) {
-      super.initInstance(context, instance);
-      if (this.help)
-         instance.help = instance.getChild(context, this.help, "help");
+   initComponents(context, instance) {
+      return super.initComponents(...arguments, {
+         label: this.label,
+         help: this.help
+      });
    }
 
    initState(context, instance) {
@@ -82,23 +101,7 @@ export class Field extends PureContainer {
 
       super.explore(context, instance);
 
-      if (instance.help)
-         instance.help.explore(context);
-
       delete context.lastFieldId;
-   }
-
-   prepare(context, instance) {
-      super.prepare(context, instance);
-      if (instance.help)
-         instance.help.prepare(context);
-   }
-
-   cleanup(context, instance) {
-      if (instance.help)
-         instance.help.cleanup(context);
-
-      super.cleanup(context, instance);
    }
 
    validateRequired(context, instance) {
@@ -121,13 +124,9 @@ export class Field extends PureContainer {
          data.error = this.onValidate(data.value);
    }
 
-   renderLabel(key, data) {
-      var options = {
-         style: {
-            width: data.labelWidth
-         }
-      };
-      return Label(key, data.label, data.id, options)
+   renderLabel(context, instance, key) {
+      if (instance.components.label)
+         return instance.components.label.render(context, key);
    }
 
    renderInput(context, instance, key) {
@@ -135,8 +134,8 @@ export class Field extends PureContainer {
    }
 
    renderHelp(context, instance, key) {
-      if (instance.help)
-         return instance.help.render(context, key);
+      if (instance.components.help)
+         return instance.components.help.render(context, key);
    }
 
    formatValue(context, {data}) {
@@ -173,9 +172,9 @@ export class Field extends PureContainer {
          : this.renderContent(context, instance, key + 'content');
 
       return {
-         label: this.renderLabel(key + '-label', data),
+         label: this.renderLabel(context, instance, key),
          content: content,
-         help: this.renderHelp(context, instance, key + 'help')
+         help: this.renderHelp(context, instance, key)
       }
    }
 }
@@ -185,6 +184,7 @@ Field.prototype.visited = false;
 Field.prototype.suppressErrorTooltipsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
+Field.prototype.asterisk = false;
 
 //Field.prototype.pure = false; //validation through context - recheck
 
