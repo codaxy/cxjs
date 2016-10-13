@@ -55,6 +55,10 @@ export const TextFields = <cx>
             </Content>
         </CodeSplit>
 
+        Examples:
+
+        * [Validation options](~/examples/form/validation-options)
+
         ## Configuration
 
         <ConfigTable props={configs}/>

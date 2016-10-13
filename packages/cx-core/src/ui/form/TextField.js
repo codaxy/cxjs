@@ -32,7 +32,7 @@ export class TextField extends Field {
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
 
-      if (!data.error) {
+      if (!data.error && data.value) {
          if (typeof data.value == 'string' && data.minLength != null && data.value.length < data.minLength)
             data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
          else if (typeof data.value == 'string' && data.maxLength != null && data.value.length > data.maxLength)
@@ -83,7 +83,7 @@ class Input extends VDOM.Component {
                 disabled={data.disabled}
                 readOnly={data.readOnly}
                 placeholder={data.placeholder}
-                onMouseEnter={::this.onMouseEnter}
+                onMouseMove={::this.onMouseMove}
                 onMouseLeave={::this.onMouseLeave}
                 onInput={ e => this.onChange(e, 'input') }
                 onChange={ e => this.onChange(e, 'change') }
@@ -100,7 +100,7 @@ class Input extends VDOM.Component {
       return nextProps.instance.shouldUpdate !== false || this.state != nextState;
    }
 
-   onMouseEnter(e) {
+   onMouseMove(e) {
       tooltipMouseMove(e, this.props.instance, this.state);
    }
 

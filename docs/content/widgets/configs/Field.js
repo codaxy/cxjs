@@ -85,6 +85,19 @@ export default {
         description: <cx><Md>
             Set to `true` to automatically focus the field after it renders for the first time.
         </Md></cx>
+    },
+    help: {
+        type: 'string/config',
+        description: <cx><Md>
+            Additional content to be displayed next to the field. This is commonly used
+            for presenting additional information or validation errors.
+        </Md></cx>
+    },
+    helpSpacer: {
+        type: 'boolean',
+        description: <cx><Md>
+            Indicates that `help` should be separated from the input with a whitespace.
+            Default is `true`.
+        </Md></cx>
     }
-
 };

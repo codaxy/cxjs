@@ -116,9 +116,7 @@ export class Field extends PureContainer {
       state = state || {};
 
       if (!data.error) {
-         if (state.inputError)
-            data.error = state.inputError;
-         else if (state.validating)
+         if (state.validating)
             data.error = this.validatingText;
          else if (data.required)
             data.error = this.validateRequired(context, instance);
@@ -151,6 +149,9 @@ export class Field extends PureContainer {
             data.error = result;
          }
       }
+
+      if (!data.error && state.inputError)
+         data.error = state.inputError;
    }
 
    renderLabel(context, instance, key) {
@@ -203,6 +204,7 @@ export class Field extends PureContainer {
       return {
          label: this.renderLabel(context, instance, key),
          content: content,
+         helpSpacer: this.helpSpacer && instance.components.help ? ' ' : null,
          help: this.renderHelp(context, instance, key)
       }
    }
@@ -215,6 +217,7 @@ Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
+Field.prototype.helpSpacer = true;
 
 //Field.prototype.pure = false; //validation through context - recheck
 

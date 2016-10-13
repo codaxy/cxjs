@@ -71,14 +71,6 @@ class Input extends VDOM.Component {
       return nextProps.instance.shouldUpdate !== false || this.state != nextState;
    }
 
-   onMouseEnter(e) {
-      tooltipMouseMove(e, this.props.instance);
-   }
-
-   onMouseLeave(e) {
-      tooltipMouseLeave(e, this.props.instance);
-   }
-
    componentWillUnmount() {
       tooltipComponentWillUnmount(this.input);
    }
