@@ -21,9 +21,20 @@
    left: $cx-input-padding;
    display: inline-block;
    position: absolute;
+   -webkit-backface-visibility: hidden;
+   outline: none;
+
+   &::-moz-focus-outer {
+     border: 0
+   }
 
    &:focus {
-      outline: rgba(77, 144, 254, 0.4) solid 1px;
+      //outline: rgba(77, 144, 254, 0.4) solid 1px;
+
+      box-shadow: 0 0 2px 2px rgba(77, 144, 254, 0.8);
+      background: transparent;
+      border-radius: 50%;
+      outline: none;
    }
 }
 

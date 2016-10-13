@@ -69,7 +69,8 @@ $cx-button-padding-bottom: $cx-input-padding-bottom !default;
       }
 
       &:focus {
-         outline: rgba(77, 144, 254, 0.4) solid 1px;
+         outline: none;
+         box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8);
       }
 
       &:active {
