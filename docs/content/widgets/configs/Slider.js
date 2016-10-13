@@ -18,15 +18,17 @@ export default {
             Low value of the slider range.
         </Md></cx>
     },
-    min: {
+    minValue: {
         key: true,
+        alias: 'min',
         type: 'number',
         description: <cx><Md>
             Minimum allowed value. Default is `0`.
         </Md></cx>
     },
-    max: {
+    maxValue: {
         key: true,
+        alias: 'max',
         type: 'number',
         description: <cx><Md>
             Maximum allowed value. Default is `100`.

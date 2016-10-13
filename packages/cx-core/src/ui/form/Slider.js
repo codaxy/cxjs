@@ -11,8 +11,8 @@ export class Slider extends Field {
          from: 0,
          to: 0,
          step: undefined,
-         min: undefined,
-         max: undefined,
+         minValue: undefined,
+         maxValue: undefined,
          disabled: undefined,
          readOnly: undefined,
          rangeStyle: {
@@ -25,16 +25,22 @@ export class Slider extends Field {
    }
 
    init() {
+      if (typeof this.min != 'undefined')
+         this.minValue = this.min;
+
+      if (typeof this.max != 'undefined')
+         this.maxValue = this.max;
+
       if (this.value != null)
          this.to = this.value;
 
       if (typeof this.from == 'undefined')
-         this.from = this.min;
+         this.from = this.minValue;
       else
          this.showFrom = true;
 
       if (typeof this.to == 'undefined')
-         this.to = this.max;
+         this.to = this.maxValue;
       else
          this.showTo = true;
 
@@ -47,7 +53,7 @@ export class Slider extends Field {
          ...data.stateMods,
          horizontal: !this.vertical,
          vertical: this.vertical
-      }
+      };
       super.prepareData(context, instance);
    }
 
@@ -57,8 +63,8 @@ export class Slider extends Field {
 }
 
 Slider.prototype.baseClass = "slider";
-Slider.prototype.min = 0;
-Slider.prototype.max = 100;
+Slider.prototype.minValue = 0;
+Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
 
 Widget.alias('slider', Slider);
@@ -83,26 +89,26 @@ class SliderComponent extends VDOM.Component {
       var {instance} = this.props;
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
-      var {min, max, from, to} = data;
+      var {minValue, maxValue, from, to} = data;
       var {from, to} = this.state;
 
-      from = Math.min(max, Math.max(min, from));
-      to = Math.min(max, Math.max(min, to));
+      from = Math.min(maxValue, Math.max(minValue, from));
+      to = Math.min(maxValue, Math.max(minValue, to));
 
       var handleStyle = CSS.parseStyle(data.handleStyle);
 
       var fromHandleStyle = {
          ...handleStyle,
-         [widget.vertical ? 'top' : 'left']: `${100 * (from - min) / (max - min)}%`
+         [widget.vertical ? 'top' : 'left']: `${100 * (from - minValue) / (maxValue - minValue)}%`
       };
       var toHandleStyle = {
          ...handleStyle,
-         [widget.vertical ? 'top' : 'left']: `${100 * (to - min) / (max - min)}%`
+         [widget.vertical ? 'top' : 'left']: `${100 * (to - minValue) / (maxValue - minValue)}%`
       };
       var rangeStyle = {
          ...CSS.parseStyle(data.rangeStyle),
-         [widget.vertical ? 'top' : 'left']: `${100 * (from - min) / (max - min)}%`,
-         [widget.vertical ? 'height' : 'width']: `${100 * (to - from) / (max - min)}%`
+         [widget.vertical ? 'top' : 'left']: `${100 * (from - minValue) / (maxValue - minValue)}%`,
+         [widget.vertical ? 'height' : 'width']: `${100 * (to - from) / (maxValue - minValue)}%`
       };
 
       return <div className={data.classNames}
@@ -194,8 +200,6 @@ class SliderComponent extends VDOM.Component {
             }
          }
 
-         //tooltipMouseMove(this.dom[handle], instance, this.state);
-
       }, () => {
          this.setState({
             drag: false
@@ -205,18 +209,18 @@ class SliderComponent extends VDOM.Component {
 
    getValues(e, d=0) {
       var {data, widget} = this.props.instance;
-      var {min, max} = data;
+      var {minValue, maxValue} = data;
       var b = this.dom.range.getBoundingClientRect();
       var pos = getCursorPos(e);
       var pct = widget.vertical
          ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
          : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range.offsetWidth));
-      var delta = (max - min) * pct;
+      var delta = (maxValue - minValue) * pct;
       if (data.step)
          delta = Math.round(delta / data.step) * data.step;
       return {
-         percent: delta / (max - min),
-         value: min + delta
+         percent: delta / (maxValue - minValue),
+         value: minValue + delta
       };
    }
 
