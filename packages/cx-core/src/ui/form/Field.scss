@@ -50,7 +50,8 @@
    $border-top-width: $cx-input-border-top-width,
    $border-right-width: $cx-input-border-right-width,
    $border-bottom-width: $cx-input-border-bottom-width,
-   $border-left-width: $cx-input-border-left-width
+   $border-left-width: $cx-input-border-left-width,
+   $margin: 0
 ) {
    box-sizing: border-box;
 
@@ -62,6 +63,8 @@
       width: 100%;
       height: 100%;
    }
+
+   margin: $margin;
 
    @each $rule, $value in $default {
       #{$rule}: $value;
@@ -80,7 +83,14 @@
    }
 
    @if $box {
-      &:disabled, .cxs-disabled > & {
+      &:disabled > & {
+         @each $rule, $value in $disabled {
+            #{$rule}: $value;
+         }
+      }
+   }
+   @else {
+      .cxs-disabled > & {
          @each $rule, $value in $disabled {
             #{$rule}: $value;
          }
