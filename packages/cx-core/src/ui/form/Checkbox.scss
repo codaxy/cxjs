@@ -1,4 +1,5 @@
 @import "Field";
+@import "../icons/index";
 
 .cxb-checkbox {
    @include cxb-field($box: false);
@@ -57,33 +58,24 @@
    );
    width: $cx-input-checkbox-size;
    height: $cx-input-checkbox-size;
+
    top: calc(50% - #{$cx-input-checkbox-size / 2});
    left: $cx-input-padding;
    display: inline-block;
    position: absolute;
 
-   .cxs-disabled > .cxe-checkbox-checkbox {
-
-   }
-
-   &:before {
-      content: ' ';
-      position: absolute;
-      width: 80%;
-      height: 50%;
-      left: 10%;
-      top: 20%;
-      box-sizing: border-box;
-      border-bottom: 3px solid currentColor;
-      border-left: 3px solid currentColor;
-      transform: rotate(-45deg);
-      transform-origin: 50% 50%;
+   & > svg {
+      width: 100%;
+      height: 100%;
       visibility: hidden;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
    }
 
-   &.cxs-checked {
-      &:before {
-         visibility: visible;
-      }
+   &.cxs-checked > svg {
+      visibility: visible;
    }
 }

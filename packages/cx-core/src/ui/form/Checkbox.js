@@ -3,6 +3,7 @@ import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
+import Check from '../icons/check';
 
 export class Checkbox extends Field {
 
@@ -117,10 +118,13 @@ class CheckboxCmp extends VDOM.Component {
                   className={CSS.element(baseClass, "input", {
                      checked: this.state.value
                   })}
+                  style={CSS.parseStyle(data.inputStyle)}
                   id={data.id}
                   onClick={::this.onClick}
                   onKeyDown={::this.onKeyDown}
-      />
+      >
+         <Check/>
+      </div>
    }
 
    onClick(e) {

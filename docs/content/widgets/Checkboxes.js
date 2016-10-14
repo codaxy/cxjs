@@ -35,8 +35,7 @@ export const Checkboxes = <cx>
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox"/>
-                    <Checkbox label="Styled" value:bind="$page.checked" style={{border: '2px solid green'}}
-                              text="Checkbox"/>
+                    <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
                     <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox"/>
                     <Checkbox label="EmptyText" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A"/>
                 </div>
@@ -52,7 +51,7 @@ export const Checkboxes = <cx>
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox" />
-                    <Checkbox label="Styled" value:bind="$page.checked" style={{border: '2px solid green'}} text="Checkbox" />
+                    <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
                     <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" />
                     <Checkbox label="EmptyText" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
                 </div>
