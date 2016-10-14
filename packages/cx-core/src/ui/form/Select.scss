@@ -5,17 +5,16 @@
 }
 
 .cxe-select-select {
-   @include cxe-field-input();
+   @include cxe-field-input(
+      $padding-top: $cx-input-padding - 1px,
+      $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding,
+      $padding-bottom: $cx-input-padding - 1px,
+      $padding-left: $cx-input-padding
+   );
    -webkit-appearance: inherit;
    -moz-appearance: inherit;
-   padding: ($cx-input-padding - 1px) $cx-input-padding;
-   padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding;
    @extend %cx-icon-dropdown-arrow;
-   background-color: white;
    background-position: right $cx-input-padding center;
-
-   text-indent: 0;
-   text-overflow: '';
 
    &::-ms-expand {
       display: none;

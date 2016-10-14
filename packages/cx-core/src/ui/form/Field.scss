@@ -83,7 +83,7 @@
    }
 
    @if $box {
-      &:disabled > & {
+      &:disabled {
          @each $rule, $value in $disabled {
             #{$rule}: $value;
          }

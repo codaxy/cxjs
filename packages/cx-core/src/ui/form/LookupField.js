@@ -423,7 +423,12 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
-      return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+      var states = {
+         visited: data.visited || this.state && this.state.visited,
+         icon: !insideButton
+      };
+
+      return <div className={CSS.expand(data.classNames, CSS.state(states))}
                   style={data.style}
                   onMouseDown={stopPropagation}
                   onTouchStart={stopPropagation}>
@@ -544,6 +549,8 @@ class LookupComponent extends VDOM.Component {
                $option: this.state.options[index - 1]
             })
          }
+         e.preventDefault();
+         e.stopPropagation();
       }
 
       if (e.keyCode == 40) { //down
@@ -553,6 +560,8 @@ class LookupComponent extends VDOM.Component {
                $option: this.state.options[index + 1]
             })
          }
+         e.preventDefault();
+         e.stopPropagation();
       }
    }
 
