@@ -2,6 +2,7 @@ import {Widget, VDOM, getContent} from '../Widget';
 import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
+import {KeyCode} from '../../util/KeyCode';
 
 export class Checkbox extends Field {
 
@@ -117,15 +118,27 @@ class CheckboxCmp extends VDOM.Component {
                      checked: this.state.value
                   })}
                   id={data.id}
-                  onClick={::this.onClick}/>
+                  onClick={::this.onClick}
+                  onKeyDown={::this.onKeyDown}
+      />
    }
 
    onClick(e) {
       var {instance} = this.props;
       var {data, widget} = instance;
       if (!data.disabled && !data.readOnly) {
+         e.stopPropagation();
+         e.preventDefault();
          this.setState({value: !this.state.value});
          widget.handleChange(e, instance, !this.state.value);
+      }
+   }
+
+   onKeyDown(e) {
+      switch (e.keyCode) {
+         case KeyCode.space:
+            this.onClick(e);
+            break;
       }
    }
 }
