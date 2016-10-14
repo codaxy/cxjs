@@ -44,15 +44,16 @@ export const Radios = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
-                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio" />
-                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio" />
+                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native/>
+                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
+                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio" />
-                    <Radio label="Styled" value:bind="$page.option" option="5" style={{border: '2px solid green'}} text="Radio" />
+                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio"/>
+                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio"/>
+                    <Radio label="Styled" value:bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
                 </div>
-            `}</CodeSnippet>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
