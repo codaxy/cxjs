@@ -13,72 +13,74 @@ import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import configs from './configs/Radio';
 
 class RadioController extends Controller {
-   init() {
-      var options = Array.from({length: 20}).map((v, i) => ({ id: i, text: `Option ${i + 1}` }));
-      this.store.set('$page.options', options);
-   }
+    init() {
+        var options = Array.from({length: 20}).map((v, i) => ({id: i, text: `Option ${i + 1}`}));
+        this.store.set('$page.options', options);
+    }
 }
 
 export const Radios = <cx>
-   <Md>
-      # Radio
+    <Md>
+        # Radio
 
-      Radio buttons are commonly used for making choices within a limited number of options.
+        Radio buttons are commonly used for making choices within a limited number of options.
 
-      <CodeSplit>
+        <CodeSplit>
 
 
-         <div class="widgets">
-            <div layout={LabelsLeftLayout}>
-               <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
-               <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio" />
-               <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio" />
+            <div class="widgets">
+                <div layout={LabelsLeftLayout}>
+                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native/>
+                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
+                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
+                </div>
+                <div layout={LabelsLeftLayout}>
+                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio"/>
+                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio"/>
+                    <Radio label="Styled" value:bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
+                </div>
             </div>
-            <div layout={LabelsLeftLayout}>
-               <Radio label="Required" value:bind="$page.option" option="4" required text="Radio" />
-               <Radio label="Styled" value:bind="$page.option" option="5" style={{border: '2px solid green'}} text="Radio" />
-            </div>
-         </div>
 
-         <Content name="code">
-            <CodeSnippet>{`
-               <div layout={LabelsLeftLayout}>
-                  <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
-                  <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio" />
-                  <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio" />
-               </div>
-               <div layout={LabelsLeftLayout}>
-                  <Radio label="Required" value:bind="$page.option" option="4" required text="Radio" />
-                  <Radio label="Styled" value:bind="$page.option" option="5" style={{border: '2px solid green'}} text="Radio" />
-               </div>
+            <Content name="code">
+                <CodeSnippet>{`
+                <div layout={LabelsLeftLayout}>
+                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
+                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio" />
+                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio" />
+                </div>
+                <div layout={LabelsLeftLayout}>
+                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio" />
+                    <Radio label="Styled" value:bind="$page.option" option="5" style={{border: '2px solid green'}} text="Radio" />
+                </div>
             `}</CodeSnippet>
-         </Content>
-      </CodeSplit>
+            </Content>
+        </CodeSplit>
 
-      ## Configuration
+        ## Configuration
 
-      <ConfigTable props={configs} />
+        <ConfigTable props={configs}/>
 
-      ## Examples
+        ## Examples
 
-      <CodeSplit>
+        <CodeSplit>
 
-         ### Repeater
+            ### Repeater
 
-         Radio is commonly combined with a `Repeater` when the list of choices is coming from data.
+            Radio is commonly combined with a `Repeater` when the list of choices is coming from data.
 
-         <div class="widgets">
-            <div controller={RadioController}>
-               <Repeater records:bind="$page.options">
-                  <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text" style={{float: 'left', width: '130px'}} />
-               </Repeater>
+            <div class="widgets">
+                <div controller={RadioController}>
+                    <Repeater records:bind="$page.options">
+                        <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text"
+                               style={{float: 'left', width: '130px'}}/>
+                    </Repeater>
+                </div>
             </div>
-         </div>
 
-         Please note that to avoid multiple instances controller should not be assigned to the repeater.
+            Please note that to avoid multiple instances controller should not be assigned to the repeater.
 
-         <Content name="code">
-            <CodeSnippet>{`
+            <Content name="code">
+                <CodeSnippet>{`
                class RadioController extends Controller {
                   init() {
                      var options = Array.from({length: 20}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
@@ -92,8 +94,8 @@ export const Radios = <cx>
                   </Repeater>
                </div>
             `}</CodeSnippet>
-         </Content>
-      </CodeSplit>
+            </Content>
+        </CodeSplit>
 
-   </Md>
+    </Md>
 </cx>

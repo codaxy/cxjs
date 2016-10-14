@@ -31,6 +31,7 @@ export class Checkbox extends Field {
                     onMouseDown={stopPropagation}
                     onMouseMove={e=>tooltipMouseMove(e, instance)}
                     onMouseLeave={e=>tooltipMouseLeave(e, instance)}
+                    onClick={ e=> { this.handleClick(e, instance) }}
                     style={data.style}>
          {content}
       </label>
@@ -71,16 +72,27 @@ export class Checkbox extends Field {
       return data.value && data.text;
    }
 
+   handleClick(e, instance) {
+      if (this.native)
+         e.stopPropagation();
+      else {
+         var el = document.getElementById(instance.data.id);
+         if (el)
+            el.focus();
+         this.handleChange(e, instance, !instance.data.value)
+      }
+   }
+
    handleChange(e, instance, checked) {
       e.preventDefault();
       e.stopPropagation();
 
       var {data} = instance;
 
-      if (data.readOnly)
+      if (data.readOnly || data.disabled)
          return;
 
-      instance.set('value', checked || e.target.checked);
+      instance.set('value', checked != null ? checked : e.target.checked);
    }
 }
 
@@ -114,7 +126,7 @@ class CheckboxCmp extends VDOM.Component {
 
 
       return <div key="check"
-                  tabIndex={data.disabled ? null : 0}
+                  tabIndex={data.disabled || data.readOnly ? null : 0}
                   className={CSS.element(baseClass, "input", {
                      checked: this.state.value
                   })}
