@@ -7,12 +7,14 @@
 }
 
 .cxe-lookupfield-input {
-   @extend %cx-icon-dropdown-arrow;
-   background-position: right $cx-input-padding center;
-
    @include cxe-field-input(
       $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding - $cx-input-tag-spacing
    );
+
+   .cxs-icon > & {
+      @extend %cx-icon-dropdown-arrow;
+      background-position: right $cx-input-padding center;
+   }
 }
 
 .cxb-lookupfield.cxs-multiple .cxe-lookupfield-input {
@@ -98,6 +100,10 @@
    display: flex;
    flex-direction: column;
    height: 100%;
+
+   &:focus {
+      outline: none;
+   }
 }
 
 .cxe-lookupfield-message {
@@ -113,7 +119,9 @@
 
 .cxe-lookupfield-scroll-container {
    overflow: auto;
-   flex: 1;
+   flex-grow: 1;
+   flex-shrink: 0;
+   flex-basis: auto;
 }
 
 .cxe-lookupfield-arrow {
@@ -122,7 +130,6 @@
 
 .cxe-lookupfield-clear {
    @include cxe-field-clear;
-   background-color: $cx-input-background-color;
 }
 
 .cxe-lookupfield-empty-text {
