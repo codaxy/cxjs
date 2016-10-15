@@ -81,7 +81,7 @@ class MenuComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      var {instance, children} = this.props;
+      var {instance} = this.props;
       var {widget} = instance;
 
       if (widget.onKeyDown && widget.onKeyDown(e, instance) === false)
@@ -112,7 +112,7 @@ class MenuComponent extends VDOM.Component {
          }
 
          if (horizontal ? keyCode == KeyCode.right : keyCode == KeyCode.down) {
-            for (var c = cursorIndex + 1; c < children.length; c++)
+            for (var c = cursorIndex + 1; c < this.itemInfo.length; c++)
                if (this.itemInfo[c].focusable) {
                   FocusManager.focusFirst(this.itemInfo[c].el);
                   e.stopPropagation();
@@ -132,19 +132,13 @@ class MenuComponent extends VDOM.Component {
             break;
 
          case KeyCode.end:
-            if (this.itemInfo[children.length - 1].focusable) {
-               FocusManager.focusFirst(this.itemInfo[children.length - 1].el);
+            if (this.itemInfo[this.itemInfo.length - 1].focusable) {
+               FocusManager.focusFirst(this.itemInfo[this.itemInfo.length - 1].el);
                e.stopPropagation();
                e.preventDefault();
             }
             break;
       }
-   }
-
-   focusElementUnderCursor() {
-      var item = this.itemInfo[this.state.cursor];
-      if (item)
-         FocusManager.focusFirst(item.el);
    }
 
    onFocusOut(elementReceivingFocus) {
@@ -155,8 +149,8 @@ class MenuComponent extends VDOM.Component {
 
    componentDidMount() {
       var {widget} = this.props.instance;
-      if (widget.autoFocus)
-         this.moveCursor(0, true);
+      if (widget.autoFocus && this.itemInfo.length > 0)
+         FocusManager.focusFirst(this.itemInfo[0].el);
    }
 
    onFocus() {
