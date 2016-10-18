@@ -2,7 +2,6 @@ import {ArrayAdapter} from './ArrayAdapter';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Grouper} from '../../data/Grouper';
 
-
 export class GroupAdapter extends ArrayAdapter {
 
    getRecords(context, instance, records, parentStore) {
@@ -41,8 +40,12 @@ export class GroupAdapter extends ArrayAdapter {
          keys.push(gr.key);
 
          var $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
-         var groupStore = new ReadOnlyDataView(parentStore, {
-            $group
+         var groupStore = new ReadOnlyDataView({
+            store: parentStore,
+            data: {
+               [this.groupName]: $group
+            },
+            immutable: this.immutable
          });
 
          var group = {
@@ -98,3 +101,5 @@ export class GroupAdapter extends ArrayAdapter {
       this.updateSorter();
    }
 }
+
+GroupAdapter.prototype.groupName = '$group';

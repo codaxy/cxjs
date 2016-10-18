@@ -194,7 +194,9 @@ class LookupComponent extends VDOM.Component {
          visited: data.visited
       };
 
-      this.itemStore = new ReadOnlyDataView(store);
+      this.itemStore = new ReadOnlyDataView({
+         store: store
+      });
    }
 
    getOptionKey(data) {

@@ -17,3 +17,4 @@ export class DataAdapter extends Component {
 
 DataAdapter.prototype.recordName = '$record';
 DataAdapter.prototype.indexName = '$index';
+DataAdapter.prototype.immutable = false;

@@ -27,16 +27,27 @@ export class ArrayAdapter extends DataAdapter {
             var recordStore = this.map.get(data);
             if (writable) {
                if (!recordStore)
-                  recordStore = new ExposedRecordView(parentStore, recordsBinding, index, this.recordName, this.indexName);
+                  recordStore = new ExposedRecordView({
+                     store: parentStore,
+                     collectionBinding: recordsBinding,
+                     itemIndex: index,
+                     recordName: this.recordName,
+                     indexName: this.indexName,
+                     immutable: this.immutable
+                  });
                else {
                   recordStore.setStore(parentStore);
                   recordStore.setIndex(index);
                }
             } else {
                if (!recordStore)
-                  recordStore = new ReadOnlyDataView(parentStore, {
-                     [this.recordName]: data,
-                     [this.indexName]: index
+                  recordStore = new ReadOnlyDataView({
+                     store: parentStore,
+                     data: {
+                        [this.recordName]: data,
+                        [this.indexName]: index
+                     },
+                     immutable: this.immutable
                   });
             }
 

@@ -1,1 +1,1 @@
-export const REPLACE_STATE = 'CX-REPLACE-STATE';
+export const CX_REPLACE_STATE = 'CX-REPLACE-STATE';

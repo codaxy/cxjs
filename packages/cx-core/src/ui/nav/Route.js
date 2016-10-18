@@ -12,7 +12,9 @@ export class Route extends PureContainer
 
    initInstance(context, instance) {
       super.initInstance(context, instance);
-      instance.store = new ReadOnlyDataView(instance.store);
+      instance.store = new ReadOnlyDataView({
+         store: instance.store
+      });
       instance.setStore = store => {
          instance.store.setStore(store);
       };

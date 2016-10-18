@@ -1,6 +1,6 @@
 import {Binding} from 'cx-core/src/data/Binding';
 import {View} from 'cx-core/src/data/View';
-import {REPLACE_STATE} from './actions';
+import {CX_REPLACE_STATE} from './actions';
 
 export class ReduxStoreView extends View {
 
@@ -19,7 +19,7 @@ export class ReduxStoreView extends View {
 
       if (oldData !== newData)
          this.store.dispatch({
-            type: REPLACE_STATE,
+            type: CX_REPLACE_STATE,
             state: newData
          })
    }
@@ -29,7 +29,7 @@ export class ReduxStoreView extends View {
       var newData = Binding.get(path).delete(oldData);
       if (oldData !== newData) {
          this.store.dispatch({
-            type: REPLACE_STATE,
+            type: CX_REPLACE_STATE,
             state: newData
          })
       }
@@ -37,7 +37,7 @@ export class ReduxStoreView extends View {
 
    clear() {
       this.store.dispatch({
-         type: REPLACE_STATE,
+         type: CX_REPLACE_STATE,
          state: {}
       })
    }
@@ -51,20 +51,23 @@ export class ReduxStoreView extends View {
 
       if (oldData !== newData)
          this.store.dispatch({
-            type: REPLACE_STATE,
+            type: CX_REPLACE_STATE,
             state: newData
          })
    }
 
    doNotify() {
       this.store.dispatch({
-         type: REPLACE_STATE,
+         type: CX_REPLACE_STATE,
          state: this.getData()
       });
    }
 
-   dispatch() {
-      this.store.dispatch(...arguments);
+   dispatch(action) {
+      if (typeof action == 'function')
+         return action(::this.dispatch);
+
+      return this.store.dispatch(...arguments);
    }
 
    subscribe() {

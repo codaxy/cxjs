@@ -44,6 +44,7 @@ if(module.hot) {
 stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <TimeSeries />
+      {/*<TimeSeries />*/}
+      <ComplexGrid />
    </div>
 </cx>);

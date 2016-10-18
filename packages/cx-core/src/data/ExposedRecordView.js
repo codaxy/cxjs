@@ -3,27 +3,23 @@ import {Binding} from './Binding';
 
 export class ExposedRecordView extends View {
 
-   constructor(store, collectionBinding, itemIndex, recordPath, indexPath) {
-      super();
-      this.store = store;
-      this.recordPath = recordPath;
-      this.indexPath = indexPath;
-      this.collectionBinding = collectionBinding;
-      this.itemIndex = itemIndex;
-   }
-
    getData() {
       var data = this.store.getData();
-      return this.embed(data);
+      if (this.storeData != data || !this.immutable) {
+         this.data = this.embed(data);
+         this.storeData = data;
+      }
+      return this.data;
    }
 
    embed(data) {
       var collection = this.collectionBinding.value(data);
       var record = collection[this.itemIndex];
-      data[this.recordPath] = record;
-      if (this.indexPath)
-         data[this.indexPath] = this.itemIndex;
-      return data;
+      var copy = this.immutable ? {...data} : data;
+      copy[this.recordName] = record;
+      if (this.indexName)
+         copy[this.indexName] = this.itemIndex;
+      return copy;
    }
 
    setStore(store) {
@@ -37,13 +33,13 @@ export class ExposedRecordView extends View {
    set(path, value) {
       if (path instanceof Binding)
          path = path.path;
-      if (path == this.recordPath || path.indexOf(this.recordPath + '.') == 0) {
+      if (path == this.recordName || path.indexOf(this.recordName + '.') == 0) {
          var storeData = this.store.getData();
          var collection = this.collectionBinding.value(storeData);
          var data = this.embed(storeData);
          var d = Binding.get(path).set(data, value);
          if (d != data) {
-            var record = d[this.recordPath];
+            var record = d[this.recordName];
             var newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
             this.store.set(this.collectionBinding, newCollection);
          }
@@ -58,19 +54,19 @@ export class ExposedRecordView extends View {
 
       var storeData, collection, newCollection;
 
-      if (path == this.recordPath) {
+      if (path == this.recordName) {
          storeData = this.store.getData();
          collection = this.collectionBinding.value(storeData);
          newCollection = [...collection.slice(0, this.itemIndex), ...collection.slice(this.itemIndex + 1)];
          this.store.set(this.collectionBinding, newCollection);
       }
-      else if (path.indexOf(this.recordPath + '.') == 0) {
+      else if (path.indexOf(this.recordName + '.') == 0) {
          storeData = this.store.getData();
          collection = this.collectionBinding.value(storeData);
          var data = this.embed(storeData);
          var d = Binding.get(path).delete(data);
          if (d != data) {
-            var record = d[this.recordPath];
+            var record = d[this.recordName];
             newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
             this.store.set(this.collectionBinding, newCollection);
          }
@@ -79,3 +75,5 @@ export class ExposedRecordView extends View {
       }
    }
 }
+
+ExposedRecordView.prototype.immutable = false;

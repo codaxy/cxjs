@@ -10,7 +10,12 @@ export class Sandbox extends PureContainer {
    }
 
    initInstance(context, instance) {
-      instance.store = new ExposedValueView(instance.store, this.storageBinding, null, this.recordName);
+      instance.store = new ExposedValueView({
+         store: instance.store,
+         containerBinding: this.storageBinding, key: null,
+         recordName: this.recordName,
+         immutable: this.immutable
+      });
       instance.setStore = store => {
          instance.store.setStore(store);
       };
@@ -26,7 +31,13 @@ export class Sandbox extends PureContainer {
    prepareData(context, instance) {
       var {store, data} = instance;
       if (store.getKey() !== data.key) {
-         instance.store = new ExposedValueView(store, this.storageBinding, data.key, this.recordName);
+         instance.store = new ExposedValueView({
+            store: store,
+            containerBinding: this.storageBinding,
+            key: data.key,
+            recordName: this.recordName,
+            immutable: this.immutable
+         });
 
          //when navigating to a page using the same widget tree as the previous page
          //everything needs to be reinstantiated, e.g. user/1 => user/2
@@ -37,5 +48,6 @@ export class Sandbox extends PureContainer {
 }
 
 Sandbox.prototype.recordName = '$page';
+Sandbox.prototype.immutable = false;
 
 Widget.alias('sandbox', Sandbox);

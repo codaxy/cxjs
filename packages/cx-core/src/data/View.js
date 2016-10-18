@@ -1,6 +1,11 @@
 import {Binding} from './Binding';
 
 export class View {
+
+   constructor(config) {
+      Object.assign(this, config);
+   }
+
    getData() {
       throw new Error('abstract method');
    }
@@ -103,7 +108,7 @@ export class View {
 
    dispatch(action) {
       if (this.store)
-         return this.store.dispatch(path);
+         return this.store.dispatch(action);
 
       throw new Error("The underlying store doesn't support dispatch.");
    }

@@ -1,14 +1,14 @@
 {
   "name": "cx-redux",
-  "version": "16.6.0",
-  "description": "Pair Cx with Redux",
+  "version": "16.10.0",
+  "description": "Cx Redux integration",
   "main": "src",
   "scripts": {},
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
-  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "homepage": "https://github.com/codaxy/cx",
   "dependencies": {
-    "redux": "^3.5.2"
+    "redux": "*"
   },
   "peerDependencies": {
     "cx-core": "*"

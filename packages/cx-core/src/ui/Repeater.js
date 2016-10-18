@@ -3,7 +3,6 @@ import {PureContainer} from './PureContainer';
 import {ArrayAdapter} from './grid/ArrayAdapter';
 
 import {Binding} from '../data/Binding';
-import {ExposedRecordView} from '../data/ExposedRecordView';
 
 export class Repeater extends PureContainer {
 
@@ -14,7 +13,8 @@ export class Repeater extends PureContainer {
       this.adapter = ArrayAdapter.create(ArrayAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
-         keyField: this.keyField
+         keyField: this.keyField,
+         immutable: this.immutable
       });
    }
 
@@ -97,5 +97,6 @@ export class Repeater extends PureContainer {
 Repeater.prototype.recordName = '$record';
 Repeater.prototype.indexName = '$index';
 Repeater.prototype.cached = false;
+Repeater.prototype.immutable = false;
 
 Widget.alias('repeater', Repeater);

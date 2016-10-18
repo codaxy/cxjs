@@ -126,6 +126,7 @@
 @mixin cxe-field-clear(
    $size: $cx-input-clear-size
 ) {
+   background-color: transparent;
    @extend %cx-icon-close;
    background-size: 10px 10px;
    background-position: center;

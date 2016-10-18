@@ -1,6 +1,6 @@
 {
   "name": "cx-core",
-  "version": "16.10.6",
+  "version": "16.10.7",
   "description": "Advanced UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "src/index",
   "jsnext:main": "src/index",
@@ -14,9 +14,9 @@
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://gitlab.com/mstijak/cx/issues"
+    "url": "https://github.com/codaxy/cx"
   },
-  "homepage": "https://gitlab.com/mstijak/cx#README",
+  "homepage": "https://github.com/codaxy/cx",
   "dependencies": {
     "intl-io": "^0.2.0",
     "route-parser": "^0.0.5"

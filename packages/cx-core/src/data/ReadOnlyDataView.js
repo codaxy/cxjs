@@ -1,16 +1,12 @@
 import {View} from './View';
 
 export class ReadOnlyDataView extends View {
-
-   constructor(store, data) {
-      super();
-      this.store = store;
-      this.data = data;
-   }
-
    getData() {
       var data = this.store.getData();
-      return Object.assign({}, data, this.data);
+      if (this.immutable)
+         return Object.assign({}, data, this.data);
+
+      return Object.assign(data, this.data);
    }
 
    setStore(store) {
@@ -21,3 +17,5 @@ export class ReadOnlyDataView extends View {
       this.data = data;
    }
 }
+
+ReadOnlyDataView.prototype.immutable = false;
