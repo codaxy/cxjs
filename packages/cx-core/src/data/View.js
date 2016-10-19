@@ -22,7 +22,7 @@ export class View {
    }
 
    set(path, value) {
-      if (this.set)
+      if (this.store)
          return this.store.set(path, value);
 
       throw new Error('abstract method');
