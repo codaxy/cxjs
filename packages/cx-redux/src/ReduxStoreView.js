@@ -70,8 +70,15 @@ export class ReduxStoreView extends View {
       return this.store.dispatch(...arguments);
    }
 
-   subscribe() {
-      return this.store.subscribe(...arguments);
+   subscribe(callback) {
+      return this.store.subscribe(debounce(callback, 0));
    }
 }
 
+function debounce(fn, delay) {
+   var timer = null;
+   return function () {
+      clearTimeout(timer);
+      timer = setTimeout(fn, delay);
+   }
+}

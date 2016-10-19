@@ -65,11 +65,11 @@
 
    &:before {
       content: ' ';
-      width: 100%;
-      height: 100%;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
       visibility: hidden;
       position: absolute;
-      border: 3px solid $cx-input-background-color;
+      margin: 3px;
       box-sizing: border-box;
       background-color: currentColor;
       border-radius: 50%;
