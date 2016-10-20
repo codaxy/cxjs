@@ -2,7 +2,7 @@ import {Widget, VDOM} from '../Widget';
 import {HtmlElement} from '../HtmlElement';
 import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep} from '../../util/DOM';
 import {Dropdown} from '../overlay/Dropdown';
-import {ContentPlaceholder} from '../layout/ContentPlaceholder';
+import {ContentPlaceholder, contentSandbox} from '../layout/ContentPlaceholder';
 import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
 
@@ -17,7 +17,7 @@ import {Debug, menuFlag} from '../../util/Debug';
 
 export class Submenu extends HtmlElement {
 
-   prepare(context, instance) {
+   explore(context, instance) {
       var oldDropdown = context.content && context.content['dropdown'];
       instance.horizontal = this.horizontal;
       var {lastMenu, lastSubmenu} = context;
@@ -25,10 +25,10 @@ export class Submenu extends HtmlElement {
          instance.horizontal = lastMenu.horizontal;
 
       context.lastSubmenu = this;
-      super.prepare(context, instance);
+      contentSandbox(context, "dropdown", () => {
+         super.explore(context, instance);
+      });
       context.lastSubmenu = lastSubmenu;
-      if (oldDropdown)
-         context.content['dropdown'] = oldDropdown;
    }
 
    render(context, instance, key) {

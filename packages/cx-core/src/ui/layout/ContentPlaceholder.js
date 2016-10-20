@@ -63,3 +63,20 @@ export class ContentPlaceholder extends PureContainer {
 ContentPlaceholder.prototype.name = 'body';
 
 Widget.alias('content-placeholder', ContentPlaceholder);
+
+export function contentSandbox(context, name, exploreFunction) {
+   var content = context.content && context.content[name];
+   var placeholder = context.contentPlaceholder && context.contentPlaceholder[name];
+
+   if (content)
+      context.content[name] = null;
+   if (placeholder)
+      context.contentPlaceholder[name] = null;
+
+   exploreFunction();
+
+   if (content)
+      context.content[name] = content;
+   if (placeholder)
+      context.contentPlaceholder[name] = placeholder;
+}

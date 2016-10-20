@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../Widget';
 import {Overlay, OverlayComponent} from './Overlay';
-import {ContentPlaceholder} from '../layout/ContentPlaceholder';
+import {ContentPlaceholder, contentSandbox} from '../layout/ContentPlaceholder';
 import {ZIndexManager} from './ZIndexManager';
 
 export class Window extends Overlay {
@@ -16,6 +16,16 @@ export class Window extends Overlay {
          header: Widget.create(this.header || { type: ContentPlaceholder, name: 'header'}),
          footer: Widget.create(this.footer || { type: ContentPlaceholder, name: 'footer'})
       });
+   }
+
+   explore(context, instance) {
+      //prevent header and footer content to be defined outside the window or
+      //interfere with the environment
+      contentSandbox(context, "header", () => {
+         contentSandbox(context, "footer", () => {
+            super.explore(context, instance);
+         })
+      })
    }
 
    renderHeader(context, instance, key) {

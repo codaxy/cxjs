@@ -23,10 +23,10 @@ export class Menu extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   prepare(context, instance) {
+   explore(context, instance) {
       var lastMenu = context.lastMenu;
       context.lastMenu = this;
-      super.prepare(context, instance);
+      super.explore(context, instance);
       context.lastMenu = lastMenu;
    }
 
@@ -49,20 +49,23 @@ class MenuComponent extends VDOM.Component {
    }
 
    render() {
-      var {data} = this.props.instance;
-      this.itemInfo = Array.from({length: this.props.children.length});
-      return <ul ref={el=>{this.el = el}}
+      var {instance, children} = this.props;
+      var {data} = instance;
+      this.itemInfo = Array.from({length: children.length});
+      return <ul ref={el=> {
+         this.el = el
+      }}
                  className={data.classNames}
                  style={data.style}
                  onFocus={::this.onFocus}
                  onBlur={FocusManager.nudge()}
-                 onKeyDown={::this.onKeyDown}>
-
-         {this.props.children.map((c, i)=> {
+                 onKeyDown={::this.onKeyDown}
+      >
+         {children.map((c, i)=> {
             let key = c && typeof c == 'object' && c.key ? c.key : i;
             return <MenuItemComponent key={key}
                                       cursor={key === this.state.cursor}
-                                      instance={this.props.instance}
+                                      instance={instance}
                                       itemInfo={this.itemInfo}
                                       itemKey={key}
                                       itemIndex={i}
@@ -83,9 +86,6 @@ class MenuComponent extends VDOM.Component {
    onKeyDown(e) {
       var {instance} = this.props;
       var {widget} = instance;
-
-      if (widget.onKeyDown && widget.onKeyDown(e, instance) === false)
-         return;
 
       var keyCode = e.keyCode;
       Debug.log(menuFlag, 'Menu', 'keyDown', this.el, keyCode);
@@ -193,6 +193,7 @@ class MenuItemComponent extends VDOM.Component {
          className={CSS.element(baseClass, "item", mods)}
          onFocus={::this.onFocus}
          onMouseDown={::this.onMouseDown}
+         onKeyDown={::this.onKeyDown}
       >
          <div className={CSS.element(baseClass, "item-body")}>
             {this.props.children}
@@ -204,6 +205,14 @@ class MenuItemComponent extends VDOM.Component {
       FocusManager.nudge();
       Debug.log(menuFlag, 'MenuItem', 'focus', this.el, e.target);
       this.props.moveCursor(this.props.itemKey);
+   }
+
+   onKeyDown(e) {
+      var {instance} = this.props;
+      var {widget} = instance;
+
+      if (widget.onKeyDown)
+         widget.onKeyDown(e, instance);
    }
 
    onMouseDown(e) {

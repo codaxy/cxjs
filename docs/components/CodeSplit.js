@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from 'cx/ui/Widget';
 import {PureContainer} from 'cx/ui/PureContainer';
-import {ContentPlaceholder} from 'cx/ui/layout/ContentPlaceholder';
+import {ContentPlaceholder, contentSandbox} from 'cx/ui/layout/ContentPlaceholder';
 import {Md} from './Md';
 
 export class CodeSplit extends Md {
@@ -18,10 +18,10 @@ export class CodeSplit extends Md {
         })
     }
 
-    prepare(context, instance) {
-        if (context.content)
-            context.content['code'] = null;
-        super.prepare(context, instance);
+    explore(context, instance) {
+        contentSandbox(context, "code", () => {
+            super.explore(context, instance);
+        });
     }
 
     render(context, instance, key) {
