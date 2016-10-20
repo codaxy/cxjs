@@ -10,6 +10,8 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 import {Localization} from '../Localization';
+import CalendarIcon from '../icons/calendar';
+import CloseIcon from '../icons/close';
 
 export class DateField extends Field {
 
@@ -185,11 +187,11 @@ class DateInput extends VDOM.Component {
 
       if (!data.readOnly) {
          insideButton = !data.required && data.value != null && !data.disabled
-            ? <button className={CSS.element(baseClass, 'clear')}
-                      type="button"
-                      onMouseDown={e=>{this.onClearClick(e); }}
-                      tabIndex={-1}/>
-            : <span className={CSS.element(baseClass, 'icon')}></span>;
+            ? <CloseIcon className={CSS.element(baseClass, 'clear')}
+                   onMouseDown={e=> {
+                      this.onClearClick(e);
+                   }} />
+            : <CalendarIcon className={CSS.element(baseClass, 'icon')}/>;
       }
 
       var dropdown = false;

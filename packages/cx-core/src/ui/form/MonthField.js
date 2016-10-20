@@ -10,6 +10,8 @@ import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
+import CalendarIcon from '../icons/calendar';
+import CloseIcon from '../icons/close';
 
 export class MonthField extends Field {
 
@@ -229,11 +231,11 @@ class MonthInput extends VDOM.Component {
 
       if (!data.readOnly) {
          insideButton = !data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)
-            ? <button className={CSS.element(baseClass, 'clear')}
-                      type="button"
-                      onMouseDown={e=>{this.onClearClick(e); }}
-                      tabIndex={-1}/>
-            : <span className={CSS.element(baseClass, 'icon')}></span>;
+            ? <CloseIcon className={CSS.element(baseClass, 'clear')}
+                         onMouseDown={e=> {
+                            this.onClearClick(e);
+                         }}/>
+            : <CalendarIcon className={CSS.element(baseClass, 'icon')}/>;
       }
 
       var dropdown = false;

@@ -12,6 +12,7 @@ import {isFocused} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
+import CloseIcon from '../icons/close';
 
 export class LookupField extends Field {
 
@@ -405,8 +406,9 @@ class LookupComponent extends VDOM.Component {
       var readOnly = data.disabled || data.readOnly;
 
       var insideButton = !readOnly && !this.props.multiple && !data.required && data.value != null &&
-         <span onMouseDown={e=>{e.preventDefault()}} onClick={e=>this.onClearClick(e)}
-                 className={CSS.element(baseClass, 'clear')} />;
+         <CloseIcon onMouseDown={e=>{e.preventDefault()}}
+                    onClick={e=>this.onClearClick(e)}
+                    className={CSS.element(baseClass, 'clear')} />;
 
       var text;
 
@@ -414,7 +416,7 @@ class LookupComponent extends VDOM.Component {
          if (Array.isArray(data.records) && data.records.length > 0) {
             text = data.records.map((v, i)=><div key={i} className={CSS.element(baseClass, 'tag')}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
-               {!readOnly && <span className={CSS.element(baseClass, 'tag-clear')}
+               {!readOnly && <CloseIcon className={CSS.element(baseClass, 'tag-clear')}
                      onMouseDown={e=>{e.preventDefault(); e.stopPropagation();}}
                      onClick={e=>this.onClearClick(e, v)} />}
             </div>);

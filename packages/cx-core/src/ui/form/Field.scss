@@ -127,9 +127,9 @@
    $size: $cx-input-clear-size
 ) {
    background-color: transparent;
-   @extend %cx-icon-close;
-   background-size: 10px 10px;
-   background-position: center;
+   //@extend %cx-icon-close;
+   //background-size: 10px 10px;
+   //background-position: center;
 
    border: none;
    position: absolute;
@@ -161,13 +161,13 @@
    height: $cx-input-icon-size;
    width: $cx-input-icon-size;
    line-height: $cx-input-icon-size;
-   color: lightgray;
-   border-radius: $cx-input-icon-size / 2;
+   opacity: 0.7;
    text-align: center;
    cursor: pointer;
-   &:after {
-      content: $content;
-      font: $cx-input-icon-font;
+   color: $cx-input-icon-color;
+
+   &:hover {
+      opacity: 1;
    }
 }
 

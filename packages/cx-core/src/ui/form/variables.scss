@@ -76,7 +76,7 @@ $cx-input-disabled: (
 
 $cx-input-icon-size: 20px !default;
 $cx-input-icon-font: null !default;
-$cx-input-icon-color: 'gray' !default;
+$cx-input-icon-color: null !default;
 
 
 // Clear
@@ -85,7 +85,7 @@ $cx-input-clear-size: 20px !default;
 $cx-input-clear-font: 12px sans-serif !default;
 $cx-input-clear-content: '\00d7' !default;
 $cx-input-clear-color: gray !default;
-$cx-input-clear-background-hover: lightgray !default;
+$cx-input-clear-background-hover: rgba(128, 128, 128, 0.2) !default;
 
 $cx-input-tag-spacing: 3px !default;
 
