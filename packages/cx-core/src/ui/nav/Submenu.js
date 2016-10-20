@@ -50,14 +50,15 @@ class SubmenuComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.state = {}
+      this.state = {
+         dropdownOpen: false
+      }
    }
 
    shouldComponentUpdate(props, state) {
       return props.instance.shouldUpdate
          || state != this.state
-         || state.dropdownOpen //always render if dropdown is open as we don't know if dropdown contents has changed
-         || false;
+         || state.dropdownOpen; //always render if dropdown is open as we don't know if dropdown contents has changed
    }
 
    getDropdown() {
@@ -181,6 +182,7 @@ class SubmenuComponent extends VDOM.Component {
    }
 
    onClick(e) {
+      e.stopPropagation();
       this.setState({
          dropdownOpen: true
       });
