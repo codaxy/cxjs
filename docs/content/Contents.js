@@ -10,6 +10,7 @@ var contents = [{
     articles: [
         {title: 'About', url: '~/intro/about'},
         {title: 'Getting Started', url: '~/intro/getting-started'},
+        {title: 'Features', url: '~/intro/feature-list'},
     ]
 }, {
     topic: 'Concepts',
