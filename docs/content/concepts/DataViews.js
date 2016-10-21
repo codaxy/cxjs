@@ -82,9 +82,7 @@ export const DataViews = <cx>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
-
                     <hr/>
-
                     <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$contestant">
                         <div layout={LabelsLeftLayout}>
                             <TextField value:bind="$contestant.firstName" label="First Name"/>
@@ -116,9 +114,7 @@ export const DataViews = <cx>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
-
                     <hr/>
-
                     <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$info">
                         <div layout={LabelsLeftLayout}>
                             <TextField value:bind="$info.firstName" label="First Name" />
