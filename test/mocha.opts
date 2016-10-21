@@ -1,5 +1,6 @@
 packages/babel-plugin-transform-cx-jsx/test
 packages/cx-core/test/
+packages/cx-core/src/**/*.spec.js
 
 --compilers js:babel-core/register
 --require=env-test

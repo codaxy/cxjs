@@ -5,6 +5,7 @@ export * from './View';
 export * from './Store';
 export * from './ExposedRecordView';
 export * from './ReadOnlyDataView';
+export * from './ZoomIntoPropertyView';
 export * from './StructuredSelector';
 export * from './computable';
 export * from './getSelector';

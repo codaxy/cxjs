@@ -7,6 +7,7 @@ export * from './Text';
 export * from './Button';
 export * from './Repeater';
 export * from './Sandbox';
+export * from './Rescope';
 export * from './List';
 export * from './CSS';
 export * from './CSSHelper';

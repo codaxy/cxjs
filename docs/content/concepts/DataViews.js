@@ -12,6 +12,7 @@ import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {store} from '../../app/store';
 import {Repeater} from 'cx/ui/Repeater';
 import {Sandbox} from 'cx/ui/Sandbox';
+import {Rescope} from 'cx/ui/Rescope';
 import {Text} from 'cx/ui/Text';
 import {Controller} from 'cx/ui/Controller';
 
@@ -94,15 +95,17 @@ export const DataViews = <cx>
                 <div style="width:200px">
                     <strong>Results</strong>
 
-                    <div>
-                        1. <Text tpl="{$page.results.winner.firstName} {$page.results.winner.lastName}"/>
-                    </div>
-                    <div>
-                        2. <Text tpl="{$page.results.second.firstName} {$page.results.second.lastName}"/>
-                    </div>
-                    <div>
-                        3. <Text tpl="{$page.results.third.firstName} {$page.results.third.lastName}"/>
-                    </div>
+                    <Rescope bind="$page.results">
+                        <div>
+                            1. <Text tpl="{winner.firstName} {winner.lastName}" />
+                        </div>
+                        <div>
+                            2. <Text tpl="{second.firstName} {second.lastName}" />
+                        </div>
+                        <div>
+                            3. <Text tpl="{third.firstName} {third.lastName}" />
+                        </div>
+                    </Rescope>
                 </div>
             </div>
 
@@ -125,16 +128,17 @@ export const DataViews = <cx>
                 </div>
                 <div>
                     <strong>Results</strong>
-
-                    <div>
-                        1. <Text tpl="{$page.results.winner.firstName} {$page.results.winner.lastName}" />
-                    </div>
-                    <div>
-                        2. <Text tpl="{$page.results.second.firstName} {$page.results.second.lastName}" />
-                    </div>
-                    <div>
-                        3. <Text tpl="{$page.results.third.firstName} {$page.results.third.lastName}" />
-                    </div>
+                    <Rescope bind="$page.results">
+                        <div>
+                            1. <Text tpl="{winner.firstName} {winner.lastName}" />
+                        </div>
+                        <div>
+                            2. <Text tpl="{second.firstName} {second.lastName}" />
+                        </div>
+                        <div>
+                            3. <Text tpl="{third.firstName} {third.lastName}" />
+                        </div>
+                    </Rescope>
                 </div>
             `}</CodeSnippet>
 
@@ -142,6 +146,15 @@ export const DataViews = <cx>
             different pages identified by the URL address.
 
         </CodeSplit>
+
+        ## Rescope
+
+        The `Rescope` widgets enables shorter data binding paths by selecting a common prefix.
+        Check the previous example to see how `Rescope` was used for displaying results.
+
+        Within the scope, outside data may be accessed by using the `$root.` prefix,
+        e.g. `winner` and `$root.$page.results.winner` point to the same object.
+
     </Md>
 </cx>
 
