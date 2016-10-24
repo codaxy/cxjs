@@ -5,6 +5,7 @@ import {Dropdown} from '../overlay/Dropdown';
 import {ContentPlaceholder, contentSandbox} from '../layout/ContentPlaceholder';
 import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
+import DropdownIcon from '../icons/drop-down';
 
 /*
  Functionality:
@@ -45,6 +46,7 @@ Submenu.prototype.hoverFocusTimeout = 200;
 Submenu.prototype.clickToOpen = false;
 Submenu.prototype.horizontal = true;
 Submenu.prototype.memoize = false;
+Submenu.prototype.arrow = false;
 
 class SubmenuComponent extends VDOM.Component {
 
@@ -85,10 +87,20 @@ class SubmenuComponent extends VDOM.Component {
    render() {
 
       var {instance} = this.props;
-      var {data, store} = instance;
+      var {data, store, widget} = instance;
+      var {CSS, baseClass} = widget;
       var dropdown = this.state.dropdownOpen && instance.prepareRenderCleanupChild(this.getDropdown(), store, {name: 'submenu'});
 
-      return <div className={data.classNames}
+      var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')} />;
+
+      var classNames = CSS.expand(data.classNames, CSS.state({
+         open: this.state.dropdownOpen,
+         horizontal: instance.horizontal,
+         vertical: !instance.horizontal,
+         arrow: widget.arrow
+      }));
+
+      return <div className={classNames}
                   style={data.style}
                   tabIndex="0"
                   ref={el=>{this.el = el}}
@@ -100,6 +112,7 @@ class SubmenuComponent extends VDOM.Component {
                   onClick={::this.onClick}
                   onBlur={::this.onBlur}>
          {this.props.children}
+         {arrow}
          {dropdown}
       </div>
    }

@@ -42,14 +42,14 @@ export const Menus = <cx>
                             <TextField value:bind="$page.text" mod="menu"/>
                             <TextField value:bind="$page.text" mod="menu"/>
                             <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
-                            <Submenu>
+                            <Submenu arrow>
                                 Submenu 1
                                 <Menu putInto="dropdown">
                                     <a href="#" class="cxm-menu">Item 1</a>
                                     <a href="#" class="cxm-menu">Item 2</a>
                                 </Menu>
                             </Submenu>
-                            <Submenu>
+                            <Submenu arrow>
                                 Submenu 2
                                 <Menu putInto="dropdown">
                                     <a href="#" mod="menu-pad">Item 1</a>
@@ -99,14 +99,14 @@ export const Menus = <cx>
                          <TextField value:bind="$page.text" mod="menu" />
                          <TextField value:bind="$page.text" mod="menu" />
                          <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
-                         <Submenu>
+                         <Submenu arrow>
                             Submenu 1
                             <Menu putInto="dropdown">
                                <a href="#" class="cxm-menu">Item 1</a>
                                <a href="#" class="cxm-menu">Item 2</a>
                             </Menu>
                          </Submenu>
-                         <Submenu>
+                         <Submenu arrow>
                             Submenu 2
                             <Menu putInto="dropdown">
                                <a href="#" mod="menu-pad">Item 1</a>
