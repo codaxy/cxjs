@@ -1,11 +1,12 @@
 import {VDOM} from '../Widget';
+import {Icon} from './Icon';
 
-export default props => {
+export default Icon.register('check', props => {
    return <svg
       {...props}
       viewBox="0 0 64 64">
       <path d="M7.136 42.94l20.16 14.784 29.568-40.32-9.72-7.128-22.598 30.816-10.44-7.656z"
             fill="currentColor"/>
    </svg>
-}
+});
 

@@ -10,6 +10,7 @@ import {Submenu} from 'cx/ui/nav/Submenu';
 import {TextField} from 'cx/ui/form/TextField';
 import {DateField} from 'cx/ui/form/DateField';
 import {Checkbox} from 'cx/ui/form/Checkbox';
+import {Icon} from 'cx/ui/icons/Icon';
 
 import configs from './configs/Menu';
 

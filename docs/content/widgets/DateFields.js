@@ -28,7 +28,7 @@ export const DateFields = <cx>
             </div>
             <div layout={LabelsLeftLayout}>
                <DateField label="Required" value:bind="$page.date" required />
-               <DateField label="Styled" value:bind="$page.date" inputStyle={{border: '1px solid green'}} />
+               <DateField label="Styled" value:bind="$page.date" inputStyle={{border: '1px solid green'}} icon="drop-down"/>
                <DateField label="View" value:bind="$page.date" mode="view" />
                <DateField label="EmptyText" value:bind="$page.date" mode="view" emptyText="N/A" />
             </div>
@@ -44,7 +44,7 @@ export const DateFields = <cx>
                </div>
                <div layout={LabelsLeftLayout}>
                   <DateField label="Required" value:bind="$page.date" />
-                  <DateField label="Styled" value:bind="$page.date" inputStyle={{border: '1px solid green'}} />
+                  <DateField label="Styled" value:bind="$page.date" inputStyle={{border: '1px solid green'}} icon="drop-down"/>
                   <DateField label="View" value:bind="$page.date" mode="view" />
                   <DateField label="EmptyText" value:bind="$page.date" mode="view" emptyText="N/A" />
                </div>

@@ -10,7 +10,8 @@ import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
-import CalendarIcon from '../icons/calendar';
+import '../icons/calendar';
+import {Icon} from '../icons/Icon';
 import CloseIcon from '../icons/close';
 
 export class MonthField extends Field {
@@ -177,6 +178,7 @@ MonthField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:
 MonthField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 MonthField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
+MonthField.prototype.icon = 'calendar';
 
 Widget.alias('monthfield', MonthField);
 
@@ -235,7 +237,7 @@ class MonthInput extends VDOM.Component {
                          onMouseDown={e=> {
                             this.onClearClick(e);
                          }}/>
-            : <CalendarIcon className={CSS.element(baseClass, 'icon')}/>;
+            : Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')});
       }
 
       var dropdown = false;

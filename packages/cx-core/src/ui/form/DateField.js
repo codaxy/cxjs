@@ -10,7 +10,8 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
 import {Localization} from '../Localization';
-import CalendarIcon from '../icons/calendar';
+import '../icons/calendar';
+import {Icon} from '../icons/Icon';
 import CloseIcon from '../icons/close';
 
 export class DateField extends Field {
@@ -128,6 +129,7 @@ DateField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d
 DateField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
+DateField.prototype.icon = 'calendar';
 
 Widget.alias('datefield', DateField);
 
@@ -188,10 +190,10 @@ class DateInput extends VDOM.Component {
       if (!data.readOnly) {
          insideButton = !data.required && data.value != null && !data.disabled
             ? <CloseIcon className={CSS.element(baseClass, 'clear')}
-                   onMouseDown={e=> {
-                      this.onClearClick(e);
-                   }} />
-            : <CalendarIcon className={CSS.element(baseClass, 'icon')}/>;
+                         onMouseDown={e=> {
+                            this.onClearClick(e);
+                         }}/>
+            : Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')});
       }
 
       var dropdown = false;

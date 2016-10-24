@@ -1,6 +1,7 @@
 import {VDOM} from '../Widget';
+import {Icon} from './Icon';
 
-export default props => {
+export default Icon.register('drop-down', props => {
    return <svg
       {...props}
       viewBox="0 0 20 20">
@@ -9,5 +10,5 @@ export default props => {
             stroke="currentColor"
             d="M4.516 8.147L10.01 12.5l5.474-4.33-.473-.65-5 3.98-5-4z"/>
    </svg>
-}
+});
 
