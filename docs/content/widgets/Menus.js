@@ -5,7 +5,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
-import {Menu} from 'cx/ui/nav/Menu';
+import {Menu, MenuItem} from 'cx/ui/nav/Menu';
 import {Submenu} from 'cx/ui/nav/Submenu';
 import {TextField} from 'cx/ui/form/TextField';
 import {DateField} from 'cx/ui/form/DateField';
@@ -57,6 +57,9 @@ export const Menus = <cx>
                                 </Menu>
                             </Submenu>
                             <DateField value:bind="$page.date" mod="menu"/>
+                            <MenuItem mod="active" class="test" style="color:red;">
+                                <a href="#" mod="menu-pad">Item Level CSS</a>
+                            </MenuItem>
                         </Menu>
                     </Submenu>
                     <Submenu>
@@ -111,6 +114,9 @@ export const Menus = <cx>
                             </Menu>
                          </Submenu>
                          <DateField value:bind="$page.date" mod="menu" />
+                         <MenuItem mod="active" class="test" style="color:red;">
+                            <a href="#" mod="menu-pad">Item Level CSS</a>
+                         </MenuItem>
                       </Menu>
                    </Submenu>
                    <Submenu>

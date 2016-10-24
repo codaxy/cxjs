@@ -85,16 +85,26 @@ export class Widget extends Component {
    declareData() {
       var props = {
          visible: true,
-         mod: undefined
+         mod: {
+            structured: true
+         }
       };
       Object.assign(props, ...arguments);
       this.selector = new StructuredSelector({props: props, values: this});
       this.nameMap = this.selector.nameMap;
    }
 
-   prepareData(context, {data}) {
-      data.classNames = this.CSS.expand(this.CSS.block(this.baseClass, data.mod, data.stateMods), data.class, data.className);
+   prepareCSS(context, {data}) {
+      data.classNames = this.CSS.expand(
+         this.CSS.block(this.baseClass, data.mod, data.stateMods),
+         data.class,
+         data.className
+      );
       data.style = this.CSS.parseStyle(data.style);
+   }
+
+   prepareData(context, instance) {
+      this.prepareCSS(context, instance);
    }
 
    initInstance(context, instance) {

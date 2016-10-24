@@ -27,15 +27,6 @@ export class HtmlElement extends PureContainer {
          },
          data: {
             structured: true
-         },
-         style: {
-            structured: true
-         },
-         class: {
-            structured: true
-         },
-         className: {
-            structured: true
          }
       };
 
@@ -169,6 +160,7 @@ export class HtmlElement extends PureContainer {
 }
 
 HtmlElement.prototype.tag = 'div';
+HtmlElement.prototype.styled = true;
 
 class ContainerComponent extends VDOM.Component {
    shouldComponentUpdate(props) {

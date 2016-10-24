@@ -1,6 +1,8 @@
-import {Widget, VDOM, getContent} from '../Widget';
+import {Widget, VDOM} from '../Widget';
 import {HtmlElement} from '../HtmlElement';
+import {PureContainer} from '../PureContainer';
 import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant} from '../../util/DOM';
+import {parseStyle} from '../../util/parseStyle';
 import {KeyCode} from '../../util/KeyCode';
 import {Debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
@@ -39,6 +41,34 @@ export class Menu extends HtmlElement {
 
 Menu.prototype.horizontal = false;
 
+
+export class MenuItem extends PureContainer {
+
+   declareData() {
+      super.declareData(...arguments, {
+         bodyStyle: { structured: true },
+         bodyClass: { structured: true }
+      })
+   }
+
+   init() {
+      this.bodyStyle = parseStyle(this.bodyStyle);
+      super.init();
+   }
+
+   render(context, instance, key) {
+      return {
+         atomic: true,
+         key: key,
+         instance: instance,
+         content: super.render(context, instance, key)
+      }
+   }
+}
+
+MenuItem.prototype.styled = true;
+Menu.Item = MenuItem;
+
 class MenuComponent extends VDOM.Component {
 
    constructor(props) {
@@ -52,28 +82,46 @@ class MenuComponent extends VDOM.Component {
       var {instance, children} = this.props;
       var {data} = instance;
       this.itemInfo = Array.from({length: children.length});
-      return <ul ref={el=> {
+      const ref = el=> {
          this.el = el
-      }}
-                 className={data.classNames}
-                 style={data.style}
-                 onFocus={::this.onFocus}
-                 onBlur={FocusManager.nudge()}
-                 onKeyDown={::this.onKeyDown}
-      >
-         {children.map((c, i)=> {
-            let key = c && typeof c == 'object' && c.key ? c.key : i;
-            return <MenuItemComponent key={key}
-                                      cursor={key === this.state.cursor}
-                                      instance={instance}
-                                      itemInfo={this.itemInfo}
-                                      itemKey={key}
-                                      itemIndex={i}
-                                      moveCursor={::this.moveCursor}>
-               {c}
-            </MenuItemComponent>;
-         })}
-      </ul>;
+      };
+      return (
+         <ul
+            ref={ref}
+            className={data.classNames}
+            style={data.style}
+            onFocus={::this.onFocus}
+            onBlur={FocusManager.nudge()}
+            onKeyDown={::this.onKeyDown}
+         >
+            {children.map((c, i)=> {
+               let key = i,
+                  content = c,
+                  itemInstance;
+               if (c && typeof c == 'object') {
+                  if (c.key)
+                     key = c.key;
+                  if (c.atomic) {
+                     content = c.content;
+                     itemInstance = c.instance;
+                  }
+               }
+
+               return <MenuItemComponent
+                  key={key}
+                  cursor={key === this.state.cursor}
+                  instance={instance}
+                  itemInstance={itemInstance}
+                  itemInfo={this.itemInfo}
+                  itemKey={key}
+                  itemIndex={i}
+                  moveCursor={::this.moveCursor}
+               >
+                  {content}
+               </MenuItemComponent>;
+            })}
+         </ul>
+      );
    }
 
    moveCursor(itemKey) {
@@ -174,13 +222,18 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    render() {
-      var {itemInfo, itemIndex, itemKey, instance, cursor} = this.props;
+      var {itemInfo, itemIndex, itemKey, instance, cursor, itemInstance} = this.props;
       var {widget} = instance;
       var {CSS, baseClass} = widget;
       var mods = {
          cursor: cursor,
          focusable: this.state.focusable
       };
+      var classNames, style, bodyClass, bodyStyle;
+      if (itemInstance) {
+         ({classNames, style, bodyClass, bodyStyle} = itemInstance.data);
+      }
+
       return <li
          ref={c=> {
             this.el = c;
@@ -190,12 +243,13 @@ class MenuItemComponent extends VDOM.Component {
                key: itemKey
             };
          }}
-         className={CSS.element(baseClass, "item", mods)}
+         className={CSS.expand(CSS.element(baseClass, "item", mods), classNames)}
+         style={style}
          onFocus={::this.onFocus}
          onMouseDown={::this.onMouseDown}
          onKeyDown={::this.onKeyDown}
       >
-         <div className={CSS.element(baseClass, "item-body")}>
+         <div className={CSS.expand(CSS.element(baseClass, "item-body"), bodyClass)} style={bodyStyle}>
             {this.props.children}
          </div>
       </li>

@@ -3,12 +3,16 @@ import {StaticText} from './StaticText';
 import {Layout} from './layout/Layout';
 import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
+import {parseStyle} from '../util/parseStyle';
 
 export class PureContainer extends Widget {
 
    init() {
       if (this.preserveWhitespace)
          this.trimWhitespace = false;
+
+      if (this.styled)
+         this.style = parseStyle(this.style);
       
       super.init();
       var items = this.items || this.children || [];

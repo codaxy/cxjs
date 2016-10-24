@@ -35,14 +35,20 @@ export class Layout extends Component {
    }
 
    append(result, r) {
-      if (typeof r == 'object' && r) {
-         var first = true;
-         for (var k in r)
-            if (contentAppend(result, r[k], !first))
-               first = false;
+      if (r != null) {
+         if (typeof r == 'object') {
+            if (r.atomic)
+               result.push(r);
+            else {
+               var first = true;
+               for (var k in r)
+                  if (contentAppend(result, r[k], !first))
+                     first = false;
+            }
+         }
+         else
+            contentAppend(result, r);
       }
-      else
-         contentAppend(result, r);
    }
 
    render(context, instance, keyPrefix) {
