@@ -1,8 +1,9 @@
 import {Widget, VDOM} from '../Widget';
 import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import {stopPropagation} from '../eventCallbacks';
+import {stopPropagation, preventDefault} from '../eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
+import {Icon} from '../icons/Icon';
 
 export class TextField extends Field {
    declareData() {
@@ -49,6 +50,7 @@ TextField.prototype.validationErrorText = 'The entered value is not valid.';
 TextField.prototype.minLengthValidationErrorText = "Please enter {[{0}-{1}]} more character(s).";
 TextField.prototype.maxLengthValidationErrorText = "The entered text is longer than the maximum allowed {0} characters.";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
+TextField.prototype.icon = null;
 
 
 class Input extends VDOM.Component {
@@ -67,6 +69,13 @@ class Input extends VDOM.Component {
    render() {
       var {data, widget} = this.props.instance;
       var {CSS, baseClass} = widget;
+
+      var icon = widget.icon && Icon.render(widget.icon, {
+            className: CSS.element(baseClass, 'icon'),
+            onMouseDown: preventDefault,
+            onClick: e => this.onChange(e, 'enter')
+         });
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({visited: this.state.visited}))}
          style={data.style}
@@ -93,6 +102,7 @@ class Input extends VDOM.Component {
                 } }
                 onClick={stopPropagation}
          />
+         {icon}
       </div>
    }
 

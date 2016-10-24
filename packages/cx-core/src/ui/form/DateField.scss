@@ -1,7 +1,5 @@
 @import "Field";
 
-$cx-datefield-icon-content: "\1F4C5" !default;
-
 .cxb-datefield {
    @include cxb-field();
 }
@@ -13,9 +11,7 @@ $cx-datefield-icon-content: "\1F4C5" !default;
 }
 
 .cxe-datefield-icon {
-   @include cxe-field-icon(
-      $content: $cx-datefield-icon-content
-   );
+   @include cxe-field-icon();
 }
 
 .cxe-datefield-clear {

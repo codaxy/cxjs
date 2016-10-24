@@ -4,8 +4,8 @@ import {Format} from '../../util/Format';
 import {Culture} from '../Culture';
 import {StringTemplate} from '../../data/StringTemplate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-
-import {stopPropagation} from '../eventCallbacks';
+import {stopPropagation, preventDefault} from '../eventCallbacks';
+import {Icon} from '../icons/Icon';
 
 export class NumberField extends Field {
 
@@ -96,6 +96,7 @@ NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
 
 NumberField.prototype.incrementPercentage = 0.1;
 NumberField.prototype.snapToIncrement = true;
+NumberField.prototype.icon = null;
 
 Widget.alias('numberfield', NumberField);
 
@@ -117,6 +118,12 @@ class Input extends VDOM.Component {
    render() {
       var {data, widget} = this.props.instance;
       var {CSS, baseClass} = widget;
+
+      var icon = widget.icon && Icon.render(widget.icon, {
+            className: CSS.element(baseClass, 'icon'),
+            onMouseDown: preventDefault,
+            onClick: e => this.onChange(e, 'enter')
+         });
 
       return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
                   style={data.style}
@@ -140,6 +147,7 @@ class Input extends VDOM.Component {
                 onWheel={ e=> { this.onChange(e, 'wheel') }}
                 onClick={stopPropagation}
          />
+         {icon}
       </div>
    }
 

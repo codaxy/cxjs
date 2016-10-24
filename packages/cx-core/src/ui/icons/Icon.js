@@ -7,6 +7,8 @@ export class Icon {
    }
 
    static render(name, props) {
-      return icons[name](props);
+      if (icons[name])
+         return icons[name](props);
+      return null;
    }
 }

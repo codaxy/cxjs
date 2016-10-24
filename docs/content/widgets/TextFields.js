@@ -8,6 +8,8 @@ import {Content} from 'cx/ui/layout/Content';
 import {TextField} from 'cx/ui/form/TextField';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
+import 'cx/ui/icons/search';
+
 import configs from './configs/TextField';
 
 export const TextFields = <cx>
@@ -31,7 +33,7 @@ export const TextFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Required" value:bind="$page.text" required/>
                     <TextField label="Min/Max Length" value:bind="$page.text" minLength={3} maxLength={8}/>
-                    <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}}/>
+                    <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} icon="search"/>
                     <TextField label="View" value:bind="$page.text" mode="view"/>
                     <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
                 </div>

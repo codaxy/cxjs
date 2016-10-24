@@ -13,7 +13,7 @@
 }
 
 .cxe-colorfield-icon {
-   @include cxe-field-icon($content: null);
+   @include cxe-field-icon();
    @extend %cx-checker-bg;
    border-radius: 0;
    box-sizing: border-box;

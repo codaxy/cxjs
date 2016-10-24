@@ -11,7 +11,7 @@
 }
 
 .cxe-monthfield-icon {
-   @include cxe-field-icon($content: "\1F4C5");
+   @include cxe-field-icon();
 }
 
 .cxe-monthfield-clear {

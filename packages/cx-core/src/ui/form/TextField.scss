@@ -8,6 +8,10 @@
    @include cxe-field-input();
 }
 
+.cxe-textfield-icon {
+   @include cxe-field-icon();
+}
+
 .cxe-textfield-empty-text {
    @include cxe-field-empty-text();
 }

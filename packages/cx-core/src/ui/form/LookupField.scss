@@ -125,7 +125,7 @@
 }
 
 .cxe-lookupfield-arrow {
-   @include cxe-field-icon($content: '\25BE');
+   @include cxe-field-icon();
 }
 
 .cxe-lookupfield-clear {
