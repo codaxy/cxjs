@@ -14,6 +14,10 @@ export class Icon {
    }
 
    static render(name, props) {
+
+      if (typeof name == 'function')
+         return name(props);
+
       if (icons[name])
          return icons[name](props);
 
