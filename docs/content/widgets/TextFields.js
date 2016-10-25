@@ -8,8 +8,6 @@ import {Content} from 'cx/ui/layout/Content';
 import {TextField} from 'cx/ui/form/TextField';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
-import 'cx/ui/icons/search';
-
 import configs from './configs/TextField';
 
 export const TextFields = <cx>

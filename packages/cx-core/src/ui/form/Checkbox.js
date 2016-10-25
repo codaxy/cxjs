@@ -135,7 +135,7 @@ class CheckboxCmp extends VDOM.Component {
                   onClick={::this.onClick}
                   onKeyDown={::this.onKeyDown}
       >
-         <Check/>
+         <Check className={CSS.element(baseClass, "input-check")} />
       </div>
    }
 

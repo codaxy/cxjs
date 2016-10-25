@@ -11,3 +11,7 @@
 .cxe-numberfield-empty-text {
    @include cxe-field-empty-text();
 }
+
+.cxe-numberfield-icon {
+   @include cxe-field-icon();
+}

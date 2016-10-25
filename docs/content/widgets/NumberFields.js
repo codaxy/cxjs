@@ -11,37 +11,37 @@ import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import configs from './configs/NumberField';
 
 export const NumberFields = <cx>
-   <Md>
-      # Number Field
+    <Md>
+        # Number Field
 
-      The `NumberField` control is used for numeric inputs, including currencies and percentages.
+        The `NumberField` control is used for numeric inputs, including currencies and percentages.
 
-      <CodeSplit>
+        <CodeSplit>
 
 
-         <div class="widgets">
-            <div layout={LabelsLeftLayout}>
-               <NumberField label="Standard" value:bind="$page.number" autoFocus/>
-               <NumberField label="Disabled" value:bind="$page.number" disabled />
-               <NumberField label="Readonly" value:bind="$page.number" readOnly />
-               <NumberField label="Placeholder" value:bind="$page.number" placeholder="Type something here..." />
-               <NumberField label="Validation" value:bind="$page.number" minValue={18} placeholder="Above 18..." />
-                <NumberField label="Currency" value:bind="$page.number" placeholder="EUR" format="currency;EUR" />
-                <NumberField label="Currency" value:bind="$page.number" placeholder="USD" format="currency;USD" />
+            <div class="widgets">
+                <div layout={LabelsLeftLayout}>
+                    <NumberField label="Standard" value:bind="$page.number" autoFocus/>
+                    <NumberField label="Disabled" value:bind="$page.number" disabled/>
+                    <NumberField label="Readonly" value:bind="$page.number" readOnly/>
+                    <NumberField label="Placeholder" value:bind="$page.number" placeholder="Type something here..."/>
+                    <NumberField label="Validation" value:bind="$page.number" minValue={18} placeholder="Above 18..."/>
+                    <NumberField label="Currency" value:bind="$page.number" placeholder="EUR" format="currency;EUR"/>
+                    <NumberField label="Currency" value:bind="$page.number" placeholder="USD" format="currency;USD"/>
+                </div>
+                <div layout={LabelsLeftLayout}>
+                    <NumberField label="Formatted" value:bind="$page.number" format="n;2"/>
+                    <NumberField label="Percentage" value:bind="$page.number" format="ps"/>
+                    <NumberField label="Suffix" value:bind="$page.number" format="suffix; kg"/>
+                    <NumberField label="Required" value:bind="$page.number" required/>
+                    <NumberField label="Styled" value:bind="$page.number" inputStyle={{border: '1px solid green'}} icon="calculator"/>
+                    <NumberField label="View" value:bind="$page.number" mode="view"/>
+                    <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A"/>
+                </div>
             </div>
-            <div layout={LabelsLeftLayout}>
-               <NumberField label="Formatted" value:bind="$page.number" format="n;2" />
-               <NumberField label="Percentage" value:bind="$page.number" format="ps" />
-               <NumberField label="Suffix" value:bind="$page.number" format="suffix; kg" />
-               <NumberField label="Required" value:bind="$page.number" required />
-               <NumberField label="Styled" value:bind="$page.number" inputStyle={{border: '1px solid green'}} />
-               <NumberField label="View" value:bind="$page.number" mode="view" />
-               <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A" />
-            </div>
-         </div>
 
-         <Content name="code">
-            <CodeSnippet>{`
+            <Content name="code">
+                <CodeSnippet>{`
                <div layout={LabelsLeftLayout}>
                   <NumberField label="Standard" value:bind="$page.number" autoFocus/>
                   <NumberField label="Disabled" value:bind="$page.number" disabled />
@@ -59,12 +59,12 @@ export const NumberFields = <cx>
                   <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A" />
                </div>
             `}</CodeSnippet>
-         </Content>
-      </CodeSplit>
+            </Content>
+        </CodeSplit>
 
-      ## Configuration
+        ## Configuration
 
-      <ConfigTable props={configs} />
+        <ConfigTable props={configs}/>
 
-   </Md>
+    </Md>
 </cx>
