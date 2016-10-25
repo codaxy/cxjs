@@ -3,6 +3,7 @@ import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {Content} from 'cx/ui/layout/Content';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Checkbox} from 'cx/ui/form/Checkbox';
@@ -24,6 +25,8 @@ import configs from './configs/Window';
 export const Windows = <cx>
    <Md>
       # Windows
+
+      <ImportPath path={"import \{Window\} from 'cx/ui/overlay/Window';"} />
 
       Windows are overlays with headers, footers and special appearance.
 

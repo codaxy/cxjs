@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -31,6 +32,8 @@ var addOverlay = store => {
 export const Overlays = <cx>
    <Md>
       # Overlay
+
+      <ImportPath path={"import \{Overlay\} from 'cx/ui/overlay/Overlay';"}></ImportPath>
 
       Overlays are page elements which are displayed on top of the main UI. Overlays include windows,
       message boxes, dropdowns, tooltips, etc. Overlays may be defined in the widget tree context or opened

@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -13,6 +14,8 @@ import configs from './configs/TextField';
 export const TextFields = <cx>
     <Md>
         # Text Field
+
+        <ImportPath path={"import \{TextField\} from 'cx/ui/form/TextField';"}></ImportPath>
 
         Text field control is used for text input. It's one of the most used controls.
         Many different states make it an advanced control.

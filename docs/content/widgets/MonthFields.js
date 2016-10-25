@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -13,6 +14,8 @@ import configs from './configs/Calendar';
 export const MonthFields = <cx>
     <Md>
         # MonthField
+
+        <ImportPath path={"import \{MonthField\} from 'cx/ui/form/MonthField';"}></ImportPath>
 
         The `MonthField` widget is used for selecting months or month ranges.
 

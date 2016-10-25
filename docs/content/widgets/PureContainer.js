@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
@@ -15,6 +16,8 @@ import configs from './configs/PureContainer';
 export const PureContainer = <cx>
    <Md>
       # PureContainer
+
+      <ImportPath path={"import \{PureContainer\} from 'cx/ui/PureContainer';"}></ImportPath>
 
       The `PureContainer` component does not render a top-level HTML element and therefore doesn't have any visual
       attributes. It outputs its children, however, the container provides a good place to control
