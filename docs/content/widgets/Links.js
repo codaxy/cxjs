@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -25,6 +26,9 @@ const properties = {
 export const Links = <cx>
    <Md>
       # Links
+
+      <ImportPath path={"import \{Link\} from 'cx/ui/nav/Link';"} />
+
       Links are used for `pushState` navigation between pages.
 
       <CodeSplit>
@@ -34,7 +38,7 @@ export const Links = <cx>
          </div>
          <CodeSnippet putInto="code">{`
              <div class="widgets">
-
+                <Link href="~/widgets/text-fields">Text Fields</Link>
              </div>
          `}</CodeSnippet>
       </CodeSplit>

@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
@@ -15,6 +16,8 @@ import configs from './configs/HtmlElement';
 export const HtmlElements = <cx>
    <Md>
       # HtmlElement
+
+      <ImportPath path={"import \{HtmlElement\} from 'cx/ui/HtmlElement';"} />
 
       The `HtmlElement` widget is used for rendering HTML elements. All lowercase elements will be converted to the
       `HtmlElement` instances with corresponding `tag` property set.

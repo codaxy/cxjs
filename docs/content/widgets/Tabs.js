@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -25,6 +26,8 @@ class PageController extends Controller {
 export const Tabs = <cx>
    <Md>
       # Tabs
+
+      <ImportPath path={"import \{Tab\} from 'cx/ui/nav/Tab';"}></ImportPath>
 
       Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
       to radio buttons. Tabs are selected on click and only one tab may be active at a time.

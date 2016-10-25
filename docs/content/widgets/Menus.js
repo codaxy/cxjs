@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -17,6 +18,8 @@ import configs from './configs/Menu';
 export const Menus = <cx>
     <Md>
         # Menu
+
+        <ImportPath path={"import \{Menu\} from 'cx/ui/nav/Menu';"}></ImportPath>
 
         <CodeSplit>
 

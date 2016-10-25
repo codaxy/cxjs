@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {Content} from 'cx/ui/layout/Content';
 import {HtmlElement} from 'cx/ui/HtmlElement';
@@ -14,7 +15,9 @@ export const NumberFields = <cx>
     <Md>
         # Number Field
 
-        The `NumberField` control is used for numeric inputs, including currencies and percentages.
+      <ImportPath path={"import \{NumberField\} from 'cx/ui/form/NumberField';"}></ImportPath>
+
+      The `NumberField` control is used for numeric inputs, including currencies and percentages.
 
         <CodeSplit>
 

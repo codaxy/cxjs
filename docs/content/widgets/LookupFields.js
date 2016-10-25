@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -39,6 +40,8 @@ export const LookupFields = <cx>
         <CodeSplit>
 
             # Lookups
+
+            <ImportPath path={"import \{LookupField\} from 'cx/ui/form/LookupField';"}></ImportPath>
 
             The `LookupField` control offers selection from a list of available options.
             It is very similar to the well-known HTML `select` element, however it offers a few additional

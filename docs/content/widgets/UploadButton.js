@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {UploadButton} from 'cx/ui/form/UploadButton';
@@ -35,6 +36,8 @@ function onUploadError(e) {
 export const UploadButtonPage = <cx>
     <Md>
         # Upload Button
+
+        <ImportPath path={"import \{UploadButton\} from 'cx/ui/form/UploadButton';"} />
 
         <CodeSplit>
 

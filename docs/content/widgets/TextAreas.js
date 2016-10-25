@@ -6,12 +6,15 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
 import {TextArea} from 'cx/ui/form/TextArea';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
+import {ImportPath} from '../../components/ImportPath';
 
 import configs from './configs/TextArea';
 
 export const TextAreas = <cx>
    <Md>
       # Text Area
+
+      <ImportPath path={"import \{TextArea\} from 'cx/ui/form/TextArea';"}></ImportPath>
 
       The `TextArea` control is used for larger text inputs. Besides allowing multi-line input, it's practically
       the same as the `TextField` control.

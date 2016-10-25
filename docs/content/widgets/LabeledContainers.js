@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {LabeledContainer} from 'cx/ui/form/LabeledContainer';
@@ -14,6 +15,8 @@ import configs from './configs/LabeledContainer';
 export const LabeledContainers = <cx>
    <Md>
       # LabeledContainer
+
+      <ImportPath path={"import \{LabeledContainer\} from 'cx/ui/form/LabeledContainer';"}></ImportPath>
 
       <CodeSplit>
 

@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Slider} from 'cx/ui/form/Slider';
@@ -13,6 +14,8 @@ import configs from './configs/slider';
 export const Sliders = <cx>
     <Md>
         # Slider
+
+        <ImportPath path={"import \{Slider\} from 'cx/ui/form/Slider';"}></ImportPath>
 
         The `Slider` widget allow selecting numerical values by dragging the slider handle.
 

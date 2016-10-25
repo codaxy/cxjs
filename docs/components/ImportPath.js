@@ -1,51 +1,51 @@
 import {Widget, VDOM} from 'cx/ui/Widget';
+import React from 'react';
 //import {HtmlElement} from 'cx/ui/HtmlElement';
 //import {PureContainer} from 'cx/ui/PureContainer';
 //import {Button} from 'cx/ui/Button';
 //import {Md} from './Md';
 //import {HtmlElement} from 'cx/ui/HtmlElement';
 
+class InputWithButton extends React.Component {    
+    copyToClipboard = () => {
+        // copy text from this.textInput to clipboard...
+        // select text
+        this.textInput.select();
+        try {
+            // copy selected text
+            document.execCommand('copy');
+            //this.textInput.blur(); // deselect text
+        } catch (err) {
+            alert('Please press CTRL/CMD+C to copy');
+        }
+    }
+    render(){
+        return (
+            <div>
+                <span className="dxe-inputWithButton">
+                <input 
+                    ref={(input) => this.textInput = input} 
+                    type="text" defaultValue={this.props.path} 
+                    onClick={this.copyToClipboard}
+                />
+                <button onClick={this.copyToClipboard} >
+                    <i className="fa fa-copy" aria-hidden="true"></i>
+                </button>
+                </span>
+            </div>
+        );
+    }
+}
 
 export class ImportPath extends Widget {
     init(){
         super.init();
     }
-    
-    copyToClipboard = (e) => {
-        //console.log("TEST", this.path, arguments[0].path);
-        //console.log(e.target);
-        // find target element
-        //debugger;
-        var inp = e.target;
-            //c = t.dataset.copytarget,
-            //inp = (c ? document.querySelector(c) : null);
-
-        // is element selectable?
-        if (inp && inp.select) {
-
-            // select text
-            inp.select();
-            
-            try {
-                // copy text
-                document.execCommand('copy');
-                inp.blur();
-            }
-            catch (err) {
-                alert('please press Ctrl/Cmd+C to copy');
-            }
-        }
-    }
 
     render(context, instance, key){
         return (
             <div key={key} className="dxb-importpath">
-                <span className="inputWithButton">
-                <input type="text" defaultValue={this.path} onClick={this.copyToClipboard}></input>
-                <button onClick={this.copyToClipboard} >
-                    <i className="fa fa-copy" aria-hidden="true"></i>
-                </button>
-                </span>
+                <InputWithButton path={this.path} />
             </div>
         );
     }
