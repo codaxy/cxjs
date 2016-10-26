@@ -1,5 +1,3 @@
-require('../../test/babel');
-
 import assert from 'assert';
 
 import {Binding} from './Binding';

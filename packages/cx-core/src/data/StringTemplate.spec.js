@@ -1,8 +1,6 @@
-require('./babel');
+import {StringTemplate} from './StringTemplate';
+import assert from 'assert';
 
-var StringTemplate = require('../src/data/StringTemplate').StringTemplate;
-
-var assert = require('assert');
 describe('StringTemplate', function() {
     describe('#compile()', function () {
         it('returns a selector', function () {

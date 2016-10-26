@@ -1,8 +1,5 @@
-require('./babel');
-
-import {StructuredSelector} from '../src/data/StructuredSelector';
-
-var assert = require('assert');
+import {StructuredSelector} from './StructuredSelector';
+import assert from 'assert';
 
 describe('StructuredSelector', function() {
    describe('#create()', function () {

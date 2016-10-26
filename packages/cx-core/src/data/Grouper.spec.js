@@ -1,7 +1,5 @@
-require('./babel');
-
-var Grouper = require('../src/data/Grouper').Grouper;
-var assert = require('assert');
+var Grouper = require('./Grouper').Grouper;
+import assert from 'assert';
 
 describe('Grouper', function() {
    describe('grouping', function () {

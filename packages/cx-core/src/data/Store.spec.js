@@ -1,9 +1,5 @@
-require('../../test/babel');
-
 import assert from 'assert';
-
 import {Store} from './Store';
-
 
 describe('Store', () => {
 

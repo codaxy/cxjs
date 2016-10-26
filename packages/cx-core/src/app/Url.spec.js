@@ -1,5 +1,4 @@
-require('./babel');
-import {Url} from '../src/app/Url';
+import {Url} from './Url';
 import Route from 'route-parser';
 
 var assert = require('assert');

@@ -1,8 +1,6 @@
-require('./babel');
+import {Binding} from './Binding';
+import assert from 'assert';
 
-var Binding = require('../src/data/Binding').Binding;
-
-var assert = require('assert');
 describe('Binding', function() {
 
     describe('#get()', function () {

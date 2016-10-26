@@ -1,8 +1,6 @@
-require('./babel');
+import {Expression} from './Expression';
+import assert from 'assert';
 
-import {Expression} from '../src/data/Expression';
-
-var assert = require('assert');
 describe('Expression', function () {
    describe('#compile()', function () {
       it('returns a selector', function () {
