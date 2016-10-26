@@ -2,6 +2,9 @@
 
 .cxb-slider {
    @include cxb-field();
+   padding: $cx-input-padding;
+   border: 1px solid transparent;
+   line-height: $cx-input-line-height;
 
    &.cxs-vertical {
       width: 28px;
@@ -16,15 +19,15 @@
    border-radius: 3px;
 
    .cxb-slider.cxs-horizontal & {
-      margin: 0 12px;
+      margin: 0 6px;
       height: 6px;
       top: calc(50% - 3px);
    }
 
    .cxb-slider.cxs-vertical & {
-      margin: 12px 0;
+      margin: 6px 0;
       width: 6px;
-      height: calc(100% - 24px);
+      height: calc(100% - 12px);
       left: calc(50% - 3px);
    }
 
