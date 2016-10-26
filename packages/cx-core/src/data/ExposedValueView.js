@@ -4,19 +4,16 @@ import {Binding} from './Binding';
 export class ExposedValueView extends View {
 
    getData() {
-      var data = this.store.getData();
-      if (this.storeData != data || !this.immutable) {
+      if (!this.immutable || this.meta.version != this.cache.version || this.cache.key != this.key) {
+         var data = this.store.getData();
          var container = this.containerBinding.value(data) || {};
          var record = container[this.key];
-         this.data = this.immutable ? {...data} : data;
-         this.data[this.recordName] = record;
-         this.storeData = data;
+         this.cache.result = this.immutable ? {...data} : data;
+         this.cache.result[this.recordName] = record;
+         this.cache.version = this.meta.version;
+         this.cache.key = this.key;
       }
-      return this.data;
-   }
-
-   setStore(store) {
-      this.store = store;
+      return this.cache.result;
    }
 
    setKey(key) {

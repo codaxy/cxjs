@@ -4,22 +4,18 @@ import {Binding} from './Binding';
 export class ZoomIntoPropertyView extends View {
 
    getData() {
-      var data = this.store.getData();
-      if (this.storeData != data) {
+      if (this.cache.version != this.meta.version) {
+         var data = this.store.getData();
          var x = this.binding.value(data);
          if (x != null && typeof x != 'object')
             throw new Error('Zoomed value must be an object.');
-         this.data = {
+         this.cache.result = {
             ...x,
             [this.rootName]: data
          };
-         this.storeData = data;
+         this.cache.version = this.meta.version;
       }
-      return this.data;
-   }
-
-   setStore(store) {
-      this.store = store;
+      return this.cache.result;
    }
 
    set(path, value) {

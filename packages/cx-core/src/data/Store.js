@@ -8,6 +8,9 @@ export class Store extends View {
       this.subscriptions = {};
       this.subscriptionKey = 0;
       this.changes = [];
+      this.meta = {
+         version: 0
+      }
    }
 
    getData() {
@@ -18,6 +21,7 @@ export class Store extends View {
       var next = Binding.get(path).set(this.data, value);
       if (next != this.data) {
          this.data = next;
+         this.meta.version++;
          this.notify(path);
       }
    }
@@ -26,12 +30,14 @@ export class Store extends View {
       var next = Binding.get(path).delete(this.data);
       if (next != this.data) {
          this.data = next;
+         this.meta.version++;
          this.notify(path);
       }
    }
    
    clear() {
       this.data = {};
+      this.meta.version++;
       this.notify();
    }
 

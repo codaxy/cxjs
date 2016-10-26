@@ -4,12 +4,12 @@ import {Binding} from './Binding';
 export class ExposedRecordView extends View {
 
    getData() {
-      var data = this.store.getData();
-      if (this.storeData != data || !this.immutable) {
-         this.data = this.embed(data);
-         this.storeData = data;
+      if (!this.immutable || this.meta.version != this.cache.version || this.cache.itemIndex != this.itemIndex) {
+         this.cache.result = this.embed(this.store.getData());
+         this.cache.version = this.meta.version;
+         this.cache.itemIndex = this.itemIndex;
       }
-      return this.data;
+      return this.cache.result;
    }
 
    embed(data) {
@@ -20,10 +20,6 @@ export class ExposedRecordView extends View {
       if (this.indexName)
          copy[this.indexName] = this.itemIndex;
       return copy;
-   }
-
-   setStore(store) {
-      this.store = store;
    }
 
    setIndex(index) {

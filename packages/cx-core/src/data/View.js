@@ -4,6 +4,11 @@ export class View {
 
    constructor(config) {
       Object.assign(this, config);
+      this.cache = {
+         version: -1
+      };
+      if (this.store)
+         this.setStore(this.store);
    }
 
    getData() {
@@ -111,5 +116,14 @@ export class View {
          return this.store.dispatch(action);
 
       throw new Error("The underlying store doesn't support dispatch.");
+   }
+
+   getMeta() {
+      return this.meta;
+   }
+
+   setStore(store) {
+      this.store = store;
+      this.meta = store.getMeta();
    }
 }
