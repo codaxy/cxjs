@@ -4,15 +4,13 @@ import {Icon} from './Icon';
 export default Icon.register('calendar', props => {
    return <svg
       {...props}
-      viewBox="0 0 64 64">
-      <path fill="none" stroke="currentColor" strokeWidth="2" d="M13.688 12.515H50.31v38.97H13.69z"/>
-      <path fill="none" stroke="currentColor" strokeWidth="2" d="M21.505 8.6v7.857M31.577 8.6v7.857M41.648 8.42v7.858"/>
-      <path fill="currentColor"
-            d="M19.613 25.857h4.107v4.286h-4.107zM29.947 25.857h4.107v4.286h-4.107zM40.28 25.857h4.107v4.286H40.28z"/>
-      <path fill="currentColor"
-            d="M19.613 32.865h4.107v4.286h-4.107zM29.947 32.865h4.107v4.286h-4.107zM40.28 32.865h4.107v4.286H40.28z"/>
-      <path fill="currentColor"
-            d="M19.613 39.873h4.107v4.286h-4.107zM29.947 39.873h4.107v4.286h-4.107zM40.28 39.873h4.107v4.286H40.28z"/>
+      viewBox="0 0 32 32">
+
+      <path d="M4 3h6m10 0h6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M19 21h4v4h-4z" fill="currentColor"/>
+      <path d="M3 25h24M3 21h24M3 17h24M7 28V13m-4 0h24M11 28V13.2M15 28V13.27M19 28V13.03M23 28V13.5" fill="none" stroke="currentColor"/>
+      <path fill="currentColor" d="M10 8h10v2H10z"/>
+      <path fill="none" stroke="currentColor" stroke-width="2" d="M3 5h24v24H3z"/>
    </svg>
 });
 
