@@ -17,8 +17,6 @@ export const NumberFields = <cx>
 
       <ImportPath path={"import \{NumberField\} from 'cx/ui/form/NumberField';"}></ImportPath>
 
-      <ImportPath path={"import \{NumberField\} from 'cx/ui/form/NumberField';"}></ImportPath>
-
       The `NumberField` control is used for numeric inputs, including currencies and percentages.
 
         <CodeSplit>

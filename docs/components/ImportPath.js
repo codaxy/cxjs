@@ -10,28 +10,28 @@ class InputWithButton extends React.Component {
     copyToClipboard = () => {
         // copy text from this.textInput to clipboard...
         // select text
-        this.textInput.select();
+        let range = document.createRange();
+        range.selectNodeContents(this.textInput);
+        let selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
         try {
             // copy selected text
             document.execCommand('copy');
-            //this.textInput.blur(); // deselect text
+            selection.removeAllRanges(); // deselect text
         } catch (err) {
             alert('Please press CTRL/CMD+C to copy');
         }
     }
     render(){
         return (
-            <div>
-                <span className="dxe-inputWithButton">
-                <input 
-                    ref={(input) => this.textInput = input} 
-                    type="text" defaultValue={this.props.path} 
-                    onClick={this.copyToClipboard}
-                />
+            <div className="dxb-importpath">
+                <code ref={(input) => this.textInput = input}>
+                    {this.props.path} 
+                </code>
                 <button onClick={this.copyToClipboard} >
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </button>
-                </span>
             </div>
         );
     }
@@ -44,7 +44,7 @@ export class ImportPath extends Widget {
 
     render(context, instance, key){
         return (
-            <div key={key} className="dxb-importpath">
+            <div key={key} >
                 <InputWithButton path={this.path} />
             </div>
         );
