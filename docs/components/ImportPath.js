@@ -26,12 +26,10 @@ class InputWithButton extends React.Component {
     render(){
         return (
             <div className="dxb-importpath">
-                <code ref={(input) => this.textInput = input}>
-                    {this.props.path} 
-                </code>
-                <button onClick={this.copyToClipboard} >
+                <code ref={(input) => this.textInput = input} onClick={this.copyToClipboard}>
+                    {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
-                </button>
+                </code>
             </div>
         );
     }

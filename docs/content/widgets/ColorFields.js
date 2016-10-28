@@ -15,9 +15,6 @@ export const ColorFields = <cx>
 
         <ImportPath path={"import \{ColorField\} from 'cx/ui/form/ColorField';"} />
 
-
-        <ImportPath path={"import \{ColorField\} from 'cx/ui/form/ColorField';"} />
-
         The `ColorField` widget is used for selecting colors.
 
         <CodeSplit>

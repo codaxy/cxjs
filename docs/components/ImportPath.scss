@@ -11,8 +11,39 @@ $border: darkgray;
         border:0px solid $border;
         border-radius: 3px;
     }
+    
     &:hover > button{
         visibility: visible; 
+    }
+
+    & > code {
+        background: none;
+        color: darkgray;
+        padding: 0px;
+    }
+
+    &:hover > code {
+        color: grey;
+        cursor: pointer;
+    }
+
+    & > code > i {
+        visibility: hidden;
+    }
+    &:hover > code > i {
+        float: right;
+        vertical-align: middle;
+        visibility: visible; 
+        //margin-top: 3px;
+        margin-left: 10px;
+        background: lightgray;
+        color: black;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    &:active > code > i {
+        color: white;
     }
 
     & > button{
@@ -21,11 +52,5 @@ $border: darkgray;
         cursor:pointer;
         width: 30px;
         height: 23px;
-    }
-    & > button:hover {
-        background-color: lightgray;
-    }
-    & > button:active {
-        background-color: #eee;
     }
 }
