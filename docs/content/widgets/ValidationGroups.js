@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {ValidationGroup} from 'cx/ui/form/ValidationGroup';
@@ -15,7 +16,9 @@ export const ValidationGroups = <cx>
     <Md>
         # ValidationGroup
 
-        <CodeSplit>
+      <ImportPath path={"import \{ValidationGroup\} from 'cx/ui/form/ValidationGroup';"} />
+
+      <CodeSplit>
 
             The `ValidationGroup` element is pure container element which allows tracking the state of the form.
             If any of the fields inside it reports a validation error, invalid state is reported to the data store.

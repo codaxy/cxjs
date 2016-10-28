@@ -3,6 +3,7 @@ import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {Content} from 'cx/ui/layout/Content';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {DateField} from 'cx/ui/form/DateField';
@@ -13,6 +14,8 @@ import configs from './configs/DateField';
 export const DateFields = <cx>
    <Md>
       # Date Field
+
+      <ImportPath path={"import \{DateField\} from 'cx/ui/form/DateField';"} />
 
       Date field control is used for selecting dates. It supports textual input and picking
       from a dropdown.

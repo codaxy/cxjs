@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {ColorField} from 'cx/ui/form/ColorField';
@@ -11,6 +12,9 @@ import configs from './configs/ColorField';
 export const ColorFields = <cx>
     <Md>
         # ColorField
+
+        <ImportPath path={"import \{ColorField\} from 'cx/ui/form/ColorField';"} />
+
         The `ColorField` widget is used for selecting colors.
 
         <CodeSplit>

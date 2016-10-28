@@ -105,8 +105,8 @@ export const GettingStarted = <cx>
             as our application entry point.
 
             In this file, we're importing a few required objects from Cx modules. In order
-            to use plain HTML elements, like `p` or `div` within our widgets, we need `HtmlElement`
-            imported. The `store` instance we define a few lines below will hold the data model of
+            to use plain HTML elements, like `p` or `div` within our widgets, we need to import `HtmlElement`. 
+            The `store` instance we define a few lines below will hold the data model of
             our entire application&mdash;all UI bindings in our application will point to elements
             in this store tree.
 

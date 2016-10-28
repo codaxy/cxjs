@@ -3,6 +3,7 @@ import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {MethodTable} from '../../components/MethodTable';
 import {Content} from 'cx/ui/layout/Content';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Checkbox} from 'cx/ui/form/Checkbox';
@@ -19,6 +20,8 @@ import {MsgBox} from 'cx/ui/overlay/MsgBox';
 export const MsgBoxes = <cx>
    <Md>
       # MsgBox
+
+      <ImportPath path={"import \{MsgBox\} from 'cx/ui/overlay/MsgBox';"}></ImportPath>
 
       The `MsgBox` class provides utility methods for displaying alerts and confirmation windows.
 

@@ -18,6 +18,7 @@ export class ConfigTable extends PureContainer {
 
         keys.forEach(key=> {
             var p = props[key];
+            console.log(key);
             if (p) {
                 var name = [key];
                 if (p.alias)

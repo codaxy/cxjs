@@ -2,6 +2,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
@@ -42,6 +43,8 @@ export const Grids = <cx>
     <Md>
 
         # Grid
+
+        <ImportPath path={"import \{Grid\} from 'cx/ui/grid/Grid';"} />
 
         Grid is a versatile component used for displaying tabular data. Grid control in Cx has many features such as
         fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell
