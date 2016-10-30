@@ -23,6 +23,8 @@
         border-radius: 5px;
         vertical-align: middle;
         font-size: 0.9em;
+        opacity: 0;
+        transition: opacity 1s;
  
         // position tooltip right
         position: absolute;
@@ -45,5 +47,6 @@
 
     &:hover > span {
         visibility: visible;
+        opacity: 1;
     }
 }
