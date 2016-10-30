@@ -28,7 +28,7 @@ export const Lists = <cx>
    <Md controller={PageController}>
       # Lists
 
-      <ImportPath path={"import \{List\} from 'cx/ui/List';"}></ImportPath>
+      <ImportPath path={"import {List} from 'cx/ui/List';"}></ImportPath>
 
       <CodeSplit>
 

@@ -15,7 +15,7 @@ export const MonthFields = <cx>
     <Md>
         # MonthField
 
-        <ImportPath path={"import \{MonthField\} from 'cx/ui/form/MonthField';"}></ImportPath>
+        <ImportPath path={"import {MonthField} from 'cx/ui/form/MonthField';"}></ImportPath>
 
         The `MonthField` widget is used for selecting months or month ranges.
 

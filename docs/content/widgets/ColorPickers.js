@@ -13,7 +13,7 @@ export const ColorPickers = <cx>
     <Md>
         # ColorPicker
 
-        <ImportPath path={"import \{ColorPicker\} from 'cx/ui/form/ColorPicker';"} />
+        <ImportPath path={"import {ColorPicker} from 'cx/ui/form/ColorPicker';"} />
 
         The `ColorPicker` widget is used for selecting colors.
 

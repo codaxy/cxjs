@@ -16,7 +16,7 @@ export const LabeledContainers = <cx>
    <Md>
       # LabeledContainer
 
-      <ImportPath path={"import \{LabeledContainer\} from 'cx/ui/form/LabeledContainer';"}></ImportPath>
+      <ImportPath path={"import {LabeledContainer} from 'cx/ui/form/LabeledContainer';"}></ImportPath>
 
       <CodeSplit>
 

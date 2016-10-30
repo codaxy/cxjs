@@ -44,7 +44,7 @@ export const Grids = <cx>
 
         # Grid
 
-        <ImportPath path={"import \{Grid\} from 'cx/ui/grid/Grid';"} />
+        <ImportPath path={"import {Grid} from 'cx/ui/grid/Grid';"} />
 
         Grid is a versatile component used for displaying tabular data. Grid control in Cx has many features such as
         fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell

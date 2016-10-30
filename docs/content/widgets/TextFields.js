@@ -15,7 +15,9 @@ export const TextFields = <cx>
     <Md>
         # Text Field
 
-        <ImportPath path={"import \{TextField\} from 'cx/ui/form/TextField';"}></ImportPath>
+        <ImportPath path={"import {TextField} from 'cx/ui/form/TextField';"}></ImportPath>
+
+        
 
         Text field control is used for text input. It's one of the most used controls.
         Many different states make it an advanced control.

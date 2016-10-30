@@ -16,7 +16,7 @@ export const Buttons = <cx>
     <Md>
       # Buttons
 
-      <ImportPath path={"import \{Button\} from 'cx/ui/Button';"} />
+      <ImportPath path={"import {Button} from 'cx/ui/Button';"} />
 
       Buttons are commonly used UI elements.
 
