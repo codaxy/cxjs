@@ -16,7 +16,7 @@ export const ValidationGroups = <cx>
     <Md>
         # ValidationGroup
 
-      <ImportPath path={"import \{ValidationGroup\} from 'cx/ui/form/ValidationGroup';"} />
+      <ImportPath path={"import {ValidationGroup} from 'cx/ui/form/ValidationGroup';"} />
 
       <CodeSplit>
 

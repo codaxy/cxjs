@@ -24,7 +24,7 @@ export const Radios = <cx>
     <Md>
         # Radio
 
-      <ImportPath path={"import \{Radio\} from 'cx/ui/form/Radio';"}></ImportPath>
+      <ImportPath path={"import {Radio} from 'cx/ui/form/Radio';"}></ImportPath>
 
       Radio buttons are commonly used for making choices within a limited number of options.
 

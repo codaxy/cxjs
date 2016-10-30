@@ -15,7 +15,7 @@ export const SelectFields = <cx>
    <Md>
       # Select
 
-      <ImportPath path={"import \{Select\} from 'cx/ui/form/Select';"}></ImportPath>
+      <ImportPath path={"import {Select} from 'cx/ui/form/Select';"}></ImportPath>
 
       <CodeSplit>
 
