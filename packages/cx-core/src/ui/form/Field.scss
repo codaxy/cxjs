@@ -149,7 +149,7 @@
       top: calc(50% - #{$cx-input-icon-size / 2});
       height: $cx-input-icon-size;
       width: $cx-input-icon-size;
-      line-height: 1;
+      line-height: $cx-input-icon-size;
    }
 }
 
