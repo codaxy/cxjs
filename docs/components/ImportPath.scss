@@ -4,7 +4,7 @@
 
     & > code {
         background: none;
-        color: darkgray;
+        color: lightgrey;
         padding: 0px;
         
         &:hover {
@@ -31,7 +31,7 @@
         z-index: 1;
         top: -2px;
         left: 100%;
-        margin-left: 10px;
+        margin-left: 15px;
     }
     // tooltip left arrow
     span::after {
@@ -48,5 +48,25 @@
     &:hover > span {
         visibility: visible;
         opacity: 1;
+    }
+
+    & > code > i {
+        float: right;
+        vertical-align: middle;
+        visibility: visible; 
+        //margin-top: 3px;
+        margin-left: 5px;
+        background: lightgray;
+        color: black;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    &:hover > code > i {
+        visibility: visible;
+    }
+
+    &:active > code > i {
+        color: white;
     }
 }
