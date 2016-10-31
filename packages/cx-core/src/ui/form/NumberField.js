@@ -119,11 +119,17 @@ class Input extends VDOM.Component {
       var {data, widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
-      var icon = widget.icon && Icon.render(widget.icon, {
-            className: CSS.element(baseClass, 'icon'),
-            onMouseDown: preventDefault,
-            onClick: e => this.onChange(e, 'enter')
-         });
+      var icon = widget.icon && (
+         <div
+            className={CSS.element(baseClass, 'icon')}
+            onMouseDown={preventDefault}
+            onClick={e => this.onChange(e, 'enter')}
+         >
+            {
+               Icon.render(widget.icon)
+            }
+         </div>
+      );
 
       return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
                   style={data.style}
