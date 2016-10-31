@@ -38,22 +38,28 @@ export class Link extends HtmlElement {
    }
 
    render(context, instance, key) {
-      var { data, store } = instance;
-      var me = this;
+      let {data} = instance;
       return <a key={key}
                 href={data.href}
                 className={data.classNames}
                 style={data.style}
                 tabIndex={this.tabIndex}
-                onClick={e=> { me.handleClick(e, data, store) }}>
+                onClick={e=> {
+                   this.handleClick(e, instance)
+                }}>
          {data.text || this.renderChildren(context, instance)}
       </a>;
    }
 
-   handleClick(e, data, store) {
+   handleClick(e, instance) {
+      let {data} = instance;
       e.preventDefault();
       if (data.disabled)
          return;
+
+      if (this.onClick)
+         this.onClick(e, instance);
+
       if (History.pushState({}, null, data.href)) {
          e.stopPropagation();
          e.preventDefault();
