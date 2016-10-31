@@ -405,10 +405,13 @@ class LookupComponent extends VDOM.Component {
 
       var readOnly = data.disabled || data.readOnly;
 
-      var insideButton = !readOnly && !this.props.multiple && !data.required && data.value != null &&
-         <CloseIcon onMouseDown={e=>{e.preventDefault()}}
-                    onClick={e=>this.onClearClick(e)}
-                    className={CSS.element(baseClass, 'clear')} />;
+      var insideButton = !readOnly && !this.props.multiple && !data.required && data.value != null && (
+         <div onMouseDown={e=>{e.preventDefault()}}
+              onClick={e=>this.onClearClick(e)}
+              className={CSS.element(baseClass, 'clear')}>
+            <CloseIcon />
+         </div>
+      );
 
       var text;
 
@@ -416,9 +419,13 @@ class LookupComponent extends VDOM.Component {
          if (Array.isArray(data.records) && data.records.length > 0) {
             text = data.records.map((v, i)=><div key={i} className={CSS.element(baseClass, 'tag')}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
-               {!readOnly && <CloseIcon className={CSS.element(baseClass, 'tag-clear')}
+               {!readOnly && (
+                  <div className={CSS.element(baseClass, 'tag-clear')}
                      onMouseDown={e=>{e.preventDefault(); e.stopPropagation();}}
-                     onClick={e=>this.onClearClick(e, v)} />}
+                     onClick={e=>this.onClearClick(e, v)}>
+                     <CloseIcon />
+                  </div>
+               )}
             </div>);
          } else {
             text = this.getPlaceholder(data.placeholder);

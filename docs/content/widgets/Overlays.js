@@ -49,7 +49,7 @@ export const Overlays = <cx>
       <CodeSplit>
          <div class="widgets">
             <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-            <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} inline draggable>
+            <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                This is an overlay.
             </Overlay>
          </div>
@@ -58,7 +58,7 @@ export const Overlays = <cx>
             <CodeSnippet>{`
                <div class="widgets">
                   <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-                  <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}}>
+                  <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                      This is an overlay.
                   </Overlay>
                </div>

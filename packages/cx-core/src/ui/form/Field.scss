@@ -126,14 +126,7 @@
 @mixin cxe-field-clear(
    $size: $cx-input-clear-size
 ) {
-   background-color: transparent;
-   //@extend %cx-icon-close;
-   //background-size: 10px 10px;
-   //background-position: center;
-
-   border: none;
    position: absolute;
-   display: inline-block;
    font: $cx-input-clear-font;
    right: $cx-input-padding;
    top: 50%;
@@ -148,19 +141,27 @@
    &:hover {
       background-color: $cx-input-clear-background-hover;
    }
+
+   i, svg {
+      display: block;
+      position: absolute;
+      left: calc(50% - #{$cx-input-icon-size / 2});
+      top: calc(50% - #{$cx-input-icon-size / 2});
+      height: $cx-input-icon-size;
+      width: $cx-input-icon-size;
+      line-height: $cx-input-icon-size;
+   }
 }
 
 @mixin cxe-field-icon() {
-   background-color: transparent;
-   border: none;
    position: absolute;
-   display: inline-block;
+   box-sizing: border-box;
    right: $cx-input-padding;
    top: 50%;
-   margin-top: -$cx-input-icon-size / 2;
-   height: $cx-input-icon-size;
-   width: $cx-input-icon-size;
-   line-height: $cx-input-icon-size;
+   margin-top: -$cx-input-button-size / 2;
+   height: $cx-input-button-size;
+   width: $cx-input-button-size;
+   line-height: $cx-input-button-size;
    opacity: 0.7;
    text-align: center;
    cursor: pointer;
@@ -168,6 +169,16 @@
 
    &:hover {
       opacity: 1;
+   }
+
+   i, svg {
+      display: block;
+      position: absolute;
+      left: calc(50% - #{$cx-input-icon-size / 2});
+      top: calc(50% - #{$cx-input-icon-size / 2});
+      height: $cx-input-icon-size;
+      width: $cx-input-icon-size;
+      line-height: $cx-input-icon-size;
    }
 }
 

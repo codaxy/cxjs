@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,17 +40,35 @@
      inkscape:window-width="1856"
      inkscape:window-height="1057"
      id="namedview4140"
-     showgrid="false"
-     inkscape:zoom="3.4687501"
-     inkscape:cx="97.133036"
-     inkscape:cy="40.60223"
+     showgrid="true"
+     inkscape:zoom="19.622214"
+     inkscape:cx="23.277748"
+     inkscape:cy="14.948171"
      inkscape:window-x="3056"
      inkscape:window-y="439"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4136" />
+     inkscape:current-layer="svg4136">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4148"
+       empspacing="4"
+       dotted="false" />
+  </sodipodi:namedview>
   <path
-     d="m 16.715476,16 3.911264,-3.911264 c 0.190793,-0.190794 0.190793,-0.476984 0,-0.667777 -0.190793,-0.190794 -0.476983,-0.190794 -0.667777,0 l -3.911265,3.911264 -4.006661,-3.958963 c -0.190793,-0.190793 -0.476984,-0.190793 -0.667777,0 -0.190793,0.190793 -0.190793,0.476983 0,0.667777 L 15.332223,16 11.37326,19.958963 c -0.190793,0.190794 -0.190793,0.476984 0,0.667777 0.190793,0.190793 0.476984,0.190793 0.667777,0 L 16,16.667777 19.958963,20.62674 c 0.190794,0.190793 0.476984,0.190793 0.667777,0 0.190793,-0.190793 0.190793,-0.476983 0,-0.667777 L 16.715476,16 Z"
+     d="M 16.900001,16 21.82,11.08 c 0.24,-0.24 0.24,-0.6 0,-0.84 -0.239998,-0.24 -0.599999,-0.24 -0.839999,0 l -4.920002,4.92 -5.04,-4.98 c -0.239998,-0.24 -0.6,-0.24 -0.839999,0 -0.2399999,0.239999 -0.2399999,0.599999 0,0.839999 L 15.16,16 10.18,20.980001 c -0.2399999,0.24 -0.2399999,0.600001 0,0.839999 0.239999,0.24 0.600001,0.24 0.839999,0 L 16,16.84 l 4.980001,4.98 c 0.24,0.24 0.600001,0.24 0.839999,0 0.24,-0.239998 0.24,-0.599999 0,-0.839999 L 16.900001,16 Z"
      id="path4138"
      inkscape:connector-curvature="0"
      style="fill:#000000" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Base"
+     style="display:none">
+    <circle
+       style="opacity:1;fill:none;stroke:#000000;stroke-width:0.0501454;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4140-7"
+       cx="16"
+       cy="16"
+       r="16.000975" />
+  </g>
 </svg>

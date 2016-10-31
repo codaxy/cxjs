@@ -1,6 +1,12 @@
 import {Widget, VDOM} from '../Widget';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {
+   tooltipComponentWillReceiveProps,
+   tooltipComponentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipComponentDidMount
+} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../icons/Icon';
@@ -20,9 +26,7 @@ export class TextField extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <Input key={key}
-                    instance={instance}
-      />
+      return <Input key={key} instance={instance}/>
    }
 
    validate(context, instance) {
@@ -70,11 +74,17 @@ class Input extends VDOM.Component {
       var {data, widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
-      var icon = widget.icon && Icon.render(widget.icon, {
-            className: CSS.element(baseClass, 'icon'),
-            onMouseDown: preventDefault,
-            onClick: e => this.onChange(e, 'enter')
-         });
+      var icon = widget.icon && (
+         <div
+            className={CSS.element(baseClass, 'icon')}
+            onMouseDown={preventDefault}
+            onClick={e => this.onChange(e, 'enter')}
+         >
+            {
+               Icon.render(widget.icon)
+            }
+         </div>
+      );
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({visited: this.state.visited}))}

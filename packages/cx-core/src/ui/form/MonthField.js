@@ -232,12 +232,22 @@ class MonthInput extends VDOM.Component {
       var insideButton;
 
       if (!data.readOnly) {
-         insideButton = !data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)
-            ? <CloseIcon className={CSS.element(baseClass, 'clear')}
-                         onMouseDown={e=> {
-                            this.onClearClick(e);
-                         }}/>
-            : Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')});
+         if (!data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)) {
+            insideButton = (
+               <div className={CSS.element(baseClass, 'clear')}
+                    onMouseDown={e=> {
+                       this.onClearClick(e);
+                    }}>
+                  <CloseIcon />
+               </div>
+            )
+         } else {
+            insideButton = (
+               <div className={CSS.element(baseClass, 'icon')}>
+                  { Icon.render(widget.icon) }
+               </div>
+            )
+         }
       }
 
       var dropdown = false;
