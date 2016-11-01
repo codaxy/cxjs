@@ -7,7 +7,7 @@ If you didn't do so already, initialize the
 
 Install `cx-cli` tools:
 ```
-npm i cx-cli
+npm i cx-cli [--global]
 ```
  
 For new projects, use `scaffold` to create basic app structure.
