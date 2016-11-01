@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 var program = require('commander'),
    pkg = require('../package.json'),
    path = require('path'),
@@ -8,8 +10,8 @@ var program = require('commander'),
 
 program
    .version(pkg.version)
-   .option('-i, --install', 'Install necessary packages')
-   .option('--init', 'Init application structure')
+   .option('-i, install', 'Install necessary packages')
+   .option('scaffold', 'Scaffold application structure')
    .option('-s, start', 'Start the development server')
    .option('-b, build', 'Make a new production build')
    .option('--yarn', 'Use yarn instead of npm')
@@ -19,22 +21,37 @@ if (program.version) {
    console.log('Cx CLI - ' + pkg.version);
 }
 
-//for test purposes
-var appPath = path.join(process.cwd(), 'test'),
+var appPath = process.cwd(),
    appPackagePath = path.join(appPath, 'package.json'),
    tplPath = path.join(__dirname, '../tpl/'),
    tplPackagePath = path.join(tplPath, 'package.json');
-
-console.log(appPackagePath);
-var cwd = process.cwd();
-process.chdir(appPath);
 
 if (!fs.existsSync(appPackagePath)) {
    console.warn('package.json could not be found in the current directory.');
    return -1;
 }
 
-if (program.install) {
+if (program.scaffold) {
+
+   var files = fs.readdirSync(appPath);
+   var test = ["index.js", "index.html", "index.scss"];
+   for (var i = 0; i < test.length; i++) {
+      if (files.indexOf(test[i]) != -1) {
+         console.error('App files detected. Aborting to prevent overwrites...');
+         return -1;
+      }
+   }
+
+   var err = copydir.sync(tplPath, appPath, function(stat, filepath, filename){
+      return filename != 'package.json'; //skip package.json
+   });
+
+   if (err) {
+      console.error('Copy error.', err);
+   }
+}
+
+if (program.install || program.scaffold) {
    console.log('Installing necessary packages using ' + (program.yarn ? 'yarn' : 'npm') + '.');
 
    var appPkg = require(appPackagePath);
@@ -90,13 +107,6 @@ if (program.install) {
    }
 }
 
-if (program.init) {
-   var err = copydir.sync(tplPath, appPath);
-   if (err) {
-      console.error('Copy error.', err);
-   }
-}
-
 if (program.start || program.open) {
    console.log('npm start');
    return spawn.sync('npm', ['start'], {stdio: 'inherit'});
@@ -106,9 +116,3 @@ if (program.build) {
    console.log('npm build');
    return spawn.sync('npm', ['build'], {stdio: 'inherit'});
 }
-
-process.chdir(cwd);
-
-
-
-
