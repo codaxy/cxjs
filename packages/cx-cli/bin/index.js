@@ -113,6 +113,6 @@ if (program.start || program.open) {
 }
 
 if (program.build) {
-   console.log('npm build');
-   return spawn.sync('npm', ['build'], {stdio: 'inherit'});
+   console.log('npm run build');
+   return spawn.sync('npm', ['run', 'build'], {stdio: 'inherit'});
 }
