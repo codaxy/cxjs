@@ -14,7 +14,7 @@
     }
     // tooltip
     span {
-        visibility: hidden;
+        visibility: visible;
         white-space: nowrap;
         background-color: black;
         color: white;
@@ -23,15 +23,13 @@
         border-radius: 5px;
         vertical-align: middle;
         font-size: 0.9em;
-        opacity: 0;
-        transition: opacity 1s;
  
         // position tooltip right
         position: absolute;
         z-index: 1;
         top: -2px;
         left: 100%;
-        margin-left: 15px;
+        margin-left: 10px;
     }
     // tooltip left arrow
     span::after {
@@ -45,28 +43,16 @@
         border-color: transparent black transparent transparent;
     }
 
-    &:hover > span {
-        visibility: visible;
-        opacity: 1;
-    }
-
     & > code > i {
         float: right;
         vertical-align: middle;
-        visibility: visible; 
-        //margin-top: 3px;
-        margin-left: 5px;
-        background: lightgray;
+        visibility: hidden; 
+        margin-left: 3px;
         color: black;
-        border-radius: 50%;
         padding: 5px;
     }
 
     &:hover > code > i {
         visibility: visible;
-    }
-
-    &:active > code > i {
-        color: white;
     }
 }
