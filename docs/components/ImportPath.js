@@ -1,12 +1,11 @@
 import {Widget, VDOM} from 'cx/ui/Widget';
 import React from 'react';
-//import {HtmlElement} from 'cx/ui/HtmlElement';
-//import {PureContainer} from 'cx/ui/PureContainer';
-//import {Button} from 'cx/ui/Button';
-//import {Md} from './Md';
-//import {HtmlElement} from 'cx/ui/HtmlElement';
 
-class InputWithButton extends React.Component {    
+class InputWithButton extends React.Component { 
+    constructor(props){
+        super(props);
+        this.state = { copied: false };
+    }   
     copyToClipboard = () => {
         // copy text from this.textInput to clipboard...
         // select text
@@ -19,17 +18,24 @@ class InputWithButton extends React.Component {
             // copy selected text
             document.execCommand('copy');
             selection.removeAllRanges(); // deselect text
+            this.setState({copied: true}); // set tooltip text to "Copied"
         } catch (err) {
             alert('Please press CTRL/CMD+C to copy');
         }
     }
+
+    resetTooltipText = () => {
+        this.setState({copied: false});
+    }
+
     render(){
         return (
-            <div className="dxb-importpath">
-                <code ref={(input) => this.textInput = input} onClick={this.copyToClipboard}>
+            <div className="dxb-importpath" onMouseLeave={this.resetTooltipText}>
+                <code ref={(input) => this.textInput = input} onClick={this.copyToClipboard} >
                     {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </code>
+                <span aria-hidden="true" style={this.state.copied ? {transition: "opacity 1s", opacity: 1} : {opacity: 0}}>Copied</span>
             </div>
         );
     }

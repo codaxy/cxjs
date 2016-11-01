@@ -1,56 +1,58 @@
-$border: darkgray;
-
 .dxb-importpath {
-    & > button {
-        visibility: hidden;
-        font-size: 10px;
-        outline: none;
-        vertical-align: middle;
-        margin-left: 5;
-        padding: 3px 3px;
-        border:0px solid $border;
-        border-radius: 3px;
-    }
-    
-    &:hover > button{
-        visibility: visible; 
-    }
+    position: relative;
+    display: inline-block;
 
     & > code {
         background: none;
-        color: darkgray;
+        color: lightgrey;
         padding: 0px;
+        
+        &:hover {
+            color: grey;
+            cursor: pointer;
+        }   
     }
-
-    &:hover > code {
-        color: grey;
-        cursor: pointer;
+    // tooltip
+    span {
+        visibility: visible;
+        white-space: nowrap;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 2px 0.5em;
+        border-radius: 5px;
+        vertical-align: middle;
+        font-size: 0.9em;
+ 
+        // position tooltip right
+        position: absolute;
+        z-index: 1;
+        top: -2px;
+        left: 100%;
+        margin-left: 10px;
+    }
+    // tooltip left arrow
+    span::after {
+        content: " ";
+        position: absolute;
+        top: 50%;
+        right: 100%; /* To the left of the tooltip */
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent black transparent transparent;
     }
 
     & > code > i {
-        visibility: hidden;
-    }
-    &:hover > code > i {
         float: right;
         vertical-align: middle;
-        visibility: visible; 
-        //margin-top: 3px;
-        margin-left: 10px;
-        background: lightgray;
+        visibility: hidden; 
+        margin-left: 3px;
         color: black;
-        border-radius: 50%;
         padding: 5px;
     }
 
-    &:active > code > i {
-        color: white;
-    }
-
-    & > button{
-        border-left: 1px solid $border;
-        background:#eee;
-        cursor:pointer;
-        width: 30px;
-        height: 23px;
+    &:hover > code > i {
+        visibility: visible;
     }
 }

@@ -15,7 +15,7 @@ export const MonthPickers = <cx>
     <Md>
         # MonthPickers
 
-        <ImportPath path={"import \{MonthPicker\} from 'cx/ui/form/MonthPicker';"}></ImportPath>
+        <ImportPath path={"import {MonthPicker} from 'cx/ui/form/MonthPicker';"}></ImportPath>
 
         The `MonthPicker` widget is used for selecting months or month ranges.
 

@@ -17,7 +17,7 @@ export const HtmlElements = <cx>
    <Md>
       # HtmlElement
 
-      <ImportPath path={"import \{HtmlElement\} from 'cx/ui/HtmlElement';"} />
+      <ImportPath path={"import {HtmlElement} from 'cx/ui/HtmlElement';"} />
 
       The `HtmlElement` widget is used for rendering HTML elements. All lowercase elements will be converted to the
       `HtmlElement` instances with corresponding `tag` property set.

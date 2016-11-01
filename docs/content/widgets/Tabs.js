@@ -27,7 +27,7 @@ export const Tabs = <cx>
    <Md>
       # Tabs
 
-      <ImportPath path={"import \{Tab\} from 'cx/ui/nav/Tab';"}></ImportPath>
+      <ImportPath path={"import {Tab} from 'cx/ui/nav/Tab';"}></ImportPath>
 
       Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
       to radio buttons. Tabs are selected on click and only one tab may be active at a time.
