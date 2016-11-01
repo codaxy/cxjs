@@ -1,0 +1,13 @@
+{
+  "name": "cx-cli",
+  "version": "16.11.0",
+  "description": "Command Line Interface tools for Cx applications",
+  "main": "index.js",
+  "author": "Codaxy",
+  "license": "SEE LICENSE.md",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "copy-dir": "^0.3.0",
+    "cross-spawn": "^5.0.0"
+  }
+}
