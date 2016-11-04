@@ -27,6 +27,10 @@ export class Route extends PureContainer
    }
 
    checkVisible(context, instance, data) {
+
+      if (!data.visible)
+         return false;
+
       if (data.url !== instance.cached.url) {
          instance.cached.url = data.url;
          instance.cached.result = this.matcher.match(data.url);

@@ -307,6 +307,10 @@ export class OverlayComponent extends VDOM.Component {
       e.stopPropagation();
       var {instance} = this.props;
       var {widget} = instance;
+
+      if (widget.onBackdropClick)
+         widget.onBackdropClick(e, instance);
+
       if (widget.backdrop) {
          if (instance.dismiss)
             instance.dismiss();
