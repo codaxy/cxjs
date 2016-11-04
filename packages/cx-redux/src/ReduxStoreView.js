@@ -7,6 +7,9 @@ export class ReduxStoreView extends View {
    constructor(store) {
       super();
       this.store = store;
+      this.meta = {
+         version: 0
+      }
    }
 
    getData() {
@@ -18,7 +21,7 @@ export class ReduxStoreView extends View {
       var newData = Binding.get(path).set(oldData, value);
 
       if (oldData !== newData)
-         this.store.dispatch({
+         this.dispatch({
             type: CX_REPLACE_STATE,
             state: newData
          })
@@ -28,7 +31,7 @@ export class ReduxStoreView extends View {
       var oldData = this.getData();
       var newData = Binding.get(path).delete(oldData);
       if (oldData !== newData) {
-         this.store.dispatch({
+         this.dispatch({
             type: CX_REPLACE_STATE,
             state: newData
          })
@@ -36,7 +39,7 @@ export class ReduxStoreView extends View {
    }
 
    clear() {
-      this.store.dispatch({
+      this.dispatch({
          type: CX_REPLACE_STATE,
          state: {}
       })
@@ -50,7 +53,7 @@ export class ReduxStoreView extends View {
          newData = Binding.get(key).set(newData, data[key]);
 
       if (oldData !== newData)
-         this.store.dispatch({
+         this.dispatch({
             type: CX_REPLACE_STATE,
             state: newData
          })
@@ -67,18 +70,11 @@ export class ReduxStoreView extends View {
       if (typeof action == 'function')
          return action(::this.dispatch);
 
-      return this.store.dispatch(...arguments);
+      this.store.dispatch(...arguments);
+      this.meta.version++;
    }
 
-   subscribe(callback) {
-      return this.store.subscribe(debounce(callback, 0));
-   }
-}
-
-function debounce(fn, delay) {
-   var timer = null;
-   return function () {
-      clearTimeout(timer);
-      timer = setTimeout(fn, delay);
+   subscribe() {
+      return this.store.subscribe(...arguments);
    }
 }
