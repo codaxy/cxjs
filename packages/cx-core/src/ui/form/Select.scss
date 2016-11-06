@@ -6,13 +6,13 @@
 
 .cxe-select-select {
    @include cxe-field-input(
-      $padding-top: $cx-input-padding - 1px,
-      $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding,
-      $padding-bottom: $cx-input-padding - 1px,
-      $padding-left: $cx-input-padding
+      $padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{cx-right($cx-input-padding)}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
    );
    -webkit-appearance: inherit;
    -moz-appearance: inherit;
+   -ms-appearance: inherit;
+   appearance: inherit;
+
    @extend %cx-icon-dropdown-arrow;
    background-position: right $cx-input-padding center;
 

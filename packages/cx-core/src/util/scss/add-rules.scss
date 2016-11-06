@@ -1,0 +1,5 @@
+@mixin cx-add-rules($styles, $key) {
+   @each $rule, $value in map-get($styles, $key) {
+      #{$rule}: $value;
+   }
+}

@@ -7,10 +7,8 @@
    line-height: $cx-input-line-height;
    font: $cx-input-font;
    padding: $cx-input-padding;
-   border-width: $cx-input-border-top-width $cx-input-border-right-width $cx-input-border-right-width $cx-input-border-left-width;
-   border-style: solid;
-   border-color: transparent;
-   min-width: $cx-input-padding + $cx-input-padding + $cx-input-checkbox-size;
+   border: $cx-input-border-width solid transparent;
+   min-width: cx-left($cx-input-padding) + cx-right($cx-input-padding) + $cx-input-checkbox-size;
 }
 
 .cxe-checkbox-checkbox {
@@ -39,7 +37,7 @@
 
 .cxe-checkbox-text {
    display: inline-block;
-   margin-left: $cx-input-padding + $cx-input-checkbox-size;
+   margin-left: cx-left($cx-input-padding) + $cx-input-checkbox-size;
 }
 
 .cxe-checkbox-empty-text {
@@ -50,17 +48,14 @@
 .cxe-checkbox-input {
    @include cxe-field-input(
       $box: false,
-      $padding-top: 0,
-      $padding-bottom: 0,
-      $padding-left: 0,
-      $padding-right: 0,
+      $padding: 0,
       $margin: 0 !important
    );
    width: $cx-input-checkbox-size;
    height: $cx-input-checkbox-size;
 
    top: calc(50% - #{$cx-input-checkbox-size / 2});
-   left: $cx-input-padding;
+   left: cx-left($cx-input-padding);
    display: inline-block;
    position: absolute;
 }

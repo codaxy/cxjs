@@ -8,7 +8,7 @@
 
 .cxe-lookupfield-input {
    @include cxe-field-input(
-      $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding - $cx-input-tag-spacing
+      $padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{$cx-input-tag-spacing}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
    );
 
    .cxs-icon > & {

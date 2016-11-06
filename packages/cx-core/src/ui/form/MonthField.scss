@@ -6,7 +6,7 @@
 
 .cxe-monthfield-input {
    @include cxe-field-input(
-      $padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size
+      $padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
    );
 }
 

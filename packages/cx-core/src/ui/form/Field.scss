@@ -1,18 +1,13 @@
 @import "variables";
 @import "../icons/index";
+@import '../../util/scss/clockwise';
 
 @mixin cxb-field(
    $box: true,
    $width: $cx-input-width,
    $line-height: $cx-input-line-height,
-   $padding-top: $cx-input-padding-top,
-   $padding-right: $cx-input-padding-right,
-   $padding-bottom: $cx-input-padding-bottom,
-   $padding-left: $cx-input-padding-left,
-   $border-top-width: $cx-input-border-top-width,
-   $border-right-width: $cx-input-border-right-width,
-   $border-bottom-width: $cx-input-border-bottom-width,
-   $border-left-width: $cx-input-border-left-width
+   $padding: $cx-input-padding,
+   $border-width: $cx-input-border-width
 )
 {
    position: relative;
@@ -21,15 +16,13 @@
 
    @if $box {
       width: $width;
-      height: calc(#{$line-height} + #{$padding-top + $padding-bottom} + #{$border-top-width + $border-bottom-width});
+      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
    &.cxs-view-mode {
       line-height: $line-height;
-      padding: $padding-top $padding-right $padding-bottom $padding-left;
-      border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
-      border-style: solid;
-      border-color: transparent;
+      padding: $padding;
+      border: $border-width solid transparent;
    }
 }
 
@@ -43,21 +36,15 @@
    $placeholder: $cx-input-placeholder,
    $box: true,
    $line-height: $cx-input-line-height,
-   $padding-top: $cx-input-padding-top,
-   $padding-right: $cx-input-padding-right,
-   $padding-bottom: $cx-input-padding-bottom,
-   $padding-left: $cx-input-padding-left,
-   $border-top-width: $cx-input-border-top-width,
-   $border-right-width: $cx-input-border-right-width,
-   $border-bottom-width: $cx-input-border-bottom-width,
-   $border-left-width: $cx-input-border-left-width,
+   $padding: $cx-input-padding,
+   $border-width: $cx-input-border-width,
    $margin: 0
 ) {
    box-sizing: border-box;
 
    line-height: $line-height;
-   padding: $padding-top $padding-right $padding-bottom $padding-left;
-   border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
+   padding: $padding;
+   border-width: $border-width;
 
    @if $box {
       width: 100%;
