@@ -13,37 +13,37 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-window {
+   .#{$block}#{$name} {
       @extend %cxb-overlay;
       box-sizing: border-box;
       box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29);
       background: transparent;
       z-index: 1000;
 
-      &.cxs-resizable {
-         &.cxs-active {
+      &.#{$state}resizable {
+         &.#{$state}active {
             box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.29);
          }
       }
 
-      &.cxm-alert {
+      &.#{$mod}alert {
          min-width: 300px;
       }
    }
 
-   .cxe-window-header {
+   .#{$element}#{$name}-header {
       background: rgba(246, 246, 246, 0.9);
       padding: 10px 15px;
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
       cursor: pointer;
 
-      .cxs-active & {
+      .#{$state}active & {
          //background: rgba(6, 178, 255, 0.9);
       }
    }
 
-   .cxe-window-footer {
+   .#{$element}#{$name}-footer {
       background: rgba(246, 246, 246, 0.9);
       padding: 10px 20px;
       position: relative;
@@ -58,24 +58,24 @@
          height: 0;
       }
 
-      .cxm-alert & {
+      .#{$mod}alert & {
          text-align: center;
       }
    }
 
-   .cxe-window-body {
+   .#{$element}#{$name}-body {
       background: white;
       overflow: auto;
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
 
-      .cxm-alert & {
+      .#{$mod}alert & {
          padding: 40px;
          text-align: center;
       }
    }
 
-   .cxe-window-close {
+   .#{$element}#{$name}-close {
       @extend %cx-icon-close;
       position: absolute;
       right: 5px;
@@ -108,7 +108,7 @@
       }
    }
 
-   .cxe-window-modal-backdrop {
+   .#{$element}#{$name}-modal-backdrop {
       @extend %cxe-overlay-modal-backdrop;
    }
 }

@@ -46,7 +46,7 @@ $cx-tab-mods: (
    $mod: $cx-mod
 ) {
 
-   .cxb-tab {
+   .#{$block}#{$name} {
       padding: 5px 10px;
       text-decoration: none;
       box-sizing: border-box;
@@ -71,7 +71,7 @@ $cx-tab-mods: (
          }
       }
 
-      &.cxs-active {
+      &.#{$state}active {
          @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
          }
@@ -83,7 +83,7 @@ $cx-tab-mods: (
          }
       }
 
-      &.cxs-disabled {
+      &.#{$state}disabled {
          @each $rule, $value in map-get($cx-list-item, disabled) {
             #{$rule}: $value;
          }
@@ -91,7 +91,7 @@ $cx-tab-mods: (
       }
 
       @each $name, $config in $cx-tab-mods {
-         &.cxm-#{$name} {
+         &.#{$mod}#{$name} {
             @each $rule, $value in map-get($config, default) {
                #{$rule}: $value;
             }
@@ -108,7 +108,7 @@ $cx-tab-mods: (
                }
             }
 
-            &.cxs-active {
+            &.#{$state}active {
                @each $rule, $value in map-get($config, selected) {
                   #{$rule}: $value;
                }
@@ -120,7 +120,7 @@ $cx-tab-mods: (
                }
             }
 
-            &.cxs-disabled {
+            &.#{$state}disabled {
                @each $rule, $value in map-get($config, disabled) {
                   #{$rule}: $value;
                }

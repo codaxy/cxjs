@@ -8,19 +8,19 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-numericaxis {
+   .#{$block}#{$name} {
       @include cxb-axis();
    }
 
-   .cxe-numericaxis-ticks {
+   .#{$element}#{$name}-ticks {
       @include cxe-axis-ticks();
    }
 
-   .cxe-numericaxis-line {
+   .#{$element}#{$name}-line {
       @include cxe-axis-line();
    }
 
-   .cxe-numericaxis-label {
+   .#{$element}#{$name}-label {
       @include cxe-axis-label();
    }
 }

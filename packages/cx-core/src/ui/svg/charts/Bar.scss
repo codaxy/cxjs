@@ -8,16 +8,16 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxe-bar-rect {
+   .#{$element}#{$name}-rect {
       stroke-width: 1px;
       fill: #eee;
       stroke: #ccc;
 
-      &.cxs-selectable {
+      &.#{$state}selectable {
          cursor: pointer;
       }
 
-      &.cxs-selected {
+      &.#{$state}selected {
          stroke-width: 2px;
       }
    }

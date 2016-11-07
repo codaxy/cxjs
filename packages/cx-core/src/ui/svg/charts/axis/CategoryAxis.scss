@@ -8,19 +8,19 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-categoryaxis {
+   .#{$block}#{$name} {
       @include cxb-axis();
    }
 
-   .cxe-categoryaxis-ticks {
+   .#{$element}#{$name}-ticks {
       @include cxe-axis-ticks();
    }
 
-   .cxe-categoryaxis-line {
+   .#{$element}#{$name}-line {
       @include cxe-axis-line();
    }
 
-   .cxe-categoryaxis-label {
+   .#{$element}#{$name}-label {
       @include cxe-axis-label();
    }
 }

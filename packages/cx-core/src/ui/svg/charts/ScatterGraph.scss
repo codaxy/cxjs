@@ -8,11 +8,11 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxe-scattergraph-shape {
+   .#{$element}#{$name}-shape {
       fill: rgb(128, 128, 128);
       opacity: 0.8;
 
-      &.cxs-selected {
+      &.#{$state}selected {
          stroke-width: 2px;
       }
    }

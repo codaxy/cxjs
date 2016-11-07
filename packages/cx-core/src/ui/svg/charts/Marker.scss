@@ -8,24 +8,24 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxe-marker-shape {
+   .#{$element}#{$name}-shape {
       fill: rgb(128, 128, 128);
       stroke: rgb(128, 128, 128);
       stroke-width: 1px;
 
-      .cxs-draggable-x > & {
+      .#{$state}draggable-x > & {
          cursor: ew-resize;
       }
 
-      .cxs-draggable-y > & {
+      .#{$state}draggable-y > & {
          cursor: ns-resize;
       }
 
-      .cxs-draggable-xy > & {
+      .#{$state}draggable-xy > & {
          cursor: move;
       }
 
-      .cxs-selectable > & {
+      .#{$state}selectable > & {
          cursor: pointer;
       }
    }

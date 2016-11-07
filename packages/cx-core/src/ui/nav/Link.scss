@@ -8,8 +8,8 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxb-link {
-      &.cxs-active {
+   .#{$block}#{$name} {
+      &.#{$state}active {
          font-weight: bold;
       }
    }

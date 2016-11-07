@@ -9,7 +9,7 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-submenu {
+   .#{$block}#{$name} {
       box-sizing: border-box;
       margin: 0;
       padding: 10px 20px;
@@ -21,19 +21,19 @@
          outline: none;
       }
 
-      &.cxs-arrow {
+      &.#{$state}arrow {
          padding-right: calc(15px + 1em);
       }
    }
 
-   .cxe-submenu-arrow {
+   .#{$element}#{$name}-arrow {
       position: absolute;
       width: 20px;
       height: 20px;
       right: 5px;
       top: calc(50% - 10px);
 
-      .cxs-vertical > & {
+      .#{$state}vertical > & {
          transform: rotate(-90deg);
       }
    }

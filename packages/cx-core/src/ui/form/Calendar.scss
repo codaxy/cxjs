@@ -10,7 +10,7 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-calendar {
+   .#{$block}calendar {
       @include cxe-field-input($input: false);
       width: 18em;
 

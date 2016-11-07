@@ -8,16 +8,16 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxe-pieslice-slice {
+   .#{$element}#{$name}-slice {
       stroke-width: 0;
       fill: #eee;
       stroke: #ccc;
 
-      &.cxs-selectable {
+      &.#{$state}selectable {
          cursor: pointer;
       }
 
-      &.cxs-selected {
+      &.#{$state}selected {
          stroke-width: 2px;
       }
    }

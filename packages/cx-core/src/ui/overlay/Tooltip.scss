@@ -8,7 +8,7 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxb-tooltip {
+   .#{$block}#{$name} {
       @extend %cxb-overlay;
       display: block;
       left: -10000px;
@@ -27,33 +27,33 @@
       pointer-events: none;
       z-index: 20000;
 
-      &.cxs-animated {
+      &.#{$state}animated {
          opacity: 1;
          transition-delay: 0.3s;
          pointer-events: auto;
       }
 
-      &.cxm-error {
+      &.#{$mod}error {
          background-color: $cx-tooltip-background-color-error;
          border-color: $cx-tooltip-border-color-error;
          color: $cx-tooltip-color-error;
 
-         .cxe-tooltip-arrow-border {
+         .#{$element}#{$name}-arrow-border {
             color: $cx-tooltip-border-color-error;
          }
 
-         .cxe-tooltip-arrow-fill {
+         .#{$element}#{$name}-arrow-fill {
             color: $cx-tooltip-background-color-error;
          }
       }
    }
 
-   .cxe-tooltip-title {
+   .#{$element}#{$name}-title {
       font-weight: bold;
       font-size: 100%;
    }
 
-   .cxe-tooltip-arrow-border, .cxe-tooltip-arrow-fill {
+   .#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
       border: solid transparent;
       content: " ";
       height: 0;
@@ -62,25 +62,25 @@
       pointer-events: none;
    }
 
-   .cxe-tooltip-arrow-border {
+   .#{$element}#{$name}-arrow-border {
       color: $cx-tooltip-border-color;
       border-width: $cx-tooltip-border-width + $cx-tooltip-arrow-size;
    }
 
-   .cxe-tooltip-arrow-fill {
+   .#{$element}#{$name}-arrow-fill {
       color: $cx-tooltip-background-color;
       border-width: $cx-tooltip-arrow-size;
    }
 
-   .cxs-place-right {
-      .cxe-tooltip-arrow-fill {
+   .#{$state}place-right {
+      .#{$element}#{$name}-arrow-fill {
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
          margin-top: -$cx-tooltip-arrow-size;
       }
 
-      .cxe-tooltip-arrow-border {
+      .#{$element}#{$name}-arrow-border {
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
@@ -88,15 +88,15 @@
       }
    }
 
-   .cxs-place-left {
-      .cxe-tooltip-arrow-fill {
+   .#{$state}place-left {
+      .#{$element}#{$name}-arrow-fill {
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
          margin-top: -$cx-tooltip-arrow-size;
       }
 
-      .cxe-tooltip-arrow-border {
+      .#{$element}#{$name}-arrow-border {
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
@@ -104,15 +104,15 @@
       }
    }
 
-   .cxs-place-up {
-      .cxe-tooltip-arrow-fill {
+   .#{$state}place-up {
+      .#{$element}#{$name}-arrow-fill {
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
          margin-left: -$cx-tooltip-arrow-size;
       }
 
-      .cxe-tooltip-arrow-border {
+      .#{$element}#{$name}-arrow-border {
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
@@ -120,15 +120,15 @@
       }
    }
 
-   .cxs-place-down {
-      .cxe-tooltip-arrow-fill {
+   .#{$state}place-down {
+      .#{$element}#{$name}-arrow-fill {
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
          margin-left: -$cx-tooltip-arrow-size;
       }
 
-      .cxe-tooltip-arrow-border {
+      .#{$element}#{$name}-arrow-border {
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;

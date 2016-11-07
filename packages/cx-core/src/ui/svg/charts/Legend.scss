@@ -9,12 +9,12 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-legend {
+   .#{$block}#{$name} {
       background: rgba(255, 255, 255, 0.5);
       text-align: center;
    }
 
-   .cxe-legend-entry {
+   .#{$element}#{$name}-entry {
       display: inline-block;
       padding: 5px 5px 5px 30px;
       font-size: smaller;
@@ -23,13 +23,13 @@
       box-sizing: border-box;
       cursor: pointer;
 
-      .cxb-legend.cxs-vertical & {
+      .#{$block}#{$name}.#{$state}vertical & {
          display: block;
          text-align: left;
       }
    }
 
-   .cxe-legend-svg {
+   .#{$element}#{$name}-svg {
       position: absolute;
       left: 5px;
       top: calc(50% - 10px);
@@ -37,7 +37,7 @@
       height: 20px;
    }
 
-   .cxe-legend-shape {
+   .#{$element}#{$name}-shape {
       fill: #eee;
    }
 }

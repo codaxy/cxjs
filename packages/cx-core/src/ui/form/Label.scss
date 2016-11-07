@@ -1,14 +1,29 @@
-.cxb-label {
-   padding: $cx-input-label-padding;
-   border: $cx-input-label-border;
-   font: $cx-input-label-font;
-   font-size: $cx-input-label-font-size;
-   line-height: $cx-input-label-line-height;
-   background: $cx-input-label-background;
-   color: $cx-input-label-color;
-   display: inline-block;
+@import "variables";
+@import '../../util/scss/include';
+
+@mixin cx-label(
+   $name: 'label',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}label {
+      padding: $cx-input-label-padding;
+      border: $cx-input-label-border;
+      font: $cx-input-label-font;
+      font-size: $cx-input-label-font-size;
+      line-height: $cx-input-label-line-height;
+      background: $cx-input-label-background;
+      color: $cx-input-label-color;
+      display: inline-block;
+   }
+
+   .#{$element}label-asterisk {
+      color: $cx-input-label-asterisk-color;
+   }
 }
 
-.cxe-label-asterisk {
-   color: $cx-input-label-asterisk-color;
+@if (cx-include('cx/widgets/Label')) {
+   @include cx-label();
 }

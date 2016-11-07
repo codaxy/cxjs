@@ -8,19 +8,19 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-timeaxis {
+   .#{$block}#{$name} {
       @include cxb-axis();
    }
 
-   .cxe-timeaxis-ticks {
+   .#{$element}#{$name}-ticks {
       @include cxe-axis-ticks();
    }
 
-   .cxe-timeaxis-line {
+   .#{$element}#{$name}-line {
       @include cxe-axis-line();
    }
 
-   .cxe-timeaxis-label {
+   .#{$element}#{$name}-label {
       @include cxe-axis-label();
    }
 }

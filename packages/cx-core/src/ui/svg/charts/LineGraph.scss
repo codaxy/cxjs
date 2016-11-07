@@ -9,13 +9,13 @@
    $mod: $cx-mod
 ) {
 
-   .cxe-linegraph-line {
+   .#{$element}#{$name}-line {
       stroke: gray;
       stroke-width: 2px;
       fill: none !important;
    }
 
-   .cxe-linegraph-area {
+   .#{$element}#{$name}-area {
       stroke-width: 0;
       opacity: 0.5;
    }

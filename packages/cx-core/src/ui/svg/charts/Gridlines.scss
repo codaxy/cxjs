@@ -9,7 +9,7 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-gridlines {
+   .#{$block}#{$name} {
       shape-rendering: crispEdges;
 
       path {

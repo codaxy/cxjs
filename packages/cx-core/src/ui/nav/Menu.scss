@@ -9,25 +9,25 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-menu {
+   .#{$block}#{$name} {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       list-style: none;
 
-      &.cxs-horizontal {
-         & > .cxe-menu-item {
+      &.#{$state}horizontal {
+         & > .#{$element}#{$name}-item {
             display: inline-block;
          }
       }
    }
 
-   .cxe-menu-item {
+   .#{$element}#{$name}-item {
       padding: 0;
       position: relative;
       border: 0 solid transparent;
 
-      &.cxs-focusable {
+      &.#{$state}focusable {
 
          &:hover {
             @each $rule, $value in map-get($cx-list-item, hover) {
@@ -35,7 +35,7 @@
             }
          }
 
-         &.cxs-cursor {
+         &.#{$state}cursor {
             @each $rule, $value in map-get($cx-list-item, selected-focus) {
                #{$rule}: $value;
             }
@@ -43,7 +43,7 @@
       }
    }
 
-   .cxe-menu-item-body {
+   .#{$element}#{$name}-item-body {
       border: 1px solid transparent;
 
       & > hr {
@@ -62,12 +62,12 @@
       }
    }
 
-   .cxm-menu {
+   .#{$mod}#{$name} {
       margin: 10px 20px;
       display: block;
    }
 
-   .cxm-menu-pad {
+   .#{$mod}#{$name}-pad {
       padding: 10px 20px;
       display: block;
    }

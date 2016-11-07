@@ -117,7 +117,7 @@ $cx-button-mods: (
                #{$rule}: $value;
             }
 
-            &[disabled], &.cxs-disabled {
+            &[disabled], &.#{$state}disabled {
                @each $rule, $value in map-get($config, disabled) {
                   #{$rule}: $value;
                }

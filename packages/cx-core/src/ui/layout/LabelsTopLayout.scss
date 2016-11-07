@@ -9,20 +9,20 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-labelstoplayout {
+   .#{$block}labelstoplayout {
       border-spacing: 0;
 
-      &.cxm-stretch {
+      &.#{$mod}stretch {
          width: 100%;
 
          //unsure what it does
-         //.cxe-labelstoplayout-label {
+         //.#{$element}labelstoplayout-label {
          //   width: 10em;
          //}
       }
    }
 
-   .cxe-labelstoplayout-field {
+   .#{$element}labelstoplayout-field {
       padding: 0 5px;
       box-sizing: border-box;
 
@@ -35,12 +35,12 @@
       }
    }
 
-   .cxe-labelstoplayout-label {
+   .#{$element}labelstoplayout-label {
       vertical-align: bottom;
       padding: 5px 5px 0 5px;
       box-sizing: border-box;
 
-      .cxb-label {
+      .#{$block}label {
          padding-left: 0;
          padding-bottom: 0;
       }

@@ -9,10 +9,10 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-bubblegraph {
+   .#{$block}#{$name} {
    }
 
-   .cxe-bubblegraph-bubble {
+   .#{$element}#{$name}-bubble {
       fill: rgb(128, 128, 128);
       opacity: 0.5;
 
@@ -20,7 +20,7 @@
          opacity: 0.75;
       }
 
-      &.cxs-selected {
+      &.#{$state}selected {
          stroke: black;
          stroke-width: 2px;
       }

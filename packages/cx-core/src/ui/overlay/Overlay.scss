@@ -19,11 +19,11 @@
       overflow: visible;
       box-sizing: border-box;
 
-      &.cxs-inline {
+      &.#{$state}inline {
          z-index: 100000;
       }
 
-      &.cxs-draggable {
+      &.#{$state}draggable {
          cursor: pointer;
       }
 
@@ -41,11 +41,11 @@
       background: rgba(128, 128, 128, 0.3);
    }
 
-   .cxb-overlay {
+   .#{$block}#{$name} {
       @extend %cxb-overlay;
    }
 
-   .cxe-overlay-modal-backdrop {
+   .#{$element}#{$name}-modal-backdrop {
       @extend %cxe-overlay-modal-backdrop;
    }
 }

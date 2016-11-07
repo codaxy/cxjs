@@ -8,7 +8,7 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxe-markerline-line {
+   .#{$element}#{$name}-line {
       stroke: rgb(128, 128, 128);
       stroke-width: 1px;
    }

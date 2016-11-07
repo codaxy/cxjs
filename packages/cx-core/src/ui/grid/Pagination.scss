@@ -9,7 +9,7 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-pagination {
+   .#{$block}#{$name} {
       display: inline-block;
       margin: 0;
       padding: 0;
@@ -34,7 +34,7 @@
       }
    }
 
-   .cxe-pagination-page {
+   .#{$element}#{$name}-page {
       display: inline-block;
       box-sizing: border-box;
       padding: 5px 10px;
@@ -61,7 +61,7 @@
          }
       }
 
-      &.cxs-active {
+      &.#{$state}active {
          @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
          }
@@ -73,7 +73,7 @@
          }
       }
 
-      &.cxs-disabled {
+      &.#{$state}disabled {
          @each $rule, $value in map-get($cx-list-item, disabled) {
             #{$rule}: $value;
          }

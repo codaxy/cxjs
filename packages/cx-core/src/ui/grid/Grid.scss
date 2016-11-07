@@ -12,7 +12,7 @@ $cx-grid-border-color: lightgray;
    $mod: $cx-mod
 ) {
 
-   .cxb-grid {
+   .#{$block}#{$name} {
       box-sizing: border-box;
       position: relative;
 
@@ -23,19 +23,19 @@ $cx-grid-border-color: lightgray;
          position: relative;
       }
 
-      .cxs-aligned-left {
+      .#{$state}aligned-left {
          text-align: left;
       }
 
-      .cxs-aligned-right {
+      .#{$state}aligned-right {
          text-align: right;
       }
 
-      .cxs-aligned-center {
+      .#{$state}aligned-center {
          text-align: center;
       }
 
-      &.cxs-scrollable {
+      &.#{$state}scrollable {
 
          border: 1px solid $cx-grid-border-color;
          overflow: hidden;
@@ -49,13 +49,13 @@ $cx-grid-border-color: lightgray;
             border-right: none;
          }
 
-         & > .cxe-grid-scroll-area {
+         & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
             position: relative;
             height: 100%;
          }
 
-         & > .cxe-grid-fixed-header {
+         & > .#{$element}#{$name}-fixed-header {
             overflow: hidden;
 
             & > table {
@@ -63,68 +63,68 @@ $cx-grid-border-color: lightgray;
                table-layout: fixed;
             }
 
-            .cxe-grid-col-header {
+            .#{$element}#{$name}-col-header {
                background: $cx-grid-header-background-color;
             }
          }
       }
 
-      &.cxm-responsive {
+      &.#{$mod}responsive {
          display: block;
          width: 100%;
 
-         & > .cxe-grid-scroll-area {
+         & > .#{$element}#{$name}-scroll-area {
             overflow-x: auto;
          }
       }
    }
 
-   .cxe-grid-empty-text {
+   .#{$element}#{$name}-empty-text {
       color: #aaa;
    }
 
-   .cxe-grid-col-header {
+   .#{$element}#{$name}-col-header {
       text-align: left;
       padding: 5px;
       box-sizing: border-box;
 
-      .cxs-sortable & {
+      .#{$state}sortable & {
          border: 1px solid $cx-grid-border-color;
          background: $cx-grid-header-background-color;
          position: relative;
       }
 
-      &.cxs-sortable {
+      &.#{$state}sortable {
 
          cursor: pointer;
 
-         &.cxs-sorted-asc, &.cxs-sorted-desc {
+         &.#{$state}sorted-asc, &.#{$state}sorted-desc {
 
          }
 
-         &:hover, .cxe-grid-fixed-header &:hover {
+         &:hover, .#{$element}#{$name}-fixed-header &:hover {
             background: lighten($cx-grid-header-background-color, 3%);
          }
       }
 
-      &.cxs-sortable::before {
+      &.#{$state}sortable::before {
          content: '\2193';
          position: absolute;
          visibility: hidden;
          top: 3px;
       }
 
-      &.cxs-sorted-asc::before {
+      &.#{$state}sorted-asc::before {
          content: '\2193';
          visibility: visible;
       }
 
-      &.cxs-sorted-desc::before {
+      &.#{$state}sorted-desc::before {
          content: '\2191';
          visibility: visible;
       }
 
-      &.cxs-sortable:not(.cxs-aligned-right) {
+      &.#{$state}sortable:not(.#{$state}aligned-right) {
          padding-right: 15px;
 
          &::before {
@@ -132,11 +132,11 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-sortable.cxs-aligned-center {
+      &.#{$state}sortable.#{$state}aligned-center {
          padding-left: 15px;
       }
 
-      &.cxs-sortable.cxs-aligned-right {
+      &.#{$state}sortable.#{$state}aligned-right {
          padding-left: 15px;
 
          &::before {
@@ -145,37 +145,37 @@ $cx-grid-border-color: lightgray;
       }
    }
 
-   .cxe-grid-data {
+   .#{$element}#{$name}-data {
       td {
          padding: 0;
          border-top: 1px solid $cx-grid-border-color;;
       }
 
-      td.cxs-pad {
+      td.#{$state}pad {
          padding: 5px;
       }
 
-      &.cxs-cursor {
+      &.#{$state}cursor {
          @each $rule, $value in map-get($cx-list-item, hover) {
             #{$rule}: $value;
          }
       }
 
-      &.cxs-selected {
+      &.#{$state}selected {
          @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
          }
       }
 
-      .cxs-focused &, :focus & {
+      .#{$state}focused &, :focus & {
 
-         &.cxs-cursor {
+         &.#{$state}cursor {
             @each $rule, $value in map-get($cx-list-item, hover-focus) {
                #{$rule}: $value;
             }
          }
 
-         &.cxs-selected {
+         &.#{$state}selected {
             @each $rule, $value in map-get($cx-list-item, selected-focus) {
                #{$rule}: $value;
             }
@@ -189,7 +189,7 @@ $cx-grid-border-color: lightgray;
       }
    }
 
-   .cxe-grid-group-caption {
+   .#{$element}#{$name}-group-caption {
       font-weight: bold;
       font-size: 115%;
 
@@ -203,7 +203,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-level-2 {
+      &.#{$state}level-2 {
          font-size: 130%;
 
          td {
@@ -211,7 +211,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-level-3 {
+      &.#{$state}level-3 {
          font-size: 145%;
 
          td {
@@ -219,7 +219,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-level-4 {
+      &.#{$state}level-4 {
          font-size: 160%;
 
          td {
@@ -228,7 +228,7 @@ $cx-grid-border-color: lightgray;
       }
    }
 
-   .cxe-grid-group-footer {
+   .#{$element}#{$name}-group-footer {
       font-weight: bold;
 
       td {
@@ -236,7 +236,7 @@ $cx-grid-border-color: lightgray;
          padding: 5px;
       }
 
-      &.cxs-level-2 {
+      &.#{$state}level-2 {
          font-weight: bold;
          font-size: 110%;
 
@@ -245,7 +245,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-level-3 {
+      &.#{$state}level-3 {
          font-weight: bold;
          font-size: 120%;
 
@@ -254,7 +254,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      &.cxs-level-4 {
+      &.#{$state}level-4 {
          font-weight: bold;
          font-size: 130%;
 
@@ -264,7 +264,7 @@ $cx-grid-border-color: lightgray;
       }
    }
 
-   &.cxm-bordered {
+   &.#{$mod}bordered {
 
       th, td {
          border: 1px solid $cx-grid-border-color;;
@@ -275,21 +275,21 @@ $cx-grid-border-color: lightgray;
          background: $cx-grid-header-background-color;
       }
 
-      .cxe-grid-group-footer td, & .cxe-grid-group-caption td {
+      .#{$element}#{$name}-group-footer td, & .#{$element}#{$name}-group-caption td {
          border: none;
       }
    }
 
-   .cxe-grid-fixed-header {
+   .#{$element}#{$name}-fixed-header {
       position: absolute;
       left: 0;
       top: 0;
       right: 0;
    }
 
-   .cxb-grid.cxs-selectable {
+   .#{$block}#{$name}.#{$state}selectable {
 
-      .cxe-grid-scroll-area {
+      .#{$element}#{$name}-scroll-area {
          @each $rule, $value in map-get($cx-list, default) {
             #{$rule}: $value;
          }
@@ -301,7 +301,7 @@ $cx-grid-border-color: lightgray;
          }
       }
 
-      .cxe-grid-data {
+      .#{$element}#{$name}-data {
 
          cursor: pointer;
       }

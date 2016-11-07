@@ -3,6 +3,7 @@
 @import '../../util/scss/clockwise';
 @import '../../util/scss/add-rules';
 @import '../../util/scss/include';
+@import "Label";
 
 @mixin cxb-field(
    $input: true,

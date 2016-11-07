@@ -9,7 +9,7 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-dropdown {
+   .#{$block}#{$name} {
       @extend %cxb-overlay;
       display: block;
       left: -10000px;

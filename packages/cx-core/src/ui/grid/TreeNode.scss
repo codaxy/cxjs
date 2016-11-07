@@ -9,18 +9,18 @@
    $mod: $cx-mod
 ) {
 
-   .cxb-treenode {
+   .#{$block}#{$name} {
       padding-left: 40px;
       position: relative;
 
       @for $i from 1 through 20 {
-         &.cxs-level-#{$i} {
+         &.#{$state}level-#{$i} {
             margin-left: #{($i * 20)}px;
          }
       }
    }
 
-   .cxe-treenode-handle {
+   .#{$element}#{$name}-handle {
       position: absolute;
       width: 36px;
       left: 0;
@@ -37,7 +37,7 @@
          right: 0;
       }
 
-      .cxs-folder.cxs-expanded > & {
+      .#{$state}folder.#{$state}expanded > & {
          @extend %cx-icon-arrow-down;
 
          & > div {
@@ -45,13 +45,13 @@
          }
       }
 
-      .cxs-folder.cxs-expanded.cxs-loading > & {
+      .#{$state}folder.#{$state}expanded.#{$state}loading > & {
          & > div {
             @extend %cx-icon-loading;
          }
       }
 
-      .cxs-folder > & {
+      .#{$state}folder > & {
          @extend %cx-icon-arrow-right;
 
          &:hover {
@@ -63,12 +63,12 @@
          }
       }
 
-      .cxs-leaf > & > div {
+      .#{$state}leaf > & > div {
          @extend %cx-icon-file;
       }
    }
 
-   .cxb-grid.cxm-tree {
+   .#{$block}grid.#{$mod}tree {
       td {
          border-top: none;
       }

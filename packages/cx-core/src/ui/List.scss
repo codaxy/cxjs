@@ -8,7 +8,7 @@
    $state: $cx-state,
    $mod: $cx-mod
 ) {
-   .cxb-list {
+   .#{$block}#{$name} {
       list-style: none;
       margin: 0;
       padding: 0;
@@ -25,26 +25,26 @@
          }
       }
 
-      &.cxs-focused {
+      &.#{$state}focused {
          @each $rule, $value in map-get($cx-list, focus) {
             #{$rule}: $value;
          }
       }
 
-      &.cxm-bordered {
+      &.#{$mod}bordered {
          border-width: 1px;
 
-         & > .cxe-list-item:not(:first-child) {
+         & > .#{$element}#{$name}-item:not(:first-child) {
             border-top-width: 1px;
          }
       }
    }
 
-   .cxe-list-item {
+   .#{$element}#{$name}-item {
       margin: 0;
       border: 0 solid $cx-border-color;
 
-      &.cxs-pad {
+      &.#{$state}pad {
          padding: 5px 10px;
       }
 
@@ -52,16 +52,16 @@
          #{$rule}: $value;
       }
 
-      .cxs-selectable > & {
+      .#{$state}selectable > & {
          cursor: pointer;
       }
 
-      &.cxs-cursor {
+      &.#{$state}cursor {
          @each $rule, $value in map-get($cx-list-item, hover) {
             #{$rule}: $value;
          }
 
-         .cxb-list.cxs-focused > &, .cxb-list:focus > & {
+         .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
             @each $rule, $value in map-get($cx-list-item, hover-focus) {
                #{$rule}: $value;
             }
@@ -74,12 +74,12 @@
          }
       }
 
-      &.cxs-selected {
+      &.#{$state}selected {
          @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
          }
 
-         .cxb-list.cxs-focused > & {
+         .#{$block}#{$name}.#{$state}focused > & {
             @each $rule, $value in map-get($cx-list-item, selected-focus) {
                #{$rule}: $value;
             }
@@ -87,7 +87,7 @@
       }
    }
 
-   .cxe-list-empty-text {
+   .#{$element}#{$name}-empty-text {
       margin: 0;
       padding: 5px 10px;
 
