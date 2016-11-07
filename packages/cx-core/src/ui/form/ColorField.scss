@@ -1,30 +1,52 @@
 @import "Field";
 @import "ColorPicker";
 
-.cxb-colorfield {
-   @include cxb-field();
-}
+@mixin cx-colorfield(
+   $name: 'colorfield',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field();
+   }
 
-.cxe-colorfield-input {
-   @include cxe-field-input();
-   font-family: monospace;
-   font-size: 85%;
-   padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size;
-}
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $overrides: (
+            default: (
+               font-family: monospace,
+               font-size: 85%,
+               padding-right: cx-right($cx-input-padding) + cx-right($cx-input-padding) + $cx-input-clear-size
+            )
+         )
+      );
+   }
 
-.cxe-colorfield-icon {
-   @include cxe-field-icon();
-   @extend %cx-checker-bg;
-   border-radius: 0;
-   box-sizing: border-box;
-   border: 1px solid #eee;
+   .#{$element}#{$name}-icon {
+      @include cxe-field-icon();
+      @extend %cx-checker-bg;
+      border-radius: 0;
+      box-sizing: border-box;
+      border: 1px solid #eee;
 
-   div {
-      width: 100%;
-      height: 100%;
+      div {
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
    }
 }
 
-.cxe-colorfield-empty-text {
-   @include cxe-field-empty-text();
+@if (cx-include('cx/widgets/ColorField')) {
+   @include cx-colorfield();
 }
+
+
+

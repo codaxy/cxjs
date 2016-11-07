@@ -1,15 +1,23 @@
 @import "../Button";
 
-@mixin cx-uploadbutton() {
-   @include cx-button('uploadbutton');
+@mixin cx-uploadbutton(
+   $name: 'uploadbutton',
+   $styles: $cx-button-styles,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   @include cx-button($name,
+      $mods: (),
+      $styles: $styles,
+      $block: $block,
+      $element: $element,
+      $state: $state,
+      $mod: $mod
+   );
 
-   .cxb-uploadbutton {
-      display: inline-block;
-      position: relative;
-      box-sizing: border-box;
-   }
-
-   .cxe-uploadbutton-input {
+   .#{$element}#{$name}-input {
       position: absolute;
       opacity: 0;
       left: 0;
@@ -18,7 +26,7 @@
       right: 0;
    }
 
-   .cxe-uploadbutton-progress {
+   .#{$element}#{$name}-progress {
       position: absolute;
       left: 0;
       top: 0;
@@ -28,9 +36,12 @@
       outline: 1px solid rgba(8, 176, 255, 0.5);
       transition: opacity 0.5s ease-in-out;
 
-      &.cxs-done {
+      &.#{$state}done {
          opacity: 0;
       }
    }
 }
 
+@if (cx-include('cx/widgets/UploadButton')) {
+   @include cx-uploadbutton();
+}

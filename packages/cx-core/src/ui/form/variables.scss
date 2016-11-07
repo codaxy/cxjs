@@ -2,18 +2,9 @@
 //  Box
 $cx-input-line-height: 16px !default;
 $cx-input-width: 180px !default;
-
 $cx-input-padding: 5px !default;
-$cx-input-padding-top: $cx-input-padding !default;
-$cx-input-padding-right: $cx-input-padding !default;
-$cx-input-padding-bottom: $cx-input-padding !default;
-$cx-input-padding-left: $cx-input-padding !default;
-
 $cx-input-border-width: 1px !default;
-$cx-input-border-top-width: $cx-input-border-width !default;
-$cx-input-border-right-width: $cx-input-border-width !default;
-$cx-input-border-bottom-width: $cx-input-border-width !default;
-$cx-input-border-left-width: $cx-input-border-width !default;
+
 
 //height = calc(line-height + border-top + padding-top + padding-bottom + border-bottom)
 
@@ -31,44 +22,50 @@ $cx-input-color: black !default;
 
 $cx-input-placeholder-color: #87898a !default;
 
-$cx-input-default: (
-   font-size: $cx-input-font-size,
-   font-family: $cx-input-font-family,
-   font: $cx-input-font,
-   border-color: $cx-input-border-color,
-   border-style: solid,
-   background-color: $cx-input-background-color,
-   color: $cx-input-color,
-   outline-offset: 0,
-   border-radius: 0,
-   box-shadow: none,
-   -webkit-appearance: none
-) !default;
-
 $cx-input-placeholder: (
    color: $cx-input-placeholder-color
 ) !default;
 
-$cx-input-hover: (
-) !default;
+$cx-input-styles: (
+   default: (
+      line-height: $cx-input-line-height,
+      padding: $cx-input-padding,
+      border-width: $cx-input-border-width,
+      font-size: $cx-input-font-size,
+      font-family: $cx-input-font-family,
+      font: $cx-input-font,
+      border-color: $cx-input-border-color,
+      border-style: solid,
+      background-color: $cx-input-background-color,
+      color: $cx-input-color,
+      outline-offset: 0,
+      border-radius: 0,
+      box-shadow: none,
+      -webkit-appearance: none
+   ),
 
-$cx-input-focus: (
-   border-color: rgba(77, 144, 254, 0.8),
-   outline: none,
-   box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
-) !default;
+   hover: (
 
-$cx-input-error: (
-   border-color: rgba(220, 0, 9, 0.8)
-) !default;
+   ),
 
-$cx-input-error-focus: (
-   box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
-) !default;
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+   ),
 
-$cx-input-disabled: (
-   background: rgb(235, 235, 228),
-   color: rgb(84, 84, 84)
+   disabled: (
+      background: rgb(235, 235, 228),
+      color: rgb(84, 84, 84)
+   ),
+
+   error: (
+      border-color: rgba(220, 0, 9, 0.8)
+   ),
+
+   error-focus: (
+      box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
+   )
 ) !default;
 
 

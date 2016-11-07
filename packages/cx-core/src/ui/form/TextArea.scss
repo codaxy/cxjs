@@ -1,15 +1,39 @@
 @import "Field";
 
-.cxb-textarea {
-   @include cxb-field($box: false);
-   min-width: 300px;
-   white-space: pre-wrap;
+@mixin cx-textarea(
+   $name: 'textarea',
+   $input-styles: $cx-input-styles,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field(
+         $input: false
+      );
+      min-width: 300px;
+      white-space: pre-wrap;
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input();
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-icon();
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
+   }
 }
 
-.cxe-textarea-input {
-   @include cxe-field-input($box: true);
+@if (cx-call-once('widgets/TextArea')) {
+   @include cx-textarea;
 }
 
-.cxe-textarea-empty-text {
-   @include cxe-field-empty-text();
-}
+
+
+
+

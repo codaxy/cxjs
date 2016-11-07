@@ -1,19 +1,42 @@
 @import "Field";
 
-.cxb-monthfield {
-   @include cxb-field();
+@mixin cx-monthfield(
+   $name: 'monthfield',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field();
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $overrides: (
+            default: (
+               padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
+            )
+         )
+      );
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-icon();
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-clear();
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
+   }
 }
 
-.cxe-monthfield-input {
-   @include cxe-field-input(
-      $padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
-   );
+@if (cx-include('cx/widgets/MonthField')) {
+   @include cx-monthfield();
 }
 
-.cxe-monthfield-icon {
-   @include cxe-field-icon();
-}
-
-.cxe-monthfield-clear {
-   @include cxe-field-clear();
-}

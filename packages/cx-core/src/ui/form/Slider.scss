@@ -1,77 +1,119 @@
 @import "Field";
 
-.cxb-slider {
-   @include cxb-field();
-   padding: $cx-input-padding;
-   border: 1px solid transparent;
-   line-height: $cx-input-line-height;
+$cx-slider-handle-styles: (
+   default: (
+      margin: -8px 0 0 -8px,
+      padding: 0,
+      width: 16px,
+      height: 16px,
+      background: rgb(235, 235, 235),
+      border: 1px solid rgb(204, 204, 204),
+      border-radius: 50%,
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+   ),
+   focus: (
 
-   &.cxs-vertical {
-      width: 28px;
-      height: 180px;
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background: rgb(220, 220, 220)
+   )
+) !default;
+
+@mixin cx-slider(
+   $name: 'slider',
+   $styles: $cx-slider-handle-styles,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+
+   .#{$block}slider {
+      @include cxb-field($box: true);
+
+      &.#{$state}vertical {
+         width: 28px;
+         height: 180px;
+      }
+
+      user-select: none;
+   }
+
+   .#{$element}slider-axis {
+
+      position: relative;
+      background: rgba(128, 128, 128, 0.2);
+      border-radius: 3px;
+
+      .#{$block}slider.#{$state}horizontal & {
+         margin: 0 6px;
+         height: 6px;
+         top: calc(50% - 3px);
+      }
+
+      .#{$block}slider.#{$state}vertical & {
+         margin: 6px 0;
+         width: 6px;
+         height: calc(100% - 12px);
+         left: calc(50% - 3px);
+      }
+   }
+
+   .#{$element}slider-range {
+      position: absolute;
+
+      background: #98d4ff;
+      border-radius: 3px;
+
+      .#{$block}slider.#{$state}horizontal & {
+         height: 100%;
+      }
+
+      .#{$block}slider.#{$state}vertical & {
+         width: 100%;
+      }
+   }
+
+   .#{$element}slider-handle {
+      position: absolute;
+      box-sizing: border-box;
+
+      .#{$block}slider.#{$state}horizontal & {
+         left: 0;
+         top: 50%;
+      }
+
+      .#{$block}slider.#{$state}vertical & {
+         left: 50%;
+         top: 0;
+      }
+
+      @include cx-add-state-rules($styles, default);
+
+      &:hover {
+         @include cx-add-state-rules($styles, hover);
+      }
+
+      &:focus {
+         @include cx-add-state-rules($styles, focus);
+      }
+
+      &[disabled] {
+         @include cx-add-state-rules($styles, disabled);
+      }
+
+      &:active {
+         @include cx-add-state-rules($styles, active);
+      }
    }
 }
 
-.cxe-slider-axis {
-
-   position: relative;
-   background: rgba(128, 128, 128, 0.2);
-   border-radius: 3px;
-
-   .cxb-slider.cxs-horizontal & {
-      margin: 0 6px;
-      height: 6px;
-      top: calc(50% - 3px);
-   }
-
-   .cxb-slider.cxs-vertical & {
-      margin: 6px 0;
-      width: 6px;
-      height: calc(100% - 12px);
-      left: calc(50% - 3px);
-   }
-
+@if (cx-include('cx/widgets/Slider')) {
+   @include cx-slider();
 }
-
-.cxe-slider-range {
-   position: absolute;
-
-   background: #98d4ff;
-   border-radius: 3px;
-
-   .cxb-slider.cxs-horizontal & {
-      height: 100%;
-   }
-
-   .cxb-slider.cxs-vertical & {
-      width: 100%;
-   }
-}
-
-.cxe-slider-handle {
-   position: absolute;
-   box-sizing: border-box;
-   margin: -8px 0 0 -8px;
-   padding: 0;
-   width: 16px;
-   height: 16px;
-   background: rgb(235, 235, 235);
-   border: 1px solid rgb(204, 204, 204);
-   border-radius: 50%;
-   box-shadow: 0 0 3px rgba(128, 128, 128, 0.5);
-
-   &:active {
-      background: rgb(220, 220, 220);
-   }
-
-   .cxb-slider.cxs-horizontal & {
-      left: 0;
-      top: 50%;
-   }
-
-   .cxb-slider.cxs-vertical & {
-      left: 50%;
-      top: 0;
-   }
-}
-

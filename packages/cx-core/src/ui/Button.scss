@@ -85,7 +85,7 @@ $cx-button-mods: (
       -moz-appearance: none;
       appearance: none;
 
-      @include cx-add-rules($styles, 'default');
+      @include cx-add-state-rules($styles, 'default');
 
       &::-moz-focus-inner {
          border: 0;
@@ -95,20 +95,20 @@ $cx-button-mods: (
 
       &:not([disabled]) {
          &:hover {
-            @include cx-add-rules($styles, 'hover');
+            @include cx-add-state-rules($styles, 'hover');
          }
 
          &:focus {
-            @include cx-add-rules($styles, 'focus');
+            @include cx-add-state-rules($styles, 'focus');
          }
 
          &:active {
-            @include cx-add-rules($styles, 'active');
+            @include cx-add-state-rules($styles, 'active');
          }
       }
 
       &[disabled], &.#{$state}-disabled {
-         @include cx-add-rules($styles, 'disabled');
+         @include cx-add-state-rules($styles, 'disabled');
       }
 
       @each $modname, $config in $mods {

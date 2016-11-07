@@ -1,17 +1,31 @@
 @import "Field";
 
-.cxb-numberfield {
-   @include cxb-field();
+@mixin cx-numberfield(
+   $name: 'numberfield',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field();
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input();
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-icon();
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
+   }
 }
 
-.cxe-numberfield-input {
-   @include cxe-field-input();
-}
-
-.cxe-numberfield-empty-text {
-   @include cxe-field-empty-text();
-}
-
-.cxe-numberfield-icon {
-   @include cxe-field-icon();
+@if (cx-call-once('cx/widgets/NumberField')) {
+   @include cx-numberfield();
 }

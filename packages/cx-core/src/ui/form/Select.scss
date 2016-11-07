@@ -1,24 +1,41 @@
 @import "Field";
 
-.cxb-select {
-   @include cxb-field();
+@mixin cx-select(
+   $name: 'select',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+
+   .#{$block}#{$name} {
+      @include cxb-field();
+   }
+
+   .#{$element}#{$name}-select {
+      @include cxe-field-input(
+         $overrides: (
+            padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{cx-right($cx-input-padding)}) cx-bottom($cx-input-padding) cx-left($cx-input-padding),
+            -webkit-appearance: none,
+            -moz-appearance: none,
+            -ms-appearance: none,
+            appearance: none
+         )
+      );
+
+      @extend %cx-icon-dropdown-arrow;
+      background-position: right $cx-input-padding center;
+
+      &::-ms-expand {
+         display: none;
+         margin: 0;
+         padding: 0;
+      }
+   }
 }
 
-.cxe-select-select {
-   @include cxe-field-input(
-      $padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{cx-right($cx-input-padding)}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
-   );
-   -webkit-appearance: inherit;
-   -moz-appearance: inherit;
-   -ms-appearance: inherit;
-   appearance: inherit;
-
-   @extend %cx-icon-dropdown-arrow;
-   background-position: right $cx-input-padding center;
-
-   &::-ms-expand {
-      display: none;
-      margin: 0;
-      padding: 0;
-   }
+@if (cx-call-once('cx/widgets/Select')) {
+   @include cx-select;
 }

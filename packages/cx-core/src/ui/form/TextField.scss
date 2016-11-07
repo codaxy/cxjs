@@ -1,17 +1,33 @@
 @import "Field";
 
-.cxb-textfield {
-   @include cxb-field();
+@mixin cx-textfield(
+   $name: 'textfield',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field();
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input();
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-icon();
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
+   }
 }
 
-.cxe-textfield-input {
-   @include cxe-field-input();
+@if (cx-include('cx/widgets/TextField')) {
+   @include cx-textfield();
 }
 
-.cxe-textfield-icon {
-   @include cxe-field-icon();
-}
 
-.cxe-textfield-empty-text {
-   @include cxe-field-empty-text();
-}

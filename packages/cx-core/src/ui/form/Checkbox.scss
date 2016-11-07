@@ -1,78 +1,91 @@
 @import "Field";
-@import "../icons/index";
 
-.cxb-checkbox {
-   @include cxb-field($box: false);
-   font-size: $cx-input-font-size;
-   line-height: $cx-input-line-height;
-   font: $cx-input-font;
-   padding: $cx-input-padding;
-   border: $cx-input-border-width solid transparent;
-   min-width: cx-left($cx-input-padding) + cx-right($cx-input-padding) + $cx-input-checkbox-size;
-}
+@mixin cx-checkbox(
+   $name: 'checkbox',
+   $input-styles: $cx-input-styles,
+   $width: $cx-input-width,
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .#{$block}#{$name} {
+      @include cxb-field($input: false, $box: true);
+      border-color: transparent;
+      min-width: cx-left($cx-input-padding) + cx-left($cx-input-padding) + $cx-input-checkbox-size;
+   }
 
-.cxe-checkbox-checkbox {
-   padding: 0;
-   margin: 0 !important;
-   width: $cx-input-checkbox-size;
-   height: $cx-input-checkbox-size;
-   top: calc(50% - #{$cx-input-checkbox-size / 2});
-   left: $cx-input-padding;
-   display: inline-block;
-   position: absolute;
-   //-webkit-appearance: none;
-
-   &::-moz-focus-inner {
-      border: 0;
+   .#{$element}#{$name}-checkbox {
       padding: 0;
-      margin: -1px;
+      margin: 0 !important;
+      width: $cx-input-checkbox-size;
+      height: $cx-input-checkbox-size;
+      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      left: $cx-input-padding;
+      display: inline-block;
+      position: absolute;
+      //-webkit-appearance: none;
+
+      &::-moz-focus-inner {
+         border: 0;
+         padding: 0;
+         margin: -1px;
+      }
+
+      &:focus {
+         box-shadow: inset 0 0 1px 1px rgba(77, 144, 254, 0.8), 0 0 2px 2px rgba(77, 144, 254, 0.8);
+         background: rgba(77, 144, 254, 0.8);
+         outline: 0;
+      }
    }
 
-   &:focus {
-      box-shadow: inset 0 0 1px 1px rgba(77, 144, 254, 0.8), 0 0 2px 2px rgba(77, 144, 254, 0.8);
-      background: rgba(77, 144, 254, 0.8);
-      outline: 0;
+   .#{$element}#{$name}-text {
+      display: inline-block;
+      margin-left: cx-left($cx-input-padding) + $cx-input-checkbox-size;
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text();
+   }
+
+   //non-native implementation
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $input: false,
+         $overrides: (
+            default: (
+               padding: 0,
+               margin: 0 !important
+            )
+         )
+      );
+      width: $cx-input-checkbox-size;
+      height: $cx-input-checkbox-size;
+
+      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      left: cx-left($cx-input-padding);
+      display: inline-block;
+      position: absolute;
+   }
+
+   .#{$element}#{$name}-input-check {
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+      position: absolute;
+      display: block;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.7;
+
+      .#{$state}checked > & {
+         visibility: visible;
+      }
    }
 }
 
-.cxe-checkbox-text {
-   display: inline-block;
-   margin-left: cx-left($cx-input-padding) + $cx-input-checkbox-size;
-}
-
-.cxe-checkbox-empty-text {
-   @include cxe-field-empty-text();
-}
-
-//non-native implementation
-.cxe-checkbox-input {
-   @include cxe-field-input(
-      $box: false,
-      $padding: 0,
-      $margin: 0 !important
-   );
-   width: $cx-input-checkbox-size;
-   height: $cx-input-checkbox-size;
-
-   top: calc(50% - #{$cx-input-checkbox-size / 2});
-   left: cx-left($cx-input-padding);
-   display: inline-block;
-   position: absolute;
-}
-
-.cxe-checkbox-input-check {
-   width: 100%;
-   height: 100%;
-   visibility: hidden;
-   position: absolute;
-   display: block;
-   left: 0;
-   top: 0;
-   right: 0;
-   bottom: 0;
-   opacity: 0.7;
-
-   .cxs-checked > & {
-      visibility: visible;
-   }
+@if (cx-include('cx/widgets/Checkbox')) {
+   @include cx-checkbox();
 }

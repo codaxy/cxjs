@@ -1,25 +1,45 @@
 @import "variables";
 @import "../icons/index";
 @import '../../util/scss/clockwise';
+@import '../../util/scss/add-rules';
+@import '../../util/scss/include';
 
 @mixin cxb-field(
-   $box: true,
+   $input: true,
+   $box: false,
    $width: $cx-input-width,
-   $line-height: $cx-input-line-height,
-   $padding: $cx-input-padding,
-   $border-width: $cx-input-border-width
+   $state-style-map: $cx-input-styles,
+   $overrides: null,
+   $state: $cx-state
 )
 {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   @if $box {
+   $styles: cx-merge-state-overrides($state-style-map, $overrides);
+
+   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($styles, default, 'padding', 0);
+   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+
+   @if $input {
       width: $width;
       height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
-   &.cxs-view-mode {
+   @if ($box) {
+      line-height: $line-height;
+      padding: $padding;
+      border-width: $border-width;
+
+      //optional rules to be applied only if defined
+      font: cx-get-state-rule($styles, default, 'font');
+      font-size: cx-get-state-rule($styles, default, 'font-size');
+      height: cx-get-state-rule($styles, default, 'height');
+   }
+
+   &.#{$state}view-mode {
       line-height: $line-height;
       padding: $padding;
       border: $border-width solid transparent;
@@ -27,80 +47,57 @@
 }
 
 @mixin cxe-field-input(
-   $default: $cx-input-default,
-   $hover: $cx-input-hover,
-   $focus: $cx-input-focus,
-   $error: $cx-input-error,
-   $error-focus: $cx-input-error-focus,
-   $disabled: $cx-input-disabled,
+   $state-style-map: $cx-input-styles,
+   $overrides: null,
    $placeholder: $cx-input-placeholder,
-   $box: true,
-   $line-height: $cx-input-line-height,
-   $padding: $cx-input-padding,
-   $border-width: $cx-input-border-width,
-   $margin: 0
+   $input: true,
+   $state: $cx-state
 ) {
    box-sizing: border-box;
 
-   line-height: $line-height;
-   padding: $padding;
-   border-width: $border-width;
+   $styles: cx-merge-state-overrides($state-style-map, $overrides);
 
-   @if $box {
+   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($styles, default, 'padding', 0);
+   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+
+   @if $input {
       width: 100%;
       height: 100%;
    }
 
-   margin: $margin;
-
-   @each $rule, $value in $default {
-      #{$rule}: $value;
-   }
+   @include cx-add-state-rules($styles, default);
 
    &:hover {
-      @each $rule, $value in $hover {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($styles, hover);
    }
 
    &:focus {
-      @each $rule, $value in $focus {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($styles, focus);
    }
 
-   @if $box {
+   @if $input {
       &:disabled {
-         @each $rule, $value in $disabled {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($styles, disabled);
       }
    }
    @else {
-      .cxs-disabled > & {
-         @each $rule, $value in $disabled {
-            #{$rule}: $value;
-         }
+      .#{$state}disabled > & {
+         @include cx-add-state-rules($styles, disabled);
       }
    }
 
-   .cxs-error.cxs-visited > & {
-      @each $rule, $value in $error {
-         #{$rule}: $value;
-      }
+   .#{$state}error.#{$state}visited > & {
+      @include cx-add-state-rules($styles, error);
 
       &:focus {
-         @each $rule, $value in $error-focus {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($styles, error-focus);
       }
    }
 
-   @if $box {
+   @if $input {
       &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-         @each $rule, $value in $placeholder {
-            #{$rule}: $value;
-         }
+         @include cx-add-rules($placeholder);
       }
 
       &::-ms-clear {
@@ -172,4 +169,3 @@
 @mixin cxe-field-empty-text() {
    color: #aaa;
 }
-
