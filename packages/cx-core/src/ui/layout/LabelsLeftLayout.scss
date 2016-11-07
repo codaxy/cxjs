@@ -1,30 +1,45 @@
-.cxb-labelsleftlayout {
-   border-spacing: 0;
+@import "../variables";
+@import '../../util/scss/include';
 
-   &.cxm-stretch {
-      width: 100%;
+@mixin cx-labelsleftlayout(
+   $name: 'labelsleftlayout',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxb-labelsleftlayout {
+      border-spacing: 0;
 
-      .cxe-labelsleftlayout-label {
-         width: 5em;
+      &.cxm-stretch {
+         width: 100%;
 
-         .cxb-label {
-            white-space: nowrap;
+         .cxe-labelsleftlayout-label {
+            width: 5em;
+
+            .cxb-label {
+               white-space: nowrap;
+            }
          }
+      }
+   }
+
+   .cxe-labelsleftlayout-field {
+      padding: 5px 0 5px 5px;
+   }
+
+   .cxe-labelsleftlayout-label {
+      text-align: right;
+      vertical-align: top;
+
+      padding: 5px 5px 5px 0;
+
+      .cxb-label {
+         padding-right: 0;
       }
    }
 }
 
-.cxe-labelsleftlayout-field {
-   padding: 5px 0 5px 5px;
-}
-
-.cxe-labelsleftlayout-label {
-   text-align: right;
-   vertical-align: top;
-
-   padding: 5px 5px 5px 0;
-
-   .cxb-label {
-      padding-right: 0;
-   }
+@if (cx-include('cx/widgets/LabelsLeftLayout')) {
+   @include cx-labelsleftlayout();
 }

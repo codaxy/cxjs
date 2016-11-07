@@ -1,8 +1,23 @@
-.cxe-scattergraph-shape {
-   fill: rgb(128, 128, 128);
-   opacity: 0.8;
+@import "../../variables";
+@import "../../../util/scss/include";
 
-   &.cxs-selected {
-      stroke-width: 2px;
+@mixin cx-scattergraph(
+   $name: 'scattergraph',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxe-scattergraph-shape {
+      fill: rgb(128, 128, 128);
+      opacity: 0.8;
+
+      &.cxs-selected {
+         stroke-width: 2px;
+      }
    }
+}
+
+@if (cx-include('cx/charts/ScatterGraph')) {
+   @include cx-scattergraph();
 }

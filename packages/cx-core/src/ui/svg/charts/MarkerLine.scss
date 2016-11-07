@@ -1,4 +1,19 @@
-.cxe-markerline-line {
-   stroke: rgb(128, 128, 128);
-   stroke-width: 1px;
+@import "../../variables";
+@import "../../../util/scss/include";
+
+@mixin cx-markerline(
+   $name: 'markerline',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxe-markerline-line {
+      stroke: rgb(128, 128, 128);
+      stroke-width: 1px;
+   }
+}
+
+@if (cx-include('cx/charts/MarkerLine')) {
+   @include cx-markerline();
 }

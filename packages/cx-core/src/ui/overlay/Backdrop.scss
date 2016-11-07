@@ -1,13 +1,28 @@
-.cx-backdrop {
-   position: fixed;
-   left: 0;
-   right: 0;
-   top: 0;
-   bottom: 0;
-   z-index: 1000;
+@import "variables";
+@import '../../util/scss/include';
 
-   &.masked {
-      background: gray;
-      opacity: 0.5;
+@mixin cx-backdrop(
+   $name: 'backdrop',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxb-backdrop {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 1000;
+
+      &.cxs-masked {
+         background: gray;
+         opacity: 0.5;
+      }
    }
+}
+
+@if (cx-include('cx/widgets/Backdrop')) {
+   @include cx-backdrop();
 }

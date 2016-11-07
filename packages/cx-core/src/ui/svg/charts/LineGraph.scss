@@ -1,10 +1,26 @@
-.cxe-linegraph-line {
-   stroke: gray;
-   stroke-width: 2px;
-   fill: none !important;
+@import "../../variables";
+@import "../../../util/scss/include";
+
+@mixin cx-linegraph(
+   $name: 'linegraph',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+
+   .cxe-linegraph-line {
+      stroke: gray;
+      stroke-width: 2px;
+      fill: none !important;
+   }
+
+   .cxe-linegraph-area {
+      stroke-width: 0;
+      opacity: 0.5;
+   }
 }
 
-.cxe-linegraph-area {
-   stroke-width: 0;
-   opacity: 0.5;
+@if (cx-include('cx/charts/LineGraph')) {
+   @include cx-linegraph();
 }

@@ -1,13 +1,28 @@
-.cxe-bar-rect {
-   stroke-width: 1px;
-   fill: #eee;
-   stroke: #ccc;
+@import "../../variables";
+@import "../../../util/scss/include";
 
-   &.cxs-selectable {
-      cursor: pointer;
-   }
+@mixin cx-bar(
+   $name: 'bar',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxe-bar-rect {
+      stroke-width: 1px;
+      fill: #eee;
+      stroke: #ccc;
 
-   &.cxs-selected {
-      stroke-width: 2px;
+      &.cxs-selectable {
+         cursor: pointer;
+      }
+
+      &.cxs-selected {
+         stroke-width: 2px;
+      }
    }
+}
+
+@if (cx-include('cx/charts/Bar')) {
+   @include cx-bar();
 }

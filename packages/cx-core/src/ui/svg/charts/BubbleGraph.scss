@@ -1,4 +1,17 @@
-.cxb-bubblegraph {
+@import "../../variables";
+@import "../../../util/scss/include";
+
+@mixin cx-bubblegraph(
+   $name: 'bubblegraph',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+
+   .cxb-bubblegraph {
+   }
+
    .cxe-bubblegraph-bubble {
       fill: rgb(128, 128, 128);
       opacity: 0.5;
@@ -12,4 +25,8 @@
          stroke-width: 2px;
       }
    }
+}
+
+@if (cx-include('cx/charts/BubbleGraph')) {
+   @include cx-bubblegraph();
 }

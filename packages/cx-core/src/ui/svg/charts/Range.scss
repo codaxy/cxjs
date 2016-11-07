@@ -1,5 +1,20 @@
-.cxe-range-rect {
-   stroke-width: 0;
-   fill-opacity: 0.3;
-   fill: lightgray;
+@import "../../variables";
+@import "../../../util/scss/include";
+
+@mixin cx-range(
+   $name: 'range',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxe-range-rect {
+      stroke-width: 0;
+      fill-opacity: 0.3;
+      fill: lightgray;
+   }
+}
+
+@if (cx-include('cx/charts/Range')) {
+   @include cx-range();
 }

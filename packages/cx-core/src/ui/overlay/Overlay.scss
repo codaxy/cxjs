@@ -1,7 +1,14 @@
-@import "../../util/call-once";
 @import "captureMouse";
+@import "variables";
+@import '../../util/scss/include';
 
-@if cx-call-once("ui/overlay/Overlay") {
+@mixin cx-overlay(
+   $name: 'overlay',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
    %cxb-overlay {
       left: calc(50% - 250px); //guess
       top: calc(50% - 100px); //guess
@@ -42,3 +49,8 @@
       @extend %cxe-overlay-modal-backdrop;
    }
 }
+
+@if (cx-include('cx/widgets/Overlay')) {
+   @include cx-overlay();
+}
+

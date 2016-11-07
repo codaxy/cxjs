@@ -1,5 +1,21 @@
-.cxb-link {
-   &.cxs-active {
-      font-weight: bold;
+@import "variables";
+@import '../../util/scss/include';
+
+@mixin cx-link(
+   $name: 'link',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxb-link {
+      &.cxs-active {
+         font-weight: bold;
+      }
    }
 }
+
+@if (cx-include('cx/widgets/Link')) {
+   @include cx-link();
+}
+

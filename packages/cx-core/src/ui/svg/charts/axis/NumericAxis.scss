@@ -1,17 +1,30 @@
 @import "Axis";
 
-.cxb-numericaxis {
-   @include cxb-axis();
+@mixin cx-numericaxis(
+   $name: 'numericaxis',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+
+   .cxb-numericaxis {
+      @include cxb-axis();
+   }
+
+   .cxe-numericaxis-ticks {
+      @include cxe-axis-ticks();
+   }
+
+   .cxe-numericaxis-line {
+      @include cxe-axis-line();
+   }
+
+   .cxe-numericaxis-label {
+      @include cxe-axis-label();
+   }
 }
 
-.cxe-numericaxis-ticks {
-   @include cxe-axis-ticks();
-}
-
-.cxe-numericaxis-line {
-   @include cxe-axis-line();
-}
-
-.cxe-numericaxis-label {
-   @include cxe-axis-label();
+@if (cx-include('cx/charts/NumericAxis')) {
+   @include cx-numericaxis();
 }

@@ -1,21 +1,36 @@
-.cxe-marker-shape {
-   fill: rgb(128, 128, 128);
-   stroke: rgb(128, 128, 128);
-   stroke-width: 1px;
+@import "../../variables";
+@import "../../../util/scss/include";
 
-   .cxs-draggable-x > & {
-      cursor: ew-resize;
-   }
+@mixin cx-marker(
+   $name: 'marker',
+   $block: $cx-block,
+   $element: $cx-element,
+   $state: $cx-state,
+   $mod: $cx-mod
+) {
+   .cxe-marker-shape {
+      fill: rgb(128, 128, 128);
+      stroke: rgb(128, 128, 128);
+      stroke-width: 1px;
 
-   .cxs-draggable-y > & {
-      cursor: ns-resize;
-   }
+      .cxs-draggable-x > & {
+         cursor: ew-resize;
+      }
 
-   .cxs-draggable-xy > & {
-      cursor: move;
-   }
+      .cxs-draggable-y > & {
+         cursor: ns-resize;
+      }
 
-   .cxs-selectable > & {
-      cursor: pointer;
+      .cxs-draggable-xy > & {
+         cursor: move;
+      }
+
+      .cxs-selectable > & {
+         cursor: pointer;
+      }
    }
+}
+
+@if (cx-include('cx/charts/Marker')) {
+   @include cx-marker();
 }
