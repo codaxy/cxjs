@@ -5,6 +5,8 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
@@ -25,8 +27,12 @@
       );
    }
 
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
    .#{$element}#{$name}-icon {
-      @include cxe-field-icon();
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 
    .#{$element}#{$name}-empty-text {

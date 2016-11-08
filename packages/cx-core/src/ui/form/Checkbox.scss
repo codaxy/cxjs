@@ -14,15 +14,15 @@
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $input: false, $box: true);
       border-color: transparent;
-      min-width: cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding) + $cx-input-checkbox-size;
+      min-width: cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding) + $cx-default-checkbox-size;
    }
 
    .#{$element}#{$name}-checkbox {
       padding: 0;
       margin: 0 !important;
-      width: $cx-input-checkbox-size;
-      height: $cx-input-checkbox-size;
-      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      width: $cx-default-checkbox-size;
+      height: $cx-default-checkbox-size;
+      top: calc(50% - #{$cx-default-checkbox-size / 2});
       left: $cx-default-input-padding;
       display: inline-block;
       position: absolute;
@@ -43,7 +43,7 @@
 
    .#{$element}#{$name}-text {
       display: inline-block;
-      margin-left: cx-left($cx-default-input-padding) + $cx-input-checkbox-size;
+      margin-left: cx-left($cx-default-input-padding) + $cx-default-checkbox-size;
    }
 
    .#{$element}#{$name}-empty-text {
@@ -63,10 +63,10 @@
             )
          )
       );
-      width: $cx-input-checkbox-size;
-      height: $cx-input-checkbox-size;
+      width: $cx-default-checkbox-size;
+      height: $cx-default-checkbox-size;
 
-      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      top: calc(50% - #{$cx-default-checkbox-size / 2});
       left: cx-left($cx-default-input-padding);
       display: inline-block;
       position: absolute;

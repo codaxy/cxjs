@@ -1,11 +1,14 @@
 @import "Field";
 @import "ColorPicker";
 
+$cx-default-colorfield-font-family: 'Consolas', monospace;
+
 @mixin cx-colorfield(
    $name: 'colorfield',
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
@@ -22,14 +25,18 @@
       @include cxe-field-input(
          $besm,
          $state-style-map,
-         $placeholder: $placeholder
+         $placeholder: $placeholder,
+         $overrides: (
+            default: (
+               font-family: $cx-default-colorfield-font-family
+            )
+         )
       );
    }
 
-   .#{$element}#{$name}-icon {
-      @include cxe-field-icon();
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
       @extend %cx-checker-bg;
-      border-radius: 0;
       box-sizing: border-box;
       border: 1px solid #eee;
 

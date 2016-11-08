@@ -56,36 +56,89 @@ $cx-input-state-style-map: (
    )
 ) !default;
 
+$cx-default-input-tag-spacing: 3px !default;
+$cx-default-checkbox-size: 14px !default;
+$cx-default-radio-size: 14px !default;
+$cx-default-input-icon-size: $cx-default-icon-size !default;
 
-// Icon
 
-$cx-input-button-size: 20px !default;
-$cx-input-icon-size: 16px !default;
-$cx-input-icon-font: null !default;
-$cx-input-icon-color: null !default;
+// Tool
+$cx-default-input-tool-size: 20px !default;
+
+$cx-input-tool-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-box-padding,
+      top: 50%,
+      margin-top: -$cx-default-input-tool-size / 2,
+      height: $cx-default-input-tool-size,
+      width: $cx-default-input-tool-size,
+      line-height: $cx-default-input-tool-size,
+      opacity: 0.7,
+      text-align: center
+   ),
+   hover: (
+      opacity: 1
+   ),
+   active: (
+
+   )
+);
 
 
 // Clear
 
-$cx-input-clear-size: 20px !default;
-$cx-input-clear-font: 12px sans-serif !default;
-$cx-input-clear-content: '\00d7' !default;
-$cx-input-clear-color: gray !default;
-$cx-input-clear-background-hover: rgba(128, 128, 128, 0.2) !default;
+$cx-default-clear-size: $cx-default-input-tool-size !default;
+$cx-default-clear-color: gray !default;
+$cx-default-clear-background-hover: rgba(128, 128, 128, 0.2) !default;
 
-$cx-input-tag-spacing: 3px !default;
+$cx-clear-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-box-padding,
+      top: 50%,
+      margin-top: -$cx-default-clear-size / 2,
+      height: $cx-default-clear-size,
+      width: $cx-default-clear-size,
+      line-height: $cx-default-clear-size,
+      color: $cx-default-clear-color,
+      border-radius: 50%,
+      text-align: center
+   ),
+   hover: (
+      background-color: $cx-default-clear-background-hover
+   ),
+   active: (
 
-$cx-input-checkbox-size: 14px !default;
-$cx-input-radio-size: 14px !default;
+   )
+);
 
 
 // Label
 
-$cx-input-label-padding: 6px 3px !default;
-$cx-input-label-border: null !default;
-$cx-input-label-font: null !default;
-$cx-input-label-font-size: 13px !default;
-$cx-input-label-line-height: 16px !default;
-$cx-input-label-background: null !default;
-$cx-input-label-color: null !default;
-$cx-input-label-asterisk-color: #a80000 !default;
+$cx-default-label-padding: $cx-default-box-padding 0 !default;
+$cx-default-label-font-size: $cx-default-box-font-size !default;
+$cx-default-label-font-family: $cx-default-box-font-family !default;
+$cx-default-label-line-height: $cx-default-box-line-height !default;
+$cx-default-label-color: null !default;
+$cx-default-label-asterisk-color: #a80000 !default;
+
+$cx-label-state-style-map: (
+   default: (
+      padding: $cx-default-label-padding,
+      font-size: $cx-default-label-font-size,
+      font-family: $cx-default-label-font-family,
+      line-height: $cx-default-label-line-height,
+      color: $cx-default-label-color,
+      border-width: $cx-default-box-border-width,
+      border-color: transparent
+   ),
+   hover: (
+
+   ),
+   active: (
+
+   )
+);
+
+

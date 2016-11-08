@@ -5,6 +5,9 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
@@ -27,12 +30,16 @@
       );
    }
 
-   .#{$element}#{$name}-icon {
-      @include cxe-field-icon();
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
    }
 
-   .#{$element}#{$name}-clear {
-      @include cxe-field-clear();
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 
    .#{$element}#{$name}-empty-text {

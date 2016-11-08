@@ -5,6 +5,8 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
@@ -28,7 +30,7 @@
          $state-style-map,
          $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-input-clear-size} - #{$cx-input-tag-spacing}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding)
+            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{$cx-default-input-tag-spacing}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding)
          )
       );
 
@@ -41,17 +43,17 @@
    .#{$block}#{$name}.#{$state}multiple .#{$element}#{$name}-input {
       padding-top: 0;
       padding-left: 0;
-      padding-bottom: $cx-input-tag-spacing;
+      padding-bottom: $cx-default-input-tag-spacing;
    }
 
    .#{$element}#{$name}-tag {
       background: #e8e8e8;
       display: inline-block;
       position: relative;
-      margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
+      margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
       box-sizing: border-box;
-      padding: $cx-default-input-padding - $cx-input-tag-spacing;
-      padding-right: $cx-input-clear-size + 2px;
+      padding: $cx-default-input-padding - $cx-default-input-tag-spacing;
+      padding-right: $cx-default-clear-size + 2px;
    }
 
    .#{$element}#{$name}-placeholder {
@@ -60,22 +62,26 @@
 
       .#{$block}#{$name}.#{$state}multiple & {
          display: inline-block;
-         margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
+         margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
          box-sizing: border-box;
-         padding: $cx-default-input-padding - $cx-input-tag-spacing;
+         padding: $cx-default-input-padding - $cx-default-input-tag-spacing;
       }
    }
 
    .#{$element}#{$name}-tag-value {
-      padding: 0 $cx-input-tag-spacing;
+      padding: 0 $cx-default-input-tag-spacing;
       display: inline-block;
    }
 
    .#{$element}#{$name}-tag-clear {
-      @include cxe-field-clear();
+      @include cxe-field-button($besm, $clear-state-style-map);
       right: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+   }
+
+   .#{$element}#{$name}-tag-clear-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 
    .#{$element}#{$name}-lookup-options {
@@ -145,12 +151,12 @@
       flex-basis: auto;
    }
 
-   .#{$element}#{$name}-arrow {
-      @include cxe-field-icon();
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
    }
 
-   .#{$element}#{$name}-clear {
-      @include cxe-field-clear;
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 
    .#{$element}#{$name}-empty-text {

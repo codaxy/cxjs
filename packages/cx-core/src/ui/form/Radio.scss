@@ -14,16 +14,16 @@
          $input: false,
          $box: true
       );
-      min-width: calc(#{cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding)} + #{$cx-input-radio-size});
+      min-width: calc(#{cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding)} + #{$cx-default-radio-size});
       border-color: transparent;
    }
 
    .#{$element}#{$name}-radio {
       padding: 0;
       margin: 0 !important;
-      width: $cx-input-radio-size;
-      height: $cx-input-radio-size;
-      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      width: $cx-default-radio-size;
+      height: $cx-default-radio-size;
+      top: calc(50% - #{$cx-default-radio-size / 2});
       left: cx-left($cx-default-input-padding);
       display: inline-block;
       position: absolute;
@@ -44,7 +44,7 @@
 
    .#{$element}#{$name}-text {
       display: inline-block;
-      margin-left: cx-left($cx-default-input-padding) + $cx-input-radio-size;
+      margin-left: cx-left($cx-default-input-padding) + $cx-default-radio-size;
    }
 
    //non-native implementation
@@ -61,10 +61,10 @@
          )
       );
 
-      width: $cx-input-checkbox-size;
-      height: $cx-input-checkbox-size;
+      width: $cx-default-radio-size;
+      height: $cx-default-radio-size;
 
-      top: calc(50% - #{$cx-input-checkbox-size / 2});
+      top: calc(50% - #{$cx-default-radio-size / 2});
       left: cx-left($cx-default-input-padding);
       display: inline-block;
       position: absolute;

@@ -89,7 +89,7 @@ class ColorInput extends VDOM.Component {
       var {data, store, widget} = instance;
       var {CSS, baseClass} = widget;
 
-      var insideButton = <div className={CSS.element(baseClass, 'icon')}>
+      var insideButton = <div className={CSS.element(baseClass, 'tool')}>
          <div style={{backgroundColor: data.value}}></div>
       </div>;
 
