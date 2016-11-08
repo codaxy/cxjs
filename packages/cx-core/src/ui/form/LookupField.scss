@@ -2,29 +2,38 @@
 
 @mixin cx-lookupfield(
    $name: 'lookupfield',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    .#{$block}#{$name} {
-      @include cxb-field($input: false);
-      min-width: $cx-input-width;
-      cursor: pointer;
+      @include cxb-field($besm, $state-style-map,
+         $width: $width,
+         $input: false
+      );
+
+      min-width: $cx-default-input-width;
+      cursor: pointer
    }
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{$cx-input-tag-spacing}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
+            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-input-clear-size} - #{$cx-input-tag-spacing}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding)
          )
       );
 
       .#{$state}icon > & {
          @extend %cx-icon-dropdown-arrow;
-         background-position: right $cx-input-padding center;
+         background-position: right $cx-default-input-padding center;
       }
    }
 
@@ -40,19 +49,19 @@
       position: relative;
       margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
       box-sizing: border-box;
-      padding: $cx-input-padding - $cx-input-tag-spacing;
+      padding: $cx-default-input-padding - $cx-input-tag-spacing;
       padding-right: $cx-input-clear-size + 2px;
    }
 
    .#{$element}#{$name}-placeholder {
 
-      color: $cx-input-placeholder-color;
+      color: $cx-default-input-placeholder-color;
 
       .#{$block}#{$name}.#{$state}multiple & {
          display: inline-block;
          margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
          box-sizing: border-box;
-         padding: $cx-input-padding - $cx-input-tag-spacing;
+         padding: $cx-default-input-padding - $cx-input-tag-spacing;
       }
    }
 
@@ -101,7 +110,7 @@
    }
 
    .#{$element}#{$name}-query {
-      @include cxe-field-input();
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
       margin: 5px;
       height: auto;
       width: calc(100% - 10px);

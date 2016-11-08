@@ -27,19 +27,23 @@ $cx-slider-handle-styles: (
 
 @mixin cx-slider(
    $name: 'slider',
+   $state-style-map: $cx-input-state-style-map,
    $styles: $cx-slider-handle-styles,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
    .#{$block}slider {
-      @include cxb-field($box: true);
+      @include cxb-field($besm, $state-style-map, $box: true);
+
+      width: $width;
 
       &.#{$state}vertical {
          width: 28px;
-         height: 180px;
+         height: $width;
       }
 
       user-select: none;

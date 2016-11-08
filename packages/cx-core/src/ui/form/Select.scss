@@ -2,22 +2,31 @@
 
 @mixin cx-select(
    $name: 'select',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      @include cxb-field();
+      @include cxb-field(
+         $besm,
+         $state-style-map: $state-style-map,
+         $width: $width
+      );
    }
 
    .#{$element}#{$name}-select {
       @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size} - #{cx-right($cx-input-padding)}) cx-bottom($cx-input-padding) cx-left($cx-input-padding),
+            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-input-clear-size} - #{cx-right($cx-default-input-padding)}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding),
             -webkit-appearance: none,
             -moz-appearance: none,
             -ms-appearance: none,
@@ -26,7 +35,7 @@
       );
 
       @extend %cx-icon-dropdown-arrow;
-      background-position: right $cx-input-padding center;
+      background-position: right $cx-default-input-padding center;
 
       &::-ms-expand {
          display: none;

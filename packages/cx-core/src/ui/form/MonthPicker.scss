@@ -2,14 +2,19 @@
 
 @mixin cx-monthpicker(
    $name: 'monthpicker',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxe-field-input($input: false);
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false
+      );
       overflow-y: scroll;
       overflow-x: hidden;
       max-height: 30em;

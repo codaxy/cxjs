@@ -4,11 +4,12 @@
 
 @mixin cx-overlay(
    $name: 'overlay',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    %cxb-overlay {
       left: calc(50% - 250px); //guess
       top: calc(50% - 100px); //guess

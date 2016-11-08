@@ -2,16 +2,17 @@
 
 @mixin cx-calendar(
    $name: 'calendar',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
    .#{$block}calendar {
-      @include cxe-field-input($input: false);
+      @include cxe-field-input($besm, $state-style-map, $input: false);
       width: 18em;
 
       table {

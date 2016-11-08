@@ -2,22 +2,32 @@
 
 @mixin cx-textarea(
    $name: 'textarea',
-   $input-styles: $cx-input-styles,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+
    .#{$block}#{$name} {
       @include cxb-field(
+         $besm,
+         $state-style-map,
+         $width: $width,
          $input: false
       );
-      min-width: 300px;
-      white-space: pre-wrap;
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input();
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
    }
 
    .#{$element}#{$name}-icon {

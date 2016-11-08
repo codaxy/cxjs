@@ -6,23 +6,20 @@
 @import "Label";
 
 @mixin cxb-field(
+   $besm,
+   $state-style-map,
    $input: true,
    $box: false,
-   $width: $cx-input-width,
-   $state-style-map: $cx-input-styles,
-   $overrides: null,
-   $state: $cx-state
+   $width: null
 )
 {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   $styles: cx-merge-state-overrides($state-style-map, $overrides);
-
-   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
-   $padding: cx-get-state-rule($styles, default, 'padding', 0);
-   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+   $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
+   $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
 
    @if $input {
       width: $width;
@@ -34,11 +31,13 @@
       padding: $padding;
       border-width: $border-width;
 
-      //optional rules to be applied only if defined
-      font: cx-get-state-rule($styles, default, 'font');
-      font-size: cx-get-state-rule($styles, default, 'font-size');
-      height: cx-get-state-rule($styles, default, 'height');
+      //other optional rules which could affect height
+      font: cx-get-state-rule($state-style-map, default, 'font');
+      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      height: cx-get-state-rule($state-style-map, default, 'height');
    }
+
+   $state: map-get($besm, state);
 
    &.#{$state}view-mode {
       line-height: $line-height;
@@ -48,19 +47,21 @@
 }
 
 @mixin cxe-field-input(
-   $state-style-map: $cx-input-styles,
+   $besm,
+   $state-style-map,
    $overrides: null,
-   $placeholder: $cx-input-placeholder,
-   $input: true,
-   $state: $cx-state
+   $placeholder: null,
+   $input: true
 ) {
-   box-sizing: border-box;
+   $state: map-get($besm, state);
 
    $styles: cx-merge-state-overrides($state-style-map, $overrides);
 
    $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
    $padding: cx-get-state-rule($styles, default, 'padding', 0);
    $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+
+   box-sizing: border-box;
 
    @if $input {
       width: 100%;
@@ -113,7 +114,7 @@
 ) {
    position: absolute;
    font: $cx-input-clear-font;
-   right: $cx-input-padding;
+   right: cx-right($cx-default-box-padding);
    top: 50%;
    margin-top: -$size / 2;
    height: $size;
@@ -141,7 +142,7 @@
 @mixin cxe-field-icon() {
    position: absolute;
    box-sizing: border-box;
-   right: $cx-input-padding;
+   right: 5px;
    top: 50%;
    margin-top: -$cx-input-button-size / 2;
    height: $cx-input-button-size;

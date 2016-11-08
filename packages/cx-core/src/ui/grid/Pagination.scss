@@ -3,19 +3,19 @@
 
 @mixin cx-pagination(
    $name: 'pagination',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
    .#{$block}#{$name} {
       display: inline-block;
       margin: 0;
       padding: 0;
-      font: $cx-input-font;
+      font-family: $cx-default-input-font-family;
+      line-height: $cx-default-box-line-height;
       box-sizing: border-box;
-      line-height: $cx-input-line-height;
 
       @each $rule, $value in map-get($cx-list, default) {
          #{$rule}: $value;
@@ -37,8 +37,10 @@
    .#{$element}#{$name}-page {
       display: inline-block;
       box-sizing: border-box;
-      padding: 5px 10px;
-      border: 1px solid lightgray;
+      padding: $cx-default-box-padding 2 * $cx-default-box-padding;
+      border-width: $cx-default-box-border-width;
+      border-color: $cx-default-border-color;
+      border-style: solid;
       margin-left: -1px;
       text-decoration: none;
       cursor: pointer;

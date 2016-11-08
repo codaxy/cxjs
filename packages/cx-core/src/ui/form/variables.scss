@@ -1,49 +1,36 @@
 @import "../../variables";
-//  Box
-$cx-input-line-height: 16px !default;
-$cx-input-width: 180px !default;
-$cx-input-padding: 5px !default;
-$cx-input-border-width: 1px !default;
-
-
-//height = calc(line-height + border-top + padding-top + padding-bottom + border-bottom)
 
 // Appearance
-
-$cx-input-border-color: $cx-border-color !default;
-
-$cx-input-font-size: 13px !default;
-$cx-input-font-family: inherit !default;
-$cx-input-font: null !default;
-
-
-$cx-input-background-color: white !default;
-$cx-input-color: black !default;
-
-$cx-input-placeholder-color: #87898a !default;
+$cx-default-input-font-family: $cx-default-box-font-family !default;
+$cx-default-input-border-color: $cx-default-border-color !default;
+$cx-default-input-background-color: white !default;
+$cx-default-input-color: black !default;
+$cx-default-input-placeholder-color: #87898a !default;
+$cx-default-input-width: 180px !default;
+$cx-default-input-padding: $cx-default-box-padding !default;
 
 $cx-input-placeholder: (
-   color: $cx-input-placeholder-color
+   color: $cx-default-input-placeholder-color
 ) !default;
 
-$cx-input-styles: (
+$cx-input-state-style-map: (
    default: (
-      line-height: $cx-input-line-height,
-      padding: $cx-input-padding,
-      border-width: $cx-input-border-width,
-      font-size: $cx-input-font-size,
-      font-family: $cx-input-font-family,
-      font: $cx-input-font,
-      border-color: $cx-input-border-color,
+      line-height: $cx-default-box-line-height,
+      padding: $cx-default-input-padding,
+      border-width: $cx-default-box-border-width,
+      font-size: $cx-default-box-font-size,
+      font-family: $cx-default-input-font-family,
+      border-color: $cx-default-input-border-color,
       border-style: solid,
-      background-color: $cx-input-background-color,
-      color: $cx-input-color,
+      background-color: $cx-default-input-background-color,
+      color: $cx-default-input-color,
       outline-offset: 0,
       border-radius: 0,
       box-shadow: none,
+      -ms-appearance: none,
+      -moz-appearance: none,
       -webkit-appearance: none
    ),
-
    hover: (
 
    ),

@@ -2,17 +2,18 @@
 
 @mixin cx-checkbox(
    $name: 'checkbox',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    .#{$block}#{$name} {
-      @include cxb-field($input: false, $box: true);
+      @include cxb-field($besm, $state-style-map, $input: false, $box: true);
       border-color: transparent;
-      min-width: cx-left($cx-input-padding) + cx-left($cx-input-padding) + $cx-input-checkbox-size;
+      min-width: cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding) + $cx-input-checkbox-size;
    }
 
    .#{$element}#{$name}-checkbox {
@@ -21,7 +22,7 @@
       width: $cx-input-checkbox-size;
       height: $cx-input-checkbox-size;
       top: calc(50% - #{$cx-input-checkbox-size / 2});
-      left: $cx-input-padding;
+      left: $cx-default-input-padding;
       display: inline-block;
       position: absolute;
       //-webkit-appearance: none;
@@ -41,7 +42,7 @@
 
    .#{$element}#{$name}-text {
       display: inline-block;
-      margin-left: cx-left($cx-input-padding) + $cx-input-checkbox-size;
+      margin-left: cx-left($cx-default-input-padding) + $cx-input-checkbox-size;
    }
 
    .#{$element}#{$name}-empty-text {
@@ -51,6 +52,8 @@
    //non-native implementation
    .#{$element}#{$name}-input {
       @include cxe-field-input(
+         $besm,
+         $state-style-map,
          $input: false,
          $overrides: (
             default: (
@@ -63,7 +66,7 @@
       height: $cx-input-checkbox-size;
 
       top: calc(50% - #{$cx-input-checkbox-size / 2});
-      left: cx-left($cx-input-padding);
+      left: cx-left($cx-default-input-padding);
       display: inline-block;
       position: absolute;
    }

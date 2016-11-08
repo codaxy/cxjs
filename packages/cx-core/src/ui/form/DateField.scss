@@ -2,22 +2,26 @@
 
 @mixin cx-datefield(
    $name: 'datefield',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+
    .#{$block}#{$name} {
-      @include cxb-field();
+      @include cxb-field($besm, $state-style-map,
+         $width: $width
+      );
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
+      @include cxe-field-input($besm, $state-style-map,
+         $placeholder: $placeholder,
          $overrides: (
             default: (
-               padding: cx-top($cx-input-padding) calc(#{cx-right($cx-input-padding)} + #{$cx-input-clear-size}) cx-bottom($cx-input-padding) cx-left($cx-input-padding)
+               padding: cx-top($cx-default-box-padding) calc(#{cx-right($cx-default-box-padding)} + #{$cx-input-clear-size}) cx-bottom($cx-default-box-padding) cx-left($cx-default-box-padding)
             )
          )
       );

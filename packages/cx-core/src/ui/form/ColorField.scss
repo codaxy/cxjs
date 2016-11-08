@@ -3,26 +3,25 @@
 
 @mixin cx-colorfield(
    $name: 'colorfield',
-   $input-styles: $cx-input-styles,
-   $width: $cx-input-width,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+
    .#{$block}#{$name} {
-      @include cxb-field();
+      @include cxb-field($besm, $state-style-map,
+         $width: $width
+      );
    }
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
-         $overrides: (
-            default: (
-               font-family: monospace,
-               font-size: 85%,
-               padding-right: cx-right($cx-input-padding) + cx-right($cx-input-padding) + $cx-input-clear-size
-            )
-         )
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
       );
    }
 

@@ -3,18 +3,16 @@
 @mixin cx-uploadbutton(
    $name: 'uploadbutton',
    $styles: $cx-button-styles,
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    @include cx-button($name,
       $mods: (),
       $styles: $styles,
-      $block: $block,
-      $element: $element,
-      $state: $state,
-      $mod: $mod
+      $besm: $besm
    );
 
    .#{$element}#{$name}-input {

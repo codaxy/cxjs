@@ -8,14 +8,21 @@
 }
 
 @mixin cx-colorpicker(
-   $name: 'colorpicker',   
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $name: 'colorpicker',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    .#{$block}#{$name} {
-      @include cxe-field-input($input: false);
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false
+      );
       padding: 10px;
       font-size: 11px;
       font-family: 'Consolas', monospace;
@@ -28,7 +35,12 @@
       }
 
       input {
-         @include cxe-field-input($input: false);
+         @include cxe-field-input(
+            $besm,
+            $state-style-map,
+            $placeholder: $placeholder,
+            $input: false
+         );
          line-height: 12px;
          font-size: 11px;
          font-family: 'Consolas', monospace;

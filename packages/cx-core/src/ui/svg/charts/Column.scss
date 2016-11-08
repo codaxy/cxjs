@@ -3,11 +3,11 @@
 
 @mixin cx-column(
    $name: 'column',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
    .#{$element}#{$name}-rect {
       stroke-width: 1px;

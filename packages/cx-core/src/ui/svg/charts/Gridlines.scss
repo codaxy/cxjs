@@ -3,11 +3,11 @@
 
 @mixin cx-gridlines(
    $name: 'gridlines',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
    .#{$block}#{$name} {
       shape-rendering: crispEdges;

@@ -3,11 +3,12 @@
 
 @mixin cx-backdrop(
    $name: 'backdrop',
-   $block: $cx-block,
-   $element: $cx-element,
-   $state: $cx-state,
-   $mod: $cx-mod
+   $besm: $cx-besm
 ) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
    .#{$block}#{$name} {
       position: fixed;
       left: 0;
