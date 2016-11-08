@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../util/scss/clockwise";
 
 // Appearance
 $cx-default-input-font-family: $cx-default-box-font-family !default;
@@ -130,7 +131,8 @@ $cx-label-state-style-map: (
       font-family: $cx-default-label-font-family,
       line-height: $cx-default-label-line-height,
       color: $cx-default-label-color,
-      border-width: $cx-default-box-border-width,
+      border-style: solid,
+      border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0,
       border-color: transparent
    ),
    hover: (

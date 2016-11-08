@@ -80,10 +80,6 @@
       border-bottom-right-radius: 0;
    }
 
-   .#{$element}#{$name}-tag-clear-icon {
-      @include cxe-field-button-icon($besm, $icon-size);
-   }
-
    .#{$element}#{$name}-lookup-options {
       padding: 0;
       margin: 0;

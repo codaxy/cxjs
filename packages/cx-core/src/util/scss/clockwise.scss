@@ -16,12 +16,14 @@
 }
 
 @function cx-bottom($list) {
-   @if (length($list) == 1) {
-      @return nth($list, 1);
-   }
    @if (length($list) > 2) {
       @return nth($list, 3);
    }
+
+   @if (length($list) >= 1) {
+      @return nth($list, 1);
+   }
+
    @return null;
 }
 

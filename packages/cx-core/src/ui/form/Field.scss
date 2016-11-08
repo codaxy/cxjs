@@ -30,6 +30,8 @@
       line-height: $line-height;
       padding: $padding;
       border-width: $border-width;
+      border-style: solid;
+      border-color: transparent;
 
       //other optional rules which could affect height
       font: cx-get-state-rule($state-style-map, default, 'font');
