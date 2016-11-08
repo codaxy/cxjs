@@ -98,7 +98,15 @@
    }
 
    @if $input {
-      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
+      &::-webkit-input-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &::-moz-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &:-ms-input-placeholder {
          @include cx-add-rules($placeholder);
       }
 
@@ -168,6 +176,6 @@
    }
 }
 
-@mixin cxe-field-empty-text() {
-   color: #aaa;
+@mixin cxe-field-empty-text($empty-text) {
+   @include cx-add-rules($empty-text);
 }

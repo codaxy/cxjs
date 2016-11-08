@@ -44,7 +44,11 @@ $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
 
+$cx-default-empty-text-color: rgba(128, 128, 128, 0.7) !default;
 
+$cx-empty-text: (
+   color: $cx-default-empty-text-color
+) !default;
 
 
 $cx-selection-background-color: rgba(135, 206, 250, 0.6);

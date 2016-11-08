@@ -5,12 +5,13 @@ $cx-default-input-font-family: $cx-default-box-font-family !default;
 $cx-default-input-border-color: $cx-default-border-color !default;
 $cx-default-input-background-color: white !default;
 $cx-default-input-color: black !default;
-$cx-default-input-placeholder-color: #87898a !default;
+$cx-default-input-placeholder-color: $cx-default-empty-text-color !default;
 $cx-default-input-width: 180px !default;
 $cx-default-input-padding: $cx-default-box-padding !default;
 
 $cx-input-placeholder: (
-   color: $cx-default-input-placeholder-color
+   color: $cx-default-input-placeholder-color,
+   opacity: 1
 ) !default;
 
 $cx-input-state-style-map: (

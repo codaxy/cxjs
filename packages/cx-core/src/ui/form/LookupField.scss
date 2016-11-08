@@ -4,6 +4,7 @@
    $name: 'lookupfield',
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
@@ -153,7 +154,7 @@
    }
 
    .#{$element}#{$name}-empty-text {
-      @include cxe-field-empty-text();
+      @include cxe-field-empty-text($empty-text);
    }
 }
 
