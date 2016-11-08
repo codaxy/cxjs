@@ -30,8 +30,10 @@ class InputWithButton extends React.Component {
 
     render(){
         return (
-            <div className="dxb-importpath" onMouseLeave={this.resetTooltipText}>
-                <code ref={(input) => this.textInput = input} onClick={this.copyToClipboard} >
+            <div className="dxb-importpath" >
+                <code ref={(input) => this.textInput = input} 
+                    onClick={this.copyToClipboard}
+                    onMouseLeave={this.resetTooltipText} >
                     {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </code>
