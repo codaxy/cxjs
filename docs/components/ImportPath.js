@@ -37,7 +37,12 @@ class InputWithButton extends React.Component {
                     {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </code>
-                <span aria-hidden="true" style={this.state.copied ? {transition: "opacity 1s", opacity: 1} : {opacity: 0}}>Copied</span>
+                <span aria-hidden="true" 
+                    style={this.state.copied ? 
+                        {transition: "visibility 0s, opacity 0.5s", visibility: "visible", opacity: 1} : 
+                        {opacity: 0, visibility: "hidden"}}>
+                        Copied
+                    </span>
             </div>
         );
     }
