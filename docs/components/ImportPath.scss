@@ -10,7 +10,11 @@
         &:hover {
             color: grey;
             cursor: pointer;
-        }   
+        } 
+        
+        &:hover > i {
+            visibility: visible;
+        }  
     }
     // tooltip
     span {
@@ -50,9 +54,5 @@
         margin-left: 3px;
         color: black;
         padding: 5px;
-    }
-
-    &:hover > code > i {
-        visibility: visible;
     }
 }
