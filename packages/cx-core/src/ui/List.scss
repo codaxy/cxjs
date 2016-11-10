@@ -1,89 +1,103 @@
 @import 'variables';
+@import "../util/scss/include";
 
-.cxb-list {
-   list-style: none;
-   margin: 0;
-   padding: 0;
-   overflow: auto;
-   border: 0 solid $cx-border-color;
+@mixin cx-list(
+   $name: 'list',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   @each $rule, $value in map-get($cx-list, default) {
-      #{$rule}: $value;
-   }
+   .#{$block}#{$name} {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      border: 0 solid $cx-default-border-color;
 
-   &:hover {
-      @each $rule, $value in map-get($cx-list, hover) {
-         #{$rule}: $value;
-      }
-   }
-
-   &.cxs-focused {
-      @each $rule, $value in map-get($cx-list, focus) {
-         #{$rule}: $value;
-      }
-   }
-
-   &.cxm-bordered {
-      border-width: 1px;
-
-      & > .cxe-list-item:not(:first-child) {
-         border-top-width: 1px;
-      }
-   }
-}
-
-.cxe-list-item {
-   margin: 0;
-   border: 0 solid $cx-border-color;
-
-   &.cxs-pad {
-      padding: 5px 10px;
-   }
-
-   @each $rule, $value in map-get($cx-list-item, default) {
-      #{$rule}: $value;
-   }
-
-   .cxs-selectable > & {
-      cursor: pointer;
-   }
-
-   &.cxs-cursor {
-      @each $rule, $value in map-get($cx-list-item, hover) {
+      @each $rule, $value in map-get($cx-list, default) {
          #{$rule}: $value;
       }
 
-      .cxb-list.cxs-focused  > &, .cxb-list:focus > & {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+      &:hover {
+         @each $rule, $value in map-get($cx-list, hover) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.#{$state}focused {
+         @each $rule, $value in map-get($cx-list, focus) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.#{$mod}bordered {
+         border-width: 1px;
+
+         & > .#{$element}#{$name}-item:not(:first-child) {
+            border-top-width: 1px;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-item {
+      margin: 0;
+      border: 0 solid $cx-default-border-color;
+
+      &.#{$state}pad {
+         padding: 5px 10px;
+      }
+
+      @each $rule, $value in map-get($cx-list-item, default) {
+         #{$rule}: $value;
+      }
+
+      .#{$state}selectable > & {
+         cursor: pointer;
+      }
+
+      &.#{$state}cursor {
+         @each $rule, $value in map-get($cx-list-item, hover) {
             #{$rule}: $value;
          }
 
-         &:active {
-            @each $rule, $value in map-get($cx-list-item, active) {
+         .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+            @each $rule, $value in map-get($cx-list-item, hover-focus) {
+               #{$rule}: $value;
+            }
+
+            &:active {
+               @each $rule, $value in map-get($cx-list-item, active) {
+                  #{$rule}: $value;
+               }
+            }
+         }
+      }
+
+      &.#{$state}selected {
+         @each $rule, $value in map-get($cx-list-item, selected) {
+            #{$rule}: $value;
+         }
+
+         .#{$block}#{$name}.#{$state}focused > & {
+            @each $rule, $value in map-get($cx-list-item, selected-focus) {
                #{$rule}: $value;
             }
          }
       }
    }
 
-   &.cxs-selected {
-      @each $rule, $value in map-get($cx-list-item, selected) {
-         #{$rule}: $value;
-      }
+   .#{$element}#{$name}-empty-text {
+      margin: 0;
+      padding: 5px 10px;
 
-      .cxb-list.cxs-focused > & {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
-         }
-      }
+      color: gray;
+      font-size: smaller;
    }
 }
 
-.cxe-list-empty-text {
-   margin: 0;
-   padding: 5px 10px;
-
-   color: gray;
-   font-size: smaller;
+@if (cx-include('cx/charts/List')) {
+   @include cx-list();
 }
-

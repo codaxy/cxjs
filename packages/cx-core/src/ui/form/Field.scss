@@ -1,119 +1,123 @@
 @import "variables";
 @import "../icons/index";
+@import '../../util/scss/clockwise';
+@import '../../util/scss/add-rules';
+@import '../../util/scss/include';
+@import '../../util/scss/calc';
+@import "Label";
 
 @mixin cxb-field(
-   $box: true,
-   $width: $cx-input-width,
-   $line-height: $cx-input-line-height,
-   $padding-top: $cx-input-padding-top,
-   $padding-right: $cx-input-padding-right,
-   $padding-bottom: $cx-input-padding-bottom,
-   $padding-left: $cx-input-padding-left,
-   $border-top-width: $cx-input-border-top-width,
-   $border-right-width: $cx-input-border-right-width,
-   $border-bottom-width: $cx-input-border-bottom-width,
-   $border-left-width: $cx-input-border-left-width
+   $besm,
+   $state-style-map,
+   $input: true,
+   $box: false,
+   $width: null
 )
 {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   @if $box {
+   $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
+   $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
+
+   @if $input {
       width: $width;
-      height: calc(#{$line-height} + #{$padding-top + $padding-bottom} + #{$border-top-width + $border-bottom-width});
+      line-height: 0;
+
+      //font: cx-get-state-rule($state-style-map, default, 'font');
+      //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      //
+      //height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
-   &.cxs-view-mode {
+   @if ($box) {
       line-height: $line-height;
-      padding: $padding-top $padding-right $padding-bottom $padding-left;
-      border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
+      padding: $padding;
+      border-width: $border-width;
+      border-style: solid;
+      border-color: transparent;
+
+      //other optional rules which could affect height
+      font: cx-get-state-rule($state-style-map, default, 'font');
+      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      height: cx-get-state-rule($state-style-map, default, 'height');
+   }
+
+   $state: map-get($besm, state);
+
+   &.#{$state}view-mode {
+      line-height: $line-height;
+      padding: $padding;
+      border-width: $border-width;
       border-style: solid;
       border-color: transparent;
    }
 }
 
 @mixin cxe-field-input(
-   $default: $cx-input-default,
-   $hover: $cx-input-hover,
-   $focus: $cx-input-focus,
-   $error: $cx-input-error,
-   $error-focus: $cx-input-error-focus,
-   $disabled: $cx-input-disabled,
-   $placeholder: $cx-input-placeholder,
-   $box: true,
-   $line-height: $cx-input-line-height,
-   $padding-top: $cx-input-padding-top,
-   $padding-right: $cx-input-padding-right,
-   $padding-bottom: $cx-input-padding-bottom,
-   $padding-left: $cx-input-padding-left,
-   $border-top-width: $cx-input-border-top-width,
-   $border-right-width: $cx-input-border-right-width,
-   $border-bottom-width: $cx-input-border-bottom-width,
-   $border-left-width: $cx-input-border-left-width,
-   $margin: 0
+   $besm,
+   $state-style-map,
+   $overrides: null,
+   $placeholder: null,
+   $input: true
 ) {
+   $state: map-get($besm, state);
+
+   $styles: cx-merge-state-style-maps($state-style-map, $overrides);
+
+   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($styles, default, 'padding', 0);
+   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+
    box-sizing: border-box;
 
-   line-height: $line-height;
-   padding: $padding-top $padding-right $padding-bottom $padding-left;
-   border-width: $border-top-width $border-right-width $border-bottom-width $border-left-width;
-
-   @if $box {
+   @if $input {
       width: 100%;
-      height: 100%;
+      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
-   margin: $margin;
-
-   @each $rule, $value in $default {
-      #{$rule}: $value;
-   }
+   @include cx-add-state-rules($styles, default);
 
    &:hover {
-      @each $rule, $value in $hover {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($styles, hover);
    }
 
    &:focus {
-      @each $rule, $value in $focus {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($styles, focus);
    }
 
-   @if $box {
+   @if $input {
       &:disabled {
-         @each $rule, $value in $disabled {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($styles, disabled);
       }
    }
    @else {
-      .cxs-disabled > & {
-         @each $rule, $value in $disabled {
-            #{$rule}: $value;
-         }
+      .#{$state}disabled > & {
+         @include cx-add-state-rules($styles, disabled);
       }
    }
 
-   .cxs-error.cxs-visited > & {
-      @each $rule, $value in $error {
-         #{$rule}: $value;
-      }
+   .#{$state}error.#{$state}visited > & {
+      @include cx-add-state-rules($styles, error);
 
       &:focus {
-         @each $rule, $value in $error-focus {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($styles, error-focus);
       }
    }
 
-   @if $box {
-      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-         @each $rule, $value in $placeholder {
-            #{$rule}: $value;
-         }
+   @if $input {
+      &::-webkit-input-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &::-moz-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &:-ms-input-placeholder {
+         @include cx-add-rules($placeholder);
       }
 
       &::-ms-clear {
@@ -123,66 +127,40 @@
    }
 }
 
-@mixin cxe-field-clear(
-   $size: $cx-input-clear-size
+@mixin cxe-field-button(
+   $besm,
+   $state-style-map
 ) {
+   display: block;
    position: absolute;
-   font: $cx-input-clear-font;
-   right: $cx-input-padding;
+
+   @include cx-add-state-rules($state-style-map, default);
+
+   &:hover {
+      @include cx-add-state-rules($state-style-map, hover);
+   }
+
+   &:active {
+      @include cx-add-state-rules($state-style-map, active);
+   }
+}
+
+@mixin cxe-field-button-icon(
+   $besm,
+   $size
+) {
+   display: block;
+   position: absolute;
+   left: 50%;
    top: 50%;
    margin-top: -$size / 2;
+   margin-left: -$size / 2;
    height: $size;
    width: $size;
    line-height: $size;
-   color: $cx-input-clear-color;
-   border-radius: $size / 2;
-   text-align: center;
-
-   &:hover {
-      background-color: $cx-input-clear-background-hover;
-   }
-
-   i, svg {
-      display: block;
-      position: absolute;
-      left: calc(50% - #{$cx-input-icon-size / 2});
-      top: calc(50% - #{$cx-input-icon-size / 2});
-      height: $cx-input-icon-size;
-      width: $cx-input-icon-size;
-      line-height: $cx-input-icon-size;
-   }
 }
 
-@mixin cxe-field-icon() {
-   position: absolute;
-   box-sizing: border-box;
-   right: $cx-input-padding;
-   top: 50%;
-   margin-top: -$cx-input-button-size / 2;
-   height: $cx-input-button-size;
-   width: $cx-input-button-size;
-   line-height: $cx-input-button-size;
-   opacity: 0.7;
-   text-align: center;
-   cursor: pointer;
-   color: $cx-input-icon-color;
 
-   &:hover {
-      opacity: 1;
-   }
-
-   i, svg {
-      display: block;
-      position: absolute;
-      left: calc(50% - #{$cx-input-icon-size / 2});
-      top: calc(50% - #{$cx-input-icon-size / 2});
-      height: $cx-input-icon-size;
-      width: $cx-input-icon-size;
-      line-height: $cx-input-icon-size;
-   }
+@mixin cxe-field-empty-text($empty-text) {
+   @include cx-add-rules($empty-text);
 }
-
-@mixin cxe-field-empty-text() {
-   color: #aaa;
-}
-

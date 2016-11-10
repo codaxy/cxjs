@@ -1,68 +1,82 @@
-.cxb-treenode {
-   padding-left: 40px;
-   position: relative;
+@import "../form/variables";
+@import "../../util/scss/include";
 
-   @for $i from 1 through 20 {
-      &.cxs-level-#{$i} {
-         margin-left: #{($i * 20)}px;
+@mixin cx-treenode(
+   $name: 'treenode',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      padding-left: 40px;
+      position: relative;
+
+      @for $i from 1 through 20 {
+         &.#{$state}level-#{$i} {
+            margin-left: #{($i * 20)}px;
+         }
       }
    }
-}
 
-.cxe-treenode-handle {
-   position: absolute;
-   width: 36px;
-   left: 0;
-   top: 0;
-   bottom: 0;
-   background-position: left center;
-
-   & > div {
-      background-position: left center;
+   .#{$element}#{$name}-handle {
       position: absolute;
-      left: 16px;
+      width: 36px;
+      left: 0;
       top: 0;
       bottom: 0;
-      right: 0;
-   }
-
-   .cxs-folder.cxs-expanded > & {
-      @extend %cx-icon-arrow-down;
+      background-position: left center;
 
       & > div {
-         @extend %cx-icon-folder-open;
+         background-position: left center;
+         position: absolute;
+         left: 16px;
+         top: 0;
+         bottom: 0;
+         right: 0;
+      }
+
+      .#{$state}folder.#{$state}expanded > & {
+         @extend %cx-icon-arrow-down;
+
+         & > div {
+            @extend %cx-icon-folder-open;
+         }
+      }
+
+      .#{$state}folder.#{$state}expanded.#{$state}loading > & {
+         & > div {
+            @extend %cx-icon-loading;
+         }
+      }
+
+      .#{$state}folder > & {
+         @extend %cx-icon-arrow-right;
+
+         &:hover {
+            background-color: rgba(200, 200, 200, 0.5);
+         }
+
+         & > div {
+            @extend %cx-icon-folder;
+         }
+      }
+
+      .#{$state}leaf > & > div {
+         @extend %cx-icon-file;
       }
    }
 
-   .cxs-folder.cxs-expanded.cxs-loading > & {
-      & > div {
-         @extend %cx-icon-loading;
+   .#{$block}grid.#{$mod}tree {
+      td {
+         border-top: none;
       }
-   }
-
-   .cxs-folder > & {
-      @extend %cx-icon-arrow-right;
-
-      &:hover {
-         background-color: rgba(200, 200, 200, 0.5);
-      }
-
-      & > div {
-         @extend %cx-icon-folder;
-      }
-   }
-
-   .cxs-leaf > & > div {
-      @extend %cx-icon-file;
    }
 }
 
 
-.cxb-grid.cxm-tree {
-   td {
-      border-top: none;
-   }
+@if (cx-include('cx/widgets/TreeNode')) {
+   @include cx-treenode();
 }
-
-
-

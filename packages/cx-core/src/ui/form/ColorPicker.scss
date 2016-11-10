@@ -1,14 +1,28 @@
-@import "../../util/call-once";
+@import "Field";
 
-@if cx-call-once("ui/forms/ColorPicker") {
-
+@if cx-call-once("cx/widgets/checker-background") {
    %cx-checker-bg {
       background-repeat: repeat;
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
    }
+}
 
-   .cxb-colorpicker {
-      @include cxe-field-input($box: false);
+@mixin cx-colorpicker(
+   $name: 'colorpicker',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false
+      );
       padding: 10px;
       font-size: 11px;
       font-family: 'Consolas', monospace;
@@ -21,7 +35,12 @@
       }
 
       input {
-         @include cxe-field-input($box: false);
+         @include cxe-field-input(
+            $besm,
+            $state-style-map,
+            $placeholder: $placeholder,
+            $input: false
+         );
          line-height: 12px;
          font-size: 11px;
          font-family: 'Consolas', monospace;
@@ -29,7 +48,7 @@
       }
    }
 
-   .cxe-colorpicker-picker {
+   .#{$element}#{$name}-picker {
       width: 200px;
       height: 200px;
       //cursor: crosshair;
@@ -42,7 +61,7 @@
       background: -o-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -o-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
    }
 
-   .cxe-colorpicker-indicator {
+   .#{$element}#{$name}-indicator {
       position: absolute;
       border: 2px solid rgba(255, 255, 255, 0.8);
       border-radius: 50%;
@@ -53,7 +72,7 @@
       top: calc(50% - 5px);
    }
 
-   .cxe-colorpicker-hue {
+   .#{$element}#{$name}-hue {
       height: 15px;
       position: relative;
       background: -moz-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
@@ -62,7 +81,7 @@
       background: -o-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
       //margin-bottom: 5px;
 
-      .cxe-colorpicker-indicator {
+      .#{$element}#{$name}-indicator {
          border-color: rgba(0, 0, 0, 0.5);
          height: calc(100% + 4px);
          border-radius: 2px;
@@ -71,7 +90,7 @@
       }
    }
 
-   .cxe-colorpicker-alpha {
+   .#{$element}#{$name}-alpha {
       height: 15px;
       margin-top: 10px;
       @extend %cx-checker-bg;
@@ -82,7 +101,7 @@
          height: 100%;
       }
 
-      .cxe-colorpicker-indicator {
+      .#{$element}#{$name}-indicator {
          border-color: rgba(0, 0, 0, 0.5);
          top: -2px;
          height: calc(100% + 4px);
@@ -91,13 +110,13 @@
       }
    }
 
-   .cxe-colorpicker-details {
+   .#{$element}#{$name}-details {
       width: 200px;
       float: left;
       margin-left: 10px;
    }
 
-   .cxe-colorpicker-inputs {
+   .#{$element}#{$name}-inputs {
       margin-top: 10px;
 
       label {
@@ -113,11 +132,11 @@
       }
    }
 
-   .cxe-colorpicker-preview {
+   .#{$element}#{$name}-preview {
       margin-top: 20px;
    }
 
-   .cxe-colorpicker-color {
+   .#{$element}#{$name}-color {
       @extend %cx-checker-bg;
       height: 70px;
       width: 70px;
@@ -129,7 +148,7 @@
       }
    }
 
-   .cxe-colorpicker-values {
+   .#{$element}#{$name}-values {
       float: left;
       width: 100px;
       margin-left: 5px;
@@ -145,3 +164,6 @@
    }
 }
 
+@if (cx-include('cx/widgets/ColorPicker')) {
+   @include cx-colorpicker();
+}

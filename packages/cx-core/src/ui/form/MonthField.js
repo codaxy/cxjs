@@ -238,13 +238,13 @@ class MonthInput extends VDOM.Component {
                     onMouseDown={e=> {
                        this.onClearClick(e);
                     }}>
-                  <CloseIcon />
+                  <CloseIcon className={CSS.element(baseClass, 'icon')} />
                </div>
             )
          } else {
             insideButton = (
-               <div className={CSS.element(baseClass, 'icon')}>
-                  { Icon.render(widget.icon) }
+               <div className={CSS.element(baseClass, 'tool')}>
+                  { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
                </div>
             )
          }

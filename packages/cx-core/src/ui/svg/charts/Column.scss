@@ -1,13 +1,29 @@
-.cxe-column-rect {
-   stroke-width: 1px;
-   fill: #eee;
-   stroke: #ccc;
+@import "../../variables";
+@import "../../../util/scss/include";
 
-   &.cxs-selectable {
-      cursor: pointer;
-   }
+@mixin cx-column(
+   $name: 'column',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
-   &.cxs-selected {
-      stroke-width: 2px;
+   .#{$element}#{$name}-rect {
+      stroke-width: 1px;
+      fill: #eee;
+      stroke: #ccc;
+
+      &.#{$state}selectable {
+         cursor: pointer;
+      }
+
+      &.#{$state}selected {
+         stroke-width: 2px;
+      }
    }
+}
+
+@if (cx-include('cx/charts/Column')) {
+   @include cx-column();
 }

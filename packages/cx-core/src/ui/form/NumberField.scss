@@ -1,17 +1,45 @@
 @import "Field";
 
-.cxb-numberfield {
-   @include cxb-field();
+@mixin cx-numberfield(
+   $name: 'numberfield',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map,
+      $width: $width
+      );
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
 }
 
-.cxe-numberfield-input {
-   @include cxe-field-input();
-}
-
-.cxe-numberfield-empty-text {
-   @include cxe-field-empty-text();
-}
-
-.cxe-numberfield-icon {
-   @include cxe-field-icon();
+@if (cx-call-once('cx/widgets/NumberField')) {
+   @include cx-numberfield();
 }

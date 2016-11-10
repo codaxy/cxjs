@@ -1,77 +1,134 @@
 @import "Field";
 
-.cxb-slider {
-   @include cxb-field();
-   padding: $cx-input-padding;
-   border: 1px solid transparent;
-   line-height: $cx-input-line-height;
+$cx-slider-handle-styles: (
+   default: (
+      margin: -8px 0 0 -8px,
+      padding: 0,
+      width: 16px,
+      height: 16px,
+      background: rgb(235, 235, 235),
+      border: 1px solid rgb(204, 204, 204),
+      border-radius: 50%,
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+   ),
+   focus: (
 
-   &.cxs-vertical {
-      width: 28px;
-      height: 180px;
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background: rgb(220, 220, 220)
+   )
+) !default;
+
+@mixin cx-slider(
+   $name: 'slider',
+   $state-style-map: $cx-input-state-style-map,
+   $styles: $cx-slider-handle-styles,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm,
+   $size: 8px
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map, $input: false, $box: true);
+
+      width: $width;
+
+      &.#{$state}vertical {
+         width: 28px;
+         height: $width;
+      }
+
+      user-select: none;
    }
-}
 
-.cxe-slider-axis {
+   .#{$element}#{$name}-axis {
 
-   position: relative;
-   background: rgba(128, 128, 128, 0.2);
-   border-radius: 3px;
+      position: absolute;
+      background: rgba(128, 128, 128, 0.2);
+      border-radius: $size / 2;
+      box-sizing: border-box;
 
-   .cxb-slider.cxs-horizontal & {
-      margin: 0 6px;
-      height: 6px;
-      top: calc(50% - 3px);
+      .#{$block}#{$name}.#{$state}horizontal & {
+         left: $size;
+         right: $size;
+         top: calc(50% - 3px);
+         height: 6px;
+         padding: 0 3px;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         top: $size;
+         bottom: $size;
+         width: 6px;
+         left: calc(50% - 3px);
+         padding: 3px 0;
+      }
    }
 
-   .cxb-slider.cxs-vertical & {
-      margin: 6px 0;
-      width: 6px;
-      height: calc(100% - 12px);
-      left: calc(50% - 3px);
-   }
-
-}
-
-.cxe-slider-range {
-   position: absolute;
-
-   background: #98d4ff;
-   border-radius: 3px;
-
-   .cxb-slider.cxs-horizontal & {
+   .#{$element}#{$name}-space {
+      position: relative;
+      width: 100%;
       height: 100%;
    }
 
-   .cxb-slider.cxs-vertical & {
-      width: 100%;
+   .#{$element}#{$name}-range {
+      position: absolute;
+
+      background: #98d4ff;
+      border-radius: 3px;
+
+      .#{$block}#{$name}.#{$state}horizontal & {
+         height: 100%;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         width: 100%;
+      }
+   }
+
+   .#{$element}#{$name}-handle {
+      position: absolute;
+      box-sizing: border-box;
+
+      .#{$block}#{$name}.#{$state}horizontal & {
+         left: 0;
+         top: 50%;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         left: 50%;
+         top: 0;
+      }
+
+      @include cx-add-state-rules($styles, default);
+
+      &:hover {
+         @include cx-add-state-rules($styles, hover);
+      }
+
+      &:focus {
+         @include cx-add-state-rules($styles, focus);
+      }
+
+      &[disabled] {
+         @include cx-add-state-rules($styles, disabled);
+      }
+
+      &:active {
+         @include cx-add-state-rules($styles, active);
+      }
    }
 }
 
-.cxe-slider-handle {
-   position: absolute;
-   box-sizing: border-box;
-   margin: -8px 0 0 -8px;
-   padding: 0;
-   width: 16px;
-   height: 16px;
-   background: rgb(235, 235, 235);
-   border: 1px solid rgb(204, 204, 204);
-   border-radius: 50%;
-   box-shadow: 0 0 3px rgba(128, 128, 128, 0.5);
-
-   &:active {
-      background: rgb(220, 220, 220);
-   }
-
-   .cxb-slider.cxs-horizontal & {
-      left: 0;
-      top: 50%;
-   }
-
-   .cxb-slider.cxs-vertical & {
-      left: 50%;
-      top: 0;
-   }
+@if (cx-include('cx/widgets/Slider')) {
+   @include cx-slider();
 }
-

@@ -1,17 +1,30 @@
 @import "Axis";
 
-.cxb-timeaxis {
-   @include cxb-axis();
+@mixin cx-timeaxis(
+   $name: 'timeaxis',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxb-axis();
+   }
+
+   .#{$element}#{$name}-ticks {
+      @include cxe-axis-ticks();
+   }
+
+   .#{$element}#{$name}-line {
+      @include cxe-axis-line();
+   }
+
+   .#{$element}#{$name}-label {
+      @include cxe-axis-label();
+   }
 }
 
-.cxe-timeaxis-ticks {
-   @include cxe-axis-ticks();
-}
-
-.cxe-timeaxis-line {
-   @include cxe-axis-line();
-}
-
-.cxe-timeaxis-label {
-   @include cxe-axis-label();
+@if (cx-include('cx/charts/TimeAxis')) {
+   @include cx-timeaxis();
 }

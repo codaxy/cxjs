@@ -1,300 +1,314 @@
 @import "../variables";
+@import '../../util/scss/include';
 
 $cx-grid-header-background-color: #f8f8f8;
 $cx-grid-border-color: lightgray;
 
-.cxb-grid {
-   box-sizing: border-box;
-   position: relative;
+@mixin cx-grid(
+   $name: 'grid',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   table {
-      border-spacing: 0;
-      border-collapse: collapse;
-      width: 100%;
+   .#{$block}#{$name} {
+      box-sizing: border-box;
       position: relative;
-   }
 
-   .cxs-aligned-left {
-      text-align: left;
-   }
-
-   .cxs-aligned-right {
-      text-align: right;
-   }
-
-   .cxs-aligned-center {
-      text-align: center;
-   }
-
-   &.cxs-scrollable {
-
-      border: 1px solid $cx-grid-border-color;
-      overflow: hidden;
-
-      th {
-         border-top: none;
-         border-left: none;
-      }
-
-      th:last-child {
-         border-right: none;
-      }
-
-      & > .cxe-grid-scroll-area {
-         overflow-y: auto;
+      table {
+         border-spacing: 0;
+         border-collapse: collapse;
+         width: 100%;
          position: relative;
-         height: 100%;
       }
 
-      & > .cxe-grid-fixed-header {
+      .#{$state}aligned-left {
+         text-align: left;
+      }
+
+      .#{$state}aligned-right {
+         text-align: right;
+      }
+
+      .#{$state}aligned-center {
+         text-align: center;
+      }
+
+      &.#{$state}scrollable {
+
+         border: 1px solid $cx-grid-border-color;
          overflow: hidden;
 
-         & > table {
-            width: auto;
-            table-layout: fixed;
+         th {
+            border-top: none;
+            border-left: none;
          }
 
-         .cxe-grid-col-header {
-            background: $cx-grid-header-background-color;
+         th:last-child {
+            border-right: none;
+         }
+
+         & > .#{$element}#{$name}-scroll-area {
+            overflow-y: auto;
+            position: relative;
+            height: 100%;
+         }
+
+         & > .#{$element}#{$name}-fixed-header {
+            overflow: hidden;
+
+            & > table {
+               width: auto;
+               table-layout: fixed;
+            }
+
+            .#{$element}#{$name}-col-header {
+               background: $cx-grid-header-background-color;
+            }
+         }
+      }
+
+      &.#{$mod}responsive {
+         display: block;
+         width: 100%;
+
+         & > .#{$element}#{$name}-scroll-area {
+            overflow-x: auto;
          }
       }
    }
 
-   &.cxm-responsive {
-      display: block;
-      width: 100%;
-
-      & > .cxe-grid-scroll-area {
-         overflow-x: auto;
-      }
-   }
-}
-
-.cxe-grid-empty-text {
-   color: #aaa;
-}
-
-.cxe-grid-col-header {
-   text-align: left;
-   padding: 5px;
-   box-sizing: border-box;
-
-   .cxs-sortable & {
-      border: 1px solid $cx-grid-border-color;
-      background: $cx-grid-header-background-color;
-      position: relative;
+   .#{$element}#{$name}-empty-text {
+      color: #aaa;
    }
 
-   &.cxs-sortable {
+   .#{$element}#{$name}-col-header {
+      text-align: left;
+      padding: 5px;
+      box-sizing: border-box;
 
-      cursor: pointer;
-
-      &.cxs-sorted-asc, &.cxs-sorted-desc {
-
+      .#{$state}sortable & {
+         border: 1px solid $cx-grid-border-color;
+         background: $cx-grid-header-background-color;
+         position: relative;
       }
 
-      &:hover, .cxe-grid-fixed-header &:hover {
-         background: lighten($cx-grid-header-background-color, 3%);
+      &.#{$state}sortable {
+
+         cursor: pointer;
+
+         &.#{$state}sorted-asc, &.#{$state}sorted-desc {
+
+         }
+
+         &:hover, .#{$element}#{$name}-fixed-header &:hover {
+            background: lighten($cx-grid-header-background-color, 3%);
+         }
+      }
+
+      &.#{$state}sortable::before {
+         content: '\2193';
+         position: absolute;
+         visibility: hidden;
+         top: 3px;
+      }
+
+      &.#{$state}sorted-asc::before {
+         content: '\2193';
+         visibility: visible;
+      }
+
+      &.#{$state}sorted-desc::before {
+         content: '\2191';
+         visibility: visible;
+      }
+
+      &.#{$state}sortable:not(.#{$state}aligned-right) {
+         padding-right: 15px;
+
+         &::before {
+            right: 5px;
+         }
+      }
+
+      &.#{$state}sortable.#{$state}aligned-center {
+         padding-left: 15px;
+      }
+
+      &.#{$state}sortable.#{$state}aligned-right {
+         padding-left: 15px;
+
+         &::before {
+            left: 5px;
+         }
       }
    }
 
-   &.cxs-sortable::before {
-      content: '\2193';
+   .#{$element}#{$name}-data {
+      td {
+         padding: 0;
+         border-top: 1px solid $cx-grid-border-color;;
+      }
+
+      td.#{$state}pad {
+         padding: 5px;
+      }
+
+      &.#{$state}cursor {
+         @each $rule, $value in map-get($cx-list-item, hover) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.#{$state}selected {
+         @each $rule, $value in map-get($cx-list-item, selected) {
+            #{$rule}: $value;
+         }
+      }
+
+      .#{$state}focused &, :focus & {
+
+         &.#{$state}cursor {
+            @each $rule, $value in map-get($cx-list-item, hover-focus) {
+               #{$rule}: $value;
+            }
+         }
+
+         &.#{$state}selected {
+            @each $rule, $value in map-get($cx-list-item, selected-focus) {
+               #{$rule}: $value;
+            }
+         }
+
+         &:active {
+            @each $rule, $value in map-get($cx-list-item, active) {
+               #{$rule}: $value;
+            }
+         }
+      }
+   }
+
+   .#{$element}#{$name}-group-caption {
+      font-weight: bold;
+      font-size: 115%;
+
+      td {
+         padding: 5px;
+      }
+
+      &:not(:first-child) {
+         td {
+            padding-top: 15px;
+         }
+      }
+
+      &.#{$state}level-2 {
+         font-size: 130%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-3 {
+         font-size: 145%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-4 {
+         font-size: 160%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-group-footer {
+      font-weight: bold;
+
+      td {
+         border-top: 1px solid $cx-grid-border-color;
+         padding: 5px;
+      }
+
+      &.#{$state}level-2 {
+         font-weight: bold;
+         font-size: 110%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-3 {
+         font-weight: bold;
+         font-size: 120%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-4 {
+         font-weight: bold;
+         font-size: 130%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+   }
+
+   &.#{$mod}bordered {
+
+      th, td {
+         border: 1px solid $cx-grid-border-color;;
+      }
+
+      th {
+         border: 1px solid $cx-grid-border-color;;
+         background: $cx-grid-header-background-color;
+      }
+
+      .#{$element}#{$name}-group-footer td, & .#{$element}#{$name}-group-caption td {
+         border: none;
+      }
+   }
+
+   .#{$element}#{$name}-fixed-header {
       position: absolute;
-      visibility: hidden;
-      top: 3px;
+      left: 0;
+      top: 0;
+      right: 0;
    }
 
-   &.cxs-sorted-asc::before {
-      content: '\2193';
-      visibility: visible;
-   }
+   .#{$block}#{$name}.#{$state}selectable {
 
-   &.cxs-sorted-desc::before {
-      content: '\2191';
-      visibility: visible;
-   }
-
-   &.cxs-sortable:not(.cxs-aligned-right) {
-      padding-right: 15px;
-
-      &::before {
-         right: 5px;
-      }
-   }
-
-   &.cxs-sortable.cxs-aligned-center {
-      padding-left: 15px;
-   }
-
-   &.cxs-sortable.cxs-aligned-right {
-      padding-left: 15px;
-
-      &::before {
-         left: 5px;
-      }
-   }
-}
-
-.cxe-grid-data {
-   td {
-      padding: 0;
-      border-top: 1px solid $cx-grid-border-color;;
-   }
-
-   td.cxs-pad {
-      padding: 5px;
-   }
-
-   &.cxs-cursor {
-      @each $rule, $value in map-get($cx-list-item, hover) {
-         #{$rule}: $value;
-      }
-   }
-
-   &.cxs-selected {
-      @each $rule, $value in map-get($cx-list-item, selected) {
-         #{$rule}: $value;
-      }
-   }
-
-   .cxs-focused &, :focus & {
-
-      &.cxs-cursor {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+      .#{$element}#{$name}-scroll-area {
+         @each $rule, $value in map-get($cx-list, default) {
             #{$rule}: $value;
+         }
+
+         &:focus {
+            @each $rule, $value in map-get($cx-list, focus) {
+               #{$rule}: $value;
+            }
          }
       }
 
-      &.cxs-selected {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
-         }
-      }
+      .#{$element}#{$name}-data {
 
-      &:active {
-         @each $rule, $value in map-get($cx-list-item, active) {
-            #{$rule}: $value;
-         }
+         cursor: pointer;
       }
    }
 }
 
-.cxe-grid-group-caption {
-   font-weight: bold;
-   font-size: 115%;
-
-   td {
-      padding: 5px;
-   }
-
-   &:not(:first-child) {
-      td {
-         padding-top: 15px;
-      }
-   }
-
-   &.cxs-level-2 {
-      font-size: 130%;
-
-      td {
-         border-bottom: 1px solid grey;
-      }
-   }
-
-   &.cxs-level-3 {
-      font-size: 145%;
-
-      td {
-         border-bottom: 1px solid grey;
-      }
-   }
-
-   &.cxs-level-4 {
-      font-size: 160%;
-
-      td {
-         border-bottom: 1px solid grey;
-      }
-   }
-}
-
-.cxe-grid-group-footer {
-   font-weight: bold;
-
-   td {
-      border-top: 1px solid $cx-grid-border-color;
-      padding: 5px;
-   }
-
-   &.cxs-level-2 {
-      font-weight: bold;
-      font-size: 110%;
-
-      td {
-         border-top: 1px solid grey;
-      }
-   }
-
-   &.cxs-level-3 {
-      font-weight: bold;
-      font-size: 120%;
-
-      td {
-         border-top: 1px solid grey;
-      }
-   }
-
-   &.cxs-level-4 {
-      font-weight: bold;
-      font-size: 130%;
-
-      td {
-         border-top: 1px solid grey;
-      }
-   }
-}
-
-&.cxm-bordered {
-
-   th, td {
-      border: 1px solid $cx-grid-border-color;;
-   }
-
-   th {
-      border: 1px solid $cx-grid-border-color;;
-      background: $cx-grid-header-background-color;
-   }
-
-   .cxe-grid-group-footer td, & .cxe-grid-group-caption td {
-      border: none;
-   }
-}
-
-.cxe-grid-fixed-header {
-   position: absolute;
-   left: 0;
-   top: 0;
-   right: 0;
-}
-
-
-.cxb-grid.cxs-selectable {
-
-   .cxe-grid-scroll-area {
-      @each $rule, $value in map-get($cx-list, default) {
-         #{$rule}: $value;
-      }
-
-      &:focus {
-         @each $rule, $value in map-get($cx-list, focus) {
-            #{$rule}: $value;
-         }
-      }
-   }
-
-   .cxe-grid-data {
-
-      cursor: pointer;
-   }
+@if (cx-include('cx/widgets/Grid')) {
+   @include cx-grid();
 }

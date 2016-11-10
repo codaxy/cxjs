@@ -38,85 +38,99 @@ $cx-tab-mods: (
    )
 );
 
-.cxb-tab {
-   padding: 5px 10px;
-   text-decoration: none;
-   box-sizing: border-box;
-   display: inline-block;
-   cursor: pointer;
-   border: 0 solid transparent;
-   color: inherit;
+@mixin cx-tab(
+   $name: 'tab',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   @each $rule, $value in map-get($cx-list-item, default) {
-      #{$rule}: $value;
-   }
+   .#{$block}#{$name} {
+      padding: 5px 10px;
+      text-decoration: none;
+      box-sizing: border-box;
+      display: inline-block;
+      cursor: pointer;
+      border: 0 solid transparent;
+      color: inherit;
 
-   &:hover {
-      @each $rule, $value in map-get($cx-list-item, hover) {
+      @each $rule, $value in map-get($cx-list-item, default) {
          #{$rule}: $value;
       }
-   }
 
-   &:focus {
-      @each $rule, $value in map-get($cx-list-item, hover-focus) {
-         #{$rule}: $value;
-      }
-   }
-
-   &.cxs-active {
-      @each $rule, $value in map-get($cx-list-item, selected) {
-         #{$rule}: $value;
+      &:hover {
+         @each $rule, $value in map-get($cx-list-item, hover) {
+            #{$rule}: $value;
+         }
       }
 
       &:focus {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
+         @each $rule, $value in map-get($cx-list-item, hover-focus) {
             #{$rule}: $value;
          }
       }
-   }
 
-   &.cxs-disabled {
-      @each $rule, $value in map-get($cx-list-item, disabled) {
-         #{$rule}: $value;
-      }
-      background: none;
-   }
-
-   @each $name, $config in $cx-tab-mods {
-      &.cxm-#{$name} {
-         @each $rule, $value in map-get($config, default) {
+      &.#{$state}active {
+         @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
-         }
-
-         &:hover {
-            @each $rule, $value in map-get($config, hover) {
-               #{$rule}: $value;
-            }
          }
 
          &:focus {
-            @each $rule, $value in map-get($config, hover-focus) {
+            @each $rule, $value in map-get($cx-list-item, selected-focus) {
                #{$rule}: $value;
             }
          }
+      }
 
-         &.cxs-active{
-            @each $rule, $value in map-get($config, selected) {
+      &.#{$state}disabled {
+         @each $rule, $value in map-get($cx-list-item, disabled) {
+            #{$rule}: $value;
+         }
+         background: none;
+      }
+
+      @each $name, $config in $cx-tab-mods {
+         &.#{$mod}#{$name} {
+            @each $rule, $value in map-get($config, default) {
                #{$rule}: $value;
             }
 
+            &:hover {
+               @each $rule, $value in map-get($config, hover) {
+                  #{$rule}: $value;
+               }
+            }
+
             &:focus {
-               @each $rule, $value in map-get($config, selected-focus) {
+               @each $rule, $value in map-get($config, hover-focus) {
+                  #{$rule}: $value;
+               }
+            }
+
+            &.#{$state}active {
+               @each $rule, $value in map-get($config, selected) {
+                  #{$rule}: $value;
+               }
+
+               &:focus {
+                  @each $rule, $value in map-get($config, selected-focus) {
+                     #{$rule}: $value;
+                  }
+               }
+            }
+
+            &.#{$state}disabled {
+               @each $rule, $value in map-get($config, disabled) {
                   #{$rule}: $value;
                }
             }
          }
-
-         &.cxs-disabled {
-            @each $rule, $value in map-get($config, disabled) {
-               #{$rule}: $value;
-            }
-         }
       }
    }
+}
+
+@if (cx-include('cx/widgets/Tab')) {
+   @include cx-tab();
 }

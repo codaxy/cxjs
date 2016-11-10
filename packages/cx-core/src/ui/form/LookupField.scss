@@ -1,137 +1,165 @@
 @import "Field";
 
-.cxb-lookupfield {
-   @include cxb-field($box: false);
-   min-width: $cx-input-width;
-   cursor: pointer;
-}
+@mixin cx-lookupfield(
+   $name: 'lookupfield',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
-.cxe-lookupfield-input {
-   @include cxe-field-input(
-      $padding-right: $cx-input-padding + $cx-input-clear-size + $cx-input-padding - $cx-input-tag-spacing
-   );
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map,
+         $width: $width,
+         $input: false
+      );
 
-   .cxs-icon > & {
-      @extend %cx-icon-dropdown-arrow;
-      background-position: right $cx-input-padding center;
+      min-width: $cx-default-input-width;
+      cursor: pointer
    }
-}
 
-.cxb-lookupfield.cxs-multiple .cxe-lookupfield-input {
-   padding-top: 0;
-   padding-left: 0;
-   padding-bottom: $cx-input-tag-spacing;
-}
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
+         $overrides: (
+            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{$cx-default-input-tag-spacing}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding)
+         )
+      );
 
-.cxe-lookupfield-tag {
-   background: #e8e8e8;
-   display: inline-block;
-   position: relative;
-   margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
-   box-sizing: border-box;
-   padding: $cx-input-padding - $cx-input-tag-spacing;
-   padding-right: $cx-input-clear-size + 2px;
-}
+      .#{$state}icon > & {
+         @extend %cx-icon-dropdown-arrow;
+         background-position: right $cx-default-input-padding center;
+      }
+   }
 
-.cxe-lookupfield-placeholder {
+   .#{$block}#{$name}.#{$state}multiple .#{$element}#{$name}-input {
+      padding-top: 0;
+      padding-left: 0;
+      padding-bottom: $cx-default-input-tag-spacing;
+   }
 
-   color: $cx-input-placeholder-color;
-
-   .cxb-lookupfield.cxs-multiple & {
+   .#{$element}#{$name}-tag {
+      background: #e8e8e8;
       display: inline-block;
-      margin: $cx-input-tag-spacing 0 0 $cx-input-tag-spacing;
+      position: relative;
+      margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
       box-sizing: border-box;
-      padding: $cx-input-padding - $cx-input-tag-spacing;
+      padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
+      padding-right: $cx-default-clear-size + 2px;
    }
-}
 
-.cxe-lookupfield-tag-value {
-   padding: 0 $cx-input-tag-spacing;
-   display: inline-block;
-}
+   .#{$element}#{$name}-placeholder {
 
-.cxe-lookupfield-tag-clear {
-   @include cxe-field-clear();
-   right: 0;
-   border-top-right-radius: 0;
-   border-bottom-right-radius: 0;
-}
+      color: $cx-default-input-placeholder-color;
 
-.cxe-lookupfield-lookup-options {
-   padding: 0;
-   margin: 0;
-   min-width: 100%;
-   width: 100%;
-
-   &:focus {
-      @each $rule, $value in map-get($cx-list, focus) {
-         #{$rule}: $value;
+      .#{$block}#{$name}.#{$state}multiple & {
+         display: inline-block;
+         margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
+         box-sizing: border-box;
+         padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
       }
    }
 
-   & > li {
-      list-style: none;
-      padding: 0.5em 1em;
+   .#{$element}#{$name}-tag-value {
+      padding: 0 $cx-default-input-tag-spacing;
+      display: inline-block;
+   }
+
+   .#{$element}#{$name}-tag-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+      right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+   }
+
+   .#{$element}#{$name}-lookup-options {
+      padding: 0;
       margin: 0;
-      cursor: pointer;
+      min-width: 100%;
+      width: 100%;
 
-      &.cursor {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+      &:focus {
+         @each $rule, $value in map-get($cx-list, focus) {
             #{$rule}: $value;
          }
       }
 
-      &.selected {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
+      & > li {
+         list-style: none;
+         padding: 0.5em 1em;
+         margin: 0;
+         cursor: pointer;
+
+         &.cursor {
+            @each $rule, $value in map-get($cx-list-item, hover-focus) {
+               #{$rule}: $value;
+            }
+         }
+
+         &.selected {
+            @each $rule, $value in map-get($cx-list-item, selected-focus) {
+               #{$rule}: $value;
+            }
          }
       }
    }
-}
 
-.cxe-lookupfield-query {
-   @include cxe-field-input();
-   margin: 5px;
-   height: auto;
-   width: calc(100% - 10px);
-}
+   .#{$element}#{$name}-query {
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
+      margin: 5px;
+      height: auto;
+      width: calc(100% - 10px);
+   }
 
-.cxe-lookupfield-dropdown {
-   display: flex;
-   flex-direction: column;
-   height: 100%;
+   .#{$element}#{$name}-dropdown {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
 
-   &:focus {
-      outline: none;
+      &:focus {
+         outline: none;
+      }
+   }
+
+   .#{$element}#{$name}-message {
+      font-size: smaller;
+      padding: 10px;
+      color: gray;
+      font-style: italic;
+
+      &.#{$state}error {
+         color: #9e2f2d;
+      }
+   }
+
+   .#{$element}#{$name}-scroll-container {
+      overflow: auto;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
    }
 }
 
-.cxe-lookupfield-message {
-   font-size: smaller;
-   padding: 10px;
-   color: gray;
-   font-style: italic;
-
-   &.cxs-error {
-      color: #9e2f2d;
-   }
-}
-
-.cxe-lookupfield-scroll-container {
-   overflow: auto;
-   flex-grow: 1;
-   flex-shrink: 0;
-   flex-basis: auto;
-}
-
-.cxe-lookupfield-arrow {
-   @include cxe-field-icon();
-}
-
-.cxe-lookupfield-clear {
-   @include cxe-field-clear;
-}
-
-.cxe-lookupfield-empty-text {
-   @include cxe-field-empty-text();
+@if (cx-include('cx/widgets/LookupField')) {
+   @include cx-lookupfield();
 }

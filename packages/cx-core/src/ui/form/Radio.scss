@@ -1,82 +1,98 @@
 @import "Field";
 
-.cxb-radio {
-   @include cxb-field($box: false);
-   font-size: $cx-input-font-size;
-   line-height: $cx-input-line-height;
-   font: $cx-input-font;
-   padding: $cx-input-padding;
-   min-width: $cx-input-padding + $cx-input-padding + $cx-input-radio-size;
-   border-width: $cx-input-border-top-width $cx-input-border-right-width $cx-input-border-right-width $cx-input-border-left-width;
-   border-style: solid;
-   border-color: transparent;
-}
+@mixin cx-radio(
+   $name: 'radio',
+   $state-style-map: $cx-input-state-style-map,
+   $size: $cx-default-radio-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
-.cxe-radio-radio {
-   padding: 0;
-   margin: 0 !important;
-   width: $cx-input-radio-size;
-   height: $cx-input-radio-size;
-   top: calc(50% - #{$cx-input-checkbox-size / 2});
-   left: $cx-input-padding;
-   display: inline-block;
-   position: absolute;
-   -webkit-backface-visibility: hidden;
-   outline: none;
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
-   &::-moz-focus-outer {
-     border: 0
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map,
+         $input: false,
+         $box: true
+      );
+      min-width: cx-calc(cx-left($padding), cx-right($padding), $size, cx-left($border-width), cx-right($border-width));
    }
 
-   &:focus {
-      //outline: rgba(77, 144, 254, 0.4) solid 1px;
-
-      box-shadow: 0 0 2px 2px rgba(77, 144, 254, 0.8);
-      background: transparent;
-      border-radius: 50%;
-      outline: none;
-   }
-}
-
-.cxe-radio-text {
-   display: inline-block;
-   margin-left: $cx-input-padding + $cx-input-radio-size;
-}
-
-//non-native implementation
-.cxe-radio-input {
-   @include cxe-field-input(
-      $box: false,
-      $padding-top: 0,
-      $padding-bottom: 0,
-      $padding-left: 0,
-      $padding-right: 0,
-      $margin: 0 !important
-   );
-   width: $cx-input-checkbox-size;
-   height: $cx-input-checkbox-size;
-
-   top: calc(50% - #{$cx-input-checkbox-size / 2});
-   left: $cx-input-padding;
-   display: inline-block;
-   position: absolute;
-   border-radius: 50%;
-   overflow: hidden;
-
-   &:before {
-      content: ' ';
-      width: calc(100% - 6px);
-      height: calc(100% - 6px);
-      visibility: hidden;
+   .#{$element}#{$name}-radio {
+      padding: 0;
+      margin: 0 !important;
+      width: $size;
+      height: $size;
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
       position: absolute;
-      margin: 3px;
-      box-sizing: border-box;
-      background-color: currentColor;
-      border-radius: 50%;
-      opacity: 0.7; //text color is a bit too strong
+      -webkit-backface-visibility: hidden;
+      outline: none;
+
+      &::-moz-focus-outer {
+         border: 0
+      }
+
+      &:focus {
+         box-shadow: 0 0 2px 2px rgba(77, 144, 254, 0.8);
+         background: transparent;
+         border-radius: 50%;
+         outline: none;
+      }
    }
 
-   &.cxs-checked:before {
-      visibility: visible;
+   .#{$element}#{$name}-text {
+      display: inline-block;
+      margin-left: $size;
    }
+
+   //non-native implementation
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false,
+         $overrides: (
+            default:(
+               padding: 0,
+               margin: 0 !important
+            )
+         )
+      );
+
+      width: $size;
+      height: $size;
+
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      border-radius: 50%;
+      overflow: hidden;
+
+      &:before {
+         content: ' ';
+         width: calc(100% - 6px);
+         height: calc(100% - 6px);
+         visibility: hidden;
+         position: absolute;
+         margin: 3px;
+         box-sizing: border-box;
+         background-color: currentColor;
+         border-radius: 50%;
+         opacity: 0.7; //text color is a bit too strong
+      }
+
+      &.#{$state}checked:before {
+         visibility: visible;
+      }
+   }
+}
+
+@if (cx-include('cx/widgets/Radio')) {
+   @include cx-radio();
 }

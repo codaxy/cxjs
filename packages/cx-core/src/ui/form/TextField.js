@@ -76,12 +76,12 @@ class Input extends VDOM.Component {
 
       var icon = widget.icon && (
          <div
-            className={CSS.element(baseClass, 'icon')}
+            className={CSS.element(baseClass, 'tool')}
             onMouseDown={preventDefault}
             onClick={e => this.onChange(e, 'enter')}
          >
             {
-               Icon.render(widget.icon)
+               Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
             }
          </div>
       );

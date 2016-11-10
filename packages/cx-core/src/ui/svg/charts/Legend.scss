@@ -1,31 +1,47 @@
-.cxb-legend {
-   background: rgba(255, 255, 255, 0.5);
-   text-align: center;
-}
+@import "../../variables";
+@import "../../../util/scss/include";
 
-.cxe-legend-entry {
-   display: inline-block;
-   padding: 5px 5px 5px 30px;
-   font-size: smaller;
-   position: relative;
-   margin: 5px;
-   box-sizing: border-box;
-   cursor: pointer;
+@mixin cx-legend(
+   $name: 'legend',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
-   .cxb-legend.cxs-vertical & {
-      display: block;
-      text-align: left;
+   .#{$block}#{$name} {
+      background: rgba(255, 255, 255, 0.5);
+      text-align: center;
+   }
+
+   .#{$element}#{$name}-entry {
+      display: inline-block;
+      padding: 5px 5px 5px 30px;
+      font-size: smaller;
+      position: relative;
+      margin: 5px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         display: block;
+         text-align: left;
+      }
+   }
+
+   .#{$element}#{$name}-svg {
+      position: absolute;
+      left: 5px;
+      top: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+   }
+
+   .#{$element}#{$name}-shape {
+      fill: #eee;
    }
 }
 
-.cxe-legend-svg {
-   position: absolute;
-   left: 5px;
-   top: calc(50% - 10px);
-   width: 20px;
-   height: 20px;
-}
-
-.cxe-legend-shape {
-   fill: #eee;
+@if (cx-include('cx/charts/Legend')) {
+   @include cx-legend();
 }

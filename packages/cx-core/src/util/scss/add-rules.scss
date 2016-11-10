@@ -1,0 +1,39 @@
+@mixin cx-add-rules($styles) {
+   @each $rule, $value in $styles {
+      #{$rule}: $value;
+   }
+}
+
+@mixin cx-add-state-rules($state-style-map, $key) {
+   @include cx-add-rules(map-get($state-style-map, $key));
+}
+
+@function cx-merge-state-style-maps($state-style-map, $override-style-map) {
+   $result: $state-style-map;
+
+   @if ($override-style-map != null) {
+      @each $key, $new-value in $override-style-map {
+         $old-value: map-get($state-style-map, $key);
+         @if ($old-value != null) {
+            $new-value: map-merge($old-value, $new-value)
+         }
+         $result: map-merge($result, ($key: $new-value));
+      }
+   }
+
+   @return $result;
+}
+
+
+@function cx-get-state-rule(
+   $state-style-map,
+   $key,
+   $rule,
+   $default: null) {
+   $result: map-get(map-get($state-style-map, $key), $rule);
+   @if ($result != null) {
+      @return $result;
+   }
+   @return $default;
+}
+

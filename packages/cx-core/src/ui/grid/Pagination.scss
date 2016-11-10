@@ -1,72 +1,88 @@
 @import "../form/variables";
+@import "../../util/scss/include";
 
-.cxb-pagination {
-   display: inline-block;
-   margin: 0;
-   padding: 0;
-   font: $cx-input-font;
-   box-sizing: border-box;
-   line-height: $cx-input-line-height;
+@mixin cx-pagination(
+   $name: 'pagination',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
 
-   @each $rule, $value in map-get($cx-list, default) {
-      #{$rule}: $value;
-   }
+   .#{$block}#{$name} {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      font-family: $cx-default-input-font-family;
+      line-height: $cx-default-box-line-height;
+      box-sizing: border-box;
 
-   &:hover {
-      @each $rule, $value in map-get($cx-list, hover) {
+      @each $rule, $value in map-get($cx-list, default) {
          #{$rule}: $value;
+      }
+
+      &:hover {
+         @each $rule, $value in map-get($cx-list, hover) {
+            #{$rule}: $value;
+         }
+      }
+
+      &:focus {
+         @each $rule, $value in map-get($cx-list, focus) {
+            #{$rule}: $value;
+         }
       }
    }
 
-   &:focus {
-      @each $rule, $value in map-get($cx-list, focus) {
-         #{$rule}: $value;
+   .#{$element}#{$name}-page {
+      display: inline-block;
+      box-sizing: border-box;
+      padding: $cx-default-box-padding 2 * $cx-default-box-padding;
+      border-width: $cx-default-box-border-width;
+      border-color: $cx-default-border-color;
+      border-style: solid;
+      margin-left: -1px;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover, &:focus {
+         @each $rule, $value in map-get($cx-list-item, hover) {
+            #{$rule}: $value;
+         }
+
+         &:focus {
+            @each $rule, $value in map-get($cx-list-item, hover-focus) {
+               #{$rule}: $value;
+            }
+         }
+      }
+
+      &:active {
+         @each $rule, $value in map-get($cx-list-item, active) {
+            #{$rule}: $value;
+         }
+      }
+
+      &.#{$state}active {
+         @each $rule, $value in map-get($cx-list-item, selected) {
+            #{$rule}: $value;
+         }
+
+         &:focus {
+            @each $rule, $value in map-get($cx-list-item, selected-focus) {
+               #{$rule}: $value;
+            }
+         }
+      }
+
+      &.#{$state}disabled {
+         @each $rule, $value in map-get($cx-list-item, disabled) {
+            #{$rule}: $value;
+         }
       }
    }
 }
 
-.cxe-pagination-page {
-   display: inline-block;
-   box-sizing: border-box;
-   padding: 5px 10px;
-   border: 1px solid lightgray;
-   margin-left: -1px;
-   text-decoration: none;
-   cursor: pointer;
-
-   &:hover, &:focus {
-      @each $rule, $value in map-get($cx-list-item, hover) {
-         #{$rule}: $value;
-      }
-
-      &:focus {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
-            #{$rule}: $value;
-         }
-      }
-   }
-
-   &:active {
-      @each $rule, $value in map-get($cx-list-item, active) {
-         #{$rule}: $value;
-      }
-   }
-
-   &.cxs-active {
-      @each $rule, $value in map-get($cx-list-item, selected) {
-         #{$rule}: $value;
-      }
-
-      &:focus {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
-         }
-      }
-   }
-
-   &.cxs-disabled  {
-      @each $rule, $value in map-get($cx-list-item, disabled) {
-         #{$rule}: $value;
-      }
-   }
+@if (cx-include('cx/widgets/Pagination')) {
+   @include cx-pagination();
 }

@@ -1,17 +1,51 @@
 @import "Field";
 
-.cxb-textfield {
-   @include cxb-field();
+@mixin cx-textfield(
+   $name: 'textfield',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      @include cxb-field(
+         $besm,
+         $state-style-map,
+         $width: $width
+      );
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
 }
 
-.cxe-textfield-input {
-   @include cxe-field-input();
+@if (cx-include('cx/widgets/TextField')) {
+   @include cx-textfield();
 }
 
-.cxe-textfield-icon {
-   @include cxe-field-icon();
-}
 
-.cxe-textfield-empty-text {
-   @include cxe-field-empty-text();
-}

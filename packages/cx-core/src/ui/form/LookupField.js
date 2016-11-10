@@ -409,7 +409,7 @@ class LookupComponent extends VDOM.Component {
          <div onMouseDown={e=>{e.preventDefault()}}
               onClick={e=>this.onClearClick(e)}
               className={CSS.element(baseClass, 'clear')}>
-            <CloseIcon />
+            <CloseIcon className={CSS.element(baseClass, 'icon')} />
          </div>
       );
 
@@ -423,7 +423,7 @@ class LookupComponent extends VDOM.Component {
                   <div className={CSS.element(baseClass, 'tag-clear')}
                      onMouseDown={e=>{e.preventDefault(); e.stopPropagation();}}
                      onClick={e=>this.onClearClick(e, v)}>
-                     <CloseIcon />
+                     <CloseIcon className={CSS.element(baseClass, 'icon')} />
                   </div>
                )}
             </div>);

@@ -1,0 +1,13 @@
+@import "call-once";
+
+$cx-include-all: true !default;
+
+$cx-excluded: () !default;
+
+@function cx-exclude($name) {
+   $cx-excluded: map_merge($cx-excluded, ($name: true)) !global;
+}
+
+@function cx-include($name) {
+   @return ($cx-include-all and map-get($cx-excluded, $name) != true) and cx-call-once($name);
+}

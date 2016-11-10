@@ -11,7 +11,7 @@ export class Backdrop {
    static add(options = {}) {
 
       var el = document.createElement('div');
-      el.className = CSS.prefix('backdrop');
+      el.className = CSS.block('backdrop');
       el.style.zIndex = 1000;
       document.body.appendChild(el);
       backdropCount++;

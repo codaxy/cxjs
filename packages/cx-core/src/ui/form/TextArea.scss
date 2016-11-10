@@ -1,15 +1,59 @@
 @import "Field";
 
-.cxb-textarea {
-   @include cxb-field($box: false);
-   min-width: 300px;
-   white-space: pre-wrap;
+@mixin cx-textarea(
+   $name: 'textarea',
+   $state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+
+   .#{$block}#{$name} {
+      @include cxb-field(
+         $besm,
+         $state-style-map,
+         $input: false
+      );
+      line-height: 0;
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
+         $input: false
+      );
+
+      width: 100%;
+      height: 100%;
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
 }
 
-.cxe-textarea-input {
-   @include cxe-field-input($box: true);
+@if (cx-call-once('widgets/TextArea')) {
+   @include cx-textarea;
 }
 
-.cxe-textarea-empty-text {
-   @include cxe-field-empty-text();
-}
+
+
+
+

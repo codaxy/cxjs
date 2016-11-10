@@ -1,23 +1,55 @@
 @import "Field";
 
-.cxb-datefield {
-   @include cxb-field();
+@mixin cx-datefield(
+   $name: 'datefield',
+   $input-state-style-map: $cx-input-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $input-state-style-map,
+         $width: $width
+      );
+   }
+
+   $padding: cx-get-state-rule($input-state-style-map, default, 'padding');
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input($besm, $input-state-style-map,
+         $placeholder: $placeholder,
+         $overrides: (
+            default: (
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-left($padding)
+            )
+         )
+      );
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
 }
 
-.cxe-datefield-input {
-   @include cxe-field-input(
-      $padding-right: $cx-input-padding + $cx-input-padding + $cx-input-clear-size
-   );
-}
-
-.cxe-datefield-icon {
-   @include cxe-field-icon();
-}
-
-.cxe-datefield-clear {
-   @include cxe-field-clear();
-}
-
-.cxe-datefield-empty-text {
-   @include cxe-field-empty-text();
+@if (cx-include('cx/widgets/DateField')) {
+   @include cx-datefield();
 }

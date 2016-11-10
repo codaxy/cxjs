@@ -1,4 +1,49 @@
 @import 'form/variables';
+@import "../util/scss/clockwise";
+@import "../util/scss/include";
+@import "../util/scss/add-rules";
+
+$cx-default-button-font-family: $cx-default-box-font-family !default;
+$cx-default-button-font-size: $cx-default-box-font-size !default;
+$cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-button-border-width: $cx-default-box-border-width !default;
+$cx-default-button-background-color: #eee !default;
+$cx-default-button-border-color: #ccc !default;
+
+$cx-button-state-style-map: (
+   default: (
+      background-color: $cx-default-button-background-color,
+      box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1),
+      border-color: $cx-default-button-border-color,
+      border-style: solid,
+      user-select: none,
+      font-family: $cx-default-button-font-family,
+      font-size: $cx-default-button-font-size,
+      line-height: $cx-default-box-line-height,
+      border-width: $cx-default-button-border-width,
+      padding: $cx-default-button-padding,
+      cursor: pointer,
+      -webkit-appearance: none,
+      -moz-appearance: none,
+      appearance: none
+   ),
+   hover: (
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15)
+   ),
+   focus: (
+      outline: none,
+      box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8)
+   ),
+   disabled: (
+      color: gray,
+      box-shadow: none
+   ),
+   active: (
+      top: 1px,
+      outline: none,
+      box-shadow: none
+   )
+);
 
 $cx-button-mods: (
    primary: (
@@ -13,7 +58,6 @@ $cx-button-mods: (
          color: transparentize(white, 0.4),
       )
    ),
-
    danger: (
       default: (
          background: #d32f2f,
@@ -28,92 +72,89 @@ $cx-button-mods: (
    )
 ) !default;
 
-$cx-button-font: inherit !default;
-$cx-button-font-size: $cx-input-font-size !default;
-$cx-button-padding-left: 10px !default;
-$cx-button-padding-right: 10px !default;
-$cx-button-padding-top: $cx-input-padding-top !default;
-$cx-button-padding-bottom: $cx-input-padding-bottom !default;
 
-.cxb-button {
-   font: $cx-button-font;
-   font-size: $cx-button-font-size;
-   line-height: $cx-input-line-height;
-   padding: $cx-button-padding-top $cx-button-padding-right $cx-button-padding-bottom $cx-button-padding-left;
-   position: relative;
-   display: inline-block;
-   text-align: center;
-   white-space: nowrap;
-   cursor: pointer;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -ms-user-select: none;
-   user-select: none;
-   border: 1px solid #ccc;
-   background: #eee;
-   box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1);
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
+@mixin cx-button(
+   $name: 'button',
+   $state-style-map: $cx-button-state-style-map,
+   $mods: $cx-button-mods,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
+   .#{$block}#{$name} {
+      position: relative;
+      box-sizing: border-box;
+      display: inline-block;
 
-   &::-moz-focus-inner {
-      border: 0;
-      padding: 0;
-      margin: -1px;
-   }
+      $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
+      $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
+      $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
 
-   &:not([disabled]) {
-      &:hover {
-         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
+
+      @include cx-add-state-rules($state-style-map, 'default');
+
+      &::-moz-focus-inner {
+         border: 0;
+         padding: 0;
+         margin: -1px;
       }
 
-      &:focus {
-         outline: none;
-         box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8);
-      }
-
-      &:active {
-         outline: none;
-         top: 1px;
-         box-shadow: none;
-      }
-   }
-
-   &[disabled], &.cxs-disabled {
-      color: gray;
-      box-shadow: none;
-   }
-
-   @each $name, $config in $cx-button-mods {
-      &.cxm-#{$name} {
-         @each $rule, $value in map-get($config, default) {
-            #{$rule}: $value;
-         }
-
-         &[disabled] {
-            @each $rule, $value in map-get($config, disabled) {
-               #{$rule}: $value;
-            }
-         }
-
+      &:not([disabled]) {
          &:hover {
-            @each $rule, $value in map-get($config, hover) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($state-style-map, 'hover');
          }
 
          &:focus {
-            @each $rule, $value in map-get($config, focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($state-style-map, 'focus');
          }
 
          &:active {
-            @each $rule, $value in map-get($config, active) {
+            @include cx-add-state-rules($state-style-map, 'active');
+         }
+      }
+
+      &[disabled], &.#{$state}-disabled {
+         @include cx-add-state-rules($state-style-map, 'disabled');
+      }
+
+      @each $modname, $config in $mods {
+         &.#{$mod}#{$modname} {
+            @each $rule, $value in map-get($config, default) {
                #{$rule}: $value;
+            }
+
+            &[disabled], &.#{$state}disabled {
+               @each $rule, $value in map-get($config, disabled) {
+                  #{$rule}: $value;
+               }
+            }
+
+            &:hover {
+               @each $rule, $value in map-get($config, hover) {
+                  #{$rule}: $value;
+               }
+            }
+
+            &:focus {
+               @each $rule, $value in map-get($config, focus) {
+                  #{$rule}: $value;
+               }
+            }
+
+            &:active {
+               @each $rule, $value in map-get($config, active) {
+                  #{$rule}: $value;
+               }
             }
          }
       }
    }
+}
+
+@if (cx-include('ui/Button')) {
+   @include cx-button;
 }

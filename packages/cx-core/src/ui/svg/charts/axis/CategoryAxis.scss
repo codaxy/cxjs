@@ -1,17 +1,30 @@
 @import "Axis";
 
-.cxb-categoryaxis {
-   @include cxb-axis();
+@mixin cx-categoryaxis(
+   $name: 'categoryaxis',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxb-axis();
+   }
+
+   .#{$element}#{$name}-ticks {
+      @include cxe-axis-ticks();
+   }
+
+   .#{$element}#{$name}-line {
+      @include cxe-axis-line();
+   }
+
+   .#{$element}#{$name}-label {
+      @include cxe-axis-label();
+   }
 }
 
-.cxe-categoryaxis-ticks {
-   @include cxe-axis-ticks();
-}
-
-.cxe-categoryaxis-line {
-   @include cxe-axis-line();
-}
-
-.cxe-categoryaxis-label {
-   @include cxe-axis-label();
+@if (cx-include('cx/charts/CategoryAxis')) {
+   @include cx-categoryaxis();
 }
