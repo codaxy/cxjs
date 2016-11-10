@@ -5,25 +5,28 @@
    $state-style-map: $cx-input-state-style-map,
    $width: $cx-default-input-width,
    $empty-text: $cx-empty-text,
-   $besm: $cx-besm
+   $besm: $cx-besm,
+   $size: $cx-default-checkbox-size
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-width: cx-get-state-rule($state-style-map, default, border-width);
+
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $input: false, $box: true);
-      border-color: transparent;
-      min-width: cx-left($cx-default-input-padding) + cx-left($cx-default-input-padding) + $cx-default-checkbox-size;
+      min-width: cx-calc(cx-left($padding), cx-right($padding), $size, cx-left($border-width), cx-right($border-width));
    }
 
    .#{$element}#{$name}-checkbox {
       padding: 0;
       margin: 0 !important;
-      width: $cx-default-checkbox-size;
-      height: $cx-default-checkbox-size;
-      top: calc(50% - #{$cx-default-checkbox-size / 2});
-      left: $cx-default-input-padding;
+      width: $size;
+      height: $size;
+      top: calc(50% - #{$size / 2});
+      left: 0;
       display: inline-block;
       position: absolute;
       //-webkit-appearance: none;
@@ -43,7 +46,7 @@
 
    .#{$element}#{$name}-text {
       display: inline-block;
-      margin-left: cx-left($cx-default-input-padding) + $cx-default-checkbox-size;
+      margin-left: $size;
    }
 
    .#{$element}#{$name}-empty-text {
@@ -63,11 +66,11 @@
             )
          )
       );
-      width: $cx-default-checkbox-size;
-      height: $cx-default-checkbox-size;
+      width: $size;
+      height: $size;
 
-      top: calc(50% - #{$cx-default-checkbox-size / 2});
-      left: cx-left($cx-default-input-padding);
+      top: calc(50% - #{$size / 2});
+      left: 0;
       display: inline-block;
       position: absolute;
    }

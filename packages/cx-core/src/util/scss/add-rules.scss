@@ -8,7 +8,7 @@
    @include cx-add-rules(map-get($state-style-map, $key));
 }
 
-@function cx-merge-state-overrides($state-style-map, $override-style-map) {
+@function cx-merge-state-style-maps($state-style-map, $override-style-map) {
    $result: $state-style-map;
 
    @if ($override-style-map != null) {

@@ -3,6 +3,7 @@
 @import '../../util/scss/clockwise';
 @import '../../util/scss/add-rules';
 @import '../../util/scss/include';
+@import '../../util/scss/calc';
 @import "Label";
 
 @mixin cxb-field(
@@ -23,7 +24,12 @@
 
    @if $input {
       width: $width;
-      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
+      line-height: 0;
+
+      //font: cx-get-state-rule($state-style-map, default, 'font');
+      //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      //
+      //height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
    @if ($box) {
@@ -44,7 +50,9 @@
    &.#{$state}view-mode {
       line-height: $line-height;
       padding: $padding;
-      border: $border-width solid transparent;
+      border-width: $border-width;
+      border-style: solid;
+      border-color: transparent;
    }
 }
 
@@ -57,7 +65,7 @@
 ) {
    $state: map-get($besm, state);
 
-   $styles: cx-merge-state-overrides($state-style-map, $overrides);
+   $styles: cx-merge-state-style-maps($state-style-map, $overrides);
 
    $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
    $padding: cx-get-state-rule($styles, default, 'padding', 0);
@@ -67,7 +75,7 @@
 
    @if $input {
       width: 100%;
-      height: 100%;
+      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
    }
 
    @include cx-add-state-rules($styles, default);

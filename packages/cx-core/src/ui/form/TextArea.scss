@@ -21,14 +21,19 @@
          $state-style-map,
          $input: false
       );
+      line-height: 0;
    }
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
          $state-style-map,
-         $placeholder: $placeholder
+         $placeholder: $placeholder,
+         $input: false
       );
+
+      width: 100%;
+      height: 100%;
    }
 
    .#{$element}#{$name}-tool {

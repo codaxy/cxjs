@@ -30,14 +30,15 @@ $cx-slider-handle-styles: (
    $state-style-map: $cx-input-state-style-map,
    $styles: $cx-slider-handle-styles,
    $width: $cx-default-input-width,
-   $besm: $cx-besm
+   $besm: $cx-besm,
+   $size: 8px
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   .#{$block}slider {
-      @include cxb-field($besm, $state-style-map, $box: true);
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map, $input: false, $box: true);
 
       width: $width;
 
@@ -49,51 +50,61 @@ $cx-slider-handle-styles: (
       user-select: none;
    }
 
-   .#{$element}slider-axis {
+   .#{$element}#{$name}-axis {
 
-      position: relative;
+      position: absolute;
       background: rgba(128, 128, 128, 0.2);
-      border-radius: 3px;
+      border-radius: $size / 2;
+      box-sizing: border-box;
 
-      .#{$block}slider.#{$state}horizontal & {
-         margin: 0 6px;
-         height: 6px;
+      .#{$block}#{$name}.#{$state}horizontal & {
+         left: $size;
+         right: $size;
          top: calc(50% - 3px);
+         height: 6px;
+         padding: 0 3px;
       }
 
-      .#{$block}slider.#{$state}vertical & {
-         margin: 6px 0;
+      .#{$block}#{$name}.#{$state}vertical & {
+         top: $size;
+         bottom: $size;
          width: 6px;
-         height: calc(100% - 12px);
          left: calc(50% - 3px);
+         padding: 3px 0;
       }
    }
 
-   .#{$element}slider-range {
+   .#{$element}#{$name}-space {
+      position: relative;
+      width: 100%;
+      height: 100%;
+   }
+
+   .#{$element}#{$name}-range {
       position: absolute;
 
       background: #98d4ff;
       border-radius: 3px;
 
-      .#{$block}slider.#{$state}horizontal & {
+      .#{$block}#{$name}.#{$state}horizontal & {
          height: 100%;
       }
 
-      .#{$block}slider.#{$state}vertical & {
+      .#{$block}#{$name}.#{$state}vertical & {
          width: 100%;
       }
    }
 
-   .#{$element}slider-handle {
+   .#{$element}#{$name}-handle {
       position: absolute;
       box-sizing: border-box;
 
-      .#{$block}slider.#{$state}horizontal & {
+      .#{$block}#{$name}.#{$state}horizontal & {
          left: 0;
          top: 50%;
       }
 
-      .#{$block}slider.#{$state}vertical & {
+      .#{$block}#{$name}.#{$state}vertical & {
          left: 50%;
          top: 0;
       }

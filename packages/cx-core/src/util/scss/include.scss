@@ -9,5 +9,5 @@ $cx-excluded: () !default;
 }
 
 @function cx-include($name) {
-   @return cx-call-once($name) and ($cx-include-all or map-get($cx-excluded, $name) != true);
+   @return ($cx-include-all and map-get($cx-excluded, $name) != true) and cx-call-once($name);
 }

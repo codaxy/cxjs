@@ -105,18 +105,27 @@ class SliderComponent extends VDOM.Component {
          ...handleStyle,
          [widget.vertical ? 'top' : 'left']: `${100 * (to - minValue) / (maxValue - minValue)}%`
       };
+
+      var rangeStart = (from - minValue) / (maxValue - minValue);
+      var rangeSize = (to - from) / (maxValue - minValue);
+
       var rangeStyle = {
          ...CSS.parseStyle(data.rangeStyle),
-         [widget.vertical ? 'top' : 'left']: `${100 * (from - minValue) / (maxValue - minValue)}%`,
-         [widget.vertical ? 'height' : 'width']: `${100 * (to - from) / (maxValue - minValue)}%`
+         [widget.vertical ? 'top' : 'left']: `${100 * rangeStart}%`,
+         [widget.vertical ? 'height' : 'width']: `${100 * rangeSize}%`
       };
 
       return <div className={data.classNames}
                   style={data.style}
                   id={data.id}
                   onClick={::this.onClick}>
-         <div className={CSS.element(baseClass, "axis")} ref={c=>this.dom.range = c}>
-            <div className={CSS.element(baseClass, "range")} style={rangeStyle}></div>
+         &nbsp;
+         <div className={CSS.element(baseClass, "axis")}>
+            {
+               rangeSize > 0 &&
+               <div className={CSS.element(baseClass, "range")} style={rangeStyle} />
+            }
+            <div className={CSS.element(baseClass, "space")} ref={c=>this.dom.range = c}>
             {
                widget.showFrom &&
                <div className={CSS.element(baseClass, "handle")}
@@ -137,7 +146,7 @@ class SliderComponent extends VDOM.Component {
                     ref={c=>this.dom.to = c}>
                </button>
             }
-            &nbsp;
+            </div>
          </div>
       </div>;
    }
