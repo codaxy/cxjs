@@ -1,4 +1,4 @@
-window.addEventListener('error', function (event, url, lineNo, colNo) {
+window.onerror = function (message, url, lineNo, colNo, error) {
 
    console.log(arguments);
 
@@ -11,22 +11,16 @@ window.addEventListener('error', function (event, url, lineNo, colNo) {
    container.style.top = '1em';
    container.style.left = '1em';
 
-   let msg = document.createElement('p');
+   let msg = document.createElement('pre');
    msg.innerText = [
-      'Message: ' + event.message,
+      'Message: ' + message,
       'URL: ' + url,
       'Line: ' + lineNo,
       'Column: ' + colNo,
-      'Error object: ' + event.error && JSON.stringify(event.error)
-   ].join(' - ');
+      'Stack: ' + (error && error.stack)
+   ].join('\n');
 
    container.appendChild(msg);
 
-   if (event.error) {
-      let stack = document.createElement('pre');
-      stack.innerText = event.error.stack;
-      container.appendChild(stack);
-   }
-
    document.body.appendChild(container);
-});
+};
