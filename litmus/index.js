@@ -1,3 +1,7 @@
+import "./error";
+
+import "babel-polyfill";
+
 import {Widget} from 'cx/ui/Widget';
 import {startAppLoop} from 'cx/app/startAppLoop';
 import {Timing} from 'cx/util/Timing';
