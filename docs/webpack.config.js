@@ -38,7 +38,7 @@ var common = {
         }]
     },
     entry: {
-        vendor: ['cx-react'],
+        vendor: ['cx-react', path.join(__dirname, 'polyfill')],
         app: __dirname + '/index.js',
     },
     output: {

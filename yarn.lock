@@ -779,6 +779,14 @@ babel-plugin-transform-strict-mode@^6.8.0:
     babel-runtime "^6.0.0"
     babel-types "^6.8.0"
 
+babel-polyfill:
+  version "6.16.0"
+  resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.16.0.tgz#2d45021df87e26a374b6d4d1a9c65964d17f2422"
+  dependencies:
+    babel-runtime "^6.9.1"
+    core-js "^2.4.0"
+    regenerator-runtime "^0.9.5"
+
 babel-preset-es2015-loose@^6.1.4:
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/babel-preset-es2015-loose/-/babel-preset-es2015-loose-6.1.4.tgz#33939d9e39c5acf8469fb3c77e325548c93447ff"
@@ -1471,7 +1479,7 @@ cx-cli:
     cross-spawn "^5.0.0"
 
 "cx-core@file:./packages/cx-core":
-  version "16.10.8"
+  version "16.11.2"
   dependencies:
     intl-io "^0.2.0"
     route-parser "^0.0.5"
@@ -1494,7 +1502,7 @@ cx-cli:
     react-dom "^15.3.2"
 
 "cx-redux@file:./packages/cx-redux":
-  version "16.10.0"
+  version "16.11.0"
   dependencies:
     redux "*"
 
@@ -2443,6 +2451,10 @@ inquirer@^0.12.0:
 interpret@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c"
+
+intl:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
 
 intl-io@^0.2.0:
   version "0.2.0"

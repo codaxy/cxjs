@@ -8,7 +8,7 @@ var counter = {};
 const env = process.env.NODE_ENV;
 
 export class Timing {
-   now() {
+   static now() {
       return new Date().getTime();
    }
 
