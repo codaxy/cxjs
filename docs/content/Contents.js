@@ -11,7 +11,8 @@ var contents = [{
         {title: 'About', url: '~/intro/about'},
         {title: 'Getting Started', url: '~/intro/getting-started'},
         {title: 'Features', url: '~/intro/feature-list'},
-        {title: 'Command line interface', url: '~/intro/command-line'},
+        {title: 'CLI', url: '~/intro/command-line'},
+        {title: 'Step by Step', url: '~/intro/step-by-step'},
     ]
 }, {
     topic: 'Concepts',
