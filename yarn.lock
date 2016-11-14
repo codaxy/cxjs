@@ -1479,7 +1479,7 @@ cx-cli:
     cross-spawn "^5.0.0"
 
 "cx-core@file:./packages/cx-core":
-  version "16.11.2"
+  version "16.11.5"
   dependencies:
     intl-io "^0.2.0"
     route-parser "^0.0.5"
