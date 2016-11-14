@@ -5,7 +5,8 @@ import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 const defaultFormatter = v => v.toString();
 
 function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
-   maximumFractionDigits = isNaN(maximumFractionDigits) ? maximumFractionDigits : Number(maximumFractionDigits);
+   minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
+   maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
 
    if (typeof minimumFractionDigits == 'number') {
       if (typeof maximumFractionDigits == 'undefined')
