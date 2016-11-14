@@ -11,12 +11,12 @@ import {Tab} from 'cx/ui/nav/Tab';
 export const GettingStarted = <cx>
     <Md>
         # Getting Started
-
+        
         Cx is built using ES2015 JSX with webpack as a module bundling, building and
         dev server option. This is also the preferred way for developing Cx applications,
-        although it is not required. In this step-by-step tutorial, we will show how to get
-        started with Cx by developing a simple **Todo manager** application using the same
-        preferred tools.
+        although it is not required. In this step-by-step tutorial, we will show how to 
+        get started with Cx by developing a simple **Todo manager** application using  
+        the same preferred tools.
 
         <CodeSplit>
             You can get the source code of the completed application
@@ -28,6 +28,10 @@ export const GettingStarted = <cx>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
+
+        It is worth mentioning that this tutorial is intended to familiraze you with some of the
+        packages that are used by cx. A more practical way to start a new cx project is explained 
+        [here](~/intro/command-line).
 
         ## Prerequisites
 
