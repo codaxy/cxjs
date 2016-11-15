@@ -10,10 +10,10 @@ var contents = [{
     articles: [
         {title: 'About', url: '~/intro/about'},
         {title: 'Getting Started', url: '~/intro/getting-started'},
-        //{title: 'JSX', url: '~/intro/jsx'},
+        {title: 'JSX', url: '~/intro/jsx'},
         {title: 'CLI', url: '~/intro/command-line'},
         {title: 'Step by Step', url: '~/intro/step-by-step'},
-        {title: 'Features', url: '~/intro/feature-list'},
+        {title: 'Feature List', url: '~/intro/feature-list'},
     ]
 }, {
     topic: 'Concepts',
