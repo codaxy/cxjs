@@ -9,6 +9,8 @@ import {Tab} from 'cx/ui/nav/Tab';
 export const CommandLine = <cx>
     <Md>
         # Command Line Interface
+
+        <CodeSplit>
         
         Cx requires tools such as babel and webpack which are plugin-based and require a 
         significant amount of work to configure properly.
@@ -51,6 +53,18 @@ export const CommandLine = <cx>
         Make a production build:
 
         `cx build`
+
+            <CodeSnippet putInto="code">{`
+                md my-cx-app
+                cd my-cx-app
+
+                npm init -y
+                npm install cx-cli --global
+
+                cx scaffold
+                cx start
+            `}</CodeSnippet>
+        </CodeSplit>
 
    </Md>
 </cx>

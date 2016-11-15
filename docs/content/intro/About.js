@@ -41,10 +41,8 @@ export const About = <cx>
 
             Cx is a modern framework for building visually appealing, data-oriented, web applications.
 
-
             Cx features a large collection of composable and configurable widgets, JSX based syntax, declarative
             data-binding options and simplicity of use.
-
 
             <CodeSplit>
                 <div class="widgets">
@@ -62,13 +60,11 @@ export const About = <cx>
             </CodeSplit>
 
 
-            The main goal of Cx is to streamline the development of complex user interfaces which traditionally required
-            using components from many different vendors.
-            Unlike many other frameworks which solve just one problem, Cx tries to provide all necessary components in
-            one consistent package.
-            That means that, out of the box, Cx includes form elements, form validation, advanced grid control,
-            navigational
-            elements, charts, routing, layout support, theming support, culture dependent formatting and more.
+            The main goal is to streamline the development of complex user interfaces which traditionally required
+            components from many different vendors.
+            Unlike many other frameworks which solve just one problem, Cx tries to solve the UI problems holistically.
+            Out of the box, Cx includes form elements, form validation, advanced grid control,
+            navigational elements, tooltips, overlays, charts, routing, layout support, theming support, culture dependent formatting and more.
 
             <CodeSplit>
                 <div class="widgets">
@@ -105,13 +101,15 @@ export const About = <cx>
 
             Cx is based on modern technologies such as React, npm, babel, webpack and Sass.
 
-            Cx is made for individual developers and development teams who build business applications of any size.
-            Cx provides a solid foundation and reduces the burden of dealing with UI complexities and browser quirks,
-            making the project more predictable.
+            The product is made for individual developers and development teams who build business applications of any size.
+            It provides a solid foundation and reduces the burden of dealing with UI complexities and browser quirks,
+            making the development efforts more predictable.
 
-            You may already be familiar with Cx as it is inspired by the best concepts from well known front-end
-            products,
-            such as React, Redux, Ext JS, Angular and D3.
+            You might be familiar with core Cx concepts, already, as it is inspired by the known front-end
+            products, such as React, Redux, Ext JS, Angular and D3.
+
+            Please visit our [Getting Started](~/intro/getting-started)
+            page to find out more.
 
             ## Browser Support
 
@@ -125,8 +123,8 @@ export const About = <cx>
 
             ## Licensing
 
-            Cx framework is available under commercial license. The framework is free to use for school/hobby projects
-            with non-commercial nature.
+            Cx framework is available under commercial license. The framework is free to use for non-commercial projects,
+            e.g. personal/school/hobby projects.
 
         </Md>
     </Rescope>

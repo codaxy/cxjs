@@ -48,14 +48,14 @@ export const GettingStarted = <cx>
         If you take a closer look at the source code, you'll see what Cx is about. You can freely mix widgets with plain HTML
         and use special attributes to connect to the data. Whenever the data change, the page is automatically updated.
 
-        > The code containing the JSX syntax must be processed through a preprocessor tool before serving it to the browser.
+        > The code containing the JSX syntax must be processed through a preprocessor tool before it's served to the browser.
         The most popular preprocessor tool is [Babel](https://babeljs.io/), which besides JSX processing also
-        does transpiling of the latest JavaScript features into ES5.
+        transpiles the latest JavaScript features into ES5.
 
         Learn more:
 
         * [Data Binding](~/concepts/data-binding)
-        * JSX
+        * [JSX](~/intro/jsx)
 
         ## Widgets
 
