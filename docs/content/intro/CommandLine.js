@@ -55,6 +55,8 @@ export const CommandLine = <cx>
         `cx build`
 
             <CodeSnippet putInto="code">{`
+                // Create a new app
+
                 md my-cx-app
                 cd my-cx-app
 

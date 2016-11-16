@@ -25,7 +25,7 @@ function getPageName(name) {
                .substring(1);
 }
 
-var addRoutes = (path, pages, routes) => {
+let addRoutes = (path, pages, routes) => {
     Object.keys(pages).forEach(name=> {
         if (name[0] == '_' || !pages.hasOwnProperty(name))
             return;
@@ -46,13 +46,21 @@ var addRoutes = (path, pages, routes) => {
     });
 };
 
-var routes = [
+let routes = [
     <cx><RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/></cx>
 ];
 
-// #if development
+// intro pages are always loaded to avoid the initial Loading page
+// everything else is loaded on demand
 
 import * as intro from './intro/';
+
+addRoutes('~/', {
+    intro
+}, routes);
+
+// #if development
+
 import * as widgets from './widgets/';
 import * as concepts from './concepts/';
 import * as examples from './examples/';
@@ -62,7 +70,6 @@ import * as meta from './meta/';
 import * as svg from './svg/';
 
 addRoutes('~/', {
-    intro,
     widgets,
     concepts,
     examples,
@@ -93,10 +100,6 @@ class ContentController extends Controller {
             chapterLoaded[chapter] = true;
 
             switch (chapter) {
-
-                case 'intro':
-                    this.loadChapter(chapter, System.import('docs/content/intro'));
-                    break;
 
                 case 'concepts':
                     this.loadChapter(chapter, System.import('docs/content/concepts'));
