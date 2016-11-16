@@ -1,0 +1,28 @@
+@import "~cx/index";
+@import "../shared/index";
+
+html {
+   height: 100%;
+   background: #eee;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: 'Open Sans', sans-serif;
+   font-size: 14px;
+}
+
+a {
+   color: inherit;
+   text-decoration: none;
+}
+
+.cxb-section {
+   overflow: hidden;
+
+   p {
+      margin: 1rem;
+   }
+}

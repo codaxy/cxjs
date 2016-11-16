@@ -13,7 +13,7 @@ import Blocks from 'shared/routes/blocks';
 import Reset from 'shared/routes/reset';
 
 const layout = createLayout(<cx>
-   <a href="/themes">Themes</a>
+   <a href="..">Themes</a>
    <a href="#">Neutral</a>
 </cx>);
 
