@@ -1,0 +1,38 @@
+$cx-section-styles: (
+   margin: 0.5rem
+) !default;
+
+$cx-section-well: (
+   background: rgba(255, 255, 255, 0.9),
+   border-radius: 3px,
+) !default;
+
+.cxb-section {
+   flex-direction: column;
+   display: flex;
+
+   @include cx-add-rules($cx-section-styles);
+
+   &.cxm-well {
+      @include cx-add-rules($cx-section-well);
+   }
+}
+
+.cxe-section-header {
+   font-weight: bold;
+   font-size: 1.2rem;
+   margin: 0 1.5rem;
+   padding: 1rem 0;
+
+   .cxs-pad > & {
+      border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+   }
+}
+
+.cxe-section-body {
+   flex: 1;
+
+   .cxs-pad > & {
+      padding: 1rem 1.5rem;
+   }
+}

@@ -34,7 +34,9 @@ $cx-tab-mods: (
          border-color: rgba(123,190,255, 0.7),
       ),
       active: (),
-      disabled: ()
+      disabled: (
+         border-color: transparent,
+      )
    )
 );
 

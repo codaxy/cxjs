@@ -1,0 +1,10 @@
+.flexrow {
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.flexrow.phone {
+   @media screen and (min-width: 768px) {
+      display: flex;
+   }
+}

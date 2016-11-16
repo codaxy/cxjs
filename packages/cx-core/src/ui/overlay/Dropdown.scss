@@ -1,5 +1,7 @@
 @import "Overlay";
 
+$cx-default-dropdown-background-color: white !default;
+
 
 @mixin cx-dropdown(
    $name: 'dropdown',
@@ -14,7 +16,7 @@
       display: block;
       left: -10000px;
       top: -10000px;
-      background: white;
+      background: $cx-default-dropdown-background-color;
       box-shadow: 0 10px 50px 1px rgba(0, 0, 0, 0.29);
    }
 }

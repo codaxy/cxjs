@@ -70,10 +70,10 @@ export const Tabs = <cx>
                <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab" mod="pill">Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab" mod="pill">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab" mod="pill">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" mod="pill" disabled>Tab 4</Tab>
+               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
+               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
+               <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
+               <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
                <div style="padding-left:10px;white-space:nowrap;">

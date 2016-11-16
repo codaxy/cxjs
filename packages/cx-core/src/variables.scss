@@ -98,8 +98,8 @@ $cx-list-item: (
       //background: rgba(123,190,255, 0.7)
    ),
    disabled: (
-      color: lightgray,
-      background-color: #eee,
+      color: rgba(128, 128, 128, .5),
+      background-color: rgba(128, 128, 128, .1),
       cursor: default
    )
 );
