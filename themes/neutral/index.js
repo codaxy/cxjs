@@ -31,7 +31,7 @@ if (module.hot) {
         store.load(module.hot.data.state);
 }
 
-Url.setBaseFromScript('~/vendor.js');
+Url.setBaseFromScript('~/app.js');
 Widget.resetCounter();
 Timing.enable('vdom-render');
 Debug.enable('app-data');

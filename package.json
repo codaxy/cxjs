@@ -12,7 +12,9 @@
     "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
     "build:litmus": "webpack --config litmus/webpack.config.js",
     "theme:neutral": "webpack-dev-server --config themes/neutral/webpack.config.js --open",
-    "theme:dark": "webpack-dev-server --config themes/dark/webpack.config.js --open"
+    "theme:dark": "webpack-dev-server --config themes/dark/webpack.config.js --open",
+    "build:theme:neutral": "webpack --config themes/neutral/webpack.config.js",
+    "build:theme:dark": "webpack --config themes/dark/webpack.config.js"
   },
   "repository": {
     "type": "git",

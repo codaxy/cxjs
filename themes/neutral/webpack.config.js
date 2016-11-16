@@ -36,27 +36,17 @@ var common = {
       }]
    },
    entry: {
-      vendor: ['cx-react', path.join(__dirname)],
       app: __dirname + '/index.js',
    },
    output: {
       path: __dirname,
       filename: "[name].js"
    },
-   // externals: {
-   //    "react": "React",
-   //    "react-dom": "ReactDOM"
-   // },
+   externals: {
+      "react": "React",
+      "react-dom": "ReactDOM"
+   },
    plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-         name: "vendor",
-         minChunks: Infinity
-      }),
-      new webpack.optimize.CommonsChunkPlugin({
-         name: 'app',
-         children: true,
-         minChunks: 4
-      }),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html'),
          hash: true
@@ -95,8 +85,8 @@ switch (process.env.npm_lifecycle_event) {
          ],
 
          output: {
-            path: path.join(__dirname, 'dist'),
-            publicPath: "/theme/neutral"
+            path: path.join(__dirname, '../dist/neutral/'),
+            publicPath: "."
          }
       };
       break;
