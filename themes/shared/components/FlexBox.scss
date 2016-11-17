@@ -1,0 +1,32 @@
+.cxb-flexbox {
+   display: flex;
+
+   &.cxs-column {
+      flex-direction: column;
+   }
+
+   &.cxs-row {
+      flex-direction: row;
+   }
+
+   &.cxs-distance {
+      padding: 0.5rem;
+
+      & > * {
+         margin: 0.5rem;
+      }
+   }
+
+   &.cxs-align {
+      margin: -0.5rem;
+      padding: 0;
+   }
+
+   &.cxs-wrap {
+      flex-wrap: wrap;
+   }
+
+   &.cxs-center {
+      justify-content: center;
+   }
+}

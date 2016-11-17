@@ -14,15 +14,16 @@ import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {TextField} from 'cx/ui/form/TextField';
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 export default <cx>
    <span putInto="breadcrumbs">Forms</span>
 
-   <div class="flexrow phone" style="padding: 1rem">
+   <FlexRow distance wrap>
       <Section mod="well" title="Inputs" style="flex:1">
-         <div layout={LabelsLeftLayout}>
+         <div layout={{ type: LabelsLeftLayout, mod: "stretch"}}>
             <TextField label="TextField" value:bind="text"/>
-            <TextArea label="TextArea" value:bind="text2" rows={5}/>
+            <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%"/>
             <NumberField label="NumberField" value:bind="number"/>
             <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
             <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
@@ -59,5 +60,5 @@ export default <cx>
       </Section>
 
 
-   </div>
+   </FlexRow>
 </cx>

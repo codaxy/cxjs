@@ -3,31 +3,34 @@ import {PureContainer} from 'cx/ui/PureContainer';
 import {Repeater} from 'cx/ui/Repeater';
 import createLayout from 'shared/layout';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 const layout = createLayout(<cx>
-   <a href="">Themes</a>
+   <span>Themes</span>
 </cx>);
 
 const themes = [{
    name: 'Neutral',
-   url: 'neutral'
+   url: 'neutral',
+   imgUrl: '~/img/neutral.png'
 }, {
    name: 'Dark',
-   url: 'dark'
-}]
+   url: 'dark',
+   imgUrl: '~/img/dark.png'
+}];
 
 export default <cx>
    <PureContainer outerLayout={layout}>
-      <div class="flexrow phone" style="padding:1rem">
+      <FlexRow distance wrap center>
          <Repeater records={themes} recordName="$theme">
             <Section mod="well" pad={false}>
                <a href:bind="$theme.url">
-                  <img src="http://placehold.it/300x300" />
+                  <img src:bind="$theme.imgUrl" />
                   <p text:bind="$theme.name" />
                </a>
             </Section>
          </Repeater>
-      </div>
+      </FlexRow>
    </PureContainer>
 </cx>
 

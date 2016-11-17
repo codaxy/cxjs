@@ -2,12 +2,13 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Button} from 'cx/ui/Button';
 import {Tab} from 'cx/ui/nav/Tab';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 
 export default <cx>
    <span putInto="breadcrumbs">Blocks</span>
 
-   <div class="flexrow phone" style="padding: 1rem">
+   <FlexRow distance wrap>
       <Section mod="well" style="flex:1" preserveWhitespace>
          <h1>Header 1</h1>
          <h2>Header 2</h2>
@@ -50,5 +51,5 @@ export default <cx>
             <li>Item 3</li>
          </ol>
       </Section>
-   </div>
+   </FlexRow>
 </cx>

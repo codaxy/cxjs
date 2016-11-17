@@ -1,5 +1,6 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 import LineChart from './LineChart';
 import BarChart from './BarChart';
@@ -8,7 +9,7 @@ import PieChart from './PieChart';
 export default <cx>
    <span putInto="breadcrumbs">Charts</span>
 
-   <div class="flexrow phone">
+   <FlexRow distance wrap>
       <Section mod="well" style="flex:1" title="Line Chart">
          <LineChart />
       </Section>
@@ -18,5 +19,5 @@ export default <cx>
       <Section mod="well" style="flex:1" title="Pie Chart">
          <PieChart />
       </Section>
-   </div>
+   </FlexRow>
 </cx>

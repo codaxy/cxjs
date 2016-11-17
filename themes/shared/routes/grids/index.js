@@ -1,5 +1,6 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 import Dashboard from './Dashboard';
 import Pagination from './Pagination';
@@ -18,7 +19,7 @@ export default <cx>
    <div>
       <span putInto="breadcrumbs">Grids</span>
 
-      <div class="flexrow phone">
+      <FlexRow distance wrap>
          <Section title="Pagination" style="flex:1" mod="well">
             <Pagination />
          </Section>
@@ -30,11 +31,11 @@ export default <cx>
          <Section title="Grouping" style="flex:1" mod="well">
             <Grouping />
          </Section>
-      </div>
 
-      <Section title="Grid Dashboard" mod="well">
-         <Dashboard />
-      </Section>
+         <Section title="Grid Dashboard" mod="well" style="flex:2" >
+            <Dashboard />
+         </Section>
+      </FlexRow>
    </div>
 </cx>;
 

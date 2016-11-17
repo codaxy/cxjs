@@ -111,7 +111,7 @@ switch (process.env.npm_lifecycle_event) {
          },
          devtool: 'eval',
          devServer: {
-            contentBase: '/',
+            contentBase: __dirname,
             hot: true,
             port: 8099,
             noInfo: false,

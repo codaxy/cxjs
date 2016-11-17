@@ -2,6 +2,7 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Button} from 'cx/ui/Button';
 import {Tab} from 'cx/ui/nav/Tab';
 import {Section} from 'shared/components/Section';
+import {FlexRow} from 'shared/components/FlexBox';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
@@ -39,19 +40,21 @@ const TabContent = <cx>
 export default <cx>
    <span putInto="breadcrumbs">Blocks</span>
 
-   <div class="flexrow phone" style="padding: 1rem">
+   <FlexRow distance wrap>
       <Section mod="well" title="Buttons" style="flex:1" preserveWhitespace>
-         <Button>Default</Button>
-         <Button disabled>Disabled</Button>
+         <FlexRow distance wrap align>
+            <Button>Default</Button>
+            <Button disabled>Disabled</Button>
 
-         <Button mod="primary">Primary</Button>
-         <Button mod="primary" disabled>Disabled</Button>
+            <Button mod="primary">Primary</Button>
+            <Button mod="primary" disabled>Disabled</Button>
 
-         <Button mod="danger">Danger</Button>
-         <Button mod="danger" disabled>Disabled</Button>
+            <Button mod="danger">Danger</Button>
+            <Button mod="danger" disabled>Disabled</Button>
 
-         <Button mod="hollow">Hollow</Button>
-         <Button mod="hollow" disabled>Disabled</Button>
+            <Button mod="hollow">Hollow</Button>
+            <Button mod="hollow" disabled>Disabled</Button>
+         </FlexRow>
       </Section>
 
       <Section mod="well" title="Tabs" style="flex:1" preserveWhitespace>
@@ -93,5 +96,5 @@ export default <cx>
       </Section>
 
 
-   </div>
+   </FlexRow>
 </cx>
