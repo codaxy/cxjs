@@ -1,6 +1,7 @@
 const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
+   CopyWebpackPlugin = require('copy-webpack-plugin'),
    merge = require('webpack-merge'),
    combine = require('webpack-combine-loaders'),
    path = require('path'),
@@ -81,7 +82,11 @@ switch (process.env.npm_lifecycle_event) {
             new webpack.DefinePlugin({
                'process.env.NODE_ENV': JSON.stringify('production')
             }),
-            sass
+            sass,
+            new CopyWebpackPlugin([{
+               from: path.join(__dirname, 'img'),
+               to: path.join(__dirname, '../dist/img')
+            }])
          ],
 
          output: {
