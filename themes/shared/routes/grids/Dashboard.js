@@ -51,6 +51,7 @@ export default <cx>
          keyField="id"
          defaultSortField="sales"
          defaultSortDirection="DESC"
+         mod="responsive"
          columns={[
             {
                field: 'name',

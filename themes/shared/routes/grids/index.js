@@ -7,10 +7,16 @@ import FixedHeader from './FixedHeader';
 import Grouping from './Grouping';
 
 import {casual} from 'shared/data/casual';
+import {Format} from 'cx/util/Format';
+import plural from 'plural';
+
+Format.registerFactory('plural', (format, text) => {
+   return value => plural(text, value);
+});
 
 export default <cx>
    <div>
-      <span putInto="breadcrumbs">Grid Dashboard</span>
+      <span putInto="breadcrumbs">Grids</span>
 
       <div class="flexrow phone">
          <Section title="Pagination" style="flex:1" mod="well">
