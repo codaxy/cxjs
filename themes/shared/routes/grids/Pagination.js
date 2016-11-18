@@ -94,7 +94,7 @@ export default <cx>
       <div style="display: flex; margin-top: 20px">
          <Pagination page:bind="$page.page" pageCount:bind="$page.pageCount"/>
          <div style="flex:1" />
-         <Select value:bind="$page.pageSize">
+         <Select value:bind="$page.pageSize" style="width: 3rem">
             <option value="5">5</option>
             <option value={10}>10</option>
             <option value="20">20</option>

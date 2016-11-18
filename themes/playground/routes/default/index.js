@@ -20,6 +20,9 @@ export default <cx>
                <a href="#grids">Grids</a>
             </li>
             <li>
+               <a href="#overlays">Overlays</a>
+            </li>
+            <li>
                <a href="#charts">Charts</a>
             </li>
          </ul>

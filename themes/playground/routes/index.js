@@ -11,6 +11,7 @@ import Grids from 'shared/routes/grids';
 import Charts from 'shared/routes/charts';
 import Blocks from 'shared/routes/blocks';
 import Reset from 'shared/routes/reset';
+import Overlays from 'shared/routes/overlays';
 
 const layout = createLayout(<cx>
    <a href="..">Themes</a>
@@ -39,6 +40,11 @@ export default <cx>
       <Route route="#blocks" url:bind="hash">
          <Blocks />
       </Route>
+
+      <Route route="#overlays" url:bind="hash">
+         <Overlays />
+      </Route>
+
    </PureContainer>
 </cx>
 

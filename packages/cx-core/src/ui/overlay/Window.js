@@ -48,7 +48,7 @@ export class Window extends Overlay {
 
 Window.prototype.baseClass = 'window';
 Window.prototype.closable = true;
-Window.prototype.resizable = true;
+Window.prototype.resizable = false;
 Window.prototype.autoFocus = true;
 
 Widget.alias('window', Window);

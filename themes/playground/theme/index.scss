@@ -1,7 +1,37 @@
 $cx-default-border-radius: 3px;
-
 $cx-include-all: false;
+
+$cx-default-button-background-color: #eff1f7;
+$cx-default-grid-header-background-color: $cx-default-button-background-color;
+
 @import "~cx/index";
+
+$cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
+   default: (
+      background: white
+   )
+));
+
+$cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-state-style-map, (
+   default: (
+      background: null,
+      font-size: 1.2rem,
+      color: #24b5d6,
+      font-weight: normal,
+      margin: 0 1.5rem,
+      padding: 1rem 0,
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1)
+   )
+));
+
+$cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-state-style-map, (
+   default: (
+      background: null,
+      margin: 0 1.5rem,
+      padding: 1rem 0,
+      border-top: 1px solid rgba(128, 128, 128, 0.1)
+   )
+));
 
 $cx-include-all: true;
 @import "~cx/index";

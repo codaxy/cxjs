@@ -7,16 +7,15 @@ import {getViewportSize} from '../../util/getViewportSize';
 import {captureMouseOrTouch} from './captureMouse';
 
 /*
-Features:
-   - renders itself on top of other elements
-   - provide resizing capabilities
-   - adds positioning hook and ability to position itself in the center of the page
-   - provides header, body, and footer elements and updates body's height on resize (move this to Window)
-   - stop mouse events from bubbling to parents, but allow keystrokes
+ Features:
+ - renders itself on top of other elements
+ - provide resizing capabilities
+ - adds positioning hook and ability to position itself in the center of the page
+ - provides header, body, and footer elements and updates body's height on resize (move this to Window)
+ - stop mouse events from bubbling to parents, but allow keystrokes
  */
 
-export class Overlay extends PureContainer
-{
+export class Overlay extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          style: {
@@ -83,7 +82,6 @@ export class Overlay extends PureContainer
       if (this.center) {
          var {el} = component;
          var rect = el.getBoundingClientRect();
-         var viewport = getViewportSize();
          el.style.left = `${(window.innerWidth - rect.width) / 2}px`;
          el.style.top = `${(window.innerHeight - rect.height) / 2}px`;
       }
@@ -104,7 +102,7 @@ export class Overlay extends PureContainer
       if (this.dismissOnFocusOut && instance.dismiss)
          instance.dismiss();
    }
-   
+
    handleKeyDown(e, instance, component) {
       if (this.onKeyDown)
          this.onKeyDown(e, instance, component);
@@ -144,7 +142,7 @@ export class Overlay extends PureContainer
          dismissed = true;
          stop();
          if (el) {
-            setTimeout(()=> {
+            setTimeout(() => {
                if (VDOM.DOM.unmountComponentAtNode)
                   VDOM.DOM.unmountComponentAtNode(el);
                document.body.removeChild(el);
@@ -192,27 +190,43 @@ export class OverlayComponent extends VDOM.Component {
 
    renderOverlay() {
 
-      var {widget, data} = this.props.instance;
-      var {CSS, baseClass} = widget;
+      let {widget, data} = this.props.instance;
+      let {CSS, baseClass} = widget;
 
-      return <div ref={el=>{this.el = el}}
-                  className={data.classNames}
-                  style={data.style}
-                  tabIndex={this.focusable ? 0 : null}
-                  onFocus={::this.onFocus}
-                  onBlur={::this.onBlur}
-                  onKeyDown={::this.onKeyDown}
-                  onMouseMove={::this.onMouseMove}
-                  onMouseUp={::this.onMouseUp}
-                  onMouseDown={::this.onMouseDown}
-                  onTouchStart={::this.onMouseDown}
-                  //onTouchMove={::this.onTouchMove}
-                  //onTouchEnd={::this.onTouchEnd}
-                  onMouseEnter={::this.onMouseEnter}
-                  onMouseLeave={::this.onMouseLeave}>
-         {(widget.modal || widget.backdrop) && <div className={CSS.element(baseClass, 'modal-backdrop')} key="backdrop" onClick={::this.onBackdropClick}/>}
-         {this.renderOverlayBody()}
-      </div>;
+      let content = (
+         <div
+            ref={el => {
+               this.el = el
+            }}
+            className={data.classNames}
+            style={data.style}
+            tabIndex={this.focusable ? 0 : null}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+            onKeyDown={::this.onKeyDown}
+            onMouseMove={::this.onMouseMove}
+            onMouseUp={::this.onMouseUp}
+            onMouseDown={::this.onMouseDown}
+            onTouchStart={::this.onMouseDown}
+            onMouseEnter={::this.onMouseEnter}
+            onMouseLeave={::this.onMouseLeave}
+         >
+            <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')} onClick={::this.onBackdropClick} />
+            {this.renderOverlayBody()}
+         </div>
+      );
+
+      let result = content;
+
+      if (widget.modal || widget.backdrop) {
+         result = (
+            <div className={CSS.element(baseClass, 'shadow')} key="shadow">
+               {content}
+            </div>
+         );
+      }
+
+      return result;
    }
 
    renderOverlayBody() {
@@ -363,7 +377,7 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    getCursorPos(e) {
-      return (e.touches && e.touches[0]) || { clientX: e.clientX, clientY: e.clientY };
+      return (e.touches && e.touches[0]) || {clientX: e.clientX, clientY: e.clientY};
    }
 
    startMoveOperation(e) {
@@ -418,7 +432,7 @@ export class OverlayComponent extends VDOM.Component {
          oneFocusOut(this, this.el, ::this.onFocusOut);
 
       if (subscribeToBeforeDismiss) {
-         subscribeToBeforeDismiss(()=> {
+         subscribeToBeforeDismiss(() => {
             if (widget.animate)
                this.setState({
                   animated: false
