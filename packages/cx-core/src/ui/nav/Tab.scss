@@ -1,12 +1,16 @@
 @import "variables";
 
-$cx-tab-defaults: $cx-list-item;
+$cx-tab-style-map: map-merge($cx-list-item, (
+   border-radius: $cx-default-border-radius
+));
 
 $cx-tab-mods: (
    classic: (
       default: (
          border: 1px solid transparent,
          margin-bottom: -1px,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
       ),
       selected: (
          border: 1px solid lightgray,
@@ -19,7 +23,9 @@ $cx-tab-mods: (
          background-color: transparent !important,
          border-bottom-width: 2px,
          border-bottom-style: solid,
-         padding: 5px 10px 3px 10px
+         padding: 5px 10px 3px 10px,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
       ),
       hover: (
          border-color: rgba(128, 128, 128, 0.2),
@@ -42,6 +48,7 @@ $cx-tab-mods: (
 
 @mixin cx-tab(
    $name: 'tab',
+   $styles: $cx-tab-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -58,36 +65,36 @@ $cx-tab-mods: (
       border: 0 solid transparent;
       color: inherit;
 
-      @each $rule, $value in map-get($cx-list-item, default) {
+      @each $rule, $value in map-get($styles, default) {
          #{$rule}: $value;
       }
 
       &:hover {
-         @each $rule, $value in map-get($cx-list-item, hover) {
+         @each $rule, $value in map-get($styles, hover) {
             #{$rule}: $value;
          }
       }
 
       &:focus {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
+         @each $rule, $value in map-get($styles, hover-focus) {
             #{$rule}: $value;
          }
       }
 
       &.#{$state}active {
-         @each $rule, $value in map-get($cx-list-item, selected) {
+         @each $rule, $value in map-get($styles, selected) {
             #{$rule}: $value;
          }
 
          &:focus {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
+            @each $rule, $value in map-get($styles, selected-focus) {
                #{$rule}: $value;
             }
          }
       }
 
       &.#{$state}disabled {
-         @each $rule, $value in map-get($cx-list-item, disabled) {
+         @each $rule, $value in map-get($styles, disabled) {
             #{$rule}: $value;
          }
          background: none;

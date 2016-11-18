@@ -14,8 +14,6 @@ $cx-besm: (
    mod: 'cxm-',
 ) !default;
 
-$cx-default-border-color: #bfbfbf !default;
-
 /*
  Boxes
  -----
@@ -43,6 +41,16 @@ $cx-default-box-font-family: inherit !default;
 $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
+
+/*
+Borders
+-------
+*/
+
+$cx-default-border-color: #bfbfbf !default;
+$cx-default-border-radius: 0 !default;
+$cx-default-border-width: 1px !default;
+
 
 
 /*

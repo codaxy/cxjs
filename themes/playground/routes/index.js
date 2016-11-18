@@ -14,7 +14,7 @@ import Reset from 'shared/routes/reset';
 
 const layout = createLayout(<cx>
    <a href="..">Themes</a>
-   <a href="#">Dark</a>
+   <a href="#">Playground</a>
 </cx>);
 
 export default <cx>

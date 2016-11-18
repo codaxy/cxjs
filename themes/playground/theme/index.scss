@@ -1,0 +1,23 @@
+$cx-default-border-radius: 3px;
+
+$cx-include-all: false;
+@import "~cx/index";
+
+$cx-include-all: true;
+@import "~cx/index";
+
+.cxb-section.cxm-well.cxm-well {
+   background-color: white;
+   box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
+   color: #66686e;
+   //border-radius: 0;
+}
+
+.cxe-section-header.cxe-section-header  {
+   color: #24b5d6;
+   font-weight: normal;
+
+   .cxm-pad > & {
+      border: none;
+   }
+}

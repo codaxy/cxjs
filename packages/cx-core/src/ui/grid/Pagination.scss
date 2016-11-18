@@ -46,6 +46,16 @@
       text-decoration: none;
       cursor: pointer;
 
+      &:first-child {
+         border-top-left-radius: $cx-default-border-radius;
+         border-bottom-left-radius: $cx-default-border-radius;
+      }
+
+      &:last-child {
+         border-top-right-radius: $cx-default-border-radius;
+         border-bottom-right-radius: $cx-default-border-radius;
+      }
+
       &:hover, &:focus {
          @each $rule, $value in map-get($cx-list-item, hover) {
             #{$rule}: $value;

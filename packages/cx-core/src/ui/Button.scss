@@ -9,6 +9,7 @@ $cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding 
 $cx-default-button-border-width: $cx-default-box-border-width !default;
 $cx-default-button-background-color: #eee !default;
 $cx-default-button-border-color: #ccc !default;
+$cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-color: null !default;
 
 $cx-button-state-style-map: (
@@ -22,6 +23,7 @@ $cx-button-state-style-map: (
       font-size: $cx-default-button-font-size,
       line-height: $cx-default-box-line-height,
       border-width: $cx-default-button-border-width,
+      border-radius: $cx-default-button-border-radius,
       padding: $cx-default-button-padding,
       color: $cx-default-button-color,
       cursor: pointer,

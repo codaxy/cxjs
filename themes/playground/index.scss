@@ -1,18 +1,19 @@
-@import "~cx-theme-dark/index";
-@import "~cx/index";
+@import "theme/index";
 @import "../shared/index";
 
 html {
    height: 100%;
-   background: $cx-default-background-color;
-   color: $cx-default-color;
+   background: #eff1f7;
 }
 
 body {
    margin: 0;
    padding: 0;
    height: 100%;
-   font-family: 'Open Sans', sans-serif;
+   font-family: -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans",
+      "Droid Sans", "Helvetica Neue", sans-serif;
    font-size: 14px;
 }
 

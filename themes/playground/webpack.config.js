@@ -12,7 +12,6 @@ var common = {
       alias: {
          cx: path.resolve(path.join(__dirname, '../../packages/cx-core/src')),
          'cx-react': path.resolve(path.join(__dirname, '../../packages/cx-react')),
-         'cx-theme-dark': path.resolve(path.join(__dirname, '../../packages/cx-theme-dark')),
          theme: __dirname,
          shared: path.join(__dirname, '../shared')
       }
@@ -86,7 +85,7 @@ switch (process.env.npm_lifecycle_event) {
          ],
 
          output: {
-            path: path.join(__dirname, '../dist/dark/'),
+            path: path.join(__dirname, '../dist/playground/'),
             publicPath: "."
          }
       };
@@ -114,7 +113,7 @@ switch (process.env.npm_lifecycle_event) {
          devServer: {
             contentBase: '/docs',
             hot: true,
-            port: 8091,
+            port: 8092,
             noInfo: false,
             inline: true,
             historyApiFallback: true
