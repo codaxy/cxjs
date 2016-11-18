@@ -91,7 +91,7 @@ switch (process.env.npm_lifecycle_event) {
 
          output: {
             path: path.join(__dirname, '../dist/'),
-            publicPath: "."
+            publicPath: "./"
          }
       };
       break;

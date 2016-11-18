@@ -57,7 +57,7 @@ var common = {
 var specific;
 
 switch (process.env.npm_lifecycle_event) {
-   case 'build:theme:dark':
+   case 'build:theme:playground':
       var sass = new ExtractTextPlugin({
          filename: "app.css",
          allChunks: true
@@ -86,7 +86,7 @@ switch (process.env.npm_lifecycle_event) {
 
          output: {
             path: path.join(__dirname, '../dist/playground/'),
-            publicPath: "."
+            publicPath: "./"
          }
       };
       break;
