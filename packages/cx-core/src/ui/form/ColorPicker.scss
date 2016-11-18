@@ -26,7 +26,10 @@
       padding: 10px;
       font-size: 11px;
       font-family: 'Consolas', monospace;
-      width: 432px;
+
+      $border-width: cx-get-state-rule($state-style-map, default, border-width);
+
+      width: cx-calc(430px, cx-left($border-width), cx-right($border-width));
 
       &:after {
          content: '';

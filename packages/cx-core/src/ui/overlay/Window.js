@@ -2,6 +2,8 @@ import {Widget, VDOM, getContent} from '../Widget';
 import {Overlay, OverlayComponent} from './Overlay';
 import {ContentPlaceholder, contentSandbox} from '../layout/ContentPlaceholder';
 import {ZIndexManager} from './ZIndexManager';
+import {Button} from '../Button';
+import CloseIcon from '../icons/close';
 
 export class Window extends Overlay {
    declareData() {
@@ -13,8 +15,13 @@ export class Window extends Overlay {
 
    initComponents() {
       return super.initComponents(...arguments, {
-         header: Widget.create(this.header || { type: ContentPlaceholder, name: 'header'}),
-         footer: Widget.create(this.footer || { type: ContentPlaceholder, name: 'footer'})
+         header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header'}),
+         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer'}),
+         // close: this.closable && Widget.create(Button, {
+         //    mod: 'hollow',
+         //    dismiss: true,
+         //    icon: 'close'
+         // })
       });
    }
 
@@ -29,8 +36,18 @@ export class Window extends Overlay {
    }
 
    renderHeader(context, instance, key) {
-      var {data} = instance;
-      return getContent(instance.components && instance.components.header && instance.components.header.render(context, key)) || data.title;
+      let {data} = instance;
+      let result = [];
+      if (data.title)
+         result.push(data.title);
+      if (instance.components) {
+         let header = getContent(instance.components.header && instance.components.header.render(context, key));
+         if (header)
+            result.push(header);
+         if (data.closable && instance.components.close)
+            result.push(getContent(instance.components.close.render(context)));
+      }
+      return result;
    }
 
    renderFooter(context, instance, key) {

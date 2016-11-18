@@ -69,6 +69,8 @@ $cx-window-footer-state-style-map: (
    .#{$element}#{$name}-header {
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
 
       @include cx-add-state-rules($header-state-style-map, default);
 

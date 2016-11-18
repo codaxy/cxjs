@@ -28,7 +28,7 @@ $cx-section-well: (
 }
 
 .cxe-section-body {
-   flex: 1;
+   flex: 1 0 auto;
 
    .cxs-pad > & {
       padding: 1rem 1.5rem;

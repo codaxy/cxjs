@@ -1,6 +1,8 @@
 @import "../../variables";
 @import "../../util/scss/clockwise";
 
+$cx-flag-input-line-height-fix: true !default;
+
 // Appearance
 $cx-default-input-font-family: $cx-default-box-font-family !default;
 $cx-default-input-border-color: $cx-default-border-color !default;

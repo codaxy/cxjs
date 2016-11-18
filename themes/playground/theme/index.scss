@@ -2,13 +2,34 @@ $cx-default-border-radius: 3px;
 $cx-include-all: false;
 
 $cx-default-button-background-color: #eff1f7;
+$cx-default-button-border-color: #e3e5eb;
+
 $cx-default-grid-header-background-color: $cx-default-button-background-color;
+
+$cx-default-box-font-size: 14px;
+$cx-default-box-line-height: 18px;
+$cx-default-box-border-width: 2px;
+$cx-default-box-padding: 5px;
+
+$cx-default-checkbox-size: 16px;
+$cx-default-radio-size: 16px;
+$cx-default-input-border-color: #eff1f7;
 
 @import "~cx/index";
 
+$cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
+   default: (
+      transition: border-color 0.25s,
+   ),
+   hover: (
+      border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+   )
+));
+
 $cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
    default: (
-      background: white
+      background: white,
+      border-radius: $cx-default-border-radius
    )
 ));
 
