@@ -56,6 +56,7 @@
       box-sizing: border-box;
       padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
       padding-right: cx-calc($cx-default-clear-size, 2px);
+      border-radius: $cx-default-border-radius;
    }
 
    .#{$element}#{$name}-placeholder {

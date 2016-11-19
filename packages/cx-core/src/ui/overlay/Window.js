@@ -17,11 +17,12 @@ export class Window extends Overlay {
       return super.initComponents(...arguments, {
          header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header'}),
          footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer'}),
-         // close: this.closable && Widget.create(Button, {
-         //    mod: 'hollow',
-         //    dismiss: true,
-         //    icon: 'close'
-         // })
+         close: this.closable && Widget.create(Button, {
+            mod: 'hollow',
+            dismiss: true,
+            icon: 'close',
+            style: 'margin-left: auto'
+         })
       });
    }
 
@@ -73,7 +74,7 @@ Widget.alias('window', Window);
 class WindowComponent extends OverlayComponent {
 
    renderOverlayBody() {
-      var {widget, data, dismiss} = this.props.instance;
+      var {widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
       var bodyStyle = null;
@@ -89,23 +90,17 @@ class WindowComponent extends OverlayComponent {
          };
       }
 
-      var header, footer, close;
+      let header, footer;
 
-      if (this.props.header) {
-         if (dismiss && data.closable)
-            close = <button className={CSS.element(baseClass, "close")}
-                            type="button"
-                            onMouseDown={e=>{e.stopPropagation();}} //prevent adding backdrop
-                            onTouchStart={e=>{e.stopPropagation();}}
-                            onClick={()=>{dismiss()}}/>;
-
+      if (this.props.header.length > 0) {
          header = <header key="header"
-                          ref={ c=> { this.headerEl = c }}
+                          ref={ c => {
+                             this.headerEl = c
+                          }}
                           className={CSS.element(baseClass, 'header')}
                           onMouseDown={::this.onHeaderMouseDown}
                           onTouchStart={::this.onHeaderMouseDown}>
             { this.props.header }
-            { close }
          </header>
       }
 

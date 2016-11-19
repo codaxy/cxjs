@@ -12,7 +12,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 import {stopPropagation} from '../eventCallbacks';
 import '../icons/calendar';
 import {Icon} from '../icons/Icon';
-import CloseIcon from '../icons/close';
+import ClearIcon from '../icons/clear';
 
 export class MonthField extends Field {
 
@@ -238,7 +238,7 @@ class MonthInput extends VDOM.Component {
                     onMouseDown={e=> {
                        this.onClearClick(e);
                     }}>
-                  <CloseIcon className={CSS.element(baseClass, 'icon')} />
+                  <ClearIcon className={CSS.element(baseClass, 'icon')} />
                </div>
             )
          } else {

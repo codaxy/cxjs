@@ -1,7 +1,8 @@
-import {Widget} from './Widget';
+import {Widget, getContentArray} from './Widget';
 import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
 import {Icon} from './icons/Icon';
+import {stopPropagation} from './eventCallbacks';
 
 export class Button extends HtmlElement {
    declareData() {
@@ -12,6 +13,12 @@ export class Button extends HtmlElement {
 
    attachProps(context, instance, props) {
       super.attachProps(context, instance, props);
+
+      if (!props.onMouseDown)
+         props.onMouseDown = stopPropagation;
+
+      if (!props.onTouchStart)
+         props.onTouchStart = stopPropagation;
 
       if (this.dismiss) {
          props.onClick = () => {
@@ -37,14 +44,15 @@ export class Button extends HtmlElement {
          }
       }
 
-      let icon;
+      let icon, children;
 
       if (this.icon) {
          let icon = Icon.render(this.icon, {
             className: this.CSS.element(this.baseClass, 'icon')
          });
-         props.children = [icon, props.children];
-         props.className = this.CSS.expand(props.className, this.CSS.state('icon'));
+         children = getContentArray(props.children);
+         props.children = [icon, ...children];
+         props.className = this.CSS.expand(props.className, this.CSS.state('icon'), children.length == 0 && this.CSS.state('empty'));
       }
    }
 }

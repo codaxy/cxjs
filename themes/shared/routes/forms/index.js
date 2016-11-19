@@ -16,6 +16,17 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Section} from 'shared/components/Section';
 import {FlexRow} from 'shared/components/FlexBox';
 
+const options = [
+   {id: 1, text: 'Option 1'},
+   {id: 2, text: 'Option 2'},
+   {id: 3, text: 'Option 3'},
+   {id: 4, text: 'Option 4'},
+   {id: 5, text: 'Option 5'},
+   {id: 6, text: 'Option 6'},
+   {id: 7, text: 'Option 7'},
+   {id: 8, text: 'Option 8'},
+];
+
 export default <cx>
    <span putInto="breadcrumbs">Forms</span>
 
@@ -38,9 +49,9 @@ export default <cx>
                <option value={2}>Option 2</option>
             </Select>
             <LookupField label="LookupField" value:bind="radio"
-               options={[{id: 1, text: 'Option 1'}, {id: 2, text: 'Option 2'}]}/>
+               options={options}/>
             <LookupField label="LookupField (multiple)" multiple values:bind="options"
-               options={[{id: 1, text: 'Option 1'}, {id: 2, text: 'Option 2'}]}/>
+               options={options}/>
             <DateField label="DateField" value:bind="date"/>
             <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo"/>
             <ColorField label="ColorField" value:bind="color"/>

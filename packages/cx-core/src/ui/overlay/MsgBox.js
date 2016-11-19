@@ -20,7 +20,7 @@ export class MsgBox {
 
          var w = Widget.create(<cx>
             <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
-                    resizable={false}>
+                    resizable={false} closable={false}>
                {options.message}
                <div putInto="footer">
                   <Button onClick={callback}>OK</Button>

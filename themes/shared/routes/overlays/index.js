@@ -7,6 +7,8 @@ import {MsgBox} from 'cx/ui/overlay/MsgBox';
 import LoginWindow from './LoginWindow';
 import ContactWindow from './ContactWindow';
 
+import Menu1 from './Menu1';
+
 export default <cx>
    <span putInto="breadcrumbs">Overlays</span>
 
@@ -20,6 +22,10 @@ export default <cx>
          </FlexRow>
          <LoginWindow />
          <ContactWindow />
+      </Section>
+
+      <Section mod="well" title="Menus" style="flex:1">
+         <Menu1 />
       </Section>
    </FlexRow>
 </cx>

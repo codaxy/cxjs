@@ -12,7 +12,7 @@ import {stopPropagation} from '../eventCallbacks';
 import {Localization} from '../Localization';
 import '../icons/calendar';
 import {Icon} from '../icons/Icon';
-import CloseIcon from '../icons/close';
+import ClearIcon from '../icons/clear';
 
 export class DateField extends Field {
 
@@ -194,7 +194,7 @@ class DateInput extends VDOM.Component {
                     onMouseDown={e=> {
                        this.onClearClick(e);
                     }}>
-                  <CloseIcon className={CSS.element(baseClass, 'icon')} />
+                  <ClearIcon className={CSS.element(baseClass, 'icon')} />
                </div>
             )
          } else {

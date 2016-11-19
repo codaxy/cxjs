@@ -106,7 +106,7 @@ $cx-clear-state-style-map: (
       width: $cx-default-clear-size,
       line-height: $cx-default-clear-size,
       color: $cx-default-clear-color,
-      border-radius: 50%,
+      border-radius: $cx-default-border-radius,
       text-align: center
    ),
    hover: (

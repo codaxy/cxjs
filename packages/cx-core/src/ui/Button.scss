@@ -2,6 +2,7 @@
 @import "../util/scss/clockwise";
 @import "../util/scss/include";
 @import "../util/scss/add-rules";
+@import "../util/scss/calc";
 
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
@@ -188,18 +189,26 @@ $cx-button-mods: (
       }
    }
 
-   $size: 1em;
+   $iconSize: 16px;
+   $padding: cx-get-state-rule($state-style-map, default, padding);
 
    .#{$element}#{$name}-icon {
-      display: block;
+      display: inline-block;
       position: absolute;
-      left: 50%;
       top: 50%;
-      margin-top: -$size / 2;
-      margin-left: -$size / 2;
-      height: $size;
-      width: $size;
-      line-height: $size;
+      left: cx-left($padding) / 2;
+      margin-top: -$iconSize / 2;
+      height: $iconSize;
+      width: $iconSize;
+      line-height: $iconSize;
+
+      .cxs-empty > & {
+         left: cx-left($padding);
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}icon {
+      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $iconSize)
    }
 }
 

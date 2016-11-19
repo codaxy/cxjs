@@ -23,6 +23,9 @@ export default <cx>
             <li>
                <a href="#charts">Charts</a>
             </li>
+            <li>
+               <a href="#overlays">Overlays</a>
+            </li>
          </ul>
       </Section>
    </FlexRow>

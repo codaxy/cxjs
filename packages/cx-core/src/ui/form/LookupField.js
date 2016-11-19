@@ -12,7 +12,7 @@ import {isFocused} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
-import CloseIcon from '../icons/close';
+import ClearIcon from '../icons/clear';
 
 export class LookupField extends Field {
 
@@ -409,7 +409,7 @@ class LookupComponent extends VDOM.Component {
          <div onMouseDown={e=>{e.preventDefault()}}
               onClick={e=>this.onClearClick(e)}
               className={CSS.element(baseClass, 'clear')}>
-            <CloseIcon className={CSS.element(baseClass, 'icon')} />
+            <ClearIcon className={CSS.element(baseClass, 'icon')} />
          </div>
       );
 
@@ -423,7 +423,7 @@ class LookupComponent extends VDOM.Component {
                   <div className={CSS.element(baseClass, 'tag-clear')}
                      onMouseDown={e=>{e.preventDefault(); e.stopPropagation();}}
                      onClick={e=>this.onClearClick(e, v)}>
-                     <CloseIcon className={CSS.element(baseClass, 'icon')} />
+                     <ClearIcon className={CSS.element(baseClass, 'icon')} />
                   </div>
                )}
             </div>);
