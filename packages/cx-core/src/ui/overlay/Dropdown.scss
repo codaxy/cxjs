@@ -19,6 +19,13 @@ $cx-default-dropdown-background-color: white !default;
       background: $cx-default-dropdown-background-color;
       box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29);
       border-radius: $cx-default-border-radius;
+
+      &.#{$state}place-screen-center {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+      }
    }
 }
 

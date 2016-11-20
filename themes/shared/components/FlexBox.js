@@ -11,6 +11,7 @@ export class FlexBox extends PureContainer {
          align: this.align,
          center: this.center,
          wrap: this.wrap,
+         [this.target]: true,
          [this.direction]: true
       };
       super.prepareCSS(context, instance);
@@ -31,6 +32,7 @@ FlexBox.prototype.distance = false;
 FlexBox.prototype.wrap = false;
 FlexBox.prototype.align = false;
 FlexBox.prototype.center = false;
+FlexBox.prototype.target = 'any';
 
 export class FlexRow extends FlexBox {}
 

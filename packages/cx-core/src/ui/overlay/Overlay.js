@@ -211,7 +211,7 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={::this.onMouseEnter}
             onMouseLeave={::this.onMouseLeave}
          >
-            <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')} onClick={::this.onBackdropClick} />
+            { widget.modal || widget.backdrop && <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')} onClick={::this.onBackdropClick} /> }
             {this.renderOverlayBody()}
          </div>
       );

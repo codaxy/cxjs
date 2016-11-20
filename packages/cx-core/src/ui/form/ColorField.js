@@ -3,6 +3,7 @@ import {Field} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
 import {parseColor} from '../../util/color/parseColor';
+import {isTouchDevice} from '../../util/isTouchDevice';
 
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../eventCallbacks';
@@ -69,7 +70,7 @@ class ColorInput extends VDOM.Component {
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,
-         autoFocus: true,
+         autoFocus: !isTouchDevice(),
          inline: true,
          placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          items: {

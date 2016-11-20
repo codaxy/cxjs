@@ -19,7 +19,7 @@ export default <cx>
    <div>
       <span putInto="breadcrumbs">Grids</span>
 
-      <FlexRow distance wrap>
+      <FlexRow distance wrap target="desktop">
          <Section title="Pagination" style="flex:1" mod="well">
             <Pagination />
          </Section>
@@ -32,7 +32,7 @@ export default <cx>
             <Grouping />
          </Section>
 
-         <Section title="Grid Dashboard" mod="well" style="flex:2" >
+         <Section title="Grid Dashboard" style="flex:2" mod="well" >
             <Dashboard />
          </Section>
       </FlexRow>

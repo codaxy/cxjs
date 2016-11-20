@@ -1,5 +1,6 @@
 .cxb-flexbox {
-   display: flex;
+   display: block;
+   box-sizing: border-box;
 
    &.cxs-column {
       flex-direction: column;
@@ -28,5 +29,27 @@
 
    &.cxs-center {
       justify-content: center;
+   }
+
+   &.cxs-any {
+      display: flex;
+   }
+
+   &.cxs-phone {
+      @media screen and (min-width: 400px) {
+         display: flex;
+      }
+   }
+
+   &.cxs-tablet {
+      @media screen and (min-width: 700px) {
+         display: flex;
+      }
+   }
+
+   &.cxm-desktop {
+      @media screen and (min-width: 1000px) {
+         display: flex;
+      }
    }
 }

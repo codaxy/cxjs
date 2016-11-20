@@ -178,7 +178,7 @@ export class Dropdown extends Overlay {
          case 'right-up':
             style.top = 'auto';
             style.right = 'auto';
-            style.bottom =  `${viewport.height - rel.bottom}px`;
+            style.bottom = `${viewport.height - rel.bottom}px`;
             style.left = `${rel.right + this.offset}px`;
             break;
 
@@ -200,8 +200,15 @@ export class Dropdown extends Overlay {
          case 'left-up':
             style.top = 'auto';
             style.right = `${viewport.width - rel.left + this.offset}px`;
-            style.bottom =  `${viewport.height - rel.bottom}px`;
+            style.bottom = `${viewport.height - rel.bottom}px`;
             style.left = 'auto';
+            break;
+
+         case 'screen-center':
+            style.top = 0;
+            style.right = 0;
+            style.bottom = 0;
+            style.left = 0;
             break;
       }
    }
@@ -419,6 +426,9 @@ export class Dropdown extends Overlay {
          if (score[k] > score[best])
             best = k;
 
+      if (this.touchFriendly && score[best] < 5)
+         return 'screen-center';
+
       return best;
    }
 
@@ -446,5 +456,6 @@ Dropdown.prototype.placementOrder = 'up down right left';
 Dropdown.prototype.placement = null; //default placement
 Dropdown.prototype.constrain = false;
 Dropdown.prototype.positioning = 'fixed';
+Dropdown.prototype.touchFriendly = true;
 
 Widget.alias('dropdown', Dropdown);

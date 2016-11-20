@@ -11,10 +11,14 @@ export function getSelector(config) {
 
    switch (typeof config) {
       case 'object':
-         if (config.bind) {
-            var b = Binding.get(config.bind);
-            return b.value;
+
+         if (Array.isArray(config)) {
+            let selectors = config.map(x => getSelector(x));
+            return (data) => selectors.map(elementSelector => elementSelector(data));
          }
+
+         if (config.bind)
+            return Binding.get(config.bind).value;
 
          if (config.tpl)
             return StringTemplate.get(config.tpl);

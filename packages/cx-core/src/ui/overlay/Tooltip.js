@@ -61,6 +61,7 @@ Tooltip.prototype.animate = true;
 Tooltip.prototype.destroyDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
+Tooltip.prototype.touchFriendly = false;
 
 var tooltips = new WeakMap();
 

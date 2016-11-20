@@ -28,6 +28,7 @@
 
       td.#{$state}today {
          background: rgba(220, 250, 183, 0.5);
+         border-radius: $cx-default-border-radius;
       }
 
       td.#{$state}outside {
@@ -44,12 +45,14 @@
          @each $rule, $value in map-get($cx-list-item, hover) {
             #{$rule}: $value;
          }
+         border-radius: $cx-default-border-radius;
       }
 
       td.#{$state}selected {
          @each $rule, $value in map-get($cx-list-item, selected) {
             #{$rule}: $value;
          }
+         border-radius: $cx-default-border-radius;
       }
 
       &:not(.#{$state}disabled) {
