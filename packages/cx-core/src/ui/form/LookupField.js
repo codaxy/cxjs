@@ -302,6 +302,7 @@ class LookupComponent extends VDOM.Component {
          memoize: false,
          constrain: true,
          placementOrder: 'down-right down-left up-right up-left',
+         touchFriendly: isTouchDevice(),
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {

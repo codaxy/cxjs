@@ -159,6 +159,7 @@ class DateInput extends VDOM.Component {
          inline: true,
          matchWidth: false,
          placementOrder: 'down-right down down-left up-right up up-left',
+         touchFriendly: true,
          items: {
             type: Calendar,
             ...this.props.calendar,
