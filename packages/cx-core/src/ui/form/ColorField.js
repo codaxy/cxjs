@@ -71,7 +71,7 @@ class ColorInput extends VDOM.Component {
          relatedElement: this.input,
          scrollTracking: true,
          autoFocus: true,
-         focusable: true, //isTouchDevice(), //put focus on the dropdown to prevent opening the keyboard
+         focusable: isTouchDevice(), //put focus on the dropdown to prevent opening the keyboard
          inline: true,
          touchFriendly: true,
          placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
