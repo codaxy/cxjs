@@ -167,6 +167,7 @@ Overlay.prototype.animate = false;
 Overlay.prototype.draggable = false;
 Overlay.prototype.destroyDelay = 0;
 Overlay.prototype.dismissOnFocusOut = false;
+Overlay.prototype.focusable = false;
 
 Widget.alias('overlay', Overlay);
 
@@ -200,7 +201,7 @@ export class OverlayComponent extends VDOM.Component {
             }}
             className={data.classNames}
             style={data.style}
-            tabIndex={this.focusable ? 0 : null}
+            tabIndex={widget.focusable ? 0 : null}
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
             onKeyDown={::this.onKeyDown}
