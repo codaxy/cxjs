@@ -297,7 +297,7 @@ class LookupComponent extends VDOM.Component {
          relatedElement: this.dom.input,
          scrollTracking: true,
          inline: true,
-         renderContents: ::this.renderContents,
+         renderChildren: ::this.renderDropdownContents,
          onFocusOut: ::this.closeDropdown,
          memoize: false,
          constrain: true,
@@ -316,7 +316,7 @@ class LookupComponent extends VDOM.Component {
       return this.dropdown = Widget.create(dropdown);
    }
 
-   renderContents() {
+   renderDropdownContents() {
       var content;
       var {instance} = this.props;
       var {data, widget} = instance;

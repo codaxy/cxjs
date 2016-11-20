@@ -1,3 +1,4 @@
+import "./theme";
 import {Widget} from 'cx/ui/Widget';
 import {startAppLoop} from 'cx/app/startAppLoop';
 import {showError, hideError} from 'cx/app/error';

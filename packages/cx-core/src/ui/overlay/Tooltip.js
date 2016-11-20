@@ -25,8 +25,6 @@ export class Tooltip extends Dropdown {
       var {data} = instance;
       var {CSS, baseClass} = this;
       return [
-         <div key="arrow-border" className={CSS.element(baseClass, "arrow-border")}></div>,
-         <div key="arrow-back" className={CSS.element(baseClass, "arrow-fill")}></div>,
          data.title && <div key="title" className={CSS.element(baseClass, "title")}>{data.title}</div>,
          data.text,
          ...super.renderContents(context, instance)
@@ -62,6 +60,7 @@ Tooltip.prototype.destroyDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
 Tooltip.prototype.touchFriendly = false;
+Tooltip.prototype.arrow = true;
 
 var tooltips = new WeakMap();
 

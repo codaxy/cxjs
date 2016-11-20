@@ -1,10 +1,10 @@
 import {Widget, VDOM} from '../Widget';
-import {CSS} from '../CSS';
 import {Overlay} from './Overlay';
 import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
 import {getViewportSize} from '../../util/getViewportSize';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../ResizeManager';
+import {Localization} from '../Localization';
 
 /*
  Dropdown specific features:
@@ -448,6 +448,19 @@ export class Dropdown extends Overlay {
       if (this.onKeyDown)
          this.onKeyDown(e, instance);
    }
+
+   renderContents(context, instance) {
+      let {CSS, baseClass} = this;
+      if (!this.arrow)
+         return super.renderContents(context, instance);
+
+      let result = [...super.renderContents(context, instance)];
+      result.push(
+         <div key="arrow-border" className={CSS.element(baseClass, "arrow-border")}></div>,
+         <div key="arrow-back" className={CSS.element(baseClass, "arrow-fill")}></div>
+      );
+      return result;
+   }
 }
 
 Dropdown.prototype.offset = 0;
@@ -459,5 +472,7 @@ Dropdown.prototype.placement = null; //default placement
 Dropdown.prototype.constrain = false;
 Dropdown.prototype.positioning = 'fixed';
 Dropdown.prototype.touchFriendly = false;
+Dropdown.prototype.arrow = false;
 
 Widget.alias('dropdown', Dropdown);
+Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);

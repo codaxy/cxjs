@@ -1,20 +1,30 @@
-var contents = {};
-var localizations = {};
+let contents = {};
+let localizations = {};
+let overrides = {};
 
 export class Localization {
    static register(key) {
       return type => {
-         contents[key] = type.prototype;
+         this.registerPrototype(key, type);
          return type;
       }
    }
 
    static registerPrototype(key, type) {
       contents[key] = type.prototype;
+      if (overrides[key])
+         Object.assign(type.prototype, overrides[key]);
+   }
+
+   static override(key, values) {
+      overrides[key] = values;
+      let p = contents[key];
+      if (p)
+         Object.assign(p, values);
    }
 
    static localize(culture, key, values) {
-      var l = localizations[culture];
+      let l = localizations[culture];
       if (!l)
          l = localizations[culture] = {};
       l[key] = {
