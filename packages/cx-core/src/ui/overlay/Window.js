@@ -68,6 +68,7 @@ Window.prototype.baseClass = 'window';
 Window.prototype.closable = true;
 Window.prototype.resizable = false;
 Window.prototype.autoFocus = true;
+Window.prototype.focusable = true;
 
 Widget.alias('window', Window);
 

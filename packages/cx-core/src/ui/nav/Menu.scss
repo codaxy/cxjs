@@ -1,8 +1,19 @@
 @import "variables";
 @import '../../util/scss/include';
+@import '../../util/scss/add-rules';
+
+$cx-menu-state-style-map: $cx-list !default;
+
+$cx-menu-item-state-style-map: cx-merge-state-style-maps($cx-list-item, (
+   default: (
+      border-radius: $cx-default-border-radius
+   )
+)) !default;
 
 @mixin cx-menu(
    $name: 'menu',
+   $state-style-map: $cx-menu-state-style-map,
+   $item-state-style-map: $cx-menu-item-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -21,6 +32,8 @@
             display: inline-block;
          }
       }
+
+      @include cx-add-state-rules($state-style-map, default);
    }
 
    .#{$element}#{$name}-item {
@@ -30,16 +43,14 @@
 
       &.#{$state}focusable {
 
+         @include cx-add-state-rules($item-state-style-map, default);
+
          &:hover {
-            @each $rule, $value in map-get($cx-list-item, hover) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($item-state-style-map, hover);
          }
 
          &.#{$state}cursor {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($item-state-style-map, selected-focus);
          }
       }
    }
