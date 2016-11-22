@@ -15,6 +15,7 @@ program
    .option('-s, start', 'Start the development server')
    .option('-b, build', 'Make a new production build')
    .option('--yarn', 'Use yarn instead of npm')
+   .option('add, route', 'Set up new route folder')
    .parse(process.argv);
 
 if (program.version) {
@@ -115,4 +116,18 @@ if (program.start || program.open) {
 if (program.build) {
    console.log('npm run build');
    return spawn.sync('npm', ['run', 'build'], {stdio: 'inherit'});
+}
+
+if (program.route) {
+   var newRoute = program.args[0].toLowerCase();
+   var tplDir = path.join(tplPath, './app/routes/about');
+   var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
+   
+   if (!fs.existsSync(newRouteDir)) {
+      fs.mkdirSync(newRouteDir);
+      copydir.sync(tplDir, newRouteDir);
+      console.log("New route folder 'app/routes/" + newRoute + "' created.");
+   } else {
+      console.log("Folder 'app/routes/" + newRoute +"' already exists.");
+   }
 }
