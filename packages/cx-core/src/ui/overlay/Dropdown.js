@@ -473,6 +473,7 @@ Dropdown.prototype.constrain = false;
 Dropdown.prototype.positioning = 'fixed';
 Dropdown.prototype.touchFriendly = false;
 Dropdown.prototype.arrow = false;
+Dropdown.prototype.pad = false;
 
 Widget.alias('dropdown', Dropdown);
 Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);

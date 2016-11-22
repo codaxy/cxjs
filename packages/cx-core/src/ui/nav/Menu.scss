@@ -1,19 +1,11 @@
 @import "variables";
-@import '../../util/scss/include';
-@import '../../util/scss/add-rules';
+@import '../Button';
 
 $cx-menu-state-style-map: $cx-list !default;
-
-$cx-menu-item-state-style-map: cx-merge-state-style-maps($cx-list-item, (
-   default: (
-      border-radius: $cx-default-border-radius
-   )
-)) !default;
 
 @mixin cx-menu(
    $name: 'menu',
    $state-style-map: $cx-menu-state-style-map,
-   $item-state-style-map: $cx-menu-item-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -30,58 +22,29 @@ $cx-menu-item-state-style-map: cx-merge-state-style-maps($cx-list-item, (
       &.#{$state}horizontal {
          & > .#{$element}#{$name}-item {
             display: inline-block;
+            vertical-align: middle;
+
+            & > .#{$mod}#{$name} {
+               margin: 0 cx-right($cx-default-button-padding) 0 cx-left($cx-default-button-padding);
+            }
          }
+      }
+
+      &.#{$state}vertical > .#{$element}#{$name}-item > .#{$mod}#{$name} {
+         margin: $cx-default-button-padding;
+         border: $cx-default-button-border-width solid transparent;
+         display: block;
       }
 
       @include cx-add-state-rules($state-style-map, default);
-   }
 
-   .#{$element}#{$name}-item {
-      padding: 0;
-      position: relative;
-      border: 0 solid transparent;
-
-      &.#{$state}focusable {
-
-         @include cx-add-state-rules($item-state-style-map, default);
-
-         &:hover {
-            @include cx-add-state-rules($item-state-style-map, hover);
-         }
-
-         &.#{$state}cursor {
-            @include cx-add-state-rules($item-state-style-map, selected-focus);
+      .#{$element}#{$name}-item {
+         & > hr {
+            border: none;
+            border-top: 1px solid lightgray;
+            margin: $cx-default-button-padding;
          }
       }
-   }
-
-   .#{$element}#{$name}-item-body {
-      border: 1px solid transparent;
-
-      & > hr {
-         border: none;
-         border-top: 1px solid lightgray;
-         margin: 10px 20px;
-      }
-
-      & > a {
-         text-decoration: none;
-         color: inherit;
-
-         &:focus {
-            outline: none;
-         }
-      }
-   }
-
-   .#{$mod}#{$name} {
-      margin: 10px 20px;
-      display: block;
-   }
-
-   .#{$mod}#{$name}-pad {
-      padding: 10px 20px;
-      display: block;
    }
 }
 

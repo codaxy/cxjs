@@ -53,7 +53,7 @@ $cx-default-textarea-width: 300px;
    }
 }
 
-@if (cx-call-once('widgets/TextArea')) {
+@if (cx-include('widgets/TextArea')) {
    @include cx-textarea;
 }
 

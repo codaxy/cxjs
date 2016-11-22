@@ -52,6 +52,10 @@
 
    .#{$block}#{$name} {
       @extend %cxb-overlay;
+
+      &.#{$state}pad {
+         padding: $cx-default-container-padding;
+      }
    }
 
    .#{$element}#{$name}-modal-backdrop {

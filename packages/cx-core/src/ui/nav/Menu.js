@@ -6,6 +6,7 @@ import {parseStyle} from '../../util/parseStyle';
 import {KeyCode} from '../../util/KeyCode';
 import {Debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
+import {MenuItem} from "./MenuItem";
 
 /*
  Functionality:
@@ -20,7 +21,8 @@ export class Menu extends HtmlElement {
       var {data} = instance;
       data.stateMods = {
          ...data.stateMods,
-         horizontal: this.horizontal
+         horizontal: this.horizontal,
+         vertical: !this.horizontal
       };
       super.prepareData(context, instance);
    }
@@ -40,33 +42,6 @@ export class Menu extends HtmlElement {
 }
 
 Menu.prototype.horizontal = false;
-
-
-export class MenuItem extends PureContainer {
-
-   declareData() {
-      super.declareData(...arguments, {
-         bodyStyle: { structured: true },
-         bodyClass: { structured: true }
-      })
-   }
-
-   init() {
-      this.bodyStyle = parseStyle(this.bodyStyle);
-      super.init();
-   }
-
-   render(context, instance, key) {
-      return {
-         atomic: true,
-         key: key,
-         instance: instance,
-         content: super.render(context, instance, key)
-      }
-   }
-}
-
-MenuItem.prototype.styled = true;
 Menu.Item = MenuItem;
 
 class MenuComponent extends VDOM.Component {
@@ -79,8 +54,8 @@ class MenuComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, children} = this.props;
-      var {data} = instance;
+      let {instance, children} = this.props;
+      let {data} = instance;
       this.itemInfo = Array.from({length: children.length});
       const ref = el=> {
          this.el = el
@@ -95,29 +70,21 @@ class MenuComponent extends VDOM.Component {
             onKeyDown={::this.onKeyDown}
          >
             {children.map((c, i)=> {
-               let key = i,
-                  content = c,
-                  itemInstance;
-               if (c && typeof c == 'object') {
-                  if (c.key)
-                     key = c.key;
-                  if (c.atomic) {
-                     content = c.content;
-                     itemInstance = c.instance;
-                  }
-               }
+               let key = i;
+
+               if (c && typeof c == 'object' && c.key)
+                  key = c.key;
 
                return <MenuItemComponent
                   key={key}
                   cursor={key === this.state.cursor}
                   instance={instance}
-                  itemInstance={itemInstance}
                   itemInfo={this.itemInfo}
                   itemKey={key}
                   itemIndex={i}
                   moveCursor={::this.moveCursor}
                >
-                  {content}
+                  {c}
                </MenuItemComponent>;
             })}
          </ul>
@@ -222,20 +189,16 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    render() {
-      var {itemInfo, itemIndex, itemKey, instance, cursor, itemInstance} = this.props;
-      var {widget} = instance;
-      var {CSS, baseClass} = widget;
-      var mods = {
+      let {itemInfo, itemIndex, itemKey, instance, cursor} = this.props;
+      let {widget} = instance;
+      let {CSS, baseClass} = widget;
+      let mods = {
          cursor: cursor,
-         focusable: this.state.focusable
+         focusable: this.state.focusable,
       };
-      var classNames, style, bodyClass, bodyStyle;
-      if (itemInstance) {
-         ({classNames, style, bodyClass, bodyStyle} = itemInstance.data);
-      }
 
       return <li
-         ref={c=> {
+         ref={c => {
             this.el = c;
             itemInfo[itemIndex] = {
                el: c,
@@ -243,15 +206,12 @@ class MenuItemComponent extends VDOM.Component {
                key: itemKey
             };
          }}
-         className={CSS.expand(CSS.element(baseClass, "item", mods), classNames)}
-         style={style}
+         className={CSS.element(baseClass, "item", mods)}
          onFocus={::this.onFocus}
          onMouseDown={::this.onMouseDown}
          onKeyDown={::this.onKeyDown}
       >
-         <div className={CSS.expand(CSS.element(baseClass, "item-body"), bodyClass)} style={bodyStyle}>
-            {this.props.children}
-         </div>
+         {this.props.children}
       </li>
    }
 
@@ -262,8 +222,8 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
 
       if (widget.onKeyDown)
          widget.onKeyDown(e, instance);
@@ -276,8 +236,8 @@ class MenuItemComponent extends VDOM.Component {
       if (this.state.focusable) {
          let {itemInfo, itemIndex} = this.props;
          let el = itemInfo[itemIndex].el;
-         var focusedEl = getFocusedElement();
-         var focusedChild = FocusManager.focusFirst(el);
+         let focusedEl = getFocusedElement();
+         let focusedChild = FocusManager.focusFirst(el);
          if (focusedChild != focusedEl) {
             Debug.log(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
          }

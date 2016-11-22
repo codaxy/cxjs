@@ -46,7 +46,6 @@ class Dashboard extends Controller {
 export default <cx>
    <div controller={Dashboard}>
       <Grid records:bind="$page.dashboard"
-         style="height:800px"
          lockColumnWidths
          keyField="id"
          defaultSortField="sales"

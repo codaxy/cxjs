@@ -51,6 +51,6 @@
    }
 }
 
-@if (cx-call-once('cx/widgets/Select')) {
+@if (cx-include('cx/widgets/Select')) {
    @include cx-select;
 }

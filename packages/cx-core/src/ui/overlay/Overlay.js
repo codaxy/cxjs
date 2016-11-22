@@ -38,6 +38,7 @@ export class Overlay extends PureContainer {
          ...data.stateMods,
          inline: this.inline,
          modal: this.modal,
+         pad: this.pad,
          resizable: data.resizable,
          draggable: data.draggable
       };

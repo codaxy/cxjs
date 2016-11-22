@@ -87,7 +87,7 @@ $cx-input-tool-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 
 // Clear
@@ -115,7 +115,7 @@ $cx-clear-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 
 // Label
@@ -144,6 +144,6 @@ $cx-label-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 

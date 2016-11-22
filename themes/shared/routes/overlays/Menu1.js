@@ -1,62 +1,90 @@
 import {DateField} from 'cx/ui/form/DateField';
 import {Checkbox} from 'cx/ui/form/Checkbox';
 import {TextField} from 'cx/ui/form/TextField';
-import {Submenu} from 'cx/ui/nav/Submenu';
-import {Menu, MenuItem} from 'cx/ui/nav/Menu';
+import {Menu} from 'cx/ui/nav/Menu';
+import {MenuItem} from 'cx/ui/nav/MenuItem';
+import {Button} from 'cx/ui/Button';
 import {HtmlElement} from 'cx/ui/HtmlElement';
 
 export default <cx>
    <Menu horizontal>
-      <Submenu>
-         File
+      <MenuItem>
+         <span>File</span>
          <Menu putInto="dropdown">
-            <a href="#" mod="menu-pad" onClick={e=>{ e.preventDefault(); document.activeElement.blur(); }}>Link</a>
+            <MenuItem>
+               <a href="#" onClick={e=>{ e.preventDefault(); document.activeElement.blur(); }}>Link</a>
+            </MenuItem>
+
             <hr/>
+
             <TextField value:bind="$page.text" mod="menu" />
             <TextField value:bind="$page.text" mod="menu" />
             <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
-            <Submenu arrow>
-               Submenu 1
+            <MenuItem arrow>
+               <span>Submenu 1</span>
                <Menu putInto="dropdown">
-                  <a href="#" class="cxm-menu">Item 1</a>
-                  <a href="#" class="cxm-menu">Item 2</a>
+                  <MenuItem>
+                     <a href="#">Item 1</a>
+                  </MenuItem>
+                  <MenuItem>
+                     <a href="#">Item 2</a>
+                  </MenuItem>
                </Menu>
-            </Submenu>
-            <Submenu arrow>
-               Submenu 2
+            </MenuItem>
+            <MenuItem arrow>
+               <span>Submenu 2</span>
                <Menu putInto="dropdown">
-                  <a href="#" mod="menu-pad">Item 1</a>
-                  <a href="#" mod="menu-pad">Item 2</a>
+                  <MenuItem>
+                     <a href="#">Item 1</a>
+                  </MenuItem>
+                  <MenuItem>
+                     <a href="#">Item 2</a>
+                  </MenuItem>
                </Menu>
-            </Submenu>
+            </MenuItem>
             <DateField value:bind="$page.date" mod="menu" />
-            <MenuItem mod="active" class="test" style="color:red;">
+            <MenuItem mod="active" class="test" style="color:red;" plain>
                <a href="#" mod="menu-pad">Item Level CSS</a>
             </MenuItem>
          </Menu>
-      </Submenu>
-      <Submenu>
-         Edit
+      </MenuItem>
+      <MenuItem>
+         <span>Edit</span>
          <Menu putInto="dropdown">
-            <a href="#" mod="menu-pad">Link</a>
+            <MenuItem>
+               <a href="#" mod="menu-pad">Link</a>
+            </MenuItem>
+
             <hr/>
+
             <TextField value:bind="$page.text"  mod="menu"/>
             <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
-            <Submenu>
-               Submenu 1
+            <MenuItem>
+               <span>Submenu 1</span>
                <Menu putInto="dropdown">
-                  <a href="#"class="cxm-menu-pad">Item 1</a>
-                  <a href="#"class="cxm-menu-pad">Item 2</a>
+                  <MenuItem>
+                     <a href="#">Item 1</a>
+                  </MenuItem>
+                  <MenuItem>
+                     <a href="#">Item 2</a>
+                  </MenuItem>
                </Menu>
-            </Submenu>
-            <Submenu>
-               Submenu 2
+            </MenuItem>
+            <MenuItem>
+               <span>Submenu 2</span>
                <Menu putInto="dropdown">
-                  <a href="#" class="cxm-menu-pad">Item 1</a>
-                  <a href="#" class="cxm-menu-pad">Item 2</a>
+                  <MenuItem>
+                     <a href="#">Item 1</a>
+                  </MenuItem>
+                  <MenuItem>
+                     <a href="#">Item 2</a>
+                  </MenuItem>
                </Menu>
-            </Submenu>
+            </MenuItem>
          </Menu>
-      </Submenu>
+      </MenuItem>
+      <TextField mod="menu" />
+      <Button mod="hollow">Hollow</Button>
+      <Button mod="menu">Button</Button>
    </Menu>
 </cx>;
