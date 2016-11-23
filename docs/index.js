@@ -1,25 +1,18 @@
 import {Widget} from 'cx/ui/Widget';
 import {Main} from './app/Main';
 import {startAppLoop} from 'cx/app/startAppLoop';
-import {showError, hideError} from 'cx/app/error';
 import {Url} from 'cx/app/Url';
 import {History} from 'cx/app/History';
 import {Timing} from 'cx/util/Timing';
 import {Debug} from 'cx/util/Debug';
 import {store} from './app/store';
 import './app/icons';
-
 import "./index.scss";
 
-var stop;
-
-hideError();
-
 if (module.hot) {
+
     // accept itself
-    module.hot.accept(err=> {
-        showError(err.stack);
-    });
+    module.hot.accept();
 
     // remember data on dispose
     module.hot.dispose(function (data) {
@@ -44,9 +37,9 @@ Debug.enable('app-data');
 //Debug.enable('process-data');
 //Debug.enable('should-update');
 
-stop = startAppLoop(document.getElementById('app'), store, Main);
+let stop = startAppLoop(document.getElementById('app'), store, Main);
 
 // #if production
-import {setupGoogleAnalytics} from "./ga";;
+import {setupGoogleAnalytics} from "./ga";
 setupGoogleAnalytics();
 // #end

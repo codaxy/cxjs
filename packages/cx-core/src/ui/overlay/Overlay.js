@@ -413,10 +413,15 @@ export class OverlayComponent extends VDOM.Component {
       var {instance, subscribeToBeforeDismiss, parentEl} = this.props;
       var {widget} = instance;
       if (!parentEl && !widget.inline) {
-         this.ownedEl = document.createElement('div');
+         if (widget.containerFactory)
+            this.ownedEl = widget.containerFactory();
+         else {
+
+            this.ownedEl = document.createElement('div');
+            document.body.appendChild(this.ownedEl);
+         }
          this.ownedEl.style.display = 'hidden';
          this.containerEl = this.ownedEl;
-         document.body.appendChild(this.ownedEl);
       }
 
       this.componentDidUpdate();
@@ -459,7 +464,8 @@ export class OverlayComponent extends VDOM.Component {
 
       if (this.ownedEl) {
          setTimeout(() => {
-            document.body.removeChild(this.ownedEl);
+            if (this.ownedEl.parentNode)
+               this.ownedEl.parentNode.removeChild(this.ownedEl);
             this.ownedEl = null;
          }, 0);
       }

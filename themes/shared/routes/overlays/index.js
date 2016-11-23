@@ -8,6 +8,7 @@ import LoginWindow from './LoginWindow';
 import ContactWindow from './ContactWindow';
 
 import Menu1 from './Menu1';
+import Toasts from './Toasts';
 
 export default <cx>
    <span putInto="breadcrumbs">Overlays</span>
@@ -26,6 +27,10 @@ export default <cx>
 
       <Section mod="well" title="Menus" style="flex:1">
          <Menu1 />
+      </Section>
+
+      <Section mod="well" title="Toasts" style="flex:1">
+         <Toasts />
       </Section>
    </FlexRow>
 </cx>
