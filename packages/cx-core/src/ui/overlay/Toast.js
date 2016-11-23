@@ -1,8 +1,5 @@
-import {Widget, VDOM, getContent} from 'cx/ui/Widget';
-import {Overlay} from 'cx/ui/overlay/Overlay';
+import {Overlay} from './Overlay';
 import {Text} from 'cx/ui/Text';
-import {Button} from 'cx/ui/Button';
-import CloseIcon from 'cx/ui/icons/close';
 
 export class Toast extends Overlay {
 
@@ -54,17 +51,18 @@ export class Toast extends Overlay {
    }
 
    overlayWillUnmount(instance, component) {
-      var el = component.containerEl || component.props.parentEl;
+      let el = component.containerEl || component.props.parentEl;
       el.style.height = 0;
       el.classList.remove(this.CSS.state('live'));
       if (component.timeoutTimer)
          clearTimeout(component.timeoutTimer)
    }
 
-   containerFactory(context, instance) {
+   containerFactory() {
       let el = document.createElement('div');
-      el.className = 'cxe-toaster-item';
+      el.className = this.CSS.element('toaster', 'item');
       let toaster = getToaster(this.placement);
+      toaster.el.className = this.CSS.block('toaster');
       toaster.el.insertBefore(el, toaster.el.firstChild);
       return el;
    }
@@ -76,7 +74,6 @@ function getToaster(placement) {
    let t = toasters[placement];
    if (!t) {
       let el = document.createElement('div');
-      el.className = 'cxb-toaster';
       document.body.appendChild(el);
       t = toasters[placement] = {
          el

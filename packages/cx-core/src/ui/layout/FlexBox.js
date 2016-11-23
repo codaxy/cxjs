@@ -1,5 +1,5 @@
-import {Widget, VDOM, getContent} from 'cx/ui/Widget';
-import {PureContainer} from 'cx/ui/PureContainer';
+import {VDOM} from '../Widget';
+import {PureContainer} from '../PureContainer';
 
 export class FlexBox extends PureContainer {
 
@@ -40,5 +40,4 @@ FlexBox.prototype.target = 'any';
 export class FlexRow extends FlexBox {}
 
 export class FlexCol extends FlexBox {}
-
 FlexCol.prototype.direction = 'column';

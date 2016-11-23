@@ -98,6 +98,6 @@
    }
 }
 
-@if (cx-include('cx/charts/List')) {
+@if (cx-include('cx/widgets/List')) {
    @include cx-list();
 }

@@ -1,8 +1,8 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Button} from 'cx/ui/Button';
 import {Tab} from 'cx/ui/nav/Tab';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
@@ -73,7 +73,7 @@ export default <cx>
          <TabContent />
       </Section>
 
-      <Section mod="well" title="Classic Tabs" pad={false} style="flex:1" preserveWhitespace>
+      <Section mod="well" title="Classic Tabs" pad={false} style="flex:1" headerStyle="border-bottom: none" preserveWhitespace>
          <div>
             <div style="padding-left:1.5rem;white-space:nowrap;">
                <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>

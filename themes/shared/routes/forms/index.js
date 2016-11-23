@@ -13,8 +13,8 @@ import {TextArea} from 'cx/ui/form/TextArea';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {TextField} from 'cx/ui/form/TextField';
 import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 const options = [
    {id: 1, text: 'Option 1'},

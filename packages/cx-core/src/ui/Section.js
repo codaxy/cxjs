@@ -1,13 +1,23 @@
-import {Widget, VDOM, getContent} from 'cx/ui/Widget';
-import {PureContainer} from 'cx/ui/PureContainer';
-import {Text} from 'cx/ui/Text';
-import {StaticText} from 'cx/ui/StaticText';
+import {Widget, VDOM, getContent} from './Widget';
+import {PureContainer} from './PureContainer';
+import {Text} from './Text';
+import {StaticText} from './StaticText';
+import {parseStyle} from '../util/parseStyle';
 
 export class Section extends PureContainer {
 
-   // declareData() {
-   //    return super.declareData(...arguments, {})
-   // }
+   init() {
+      if (typeof this.headerStyle == 'string')
+         this.headerStyle = parseStyle(this.headerStyle);
+      super.init();
+   }
+
+   declareData() {
+      return super.declareData({
+         headerStyle: {structured: true},
+         headerClass: {structured: true}
+      })
+   }
 
    initComponents() {
       super.initComponents({
@@ -36,11 +46,17 @@ export class Section extends PureContainer {
    render(context, instance, key) {
       let {data, components} = instance;
       let header;
+      let {CSS, baseClass} = this;
 
       if (components.header)
-         header = <header className={this.CSS.element(this.baseClass, 'header')}>
-            {getContent(components.header.render(context))}
-         </header>;
+         header = (
+            <header
+               className={CSS.expand(CSS.element(baseClass, 'header'), data.headerClass)}
+               style={data.headerStyle}
+            >
+               {getContent(components.header.render(context))}
+            </header>
+         );
 
       return <section key={key} className={data.classNames} style={data.style}>
          { header }

@@ -1,6 +1,6 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 import LineChart from './LineChart';
 import BarChart from './BarChart';

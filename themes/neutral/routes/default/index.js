@@ -1,7 +1,7 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Menu} from 'cx/ui/nav/Menu';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 export default <cx>
    <FlexRow pad spacing wrap>

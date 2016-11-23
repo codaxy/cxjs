@@ -1,7 +1,7 @@
 import {Button} from 'cx/ui/Button';
 import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 import {MsgBox} from 'cx/ui/overlay/MsgBox';
 
 import LoginWindow from './LoginWindow';

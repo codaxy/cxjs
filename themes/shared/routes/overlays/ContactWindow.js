@@ -4,8 +4,8 @@ import {TextField} from 'cx/ui/form/TextField';
 import {TextArea} from 'cx/ui/form/TextArea';
 import {Checkbox} from 'cx/ui/form/Checkbox';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 import {Button} from 'cx/ui/Button';
 
 export default <cx>

@@ -74,7 +74,8 @@ export default <cx>
                   items: <TextField value:bind="$page.filter.phone" reactOn="enter blur"
                      style="width:100%"/>
                },
-               field: 'phone'
+               field: 'phone',
+               style: 'white-space: nowrap'
             },
             {
                header1: 'City',

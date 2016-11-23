@@ -2,8 +2,8 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {PureContainer} from 'cx/ui/PureContainer';
 import {Repeater} from 'cx/ui/Repeater';
 import createLayout from 'shared/layout';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 const layout = createLayout(<cx>
    <span>Themes</span>

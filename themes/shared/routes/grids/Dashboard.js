@@ -9,7 +9,7 @@ import {Svg} from 'cx/ui/svg/Svg';
 import {Grid} from 'cx/ui/grid/Grid';
 import {Controller} from 'cx/ui/Controller';
 import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'shared/components/Section';
+import {Section} from 'cx/ui/Section';
 
 import {casual} from 'shared/data/casual';
 

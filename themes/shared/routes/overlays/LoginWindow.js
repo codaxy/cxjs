@@ -2,7 +2,7 @@ import {Window} from 'cx/ui/overlay/Window';
 import {TextField} from 'cx/ui/form/TextField';
 import {Checkbox} from 'cx/ui/form/Checkbox';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {Section} from 'shared/components/Section';
+import {Section} from 'cx/ui/Section';
 import {Button} from 'cx/ui/Button';
 
 export default <cx>

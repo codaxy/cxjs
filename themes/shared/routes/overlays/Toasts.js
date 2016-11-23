@@ -1,8 +1,8 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Checkbox} from 'cx/ui/form/Checkbox';
 import {Button} from 'cx/ui/Button';
-import {Toast} from 'shared/components/Toast';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Toast} from 'cx/ui/overlay/Toast';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 function addToast3(e, {store}) {
    let toast = Toast.create({

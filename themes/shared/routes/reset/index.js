@@ -1,8 +1,8 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Button} from 'cx/ui/Button';
 import {Tab} from 'cx/ui/nav/Tab';
-import {Section} from 'shared/components/Section';
-import {FlexRow} from 'shared/components/FlexBox';
+import {Section} from 'cx/ui/Section';
+import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 
 export default <cx>
