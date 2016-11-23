@@ -13,9 +13,9 @@ import Toasts from './Toasts';
 export default <cx>
    <span putInto="breadcrumbs">Overlays</span>
 
-   <FlexRow pad distance wrap>
+   <FlexRow pad spacing wrap>
       <Section mod="well" title="Windows" style="flex:1">
-         <FlexRow distance align>
+         <FlexRow spacing align>
             <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
             <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
             <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>

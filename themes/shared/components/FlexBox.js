@@ -8,7 +8,7 @@ export class FlexBox extends PureContainer {
       data.stateMods = {
          ...data.stateMods,
          pad: this.pad,
-         distance: this.distance,
+         spacing: this.spacing,
          ['align-' + this.align]: this.align,
          ['justify-' + this.justify]: this.center,
          wrap: this.wrap,
@@ -29,7 +29,7 @@ export class FlexBox extends PureContainer {
 FlexBox.prototype.baseClass = "flexbox";
 FlexBox.prototype.styled = true;
 FlexBox.prototype.direction = 'row';
-FlexBox.prototype.distance = false;
+FlexBox.prototype.spacing = false;
 FlexBox.prototype.pad = false;
 FlexBox.prototype.wrap = false;
 FlexBox.prototype.align = false;

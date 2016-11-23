@@ -30,7 +30,7 @@ const options = [
 export default <cx>
    <span putInto="breadcrumbs">Forms</span>
 
-   <FlexRow pad distance wrap target="tablet">
+   <FlexRow pad spacing wrap target="tablet">
       <Section mod="well" title="Inputs" style="flex:1">
          <div layout={{ type: LabelsLeftLayout, mod: "stretch"}}>
             <TextField label="TextField" value:bind="text"/>

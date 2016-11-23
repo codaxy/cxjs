@@ -8,7 +8,7 @@ import {FlexRow} from 'shared/components/FlexBox';
 export default <cx>
    <span putInto="breadcrumbs">Blocks</span>
 
-   <FlexRow pad distance wrap>
+   <FlexRow pad spacing wrap>
       <Section mod="well" style="flex:1" preserveWhitespace>
          <h1>Header 1</h1>
          <h2>Header 2</h2>

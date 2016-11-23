@@ -21,7 +21,7 @@ function addToast5(e, {store}) {
 }
 
 export default <cx>
-   <FlexRow distance align wrap>
+   <FlexRow spacing align wrap>
       <Checkbox value:bind="$page.toast1">Toast1</Checkbox>
       <Checkbox value:bind="$page.toast2">Toast2</Checkbox>
       <Checkbox value:bind="$page.toast3">Toast3</Checkbox>
@@ -29,13 +29,13 @@ export default <cx>
       <Button onClick={addToast5}>5s Toast</Button>
 
       <Toast visible:bind="$page.toast1" pad>
-         <FlexRow distance align="center">
+         <FlexRow spacing align="center">
             <span>Toast 1</span>
             <Button dismiss icon="close" mod="hollow" />
          </FlexRow>
       </Toast>
       <Toast visible:bind="$page.toast2" closable pad>
-         <FlexRow distance align="center">
+         <FlexRow spacing align="center">
             <Button dismiss icon="close" mod="hollow" />
             <span>Toast 2</span>
             <div>

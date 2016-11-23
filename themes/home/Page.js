@@ -28,7 +28,7 @@ const themes = [{
 
 export default <cx>
    <PureContainer outerLayout={layout}>
-      <FlexRow distance wrap center>
+      <FlexRow pad spacing wrap justify="center">
          <Repeater records={themes} recordName="$theme">
             <Section mod="well" pad={false}>
                <a href:bind="$theme.url" style="display:table">
