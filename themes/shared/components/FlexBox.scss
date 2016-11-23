@@ -10,44 +10,55 @@
       flex-direction: row;
    }
 
+   &.cxs-pad {
+      padding: 1rem;
+   }
+
    &.cxs-distance {
-      padding: 0.5rem;
+      margin: -0.5rem;
 
       & > * {
          margin: 0.5rem;
       }
    }
 
-   &.cxs-align {
-      margin: -0.5rem;
-      padding: 0;
+   &.cxs-align-center {
+      align-items: center;
    }
 
    &.cxs-wrap {
       flex-wrap: wrap;
    }
 
-   &.cxs-center {
+   &.cxs-justify-center {
       justify-content: center;
    }
 
-   &.cxs-any {
+   &.cxs-justify-start {
+      justify-content: flex-start;
+   }
+
+   &.cxs-justify-end {
+      justify-content: flex-end;
+   }
+
+   &.cxs-target-any {
       display: flex;
    }
 
-   &.cxs-phone {
+   &.cxs-target-phone {
       @media screen and (min-width: 400px) {
          display: flex;
       }
    }
 
-   &.cxs-tablet {
+   &.cxs-target-tablet {
       @media screen and (min-width: 700px) {
          display: flex;
       }
    }
 
-   &.cxs-desktop {
+   &.cxs-target-desktop {
       @media screen and (min-width: 1000px) {
          display: flex;
       }

@@ -7,11 +7,12 @@ export class FlexBox extends PureContainer {
       let {data} = instance;
       data.stateMods = {
          ...data.stateMods,
+         pad: this.pad,
          distance: this.distance,
-         align: this.align,
-         center: this.center,
+         ['align-' + this.align]: this.align,
+         ['justify-' + this.justify]: this.center,
          wrap: this.wrap,
-         [this.target]: true,
+         ['target-' + this.target]: true,
          [this.direction]: true
       };
       super.prepareCSS(context, instance);
@@ -29,9 +30,10 @@ FlexBox.prototype.baseClass = "flexbox";
 FlexBox.prototype.styled = true;
 FlexBox.prototype.direction = 'row';
 FlexBox.prototype.distance = false;
+FlexBox.prototype.pad = false;
 FlexBox.prototype.wrap = false;
 FlexBox.prototype.align = false;
-FlexBox.prototype.center = false;
+FlexBox.prototype.justify = false;
 FlexBox.prototype.align = false;
 FlexBox.prototype.target = 'any';
 

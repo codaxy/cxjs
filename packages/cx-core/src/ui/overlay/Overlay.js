@@ -119,12 +119,17 @@ export class Overlay extends PureContainer {
          this.onMouseEnter(instance, component);
    }
 
+   containerFactory() {
+      let el = document.createElement('div');
+      document.body.appendChild(el);
+      return el;
+   }
+
    open(store, options) {
       if (!this.initialized)
          this.init();
 
-      var el = document.createElement('div');
-      document.body.appendChild(el);
+      var el = this.containerFactory();
       el.style.display = "hidden";
       options = {
          ...options,
@@ -146,7 +151,8 @@ export class Overlay extends PureContainer {
             setTimeout(() => {
                if (VDOM.DOM.unmountComponentAtNode)
                   VDOM.DOM.unmountComponentAtNode(el);
-               document.body.removeChild(el);
+               if (el.parentNode)
+                  el.parentNode.removeChild(el);
                el = null;
             }, this.destroyDelay);
          }
@@ -338,7 +344,7 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onMouseMove(e, captureData) {
-      if (captureData) {
+      if (captureData && captureData.prefix) {
          var {prefix, rect, dl, dt, dr, db} = captureData;
          var cursor = this.getCursorPos(e);
 
@@ -413,13 +419,7 @@ export class OverlayComponent extends VDOM.Component {
       var {instance, subscribeToBeforeDismiss, parentEl} = this.props;
       var {widget} = instance;
       if (!parentEl && !widget.inline) {
-         if (widget.containerFactory)
-            this.ownedEl = widget.containerFactory();
-         else {
-
-            this.ownedEl = document.createElement('div');
-            document.body.appendChild(this.ownedEl);
-         }
+         this.ownedEl = widget.containerFactory();
          this.ownedEl.style.display = 'hidden';
          this.containerEl = this.ownedEl;
       }
@@ -448,9 +448,11 @@ export class OverlayComponent extends VDOM.Component {
       }
 
       if (widget.animate) {
-         this.setState({
-            animated: true
-         });
+         setTimeout(() => {
+            this.setState({
+               animated: true
+            });
+         }, 0);
       }
    }
 
@@ -458,16 +460,21 @@ export class OverlayComponent extends VDOM.Component {
 
       offFocusOut(this);
 
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
 
       widget.overlayWillUnmount(this.props.instance, this);
+
+      this.unmounting = true;
+      if (widget.animate) {
+         this.el.className = this.getOverlayCssClass();
+      }
 
       if (this.ownedEl) {
          setTimeout(() => {
             if (this.ownedEl.parentNode)
                this.ownedEl.parentNode.removeChild(this.ownedEl);
             this.ownedEl = null;
-         }, 0);
+         }, widget.destroyDelay);
       }
 
       delete this.containerEl;
@@ -508,7 +515,7 @@ export class OverlayComponent extends VDOM.Component {
 
       return CSS.expand(data.classNames, CSS.state({
          ...this.state.mods,
-         animated: this.state.animated
+         animated: this.state.animated && !this.unmounting
       }));
    }
 

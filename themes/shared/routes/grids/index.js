@@ -19,7 +19,7 @@ export default <cx>
    <div>
       <span putInto="breadcrumbs">Grids</span>
 
-      <FlexRow distance wrap target="desktop">
+      <FlexRow pad distance wrap target="desktop">
          <Section title="Pagination" style="flex:1" mod="well">
             <Pagination />
          </Section>

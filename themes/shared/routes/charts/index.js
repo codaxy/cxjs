@@ -9,7 +9,7 @@ import PieChart from './PieChart';
 export default <cx>
    <span putInto="breadcrumbs">Charts</span>
 
-   <FlexRow distance wrap>
+   <FlexRow pad distance wrap>
       <Section mod="well" style="flex:1" title="Line Chart">
          <LineChart />
       </Section>

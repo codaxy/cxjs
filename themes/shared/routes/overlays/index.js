@@ -13,7 +13,7 @@ import Toasts from './Toasts';
 export default <cx>
    <span putInto="breadcrumbs">Overlays</span>
 
-   <FlexRow distance wrap>
+   <FlexRow pad distance wrap>
       <Section mod="well" title="Windows" style="flex:1">
          <FlexRow distance align>
             <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>

@@ -40,7 +40,7 @@ const TabContent = <cx>
 export default <cx>
    <span putInto="breadcrumbs">Blocks</span>
 
-   <FlexRow distance wrap>
+   <FlexRow pad distance wrap>
       <Section mod="well" title="Buttons" style="flex:1" preserveWhitespace>
          <FlexRow distance wrap align>
             <Button>Default</Button>
