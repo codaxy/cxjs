@@ -28,7 +28,9 @@ export class Button extends HtmlElement {
       }
 
       props.type = 'button';
+
       delete props.confirm;
+      delete props.dismiss;
 
       let oldOnClick, {data} = instance;
 

@@ -415,9 +415,26 @@ export class OverlayComponent extends VDOM.Component {
       }
    }
 
+   onBeforeDismiss() {
+      let {instance} = this.props;
+      let {widget} = instance;
+
+      if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false)
+         return false;
+
+      if (widget.animate)
+         this.setState({
+            animated: false
+         });
+
+      this.el.className = this.getOverlayCssClass();
+
+      return true;
+   }
+
    componentDidMount() {
-      var {instance, subscribeToBeforeDismiss, parentEl} = this.props;
-      var {widget} = instance;
+      let {instance, subscribeToBeforeDismiss, parentEl} = this.props;
+      let {widget} = instance;
       if (!parentEl && !widget.inline) {
          this.ownedEl = widget.containerFactory();
          this.ownedEl.style.display = 'hidden';
@@ -439,12 +456,7 @@ export class OverlayComponent extends VDOM.Component {
          oneFocusOut(this, this.el, ::this.onFocusOut);
 
       if (subscribeToBeforeDismiss) {
-         subscribeToBeforeDismiss(() => {
-            if (widget.animate)
-               this.setState({
-                  animated: false
-               });
-         });
+         subscribeToBeforeDismiss(::this.onBeforeDismiss);
       }
 
       if (widget.animate) {
@@ -460,14 +472,14 @@ export class OverlayComponent extends VDOM.Component {
 
       offFocusOut(this);
 
+      //we didn't have a chance to call onBeforeDismiss
+      this.unmounting = true;
+      if (this.state.animated)
+         this.onBeforeDismiss();
+
       let {widget} = this.props.instance;
 
       widget.overlayWillUnmount(this.props.instance, this);
-
-      this.unmounting = true;
-      if (widget.animate) {
-         this.el.className = this.getOverlayCssClass();
-      }
 
       if (this.ownedEl) {
          setTimeout(() => {

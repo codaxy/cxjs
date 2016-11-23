@@ -20,6 +20,9 @@ $cx-menu-state-style-map: $cx-list !default;
       list-style: none;
 
       &.#{$state}horizontal {
+
+         white-space: nowrap;
+
          & > .#{$element}#{$name}-item {
             display: inline-block;
             vertical-align: middle;

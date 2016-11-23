@@ -31,9 +31,11 @@ export class Toast extends Overlay {
    }
 
    overlayDidUpdate(instance, component) {
-      var el = component.containerEl || component.props.parentEl;
-      el.style.height = `${component.el.offsetHeight}px`;
-      el.classList.add(this.CSS.state('live'));
+      let el = component.containerEl || component.props.parentEl;
+      if (component.state.animated) {
+         el.style.height = `${component.el.offsetHeight}px`;
+         el.classList.add(this.CSS.state('live'));
+      }
    }
 
    overlayDidMount(instance, component) {
@@ -43,6 +45,12 @@ export class Toast extends Overlay {
             instance.dismiss();
          }, data.timeout);
       }
+   }
+
+   overlayWillDismiss(instance, component) {
+      let el = component.containerEl || component.props.parentEl;
+      el.style.height = 0;
+      el.classList.remove(this.CSS.state('live'));
    }
 
    overlayWillUnmount(instance, component) {
