@@ -39,11 +39,23 @@
       right: 0;
       top: 0;
       bottom: 0;
+   }
+
+   %cxe-overlay-shadow {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       background: rgba(128, 128, 128, 0.3);
    }
 
    .#{$block}#{$name} {
       @extend %cxb-overlay;
+
+      &.#{$state}pad {
+         padding: $cx-default-container-padding;
+      }
    }
 
    .#{$element}#{$name}-modal-backdrop {

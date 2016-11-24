@@ -14,8 +14,6 @@ $cx-besm: (
    mod: 'cxm-',
 ) !default;
 
-$cx-default-border-color: #bfbfbf !default;
-
 /*
  Boxes
  -----
@@ -43,6 +41,25 @@ $cx-default-box-font-family: inherit !default;
 $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
+
+/*
+Borders
+-------
+*/
+
+$cx-default-border-color: #bfbfbf !default;
+$cx-default-border-radius: 0 !default;
+$cx-default-border-width: 1px !default;
+
+/*
+Padding
+-------
+ */
+
+$cx-default-container-padding: 5px;
+$cx-default-content-padding: 5px 10px;
+
+
 
 
 /*
@@ -98,8 +115,8 @@ $cx-list-item: (
       //background: rgba(123,190,255, 0.7)
    ),
    disabled: (
-      color: lightgray,
-      background-color: #eee,
+      color: rgba(128, 128, 128, .5),
+      background-color: rgba(128, 128, 128, .1),
       cursor: default
    )
 );

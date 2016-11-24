@@ -36,5 +36,5 @@
       @return $calc;
    }
 
-   @return return 'calc(' + #{$calc}  + ')';
+   @return #{'calc(' + $calc  + ')'};
 }

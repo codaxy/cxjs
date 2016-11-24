@@ -4,9 +4,54 @@
 
 @import "variables";
 @import '../../util/scss/include';
+@import '../../util/scss/add-rules';
+
+$cx-window-state-style-map: (
+   default: (
+      box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29),
+      background: transparent,
+      border-radius: $cx-default-border-radius
+   ),
+   resizable: (
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.29)
+   )
+) !default;
+
+
+$cx-window-header-state-style-map: (
+   default: (
+      background: rgba(246, 246, 246, 0.9),
+      padding: 10px 15px,
+      font-size: 16px,
+      border-top-left-radius: $cx-default-border-radius,
+      border-top-right-radius: $cx-default-border-radius
+   ),
+   active: (
+
+   )
+) !default;
+
+$cx-window-footer-state-style-map: (
+   default: (
+      background: rgba(246, 246, 246, 0.9),
+      padding: 10px 20px,
+      border-bottom-left-radius: $cx-default-border-radius,
+      border-bottom-right-radius: $cx-default-border-radius
+   )
+) !default;
+
+$cx-window-body-state-style-map: (
+   default: (
+      background: white
+   )
+) !default;
 
 @mixin cx-window(
    $name: 'window',
+   $state-style-map: $cx-window-state-style-map,
+   $header-state-style-map: $cx-window-header-state-style-map,
+   $body-state-style-map: $cx-window-body-state-style-map,
+   $footer-state-style-map: $cx-window-footer-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -17,13 +62,13 @@
    .#{$block}#{$name} {
       @extend %cxb-overlay;
       box-sizing: border-box;
-      box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29);
-      background: transparent;
       z-index: 1000;
+
+      @include cx-add-state-rules($state-style-map, default);
 
       &.#{$state}resizable {
          &.#{$state}active {
-            box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.29);
+            @include cx-add-state-rules($state-style-map, resizable);
          }
       }
 
@@ -33,22 +78,27 @@
    }
 
    .#{$element}#{$name}-header {
-      background: rgba(246, 246, 246, 0.9);
-      padding: 10px 15px;
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      @include cx-add-state-rules($header-state-style-map, default);
+
+      .#{$state}draggable & {
+         cursor: pointer;
+      }
 
       .#{$state}active & {
-         //background: rgba(6, 178, 255, 0.9);
+         @include cx-add-state-rules($header-state-style-map, active);
       }
    }
 
    .#{$element}#{$name}-footer {
-      background: rgba(246, 246, 246, 0.9);
-      padding: 10px 20px;
       position: relative;
       box-sizing: border-box;
+
+      @include cx-add-state-rules($footer-state-style-map, default);
 
       &:after {
          clear: both;
@@ -65,10 +115,11 @@
    }
 
    .#{$element}#{$name}-body {
-      background: white;
       overflow: auto;
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
+
+      @include cx-add-state-rules($body-state-style-map, default);
 
       .#{$mod}alert & {
          padding: 40px;
@@ -89,6 +140,11 @@
       height: 30px;
       display: block;
       border-radius: 50%;
+      background-color: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
 
       &:hover {
          @each $rule, $value in map-get($cx-list-item, hover) {
@@ -111,6 +167,10 @@
 
    .#{$element}#{$name}-modal-backdrop {
       @extend %cxe-overlay-modal-backdrop;
+   }
+
+   .#{$element}#{$name}-shadow {
+      @extend %cxe-overlay-shadow;
    }
 }
 

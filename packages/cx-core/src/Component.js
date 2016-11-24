@@ -35,36 +35,37 @@ export class Component {
       if (typeAlias.type)
          return this.create(typeAlias.type, typeAlias, config);
 
-      var cmpType;
+      let cmpType, alias;
 
       if (typeAlias.isComponentType)
          cmpType = typeAlias;
-      else {
-         var alias = this.namespace + typeAlias;
-         var cmpType = componentAlias[alias];
+      else if (typeof typeAlias == 'string') {
+         alias = this.namespace + typeAlias;
+         cmpType = componentAlias[alias];
          if (!cmpType) {
-            if (typeof typeAlias == 'object') {
-               let cfg = Object.assign({}, typeAlias, config, more);
-               if (cfg.$type || cfg.type)
-                  return this.create(cfg);
-            }
-
             if (typeAlias && this.factory)
                return this.factory(typeAlias, config, more);
-
             throw new Error(`Unknown component alias ${alias}.`);
+         }
+      }
+      else if (typeof typeAlias == 'object') {
+         cmpType = typeAlias.type || typeAlias.$type;
+         if (!cmpType) {
+            cmpType = this;
+            more = more ? Object.assign({}, config, more) : config;
+            config = typeAlias;
          }
       }
 
       if (Array.isArray(config))
          return config.map(cfg=>this.create(cmpType, cfg, more));
 
-      var cfg = config;
+      let cfg = config;
 
       if (more)
          cfg = Object.assign({}, config, more);
 
-      var cmp = new cmpType(cfg);
+      let cmp = new cmpType(cfg);
       if (!this.lazyInit)
          cmp.init();
       return cmp;

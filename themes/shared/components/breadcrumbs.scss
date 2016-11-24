@@ -1,0 +1,28 @@
+//
+// Breadcrumbs
+//
+
+.b-crumbs {
+
+   a {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.7;
+   }
+
+   *:not(:last-child):after {
+      content: '>';
+      margin-left: 0.7rem;
+      position: absolute;
+      opacity: 0.3;
+   }
+
+   a:hover {
+      opacity: 1;
+   }
+
+   a, span {
+      padding: 0 1rem;
+      font-weight: bold;
+   }
+}

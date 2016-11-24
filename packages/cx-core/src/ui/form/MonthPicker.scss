@@ -17,7 +17,8 @@
       );
       overflow-y: scroll;
       overflow-x: hidden;
-      max-height: 30em;
+      height: 30em;
+      max-height: 100%;
       position: relative;
       width: 23em;
 
@@ -27,14 +28,16 @@
          font-size: 0.9em;
       }
 
+      $border-color: cx-get-state-rule($state-style-map, default, border-color);
+
       th, td {
-         border-top: 1px solid #eee;
+         border-top: 1px solid transparentize($border-color, 0.5);
       }
 
       tbody:not(:first-child) {
          tr:first-child {
             th, td {
-               border-top: 1px solid lightgray;
+               border-top: 1px solid $border-color;
             }
          }
       }

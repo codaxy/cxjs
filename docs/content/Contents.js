@@ -71,6 +71,10 @@ var contents = [{
         {title: 'PureContainer', url: '~/widgets/pure-container'},
         {title: 'Button', url: '~/widgets/buttons'},
         {title: 'UploadButton', url: '~/widgets/upload-button'},
+        {title: 'Section', url: '~/widgets/sections'},
+        {title: 'Heading', url: '~/widgets/headings'},
+        {title: 'FlexBox', url: '~/widgets/flex-box'},
+
     ]
 }, {
     topic: 'Overlays',
@@ -79,6 +83,7 @@ var contents = [{
         {title: 'Overlays', url: '~/widgets/overlays'},
         {title: 'Windows', url: '~/widgets/windows'},
         {title: 'MsgBox', url: '~/widgets/msg-boxes'},
+        {title: 'Toast', url: '~/widgets/toasts'},
         {title: 'Tooltips', url: '~/widgets/tooltips'},
     ]
 }, {

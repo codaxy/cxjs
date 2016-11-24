@@ -1,4 +1,5 @@
 @import "Field";
+@import "../overlay/Dropdown";
 
 @mixin cx-select(
    $name: 'select',
@@ -43,9 +44,13 @@
          margin: 0;
          padding: 0;
       }
+
+      option {
+         background-color: $cx-default-dropdown-background-color;
+      }
    }
 }
 
-@if (cx-call-once('cx/widgets/Select')) {
+@if (cx-include('cx/widgets/Select')) {
    @include cx-select;
 }

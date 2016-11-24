@@ -2,6 +2,7 @@
 @import "../util/scss/clockwise";
 @import "../util/scss/include";
 @import "../util/scss/add-rules";
+@import "../util/scss/calc";
 
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
@@ -9,6 +10,8 @@ $cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding 
 $cx-default-button-border-width: $cx-default-box-border-width !default;
 $cx-default-button-background-color: #eee !default;
 $cx-default-button-border-color: #ccc !default;
+$cx-default-button-border-radius: $cx-default-border-radius !default;
+$cx-default-button-color: null !default;
 
 $cx-button-state-style-map: (
    default: (
@@ -21,14 +24,17 @@ $cx-button-state-style-map: (
       font-size: $cx-default-button-font-size,
       line-height: $cx-default-box-line-height,
       border-width: $cx-default-button-border-width,
+      border-radius: $cx-default-button-border-radius,
       padding: $cx-default-button-padding,
+      color: $cx-default-button-color,
       cursor: pointer,
       -webkit-appearance: none,
       -moz-appearance: none,
+      vertical-align: middle,
       appearance: none
    ),
    hover: (
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15)
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
    ),
    focus: (
       outline: none,
@@ -65,9 +71,29 @@ $cx-button-mods: (
          color: white
       ),
       disabled: (
-         background: transparentize(#1f99f8, 0.4),
-         border-color: transparentize(#1E88E5, 0.9),
+         background: transparentize(#d32f2f, 0.4),
+         border-color: transparentize(#c62828, 0.9),
          color: transparentize(white, 0.5),
+      )
+   ),
+   hollow: (
+      default: (
+         background: transparent,
+         border-color: transparent,
+         color: inherit,
+         box-shadow: none,
+         padding: $cx-default-box-padding,
+      ),
+      hover: map-merge(map-get($cx-list-item, hover), (
+         box-shadow: none,
+         border-color: transparent
+      )),
+      focus: map-merge(map-get($cx-list-item, selected-focus), (
+         box-shadow: none,
+         border-color: transparent
+      )),
+      disabled: (
+         color: gray
       )
    )
 ) !default;
@@ -112,6 +138,14 @@ $cx-button-mods: (
             @include cx-add-state-rules($state-style-map, 'focus');
          }
 
+         &:hover:focus {
+            @include cx-add-state-rules($state-style-map, 'hover-focus');
+         }
+
+         &:focus {
+            @include cx-add-state-rules($state-style-map, 'focus');
+         }
+
          &:active {
             @include cx-add-state-rules($state-style-map, 'active');
          }
@@ -133,24 +167,49 @@ $cx-button-mods: (
                }
             }
 
-            &:hover {
-               @each $rule, $value in map-get($config, hover) {
-                  #{$rule}: $value;
-               }
-            }
+            &:not([disabled]) {
 
-            &:focus {
-               @each $rule, $value in map-get($config, focus) {
-                  #{$rule}: $value;
+               &:hover {
+                  @each $rule, $value in map-get($config, hover) {
+                     #{$rule}: $value;
+                  }
                }
-            }
 
-            &:active {
-               @each $rule, $value in map-get($config, active) {
-                  #{$rule}: $value;
+               &:focus {
+                  @each $rule, $value in map-get($config, focus) {
+                     #{$rule}: $value;
+                  }
+               }
+
+               &:active {
+                  @each $rule, $value in map-get($config, active) {
+                     #{$rule}: $value;
+                  }
                }
             }
          }
+      }
+   }
+
+   $iconSize: 16px;
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+
+   .#{$element}#{$name}-icon {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: cx-left($padding) / 2;
+      margin-top: -$iconSize / 2;
+      height: $iconSize;
+      width: $iconSize;
+      line-height: $iconSize;
+   }
+
+   .#{$block}#{$name}.#{$state}icon {
+      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $iconSize);
+
+      &.#{$state}empty {
+         padding: cx-top($padding) cx-right($padding)/2 cx-bottom($padding) cx-calc(cx-left($padding)/2, $iconSize);
       }
    }
 }

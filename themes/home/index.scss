@@ -1,0 +1,59 @@
+@import "~cx/index";
+@import "../shared/index";
+
+html {
+   height: 100%;
+   background: #eee;
+   background-image: url("img/f5efce50.png");
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: 'Open Sans', sans-serif;
+   font-size: 14px;
+}
+
+a {
+   color: inherit;
+   text-decoration: none;
+}
+@media screen and (min-width: 1024px) {
+   .cxb-flexbox.cxs-spacing {
+      padding: 2rem;
+
+      & > * {
+         margin: 2rem;
+      }
+   }
+}
+
+.cxb-section {
+   overflow: hidden;
+   //border: 1px solid lightgray;
+   box-shadow: 0 0 2px rgba(128, 128, 128, 0.3);
+   transition: box-shadow 0.25s;
+
+
+   &.cxm-well {
+      background: rgba(255, 255, 255, 0.7);
+   }
+
+   &:hover {
+      box-shadow: 0 0 6px rgba(128, 128, 128, 0.5);
+   }
+
+   img {
+      width: 100%;
+
+      @media screen and (min-width: 768px) {
+         height: 24rem;
+         width: auto;
+      }
+   }
+}
+
+.e-app-header {
+   background: rgba(255, 255, 255, 0.3);
+}

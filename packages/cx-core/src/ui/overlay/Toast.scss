@@ -1,0 +1,89 @@
+@import "variables";
+@import '../../util/scss/include';
+
+@mixin cx-toast(
+   $name: 'toast',
+   $besm: $cx-besm
+) {
+
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      background: white;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1000;
+      pointer-events: all;
+      transition: all 0.2s ease-in-out;
+      overflow: hidden;
+      box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3);
+      border-radius: $cx-default-border-radius;
+      transform: scale(0);
+      opacity: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &.#{$state}pad {
+         padding: 10px;
+      }
+
+      &.#{$state}animated {
+         transform: scale(1);
+         opacity: 1;
+      }
+   }
+}
+
+@mixin cx-toaster(
+   $name: 'toaster',
+   $besm: $cx-besm
+) {
+
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &.#{$state}placement-right {
+         justify-content: center;
+         align-items: flex-end;
+      }
+
+      &.#{$state}placement-left {
+         justify-content: center;
+         align-items: flex-start;
+      }
+
+      &.#{$state}placement-bottom {
+         justify-content: flex-end;
+      }
+   }
+
+   .#{$element}#{$name}-item {
+      margin: 0;
+      height: 0;
+      transition: all 0.2s ease-in-out;
+
+      &.#{$state}live {
+         margin: 10px;
+      }
+   }
+}
+
+@if (cx-include('cx/widgets/Toast')) {
+   @include cx-toast();
+   @include cx-toaster();
+}

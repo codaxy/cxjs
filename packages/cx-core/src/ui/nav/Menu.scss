@@ -1,8 +1,11 @@
 @import "variables";
-@import '../../util/scss/include';
+@import '../Button';
+
+$cx-menu-state-style-map: $cx-list !default;
 
 @mixin cx-menu(
    $name: 'menu',
+   $state-style-map: $cx-menu-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -17,60 +20,34 @@
       list-style: none;
 
       &.#{$state}horizontal {
+
+         white-space: nowrap;
+
          & > .#{$element}#{$name}-item {
             display: inline-block;
-         }
-      }
-   }
+            vertical-align: middle;
 
-   .#{$element}#{$name}-item {
-      padding: 0;
-      position: relative;
-      border: 0 solid transparent;
-
-      &.#{$state}focusable {
-
-         &:hover {
-            @each $rule, $value in map-get($cx-list-item, hover) {
-               #{$rule}: $value;
-            }
-         }
-
-         &.#{$state}cursor {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
+            & > .#{$mod}#{$name} {
+               margin: 0 cx-right($cx-default-button-padding) 0 cx-left($cx-default-button-padding);
             }
          }
       }
-   }
 
-   .#{$element}#{$name}-item-body {
-      border: 1px solid transparent;
-
-      & > hr {
-         border: none;
-         border-top: 1px solid lightgray;
-         margin: 10px 20px;
+      &.#{$state}vertical > .#{$element}#{$name}-item > .#{$mod}#{$name} {
+         margin: $cx-default-button-padding;
+         border: $cx-default-button-border-width solid transparent;
+         display: block;
       }
 
-      & > a {
-         text-decoration: none;
-         color: inherit;
+      @include cx-add-state-rules($state-style-map, default);
 
-         &:focus {
-            outline: none;
+      .#{$element}#{$name}-item {
+         & > hr {
+            border: none;
+            border-top: 1px solid lightgray;
+            margin: $cx-default-button-padding;
          }
       }
-   }
-
-   .#{$mod}#{$name} {
-      margin: 10px 20px;
-      display: block;
-   }
-
-   .#{$mod}#{$name}-pad {
-      padding: 10px 20px;
-      display: block;
    }
 }
 

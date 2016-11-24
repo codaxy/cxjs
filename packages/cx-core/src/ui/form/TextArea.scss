@@ -1,5 +1,7 @@
 @import "Field";
 
+$cx-default-textarea-width: 300px;
+
 @mixin cx-textarea(
    $name: 'textarea',
    $state-style-map: $cx-input-state-style-map,
@@ -7,6 +9,7 @@
    $empty-text: $cx-empty-text,
    $tool-state-style-map: $cx-input-tool-state-style-map,
    $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-textarea-width,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -22,6 +25,7 @@
          $input: false
       );
       line-height: 0;
+      width: $width;
    }
 
    .#{$element}#{$name}-input {
@@ -49,7 +53,7 @@
    }
 }
 
-@if (cx-call-once('widgets/TextArea')) {
+@if (cx-include('widgets/TextArea')) {
    @include cx-textarea;
 }
 

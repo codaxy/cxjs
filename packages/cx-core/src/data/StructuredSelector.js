@@ -2,6 +2,7 @@ import {Binding} from './Binding';
 import {Expression} from './Expression';
 import {StringTemplate} from './StringTemplate';
 import {createStructuredSelector} from '../data/createStructuredSelector';
+import {getSelector} from '../data/getSelector';
 
 function defaultValue(pv) {
    if (typeof pv == 'object' && pv && pv.structured)
@@ -40,7 +41,10 @@ function getSelectorConfig(props, values, nameMap) {
          } else if (v.tpl) {
             config.templates[p] = v.tpl;
          } else if (pv && typeof pv == 'object' && pv.structured) {
-            config.structures[p] = getSelectorConfig(v, v, {});
+            if (Array.isArray(v))
+               config.functions[p] = getSelector(v);
+            else
+               config.structures[p] = getSelectorConfig(v, v, {});
          } else {
             config.functions[p] = () => v;
          }

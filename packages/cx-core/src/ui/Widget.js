@@ -1,5 +1,6 @@
 import {Component} from '../Component';
 import {CSSHelper} from './CSSHelper';
+import {CSS} from './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {Debug, appDataFlag} from '../util/Debug';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
@@ -224,12 +225,19 @@ export function contentAppend(result, w, prependSpace) {
    return true;
 }
 
-export function getContent(x) {
-   var result = [];
+export function getContentArray(x) {
+   let result = [];
    contentAppend(result, x);
+   return result;
+}
+
+
+export function getContent(x) {
+   let result = getContentArray(x);
    if (result.length == 0)
       return null;
    if (result.length == 1)
       return result[0];
    return result;
 }
+

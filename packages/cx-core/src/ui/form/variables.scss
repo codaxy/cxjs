@@ -1,9 +1,12 @@
 @import "../../variables";
 @import "../../util/scss/clockwise";
 
+$cx-flag-input-line-height-fix: true !default;
+
 // Appearance
 $cx-default-input-font-family: $cx-default-box-font-family !default;
 $cx-default-input-border-color: $cx-default-border-color !default;
+$cx-default-input-border-radius: $cx-default-border-radius !default;
 $cx-default-input-background-color: white !default;
 $cx-default-input-color: black !default;
 $cx-default-input-placeholder-color: $cx-default-empty-text-color !default;
@@ -24,10 +27,10 @@ $cx-input-state-style-map: (
       font-family: $cx-default-input-font-family,
       border-color: $cx-default-input-border-color,
       border-style: solid,
+      border-radius: $cx-default-input-border-radius,
       background-color: $cx-default-input-background-color,
       color: $cx-default-input-color,
       outline-offset: 0,
-      border-radius: 0,
       box-shadow: none,
       -ms-appearance: none,
       -moz-appearance: none,
@@ -84,7 +87,7 @@ $cx-input-tool-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 
 // Clear
@@ -103,7 +106,7 @@ $cx-clear-state-style-map: (
       width: $cx-default-clear-size,
       line-height: $cx-default-clear-size,
       color: $cx-default-clear-color,
-      border-radius: 50%,
+      border-radius: $cx-default-border-radius,
       text-align: center
    ),
    hover: (
@@ -112,7 +115,7 @@ $cx-clear-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 
 // Label
@@ -141,6 +144,6 @@ $cx-label-state-style-map: (
    active: (
 
    )
-);
+) !default;
 
 

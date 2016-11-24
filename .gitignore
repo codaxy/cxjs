@@ -3,6 +3,6 @@
 
 /node_modules
 *.hot-update.js
-npm-debug.log
+npm-debug.*
 dist
 

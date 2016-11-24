@@ -28,7 +28,8 @@ $cx-default-colorfield-font-family: 'Consolas', monospace;
          $placeholder: $placeholder,
          $overrides: (
             default: (
-               font-family: $cx-default-colorfield-font-family
+               font-family: $cx-default-colorfield-font-family,
+               font-size: 11px
             )
          )
       );

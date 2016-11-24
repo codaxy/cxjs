@@ -259,6 +259,7 @@ class ColorPickerComponent extends VDOM.Component {
       }
 
       var state = {...this.state};
+      var fixAlpha = false;
 
       for (var prop in props) {
 
@@ -268,16 +269,19 @@ class ColorPickerComponent extends VDOM.Component {
             case 'h':
                state.h = Math.min(360, Math.max(0, value));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
+               fixAlpha = true;
                break;
 
             case 's':
                state.s = Math.min(100, Math.max(0, value));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
+               fixAlpha = true;
                break;
 
             case 'l':
                state.l = Math.min(100, Math.max(0, value));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
+               fixAlpha = true;
                break;
 
             case 'r':
@@ -288,6 +292,7 @@ class ColorPickerComponent extends VDOM.Component {
                state.h = h;
                state.s = s;
                state.l = l;
+               fixAlpha = true;
                break;
 
             case 'a':
@@ -295,6 +300,9 @@ class ColorPickerComponent extends VDOM.Component {
                break;
          }
       }
+
+      if (fixAlpha && state.a === 0)
+         state.a = 1;
 
       this.setState(state, () => {
          this.props.instance.widget.handleEvent('change', this.props.instance, this.state);

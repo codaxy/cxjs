@@ -1,15 +1,31 @@
 @import "variables";
+@import "../../util/scss/add-rules";
+@import "../Button";
 
-$cx-tab-defaults: $cx-list-item;
+$cx-tab-state-style-map: map-merge($cx-list-item, (
+   default: (
+      border-radius: $cx-default-border-radius,
+      padding: $cx-default-button-padding,
+      border-width: $cx-default-button-border-width,
+      line-height: $cx-default-box-line-height,
+      border-color: transparent,
+      border-style: solid,
+      text-decoration: none,
+      cursor: pointer,
+      color: inherit,
+   )
+));
 
 $cx-tab-mods: (
    classic: (
       default: (
-         border: 1px solid transparent,
          margin-bottom: -1px,
+         border-width: 1px,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
       ),
       selected: (
-         border: 1px solid lightgray,
+         border-color: $cx-default-border-color,
          border-bottom-color: transparent,
          background-color: white,
       )
@@ -17,9 +33,15 @@ $cx-tab-mods: (
    line: (
       default: (
          background-color: transparent !important,
+         border-left-color: transparent !important,
+         border-right-color: transparent !important,
+         border-top-color: transparent !important,
+         border-left-width: 0,
+         border-right-width: 0,
          border-bottom-width: 2px,
-         border-bottom-style: solid,
-         padding: 5px 10px 3px 10px
+         border-top-width: 0,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
       ),
       hover: (
          border-color: rgba(128, 128, 128, 0.2),
@@ -34,12 +56,15 @@ $cx-tab-mods: (
          border-color: rgba(123,190,255, 0.7),
       ),
       active: (),
-      disabled: ()
+      disabled: (
+         border-color: transparent
+      )
    )
 );
 
 @mixin cx-tab(
    $name: 'tab',
+   $state-style-map: $cx-tab-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -48,83 +73,53 @@ $cx-tab-mods: (
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      padding: 5px 10px;
-      text-decoration: none;
       box-sizing: border-box;
       display: inline-block;
-      cursor: pointer;
-      border: 0 solid transparent;
-      color: inherit;
 
-      @each $rule, $value in map-get($cx-list-item, default) {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($state-style-map, default);
 
       &:hover {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($state-style-map, hover);
       }
 
       &:focus {
-         @each $rule, $value in map-get($cx-list-item, hover-focus) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($state-style-map, hover-focus);
       }
 
       &.#{$state}active {
-         @each $rule, $value in map-get($cx-list-item, selected) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($state-style-map, selected);
 
          &:focus {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($state-style-map, selected-focus);
          }
       }
 
       &.#{$state}disabled {
-         @each $rule, $value in map-get($cx-list-item, disabled) {
-            #{$rule}: $value;
-         }
-         background: none;
+         @include cx-add-state-rules($state-style-map, disabled);
       }
 
       @each $name, $config in $cx-tab-mods {
          &.#{$mod}#{$name} {
-            @each $rule, $value in map-get($config, default) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($config, default);
 
             &:hover {
-               @each $rule, $value in map-get($config, hover) {
-                  #{$rule}: $value;
-               }
+               @include cx-add-state-rules($config, hover);
             }
 
             &:focus {
-               @each $rule, $value in map-get($config, hover-focus) {
-                  #{$rule}: $value;
-               }
+               @include cx-add-state-rules($config, hover-focus);
             }
 
             &.#{$state}active {
-               @each $rule, $value in map-get($config, selected) {
-                  #{$rule}: $value;
-               }
+               @include cx-add-state-rules($config, selected);
 
                &:focus {
-                  @each $rule, $value in map-get($config, selected-focus) {
-                     #{$rule}: $value;
-                  }
+                  @include cx-add-state-rules($config, selected-focus);
                }
             }
 
             &.#{$state}disabled {
-               @each $rule, $value in map-get($config, disabled) {
-                  #{$rule}: $value;
-               }
+               @include cx-add-state-rules($config, disabled);
             }
          }
       }

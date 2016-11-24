@@ -11,9 +11,9 @@
 
    .#{$block}#{$name} {
       display: inline-block;
+      white-space: nowrap;
       margin: 0;
       padding: 0;
-      font-family: $cx-default-input-font-family;
       line-height: $cx-default-box-line-height;
       box-sizing: border-box;
 
@@ -38,12 +38,22 @@
       display: inline-block;
       box-sizing: border-box;
       padding: $cx-default-box-padding 2 * $cx-default-box-padding;
-      border-width: $cx-default-box-border-width;
+      border-width: $cx-default-border-width;
       border-color: $cx-default-border-color;
       border-style: solid;
       margin-left: -1px;
       text-decoration: none;
       cursor: pointer;
+
+      &:first-child {
+         border-top-left-radius: $cx-default-border-radius;
+         border-bottom-left-radius: $cx-default-border-radius;
+      }
+
+      &:last-child {
+         border-top-right-radius: $cx-default-border-radius;
+         border-bottom-right-radius: $cx-default-border-radius;
+      }
 
       &:hover, &:focus {
          @each $rule, $value in map-get($cx-list-item, hover) {

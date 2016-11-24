@@ -7,6 +7,9 @@
    }
 }
 
+$cx-default-colorpicker-font-family: 'Consolas', monospace;
+
+
 @mixin cx-colorpicker(
    $name: 'colorpicker',
    $state-style-map: $cx-input-state-style-map,
@@ -21,17 +24,18 @@
       @include cxe-field-input(
          $besm,
          $state-style-map,
-         $input: false
+         $input: false,
+         $overrides: (
+            font-size: 11px,
+            font-family: $cx-default-colorpicker-font-family
+         )
       );
-      padding: 10px;
-      font-size: 11px;
-      font-family: 'Consolas', monospace;
-      width: 432px;
 
-      &:after {
-         content: '';
-         display: block;
-         clear: both;
+      display: inline-flex;
+      flex-direction: column;
+
+      @media screen and (min-width: 500px) {
+         flex-direction: row;
       }
 
       input {
@@ -39,18 +43,23 @@
             $besm,
             $state-style-map,
             $placeholder: $placeholder,
-            $input: false
+            $input: false,
+            $overrides: (
+               default: (
+                  line-height: 12px,
+                  font-size: 11px,
+                  font-family: $cx-default-colorpicker-font-family,
+                  padding: 2px
+               )
+            )
          );
-         line-height: 12px;
-         font-size: 11px;
-         font-family: 'Consolas', monospace;
-         padding: 2px;
       }
    }
 
    .#{$element}#{$name}-picker {
       width: 200px;
       height: 200px;
+      margin: 5px;
       //cursor: crosshair;
       float: left;
       position: relative;
@@ -113,7 +122,7 @@
    .#{$element}#{$name}-details {
       width: 200px;
       float: left;
-      margin-left: 10px;
+      margin: 5px;
    }
 
    .#{$element}#{$name}-inputs {

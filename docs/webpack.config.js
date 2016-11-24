@@ -156,6 +156,12 @@ switch (process.env.npm_lifecycle_event) {
                 }]
             },
             "if-loader": 'development',
+            entry: {
+              app: [
+                  'react-dev-utils/webpackHotDevClient',
+                  __dirname + '/index.js'
+              ]
+            },
             plugins: [
                 new webpack.HotModuleReplacementPlugin()
             ],

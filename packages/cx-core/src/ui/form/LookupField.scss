@@ -1,4 +1,5 @@
 @import "Field";
+@import "../Button";
 
 @mixin cx-lookupfield(
    $name: 'lookupfield',
@@ -24,13 +25,16 @@
       cursor: pointer
    }
 
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
          $state-style-map,
          $placeholder: $placeholder,
+         $input: false,
          $overrides: (
-            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{$cx-default-input-tag-spacing}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding)
+            padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, -$cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding)
          )
       );
 
@@ -41,19 +45,18 @@
    }
 
    .#{$block}#{$name}.#{$state}multiple .#{$element}#{$name}-input {
-      padding-top: 0;
-      padding-left: 0;
-      padding-bottom: $cx-default-input-tag-spacing;
+      padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) $cx-default-input-tag-spacing 0;
    }
 
    .#{$element}#{$name}-tag {
-      background: #e8e8e8;
+      background: $cx-default-button-background-color;
       display: inline-block;
       position: relative;
       margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
       box-sizing: border-box;
       padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
-      padding-right: $cx-default-clear-size + 2px;
+      padding-right: cx-calc($cx-default-clear-size, 2px);
+      border-radius: $cx-default-border-radius;
    }
 
    .#{$element}#{$name}-placeholder {
@@ -142,9 +145,7 @@
 
    .#{$element}#{$name}-scroll-container {
       overflow: auto;
-      flex-grow: 1;
-      flex-shrink: 0;
-      flex-basis: auto;
+      flex: 1 1 auto;
    }
 
    .#{$element}#{$name}-clear {

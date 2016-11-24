@@ -2,6 +2,8 @@ import {Widget, VDOM, getContent} from '../Widget';
 import {Overlay, OverlayComponent} from './Overlay';
 import {ContentPlaceholder, contentSandbox} from '../layout/ContentPlaceholder';
 import {ZIndexManager} from './ZIndexManager';
+import {Button} from '../Button';
+import CloseIcon from '../icons/close';
 
 export class Window extends Overlay {
    declareData() {
@@ -13,8 +15,14 @@ export class Window extends Overlay {
 
    initComponents() {
       return super.initComponents(...arguments, {
-         header: Widget.create(this.header || { type: ContentPlaceholder, name: 'header'}),
-         footer: Widget.create(this.footer || { type: ContentPlaceholder, name: 'footer'})
+         header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header'}),
+         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer'}),
+         close: this.closable && Widget.create(Button, {
+            mod: 'hollow',
+            dismiss: true,
+            icon: 'close',
+            style: 'margin-left: auto'
+         })
       });
    }
 
@@ -29,8 +37,18 @@ export class Window extends Overlay {
    }
 
    renderHeader(context, instance, key) {
-      var {data} = instance;
-      return getContent(instance.components && instance.components.header && instance.components.header.render(context, key)) || data.title;
+      let {data} = instance;
+      let result = [];
+      if (data.title)
+         result.push(data.title);
+      if (instance.components) {
+         let header = getContent(instance.components.header && instance.components.header.render(context, key));
+         if (header)
+            result.push(header);
+         if (data.closable && instance.components.close)
+            result.push(getContent(instance.components.close.render(context)));
+      }
+      return result;
    }
 
    renderFooter(context, instance, key) {
@@ -48,15 +66,16 @@ export class Window extends Overlay {
 
 Window.prototype.baseClass = 'window';
 Window.prototype.closable = true;
-Window.prototype.resizable = true;
+Window.prototype.resizable = false;
 Window.prototype.autoFocus = true;
+Window.prototype.focusable = true;
 
 Widget.alias('window', Window);
 
 class WindowComponent extends OverlayComponent {
 
    renderOverlayBody() {
-      var {widget, data, dismiss} = this.props.instance;
+      var {widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
       var bodyStyle = null;
@@ -72,23 +91,17 @@ class WindowComponent extends OverlayComponent {
          };
       }
 
-      var header, footer, close;
+      let header, footer;
 
-      if (this.props.header) {
-         if (dismiss && data.closable)
-            close = <button className={CSS.element(baseClass, "close")}
-                            type="button"
-                            onMouseDown={e=>{e.stopPropagation();}} //prevent adding backdrop
-                            onTouchStart={e=>{e.stopPropagation();}}
-                            onClick={()=>{dismiss()}}/>;
-
+      if (this.props.header.length > 0) {
          header = <header key="header"
-                          ref={ c=> { this.headerEl = c }}
+                          ref={ c => {
+                             this.headerEl = c
+                          }}
                           className={CSS.element(baseClass, 'header')}
                           onMouseDown={::this.onHeaderMouseDown}
                           onTouchStart={::this.onHeaderMouseDown}>
             { this.props.header }
-            { close }
          </header>
       }
 

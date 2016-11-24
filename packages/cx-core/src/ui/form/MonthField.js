@@ -12,7 +12,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 import {stopPropagation} from '../eventCallbacks';
 import '../icons/calendar';
 import {Icon} from '../icons/Icon';
-import CloseIcon from '../icons/close';
+import ClearIcon from '../icons/clear';
 
 export class MonthField extends Field {
 
@@ -204,7 +204,8 @@ class MonthInput extends VDOM.Component {
          relatedElement: this.input,
          scrollTracking: true,
          inline: true,
-         placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
+         placementOrder: 'down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
+         touchFriendly: true,
          items: {
             type: MonthPicker,
             ...this.props.monthPicker,
@@ -238,7 +239,7 @@ class MonthInput extends VDOM.Component {
                     onMouseDown={e=> {
                        this.onClearClick(e);
                     }}>
-                  <CloseIcon className={CSS.element(baseClass, 'icon')} />
+                  <ClearIcon className={CSS.element(baseClass, 'icon')} />
                </div>
             )
          } else {
