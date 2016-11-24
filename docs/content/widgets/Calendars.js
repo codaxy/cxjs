@@ -13,12 +13,11 @@ import configs from './configs/Calendar';
 export const Calendars = <cx>
    <Md>
       # Calendar
+      Calendar is used for selecting dates.
 
       <ImportPath path={"import {Calendar} from 'cx/ui/form/Calendar';"} />
 
       <CodeSplit>
-
-         Calendar is used for selecting dates.
 
          <div class="widgets">
                <Calendar value:bind="$page.date" />
