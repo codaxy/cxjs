@@ -1,7 +1,7 @@
 import {Widget, VDOM, getContent} from './Widget';
 import {PureContainer} from './PureContainer';
-import {Text} from './Text';
-import {StaticText} from './StaticText';
+import {Heading} from './Heading';
+
 import {parseStyle} from '../util/parseStyle';
 
 export class Section extends PureContainer {
@@ -9,29 +9,66 @@ export class Section extends PureContainer {
    init() {
       if (typeof this.headerStyle == 'string')
          this.headerStyle = parseStyle(this.headerStyle);
+
+      if (typeof this.footerStyle == 'string')
+         this.footerStyle = parseStyle(this.footerStyle);
+
+      if (typeof this.bodyStyle == 'string')
+         this.bodyStyle = parseStyle(this.bodyStyle);
+
       super.init();
+   }
+
+   add(item) {
+      if (item && item.putInto == 'header')
+         this.header = {
+            ...item,
+            putInto: null
+         };
+      else if (item && item.putInto == 'footer')
+         this.footer = {
+            ...item,
+            putInto: null
+         };
+      else
+         super.add(...arguments);
    }
 
    declareData() {
       return super.declareData({
          headerStyle: {structured: true},
-         headerClass: {structured: true}
+         headerClass: {structured: true},
+         bodyStyle: {structured: true},
+         bodyClass: {structured: true},
+         footerStyle: {structured: true},
+         footerClass: {structured: true}
       })
    }
 
    initComponents() {
       super.initComponents({
-         header: this.getHeader()
+         header: this.getHeader(),
+         footer: this.getFooter()
       });
    }
 
    getHeader() {
-      if (this.title) {
-         if (typeof this.title == 'string')
-            return Widget.create(StaticText, {text: this.title});
+      if (this.title)
+         return Widget.create(Heading, {
+            text: this.title
+         });
 
-         return Widget.create(Text, this.title);
-      }
+      if (this.header)
+         return Widget.create(this.header);
+
+      return null;
+   }
+
+   getFooter() {
+      if (this.footer)
+         return Widget.create(this.footer);
+
+      return null;
    }
 
    prepareData(context, instance) {
@@ -45,10 +82,10 @@ export class Section extends PureContainer {
 
    render(context, instance, key) {
       let {data, components} = instance;
-      let header;
+      let header, footer;
       let {CSS, baseClass} = this;
 
-      if (components.header)
+      if (components.header) {
          header = (
             <header
                className={CSS.expand(CSS.element(baseClass, 'header'), data.headerClass)}
@@ -57,13 +94,32 @@ export class Section extends PureContainer {
                {getContent(components.header.render(context))}
             </header>
          );
+      }
 
-      return <section key={key} className={data.classNames} style={data.style}>
-         { header }
-         <div className={this.CSS.element(this.baseClass, 'body')}>
-            {this.renderChildren(context, instance)}
-         </div>
-      </section>
+      if (components.footer) {
+         footer = (
+            <footer
+               className={CSS.expand(CSS.element(baseClass, 'footer'), data.footerClass)}
+               style={data.footerStyle}
+            >
+               {getContent(components.footer.render(context))}
+            </footer>
+         );
+      }
+
+      return (
+         <section
+            key={key}
+            className={data.classNames}
+            style={data.style}
+         >
+            { header }
+            <div className={CSS.expand(CSS.element(this.baseClass, 'body'), data.bodyClass)} style={data.bodyStyle}>
+               {this.renderChildren(context, instance)}
+            </div>
+            { footer }
+         </section>
+      )
    }
 }
 

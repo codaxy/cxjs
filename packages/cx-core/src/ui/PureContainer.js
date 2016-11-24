@@ -13,11 +13,13 @@ export class PureContainer extends Widget {
 
       if (this.styled)
          this.style = parseStyle(this.style);
-      
-      super.init();
+
       var items = this.items || this.children || [];
       this.items = [];
       this.add(items);
+      
+      super.init();
+
       this.layout = Layout.create(this.layout || 'default');
    }
 

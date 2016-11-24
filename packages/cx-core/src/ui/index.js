@@ -13,6 +13,8 @@ export * from './CSS';
 export * from './CSSHelper';
 export * from './FocusManager';
 export * from './ResizeManager';
+export * from './Section';
+export * from './Heading';
 export * from './CxCredit';
 
 export * as selection from './selection/';

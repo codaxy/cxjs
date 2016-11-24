@@ -62,7 +62,9 @@ export class Toast extends Overlay {
       let el = document.createElement('div');
       el.className = this.CSS.element('toaster', 'item');
       let toaster = getToaster(this.placement);
-      toaster.el.className = this.CSS.block('toaster');
+      toaster.el.className = this.CSS.block('toaster', null, {
+         [`placement-${this.placement}`]: true
+      });
       toaster.el.insertBefore(el, toaster.el.firstChild);
       return el;
    }

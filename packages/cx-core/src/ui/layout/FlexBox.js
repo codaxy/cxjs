@@ -10,7 +10,7 @@ export class FlexBox extends PureContainer {
          pad: this.pad,
          spacing: this.spacing,
          ['align-' + this.align]: this.align,
-         ['justify-' + this.justify]: this.center,
+         ['justify-' + this.justify]: this.justify,
          wrap: this.wrap,
          ['target-' + this.target]: true,
          [this.direction]: true

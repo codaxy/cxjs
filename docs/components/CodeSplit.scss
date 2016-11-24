@@ -20,6 +20,7 @@
         box-sizing: border-box;
         background: #494949;
         padding: 3px;
+        margin-top: 15px;
 
         .dxe-codesplit-scrollable {
             overflow-x: auto;
@@ -78,6 +79,7 @@
             left: calc(50em + 40px);
             width: calc(100% - 50em - 40px);
             padding: 5px 0 3px 3px;
+            margin-top: 0;
             max-width: none;
 
             .dxe-codesplit-scrollable {

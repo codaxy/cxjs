@@ -47,6 +47,13 @@ $cx-section-well: (
          padding: 1rem 1.5rem;
       }
    }
+
+   .#{$element}#{$name}-footer {
+      margin: 0 1.5rem;
+      padding: 1rem 0;
+      box-sizing: border-box;
+      border-top: 1px solid rgba(128, 128, 128, 0.3);
+   }
 }
 
 @if (cx-include('cx/widgets/Section')) {

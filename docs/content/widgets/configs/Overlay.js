@@ -53,7 +53,7 @@ export default {
         key: false,
         type: 'number',
         description: <cx><Md>
-            Number of milliseconds to wait before removing the element from DOM. Used in combination with the 'animate'
+            Number of milliseconds to wait before removing the element from DOM. Used in combination with the `animate`
             property.
         </Md></cx>
     },
