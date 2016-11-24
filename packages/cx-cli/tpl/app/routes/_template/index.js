@@ -1,10 +1,9 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Link} from 'cx/ui/nav/Link';
 
-import NewController from './controller';
+import Controller from './controller';
 
 export default <cx>
-    <div>
+    <div controller={Controller}>
     
     </div>
 </cx>
