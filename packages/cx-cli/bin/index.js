@@ -15,11 +15,11 @@ program
    .option('-s, start', 'Start the development server')
    .option('-b, build', 'Make a new production build')
    .option('--yarn', 'Use yarn instead of npm')
-   .option('add, route', 'Set up new route folder')
+   .option('add, route', 'Add new route folder')
    .parse(process.argv);
 
 if (program.version) {
-   console.log('Cx CLI - ' + pkg.version);
+   console.log('Cx ver - ' + pkg.version);
 }
 
 var appPath = process.cwd(),
@@ -42,9 +42,12 @@ if (program.scaffold) {
          return -1;
       }
    }
-
+   console.log('creating scaffold...');
    var err = copydir.sync(tplPath, appPath, function(stat, filepath, filename){
-      return filename != 'package.json'; //skip package.json
+      //skip package.json and _template folder
+      if(filepath.indexOf('_template') != -1 || filename == 'package.json')
+         return false;
+      return true; 
    });
 
    if (err) {
@@ -126,14 +129,18 @@ if (program.route) {
       return;
    }
    newRoute = newRoute.toLowerCase();
-   var tplDir = path.join(tplPath, './app/routes/about');
+   var tplDir = path.join(tplPath, './app/routes/_template');
    var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
    
    if (!fs.existsSync(newRouteDir)) {
       fs.mkdirSync(newRouteDir);
-      copydir.sync(tplDir, newRouteDir);
-      console.log("New route folder 'app/routes/" + newRoute + "' created.");
+      var err = copydir.sync(tplDir, newRouteDir);
+      if(err) {
+         console.error('Copy error.', err);
+      } else {
+         console.log("New route folder 'app/routes/" + newRoute + "' created.");
+      }
    } else {
-      console.log("Folder 'app/routes/" + newRoute +"' already exists.");
+      console.error("Folder 'app/routes/" + newRoute +"' already exists.");
    }
 }
