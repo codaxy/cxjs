@@ -39,6 +39,17 @@ export class Menu extends HtmlElement {
          {this.renderChildren(context, instance)}
       </MenuComponent>
    }
+
+   add(item) {
+      if (item && item.tag == 'a') {
+         this.add({
+            type: MenuItem,
+            items: item
+         })
+      }
+      else
+         super.add(...arguments);
+   }
 }
 
 Menu.prototype.horizontal = false;

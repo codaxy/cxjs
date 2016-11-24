@@ -6,7 +6,8 @@ import {ImportPath} from '../../components/ImportPath';
 
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Content} from 'cx/ui/layout/Content';
-import {Menu, MenuItem} from 'cx/ui/nav/Menu';
+import {Menu} from 'cx/ui/nav/Menu';
+import {MenuItem} from 'cx/ui/nav/MenuItem';
 import {Submenu} from 'cx/ui/nav/Submenu';
 import {TextField} from 'cx/ui/form/TextField';
 import {DateField} from 'cx/ui/form/DateField';

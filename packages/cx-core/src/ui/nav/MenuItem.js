@@ -37,10 +37,18 @@ export class MenuItem extends HtmlElement {
 
    add(element) {
       if (element && typeof element == 'object' && element.putInto == 'dropdown') {
-         this.dropdown = { ...element };
+         this.dropdown = {...element};
          delete this.dropdown.putInto;
       } else
          super.add(...arguments);
+   }
+
+   addText(text) {
+      this.add({
+         type: HtmlElement,
+         tag: 'span',
+         text: text
+      });
    }
 }
 

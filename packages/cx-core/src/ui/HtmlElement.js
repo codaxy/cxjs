@@ -14,6 +14,14 @@ export var urlAttributes = {
 
 export class HtmlElement extends PureContainer {
 
+   init() {
+      if (this.innerText)
+         this.text = this.innerText;
+
+      if (this.html)
+         th
+   }
+
    declareData() {
 
       var data = {

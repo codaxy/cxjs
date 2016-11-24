@@ -66,17 +66,20 @@ export class PureContainer extends Widget {
          else if (typeof a == 'string') {
             if (this.trimWhitespace)
                a = innerTextTrim(a);
-            if (a) {
-               if (this.plainText || a.indexOf('{') == -1 || a.indexOf('}') == -1)
-                  this.items.push(Widget.create(StaticText, {text: a}));
-               else
-                  this.items.push(Widget.create(Text, {text: {tpl: a}}));
-            }
+            if (a)
+               this.addText(a);
          } else if (a.isComponent)
             this.items.push(a);
          else
             this.add(Widget.create(a, this.itemDefaults));
       });
+   }
+
+   addText(text) {
+      if (this.plainText || text.indexOf('{') == -1 || text.indexOf('}') == -1)
+         this.items.push(Widget.create(StaticText, {text: text}));
+      else
+         this.items.push(Widget.create(Text, {text: {tpl: text}}));
    }
 
    find(filter, options) {
