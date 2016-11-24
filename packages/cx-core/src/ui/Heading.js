@@ -19,5 +19,5 @@ export class Heading extends HtmlElement {
 }
 
 
-Heading.prototype.level = 2;
+Heading.prototype.level = 3;
 Heading.prototype.baseClass = 'heading';

@@ -81,8 +81,7 @@ $cx-button-mods: (
          background: transparent,
          border-color: transparent,
          color: inherit,
-         box-shadow: none,
-         padding: $cx-default-box-padding,
+         box-shadow: none
       ),
       hover: map-merge(map-get($cx-list-item, hover), (
          box-shadow: none,
