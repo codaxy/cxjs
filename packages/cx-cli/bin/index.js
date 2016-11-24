@@ -15,6 +15,7 @@ program
    .option('-s, start', 'Start the development server')
    .option('-b, build', 'Make a new production build')
    .option('--yarn', 'Use yarn instead of npm')
+   .option('add, route', 'Add new route folder')
    .parse(process.argv);
 
 if (program.version) {
@@ -43,7 +44,10 @@ if (program.scaffold) {
    }
 
    var err = copydir.sync(tplPath, appPath, function(stat, filepath, filename){
-      return filename != 'package.json'; //skip package.json
+      //skip package.json and _template folder
+      if(filepath.indexOf('_template') != -1 || filename == 'package.json')
+         return false;
+      return true; 
    });
 
    if (err) {
@@ -115,4 +119,28 @@ if (program.start || program.open) {
 if (program.build) {
    console.log('npm run build');
    return spawn.sync('npm', ['run', 'build'], {stdio: 'inherit'});
+}
+
+if (program.route) {
+   var newRoute = program.args[0];
+   console.log();
+   if(!newRoute){
+      console.log("Syntax error: missing route name. Correct syntax: cx add route route_name");
+      return;
+   }
+   newRoute = newRoute.toLowerCase();
+   var tplDir = path.join(tplPath, './app/routes/_template');
+   var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
+   
+   if (!fs.existsSync(newRouteDir)) {
+      fs.mkdirSync(newRouteDir);
+      var err = copydir.sync(tplDir, newRouteDir);
+      if(err) {
+         console.error('Copy error.', err);
+      } else {
+         console.log("New route folder 'app/routes/" + newRoute + "' created.");
+      }
+   } else {
+      console.error("Folder 'app/routes/" + newRoute +"' already exists.");
+   }
 }

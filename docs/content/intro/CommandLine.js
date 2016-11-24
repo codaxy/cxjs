@@ -54,6 +54,13 @@ export const CommandLine = <cx>
 
         `cx build`
 
+        Set up a new route folder:
+
+        `cx add route route_name`
+
+        This command creates a new folder - `app/routes/route_name` and copies the `index.js`, 
+        `index.scss` and `controller.js` files from the template.
+
             <CodeSnippet putInto="code">{`
                 // Create a new app
 
@@ -65,6 +72,9 @@ export const CommandLine = <cx>
 
                 cx scaffold
                 cx start
+                
+                // Set up a new route folder
+                cx add route route_name
             `}</CodeSnippet>
         </CodeSplit>
 

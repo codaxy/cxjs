@@ -11,7 +11,7 @@ export const Title = <cx>
    <Md>
       # Title
 
-      <ImportPath path={"import \{HtmlElement\} from 'cx/ui/HtmlElement';"} />
+      <ImportPath path={"import {HtmlElement} from 'cx/ui/HtmlElement';"} />
 
       <CodeSplit>
 
