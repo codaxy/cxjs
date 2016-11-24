@@ -19,7 +19,7 @@ program
    .parse(process.argv);
 
 if (program.version) {
-   console.log('Cx ver - ' + pkg.version);
+   console.log('Cx CLI - ' + pkg.version);
 }
 
 var appPath = process.cwd(),
