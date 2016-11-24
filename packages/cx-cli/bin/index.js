@@ -42,7 +42,7 @@ if (program.scaffold) {
          return -1;
       }
    }
-   console.log('creating scaffold...');
+
    var err = copydir.sync(tplPath, appPath, function(stat, filepath, filename){
       //skip package.json and _template folder
       if(filepath.indexOf('_template') != -1 || filename == 'package.json')
