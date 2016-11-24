@@ -66,7 +66,7 @@ export const SearchWindow = <cx>
             backdrop
             autoFocus={false}
             header={
-                <TextField value:bind="search.query" style="width:100%;height:40px;" inputStyle="font-size:20px;" placeholder="Search..." autoFocus />
+                <TextField value:bind="search.query" style="width:100%;" inputStyle="font-size:20px;height:40px;" placeholder="Search..." autoFocus />
             }
             closable={false}
             onKeyDown="onKeyDown"
