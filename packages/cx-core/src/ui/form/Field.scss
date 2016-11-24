@@ -78,10 +78,10 @@
       height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @if ($cx-flag-input-line-height-fix) {
-         //100% line-height fix - inputs work better in all browser, works better in Firefox
+         //100% line-height fix - inputs work better in all browser, especially in Firefox
          $styles: cx-merge-state-style-maps($styles, (
             default: (
-               line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)), //cx-top($border-width), cx-bottom($border-width)),
+               line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width)),
                padding: 0 cx-right($padding) 0 cx-left($padding)
             )
          ));

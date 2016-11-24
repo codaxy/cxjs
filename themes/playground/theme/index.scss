@@ -71,7 +71,38 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
    )
 ));
 
+//globals
+
+$cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
+   h1: (
+      font-weight: 400,
+      color: #24b5d6
+   ),
+   h2: (
+      font-weight: 400,
+      color: #24b5d6
+   ),
+   h3: (
+      font-weight: 400,
+      color: #24b5d6
+   ),
+   h4: (
+      font-weight: 400,
+      color: #24b5d6
+   ),
+   h5: (
+      font-weight: 400,
+      color: #24b5d6
+   ),
+   h6: (
+      font-weight: 400,
+      color: #24b5d6
+   )
+));
+
 $cx-include-all: true;
+$cx-include-global-rules: true;
+
 @import "~cx/index";
 
 .cxb-section.cxm-well.cxm-well {

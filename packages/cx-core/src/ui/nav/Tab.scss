@@ -2,7 +2,7 @@
 @import "../../util/scss/add-rules";
 @import "../Button";
 
-$cx-tab-state-style-map: map-merge($cx-list-item, (
+$cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    default: (
       border-radius: $cx-default-border-radius,
       padding: $cx-default-button-padding,
@@ -13,6 +13,9 @@ $cx-tab-state-style-map: map-merge($cx-list-item, (
       text-decoration: none,
       cursor: pointer,
       color: inherit,
+   ),
+   hover: (
+      text-decoration: none
    )
 ));
 
