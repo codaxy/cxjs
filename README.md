@@ -19,11 +19,9 @@ Cx widgets use React to render and update DOM.
 <a href="http://cx.codaxy.com/starter">
     <img src="https://github.com/codaxy/cx/blob/master/screenshots/starter/analytics.png" alt="Cx Starter Kit" height="200px" />
 </a>
-
 <a href="https://codaxy.github.io/state-of-js-2016-explorer/">
     <img src="https://github.com/codaxy/cx/blob/master/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" height="200px" />
 </a>
-
 <a href="https://mstijak.github.io/tdo/">
     <img src="https://github.com/codaxy/cx/blob/master/screenshots/tdo/tdo.png" alt="Tdo" height="200px" />
 </a>
