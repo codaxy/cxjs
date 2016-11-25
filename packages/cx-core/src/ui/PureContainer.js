@@ -8,6 +8,10 @@ import {parseStyle} from '../util/parseStyle';
 export class PureContainer extends Widget {
 
    init() {
+
+      if(typeof this.ws !== 'undefined')
+         this.preserveWhitespace = this.ws;
+
       if (this.preserveWhitespace)
          this.trimWhitespace = false;
 
