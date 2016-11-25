@@ -16,7 +16,7 @@ export const CommandLine = <cx>
         significant amount of work to configure properly.
         Normally, when starting a new project, you wouldn't go through all of that setup 
         every single time, but rather use some kind of boilerplate project that contains the 
-        basic file structure as well as all required tools and configuration code. 
+        basic file structure as well as all of the required tools and configuration code. 
         
         We created one such project and put it inside the 
         [Cx Command Line Tool](https://www.npmjs.com/package/cx-cli). This
@@ -28,10 +28,10 @@ export const CommandLine = <cx>
         Provided that you have Node.js and npm installed, you can use your favorite command line
         tool to quickly set up a new Cx project. 
 
-        If you haven't done so already, inside the project folder initialize the package.json
+        If you haven't done so already, inside the project folder initialize the `package.json`
         file by running the command `npm init`.
 
-        Install the cx-cli tool:
+        Install the `cx-cli` tool:
 
         `npm install cx-cli --global`
         
