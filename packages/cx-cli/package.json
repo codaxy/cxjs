@@ -1,6 +1,6 @@
 {
   "name": "cx-cli",
-  "version": "16.11.2",
+  "version": "16.11.3",
   "description": "Command Line Interface tools for Cx applications",
   "main": "./bin/index.js",
   "author": "Codaxy",
