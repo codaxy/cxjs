@@ -47,13 +47,30 @@ a {
    img {
       width: 100%;
 
-      @media screen and (min-width: 768px) {
-         height: 24rem;
-         width: auto;
-      }
+      //@media screen and (min-width: 768px) {
+      //   height: 24rem;
+      //   width: auto;
+      //}
    }
 }
 
 .e-app-header {
    background: rgba(255, 255, 255, 0.3);
+}
+
+.b-card {
+   display: table;
+}
+
+.e-card-imgwrap {
+   display: table-row;
+   width: 1px;
+
+   overflow: auto;
+}
+
+.e-card-desc {
+   display: table-cell;
+   width: 1px;
+   padding: 0 1.5rem;
 }

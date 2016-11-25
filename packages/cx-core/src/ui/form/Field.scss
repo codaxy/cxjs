@@ -61,6 +61,7 @@
    $state-style-map,
    $overrides: null,
    $placeholder: null,
+   $width: 100%,
    $input: true
 ) {
    $state: map-get($besm, state);
@@ -74,10 +75,10 @@
    box-sizing: border-box;
 
    @if $input {
-      width: 100%;
+      width: $width;
       height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
-      @if ($cx-flag-input-line-height-fix) {
+      @if ($cx-use-box-line-height-fix) {
          //100% line-height fix - inputs work better in all browser, especially in Firefox
          $styles: cx-merge-state-style-maps($styles, (
             default: (

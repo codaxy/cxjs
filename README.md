@@ -50,7 +50,7 @@ Run themes:
 ```bash
 yarn run theme:neutral
 yarn run theme:dark
-yarn run theme:playground
+yarn run theme:frost
 ```
 
 ### License

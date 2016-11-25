@@ -3,6 +3,7 @@
 
 $cx-default-grid-header-background-color: #f8f8f8 !default;
 $cx-default-grid-border-color: $cx-default-border-color !default;
+$cx-default-grid-font-size: $cx-default-box-font-size !default;
 
 @mixin cx-grid(
    $name: 'grid',
@@ -16,6 +17,8 @@ $cx-default-grid-border-color: $cx-default-border-color !default;
    .#{$block}#{$name} {
       box-sizing: border-box;
       position: relative;
+
+      font-size: $cx-default-grid-font-size;
 
       table {
          border-spacing: 0;

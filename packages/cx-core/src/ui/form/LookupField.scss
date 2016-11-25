@@ -116,10 +116,15 @@
    }
 
    .#{$element}#{$name}-query {
-      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
-      margin: 5px;
-      height: auto;
-      width: calc(100% - 10px);
+      @include cxe-field-input($besm, $state-style-map,
+         $placeholder: $placeholder,
+         $width: calc(100% - 10px),
+         $overrides: (
+            default: (
+               margin: 5px
+            )
+         )
+      );
    }
 
    .#{$element}#{$name}-dropdown {
