@@ -128,7 +128,6 @@ if (program.route) {
       console.log("Syntax error: missing route name. Correct syntax: cx add route route_name");
       return;
    }
-   newRoute = newRoute.toLowerCase();
    var tplDir = path.join(tplPath, './app/routes/_template');
    var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
    

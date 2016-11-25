@@ -20,12 +20,14 @@ export default {
    },
    innerHtml: {
       type: 'string',
+      alias: 'html',
       description: <cx><Md>
          HTML to be injected into the element.
       </Md></cx>
    },
    text: {
       type: 'string',
+      alias: 'innerText',
       description: <cx><Md>
          Inner text contents.
       </Md></cx>

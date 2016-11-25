@@ -84,16 +84,20 @@ export class HtmlElement extends PureContainer {
          case 'items':
          case 'children':
          case 'visible':
+         case 'if':
          case 'mod':
          case 'putInto':
          case 'contentFor':
          case 'trimWhitespace':
          case 'preserveWhitespace':
+         case 'ws':
          case 'plainText':
          case 'vertical':
          case 'memoize':
          case "onInit":
          case "onExplore":
+         case "html":
+         case "innerText":
             return false;
 
          default:
@@ -107,6 +111,13 @@ export class HtmlElement extends PureContainer {
    }
    
    init() {
+
+      if(this.html)
+         this.innerHtml = this.html;
+         
+      if(this.innerText)
+         this.text = this.innerText;         
+
       this.style = parseStyle(this.style);
       super.init();
    }
