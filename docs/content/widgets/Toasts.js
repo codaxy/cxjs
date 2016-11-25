@@ -58,12 +58,12 @@ export const Toasts = <cx>
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Complex Toast</Button>
 
-                <Toast visible:bind="$page.toast.visible" preserveWhitespace>
+                <Toast visible={{bind:"$page.toast.visible", defaultValue: false}}>
                     This toast is visible only on this page.
                     <Button icon="close" dismiss mod="hollow"/>
                 </Toast>
 
-                <Toast visible:bind="$page.complex.visible" preserveWhitespace>
+                <Toast visible={{bind:"$page.complex.visible", defaultValue: false}}>
                     <div preserveWhitespace>
                         <TextField value:bind="$page.name" label="Quick Reply:" />
                         <Button icon="envelope-o" dismiss disabled:expr="{$page.name} == null">Send</Button>

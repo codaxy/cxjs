@@ -83,7 +83,6 @@ export default <cx>
             </MenuItem>
          </Menu>
       </MenuItem>
-      <TextField mod="menu" />
       <Button mod="hollow">Hollow</Button>
       <Button mod="menu">Button</Button>
    </Menu>

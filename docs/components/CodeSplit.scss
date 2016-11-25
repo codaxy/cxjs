@@ -7,12 +7,16 @@
         position: relative;
 
         .widgets {
-            padding: 20px;
+            padding: 17px;
             align-items: center;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
             background: #f6f6f6;
+
+            & > * {
+                margin: 3px;
+            }
         }
     }
 
