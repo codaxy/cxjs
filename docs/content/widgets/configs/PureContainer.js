@@ -17,6 +17,7 @@ export default {
    },
    preserveWhitespace: {
       type: 'boolean',
+      alias: 'ws',
       description: <cx><Md>
          Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`.
       </Md></cx>

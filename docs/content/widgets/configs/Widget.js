@@ -3,6 +3,7 @@ import {Md} from '../../../components/Md';
 export default {
    visible: {
       type: 'boolean',
+      alias: 'if',
       description: <cx><Md>
          Visibility of the widget. Defaults to `true`.
       </Md></cx>
