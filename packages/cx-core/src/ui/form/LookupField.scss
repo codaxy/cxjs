@@ -121,7 +121,8 @@
          $width: calc(100% - 10px),
          $overrides: (
             default: (
-               margin: 5px
+               margin: 5px,
+               flex: 0 0 auto
             )
          )
       );
