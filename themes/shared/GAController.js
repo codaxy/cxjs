@@ -9,6 +9,6 @@ export default class extends Controller {
 
       this.addTrigger('GoogleAnalytics', ['hash'], (hash) => {
          trackPageView(`~/${hash}`);
-      })
+      }, true);
    }
 }
