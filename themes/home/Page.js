@@ -34,11 +34,11 @@ export default <cx>
             <Section mod="well" pad={false}>
                <a class="b-card" href:bind="$theme.url">
                   <div class="e-card-imgwrap">
-                     <img src:bind="$theme.imgUrl" />
+                     <img src:bind="$theme.imgUrl"/>
                   </div>
                   <div class="e-card-desc">
-                     <h3 text:bind="$theme.name" />
-                     <p text:bind="$theme.description" />
+                     <h3 text:bind="$theme.name"/>
+                     <p text:bind="$theme.description"/>
                   </div>
                </a>
             </Section>
