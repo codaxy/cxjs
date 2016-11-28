@@ -4,8 +4,7 @@ $cx-include-global-rules: false !default;
 $cx-theme-include-all: $cx-include-all;
 $cx-theme-include-global-rules: $cx-include-global-rules;
 
-
-$cx-default-color: rgba(255, 255, 255, 0.5) !default;
+$cx-default-color: darken(white, 20) !default;
 
 $cx-default-font-family: 'Open Sans', sans-serif;
 
@@ -15,15 +14,15 @@ $cx-section-well: (
    border-radius: 3px,
 ) !default;
 
-$cx-default-input-background-color: rgba(128, 128, 128, 0.1) !default;
-$cx-default-input-color: rgba(255, 255, 255, 0.7) !default;;
+$cx-default-input-background-color: rgba(52, 52, 52, 1) !default;
+$cx-default-input-color: darken($cx-default-color, 2) !default;
 $cx-default-border-color: rgba(128, 128, 128, 0.13) !default;
 
-$cx-default-dropdown-background-color: #000 !default;
+$cx-default-dropdown-background-color: darken(#343434, 7) !default;
 
-$cx-default-button-background-color: rgba(4, 4, 5, 0.2) !default;
-$cx-default-button-border-color: black !default;
-$cx-default-button-color: inherit !default;
+$cx-default-button-background-color: rgba(29, 29, 29, 1) !default;
+$cx-default-button-border-color: lighten(black, 10) !default;
+$cx-default-button-color: darken($cx-default-color, 2) !default;
 
 $cx-default-grid-header-background-color: rgba(14, 14, 18, 0.2) !default;
 
@@ -34,6 +33,17 @@ $cx-include-all: false;
 $cx-include-global-rules: false;
 
 @import "~cx/index";
+
+$cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
+   default: (
+
+   ),
+   selected: (
+      background-color: red
+   )
+));
+
+//globals
 
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    html: (
@@ -56,7 +66,23 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    ),
    h6: (
 
-   )
+   ),
+
+   a: (
+      color: darken(#9faed2, 4)
+   ),
+
+   // 'a:visited' (
+   //      color: #9faed2
+   // ),
+
+   // 'a:hover': (
+   //    color: lighten(#a8b5d6, 4)
+   // ),
+
+   // 'a:active': (
+   //    color: darken(#9faed2, 5)
+   // )
 ));
 
 
