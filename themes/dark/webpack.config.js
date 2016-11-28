@@ -1,3 +1,3 @@
-let getWebpackThemeConfig = require('../shared/webpack.config');
+var getWebpackThemeConfig = require('../shared/webpack.config');
 
 module.exports = getWebpackThemeConfig('dark', __dirname, 8091);

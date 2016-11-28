@@ -49,7 +49,7 @@ $cx-button-state-style-map: (
       outline: none,
       box-shadow: none
    )
-);
+) !default;
 
 $cx-button-mods: (
    primary: (
