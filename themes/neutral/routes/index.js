@@ -12,6 +12,7 @@ import Charts from 'shared/routes/charts';
 import Blocks from 'shared/routes/blocks';
 import Reset from 'shared/routes/reset';
 import Overlays from 'shared/routes/overlays';
+import GAController from 'shared/GAController';
 
 const layout = createLayout(<cx>
    <a href="..">Themes</a>
@@ -19,7 +20,7 @@ const layout = createLayout(<cx>
 </cx>);
 
 export default <cx>
-   <PureContainer outerLayout={layout}>
+   <PureContainer outerLayout={layout} controller={GAController}>
       <Route route="#" url:bind="hash">
          <Default />
       </Route>

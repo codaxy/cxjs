@@ -1,6 +1,7 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Route} from 'cx/ui/nav/Route';
 import {PureContainer} from 'cx/ui/PureContainer';
+import GAController from 'shared/GAController';
 
 
 import createLayout from 'shared/layout';
@@ -19,7 +20,7 @@ const layout = createLayout(<cx>
 </cx>);
 
 export default <cx>
-   <PureContainer outerLayout={layout}>
+   <PureContainer outerLayout={layout} controller={GAController}>
       <Route route="#" url:bind="hash">
          <Default />
       </Route>

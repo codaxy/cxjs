@@ -4,6 +4,7 @@ import {Repeater} from 'cx/ui/Repeater';
 import createLayout from 'shared/layout';
 import {Section} from 'cx/ui/Section';
 import {FlexRow} from 'cx/ui/layout/FlexBox';
+import GAController from 'shared/GAController';
 
 const layout = createLayout(<cx>
    <span>Themes</span>
@@ -27,7 +28,7 @@ const themes = [{
 }];
 
 export default <cx>
-   <PureContainer outerLayout={layout}>
+   <PureContainer outerLayout={layout} controller={GAController}>
       <FlexRow pad spacing wrap justify="center">
          <Repeater records={themes} recordName="$theme">
             <Section mod="well" pad={false}>
