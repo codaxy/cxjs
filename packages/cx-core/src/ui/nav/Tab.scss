@@ -3,8 +3,11 @@
 @import "../Button";
 @import "cover";
 
+$cx-default-tab-background-color: rgba(255, 255, 255, 0) !default;
+
 $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    default: (
+      background-color: $cx-default-tab-background-color,
       border-radius: $cx-default-border-radius,
       padding: $cx-default-button-padding,
       border-width: $cx-default-button-border-width,
@@ -17,6 +20,9 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    ),
    hover: (
       text-decoration: none
+   ),
+   selected: (
+    //    background-color
    )
 ));
 
