@@ -124,7 +124,7 @@ $cx-button-mods: (
       $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
       $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
 
-      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
+      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @include cx-add-state-rules($state-style-map, 'default');
 
@@ -145,10 +145,6 @@ $cx-button-mods: (
 
          &:hover:focus {
             @include cx-add-state-rules($state-style-map, 'hover-focus');
-         }
-
-         &:focus {
-            @include cx-add-state-rules($state-style-map, 'focus');
          }
 
          &:active {
