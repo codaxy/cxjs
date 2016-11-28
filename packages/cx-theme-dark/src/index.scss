@@ -32,19 +32,39 @@ $cx-default-cover-background-color: rgb(53, 53, 53) !default;
 $cx-include-all: false;
 $cx-include-global-rules: false;
 
-@import "~cx/index";
-
-$cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
-   default: (
-
+$cx-list-item: (
+   default: (),
+   hover: (
+      background-color: #1d1d1d,
+      outline: none
+   ),
+   hover-focus: (
+      background-color: lighten(#1d1d1d, 2),
+      outline: none,
    ),
    selected: (
-      background-color: red
+      background-color: lighten(#343434, 5),
+   ),
+   selected-focus: (
+      background-color: rgba(123,190,255, 0.4),
+      outline: none,
+   ),
+   active: (
+      //causes flickering
+      //background: rgba(123,190,255, 0.7)
+   ),
+   disabled: (
+      color: rgba(128, 128, 128, .5),
+      background-color: rgba(128, 128, 128, .1),
+      cursor: default
    )
-));
+);
+
+
+
+@import "~cx/index";
 
 //globals
-
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    html: (
       background: #222

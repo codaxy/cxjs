@@ -117,7 +117,7 @@ $cx-list-item: (
       background-color: rgba(128, 128, 128, .1),
       cursor: default
    )
-);
+) !default;
 
 $cx-default-font-family: -apple-system,
    BlinkMacSystemFont,
