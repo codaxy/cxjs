@@ -20,8 +20,8 @@ $cx-default-border-color: rgba(128, 128, 128, 0.13) !default;
 
 $cx-default-dropdown-background-color: darken(#343434, 7) !default;
 
-$cx-default-button-background-color: rgba(29, 29, 29, 1) !default;
-$cx-default-button-border-color: lighten(black, 10) !default;
+$cx-default-button-background-color: rgba(52, 52, 52, 1) !default;
+$cx-default-button-border-color: rgba(32, 32, 32, 1) !default;
 $cx-default-button-color: darken($cx-default-color, 2) !default;
 
 $cx-default-grid-header-background-color: rgba(14, 14, 18, 0.2) !default;
@@ -32,37 +32,33 @@ $cx-default-cover-background-color: rgb(53, 53, 53) !default;
 $cx-include-all: false;
 $cx-include-global-rules: false;
 
-$cx-list-item: (
-   default: (),
-   hover: (
-      background-color: #1d1d1d,
-      outline: none
-   ),
-   hover-focus: (
-      background-color: lighten(#1d1d1d, 2),
-      outline: none,
-   ),
-   selected: (
-      background-color: lighten(#343434, 5),
-   ),
-   selected-focus: (
-      background-color: rgba(123,190,255, 0.4),
-      outline: none,
-   ),
-   active: (
-      //causes flickering
-      //background: rgba(123,190,255, 0.7)
-   ),
-   disabled: (
-      color: rgba(128, 128, 128, .5),
-      background-color: rgba(128, 128, 128, .1),
-      cursor: default
-   )
-);
-
 
 
 @import "~cx/index";
+
+$cx-button-state-style-map: cx-merge-state-style-maps($cx-button-state-style-map, (
+  hover: (
+    background-color: darken($cx-default-button-background-color, 2)
+  ),
+  active: (
+    background-color: lighten(rgba(29, 29, 29, 1), 4),
+    border-color: lighten($cx-default-button-border-color, 1)
+  ),
+  disabled: (
+    color: rgba(255, 255, 255, 0.2),
+    border-color: rgba(255, 255, 255, 0),
+  )
+));
+
+$cx-list-item: cx-merge-state-style-maps($cx-list-item, (
+  default: (
+  ),
+  hover: (
+    background-color: lighten(rgba(29, 29, 29, 1), 3)
+  ),
+  selected: (
+  ) 
+));
 
 //globals
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
