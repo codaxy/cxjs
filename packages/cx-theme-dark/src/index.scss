@@ -41,6 +41,13 @@ $cx-tooltip-border-color: $cx-default-border-color !default;
 $cx-tooltip-background-color-error: lighten(rgb(52, 52, 52), 6) !default;
 $cx-tooltip-border-color-error: rgba(220, 0, 9, 0.8) !default;
 
+// TOAST
+$cx-default-toast-background-color: lighten($cx-tooltip-background-color, 3) !default;
+$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
+
+// MONTHPICKER
+$cx-default-monthpicker-font-size: 11px !default;
+
 $cx-include-all: false;
 $cx-include-global-rules: false;
 
@@ -83,7 +90,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   selected: (
   ),
   selected-focus: (
-    background-color: rgba(123, 190, 255, 0.3)
+    background-color: rgb(81, 90, 112)
   )
 ));
 
