@@ -1,6 +1,11 @@
 @import "variables";
 @import '../../util/scss/include';
 
+$cx-default-toast-background-color: rgb(255, 255, 255) !default;
+$cx-default-toast-border-width: 0 !default;
+$cx-default-toast-border-color: rgba(255, 255, 255, 0) !default;
+$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
+
 @mixin cx-toast(
    $name: 'toast',
    $besm: $cx-besm
@@ -11,14 +16,17 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      background: white;
+      background: $cx-default-toast-background-color;
       box-sizing: border-box;
       position: relative;
       z-index: 1000;
       pointer-events: all;
       transition: all 0.2s ease-in-out;
       overflow: hidden;
-      box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3);
+      box-shadow: $cx-default-toast-box-shadow;
+      border-style: solid;
+      border-width: $cx-default-toast-border-width;
+      border-color: $cx-default-toast-border-color;
       border-radius: $cx-default-border-radius;
       transform: scale(0);
       opacity: 0;
