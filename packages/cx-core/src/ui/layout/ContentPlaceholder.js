@@ -11,7 +11,7 @@ export class ContentPlaceholder extends PureContainer {
 
    explore(context, instance, data) {
       instance.content = null;
-      var content = context.content && context.content[data.name];
+      const content = context.content && context.content[data.name];
       if (content)
          this.setContent(context, instance, content);
       else {
@@ -48,7 +48,7 @@ export class ContentPlaceholder extends PureContainer {
    }
 
    render(context, instance, key) {
-      var {content} = instance;
+      const {content} = instance;
       if (content) {
          content.shouldRenderContent = true;
          var result = content.render(context);
@@ -65,8 +65,8 @@ ContentPlaceholder.prototype.name = 'body';
 Widget.alias('content-placeholder', ContentPlaceholder);
 
 export function contentSandbox(context, name, exploreFunction) {
-   var content = context.content && context.content[name];
-   var placeholder = context.contentPlaceholder && context.contentPlaceholder[name];
+   let content = context.content && context.content[name];
+   let placeholder = context.contentPlaceholder && context.contentPlaceholder[name];
 
    if (content)
       context.content[name] = null;
@@ -75,8 +75,17 @@ export function contentSandbox(context, name, exploreFunction) {
 
    exploreFunction();
 
-   if (content)
-      context.content[name] = content;
-   if (placeholder)
-      context.contentPlaceholder[name] = placeholder;
+   if (context.content) {
+      if (content)
+         context.content[name] = content;
+      else
+         delete context.content[name];
+   }
+
+   if (context.contentPlaceholder) {
+      if (placeholder)
+         context.contentPlaceholder[name] = placeholder;
+      else
+         delete  context.contentPlaceholder[name];
+   }
 }

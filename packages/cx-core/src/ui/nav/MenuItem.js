@@ -6,6 +6,7 @@ import {FocusManager, oneFocusOut, offFocusOut} from '../FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
 import DropdownIcon from '../icons/drop-down';
 import {Localization} from '../Localization';
+import {KeyCode} from '../../util/KeyCode';
 
 /*
  Functionality:
@@ -118,7 +119,7 @@ class MenuItemComponent extends VDOM.Component {
 
       return <div className={classNames}
          style={data.style}
-         tabIndex="0"
+         tabIndex={widget.dropdown ? 0 : null}
          ref={el=>{this.el = el}}
          onKeyDown={::this.onKeyDown}
          onMouseDown={::this.onMouseDown}
@@ -177,36 +178,44 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    onMouseLeave(e) {
-      Debug.log(menuFlag, 'MenuItem', 'mouseLeave', this.el);
-      this.clearAutoFocusTimer();
+      let {widget} = this.props.instance;
+      if (widget.dropdown) {
+         Debug.log(menuFlag, 'MenuItem', 'mouseLeave', this.el);
+         this.clearAutoFocusTimer();
+      }
    }
 
    onKeyDown(e) {
       Debug.log(menuFlag, 'MenuItem', 'keyDown', this.el);
-      var {horizontal} = this.props.instance;
-      if (e.target == this.el && (e.keyCode == 13 || (horizontal ? e.keyCode == 40 : e.keyCode == 39))) {
-         var focusableChild = findFirstChild(this.el, isFocusable);
-         if (focusableChild)
-            FocusManager.focus(focusableChild);
-         e.preventDefault();
-         e.stopPropagation();
-      }
+      var {horizontal, widget} = this.props.instance;
+      if (widget.dropdown) {
+         if (e.target == this.el && (e.keyCode == 13 || (horizontal ? e.keyCode == 40 : e.keyCode == 39))) {
+            var focusableChild = findFirstChild(this.el, isFocusable);
+            if (focusableChild)
+               FocusManager.focus(focusableChild);
+            e.preventDefault();
+            e.stopPropagation();
+         }
 
-      if (e.keyCode == 27) {
-         FocusManager.focus(this.el);
-         e.preventDefault();
-         e.stopPropagation();
-         this.setState({
-            dropdownOpen: false
-         });
+         if (e.keyCode == 27) {
+            FocusManager.focus(this.el);
+            e.preventDefault();
+            e.stopPropagation();
+            this.setState({
+               dropdownOpen: false
+            });
+         }
       }
    }
 
    onMouseDown(e) {
-      //IE sometimes does not focus parent on child click
-      if (!isFocusedDeep(this.el))
-         FocusManager.focus(this.el);
-      e.stopPropagation();
+      let {widget} = this.props.instance;
+      if (widget.dropdown) {
+         //IE sometimes does not focus parent on child click
+         if (!isFocusedDeep(this.el))
+            FocusManager.focus(this.el);
+         e.stopPropagation();
+      }
    }
 
    openDropdown() {
@@ -222,12 +231,15 @@ class MenuItemComponent extends VDOM.Component {
       this.openDropdown();
    }
 
-   onFocus(e) {
-      oneFocusOut(this, this.el, ::this.onFocusOut);
-      Debug.log(menuFlag, 'MenuItem', 'focus', this.el, document.activeElement);
-      this.clearAutoFocusTimer();
-      if (!this.state.dropdownOpen) {
-         this.openDropdown();
+   onFocus() {
+      let {widget} = this.props.instance;
+      if (widget.dropdown) {
+         oneFocusOut(this, this.el, ::this.onFocusOut);
+         Debug.log(menuFlag, 'MenuItem', 'focus', this.el, document.activeElement);
+         this.clearAutoFocusTimer();
+         if (!this.state.dropdownOpen) {
+            this.openDropdown();
+         }
       }
    }
 

@@ -13,7 +13,7 @@ export class Component {
          componentAlias[this.namespace + alias] = type;
       }
       else //decorator usage
-         return t=> {
+         return t => {
             this.alias(alias, t);
             return t;
          }
@@ -39,6 +39,11 @@ export class Component {
 
       if (typeAlias.isComponentType)
          cmpType = typeAlias;
+      else if (typeof typeAlias == 'function') {
+         if (this.factory)
+            return this.factory(typeAlias, config, more)
+         throw new Error(`Unsupported component type ${typeAlias}.`);
+      }
       else if (typeof typeAlias == 'string') {
          alias = this.namespace + typeAlias;
          cmpType = componentAlias[alias];
