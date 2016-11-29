@@ -8,7 +8,7 @@ import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Slider} from 'cx/ui/form/Slider';
 import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
-import configs from './configs/slider';
+import configs from './configs/Slider';
 
 
 export const Sliders = <cx>
