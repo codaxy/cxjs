@@ -31,8 +31,11 @@ $cx-default-button-color: darken($cx-default-color, 2) !default;
 $cx-default-grid-background-color: rgb(50, 50, 50) !default;
 $cx-default-grid-header-background-color: darken(rgb(52, 52, 52), 6) !default;
 
-$cx-default-cover-background-color: rgb(53, 53, 53) !default;
-
+// TOOLTIP
+$cx-tooltip-background-color: lighten(rgb(52, 52, 52), 6) !default;
+$cx-tooltip-border-color: $cx-default-border-color !default;
+$cx-tooltip-background-color-error: lighten(rgb(52, 52, 52), 6) !default;
+$cx-tooltip-border-color-error: rgba(220, 0, 9, 0.8) !default;
 
 $cx-include-all: false;
 $cx-include-global-rules: false;
@@ -68,7 +71,10 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   default: (
   ),
   hover: (
-    background-color: lighten(rgba(29, 29, 29, 1), 3)
+    background-color: lighten(rgb(29, 29, 29), 3)
+  ),
+  hover-focus: (
+    background-color: darken(rgba(81, 90, 112, 0.7), 8)
   ),
   selected: (
   ),
@@ -106,7 +112,7 @@ $cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map
 $cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-state-style-map, (
    default: (
       background-color: darken(rgb(52, 52, 52), 4),
-      border-bottom: 1px solid darken($cx-default-border-color, 13)
+      border-bottom: 1px solid darken(rgb(52, 52, 52), 4)
    )
 ));
 
