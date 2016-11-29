@@ -35,6 +35,11 @@
          }
       }
 
+      &.#{$state}pad.#{$state}spacing {
+         margin: 0;
+         padding: 0.5rem;
+      }
+
       &.#{$state}align-center {
          align-items: center;
       }
