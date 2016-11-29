@@ -1,6 +1,7 @@
 @import "variables";
 @import "../../util/scss/add-rules";
 @import "../Button";
+@import "cover";
 
 $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    default: (
@@ -22,15 +23,15 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
 $cx-tab-mods: (
    classic: (
       default: (
-         margin-bottom: -1px,
+         position: relative,
          border-width: 1px,
          border-bottom-left-radius: 0,
          border-bottom-right-radius: 0,
       ),
       selected: (
-         border-color: $cx-default-border-color,
-         border-bottom-color: transparent,
-         background-color: white,
+         border-color: $cx-default-cover-border-color,
+         //border-bottom-color: $cx-default-cover-background-color,
+         background-color: $cx-default-cover-background-color,
       )
    ),
    line: (
@@ -125,6 +126,16 @@ $cx-tab-mods: (
                @include cx-add-state-rules($config, disabled);
             }
          }
+      }
+
+      &.#{$mod}classic.#{$state}active:after {
+         content: ' ';
+         position: absolute;
+         top: 100%;
+         left: 0;
+         right: 0;
+         height: 2px;
+         background: cx-get-state-rule(map-get($cx-tab-mods, classic), selected, background-color);
       }
    }
 }

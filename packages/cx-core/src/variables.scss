@@ -208,5 +208,13 @@ $cx-element-style-map: (
 
    th: (
       font-weight: 500
+   ),
+
+   text: (
+      fill: currentColor
    )
 ) !default;
+
+
+$cx-default-cover-border-color: $cx-default-border-color !default;
+$cx-default-cover-background-color: rgba(53, 53, 53, 1) !default;;
