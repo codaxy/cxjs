@@ -1,12 +1,14 @@
 import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Button} from 'cx/ui/Button';
+import {Repeater} from 'cx/ui/Repeater';
 import {Tab} from 'cx/ui/nav/Tab';
+import {Text} from 'cx/ui/Text';
 import {Section} from 'cx/ui/Section';
 import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 
 export default <cx>
-   <span putInto="breadcrumbs">Blocks</span>
+   <span putInto="breadcrumbs">Core</span>
 
    <FlexRow pad spacing wrap>
       <Section title="Typography" mod="well" style="flex:1" preserveWhitespace>
@@ -67,5 +69,28 @@ export default <cx>
          </p>
 
       </Section>
+
+      <Section title="Color Palette" mod="well" style="flex:1" preserveWhitespace>
+         <h4>Default</h4>
+         <FlexRow spacing wrap>
+            <Repeater records={Array.from({length: 16})}>
+               <div class="b-color-well" className:tpl="cxs-selectable cxs-color-{$index}">
+                  <Text tpl="Color {$index}" />
+               </div>
+            </Repeater>
+         </FlexRow>
+
+         <br/>
+
+         <h4>Selected</h4>
+         <FlexRow spacing wrap>
+            <Repeater records={Array.from({length: 16})}>
+               <div class="b-color-well" className:tpl="cxs-selected cxs-color-{$index}">
+                  <Text tpl="Color {$index}" />
+               </div>
+            </Repeater>
+         </FlexRow>
+      </Section>
+
    </FlexRow>
 </cx>

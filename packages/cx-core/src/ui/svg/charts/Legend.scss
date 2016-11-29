@@ -10,7 +10,7 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      background: rgba(255, 255, 255, 0.5);
+      background: $cx-default-cover-background-color;
       text-align: center;
    }
 

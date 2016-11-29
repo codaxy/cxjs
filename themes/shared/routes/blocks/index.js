@@ -54,17 +54,23 @@ export default <cx>
          <TabContent />
       </Section>
 
-      <Section mod="well" title="Classic Tabs" pad={false} style="flex:1" headerStyle="border-bottom: none" preserveWhitespace>
-         <div>
-            <div style="padding:0 1.5rem;white-space:nowrap;">
-               <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
-            </div>
-            <div style="background: white; padding: 1.5rem; border-top: 1px solid lightgray">
-               <TabContent />
-            </div>
+      <Section
+         mod="well"
+         title="Classic Tabs"
+         pad={false}
+         style="flex:1;overflow:hidden"
+         headerStyle="border-bottom: none"
+         bodyStyle="display:flex;flex-direction:column"
+         preserveWhitespace
+      >
+         <div style="padding:0 1.5rem;white-space:nowrap;flex-shrink:0">
+            <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
+            <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
+            <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
+            <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
+         </div>
+         <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex: 1 0">
+            <TabContent />
          </div>
       </Section>
 

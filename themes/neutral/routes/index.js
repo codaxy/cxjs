@@ -10,7 +10,7 @@ import Forms from 'shared/routes/forms';
 import Grids from 'shared/routes/grids';
 import Charts from 'shared/routes/charts';
 import Blocks from 'shared/routes/blocks';
-import Reset from 'shared/routes/reset';
+import Core from 'shared/routes/reset';
 import Overlays from 'shared/routes/overlays';
 import GAController from 'shared/GAController';
 
@@ -24,8 +24,8 @@ export default <cx>
       <Route route="#" url:bind="hash">
          <Default />
       </Route>
-      <Route route="#reset" url:bind="hash">
-         <Reset />
+      <Route route="#core" url:bind="hash">
+         <Core />
       </Route>
       <Route route="#forms" url:bind="hash">
          <Forms />

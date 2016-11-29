@@ -48,16 +48,25 @@ $palette-stroke-blacken: 10%;
          &.#{$state}selectable:hover {
             fill: whiten($c, $palette-fill-hover-whiten);
             stroke: blacken(whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
+
+            background: whiten($c, $palette-fill-hover-whiten);
+            border-color: blacken(whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
          }
 
          &.#{$state}selected, &.#{$state}selected:hover {
             fill: whiten($c, $palette-fill-selected-whiten);
             stroke: blacken(whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
+
+            background: whiten($c, $palette-fill-selected-whiten);
+            border-color: blacken(whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
          }
 
          &.#{$state}disabled {
             fill: whiten($c, $palette-fill-disabled-whiten);
             stroke: blacken(whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
+
+            background: whiten($c, $palette-fill-disabled-whiten);
+            border-color: blacken(whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
          }
       }
    }
