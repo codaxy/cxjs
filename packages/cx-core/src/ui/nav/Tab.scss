@@ -64,7 +64,7 @@ $cx-tab-mods: (
          border-color: transparent
       )
    )
-);
+) !default;
 
 @mixin cx-tab(
    $name: 'tab',

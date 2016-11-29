@@ -18,6 +18,9 @@ $cx-default-input-background-color: rgba(52, 52, 52, 1) !default;
 $cx-default-input-color: darken($cx-default-color, 2) !default;
 $cx-default-border-color: rgba(128, 128, 128, 0.13) !default;
 
+$cx-default-checkbox-size: 16px !default;
+$cx-default-radio-size: 16px !default;
+
 $cx-default-dropdown-background-color: darken(#343434, 7) !default;
 
 $cx-default-button-background-color: rgba(52, 52, 52, 1) !default;
@@ -46,8 +49,17 @@ $cx-button-state-style-map: cx-merge-state-style-maps($cx-button-state-style-map
   ),
   disabled: (
     color: rgba(255, 255, 255, 0.2),
-    border-color: rgba(255, 255, 255, 0),
+    border-color: transparent
   )
+));
+
+$cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
+  hollow: (
+    focus: (
+      background-color: rgb(81, 90, 112),
+      box-shadow: none
+    )
+  )  
 ));
 
 $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
@@ -57,8 +69,33 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
     background-color: lighten(rgba(29, 29, 29, 1), 3)
   ),
   selected: (
-  ) 
+  ),
+  selected-focus: (
+    background-color: rgb(81, 90, 112) 
+  )
 ));
+
+$cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
+  classic: (
+    selected: (             
+      background-color: rgba(61, 61, 61, 1)
+    )
+  ),
+  line: (
+    selected-focus: (
+      border-color: rgb(81, 90, 112)
+    )
+  )
+));
+
+$cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
+   focus: (
+      border-color: rgba(115, 127, 154, 0.8),
+      box-shadow: 0 0 2px rgba(115, 127, 154, 0.8)
+   )  
+));
+
+
 
 //globals
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
