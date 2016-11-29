@@ -2,6 +2,8 @@
 @import '../../util/scss/include';
 @import '../Button';
 
+$cx-default-menu-item-padding: $cx-default-button-padding !default;
+
 $cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    default: (
       border-radius: $cx-default-border-radius
@@ -53,7 +55,7 @@ $cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
       }
 
       &.#{$state}pad > a, &.#{$state}pad > span {
-         padding: $cx-default-button-padding;
+         padding: $cx-default-menu-item-padding;
          border: $cx-default-button-border-width solid transparent;
          line-height: $cx-default-box-line-height;
          display: block;

@@ -31,6 +31,10 @@ $cx-default-button-color: darken($cx-default-color, 2) !default;
 $cx-default-grid-background-color: rgb(50, 50, 50) !default;
 $cx-default-grid-header-background-color: darken(rgb(52, 52, 52), 6) !default;
 
+// MENU
+// $cx-default-menu-item-padding: 10px !default;
+$cx-default-menu-separator: darken($cx-default-border-color, 4);
+
 // TOOLTIP
 $cx-tooltip-background-color: lighten(rgb(52, 52, 52), 6) !default;
 $cx-tooltip-border-color: $cx-default-border-color !default;
@@ -79,7 +83,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   selected: (
   ),
   selected-focus: (
-    background-color: rgb(81, 90, 112) 
+    background-color: rgba(123, 190, 255, 0.3)
   )
 ));
 

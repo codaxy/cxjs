@@ -2,6 +2,7 @@
 @import '../Button';
 
 $cx-menu-state-style-map: $cx-list !default;
+$cx-default-menu-separator: lightgray !default;
 
 @mixin cx-menu(
    $name: 'menu',
@@ -44,7 +45,7 @@ $cx-menu-state-style-map: $cx-list !default;
       .#{$element}#{$name}-item {
          & > hr {
             border: none;
-            border-top: 1px solid lightgray;
+            border-top: 1px solid $cx-default-menu-separator;
             margin: $cx-default-button-padding;
          }
       }
