@@ -6,6 +6,7 @@ $cx-theme-include-global-rules: $cx-include-global-rules;
 
 $cx-default-color: darken(white, 20) !default;
 
+$cx-default-border-color: rgb(68, 68, 68) !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-font-family: 'Open Sans', sans-serif;
@@ -17,17 +18,17 @@ $cx-section-well: (
 
 $cx-default-input-background-color: rgba(52, 52, 52, 1) !default;
 $cx-default-input-color: darken($cx-default-color, 2) !default;
-$cx-default-border-color: rgba(75, 75, 75, 0.75) !default;
 
 $cx-default-checkbox-size: 16px !default;
 $cx-default-radio-size: 16px !default;
 
-$cx-default-dropdown-background-color: darken(#343434, 7) !default;
+$cx-default-dropdown-background-color: darken(rgb(52, 52, 52), 5), !default;
 
 $cx-default-button-background-color: rgba(52, 52, 52, 1) !default;
 $cx-default-button-border-color: rgba(32, 32, 32, 1) !default;
 $cx-default-button-color: darken($cx-default-color, 2) !default;
 
+$cx-default-grid-background-color: rgb(50, 50, 50) !default;
 $cx-default-grid-header-background-color: darken(rgb(52, 52, 52), 6) !default;
 
 $cx-default-cover-background-color: rgb(53, 53, 53) !default;
@@ -117,8 +118,7 @@ $cx-window-body-state-style-map: cx-merge-state-style-maps($cx-window-body-state
 
 $cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-state-style-map, (
    default: (
-      background: darken(rgb(52, 52, 52), 2),
-      border-bottom: 1px solid darken($cx-default-border-color, 10)
+      background: darken(rgb(52, 52, 52), 2)
    )
 ));
 
