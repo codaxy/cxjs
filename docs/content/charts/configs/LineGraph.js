@@ -50,7 +50,7 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Area switch. Default value is `false'.
+         Area switch. Default value is `false`.
       </Md></cx>
    },
    line: {
