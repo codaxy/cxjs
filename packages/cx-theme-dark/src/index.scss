@@ -88,6 +88,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
     background-color: darken(rgba(81, 90, 112, 0.7), 8)
   ),
   selected: (
+    background-color: rgb(81, 90, 112)
   ),
   selected-focus: (
     background-color: rgb(81, 90, 112)

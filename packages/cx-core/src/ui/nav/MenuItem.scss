@@ -7,7 +7,14 @@ $cx-default-menu-item-padding: $cx-default-button-padding !default;
 $cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    default: (
       border-radius: $cx-default-border-radius
+   ),
+   hover: (
+    
+   ),
+   selected-focus: (
+    background-color: rgb(81, 90, 112) // create a global variable for highlight color; add other states for menu items
    )
+
 )) !default;
 
 @mixin cx-menuitem(
