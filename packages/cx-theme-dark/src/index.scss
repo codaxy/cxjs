@@ -6,6 +6,7 @@ $cx-theme-include-global-rules: $cx-include-global-rules;
 
 $cx-default-color: darken(white, 20) !default;
 
+$cx-default-background-color: rgb(44, 44, 44) !default;
 $cx-default-border-color: rgb(68, 68, 68) !default;
 $cx-default-border-radius: 2px !default;
 
@@ -51,7 +52,9 @@ $cx-default-monthpicker-font-size: 11px !default;
 $cx-include-all: false;
 $cx-include-global-rules: false;
 
-
+// COVER
+$cx-default-cover-background-color: lighten($cx-default-background-color, 7);
+$cx-default-cover-border-color: lighten($cx-default-background-color, 7);
 
 @import "~cx/index";
 
@@ -98,7 +101,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
 $cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
   classic: (
     selected: (             
-      background-color: rgba(61, 61, 61, 1)
+      background-color: lighten($cx-default-background-color, 7)
     )
   ),
   line: (
