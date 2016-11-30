@@ -1,5 +1,22 @@
 @import "Field";
 
+$cx-default-calendar-today-background-color: rgba(220, 250, 183, 0.5) !default;
+$cx-default-calendar-today-border-color: null !default;
+$cx-default-calendar-today-border-width: null !default;
+
+$cx-calendar-state-style-map: (
+   today: (
+      background-color: rgba(220, 250, 183, 0.5),
+      border-radius: $cx-default-border-radius
+   ),
+   today-hover: (
+      
+   ),
+   outside: (
+      color: lightgray
+   )
+) !default;
+
 @mixin cx-calendar(
    $name: 'calendar',
    $state-style-map: $cx-input-state-style-map,
@@ -27,31 +44,28 @@
       }
 
       td.#{$state}today {
-         background: rgba(220, 250, 183, 0.5);
-         border-radius: $cx-default-border-radius;
+        @include cx-add-state-rules($cx-calendar-state-style-map, today);
+
+        &:hover {
+           @include cx-add-state-rules($cx-calendar-state-style-map, hover)
+        }
       }
 
       td.#{$state}outside {
-         color: lightgray;
+         @include cx-add-state-rules($cx-calendar-state-style-map, outside)
       }
 
       td.#{$state}unselectable {
-         @each $rule, $value in map-get($cx-list-item, disabled) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, disabled)
       }
 
       td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, hover);
          border-radius: $cx-default-border-radius;
       }
 
       td.#{$state}selected {
-         @each $rule, $value in map-get($cx-list-item, selected) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, selected);
          border-radius: $cx-default-border-radius;
       }
 
@@ -64,21 +78,15 @@
       &:focus {
 
          td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
-            @each $rule, $value in map-get($cx-list-item, hover-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, hover-focus)
 
             &:active {
-               @each $rule, $value in map-get($cx-list-item, active) {
-                  #{$rule}: $value;
-               }
+               @include cx-add-state-rules($cx-list-item, active)
             }
          }
 
          td.#{$state}selected {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, selected-focus)
          }
       }
    }

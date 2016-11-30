@@ -143,6 +143,19 @@ $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, 
    )  
 ));
 
+// calendar
+$cx-calendar-state-style-map: cx-merge-state-style-maps($cx-calendar-state-style-map, (
+   today: (
+      background-color: transparent,
+      border-style: solid,
+      border-width: 1px,
+      border-color: darken($cx-default-error-color, 14)
+   ),
+   outside: (
+      color: darken($cx-default-color, 35)
+   )
+));
+
 // WINDOWS
 $cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
    default: (
