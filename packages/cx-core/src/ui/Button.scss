@@ -12,11 +12,12 @@ $cx-default-button-background-color: #eee !default;
 $cx-default-button-border-color: #ccc !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-color: null !default;
+$cx-default-button-box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1) !default;
 
 $cx-button-state-style-map: (
    default: (
       background-color: $cx-default-button-background-color,
-      box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1),
+      box-shadow: $cx-default-button-box-shadow,
       border-color: $cx-default-button-border-color,
       border-style: solid,
       user-select: none,
