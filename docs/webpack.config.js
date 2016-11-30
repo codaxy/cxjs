@@ -1,6 +1,8 @@
 const webpack = require('webpack'),
     ExtractTextPlugin = require("extract-text-webpack-plugin"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
+    CleanWebpackPlugin = require('clean-webpack-plugin'),
     merge = require('webpack-merge'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
@@ -43,7 +45,7 @@ var common = {
     },
     output: {
         path: __dirname,
-        filename: "[name].js"
+        filename: "[name].[hash].js"
     },
     // externals: {
     //    "react": "React",
@@ -51,7 +53,7 @@ var common = {
     // },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
+            names: ["vendor", "manifest"],
             minChunks: Infinity
         }),
         new webpack.optimize.CommonsChunkPlugin({
@@ -61,7 +63,9 @@ var common = {
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
-            hash: true
+            minify: {
+                removeComments: true
+            }
         })
     ]
 };
@@ -89,60 +93,66 @@ switch (process.env.npm_lifecycle_event) {
             "if-loader": 'production',
 
             plugins: [
-                new webpack.optimize.UglifyJsPlugin(),
+                new CleanWebpackPlugin(['dist']),
+                //new webpack.optimize.UglifyJsPlugin(),
                 new webpack.DefinePlugin({
                     'process.env.NODE_ENV': JSON.stringify('production')
                 }),
-                sass
+                sass,
+                new OptimizeCssAssetsPlugin()
             ],
 
             output: {
                 path: path.join(__dirname, 'dist'),
+                filename: "[name].[chunkhash].js",
+                hashDigestLength: 5,
                 publicPath: "/docs/"
             }
         };
         break;
 
-    case 'measure:docs':
-        var sass = new ExtractTextPlugin({
-            filename: "app.css",
-            allChunks: true
-        });
-        specific = {
-
-            module: {
-                loaders: [{
-                    test: /\.scss$/,
-                    loaders: ["style", "css", "sass"]
-                }, {
-                    test: /\.css$/,
-                    loader: ["style", "css"]
-                }]
-            },
-
-            "if-loader": 'production',
-
-            plugins: [
-                new webpack.optimize.UglifyJsPlugin(),
-                new webpack.DefinePlugin({
-                    'process.env.NODE_ENV': JSON.stringify('production')
-                }),
-                sass
-            ],
-            output: {
-                publicPath: '/'
-            },
-            //devtool: 'eval',
-            devServer: {
-                contentBase: '/docs',
-                hot: true,
-                port: 8080,
-                noInfo: false,
-                inline: true,
-                historyApiFallback: true
-            }
-        };
-        break;
+    // case 'measure:docs':
+    //     var sass = new ExtractTextPlugin({
+    //         filename: "app.css",
+    //         allChunks: true
+    //     });
+    //     specific = {
+    //
+    //         module: {
+    //             loaders: [{
+    //                 test: /\.scss$/,
+    //                 loaders: ["style", "css", "sass"]
+    //             }, {
+    //                 test: /\.css$/,
+    //                 loader: ["style", "css"]
+    //             }]
+    //         },
+    //
+    //         "if-loader": 'production',
+    //
+    //         plugins: [
+    //             new webpack.optimize.DedupePlugin(),
+    //             new webpack.optimize.UglifyJsPlugin(),
+    //             new webpack.DefinePlugin({
+    //                 'process.env.NODE_ENV': JSON.stringify('production')
+    //             }),
+    //             sass,
+    //             //new OptimizeCssAssetsPlugin()
+    //         ],
+    //         output: {
+    //             publicPath: '/'
+    //         },
+    //         //devtool: 'eval',
+    //         devServer: {
+    //             contentBase: '/docs',
+    //             hot: true,
+    //             port: 8080,
+    //             noInfo: false,
+    //             inline: true,
+    //             historyApiFallback: true
+    //         }
+    //     };
+    //     break;
 
     default:
         specific = {
