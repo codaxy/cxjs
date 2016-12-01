@@ -17,6 +17,9 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
    ),
    hover: (
       text-decoration: none
+   ),
+   disabled: (
+      background-color: transparent
    )
 ));
 

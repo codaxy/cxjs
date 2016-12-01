@@ -65,7 +65,7 @@ $cx-button-mods: (
          color: transparentize(white, 0.4),
       ),
       hover: (
-          background: darken(#1f99f8, 8)
+          background-color: #1f99f8
       )
    ),
    danger: (
@@ -80,7 +80,7 @@ $cx-button-mods: (
          color: transparentize(white, 0.5),
       ),
       hover: (
-          background: darken(#d32f2f, 8)
+          background-color: #d32f2f
       )
    ),
    hollow: (
