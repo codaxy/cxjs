@@ -1,13 +1,26 @@
 @import "../variables";
 @import '../../util/scss/include';
 
-$cx-default-grid-header-background-color: #f8f8f8 !default;
 $cx-default-grid-border-color: $cx-default-border-color !default;
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
 
+$cx-default-grid-header-background-color: #f8f8f8 !default;
+$cx-default-grid-header-border-color: $cx-default-border-color !default;
+
+$cx-grid-header-state-style-map: (
+  default: (
+    background-color: $cx-default-grid-header-background-color,
+    border-color: $cx-default-grid-header-border-color
+  ),
+  hover: (
+    background: lighten($cx-default-grid-header-background-color, 3)
+  )
+);
+
 @mixin cx-grid(
    $name: 'grid',
-   $besm: $cx-besm
+   $besm: $cx-besm,
+   $header-state-style-map: $cx-grid-header-state-style-map
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
@@ -68,7 +81,7 @@ $cx-default-grid-font-size: $cx-default-box-font-size !default;
             }
 
             .#{$element}#{$name}-col-header {
-               background: $cx-default-grid-header-background-color;
+                @include cx-add-state-rules($header-state-style-map, default);
             }
          }
       }
@@ -93,9 +106,11 @@ $cx-default-grid-font-size: $cx-default-box-font-size !default;
       box-sizing: border-box;
 
       .#{$state}sortable & {
-         border: 1px solid $cx-default-grid-border-color;
-         background: $cx-default-grid-header-background-color;
+         border-width: 1px;
+         border-style: solid;
          position: relative;
+
+         @include cx-add-state-rules($header-state-style-map, default);
       }
 
       &.#{$state}sortable {
@@ -107,7 +122,7 @@ $cx-default-grid-font-size: $cx-default-box-font-size !default;
          }
 
          &:hover, .#{$element}#{$name}-fixed-header &:hover {
-            background: lighten($cx-default-grid-header-background-color, 3%);
+            @include cx-add-state-rules($header-state-style-map, hover);
          }
       }
 
@@ -152,7 +167,7 @@ $cx-default-grid-font-size: $cx-default-box-font-size !default;
    .#{$element}#{$name}-data {
       td {
          padding: 0;
-         border-top: 1px solid $cx-default-grid-border-color;;
+         border-top: 1px solid $cx-default-grid-border-color;
       }
 
       td.#{$state}pad {
@@ -271,11 +286,11 @@ $cx-default-grid-font-size: $cx-default-box-font-size !default;
    &.#{$mod}bordered {
 
       th, td {
-         border: 1px solid $cx-default-grid-border-color;;
+         border: 1px solid $cx-default-grid-border-color;
       }
 
       th {
-         border: 1px solid $cx-default-grid-border-color;;
+         border: 1px solid $cx-default-grid-border-color;
          background: $cx-default-grid-header-background-color;
       }
 
