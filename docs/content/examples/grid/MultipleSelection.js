@@ -58,7 +58,7 @@ export const MultipleSelection = <cx>
 
          See also:
 
-         - [Selection](#/concepts/selection)
+         - [Selection](~/concepts/selections)
 
          <Content name="code">
             <CodeSnippet>{`

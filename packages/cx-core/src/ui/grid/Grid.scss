@@ -1,10 +1,11 @@
 @import "../variables";
 @import '../../util/scss/include';
+@import '../Button';
 
 $cx-default-grid-border-color: $cx-default-border-color !default;
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
 
-$cx-default-grid-header-background-color: #f8f8f8 !default;
+$cx-default-grid-header-background-color: $cx-default-button-background-color !default;
 $cx-default-grid-header-border-color: $cx-default-border-color !default;
 
 $cx-grid-header-state-style-map: (
@@ -54,7 +55,14 @@ $cx-grid-header-state-style-map: (
 
       &.#{$state}scrollable {
 
-         border: 1px solid $cx-default-grid-border-color;
+         &.#{$state}border {
+            border: 1px solid $cx-default-grid-border-color;
+
+            table {
+               border: none;
+            }
+         }
+
          overflow: hidden;
 
          th {
@@ -79,10 +87,6 @@ $cx-grid-header-state-style-map: (
                width: auto;
                table-layout: fixed;
             }
-
-            .#{$element}#{$name}-col-header {
-                @include cx-add-state-rules($header-state-style-map, default);
-            }
          }
       }
 
@@ -104,8 +108,9 @@ $cx-grid-header-state-style-map: (
       text-align: left;
       padding: 5px;
       box-sizing: border-box;
+      position: relative;
 
-      .#{$state}sortable & {
+      .#{$state}header-default & {
          border-width: 1px;
          border-style: solid;
          position: relative;
@@ -117,9 +122,9 @@ $cx-grid-header-state-style-map: (
 
          cursor: pointer;
 
-         &.#{$state}sorted-asc, &.#{$state}sorted-desc {
-
-         }
+         //&.#{$state}sorted-asc, &.#{$state}sorted-desc {
+         //
+         //}
 
          &:hover, .#{$element}#{$name}-fixed-header &:hover {
             @include cx-add-state-rules($header-state-style-map, hover);
@@ -283,19 +288,31 @@ $cx-grid-header-state-style-map: (
       }
    }
 
-   &.#{$mod}bordered {
+   &.#{$state}border {
 
-      th, td {
+      table {
          border: 1px solid $cx-default-grid-border-color;
       }
 
-      th {
-         border: 1px solid $cx-default-grid-border-color;
-         background: $cx-default-grid-header-background-color;
-      }
+      //th, td {
+      //   //border: 1px solid $cx-default-grid-border-color;
+      //}
+      //
+      //th {
+      //   border: 1px solid $cx-default-grid-border-color;
+      //   background: $cx-default-grid-header-background-color;
+      //}
+      //
+      //.#{$element}#{$name}-group-footer td, & .#{$element}#{$name}-group-caption td {
+      //   border: none;
+      //}
+   }
 
-      .#{$element}#{$name}-group-footer td, & .#{$element}#{$name}-group-caption td {
-         border: none;
+   &.#{$state}vlines {
+      td:not(:last-child), th:not(:last-child) {
+         border-right-width: 1px;
+         border-right-style: solid;
+         border-right-color: $cx-default-grid-border-color;
       }
    }
 
