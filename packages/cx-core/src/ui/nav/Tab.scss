@@ -32,9 +32,9 @@ $cx-tab-mods: (
          border-bottom-right-radius: 0,
       ),
       selected: (
-         border-color: $cx-default-cover-border-color,
+         border-color: $cx-default-border-color,
          //border-bottom-color: $cx-default-cover-background-color,
-         background-color: $cx-default-cover-background-color,
+         background-color: $cx-default-cover-background-color
       )
    ),
    line: (
