@@ -104,13 +104,29 @@ export class Grid extends Widget {
             direction: this.defaultSortDirection || 'ASC'
          }];
 
+      let headerMode = this.headerMode;
+
+      if (this.headerMode == null) {
+         if (this.scrollable || this.columns.some(x => x.sortable))
+            headerMode = "default";
+         else
+            headerMode = 'plain';
+      }
+
+      let border = this.border;
+
+      if (this.border == null) {
+         if (this.scrollable)
+            this.border = true;
+      }
+
       data.stateMods = {
          selectable: this.selectable,
          scrollable: data.scrollable,
-         sortable: this.columns.some(x=>x.sortable)
+         ['header-' + headerMode]: true,
+         border: border,
+         vlines: this.vlines
       };
-
-
 
       super.prepareData(context, instance);
 
