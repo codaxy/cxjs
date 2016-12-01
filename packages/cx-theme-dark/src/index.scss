@@ -67,7 +67,7 @@ $cx-include-global-rules: false;
 
 // COVER
 $cx-default-cover-background-color: lighten($cx-default-background-color-light, 2);
-$cx-default-cover-border-color: lighten($cx-default-background-color-light, 2);
+$cx-default-cover-border-color: $cx-default-cover-background-color;
 
 
 @import "~cx/index";
@@ -109,7 +109,7 @@ $cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
   ),
   primary: (
     default: (
-        color: white,
+        color: darken(white, 15),
         background-color: #006699,
         border-color: transparent,
         box-shadow: inset 0 -1px lighten(#006699, 3)
@@ -164,7 +164,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
     background-color: $cx-default-background-color-dark
   ),
   hover-focus: (
-    background-color: darken($cx-default-highlight-color, 14)
+    background-color: darken($cx-default-highlight-color, 12)
   ),
   selected: (
     background-color: darken($cx-default-highlight-color, 9)
@@ -192,6 +192,20 @@ $cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
       border-color: $cx-default-highlight-color
     )
   )
+));
+
+// menu
+$cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-menuitem-state-style-map, (
+   default: (
+      border-radius: $cx-default-border-radius
+   ),
+   hover: (
+    
+   ),
+   selected-focus: (
+      background-color: $cx-default-highlight-color // create a global variable for highlight color; add other states for menu items
+   )
+
 ));
 
 // FORM

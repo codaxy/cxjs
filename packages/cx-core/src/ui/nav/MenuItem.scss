@@ -12,7 +12,7 @@ $cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
     
    ),
    selected-focus: (
-    background-color: rgb(81, 90, 112) // create a global variable for highlight color; add other states for menu items
+      background-color: rgba(123,190,255, 0.4) // create a global variable for highlight color; add other states for menu items
    )
 
 )) !default;
