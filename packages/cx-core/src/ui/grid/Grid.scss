@@ -14,13 +14,13 @@ $cx-grid-header-state-style-map: (
     border-color: $cx-default-grid-header-border-color
   ),
   hover: (
-    background-color: lighten($cx-default-grid-header-background-color, 3)
+    background-color: darken($cx-default-grid-header-background-color, 2)
   ),
   sorted: (
-    background-color: darken($cx-default-grid-header-background-color, 5)
+    background-color: darken($cx-default-grid-header-background-color, 7)
   ),
   sorted-hover: (
-    background-color: darken($cx-default-grid-header-background-color, 3)
+    background-color: darken($cx-default-grid-header-background-color, 5)
   )
 );
 
