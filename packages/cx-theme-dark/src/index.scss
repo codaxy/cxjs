@@ -42,8 +42,9 @@ $cx-default-button-color: darken($cx-default-color, 2) !default;
 $cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
 
 // GRID
-$cx-default-grid-background-color: $cx-default-background-color-light !default;
-$cx-default-grid-header-background-color: $cx-default-background-color-dark !default;
+$cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
+$cx-default-grid-header-background-color: lighten($cx-default-background-color-light, 3) !default;
+$cx-default-grid-header-border-color: lighten($cx-default-border-color, 5) !default;
 
 // MENU
 // $cx-default-menu-item-padding: 10px !default;
@@ -316,4 +317,34 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
 $cx-include-all: $cx-theme-include-all;
 $cx-include-global-rules: $cx-theme-include-global-rules;
 
+
 @import "~cx/index";
+
+.cxb-grid.cxs-scrollable.cxs-border {
+  border-color: $cx-default-grid-header-border-color;
+}
+
+.cxe-grid-data {
+  &:nth-child(odd) {
+    background-color: lighten($cx-default-background-color, 2);   
+
+    &.cxs-selected {
+      background-color: darken($cx-default-highlight-color, 9);
+      &:hover {
+        background-color: darken($cx-default-highlight-color, 9);
+      }
+    }  
+    &.cxs-cursor {
+      background-color: $cx-default-background-color-dark;
+    }
+  
+    .cxs-focused &, :focus & {
+      &.cxs-cursor {
+        background-color: darken($cx-default-highlight-color, 12);
+      }
+      &.cxs-selected {
+        background-color: $cx-default-highlight-color;
+      }
+    }
+  }
+}
