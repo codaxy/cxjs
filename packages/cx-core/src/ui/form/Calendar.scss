@@ -1,9 +1,5 @@
 @import "Field";
 
-$cx-default-calendar-today-background-color: rgba(220, 250, 183, 0.5) !default;
-$cx-default-calendar-today-border-color: null !default;
-$cx-default-calendar-today-border-width: null !default;
-
 $cx-calendar-state-style-map: (
    today: (
       background-color: rgba(220, 250, 183, 0.5),
