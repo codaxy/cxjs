@@ -43,8 +43,8 @@ $cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
 
 // GRID
 $cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
-$cx-default-grid-header-background-color: lighten($cx-default-background-color-light, 3) !default;
-$cx-default-grid-header-border-color: lighten($cx-default-border-color, 5) !default;
+$cx-default-grid-header-background-color: lighten($cx-default-background-color-light, 1) !default;
+$cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !default;
 
 // MENU
 // $cx-default-menu-item-padding: 10px !default;
@@ -347,4 +347,8 @@ $cx-include-global-rules: $cx-theme-include-global-rules;
       }
     }
   }
+}
+
+.cxe-grid-header .cxe-textfield-input {
+  background-color: $cx-default-background-color;
 }
