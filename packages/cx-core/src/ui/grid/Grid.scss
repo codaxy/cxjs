@@ -17,10 +17,10 @@ $cx-grid-header-state-style-map: (
     background-color: lighten($cx-default-grid-header-background-color, 3)
   ),
   sorted: (
-    background-color: darken($cx-default-grid-header-background-color, 7)
+    background-color: darken($cx-default-grid-header-background-color, 5)
   ),
   sorted-hover: (
-    background-color: darken($cx-default-grid-header-background-color, 5)
+    background-color: darken($cx-default-grid-header-background-color, 3)
   )
 );
 
