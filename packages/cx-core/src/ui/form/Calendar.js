@@ -248,8 +248,9 @@ export class CalendarCmp extends VDOM.Component {
             break;
 
          default:
-            if (this.props.onKeyDown)
-               this.props.onKeyDown(e, this.props.instance);
+            let {widget} = this.props.instance;
+            if (widget.onKeyDown)
+               widget.onKeyDown(e, this.props.instance);
             break;
       }
    }
@@ -270,11 +271,6 @@ export class CalendarCmp extends VDOM.Component {
       }
    }
 
-   // onBlur = { this.onBlur }
-   // onFocusOut = { this.onFocusOut }
-   // onKeyDown = { this.onKeyDown }
-   // autoFocus = { this.autoFocus }
-
    handleBlur(e) {
       FocusManager.nudge();
       let {widget} = this.props.instance;
@@ -286,19 +282,16 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleFocus(e) {
-      if (this.props.onFocusOut)
-         oneFocusOut(this, this.el, ::this.handleFocusOut);
-
+      oneFocusOut(this, this.el, ::this.handleFocusOut);
       this.setState({
          focus: true
       });
    }
 
    handleFocusOut() {
-      // let {instance} = this.props;
-      // let {widget} = instance;
-      if (this.props.onFocusOut)
-         this.props.onFocusOut();      
+      let {widget} = this.props.instance;
+      if (widget.onFocusOut)
+         widget.onFocusOut();
    } 
 
    handleMouseLeave(e) {
@@ -315,7 +308,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    componentDidMount() {
-      if (this.props.autoFocus)
+      if (this.props.instance.widget.autoFocus)
          this.el.focus();
 
       tooltipComponentDidMount(this.el, this.props.instance);
