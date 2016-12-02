@@ -130,6 +130,8 @@ export class CalendarCmp extends VDOM.Component {
       var refDate = data.refDate ? data.refDate : data.date || zeroTime(new Date());
 
       this.state = Object.assign({
+         hover: false,
+         focus: false,
          cursor: zeroTime(data.date || refDate),
       }, this.getPage(refDate))
    }
@@ -196,14 +198,8 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleKeyPress(e) {
-      var cursor;
-      if (this.state.cursor) {
-         cursor = new Date(this.state.cursor);
-      } else {
-         // if set to false, set cursor either to selection or to today
-         var {data} = this.props.instance;
-         cursor = zeroTime(data.date || new Date());
-      }
+      
+      var cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
          case 13: // enter
@@ -285,13 +281,17 @@ export class CalendarCmp extends VDOM.Component {
       if (widget.onBlur)
          widget.onBlur();
       this.setState({
-         cursor: false
+         focus: false
       });
    }
 
    handleFocus(e) {
       if (this.props.onFocusOut)
          oneFocusOut(this, this.el, ::this.handleFocusOut);
+
+      this.setState({
+         focus: true
+      });
    }
 
    handleFocusOut() {
@@ -304,8 +304,14 @@ export class CalendarCmp extends VDOM.Component {
    handleMouseLeave(e) {
       tooltipMouseLeave(e, this.props.instance);
       this.setState({
-         cursor: false
+         hover: false
       }); 
+   }
+
+   handleMouseEnter(e) {
+      this.setState({
+         hover: true
+      });
    }
 
    componentDidMount() {
@@ -356,7 +362,7 @@ export class CalendarCmp extends VDOM.Component {
                outside: month != date.getMonth(),
                unselectable: unselectable,
                selected: data.date && sameDate(data.date, date),
-               cursor: this.state.cursor && sameDate(this.state.cursor, date),
+               cursor: (this.state.hover || this.state.focus) && (this.state.cursor && sameDate(this.state.cursor, date)),
                today: widget.highlightToday && sameDate(date, today)
             });
             let dateInst = new Date(date);
@@ -387,6 +393,7 @@ export class CalendarCmp extends VDOM.Component {
                   ref={el=>{this.el = el}}
                   onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
                   onMouseLeave={e=>this.handleMouseLeave(e)}
+                  onMouseEnter={e=>this.handleMouseEnter(e)}
                   onWheel={e=>this.handleWheel(e)}
                   onFocus={e=>this.handleFocus(e)}
                   onBlur={e=>this.handleBlur(e)}
