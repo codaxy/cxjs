@@ -129,6 +129,11 @@ if (program.route) {
       return;
    }
    var tplDir = path.join(tplPath, './app/routes/_template');
+   var routeSubDirs = newRoute.split('/');
+
+   // loop through routeSubDirs 
+      // for each sub, check if it exists and create it if it doesn't
+   
    var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
    
    if (!fs.existsSync(newRouteDir)) {
