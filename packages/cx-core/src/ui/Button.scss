@@ -12,11 +12,12 @@ $cx-default-button-background-color: #eee !default;
 $cx-default-button-border-color: #ccc !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-color: null !default;
+$cx-default-button-box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1) !default;
 
 $cx-button-state-style-map: (
    default: (
       background-color: $cx-default-button-background-color,
-      box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1),
+      box-shadow: $cx-default-button-box-shadow,
       border-color: $cx-default-button-border-color,
       border-style: solid,
       user-select: none,
@@ -49,7 +50,7 @@ $cx-button-state-style-map: (
       outline: none,
       box-shadow: none
    )
-);
+) !default;
 
 $cx-button-mods: (
    primary: (
@@ -62,6 +63,9 @@ $cx-button-mods: (
          background: transparentize(#1f99f8, 0.5),
          border-color: transparentize(#1E88E5, 0.9),
          color: transparentize(white, 0.4),
+      ),
+      hover: (
+          background-color: #1f99f8
       )
    ),
    danger: (
@@ -74,6 +78,9 @@ $cx-button-mods: (
          background: transparentize(#d32f2f, 0.4),
          border-color: transparentize(#c62828, 0.9),
          color: transparentize(white, 0.5),
+      ),
+      hover: (
+          background-color: #d32f2f
       )
    ),
    hollow: (
@@ -118,7 +125,7 @@ $cx-button-mods: (
       $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
       $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
 
-      height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
+      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @include cx-add-state-rules($state-style-map, 'default');
 
@@ -139,10 +146,6 @@ $cx-button-mods: (
 
          &:hover:focus {
             @include cx-add-state-rules($state-style-map, 'hover-focus');
-         }
-
-         &:focus {
-            @include cx-add-state-rules($state-style-map, 'focus');
          }
 
          &:active {

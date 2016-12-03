@@ -40,8 +40,9 @@ export const ComplexHeaders = <cx>
 
             <Grid
                 records:bind='$page.records'
-                mod="bordered"
                 style={{width: "100%"}}
+                border
+                vlines
                 columns={[
                     {
                         header1: {

@@ -33,21 +33,19 @@ export const InlineEdit = <cx>
 
          Grid supports arbitrary content inside its cells. Any widget or even a chart can be put inside it.
 
-         > TODO: Styling!
-
          <Grid records:bind='$page.records'
                style={{width: "100%"}}
                columns={[
-                  { header: 'Name', field: 'fullName', sortable: true, pad: false, items: <cx>
+                  { header: 'Name', field: 'fullName', sortable: true, style: 'border:none', items: <cx>
                         <TextField value:bind="$record.fullName" style={{width: '100%'}} />
                      </cx>
-                  }, { header: 'Phone', field: 'phone', pad: false, items: <cx>
+                  }, { header: 'Phone', field: 'phone', style: 'border:none', items: <cx>
                         <TextField value:bind="$record.phone" style={{width: '100%'}} />
                      </cx>
-                  }, { header: 'City', field: 'city', pad: false, sortable: true, items: <cx>
+                  }, { header: 'City', field: 'city', style: 'border:none', sortable: true, items: <cx>
                         <TextField value:bind="$record.city" style={{width: '100%'}} />
                      </cx>
-                  }, { header: 'Notified', field: 'notified', sortable: true, align: 'center', pad: false, items: <cx>
+                  }, { header: 'Notified', field: 'notified', style: 'border:none', sortable: true, align: 'center', pad: false, items: <cx>
                         <Checkbox value:bind="$record.notified" />
                      </cx>
                   }

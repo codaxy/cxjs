@@ -1,5 +1,7 @@
 @import "Field";
 
+$cx-default-monthpicker-font-size: smaller !default;
+
 @mixin cx-monthpicker(
    $name: 'monthpicker',
    $state-style-map: $cx-input-state-style-map,
@@ -44,7 +46,7 @@
 
       th, td {
          text-align: center;
-         font-size: smaller;
+         font-size: $cx-default-monthpicker-font-size;
          line-height: 2em;
          cursor: pointer;
          -webkit-user-select: none;
