@@ -1,8 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+var React = require('react'),
+    ReactDOM = require('react-dom');
 
 var vdom = React;
 vdom.DOM = ReactDOM;
 
-export const VDOM = vdom;
+module.exports = {
+   VDOM: vdom
+};
 
