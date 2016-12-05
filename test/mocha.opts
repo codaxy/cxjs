@@ -1,4 +1,5 @@
 packages/babel-plugin-transform-cx-jsx/test
+packages/babel-plugin-transform-cx-imports/test
 packages/cx-core/src/**/*.spec.js
 
 --compilers js:./test/babel

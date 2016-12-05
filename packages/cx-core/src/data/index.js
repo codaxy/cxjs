@@ -10,5 +10,5 @@ export * from './StructuredSelector';
 export * from './computable';
 export * from './getSelector';
 export * from './comparer';
-export * as ops from './ops';
-export * as diff from './diff';
+export * from './ops/index';
+export * from './diff/index';
