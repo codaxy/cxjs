@@ -5,7 +5,8 @@ var rollup = require('rollup'),
    babelConfig = require('./babel.config'),
    importAlias = require('./importAlias'),
    addToManfiest = require('./addToManifest'),
-   multiEntry = require('rollup-plugin-multi-entry');
+   multiEntry = require('rollup-plugin-multi-entry'),
+   scss = require('rollup-plugin-scss');
 
 
 function getPath(basePath) {
@@ -49,6 +50,7 @@ var entries = [{
    output: {}
 }, {
    name: 'data',
+
    options: {
       entry: src('data/index.js')
    },
@@ -56,27 +58,30 @@ var entries = [{
 }, {
    name: 'ui',
    options: {
-      entry: src('ui/index.js')
+      entry: [src('ui/index.js')]
    },
    output: {}
 }, {
    name: 'widgets',
+   css: true,
    options: {
-      entry: src('widgets/index.js')
+      entry: [src('widgets/index.js'), src('widgets/index.scss')]
    },
    external: isUI,
    output: {}
 }, {
    name: 'svg',
+   css: true,
    options: {
-      entry: src('svg/index.js'),
+      entry: [src('svg/index.js'), src('svg/index.scss')]
    },
    external: isUI,
    output: {}
 }, {
    name: 'charts',
+   css: true,
    options: {
-      entry: src('charts/index.js'),
+      entry: [src('charts/index.js'), src('charts/index.scss')]
    },
    external: isUI,
    output: {}
@@ -127,7 +132,10 @@ var all = entries.map(function(e) {
             external: e.external,
             paths: paths
          }),
-         babel(babelConfig)
+         scss({
+            output: e.css && dist(e.name + '.css') || false
+         }),
+         babel(babelConfig),
       ]
    }, e.options);
 

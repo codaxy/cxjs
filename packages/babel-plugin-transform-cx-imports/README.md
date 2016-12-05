@@ -31,7 +31,7 @@ To use src files, use:
 ```
 Note that if using src files, your babel/webpack configuration should whitelist `cx-core` path.
 
-Optionally, if you want to include scss files, use:
+Optionally, if you want to include .scss files, use:
 
 ```
 //.babelrc
