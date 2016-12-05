@@ -9,7 +9,7 @@ var manifest = require('cx-core/manifest.js');
 //    }
 // };
 
-module.exports = function(options) {
+module.exports = function(options, o1) {
    var t = options.types;
 
    return {
@@ -17,8 +17,8 @@ module.exports = function(options) {
          ImportDeclaration(path, scope) {
 
             var opts = scope.opts;
-
             var src = path.node.source.value;
+            var importScss = opts.sass || opts.scss;
 
             if (src.indexOf("cx/") == 0) {
                var remainder = src.substring(3);
@@ -31,8 +31,10 @@ module.exports = function(options) {
                   if (srcFile) {
                      if (srcFile.js)
                         imports.push(t.importDeclaration([s], t.stringLiteral('cx-core/' + srcFile.js)));
-                     if (srcFile.scss && opts.scss)
+
+                     if (srcFile.scss && importScss) {
                         imports.push(t.importDeclaration([], t.stringLiteral('cx-core/' + srcFile.scss)));
+                     }
                   }
                });
 

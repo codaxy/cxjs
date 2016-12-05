@@ -8,7 +8,7 @@ module.exports = options => {
    return modifyBabelPreset(
       ['env', options],
       {
-         'cx-imports': options.cx && options.cx.useSrc && {
+         'transform-cx-imports': options.cx && options.cx.useSrc && {
             sass: options.cx.sass
          },
          'transform-object-rest-spread': true,

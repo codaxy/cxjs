@@ -1,6 +1,6 @@
 module.exports = {
    //"cacheDirectory": true,
-   "cacheIdentifier": "v9",
+   "cacheIdentifier": "v11",
    "presets": [
       ["cx-env", {
          "targets": {
@@ -8,9 +8,10 @@ module.exports = {
          },
          "modules": false,
          "loose": true,
-         // "cx": {
-         //    useSrc: true
-         // }
+         "cx": {
+            useSrc: true,
+            sass: true
+         }
       }]
    ],
    "plugins": []
