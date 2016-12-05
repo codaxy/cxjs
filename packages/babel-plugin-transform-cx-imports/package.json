@@ -9,6 +9,9 @@
   "dependencies": {
     "babel-plugin-syntax-jsx": "^6.3.13"
   },
+  "peerDependencies": {
+    "cx-core": "*"
+  },
   "devDependencies": {
     "babel-core": "^6.4.5",
     "babel-plugin-transform-es2015-arrow-functions": "^6.4.0",

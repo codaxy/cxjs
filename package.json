@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --config docs/webpack.config.js --open",
     "test": "mocha",
     "docs": "webpack-dev-server --config docs/webpack.config.js --open",
-    "build": "node packages/cx-core/build/build.js",
+    "build": "node packages/cx-core/build/index.js",
     "build:docs": "webpack --config docs/webpack.config.js",
     "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
     "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
@@ -41,6 +41,7 @@
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-cx": "file:./packages/babel-plugin-transform-cx-jsx",
+    "babel-plugin-transform-cx-imports": "file:./packages/babel-plugin-transform-cx-imports",
     "babel-plugin-inferno": "^1.0.0-alpha8",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-external-helpers": "^6.8.0",
@@ -56,6 +57,7 @@
     "eslint": "^2.5.3",
     "eslint-plugin-react": "^4.2.3",
     "extract-text-webpack-plugin": "^2.0.0-beta.2",
+    "copy-webpack-plugin": "^4.0.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
     "if-loader": "^1.0.1",
@@ -72,7 +74,8 @@
     "webpack-merge": "^1.0.2",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
-    "rollup-plugin-multi-entry": "^2.0.1"
+    "rollup-plugin-multi-entry": "^2.0.1",
+    "modify-babel-preset": "^3.2.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
@@ -80,8 +83,6 @@
     "babel-runtime": "^6.9.2",
     "base-64": "^0.1.0",
     "casual": "^1.5.2",
-    "copy-webpack-plugin": "^4.0.1",
-    "cx-cli": "file:./packages/cx-cli",
     "cx-core": "file:./packages/cx-core",
     "cx-preact": "file:./packages/cx-preact",
     "cx-react": "file:./packages/cx-react",
@@ -90,7 +91,6 @@
     "illuminate-js": "^0.3.0",
     "intl": "^1.2.5",
     "marked": "^0.3.5",
-    "modify-babel-preset": "^3.2.0",
     "plural": "^0.2.0",
     "react-dev-utils": "^0.3.0",
     "whatwg-fetch": "^0.11.0"

@@ -1,9 +1,8 @@
 "use strict";
 
-var babel  = require("babel-core");
-var plugin = require("./index");
-
-var assert = require('assert');
+var babel  = require("babel-core"),
+   plugin = require("./index"),
+   assert = require('assert');
 
 function unwrap(code) {
    return code.substring(0, code.length - 1);
@@ -18,11 +17,9 @@ describe('babel-plugin-transform-cx-imports', function() {
 
    it("skips non-cx import", function () {
 
-      this.timeout(10000);
+      let code = `import _ from "lodash"`;
 
-      var code = `import _ from "lodash"`;
-
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin]
       }).code;
 
@@ -31,11 +28,9 @@ describe('babel-plugin-transform-cx-imports', function() {
 
    it("imports Cx widgets", function () {
 
-      this.timeout(10000);
+      let code = `import {TextField} from "cx/widgets"`;
 
-      var code = `import {TextField} from "cx/widgets"`;
-
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin]
       }).code;
 
@@ -44,11 +39,9 @@ describe('babel-plugin-transform-cx-imports', function() {
 
    it("imports scss file if available and option is set", function () {
 
-      this.timeout(10000);
+      let code = `import {TextField} from "cx/widgets"`;
 
-      var code = `import {TextField} from "cx/widgets"`;
-
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [[plugin, {scss: true}]]
       }).code;
 

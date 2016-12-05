@@ -23,4 +23,4 @@ export * from './ScatterGraph';
 
 export * from './shapes';
 
-export * as axis from './axis/';
+export * from './axis/index';

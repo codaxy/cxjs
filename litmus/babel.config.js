@@ -7,7 +7,10 @@ module.exports = {
             "chrome": 52
          },
          "modules": false,
-         "loose": true
+         "loose": true,
+         "cx": {
+            useSrc: true
+         }
       }]
    ],
    "plugins": []

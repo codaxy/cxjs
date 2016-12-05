@@ -4,6 +4,7 @@ var rollup = require('rollup'),
    babel = require('rollup-plugin-babel'),
    babelConfig = require('./babel.config'),
    importAlias = require('./importAlias'),
+   addToManfiest = require('./addToManifest'),
    multiEntry = require('rollup-plugin-multi-entry');
 
 
@@ -41,32 +42,39 @@ function isUI(id) {
 }
 
 var entries = [{
-   name: 'util.js',
+   name: 'util',
    options: {
       entry: [src('util/index.js')]
    },
    output: {}
 }, {
-   name: 'data.js',
+   name: 'data',
    options: {
       entry: src('data/index.js')
    },
    output: {}
 }, {
-   name: 'ui.js',
+   name: 'ui',
    options: {
       entry: src('ui/index.js')
    },
    output: {}
 }, {
-   name: 'widgets.js',
+   name: 'widgets',
    options: {
       entry: src('widgets/index.js')
    },
    external: isUI,
    output: {}
 }, {
-   name: 'charts.js',
+   name: 'svg',
+   options: {
+      entry: src('svg/index.js'),
+   },
+   external: isUI,
+   output: {}
+}, {
+   name: 'charts',
    options: {
       entry: src('charts/index.js'),
    },
@@ -74,9 +82,24 @@ var entries = [{
    output: {}
 }];
 
-entries.forEach(function(e) {
+var paths = {
+   [src('./util/')]: '@/util',
+   [src('./app/')]: '@/ui',
+   [src('./data/')]: '@/data',
+   [src('./ui/svg/charts')]: '@/charts',
+   [src('./ui/svg/')]: '@/svg',
+   [src('./')]: '@/ui',
+};
+
+var manifest = {};
+
+
+
+var all = entries.map(function(e) {
    // if (e.name != 'charts.js')
    //    return;
+
+
 
    var options = Object.assign({
       //treeshake: false,
@@ -98,20 +121,18 @@ entries.forEach(function(e) {
       },
       plugins: [
          multiEntry(),
+         addToManfiest(manifest, paths, e.name),
          importAlias({
+            manifest: manifest,
             external: e.external,
-            paths: {
-               [src('./util/')]: '@/util',
-               [src('./app/')]: '@/ui',
-               [src('./data/')]: '@/data',
-               [src('./ui/svg/')]: '@/charts',
-               [src('./')]: '@/ui',
-            }
+            paths: paths
          }),
          babel(babelConfig)
       ]
    }, e.options);
-   rollup.rollup(options)
+
+   return rollup
+      .rollup(options)
       .then(function (bundle) {
          var result = bundle.generate(Object.assign({
             format: 'cjs'
@@ -120,11 +141,17 @@ entries.forEach(function(e) {
          if (e.name) {
             //var code = result.code.replace(/from '@\//g, "from './");
             var code = result.code.replace(/require\('@\//g, "require('./");
-            fs.writeFileSync(dist(e.name), code);
-            console.log(e.name, code.length / 1000, 'kB');
+            fs.writeFileSync(dist(e.name + '.js'), code);
+            console.log(e.name + '.js', code.length / 1000, 'kB');
          }
       })
       .catch(e => {
          console.log(e);
       });
 });
+
+Promise
+   .all(all)
+   .then(()=> {
+      fs.writeFileSync(dist('manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
+   });

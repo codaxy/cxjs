@@ -1,13 +1,13 @@
 "use strict";
 
-//var manifest = require('cx-core/manifest.js');
+var manifest = require('cx-core/manifest.js');
 
-let manifest = {
-   'widgets/TextField': {
-      js: 'src/ui/form/TextField',
-      scss: 'src/ui/form/TextField.scss'
-   }
-};
+// let manifest = {
+//    'widgets/TextField': {
+//       js: 'src/ui/form/TextField',
+//       scss: 'src/ui/form/TextField.scss'
+//    }
+// };
 
 module.exports = function(options) {
    var t = options.types;
@@ -25,9 +25,8 @@ module.exports = function(options) {
 
                var imports = [];
 
-               path.node.specifiers.forEach(s => {
-                  var expanded = `${remainder}/${s.imported.name}`;
-                  console.log(expanded);
+               path.node.specifiers.forEach(function (s) {
+                  var expanded = remainder + '/' + s.imported.name;
                   var srcFile = manifest[expanded];
                   if (srcFile) {
                      if (srcFile.js)
