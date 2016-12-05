@@ -19,7 +19,7 @@ export class HtmlElement extends PureContainer {
          this.text = this.innerText;
 
       if (this.html)
-         th
+         this.innerHtml = this.html;
    }
 
    declareData() {
@@ -174,7 +174,7 @@ export class HtmlElement extends PureContainer {
       if (this.memoize || data.tooltip)
          return <ContainerComponent key={key} tag={this.tag} props={props} instance={instance}/>
 
-      return VDOM.createElement(this.tag, props, ...props.children);
+      return VDOM.createElement(this.tag, props, props.children);
    }
 }
 
@@ -205,7 +205,7 @@ class ContainerComponent extends VDOM.Component {
          }
       }
 
-      return VDOM.createElement(tag, props, ...props.children);
+      return VDOM.createElement(tag, props, props.children);
    }
 
    componentWillUnmount() {

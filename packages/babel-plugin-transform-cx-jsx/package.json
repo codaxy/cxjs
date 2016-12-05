@@ -2,7 +2,7 @@
   "name": "babel-plugin-cx",
   "version": "16.8.2",
   "description": "Transpile JSX into Cx config objects",
-  "repository": "https://gitlab.com/mstijak/babel-plugin-cx",
+  "repository": "https://github.com/codaxy/cx",
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",

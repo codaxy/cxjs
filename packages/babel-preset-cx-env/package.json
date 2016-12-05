@@ -1,0 +1,12 @@
+{
+  "name": "babel-preset-env-cx",
+  "version": "16.12.1",
+  "description": "Babel preset for Cx apps",
+  "main": "./bin/index.js",
+  "author": "Codaxy",
+  "license": "SEE LICENSE.md",
+  "dependencies": {
+    "babel-preset-env": "*",
+    "modify-babel-preset": "^3.2.0"
+  }
+}
