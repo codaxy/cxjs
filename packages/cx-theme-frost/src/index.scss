@@ -4,6 +4,8 @@ $cx-include-global-rules: false !default;
 $cx-theme-include-all: $cx-include-all;
 $cx-theme-include-global-rules: $cx-include-global-rules;
 
+$cx-default-highlight-color: #ddf1f6 !default;
+
 $cx-default-border-color: rgba(128, 128, 128, 0.3) !default;
 $cx-default-border-radius: 5px !default;
 
@@ -37,6 +39,29 @@ $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, 
    hover: (
       border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
    )
+));
+
+// LIST
+$cx-list-item: cx-merge-state-style-maps($cx-list-item, (
+  default: (
+  ),
+  hover-focus: (
+    background-color: $cx-default-highlight-color
+  ),
+  selected-focus: (
+    background-color: darken($cx-default-highlight-color, 8)
+  )
+));
+
+// BUTTON
+$cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
+  hollow: (
+    focus: (
+      background-color: darken($cx-default-highlight-color, 8),
+      border-color: darken($cx-default-highlight-color, 8),
+      box-shadow: none
+    )
+  )
 ));
 
 $cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
