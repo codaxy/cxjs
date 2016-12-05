@@ -70,6 +70,13 @@ $cx-include-global-rules: false;
 $cx-default-cover-background-color: lighten($cx-default-background-color-light, 2);
 $cx-default-cover-border-color: $cx-default-cover-background-color;
 
+// CHART
+$cx-default-palette-fill-whiten: 38% !default;
+$cx-default-palette-fill-hover-whiten: 38% !default;
+$cx-default-palette-fill-selected-whiten: 20% !default;
+$cx-default-palette-fill-disabled-whiten: 90% !default;
+$cx-default-palette-stroke-blacken: 10% !default;
+
 
 @import "~cx/index";
 
@@ -269,6 +276,10 @@ $cx-grid-data-state-style-map: cx-merge-state-style-maps($cx-grid-data-state-sty
     border-color: $cx-default-border-color
   )
 ));*/
+
+
+// CHART
+
 
 
 // GLOBALS
