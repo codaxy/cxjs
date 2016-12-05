@@ -53,6 +53,14 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   )
 ));
 
+// menu
+$cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-menuitem-state-style-map, (
+   selected-focus: (
+      background-color: darken($cx-default-highlight-color, 8) 
+   )
+
+));
+
 // BUTTON
 $cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
   hollow: (
