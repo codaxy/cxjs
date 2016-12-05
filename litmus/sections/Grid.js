@@ -1,5 +1,4 @@
-import {Grid} from 'cx/ui/grid/Grid';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { Grid, HtmlElement } from 'cx/widgets';
 
 export const GridSection = <cx>
    <section>

@@ -1,22 +1,20 @@
+import { Widget, startAppLoop } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
+import { Timing, Debug } from 'cx/util';
+import { Store } from 'cx/data';
 import "./error";
 
 import "babel-polyfill";
 
-import {Widget} from 'cx/ui/Widget';
-import {startAppLoop} from 'cx/app/startAppLoop';
-import {Timing} from 'cx/util/Timing';
-import {Debug} from 'cx/util/Debug';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Store} from 'cx/data/Store';
 
 import './index.scss';
 
-import {GridSection} from './sections/Grid';
+//import {GridSection} from './sections/Grid';
 import {FormSection} from './sections/Form';
-import {WindowSection} from './sections/Window';
-import {ListSection} from './sections/List';
-import ComplexGrid from './sections/ComplexGrid';
-import TimeSeries from './sections/features/TimeSeriesScroll';
+//import {WindowSection} from './sections/Window';
+//import {ListSection} from './sections/List';
+//import ComplexGrid from './sections/ComplexGrid';
+//import TimeSeries from './sections/features/TimeSeriesScroll';
 
 import {MixedModeForm} from './components/MixedModeForm';
 
@@ -49,6 +47,7 @@ stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
       {/*<TimeSeries />*/}
-      <ComplexGrid />
+      {/*<ComplexGrid />*/}
+      <FormSection/>
    </div>
 </cx>);

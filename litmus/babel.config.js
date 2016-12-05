@@ -8,9 +8,9 @@ module.exports = {
          },
          "modules": false,
          "loose": true,
-         "cx": {
-            useSrc: true
-         }
+         // "cx": {
+         //    useSrc: true
+         // }
       }]
    ],
    "plugins": []

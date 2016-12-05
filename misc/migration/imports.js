@@ -15,8 +15,8 @@ var fs = require('fs'),
 
 
 const srcFiles = [
-   //path.resolve(__dirname, '../../../litmus/**/*.js')
-   path.resolve(__dirname, '../../docs/**/*.js'),
+   path.resolve(__dirname, '../../litmus/**/*.js'),
+   //path.resolve(__dirname, '../../docs/**/*.js'),
    "!dist"
 ];
 
@@ -25,7 +25,8 @@ var replacements = {
    'cx/util/': 'cx/util',
    'cx/app/error': false,
    'cx/app/': 'cx/ui',
-   'cx/ui/svg/': 'cx/charts',
+   'cx/ui/svg/charts': 'cx/charts',
+   'cx/ui/svg/': 'cx/svg',
    'cx/ui/form/': 'cx/widgets',
    'cx/ui/grid/': 'cx/widgets',
    'cx/ui/nav/': 'cx/widgets',
@@ -51,21 +52,23 @@ var importPattern = /import {(.*)} from ["'](cx.*)["'];?\n?/g;
 var group = true;
 
 //do a test run first
-var production = false;
-
+var production = true;
 
 globby(srcFiles)
    .then(x => {
       x.forEach(f=> {
-         console.log(' ');
+         //console.log(' ');
          console.log(f);
          var contents = fs.readFileSync(f, { encoding: 'utf8' });
          //console.log(contents);
          var importPaths = {};
+         var index = 0;
          var result = contents.replace(importPattern, (match, imports, path) => {
-            for (var rep in replacements) {
+            //console.log(replacements);
+            for (let rep in replacements) {
                if (!replacements[rep]) //skip
-                  return match;
+                  continue;
+               //console.log(match, path, rep);
                if (path.indexOf(rep) == 0) {
                   console.log(path, '=>', replacements[rep]);
                   if (group) {

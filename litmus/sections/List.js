@@ -1,7 +1,5 @@
-import {List} from 'cx/ui/List';
-import {Text} from 'cx/ui/Text';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
+import {Text, List, HtmlElement} from 'cx/widgets';
+import {Controller} from 'cx/ui';
 
 class PageController extends Controller {
    init() {
