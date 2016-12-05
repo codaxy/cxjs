@@ -11,57 +11,59 @@ import {PropertySelection} from 'cx/ui/selection/PropertySelection';
 import {casual} from '../data/casual';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+    init() {
+        super.init();
 
-      this.store.set('$page.records', Array.from({length: 20}).map((v, i)=>({
-         id: i+1,
-         fullName: casual.full_name,
-         phone: casual.phone,
-         city: casual.city,
-         selected: false
-      })));
+        this.store.set('$page.records', Array.from({length: 20}).map((v, i) => ({
+            id: i + 1,
+            fullName: casual.full_name,
+            phone: casual.phone,
+            city: casual.city,
+            selected: false
+        })));
 
-      this.addTrigger('select-all', ['$page.selectAll'], (value) => {
-         this.store.set('$page.records', this.store.get('$page.records')
-            .map(r=>Object.assign({}, r, {selected: value})));
-      });
-   }
+        this.addTrigger('select-all', ['$page.selectAll'], (value) => {
+            this.store.set('$page.records', this.store.get('$page.records')
+                .map(r => Object.assign({}, r, {selected: value})));
+        });
+    }
 }
 
 export const MultipleSelection = <cx>
-   <Md controller={PageController}>
+    <Md controller={PageController}>
 
-      # Grid with Multiple Selection
+        # Grid with Multiple Selection
 
-      <CodeSplit>
+        <CodeSplit>
 
-         Grid supports multiple selection. Single select is the default. For additional rows use `Ctrl` key
-         or checkboxes.
+            Grid supports multiple selection. Single select is the default. For additional rows use `Ctrl` key
+            or checkboxes.
 
-         To select all rows click the checkbox in the header.
+            To select all rows click the checkbox in the header.
 
-         <Grid records:bind='$page.records'
-               style={{width: "100%"}}
-               columns={[{
-                     header: { items: <cx><Checkbox value:bind="$page.selectAll" /></cx> },
-                     field: 'selected',
-                     items: <cx><Checkbox value:bind="$record.selected" /></cx>
-                  },
-                  { header: 'Name', field: 'fullName', sortable: true },
-                  { header: 'Phone', field: 'phone' },
-                  { header: 'City', field: 'city', sortable: true }
-               ]}
-               selection={{type: PropertySelection, bind:"$page.selection", multiple: true}}
-               sorters:bind="$page.sorters"
-         />
+            <Grid
+                records:bind='$page.records'
+                style={{width: "100%"}}
+                columns={[{
+                    header: {items: <cx><Checkbox value:bind="$page.selectAll"/></cx>},
+                    field: 'selected',
+                    style: 'width: 1px',
+                    items: <cx><Checkbox value:bind="$record.selected" /></cx>
+                },
+                    {header: 'Name', field: 'fullName', sortable: true},
+                    {header: 'Phone', field: 'phone'},
+                    {header: 'City', field: 'city', sortable: true}
+                ]}
+                selection={{type: PropertySelection, bind: "$page.selection", multiple: true}}
+                sorters:bind="$page.sorters"
+            />
 
-         See also:
+            See also:
 
          - [Selection](~/concepts/selections)
 
-         <Content name="code">
-            <CodeSnippet>{`
+            <Content name="code">
+                <CodeSnippet>{`
                class PageController extends Controller {
                   init() {
                      super.init();
@@ -92,10 +94,10 @@ export const MultipleSelection = <cx>
                      selection={{type: PropertySelection, bind:"$page.selection", multiple: true}}
                      sorters:bind="$page.sorters"
                />`}
-            </CodeSnippet>
-         </Content>
+                </CodeSnippet>
+            </Content>
 
-      </CodeSplit>
+        </CodeSplit>
 
-   </Md>
+    </Md>
 </cx>

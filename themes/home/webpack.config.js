@@ -41,7 +41,7 @@ var common = {
    },
    output: {
       path: __dirname,
-      filename: "[name].js"
+      filename: "[name].[hash].js"
    },
    externals: {
       "react": "React",
@@ -49,8 +49,7 @@ var common = {
    },
    plugins: [
       new HtmlWebpackPlugin({
-         template: path.join(__dirname, 'index.html'),
-         hash: true
+         template: path.join(__dirname, 'index.html')
       })
    ]
 };

@@ -37,22 +37,33 @@ export class Url {
    }
 
    static getOrigin() {
-      return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+      if (typeof window == 'undefined')
+         return '';
+      return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+   }
+
+   static getBaseFromScriptSrc(src, scriptPath) {
+      if (!(scriptPath instanceof RegExp))
+         scriptPath = getBasePathRegex(scriptPath);
+
+      let index = src.search(scriptPath);
+      if (index == -1)
+         return false;
+
+      let origin = this.getOrigin();
+      return src.substring(src.indexOf(origin) == 0 ? origin.length : 0, index);
    }
 
    static setBaseFromScript(scriptPath) {
-      var path = scriptPath.replace('~/', '');
-      var scripts = document.getElementsByTagName('script');
+      var scripts = document.getElementsByTagName('script'),
+         base;
 
-      for (var i = 0; i < scripts.length; i++) {
-         var src = scripts[i].src;
-         var questionMark = src.indexOf('?');
-         if (questionMark != -1)
-            src = src.substring(0, questionMark);
-         var ending = src.substr(-path.length, path.length);
-         if (ending == path) {
-            var origin = this.getOrigin();
-            var base = src.substring(src.indexOf(origin) == 0 ? origin.length : 0, src.length - path.length);
+      if (!(scriptPath instanceof RegExp))
+         scriptPath = getBasePathRegex(scriptPath);
+
+      for (let i = 0; i < scripts.length; i++) {
+         base = this.getBaseFromScriptSrc(scripts[i].src, scriptPath);
+         if (base) {
             this.setBase(base);
             return;
          }
@@ -63,3 +74,26 @@ export class Url {
 }
 
 Url.setBase('/');
+
+function getBasePathRegex(str) {
+   let regex = '';
+   let start = 0;
+   if (str.indexOf('~/') == 0)
+      start = 2;
+
+   for (let i = start; i < str.length; i++) {
+      switch (str[i]) {
+         case '.':
+            regex += '\\.';
+            break;
+
+         case '*':
+            regex += '.*';
+            break;
+
+         default:
+            regex += str[i];
+      }
+   }
+   return new RegExp(regex + '(\\?.*)?$', 'i');
+}

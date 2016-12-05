@@ -17,7 +17,7 @@
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $input: false, $box: true);
-      min-width: cx-calc(cx-left($padding), cx-right($padding), $size, cx-left($border-width), cx-right($border-width));
+      min-width: cx-calc($size, cx-left($border-width), cx-right($border-width));
    }
 
    .#{$element}#{$name}-checkbox {

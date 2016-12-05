@@ -26,7 +26,7 @@ if (module.hot) {
         store.load(module.hot.data.state);
 }
 
-Url.setBaseFromScript('~/vendor.js');
+Url.setBaseFromScript('~/vendor.*.js');
 History.connect(store, 'url');
 Widget.resetCounter();
 //Timing.enable('app-loop');
