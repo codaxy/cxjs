@@ -1,4 +1,6 @@
 export * from '../ui/svg/util/index';
+export * from '../ui/svg/BoundedObject';
+export * from '../ui/svg/TextualBoundedObject';
 export * from '../ui/svg/Svg';
 export * from '../ui/svg/Rectangle';
 export * from '../ui/svg/Ellipse';
