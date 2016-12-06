@@ -50,6 +50,7 @@ export class Button extends HtmlElement {
 
       if (this.icon) {
          let icon = Icon.render(this.icon, {
+            key: 'icon',
             className: this.CSS.element(this.baseClass, 'icon')
          });
          children = getContentArray(props.children);
