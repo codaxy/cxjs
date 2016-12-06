@@ -17,20 +17,14 @@
       overflow: auto;
       border: 0 solid $cx-default-border-color;
 
-      @each $rule, $value in map-get($cx-list, default) {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($cx-list, default);
 
       &:hover {
-         @each $rule, $value in map-get($cx-list, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list, hover);
       }
 
       &.#{$state}focused {
-         @each $rule, $value in map-get($cx-list, focus) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list, focus);
       }
 
       &.#{$mod}bordered {
@@ -50,41 +44,29 @@
          padding: 5px 10px;
       }
 
-      @each $rule, $value in map-get($cx-list-item, default) {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($cx-list-item, default);
 
       .#{$state}selectable > & {
          cursor: pointer;
       }
 
       &.#{$state}cursor {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list, hover);
 
          .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
-            @each $rule, $value in map-get($cx-list-item, hover-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, hover-focus);
 
             &:active {
-               @each $rule, $value in map-get($cx-list-item, active) {
-                  #{$rule}: $value;
-               }
+              @include cx-add-state-rules($cx-list-item, active);
             }
          }
       }
 
       &.#{$state}selected {
-         @each $rule, $value in map-get($cx-list-item, selected) {
-            #{$rule}: $value;
-         }
+          @include cx-add-state-rules($cx-list-item, selected);
 
          .#{$block}#{$name}.#{$state}focused > & {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+             @include cx-add-state-rules($cx-list-item, selected-focus);
          }
       }
    }

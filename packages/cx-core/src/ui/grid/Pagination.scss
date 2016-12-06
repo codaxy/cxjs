@@ -17,20 +17,14 @@
       line-height: $cx-default-box-line-height;
       box-sizing: border-box;
 
-      @each $rule, $value in map-get($cx-list, default) {
-         #{$rule}: $value;
-      }
+      @include cx-add-state-rules($cx-list, default);
 
       &:hover {
-         @each $rule, $value in map-get($cx-list, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list, hover);
       }
 
       &:focus {
-         @each $rule, $value in map-get($cx-list, focus) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list, focus);
       }
    }
 
@@ -56,39 +50,26 @@
       }
 
       &:hover, &:focus {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+        @include cx-add-state-rules($cx-list-item, hover);
 
          &:focus {
-            @each $rule, $value in map-get($cx-list-item, hover-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, hover-focus);
          }
       }
 
       &:active {
-         @each $rule, $value in map-get($cx-list-item, active) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, active);
       }
 
       &.#{$state}active {
-         @each $rule, $value in map-get($cx-list-item, selected) {
-            #{$rule}: $value;
-         }
-
+         @include cx-add-state-rules($cx-list-item, selected);
          &:focus {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, selected-focus);
          }
       }
 
       &.#{$state}disabled {
-         @each $rule, $value in map-get($cx-list-item, disabled) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, disabled);
       }
    }
 }
