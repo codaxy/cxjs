@@ -122,24 +122,39 @@ if (program.build) {
 }
 
 if (program.route) {
-   var newRoute = program.args[0];
+   var newRoute = program.args[0].split('/');
    console.log();
    if(!newRoute){
       console.log("Syntax error: missing route name. Correct syntax: cx add route route_name");
       return;
    }
    var tplDir = path.join(tplPath, './app/routes/_template');
-   var newRouteDir = path.join(appPath, './app/routes/' + newRoute);
    
-   if (!fs.existsSync(newRouteDir)) {
-      fs.mkdirSync(newRouteDir);
-      var err = copydir.sync(tplDir, newRouteDir);
-      if(err) {
-         console.error('Copy error.', err);
+   // initial route parent folder
+   var parentDir = path.join(appPath, './app/routes/');
+
+   // loop through newRoue sub dirs array 
+      // for each sub, check if it exists and create it if it doesn't
+   newRoute.reduce(function(parentDir, route, i){
+      var newRouteDir = path.join(parentDir, route);
+      // if last element in the route array, copy template files
+      // otherwise just check if the sub folder exists and create it
+      if (i === newRoute.length-1){
+         if (!fs.existsSync(newRouteDir)) {
+            fs.mkdirSync(newRouteDir);
+            var err = copydir.sync(tplDir, newRouteDir);
+            if (err) {
+               console.error('Copy error.', err);
+            } else {
+               console.log("New route folder 'app/routes/" + newRoute.join('/') + "' created.");
+            }
+         } else {
+            console.error("Folder 'app/routes/" + newRoute.join('/') + "' already exists.");
+         }
       } else {
-         console.log("New route folder 'app/routes/" + newRoute + "' created.");
+         if (!fs.existsSync(newRouteDir))
+            fs.mkdirSync(newRouteDir);
       }
-   } else {
-      console.error("Folder 'app/routes/" + newRoute +"' already exists.");
-   }
+      return newRouteDir;
+   }, parentDir);
 }
