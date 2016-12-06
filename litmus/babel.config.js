@@ -12,6 +12,7 @@ module.exports = {
          },
          modules: false,
          loose: true,
+         debug: true,
          cx: {
             imports: {
                useSrc: true,

@@ -1,11 +1,11 @@
-///*
-//BESM
 //
-//B - block - top level HTML element
-//E - element - part of the component (block)
-//S - state - indicator of the component state which affects the appearance
-//M - mod - user supplied instruction which overrides default appearance
-//*/
+// BESM
+//
+// B - block - top level HTML element
+// E - element - part of the component (block)
+// S - state - indicator of the component state which affects the appearance
+// M - mod - user supplied instruction which overrides default appearance
+//
 
 $cx-besm: (
    block: 'cxb-',
@@ -14,7 +14,7 @@ $cx-besm: (
    mod: 'cxm-',
 ) !default;
 
-///*
+//
 // Boxes
 // -----
 //
@@ -34,7 +34,7 @@ $cx-besm: (
 //
 // Hint: Use em units to make that box height grows with the font-size, but note that elements
 //    will not be aligned on pixel boundaries and icons may be blurry in some desktop browsers.
-//*/
+//
 
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-font-family: inherit !default;
@@ -42,30 +42,27 @@ $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
 
-/*
-Borders
--------
-*/
+
+// Borders
+// -------
 
 $cx-default-border-color: #bfbfbf !default;
 $cx-default-border-radius: 0 !default;
 $cx-default-border-width: 1px !default;
 
-/*
-Padding
--------
- */
+
+// Padding
+// -------
 
 $cx-default-container-padding: 5px;
 $cx-default-content-padding: 5px 10px;
 
 
-/*
-Empty Texts
-------------
 
-Displayed instead of whitespace
-*/
+// Empty Texts
+// ------------
+//
+// Displayed instead of whitespace
 
 $cx-default-empty-text-color: rgba(128, 128, 128, 0.7) !default;
 
