@@ -16,6 +16,16 @@ export class Heading extends HtmlElement {
       };
       super.prepareData(context, instance);
    }
+
+   isValidHtmlAttribute(attrName) {
+      switch (attrName) {
+         case "level":
+            return false;
+
+         default:
+            return super.isValidHtmlAttribute(attrName);
+      }
+   }
 }
 
 
