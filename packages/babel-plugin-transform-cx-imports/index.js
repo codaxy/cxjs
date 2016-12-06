@@ -43,7 +43,7 @@ module.exports = function(options, o1) {
                }
                else {
                   //cx-core => cx
-                  path.replaceWith(t.importDeclaration(path.node.specifiers, "cx-core/" + remainder));
+                  path.replaceWith(t.importDeclaration(path.node.specifiers, t.stringLiteral("cx-core/" + remainder)));
                }
             }
          }

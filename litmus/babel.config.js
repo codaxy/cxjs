@@ -1,10 +1,14 @@
 module.exports = {
    //"cacheDirectory": true,
-   "cacheIdentifier": "v11",
-   "presets": [
+   cacheIdentifier: "v12",
+   presets: [
       ["cx-env", {
          targets: {
-            chrome: 52
+            chrome: 45,
+            ie: 11,
+            ff: 30,
+            edge: 12,
+            safari: 9
          },
          modules: false,
          loose: true,

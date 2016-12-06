@@ -1,6 +1,6 @@
 import { NumberField, Slider, TextField, Grid, HtmlElement } from 'cx/widgets';
 import { LineGraph, NumericAxis, Chart } from 'cx/charts';
-import { Svg } from 'cx/charts';
+import { Svg } from 'cx/svg';
 import { Controller } from 'cx/ui';
 
 class Something extends Controller {
@@ -37,6 +37,7 @@ export default <cx>
    <div controller={Something}>
       <Grid records:bind="data"
             style="height:600px"
+            scrollable
             lockColumnWidths
             keyField="id"
             defaultSortField="sales"

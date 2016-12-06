@@ -1,6 +1,7 @@
 import { HtmlElement, TextField } from 'cx/widgets';
 import { Controller } from 'cx/ui';
-import { Svg, Chart, TimeAxis, NumericAxis, Rectangle, ClipRect, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
+import { Svg, Rectangle, ClipRect } from 'cx/svg';
+import { Chart, TimeAxis, NumericAxis, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
 
 class PageController extends Controller {
    init() {

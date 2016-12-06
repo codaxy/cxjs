@@ -13,7 +13,7 @@ function lines(code) {
    return unwrap(code).split('\n');
 }
 
-describe('babel-plugin-transform-cx-imports', function() {
+describe.only('babel-plugin-transform-cx-imports', function() {
 
    it("skips non-cx import", function () {
 
@@ -26,12 +26,34 @@ describe('babel-plugin-transform-cx-imports', function() {
       assert.equal(unwrap(output), 'import _ from "lodash"');
    });
 
-   it("imports Cx widgets", function () {
+   it("rewrites cx into cx-core", function () {
+
+      let code = `import { Widget } from "cx/ui"`;
+
+      let output = babel.transform(code, {
+         plugins: [plugin]
+      }).code;
+
+      assert.equal(unwrap(output), 'import { Widget } from "cx-core/ui"');
+   });
+
+   it("supports multiple imports", function () {
+
+      let code = `import { Widget, VDOM } from "cx/ui"`;
+
+      let output = babel.transform(code, {
+         plugins: [plugin]
+      }).code;
+
+      assert.equal(unwrap(output), 'import { Widget, VDOM } from "cx-core/ui"');
+   });
+
+   it("imports Cx widgets from source", function () {
 
       let code = `import {TextField} from "cx/widgets"`;
 
       let output = babel.transform(code, {
-         plugins: [plugin]
+         plugins: [[plugin, { useSrc: true }]]
       }).code;
 
       assert.equal(unwrap(output), 'import { TextField } from "cx-core/src/ui/form/TextField.js"');
@@ -42,11 +64,11 @@ describe('babel-plugin-transform-cx-imports', function() {
       let code = `import {TextField} from "cx/widgets"`;
 
       let output = babel.transform(code, {
-         plugins: [[plugin, {scss: true}]]
+         plugins: [[plugin, { useSrc: true, scss: true }]]
       }).code;
 
       assert.deepEqual(lines(output), [
-         'import { TextField } from "cx-core/src/ui/form/TextField.js"',
+         'import { TextField } from "cx-core/src/ui/form/TextField.js";',
          'import "cx-core/src/ui/form/TextField.scss"'
       ]);
    });

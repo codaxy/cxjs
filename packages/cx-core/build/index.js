@@ -96,7 +96,9 @@ var paths = {
    [src('./')]: '@/ui',
 };
 
-var manifest = {};
+var manifest = {
+   'ui/VDOM': {js: 'src/ui/Widget'}
+};
 
 
 
