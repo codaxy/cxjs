@@ -28,7 +28,10 @@ var common = {
       }]
    },
    entry: {
-      vendor: ['cx-react'],
+      vendor: [
+         'babel-polyfill',
+         'cx-react'
+      ],
       app: __dirname + '/index.js'
    },
    output: {
@@ -67,7 +70,7 @@ switch(process.env.npm_lifecycle_event) {
          },
 
          plugins: [
-            new webpack.optimize.UglifyJsPlugin(),
+            //new webpack.optimize.UglifyJsPlugin(),
             new webpack.DefinePlugin({
                'process.env.NODE_ENV': JSON.stringify('production'),
             }),

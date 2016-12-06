@@ -4,8 +4,6 @@ import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
 import "./error";
 
-import "babel-polyfill";
-
 
 import './index.scss';
 

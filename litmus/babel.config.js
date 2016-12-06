@@ -1,5 +1,5 @@
 module.exports = {
-   //"cacheDirectory": true,
+   cacheDirectory: true,
    cacheIdentifier: "v12",
    presets: [
       ["cx-env", {
@@ -12,7 +12,7 @@ module.exports = {
          },
          modules: false,
          loose: true,
-         debug: true,
+         useBuiltIns: true,
          cx: {
             imports: {
                useSrc: true,

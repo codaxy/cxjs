@@ -530,12 +530,12 @@ babel-plugin-transform-class-properties@^6.18.0:
     babel-template "^6.15.0"
 
 babel-plugin-transform-cx-imports@*:
-  version "16.12.0"
+  version "16.12.1"
   dependencies:
     babel-plugin-syntax-jsx "^6.3.13"
 
 "babel-plugin-transform-cx-imports@file:./packages/babel-plugin-transform-cx-imports":
-  version "16.12.0"
+  version "16.12.1"
   dependencies:
     babel-plugin-syntax-jsx "^6.3.13"
 
@@ -741,21 +741,21 @@ babel-plugin-transform-export-extensions@^6.3.13:
     babel-plugin-syntax-export-extensions "^6.8.0"
     babel-runtime "^6.0.0"
 
-babel-plugin-transform-function-bind@^6.3.13:
+babel-plugin-transform-function-bind@*, babel-plugin-transform-function-bind@^6.3.13:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-function-bind/-/babel-plugin-transform-function-bind-6.8.0.tgz#e7f334ce69f50d28fe850a822eaaab9fa4f4d821"
   dependencies:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.0.0"
 
-babel-plugin-transform-object-rest-spread@^6.16.0:
+babel-plugin-transform-object-rest-spread@*, babel-plugin-transform-object-rest-spread@^6.16.0:
   version "6.19.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.19.0.tgz#f6ac428ee3cb4c6aa00943ed1422ce813603b34c"
   dependencies:
     babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.0.0"
 
-babel-plugin-transform-react-jsx@^6.8.0:
+babel-plugin-transform-react-jsx@*, babel-plugin-transform-react-jsx@^6.8.0:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-jsx/-/babel-plugin-transform-react-jsx-6.8.0.tgz#94759942f70af18c617189aa7f3593f1644a71ab"
   dependencies:
@@ -793,10 +793,13 @@ babel-polyfill@^6.16.0:
     regenerator-runtime "^0.9.5"
 
 "babel-preset-cx-env@file:./packages/babel-preset-cx-env":
-  version "16.12.1"
+  version "16.12.2"
   dependencies:
     babel-plugin-cx "*"
     babel-plugin-transform-cx-imports "*"
+    babel-plugin-transform-function-bind "*"
+    babel-plugin-transform-object-rest-spread "*"
+    babel-plugin-transform-react-jsx "*"
     babel-preset-env "*"
     modify-babel-preset "^3.2.0"
 
@@ -1583,7 +1586,7 @@ currently-unhandled@^0.4.1:
     array-find-index "^1.0.1"
 
 "cx-core@file:./packages/cx-core":
-  version "16.11.8"
+  version "16.12.0"
   dependencies:
     intl-io "^0.2.0"
     route-parser "^0.0.5"
@@ -1602,8 +1605,8 @@ currently-unhandled@^0.4.1:
 "cx-react@file:./packages/cx-react":
   version "16.8.4"
   dependencies:
-    react "^15.4.1"
-    react-dom "^15.4.1"
+    react "^15.3.2"
+    react-dom "^15.3.2"
 
 "cx-redux@file:./packages/cx-redux":
   version "16.11.0"
@@ -2529,8 +2532,8 @@ http-proxy-middleware@~0.9.1:
     micromatch "^2.3.7"
 
 http-proxy@^1.12.0:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.16.1.tgz#734b32de6ca0e36e51b59c1e0115ff860d7668fd"
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.16.2.tgz#06dff292952bf64dbe8471fa9df73066d4f37742"
   dependencies:
     eventemitter3 "1.x.x"
     requires-port "1.x.x"
@@ -3881,8 +3884,8 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     supports-color "^3.1.2"
 
 preact-compat@^3.0.1:
-  version "3.9.3"
-  resolved "https://registry.yarnpkg.com/preact-compat/-/preact-compat-3.9.3.tgz#d7c3764cdd001649a6616fa32b1d253ff3739fb1"
+  version "3.9.4"
+  resolved "https://registry.yarnpkg.com/preact-compat/-/preact-compat-3.9.4.tgz#55a5d81de637edc18c449bee45804b74bef15b34"
   dependencies:
     preact-render-to-string "^3.2.1"
     preact-transition-group "^1.1.0"

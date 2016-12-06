@@ -1,19 +1,16 @@
-var modifyBabelPreset = require('modify-babel-preset');
-
-module.exports = (options, opts) => {
-
-   opts = opts || {};
+module.exports = function(context) {
+   let opts = arguments[1] || {};
    var pragma = opts.pragma || "VDOM.createElement";
    var imports = !opts.cx || typeof opts.cx.imports == 'undefined' ? true : opts.cx.imports;
 
-   return modifyBabelPreset(
-      ['env', opts],
-      {
-         'transform-cx-imports': imports,
-         'transform-object-rest-spread': true,
-         "transform-function-bind": true,
-         'cx': true,
-         "transform-react-jsx": {"pragma": pragma}
-      }
-   );
+   return {
+      presets: [['babel-preset-env', opts]],
+      plugins: [
+         ['transform-cx-imports', imports],
+         'transform-object-rest-spread',
+         "transform-function-bind",
+         'cx',
+         ["transform-react-jsx", {"pragma": pragma}]
+      ]
+   };
 };

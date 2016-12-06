@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-cx-env",
-  "version": "16.12.2",
+  "version": "16.12.3",
   "description": "Babel preset for Cx apps",
   "main": "./bin/index.js",
   "author": "Codaxy",
