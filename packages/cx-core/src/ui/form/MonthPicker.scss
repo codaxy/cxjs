@@ -74,35 +74,25 @@ $cx-default-monthpicker-font-size: smaller !default;
       }
 
       td.#{$state}unselectable {
-         @each $rule, $value in map-get($cx-list-item, disabled) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, disabled);
       }
 
       td.#{$state}selected {
-         @each $rule, $value in map-get($cx-list-item, selected) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, selected);
          border-color: transparent;
       }
 
       td.#{$state}cursor, th.#{$state}cursor {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, hover);
       }
 
       &:focus {
          td.#{$state}selected {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, selected-focus);
          }
 
          td.#{$state}cursor, th.#{$state}cursor {
-            @each $rule, $value in map-get($cx-list-item, hover-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, hover-focus);
          }
       }
    }

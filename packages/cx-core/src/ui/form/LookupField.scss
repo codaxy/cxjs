@@ -90,9 +90,7 @@
       width: 100%;
 
       &:focus {
-         @each $rule, $value in map-get($cx-list, focus) {
-            #{$rule}: $value;
-         }
+        @include cx-add-state-rules($cx-list, focus);
       }
 
       & > li {
@@ -102,15 +100,11 @@
          cursor: pointer;
 
          &.cursor {
-            @each $rule, $value in map-get($cx-list-item, hover-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, hover-focus);
          }
 
          &.selected {
-            @each $rule, $value in map-get($cx-list-item, selected-focus) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($cx-list-item, selected-focus);
          }
       }
    }

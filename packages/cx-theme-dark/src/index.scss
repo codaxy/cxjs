@@ -70,6 +70,13 @@ $cx-include-global-rules: false;
 $cx-default-cover-background-color: lighten($cx-default-background-color-light, 2);
 $cx-default-cover-border-color: $cx-default-cover-background-color;
 
+// CHART
+$cx-default-palette-fill-whiten: 38% !default;
+$cx-default-palette-fill-hover-whiten: 38% !default;
+$cx-default-palette-fill-selected-whiten: 20% !default;
+$cx-default-palette-fill-disabled-whiten: 90% !default;
+$cx-default-palette-stroke-blacken: 50% !default;
+
 
 @import "~cx/index";
 
@@ -127,9 +134,9 @@ $cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
         box-shadow: inset 0 -1px darken(#006699, 1)
     ),
     active: (
-        background-color: darken(#006699, 6),
+        background-color: darken(#006699, 8),
         border-color: transparent,
-        box-shadow: inset 0 -1px darken(#006699, 6)
+        box-shadow: inset 0 -1px darken(#006699, 8)
     )
   ),
   danger: (
@@ -271,6 +278,10 @@ $cx-grid-data-state-style-map: cx-merge-state-style-maps($cx-grid-data-state-sty
 ));*/
 
 
+// CHART
+
+
+
 // GLOBALS
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    html: (
@@ -329,21 +340,21 @@ $cx-include-global-rules: $cx-theme-include-global-rules;
     background-color: lighten($cx-default-background-color, 2);   
 
     &.cxs-selected {
-      background-color: darken($cx-default-highlight-color, 9);
+      @include cx-add-state-rules($cx-list-item, selected);
       &:hover {
-        background-color: darken($cx-default-highlight-color, 9);
+        @include cx-add-state-rules($cx-list-item, selected);
       }
     }  
     &.cxs-cursor {
-      background-color: $cx-default-background-color-dark;
+      @include cx-add-state-rules($cx-list-item, hover);
     }
   
     .cxs-focused &, :focus & {
       &.cxs-cursor {
-        background-color: darken($cx-default-highlight-color, 12);
+        @include cx-add-state-rules($cx-list-item, hover-focus);
       }
       &.cxs-selected {
-        background-color: $cx-default-highlight-color;
+        @include cx-add-state-rules($cx-list-item, selected-focus);
       }
     }
   }

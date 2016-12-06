@@ -159,34 +159,24 @@ $cx-button-mods: (
 
       @each $modname, $config in $mods {
          &.#{$mod}#{$modname} {
-            @each $rule, $value in map-get($config, default) {
-               #{$rule}: $value;
-            }
+            @include cx-add-state-rules($config, default);
 
             &[disabled], &.#{$state}disabled {
-               @each $rule, $value in map-get($config, disabled) {
-                  #{$rule}: $value;
-               }
+                @include cx-add-state-rules($config, disabled);
             }
 
             &:not([disabled]) {
 
                &:hover {
-                  @each $rule, $value in map-get($config, hover) {
-                     #{$rule}: $value;
-                  }
+                   @include cx-add-state-rules($config, hover);
                }
 
                &:focus {
-                  @each $rule, $value in map-get($config, focus) {
-                     #{$rule}: $value;
-                  }
+                   @include cx-add-state-rules($config, focus);
                }
 
                &:active {
-                  @each $rule, $value in map-get($config, active) {
-                     #{$rule}: $value;
-                  }
+                   @include cx-add-state-rules($config, active);
                }
             }
          }

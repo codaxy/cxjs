@@ -147,21 +147,15 @@ $cx-window-body-state-style-map: (
       appearance: none;
 
       &:hover {
-         @each $rule, $value in map-get($cx-list-item, hover) {
-            #{$rule}: $value;
-         }
+        @include cx-add-state-rules($cx-list-item, hover);
       }
 
       &:focus {
-         @each $rule, $value in map-get($cx-list-item, selected-focus) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, selected-focus);
       }
 
       &:active {
-         @each $rule, $value in map-get($cx-list-item, active) {
-            #{$rule}: $value;
-         }
+         @include cx-add-state-rules($cx-list-item, active);
       }
    }
 
