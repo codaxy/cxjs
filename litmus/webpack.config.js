@@ -9,7 +9,7 @@ var common = {
 
    resolve: {
       alias: {
-         cx: path.resolve(path.join(__dirname, '../packages/cx-core/src')),
+         'cx-core': path.resolve(path.join(__dirname, '../packages/cx-core')),
          'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          litmus: __dirname
@@ -22,7 +22,7 @@ var common = {
          loader: 'json-loader'
       }, {
          test: /\.js$/,
-         include: /(litmus|cx-core|cx-react)/,
+         include: /(litmus|cx-core)/,
          loader: 'babel',
          query: babelConfig
       }]

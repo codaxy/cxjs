@@ -1,7 +1,5 @@
-import { Widget, VDOM } from 'cx/ui/Widget';
-import { Cx } from 'cx/ui/Cx';
-import { TextField } from 'cx/ui/form/TextField';
-import { HtmlElement } from 'cx/ui/HtmlElement';
+import { Widget, VDOM } from 'cx/ui';
+import { Cx, TextField, HtmlElement } from 'cx/widgets';
 
 export class MixedModeForm extends Widget
 {

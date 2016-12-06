@@ -1,8 +1,4 @@
-import {Grid} from 'cx/ui/grid/Grid';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {MsgBox} from 'cx/ui/overlay/MsgBox';
-import {Window} from 'cx/ui/overlay/Window';
-import {Button} from 'cx/ui/Button';
+import { Grid, HtmlElement, MsgBox, Window, Button } from 'cx/widgets';
 
 function msgAlert() {
    MsgBox.alert('Test');

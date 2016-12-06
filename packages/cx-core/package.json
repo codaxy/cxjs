@@ -5,12 +5,6 @@
   "main": "src/index",
   "jsnext:main": "src/index",
   "scripts": {},
-  "files": [
-    "README.md",
-    "src",
-    "LICENSE.md",
-    "LICENSE-THIRD-PARTY.md"
-  ],
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {

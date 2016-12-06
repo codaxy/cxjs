@@ -1,8 +1,5 @@
-import {TextField} from 'cx/ui/form/TextField';
-import {DateField} from 'cx/ui/form/DateField';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { TextField, DateField, NumberField, HtmlElement } from 'cx/widgets';
+import { LabelsLeftLayout } from 'cx/ui';
 
 export const FormSection = <cx>
    <section>

@@ -1,0 +1,33 @@
+{
+  "name": "babel-plugin-transform-cx-imports",
+  "version": "16.12.0",
+  "description": "Rewrite imports from Cx for simplicity and optimal output size.",
+  "repository": "https://github.com/codaxy/cx",
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "index.js",
+  "dependencies": {
+    "babel-plugin-syntax-jsx": "^6.3.13"
+  },
+  "peerDependencies": {
+    "cx-core": "*"
+  },
+  "devDependencies": {
+    "babel-core": "^6.4.5",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
+    "mocha": "^2.3.4",
+    "babel-runtime": "^6.3.19"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "babel-plugin",
+    "babel",
+    "es2015",
+    "es2016",
+    "cx",
+    "jsx"
+  ]
+}

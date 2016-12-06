@@ -7,6 +7,8 @@
   "license": "SEE LICENSE.md",
   "dependencies": {
     "babel-preset-env": "*",
+    "babel-plugin-cx": "*",
+    "babel-plugin-transform-cx-imports": "*",
     "modify-babel-preset": "^3.2.0"
   }
 }

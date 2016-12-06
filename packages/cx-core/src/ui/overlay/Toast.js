@@ -1,5 +1,5 @@
 import {Overlay} from './Overlay';
-import {Text} from 'cx/ui/Text';
+import {Text} from '../Text';
 
 export class Toast extends Overlay {
 
