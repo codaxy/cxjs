@@ -9,6 +9,7 @@ export * from '../ui/Sandbox';
 export * from '../ui/Repeater';
 export * from '../ui/Cx';
 export * from '../ui/CxCredit';
+export * from '../ui/layout/FlexBox';
 
 import { Widget }  from '../ui/Widget';
 export { Widget };
