@@ -10,6 +10,7 @@ import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {isFocused} from '../../util/DOM';
 
 export class Calendar extends Field {
 
@@ -77,10 +78,6 @@ export class Calendar extends Field {
       return <CalendarCmp key={key}
                           instance={instance}
                           handleSelect={(e, date) => this.handleSelect(e, instance, date)}
-                          onBlur={this.onBlur}
-                          onFocusOut={this.onFocusOut}
-                          onKeyDown={this.onKeyDown}
-                          autoFocus={this.autoFocus}
       />
    }
 
@@ -133,6 +130,8 @@ export class CalendarCmp extends VDOM.Component {
       var refDate = data.refDate ? data.refDate : data.date || zeroTime(new Date());
 
       this.state = Object.assign({
+         hover: false,
+         focus: false,
          cursor: zeroTime(data.date || refDate),
       }, this.getPage(refDate))
    }
@@ -199,58 +198,59 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleKeyPress(e) {
-
+      
       var cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
-         case 13:
+         case 13: // enter
             this.props.handleSelect(e, this.state.cursor);
             break;
 
-         case 37:
+         case 37: // left
             cursor.setDate(cursor.getDate() - 1);
             this.moveCursor(e, cursor);
             break;
 
-         case 39:
+         case 39: // right
             cursor.setDate(cursor.getDate() + 1);
             this.moveCursor(e, cursor);
             break;
 
-         case 38:
+         case 38: // up
             cursor.setDate(cursor.getDate() - 7);
             this.moveCursor(e, cursor);
             break;
 
-         case 40:
+         case 40: // down
             cursor.setDate(cursor.getDate() + 7);
             this.moveCursor(e, cursor);
             break;
 
-         case 33:
+         case 33: // page up
             cursor.setMonth(cursor.getMonth() - 1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 34:
+         case 34: // page down
             cursor.setMonth(cursor.getMonth() + 1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 36:
+         case 36: // home
             cursor.setDate(1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 35:
+         case 35: // end
             cursor.setMonth(cursor.getMonth() + 1);
             cursor.setDate(0);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
          default:
-            if (this.props.onKeyDown)
-               this.props.onKeyDown(e, this.props.instance);
+            let {widget} = this.props.instance;
+            if (widget.onKeyDown)
+               widget.onKeyDown(e, this.props.instance);
             break;
       }
    }
@@ -273,22 +273,42 @@ export class CalendarCmp extends VDOM.Component {
 
    handleBlur(e) {
       FocusManager.nudge();
-      if (this.props.onBlur)
-         this.props.onBlur();
+      let {widget} = this.props.instance;
+      if (widget.onBlur)
+         widget.onBlur();
+      this.setState({
+         focus: false
+      });
    }
 
    handleFocus(e) {
-      if (this.props.onFocusOut)
-         oneFocusOut(this, this.el, ::this.handleFocusOut);
+      oneFocusOut(this, this.el, ::this.handleFocusOut);
+      this.setState({
+         focus: true
+      });
    }
 
    handleFocusOut() {
-      if (this.props.onFocusOut)
-         this.props.onFocusOut();
+      let {widget} = this.props.instance;
+      if (widget.onFocusOut)
+         widget.onFocusOut();
+   } 
+
+   handleMouseLeave(e) {
+      tooltipMouseLeave(e, this.props.instance);
+      this.setState({
+         hover: false
+      }); 
+   }
+
+   handleMouseEnter(e) {
+      this.setState({
+         hover: true
+      });
    }
 
    componentDidMount() {
-      if (this.props.autoFocus)
+      if (this.props.instance.widget.autoFocus)
          this.el.focus();
 
       tooltipComponentDidMount(this.el, this.props.instance);
@@ -335,7 +355,7 @@ export class CalendarCmp extends VDOM.Component {
                outside: month != date.getMonth(),
                unselectable: unselectable,
                selected: data.date && sameDate(data.date, date),
-               cursor: this.state.cursor && sameDate(this.state.cursor, date),
+               cursor: (this.state.hover || this.state.focus) && (this.state.cursor && sameDate(this.state.cursor, date)),
                today: widget.highlightToday && sameDate(date, today)
             });
             let dateInst = new Date(date);
@@ -365,7 +385,8 @@ export class CalendarCmp extends VDOM.Component {
                   onMouseDown={e=>e.stopPropagation()}
                   ref={el=>{this.el = el}}
                   onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
-                  onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
+                  onMouseLeave={e=>this.handleMouseLeave(e)}
+                  onMouseEnter={e=>this.handleMouseEnter(e)}
                   onWheel={e=>this.handleWheel(e)}
                   onFocus={e=>this.handleFocus(e)}
                   onBlur={e=>this.handleBlur(e)}
