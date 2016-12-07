@@ -24,7 +24,7 @@ export const ColorFields = <cx>
             </div>
 
             <div class="widgets">
-                <ColorField value={{bind: "$page.color2", defaultValue: 'hsla(360,40%,40%,1)'} } format='hsla'/>
+                <ColorField value={{bind: "$page.color2", defaultValue: 'hsla(360, 40%, 40%, 1)'}} format='hsla'/>
                 <div style={{width: '100px', height: '70px', background: {bind: '$page.color2'}}}></div>
             </div>
 
@@ -35,7 +35,7 @@ export const ColorFields = <cx>
                 </div>
 
                 <div class="widgets">
-                    <ColorField value={{bind:"$page.color2", defaultValue:'#f44'}}/>
+                    <ColorField value={{bind:"$page.color2", defaultValue: 'hsla(360, 40%, 40%, 1)'}} format='hsla'/>
                     <div style={{width:'100px', height: '70px', background:{bind:'$page.color2'}}}></div>
                 </div>
             `}</CodeSnippet>
