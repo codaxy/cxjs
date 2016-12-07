@@ -37,7 +37,7 @@ export const NumberFields = <cx>
                     <NumberField label="Percentage" value:bind="$page.number" format="ps"/>
                     <NumberField label="Suffix" value:bind="$page.number" format="suffix; kg"/>
                     <NumberField label="Required" value:bind="$page.number" required/>
-                    <NumberField label="Styled" value:bind="$page.number" inputStyle={{border: '1px solid green'}} icon="calculator"/>
+                    <NumberField label="Styled" value:bind="$page.number" inputStyle={{border: '1px solid green'}}/>
                     <NumberField label="View" value:bind="$page.number" mode="view"/>
                     <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A"/>
                 </div>
