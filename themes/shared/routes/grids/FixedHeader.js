@@ -1,7 +1,5 @@
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {Controller} from 'cx/ui/Controller';
-import {Grid} from 'cx/ui/grid/Grid';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { KeySelection, Controller } from 'cx/ui';
+import { Grid, HtmlElement } from 'cx/widgets';
 import {casual} from 'shared/data/casual';
 
 class PageController extends Controller {

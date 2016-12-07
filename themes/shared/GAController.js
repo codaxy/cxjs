@@ -1,4 +1,4 @@
-import {Controller} from 'cx/ui/Controller';
+import { Controller } from 'cx/ui';
 import {setupGoogleAnalytics, trackPageView} from './ga';
 
 export default class extends Controller {

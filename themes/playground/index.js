@@ -1,11 +1,7 @@
+import { Widget, startAppLoop, showError, hideError, Url } from 'cx/ui';
+import { Timing, Debug } from 'cx/util';
+import { Store } from 'cx/data';
 import "./theme";
-import {Widget} from 'cx/ui/Widget';
-import {startAppLoop} from 'cx/app/startAppLoop';
-import {showError, hideError} from 'cx/app/error';
-import {Url} from 'cx/app/Url';
-import {Timing} from 'cx/util/Timing';
-import {Debug} from 'cx/util/Debug';
-import {Store} from 'cx/data/Store';
 import {setupHashBasedRouting} from '../shared/app/hashRoutes';
 
 import Routes from './routes';

@@ -1,6 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Route} from 'cx/ui/nav/Route';
-import {PureContainer} from 'cx/ui/PureContainer';
+import { HtmlElement, Route, PureContainer } from 'cx/widgets';
 
 
 import createLayout from 'shared/layout';

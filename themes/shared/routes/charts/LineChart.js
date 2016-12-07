@@ -1,11 +1,7 @@
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Controller} from 'cx/ui/Controller';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Svg} from 'cx/ui/svg/Svg';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { NumericAxis, Legend, LineGraph, Gridlines, Chart } from 'cx/charts';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { HtmlElement } from 'cx/widgets';
 
 class PageController extends Controller {
    init() {

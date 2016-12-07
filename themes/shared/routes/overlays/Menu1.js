@@ -1,10 +1,4 @@
-import {DateField} from 'cx/ui/form/DateField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {TextField} from 'cx/ui/form/TextField';
-import {Menu} from 'cx/ui/nav/Menu';
-import {MenuItem} from 'cx/ui/nav/MenuItem';
-import {Button} from 'cx/ui/Button';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { DateField, Checkbox, TextField, Menu, MenuItem, Button, HtmlElement } from 'cx/widgets';
 
 export default <cx>
    <Menu horizontal>

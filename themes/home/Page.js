@@ -1,9 +1,5 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {PureContainer} from 'cx/ui/PureContainer';
-import {Repeater} from 'cx/ui/Repeater';
+import { HtmlElement, PureContainer, Repeater, Section, FlexRow } from 'cx/widgets';
 import createLayout from 'shared/layout';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
 import GAController from 'shared/GAController';
 
 const layout = createLayout(<cx>

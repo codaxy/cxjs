@@ -1,14 +1,7 @@
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {Controller} from 'cx/ui/Controller';
-import {Text} from 'cx/ui/svg/Text';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {Line} from 'cx/ui/svg/Line';
-import {Repeater} from 'cx/ui/Repeater';
-import {PieChart, PieSlice} from 'cx/ui/svg/charts/PieChart';
-import {ColorMap} from 'cx/ui/svg/charts/ColorMap';
-import {Svg} from 'cx/ui/svg/Svg';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { KeySelection, Controller } from 'cx/ui';
+import { Text, Rectangle, Line, Svg } from 'cx/svg';
+import { Repeater, HtmlElement } from 'cx/widgets';
+import { PieChart, PieSlice, ColorMap, Legend } from 'cx/charts';
 
 class PageController extends Controller {
    init() {

@@ -1,9 +1,6 @@
-import {Widget} from 'cx/ui/Widget';
-import {startAppLoop} from 'cx/app/startAppLoop';
-import {Url} from 'cx/app/Url';
-import {Timing} from 'cx/util/Timing';
-import {Debug} from 'cx/util/Debug';
-import {Store} from 'cx/data/Store';
+import { Widget, startAppLoop, Url } from 'cx/ui';
+import { Timing, Debug } from 'cx/util';
+import { Store } from 'cx/data';
 
 import Page from './Page';
 

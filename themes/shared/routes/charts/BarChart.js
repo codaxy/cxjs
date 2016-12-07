@@ -1,13 +1,7 @@
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {CategoryAxis} from 'cx/ui/svg/charts/axis/CategoryAxis';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Controller} from 'cx/ui/Controller';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {BarGraph} from 'cx/ui/svg/charts/BarGraph';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Svg} from 'cx/ui/svg/Svg';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { KeySelection, Controller } from 'cx/ui';
+import { CategoryAxis, NumericAxis, Legend, BarGraph, Gridlines, Chart } from 'cx/charts';
+import { Svg } from 'cx/svg';
+import { HtmlElement } from 'cx/widgets';
 
 import {casual} from 'shared/data/casual';
 

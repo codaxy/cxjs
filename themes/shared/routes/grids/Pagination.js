@@ -1,11 +1,7 @@
-import {Controller} from 'cx/ui/Controller';
-import {Select} from 'cx/ui/form/Select';
-import {Pagination} from 'cx/ui/grid/Pagination';
-import {TextField} from 'cx/ui/form/TextField';
-import {Grid} from 'cx/ui/grid/Grid';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { Controller } from 'cx/ui';
+import { Select, Pagination, TextField, Grid, HtmlElement } from 'cx/widgets';
+import { getComparer } from 'cx/data';
 import {casual} from 'shared/data/casual';
-import {getComparer} from 'cx/data/comparer';
 
 class PageController extends Controller {
    init() {

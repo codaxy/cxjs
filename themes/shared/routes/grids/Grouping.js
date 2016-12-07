@@ -1,9 +1,8 @@
+import { Controller } from 'cx/ui';
+import { Grid, HtmlElement } from 'cx/widgets';
 /**
  * Created by m on 11/16/2016.
  */
-import {Controller} from 'cx/ui/Controller';
-import {Grid} from 'cx/ui/grid/Grid';
-import {HtmlElement} from 'cx/ui/HtmlElement';
 import {casual} from 'shared/data/casual';
 
 class PageController extends Controller {

@@ -1,20 +1,23 @@
-import {ColorPicker} from 'cx/ui/form/ColorPicker';
-import {ColorField} from 'cx/ui/form/ColorField';
-import {LookupField} from 'cx/ui/form/LookupField';
-import {Select} from 'cx/ui/form/Select';
-import {Radio} from 'cx/ui/form/Radio';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {MonthField} from 'cx/ui/form/MonthField';
-import {MonthPicker} from 'cx/ui/form/MonthPicker';
-import {Calendar} from 'cx/ui/form/Calendar';
-import {DateField} from 'cx/ui/form/DateField';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {TextArea} from 'cx/ui/form/TextArea';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {TextField} from 'cx/ui/form/TextField';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
+import {
+   ColorPicker,
+   ColorField,
+   LookupField,
+   Select,
+   Radio,
+   Checkbox,
+   MonthField,
+   MonthPicker,
+   Calendar,
+   DateField,
+   NumberField,
+   TextArea,
+   TextField,
+   HtmlElement,
+   Section,
+   FlexRow
+} from 'cx/widgets';
+
+import { LabelsLeftLayout } from 'cx/ui';
 
 const options = [
    {id: 1, text: 'Option 1'},

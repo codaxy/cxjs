@@ -1,12 +1,8 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Window} from 'cx/ui/overlay/Window';
-import {TextField} from 'cx/ui/form/TextField';
-import {TextArea} from 'cx/ui/form/TextArea';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
-import {Button} from 'cx/ui/Button';
+import {
+   HtmlElement, Window, TextField, TextArea, Checkbox, Button, Section,
+   FlexRow
+} from 'cx/widgets';
+import { LabelsLeftLayout } from 'cx/ui';
 
 export default <cx>
    <Window

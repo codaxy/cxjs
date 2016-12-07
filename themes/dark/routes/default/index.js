@@ -1,6 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
+import { HtmlElement, Section, FlexRow } from 'cx/widgets';
 
 export default <cx>
    <FlexRow pad spacing wrap>

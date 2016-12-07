@@ -1,11 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Button} from 'cx/ui/Button';
-import {Repeater} from 'cx/ui/Repeater';
-import {Tab} from 'cx/ui/nav/Tab';
-import {Text} from 'cx/ui/Text';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
-
+import { HtmlElement, Button, Repeater, Tab, Text, Section, FlexRow } from 'cx/widgets';
 
 export default <cx>
    <span putInto="breadcrumbs">Core</span>

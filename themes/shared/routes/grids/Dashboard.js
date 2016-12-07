@@ -1,15 +1,7 @@
-import {MarkerLine} from 'cx/ui/svg/charts/MarkerLine';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {Slider} from 'cx/ui/form/Slider';
-import {TextField} from 'cx/ui/form/TextField';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Svg} from 'cx/ui/svg/Svg';
-import {Grid} from 'cx/ui/grid/Grid';
-import {Controller} from 'cx/ui/Controller';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Section} from 'cx/ui/Section';
+import { MarkerLine, LineGraph, NumericAxis, Chart } from 'cx/charts';
+import { NumberField, Slider, TextField, Grid, HtmlElement, Section } from 'cx/widgets';
+import { Svg } from 'cx/svg';
+import { Controller } from 'cx/ui';
 
 import {casual} from 'shared/data/casual';
 

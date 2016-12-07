@@ -1,8 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Button} from 'cx/ui/Button';
-import {Tab} from 'cx/ui/nav/Tab';
-import {Section} from 'cx/ui/Section';
-import {FlexRow} from 'cx/ui/layout/FlexBox';
+import { HtmlElement, Button, Tab, Section, FlexRow } from 'cx/widgets';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">

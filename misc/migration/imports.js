@@ -15,7 +15,8 @@ var fs = require('fs'),
 
 
 const srcFiles = [
-   path.resolve(__dirname, '../../litmus/**/*.js'),
+   path.resolve(__dirname, '../../themes/**/*.js'),
+   //path.resolve(__dirname, '../../litmus/**/*.js'),
    //path.resolve(__dirname, '../../docs/**/*.js'),
    "!dist"
 ];
@@ -31,9 +32,13 @@ var replacements = {
    'cx/ui/grid/': 'cx/widgets',
    'cx/ui/nav/': 'cx/widgets',
    'cx/ui/overlay/': 'cx/widgets',
+   'cx/ui/layout/FlexBox': 'cx/widgets',
+   'cx/ui/layout/FlexRow': 'cx/widgets',
+   'cx/ui/layout/FlexCol': 'cx/widgets',
    'cx/ui/Button': 'cx/widgets',
    'cx/ui/Container': 'cx/widgets',
    'cx/ui/Cx': 'cx/widgets',
+   'cx/ui/Section': 'cx/widgets',
    'cx/ui/CxCredit': 'cx/widgets',
    'cx/ui/DocumentTitle': 'cx/widgets',
    'cx/ui/HtmlElement': 'cx/widgets',
@@ -52,12 +57,12 @@ var importPattern = /import {(.*)} from ["'](cx.*)["'];?\n?/g;
 var group = true;
 
 //do a test run first
-var production = true;
+var production = false;
 
 globby(srcFiles)
    .then(x => {
       x.forEach(f=> {
-         //console.log(' ');
+         console.log(' ');
          console.log(f);
          var contents = fs.readFileSync(f, { encoding: 'utf8' });
          //console.log(contents);

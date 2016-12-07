@@ -1,4 +1,4 @@
-import {Localization} from 'cx/ui/Localization';
+import { Localization } from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
    arrow: true,
