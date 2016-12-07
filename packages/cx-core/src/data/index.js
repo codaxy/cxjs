@@ -4,6 +4,7 @@ export * from './StringTemplate';
 export * from './View';
 export * from './Store';
 export * from './ExposedRecordView';
+export * from './ExposedValueView';
 export * from './ReadOnlyDataView';
 export * from './ZoomIntoPropertyView';
 export * from './StructuredSelector';

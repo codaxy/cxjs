@@ -1,9 +1,9 @@
-var util = require('./util/'),
-   data = require('./data/'),
-   ui = require('./ui/'),
+var util = require('./util'),
+   data = require('./data'),
+   ui = require('./ui'),
    widgets = require('./widgets'),
-   svg = require('./svg/'),
-   charts = require('./charts/');
+   svg = require('./svg'),
+   charts = require('./charts');
 
 module.exports = {
    util: util,

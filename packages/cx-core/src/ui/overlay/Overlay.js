@@ -228,7 +228,12 @@ export class OverlayComponent extends VDOM.Component {
 
       if (widget.modal || widget.backdrop) {
          result = (
-            <div className={CSS.element(baseClass, 'shadow')} key="shadow">
+            <div
+               ref = {el => {
+                  this.shadowEl = el
+               }}
+               className={CSS.element(baseClass, 'shadow')} key="shadow"
+            >
                {content}
             </div>
          );
@@ -490,6 +495,14 @@ export class OverlayComponent extends VDOM.Component {
       }
 
       delete this.containerEl;
+   }
+
+   setZIndex(zIndex) {
+      if (this.shadowEl)
+         this.shadowEl.style.zIndex = zIndex;
+      this.setCustomStyle({
+         zIndex: zIndex
+      });
    }
 
    setCustomStyle(style) {

@@ -140,9 +140,7 @@ class WindowComponent extends OverlayComponent {
          this.setState({
             active: true
          }, ()=>{
-            this.setCustomStyle({
-               zIndex: ZIndexManager.next()
-            })
+            this.setZIndex(ZIndexManager.next());
          });
       }
    }
