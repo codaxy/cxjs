@@ -196,6 +196,12 @@ $cx-button-mods: (
       line-height: $iconSize;
    }
 
+   .#{$element}#{$name}-baseline {
+      display: inline-block;
+      width: 1px;
+      margin-left: -1px;
+   }
+
    .#{$block}#{$name}.#{$state}icon {
       padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $iconSize);
 

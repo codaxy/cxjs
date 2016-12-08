@@ -58,15 +58,7 @@ export class Button extends HtmlElement {
          props.className = this.CSS.expand(props.className, this.CSS.state('icon'), children.length == 0 && this.CSS.state('empty'));
 
          if (children.length == 0) {
-            props.children.push(
-               <span
-                  style={{
-                     width: 0,
-                     display: 'inline-block'
-                  }}
-               >
-                  &nbsp;
-               </span>)
+            props.children.push(<span className={this.CSS.element(this.baseClass, 'baseline')}>&nbsp;</span>);
          }
       }
    }
