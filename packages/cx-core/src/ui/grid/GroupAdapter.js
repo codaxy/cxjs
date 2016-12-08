@@ -4,6 +4,13 @@ import {Grouper} from '../../data/Grouper';
 
 export class GroupAdapter extends ArrayAdapter {
 
+   init() {
+      super.init();
+
+      if (this.groupings)
+         this.groupBy(this.groupings);
+   }
+
    getRecords(context, instance, records, parentStore) {
       var result = super.getRecords(context, instance, records, parentStore);
 
@@ -58,14 +65,17 @@ export class GroupAdapter extends ArrayAdapter {
             level: inverseLevel
          };
 
-         result.push(group);
+         if (grouping.includeHeader !== false)
+            result.push(group);
 
          this.processLevel(keys, gr.records, result, groupStore);
 
-         result.push({
-            ...group,
-            type: 'group-footer'
-         });
+         if (grouping.includeFooter !== false)
+            result.push({
+               ...group,
+               type: 'group-footer'
+            });
+
 
          keys.pop();
       });
@@ -103,3 +113,4 @@ export class GroupAdapter extends ArrayAdapter {
 }
 
 GroupAdapter.prototype.groupName = '$group';
+GroupAdapter.prototype.includeFooter = true;

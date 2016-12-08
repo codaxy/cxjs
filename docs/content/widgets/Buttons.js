@@ -14,24 +14,28 @@ import configs from './configs/Button';
 
 export const Buttons = <cx>
     <Md>
-      # Buttons
+        # Buttons
 
-      <ImportPath path={"import {Button} from 'cx/ui/Button';"} />
+        <ImportPath path={"import {Button} from 'cx/ui/Button';"}/>
 
-      Buttons are commonly used UI elements.
+        Buttons are commonly used UI elements.
 
-      <CodeSplit>
+        <CodeSplit>
 
-         <div class="widgets">
-            <Button onClick={()=>{MsgBox.alert('Regular')}}>Regular</Button>
-            <Button disabled onClick={()=>{MsgBox.alert('Disabled')}}>Disabled</Button>
-            <Button mod="primary" onClick={()=>{MsgBox.alert('Primary')}}>Primary</Button>
-            <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
-                    onClick={()=>{MsgBox.alert('Danger')}}>
-                Danger
-            </Button>
-         </div>
-         <CodeSnippet putInto="code">{`
+            <div class="widgets">
+                <Button onClick={() => { MsgBox.alert('Regular')}}>Regular</Button>
+                <Button disabled onClick={() => { MsgBox.alert('Disabled') }}>Disabled</Button>
+                <Button mod="primary" onClick={() => { MsgBox.alert('Primary') }}>Primary</Button>
+                <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
+                    onClick={() => {
+                        MsgBox.alert('Danger')
+                    }}>
+                    Danger
+                </Button>
+                <Button mod="hollow" icon="refresh"></Button>
+                <Button mod="hollow" icon="refresh">Icon + Text</Button>
+            </div>
+            <CodeSnippet putInto="code">{`
             <Button onClick={()=>{MsgBox.alert('Regular')}}>Regular</Button>
             <Button disabled onClick={()=>{MsgBox.alert('Disabled')}}>Disabled</Button>
             <Button mod="primary" onClick={()=>{MsgBox.alert('Primary')}}>Primary</Button>
@@ -40,12 +44,12 @@ export const Buttons = <cx>
                 Danger
             </Button>
          `}</CodeSnippet>
-      </CodeSplit>
+        </CodeSplit>
 
 
-      ## Configuration
+        ## Configuration
 
-      <ConfigTable props={configs} />
+        <ConfigTable props={configs}/>
 
-   </Md>
+    </Md>
 </cx>

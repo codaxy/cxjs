@@ -27,6 +27,7 @@ function isUI(id) {
    switch (relativePath) {
       case 'Component':
       case 'ui/VDOM':
+      case 'ui/icons/Icon':
       case 'ui/Widget':
       case 'ui/PureContainer':
       case 'ui/CSS':

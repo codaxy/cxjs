@@ -9,6 +9,7 @@ export * from './CSSHelper';
 export * from './FocusManager';
 export * from './ResizeManager';
 
+export * from './icons/index';
 export * from './selection/index';
 export * from './layout/index';
 export * from '../app/index';

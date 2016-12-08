@@ -1,4 +1,4 @@
-import {Widget, getContentArray} from './Widget';
+import {Widget, VDOM, getContentArray} from './Widget';
 import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
 import {Icon} from './icons/Icon';
@@ -49,13 +49,25 @@ export class Button extends HtmlElement {
       let icon, children;
 
       if (this.icon) {
-         let icon = Icon.render(this.icon, {
+         icon = Icon.render(this.icon, {
             key: 'icon',
             className: this.CSS.element(this.baseClass, 'icon')
          });
          children = getContentArray(props.children);
          props.children = [icon, ...children];
          props.className = this.CSS.expand(props.className, this.CSS.state('icon'), children.length == 0 && this.CSS.state('empty'));
+
+         if (children.length == 0) {
+            props.children.push(
+               <span
+                  style={{
+                     width: 0,
+                     display: 'inline-block'
+                  }}
+               >
+                  &nbsp;
+               </span>)
+         }
       }
    }
 }
