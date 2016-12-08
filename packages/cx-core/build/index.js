@@ -4,9 +4,9 @@ var rollup = require('rollup'),
    babel = require('rollup-plugin-babel'),
    babelConfig = require('./babel.config'),
    importAlias = require('./importAlias'),
-   addToManfiest = require('./addToManifest'),
    multiEntry = require('rollup-plugin-multi-entry'),
-   scss = require('rollup-plugin-scss');
+   scss = require('rollup-plugin-scss'),
+   manifestRecorder = require('./manifestRecorder');
 
 
 function getPath(basePath) {
@@ -92,22 +92,17 @@ var paths = {
    [src('./util/')]: '@/util',
    [src('./app/')]: '@/ui',
    [src('./data/')]: '@/data',
+   [src('./ui/form')]: '@/widgets',
+   [src('./ui/grid')]: '@/widgets',
+   [src('./ui/nav')]: '@/widgets',
    [src('./ui/svg/charts')]: '@/charts',
    [src('./ui/svg/')]: '@/svg',
    [src('./')]: '@/ui',
 };
 
-var manifest = {
-   'ui/VDOM': {js: 'src/ui/Widget'}
-};
-
-
+var manifest = {};
 
 var all = entries.map(function(e) {
-   // if (e.name != 'charts.js')
-   //    return;
-
-
 
    var options = Object.assign({
       //treeshake: false,
@@ -129,7 +124,6 @@ var all = entries.map(function(e) {
       },
       plugins: [
          multiEntry(),
-         addToManfiest(manifest, paths, e.name),
          importAlias({
             manifest: manifest,
             external: e.external,
@@ -138,7 +132,13 @@ var all = entries.map(function(e) {
          scss({
             output: e.css && dist(e.name + '.css') || false
          }),
-         babel(babelConfig),
+         babel({
+            presets: babelConfig.presets,
+            plugins: [
+               ...babelConfig.plugins,
+               manifestRecorder(manifest, paths, src('.'))
+            ]
+         }),
       ]
    }, e.options);
 
@@ -165,4 +165,5 @@ Promise
    .all(all)
    .then(()=> {
       fs.writeFileSync(dist('manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
+      //console.log(manifest);
    });

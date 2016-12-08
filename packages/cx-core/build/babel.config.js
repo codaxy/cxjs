@@ -1,3 +1,5 @@
+var cx = require('../../babel-plugin-transform-cx-jsx');
+
 module.exports = {
    "presets": [
       ["es2015", { loose: true, modules: false }],
@@ -5,7 +7,7 @@ module.exports = {
    ],
    "plugins": [
       "external-helpers",
-      "cx",
+      cx,
       ["transform-react-jsx", {"pragma": "VDOM.createElement"}]
    ]
 };
