@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-transform-cx-jsx",
+  "name": "babel-plugin-cx",
   "version": "16.12.0",
   "description": "Transpile JSX into Cx config objects",
   "repository": "https://github.com/codaxy/cx",
@@ -7,10 +7,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "dependencies": {
-    "babel-plugin-syntax-jsx": "^6.3.13"
-  },
-  "scripts": {
-    "test": "mocha"
+    "babel-plugin-transform-cx-jsx": "*"
   },
   "keywords": [
     "babel-plugin",

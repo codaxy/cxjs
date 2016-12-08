@@ -17,7 +17,7 @@ module.exports = function (context) {
    plugins.push(
       'transform-object-rest-spread',
       "transform-function-bind",
-      'cx',
+      'transform-cx-jsx',
       ["transform-react-jsx", {"pragma": pragma}]
    );
 
