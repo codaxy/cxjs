@@ -54,12 +54,12 @@ $cx-button-state-style-map: (
 $cx-button-mods: (
    primary: (
       default: (
-         background: #1f99f8,
+         background-color: #1f99f8,
          border-color: #1E88E5,
          color: white
       ),
       disabled: (
-         background: transparentize(#1f99f8, 0.5),
+         background-color: transparentize(#1f99f8, 0.5),
          border-color: transparentize(#1E88E5, 0.9),
          color: transparentize(white, 0.4),
       ),
@@ -69,12 +69,12 @@ $cx-button-mods: (
    ),
    danger: (
       default: (
-         background: #d32f2f,
+         background-color: #d32f2f,
          border-color: #c62828,
          color: white
       ),
       disabled: (
-         background: transparentize(#d32f2f, 0.4),
+         background-color: transparentize(#d32f2f, 0.4),
          border-color: transparentize(#c62828, 0.9),
          color: transparentize(white, 0.5),
       ),
@@ -84,7 +84,7 @@ $cx-button-mods: (
    ),
    hollow: (
       default: (
-         background: transparent,
+         background-color: transparent,
          border-color: transparent,
          color: inherit,
          box-shadow: none
