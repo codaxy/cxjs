@@ -6,7 +6,8 @@ var rollup = require('rollup'),
    importAlias = require('./importAlias'),
    multiEntry = require('rollup-plugin-multi-entry'),
    scss = require('rollup-plugin-scss'),
-   manifestRecorder = require('./manifestRecorder');
+   manifestRecorder = require('./manifestRecorder'),
+   buble = require('rollup-plugin-buble');
 
 
 function getPath(basePath) {
@@ -136,6 +137,7 @@ var all = entries.map(function(e) {
                manifestRecorder(manifest, paths, src('.'))
             ]
          }),
+         buble(),
       ]
    }, e.options);
 
