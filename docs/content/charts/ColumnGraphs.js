@@ -1,19 +1,13 @@
+import { HtmlElement } from 'cx/widgets';
+import { Controller, KeySelection } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Gridlines, NumericAxis, CategoryAxis, Chart, ColumnGraph, Legend } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {CategoryAxis} from 'cx/ui/svg/charts/axis/CategoryAxis';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {ColumnGraph} from 'cx/ui/svg/charts/ColumnGraph';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
 import {casual} from 'docs/content/examples/data/casual';
 
 import configs from './configs/ColumnGraph';

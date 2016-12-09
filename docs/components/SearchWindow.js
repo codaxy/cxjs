@@ -1,13 +1,6 @@
-import {Window} from 'cx/ui/overlay/Window';
-import {TextField} from 'cx/ui/form/TextField';
-import {Text} from 'cx/ui/Text';
-import {Repeater} from 'cx/ui/Repeater';
-import {List} from 'cx/ui/List';
-import {Link} from 'cx/ui/nav/Link';
-import {Menu} from 'cx/ui/nav/Menu';
-import {Controller} from 'cx/ui/Controller';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {History} from 'cx/app/History';
+import { TextField, Text, Repeater, List, Link, Menu, HtmlElement } from 'cx/widgets';
+import { Controller, History } from 'cx/ui';
+import { Window } from 'cx/widgets';
 
 class SearchController extends Controller {
     init() {

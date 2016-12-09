@@ -1,9 +1,6 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Repeater} from 'cx/ui/Repeater';
-import {TextField} from 'cx/ui/form/TextField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Button} from 'cx/ui/Button';
-import {Controller as BaseController} from 'cx/ui/Controller';
+import { Repeater, TextField, Checkbox, Button } from 'cx/widgets';
+import { Controller as BaseController } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
 
 class Controller extends BaseController {
     init() {

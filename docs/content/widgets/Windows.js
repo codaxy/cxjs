@@ -1,22 +1,12 @@
+import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, Window, MsgBox } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-import {Content} from 'cx/ui/layout/Content';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {TextField} from 'cx/ui/form/TextField';
-import {DateField} from 'cx/ui/form/DateField';
-import {TextArea} from 'cx/ui/form/TextArea';
-import {Controller} from 'cx/ui/Controller';
-import {Button} from 'cx/ui/Button';
-import {Repeater} from 'cx/ui/Repeater';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
-import {Window} from 'cx/ui/overlay/Window';
-import {MsgBox} from 'cx/ui/overlay/MsgBox';
 
 import configs from './configs/Window';
 

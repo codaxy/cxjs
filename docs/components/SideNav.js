@@ -1,13 +1,6 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {List} from 'cx/ui/List';
-import {Repeater} from 'cx/ui/Repeater';
-import {Text} from 'cx/ui/Text';
-import {Link} from 'cx/ui/nav/Link';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {Menu} from 'cx/ui/nav/Menu';
-import {TreeAdapter} from 'cx/ui/grid/TreeAdapter';
-import {History} from 'cx/app/History';
-import {Url} from 'cx/app/Url';
+import { List, Repeater, Text, Link, Menu, TreeAdapter } from 'cx/widgets';
+import { KeySelection, History, Url } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
 
 
 

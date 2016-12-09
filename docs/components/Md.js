@@ -1,9 +1,8 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {DocumentTitle} from 'cx/ui/DocumentTitle';
+import { DocumentTitle } from 'cx/widgets';
+import { Url, History } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
 import marked from 'marked';
 import {removeCommonIndent} from './removeCommonIndent';
-import {Url} from 'cx/app/Url';
-import {History} from 'cx/app/History';
 
 var renderer = new marked.Renderer();
 

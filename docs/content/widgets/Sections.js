@@ -1,18 +1,13 @@
+import { HtmlElement, MsgBox, Button, Section, FlexRow } from 'cx/widgets';
+import { Content, Heading } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {MsgBox} from 'cx/ui/overlay/MsgBox';
 
-import {Button} from 'cx/ui/Button';
-import {Section} from 'cx/ui/Section';
-import {Heading} from 'cx/ui/Heading';
 
-import {FlexRow} from 'cx/ui/layout/FlexBox';
 
 
 import configs from './configs/Section';

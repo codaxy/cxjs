@@ -1,22 +1,14 @@
+import { HtmlElement, Repeater } from 'cx/widgets';
+import { Svg, Rectangle } from 'cx/svg';
+import { Chart, NumericAxis, Gridlines, LineGraph, Legend, ColorMap, PieChart, PieSlice } from 'cx/charts';
+import { KeySelection } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Repeater} from 'cx/ui/Repeater';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {ColorMap} from 'cx/ui/svg/charts/ColorMap';
 
-import {PieChart, PieSlice} from 'cx/ui/svg/charts/PieChart';
 
 export const Charts = <cx>
    <Md>

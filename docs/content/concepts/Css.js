@@ -1,15 +1,9 @@
+import { Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text } from 'cx/widgets';
+import { Controller } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {TextField} from 'cx/ui/form/TextField';
-import {Select, Option} from 'cx/ui/form/Select';
-import {Repeater} from 'cx/ui/Repeater';
-import {Text} from 'cx/ui/Text';
-import {Controller} from 'cx/ui/Controller';
 
 export const CssPage = <cx>
 

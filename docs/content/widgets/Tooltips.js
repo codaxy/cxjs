@@ -1,13 +1,10 @@
+import { HtmlElement, TextField, Checkbox, Grid } from 'cx/widgets';
+import { Controller } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {TextField} from 'cx/ui/form/TextField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Grid} from 'cx/ui/grid/Grid';
-import {Controller} from 'cx/ui/Controller';
 import {casual} from '../examples/data/casual';
 
 import configs from './configs/Tooltip';

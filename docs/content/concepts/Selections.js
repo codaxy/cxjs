@@ -1,26 +1,15 @@
+import { HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content } from 'cx/widgets';
+import { Controller, PropertySelection, KeySelection } from 'cx/ui';
+import { Svg, Rectangle } from 'cx/svg';
+import { Chart, Gridlines, BubbleGraph, NumericAxis } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-
-import {Repeater} from 'cx/ui/Repeater';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Select, Option} from 'cx/ui/form/Select';
-
-import {Svg} from 'cx/ui/svg/Svg';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {BubbleGraph} from 'cx/ui/svg/charts/BubbleGraph';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Grid} from 'cx/ui/grid/Grid';
 
 
-import {Controller} from 'cx/ui/Controller';
-import {PropertySelection} from 'cx/ui/selection/PropertySelection';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
+
+
 
 
 class PageController extends Controller {

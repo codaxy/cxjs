@@ -1,13 +1,11 @@
+import { HtmlElement, ValidationGroup, TextField } from 'cx/widgets';
+import { LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {ValidationGroup} from 'cx/ui/form/ValidationGroup';
-import {TextField} from 'cx/ui/form/TextField';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
 import configs from './configs/ValidationGroup';
 

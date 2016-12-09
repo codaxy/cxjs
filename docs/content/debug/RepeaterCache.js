@@ -1,22 +1,13 @@
+import { HtmlElement, Repeater, NumberField, Checkbox, Select, LabeledContainer } from 'cx/widgets';
+import { Content, ContentPlaceholder, LabelsLeftLayout, LabelsTopLayout, FirstVisibleChildLayout } from 'cx/ui';
+import { Debug } from 'cx/util';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {ContentPlaceholder} from 'cx/ui/layout/ContentPlaceholder';
 
-import {Repeater} from 'cx/ui/Repeater';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Select} from 'cx/ui/form/Select';
-import {LabeledContainer} from 'cx/ui/form/LabeledContainer';
 
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {LabelsTopLayout} from 'cx/ui/layout/LabelsTopLayout';
-import {FirstVisibleChildLayout} from 'cx/ui/layout/FirstVisibleChildLayout';
 
-import {Debug} from 'cx/util/Debug';
 
 export const RepeaterCache = <cx>
 

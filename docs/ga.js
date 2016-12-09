@@ -1,4 +1,4 @@
-import {Url} from 'cx/app/Url';
+import { Url } from 'cx/ui';
 
 //NOTE: This file will be replaced by the build server
 

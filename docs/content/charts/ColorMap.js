@@ -1,19 +1,13 @@
+import { HtmlElement, Repeater } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Gridlines, NumericAxis, Chart, LineGraph, Legend, ColorMap } from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Repeater} from 'cx/ui/Repeater';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {ColorMap} from 'cx/ui/svg/charts/ColorMap';
 
 import configs from './configs/ColorMap';
 

@@ -1,6 +1,5 @@
-import {Widget, VDOM, getContent} from 'cx/ui/Widget';
-import {PureContainer} from 'cx/ui/PureContainer';
-import {ContentPlaceholder, contentSandbox} from 'cx/ui/layout/ContentPlaceholder';
+import { PureContainer, ContentPlaceholder, contentSandbox } from 'cx/widgets';
+import { Widget, VDOM, getContent } from 'cx/ui';
 import {Md} from './Md';
 
 export class CodeSplit extends Md {

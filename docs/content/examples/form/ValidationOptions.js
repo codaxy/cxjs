@@ -1,19 +1,9 @@
+import { HtmlElement, TextField, ValidationGroup, ValidationError, Checkbox, Grid, PureContainer } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout, FirstVisibleChildLayout, KeySelection } from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {TextField} from 'cx/ui/form/TextField';
-import {ValidationGroup} from 'cx/ui/form/ValidationGroup';
-import {ValidationError} from 'cx/ui/form/ValidationError';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {FirstVisibleChildLayout} from 'cx/ui/layout/FirstVisibleChildLayout';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Grid} from 'cx/ui/grid/Grid';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {PureContainer} from 'cx/ui/PureContainer';
 
 //phone regex: http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
 

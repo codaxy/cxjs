@@ -1,11 +1,11 @@
+import { HtmlElement } from 'cx/widgets';
+import { Heading } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Heading} from 'cx/ui/Heading';
 
 import configs from './configs/Heading';
 

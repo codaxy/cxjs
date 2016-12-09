@@ -1,6 +1,6 @@
-import {VDOM} from 'cx/ui/Widget';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {closest} from 'cx/util/DOM';
+import { HtmlElement } from 'cx/widgets';
+import { closest } from 'cx/util';
+import { VDOM } from 'cx/ui';
 
 export class ScrollReset extends HtmlElement {
 

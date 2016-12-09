@@ -1,13 +1,11 @@
+import { HtmlElement, Checkbox, Overlay } from 'cx/widgets';
+import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Overlay} from 'cx/ui/overlay/Overlay';
 
 import configs from './configs/Overlay';
 

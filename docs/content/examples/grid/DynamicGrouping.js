@@ -1,14 +1,11 @@
+import { HtmlElement, Grid, LookupField } from 'cx/widgets';
+import { Content, Controller } from 'cx/ui';
+import { Format } from 'cx/util';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {Grid} from 'cx/ui/grid/Grid';
-import {LookupField} from 'cx/ui/form/LookupField';
 import {casual} from '../data/casual';
-import {Format} from 'cx/util/Format';
 import plural from 'plural';
 
 class PageController extends Controller {

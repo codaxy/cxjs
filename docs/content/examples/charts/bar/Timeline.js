@@ -1,20 +1,11 @@
+import { HtmlElement, TextField } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg, Rectangle, ClipRect } from 'cx/svg';
+import { Chart, TimeAxis, NumericAxis, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Svg} from 'cx/ui/svg/Svg';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {TimeAxis} from 'cx/ui/svg/charts/axis/TimeAxis';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {ClipRect} from 'cx/ui/svg/ClipRect';
-import {Range} from 'cx/ui/svg/charts/Range';
-import {Marker} from 'cx/ui/svg/charts/Marker';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {ColumnGraph} from 'cx/ui/svg/charts/ColumnGraph';
-import {TextField} from 'cx/ui/form/TextField';
 
 class PageController extends Controller {
     init() {

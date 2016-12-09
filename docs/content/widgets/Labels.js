@@ -1,13 +1,10 @@
+import { HtmlElement, TextField, Checkbox } from 'cx/widgets';
+import { Content, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {TextField} from 'cx/ui/form/TextField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
 import configs from './configs/Label';
 

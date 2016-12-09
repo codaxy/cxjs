@@ -1,15 +1,9 @@
+import { HtmlElement, Button, NumberField, DateField, Calendar } from 'cx/widgets';
+import { Culture, Controller, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Button} from 'cx/ui/Button';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {DateField} from 'cx/ui/form/DateField';
-import {Calendar} from 'cx/ui/form/Calendar';
-import {Culture} from 'cx/ui/Culture';
-import {Controller} from 'cx/ui/Controller';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
 function loadCulture(culture) {
     //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages

@@ -1,12 +1,11 @@
+import { Content } from 'cx/ui';
+import { HtmlElement, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
-import {Content} from 'cx/ui/layout/Content';
 
 import {CodeSnippet} from '../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
 import {Todo} from '../examples/todo/Todo';
-import {Tab} from 'cx/ui/nav/Tab';
 
 export const StepByStep = <cx>
     <Md>

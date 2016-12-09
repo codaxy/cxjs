@@ -1,13 +1,8 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {DocumentTitle} from 'cx/ui/DocumentTitle';
-import {Route} from 'cx/ui/nav/Route';
-import {RedirectRoute} from 'cx/ui/nav/RedirectRoute';
-import {FirstVisibleChildLayout} from 'cx/ui/layout/FirstVisibleChildLayout';
+import { DocumentTitle, Route, RedirectRoute, Sandbox } from 'cx/widgets';
+import { FirstVisibleChildLayout, Controller, Url } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
 import {PageNotFound} from './PageNotFound';
 import {Loading} from './Loading';
-import {Sandbox} from 'cx/ui/Sandbox';
-import {Controller} from 'cx/ui/Controller';
-import {Url} from 'cx/app/Url';
 import {CSS} from '../app/CSS';
 //import {CSSTransitionGroup} from 'cx-react-css-transition-group/src/CSSTransitionGroup';
 import {trackPageView} from '../ga';

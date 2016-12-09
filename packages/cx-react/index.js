@@ -4,5 +4,7 @@ var React = require('react'),
 var vdom = React;
 vdom.DOM = ReactDOM;
 
-module.exports = vdom;
+module.exports = {
+   VDOM: vdom
+};
 

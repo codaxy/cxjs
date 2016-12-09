@@ -1,13 +1,9 @@
+import { HtmlElement, TextField, Checkbox, Grid } from 'cx/widgets';
+import { Content, Controller } from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {TextField} from 'cx/ui/form/TextField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Grid} from 'cx/ui/grid/Grid';
 import {casual} from '../data/casual';
 
 class PageController extends Controller {
