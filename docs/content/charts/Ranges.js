@@ -1,20 +1,13 @@
+import { HtmlElement } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg, Text } from 'cx/svg';
+import { Gridlines, Range, Marker, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Text} from 'cx/ui/svg/Text';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {Range} from 'cx/ui/svg/charts/Range';
-import {Marker} from 'cx/ui/svg/charts/series/Marker';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {Legend} from 'cx/ui/svg/charts/Legend';
 
 import configs from './configs/Range';
 

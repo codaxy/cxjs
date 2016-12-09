@@ -1,15 +1,11 @@
+import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { HtmlElement, Radio, Repeater } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {Content} from 'cx/ui/layout/Content';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Radio} from 'cx/ui/form/Radio';
-import {Controller} from 'cx/ui/Controller';
-import {Repeater} from 'cx/ui/Repeater';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 
 import configs from './configs/Radio';
 

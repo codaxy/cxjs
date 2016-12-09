@@ -8,7 +8,6 @@ export * from '../ui/Sandbox';
 export * from '../ui/Repeater';
 export * from '../ui/Cx';
 export * from '../ui/CxCredit';
-export * from '../ui/layout/FlexBox';
 export * from '../ui/Heading';
 export * from '../ui/Section';
 
@@ -20,7 +19,12 @@ export { Widget };
 import { PureContainer } from '../ui/PureContainer';
 export { PureContainer };
 
+export * from '../ui/layout/Content';
+export * from '../ui/layout/ContentPlaceholder';
+export * from '../ui/layout/FlexBox';
+
 export * from '../ui/overlay/index';
 export * from '../ui/nav/index';
 export * from '../ui/form/index';
 export * from '../ui/grid/index';
+

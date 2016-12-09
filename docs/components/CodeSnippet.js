@@ -1,5 +1,5 @@
-import {Widget, VDOM} from 'cx/ui/Widget';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { HtmlElement } from 'cx/widgets';
+import { Widget, VDOM } from 'cx/ui';
 import {removeCommonIndent} from './removeCommonIndent';
 
 import {highlight} from "illuminate-js";

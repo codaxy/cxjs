@@ -1,19 +1,11 @@
+import { Content, HtmlElement, Checkbox, TextField, NumberField, Select, Option, Repeater, Text } from 'cx/widgets';
+import { LabelsLeftLayout, Controller } from 'cx/ui';
+import { computable } from 'cx/data';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {TextField} from 'cx/ui/form/TextField';
-import {NumberField} from 'cx/ui/form/NumberField';
-import {Select, Option} from 'cx/ui/form/Select';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {store} from '../../app/store';
-import {Repeater} from 'cx/ui/Repeater';
-import {Text} from 'cx/ui/Text';
-import {Controller} from 'cx/ui/Controller';
-import {computable} from 'cx/data/computable';
 
 store.set('intro.core.letterCount', '');
 

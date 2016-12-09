@@ -1,6 +1,6 @@
+import { HtmlElement } from 'cx/widgets';
 import {Md} from '../../components/Md';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
 
 
 export const Versioning = <cx>

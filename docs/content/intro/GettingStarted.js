@@ -1,12 +1,9 @@
+import { HtmlElement, Checkbox, TextField, Text } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {TextField} from 'cx/ui/form/TextField';
-import {Text} from 'cx/ui/Text';
 
 
 export const GettingStarted = <cx>

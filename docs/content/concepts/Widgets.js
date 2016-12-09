@@ -1,9 +1,8 @@
+import { HtmlElement, Content } from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
 
 export const Widgets = <cx>
 

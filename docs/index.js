@@ -1,10 +1,7 @@
-import {Widget} from 'cx/ui/Widget';
+import { startAppLoop, Url, History } from 'cx/ui';
+import { Timing, Debug } from 'cx/util';
+import { Widget } from 'cx/ui';
 import {Main} from './app/Main';
-import {startAppLoop} from 'cx/app/startAppLoop';
-import {Url} from 'cx/app/Url';
-import {History} from 'cx/app/History';
-import {Timing} from 'cx/util/Timing';
-import {Debug} from 'cx/util/Debug';
 import {store} from './app/store';
 import './app/icons';
 import "./index.scss";

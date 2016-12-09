@@ -1,10 +1,8 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
+import { DocumentTitle, PureContainer, Content } from 'cx/widgets';
+import { HtmlElement } from 'cx/widgets';
 import {Layout} from './Layout';
 import {Contents} from '../content/Contents';
 import {ContentRouter} from '../content/ContentRouter';
-import {DocumentTitle} from 'cx/ui/DocumentTitle';
-import {PureContainer} from 'cx/ui/PureContainer';
 
 export const Main = <cx>
    <PureContainer outerLayout={Layout}>

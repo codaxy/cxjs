@@ -1,22 +1,10 @@
+import { HtmlElement, Tab, ValidationGroup, TextField, Checkbox, Button, MsgBox } from 'cx/widgets';
+import { Content, Rescope, LabelsLeftLayout, Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Chart, Gridlines, NumericAxis, BubbleGraph } from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Tab} from 'cx/ui/nav/Tab';
-import {ValidationGroup} from 'cx/ui/form/ValidationGroup';
-import {TextField} from 'cx/ui/form/TextField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Button} from 'cx/ui/Button';
-import {Rescope} from 'cx/ui/Rescope';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {CodeSnippet} from '../../components/CodeSnippet';
-import {Svg} from 'cx/ui/svg/Svg';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {BubbleGraph} from 'cx/ui/svg/charts/BubbleGraph';
-import {Controller} from 'cx/ui/Controller';
-import {MsgBox} from 'cx/ui/overlay/MsgBox';
 
 class PageController extends Controller {
 

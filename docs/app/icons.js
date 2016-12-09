@@ -1,5 +1,5 @@
-import {Icon} from 'cx/ui/icons/Icon';
-import {VDOM} from 'cx/ui/Widget';
+import { VDOM } from 'cx/ui';
+import { Icon } from 'cx/ui';
 
 Icon.registerFactory((name, props) => {
     props = { ...props };

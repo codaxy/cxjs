@@ -1,20 +1,11 @@
+import { HtmlElement, TextField, Checkbox, Grid, TreeNode, TreeAdapter } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout, KeySelection } from 'cx/ui';
+import { ExposedRecordView, Binding } from 'cx/data';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {TextField} from 'cx/ui/form/TextField';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Grid} from 'cx/ui/grid/Grid'
-import {KeySelection} from 'cx/ui/selection/KeySelection';
 import {casual} from '../data/casual';
-import {ExposedRecordView} from 'cx/data/ExposedRecordView';
-import {Binding} from 'cx/data/Binding';
-import {TreeNode} from 'cx/ui/grid/TreeNode';
-import {TreeAdapter} from 'cx/ui/grid/TreeAdapter';
 
 class PageController extends Controller {
    init() {

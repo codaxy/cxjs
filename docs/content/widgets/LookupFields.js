@@ -1,15 +1,11 @@
+import { HtmlElement, Repeater, LookupField } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {Repeater} from 'cx/ui/Repeater';
-import {LookupField} from 'cx/ui/form/LookupField';
-import {LabelsLeftLayout} from 'cx/ui/layout/LabelsLeftLayout';
 import {casual} from '../examples/data/casual';
 
 import configs from './configs/LookupField';

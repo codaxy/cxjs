@@ -1,4 +1,4 @@
-import {Widget, VDOM} from 'cx/ui/Widget';
+import { Widget, VDOM } from 'cx/ui';
 
 class InputWithButton extends VDOM.Component {
     constructor(props){

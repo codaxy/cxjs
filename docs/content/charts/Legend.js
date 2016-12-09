@@ -1,22 +1,14 @@
+import { HtmlElement, Repeater, Text, Grid } from 'cx/widgets';
+import { Controller, KeySelection } from 'cx/ui';
+import { Svg, Rectangle, Line } from 'cx/svg';
+import { PieChart, PieSlice, LegendEntry, ColorMap } from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Repeater} from 'cx/ui/Repeater';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Text} from 'cx/ui/Text';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {Line} from 'cx/ui/svg/Line';
-import {PieChart, PieSlice} from 'cx/ui/svg/charts/PieChart';
-import {LegendEntry} from 'cx/ui/svg/charts/LegendEntry';
-import {ColorMap} from 'cx/ui/svg/charts/ColorMap';
 
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {Grid} from 'cx/ui/grid/Grid';
 
 import legendConfigs from './configs/Legend';
 import legendEntryConfigs from './configs/LegendEntry';

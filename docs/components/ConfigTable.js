@@ -1,6 +1,5 @@
-import {Widget, VDOM} from 'cx/ui/Widget';
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {PureContainer} from 'cx/ui/PureContainer';
+import { HtmlElement, PureContainer } from 'cx/widgets';
+import { Widget, VDOM } from 'cx/ui';
 import {CSS} from '../app/CSS';
 
 export class ConfigTable extends PureContainer {

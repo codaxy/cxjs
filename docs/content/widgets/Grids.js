@@ -1,17 +1,13 @@
+import { HtmlElement, Tab, Grid } from 'cx/widgets';
+import { Content, Controller, KeySelection } from 'cx/ui';
+import { Format } from 'cx/util';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Controller} from 'cx/ui/Controller';
-import {Tab} from 'cx/ui/nav/Tab';
-import {Grid} from 'cx/ui/grid/Grid';
 import {casual} from '../examples/data/casual';
-import {Format} from 'cx/util/Format';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
 import plural from 'plural';
 
 import configs from './configs/Grid';

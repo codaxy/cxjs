@@ -1,7 +1,7 @@
+import { Store } from 'cx/data';
 //import {createAppReducer} from 'cx/app/';
 //import {createStore} from 'redux';
 
-import {Store} from 'cx/data/Store';
 
 export const store = new Store();
 

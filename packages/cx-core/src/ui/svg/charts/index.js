@@ -14,12 +14,11 @@ export * from './MarkerLine';
 export * from './Range';
 export * from './Gridlines';
 
-
-
 export * from './LineGraph';
 export * from './ColumnGraph';
 export * from './BarGraph';
 export * from './ScatterGraph';
+export * from './BubbleGraph';
 
 export * from './shapes';
 

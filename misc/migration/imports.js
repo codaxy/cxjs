@@ -15,10 +15,10 @@ var fs = require('fs'),
 
 
 const srcFiles = [
-   path.resolve(__dirname, '../../themes/**/*.js'),
+   //path.resolve(__dirname, '../../themes/**/*.js'),
    //path.resolve(__dirname, '../../litmus/**/*.js'),
-   //path.resolve(__dirname, '../../docs/**/*.js'),
-   "!dist"
+   path.resolve(__dirname, '../../docs/**/*.js'),
+   "!**/dist"
 ];
 
 var replacements = {
@@ -51,13 +51,13 @@ var replacements = {
    'cx/ui/': 'cx/ui',
 };
 
-var importPattern = /import {(.*)} from ["'](cx.*)["'];?\n?/g;
+var importPattern = /^import {(.*)} from ["'](cx.*)["'];?\n?/gm;
 
 //group imports from the same file
 var group = true;
 
 //do a test run first
-var production = false;
+var production = true;
 
 globby(srcFiles)
    .then(x => {

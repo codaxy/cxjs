@@ -59,7 +59,7 @@ var common = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'app',
             children: true,
-            minChunks: 4
+            minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),

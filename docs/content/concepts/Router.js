@@ -1,11 +1,10 @@
+import { HtmlElement, TextField } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from '../../components/CodeSplit';
 import {MethodTable} from '../../components/MethodTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {TextField} from 'cx/ui/form/TextField';
 
 import routeConfigs from '../widgets/configs/Route';
 import sandboxConfigs from '../widgets/configs/Sandbox';

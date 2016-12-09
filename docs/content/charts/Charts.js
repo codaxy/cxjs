@@ -1,15 +1,12 @@
+import { HtmlElement } from 'cx/widgets';
+import { Svg, Rectangle } from 'cx/svg';
+import { Chart, NumericAxis, Gridlines } from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
 
 import configs from './configs/Chart';
 

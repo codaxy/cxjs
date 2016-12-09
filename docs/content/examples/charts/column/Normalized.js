@@ -1,22 +1,12 @@
+import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { Controller, KeySelection } from 'cx/ui';
+import { Svg, Rectangle, Text } from 'cx/svg';
+import { Gridlines, NumericAxis, CategoryAxis, Chart, Column, Legend } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {CategoryAxis} from 'cx/ui/svg/charts/axis/CategoryAxis';
-import {Grid} from 'cx/ui/grid/Grid';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Column} from 'cx/ui/svg/charts/series/Column';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {Text} from 'cx/ui/svg/Text';
-import {Repeater} from 'cx/ui/Repeater';
-import {KeySelection} from 'cx/ui/selection/KeySelection';
-import {Legend} from 'cx/ui/svg/charts/Legend';
 
 
 

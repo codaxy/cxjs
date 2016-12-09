@@ -1,18 +1,11 @@
+import { HtmlElement, Menu, MenuItem, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
+import { Content, Icon } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Content} from 'cx/ui/layout/Content';
-import {Menu} from 'cx/ui/nav/Menu';
-import {MenuItem} from 'cx/ui/nav/MenuItem';
-import {Submenu} from 'cx/ui/nav/Submenu';
-import {TextField} from 'cx/ui/form/TextField';
-import {DateField} from 'cx/ui/form/DateField';
-import {Checkbox} from 'cx/ui/form/Checkbox';
-import {Icon} from 'cx/ui/icons/Icon';
 
 import configs from './configs/Menu';
 

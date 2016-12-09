@@ -1,5 +1,5 @@
-import {ContentPlaceholder} from 'cx/ui/layout/ContentPlaceholder';
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { HtmlElement } from 'cx/widgets';
+import { ContentPlaceholder } from 'cx/ui';
 import {SearchWindow} from 'docs/components/SearchWindow';
 import {CSS} from './CSS';
 

@@ -1,8 +1,8 @@
+import { HtmlElement } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { updateArray } from 'cx/data';
 import {Md} from '../components/Md'
-import {HtmlElement} from 'cx/ui/HtmlElement';
 import {SideNav} from 'docs/components/SideNav';
-import {Controller} from 'cx/ui/Controller';
-import {updateArray} from 'cx/data/ops/updateArray';
 
 var contents = [{
     topic: 'Introduction',

@@ -1,18 +1,13 @@
+import { HtmlElement, Checkbox } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Gridlines, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Checkbox} from 'cx/ui/form/Checkbox';
 
-import {Svg} from 'cx/ui/svg/Svg';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {LineGraph} from 'cx/ui/svg/charts/LineGraph';
-import {Legend} from 'cx/ui/svg/charts/Legend';
 
 class PageController extends Controller {
    init() {

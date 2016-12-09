@@ -1,4 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { HtmlElement } from 'cx/widgets';
 import {Md} from '../components/Md';
 
 export const PageNotFound = <cx>

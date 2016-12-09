@@ -1,15 +1,11 @@
+import { HtmlElement, Grid, TextField, Select, Pagination } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { getComparer } from 'cx/data';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Grid} from 'cx/ui/grid/Grid';
-import {TextField} from 'cx/ui/form/TextField';
-import {Select} from 'cx/ui/form/Select';
-import {getComparer} from 'cx/data/comparer';
 import {casual} from '../data/casual';
-import {Pagination} from 'cx/ui/grid/Pagination';
 
 class PageController extends Controller {
     init() {

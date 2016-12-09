@@ -1,22 +1,12 @@
+import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { Controller, PropertySelection } from 'cx/ui';
+import { Svg, Rectangle, Text } from 'cx/svg';
+import { Gridlines, Legend, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
+import { getComparer } from 'cx/data';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Controller} from 'cx/ui/Controller';
-import {Svg} from 'cx/ui/svg/Svg';
-import {Gridlines} from 'cx/ui/svg/charts/Gridlines';
-import {Legend} from 'cx/ui/svg/charts/Legend';
-import {NumericAxis} from 'cx/ui/svg/charts/axis/NumericAxis';
-import {CategoryAxis} from 'cx/ui/svg/charts/axis/CategoryAxis';
-import {Grid} from 'cx/ui/grid/Grid';
-import {Chart} from 'cx/ui/svg/charts/Chart';
-import {Bar} from 'cx/ui/svg/charts/series/Bar';
-import {Rectangle} from 'cx/ui/svg/Rectangle';
-import {Text} from 'cx/ui/svg/Text';
-import {Repeater} from 'cx/ui/Repeater';
-import {PropertySelection} from 'cx/ui/selection/PropertySelection';
-import {getComparer} from 'cx/data/comparer';
 import {casual} from 'docs/content/examples/data/casual';
 
 class PageController extends Controller {

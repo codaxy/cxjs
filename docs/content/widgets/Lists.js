@@ -1,15 +1,12 @@
+import { HtmlElement, Text, List } from 'cx/widgets';
+import { Controller, PropertySelection } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Text} from 'cx/ui/Text';
-import {List} from 'cx/ui/List';
-import {Controller} from 'cx/ui/Controller';
 
-import {PropertySelection} from 'cx/ui/selection/PropertySelection';
 
 import configs from './configs/List';
 
