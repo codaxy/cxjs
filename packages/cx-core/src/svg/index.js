@@ -1,9 +1,15 @@
-export * from '../ui/svg/util/index';
-export * from '../ui/svg/BoundedObject';
-export * from '../ui/svg/TextualBoundedObject';
-export * from '../ui/svg/Svg';
-export * from '../ui/svg/Rectangle';
-export * from '../ui/svg/Ellipse';
-export * from '../ui/svg/Line';
-export * from '../ui/svg/Text';
-export * from '../ui/svg/ClipRect';
+export * from './util/index';
+
+export * from './BoundedObject';
+export * from './TextualBoundedObject';
+
+export * from './Svg';
+export * from './Rectangle';
+export * from './ClipRect';
+export * from './Ellipse';
+export * from './Line';
+export * from './Text';
+
+
+
+

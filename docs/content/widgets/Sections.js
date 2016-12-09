@@ -1,14 +1,10 @@
-import { HtmlElement, MsgBox, Button, Section, FlexRow } from 'cx/widgets';
-import { Content, Heading } from 'cx/ui';
+import { HtmlElement, MsgBox, Button, Heading, Section, FlexRow } from 'cx/widgets';
+import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
-
-
-
-
 
 import configs from './configs/Section';
 

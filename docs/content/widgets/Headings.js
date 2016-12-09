@@ -1,5 +1,5 @@
 import { HtmlElement } from 'cx/widgets';
-import { Heading } from 'cx/ui';
+import { Heading } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';

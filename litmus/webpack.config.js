@@ -9,7 +9,7 @@ var common = {
 
    resolve: {
       alias: {
-         'cx-core': path.resolve(path.join(__dirname, '../packages/cx-core')),
+         'cx': path.resolve(path.join(__dirname, '../packages/cx-core/src')),
          'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          litmus: __dirname

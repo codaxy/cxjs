@@ -90,14 +90,11 @@ var entries = [{
 
 var paths = {
    [src('./util/')]: '@/util',
-   [src('./app/')]: '@/ui',
    [src('./data/')]: '@/data',
-   [src('./ui/form')]: '@/widgets',
-   [src('./ui/grid')]: '@/widgets',
-   [src('./ui/nav')]: '@/widgets',
-   [src('./ui/svg/charts')]: '@/charts',
-   [src('./ui/svg/')]: '@/svg',
-   [src('./')]: '@/ui',
+   [src('./ui/')]: '@/ui',
+   [src('./widgets')]: '@/widgets',
+   [src('./charts')]: '@/charts',
+   [src('./svg/')]: '@/svg'
 };
 
 var manifest = {};

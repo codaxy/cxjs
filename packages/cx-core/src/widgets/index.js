@@ -1,15 +1,16 @@
-export * from '../ui/StaticText';
-export * from '../ui/Text';
-export * from '../ui/HtmlElement';
-export * from '../ui/Button';
-export * from '../ui/DocumentTitle';
-export * from '../ui/List';
-export * from '../ui/Sandbox';
-export * from '../ui/Repeater';
-export * from '../ui/Cx';
-export * from '../ui/CxCredit';
-export * from '../ui/Heading';
-export * from '../ui/Section';
+export * from './StaticText';
+export * from './Text';
+export * from './HtmlElement';
+export * from './Button';
+export * from './DocumentTitle';
+export * from './List';
+export * from './Sandbox';
+export * from './Repeater';
+export * from './Cx';
+export * from './CxCredit';
+export * from './Heading';
+export * from './Section';
+export * from './FlexBox';
 
 //re-export
 import { Widget }  from '../ui/Widget';
@@ -21,10 +22,11 @@ export { PureContainer };
 
 export * from '../ui/layout/Content';
 export * from '../ui/layout/ContentPlaceholder';
-export * from '../ui/layout/FlexBox';
 
-export * from '../ui/overlay/index';
-export * from '../ui/nav/index';
-export * from '../ui/form/index';
-export * from '../ui/grid/index';
+
+
+export * from './overlay/index';
+export * from './nav/index';
+export * from './form/index';
+export * from './grid/index';
 

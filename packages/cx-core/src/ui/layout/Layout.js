@@ -1,4 +1,4 @@
-import {Component} from '../../Component';
+import {Component} from '../Component';
 import {contentAppend} from '../Widget';
 import {CSSHelper} from '../CSSHelper';
 

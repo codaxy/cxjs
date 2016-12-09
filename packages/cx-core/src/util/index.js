@@ -19,3 +19,4 @@ export * from './getViewportSize';
 export * from './date/index';
 export * from './color/index';
 export * from './getVendorPrefix';
+export * from './eventCallbacks';

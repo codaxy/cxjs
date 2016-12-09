@@ -1,0 +1,75 @@
+@import "../ui/variables";
+@import "../util/scss/include";
+
+//https://www.materialui.co/colors
+//normal:200 900
+//hover:100 700
+//selected: 300 900
+//disabled: 0 100
+
+$cx-default-palette-colors: rgba(244,67,54,1) rgba(233,30,99,1) rgba(156,39,176,1)
+rgba(103,58,183,1) rgba(63,81,181,1) rgba(33,150,243,1) rgba(3,169,244,1)
+rgba(0,188,212,1) rgba(0,150,136,1) rgba(76,175,80,1) rgba(139,195,74,1)
+rgba(205,220,57,1) rgba(255,235,59,1) rgba(255,193,7,1) rgba(255,152,0,1)
+rgba(255,87,34,1);
+
+$cx-default-palette-fill-whiten: 60% !default;
+$cx-default-palette-fill-hover-whiten: 50% !default;
+$cx-default-palette-fill-selected-whiten: 20% !default;
+$cx-default-palette-fill-disabled-whiten: 90% !default;
+$cx-default-palette-stroke-blacken: 10% !default;
+
+@mixin cx-palette(
+   $palette-colors: $cx-default-palette-colors,
+   $palette-fill-whiten: $cx-default-palette-fill-whiten,
+   $palette-fill-hover-whiten: $cx-default-palette-fill-hover-whiten,
+   $palette-fill-selected-whiten: $cx-default-palette-fill-selected-whiten,
+   $palette-fill-disabled-whiten: $cx-default-palette-fill-disabled-whiten,
+   $palette-stroke-blacken: $cx-default-palette-stroke-blacken,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   @for $i from 1 through length($palette-colors) {
+
+      $c: nth($palette-colors, 1 + (($i - 1) * 1) % length($palette-colors));
+
+      .#{$state}color-#{$i - 1} {
+         fill: cx-whiten($c, $palette-fill-whiten);
+         stroke: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-stroke-blacken);
+
+         background: cx-whiten($c, $palette-fill-whiten);
+         border-color: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-stroke-blacken);
+
+         &.#{$state}selectable:hover {
+            fill: cx-whiten($c, $palette-fill-hover-whiten);
+            stroke: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
+
+            background: cx-whiten($c, $palette-fill-hover-whiten);
+            border-color: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
+         }
+
+         &.#{$state}selected, &.#{$state}selected:hover {
+            fill: cx-whiten($c, $palette-fill-selected-whiten);
+            stroke: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
+
+            background: cx-whiten($c, $palette-fill-selected-whiten);
+            border-color: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
+         }
+
+         &.#{$state}disabled {
+            fill: cx-whiten($c, $palette-fill-disabled-whiten);
+            stroke: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
+
+            background: cx-whiten($c, $palette-fill-disabled-whiten);
+            border-color: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
+         }
+      }
+   }
+}
+
+@if (cx-include('cx/charts/pallete')) {
+   @include cx-palette();
+}

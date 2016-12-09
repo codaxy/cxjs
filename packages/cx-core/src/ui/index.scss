@@ -1,13 +1,13 @@
-@import 'Button';
-@import 'List';
-@import "CxCredit";
-@import 'Section';
-@import 'Heading';
+@import '../widgets/Button';
+@import '../widgets/List';
+@import "../widgets/CxCredit";
+@import '../widgets/Section';
+@import '../widgets/Heading';
 
-@import "icons/index";
-@import 'form/index';
-@import 'nav/index';
+@import "../icons/index";
+@import '../widgets/form/index';
+@import '../widgets/nav/index';
 @import 'layout/index';
-@import 'overlay/index';
-@import 'svg/index';
-@import 'grid/index';
+@import '../widgets/overlay/index';
+@import '../svg/index';
+@import '../widgets/grid/index';

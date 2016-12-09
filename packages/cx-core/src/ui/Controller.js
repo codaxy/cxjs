@@ -1,6 +1,6 @@
 import {computable} from '../data/computable';
 import {Binding} from '../data/Binding';
-import {Component} from '../Component';
+import {Component} from './Component';
 
 export class Controller extends Component {
 

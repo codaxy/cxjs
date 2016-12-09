@@ -1,7 +1,7 @@
 import {Widget} from './Widget';
-import {StaticText} from './StaticText';
+import {StaticText} from '../widgets/StaticText';
 import {Layout} from './layout/Layout';
-import {Text} from './Text';
+import {Text} from '../widgets/Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 import {parseStyle} from '../util/parseStyle';
 
@@ -55,7 +55,6 @@ export class PureContainer extends Widget {
       this.layout.cleanup(context, instance)
       super.cleanup(context, instance);
    }
-
 
    renderChildren(context, instance, keyPrefix) {
       return this.layout.render(context, instance, keyPrefix)
