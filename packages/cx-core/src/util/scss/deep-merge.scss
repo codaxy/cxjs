@@ -1,0 +1,18 @@
+@function cx-deep-map-merge($parent-map, $child-map) {
+	$result: $parent-map;
+	@each $key, $value in $child-map {
+		//If the parent map does not have the child map's key, or
+		//If their type don't match, or
+		//If they are not both maps,
+		@if (not map-has-key($result, $key)) or (type-of(map-get($result, $key)) != type-of($value)) or (not (type-of(map-get($result, $key)) == map and type-of($value) == map)) {
+			//Simply add that key to the parent map.
+			$result: map-merge($result, ($key: $value));
+		}
+		@else {
+			//If they are both maps, we need another non-destructive merger.
+			//Recursive, yay!
+			$result: map-merge($result, ($key: cx-deep-map-merge(map-get($result, $key), $value)));
+		}
+	}
+	@return $result;
+}

@@ -3,13 +3,16 @@
 
 $cx-section-styles: () !default;
 
-$cx-section-well: (
-   background: rgba(255, 255, 255, 0.9),
-   border-radius: 3px,
+$cx-section-mods: (
+   well: (
+         background-color: rgba(255, 255, 255, 0.9),
+         border-radius: 3px
+   )
 ) !default;
 
 @mixin cx-section(
    $name: 'section',
+   $mods: $cx-section-mods,
    $besm: $cx-besm
 ) {
 
@@ -26,7 +29,7 @@ $cx-section-well: (
       @include cx-add-rules($cx-section-styles);
 
       &.cxm-well {
-         @include cx-add-rules($cx-section-well);
+         @include cx-add-state-rules($mods, well);
       }
    }
 
