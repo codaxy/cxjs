@@ -13,7 +13,7 @@ export const Menus = <cx>
     <Md>
         # Menu
 
-        <ImportPath path={"import {Menu} from 'cx/ui/nav/Menu';"}></ImportPath>
+        <ImportPath path="import { Menu, Submenu, MenuItem } from 'cx/widgets';" />
 
         <CodeSplit>
 

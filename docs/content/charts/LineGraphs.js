@@ -6,7 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/LineGraph';
@@ -29,6 +29,8 @@ class PageController extends Controller {
 export const LineGraphs = <cx>
    <Md>
       # Line Graphs
+
+      <ImportPath path="import {LineGraph} from 'cx/charts';" />
 
       Line charts are commonly used to visualize trends in data.
 

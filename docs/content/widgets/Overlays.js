@@ -31,7 +31,7 @@ export const Overlays = <cx>
    <Md>
       # Overlay
 
-      <ImportPath path={"import {Overlay} from 'cx/ui/overlay/Overlay';"}></ImportPath>
+      <ImportPath path="import {Overlay} from 'cx/widgets';" />
 
       Overlays are page elements which are displayed on top of the main UI. Overlays include windows,
       message boxes, dropdowns, tooltips, etc. Overlays may be defined in the widget tree context or opened

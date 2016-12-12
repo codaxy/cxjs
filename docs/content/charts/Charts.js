@@ -5,6 +5,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -13,6 +14,8 @@ import configs from './configs/Chart';
 export const Charts = <cx>
    <Md>
       # Charts
+
+      <ImportPath path="import {Chart} from 'cx/charts';" />
 
       The `Chart` widget is used to define axes and bounds for two dimensional charts such as line, scatter, bar and column charts.
 

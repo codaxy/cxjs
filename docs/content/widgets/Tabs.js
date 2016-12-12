@@ -1,4 +1,4 @@
-import { HtmlElement, Tab, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
+import { HtmlElement, Tab, TextField, DateField, Checkbox } from 'cx/widgets';
 import { Content, Controller } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -21,7 +21,7 @@ export const Tabs = <cx>
    <Md>
       # Tabs
 
-      <ImportPath path={"import {Tab} from 'cx/ui/nav/Tab';"}></ImportPath>
+      <ImportPath path="import {Tab} from 'cx/widgets';" />
 
       Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
       to radio buttons. Tabs are selected on click and only one tab may be active at a time.

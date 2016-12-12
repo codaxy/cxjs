@@ -13,7 +13,7 @@ export const Calendars = <cx>
    <Md>
       # Calendar
 
-      <ImportPath path={"import {Calendar} from 'cx/ui/form/Calendar';"} />
+      <ImportPath path="import {Calendar} from 'cx/widgets';" />
 
       <CodeSplit>
 

@@ -6,6 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -29,6 +30,8 @@ class PageController extends Controller {
 export const Ranges = <cx>
    <Md>
       # Range
+
+      <ImportPath path="import {Range} from 'cx/charts';" />
 
       The `Range` component can be used to highlight important zones on the chart.
 

@@ -6,6 +6,7 @@ import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import {casual} from 'docs/content/examples/data/casual';
@@ -30,6 +31,8 @@ export const ColumnGraphs = <cx>
     <Md>
         <CodeSplit>
             # ColumnGraph
+
+            <ImportPath path="import {ColumnGraph} from 'cx/charts';" />
 
             The `ColumnGraph` widget is used to display a serie of vertical bars.
 

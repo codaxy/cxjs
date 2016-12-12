@@ -37,7 +37,7 @@ export const LookupFields = <cx>
 
             # Lookups
 
-            <ImportPath path={"import {LookupField} from 'cx/ui/form/LookupField';"}></ImportPath>
+            <ImportPath path="import {LookupField} from 'cx/widgets';" />
 
             The `LookupField` control offers selection from a list of available options.
             It is very similar to the well-known HTML `select` element, however it offers a few additional

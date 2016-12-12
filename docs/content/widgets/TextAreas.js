@@ -12,7 +12,7 @@ export const TextAreas = <cx>
    <Md>
       # Text Area
 
-      <ImportPath path={"import {TextArea} from 'cx/ui/form/TextArea';"}></ImportPath>
+      <ImportPath path="import {TextArea} from 'cx/widgets';" />
 
       The `TextArea` control is used for larger text inputs. Besides allowing multi-line input, it's practically
       the same as the `TextField` control.

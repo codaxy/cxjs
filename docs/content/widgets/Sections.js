@@ -12,7 +12,7 @@ export const Sections = <cx>
     <Md>
         # Section
 
-        <ImportPath path={"import {Section} from 'cx/ui/Section';"}/>
+        <ImportPath path="import {Section} from 'cx/widgets';" />
 
         Sections are used to divide a larger body into distinct parts. A section optionally may have a header (title)
         and a footer.

@@ -19,7 +19,7 @@ export const Checkboxes = <cx>
     <Md>
         # Checkbox
 
-      <ImportPath path={"import {Checkbox} from 'cx/ui/form/Checkbox';"} />
+      <ImportPath path="import {Checkbox} from 'cx/widgets';" />
 
       Checkbox is a commonly used widget for expressing binary choices.
 

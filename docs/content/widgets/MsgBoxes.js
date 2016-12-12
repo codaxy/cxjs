@@ -12,7 +12,7 @@ export const MsgBoxes = <cx>
    <Md>
       # MsgBox
 
-      <ImportPath path={"import {MsgBox} from 'cx/ui/overlay/MsgBox';"}></ImportPath>
+      <ImportPath path="import {MsgBox} from 'cx/widgets';" />
 
       The `MsgBox` class provides utility methods for displaying alerts and confirmation windows.
 

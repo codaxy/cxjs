@@ -26,7 +26,7 @@ export const Links = <cx>
    <Md>
       # Links
 
-      <ImportPath path={"import {Link} from 'cx/ui/nav/Link';"} />
+      <ImportPath path="import {Link} from 'cx/widgets';" />
 
       Links are used for `pushState` navigation between pages.
 

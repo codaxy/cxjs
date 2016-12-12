@@ -14,7 +14,7 @@ export const Sliders = <cx>
     <Md>
         # Slider
 
-        <ImportPath path={"import {Slider} from 'cx/ui/form/Slider';"}></ImportPath>
+        <ImportPath path="import {Slider} from 'cx/widgets';" />
 
         The `Slider` widget allow selecting numerical values by dragging the slider handle.
 

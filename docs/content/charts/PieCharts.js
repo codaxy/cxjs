@@ -6,7 +6,7 @@ import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -29,6 +29,8 @@ export const PieCharts = <cx>
    <Md>
       <CodeSplit>
          # Pie Charts
+
+         <ImportPath path="import { PieChart, PieSlice } from 'cx/charts';" />
 
          Pie charts are commonly used to compare parts to the whole. In Cx, pie charts are implemented using `PieChart` and
          `PieSlice`.

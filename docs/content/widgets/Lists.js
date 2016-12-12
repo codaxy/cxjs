@@ -1,5 +1,5 @@
-import {HtmlElement, Text, List} from 'cx/widgets';
-import {Controller, PropertySelection} from 'cx/ui';
+import { HtmlElement, Text, List } from 'cx/widgets';
+import { Controller, PropertySelection } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -24,7 +24,7 @@ export const Lists = <cx>
     <Md controller={PageController}>
         # Lists
 
-        <ImportPath path={"import {List} from 'cx/ui/List';"}></ImportPath>
+      <ImportPath path="import {List} from 'cx/widgets';" />
 
         <CodeSplit>
 

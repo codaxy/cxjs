@@ -6,7 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/ColorMap';
@@ -34,6 +34,8 @@ export const ColorMapPage = <cx>
         <CodeSplit>
 
             # ColorMap
+
+            <ImportPath path="import {ColorMap} from 'cx/charts';" />
 
             The `ColorMap` widget is used to assign colors based on names. This comes very handy when the number
             of elements on the chart is not known upfront.

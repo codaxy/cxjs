@@ -6,7 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -30,6 +30,8 @@ export const LegendPage = <cx>
         <CodeSplit>
 
             # Legend
+
+            <ImportPath path="import { Legend, LegendEntry } from 'cx/charts';" />
 
             The `Legend` widget is used to display an index of elements displayed on the chart.
             Please refer to
@@ -99,7 +101,7 @@ export const LegendPage = <cx>
 
 
             <CodeSnippet putInto="code" lang="html">{`
-                // There is performance problem with code higlighting of this snippet so lang is set to js instead of jsx.
+                // There is a performance issue with code higlighting of this snippet, so lang is set to html instead of jsx.
 
                 class PageController extends Controller {
                     init() {

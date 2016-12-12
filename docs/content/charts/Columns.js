@@ -6,6 +6,7 @@ import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import {casual} from 'docs/content/examples/data/casual';
@@ -28,6 +29,8 @@ class PageController extends Controller {
 export const Columns = <cx>
    <Md controller={PageController}>
       # Column
+
+      <ImportPath path="import {Column} from 'cx/charts';" />
 
       <CodeSplit>
 

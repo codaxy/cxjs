@@ -5,6 +5,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -13,6 +14,8 @@ import configs from './configs/Gridlines';
 export const GridlinesPage = <cx>
     <Md>
         # Gridlines
+
+        <ImportPath path="import {Gridlines} from 'cx/charts';" />
 
         The `Gridlines` widget is used to draw horizontal and vertical gridlines, usually in the chart backgrounds.
         Beside aesthetics, gridlines make it easier to read axis values.

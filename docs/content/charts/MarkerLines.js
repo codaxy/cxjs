@@ -6,7 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/MarkerLine'
@@ -47,6 +47,8 @@ export const MarkerLines = <cx>
    <Md>
       <CodeSplit>
          # MarkerLine
+
+         <ImportPath path="import {MarkerLine} from 'cx/charts';" />
 
          Marker lines can be used to highlight important values such as minimum or maximum.
          
