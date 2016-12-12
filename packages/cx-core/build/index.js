@@ -102,11 +102,11 @@ var manifest = {};
 
 var all = entries.map(function(e) {
 
-   if (e.name != 'widgets')
-      return null;
+   // if (e.name != 'widgets')
+   //    return null;
 
    var options = Object.assign({
-      //treeshake: false,
+      treeshake: true,
       sourceMap:  true,
       external: function (id) {
 
@@ -120,8 +120,8 @@ var all = entries.map(function(e) {
                return true;
 
             default:
-               console.log(id);
-               return id[0] == '@'
+              //console.log('ISEXTERNAL', id);
+              return id[0] == '@';
          }
       },
       plugins: [

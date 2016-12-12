@@ -10,7 +10,7 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
 import {Localization} from '../../ui/Localization';
-import '../../icons/calendar';
+import CalendarIcon from '../../icons/calendar';
 import {Icon} from '../../ui/Icon';
 import ClearIcon from '../../icons/clear';
 

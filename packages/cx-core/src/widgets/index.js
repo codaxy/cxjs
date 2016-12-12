@@ -1,14 +1,11 @@
-import {
-   Widget,
-   Text,
-   StaticText,
-   PureContainer,
-   Content,
-   ContentPlaceholder,
-   Rescope,
-   Repeater
-}
-from '../ui/index';
+import {Widget} from '../ui/Widget';
+import {Text} from '../ui/Text';
+import {StaticText} from '../ui/StaticText';
+import {PureContainer} from '../ui/PureContainer';
+import {Content} from '../ui/Content';
+import {ContentPlaceholder} from '../ui/ContentPlaceholder';
+import {Rescope} from '../ui/Rescope';
+import {Repeater} from '../ui/Repeater';
 
 //re-export widgets defined in ui namespace
 export {
