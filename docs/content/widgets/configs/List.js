@@ -26,5 +26,13 @@ export default {
       description: <cx><Md>
          Selection configuration. See [Selections](~/concepts/selections) for more details.
       </Md></cx>
-   }
+   },
+
+    grouping: {
+        type: 'config',
+        key: true,
+        description: <cx><Md>
+            Grouping configuration. Check [the example](~/examples/list/grouping) for more information.
+        </Md></cx>
+    },
 };

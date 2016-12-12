@@ -56,7 +56,6 @@ export class GroupAdapter extends ArrayAdapter {
          });
 
          var group = {
-            type: 'group-header',
             key: keys.map(key=>Object.keys(key).map(k=>key[k]).join(':')).join('|'),
             data: gr.records[0],
             group: $group,
@@ -66,14 +65,19 @@ export class GroupAdapter extends ArrayAdapter {
          };
 
          if (grouping.includeHeader !== false)
-            result.push(group);
+            result.push({
+               ...group,
+               type: 'group-header',
+               key: 'header:' + group.key
+            });
 
          this.processLevel(keys, gr.records, result, groupStore);
 
          if (grouping.includeFooter !== false)
             result.push({
                ...group,
-               type: 'group-footer'
+               type: 'group-footer',
+               key: 'footer:' + group.key
             });
 
 
@@ -113,4 +117,3 @@ export class GroupAdapter extends ArrayAdapter {
 }
 
 GroupAdapter.prototype.groupName = '$group';
-GroupAdapter.prototype.includeFooter = true;
