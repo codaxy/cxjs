@@ -101,4 +101,21 @@ export default {
             Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc.
         </Md></cx>
     },
+    fetchAll: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            If `true` `onQuery` will be called only once to fetch all options.
+            After that options are filtered client-side.
+        </Md></cx>
+    },
+    cacheAll: {
+        type: 'boolean',
+        key: false,
+        description: <cx><Md>
+            If this flag is set along with `fetchAll`, fetched options
+            are cached for the lifetime of the widget. Otherwise, data is fetched
+            whenever the dropdown is shown.
+        </Md></cx>
+    }
 };

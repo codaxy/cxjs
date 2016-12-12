@@ -34,7 +34,9 @@
          $placeholder: $placeholder,
          $input: false,
          $overrides: (
-            padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, -$cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding)
+            default: (
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding)
+            )
          )
       );
 

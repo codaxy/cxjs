@@ -151,6 +151,8 @@ LookupField.prototype.optionTextField = 'text';
 LookupField.prototype.valueIdField = 'id';
 LookupField.prototype.valueTextField = 'text';
 LookupField.prototype.suppressErrorTooltipsUntilVisited = true;
+LookupField.prototype.fetchAll = false;
+LookupField.prototype.cacheAll = false;
 
 Widget.alias('lookupfield', LookupField)
 
@@ -621,6 +623,9 @@ class LookupComponent extends VDOM.Component {
             cursorKey: null,
             visited: true
          });
+
+      //delete results valid only while dropdown is open
+      delete this.tmpCachedResult;
    }
 
    openDropdown(e) {
@@ -636,6 +641,13 @@ class LookupComponent extends VDOM.Component {
    }
 
    query(q) {
+      /*
+       In fetchAll mode onQuery should fetch all data and after
+       that everything is done filtering is done client-side.
+       If cacheAll is set results are cached for the lifetime of the
+       widget, otherwise cache is invalidated when dropdown closes.
+       */
+
       var {widget, data} = this.props.instance;
 
       if (this.queryTimeoutId)
@@ -659,15 +671,37 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (this.props.onQuery) {
-         this.setState({
-            status: "loading"
-         });
 
-         this.queryTimeoutId = setTimeout(()=> {
+         let {queryDelay, fetchAll, cacheAll} = widget;
+
+         if (!fetchAll) {
+            q = '';
+            queryDelay = 0;
+         }
+
+         if (!this.cachedResult && !this.tmpCachedResult) {
+            this.setState({
+               status: "loading"
+            });
+         }
+
+         this.queryTimeoutId = setTimeout(() => {
             delete this.queryTimeoutId;
-            var result = this.props.onQuery(q, this.props.instance);
+
+            let result = this.tmpCachedResult || this.cachedResult || this.props.onQuery(q, this.props.instance);
+
             Promise.resolve(result)
                .then((results) => {
+
+                  if (fetchAll) {
+                     if (cacheAll)
+                        this.cachedResult = results;
+                     else
+                        this.tmpCachedResult = results;
+
+                     results = widget.filterOptions(this.props.instance, results, q);
+                  }
+
                   this.setState({
                      options: results,
                      cursorKey: this.suggestCursorKey(results),
@@ -678,7 +712,7 @@ class LookupComponent extends VDOM.Component {
                   this.setState({status: "error"});
                   Console.log("Lookup query error:", err);
                })
-         }, widget.queryDelay);
+         }, queryDelay);
       }
    }
 

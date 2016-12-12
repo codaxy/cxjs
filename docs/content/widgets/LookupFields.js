@@ -1,5 +1,5 @@
-import { HtmlElement, Repeater, LookupField } from 'cx/widgets';
-import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import {HtmlElement, Repeater, LookupField} from 'cx/widgets';
+import {Content, Controller, LabelsLeftLayout} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -14,9 +14,9 @@ class PageController extends Controller {
     init() {
         super.init();
 
-        this.store.set('$page.options5', Array.from({length: 5}).map((v, i)=>({id: i, text: `Option ${i + 1}`})));
+        this.store.set('$page.options5', Array.from({length: 5}).map((v, i) => ({id: i, text: `Option ${i + 1}`})));
 
-        this.store.set('$page.options10', Array.from({length: 10}).map((v, i)=>({id: i, text: `Option ${i + 1}`})));
+        this.store.set('$page.options10', Array.from({length: 10}).map((v, i) => ({id: i, text: `Option ${i + 1}`})));
     }
 
     query(q) {
@@ -26,7 +26,7 @@ class PageController extends Controller {
 
         var regex = new RegExp(q, 'gi');
         return new Promise((resolve) => {
-            setTimeout(()=> resolve(this.cityDb.filter(x=>x.text.match(regex))), 100);
+            setTimeout(() => resolve(this.cityDb.filter(x => x.text.match(regex))), 100);
         });
     }
 }
@@ -52,17 +52,37 @@ export const LookupFields = <cx>
 
             <div class="widgets" controller={PageController}>
                 <div layout={LabelsLeftLayout}>
-                    <LookupField label="Limited Options" value:bind="$page.s5.id" text:bind="$page.s5.text"
-                                 options:bind="$page.options5"/>
-                    <LookupField label="Many Options" records:bind="$page.s10" options:bind="$page.options10" multiple/>
-                    <LookupField label="Many Options" values:bind="$page.s10ids" options:bind="$page.options10"
-                                 multiple/>
+                    <LookupField
+                        label="Select"
+                        value:bind="$page.s5.id"
+                        text:bind="$page.s5.text"
+                        options:bind="$page.options5"/>
+                    <LookupField
+                        label="MultiSelect"
+                        records:bind="$page.s10"
+                        options:bind="$page.options10"
+                        multiple/>
+                    <LookupField
+                        label="Records"
+                        values:bind="$page.s10ids"
+                        options:bind="$page.options10"
+                        multiple/>
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <LookupField label="Remote Data"
-                                 records:bind="$page.selectedCities"
-                                 onQuery={(q, {controller}) => controller.query(q)} multiple/>
+                    <LookupField
+                        label="Remote Data"
+                        records:bind="$page.selectedCities"
+                        onQuery="query"
+                        multiple/>
+
+                    <LookupField
+                        label="Local Filter"
+                        records:bind="$page.selectedCities2"
+                        onQuery="query"
+                        fetchAll
+                        cacheAll
+                        multiple/>
                 </div>
             </div>
 
@@ -132,12 +152,37 @@ export const LookupFields = <cx>
              ...
             <div class="widgets" controller={PageController}>
                 <div layout={LabelsLeftLayout}>
-                    <LookupField label="Limited Options" value:bind="$page.s5.id" text:bind="$page.s5.text" options:bind="$page.options5" />
-                    <LookupField label="Many Options" records:bind="$page.s10" options:bind="$page.options10" multiple />
-                    <LookupField label="Many Options" values:bind="$page.s10ids" options:bind="$page.options10" multiple />
+                    <LookupField
+                        label="Select"
+                        value:bind="$page.s5.id"
+                        text:bind="$page.s5.text"
+                        options:bind="$page.options5"/>
+                    <LookupField
+                        label="MultiSelect"
+                        records:bind="$page.s10"
+                        options:bind="$page.options10"
+                        multiple/>
+                    <LookupField
+                        label="Records"
+                        values:bind="$page.s10ids"
+                        options:bind="$page.options10"
+                        multiple/>
+
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <LookupField label="Remote Data" records:bind="$page.selectedCities" onQuery={(q, {controller}) => controller.query(q)} multiple />
+                    <LookupField
+                        label="Remote Data"
+                        records:bind="$page.selectedCities"
+                        onQuery="query"
+                        multiple/>
+
+                    <LookupField
+                        label="Local Filter"
+                        records:bind="$page.selectedCities2"
+                        onQuery="query"
+                        fetchAll
+                        cacheAll
+                        multiple/>
                 </div>
             </div>
             `}</CodeSnippet>
