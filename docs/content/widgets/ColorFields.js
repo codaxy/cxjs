@@ -12,7 +12,7 @@ export const ColorFields = <cx>
     <Md>
         # ColorField
 
-        <ImportPath path={"import {ColorField} from 'cx/ui/form/ColorField';"} />
+        <ImportPath path="import {ColorField} from 'cx/widgets';" />
 
         The `ColorField` widget is used for selecting colors.
 

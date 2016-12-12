@@ -13,7 +13,7 @@ export const DateFields = <cx>
    <Md>
       # Date Field
 
-      <ImportPath path={"import {DateField} from 'cx/ui/form/DateField';"} />
+      <ImportPath path="import {DateField} from 'cx/widgets';" />
 
       Date field control is used for selecting dates. It supports textual input and picking
       from a dropdown.

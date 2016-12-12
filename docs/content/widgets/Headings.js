@@ -1,5 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
-import { Heading } from 'cx/widgets';
+import { HtmlElement, Heading } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -13,7 +12,7 @@ export const Headings = <cx>
     <Md>
         # Heading
 
-        <ImportPath path={"import {Heading} from 'cx/ui/Heading';"}/>
+        <ImportPath path="import {Heading} from 'cx/widgets';" />
 
         The `Heading` widget renders a classic HTML heading (h1, h2, h3, ...) without any margin or padding. This is
         very convenient for window or section headers.

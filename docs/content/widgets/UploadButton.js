@@ -35,7 +35,7 @@ export const UploadButtonPage = <cx>
     <Md>
         # Upload Button
 
-        <ImportPath path={"import {UploadButton} from 'cx/ui/form/UploadButton';"} />
+        <ImportPath path="import {UploadButton} from 'cx/widgets';" />
 
         <CodeSplit>
 

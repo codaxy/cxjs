@@ -31,7 +31,7 @@ export const Toasts = <cx>
     <Md>
         # Toast
 
-        <ImportPath path="import {MsgBox} from 'cx/ui/overlay/Toast';"></ImportPath>
+       <ImportPath path="import {Toast} from 'cx/widgets';" />
 
         <CodeSplit>
 

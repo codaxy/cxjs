@@ -1,4 +1,4 @@
-import { HtmlElement, MsgBox, Button, Section, Repeater, FlexRow } from 'cx/widgets';
+import { HtmlElement, MsgBox, Button, Section, Repeater, FlexRow, FlexBox } from 'cx/widgets';
 import { Content, Heading } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -9,14 +9,13 @@ import {ImportPath} from '../../components/ImportPath';
 
 
 
-
 import configs from './configs/FlexBox';
 
 export const FlexBoxPage = <cx>
     <Md>
         # FlexBox
 
-        <ImportPath path={"import {Section} from 'cx/ui/layout/FlexBox';"}/>
+        <ImportPath path={"import { FlexBox, FlexRow, FlexCol } from 'cx/widgets';"}/>
 
         `FlexBox` is a convenience widget for setting up simple flex-box based layouts. `FlexBox` provides
         a number of shortcut options which make it easy to justify, align or add spacing to the content.
@@ -173,6 +172,7 @@ export const FlexBoxPage = <cx>
         > `FlexRow = FlexBox + direction="row"`
 
         > `FlexCol = FlexBox + direction="column"`
+        
 
         ## Configuration
 

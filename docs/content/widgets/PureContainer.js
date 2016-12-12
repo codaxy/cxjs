@@ -13,7 +13,7 @@ export const PureContainer = <cx>
    <Md>
       # PureContainer
 
-      <ImportPath path={"import {PureContainer} from 'cx/ui/PureContainer';"}></ImportPath>
+      <ImportPath path="import {PureContainer} from 'cx/widgets';" />
 
       The `PureContainer` component does not render a top-level HTML element and therefore doesn't have any visual
       attributes. It outputs its children, however, the container provides a good place to control

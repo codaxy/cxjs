@@ -4,7 +4,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 import configs from './configs/Svg';
 
@@ -12,6 +12,8 @@ import configs from './configs/Svg';
 export const Svgs = <cx>
     <Md>
         # SVG
+
+        <ImportPath path="import {Svg} from 'cx/svg';" />
 
         <CodeSplit>
 

@@ -31,7 +31,7 @@ export const LegendPage = <cx>
 
             # Legend
 
-            <ImportPath path="import {LegendEntry} from 'cx/charts';" />
+            <ImportPath path="import { Legend, LegendEntry } from 'cx/charts';" />
 
             The `Legend` widget is used to display an index of elements displayed on the chart.
             Please refer to

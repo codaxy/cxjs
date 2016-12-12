@@ -16,7 +16,7 @@ export const Windows = <cx>
    <Md>
       # Windows
 
-      <ImportPath path={"import {Window} from 'cx/ui/overlay/Window';"} />
+      <ImportPath path="import {Window} from 'cx/widgets';" />
 
       Windows are overlays with headers, footers and special appearance.
 

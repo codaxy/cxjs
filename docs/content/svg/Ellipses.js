@@ -4,7 +4,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/Rectangle';
@@ -12,6 +12,8 @@ import configs from './configs/Rectangle';
 export const Ellipses = <cx>
     <Md>
         # Ellipse
+
+        <ImportPath path="import {Ellipse} from 'cx/svg';" />
 
         Ellipse is a Cx version of SVG `ellipse` object which can be used in responsive scenarios.
 

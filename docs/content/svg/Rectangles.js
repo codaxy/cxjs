@@ -4,7 +4,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/Rectangle';
@@ -12,6 +12,8 @@ import configs from './configs/Rectangle';
 export const Rectangles = <cx>
    <Md>
       # Rectangle
+
+      <ImportPath path="import {Rectangle} from 'cx/svg';" />
 
       Rectangle is a Cx version of SVG `rect` object which can be used in responsive scenarios.
 

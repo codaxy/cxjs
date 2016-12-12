@@ -4,7 +4,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import configs from './configs/Line';
@@ -12,6 +12,8 @@ import configs from './configs/Line';
 export const Lines = <cx>
     <Md>
         # Line
+
+        <ImportPath path="import {Line} from 'cx/svg';" />
 
         The `Line` widget is a Cx version of SVG `line` element which can be used in responsive scenarios.
         Line is always rendered from the top-left corner to the bottom-right corner.
