@@ -51,7 +51,7 @@
       }
 
       &.#{$state}cursor {
-         @include cx-add-state-rules($cx-list, hover);
+         @include cx-add-state-rules($cx-list-item, hover);
 
          .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
             @include cx-add-state-rules($cx-list-item, hover-focus);

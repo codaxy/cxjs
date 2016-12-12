@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {ArrayAdapter} from '../ui/adapter/ArrayAdapter';
+import {GroupAdapter} from '../ui/adapter/GroupAdapter';
 import {Binding} from '../data/Binding';
 import {Selection} from '../ui/selection/Selection';
 import {KeyCode} from '../util/KeyCode';
@@ -18,7 +18,7 @@ import {FocusManager, oneFocusOut, offFocusOut} from '../ui/FocusManager';
 export class List extends Widget {
 
    init() {
-      this.adapter = ArrayAdapter.create(this.adapter || ArrayAdapter, {
+      this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
          recordsBinding: this.records && this.records.bind && Binding.get(this.records.bind)
@@ -41,6 +41,10 @@ export class List extends Widget {
       });
 
       super.init();
+
+      if (this.grouping) {
+         this.groupBy(this.grouping)
+      }
    }
 
    declareData() {
@@ -87,15 +91,29 @@ export class List extends Widget {
    explore(context, instance, data) {
       var instances = [];
       var isSelected = this.selection.getIsSelectedDelegate(instance.store);
-      instance.mappedRecords.forEach(record=> {
-         var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
-         itemInstance.record = record;
-         if (itemInstance.explore(context))
-            instances.push(itemInstance);
-         var selected = isSelected(record.data, record.index);
-         if (itemInstance.selected != selected) {
-            itemInstance.selected = selected;
-            itemInstance.shouldUpdate = true;
+      instance.mappedRecords.forEach(record => {
+         if (record.type == 'data') {
+            var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
+            itemInstance.record = record;
+            if (itemInstance.explore(context))
+               instances.push(itemInstance);
+            var selected = isSelected(record.data, record.index);
+            if (itemInstance.selected != selected) {
+               itemInstance.selected = selected;
+               itemInstance.shouldUpdate = true;
+            }
+         }
+         else if (record.type == 'group-header' && record.grouping.header) {
+            var itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
+            itemInstance.record = record;
+            if (itemInstance.explore(context))
+               instances.push(itemInstance);
+         }
+         else if (record.type == 'group-footer' && record.grouping.footer) {
+            var itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
+            itemInstance.record = record;
+            if (itemInstance.explore(context))
+               instances.push(itemInstance);
          }
       });
       instance.instances = instances;
@@ -106,19 +124,54 @@ export class List extends Widget {
    }
 
    render(context, instance, key) {
-      var items = instance.instances.map(x=> ({
+      var items = instance.instances.map(x => ({
          instance: x,
          key: x.record.key,
+         type: x.record.type,
          content: getContent(x.render(context))
       }));
       return <ListComponent key={key}
-                            instance={instance}
-                            items={items} 
-                            selectable={!this.selection.isDummy || this.onItemClick} />
+         instance={instance}
+         items={items}
+         selectable={!this.selection.isDummy || this.onItemClick}/>
    }
 
    cleanup(context, instance) {
       instance.instances.forEach(inst => inst.cleanup(context));
+   }
+
+   groupBy(grouping) {
+      if (grouping) {
+         if (!Array.isArray(grouping)) {
+            if (typeof grouping == 'string' || typeof grouping == 'object')
+               return this.groupBy([grouping]);
+            throw new Error('DynamicGrouping should be an array of grouping objects');
+         }
+
+         grouping = grouping.map((g, i) => {
+            if (typeof g == 'string') {
+               return {
+                  key: {
+                     [g]: {
+                        bind: this.recordName + '.' + g
+                     }
+                  }
+               }
+            }
+            return g;
+         });
+      }
+
+      grouping.forEach(g => {
+         if (g.header)
+            g.header = Widget.create(g.header);
+
+         if (g.footer)
+            g.footer = Widget.create(g.footer);
+      });
+
+      this.adapter.groupBy(grouping);
+      this.update();
    }
 }
 
@@ -171,21 +224,43 @@ class ListComponent extends VDOM.Component {
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
       var itemStyle = CSS.parseStyle(data.itemStyle);
+      this.cursorChildIndex = [];
+      let cursorIndex = 0;
 
-      var children = items.length > 0 && items.map((x, i)=> {
+      var children = items.length > 0 && items.map((x, i) => {
             let {data, selected} = x.instance;
-            var className = CSS.element(baseClass, 'item', {
-               selected: selected,
-               cursor: i == this.state.cursor,
-               pad: widget.itemPad
-            });
-            return <li key={x.key}
-                       className={CSS.expand(className, data.classNames)}
-                       style={itemStyle}
-                       onClick={e=>this.handleItemClick(e, x.instance)}
-                       onMouseEnter={e=>{this.moveCursor(i)}}>
-               {x.content}
-            </li>
+            let className;
+
+            if (x.type == 'data') {
+               let ind = cursorIndex++;
+               this.cursorChildIndex.push(i);
+               className = CSS.element(baseClass, 'item', {
+                  selected: selected,
+                  cursor: ind == this.state.cursor,
+                  pad: widget.itemPad
+               });
+               return (
+                  <li
+                     key={x.key}
+                     className={CSS.expand(className, data.classNames)}
+                     style={itemStyle}
+                     onClick={e => this.handleItemClick(e, x.instance)}
+                     onMouseEnter={e => {
+                        this.moveCursor(ind)
+                     }}>
+                     {x.content}
+                  </li>
+               );
+            } else {
+               return (
+                  <li
+                     key={x.key}
+                     className={CSS.element(baseClass, x.type)}
+                  >
+                     {x.content}
+                  </li>
+               );
+            }
          });
 
       if (!children && data.emptyText) {
@@ -194,15 +269,18 @@ class ListComponent extends VDOM.Component {
          </li>
       }
 
-      return <ul ref={el=>{this.el = el}}
-                 className={CSS.expand(data.classNames, CSS.state({ focused: this.state.focused}))}
-                 style={data.style}
-                 tabIndex={widget.focusable && selectable && items.length > 0 ? 0 : null}
-                 onKeyDown={::this.handleKeyDown}
-                 onMouseLeave={::this.handleMouseLeave}
-                 onFocus={::this.onFocus}
-                 onBlur={::this.onBlur}>
-
+      return <ul
+         ref={el => {
+            this.el = el
+         }}
+         className={CSS.expand(data.classNames, CSS.state({focused: this.state.focused}))}
+         style={data.style}
+         tabIndex={widget.focusable && selectable && items.length > 0 ? 0 : null}
+         onKeyDown={::this.handleKeyDown}
+         onMouseLeave={::this.handleMouseLeave}
+         onFocus={::this.onFocus}
+         onBlur={::this.onBlur}
+      >
          {children}
       </ul>;
    }
@@ -220,7 +298,7 @@ class ListComponent extends VDOM.Component {
          cursor: index
       }, () => {
          if (scrollIntoView) {
-            var item = this.el.children[index];
+            var item = this.el.children[this.cursorChildIndex[index]];
             scrollElementIntoView(item);
          }
       });
@@ -228,7 +306,7 @@ class ListComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         var firstSelected = this.props.items.findIndex(x=>x.instance.selected);
+         var firstSelected = this.props.items.findIndex(x => x.instance.selected);
          this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
       }
    }
@@ -240,7 +318,7 @@ class ListComponent extends VDOM.Component {
 
       var {widget} = this.props.instance;
       if (!widget.focused)
-         oneFocusOut(this, this.el, ()=> {
+         oneFocusOut(this, this.el, () => {
             this.moveCursor(-1, false);
          });
 
@@ -286,13 +364,14 @@ class ListComponent extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            var item = items[this.state.cursor];
+            console.log(this.state.cursor, this.cursorChildIndex);
+            var item = items[this.cursorChildIndex[this.state.cursor]];
             if (item)
                this.handleItemClick(e, item.instance);
             break;
 
          case KeyCode.down:
-            if (this.state.cursor + 1 < items.length) {
+            if (this.state.cursor + 1 < this.cursorChildIndex.length) {
                this.moveCursor(this.state.cursor + 1, true, true);
                e.stopPropagation();
                e.preventDefault();
