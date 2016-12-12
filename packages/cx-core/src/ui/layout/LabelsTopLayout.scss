@@ -1,5 +1,3 @@
-@import "../variables";
-@import '../../util/scss/include';
 
 @mixin cx-labelstoplayout(
    $name: 'labelstoplayout',
@@ -56,6 +54,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/LabelsTopLayout')) {
+@if (cx-include('cx/ui/LabelsTopLayout')) {
    @include cx-labelstoplayout();
 }

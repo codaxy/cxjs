@@ -1,0 +1,46 @@
+
+@import "form/variables";
+@import "grid/variables";
+@import "nav/variables";
+@import "overlay/variables";
+@import "Button.variables";
+
+// HEADING
+$cx-caption-style-map: () !default;
+
+$cx-caption-level-style-map: (
+   1: (
+      margin: 0,
+      padding: 0
+   ),
+   2: (
+      margin: 0,
+      padding: 0
+   ),
+   3: (
+      margin: 0,
+      padding: 0
+   ),
+   4:(
+      margin: 0,
+      padding: 0
+   ),
+   5: (
+      margin: 0,
+      padding: 0
+   ),
+   6: (
+      margin: 0,
+      padding: 0
+   ),
+) !default;
+
+// SECTION
+$cx-section-styles: () !default;
+
+$cx-section-mods: (
+   well: (
+         background-color: rgba(255, 255, 255, 0.9),
+         border-radius: 3px
+   )
+) !default;

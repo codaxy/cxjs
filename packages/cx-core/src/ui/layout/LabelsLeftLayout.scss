@@ -1,5 +1,3 @@
-@import "../variables";
-@import '../../util/scss/include';
 
 @mixin cx-labelsleftlayout(
    $name: 'labelsleftlayout',
@@ -42,6 +40,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/LabelsLeftLayout')) {
-   @include cx-labelsleftlayout();
+@if (cx-include('cx/ui/LabelsLeftLayout')) {
+  @include cx-labelsleftlayout();
 }

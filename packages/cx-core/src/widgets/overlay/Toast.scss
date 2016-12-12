@@ -1,10 +1,3 @@
-@import "variables";
-@import '../../util/scss/include';
-
-$cx-default-toast-background-color: rgb(255, 255, 255) !default;
-$cx-default-toast-border-width: 0 !default;
-$cx-default-toast-border-color: rgba(255, 255, 255, 0) !default;
-$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
 
 @mixin cx-toast(
    $name: 'toast',

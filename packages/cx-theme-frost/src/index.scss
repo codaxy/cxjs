@@ -1,9 +1,5 @@
-$cx-include-all: true !default;
-$cx-include-global-rules: false !default;
 
-$cx-theme-include-all: $cx-include-all;
-$cx-theme-include-global-rules: $cx-include-global-rules;
-
+// GLOBAL VARIABLES
 $cx-default-highlight-color: #ddf1f6 !default;
 
 $cx-default-border-color: #ccc !default;
@@ -27,10 +23,7 @@ $cx-default-font-family: 'Open Sans', sans-serif !default;
 
 $cx-use-box-line-height-fix: false !default;
 
-$cx-include-all: false;
-$cx-include-global-rules: false;
-
-@import "~cx/index";
+@import "~cx/variables";
 
 $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
    default: (
@@ -53,13 +46,16 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   )
 ));
 
-// menu
-$cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-menuitem-state-style-map, (
-   selected-focus: (
-      background-color: darken($cx-default-highlight-color, 8) 
-   )
-
+$cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
+ hover-focus: (
+    background-color: $cx-default-highlight-color
+  ),
+  selected-focus: (
+    background-color: darken($cx-default-highlight-color, 8)
+  )
 ));
+
+// menu
 
 // BUTTON
 $cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
@@ -148,9 +144,6 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
       color: #24b5d6
    )
 ));
-
-$cx-include-all: $cx-theme-include-all;
-$cx-include-global-rules: $cx-theme-include-global-rules;
 
 @import "~cx/index";
 

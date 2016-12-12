@@ -1,25 +1,7 @@
-@import "variables";
-@import '../../util/scss/include';
-@import '../Button';
-
-$cx-default-menu-item-padding: $cx-default-button-padding !default;
-
-$cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
-   default: (
-      border-radius: $cx-default-border-radius
-   ),
-   hover: (
-    
-   ),
-   selected-focus: (
-      background-color: rgba(123,190,255, 0.4) // create a global variable for highlight color; add other states for menu items
-   )
-
-)) !default;
 
 @mixin cx-menuitem(
    $name: 'menuitem',
-   $state-style-map: $cx-menuitem-state-style-map,
+   $state-style-map: $cx-list-item,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -31,13 +13,14 @@ $cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-list-item, (
       box-sizing: border-box;
       cursor: pointer;
       position: relative;
+      border-radius: $cx-default-border-radius;  
 
       &:focus {
          outline: none;
       }
 
       &.#{$state}arrow {
-         padding-right: cx-calc(cx-right($cx-default-button-padding), 16px);
+         padding-right: cx-calc(cx-right($cx-default-menu-item-padding), 16px);
       }
 
       .#{$state}focusable > &.#{$state}cursor {

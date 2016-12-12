@@ -1,17 +1,3 @@
-@import "Field";
-
-$cx-calendar-state-style-map: (
-   today: (
-      background-color: rgba(220, 250, 183, 0.5),
-      border-radius: $cx-default-border-radius
-   ),
-   today-hover: (
-      
-   ),
-   outside: (
-      color: lightgray
-   )
-) !default;
 
 @mixin cx-calendar(
    $name: 'calendar',

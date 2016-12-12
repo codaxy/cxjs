@@ -1,0 +1,40 @@
+
+$cx-window-state-style-map: (
+   default: (
+      box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29),
+      background: transparent,
+      border-radius: $cx-default-border-radius
+   ),
+   resizable: (
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.29)
+   )
+) !default;
+
+
+$cx-window-header-state-style-map: (
+   default: (
+      background: rgba(246, 246, 246, 0.9),
+      padding: 10px 15px,
+      font-size: 16px,
+      border-top-left-radius: $cx-default-border-radius,
+      border-top-right-radius: $cx-default-border-radius
+   ),
+   active: (
+
+   )
+) !default;
+
+$cx-window-footer-state-style-map: (
+   default: (
+      background: rgba(246, 246, 246, 0.9),
+      padding: 10px 20px,
+      border-bottom-left-radius: $cx-default-border-radius,
+      border-bottom-right-radius: $cx-default-border-radius
+   )
+) !default;
+
+$cx-window-body-state-style-map: (
+   default: (
+      background: white
+   )
+) !default;
