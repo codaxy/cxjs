@@ -30,7 +30,7 @@ export const LineGraphs = <cx>
    <Md>
       # Line Graphs
 
-      <ImportPath path="import { LineGraph } from 'cx/charts';" />
+      <ImportPath path="import {LineGraph} from 'cx/charts';" />
 
       Line charts are commonly used to visualize trends in data.
 

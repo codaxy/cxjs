@@ -30,7 +30,7 @@ export const PieCharts = <cx>
       <CodeSplit>
          # Pie Charts
 
-         <ImportPath path="import { PieChart } from 'cx/charts';" />
+         <ImportPath path="import {PieChart} from 'cx/charts';" />
 
          Pie charts are commonly used to compare parts to the whole. In Cx, pie charts are implemented using `PieChart` and
          `PieSlice`.

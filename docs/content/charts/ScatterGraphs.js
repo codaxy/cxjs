@@ -35,7 +35,7 @@ export const ScatterGraphs = <cx>
 
          # ScatterGraph
 
-         <ImportPath path="import { ScatterGraph } from 'cx/charts';" />
+         <ImportPath path="import {ScatterGraph} from 'cx/charts';" />
 
          The `ScatterGraph` widget is used for rendering scatter graphs.
 

@@ -37,7 +37,7 @@ export const Markers = <cx>
 
          # Marker
 
-         <ImportPath path="import { Marker } from 'cx/charts';" />
+         <ImportPath path="import {Marker} from 'cx/charts';" />
 
          Markers are commonly used for scatter charts.
 

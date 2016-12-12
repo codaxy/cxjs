@@ -29,7 +29,7 @@ export const Bars = <cx>
 
          # Bar
 
-         <ImportPath path="import { Bar } from 'cx/charts';" />
+         <ImportPath path="import {Bar} from 'cx/charts';" />
 
          Bar charts are commonly used to compare numerical values across a range of categories.
 

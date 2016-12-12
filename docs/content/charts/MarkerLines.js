@@ -48,7 +48,7 @@ export const MarkerLines = <cx>
       <CodeSplit>
          # MarkerLine
 
-         <ImportPath path="import { MarkerLine } from 'cx/charts';" />
+         <ImportPath path="import {MarkerLine} from 'cx/charts';" />
 
          Marker lines can be used to highlight important values such as minimum or maximum.
          

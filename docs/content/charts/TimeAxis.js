@@ -28,7 +28,7 @@ export const TimeAxisPage = <cx>
     <Md>
         # Time Axis
 
-        <ImportPath path="import { TimeAxis } from 'cx/charts';" />
+        <ImportPath path="import {TimeAxis} from 'cx/charts';" />
 
         <CodeSplit>
 

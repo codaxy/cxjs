@@ -32,7 +32,7 @@ export const ColumnGraphs = <cx>
         <CodeSplit>
             # ColumnGraph
 
-            <ImportPath path="import { ColumnGraph } from 'cx/charts';" />
+            <ImportPath path="import {ColumnGraph} from 'cx/charts';" />
 
             The `ColumnGraph` widget is used to display a serie of vertical bars.
 

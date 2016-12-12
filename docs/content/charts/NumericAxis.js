@@ -15,7 +15,7 @@ export const NumericAxisPage = <cx>
     <Md>
         # Numeric Axis
 
-        <ImportPath path="import { NumericAxis } from 'cx/charts';" />
+        <ImportPath path="import {NumericAxis} from 'cx/charts';" />
 
         The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
         Other widgets, such as graphs, use it to calculate their position on the chart.

@@ -15,7 +15,7 @@ export const Charts = <cx>
    <Md>
       # Charts
 
-      <ImportPath path="import { Chart } from 'cx/charts';" />
+      <ImportPath path="import {Chart} from 'cx/charts';" />
 
       The `Chart` widget is used to define axes and bounds for two dimensional charts such as line, scatter, bar and column charts.
 

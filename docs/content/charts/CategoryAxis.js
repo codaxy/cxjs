@@ -17,7 +17,7 @@ export const CategoryAxisPage = <cx>
     <Md>
         # Category Axis
 
-        <ImportPath path="import { CategoryAxis } from 'cx/charts';" />
+        <ImportPath path="import {CategoryAxis} from 'cx/charts';" />
 
         <CodeSplit>
 

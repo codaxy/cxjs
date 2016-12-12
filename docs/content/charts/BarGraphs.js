@@ -32,7 +32,7 @@ export const BarGraphs = <cx>
       <CodeSplit>
          # BarGraph
 
-         <ImportPath path="import { BarGraph } from 'cx/charts';" />
+         <ImportPath path="import {BarGraph} from 'cx/charts';" />
 
          The `BarGraph` widget is used to display a serie of horizontal bars.
 

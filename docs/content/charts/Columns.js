@@ -30,7 +30,7 @@ export const Columns = <cx>
    <Md controller={PageController}>
       # Column
 
-      <ImportPath path="import { Column } from 'cx/charts';" />
+      <ImportPath path="import {Column} from 'cx/charts';" />
 
       <CodeSplit>
 

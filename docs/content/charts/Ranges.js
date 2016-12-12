@@ -31,7 +31,7 @@ export const Ranges = <cx>
    <Md>
       # Range
 
-      <ImportPath path="import { Range } from 'cx/charts';" />
+      <ImportPath path="import {Range} from 'cx/charts';" />
 
       The `Range` component can be used to highlight important zones on the chart.
 
