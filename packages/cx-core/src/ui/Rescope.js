@@ -1,5 +1,5 @@
-import {Widget} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import {Widget} from './Widget';
+import {PureContainer} from './PureContainer';
 import {Binding} from '../data/Binding';
 import {ZoomIntoPropertyView} from '../data/ZoomIntoPropertyView';
 

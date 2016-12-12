@@ -23,26 +23,26 @@ var dist = getPath(path.resolve(__dirname, '../dist'));
 
 const endsWith = (x, y) => x.lastIndexOf(y) === x.length - y.length;
 
-function isUI(id) {
-   var relativePath = id.substring(src().length+1).replace(/\\/g, '/');
-   switch (relativePath) {
-      case 'Component':
-      case 'ui/VDOM':
-      case 'ui/icons/Icon':
-      case 'ui/Widget':
-      case 'ui/PureContainer':
-      case 'ui/CSS':
-      case 'ui/CSSHelper':
-      case 'ui/selection/Selection':
-      case 'ui/layout/Layout':
-      case 'ui/ResizeManager':
-      case 'ui/FocusManager':
-      case 'ui/Controller':
-         //console.log(relativePath);
-         return true;
-   }
-   return false;
-}
+// function isUI(id) {
+//    var relativePath = id.substring(src().length+1).replace(/\\/g, '/');
+//    switch (relativePath) {
+//       case 'Component':
+//       case 'ui/VDOM':
+//       case 'ui/icons/Icon':
+//       case 'ui/Widget':
+//       case 'ui/PureContainer':
+//       case 'ui/CSS':
+//       case 'ui/CSSHelper':
+//       case 'ui/selection/Selection':
+//       case 'ui/layout/Layout':
+//       case 'ui/ResizeManager':
+//       case 'ui/FocusManager':
+//       case 'ui/Controller':
+//          //console.log(relativePath);
+//          return true;
+//    }
+//    return false;
+// }
 
 var entries = [{
    name: 'util',
@@ -69,7 +69,7 @@ var entries = [{
    options: {
       entry: [src('widgets/index.js'), src('widgets/index.scss')]
    },
-   external: isUI,
+   //external: isUI,
    output: {}
 }, {
    name: 'svg',
@@ -77,7 +77,7 @@ var entries = [{
    options: {
       entry: [src('svg/index.js'), src('svg/index.scss')]
    },
-   external: isUI,
+   //external: isUI,
    output: {}
 }, {
    name: 'charts',
@@ -85,7 +85,7 @@ var entries = [{
    options: {
       entry: [src('charts/index.js'), src('charts/index.scss')]
    },
-   external: isUI,
+   //external: isUI,
    output: {}
 }];
 
@@ -102,6 +102,9 @@ var manifest = {};
 
 var all = entries.map(function(e) {
 
+   if (e.name != 'widgets')
+      return null;
+
    var options = Object.assign({
       //treeshake: false,
       sourceMap:  true,
@@ -117,6 +120,7 @@ var all = entries.map(function(e) {
                return true;
 
             default:
+               console.log(id);
                return id[0] == '@'
          }
       },
@@ -125,7 +129,8 @@ var all = entries.map(function(e) {
          importAlias({
             manifest: manifest,
             external: e.external,
-            paths: paths
+            paths: paths,
+            path: src('./'+ e.name + '/')
          }),
          scss({
             output: e.css && dist(e.name + '.css') || false

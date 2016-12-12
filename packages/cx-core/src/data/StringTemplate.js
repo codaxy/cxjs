@@ -1,4 +1,4 @@
-import {Expression, expression} from './Expression';
+import {expression} from './Expression';
 
 import {quoteStr} from '../util/quote';
 

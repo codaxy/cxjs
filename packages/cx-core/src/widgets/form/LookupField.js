@@ -1,8 +1,8 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Field} from './Field';
-import {Text} from '../Text';
+import {Text} from '../../ui/Text';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
-import {Repeater} from '../Repeater';
+import {Repeater} from '../../ui/Repeater';
 import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
 import {Console} from '../../util/Console';

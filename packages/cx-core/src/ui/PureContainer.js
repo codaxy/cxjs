@@ -1,7 +1,7 @@
 import {Widget} from './Widget';
-import {StaticText} from '../widgets/StaticText';
+import {StaticText} from './StaticText';
 import {Layout} from './layout/Layout';
-import {Text} from '../widgets/Text';
+import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 import {parseStyle} from '../util/parseStyle';
 

@@ -1,4 +1,4 @@
-import {Widget} from '../ui/Widget';
+import {Widget} from './Widget';
 
 export class StaticText extends Widget {
    render() {

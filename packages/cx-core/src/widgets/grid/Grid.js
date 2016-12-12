@@ -3,7 +3,7 @@ import {PureContainer} from '../../ui/PureContainer';
 import {Binding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
 import {isSelector} from '../../data/isSelector';
-import {Format} from '../../util/Format';
+import {Format} from '../../ui/Format';
 import {Selection} from '../../ui/selection/Selection';
 import {DataAdapter} from '../../ui/adapter/DataAdapter';
 import {GroupAdapter} from '../../ui/adapter/GroupAdapter';

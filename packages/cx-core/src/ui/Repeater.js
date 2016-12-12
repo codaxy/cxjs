@@ -1,6 +1,6 @@
-import {Widget} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
-import {ArrayAdapter} from '../ui/adapter/ArrayAdapter';
+import {Widget} from './Widget';
+import {PureContainer} from './PureContainer';
+import {ArrayAdapter} from './adapter/ArrayAdapter';
 
 import {Binding} from '../data/Binding';
 
