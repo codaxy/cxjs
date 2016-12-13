@@ -7,7 +7,26 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Add default padding to the box.
+            Add padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
+        </Md></cx>
+    },
+
+    hpad: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Add horizontal padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
+        </Md></cx>
+    },
+
+    vpad: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Add vertical padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
         </Md></cx>
     },
 
@@ -15,7 +34,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Flex direction. Default is `row`. Other permitted values are `column`, 'column-reverse` and `row-reverse`.
+            Flex direction. Default is `row`. Other permitted values are `column`, `column-reverse` and `row-reverse`.
         </Md></cx>
     },
 
@@ -23,7 +42,26 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Use default spacing between items.
+            Add spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
+        </Md></cx>
+    },
+
+    hspacing: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Add horizontal spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
+        </Md></cx>
+    },
+
+    vspacing: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Add vertical spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is same as `medium`.
         </Md></cx>
     },
 

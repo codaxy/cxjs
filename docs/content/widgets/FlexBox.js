@@ -99,23 +99,37 @@ export const FlexBoxPage = <cx>
         <CodeSplit>
             #### Pad
 
-            <div style="background:#eee;border:1px solid lightgray;">
-                <FlexRow pad spacing wrap>
+            <FlexRow pad spacing wrap style="background:#eee;border:1px solid lightgray;">
+                <Repeater records={Array.from({length: 20})}>
+                    <div style="width: 30px; height: 30px; background: lightgray;" />
+                </Repeater>
+            </FlexRow>
+
+            <CodeSnippet putInto="code">{`
+                <FlexRow pad spacing wrap style="background:#eee;border:1px solid lightgray;">
                     <Repeater records={Array.from({length: 20})}>
                         <div style="width: 30px; height: 30px; background: lightgray;" />
                     </Repeater>
                 </FlexRow>
-            </div>
+            `}</CodeSnippet>
+        </CodeSplit>
 
+        <CodeSplit>
+            #### Mixed Mode (`hpad`, `vpad`, `hspacing`, `vspacing`)
+
+            <FlexRow pad hspacing="xsmall" vspacing="xlarge" wrap
+                     style="background:#eee;border:1px solid lightgray;">
+                <Repeater records={Array.from({length: 40})}>
+                    <div style="width: 30px; height: 30px; background: lightgray;" />
+                </Repeater>
+            </FlexRow>
 
             <CodeSnippet putInto="code">{`
-                <div style="background:#eee;border:1px solid lightgray;">
-                    <FlexRow pad spacing wrap>
-                        <Repeater records={Array.from({length: 20})}>
-                            <div style="width: 30px; height: 30px; background: lightgray;" />
-                        </Repeater>
-                    </FlexRow>
-                </div>
+                <FlexRow pad hspacing="xsmall" vspacing="xlarge" wrap style="background:#eee;border:1px solid lightgray;">
+                    <Repeater records={Array.from({length: 40})}>
+                        <div style="width: 30px; height: 30px; background: lightgray;" />
+                    </Repeater>
+                </FlexRow>
             `}</CodeSnippet>
         </CodeSplit>
 
