@@ -11,7 +11,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 
 import {Localization} from '../../ui/Localization';
 import CalendarIcon from '../../icons/calendar';
-import {Icon} from '../../ui/Icon';
+import {Icon} from '../Icon';
 import ClearIcon from '../../icons/clear';
 
 export class DateField extends Field {

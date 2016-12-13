@@ -1,7 +1,7 @@
 import {Widget, VDOM, getContentArray} from '../ui/Widget';
 import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
-import {Icon} from '../ui/Icon';
+import {Icon} from './Icon';
 import {stopPropagation} from '../util/eventCallbacks';
 
 export class Button extends HtmlElement {

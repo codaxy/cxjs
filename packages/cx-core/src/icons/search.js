@@ -1,5 +1,5 @@
-import {VDOM} from '../Widget';
-import {Icon} from '../ui/Icon';
+import {VDOM} from '../ui/Widget';
+import {Icon} from '../widgets/Icon';
 
 export default Icon.register('search', props => {
    return <svg

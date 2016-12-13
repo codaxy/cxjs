@@ -5,7 +5,7 @@ import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
-import {Icon} from '../../ui/Icon';
+import {Icon} from '../Icon';
 
 export class NumberField extends Field {
 

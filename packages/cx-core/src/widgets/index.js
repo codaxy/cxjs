@@ -29,6 +29,7 @@ export * from './CxCredit';
 export * from './Heading';
 export * from './Section';
 export * from './FlexBox';
+export * from './Icon';
 
 export * from './overlay/index';
 export * from './nav/index';

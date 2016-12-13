@@ -9,7 +9,7 @@ import {
 } from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
-import {Icon} from '../../ui/Icon';
+import {Icon} from '../Icon';
 
 export class TextField extends Field {
    declareData() {

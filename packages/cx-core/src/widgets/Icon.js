@@ -1,7 +1,27 @@
+import { Widget, VDOM } from '../ui/Widget';
+
 let icons = {};
 let iconFactory = null;
 
-export class Icon {
+export class Icon extends Widget {
+   declareData() {
+      super.declareData(...arguments, {
+         name: undefined,
+         className: {structured: true},
+         class: {structured: true},
+         style: {structured: true},
+      })
+   }
+
+   render(context, instance, key) {
+      let {data} = instance;
+      return Icon.render(data.name, {
+         key: key,
+         className: data.classNames,
+         style: data.style
+      });
+   }
+
    static register(name, icon) {
       icons[name] = icon;
       return props => this.render(name, props);
@@ -35,3 +55,7 @@ export class Icon {
       iconFactory = factory;
    }
 }
+
+Icon.prototype.baseClass = "icon";
+
+Widget.alias('icon', Icon);

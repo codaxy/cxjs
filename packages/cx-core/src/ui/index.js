@@ -11,7 +11,6 @@ export * from './CSSHelper';
 export * from './FocusManager';
 export * from './ResizeManager';
 export * from './ZIndexManager';
-export * from './Icon';
 export * from './Format';
 export * from './Culture';
 export * from './Localization';

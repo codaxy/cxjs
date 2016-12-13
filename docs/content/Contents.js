@@ -74,6 +74,7 @@ var contents = [{
         {title: 'Section', url: '~/widgets/sections'},
         {title: 'Heading', url: '~/widgets/headings'},
         {title: 'FlexBox', url: '~/widgets/flex-box'},
+        {title: 'Icon', url: '~/widgets/icons'},
 
     ]
 }, {
