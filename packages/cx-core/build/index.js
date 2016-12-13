@@ -142,7 +142,7 @@ var all = entries.map(function(e) {
                manifestRecorder(manifest, paths, src('.'))
             ]
          }),
-         buble(),
+         //buble(),
       ]
    }, e.options);
 

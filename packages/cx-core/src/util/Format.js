@@ -64,8 +64,8 @@ function buildFormatter(format) {
          else if (i == 0)
             formatter = factory(...parts);
          else {
-            let outerFmt = factory(...parts);
-            let innerFmt = formatter;
+            var outerFmt = factory(...parts);
+            var innerFmt = formatter;
             formatter = v => outerFmt(innerFmt(v));
          }
       }
@@ -115,7 +115,7 @@ export class Format {
 
    static registerFactory(format, factory) {
       if (Array.isArray(format))
-         format.forEach(f => this.register(f, factory));
+         format.forEach(f => this.registerFactory(f, factory));
       else
          formatFactory[format] = factory;
    }

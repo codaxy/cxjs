@@ -94,8 +94,8 @@ export class FocusManager {
    }
 
    static setInterval(interval) {
-      clearInterval(intervalId);
-      intervalId = setInterval(this.nudge, interval);
+      window.clearInterval(intervalId);
+      intervalId = window.setInterval(::this.nudge, interval);
    }
 }
 

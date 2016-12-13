@@ -13,6 +13,8 @@ export * from './ResizeManager';
 export * from './ZIndexManager';
 export * from './Icon';
 export * from './Format';
+export * from './Culture';
+export * from './Localization';
 
 export * from './selection/index';
 export * from './layout/index';
