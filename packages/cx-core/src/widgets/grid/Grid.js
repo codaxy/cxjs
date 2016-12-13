@@ -115,10 +115,8 @@ export class Grid extends Widget {
 
       let border = this.border;
 
-      if (this.border == null) {
-         if (this.scrollable)
-            this.border = true;
-      }
+      if (border == null && this.scrollable)
+         border = true;
 
       data.stateMods = {
          selectable: this.selectable,
