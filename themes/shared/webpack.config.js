@@ -6,7 +6,7 @@ const webpack = require('webpack'),
    path = require('path'),
    babelConfig = require('../shared/babel.config');
 
-module.exports = function(name, themePath, port) {
+module.exports = function (name, themePath, port) {
 
    var common = {
 
@@ -29,14 +29,14 @@ module.exports = function(name, themePath, port) {
             test: /\.js$/,
             include: /(themes|cx-core|cx-react)/,
             loaders: [{
-               loader: 'babel',
+               loader: 'babel-loader',
                query: babelConfig
             }, {
-               loader: 'if'
+               loader: 'if-loader'
             }]
          }, {
             test: /\.(jpg|png)$/,
-            loader: "file"
+            loader: "file-loader"
          }]
       },
       output: {
@@ -67,16 +67,19 @@ module.exports = function(name, themePath, port) {
          module: {
             loaders: [{
                test: /\.scss$/,
-               loaders: sass.extract(['css', 'sass'])
+               loaders: sass.extract(['css-loader', 'sass-loader'])
             }, {
                test: /\.css$/,
-               loaders: sass.extract(['css'])
+               loaders: sass.extract(['css-loader'])
             }]
          },
 
-         "if-loader": 'production',
-
          plugins: [
+            new webpack.LoaderOptionsPlugin({
+               options: {
+                  "if-loader": 'development',
+               }
+            }),
             new webpack.optimize.UglifyJsPlugin(),
             new webpack.DefinePlugin({
                'process.env.NODE_ENV': JSON.stringify('production')
@@ -99,14 +102,19 @@ module.exports = function(name, themePath, port) {
          module: {
             loaders: [{
                test: /\.scss$/,
-               loaders: ["style", "css", "sass"]
+               loaders: ["style-loader", "css-loader", "sass-loader"]
             }, {
                test: /\.css$/,
-               loader: ["style", "css"]
+               loader: ["style-loader", "css-loader"]
             }]
          },
-         "if-loader": 'development',
+
          plugins: [
+            new webpack.LoaderOptionsPlugin({
+               options: {
+                  "if-loader": 'development',
+               }
+            }),
             new webpack.HotModuleReplacementPlugin()
          ],
          entry: {

@@ -2,12 +2,25 @@ module.exports = {
     "cacheDirectory": true,
     "cacheIdentifier": "v7",
     "presets": [
-        ["es2015", { loose: true }],
-        "stage-0"
+        ["env", {
+            loose: true,
+            modules: false,
+            useBuiltIns: true,
+            targets: {
+                chrome: 45,
+                ie: 11,
+                ff: 30,
+                edge: 12,
+                safari: 9
+            }
+        }]
     ],
     "plugins": [
-        "babel-plugin-cx",
-        ["babel-plugin-transform-react-jsx", {"pragma": "VDOM.createElement"}]
+        'transform-object-rest-spread',
+        "transform-function-bind",
+        'transform-export-extensions',
+        'transform-cx-jsx',
+        ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
         //["babel-plugin-inferno", {"pragma": "VDOM"}]
     ]
 };

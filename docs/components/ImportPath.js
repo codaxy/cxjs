@@ -4,8 +4,9 @@ class InputWithButton extends VDOM.Component {
     constructor(props){
         super(props);
         this.state = { copied: false };
-    }   
-    copyToClipboard = () => {
+    }
+
+    copyToClipboard() {
         // copy text from this.textInput to clipboard...
         // select text
         let range = document.createRange();
@@ -23,7 +24,7 @@ class InputWithButton extends VDOM.Component {
         }
     }
 
-    resetTooltipText = () => {
+    resetTooltipText() {
         this.setState({copied: false});
     }
 
@@ -31,8 +32,8 @@ class InputWithButton extends VDOM.Component {
         return (
             <div className="dxb-importpath" >
                 <code ref={(input) => this.textInput = input} 
-                    onClick={this.copyToClipboard}
-                    onMouseLeave={this.resetTooltipText} >
+                    onClick={::this.copyToClipboard}
+                    onMouseLeave={::this.resetTooltipText} >
                     {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </code>

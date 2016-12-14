@@ -29,14 +29,14 @@ var common = {
             test: /\.js$/,
             include: /(docs|cx-core|cx-react)/,
             loaders: [{
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: babelConfig
             }, {
-                loader: 'if'
+                loader: 'if-loader'
             }]
         }, {
             test: /\.(jpg|png)$/,
-            loader: "file"
+            loader: "file-loader"
         }]
     },
     entry: {
@@ -83,16 +83,19 @@ switch (process.env.npm_lifecycle_event) {
             module: {
                 loaders: [{
                     test: /\.scss$/,
-                    loaders: sass.extract(['css', 'sass'])
+                    loaders: sass.extract(['css-loader', 'sass-loader'])
                 }, {
                     test: /\.css$/,
-                    loaders: sass.extract(['css'])
+                    loaders: sass.extract(['css-loader'])
                 }]
             },
 
-            "if-loader": 'production',
-
             plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        "if-loader": 'production',
+                    }
+                }),
                 new CleanWebpackPlugin(['dist']),
                 new webpack.optimize.UglifyJsPlugin(),
                 new webpack.DefinePlugin({
@@ -159,13 +162,12 @@ switch (process.env.npm_lifecycle_event) {
             module: {
                 loaders: [{
                     test: /\.scss$/,
-                    loaders: ["style", "css", "sass"]
+                    loaders: ["style-loader", "css-loader", "sass-loader"]
                 }, {
                     test: /\.css$/,
-                    loader: ["style", "css"]
+                    loader: ["style-loader", "css-loader"]
                 }]
             },
-            "if-loader": 'development',
             entry: {
               app: [
                   'react-dev-utils/webpackHotDevClient',
@@ -173,6 +175,11 @@ switch (process.env.npm_lifecycle_event) {
               ]
             },
             plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        "if-loader": 'development',
+                    }
+                }),
                 new webpack.HotModuleReplacementPlugin()
             ],
             output: {
