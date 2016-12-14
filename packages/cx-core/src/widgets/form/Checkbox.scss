@@ -14,9 +14,15 @@
    $padding: cx-get-state-rule($state-style-map, default, padding);
    $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
+   $outer-styles: cx-merge-state-style-maps($state-style-map, (
+      default: (
+         border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
+      )
+   ));
+
    .#{$block}#{$name} {
-      @include cxb-field($besm, $state-style-map, $input: false, $box: true);
-      min-width: cx-calc($size, cx-left($border-width), cx-right($border-width));
+      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
+      min-width: $size;
    }
 
    .#{$element}#{$name}-checkbox {
