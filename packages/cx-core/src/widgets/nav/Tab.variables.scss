@@ -18,7 +18,8 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
       text-decoration: none
    ),
    disabled: (
-      background-color: transparent
+      background-color: transparent,
+      pointer-events: none
    )
 )) !default;
 
@@ -32,7 +33,6 @@ $cx-tab-mods: (
       ),
       selected: (
          border-color: $cx-default-border-color,
-         //border-bottom-color: $cx-default-cover-background-color,
          background-color: $cx-default-cover-background-color
       )
    ),

@@ -37,7 +37,8 @@ $cx-button-state-style-map: (
    ),
    disabled: (
       color: gray,
-      box-shadow: none
+      box-shadow: none,
+      pointer-events: none
    ),
    active: (
       top: 1px,
@@ -93,7 +94,7 @@ $cx-button-mods: (
          border-color: transparent
       )),
       disabled: (
-         color: gray
+         color: rgba(128, 128, 128, 0.5)
       )
    )
 ) !default;

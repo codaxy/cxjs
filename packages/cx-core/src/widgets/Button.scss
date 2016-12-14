@@ -29,23 +29,23 @@
          margin: -1px;
       }
 
-      &:not([disabled]) {
-         &:hover {
-            @include cx-add-state-rules($state-style-map, 'hover');
-         }
 
-         &:focus {
-            @include cx-add-state-rules($state-style-map, 'focus');
-         }
-
-         &:hover:focus {
-            @include cx-add-state-rules($state-style-map, 'hover-focus');
-         }
-
-         &:active {
-            @include cx-add-state-rules($state-style-map, 'active');
-         }
+      &:hover {
+         @include cx-add-state-rules($state-style-map, 'hover');
       }
+
+      &:focus {
+         @include cx-add-state-rules($state-style-map, 'focus');
+      }
+
+      &:hover:focus {
+         @include cx-add-state-rules($state-style-map, 'hover-focus');
+      }
+
+      &:active {
+         @include cx-add-state-rules($state-style-map, 'active');
+      }
+
 
       &[disabled], &.#{$state}-disabled {
          @include cx-add-state-rules($state-style-map, 'disabled');
@@ -59,19 +59,16 @@
                 @include cx-add-state-rules($config, disabled);
             }
 
-            &:not([disabled]) {
+            &:hover {
+                @include cx-add-state-rules($config, hover);
+            }
 
-               &:hover {
-                   @include cx-add-state-rules($config, hover);
-               }
+            &:focus {
+                @include cx-add-state-rules($config, focus);
+            }
 
-               &:focus {
-                   @include cx-add-state-rules($config, focus);
-               }
-
-               &:active {
-                   @include cx-add-state-rules($config, active);
-               }
+            &:active {
+                @include cx-add-state-rules($config, active);
             }
          }
       }
