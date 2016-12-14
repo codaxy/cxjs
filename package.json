@@ -40,12 +40,8 @@
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
-    "babel-plugin-cx": "file:./packages/babel-plugin-transform-cx-jsx",
     "babel-plugin-external-helpers": "^6.8.0",
     "babel-plugin-inferno": "^1.0.0-alpha8",
-    "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-plugin-transform-cx-imports": "file:./packages/babel-plugin-transform-cx-imports",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-cx-env": "file:./packages/babel-preset-cx-env",
     "babel-preset-es2015": "^6.18.0",
