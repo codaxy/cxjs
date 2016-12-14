@@ -1,4 +1,3 @@
-@import "variables";
 
 @mixin cx-cover(
    $besm: $cx-besm
@@ -17,6 +16,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/cover')) {
+@if (cx-include('cx/widgets/cover')) {  // check path
    @include cx-cover();
 }

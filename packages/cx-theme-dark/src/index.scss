@@ -1,11 +1,6 @@
-$cx-include-all: true !default;
-$cx-include-global-rules: false !default;
-
-$cx-theme-include-all: $cx-include-all;
-$cx-theme-include-global-rules: $cx-include-global-rules;
 
 // GLOBAL VARIABLES
-$cx-default-font-family: 'Open Sans', sans-serif;
+$cx-default-font-family: 'Open Sans', sans-serif !default;
 
 $cx-default-color: darken(white, 20) !default;
 
@@ -20,8 +15,6 @@ $cx-default-border-color: rgb(68, 68, 68) !default;
 $cx-default-border-color-dark: darken($cx-default-border-color, 14) !default;
 $cx-default-border-radius: 2px !default;
 
-
-
 // FORM
 $cx-default-input-background-color: $cx-default-background-color-light !default;
 $cx-default-input-color: darken($cx-default-color, 2) !default;
@@ -31,11 +24,17 @@ $cx-default-radio-size: 16px !default;
 
 $cx-default-dropdown-background-color: $cx-default-background-color-dark !default;
 
+// slider
+$cx-default-slider-axis-background-color: $cx-default-border-color !default;
+$cx-default-slider-range-background-color: #024f70 !default;
+
 // BUTTON
 $cx-default-button-background-color: lighten($cx-default-background-color-light, 6) !default;
 $cx-default-button-border-color: $cx-default-border-color !default;
 $cx-default-button-color: darken($cx-default-color, 2) !default;
 $cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
+$cx-primary-button-background-color: #006699 !default
+$cx-danger-button-background-color: #860000 !default;
 
 // GRID
 $cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
@@ -44,7 +43,7 @@ $cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !defa
 
 // MENU
 // $cx-default-menu-item-padding: 10px !default;
-$cx-default-menu-separator: darken($cx-default-border-color, 4);
+$cx-default-menu-separator: darken($cx-default-border-color, 4) !default;
 
 // TOOLTIP
 $cx-tooltip-background-color: lighten($cx-default-background-color-light, 5) !default;
@@ -59,12 +58,9 @@ $cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
 // MONTHPICKER
 $cx-default-monthpicker-font-size: 11px !default;
 
-$cx-include-all: false;
-$cx-include-global-rules: false;
-
 // COVER
-$cx-default-cover-background-color: lighten($cx-default-background-color-light, 2);
-$cx-default-cover-border-color: $cx-default-cover-background-color;
+$cx-default-cover-background-color: lighten($cx-default-background-color-light, 2) !default;
+$cx-default-cover-border-color: $cx-default-cover-background-color !default;
 
 // CHART
 $cx-default-palette-fill-whiten: 38% !default;
@@ -73,8 +69,7 @@ $cx-default-palette-fill-selected-whiten: 20% !default;
 $cx-default-palette-fill-disabled-whiten: 90% !default;
 $cx-default-palette-stroke-blacken: 50% !default;
 
-
-@import "~cx/index";
+@import '~cx/variables';
 
 // BUTTON
 $cx-button-state-style-map: cx-merge-state-style-maps($cx-button-state-style-map, (
@@ -102,25 +97,25 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   primary: (
     default: (
         color: darken(white, 15),
-        background-color: #006699,
+        background-color: $cx-primary-button-background-color,
         border-color: transparent,
-        box-shadow: inset 0 -1px lighten(#006699, 3)
+        box-shadow: inset 0 -1px lighten($cx-primary-button-background-color, 3)
     ),
     disabled: (
-        background-color: transparentize(#006699, 0.7),
+        background-color: transparentize($cx-primary-button-background-color, 0.7),
         border-color: transparent,
         color: transparentize(white, 0.4),
         box-shadow: none
     ),
     hover: (
-        background-color: darken(#006699, 3),
+        background-color: darken($cx-primary-button-background-color, 3),
         border-color: transparent,
-        box-shadow: inset 0 -1px darken(#006699, 1)
+        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 1)
     ),
     active: (
-        background-color: darken(#006699, 8),
+        background-color: darken($cx-primary-button-background-color, 8),
         border-color: transparent,
-        box-shadow: inset 0 -1px darken(#006699, 8)
+        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 8)
     )
   ),
   hollow: (
@@ -137,25 +132,25 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   danger: (
     default: (
-        background-color: #860000,
+        background-color: $cx-danger-button-background-color,
         border-color: transparent,
-        box-shadow: inset 0 -1px lighten(#860000, 1)
+        box-shadow: inset 0 -1px lighten($cx-danger-button-background-color, 1)
     ),
     disabled: (
-        background-color: transparentize(#860000, 0.7),
+        background-color: transparentize($cx-danger-button-background-color, 0.7),
         border-color: transparent,
         color: transparentize(white, 0.4),
         box-shadow: none
     ),
     hover: (
-        background-color: darken(#860000, 3),
+        background-color: darken($cx-danger-button-background-color, 3),
         border-color:transparent,
-        box-shadow: inset 0 -1px darken(#860000, 1)
+        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 1)
     ),
     active: (
-        background-color: darken(#860000, 6),
+        background-color: darken($cx-danger-button-background-color, 6),
         border-color: transparent,
-        box-shadow: inset 0 -1px darken(#860000, 6)
+        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 6)
     )
   )   
 ));
@@ -187,6 +182,25 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
 ));
 
 // tab
+$cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
+   hover: (
+      text-decoration: none,
+      background-color: $cx-default-background-color-dark
+   ),
+   hover-focus: (
+     background-color: darken($cx-default-highlight-color, 12)
+   ),
+   selected: (
+     background-color: darken($cx-default-highlight-color, 9)
+   ),
+   selected-focus: (
+     background-color: $cx-default-highlight-color
+   ),
+   disabled: (
+     background-color: transparent
+   ),
+));
+
 $cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
   classic: (
     selected: (             
@@ -204,20 +218,6 @@ $cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
       border-color: $cx-default-highlight-color
     )
   )
-));
-
-// menu
-$cx-menuitem-state-style-map: cx-merge-state-style-maps($cx-menuitem-state-style-map, (
-   default: (
-      border-radius: $cx-default-border-radius
-   ),
-   hover: (
-    
-   ),
-   selected-focus: (
-      background-color: $cx-default-highlight-color // create a global variable for highlight color; add other states for menu items
-   )
-
 ));
 
 // FORM
@@ -238,6 +238,29 @@ $cx-calendar-state-style-map: cx-merge-state-style-maps($cx-calendar-state-style
    ),
    outside: (
       color: darken($cx-default-color, 35)
+   )
+));
+
+// slider
+$cx-slider-handle-styles: cx-merge-state-style-maps($cx-slider-handle-styles, (
+   default: (
+      background-color: lighten($cx-default-background-color-light, 12),
+      border-color: lighten($cx-default-background-color-light, 12),
+      box-shadow: none
+   ),
+   hover: (
+      background-color: lighten($cx-default-background-color-light, 8),
+      box-shadow: none
+   ),
+   focus: (
+
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background-color: lighten($cx-default-background-color-light, 6),
+      border-color: lighten($cx-default-background-color-light, 10)
    )
 ));
 
@@ -268,23 +291,9 @@ $cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-s
 ));
 
 // GRID
-/*$cx-grid-header-state-style-map: cx-merge-state-style-maps($cx-grid-header-state-style-map, (
-   hover: (
-      background: $cx-default-background-color
-   )
-));
-
-$cx-grid-data-state-style-map: cx-merge-state-style-maps($cx-grid-data-state-style-map, (
-  default: (
-    background-color: $cx-default-background-color-light,
-    border-color: $cx-default-border-color
-  )
-));*/
 
 
 // CHART
-
-
 
 // GLOBALS
 $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
@@ -327,13 +336,7 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    // )
 ));
 
-
-
-$cx-include-all: $cx-theme-include-all;
-$cx-include-global-rules: $cx-theme-include-global-rules;
-
-
-@import "~cx/index";
+@import '~cx/index';
 
 .cxb-grid.cxs-scrollable.cxs-border {
   border-color: $cx-default-grid-header-border-color;

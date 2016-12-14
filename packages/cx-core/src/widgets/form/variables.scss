@@ -1,5 +1,3 @@
-@import "../../variables";
-@import "../../util/scss/clockwise";
 
 $cx-use-box-line-height-fix: true !default;
 
@@ -147,3 +145,53 @@ $cx-label-state-style-map: (
 ) !default;
 
 
+// CALENDAR
+$cx-calendar-state-style-map: (
+   today: (
+      background-color: rgba(220, 250, 183, 0.5),
+      border-radius: $cx-default-border-radius
+   ),
+   today-hover: (
+      
+   ),
+   outside: (
+      color: lightgray
+   )
+) !default;
+
+// COLORFIELD
+$cx-default-colorfield-font-family: 'Consolas', monospace;
+
+// MONTHPICKER
+$cx-default-monthpicker-font-size: smaller !default;
+
+// SLIDER
+$cx-default-slider-axis-background-color: rgba(128, 128, 128, 0.2) !default;
+$cx-default-slider-range-background-color: #98d4ff !default;
+$cx-slider-handle-styles: (
+   default: (
+      margin: -8px 0 0 -8px,
+      padding: 0,
+      width: 16px,
+      height: 16px,
+      background: rgb(235, 235, 235),
+      border: 1px solid rgb(204, 204, 204),
+      border-radius: 50%,
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+   ),
+   focus: (
+
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background: rgb(220, 220, 220)
+   )
+) !default;
+
+// TEXTAREA
+$cx-default-textarea-width: 300px !default;

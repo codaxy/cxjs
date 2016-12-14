@@ -1,7 +1,3 @@
-@import "Field";
-@import "ColorPicker";
-
-$cx-default-colorfield-font-family: 'Consolas', monospace;
 
 @mixin cx-colorfield(
    $name: 'colorfield',

@@ -1,73 +1,5 @@
-@import "variables";
-@import "../../util/scss/add-rules";
-@import "../Button";
+
 @import "cover";
-
-$cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
-   default: (
-      border-radius: $cx-default-border-radius,
-      padding: $cx-default-button-padding,
-      border-width: $cx-default-button-border-width,
-      line-height: $cx-default-box-line-height,
-      border-color: transparent,
-      border-style: solid,
-      text-decoration: none,
-      cursor: pointer,
-      color: inherit,
-   ),
-   hover: (
-      text-decoration: none
-   ),
-   disabled: (
-      background-color: transparent
-   )
-));
-
-$cx-tab-mods: (
-   classic: (
-      default: (
-         position: relative,
-         border-width: 1px,
-         border-bottom-left-radius: 0,
-         border-bottom-right-radius: 0,
-      ),
-      selected: (
-         border-color: $cx-default-border-color,
-         //border-bottom-color: $cx-default-cover-background-color,
-         background-color: $cx-default-cover-background-color
-      )
-   ),
-   line: (
-      default: (
-         background-color: transparent !important,
-         border-left-color: transparent !important,
-         border-right-color: transparent !important,
-         border-top-color: transparent !important,
-         border-left-width: 0,
-         border-right-width: 0,
-         border-bottom-width: 2px,
-         border-top-width: 0,
-         border-bottom-left-radius: 0,
-         border-bottom-right-radius: 0,
-      ),
-      hover: (
-         border-color: rgba(128, 128, 128, 0.2),
-      ),
-      hover-focus: (
-         border-color: rgba(123,190,255, 0.3),
-      ),
-      selected: (
-         border-color: rgba(128, 128, 128, 0.4),
-      ),
-      selected-focus: (
-         border-color: rgba(123,190,255, 0.7),
-      ),
-      active: (),
-      disabled: (
-         border-color: transparent
-      )
-   )
-) !default;
 
 @mixin cx-tab(
    $name: 'tab',
@@ -84,6 +16,7 @@ $cx-tab-mods: (
       display: inline-block;
 
       @include cx-add-state-rules($state-style-map, default);
+
 
       &:hover {
          @include cx-add-state-rules($state-style-map, hover);

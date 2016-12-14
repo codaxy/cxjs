@@ -1,29 +1,3 @@
-@import "Field";
-
-$cx-slider-handle-styles: (
-   default: (
-      margin: -8px 0 0 -8px,
-      padding: 0,
-      width: 16px,
-      height: 16px,
-      background: rgb(235, 235, 235),
-      border: 1px solid rgb(204, 204, 204),
-      border-radius: 50%,
-      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
-   ),
-   hover: (
-      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
-   ),
-   focus: (
-
-   ),
-   disabled: (
-
-   ),
-   active: (
-      background: rgb(220, 220, 220)
-   )
-) !default;
 
 @mixin cx-slider(
    $name: 'slider',
@@ -31,7 +5,9 @@ $cx-slider-handle-styles: (
    $styles: $cx-slider-handle-styles,
    $width: $cx-default-input-width,
    $besm: $cx-besm,
-   $size: 8px
+   $size: 8px,
+   $axis-background-color: $cx-default-slider-axis-background-color,
+   $range-background-color: $cx-default-slider-range-background-color
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
@@ -53,7 +29,7 @@ $cx-slider-handle-styles: (
    .#{$element}#{$name}-axis {
 
       position: absolute;
-      background: rgba(128, 128, 128, 0.2);
+      background-color: $axis-background-color;
       border-radius: $size / 2;
       box-sizing: border-box;
 
@@ -83,7 +59,7 @@ $cx-slider-handle-styles: (
    .#{$element}#{$name}-range {
       position: absolute;
 
-      background: #98d4ff;
+      background-color: $range-background-color;
       border-radius: 3px;
 
       .#{$block}#{$name}.#{$state}horizontal & {

@@ -1,35 +1,3 @@
-@import '../ui/variables';
-@import "../util/scss/include";
-@import "../util/scss/add-rules";
-
-$cx-caption-style-map: () !default;
-
-$cx-caption-level-style-map: (
-   1: (
-      margin: 0,
-      padding: 0
-   ),
-   2: (
-      margin: 0,
-      padding: 0
-   ),
-   3: (
-      margin: 0,
-      padding: 0
-   ),
-   4:(
-      margin: 0,
-      padding: 0
-   ),
-   5: (
-      margin: 0,
-      padding: 0
-   ),
-   6: (
-      margin: 0,
-      padding: 0
-   ),
-) !default;
 
 @mixin cxb-heading(
    $name: 'heading',
