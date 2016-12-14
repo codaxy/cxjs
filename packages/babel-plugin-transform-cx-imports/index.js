@@ -37,6 +37,9 @@ module.exports = function(options, o1) {
                            imports.push(t.importDeclaration([], t.stringLiteral('cx-core/' + srcFile.scss)));
                         }
                      }
+                     else {
+                        throw new Error(`Cx import ${s.imported.name} not found in package ${remainder}.`)
+                     }
                   });
 
                   path.replaceWithMultiple(imports);

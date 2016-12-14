@@ -9,7 +9,7 @@ var common = {
 
    resolve: {
       alias: {
-         'cx': path.resolve(path.join(__dirname, '../packages/cx-core/src')),
+         'cx-core': path.resolve(path.join(__dirname, '../packages/cx-core')),
          'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          litmus: __dirname
@@ -23,7 +23,7 @@ var common = {
       }, {
          test: /\.js$/,
          include: /(litmus|cx-core)/,
-         loader: 'babel',
+         loader: 'babel-loader',
          query: babelConfig
       }]
    },
@@ -62,10 +62,10 @@ switch(process.env.npm_lifecycle_event) {
          module: {
            loaders: [{
               test: /\.scss$/,
-              loaders: sass.extract(['css', 'sass'])
+              loaders: sass.extract(['css-loader', 'sass-loader'])
            }, {
               test: /\.css$/,
-              loaders: sass.extract(['css'])
+              loaders: sass.extract(['css-loader'])
            }]
          },
 
@@ -89,10 +89,10 @@ switch(process.env.npm_lifecycle_event) {
          module: {
             loaders: [{
                test: /\.scss$/,
-               loaders: ["style", "css", "sass"]
+               loaders: ["style-loader", "css-loader", "sass-loader"]
             }, {
                test: /\.css$/,
-               loader: ["style", "css"]
+               loader: ["style-loader", "css-loader"]
             }]
          },
          plugins: [

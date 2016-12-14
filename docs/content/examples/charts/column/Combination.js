@@ -1,7 +1,7 @@
 import { HtmlElement, Grid, Repeater } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
-import { Gridlines, NumericAxis, CategoryAxis, Chart, Columns, Column, Marker } from 'cx/charts';
+import { Gridlines, NumericAxis, CategoryAxis, Chart, Column, Marker } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';

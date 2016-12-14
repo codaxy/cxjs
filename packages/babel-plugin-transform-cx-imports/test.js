@@ -56,7 +56,7 @@ describe.only('babel-plugin-transform-cx-imports', function() {
          plugins: [[plugin, { useSrc: true }]]
       }).code;
 
-      assert.equal(unwrap(output), 'import { TextField } from "cx-core/src/ui/form/TextField.js"');
+      assert.equal(unwrap(output), 'import { TextField } from "cx-core/src/widgets/form/TextField.js"');
    });
 
    it("imports scss file if available and option is set", function () {
@@ -68,8 +68,22 @@ describe.only('babel-plugin-transform-cx-imports', function() {
       }).code;
 
       assert.deepEqual(lines(output), [
-         'import { TextField } from "cx-core/src/ui/form/TextField.js";',
-         'import "cx-core/src/ui/form/TextField.scss"'
+         'import { TextField } from "cx-core/src/widgets/form/TextField.js";',
+         'import "cx-core/src/widgets/form/TextField.scss"'
+      ]);
+   });
+
+   it("imports multiple things from source", function () {
+
+      let code = `import { Text, TextField } from "cx/widgets"`;
+
+      let output = babel.transform(code, {
+         plugins: [[plugin, { useSrc: true }]]
+      }).code;
+
+      assert.deepEqual(lines(output), [
+         'import { Text } from "cx-core/src/ui/Text.js";',
+         'import { TextField } from "cx-core/src/widgets/form/TextField.js"'
       ]);
    });
 });

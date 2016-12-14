@@ -7,19 +7,21 @@ var rollup = require('rollup'),
    multiEntry = require('rollup-plugin-multi-entry'),
    scss = require('rollup-plugin-scss'),
    manifestRecorder = require('./manifestRecorder'),
-   buble = require('rollup-plugin-buble');
+   buble = require('rollup-plugin-buble'),
+   pathResolve = require('./pathResolve');
 
 
 function getPath(basePath) {
    return function (x) {
       if (!x)
          return basePath;
-      return path.resolve(basePath, x);
+      return pathResolve(basePath, x);
    }
 }
 
 var src = getPath(path.resolve(__dirname, '../src'));
 var dist = getPath(path.resolve(__dirname, '../dist'));
+var node_modules = getPath(path.resolve(__dirname, '../../../node_modules'));
 
 const endsWith = (x, y) => x.lastIndexOf(y) === x.length - y.length;
 
@@ -67,7 +69,7 @@ var entries = [{
    name: 'widgets',
    css: true,
    options: {
-      entry: [src('widgets/index.js'), src('widgets/index.scss')]
+      entry: [src('widgets/index.js'), src('variables.scss'), src('widgets/index.scss')]
    },
    //external: isUI,
    output: {}
@@ -75,7 +77,7 @@ var entries = [{
    name: 'svg',
    css: true,
    options: {
-      entry: [src('svg/index.js'), src('svg/index.scss')]
+      entry: [src('svg/index.js'), src('variables.scss'), src('svg/index.scss')]
    },
    //external: isUI,
    output: {}
@@ -83,7 +85,7 @@ var entries = [{
    name: 'charts',
    css: true,
    options: {
-      entry: [src('charts/index.js'), src('charts/index.scss')]
+      entry: [src('charts/index.js'), src('variables.scss'), src('charts/index.scss')]
    },
    //external: isUI,
    output: {}
@@ -126,12 +128,6 @@ var all = entries.map(function(e) {
       },
       plugins: [
          multiEntry(),
-         importAlias({
-            manifest: manifest,
-            external: e.external,
-            paths: paths,
-            path: src('./'+ e.name + '/')
-         }),
          scss({
             output: e.css && dist(e.name + '.css') || false
          }),
@@ -141,6 +137,12 @@ var all = entries.map(function(e) {
                ...babelConfig.plugins,
                manifestRecorder(manifest, paths, src('.'))
             ]
+         }),
+         importAlias({
+            manifest: manifest,
+            external: e.external,
+            paths: paths,
+            path: src('./'+ e.name + '/')
          }),
          //buble(),
       ]
@@ -169,5 +171,7 @@ Promise
    .all(all)
    .then(()=> {
       fs.writeFileSync(dist('manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
+      //console.log(node_modules('cx-core/dist/manifest.js'));
+      fs.writeFileSync(node_modules('cx-core/dist/manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
       //console.log(manifest);
    });

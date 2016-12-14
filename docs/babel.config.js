@@ -1,6 +1,6 @@
 module.exports = {
     "cacheDirectory": true,
-    "cacheIdentifier": "v7",
+    "cacheIdentifier": "v9",
     "presets": [
         ["env", {
             loose: true,
@@ -19,6 +19,7 @@ module.exports = {
         'transform-object-rest-spread',
         "transform-function-bind",
         'transform-export-extensions',
+        ["transform-cx-imports", { useSrc: true }],
         'transform-cx-jsx',
         ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
         //["babel-plugin-inferno", {"pragma": "VDOM"}]

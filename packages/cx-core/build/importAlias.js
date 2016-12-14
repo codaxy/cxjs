@@ -1,4 +1,6 @@
-var path = require('path');
+var pathResolve = require('./pathResolve'),
+   path = require('path');
+
 
 module.exports = function(options = {}) {
 
@@ -10,7 +12,7 @@ module.exports = function(options = {}) {
    return {
       transform(source, filePath) {
          return source.replace(regex, function (content, match1, match2) {
-            var importPath = path.resolve(path.dirname(filePath), match2);
+            var importPath = pathResolve(path.dirname(filePath), match2);
             if (importPath.indexOf(nsPath) != 0) {
                for (var name in options.paths) {
                   if (importPath.indexOf(name) == 0)

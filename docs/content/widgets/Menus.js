@@ -1,5 +1,5 @@
 import { HtmlElement, Menu, MenuItem, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
-import { Content, Icon } from 'cx/ui';
+import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';

@@ -1,5 +1,5 @@
-import { HtmlElement, TextField, Checkbox, Grid, TreeNode, TreeAdapter } from 'cx/widgets';
-import { Content, Controller, LabelsLeftLayout, KeySelection } from 'cx/ui';
+import { HtmlElement, TextField, Checkbox, Grid, TreeNode } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout, KeySelection, TreeAdapter } from 'cx/ui';
 import { ExposedRecordView, Binding } from 'cx/data';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';

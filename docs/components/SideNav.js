@@ -1,5 +1,5 @@
-import { List, Repeater, Text, Link, Menu, TreeAdapter } from 'cx/widgets';
-import { KeySelection, History, Url } from 'cx/ui';
+import { List, Repeater, Text, Link, Menu} from 'cx/widgets';
+import { KeySelection, History, Url, TreeAdapter } from 'cx/ui';
 import { HtmlElement } from 'cx/widgets';
 
 
