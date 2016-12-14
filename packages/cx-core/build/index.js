@@ -23,29 +23,6 @@ var src = getPath(path.resolve(__dirname, '../src'));
 var dist = getPath(path.resolve(__dirname, '../dist'));
 var node_modules = getPath(path.resolve(__dirname, '../../../node_modules'));
 
-const endsWith = (x, y) => x.lastIndexOf(y) === x.length - y.length;
-
-// function isUI(id) {
-//    var relativePath = id.substring(src().length+1).replace(/\\/g, '/');
-//    switch (relativePath) {
-//       case 'Component':
-//       case 'ui/VDOM':
-//       case 'ui/icons/Icon':
-//       case 'ui/Widget':
-//       case 'ui/PureContainer':
-//       case 'ui/CSS':
-//       case 'ui/CSSHelper':
-//       case 'ui/selection/Selection':
-//       case 'ui/layout/Layout':
-//       case 'ui/ResizeManager':
-//       case 'ui/FocusManager':
-//       case 'ui/Controller':
-//          //console.log(relativePath);
-//          return true;
-//    }
-//    return false;
-// }
-
 var entries = [{
    name: 'util',
    options: {
@@ -71,7 +48,6 @@ var entries = [{
    options: {
       entry: [src('widgets/index.js'), src('variables.scss'), src('widgets/index.scss')]
    },
-   //external: isUI,
    output: {}
 }, {
    name: 'svg',
@@ -79,7 +55,6 @@ var entries = [{
    options: {
       entry: [src('svg/index.js'), src('variables.scss'), src('svg/index.scss')]
    },
-   //external: isUI,
    output: {}
 }, {
    name: 'charts',
@@ -87,7 +62,6 @@ var entries = [{
    options: {
       entry: [src('charts/index.js'), src('variables.scss'), src('charts/index.scss')]
    },
-   //external: isUI,
    output: {}
 }];
 
@@ -139,8 +113,6 @@ var all = entries.map(function(e) {
             ]
          }),
          importAlias({
-            manifest: manifest,
-            external: e.external,
             paths: paths,
             path: src('./'+ e.name + '/')
          }),
@@ -152,7 +124,7 @@ var all = entries.map(function(e) {
       .rollup(options)
       .then(function (bundle) {
          var result = bundle.generate(Object.assign({
-            format: 'cjs'
+            format: 'es'
          }, e.output));
 
          if (e.name) {

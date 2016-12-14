@@ -12,14 +12,16 @@ module.exports = function(options = {}) {
    return {
       transform(source, filePath) {
          return source.replace(regex, function (content, match1, match2) {
-            var importPath = pathResolve(path.dirname(filePath), match2);
-            if (importPath.indexOf(nsPath) != 0) {
-               for (var name in options.paths) {
-                  if (importPath.indexOf(name) == 0)
-                     return `import ${match1} from "${options.paths[name]}"`;
+            if (match2[0] == '.') {
+               var importPath = pathResolve(path.dirname(filePath), match2);
+               if (importPath.indexOf(nsPath) != 0) {
+                  for (var name in options.paths) {
+                     if (importPath.indexOf(name) == 0)
+                        return `import ${match1} from "${options.paths[name]}"`;
+                  }
+                  console.log('UNMATCHED IMPORT INCLUDED IN THE BUNDLE', importPath);
+                  //throw new Error('Unmatched: ' + importPath);
                }
-               console.log('UNMATCHED IMPORT INCLUDED IN THE BUNDLE', importPath);
-               //throw new Error('Unmatched: ' + importPath);
             }
             return content;
          });
