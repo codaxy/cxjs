@@ -2,7 +2,9 @@ import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import {stopPropagation} from '../../util/eventCallbacks';
+import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
+import DropdownIcon from '../../icons/drop-down';
+import ClearIcon from '../../icons/clear';
 
 export class Select extends Field {
 
@@ -11,8 +13,18 @@ export class Select extends Field {
          value: undefined,
          disabled: undefined,
          enabled: undefined,
-         required: undefined
+         required: undefined,
+         placeholder: undefined
       }, ...arguments);
+   }
+
+   prepareData(context, instance) {
+      let {data} = instance;
+      data.stateMods = {
+         ...data.stateMods,
+         empty: data.value == null
+      };
+      return super.prepareData(context, instance);
    }
 
    renderInput(context, instance, key) {
@@ -59,32 +71,81 @@ Widget.alias('select', Select)
 
 class SelectComponent extends VDOM.Component {
    render() {
-      var {multiple, select, instance} = this.props;
-      var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      let {multiple, select, instance} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass} = widget;
 
-      return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
-                  style={data.style}
-                  onMouseDown={stopPropagation}
-                  onTouchStart={stopPropagation}>
+      let insideButton, readOnly = data.disabled || data.readOnly;
+
+      if (!readOnly && !this.props.multiple && !data.required && data.placeholder && data.value != null) {
+         insideButton = (
+            <div onMouseDown={preventDefault}
+               onClick={e => this.onClearClick(e)}
+               className={CSS.element(baseClass, 'clear')}>
+               <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+            </div>
+         )
+      }
+      else {
+         insideButton = (
+            <div className={CSS.element(baseClass, 'tool')}>
+               <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
+            </div>
+         );
+      }
+
+      let placeholder;
+      if (data.placeholder) {
+         placeholder = <option
+            value={widget.nullString}
+            className={CSS.element(baseClass, 'placeholder')}
+            disabled
+            hidden
+         >
+            {data.placeholder}
+         </option>
+      }
+
+      return <div
+         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+         style={data.style}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}
+      >
          <select id={data.id}
-                 ref={el=>{this.select = el}}
-                 className={CSS.element(baseClass, 'select')}
-                 style={data.inputStyle}
-                 value={data.value || widget.nullString}
-                 multiple={multiple}
-                 disabled={data.disabled}
-                 onBlur={::this.onBlur}
-                 onChange={e=>{ e.preventDefault(); select(e.target.value); }}
-                 onMouseMove={e=>tooltipMouseMove(e, instance, this.state)}
-                 onMouseLeave={e=>tooltipMouseLeave(e, instance)}>
+            ref={el => {
+               this.select = el
+            }}
+            className={CSS.element(baseClass, 'select')}
+            style={data.inputStyle}
+            value={data.value || widget.nullString}
+            multiple={multiple}
+            disabled={data.disabled}
+            onBlur={::this.onBlur}
+            onChange={e => {
+               e.preventDefault();
+               select(e.target.value);
+            }}
+            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
+            onMouseLeave={e => tooltipMouseLeave(e, instance)}
+         >
+            {placeholder}
             {this.props.children}
          </select>
+         {insideButton}
       </div>
    }
 
    onBlur() {
       this.setState({visited: true})
+   }
+
+   onClearClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let {instance} = this.props;
+      let {widget} = instance;
+      instance.set('value', widget.emptyValue);
    }
 
    componentDidMount() {

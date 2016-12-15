@@ -5,6 +5,7 @@
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $clear-state-style-map: $cx-clear-state-style-map,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
    $besm: $cx-besm
@@ -37,11 +38,6 @@
             )
          )
       );
-
-      .#{$state}icon > & {
-         @extend %cx-icon-dropdown-arrow;
-         background-position: right $cx-default-input-padding center;
-      }
    }
 
    .#{$block}#{$name}.#{$state}multiple .#{$element}#{$name}-input {
@@ -150,6 +146,10 @@
 
    .#{$element}#{$name}-clear {
       @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
    }
 
    .#{$element}#{$name}-icon {

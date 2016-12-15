@@ -149,6 +149,7 @@
    &:active {
       @include cx-add-state-rules($state-style-map, active);
    }
+
 }
 
 @mixin cxe-field-button-icon(
