@@ -12,11 +12,11 @@ export const GettingStarted = <cx>
 
         ## Basic Concepts
 
-        The most important steps of getting familiar with Cx is to understand it's syntax and the data-binding process.
+        The most important steps of getting familiar with Cx is to understand its syntax and data-binding process.
 
         Cx uses JSX syntax, [introduced by React](https://facebook.github.io/react/docs/introducing-jsx.html),
-        which enables HTML (XML) like structures inside JavaScript.
-        On top of the JSX syntax, Cx uses custom data binding instructions which connect the widgets with the
+        which enables HTML/XML-like structures inside JavaScript.
+        On top of JSX syntax, Cx uses custom data binding instructions which connect the widgets with the
         underlying data store.
 
         <CodeSplit>
@@ -42,10 +42,10 @@ export const GettingStarted = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        If you take a closer look at the source code, you'll see what Cx is about. You can freely mix widgets with plain HTML
-        and use special attributes to connect to the data. Whenever the data change, the page is automatically updated.
+        If you take a closer look at the source code, you'll see what Cx is about. You can freely combine widgets with plain HTML
+        and use special attributes to connect to the data. Whenever data changes, the page is automatically updated.
 
-        > The code containing the JSX syntax must be processed through a preprocessor tool before it's served to the browser.
+        > The code containing JSX syntax must be processed through a preprocessor tool before it's served to the browser.
         The most popular preprocessor tool is [Babel](https://babeljs.io/), which besides JSX processing also
         transpiles the latest JavaScript features into ES5.
 
@@ -85,7 +85,7 @@ export const GettingStarted = <cx>
         ## Cx Fiddle
 
         [Cx Fiddle](https://cx.codaxy.com/fiddle) allows you to experiment with Cx directly in the browser, without setting up a new project.
-        There are many examples to play with and you can also create, save and share your own snippets.
+        There are many examples to play with, and you can also create, save and share your own snippets.
         Here are a couple of links worth checking out:
 
         - [BMI Calculator](http://cx.codaxy.com/fiddle/?f=luv00Rpw)
@@ -98,7 +98,7 @@ export const GettingStarted = <cx>
 
         ## Demo Applications
 
-        There are a few demo applications which will offer you deeper insights of how Cx projects look from the inside:
+        There are a few demo applications which will provide deeper insights into how Cx projects look from the inside:
 
         - [Cx Starter Kit](https://github.com/codaxy/cx-starter-kit) - dashboards, admin pages, routing, layout, etc.
         - [Employee Directory](https://github.com/codaxy/employee-directory-demo) + [blog post](https://blog.codaxy.com/cx-walkthrough-89dc37da9abc#.lt23d5ipc) - layout, REST API, etc.
@@ -110,7 +110,7 @@ export const GettingStarted = <cx>
         You should now be ready to start a new project with Cx. Before doing that you should check out:
 
         - [Command Line Interface](~/intro/command-line) - quickly scaffold new applications using Cx CLI
-        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial of creating a new Cx application and configuring webpack and babel along the way
+        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new Cx application and configuring webpack and babel along the way
 
     </Md>
 </cx>

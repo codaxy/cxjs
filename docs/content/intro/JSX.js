@@ -12,16 +12,16 @@ export const JsxPage = <cx>
 
         <CodeSplit>
 
-            JSX is an extension of JavaScript syntax that allows XML (HTML) like structures inside JavaScript code. This is very convenient
+            JSX is an extension of JavaScript syntax that allows XML/HTML-like structures inside JavaScript code. This is very convenient
             for expressing view templates which are traditionally based on HTML.
             JSX also supports custom components and makes views much more terse and elegant.
 
             ## Babel
 
             [Babel](https://babeljs.io/) is a tool which compiles ECMAScript 6 and JSX into ECMAScript 5 (JavaScript).
-            Babel has a plugin based architecture which makes the transformation process highly configurable.
+            Babel has a plugin-based architecture which makes the transformation process highly configurable.
 
-            Babel transpiles Cx (JSX) using the `babel-plugin-cx` package which is available for install over npm.
+            Babel compiles Cx (JSX) into ECMAScript 5, using the `babel-plugin-transform-cx-jsx` package which is available for installation over npm.
 
             The transformation step is very simple. JSX code is transformed into JS configuration objects,
             like in the following snippet (shown on the right on larger screens).
@@ -55,21 +55,21 @@ export const JsxPage = <cx>
 
         ## Cx Specific Features
 
-        Cx uses JSX differently than React and it's important to understand the differences. All JSX code which relates
-        to Cx must be wrapped into the `cx` root element. The code which is not wrapped is transformed using React's
-        JSX transformer which behaves differently.
+        Cx uses JSX differently than React and it's important to understand the differences. All JSX code blocks related
+        to Cx must be wrapped into the `cx` root element. The code, which is not wrapped, is compiled using React's
+        JSX compiler which behaves differently.
 
         ### Data-binding Attributes
 
         Cx supports declarative data-binding using `:bind`, `:tpl` and `:expr` suffixes. Bindings establish connections
-        between widget properties and values in the store pointed by the binding's path. Whenever the data change, widgets are
+        between widget properties and values in the store pointed by the binding's path. Whenever data changes, widgets are
         automatically updated. Special binding syntax enables very terse views.
 
         ### Conditional Rendering
 
         <CodeSplit>
 
-            Cx exposes the `visible` property on all elements which controls if an element should be rendered or not.
+            Cx exposes the `visible` property on all elements which controls whether an element should be rendered or not.
             If `visible` is set or evaluated to `false`, the element and its children will not be rendered. The application
             will behave as if the element doesn't exists.
 
@@ -84,8 +84,8 @@ export const JsxPage = <cx>
 
         <CodeSplit>
 
-            Whitespace is generally ignored and that can be very annoying sometimes.
-            Cx offers the `preserveWhitespace` attribute which instructs Cx to keep the whitespace.
+            Whitespaces are generally ignored, and that can be very annoying sometimes.
+            Cx offers the `preserveWhitespace` attribute which instructs Cx to keep the whitespaces.
 
             <CodeSnippet putInto="code">{`
                 <a href="#" class="btn" preserveWhitespace>
@@ -98,9 +98,9 @@ export const JsxPage = <cx>
 
         <CodeSplit>
 
-            In React, `style` needs to be an object and `className` is used instead of the `class` attribute.
-            That's because the DOM API exposes these properties in that way.
-            Cx does not have these restrictions and you can freely use `style` strings and use `class` and/or `className` attributes.
+            In React, `style` needs to be an object and `className` is used instead of the `class` attribute, 
+            because the DOM API exposes these properties in that way.
+            Cx does not have these restrictions, and you can freely use `style` strings, as well as both `class` and `className` attributes.
 
             <CodeSnippet putInto="code">{`
                 <div class="well" style="width:100px; height: 100px; background: red"></div>
@@ -109,7 +109,7 @@ export const JsxPage = <cx>
 
         <CodeSplit>
 
-            Furthermore, class can be an object. In this case all keys whose corresponding values
+            Furthermore, class can be an object. In this case, all keys whose corresponding values
             evaluate to `true` will be added to the class list.
 
             <CodeSnippet putInto="code">{`
@@ -137,14 +137,14 @@ export const JsxPage = <cx>
         <CodeSplit>
 
             Here’s another non-standard, but extremely convenient feature.
-            In Cx, you may use text and innerHtml on all HTML container elements to set inner content of the element.
+            In Cx, you may use text and innerHtml on all HTML container elements to set the inner content of the element.
 
             <CodeSnippet putInto="code">{`
                 <h2 text:bind="person.name" />
                 <div innerHtml:bind="html" />
             `}</CodeSnippet>
 
-            The `innerHtml` property is very convenient for setting inner content obtained through Markdown transformation
+            The `innerHtml` property is very convenient for setting the inner content obtained through Markdown transformation
             or an AJAX call.
         </CodeSplit>
     </Md>

@@ -12,9 +12,9 @@ export const StepByStep = <cx>
         # Step by Step Tutorial
         
         Cx is built using ES2015 JSX with webpack as a module bundling, building and
-        dev server option. This is also the preferred way for developing Cx applications,
-        although it is not required. In this step-by-step tutorial, we will show how to 
-        get started with Cx by developing a simple **Todo manager** application using  
+        dev server option. This is also the preferred way, but not required, for 
+        developing Cx applications. In this step-by-step tutorial, we will show how to 
+        get started with Cx, by developing a simple **Todo manager** application, using  
         the same preferred tools.
 
         <CodeSplit>
@@ -29,7 +29,7 @@ export const StepByStep = <cx>
         </CodeSplit>
 
         > This tutorial is intended to familiarize you with some of the
-        packages that are used by Cx. A more practical way to start a new Cx project is to use
+        packages used by Cx. A more practical way to start a new Cx project is to use
         [the CLI](~/intro/command-line).
 
         ## Prerequisites
@@ -64,7 +64,7 @@ export const StepByStep = <cx>
             follow the recommended Cx source layout) and it will create an initial `project.json`
             file for our application.
 
-            Next, we need to install prerequisite packages, by issuing `npm install` commands.
+            Next, we need to install prerequisite packages, by running `npm install` commands.
             <Content name="code">
                 <CodeSnippet>{`
                     mkdir cx-getting-started && cd cx-getting-started
@@ -108,7 +108,7 @@ export const StepByStep = <cx>
             as our application entry point.
 
             In this file, we're importing a few required objects from Cx modules. In order
-            to use plain HTML elements, like `p` or `div` within our widgets, we need to import `HtmlElement`. 
+            to use plain HTML elements, such as `p` or `div`, within our widgets, we need to import `HtmlElement`. 
             The `store` instance we define a few lines below will hold the data model of
             our entire application&mdash;all UI bindings in our application will point to elements
             in this store tree.
@@ -265,7 +265,7 @@ export const StepByStep = <cx>
 
         ## Creating Todo widget
 
-        In a previous section, we showed how to build a minimal application, with a
+        In the previous section, we showed how to build a minimal application, with a
         very simple static widget. Now we will replace that static widget with a working
         Todo manager.
 
@@ -287,7 +287,7 @@ export const StepByStep = <cx>
             The widget itself is composed of several components. Top-most element, `HtmlElement` of type `div`
             has the `controller` attribute set to our `Controller` class. This means that an instance of this class
             will be in charge for this view's behavior logic, in this case, data initialization and event
-            handling. All descendants of the `div` element are passed the same controller instance
+            handling. The same controller instance is passed to all descendants of the `div` element
             (see [Controller documentation](http://cx.codaxy.com/docs/concepts/controllers) for more details).
 
             The next interesting component is a `TextField`.
