@@ -1,5 +1,5 @@
-import {Widget, VDOM} from '../ui/Widget';
-import {Instance} from '../ui/Instance';
+import {Widget, VDOM} from './Widget';
+import {Instance} from './Instance';
 
 export class Cx extends VDOM.Component
 {

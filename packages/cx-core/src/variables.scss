@@ -2,13 +2,12 @@
 // FUNCTIONS
 @import "util/scss/index";
 
-@if cx-call-once("cx/widgets/checker-background") {
-   %cx-checker-bg {
-      background-repeat: repeat;
-      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
-   }
-}
 
+// SCREEN SIZE
+$cx-screen-size-small:  400px !default;
+$cx-screen-size-medium: 700px !default;
+$cx-screen-size-large: 1000px !default;
+$cx-screen-size-extra-large: 1400px !default;
 
 //
 // BESM

@@ -4,12 +4,30 @@ import {ContentPlaceholder, contentSandbox} from '../../ui/layout/ContentPlaceho
 import {ZIndexManager} from '../../ui/ZIndexManager';
 import {Button} from '../Button';
 import CloseIcon from '../../icons/close';
+import {parseStyle} from '../../util/parseStyle';
 
 export class Window extends Overlay {
+
+   init() {
+      if (typeof this.headerStyle == 'string')
+         this.headerStyle = parseStyle(this.headerStyle);
+
+      if (typeof this.footerStyle == 'string')
+         this.footerStyle = parseStyle(this.footerStyle);
+
+      if (typeof this.bodyStyle == 'string')
+         this.bodyStyle = parseStyle(this.bodyStyle);
+
+      super.init();
+   }
+
    declareData() {
       return super.declareData(...arguments, {
          title: undefined,
-         closable: undefined
+         closable: undefined,
+         bodyStyle: {structured: true},
+         headerStyle: {structured: true},
+         footerStyle: {structured: true},
       });
    }
 
@@ -54,7 +72,7 @@ export class Window extends Overlay {
    renderFooter(context, instance, key) {
       return getContent(instance.components && instance.components.footer && instance.components.footer.render(context, key));
    }
-   
+
    render(context, instance, key) {
       var header = this.renderHeader(context, instance, 'header');
       var footer = this.renderFooter(context, instance, 'footer');
@@ -75,10 +93,45 @@ Widget.alias('window', Window);
 class WindowComponent extends OverlayComponent {
 
    renderOverlayBody() {
-      var {widget} = this.props.instance;
+      var {widget, data} = this.props.instance;
       var {CSS, baseClass} = widget;
 
-      var bodyStyle = null;
+      let header, footer;
+
+      if (this.props.header.length > 0) {
+         header = (
+            <header
+               key="header"
+               ref={ c => {
+                  this.headerEl = c
+               }}
+               className={CSS.element(baseClass, 'header')}
+               style={data.headerStyle}
+               onMouseDown={::this.onHeaderMouseDown}
+               onTouchStart={::this.onHeaderMouseDown}
+            >
+               { this.props.header }
+            </header>
+         )
+      }
+
+      if (this.props.footer) {
+         footer = (
+            <footer
+               key="footer"
+               ref={ c => {
+                  this.footerEl = c
+               }}
+               className={CSS.element(baseClass, 'footer')}
+               style={data.footerStyle}
+            >
+
+               {this.props.footer}
+            </footer>
+         )
+      }
+
+      var bodyStyle = data.bodyStyle;
       if (this.el) {
          //set body height to spread across available window height.
          var nonBodyHeight = 0;
@@ -87,38 +140,22 @@ class WindowComponent extends OverlayComponent {
          if (this.footerEl)
             nonBodyHeight += this.footerEl.offsetHeight;
          bodyStyle = {
+            ...bodyStyle,
             height: `calc(100% - ${nonBodyHeight}px`
          };
       }
 
-      let header, footer;
-
-      if (this.props.header.length > 0) {
-         header = <header key="header"
-                          ref={ c => {
-                             this.headerEl = c
-                          }}
-                          className={CSS.element(baseClass, 'header')}
-                          onMouseDown={::this.onHeaderMouseDown}
-                          onTouchStart={::this.onHeaderMouseDown}>
-            { this.props.header }
-         </header>
-      }
-
-      if (this.props.footer) {
-         footer = <footer key="footer"
-                          ref={ c=> { this.footerEl = c }}
-                          className={CSS.element(baseClass, 'footer')}>
-            {this.props.footer}
-         </footer>
-      }
-
-      var body = <div key="body"
-                      ref={ c=> { this.bodyEl = c }}
-                      className={CSS.element(widget.baseClass, 'body')}
-                      style={bodyStyle}>
-         {this.props.children}
-      </div>;
+      var body = (
+         <div
+            key="body"
+            ref={ c => {
+               this.bodyEl = c
+            }}
+            className={CSS.element(widget.baseClass, 'body')}
+            style={bodyStyle}>
+            {this.props.children}
+         </div>
+      );
 
       return [
          header,
@@ -139,7 +176,7 @@ class WindowComponent extends OverlayComponent {
       if (!this.state.active) {
          this.setState({
             active: true
-         }, ()=>{
+         }, () => {
             this.setZIndex(ZIndexManager.next());
          });
       }

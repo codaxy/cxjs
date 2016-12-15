@@ -10,15 +10,22 @@ import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../../ui/FocusManager';
 import {isFocused} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import {stopPropagation} from '../../util/eventCallbacks';
+import {
+   tooltipComponentWillReceiveProps,
+   tooltipComponentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipComponentDidMount
+} from '../overlay/Tooltip';
+import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../../icons/clear';
+import DropdownIcon from '../../icons/drop-down';
 
 export class LookupField extends Field {
 
    declareData() {
       var additionalAttributes = this.multiple
-         ? {values: undefined, records:undefined}
+         ? {values: undefined, records: undefined}
          : {value: undefined, text: undefined};
 
       super.declareData({
@@ -49,7 +56,7 @@ export class LookupField extends Field {
          this.bindings = b;
       }
 
-      if (this.bindings.length==0 && this.multiple)
+      if (this.bindings.length == 0 && this.multiple)
          this.bindings = [{
             key: true,
             local: `$value.${this.valueIdField}`,
@@ -59,7 +66,7 @@ export class LookupField extends Field {
             remote: `$option.${this.optionTextField}`
          }];
 
-      this.keyBindings = this.bindings.filter(b=>b.key);
+      this.keyBindings = this.bindings.filter(b => b.key);
 
       if (!this.items && !this.children)
          this.items = {
@@ -90,7 +97,7 @@ export class LookupField extends Field {
       if (this.multiple) {
 
          if (Array.isArray(data.values) && Array.isArray(data.options)) {
-            data.selectedKeys = data.values.map(v=>this.keyBindings.length == 1 ? [v] : v);
+            data.selectedKeys = data.values.map(v => this.keyBindings.length == 1 ? [v] : v);
             var map = {};
             data.options.filter($option => {
                var optionKey = getOptionKey(this.keyBindings, {$option});
@@ -106,12 +113,12 @@ export class LookupField extends Field {
                   data.records.push(map[i]);
          }
          else if (Array.isArray(data.records))
-            data.selectedKeys.push(...data.records.map($value=>this.keyBindings.map(b=>Binding.get(b.local).value({$value}))))
+            data.selectedKeys.push(...data.records.map($value => this.keyBindings.map(b => Binding.get(b.local).value({$value}))))
       } else {
          var dataViewData = store.getData();
-         data.selectedKeys.push(this.keyBindings.map(b=>Binding.get(b.local).value(dataViewData)));
+         data.selectedKeys.push(this.keyBindings.map(b => Binding.get(b.local).value(dataViewData)));
          if (!this.text && Array.isArray(data.options)) {
-            var option = data.options.find($option=>areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
+            var option = data.options.find($option => areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
             data.text = option && option[this.optionTextField] || '';
          }
       }
@@ -119,20 +126,20 @@ export class LookupField extends Field {
 
    renderInput(context, instance, key) {
       return <LookupComponent key={key}
-                              multiple={this.multiple}
-                              instance={instance}
-                              itemConfig={this.itemConfig}
-                              bindings={this.bindings}
-                              baseClass={this.baseClass}
-                              onQuery={this.onQuery}
-         />
+         multiple={this.multiple}
+         instance={instance}
+         itemConfig={this.itemConfig}
+         bindings={this.bindings}
+         baseClass={this.baseClass}
+         onQuery={this.onQuery}
+      />
    }
 
    filterOptions(instance, options, query) {
       if (!query)
          return options;
-      var checks = query.split(' ').map(w=>new RegExp(w, 'gi'));
-      return options.filter(o=>typeof o[this.optionTextField] == 'string' && checks.every(ex=>o[this.optionTextField].match(ex)));
+      var checks = query.split(' ').map(w => new RegExp(w, 'gi'));
+      return options.filter(o => typeof o[this.optionTextField] == 'string' && checks.every(ex => o[this.optionTextField].match(ex)));
    }
 }
 
@@ -158,15 +165,15 @@ Widget.alias('lookupfield', LookupField)
 
 function getOptionKey(bindings, data) {
    return bindings
-      .filter(a=>a.key)
-      .map(b=>Binding.get(b.remote).value(data));
+      .filter(a => a.key)
+      .map(b => Binding.get(b.remote).value(data));
 }
 
 function areKeysEqual(key1, key2) {
    if (!key1 || !key2 || key1.length != key2.length)
       return false;
 
-   for (var i = 0; i<key1.length; i++)
+   for (var i = 0; i < key1.length; i++)
       if (key1[i] != key2[i])
          return false;
 
@@ -175,7 +182,7 @@ function areKeysEqual(key1, key2) {
 
 function convertOption(bindings, data) {
    var result = {$value: {}};
-   bindings.forEach(b=> {
+   bindings.forEach(b => {
       var value = Binding.get(b.remote).value(data);
       result = Binding.get(b.local).set(result, value);
    });
@@ -204,21 +211,21 @@ class LookupComponent extends VDOM.Component {
 
    getOptionKey(data) {
       return this.props.bindings
-         .filter(a=>a.key)
-         .map(b=>Binding.get(b.remote).value(data));
+         .filter(a => a.key)
+         .map(b => Binding.get(b.remote).value(data));
    }
 
    getLocalKey(data) {
       return this.props.bindings
-         .filter(a=>a.key)
-         .map(b=>Binding.get(b.local).value(data));
+         .filter(a => a.key)
+         .map(b => Binding.get(b.local).value(data));
    }
 
    areKeysEqual(key1, key2) {
       if (!key1 || !key2 || key1.length != key2.length)
          return false;
 
-      for (var i = 0; i<key1.length; i++)
+      for (var i = 0; i < key1.length; i++)
          if (key1[i] != key2[i])
             return false;
 
@@ -229,7 +236,7 @@ class LookupComponent extends VDOM.Component {
       if (!key)
          return -1;
       for (var i = 0; i < options.length; i++) {
-         var optionKey = this.getOptionKey({ $option: options[i]});
+         var optionKey = this.getOptionKey({$option: options[i]});
          if (this.areKeysEqual(key, optionKey))
             return i;
       }
@@ -252,8 +259,8 @@ class LookupComponent extends VDOM.Component {
       var dataViewData = store.getData();
       if (data.value) {
          var valueKey = this.props.bindings
-            .filter(a=>a.key)
-            .map(b=>Binding.get(b.local).value(dataViewData));
+            .filter(a => a.key)
+            .map(b => Binding.get(b.local).value(dataViewData));
          index = this.findOption(options, valueKey);
          if (index != -1)
             return valueKey;
@@ -276,19 +283,17 @@ class LookupComponent extends VDOM.Component {
          <ul class={CSS.element(baseClass, "lookup-options")}>
             <Repeater records:bind="$options" recordName="$option">
                <li data-option:bind="$option"
-                   memoize={false}
-                   class={{
-                      selected: (data) => this.props.instance.data.selectedKeys.find(x=>this.areKeysEqual(x, this.getOptionKey(data))) != null,
-                      cursor: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
-                   }}
-                   children={this.props.itemConfig}
-                   onMouseDown={e => {
-                      e.preventDefault();
-                   }}
-                   onMouseEnter={(e, {store}) => {
-                      this.setCursorKey(store.getData())
-                   }}
-                   onClick={(e, inst) => this.onItemClick(e, inst)}
+                  memoize={false}
+                  class={{
+                     selected: (data) => this.props.instance.data.selectedKeys.find(x => this.areKeysEqual(x, this.getOptionKey(data))) != null,
+                     cursor: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
+                  }}
+                  children={this.props.itemConfig}
+                  onMouseDown={preventDefault}
+                  onMouseEnter={(e, {store}) => {
+                     this.setCursorKey(store.getData())
+                  }}
+                  onClick={(e, inst) => this.onItemClick(e, inst)}
                />
             </Repeater>
          </ul>
@@ -348,23 +353,32 @@ class LookupComponent extends VDOM.Component {
          </div>
       }
       else {
-         content = <div key="msg" ref={el=>{this.dom.list = el}}
-                        className={CSS.element(baseClass, "scroll-container")}
-                        onWheel={::this.onListWheel}>
+         content = <div key="msg" ref={el => {
+            this.dom.list = el
+         }}
+            className={CSS.element(baseClass, "scroll-container")}
+            onWheel={::this.onListWheel}>
             {instance.prepareRenderCleanupChild(this.list, this.itemStore, "list", {name: 'lookupfield-list'})}
          </div>
       }
 
-      return <div ref={el=>{this.dom.dropdown = el}}
-                  className={CSS.element(baseClass, 'dropdown')}
-                  tabIndex={0}
-                  onFocus={::this.onDropdownFocus}
-                  onKeyDown={e=>this.onDropdownKeyPress(e)}>
-         {searchVisible && <input key="query" ref={el=>{this.dom.query = el}} type="text"
-                                  className={CSS.element(baseClass, "query")}
-                                  onClick={e=>{e.preventDefault();e.stopPropagation()}}
-                                  onChange={e=>this.query(e.target.value)}
-                                  onBlur={e=>this.onQueryBlur(e)}/>}
+      return <div ref={el => {
+         this.dom.dropdown = el
+      }}
+         className={CSS.element(baseClass, 'dropdown')}
+         tabIndex={0}
+         onFocus={::this.onDropdownFocus}
+         onKeyDown={e => this.onDropdownKeyPress(e)}>
+         {searchVisible && <input key="query" ref={el => {
+            this.dom.query = el
+         }} type="text"
+            className={CSS.element(baseClass, "query")}
+            onClick={e => {
+               e.preventDefault();
+               e.stopPropagation()
+            }}
+            onChange={e => this.query(e.target.value)}
+            onBlur={e => this.onQueryBlur(e)}/>}
          {content}
       </div>
    }
@@ -408,25 +422,47 @@ class LookupComponent extends VDOM.Component {
 
       var readOnly = data.disabled || data.readOnly;
 
-      var insideButton = !readOnly && !this.props.multiple && !data.required && data.value != null && (
-         <div onMouseDown={e=>{e.preventDefault()}}
-              onClick={e=>this.onClearClick(e)}
-              className={CSS.element(baseClass, 'clear')}>
-            <ClearIcon className={CSS.element(baseClass, 'icon')} />
-         </div>
-      );
+      var insideButton;
+
+      if (!readOnly && !this.props.multiple && !data.required && data.value != null) {
+         insideButton = (
+            <div onMouseDown={preventDefault}
+               onClick={e => this.onClearClick(e)}
+               className={CSS.element(baseClass, 'clear')}>
+               <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+            </div>
+         )
+      }
+      else {
+         insideButton = (
+            <div
+               className={CSS.element(baseClass, 'tool')}
+               onMouseDown={preventDefault}
+               onClick={e => {
+                  this.openDropdown(e);
+                  e.stopPropagation();
+                  e.preventDefault();
+               }}
+            >
+               <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
+            </div>
+         );
+      }
 
       var text;
 
       if (this.props.multiple) {
          if (Array.isArray(data.records) && data.records.length > 0) {
-            text = data.records.map((v, i)=><div key={i} className={CSS.element(baseClass, 'tag')}>
+            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag')}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
                {!readOnly && (
                   <div className={CSS.element(baseClass, 'tag-clear')}
-                     onMouseDown={e=>{e.preventDefault(); e.stopPropagation();}}
-                     onClick={e=>this.onClearClick(e, v)}>
-                     <ClearIcon className={CSS.element(baseClass, 'icon')} />
+                     onMouseDown={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                     }}
+                     onClick={e => this.onClearClick(e, v)}>
+                     <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                   </div>
                )}
             </div>);
@@ -443,22 +479,24 @@ class LookupComponent extends VDOM.Component {
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}
-                  style={data.style}
-                  onMouseDown={stopPropagation}
-                  onTouchStart={stopPropagation}>
+         style={data.style}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}>
          <div id={data.id}
-              className={CSS.element(widget.baseClass, "input")}
-              tabIndex={data.disabled ? null : 0}
-              ref={el=>{this.dom.input = el}}
-              onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
-              onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
-              onClick={ e=> this.onClick(e) }
-              onInput={ e => this.onChange(e, 'input') }
-              onChange={ e => this.onChange(e, 'change') }
-              onKeyDown={ e => this.onKeyDown(e) }
-              onMouseDown={ e => this.onMouseDown(e) }
-              onBlur={ e => this.onBlur(e) }
-              onFocus={ e => this.onFocus(e) }>
+            className={CSS.element(widget.baseClass, "input")}
+            tabIndex={data.disabled ? null : 0}
+            ref={el => {
+               this.dom.input = el
+            }}
+            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
+            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onClick={ e => this.onClick(e) }
+            onInput={ e => this.onChange(e, 'input') }
+            onChange={ e => this.onChange(e, 'change') }
+            onKeyDown={ e => this.onKeyDown(e) }
+            onMouseDown={ e => this.onMouseDown(e) }
+            onBlur={ e => this.onBlur(e) }
+            onFocus={ e => this.onFocus(e) }>
             {text}
          </div>
          { insideButton }
@@ -487,17 +525,17 @@ class LookupComponent extends VDOM.Component {
       if (widget.multiple) {
          if (Array.isArray(data.records)) {
             var itemKey = this.getLocalKey({$value: value});
-            var newRecords = data.records.filter(v=>!this.areKeysEqual(this.getLocalKey({$value: v}), itemKey));
+            var newRecords = data.records.filter(v => !this.areKeysEqual(this.getLocalKey({$value: v}), itemKey));
 
             instance.set('records', newRecords);
 
-            var newValues = newRecords.map(rec=>this.getLocalKey({$value: rec}))
-                                      .map(k=>keyBindings.length == 1 ? k[0] : k);
+            var newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
+               .map(k => keyBindings.length == 1 ? k[0] : k);
 
             instance.set('values', newValues);
          }
       } else {
-         this.props.bindings.forEach(b=> {
+         this.props.bindings.forEach(b => {
             store.set(b.local, null);
          });
       }
@@ -514,27 +552,27 @@ class LookupComponent extends VDOM.Component {
 
          var optionKey = this.getOptionKey(itemData);
          var newRecords = records;
-         if (!selectedKeys.find(k=>this.areKeysEqual(optionKey, k))) {
+         if (!selectedKeys.find(k => this.areKeysEqual(optionKey, k))) {
             var valueData = {
                $value: {}
             };
-            bindings.forEach(b=> {
+            bindings.forEach(b => {
                valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
             });
             newRecords = [...records || [], valueData.$value];
          } else {
-            newRecords = records.filter(v=>!this.areKeysEqual(optionKey, this.getLocalKey({$value: v})));
+            newRecords = records.filter(v => !this.areKeysEqual(optionKey, this.getLocalKey({$value: v})));
          }
 
          instance.set('records', newRecords);
 
-         var newValues = newRecords.map(rec=>this.getLocalKey({$value: rec}))
-                                   .map(k=>keyBindings.length == 1 ? k[0] : k);
+         var newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
+            .map(k => keyBindings.length == 1 ? k[0] : k);
 
          instance.set('values', newValues);
       }
       else {
-         bindings.forEach(b=> {
+         bindings.forEach(b => {
             store.set(b.local, Binding.get(b.remote).value(itemData));
          });
       }
@@ -718,7 +756,7 @@ class LookupComponent extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       if (props.instance.data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipComponentWillReceiveProps(this.dom.input, props.instance, this.state);
    }
 

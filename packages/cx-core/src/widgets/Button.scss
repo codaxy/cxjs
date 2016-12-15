@@ -42,7 +42,7 @@
          @include cx-add-state-rules($state-style-map, 'hover-focus');
       }
 
-      &:active {
+      &:active, &.#{$state}pressed {
          @include cx-add-state-rules($state-style-map, 'active');
       }
 
@@ -67,7 +67,7 @@
                 @include cx-add-state-rules($config, focus);
             }
 
-            &:active {
+            &:active, &.#{$state}pressed {
                 @include cx-add-state-rules($config, active);
             }
          }

@@ -52,7 +52,8 @@ export class Slider extends Field {
       data.stateMods = {
          ...data.stateMods,
          horizontal: !this.vertical,
-         vertical: this.vertical
+         vertical: this.vertical,
+         disabled: data.disabled
       };
       super.prepareData(context, instance);
    }
@@ -177,6 +178,11 @@ class SliderComponent extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
+      let {instance} = this.props;
+      let {data} = instance;
+      if (data.disabled || data.readOnly)
+         return;
+
       var b = this.dom[handle].getBoundingClientRect();
       var pos = getCursorPos(e);
       var dx = pos.clientX - (b.left + b.right) / 2;
@@ -234,7 +240,11 @@ class SliderComponent extends VDOM.Component {
    }
 
    onClick(e) {
-      var {value} = this.getValues(e);
-      this.props.instance.set('value', value);
+      let {instance} = this.props;
+      let {data} = instance;
+      if (!data.disabled && !data.readOnly) {
+         var {value} = this.getValues(e);
+         this.props.instance.set('value', value);
+      }
    }
 }

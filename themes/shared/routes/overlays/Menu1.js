@@ -79,5 +79,6 @@ export default <cx>
       </MenuItem>
       <Button mod="hollow">Hollow</Button>
       <Button mod="menu">Button</Button>
+      <TextField value:bind="$page.text" />
    </Menu>
 </cx>;

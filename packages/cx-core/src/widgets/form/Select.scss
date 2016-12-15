@@ -7,6 +7,9 @@
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $width: $cx-default-input-width,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -36,8 +39,9 @@
          )
       );
 
-      @extend %cx-icon-dropdown-arrow;
-      background-position: right $cx-default-input-padding center;
+      .#{$state}empty > & {
+         @include cx-add-rules($placeholder);
+      }
 
       &::-ms-expand {
          display: none;
@@ -47,7 +51,25 @@
 
       option {
          background-color: $cx-default-dropdown-background-color;
+         color: cx-get-state-rule($state-style-map, default, color);
       }
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-placeholder {
+      @include cx-add-rules($placeholder);
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+      pointer-events: none; //cannot call open-dropdown on native element
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 }
 

@@ -29,6 +29,7 @@ export const Sliders = <cx>
                     }} />
                     <Slider label="Stepped" from:bind="$page.from" step={10} />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
+                    <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>
                 <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
                 <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>
@@ -44,6 +45,7 @@ export const Sliders = <cx>
                     }} />
                     <Slider label="Stepped" from:bind="$page.from" step={10} />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
+                    <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>
                 <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
                 <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>

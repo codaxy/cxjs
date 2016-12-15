@@ -98,6 +98,7 @@ export class HtmlElement extends PureContainer {
          case "onExplore":
          case "html":
          case "innerText":
+         case "baseClass":
             return false;
 
          default:
