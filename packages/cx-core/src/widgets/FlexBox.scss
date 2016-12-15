@@ -1,12 +1,4 @@
 
-$cx-pad-size: (
-   xsmall: 4px,
-   small: 7px ,
-   medium: 10px,
-   large: 15px,
-   xlarge: 20px
-) !default;
-
 @mixin cx-flexbox(
    $name: 'flexbox',
    $besm: $cx-besm
@@ -104,19 +96,19 @@ $cx-pad-size: (
       }
 
       &.#{$state}target-phone {
-         @media screen and (min-width: 400px) {
+         @media screen and (min-width: $cx-screen-size-small) {
             display: flex;
          }
       }
 
       &.#{$state}target-tablet {
-         @media screen and (min-width: 700px) {
+         @media screen and (min-width: $cx-screen-size-medium) {
             display: flex;
          }
       }
 
       &.#{$state}target-desktop {
-         @media screen and (min-width: 1000px) {
+         @media screen and (min-width: $cx-screen-size-large) {
             display: flex;
          }
       }
