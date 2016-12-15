@@ -7,8 +7,18 @@ import {stopPropagation} from '../util/eventCallbacks';
 export class Button extends HtmlElement {
    declareData() {
       super.declareData(...arguments, {
-         confirm: {structured: true}
+         confirm: {structured: true},
+         pressed: undefined
       })
+   }
+
+   prepareData(context, instance) {
+      let {data} = instance;
+      data.stateMods = {
+         ...data.stateMods,
+         pressed: data.pressed
+      };
+      super.prepareData(context, instance);
    }
 
    attachProps(context, instance, props) {
@@ -31,6 +41,7 @@ export class Button extends HtmlElement {
 
       delete props.confirm;
       delete props.dismiss;
+      delete props.pressed;
 
       let oldOnClick, {data} = instance;
 
