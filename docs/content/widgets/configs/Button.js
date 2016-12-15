@@ -28,8 +28,20 @@ export default {
             Appearance modifier. Cx ships with `primary` and `danger` mods.
         </Md></cx>
     },
+    pressed: {
+        key: true,
+        type: 'boolean',
+        description: <cx>
+            <Md>
+                If `true` button appears in pressed state. Useful for implementing
+                toggle buttons.
+            </Md>
+        </cx>
+
+    },
     confirm: {
         type: 'string/object',
+        key: true,
         description: <cx><Md>
             Confirmation text or configuration object. See [MsgBox.yesNo](~/widgets/msg-boxes) for more details.
         </Md></cx>

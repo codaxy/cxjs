@@ -22,6 +22,7 @@ export const Buttons = <cx>
 
             <div class="widgets">
                 <Button onClick={() => { MsgBox.alert('Regular')}}>Regular</Button>
+                <Button pressed>Pressed</Button>
                 <Button disabled onClick={() => { MsgBox.alert('Disabled') }}>Disabled</Button>
                 <Button mod="primary" onClick={() => { MsgBox.alert('Primary') }}>Primary</Button>
                 <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
@@ -30,17 +31,22 @@ export const Buttons = <cx>
                     }}>
                     Danger
                 </Button>
-                <Button mod="hollow" icon="refresh"></Button>
-                <Button mod="hollow" icon="refresh">Icon + Text</Button>
+                <Button mod="hollow" icon="pencil">Icon + Text</Button>
+                <Button mod="hollow" icon="refresh" />
             </div>
             <CodeSnippet putInto="code">{`
-            <Button onClick={()=>{MsgBox.alert('Regular')}}>Regular</Button>
-            <Button disabled onClick={()=>{MsgBox.alert('Disabled')}}>Disabled</Button>
-            <Button mod="primary" onClick={()=>{MsgBox.alert('Primary')}}>Primary</Button>
-            <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
-                    onClick={()=>{MsgBox.alert('Danger')}}>
-                Danger
-            </Button>
+                <Button onClick={() => { MsgBox.alert('Regular')}}>Regular</Button>
+                <Button pressed>Pressed</Button>
+                <Button disabled onClick={() => { MsgBox.alert('Disabled') }}>Disabled</Button>
+                <Button mod="primary" onClick={() => { MsgBox.alert('Primary') }}>Primary</Button>
+                <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
+                    onClick={() => {
+                        MsgBox.alert('Danger')
+                    }}>
+                    Danger
+                </Button>
+                <Button mod="hollow" icon="pencil">Icon + Text</Button>
+                <Button mod="hollow" icon="refresh" />
          `}</CodeSnippet>
         </CodeSplit>
 

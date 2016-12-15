@@ -21,7 +21,6 @@
 
          & > .#{$element}#{$name}-item {
             display: inline-block;
-            vertical-align: middle;
 
             & > .#{$mod}#{$name} {
                margin: 0 cx-right($cx-default-button-padding) 0 cx-left($cx-default-button-padding);

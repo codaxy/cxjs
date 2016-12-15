@@ -24,7 +24,6 @@ export * from './Button';
 export * from './DocumentTitle';
 export * from './List';
 export * from './Sandbox';
-export * from './Cx';
 export * from './CxCredit';
 export * from './Heading';
 export * from './Section';

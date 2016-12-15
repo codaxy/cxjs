@@ -14,6 +14,8 @@ export * from './ZIndexManager';
 export * from './Format';
 export * from './Culture';
 export * from './Localization';
+export * from './Cx';
+export * from './Instance';
 
 export * from './selection/index';
 export * from './layout/index';
