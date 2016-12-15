@@ -96,19 +96,19 @@
       }
 
       &.#{$state}target-phone {
-         @media screen and (min-width: $screen-size-small) {
+         @media screen and (min-width: $cx-screen-size-small) {
             display: flex;
          }
       }
 
       &.#{$state}target-tablet {
-         @media screen and (min-width: $screen-size-medium) {
+         @media screen and (min-width: $cx-screen-size-medium) {
             display: flex;
          }
       }
 
       &.#{$state}target-desktop {
-         @media screen and (min-width: $screen-size-large) {
+         @media screen and (min-width: $cx-screen-size-large) {
             display: flex;
          }
       }
