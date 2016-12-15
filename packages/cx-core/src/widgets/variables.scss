@@ -1,4 +1,19 @@
 
+// Padding
+$padding-extra-small: 4px !default;
+$padding-small: 7px !default;
+$padding-medium: 10px !default;
+$padding-large: 15px !default;
+$padding-extra-large: 20px !default;
+
+$cx-pad-size: (
+   xsmall: $padding-extra-small,
+   small: $padding-small,
+   medium: $padding-medium,
+   large: $padding-large,
+   xlarge: $padding-extra-large
+) !default;
+
 @import "form/variables";
 @import "grid/variables";
 @import "nav/variables";
