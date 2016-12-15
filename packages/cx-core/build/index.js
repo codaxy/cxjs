@@ -129,7 +129,7 @@ var all = entries.map(function(e) {
 
          if (e.name) {
             //var code = result.code.replace(/from '@\//g, "from './");
-            var code = result.code.replace(/require\('@\//g, "require('./");
+            var code = result.code.replace(/from '@\//g, "from './");
             fs.writeFileSync(dist(e.name + '.js'), code);
             console.log(e.name + '.js', code.length / 1000, 'kB');
          }
