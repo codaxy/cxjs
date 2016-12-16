@@ -1,5 +1,4 @@
-import {Binding} from 'cx-core/src/data/Binding';
-import {View} from 'cx-core/src/data/View';
+import {Binding, View} from 'cx/data';
 import {CX_REPLACE_STATE} from './actions';
 
 export class ReduxStoreView extends View {
