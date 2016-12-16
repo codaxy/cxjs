@@ -1,4 +1,4 @@
-import { Localization } from '../ui';
+import { Localization } from 'cx/ui';
 
 var c = 'sr-latn-ba';
 
