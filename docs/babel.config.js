@@ -24,11 +24,11 @@ module.exports = function (options) {
             'transform-object-rest-spread',
             "transform-function-bind",
             'transform-export-extensions',
-            ["transform-cx-imports", {useSrc: isProduction}],
+            isProduction && ["transform-cx-imports", {useSrc: true}],
             'transform-cx-jsx',
             ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
             //["babel-plugin-inferno", {"pragma": "VDOM"}]
-        ]
+        ].filter(Boolean)
     }
 };
 
