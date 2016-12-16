@@ -1,0 +1,11 @@
+@if cx-call-once('cx/widgets/animations') {
+   @keyframes cx-rotate {
+      from {
+         transform: rotate(0);
+      }
+
+      to {
+         transform: rotate(360deg);
+      }
+   }
+}
