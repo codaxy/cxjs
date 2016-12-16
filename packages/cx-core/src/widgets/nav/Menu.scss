@@ -22,16 +22,19 @@
          & > .#{$element}#{$name}-item {
             display: inline-block;
 
-            & > .#{$mod}#{$name} {
-               margin: 0 cx-right($cx-default-button-padding) 0 cx-left($cx-default-button-padding);
+            @each $size, $value in $cx-menu-padding-options {
+               &.#{$state}size-#{$size} > .#{$mod}#{$name} {
+                  margin: 0 cx-right($value) 0 cx-left($value);
+               }
             }
          }
       }
 
-      &.#{$state}vertical > .#{$element}#{$name}-item > .#{$mod}#{$name} {
-         margin: $cx-default-button-padding;
-         border: $cx-default-button-border-width solid transparent;
-         display: block;
+      @each $size, $value in $cx-menu-padding-options {
+         &.#{$state}vertical.#{$state}#{$size}-item-padding > .#{$element}#{$name}-item > .#{$mod}#{$name} {
+            margin: $value;
+            display: block;
+         }
       }
 
       @include cx-add-state-rules($state-style-map, default);
@@ -39,8 +42,8 @@
       .#{$element}#{$name}-item {
          & > hr {
             border: none;
-            border-top: 1px solid $cx-default-menu-separator;
-            margin: $cx-default-button-padding;
+            border-top: 1px solid $cx-default-menu-separator-color;
+            margin: map-get($cx-menu-padding-options, medium)
          }
       }
    }

@@ -17,12 +17,26 @@ import {MenuItem} from "./MenuItem";
 
 export class Menu extends HtmlElement {
 
+   init() {
+      if (this.itemPadding === true)
+         this.itemPadding = 'medium';
+
+      if (this.horizontal && !this.itemPadding)
+         this.itemPadding = this.defaultHorizontalItemPadding;
+
+      if (!this.horizontal && !this.itemPadding)
+         this.itemPadding = this.defaultVerticalItemPadding;
+
+      super.init();
+   }
+
    prepareData(context, instance) {
       var {data} = instance;
       data.stateMods = {
          ...data.stateMods,
          horizontal: this.horizontal,
-         vertical: !this.horizontal
+         vertical: !this.horizontal,
+         [this.itemPadding+'-item-padding']: this.itemPadding
       };
       super.prepareData(context, instance);
    }
@@ -53,6 +67,8 @@ export class Menu extends HtmlElement {
 }
 
 Menu.prototype.horizontal = false;
+Menu.prototype.defaultVerticalItemPadding = "medium";
+Menu.prototype.defaultHorizontalItemPadding = "small";
 Menu.Item = MenuItem;
 
 class MenuComponent extends VDOM.Component {
