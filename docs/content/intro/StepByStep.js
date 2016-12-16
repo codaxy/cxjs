@@ -305,7 +305,7 @@ export const StepByStep = <cx>
             To disable the button when the text field is empty, we bind its `disabled` property to
             an expression. If the result of calculating this expression is truthy (meaning, the text is empty), the
             button will be disabled. This is a very simplistic validation strategy; in real-world applications, we
-            will use something more flexible, like [Validation groups](~/widgets/validation-groups).
+            will use something more flexible, like [Validation groups](http://cx.codaxy.com/v/master/docs/widgets/validation-groups).
 
             The last part of our Todo widget is the actual dynamic list of Todo items. Here, we use a `Repeater`
             component to iterate through all items of a collection like this one:
@@ -338,16 +338,16 @@ export const StepByStep = <cx>
             in this basic example (template is just a value), we could have easily used a simple binding, too.
 
             Property `value` is bound to the `$record.done` value, so that the checkbox appears checked if
-            the task is marked as done, and `$record.done` will change whenever the user changes checkbox state.
-            We're also setting binding class name of the checkbox element like this:
+            the task is marked as done, and `$record.done` will change whenever the user changes the checkbox state.
+            We're also binding CSS class name of the checkbox element like this:
 
             {`<pre>
 { "css-task-done": { bind: "$record.done "} }
             </pre>`}
 
-            This means that the class name `css-task-done` will be applied to the checkbox element only if the `$record.done`
+            This means that the class name `css-task-done` will be applied to the checkbox element, only if the `$record.done`
             value is truthy. This is just a more verbose syntax of the same binding mechanism
-            (applying binding configuration object to the property instead of a more common `:bind` syntax).
+            (applying binding configuration object to the property, instead of a more common `:bind` syntax).
             As expected, class name will be recalculated every time `$record.done` value changes
             (for example, when the user clicks on the checkbox). We can use this class in our stylesheet
             to display completed tasks as stricken through.
@@ -419,7 +419,7 @@ export const StepByStep = <cx>
             `onAdd` method. In this method, we want to add a new item to the `$page.todos` collection, by
             the following steps:
 
-            - we define an `id` for the new item (we take the maximum `id` vlaue from the existing records and
+            - we define an `id` for the new item (we take the maximum `id` value from the existing records and
                 increment it by one);
 
             - we're adding a new item to the `$page.todos` collection (with the new `id` and the `text` set
@@ -430,7 +430,7 @@ export const StepByStep = <cx>
             - we clear the `$page.text` value, so that the text field is cleared.
 
             We also need the code for removing a task from the list. Signature of the `onRemove` method
-            shows that button's `onClick` handlers receive two parameters: an event object, and a target
+            shows that button's `onClick` handlers receive two parameters: an event object and a target
             component instance (which contains properties like `store`, `controller`, etc.). Since the
             button is a part of the repeater's iterated content (an `li` instance), its store will have
             `$record` and `$index` values defined, set there by the repeater. We use the `$record.id`
@@ -489,7 +489,7 @@ export const StepByStep = <cx>
         ## Using Todo widget in our application
 
         <CodeSplit>
-            Now let's use our newly created Todo widget in our application in place of the
+            Now, let's use our newly created Todo widget in our application in place of the
             hello widget we defined earlier. In the `app/index.js` file, we need to import the
             widget and pass it to the `startAppLoop` as the root widget of the application.
 
@@ -517,7 +517,7 @@ export const StepByStep = <cx>
 
         <CodeSplit>
             Also, we want to style the widget a bit, so we will add the following line in the `app/index.scss`
-            file and create the new `app/todo/index.scss` file. In this file we can add any style definitions
+            file and create the new `app/todo/index.scss` file. In this file, we can add any style definitions
             concerning this particular widget. A sample `app/todo/index.scss` can be downloaded from
             [here](https://github.com/codaxy/cx-getting-started/blob/master/app/index.scss).
 
@@ -544,7 +544,7 @@ export const StepByStep = <cx>
 
         <CodeSplit>
             For new projects, however, it is much more convenient to use our
-            [Cx Starter Kit boilerplate application](https://gitlab.com/codaxy/cx-starter-kit),
+            [Cx Starter Kit boilerplate application](https://gitlab.com/codaxy/cx-starter-kit)
             which has all of the elements described here (plus many other features
             needed for building large client-side applications, such as routing, application layout,
             ready-to-use design, consistent folder structure, etc.) already set up.
