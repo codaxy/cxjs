@@ -82,7 +82,7 @@ export const Widgets = <cx>
         ## Widget Methods
 
         Cx widgets are very similar to React components. Each widget type has to define its `render` method,
-        and optionally `explore`, `prepare` and `cleanup` methods in more advanced use-cases.
+        and optionally, `explore`, `prepare` and `cleanup` methods in more advanced use-cases.
 
         <CodeSplit>
 
