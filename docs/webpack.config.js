@@ -142,6 +142,7 @@ var common = {
 
     resolve: {
         alias: {
+            "cx/locale": path.resolve(path.join(__dirname, '../packages/cx-core/locale')),
             cx: path.resolve(path.join(__dirname, '../packages/cx-core/src')),
             "cx-core": path.resolve(path.join(__dirname, '../packages/cx-core')),
             'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
