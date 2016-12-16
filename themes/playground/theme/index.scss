@@ -17,7 +17,7 @@ $cx-default-input-border-color: #eff1f7;
 
 @import "~cx/variables";
 
-$cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
+$cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
       //transition: border-color 0.1s,
    ),
@@ -26,14 +26,14 @@ $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, 
    )
 ));
 
-$cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
+$cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
       background: white,
       border-radius: $cx-default-border-radius
    )
 ));
 
-$cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-state-style-map, (
+$cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
    default: (
       background: null,
       font-size: 1.2rem,
@@ -45,13 +45,13 @@ $cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-s
    )
 ));
 
-$cx-window-body-state-style-map: cx-merge-state-style-maps($cx-window-body-state-style-map, (
+$cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
    default: (
       background: null
    )
 ));
 
-$cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-state-style-map, (
+$cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
    default: (
       background: null,
       margin: 0 1.5rem,
@@ -73,7 +73,7 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
 
 //globals
 
-$cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
+$cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    h1: (
       font-weight: 400,
       color: #24b5d6

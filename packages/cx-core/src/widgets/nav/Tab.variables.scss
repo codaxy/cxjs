@@ -2,7 +2,7 @@
 $cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
 $cx-default-tab-border-width: $cx-default-box-border-width !default;
 
-$cx-tab-state-style-map: cx-merge-state-style-maps($cx-list-item, (
+$cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
    default: (
       border-radius: $cx-default-border-radius,
       padding: $cx-default-tab-padding,

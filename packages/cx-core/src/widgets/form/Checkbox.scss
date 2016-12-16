@@ -14,7 +14,7 @@
    $padding: cx-get-state-rule($state-style-map, default, padding);
    $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
-   $outer-styles: cx-merge-state-style-maps($state-style-map, (
+   $outer-styles: cx-deep-map-merge($state-style-map, (
       default: (
          border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
       )
