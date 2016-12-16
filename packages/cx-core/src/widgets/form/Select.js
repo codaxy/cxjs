@@ -3,8 +3,8 @@ import {HtmlElement} from '../HtmlElement';
 import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
-import DropdownIcon from '../../icons/drop-down';
-import ClearIcon from '../../icons/clear';
+import DropdownIcon from '../icons/drop-down';
+import ClearIcon from '../icons/clear';
 
 export class Select extends Field {
 

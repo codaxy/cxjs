@@ -4,7 +4,7 @@ import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep}
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
-import DropdownIcon from '../../icons/drop-down';
+import DropdownIcon from '../icons/drop-down';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 

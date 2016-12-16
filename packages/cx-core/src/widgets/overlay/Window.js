@@ -3,7 +3,7 @@ import {Overlay, OverlayComponent} from './Overlay';
 import {ContentPlaceholder, contentSandbox} from '../../ui/layout/ContentPlaceholder';
 import {ZIndexManager} from '../../ui/ZIndexManager';
 import {Button} from '../Button';
-import CloseIcon from '../../icons/close';
+import CloseIcon from '../icons/close';
 import {parseStyle} from '../../util/parseStyle';
 
 export class Window extends Overlay {

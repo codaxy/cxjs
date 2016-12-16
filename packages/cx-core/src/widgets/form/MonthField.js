@@ -11,8 +11,8 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
-import CalendarIcon from '../../icons/calendar';
-import ClearIcon from '../../icons/clear';
+import CalendarIcon from '../icons/calendar';
+import ClearIcon from '../icons/clear';
 
 export class MonthField extends Field {
 

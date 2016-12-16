@@ -10,9 +10,9 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
 import {Localization} from '../../ui/Localization';
-import CalendarIcon from '../../icons/calendar';
+import CalendarIcon from '../icons/calendar';
 import {Icon} from '../Icon';
-import ClearIcon from '../../icons/clear';
+import ClearIcon from '../icons/clear';
 
 export class DateField extends Field {
 

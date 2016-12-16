@@ -3,7 +3,7 @@ import {Field} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
-import Check from '../../icons/check';
+import Check from '../icons/check';
 
 export class Checkbox extends Field {
 

@@ -20,9 +20,6 @@
    }
 
    .cxe-sidenav-arrow {
-      @extend %cx-icon-dropdown-arrow;
-      background-size: 16px 16px;
-      background-position: center;
       position: absolute;
       right: 5px;
       top: 50%;

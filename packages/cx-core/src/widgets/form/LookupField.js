@@ -18,8 +18,8 @@ import {
    tooltipComponentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
-import ClearIcon from '../../icons/clear';
-import DropdownIcon from '../../icons/drop-down';
+import ClearIcon from '../icons/clear';
+import DropdownIcon from '../icons/drop-down';
 
 export class LookupField extends Field {
 
