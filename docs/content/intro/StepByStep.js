@@ -297,15 +297,15 @@ export const StepByStep = <cx>
             into the field, a value of `$page.text` will change accordingly.
 
             A `Button` element is a Cx wrapper around HTML button input. By clicking on this particular button, the user
-            will add the item from the text field to the list of the all Todo items, so we need to insert the appropriate
-            handler to it. By assigning a simple string value `"onAdd"` to its `onClick` attribute, we're connecting
-            the button's click event to the method of the controller (passed down to the button from the `div` above) which
-            we will explain shortly.
+            will add the item from the text field to the list of the all Todo items, so we need to assign it the appropriate
+            click handler. By setting its `onClick` attribute to a simple string value of `"onAdd"`, we're connecting
+            the button's click event to the method of the controller that was passed down to the button from the `div` above, 
+            which we will explain shortly.
 
             To disable the button when the text field is empty, we bind its `disabled` property to
             an expression. If the result of calculating this expression is truthy (meaning, the text is empty), the
             button will be disabled. This is a very simplistic validation strategy; in real-world applications, we
-            will use something more flexible, like [Validation groups](http://localhost:8065/widgets/validation-groups).
+            will use something more flexible, like [Validation groups](~/widgets/validation-groups).
 
             The last part of our Todo widget is the actual dynamic list of Todo items. Here, we use a `Repeater`
             component to iterate through all items of a collection like this one:
