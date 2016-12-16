@@ -1,5 +1,5 @@
-import {Widget, VDOM} from 'cx-core/src/ui/Widget';
-import {HtmlElement} from 'cx-core/src/ui/HtmlElement';
+import {Widget, VDOM} from 'cx/ui';
+import {HtmlElement} from 'cx/widgets';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
