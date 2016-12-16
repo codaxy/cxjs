@@ -14,8 +14,8 @@ $cx-default-checkbox-size: 16px;
 $cx-default-radio-size: 16px;
 $cx-default-input-border-color: #eff1f7;
 
-$cx-include-all: false;
-@import "~cx/index";
+
+@import "~cx/variables";
 
 $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
    default: (
@@ -100,8 +100,6 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    )
 ));
 
-$cx-include-all: true;
-$cx-include-global-rules: true;
 
 @import "~cx/index";
 
