@@ -8,79 +8,18 @@ const webpack = require('webpack'),
     path = require('path'),
     babelConfig = require('./babel.config');
 
-var common = {
-
-    resolve: {
-        alias: {
-            cx: path.resolve(path.join(__dirname, '../packages/cx-core/src')),
-            "cx-core": path.resolve(path.join(__dirname, '../packages/cx-core')),
-            'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
-            //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
-            //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
-            'cx-react-css-transition-group': path.resolve(path.join(__dirname, '../packages/cx-react-css-transition-group')),
-            docs: __dirname
-        }
-    },
-
-    module: {
-        loaders: [{
-            test: /\.json$/,
-            loader: 'json-loader'
-        }, {
-            test: /\.js$/,
-            include: /(docs|cx-core|cx-react)/,
-            loaders: [{
-                loader: 'babel-loader',
-                query: babelConfig
-            }, {
-                loader: 'if-loader'
-            }]
-        }, {
-            test: /\.(jpg|png)$/,
-            loader: "file-loader"
-        }]
-    },
-    entry: {
-        vendor: ['cx-react', path.join(__dirname, 'polyfill')],
-        app: __dirname + '/index.js',
-    },
-    output: {
-        path: __dirname,
-        filename: "[name].[hash].js"
-    },
-    // externals: {
-    //    "react": "React",
-    //    "react-dom": "ReactDOM"
-    // },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor", "manifest"],
-            minChunks: Infinity
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'app',
-            children: true,
-            minChunks: Infinity
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'index.html'),
-            minify: {
-                removeComments: true
-            }
-        })
-    ]
-};
-
-var specific;
+var specific, production = false;
 
 switch (process.env.npm_lifecycle_event) {
     case 'build:docs':
+        production = true;
+
         var sass = new ExtractTextPlugin({
             filename: "app.css",
             allChunks: true
         });
-        specific = {
 
+        specific = {
             module: {
                 loaders: [{
                     test: /\.scss$/,
@@ -111,6 +50,46 @@ switch (process.env.npm_lifecycle_event) {
                 filename: "[name].[chunkhash].js",
                 hashDigestLength: 5,
                 publicPath: "/docs/"
+            }
+        };
+        break;
+
+    default:
+        specific = {
+            module: {
+                loaders: [{
+                    test: /\.scss$/,
+                    loaders: ["style-loader", "css-loader", "sass-loader"]
+                }, {
+                    test: /\.css$/,
+                    loader: ["style-loader", "css-loader"]
+                }]
+            },
+            entry: {
+              app: [
+                  'react-dev-utils/webpackHotDevClient',
+                  __dirname + '/index.js'
+              ]
+            },
+            plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        "if-loader": 'development',
+                    }
+                }),
+                new webpack.HotModuleReplacementPlugin()
+            ],
+            output: {
+                publicPath: '/'
+            },
+            devtool: 'eval',
+            devServer: {
+                contentBase: '/docs',
+                hot: true,
+                port: 8065,
+                noInfo: false,
+                inline: true,
+                historyApiFallback: true
             }
         };
         break;
@@ -157,46 +136,70 @@ switch (process.env.npm_lifecycle_event) {
     //         }
     //     };
     //     break;
-
-    default:
-        specific = {
-            module: {
-                loaders: [{
-                    test: /\.scss$/,
-                    loaders: ["style-loader", "css-loader", "sass-loader"]
-                }, {
-                    test: /\.css$/,
-                    loader: ["style-loader", "css-loader"]
-                }]
-            },
-            entry: {
-              app: [
-                  'react-dev-utils/webpackHotDevClient',
-                  __dirname + '/index.js'
-              ]
-            },
-            plugins: [
-                new webpack.LoaderOptionsPlugin({
-                    options: {
-                        "if-loader": 'development',
-                    }
-                }),
-                new webpack.HotModuleReplacementPlugin()
-            ],
-            output: {
-                publicPath: '/'
-            },
-            devtool: 'eval',
-            devServer: {
-                contentBase: '/docs',
-                hot: true,
-                port: 8065,
-                noInfo: false,
-                inline: true,
-                historyApiFallback: true
-            }
-        };
-        break;
 }
+
+var common = {
+
+    resolve: {
+        alias: {
+            "cx/locale": path.resolve(path.join(__dirname, '../packages/cx-core/locale')),
+            cx: path.resolve(path.join(__dirname, '../packages/cx-core/src')),
+            "cx-core": path.resolve(path.join(__dirname, '../packages/cx-core')),
+            'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
+            //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
+            //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
+            'cx-react-css-transition-group': path.resolve(path.join(__dirname, '../packages/cx-react-css-transition-group')),
+            docs: __dirname
+        }
+    },
+
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            include: /(docs|cx-core|cx-react)/,
+            loaders: [{
+                loader: 'babel-loader',
+                query: babelConfig({production: production})
+            }, {
+                loader: 'if-loader'
+            }]
+        }, {
+            test: /\.json$/,
+            loader: 'json-loader'
+        }, {
+            test: /\.(jpg|png)$/,
+            loader: "file-loader"
+        }]
+    },
+    entry: {
+        vendor: ['cx-react', path.join(__dirname, 'polyfill')],
+        app: __dirname + '/index.js',
+    },
+    output: {
+        path: __dirname,
+        filename: "[name].[hash].js"
+    },
+    // externals: {
+    //    "react": "React",
+    //    "react-dom": "ReactDOM"
+    // },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["vendor", "manifest"],
+            minChunks: Infinity
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'app',
+            children: true,
+            minChunks: Infinity
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'index.html'),
+            minify: {
+                removeComments: true
+            }
+        })
+    ]
+};
 
 module.exports = merge(common, specific);

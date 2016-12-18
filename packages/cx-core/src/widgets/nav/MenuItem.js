@@ -4,7 +4,7 @@ import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep}
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
-import DropdownIcon from '../../icons/drop-down';
+import DropdownIcon from '../icons/drop-down';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 
@@ -22,8 +22,16 @@ export class MenuItem extends HtmlElement {
    explore(context, instance) {
       instance.horizontal = this.horizontal;
       let {lastMenu, lastMenuItem} = context;
-      if (lastMenu)
+      if (lastMenu) {
          instance.horizontal = lastMenu.horizontal;
+         instance.padding = lastMenu.itemPadding;
+      }
+
+      if (!instance.padding && this.pad == true)
+         instance.padding = 'medium';
+
+      if (this.padding)
+         instance.padding = this.padding;
 
       context.lastMenuItem = this;
       super.explore(context, instance);
@@ -113,8 +121,8 @@ class MenuItemComponent extends VDOM.Component {
          horizontal: instance.horizontal,
          vertical: !instance.horizontal,
          arrow: widget.arrow,
-         pad: widget.pad,
-         cursor: widget.showCursor
+         cursor: widget.showCursor,
+         [instance.padding + '-padding']: instance.padding
       }));
 
       return <div className={classNames}

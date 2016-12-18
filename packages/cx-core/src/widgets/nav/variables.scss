@@ -3,12 +3,8 @@
 $cx-default-cover-border-color: $cx-default-border-color !default;
 $cx-default-cover-background-color: white !default;
 
-// MENU
-$cx-menu-state-style-map: $cx-list !default;
-$cx-default-menu-separator: lightgray !default;
-
-// MENU ITEM
-$cx-default-menu-item-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+//MENU
+@import "Menu.variables";
 
 // TAB
 @import "Tab.variables";

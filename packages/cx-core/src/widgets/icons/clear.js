@@ -1,5 +1,5 @@
-import {VDOM} from '../ui/Widget';
-import {Icon} from '../widgets/Icon';
+import {VDOM} from '../../ui/Widget';
+import {Icon} from '../Icon';
 
 export default Icon.register('clear', props => {
    return <svg

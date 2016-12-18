@@ -1,4 +1,4 @@
-import { List, Repeater, Text, Link, Menu} from 'cx/widgets';
+import { List, Repeater, Text, Link, Menu, Icon } from 'cx/widgets';
 import { KeySelection, History, Url, TreeAdapter } from 'cx/ui';
 import { HtmlElement } from 'cx/widgets';
 
@@ -26,7 +26,7 @@ export const SideNav = <cx>
       <div visible:expr="{$topic.$level} == 0" trimWhitespace={false}
             class="cxe-sidenav-topic">
          <Text bind="$topic.topic" />
-         <span class={{
+         <Icon name="drop-down" class={{
             "cxe-sidenav-arrow": true,
             "cxs-expanded": {expr: "{$topic.expanded}"}}}
          />

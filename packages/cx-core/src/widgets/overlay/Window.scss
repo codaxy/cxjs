@@ -1,6 +1,3 @@
-
-@import "../../icons/index";
-
 @mixin cx-window(
    $name: 'window',
    $state-style-map: $cx-window-state-style-map,
@@ -55,6 +52,7 @@
 
       @include cx-add-state-rules($footer-state-style-map, default);
 
+      //TODO: Extract common autoclear
       &:after {
          clear: both;
          visibility: hidden;
@@ -82,37 +80,36 @@
       }
    }
 
-   .#{$element}#{$name}-close {
-      @extend %cx-icon-close;
-      position: absolute;
-      right: 5px;
-      top: calc(50% - 15px);
-      background-position: center;
-      background-size: 18px 18px;
-      border: none;
-      width: 30px;
-      float: right;
-      height: 30px;
-      display: block;
-      border-radius: 50%;
-      background-color: transparent;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      -ms-appearance: none;
-      appearance: none;
-
-      &:hover {
-        @include cx-add-state-rules($cx-list-item, hover);
-      }
-
-      &:focus {
-         @include cx-add-state-rules($cx-list-item, selected-focus);
-      }
-
-      &:active {
-         @include cx-add-state-rules($cx-list-item, active);
-      }
-   }
+   //.#{$element}#{$name}-close {
+   //   position: absolute;
+   //   right: 5px;
+   //   top: calc(50% - 15px);
+   //   background-position: center;
+   //   background-size: 18px 18px;
+   //   border: none;
+   //   width: 30px;
+   //   float: right;
+   //   height: 30px;
+   //   display: block;
+   //   border-radius: 50%;
+   //   background-color: transparent;
+   //   -webkit-appearance: none;
+   //   -moz-appearance: none;
+   //   -ms-appearance: none;
+   //   appearance: none;
+   //
+   //   &:hover {
+   //     @include cx-add-state-rules($cx-list-item, hover);
+   //   }
+   //
+   //   &:focus {
+   //      @include cx-add-state-rules($cx-list-item, selected-focus);
+   //   }
+   //
+   //   &:active {
+   //      @include cx-add-state-rules($cx-list-item, active);
+   //   }
+   //}
 
    .#{$element}#{$name}-modal-backdrop {
       @extend %cxe-overlay-modal-backdrop;

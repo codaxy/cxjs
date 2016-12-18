@@ -1,5 +1,12 @@
 import {Widget, VDOM} from '../../ui/Widget';
 
+import FolderIcon from '../icons/folder';
+import FolderOpenIcon from '../icons/folder-open';
+import FileIcon from '../icons/file';
+import LoadingIcon from '../icons/loading';
+
+import { Icon } from '../Icon';
+
 export class TreeNode extends Widget {
 
    declareData() {
@@ -27,9 +34,25 @@ export class TreeNode extends Widget {
    render(context, instance, key) {
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
+
+      let icon;
+
+      if (data.leaf)
+         icon = FileIcon;
+      else {
+         if (data.loading)
+            icon = LoadingIcon;
+         else if (data.expanded)
+            icon = FolderOpenIcon;
+         else
+            icon = FolderIcon;
+      }
+
       return <div className={data.classNames} style={data.style}>
          <div className={CSS.element(baseClass, 'handle')} onClick={e=>this.toggle(e, instance)}>
-            <div></div>
+            {icon({
+               className: CSS.element(baseClass, 'icon')
+            })}
          </div>
          <div>
             {data.text}

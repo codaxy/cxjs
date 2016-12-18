@@ -43,7 +43,7 @@ $cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !defa
 
 // MENU
 // $cx-default-menu-item-padding: 10px !default;
-$cx-default-menu-separator: darken($cx-default-border-color, 4) !default;
+$cx-default-menu-separator-color: darken($cx-default-border-color, 4) !default;
 
 // TOOLTIP
 $cx-tooltip-background-color: lighten($cx-default-background-color-light, 5) !default;

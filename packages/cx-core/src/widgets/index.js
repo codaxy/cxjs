@@ -30,6 +30,7 @@ export * from './Section';
 export * from './FlexBox';
 export * from './Icon';
 
+export * from './icons/index';
 export * from './overlay/index';
 export * from './nav/index';
 export * from './form/index';

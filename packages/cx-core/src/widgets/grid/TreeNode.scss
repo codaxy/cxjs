@@ -1,6 +1,9 @@
 
 @mixin cx-treenode(
    $name: 'treenode',
+   $icon-size: $cx-default-icon-size,
+   $handle-size: $cx-default-input-tool-size,
+   $handle-state-style-map: $cx-input-tool-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -9,7 +12,7 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      padding-left: 40px;
+      padding-left: 30px;
       position: relative;
 
       @for $i from 1 through 20 {
@@ -21,50 +24,35 @@
 
    .#{$element}#{$name}-handle {
       position: absolute;
-      width: 36px;
-      left: 0;
-      top: 0;
+      left: 15px;
+      top: 50%;
+      margin-left: -$handle-size/2;
+      margin-top: -$handle-size/2;
       bottom: 0;
-      background-position: left center;
+      width: $handle-size;
+      height: $handle-size;
 
-      & > div {
-         background-position: left center;
-         position: absolute;
-         left: 16px;
-         top: 0;
-         bottom: 0;
-         right: 0;
+      @include cx-add-state-rules($handle-state-style-map, default);
+
+      &:hover {
+         @include cx-add-state-rules($handle-state-style-map, hover);
       }
 
-      .#{$state}folder.#{$state}expanded > & {
-         @extend %cx-icon-arrow-down;
-
-         & > div {
-            @extend %cx-icon-folder-open;
-         }
+      &:active {
+         @include cx-add-state-rules($handle-state-style-map, active);
       }
+   }
 
-      .#{$state}folder.#{$state}expanded.#{$state}loading > & {
-         & > div {
-            @extend %cx-icon-loading;
-         }
-      }
-
-      .#{$state}folder > & {
-         @extend %cx-icon-arrow-right;
-
-         &:hover {
-            background-color: rgba(200, 200, 200, 0.5);
-         }
-
-         & > div {
-            @extend %cx-icon-folder;
-         }
-      }
-
-      .#{$state}leaf > & > div {
-         @extend %cx-icon-file;
-      }
+   .#{$element}#{$name}-icon {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      margin-left: -$icon-size / 2;
+      height: $icon-size;
+      width: $icon-size;
+      line-height: $icon-size;
    }
 
    .#{$block}grid.#{$mod}tree {

@@ -1,7 +1,7 @@
-
 @mixin cx-menuitem(
    $name: 'menuitem',
    $state-style-map: $cx-list-item,
+   $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -13,14 +13,10 @@
       box-sizing: border-box;
       cursor: pointer;
       position: relative;
-      border-radius: $cx-default-border-radius;  
+      border-radius: $cx-default-border-radius;
 
       &:focus {
          outline: none;
-      }
-
-      &.#{$state}arrow {
-         padding-right: cx-calc(cx-right($cx-default-menu-item-padding), 16px);
       }
 
       .#{$state}focusable > &.#{$state}cursor {
@@ -44,20 +40,35 @@
          }
       }
 
-      &.#{$state}pad > a, &.#{$state}pad > span {
-         padding: $cx-default-menu-item-padding;
-         border: $cx-default-button-border-width solid transparent;
-         line-height: $cx-default-box-line-height;
-         display: block;
+      @each $size, $value in $cx-menu-padding-options {
+
+         &.#{$state}#{$size}-padding {
+
+            & > a,
+            & > span {
+               padding: $value;
+               line-height: $cx-default-box-line-height;
+               border: $cx-default-box-border-width solid transparent;
+               display: block;
+            }
+
+            &.#{$state}arrow {
+               padding-right: cx-calc(cx-right($value), $icon-size);
+            }
+
+            & > .#{$element}#{$name}-arrow {
+               right: cx-right($value) / 2;
+            }
+         }
       }
    }
 
    .#{$element}#{$name}-arrow {
       position: absolute;
-      width: 16px;
-      height: 16px;
-      right: cx-right($cx-default-button-padding) / 2;
-      top: calc(50% - 8px);
+      width: $icon-size;
+      height: $icon-size;
+      top: 50%;
+      margin-top: -$icon-size/2;
 
       .#{$state}vertical > & {
          transform: rotate(-90deg);

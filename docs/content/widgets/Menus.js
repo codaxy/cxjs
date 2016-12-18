@@ -22,11 +22,6 @@ export const Menus = <cx>
 
             Menus are completely driven by focus. If the menu loses focus, all sub-menus are closed.
 
-            > `menu` and `menu-pad` modifiers are used to add margin/padding to menu items. Use `menu` on elements with
-            well defined boundaries (input fields) to add margins. Use `menu-pad` to pad links to take all available
-            space within the containing menu item.
-
-
             <div class="widgets">
                 <Menu horizontal>
                     <Submenu>
@@ -144,6 +139,8 @@ export const Menus = <cx>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
+
+        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set.
 
         ## Configuration
 
