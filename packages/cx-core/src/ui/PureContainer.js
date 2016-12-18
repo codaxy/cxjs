@@ -60,6 +60,10 @@ export class PureContainer extends Widget {
       return this.layout.render(context, instance, keyPrefix)
    }
 
+   clear() {
+      this.items = [];
+   }
+
    add(...args) {
       args.forEach(a => {
          if (!a)

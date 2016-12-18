@@ -49,6 +49,9 @@ export class ArrayAdapter extends DataAdapter {
                      },
                      immutable: this.immutable
                   });
+               else {
+                  recordStore.setStore(parentStore);
+               }
             }
 
             if (typeof data == 'object')
