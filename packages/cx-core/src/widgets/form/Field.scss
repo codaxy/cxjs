@@ -58,7 +58,7 @@
 ) {
    $state: map-get($besm, state);
 
-   $styles: cx-merge-state-style-maps($state-style-map, $overrides);
+   $styles: cx-deep-map-merge($state-style-map, $overrides);
 
    $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
    $padding: cx-get-state-rule($styles, default, 'padding', 0);
@@ -72,7 +72,7 @@
 
       @if ($cx-use-box-line-height-fix) {
          //100% line-height fix - inputs work better in all browser, especially in Firefox
-         $styles: cx-merge-state-style-maps($styles, (
+         $styles: cx-deep-map-merge($styles, (
             default: (
                line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width)),
                padding: 0 cx-right($padding) 0 cx-left($padding)

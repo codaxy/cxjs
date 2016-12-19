@@ -72,7 +72,7 @@ $cx-default-palette-stroke-blacken: 50% !default;
 @import '~cx/variables';
 
 // BUTTON
-$cx-button-state-style-map: cx-merge-state-style-maps($cx-button-state-style-map, (
+$cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
   hover: (
     background-color: darken($cx-default-button-background-color, 2),
     border-color: darken($cx-default-button-background-color, 2),
@@ -160,7 +160,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 ));
 
 // SECTION 
-$cx-section-mods: cx-merge-state-style-maps($cx-section-mods, (
+$cx-section-mods: cx-deep-map-merge($cx-section-mods, (
    well: (
       background-color: $cx-default-background-color,
       border-radius: $cx-default-border-radius + 1px
@@ -168,7 +168,7 @@ $cx-section-mods: cx-merge-state-style-maps($cx-section-mods, (
 ));
 
 // LIST ITEM
-$cx-list-item: cx-merge-state-style-maps($cx-list-item, (
+$cx-list-item: cx-deep-map-merge($cx-list-item, (
   default: (
   ),
   hover: (
@@ -186,7 +186,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
 ));
 
 // tab
-$cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
+$cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
    hover: (
       text-decoration: none,
       background-color: $cx-default-background-color-dark
@@ -205,7 +205,7 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
    ),
 ));
 
-$cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
+$cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   classic: (
     selected: (             
       background-color: lighten($cx-default-background-color-light, 2)
@@ -225,7 +225,7 @@ $cx-tab-mods: cx-merge-state-style-maps($cx-tab-mods, (
 ));
 
 // FORM
-$cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
+$cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    focus: (
       border-color: $cx-default-highlight-color,
       box-shadow: 0 0 2px $cx-default-highlight-color
@@ -233,7 +233,7 @@ $cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, 
 ));
 
 // calendar
-$cx-calendar-state-style-map: cx-merge-state-style-maps($cx-calendar-state-style-map, (
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    today: (
       background-color: transparent,
       border-style: solid,
@@ -246,7 +246,7 @@ $cx-calendar-state-style-map: cx-merge-state-style-maps($cx-calendar-state-style
 ));
 
 // slider
-$cx-slider-handle-styles: cx-merge-state-style-maps($cx-slider-handle-styles, (
+$cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
    default: (
       background-color: lighten($cx-default-background-color-light, 12),
       border-color: lighten($cx-default-background-color-light, 12),
@@ -269,26 +269,26 @@ $cx-slider-handle-styles: cx-merge-state-style-maps($cx-slider-handle-styles, (
 ));
 
 // WINDOW
-$cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
+$cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
       background-color: $cx-default-background-color-light
    )
 ));
 
-$cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-state-style-map, (
+$cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
    default: (
       background-color: $cx-default-background-color-dark,
       border-bottom: 1px solid $cx-default-background-color-dark
    )
 ));
 
-$cx-window-body-state-style-map: cx-merge-state-style-maps($cx-window-body-state-style-map, (
+$cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
    default: (
       background: $cx-default-background-color
    )
 ));
 
-$cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-state-style-map, (
+$cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
    default: (
       background: $cx-default-background-color
    )
@@ -300,7 +300,7 @@ $cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-s
 // CHART
 
 // GLOBALS
-$cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
+$cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
       background: #222
    ),

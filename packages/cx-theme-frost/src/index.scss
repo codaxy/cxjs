@@ -25,19 +25,14 @@ $cx-use-box-line-height-fix: false !default;
 
 @import "~cx/variables";
 
-$cx-input-state-style-map: cx-merge-state-style-maps($cx-input-state-style-map, (
-   default: (
-      //transition: border-color 0.1s,
-   ),
+$cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    hover: (
       border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
    )
 ));
 
 // LIST
-$cx-list-item: cx-merge-state-style-maps($cx-list-item, (
-  default: (
-  ),
+$cx-list-item: cx-deep-map-merge($cx-list-item, (
   hover-focus: (
     background-color: $cx-default-highlight-color
   ),
@@ -46,7 +41,7 @@ $cx-list-item: cx-merge-state-style-maps($cx-list-item, (
   )
 ));
 
-$cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
+$cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
  hover-focus: (
     background-color: $cx-default-highlight-color
   ),
@@ -58,7 +53,7 @@ $cx-tab-state-style-map: cx-merge-state-style-maps($cx-tab-state-style-map, (
 // menu
 
 // BUTTON
-$cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
+$cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   hollow: (
     focus: (
       background-color: darken($cx-default-highlight-color, 8),
@@ -68,14 +63,14 @@ $cx-button-mods: cx-merge-state-style-maps($cx-button-mods, (
   )
 ));
 
-$cx-window-state-style-map: cx-merge-state-style-maps($cx-window-state-style-map, (
+$cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
       background: white,
       border-radius: $cx-default-border-radius
    )
 ));
 
-$cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-state-style-map, (
+$cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
    default: (
       background: null,
       font-size: 1.2rem,
@@ -87,13 +82,13 @@ $cx-window-header-state-style-map: cx-merge-state-style-maps($cx-window-header-s
    )
 ));
 
-$cx-window-body-state-style-map: cx-merge-state-style-maps($cx-window-body-state-style-map, (
+$cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
    default: (
       background: null
    )
 ));
 
-$cx-window-footer-state-style-map: cx-merge-state-style-maps($cx-window-footer-state-style-map, (
+$cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
    default: (
       background: null,
       margin: 0 1.5rem,
@@ -115,7 +110,7 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
 
 //globals
 
-$cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
+$cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
       background: #eff1f7
    ),
