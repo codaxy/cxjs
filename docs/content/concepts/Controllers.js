@@ -183,8 +183,8 @@ export const Controllers = <cx>
          `}</CodeSnippet>
         </CodeSplit>
 
-        For simple controller invocations, it's easier to use short syntax by passing the name of the
-        controller to the handler. In this case, arguments passed to the method will be `event` and `instance`.
+        For simple controller invocations, it's easier to use short syntax by passing just the name of the
+        controller method to the handler. In this case, arguments passed to the method will be `event` and `instance`.
 
         <CodeSplit>
             <div class="widgets">
