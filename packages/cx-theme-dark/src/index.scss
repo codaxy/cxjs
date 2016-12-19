@@ -125,9 +125,13 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       border-color: $cx-default-background-color-dark
     ),
     focus: (
-      background-color: $cx-default-highlight-color,
+      background-color: darken($cx-default-highlight-color, 8),
       box-shadow: none,
-      border-color: $cx-default-highlight-color
+      border-color: darken($cx-default-highlight-color, 8)
+    ),
+    active: (
+        background-color: $cx-default-highlight-color,
+        border-color: $cx-default-highlight-color
     )
   ),
   danger: (
@@ -300,40 +304,34 @@ $cx-element-style-map: cx-merge-state-style-maps($cx-element-style-map, (
    html: (
       background: #222
    ),
+
    h1: (
 
    ),
+
    h2: (
 
    ),
+
    h3: (
 
    ),
+
    h4: (
 
    ),
+
    h5: (
 
    ),
+
    h6: (
 
    ),
 
    a: (
       color: darken(#9faed2, 4)
-   ),
-
-   // 'a:visited' (
-   //      color: #9faed2
-   // ),
-
-   // 'a:hover': (
-   //    color: lighten(#a8b5d6, 4)
-   // ),
-
-   // 'a:active': (
-   //    color: darken(#9faed2, 5)
-   // )
+   )
 ));
 
 @import '~cx/index';
