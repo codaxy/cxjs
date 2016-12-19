@@ -53,17 +53,17 @@ describe('Expression', function () {
       });
 
       it('can be formatted', function () {
-         var e = Expression.compile('{[1+1]:n;2}');
+         var e = Expression.compile('{[1+1]:f;2}');
          assert.equal(e(), '2.00');
       });
 
       it('n level deep', function () {
-         var e = Expression.compile('{[{[{[1+1]}]}]:n;2}');
+         var e = Expression.compile('{[{[{[1+1]}]}]:f;2}');
          assert.equal(e(), '2.00');
       });
 
       it('with complex math inside', function () {
-         var e = Expression.compile('%{{data}.reduce((a,b)=>a+b, 0):n;2}');
+         var e = Expression.compile('%{{data}.reduce((a,b)=>a+b, 0):f;2}');
          var state = {
             data: [1, 2, 3]
          };

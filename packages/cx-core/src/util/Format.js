@@ -21,6 +21,10 @@ var formatFactory = {
       return value => prefix + value.toString() + suffix;
    },
 
+   fixed: function(part0, digits) {
+      return value => value.toFixed(digits)
+   },
+
    prefix: function(part0, prefix) {
       if (!prefix)
          prefix = '';
@@ -49,6 +53,7 @@ var formatFactory = {
 };
 
 formatFactory.s = formatFactory.str = formatFactory.string;
+formatFactory.f = formatFactory.fixed;
 
 function buildFormatter(format) {
    var formatter = defaultFormatter;

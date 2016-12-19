@@ -13,7 +13,7 @@ function lines(code) {
    return unwrap(code).split('\n');
 }
 
-describe.only('babel-plugin-transform-cx-imports', function() {
+describe('babel-plugin-transform-cx-imports', function() {
 
    it("skips non-cx import", function () {
 

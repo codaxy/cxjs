@@ -6,6 +6,6 @@ require("babel-core/register")({
    ],
    "plugins": [
       ["babel-plugin-transform-react-jsx", {"pragma": "VDOM.createElement"}],
-      "babel-plugin-cx"
+      "babel-plugin-transform-cx-jsx"
    ]
 });

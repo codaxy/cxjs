@@ -1,11 +1,11 @@
 export class Console {
    static log() {
-      if (window && window.console)
+      if (typeof window != 'undefined' && window.console)
          console.log(...arguments);
    }
 
    static warn() {
-      if (window && window.console)
+      if (typeof window != 'undefined' && window.console)
          console.warn(...arguments);
    }
 }
