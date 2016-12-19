@@ -1,10 +1,15 @@
-import { Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer } from 'cx/widgets';
-import { ContentPlaceholder, Controller, LabelsLeftLayout, LabelsTopLayout, FirstVisibleChildLayout, UseParentLayout } from 'cx/ui';
+import {Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer} from 'cx/widgets';
+import {
+    ContentPlaceholder,
+    Controller,
+    LabelsLeftLayout,
+    LabelsTopLayout,
+    FirstVisibleChildLayout,
+    UseParentLayout
+} from 'cx/ui';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-
-
 
 
 class FetchController extends Controller {
@@ -139,12 +144,12 @@ export const Layouts = <cx>
                             <option value="Mrs">Mrs.</option>
                         </Select>
                         <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
-                                   style={{width: '150px'}}/>
+                            style={{width: '150px'}}/>
                         <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                     </div>
                     <div layout={LabelsTopLayout}>
                         <TextField value:bind="$page.street" label="Address" placeholder="Street"
-                                   style={{width: '150px'}}/>
+                            style={{width: '150px'}}/>
                         <TextField value:bind="$page.city" placeholder="City" style={{width: '150px'}}/>
                         <TextField value:bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
                     </div>
@@ -157,23 +162,54 @@ export const Layouts = <cx>
 
             <Content name="code">
                 <CodeSnippet>{`
-               <div>
-                  <div layout={LabelsTopLayout}>
-                     <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
-                        <option value="Mr">Mr.</option>
-                        <option value="Mrs">Mrs.</option>
-                     </Select>
-                     <TextField value:bind="$page.firstName" label="Name" placeholder="First Name" style={{width: '150px'}} />
-                     <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
-                  </div>
-                  <div layout={LabelsTopLayout}>
-                     <TextField value:bind="$page.street" label="Address" placeholder="Street" style={{width: '150px'}} />
-                     <TextField value:bind="$page.city" placeholder="City" style={{width: '150px'}}/>
-                     <TextField value:bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
-                  </div>
-               </div>
+                <div>
+                    <div layout={LabelsTopLayout}>
+                        <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                            <option value="Mr">Mr.</option>
+                            <option value="Mrs">Mrs.</option>
+                        </Select>
+                        <TextField value:bind="$page.firstName" label="Name" placeholder="First Name" style={{width: '150px'}} />
+                        <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                    </div>
+                    <div layout={LabelsTopLayout}>
+                        <TextField value:bind="$page.street" label="Address" placeholder="Street" style={{width: '150px'}} />
+                        <TextField value:bind="$page.city" placeholder="City" style={{width: '150px'}}/>
+                        <TextField value:bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
+                    </div>
+                </div>
             `}</CodeSnippet>
             </Content>
+        </CodeSplit>
+
+        #### Vertical Mode
+
+        `LabelsTopLayout` can also be used in `vertical` mode where each field takes one row.
+
+        <CodeSplit>
+
+            <div class="widgets">
+                <div layout={{type: LabelsTopLayout, vertical: true}}>
+                    <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                        <option value="Mr">Mr.</option>
+                        <option value="Mrs">Mrs.</option>
+                    </Select>
+                    <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
+                        style={{width: '150px'}}/>
+                    <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                </div>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <div layout={{ type: LabelsTopLayout, vertical: true }}>
+                    <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                        <option value="Mr">Mr.</option>
+                        <option value="Mrs">Mrs.</option>
+                    </Select>
+                    <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
+                        style={{width: '150px'}}/>
+                    <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                </div>
+            `}</CodeSnippet>
         </CodeSplit>
 
 
@@ -194,7 +230,7 @@ export const Layouts = <cx>
                             loading data.
                         </div>
                         <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}}
-                             text:tpl="Success! Result: {$page.fetch.result:n}."></div>
+                            text:tpl="Success! Result: {$page.fetch.result:n}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                     </div>
                     <button type="button" onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch
@@ -247,7 +283,8 @@ export const Layouts = <cx>
 
         `UseParentLayout` is not a real layout, but an instruction that the widget should use parent's layout instead of
         its own. `UseParentLayout` can be used only on widgets which are pure containers, that is which render only
-        its children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or `FirstVisibleChildLayout`
+        its children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or
+        `FirstVisibleChildLayout`
         as parent layouts.
 
         <CodeSplit>

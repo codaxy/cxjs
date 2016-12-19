@@ -3,8 +3,8 @@ import {Layout} from './Layout';
 
 
 function validContent(r) {
-   var content = [];
-   for (var key in r)
+   let content = [];
+   for (let key in r)
       if (key != "label")
          contentAppend(content, r[key]);
    return content;
@@ -12,32 +12,81 @@ function validContent(r) {
 
 export class LabelsTopLayout extends Layout {
    render(context, instance, keyPrefix) {
-      var labels = [];
-      var inputs = [];
-      var {children} = instance;
-      var {CSS, baseClass} = this;
-      children.forEach((c, i)=> {
-         var r = c.render(context);
-         if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
-            r.content.forEach((r, j)=> {
-               labels.push(<td key={`${i}-${j}`} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
-               inputs.push(<td key={`${i}-${j}`} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
-            })
-         }
-         else {
-            labels.push(<td key={i} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
-            inputs.push(<td key={i} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
-         }
-      });
+      let {children} = instance;
+      let {CSS, baseClass} = this;
+      let content;
+
+      if (this.vertical) {
+         let rows = [];
+
+         children.forEach((c, i) => {
+            let r = c.render(context);
+            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+               r.content.forEach((r, j) => {
+                  rows.push(<tr key={`${i}-${j}-label`}>
+                     <td className={CSS.element(baseClass, "label")}>
+                        {getContent(r.label)}
+                     </td>
+                  </tr>);
+                  rows.push(<tr key={`${i}-${j}-field`}>
+                     <td className={CSS.element(baseClass, "field")}>
+                        {validContent(r)}
+                     </td>
+                  </tr>);
+               })
+            }
+            else {
+               rows.push(<tr key={`${i}-label`}>
+                  <td className={CSS.element(baseClass, "label")}>
+                     {getContent(r.label)}
+                  </td>
+               </tr>);
+               rows.push(<tr key={`${i}-field`}>
+                  <td className={CSS.element(baseClass, "field")}>
+                     {validContent(r)}
+                  </td>
+               </tr>);
+            }
+         });
+
+         content = (
+            <tbody>
+            {rows}
+            </tbody>
+         );
+
+      } else {
+         let labels = [];
+         let inputs = [];
+         children.forEach((c, i) => {
+            let r = c.render(context);
+            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+               r.content.forEach((r, j) => {
+                  labels.push(<td key={`${i}-${j}`}
+                     className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
+                  inputs.push(<td key={`${i}-${j}`} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
+               })
+            }
+            else {
+               labels.push(<td key={i} className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);
+               inputs.push(<td key={i} className={CSS.element(baseClass, "field")}>{validContent(r)}</td>);
+            }
+         });
+
+         content = (
+            <tbody>
+            <tr>{labels}</tr>
+            <tr>{inputs}</tr>
+            </tbody>
+         );
+      }
       return <table key={keyPrefix} className={CSS.block(baseClass, this.mod)}>
-         <tbody>
-         <tr>{labels}</tr>
-         <tr>{inputs}</tr>
-         </tbody>
+         {content}
       </table>;
    }
 }
 
 LabelsTopLayout.prototype.baseClass = 'labelstoplayout';
+LabelsTopLayout.prototype.vertical = false;
 
 Layout.alias('labels-top', LabelsTopLayout);
