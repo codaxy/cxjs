@@ -6,7 +6,11 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 export class Route extends PureContainer
 {
    init() {
+      if (this.path)
+         this.route = this.path;
+
       super.init();
+
       this.matcher = new RouteMatcher(this.route);
    }
 
