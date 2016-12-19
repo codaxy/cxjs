@@ -36,19 +36,30 @@ export class Tab extends HtmlElement {
    }
 
    attachProps(context, instance, props) {
-      var {data} = instance;
+      super.attachProps(context, instance, props);
 
+      let {data} = instance;
       if (!data.disabled) {
          props.href = '#';
          delete props.value;
 
-         props.onClick = e => {
-            this.handleClick(e, instance)
-         };
+         if (!this.focusOnMouseDown) {
+            props.onMouseDown = e => {
+               if (this.onMouseDown)
+                  this.onMouseDown(e, instance);
+               e.preventDefault();
+            }
+         }
+
+         props.onClick = e => this.handleClick(e, instance);
       }
    }
 
    handleClick(e, instance) {
+
+      if (this.onClick)
+         this.onClick(e, instance);
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -63,5 +74,6 @@ export class Tab extends HtmlElement {
 
 Tab.prototype.baseClass = "tab";
 Tab.prototype.tag = 'a';
+Tab.prototype.focusOnMouseDown = false;
 
 Widget.alias('tab', Tab);

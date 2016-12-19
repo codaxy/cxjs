@@ -24,6 +24,14 @@ export class Button extends HtmlElement {
    attachProps(context, instance, props) {
       super.attachProps(context, instance, props);
 
+      if (!this.focusOnMouseDown) {
+         props.onMouseDown = e => {
+            if (this.onMouseDown)
+               this.onMouseDown(e, instance);
+            e.preventDefault();
+         }
+      }
+
       if (!props.onMouseDown)
          props.onMouseDown = stopPropagation;
 
@@ -78,5 +86,6 @@ export class Button extends HtmlElement {
 Button.prototype.tag = 'button';
 Button.prototype.baseClass = 'button';
 Button.prototype.icon = false;
+Button.prototype.focusOnMouseDown = false;
 
 Widget.alias('button', Button);

@@ -45,5 +45,13 @@ export default {
         description: <cx><Md>
             Confirmation text or configuration object. See [MsgBox.yesNo](~/widgets/msg-boxes) for more details.
         </Md></cx>
-    }
+    },
+    focusOnMouseDown: {
+        type: 'boolean',
+        key: false,
+        description: <cx><Md>
+            Determines if button should receive focus on `mousedown` event. Default is `false`, which
+            means that focus can be set only using the keyboard `Tab` key.
+        </Md></cx>
+    },
 };
