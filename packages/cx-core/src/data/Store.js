@@ -17,7 +17,7 @@ export class Store extends View {
       return this.data;
    }
 
-   set(path, value) {
+   setItem(path, value) {
       var next = Binding.get(path).set(this.data, value);
       if (next != this.data) {
          this.data = next;
@@ -26,7 +26,7 @@ export class Store extends View {
       }
    }
    
-   delete(path) {
+   deleteItem(path) {
       var next = Binding.get(path).delete(this.data);
       if (next != this.data) {
          this.data = next;

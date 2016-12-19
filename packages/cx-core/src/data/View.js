@@ -22,15 +22,42 @@ export class View {
    }
 
    set(path, value) {
+      if (path instanceof Binding)
+         path = path.path;
+      else if (typeof path == 'object' && path != null) {
+         var changed = false;
+         for (var key in path)
+            if (path.hasOwnProperty(key) && this.setItem(key, path[key]))
+               changed = true;
+         return changed;
+      }
+      return this.setItem(path, value);
+   }
+
+   //protected
+   setItem(path, value) {
       if (this.store)
-         return this.store.set(path, value);
+         return this.store.setItem(path, value);
 
       throw new Error('abstract method');
    }
 
    delete(path) {
+      if (path instanceof Binding)
+         path = path.path;
+      else if (arguments.length > 1)
+         path = Array.from(arguments);
+
+      if (Array.isArray(path))
+         return path.map(arg => this.deleteItem(arg)).some(Boolean);
+
+      return this.deleteItem(path);
+   }
+
+   //protected
+   deleteItem(path) {
       if (this.store)
-         return this.store.delete(path);
+         return this.store.deleteItem(path);
 
       throw new Error('abstract method');
    }
@@ -43,7 +70,15 @@ export class View {
    }
 
    get(path) {
-      return Binding.get(path).value(this.getData());
+      let storeData = this.getData();
+
+      if (arguments.length > 1)
+         path = Array.from(arguments);
+
+      if (Array.isArray(path))
+         return path.map(arg => Binding.get(arg).value(storeData));
+
+      return Binding.get(path).value(storeData);
    }
 
    toggle(path) {
