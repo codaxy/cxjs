@@ -29,6 +29,7 @@ export class Button extends HtmlElement {
             if (this.onMouseDown)
                this.onMouseDown(e, instance);
             e.preventDefault();
+            e.stopPropagation();
          }
       }
 
