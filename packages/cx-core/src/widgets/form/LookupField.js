@@ -712,10 +712,8 @@ class LookupComponent extends VDOM.Component {
 
          let {queryDelay, fetchAll, cacheAll} = widget;
 
-         if (!fetchAll) {
-            q = '';
+         if (fetchAll)
             queryDelay = 0;
-         }
 
          if (!this.cachedResult && !this.tmpCachedResult) {
             this.setState({
@@ -726,7 +724,9 @@ class LookupComponent extends VDOM.Component {
          this.queryTimeoutId = setTimeout(() => {
             delete this.queryTimeoutId;
 
-            let result = this.tmpCachedResult || this.cachedResult || this.props.onQuery(q, this.props.instance);
+            let result = this.tmpCachedResult || this.cachedResult;
+            if (!result)
+               result = this.props.onQuery(fetchAll ? '' : q, this.props.instance);
 
             Promise.resolve(result)
                .then((results) => {
