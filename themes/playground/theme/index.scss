@@ -18,9 +18,6 @@ $cx-default-input-border-color: #eff1f7;
 @import "~cx/variables";
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-   default: (
-      //transition: border-color 0.1s,
-   ),
    hover: (
       border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
    )
