@@ -178,7 +178,7 @@ export const DataBinding = <cx>
 
         <CodeSplit>
 
-            Setters are in combination used with expressions and computables to provide write operations. A setter is a function
+            Setters are used in combination with expressions and computables to provide write operations. A setter is a function
             used to process user input and write it to the store.
 
             <div class="widgets">
