@@ -18,23 +18,21 @@ export class ZoomIntoPropertyView extends View {
       return this.cache.result;
    }
 
-   set(path, value) {
-      if (path instanceof Binding)
-         path = path.path;
+   setItem(path, value) {
       if (path.indexOf(this.rootName + '.') == 0)
-         this.store.set(path.substring(this.rootName.length + 1), value);
+         this.store.setItem(path.substring(this.rootName.length + 1), value);
       else
-         this.store.set(this.binding.path + '.' + path, value);
+         this.store.setItem(this.binding.path + '.' + path, value);
    }
 
-   delete(path) {
+   deleteItem(path) {
       if (path instanceof Binding)
          path = path.path;
 
       if (path.indexOf(this.rootName + '.') == 0)
-         this.store.delete(path.substring(this.rootName.length + 1));
+         this.store.deleteItem(path.substring(this.rootName.length + 1));
       else
-         this.store.delete(this.binding.path + '.' + path);
+         this.store.deleteItem(this.binding.path + '.' + path);
    }
 }
 
