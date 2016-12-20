@@ -117,5 +117,12 @@ export default {
             are cached for the lifetime of the widget. Otherwise, data is fetched
             whenever the dropdown is shown.
         </Md></cx>
+    },
+    hideClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the clear button. Default value is `false`.
+            No effect if `multiple` is used.
+        </Md></cx>
     }
 };

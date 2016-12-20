@@ -130,6 +130,7 @@ DateField.prototype.minValueErrorText = 'Selected date is after the latest allow
 DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
 DateField.prototype.icon = 'calendar';
+DateField.prototype.hideClear = false;
 
 Widget.alias('datefield', DateField);
 
@@ -189,7 +190,7 @@ class DateInput extends VDOM.Component {
       var insideButton;
 
       if (!data.readOnly) {
-         if (!data.required && data.value != null && !data.disabled) {
+         if (!widget.hideClear && !data.required && data.value != null && !data.disabled) {
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                     onMouseDown={e=> {

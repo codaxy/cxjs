@@ -160,6 +160,7 @@ LookupField.prototype.valueTextField = 'text';
 LookupField.prototype.suppressErrorTooltipsUntilVisited = true;
 LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
+LookupField.prototype.hideClear = false;
 
 Widget.alias('lookupfield', LookupField)
 
@@ -424,7 +425,7 @@ class LookupComponent extends VDOM.Component {
 
       var insideButton;
 
-      if (!readOnly && !this.props.multiple && !data.required && data.value != null) {
+      if (!widget.hideClear && !readOnly && !this.props.multiple && !data.required && data.value != null) {
          insideButton = (
             <div onMouseDown={preventDefault}
                onClick={e => this.onClearClick(e)}

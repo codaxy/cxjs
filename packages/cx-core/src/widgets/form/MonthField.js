@@ -179,6 +179,8 @@ MonthField.prototype.minValueErrorText = 'Selected date is after the latest allo
 MonthField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
+MonthField.prototype.hideClear = false;
+MonthField.prototype.range = false;
 
 Widget.alias('monthfield', MonthField);
 
@@ -233,7 +235,7 @@ class MonthInput extends VDOM.Component {
       var insideButton;
 
       if (!data.readOnly) {
-         if (!data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)) {
+         if (!widget.hideClear && !data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)) {
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                     onMouseDown={e=> {
