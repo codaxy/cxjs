@@ -42,11 +42,12 @@ switch (process.env.npm_lifecycle_event) {
                     'process.env.NODE_ENV': JSON.stringify('production')
                 }),
                 sass,
-                // new OptimizeCssAssetsPlugin({
-                //     cssProcessorOptions: {
-                //         safe: true
-                //     }
-                // })
+                new OptimizeCssAssetsPlugin({
+                    cssProcessorOptions: {
+                        safe: true,
+                        mergeLonghand: false
+                    }
+                })
             ],
 
             output: {
