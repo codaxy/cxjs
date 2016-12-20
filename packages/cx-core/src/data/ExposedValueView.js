@@ -33,7 +33,7 @@ export class ExposedValueView extends View {
             var record = d[this.recordName];
             var newContainer = Object.assign({}, container);
             newContainer[this.key] = record;
-            this.store.setItem(this.containerBinding, newContainer);
+            this.store.setItem(this.containerBinding.path, newContainer);
          }
       } else {
          this.store.setItem(path, value);
@@ -50,7 +50,7 @@ export class ExposedValueView extends View {
             return false;
          newContainer = Object.assign({}, container);
          delete newContainer[this.key];
-         this.store.set(this.containerBinding, newContainer);
+         this.store.set(this.containerBinding.path, newContainer);
       }
       else if (path.indexOf(this.recordName + '.') == 0) {
          data = this.getData();
@@ -60,10 +60,10 @@ export class ExposedValueView extends View {
             var record = d[this.recordName];
             newContainer = Object.assign({}, container);
             newContainer[this.key] = record;
-            this.store.set(this.containerBinding, newContainer);
+            this.store.setItem(this.containerBinding.path, newContainer);
          }
       } else {
-         this.store.delete(path);
+         this.store.deleteItem(path);
       }
    }
 }
