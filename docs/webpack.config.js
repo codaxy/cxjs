@@ -15,7 +15,7 @@ switch (process.env.npm_lifecycle_event) {
         production = true;
 
         var sass = new ExtractTextPlugin({
-            filename: "app.css",
+            filename: "app.[hash].css",
             allChunks: true
         });
 
