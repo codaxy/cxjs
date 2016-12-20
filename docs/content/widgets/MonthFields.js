@@ -7,7 +7,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
 
-import configs from './configs/Calendar';
+import configs from './configs/MonthField';
 
 export const MonthFields = <cx>
     <Md>
