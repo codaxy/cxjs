@@ -10,6 +10,7 @@ import {
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 class FetchController extends Controller {
@@ -34,7 +35,7 @@ var AppLayout = <cx>
                 <ContentPlaceholder name="sidebar"/>
             </aside>
             <main style={{flex: 1, padding: '5px'}}>
-                <ContentPlaceholder /* name="body" *//>
+                <ContentPlaceholder /* name="body" */ />
             </main>
         </div>
     </div>
@@ -46,7 +47,7 @@ export const Layouts = <cx>
     <Md>
         # Layouts
 
-        Word *layout* is commonly used for different things. `Cx` has concepts of inner and outer layouts.
+        The word *layout* is commonly used for different things. `Cx` has concepts of inner and outer layouts.
 
         ## Inner Layouts
 
@@ -57,7 +58,7 @@ export const Layouts = <cx>
 
         ### Default Layout (No Layout)
 
-        In this layout no special arrangement on the children is made. Elements are laid out in the same
+        In this layout, no special arrangement on the children is made. Elements are laid out in the same
         order as they are specified.
 
         <CodeSplit>
@@ -89,7 +90,9 @@ export const Layouts = <cx>
 
         ### LabelsLeftLayout
 
-        You would want to use `LabelsLeftLayout` to get a horizontal form layout. In this layout
+        <ImportPath path="import {LabelsLeftLayout} from 'cx/ui';" />
+
+        `LabelsLeftLayout` is used to get a horizontal form layout. In this layout
         all children content is rendered inside a table, where labels go into the first column, and
         inputs and other content go into the second column.
 
@@ -107,7 +110,7 @@ export const Layouts = <cx>
                 </div>
             </div>
 
-            The `LabeledContainer` control can be used when multiple widgets need to be placed on the right side.
+            The [`LabeledContainer`](~/widgets/labeled-containers) control can be used when multiple widgets need to be placed on the right side.
 
             <Content name="code">
                 <CodeSnippet>{`
@@ -128,11 +131,13 @@ export const Layouts = <cx>
 
             ### LabelsTopLayout
 
+            <ImportPath path="import {LabelsTopLayout} from 'cx/ui';" />
+
             `LabelsTopLayout` is used for dense forms with very long labels or when putting labels on top might
             save some space.
 
             This layout is also implemented using an HTML `table` element with two rows.
-            The first row contains all labels and the second rows contains inputs and other content.
+            The first row contains all labels and the second row contains inputs and other content.
             Notice that labels are bottom aligned, even if some labels break to two rows (*hint*: set the width on the
             label too).
 
@@ -158,7 +163,7 @@ export const Layouts = <cx>
 
             Set the `width` style on form fields to align inputs properly.
 
-            Again, you may use the `LabeledContainer` control to group multiple widgets under a single label.
+            Again, you may use the LabeledContainer control to group multiple widgets under a single label.
 
             <Content name="code">
                 <CodeSnippet>{`
@@ -216,6 +221,8 @@ export const Layouts = <cx>
         <CodeSplit>
 
             ### FirstVisibleChildLayout
+
+            <ImportPath path="import {FirstVisibleChildLayout} from 'cx/ui';" />
 
             The `FirstVisibleChildLayout` is used for scenarios when only one child needs to be displayed.
             Think of this layout as a complex `if ... else ...` statement.
@@ -281,10 +288,11 @@ export const Layouts = <cx>
 
         ### UseParentLayout
 
-        `UseParentLayout` is not a real layout, but an instruction that the widget should use parent's layout instead of
-        its own. `UseParentLayout` can be used only on widgets which are pure containers, that is which render only
-        its children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or
-        `FirstVisibleChildLayout`
+        <ImportPath path="import {UseParentLayout} from 'cx/ui';" />
+
+        `UseParentLayout` is not a real layout, but an instruction that the widget should use the parent's layout instead of
+        its own. `UseParentLayout` can be used only on widgets which are pure containers, that is, which only render its 
+        children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or `FirstVisibleChildLayout`
         as parent layouts.
 
         <CodeSplit>
@@ -320,7 +328,7 @@ export const Layouts = <cx>
             </CodeSnippet>
         </CodeSplit>
 
-        Note how the widget tree is deeply nested, yet it's rendered as a simple list of elements which shares the
+        Note how the widget tree is deeply nested, yet it's rendered as a simple list of elements that share the
         same layout.
 
         ## Outer Layouts
@@ -387,8 +395,8 @@ export const Layouts = <cx>
             </Content>
         </CodeSplit>
 
-        When using outer layouts, the content is rendered inside out. A layout can use other layout and this
-        helps with code reuse.
+        When using outer layouts, the content is rendered inside out. A layout can contain other layouts, which
+        enables better code reuse.
 
     </Md>
 
