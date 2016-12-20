@@ -14,9 +14,9 @@ describe('View', () => {
       });
    };
 
-   describe('#get', () => {
+   describe('.get', () => {
 
-      it('retrieves a value pointed by a path', () => {
+      it('retrieves a value pointed by a selector path', () => {
          let store = getStore();
          assert.equal(store.get('item.firstName'), 'Jack');
       });
@@ -37,4 +37,24 @@ describe('View', () => {
          );
       });
    })
+
+   describe('.set', () => {
+      it('supports deep selectors', () => {
+         let store = getStore();
+         store.set('item.firstName', 'Jill');
+         assert.equal(store.get('item.firstName'), 'Jill');
+      })
+
+      it('supports setting multiple items through an object', () => {
+         let store = getStore();
+         store.set({
+            'b': 4,
+            'item.firstName': 'Jill'
+         });
+         assert.deepEqual(
+            store.get(['b', 'item.firstName']),
+            [4, 'Jill']
+         );
+      })
+   });
 });
