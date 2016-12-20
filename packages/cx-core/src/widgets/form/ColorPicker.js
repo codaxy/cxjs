@@ -55,7 +55,13 @@ class ColorPickerComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.data = props.instance.data;
-      this.state = this.parse(props.instance.data.value);
+      try {
+         this.state = this.parse(props.instance.data.value);
+      }
+      catch (e) {
+         //if web colors are used (e.g. red), fallback to the default color
+         this.state = this.parse(null);
+      }
    }
 
    componentWillReceiveProps(props) {
