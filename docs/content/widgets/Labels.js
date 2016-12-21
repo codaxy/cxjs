@@ -14,7 +14,7 @@ export const Labels = <cx>
 
         <CodeSplit>
 
-            Labels are usually simple texts, however sometimes it's required to apply different
+            Labels are usually simple texts, however, sometimes it's required to apply different
             styling or put additional content inside the label.
 
             <div class="widgets">
