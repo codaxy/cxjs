@@ -57,20 +57,20 @@ export default {
     minOptionsForSearchField: {
         type: 'number',
         description: <cx><Md>Number of options required to show the search field.
-            If there is only a few options there is no need for search. Defaults to `7`.</Md></cx>
+            If there are only a few options, there is no need for search. Defaults to `7`.</Md></cx>
     },
 
     valueIdField: {
         type: 'string',
         key: true,
-        description: <cx><Md>Available only if `multiple` selection mode and without custom `bindings`.
+        description: <cx><Md>Available only in `multiple` selection mode and without custom `bindings`.
             Name of the field to store id of the selected value. Default value is `id`.</Md></cx>
     },
 
     valueTextField: {
         type: 'string',
         key: true,
-        description: <cx><Md>Available only if `multiple` selection mode. Name of the field to store display text of the
+        description: <cx><Md>Available only in `multiple` selection mode. Name of the field to store display text of the
             selected value.
             Default value is `text`.</Md></cx>
     },
