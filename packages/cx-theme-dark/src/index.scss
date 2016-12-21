@@ -208,7 +208,8 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   classic: (
     selected: (             
-      background-color: lighten($cx-default-background-color-light, 2)
+      background-color: lighten($cx-default-background-color-light, 2),
+      border-color: lighten($cx-default-background-color-light, 2)
     )
   ),
   line: (
