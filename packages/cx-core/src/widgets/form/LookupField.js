@@ -20,6 +20,7 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
+import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
 
 export class LookupField extends Field {
 
@@ -138,8 +139,8 @@ export class LookupField extends Field {
    filterOptions(instance, options, query) {
       if (!query)
          return options;
-      var checks = query.split(' ').map(w => new RegExp(w, 'gi'));
-      return options.filter(o => typeof o[this.optionTextField] == 'string' && checks.every(ex => o[this.optionTextField].match(ex)));
+      let textPredicate = getSearchQueryPredicate(query);
+      return options.filter(o => typeof o[this.optionTextField] == 'string' && textPredicate(o[this.optionTextField]));
    }
 }
 

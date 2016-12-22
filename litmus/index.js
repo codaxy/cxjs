@@ -7,25 +7,26 @@ import "./error";
 
 import './index.scss';
 
-import {GridSection} from './sections/Grid';
-import {FormSection} from './sections/Form';
-import {WindowSection} from './sections/Window';
-import {ListSection} from './sections/List';
-import ComplexGrid from './sections/ComplexGrid';
-import TimeSeries from './sections/features/TimeSeriesScroll';
+// import {GridSection} from './sections/Grid';
+// import {FormSection} from './sections/Form';
+// import {WindowSection} from './sections/Window';
+// import {ListSection} from './sections/List';
+// import ComplexGrid from './sections/ComplexGrid';
+// import TimeSeries from './sections/features/TimeSeriesScroll';
+//
+// import {MixedModeForm} from './components/MixedModeForm';
 
-import {MixedModeForm} from './components/MixedModeForm';
+import LongList from './performance/LongList';
 
-var store = new Store();
-
-var stop;
+let store = new Store();
 
 Widget.resetCounter();
 Timing.enable('vdom-render');
 //Debug.enable("should-update");
 
 
-if(module.hot) {
+if (module.hot) {
+
    // accept itself
    module.hot.accept();
 
@@ -41,15 +42,9 @@ if(module.hot) {
       store.load(module.hot.data.state);
 }
 
-stop = startAppLoop(document.getElementById('app'), store, <cx>
+let stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <TimeSeries />
-      <ComplexGrid />
-      <FormSection/>
-      <GridSection/>
-      <WindowSection/>
-      <ListSection/>
-      <MixedModeForm/>
+      <LongList />
    </div>
 </cx>);
