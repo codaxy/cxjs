@@ -8,7 +8,7 @@ export default {
         key: true,
         description: <cx><Md>
             Add padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -17,7 +17,7 @@ export default {
         key: true,
         description: <cx><Md>
             Add horizontal padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -26,7 +26,7 @@ export default {
         key: true,
         description: <cx><Md>
             Add vertical padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -42,8 +42,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Add spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Add spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -51,8 +51,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Add horizontal spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Add horizontal spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -60,8 +60,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Add vertical spacing between items by applying margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
-            Value `true` is same as `medium`.
+            Add vertical spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
+            Value `true` is equivalent to `medium`.
         </Md></cx>
     },
 
@@ -94,8 +94,8 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Indicate target screen size. If screen size is too small flexbox breaks and each item takes a full row.
-            Supported values are `any`, `tablet`, `desktop`. Default is `any`.
+            Indicate target screen size. If screen size is too small, flexbox breaks and each item takes a full row.
+            Supported values are `any`, `tablet` and `desktop`. Default is `any`.
         </Md></cx>
     },
 
