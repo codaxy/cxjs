@@ -13,44 +13,49 @@ function defaultValue(pv) {
 
 function getSelectorConfig(props, values, nameMap) {
 
-   var config = {
-      bindings: {},
-      templates: {},
-      expressions: {},
-      functions: {},
-      structures: {}
-   };
+   let functions = {},
+      structures = {},
+      defaultValues = {},
+      constants, p, v, pv;
 
-   for (var p in props) {
-      let v = values[p];
-      let pv = props[p];
+   for (p in props) {
+      v = values[p];
+      pv = props[p];
 
       if (typeof v == 'undefined' && pv && (pv.bind || pv.tpl || pv.expr))
          v = pv;
 
-      if (v === null)
-         config.functions[p] = () => null;
+      if (v === null) {
+         if (!constants)
+            constants = {};
+         constants[p] = null;
+      }
       else if (typeof v == 'object') {
          if (v.bind) {
-            config.bindings[p] = v;
             if (typeof v.defaultValue == 'undefined' && v != pv)
                v.defaultValue = defaultValue(pv);
+            if (typeof v.defaultValue != 'undefined')
+               defaultValues[v.bind] = v.defaultValue;
             nameMap[p] = v.bind;
-         } else if (v.expr) {
-            config.expressions[p] = v.expr;
-         } else if (v.tpl) {
-            config.templates[p] = v.tpl;
-         } else if (pv && typeof pv == 'object' && pv.structured) {
+            functions[p] = Binding.get(v.bind).value;
+         }
+         else if (v.expr)
+            functions[p] = Expression.get(v.expr);
+         else if (v.tpl)
+            functions[p] = StringTemplate.get(v.tpl);
+         else if (pv && typeof pv == 'object' && pv.structured) {
             if (Array.isArray(v))
-               config.functions[p] = getSelector(v);
+               functions[p] = getSelector(v);
             else
-               config.structures[p] = getSelectorConfig(v, v, {});
+               structures[p] = getSelectorConfig(v, v, {});
          } else {
-            config.functions[p] = () => v;
+            if (!constants)
+               constants = {};
+            constants[p] = v;
          }
       }
       else if (typeof v == 'function') {
-         config.functions[p] = v;
+         functions[p] = v;
       }
       else {
          if (typeof v == "undefined") {
@@ -59,47 +64,36 @@ function getSelectorConfig(props, values, nameMap) {
             v = defaultValue(pv);
          }
 
-         config.functions[p] = () => v;
+         if (typeof v == 'undefined')
+            continue;
+
+         if (!constants)
+            constants = {};
+
+         constants[p] = v;
       }
    }
 
-   return config;
+   return {
+      functions,
+      structures,
+      defaultValues,
+      constants
+   };
 }
 
-function createSelector(config) {
-   var selector = {};
+function createSelector({ functions, structures, constants }) {
+   let selector = {};
 
-   for (let n in config.bindings) {
-      var bv = config.bindings[n];
-      var b = Binding.get(bv.bind);
-      selector[n] = b.value;
-   }
-
-   for (let n in config.templates) {
-      const tpl = config.templates[n];
-      selector[n] = StringTemplate.compile(tpl); //new memoization instance
-   }
-
-   for (let n in config.expressions) {
-      const expr = config.expressions[n];
-      selector[n] = Expression.compile(expr); //new memoization instance
-   }
-
-   for (let n in config.functions) {
-      const f = config.functions[n];
+   for (let n in functions) {
+      const f = functions[n];
       selector[n] = f.memoize ? f.memoize() : f;
    }
 
-   for (let n in config.structures)
-      selector[n] = createSelector(config.structures[n]);
+   for (let n in structures)
+      selector[n] = createSelector(structures[n]);
 
-   var objectGetter = createStructuredSelector(selector);
-
-   // objectGetter.peek = function (field, data) {
-   //    return selector[field](data);
-   // };
-
-   return objectGetter;
+   return createStructuredSelector(selector, constants);
 }
 
 export class StructuredSelector {
@@ -110,11 +104,7 @@ export class StructuredSelector {
    }
 
    init(store) {
-      for (let n in this.config.bindings) {
-         var bv = this.config.bindings[n];
-         if (typeof bv.defaultValue != 'undefined')
-            store.init(bv.bind, bv.defaultValue);
-      }
+      store.init(this.config.defaultValues);
    }
 
    create() {

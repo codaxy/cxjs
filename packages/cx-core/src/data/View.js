@@ -16,9 +16,20 @@ export class View {
    }
 
    init(path, value) {
-      var currentValue = this.get(path);
-      if (typeof currentValue == 'undefined')
-         this.set(path, value);
+      if (path instanceof Binding)
+         path = path.path;
+      else if (typeof path == 'object' && path != null) {
+         var changed = false;
+         for (var key in path)
+            if (path.hasOwnProperty(key) && typeof this.get(key) == 'undefined' && this.setItem(key, path[key]))
+               changed = true;
+         return changed;
+      }
+
+      if (typeof this.get(path) == 'undefined')
+         return this.setItem(path, value);
+
+      return false;
    }
 
    set(path, value) {
