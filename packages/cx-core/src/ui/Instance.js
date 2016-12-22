@@ -172,13 +172,12 @@ export class Instance {
 
          Debug.log(prepareFlag, this.widget);
          this.widget.prepare(context, this);
-
-         if (this.shouldUpdate)
-            this.parent.shouldUpdate = true;
       }
 
-      if (this.shouldUpdate)
+      if (this.shouldUpdate) {
+         this.parent.shouldUpdate = true;
          Debug.log(shouldUpdateFlag, this.widget, this.shouldUpdate);
+      }
 
       if (this.outerLayout && this.widget.outerLayout)
          this.outerLayout.prepare(context);

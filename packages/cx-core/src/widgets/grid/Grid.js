@@ -552,10 +552,14 @@ class GridComponent extends VDOM.Component {
       var content = [];
 
       if (instance.records.length == 0 && data.emptyText) {
-         content.push(<div key="empty"
-                           className={CSS.element(baseClass, 'empty-text')}>
-            {data.emptyText}
-         </div>);
+         content.push(
+            <div
+               key="empty"
+               className={CSS.element(baseClass, 'empty-text')}
+            >
+               {data.emptyText}
+            </div>
+         );
       } else {
          content.push(<div key="scroller"
                            ref={el=> {

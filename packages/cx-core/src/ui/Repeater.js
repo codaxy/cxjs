@@ -62,9 +62,9 @@ export class Repeater extends PureContainer {
          return super.prepare(context, instance);
 
       instance.instances.forEach(inst => {
-         inst.prepare(context);
-         if (inst.shouldUpdate)
-            instance.shouldUpdate = true;
+         if (!this.cached || inst.shouldUpdate) {
+            inst.prepare(context);
+         }
       });
    }
 
@@ -78,13 +78,15 @@ export class Repeater extends PureContainer {
    }
 
    cleanup(context, instance) {
-      if (instance.repeatable) {
-         instance.cached.record = instance.record;
-         super.cleanup(context, instance);
-         return;
-      }
+      if (instance.repeatable)
+         return super.cleanup(context, instance);
 
-      instance.instances.forEach(inst => inst.cleanup(context));
+      instance.instances.forEach(inst => {
+         if (!this.cached || inst.shouldUpdate) {
+            inst.cleanup(context);
+            instance.cached.record = instance.record;
+         }
+      });
    }
 
    add(item) {

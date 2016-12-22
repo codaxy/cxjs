@@ -21,7 +21,8 @@ export class List extends Widget {
       this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
-         recordsBinding: this.records && this.records.bind && Binding.get(this.records.bind)
+         recordsBinding: this.records && this.records.bind && Binding.get(this.records.bind),
+         keyField: this.keyField
       });
 
       this.child = Widget.create({
@@ -95,8 +96,13 @@ export class List extends Widget {
          if (record.type == 'data') {
             var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
             itemInstance.record = record;
-            if (itemInstance.explore(context))
+
+            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data) {
                instances.push(itemInstance);
+               itemInstance.shouldUpdate = false;
+            } else if (itemInstance.explore(context))
+               instances.push(itemInstance);
+
             var selected = isSelected(record.data, record.index);
             if (itemInstance.selected != selected) {
                itemInstance.selected = selected;
@@ -120,7 +126,11 @@ export class List extends Widget {
    }
 
    prepare(context, instance) {
-      instance.instances.forEach(inst => inst.prepare(context));
+      instance.instances.forEach(inst => {
+         if (!this.cached || inst.shouldUpdate) {
+            inst.prepare(context);
+         }
+      });
    }
 
    render(context, instance, key) {
@@ -130,14 +140,21 @@ export class List extends Widget {
          type: x.record.type,
          content: getContent(x.render(context))
       }));
-      return <ListComponent key={key}
+      return <ListComponent
+         key={key}
          instance={instance}
          items={items}
-         selectable={!this.selection.isDummy || this.onItemClick}/>
+         selectable={!this.selection.isDummy || this.onItemClick}
+      />
    }
 
    cleanup(context, instance) {
-      instance.instances.forEach(inst => inst.cleanup(context));
+      instance.instances.forEach(inst => {
+         if (!this.cached || inst.shouldUpdate) {
+            inst.cleanup(context);
+            inst.cached.record = inst.record;
+         }
+      });
    }
 
    groupBy(grouping) {
@@ -181,6 +198,7 @@ List.prototype.baseClass = 'list';
 List.prototype.focusable = true;
 List.prototype.focused = false;
 List.prototype.itemPad = true;
+List.prototype.cached = false;
 
 Widget.alias('list', List);
 
