@@ -15,7 +15,7 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Controls close button visibility. Defaults to `true`.
+         Controls the close button visibility. Defaults to `true`.
       </Md></cx>
    },
    baseClass: {
