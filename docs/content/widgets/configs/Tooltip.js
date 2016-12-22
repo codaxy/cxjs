@@ -42,8 +42,8 @@ export default {
         key: false,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to make the tooltip always visible. This is useful for making product tours when instructions
-            need to be shown even if mouse pointer is not around.
+            Set to `true` to make the tooltip always visible. This is useful e.g. in product tours, when instructions
+            need to be shown, even if the mouse pointer is not around.
         </Md></cx>
     },
     mouseTrap: {
@@ -58,7 +58,7 @@ export default {
         key: true,
         type: 'string',
         description: <cx><Md>
-            Set to `true` to make that the tooltip follows the mouse while moving.
+            Set to `true` to make the tooltip follow the mouse movement.
         </Md></cx>
     }
 };

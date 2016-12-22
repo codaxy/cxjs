@@ -29,7 +29,7 @@ export const Tooltips = <cx>
 
       # Tooltips
 
-      Tooltips provide additional information related to the pointed element.
+      Tooltips provide additional information regarding the element they are pointing at.
 
          <div class="widgets" controller={PageController}>
             <div tooltip="This is a tooltip." style="margin: 50px">
@@ -50,11 +50,11 @@ export const Tooltips = <cx>
 
             <div style="padding: 10px" tooltip={{ mouseTrap: true, items: <cx><Md>
                Tooltips can contain any content. For example, we can add [a link to the overlays page](~/widgets/overlays) or **make some text bold** because
-               we're using markdown here. Any other component can be used here too, however tooltips work best with text and images.
+               we're using markdown here. Any other component can be used here too, however, tooltips work best with text and images.
 
-               Please note that tooltip elements are appended to the `body` element so only the global style rules apply.
+               Please note that tooltip elements are appended to the `body` element, hence only the global style rules apply.
 
-               In order to click on a link inside the tooltip, tooltip needs to trap the mouse so it doesn't disappear.
+               In order to support a link click inside a tooltip, the tooltip needs to trap the click event so it doesn't disappear.
 
                </Md></cx> }}>
                Rich content
@@ -103,11 +103,11 @@ export const Tooltips = <cx>
 
                <div style="padding: 10px" tooltip={{ mouseTrap: true, items: <cx><Md>
                   Tooltips can contain any content. For example, we can add [a link to the overlays page](~/widgets/overlays) or **make some text bold** because
-                  we're using markdown here. Any other component can be used here too, however tooltips work best with text and images.
+                  we're using markdown here. Any other component can be used here too, however, tooltips work best with text and images.
 
-                  Please note that tooltip elements are appended to the \`body\` element so only the global style rules apply.
+                  Please note that tooltip elements are appended to the \`body\` element, hence only the global style rules apply.
 
-                  In order to click on a link inside the tooltip, tooltip needs to trap the mouse so it doesn't disappear.
+                  In order to support a link click inside a tooltip, the tooltip needs to trap the click event so it doesn't disappear.
 
                   </Md></cx> }}>
                   Rich content
