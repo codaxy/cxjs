@@ -21,6 +21,8 @@ import LongList from './performance/LongList';
 let store = new Store();
 
 Widget.resetCounter();
+//Widget.optimizePrepare = false;
+//Widget.prototype.memoize = false;
 Timing.enable('vdom-render');
 //Debug.enable("should-update");
 

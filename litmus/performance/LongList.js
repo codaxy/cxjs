@@ -27,7 +27,12 @@ export default<cx>
 
       {/* Observe timing differences when typing in this field with cached set on/off */}
       <TextField value:bind="filter.dummy"  />
-      <List records:bind="$data" style="height: 500px" cached={true}>
+      <List
+         records:bind="$data"
+         style="height: 500px"
+         cached={true}
+         keyField="id"
+      >
          <div>
             <span text:bind="$record.text" />
          </div>
