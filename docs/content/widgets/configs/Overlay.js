@@ -69,7 +69,7 @@ export default {
         key: false,
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the field. Defaults to `overlay`.
+            Base CSS class to be applied to the field. Defaults to `overlay`.
         </Md></cx>
     }
 };

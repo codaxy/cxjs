@@ -13,7 +13,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the field. Defaults to `datefield`.
+         Base CSS class to be applied to the field. Defaults to `datefield`.
         </Md></cx>
     },
     format: {

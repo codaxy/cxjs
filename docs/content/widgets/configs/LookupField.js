@@ -91,7 +91,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the field. Defaults to `lookupfield`.
+            Base CSS class to be applied to the field. Defaults to `lookupfield`.
         </Md></cx>
     },
 

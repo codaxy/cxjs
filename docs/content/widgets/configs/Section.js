@@ -30,21 +30,21 @@ export default {
         type: 'string/object',
         key: true,
         description: <cx><Md>
-            A custom style which will be applied on the header.
+            A custom style which will be applied to the header.
         </Md></cx>
     },
     footerStyle: {
         type: 'string/object',
         key: true,
         description: <cx><Md>
-            A custom style which will be applied on the footer.
+            A custom style which will be applied to the footer.
         </Md></cx>
     },
     bodyStyle: {
         type: 'string/object',
         key: true,
         description: <cx><Md>
-            A custom style which will be applied on the body.
+            A custom style which will be applied to the body.
         </Md></cx>
     },
     headerClass: {
@@ -78,7 +78,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the element. Default is 'section'.
+            Base CSS class to be applied to the element. Default is 'section'.
         </Md></cx>
     }
 };

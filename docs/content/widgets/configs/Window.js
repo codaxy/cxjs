@@ -22,7 +22,7 @@ export default {
       key: false,
          type: 'string',
          description: <cx><Md>
-         Base CSS class to be applied on the field. Defaults to `window`.
+         Base CSS class to be applied to the field. Defaults to `window`.
       </Md></cx>
    }
 };

@@ -44,7 +44,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the field. Defaults to `slider`.
+            Base CSS class to be applied to the field. Defaults to `slider`.
         </Md></cx>
     },
     vertical: {
