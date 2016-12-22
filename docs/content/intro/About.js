@@ -48,7 +48,7 @@ export const About = <cx>
             </CodeSplit>
 
 
-            The main goal is to streamline the development of complex user interfaces which traditionally required
+            The main goal of Cx is to streamline the development of complex user interfaces which traditionally required
             components from many different vendors.
             Unlike many other frameworks which solve just one problem, Cx tries to solve the UI problems holistically.
             Out of the box, Cx includes form elements, form validation, advanced grid control,
@@ -90,10 +90,10 @@ export const About = <cx>
             Cx is based on modern technologies such as React, npm, babel, webpack and Sass.
 
             The product is made for individual developers and development teams who build business applications of any size.
-            It provides a solid foundation and reduces the burden of dealing with UI complexities and browser quirks,
+            Cx provides a solid foundation and reduces the burden of dealing with UI complexities and browser quirks,
             making the development efforts more predictable.
 
-            You might be familiar with core Cx concepts, already, as it is inspired by the known front-end
+            You might be familiar with core Cx concepts, already, as it is inspired by the well known front-end
             products, such as React, Redux, Ext JS, Angular and D3.
 
             Please visit our [Getting Started](~/intro/getting-started)
