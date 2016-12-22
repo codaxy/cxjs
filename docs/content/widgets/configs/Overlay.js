@@ -61,8 +61,8 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to force the element to be rendered inline, instead being appended to the body element.
-            Inline overlays have z-index set to a very high value in order to get on top of the other content.
+            Set to `true` to force the element to be rendered inline, instead of being appended to the body element.
+            Inline overlays have z-index set to a very high value, to ensure they are displayed on top of the other content.
         </Md></cx>
     },
     baseClass: {

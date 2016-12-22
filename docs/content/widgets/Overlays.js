@@ -33,7 +33,7 @@ export const Overlays = <cx>
 
       <ImportPath path="import {Overlay} from 'cx/widgets';" />
 
-      Overlays are page elements which are displayed on top of the main UI. Overlays include windows,
+      Overlays are page elements displayed on top of the main UI. Overlays include windows,
       message boxes, dropdowns, tooltips, etc. Overlays may be defined in the widget tree context or opened
       independently. In either case, overlays are appended inside the `body` element.
 
@@ -42,7 +42,7 @@ export const Overlays = <cx>
       ### Contextual Overlays
 
       Contextual overlays are defined inside the widget tree and controlled using the `visible` property.
-      A contextual overlay will not be shown unless its parent is visible.
+      A contextual overlay will not be shown, unless its parent is visible.
 
       <CodeSplit>
          <div class="widgets">
@@ -113,7 +113,7 @@ export const Overlays = <cx>
 
       </CodeSplit>
 
-      > `HINT` Switch to another article while both types of overlays are visible and then return back to this page.
+      > `HINT` Switch to another article, while both types of overlays are visible, and then return back to this page.
 
       ## Configuration
 
