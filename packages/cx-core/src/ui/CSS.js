@@ -1,23 +1,50 @@
 import {CSSHelper} from './CSSHelper';
 import {parseStyle} from '../util/parseStyle';
 
+function push(list, item) {
+   if (!item)
+      return list;
+   if (!list)
+      list = [];
+   list.push(item);
+   return list;
+}
+
+function pushMore(list, itemArray) {
+   if (!itemArray || itemArray.length == 0)
+      return list;
+   if (!list)
+      list = [];
+   list.push.apply(list, itemArray);
+   return list;
+}
+
+function pushMap(list, itemArray, mapF) {
+   return itemArray ? pushMore(list, itemArray.map(mapF)) : list;
+}
+
+function join(list) {
+   return list ? list.join(' ') : null;
+}
+
 export class CSS {
 
    static resolve() {
-      var list = [];
-      for (var i = 0; i < arguments.length; i++) {
-         var arg = arguments[i];
+      let list, type, arg, i, key;
+
+      for (i = 0; i < arguments.length; i++) {
+         arg = arguments[i];
          if (arg) {
-            var type = typeof arg;
+            type = typeof arg;
             if (type == 'string')
-               list.push(arg);
+               list = push(list, arg);
             else if (type == 'object') {
                if (Array.isArray(arg))
-                  list.push(...this.resolve(...arg));
+                  list = pushMore(list, this.resolve(...arg));
                else
-                  for (var key in arg)
+                  for (key in arg)
                      if (arg[key])
-                        list.push(key);
+                        list = push(list, key);
             }
          }
       }
@@ -25,32 +52,28 @@ export class CSS {
    }
 
    static block(baseClass, styleModifiers, stateModifiers) {
-      var list = [];
+      let list;
       if (baseClass)
-         list.push(this.classPrefix + 'b-' + baseClass);
-      list.push(...this.resolve(styleModifiers).map(m=>this.classPrefix + 'm-' + m));
-      list.push(...this.resolve(stateModifiers).map(m=>this.classPrefix + 's-' + m));
-      return list.join(' ') || null;
+         list = push(list, this.classPrefix + 'b-' + baseClass);
+      list = pushMap(list, this.resolve(styleModifiers), m => this.classPrefix + 'm-' + m);
+      list = pushMap(list, this.resolve(stateModifiers), m => this.classPrefix + 's-' + m);
+      return join(list);
    }
 
    static element(baseClass, elementClass, stateModifiers) {
-      if (!baseClass || !elementClass)
-         return;
-
-      return [
-            this.classPrefix + 'e-' + baseClass + '-' + elementClass,
-            ...this.resolve(stateModifiers).map(m=>this.classPrefix + 's-' + m)
-         ].join(' ') || null;
+      let list;
+      if (baseClass && elementClass)
+         list = push(list, this.classPrefix + 'e-' + baseClass + '-' + elementClass);
+      list = pushMap(list, this.resolve(stateModifiers), m => this.classPrefix + 's-' + m);
+      return join(list);
    }
 
    static state(stateModifiers) {
-      return [
-            ...this.resolve(stateModifiers).map(m=>this.classPrefix + 's-' + m)
-         ].join(' ') || null;
+      return join(pushMap(null, this.resolve(stateModifiers), m => this.classPrefix + 's-' + m));
    }
 
    static expand() {
-      return this.resolve(...arguments).join(' ') || null;
+      return join(this.resolve(...arguments));
    }
 
    static parseStyle(str) {
