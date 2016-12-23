@@ -18,12 +18,11 @@ export const Svgs = <cx>
         <CodeSplit>
 
             Cx has a very good support for *Scalable Vector Graphics* (SVG) and enables responsive layouts and charts
-            using
-            the concept of bounded objects .
+            using the concept of bounded objects.
 
             ## Bounded Objects
 
-            > To allow the use of bounded objects use the `Svg` container, instead of `svg`.
+            > To allow the use of bounded objects, use the `Svg` container, instead of `svg`.
 
             The `Svg` component will measure its size and pass the bounding box information to child elements.
             Child elements should use parent bounds to calculate their own size and pass it to their own children.
@@ -33,7 +32,7 @@ export const Svgs = <cx>
             order).
             Suffixes should not be used (e.g. % or px).
 
-            ### `anchor`
+            ### `anchors`
 
             Anchor defines how child bounds are tied to the parent. Zero aligns to the left/top edge.
             One aligns to the right/bottom edge.
@@ -130,8 +129,9 @@ export const Svgs = <cx>
         <CodeSplit>
             ### `margin`
 
-            The `margin` property is very similar to the `offset` property. The only difference is that right and bottom
-            components are behaving like a CSS margin, that is move the right/bottom edge to the inside.
+            The `margin` property is very similar to the `offset` property. The only difference is that it behaves
+            just like a CSS margin, that is, positive values move the edges to the inside, and negative values
+            expand them to the outside of the bounds set with the anchor property.
 
             <div class="widgets">
                 <Svg style="width:100px;height:100px;background:white;margin:5px">
@@ -149,7 +149,7 @@ export const Svgs = <cx>
 
             <CodeSnippet putInto="code">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill:lightblue" />
+               <Rectangle anchors="0 1 1 0" margin={5} style="fill:lightblue" />
                <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
                <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: 5</Text>
             </Svg>
