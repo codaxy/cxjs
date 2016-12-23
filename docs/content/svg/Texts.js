@@ -17,7 +17,7 @@ export const Texts = <cx>
 
       <CodeSplit>
 
-         The `Text` widget renders SVG `text`. Top-left corner of the bounding box as the initial cursor position.
+         The `Text` widget renders SVG `text`. The initial cursor position is the top-left corner of the bounding box.
          `textAnchor` and `dy` attributes are used to position the text.
 
          <div class="widgets">
