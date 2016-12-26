@@ -53,7 +53,7 @@
             }
 
             &.#{$state}arrow {
-               padding-right: cx-calc(cx-right($value), $icon-size);
+               padding-right: cx-calc($icon-size);
             }
 
             & > .#{$element}#{$name}-arrow {
