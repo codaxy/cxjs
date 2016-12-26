@@ -10,10 +10,18 @@
       opacity: 0.7;
    }
 
-   *:not(:last-child):after {
-      content: '>';
-      margin-left: 0.7rem;
-      position: absolute;
+   .cxe-menu-item {
+      vertical-align: middle;
+   }
+
+   //*:not(:last-child):after {
+   //   content: '>';
+   //   margin-left: 0.7rem;
+   //   position: absolute;
+   //   opacity: 0.3;
+   //}
+
+   .cxb-icon {
       opacity: 0.3;
    }
 
