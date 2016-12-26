@@ -43,7 +43,7 @@ export default (name, breadcrumbs = defaultNav) => {
                      <Menu putInto="dropdown">
                         <a href="../neutral">Neutral</a>
                         <a href="../dark">Dark</a>
-                        <a href="../dark">Frost</a>
+                        <a href="../frost">Frost</a>
                      </Menu>
                   </Submenu>
                   {intermixed}
