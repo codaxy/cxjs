@@ -1,4 +1,11 @@
-import { HtmlElement, Button, Tab, Section, FlexRow } from 'cx/widgets';
+import { HtmlElement, Button, Tab, Section, FlexRow, MsgBox } from 'cx/widgets';
+
+import LoginWindow from './LoginWindow';
+import ContactWindow from './ContactWindow';
+
+import Menu1 from './Menu1';
+import Toasts from './Toasts';
+import Forms from './Forms';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
@@ -15,9 +22,9 @@ const TabContent = <cx>
 </cx>
 
 export default <cx>
-   <span putInto="breadcrumbs">Blocks</span>
+   <span putInto="breadcrumbs">Widgets</span>
 
-   <FlexRow pad spacing wrap>
+   <FlexRow pad spacing wrap target="tablet">
       <Section mod="well" title="Buttons" style="flex:1;min-width:250px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
@@ -54,18 +61,18 @@ export default <cx>
          mod="well"
          title="Classic Tabs"
          pad={false}
-         style="flex:1;overflow:hidden"
+         style="flex:1;"
          headerStyle="border-bottom: none"
-         bodyStyle="display:flex;flex-direction:column"
+         bodyStyle="display:flex;flex-direction:column;"
          preserveWhitespace
       >
-         <div style="padding:0 1.5rem;white-space:nowrap;flex-shrink:0">
+         <div style="padding:0 1.5rem;white-space:nowrap;flex-shrink:none">
             <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
             <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
          </div>
-         <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex: 1 0">
+         <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex:auto; border-radius:3px">
             <TabContent />
          </div>
       </Section>
@@ -80,6 +87,26 @@ export default <cx>
          <br/>
          <TabContent />
       </Section>
+         <Section mod="well" title="Windows" style="flex:1">
+            <FlexRow spacing align>
+               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
+               <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
+               <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>
+               <Button onClick={()=>{MsgBox.yesNo('Would you like to close this window?')}}>Confirm</Button>
+            </FlexRow>
+            <LoginWindow />
+            <ContactWindow />
+         </Section>
+
+         <Section mod="well" title="Menus" style="flex:1">
+            <Menu1 />
+         </Section>
+
+         <Section mod="well" title="Toasts" style="flex:1">
+            <Toasts />
+         </Section>
+
+      <Forms />
 
 
    </FlexRow>
