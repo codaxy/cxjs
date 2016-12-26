@@ -68,21 +68,21 @@ export default {
     constrain: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to is equivalent to setting `constrainX` and `constrainY` to true.
+            When set to `true`, it is equivalent to setting `constrainX` and `constrainY` to true.
         </Md></cx>
     },
 
     constrainX: {
         type: 'boolean',
         description: <cx><Md>
-            Constrain the marker position during drag operations to min/max values of the X axis.
+            Constrain the marker position to min/max values of the X axis during drag operations.
         </Md></cx>
     },
 
     constrainY: {
         type: 'boolean',
         description: <cx><Md>
-            Constrain the marker position during drag operations to min/max values of the Y axis.
+            Constrain the marker position to min/max values of the Y axis during drag operations.
         </Md></cx>
     }
 };
