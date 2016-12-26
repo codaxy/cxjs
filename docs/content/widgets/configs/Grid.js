@@ -91,4 +91,29 @@ export default {
             Text to be displayed instead of an empty table.
         </Md></cx>
     },
+    border: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to add default border around the table. Automatically set if
+            grid is `scrollable`.
+        </Md></cx>
+    },
+    vlines: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to add vertical gridlines.
+        </Md></cx>
+    },
+    headerMode: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            Determines header appearance. Supported values
+            are `plain` and `default`. Default mode is used if some of the columns
+            are sortable. Plain mode better suits reports and other scenarios in which
+            users do not interact with the grid.
+        </Md></cx>
+    }
 };
