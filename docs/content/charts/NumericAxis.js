@@ -19,8 +19,8 @@ export const NumericAxisPage = <cx>
 
         The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
         Other widgets, such as graphs, use it to calculate their position on the chart.
-        On the other side axis adapts its visible range to the data being shown.
-        Axis is also responsive. It selects different tick configuration based on the available space.
+        On the other side, the axes adapt their visible range to the data being shown.
+        The axes are also responsive: different tick configuration is selected based on the available space.
 
         <CodeSplit>
 
