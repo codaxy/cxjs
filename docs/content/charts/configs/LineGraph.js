@@ -36,7 +36,7 @@ export default {
       type: 'string',
       key: true,
       description: <cx><Md>
-         Name of the property which holds the y0 value. Default value is `false` which means y0 value is not read from the data array.
+         Name of the property which holds the y0 value. Default value is `false`, which means y0 value is not read from the data array.
       </Md></cx>
    },
    y0: {
@@ -57,7 +57,7 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Line switch. By default line is shown. Set to `false` to hide the line and draw only the area.
+         Line switch. By default, the line is shown. Set to `false` to hide the line and draw only the area.
       </Md></cx>
    }
 };
