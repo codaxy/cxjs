@@ -7,7 +7,16 @@ let sep = <cx>
    </Menu.Item>
 </cx>;
 
-let defaultNav = <cx>
+let defaultNav = name => <cx>
+   <a href="..">Themes</a>
+   <Submenu>
+      {name}
+      <Menu putInto="dropdown">
+         <a href="../neutral">Neutral</a>
+         <a href="../dark">Dark</a>
+         <a href="../frost">Frost</a>
+      </Menu>
+   </Submenu>
    <Submenu arrow>
       <ContentPlaceholder name="breadcrumbs" />
       <Menu putInto="dropdown">
@@ -19,10 +28,10 @@ let defaultNav = <cx>
    </Submenu>
 </cx>;
 
-export default (name, breadcrumbs = defaultNav) => {
+export default (name, breadcrumbs) => {
 
-   if (!Array.isArray(breadcrumbs))
-      breadcrumbs = [breadcrumbs];
+   if (!breadcrumbs)
+      breadcrumbs = defaultNav(name);
 
    let intermixed = [];
    breadcrumbs.forEach(b => {
@@ -35,17 +44,6 @@ export default (name, breadcrumbs = defaultNav) => {
             <div class="b-crumbs">
                <Menu horizontal>
                   <a href="/">Cx</a>
-                  {sep}
-                  <a href="..">Themes</a>
-                  {sep}
-                  <Submenu>
-                     {name}
-                     <Menu putInto="dropdown">
-                        <a href="../neutral">Neutral</a>
-                        <a href="../dark">Dark</a>
-                        <a href="../frost">Frost</a>
-                     </Menu>
-                  </Submenu>
                   {intermixed}
                </Menu>
             </div>

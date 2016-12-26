@@ -2,9 +2,9 @@ import { HtmlElement, PureContainer, Repeater, Section, FlexRow } from 'cx/widge
 import createLayout from 'shared/layout';
 import GAController from 'shared/GAController';
 
-const layout = createLayout(<cx>
-   <span>Themes</span>
-</cx>);
+const layout = createLayout('Home', [<cx>
+   <a>Themes</a>
+</cx>]);
 
 const themes = [{
    name: 'Neutral',
