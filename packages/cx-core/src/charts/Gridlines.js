@@ -5,8 +5,17 @@ export class Gridlines extends BoundedObject {
 
    explore(context, instance) {
       super.explore(context, instance);
-      var xAxis = instance.xAxis = context.axes[this.xAxis];
-      var yAxis = instance.yAxis = context.axes[this.yAxis];
+      let xAxis = instance.xAxis = context.axes[this.xAxis];
+      let yAxis = instance.yAxis = context.axes[this.yAxis];
+      if (xAxis && xAxis.shouldUpdate)
+         instance.shouldUpdate = true;
+      if (yAxis && yAxis.shouldUpdate)
+         instance.shouldUpdate = true;
+   }
+
+   prepare(context, instance) {
+      super.prepare(context, instance);
+      let {xAxis, yAxis} = instance;
       if (xAxis && xAxis.shouldUpdate)
          instance.shouldUpdate = true;
       if (yAxis && yAxis.shouldUpdate)
@@ -14,20 +23,19 @@ export class Gridlines extends BoundedObject {
    }
 
    render(context, instance, key) {
-      var {data, xAxis, yAxis} = instance;
-      var {bounds} = data;
-
-      var path = '';
+      let {data, xAxis, yAxis} = instance;
+      let {bounds} = data;
+      let path = '', xTicks, yTicks;
 
       if (xAxis) {
-         var xTicks = xAxis.mapGridlines();
-         xTicks.forEach(x=> {
+         xTicks = xAxis.mapGridlines();
+         xTicks.forEach(x => {
             path += `M ${x} ${bounds.t} L ${x} ${bounds.b}`;
          });
       }
 
       if (yAxis) {
-         var yTicks = yAxis.mapGridlines();
+         yTicks = yAxis.mapGridlines();
          yTicks.forEach(y => {
             path += `M ${bounds.l} ${y} L ${bounds.r} ${y}`;
          });
