@@ -11,12 +11,10 @@ let defaultNav = <cx>
    <Submenu arrow>
       <ContentPlaceholder name="breadcrumbs" />
       <Menu putInto="dropdown">
-         <a href="#core">Core</a>
-         <a href="#blocks">Blocks</a>
-         <a href="#forms">Forms</a>
+         <a href="#">Widgets</a>
          <a href="#grids">Grids</a>
          <a href="#charts">Charts</a>
-         <a href="#overlays">Overlays</a>
+         <a href="#global">Global</a>
       </Menu>
    </Submenu>
 </cx>;
@@ -38,14 +36,14 @@ export default (name, breadcrumbs = defaultNav) => {
                <Menu horizontal>
                   <a href="/">Cx</a>
                   {sep}
-                  <a href="/themes">Themes</a>
+                  <a href="..">Themes</a>
                   {sep}
                   <Submenu>
                      {name}
                      <Menu putInto="dropdown">
-                        <a href="/themes/neutral">Neutral</a>
-                        <a href="/themes/dark">Dark</a>
-                        <a href="/themes/dark">Frost</a>
+                        <a href="../neutral">Neutral</a>
+                        <a href="../dark">Dark</a>
+                        <a href="../dark">Frost</a>
                      </Menu>
                   </Submenu>
                   {intermixed}

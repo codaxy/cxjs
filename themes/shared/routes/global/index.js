@@ -1,7 +1,7 @@
 import { HtmlElement, Button, Repeater, Tab, Text, Section, FlexRow } from 'cx/widgets';
 
 export default <cx>
-   <span putInto="breadcrumbs">Core</span>
+   <span putInto="breadcrumbs">Global</span>
 
    <FlexRow pad spacing wrap>
       <Section title="Typography" mod="well" style="flex:1" preserveWhitespace>
