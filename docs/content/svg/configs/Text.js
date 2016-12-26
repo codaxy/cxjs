@@ -30,7 +30,7 @@ export default {
       type: 'string',
       description: <cx><Md>
          Offset along the y-axis. This property is commonly used for vertical text alignment.
-         Set `dy="0.8em"` to align the text to the top and `dy="0.4em"` to center it vertically.
+         Set `dy="0.8em"` to align the text with the top and `dy="0.4em"` to center it vertically.
       </Md></cx>
    },
 
