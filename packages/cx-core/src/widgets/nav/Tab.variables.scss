@@ -13,6 +13,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
       text-decoration: none,
       cursor: pointer,
       color: inherit,
+      text-align: center
    ),
    hover: (
       text-decoration: none

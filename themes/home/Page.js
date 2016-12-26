@@ -25,7 +25,7 @@ const themes = [{
 
 export default <cx>
    <PureContainer outerLayout={layout} controller={GAController}>
-      <FlexRow pad spacing wrap justify="center">
+      <FlexRow pad="xlarge" spacing="xlarge" wrap justify="center" class="b-list">
          <Repeater records={themes} recordName="$theme">
             <Section mod="well" pad={false}>
                <a class="b-card" href:bind="$theme.url">

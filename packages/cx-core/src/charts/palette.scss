@@ -15,6 +15,13 @@ $cx-default-palette-fill-whiten: 60% !default;
 $cx-default-palette-fill-hover-whiten: 50% !default;
 $cx-default-palette-fill-selected-whiten: 20% !default;
 $cx-default-palette-fill-disabled-whiten: 90% !default;
+
+$cx-default-palette-fill-blacken: 0% !default;
+$cx-default-palette-fill-hover-blacken: 0% !default;
+$cx-default-palette-fill-selected-blacken: 0% !default;
+$cx-default-palette-fill-disabled-blacken: 0% !default;
+
+$cx-default-palette-stroke-whiten: 0% !default;
 $cx-default-palette-stroke-blacken: 10% !default;
 
 @mixin cx-palette(
@@ -23,6 +30,11 @@ $cx-default-palette-stroke-blacken: 10% !default;
    $palette-fill-hover-whiten: $cx-default-palette-fill-hover-whiten,
    $palette-fill-selected-whiten: $cx-default-palette-fill-selected-whiten,
    $palette-fill-disabled-whiten: $cx-default-palette-fill-disabled-whiten,
+   $palette-fill-blacken: $cx-default-palette-fill-blacken,
+   $palette-fill-hover-blacken: $cx-default-palette-fill-hover-blacken,
+   $palette-fill-selected-blacken: $cx-default-palette-fill-selected-blacken,
+   $palette-fill-disabled-blacken: $cx-default-palette-fill-disabled-blacken,
+   $palette-stroke-whiten: $cx-default-palette-stroke-whiten,
    $palette-stroke-blacken: $cx-default-palette-stroke-blacken,
    $besm: $cx-besm
 ) {
@@ -35,39 +47,43 @@ $cx-default-palette-stroke-blacken: 10% !default;
       $c: nth($palette-colors, 1 + (($i - 1) * 1) % length($palette-colors));
 
       .#{$state}color-#{$i - 1} {
-         fill: cx-whiten($c, $palette-fill-whiten);
-         stroke: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-stroke-blacken);
-
-         background: cx-whiten($c, $palette-fill-whiten);
-         border-color: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-stroke-blacken);
+         $fill: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-fill-blacken);
+         $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+         fill: $fill;
+         stroke: $stroke;
+         background: $fill;
+         border-color: $stroke;
 
          &.#{$state}selectable:hover {
-            fill: cx-whiten($c, $palette-fill-hover-whiten);
-            stroke: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
-
-            background: cx-whiten($c, $palette-fill-hover-whiten);
-            border-color: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-stroke-blacken);
+            $fill: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-fill-hover-blacken);
+            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            fill: $fill;
+            stroke: $stroke;
+            background: $fill;
+            border-color: $stroke;
          }
 
          &.#{$state}selected, &.#{$state}selected:hover {
-            fill: cx-whiten($c, $palette-fill-selected-whiten);
-            stroke: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
-
-            background: cx-whiten($c, $palette-fill-selected-whiten);
-            border-color: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-stroke-blacken);
+            $fill: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-fill-selected-blacken);
+            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            fill: $fill;
+            stroke: $stroke;
+            background: $fill;
+            border-color: $stroke;
          }
 
          &.#{$state}disabled {
-            fill: cx-whiten($c, $palette-fill-disabled-whiten);
-            stroke: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
-
-            background: cx-whiten($c, $palette-fill-disabled-whiten);
-            border-color: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-stroke-blacken);
+            $fill: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-fill-disabled-blacken);
+            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            fill: $fill;
+            stroke: $stroke;
+            background: $fill;
+            border-color: $stroke;
          }
       }
    }
 }
 
-@if (cx-include('cx/charts/pallete')) {
+@if (cx-include('cx/charts/palette')) {
    @include cx-palette();
 }

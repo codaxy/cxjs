@@ -216,7 +216,8 @@ $cx-element-style-map: (
    ),
 
    text: (
-      fill: currentColor
+      fill: currentColor,
+      stroke: none
    )
 ) !default;
 

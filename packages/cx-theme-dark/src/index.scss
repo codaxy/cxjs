@@ -63,11 +63,20 @@ $cx-default-cover-background-color: lighten($cx-default-background-color-light, 
 $cx-default-cover-border-color: $cx-default-cover-background-color !default;
 
 // CHART
-$cx-default-palette-fill-whiten: 38% !default;
-$cx-default-palette-fill-hover-whiten: 38% !default;
-$cx-default-palette-fill-selected-whiten: 20% !default;
-$cx-default-palette-fill-disabled-whiten: 90% !default;
-$cx-default-palette-stroke-blacken: 50% !default;
+$cx-default-palette-fill-whiten: 0% !default;
+$cx-default-palette-fill-blacken: 20% !default;
+
+$cx-default-palette-fill-hover-whiten: 20% !default;
+$cx-default-palette-fill-hover-blacken: 10% !default;
+
+$cx-default-palette-fill-selected-whiten: 40% !default;
+$cx-default-palette-fill-selected-blacken: 0% !default;
+
+$cx-default-palette-fill-disabled-whiten: 0% !default;
+$cx-default-palette-fill-hover-blacken: 40% !default;
+
+$cx-default-palette-stroke-blacken: 0% !default;
+$cx-default-palette-stroke-whiten: 10% !default;
 
 @import '~cx/variables';
 

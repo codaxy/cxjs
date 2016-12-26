@@ -8,7 +8,6 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      background: $cx-default-cover-background-color;
       text-align: center;
    }
 
@@ -36,7 +35,7 @@
    }
 
    .#{$element}#{$name}-shape {
-      fill: #eee;
+      fill: rgba(128, 128, 128, 0.1);
    }
 }
 

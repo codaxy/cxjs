@@ -21,11 +21,15 @@ a {
    text-decoration: none;
 }
 @media screen and (min-width: 1024px) {
-   .cxb-flexbox.cxs-pad.cxs-spacing {
+   .b-list.cxs-xlarge-pad {
       padding: 2rem;
 
-      & > * {
-         margin: 2rem;
+      & > .cxe-flexbox-flexbox {
+         margin: 0;
+
+         & > * {
+            margin: 2rem;
+         }
       }
    }
 }
