@@ -9,7 +9,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from 'docs/components/ImportPath';
 
 
-import configs from './configs/MarkerLine'
+import configs from './configs/MarkerLine';
 
 class PageController extends Controller {
    init() {
