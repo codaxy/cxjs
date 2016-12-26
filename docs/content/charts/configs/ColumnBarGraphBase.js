@@ -55,7 +55,7 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Set to true to auto calculate size and offset. Available only if the x axis is a category axis.
+         Set to true to auto-calculate size and offset. Available only if the x axis is a category axis.
       </Md></cx>
    }
 };
