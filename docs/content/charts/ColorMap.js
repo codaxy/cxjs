@@ -37,8 +37,8 @@ export const ColorMapPage = <cx>
 
             <ImportPath path="import {ColorMap} from 'cx/charts';" />
 
-            The `ColorMap` widget is used to assign colors based on names. This comes very handy when the number
-            of elements on the chart is not known upfront.
+            The `ColorMap` widget is used for assigning colors based on names. This comes in very handy when the number
+            of elements on the chart is variable.
 
             <div class="widgets" controller={PageController}>
                 <Svg style="width:600px; height:400px;">
