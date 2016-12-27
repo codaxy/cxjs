@@ -9,7 +9,7 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      display: block;
+
       box-sizing: border-box;
 
       @each $pad, $size in $cx-pad-size
@@ -31,6 +31,8 @@
    }
 
    .#{$element}#{$name}-flexbox {
+
+      display: flex;
 
       &.#{$state}column {
          flex-direction: column;
@@ -91,25 +93,21 @@
          justify-content: flex-end;
       }
 
-      &.#{$state}target-any {
-         display: flex;
-      }
-
       &.#{$state}target-phone {
-         @media screen and (min-width: $cx-screen-size-small) {
-            display: flex;
+         @media not screen and (min-width: $cx-screen-size-small) {
+            flex-direction: column;
          }
       }
 
       &.#{$state}target-tablet {
-         @media screen and (min-width: $cx-screen-size-medium) {
-            display: flex;
+         @media not screen and (min-width: $cx-screen-size-medium) {
+            flex-direction: column;
          }
       }
 
       &.#{$state}target-desktop {
-         @media screen and (min-width: $cx-screen-size-large) {
-            display: flex;
+         @media not screen and (min-width: $cx-screen-size-large) {
+            flex-direction: column;
          }
       }
    }
