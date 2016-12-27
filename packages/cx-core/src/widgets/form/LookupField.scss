@@ -116,6 +116,13 @@
             )
          )
       );
+
+      //put query field down when placed up
+      .#{$state}place-up-right &,
+      .#{$state}place-up &,
+      .#{$state}place-up-left & {
+         order: 1;
+      }
    }
 
    .#{$element}#{$name}-dropdown {
