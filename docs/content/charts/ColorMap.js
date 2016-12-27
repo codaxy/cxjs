@@ -39,7 +39,8 @@ export const ColorMapPage = <cx>
             The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the predefined color map. 
             This comes in very handy when the number of elements on the chart is variable.
             
-            The `ColorMap` widget assigns a different color to every chart element with the same `colorMap` attribute.
+            `ColorMap` assigns a different color to every chart element with the same `colorMap` attribute. 
+            At the same time, it will keep the maximum distance between used colors.
 
             <div class="widgets" controller={PageController}>
                 <Svg style="width:600px; height:400px;">
