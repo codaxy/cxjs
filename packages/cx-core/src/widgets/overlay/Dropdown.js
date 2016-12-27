@@ -1,7 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Overlay} from './Overlay';
 import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
-import {getViewportSize} from '../../util/getViewportSize';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../../ui/ResizeManager';
 import {Localization} from '../../ui/Localization';
@@ -105,7 +104,8 @@ export class Dropdown extends Overlay {
    }
 
    applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el) {
-      var viewport = getViewportSize();
+      let viewport = getViewportRect(this.screenPadding);
+      let pad = `${this.screenPadding}px`;
 
       style.position = "fixed";
 
@@ -114,8 +114,8 @@ export class Dropdown extends Overlay {
          case 'down-center':
             style.top = `${rel.bottom + this.offset}px`;
             style.right = 'auto';
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? '0'
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? pad
                : 'auto';
             style.left = `${(rel.left + rel.right - el.offsetWidth) / 2}px`;
             break;
@@ -124,39 +124,39 @@ export class Dropdown extends Overlay {
             style.top = `${rel.bottom + this.offset}px`;
             style.right = 'auto';
             style.left = `${rel.left}px`;
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? '0'
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? pad
                : 'auto';
             break;
 
          case 'down-left':
             style.top = `${rel.bottom + this.offset}px`;
-            style.right = `${viewport.width - rel.right}px`;
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? '0'
+            style.right = `${window.innerWidth - rel.right}px`;
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? pad
                : 'auto';
             style.left = 'auto';
             break;
 
          case 'up':
          case 'up-center':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${viewport.height - rel.top + this.offset}px`;
+            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
             style.left = `${(rel.left + rel.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'up-right':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${viewport.height - rel.top + this.offset}px`;
+            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
             style.left = `${rel.left}px`;
             break;
 
          case 'up-left':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0) ? '0' : 'auto';
-            style.right = `${viewport.width - rel.right}px`;
-            style.bottom = `${viewport.height - rel.top + this.offset}px`;
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
+            style.right = `${window.innerWidth - rel.right}px`;
+            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
             style.left = 'auto';
             break;
 
@@ -178,45 +178,45 @@ export class Dropdown extends Overlay {
          case 'right-up':
             style.top = 'auto';
             style.right = 'auto';
-            style.bottom = `${viewport.height - rel.bottom}px`;
+            style.bottom = `${window.innerHeight - rel.bottom}px`;
             style.left = `${rel.right + this.offset}px`;
             break;
 
          case 'left':
          case 'left-center':
             style.top = `${(rel.top + rel.bottom - el.offsetHeight) / 2}px`;
-            style.right = `${viewport.width - rel.left + this.offset}px`;
+            style.right = `${window.innerWidth - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-down':
             style.top = `${rel.top}px`;
-            style.right = `${viewport.width - rel.left + this.offset}px`;
+            style.right = `${window.innerWidth - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-up':
             style.top = 'auto';
-            style.right = `${viewport.width - rel.left + this.offset}px`;
-            style.bottom = `${viewport.height - rel.bottom}px`;
+            style.right = `${window.innerWidth - rel.left + this.offset}px`;
+            style.bottom = `${window.innerHeight - rel.bottom}px`;
             style.left = 'auto';
             break;
 
          case 'screen-center':
-            var w = Math.min(contentSize.width, viewport.width);
-            var h = Math.min(contentSize.height, viewport.height);
-            style.top = `${(viewport.height - h) / 2}px`;
-            style.right = `${(viewport.width - w) / 2}px`;
-            style.bottom = `${(viewport.height - h) / 2}px`;
-            style.left = `${(viewport.width - w) / 2}px`;
+            var w = Math.min(contentSize.width, window.innerWidth);
+            var h = Math.min(contentSize.height, window.innerHeight);
+            style.top = `${(window.innerHeight - h) / 2}px`;
+            style.right = `${(window.innerWidth - w) / 2}px`;
+            style.bottom = `${(window.innerHeight - h) / 2}px`;
+            style.left = `${(window.innerWidth - w) / 2}px`;
             break;
       }
    }
 
    applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el) {
-      var viewport = getViewportSize();
+      var viewport = getViewportRect(this.screenPadding);
 
       style.position = "absolute";
 
@@ -225,8 +225,8 @@ export class Dropdown extends Overlay {
          case 'down-center':
             style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = 'auto';
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${rel.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? `${rel.bottom + this.offset - viewport.bottom}px`
                : 'auto';
             style.left = `${(rel.right - rel.left - el.offsetWidth) / 2}px`;
             break;
@@ -235,24 +235,24 @@ export class Dropdown extends Overlay {
             style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = 'auto';
             style.left = `0`;
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${rel.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? `${rel.bottom + this.offset - viewport.bottom}px`
                : 'auto';
             break;
 
          case 'down-left':
             style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = `0`;
-            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.height)
-               ? `${rel.bottom + this.offset - viewport.height}px`
+            style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
+               ? `${rel.bottom + this.offset - viewport.bottom}px`
                : 'auto';
             style.left = 'auto';
             break;
 
          case 'up':
          case 'up-center':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - rel.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top)
+               ? `${this.offset - rel.top + viewport.top}px`
                : 'auto';
             style.right = 'auto';
             style.bottom = `${rel.bottom - rel.top - this.offset}px`;
@@ -260,8 +260,8 @@ export class Dropdown extends Overlay {
             break;
 
          case 'up-right':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - rel.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top)
+               ? `${this.offset - rel.top + viewport.top}px`
                : 'auto';
             style.right = 'auto';
             style.bottom = `${rel.bottom - rel.top - this.offset}px`;
@@ -269,8 +269,8 @@ export class Dropdown extends Overlay {
             break;
 
          case 'up-left':
-            style.top = this.constrain && (rel.top - this.offset - contentSize.height < 0)
-               ? `${this.offset - rel.top}px`
+            style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top)
+               ? `${this.offset - rel.top + viewport.top}px`
                : 'auto';
             style.right = `0`;
             style.bottom = `${rel.bottom - rel.top - this.offset}px`;
@@ -357,7 +357,7 @@ export class Dropdown extends Overlay {
       var first;
 
       var score = {};
-      var viewport = getViewportSize();
+      var viewport = getViewportRect();
 
       for (var i = 0; i < placementOrder.length; i++) {
          var p = placementOrder[i];
@@ -373,20 +373,20 @@ export class Dropdown extends Overlay {
 
          switch (primary) {
             case 'down':
-               score[p] += 3 * Math.min(1, (viewport.height - x.bottom - this.offset) / contentSize.height);
+               score[p] += 3 * Math.min(1, (viewport.bottom - x.bottom - this.offset) / contentSize.height);
                break;
 
             case 'up':
-               score[p] += 3 * Math.min(1, (x.top - this.offset) / contentSize.height);
+               score[p] += 3 * Math.min(1, (x.top - viewport.top - this.offset) / contentSize.height);
                break;
 
             case 'right':
-               score[p] += x.right + contentSize.width + this.offset < viewport.width ? 3 : 0;
+               score[p] += x.right + contentSize.width + this.offset < viewport.right ? 3 : 0;
                vertical = false;
                break;
 
             case 'left':
-               score[p] += x.left - contentSize.width - this.offset >= 0 ? 3 : 0;
+               score[p] += x.left - contentSize.width - this.offset >= viewport.left ? 3 : 0;
                vertical = false;
                break;
          }
@@ -394,29 +394,29 @@ export class Dropdown extends Overlay {
          switch (secondary) {
             case 'center':
                if (vertical) {
-                  score[p] += (x.right + x.left - contentSize.width) / 2 >= 0 ? 1 : 0;
-                  score[p] += (x.right + x.left + contentSize.width) / 2 < viewport.width ? 1 : 0;
+                  score[p] += (x.right + x.left - contentSize.width) / 2 >= viewport.left ? 1 : 0;
+                  score[p] += (x.right + x.left + contentSize.width) / 2 < viewport.right ? 1 : 0;
                }
                else {
-                  score[p] += (x.bottom + x.top - contentSize.height) / 2 >= 0 ? 1 : 0;
-                  score[p] += (x.bottom + x.top + contentSize.height) / 2 < viewport.height ? 1 : 0;
+                  score[p] += (x.bottom + x.top - contentSize.height) / 2 >= viewport.top ? 1 : 0;
+                  score[p] += (x.bottom + x.top + contentSize.height) / 2 < viewport.bottom ? 1 : 0;
                }
                break;
 
             case 'right':
-               score[p] += x.left + contentSize.width < viewport.width ? 2 : 0;
+               score[p] += x.left + contentSize.width < viewport.right ? 2 : 0;
                break;
 
             case 'left':
-               score[p] += x.right - contentSize.width >= 0 ? 2 : 0;
+               score[p] += x.right - contentSize.width >= viewport.left ? 2 : 0;
                break;
 
             case 'up':
-               score[p] += x.bottom - contentSize.height > 0 ? 2 : 0;
+               score[p] += x.bottom - contentSize.height >= viewport.top ? 2 : 0;
                break;
 
             case 'down':
-               score[p] += x.top + contentSize.height < viewport.height ? 2 : 0;
+               score[p] += x.top + contentSize.height < viewport.bottom ? 2 : 0;
                break;
          }
       }
@@ -474,6 +474,18 @@ Dropdown.prototype.positioning = 'fixed';
 Dropdown.prototype.touchFriendly = false;
 Dropdown.prototype.arrow = false;
 Dropdown.prototype.pad = false;
+Dropdown.prototype.screenPadding = 5;
 
 Widget.alias('dropdown', Dropdown);
 Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);
+
+function getViewportRect(padding = 0) {
+   return {
+      left: padding,
+      top: padding,
+      right: window.innerWidth - padding,
+      bottom: window.innerHeight - padding,
+      // width: window.innerWidth - 2 * padding,
+      // height: window.innerHeight - 2 * padding,
+   }
+}

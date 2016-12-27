@@ -83,7 +83,7 @@ export const LookupFields = <cx>
                         fetchAll
                         cacheAll
                         multiple
-                        autoClose={false}/>
+                        closeOnSelect={false}/>
                 </div>
             </div>
 
@@ -183,7 +183,8 @@ export const LookupFields = <cx>
                         onQuery="query"
                         fetchAll
                         cacheAll
-                        multiple/>
+                        multiple
+                        closeOnSelect={false} />
                 </div>
             </div>
             `}</CodeSnippet>

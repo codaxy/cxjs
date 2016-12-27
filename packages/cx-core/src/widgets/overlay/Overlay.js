@@ -3,7 +3,6 @@ import {PureContainer} from '../../ui/PureContainer';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
-import {getViewportSize} from '../../util/getViewportSize';
 import {captureMouseOrTouch} from './captureMouse';
 
 /*

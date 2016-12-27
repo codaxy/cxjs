@@ -15,7 +15,6 @@ export * from './quote';
 export * from './scrollElementIntoView';
 export * from './shallowEquals';
 export * from './Timing';
-export * from './getViewportSize';
 export * from './date/index';
 export * from './color/index';
 export * from './getVendorPrefix';
