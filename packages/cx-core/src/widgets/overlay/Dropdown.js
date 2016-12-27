@@ -60,10 +60,19 @@ export class Dropdown extends Overlay {
    updateDropdownPosition(instance, component) {
       var {el} = component;
       var {data} = instance;
-      var rel = this.relatedElement.getBoundingClientRect();
+      var parentBounds = this.relatedElement.getBoundingClientRect();
+
+      if (this.pad && typeof this.elementExplode == 'number') {
+         parentBounds = {
+            left: parentBounds.left - this.elementExplode,
+            right: parentBounds.right + this.elementExplode,
+            top: parentBounds.top - this.elementExplode,
+            bottom: parentBounds.bottom + this.elementExplode,
+         }
+      }
 
       if (this.trackMouse && component.mousePosition) {
-         rel = {
+         parentBounds = {
             left: component.mousePosition.x,
             right: component.mousePosition.x,
             top: component.mousePosition.y,
@@ -72,27 +81,27 @@ export class Dropdown extends Overlay {
       }
       var style = {};
       if (this.matchWidth)
-         style.minWidth = `${rel.right - rel.left}px`;
+         style.minWidth = `${parentBounds.right - parentBounds.left}px`;
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
 
-      var placement = this.findOptimalPlacement(contentSize, rel, data.placement, component.lastPlacement);
+      var placement = this.findOptimalPlacement(contentSize, parentBounds, data.placement, component.lastPlacement);
 
       switch (this.positioning) {
 
          case 'absolute':
-            this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el);
+            this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
             break;
 
          case 'auto':
             if (isTouchDevice())
-               this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el);
+               this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
             else
-               this.applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el);
+               this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
             break;
 
          default:
-            this.applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el);
+            this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
             break;
       }
 
@@ -353,7 +362,7 @@ export class Dropdown extends Overlay {
       return size;
    }
 
-   findOptimalPlacement(contentSize, x, placement, lastPlacement) {
+   findOptimalPlacement(contentSize, target, placement, lastPlacement) {
       var placementOrder = this.placementOrder.split(' ');
       var best = lastPlacement || placement;
       var first;
@@ -375,20 +384,20 @@ export class Dropdown extends Overlay {
 
          switch (primary) {
             case 'down':
-               score[p] += 3 * Math.min(1, (viewport.bottom - x.bottom - this.offset) / contentSize.height);
+               score[p] += 3 * Math.min(1, (viewport.bottom - target.bottom - this.offset) / contentSize.height);
                break;
 
             case 'up':
-               score[p] += 3 * Math.min(1, (x.top - viewport.top - this.offset) / contentSize.height);
+               score[p] += 3 * Math.min(1, (target.top - viewport.top - this.offset) / contentSize.height);
                break;
 
             case 'right':
-               score[p] += x.right + contentSize.width + this.offset < viewport.right ? 3 : 0;
+               score[p] += target.right + contentSize.width + this.offset < viewport.right ? 3 : 0;
                vertical = false;
                break;
 
             case 'left':
-               score[p] += x.left - contentSize.width - this.offset >= viewport.left ? 3 : 0;
+               score[p] += target.left - contentSize.width - this.offset >= viewport.left ? 3 : 0;
                vertical = false;
                break;
          }
@@ -396,29 +405,29 @@ export class Dropdown extends Overlay {
          switch (secondary) {
             case 'center':
                if (vertical) {
-                  score[p] += (x.right + x.left - contentSize.width) / 2 >= viewport.left ? 1 : 0;
-                  score[p] += (x.right + x.left + contentSize.width) / 2 < viewport.right ? 1 : 0;
+                  score[p] += (target.right + target.left - contentSize.width) / 2 >= viewport.left ? 1 : 0;
+                  score[p] += (target.right + target.left + contentSize.width) / 2 < viewport.right ? 1 : 0;
                }
                else {
-                  score[p] += (x.bottom + x.top - contentSize.height) / 2 >= viewport.top ? 1 : 0;
-                  score[p] += (x.bottom + x.top + contentSize.height) / 2 < viewport.bottom ? 1 : 0;
+                  score[p] += (target.bottom + target.top - contentSize.height) / 2 >= viewport.top ? 1 : 0;
+                  score[p] += (target.bottom + target.top + contentSize.height) / 2 < viewport.bottom ? 1 : 0;
                }
                break;
 
             case 'right':
-               score[p] += x.left + contentSize.width < viewport.right ? 2 : 0;
+               score[p] += target.left + contentSize.width < viewport.right ? 2 : 0;
                break;
 
             case 'left':
-               score[p] += x.right - contentSize.width >= viewport.left ? 2 : 0;
+               score[p] += target.right - contentSize.width >= viewport.left ? 2 : 0;
                break;
 
             case 'up':
-               score[p] += x.bottom - contentSize.height >= viewport.top ? 2 : 0;
+               score[p] += target.bottom - contentSize.height >= viewport.top ? 2 : 0;
                break;
 
             case 'down':
-               score[p] += x.top + contentSize.height < viewport.bottom ? 2 : 0;
+               score[p] += target.top + contentSize.height < viewport.bottom ? 2 : 0;
                break;
          }
       }
@@ -476,6 +485,7 @@ Dropdown.prototype.positioning = 'fixed';
 Dropdown.prototype.touchFriendly = false;
 Dropdown.prototype.arrow = false;
 Dropdown.prototype.pad = false;
+Dropdown.prototype.elementExplode = 0;
 Dropdown.prototype.screenPadding = 5;
 
 Widget.alias('dropdown', Dropdown);

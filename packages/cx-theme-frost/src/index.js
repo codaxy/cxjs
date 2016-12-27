@@ -2,7 +2,8 @@ import {Localization} from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
    arrow: true,
-   offset: 10
+   offset: 5,
+   elementExplode: 7
 });
 
 
