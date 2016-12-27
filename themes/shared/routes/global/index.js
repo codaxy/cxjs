@@ -1,9 +1,9 @@
-import { HtmlElement, Button, Repeater, Tab, Text, Section, FlexRow } from 'cx/widgets';
+import { HtmlElement, Button, Repeater, Tab, Text, Section, FlexRow, FlexCol } from 'cx/widgets';
 
 export default <cx>
    <span putInto="breadcrumbs">Global</span>
 
-   <FlexRow pad spacing wrap>
+   <FlexCol pad spacing wrap>
       <Section title="Typography" mod="well" style="flex:1" preserveWhitespace>
          <h1>Header 1</h1>
          <p>
@@ -85,5 +85,5 @@ export default <cx>
          </FlexRow>
       </Section>
 
-   </FlexRow>
+   </FlexCol>
 </cx>
