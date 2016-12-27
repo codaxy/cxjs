@@ -70,7 +70,7 @@ export default {
     error: {
         type: 'string',
         description: <cx><Md>
-            Used for validation. If error evaluates to non-null, field is marked in red.
+            Used for validation. If error evaluates to non-null, the field is marked in red.
         </Md></cx>
     },
     visited: {
