@@ -22,7 +22,7 @@ export const Radios = <cx>
 
       <ImportPath path="import {Radio} from 'cx/widgets';" />
 
-      Radio buttons are commonly used for making choices within a limited number of options.
+      Radio buttons are commonly used for making a single selection within a limited number of options.
 
         <CodeSplit>
 

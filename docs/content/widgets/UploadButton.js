@@ -39,7 +39,7 @@ export const UploadButtonPage = <cx>
 
         <CodeSplit>
 
-            Upload buttons are used for selecting and uploading files on the server.
+            Upload buttons are used for selecting files and uploading them to the server.
 
             <div class="widgets">
                 <UploadButton url="https://cx.codaxy.com/fiddle/api/uploads"

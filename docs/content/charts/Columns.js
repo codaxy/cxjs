@@ -34,7 +34,7 @@ export const Columns = <cx>
 
       <CodeSplit>
 
-         The `Column` widget is used for making column charts where each column have a unique properties
+         The `Column` widget is used to make column charts where each column has unique properties
          or additional content inside.
 
          <div class="widgets">

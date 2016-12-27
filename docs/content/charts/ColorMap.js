@@ -36,7 +36,7 @@ export const ColorMapPage = <cx>
 
             <ImportPath path="import {ColorMap} from 'cx/charts';" />
 
-            The `ColorMap` widget is used for assigning a different color to each chart element (e.g. LineGraph) from the predefined color map. 
+            The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the predefined color map. 
             This comes in very handy when the number of elements on the chart is variable.
             
             The `ColorMap` widget assigns a different color to every chart element with the same `colorMap` attribute.

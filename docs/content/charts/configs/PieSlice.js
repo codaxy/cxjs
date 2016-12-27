@@ -10,7 +10,7 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Used for indicating whether an item is active or not. Inactive items are shown only in the legend.
+         Used to indicate whether an item is active or not. Inactive items are shown only in the legend.
       </Md></cx>
    },
    r: {

@@ -16,7 +16,7 @@ export const Router = <cx>
       # Router
 
       Cx features built-in routing functionality. This enables building complex single page applications and
-      retain classic URL based navigation. There are a few classes used for implementing routing and navigation:
+      retain classic URL based navigation. There are a few classes used to implement routing and navigation:
 
       * Url
       * Route

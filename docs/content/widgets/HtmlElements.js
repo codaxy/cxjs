@@ -15,7 +15,7 @@ export const HtmlElements = <cx>
 
       <ImportPath path="import {HtmlElement} from 'cx/widgets';" />
 
-      The `HtmlElement` widget is used for rendering HTML elements. All lowercase elements will be converted to the
+      The `HtmlElement` widget is used to render HTML elements. All lowercase elements will be converted to the
       `HtmlElement` instances with the corresponding `tag` property set.
 
       <CodeSplit>

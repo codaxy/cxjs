@@ -33,7 +33,7 @@ export default {
         type: 'integer',
         description: <cx><Md>
             Sometimes, there is not enough data and each category takes a lot of space.
-            `minSize` can be used for adding fake entries up to the specified number, so
+            `minSize` can be used to add fake entries up to the specified number, so
             everything looks normal.
         </Md></cx>
     }

@@ -31,8 +31,8 @@ export default {
         key: false,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to append the set `animate` state after the initial render. Appended CSS class may be used for
-            adding show/hide animations.
+            Set to `true` to append the set `animate` state after the initial render. Appended CSS class may be used to
+            add show/hide animations.
         </Md></cx>
     },
     modal: {
