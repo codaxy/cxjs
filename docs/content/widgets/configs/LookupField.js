@@ -124,5 +124,11 @@ export default {
             Set to `true` to hide the clear button. Default value is `false`.
             No effect if `multiple` is used.
         </Md></cx>
+    },
+    closeOnSelect: {
+        type: 'boolean',
+        description: <cx><Md>
+            Close the dropdown after selection. Default is `true`.
+        </Md></cx>
     }
 };

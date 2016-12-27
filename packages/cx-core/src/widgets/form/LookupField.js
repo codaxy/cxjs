@@ -162,6 +162,7 @@ LookupField.prototype.suppressErrorTooltipsUntilVisited = true;
 LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.hideClear = false;
+LookupField.prototype.closeOnSelect = true;
 
 Widget.alias('lookupfield', LookupField)
 
@@ -578,8 +579,11 @@ class LookupComponent extends VDOM.Component {
             store.set(b.local, Binding.get(b.remote).value(itemData));
          });
       }
-      this.closeDropdown(e);
-      this.dom.input.focus();
+
+      if (widget.closeOnSelect) {
+         this.closeDropdown(e);
+         this.dom.input.focus();
+      }
    }
 
    onDropdownKeyPress(e) {
