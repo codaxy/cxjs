@@ -10,7 +10,7 @@ export default <cx>
          bind: "$page.contact.visible",
          defaultValue: false
       }}
-      style="width:600px"
+      style="width:500px;max-width:100%"
       title="Contact"
       resizable
       backdrop

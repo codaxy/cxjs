@@ -88,7 +88,7 @@ export default <cx>
          <TabContent />
       </Section>
          <Section mod="well" title="Windows" style="flex:1">
-            <FlexRow spacing align>
+            <FlexRow spacing align wrap>
                <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
                <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
                <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>

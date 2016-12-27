@@ -33,9 +33,9 @@ const options = [
 export default <cx>
    <Section mod="well" title="Inputs" style="flex:1">
       <div layout={{type: LabelsLeftLayout, mod: "stretch"}}>
-         <TextField label="TextField" value:bind="text"/>
-         <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%"/>
-         <NumberField label="NumberField" value:bind="number"/>
+         <TextField label="TextField" value:bind="text" style="width:100%; max-width:180px" />
+         <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
+         <NumberField label="NumberField" value:bind="number" style="width:100%; max-width:180px"/>
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
@@ -44,17 +44,19 @@ export default <cx>
 
    <Section mod="well" title="Dropdowns" style="flex:1">
       <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio">
+         <Select label="Select" value:bind="radio" style="width:100%; max-width:180px">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
          <LookupField label="LookupField" value:bind="radio"
-            options={options}/>
+            options={options}
+            style="width:100%; max-width:180px"/>
          <LookupField label="LookupField (multiple)" multiple values:bind="options"
-            options={options}/>
-         <DateField label="DateField" value:bind="date"/>
-         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo"/>
-         <ColorField label="ColorField" value:bind="color"/>
+            options={options}
+            style="width:100%; max-width:180px"/>
+         <DateField label="DateField" value:bind="date" style="width:100%; max-width:180px"/>
+         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%; max-width:180px"/>
+         <ColorField label="ColorField" value:bind="color" style="width:100%; max-width:180px"/>
       </div>
    </Section>
 
