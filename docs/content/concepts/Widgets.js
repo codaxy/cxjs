@@ -41,7 +41,7 @@ export const Widgets = <cx>
         However, there are a few things different here:
 
         1. Cx widget trees are wrapped into the `&lt;cx&gt;` element.
-        That is an instruction to Babel (JS transpiler) to convert this section into Cx widget configuration, instead of
+        That is an instruction to Babel (JS compiler) to convert this section into Cx widget configuration, instead of
         React
         function calls.
 
