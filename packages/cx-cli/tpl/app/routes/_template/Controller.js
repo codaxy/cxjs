@@ -1,4 +1,4 @@
-import {Controller} from 'cx/ui/Controller';
+import { Controller } from 'cx/ui';
 
 export default class extends Controller {
     init(){

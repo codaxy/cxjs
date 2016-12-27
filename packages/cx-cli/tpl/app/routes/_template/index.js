@@ -1,6 +1,6 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
+import { HtmlElement } from 'cx/widgets';
 
-import Controller from './controller';
+import Controller from './Controller';
 
 export default <cx>
     <div controller={Controller}>

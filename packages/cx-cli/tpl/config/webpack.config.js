@@ -4,16 +4,14 @@ const webpack = require('webpack'),
     path = require('path'),
     babelCfg = require("./babel.config"),
     paths = {
-        root: path.join(__dirname, '../'),
-        app: path.join(__dirname, '../app/'),
-        dist: path.join(__dirname, '../dist/')
+        app: p => path.join(__dirname, '../app/', p || ''),
+        dist : p => path.join(__dirname, '../dist/', p || ''),
     };
 
 module.exports = {
     resolve: {
         alias: {
-            cx: paths.root + 'node_modules/cx-core/src/',
-            app: paths.app
+            app: paths.app()
             //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
             //'cx-react': 'cx-preact',
         }
@@ -23,17 +21,19 @@ module.exports = {
         loaders: [{
             test: /\.js$/,
             //add here any ES6 based library
-            include: /(app|cx-core|cx)/,
+            include: /(app|cx-core)/,
             loader: 'babel-loader',
             query: babelCfg
         }]
     },
     entry: {
-        vendor: ['cx-react'],
-        app: paths.app + 'index.js'
+        vendor: ['cx-react', paths.app('polyfill.js')],
+        app: [
+           paths.app('index.js')
+        ]
     },
     output: {
-        path: paths.dist,
+        path: paths.dist(),
         filename: "[name].js"
     },
     plugins: [
@@ -41,7 +41,7 @@ module.exports = {
             name: "vendor"
         }),
         new HtmlWebpackPlugin({
-            template: paths.app + 'index.html',
+            template: paths.app('index.html'),
             hash: true
         })
     ]

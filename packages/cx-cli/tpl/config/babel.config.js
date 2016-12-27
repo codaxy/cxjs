@@ -1,13 +1,25 @@
 module.exports = {
-    "cacheDirectory": true,
-    "cacheIdentifier": "1",
-    "presets": [
-        ["es2015", { loose: true }],
-        "stage-0"
-    ],
-    "plugins": [
-        ["transform-react-jsx", {"pragma": "VDOM.createElement"}],
-        "cx"
-    ]
+   cacheDirectory: true,
+   cacheIdentifier: "v1",
+   presets: [
+      ["cx-env", {
+         targets: {
+            chrome: 50,
+            ie: 11,
+            ff: 30,
+            edge: 12,
+            safari: 9
+         },
+         modules: false,
+         loose: true,
+         useBuiltIns: true,
+         cx: {
+            imports: {
+               useSrc: true
+            }
+         }
+      }]
+   ],
+   "plugins": []
 };
 

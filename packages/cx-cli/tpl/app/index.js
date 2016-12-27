@@ -1,11 +1,10 @@
+import { Store } from 'cx/data';
+import { Url, History, Widget, startAppLoop } from 'cx/ui';
+import { Timing, Debug } from 'cx/util';
 //css
 import "./index.scss";
 
-//polyfill
-import 'whatwg-fetch';
-
 //store
-import {Store} from 'cx/data/Store';
 const store = new Store();
 
 //webpack (HMR)
@@ -26,23 +25,17 @@ if (module.hot) {
 }
 
 //routing
-import {Url} from 'cx/app/Url';
-import {History} from 'cx/app/History';
 
 Url.setBaseFromScript('app.js');
 History.connect(store, 'url');
 
 //debug
-import {Widget} from 'cx/ui/Widget';
-import {Timing} from 'cx/util/Timing';
-import {Debug} from 'cx/util/Debug';
 
 Widget.resetCounter();
 Timing.enable('app-loop');
 Debug.enable('app-data');
 
 //app loop
-import {startAppLoop} from 'cx/app/startAppLoop';
 import Routes from './routes';
 
 let stop = startAppLoop(document.getElementById('app'), store, Routes);

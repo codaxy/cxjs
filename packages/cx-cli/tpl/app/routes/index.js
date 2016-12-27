@@ -1,5 +1,4 @@
-import {Route} from 'cx/ui/nav/Route';
-import {PureContainer} from 'cx/ui/PureContainer';
+import { Route, PureContainer } from 'cx/widgets';
 
 import AppLayout from '../layout';
 

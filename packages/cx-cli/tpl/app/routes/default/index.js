@@ -1,5 +1,4 @@
-import {HtmlElement} from 'cx/ui/HtmlElement';
-import {Link} from 'cx/ui/nav/Link';
+import { HtmlElement, Link } from 'cx/widgets';
 
 export default <cx>
     <h3>Success</h3>

@@ -133,7 +133,7 @@ if (program.route) {
    // initial route parent folder
    var parentDir = path.join(appPath, './app/routes/');
 
-   // loop through newRoue sub dirs array 
+   // loop through newRoute sub dirs array
       // for each sub, check if it exists and create it if it doesn't
    newRoute.reduce(function(parentDir, route, i){
       var newRouteDir = path.join(parentDir, route);

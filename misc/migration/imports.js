@@ -15,9 +15,7 @@ var fs = require('fs'),
 
 
 const srcFiles = [
-   //path.resolve(__dirname, '../../themes/**/*.js'),
-   //path.resolve(__dirname, '../../litmus/**/*.js'),
-   path.resolve(__dirname, '../../docs/**/*.js'),
+   path.resolve(__dirname, './app/**/*.js'),
    "!**/dist"
 ];
 
@@ -57,7 +55,7 @@ var importPattern = /^import {(.*)} from ["'](cx.*)["'];?\n?/gm;
 var group = true;
 
 //do a test run first
-var production = true;
+var production = false;
 
 globby(srcFiles)
    .then(x => {
