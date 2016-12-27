@@ -25,8 +25,10 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
          $state-style-map,
          $input: false,
          $overrides: (
-            font-size: 11px,
-            font-family: $cx-default-colorpicker-font-family
+            default: (
+               font-size: 11px,
+               font-family: $cx-default-colorpicker-font-family
+            )
          )
       );
 
