@@ -22,7 +22,7 @@ export default {
         key: true,
         type: 'number',
         description: <cx><Md>
-            A number ranged betweem `0-2`. `0` means that the range is aligned with the lowest ticks.
+            A number ranged between `0-2`. `0` means that the range is aligned with the lowest ticks.
             Default value is `1`, which means that the range is aligned with medium ticks.
             Use value `2` to align with major ticks.
         </Md></cx>
