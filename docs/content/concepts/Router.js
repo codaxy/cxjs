@@ -4,6 +4,7 @@ import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from '../../components/CodeSplit';
 import {MethodTable} from '../../components/MethodTable';
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 import routeConfigs from '../widgets/configs/Route';
@@ -15,7 +16,7 @@ export const Router = <cx>
       # Router
 
       Cx features built-in routing functionality. This enables building complex single page applications and
-      retain classic URL based navigation. There are a few classes used for implementing routing and navigation:
+      retain classic URL based navigation. There are a few classes used to implement routing and navigation:
 
       * Url
       * Route
@@ -23,9 +24,11 @@ export const Router = <cx>
       * History
       * Link
 
-      Both, hash-based and `pushState` based navigation modes are supported.
+      Both hash-based and `pushState` based navigation modes are supported.
 
       ## Url
+
+      <ImportPath path="import {Url} from 'cx/ui';" />
 
       The `Url` helper class offers methods for working with url paths.
 
@@ -58,7 +61,7 @@ export const Router = <cx>
          }, {
             signature: 'Url.isLocal(path)',
             description: <cx><Md>
-               Checks if given path is local.
+               Checks if the given path is local.
             </Md></cx>
          }]}/>
          <CodeSnippet putInto="code">{`
@@ -75,6 +78,8 @@ export const Router = <cx>
 
       ## Route
 
+      <ImportPath path="import {Route} from 'cx/widgets';" />
+
       The `Route` widget is a pure container element which renders only if current url matches the assigned route.
 
       <CodeSplit>
@@ -90,10 +95,12 @@ export const Router = <cx>
          </CodeSnippet>
       </CodeSplit>
 
-      Routes support parameters, splats and optional parts. For more details check the
+      Routes support parameters, splats and optional parts. For more details, check the
       [route-parser library](https://github.com/rcs/route-parser#what-can-i-use-in-my-routes).
 
       ### Redirect Routes
+
+      <ImportPath path="import {RedirectRoute} from 'cx/widgets';" />
 
       <CodeSplit>
          Redirect routes redirect to another page when matched.
@@ -106,6 +113,8 @@ export const Router = <cx>
       will not return to the redirected page.
 
       ## Sandbox
+
+      <ImportPath path="import {Sandbox} from 'cx/widgets';" />
 
       Sandbox component is used to isolate data between different pages. Page data is preserved on navigation
       and it can be restored if the user goes back to the same page.
@@ -124,6 +133,8 @@ export const Router = <cx>
 
       ## History
 
+      <ImportPath path="import {History} from 'cx/ui';" />
+
       The `History` class is used for working with HTML5 `pushState` navigation.
 
       <CodeSplit>
@@ -135,7 +146,7 @@ export const Router = <cx>
          }, {
             signature: 'History.pushState(state, title, url)',
             description: <cx><Md>
-               Performs navigation to a new location pointed by the `url` parameter without refreshing the page.
+               Performs navigation to a new location pointed by the `url` parameter, without refreshing the page.
             </Md></cx>
          }, {
             signature: 'History.replaceState(state, title, url)',
@@ -154,6 +165,8 @@ export const Router = <cx>
       (full page load).
 
       ## Link
+
+      <ImportPath path="import {Link} from 'cx/widgets';" />
 
       The `Link` widget is a replacement for anchor elements when `pushState` based navigation is used.
 

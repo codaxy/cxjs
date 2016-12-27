@@ -20,9 +20,9 @@ export const DataBinding = <cx>
 
         ### Two-way Data Binding (`:bind`)
 
-        Two-way data binding is commonly used in forms as it supports both read and write operations.
+        Two-way data binding is commonly used in forms, as it supports both read and write operations.
         Let's use a checkbox for illustration.
-        To display a checkbox, we need to know if it's checked or not. That's the read operation.
+        To display a checkbox, we need to know whether it's checked or not. That's the read operation.
         If the user clicks the checkbox, the corresponding value needs to be changed, and that's the write operation.
 
         <CodeSplit>
@@ -71,7 +71,7 @@ export const DataBinding = <cx>
 
         ### Templates (`:tpl`)
 
-        Templates are data expressions which return strings. They are a convenience option to avoid using both types of
+        Templates are data expressions which return strings. They are a convenient option to avoid using both types of
         quotes within data expressions.
 
         <CodeSplit>
@@ -132,9 +132,9 @@ export const DataBinding = <cx>
             </Content>
         </CodeSplit>
 
-        When using functions remember that:
+        When using functions, remember that:
 
-        - Selector functions take only one argument, that is the whole app state object.
+        - Selector functions take only one argument, which is the whole app state object.
         - Selector functions are invoked on each render pass.
         - Selector functions must be deterministic.
         - Unlike data expressions, selector functions are not memoized. It's up to developers to add memoization for
@@ -178,7 +178,7 @@ export const DataBinding = <cx>
 
         <CodeSplit>
 
-            Setters are in combination used with expressions and computables to provide write operations. A setter is a function
+            Setters are used in combination with expressions and computables to provide write operations. A setter is a function
             used to process user input and write it to the store.
 
             <div class="widgets">

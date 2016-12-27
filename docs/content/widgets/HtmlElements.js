@@ -15,8 +15,8 @@ export const HtmlElements = <cx>
 
       <ImportPath path="import {HtmlElement} from 'cx/widgets';" />
 
-      The `HtmlElement` widget is used for rendering HTML elements. All lowercase elements will be converted to the
-      `HtmlElement` instances with corresponding `tag` property set.
+      The `HtmlElement` widget is used to render HTML elements. All lowercase elements will be converted to the
+      `HtmlElement` instances with the corresponding `tag` property set.
 
       <CodeSplit>
 
@@ -44,7 +44,7 @@ export const HtmlElements = <cx>
       </CodeSplit>
 
       All HTML attributes and events will be passed to the element. Cx specific attributes, such as `visible`, `layout`,
-      `controller`, `outerLayout`, `items` work as expected.
+      `controller`, `outerLayout` and `items` work as expected.
 
       ## Configuration
 

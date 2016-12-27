@@ -17,7 +17,7 @@ export const Charts = <cx>
 
       <ImportPath path="import {Chart} from 'cx/charts';" />
 
-      The `Chart` widget is used to define axes and bounds for two dimensional charts such as line, scatter, bar and column charts.
+      The `Chart` widget is used to define axes and bounds for two-dimensional charts such as line, scatter, bar and column charts.
 
       <CodeSplit>
 
@@ -57,24 +57,24 @@ export const Charts = <cx>
       Main chart elements are:
 
       * `axes`
-         - [NumericAxis](~/charts/numeric-axes) - Used to represent numerical data.
-         - [CategoryAxis](~/charts/category-axes) - Used to represent finite data sets.
+         - [NumericAxis](~/charts/numeric-axes) - Used to present numerical data.
+         - [CategoryAxis](~/charts/category-axes) - Used to present finite data sets.
 
       * Graphs (series)
-         - [LineGraph](~/charts/line-graphs) - used to draw a line graph out of a serie of 2d points.
-         - [BarGraph](~/charts/bar-graphs) - used to draw a serie of bars.
-         - [ColumnGraph](~/charts/column-graphs) - used to draw a serie of columns.
+         - [LineGraph](~/charts/line-graphs) - Used to draw a line graph out of a series of 2d points.
+         - [BarGraph](~/charts/bar-graphs) - Used to draw a series of bars.
+         - [ColumnGraph](~/charts/column-graphs) - Used to draw a series of columns.
 
       * Individual (repeatable) elements
-         - [Column](~/charts/columns) - A single column (vertical bar) in column charts. Used when not all columns are the same. Otherwise use the `ColumnGraph` widget.
-         - [Bar](~/charts/bars) - A single bar in bar charts. Used when not all bars are the same. Otherwise use the `BarGraph` widget.
-         - [Marker](~/charts/markers) - A marker. Used for scatter charts and used for other charts for point markers. Supports dragging.
+         - [Column](~/charts/columns) - A single column (vertical bar) in column charts. Used when all columns are not the same. Otherwise use the `ColumnGraph` widget.
+         - [Bar](~/charts/bars) - A single bar in bar charts. Used when all bars are not the same. Otherwise use the `BarGraph` widget.
+         - [Marker](~/charts/markers) - A marker. Used for scatter charts and other charts for point markers. Supports dragging.
          - [MarkerLine](~/charts/marker-lines) - A marker line. Used to highlight certain values, e.g. min or max value.
          - [Ranges](~/charts/ranges) - Draw rectangular areas on the chart - zones.
 
       * SVG elements:
-         - [Rectangle](~/svg/rectangles) - used to draw a rectangle.
-         - [Line](~/svg/lines) - used to draw a line.
+         - [Rectangle](~/svg/rectangles) - Used to draw a rectangle.
+         - [Line](~/svg/lines) - Used to draw a line.
 
    </Md>
 </cx>;

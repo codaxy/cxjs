@@ -11,7 +11,7 @@ export const CxCreditPage = <cx>
         # CxCredit
 
         The `CxCredit` widget is used to provide a credit backlink to the Cx product page.
-        It is required to use this widget if you're using free version of the product.
+        It is required to use this widget, if you're using a free version of the product.
 
         <CodeSplit>
             <div class="widgets">

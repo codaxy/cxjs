@@ -177,8 +177,7 @@ export const FlexBoxPage = <cx>
 
         > Please note that CSS based layouts should be preferred to FlexBox for more complex arrangements.
 
-        > `spacing` option uses adds negative margin and it will behave normally only if the parent element has `border` or `padding`
-        set.
+        > `spacing` option sets a negative margin. It will cause the expected behaviour only if a `border` or `padding` is set on the parent element.
 
         > `FlexRow = FlexBox + direction="row"`
 

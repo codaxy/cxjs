@@ -135,11 +135,11 @@ export const DataViews = <cx>
 
         ## Rescope
 
-        The `Rescope` widgets enables shorter data binding paths by selecting a common prefix.
-        Check the previous example to see how `Rescope` was used for displaying results.
+        The `Rescope` widget enables shorter data binding paths by selecting a common prefix.
+        Check the previous example to see how `Rescope` was used to display results.
 
-        Within the scope, outside data may be accessed by using the `$root.` prefix,
-        e.g. `winner` and `$root.$page.results.winner` point to the same object.
+        Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
+        `winner` and `$root.$page.results.winner` point to the same object.
 
     </Md>
 </cx>

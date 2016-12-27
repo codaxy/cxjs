@@ -31,7 +31,7 @@ export default {
         key: true,
         type: 'string',
         description: <cx><Md>
-            Value format. If left empty, format is selected based on the domain range.
+            Value format. If left empty, the format is selected based on the domain range.
         </Md></cx>
     }
 };

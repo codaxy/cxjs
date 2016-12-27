@@ -29,7 +29,7 @@ export const CssPage = <cx>
       ## SASS
 
       Cx widget code is located inside the `src/ui` directory. It's enough to import `index.scss` to your SASS project
-      and all Cx styles will be pulled in. Alternatively, each widget has a corresponding SCSS file and you may
+      and all Cx styles will be pulled in. Alternatively, each widget has a corresponding SCSS file, and you may
       manually add imports for files that you actually need.
 
 

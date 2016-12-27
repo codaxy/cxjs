@@ -33,7 +33,7 @@ export default {
     inputStyle: {
         type: 'string/object',
         description: <cx><Md>
-            Style object applied to the input element. Use for setting of visual elements, such as borders and
+            Style object applied to the input element. Used for setting visual elements, such as borders and
             backgrounds.
         </Md></cx>
     },
@@ -46,13 +46,13 @@ export default {
     label: {
         type: 'string/config',
         description: <cx><Md>
-            Field label. For advanced use cases see [Labels](~/widgets/labels).
+            Field label. For advanced use cases, see [Labels](~/widgets/labels).
         </Md></cx>
     },
     mode: {
         type: 'string',
         description: <cx><Md>
-            Either `view` or `edit` (default). In view mode field displays as plain text.
+            Either `view` or `edit` (default). In view mode, the field is displayed as plain text.
         </Md></cx>
     },
     id: {
@@ -70,7 +70,7 @@ export default {
     error: {
         type: 'string',
         description: <cx><Md>
-            Used for validation. If error evaluates to non-null field is marked in red.
+            Used for validation. If error evaluates to non-null, the field is marked in red.
         </Md></cx>
     },
     visited: {
@@ -83,7 +83,7 @@ export default {
     autoFocus: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to automatically focus the field after it renders for the first time.
+            Set to `true` to automatically focus the field, after it renders for the first time.
         </Md></cx>
     },
     help: {

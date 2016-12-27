@@ -31,8 +31,8 @@ export default {
         key: false,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to append set `animate` state after the initial render. Appended CSS class may be used for
-            adding show/hide animations.
+            Set to `true` to append the set `animate` state after the initial render. Appended CSS class may be used to
+            add show/hide animations.
         </Md></cx>
     },
     modal: {
@@ -53,7 +53,7 @@ export default {
         key: false,
         type: 'number',
         description: <cx><Md>
-            Number of milliseconds to wait before removing the element from DOM. Used in combination with the `animate`
+            Number of milliseconds to wait, before removing the element from the DOM. Used in combination with the `animate`
             property.
         </Md></cx>
     },
@@ -61,15 +61,15 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to force the element to be rendered inline, instead being appended to the body element.
-            Inline overlays have z-index set to a very high value in order to get on top of the other content.
+            Set to `true` to force the element to be rendered inline, instead of being appended to the body element.
+            Inline overlays have z-index set to a very high value, to ensure they are displayed on top of the other content.
         </Md></cx>
     },
     baseClass: {
         key: false,
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied on the field. Defaults to `overlay`.
+            Base CSS class to be applied to the field. Defaults to `overlay`.
         </Md></cx>
     }
 };

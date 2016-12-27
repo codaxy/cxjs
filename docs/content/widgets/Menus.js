@@ -27,7 +27,7 @@ export const Menus = <cx>
                     <Submenu>
                         File
                         <Menu putInto="dropdown">
-                            <a href="#" mod="menu-pad" onClick={e=> {
+                            <a href="#" onClick={e=> {
                                 e.preventDefault();
                                 document.activeElement.blur();
                             }}>Link</a>
@@ -45,20 +45,20 @@ export const Menus = <cx>
                             <Submenu arrow>
                                 Submenu 2
                                 <Menu putInto="dropdown">
-                                    <a href="#" mod="menu-pad">Item 1</a>
-                                    <a href="#" mod="menu-pad">Item 2</a>
+                                    <a href="#">Item 1</a>
+                                    <a href="#">Item 2</a>
                                 </Menu>
                             </Submenu>
                             <DateField value:bind="$page.date" mod="menu"/>
                             <MenuItem mod="active" class="test" style="color:red;">
-                                <a href="#" mod="menu-pad">Item Level CSS</a>
+                                <a href="#">Item Level CSS</a>
                             </MenuItem>
                         </Menu>
                     </Submenu>
                     <Submenu>
                         Edit
                         <Menu putInto="dropdown">
-                            <a href="#" mod="menu-pad">Link</a>
+                            <a href="#">Link</a>
                             <hr/>
                             <TextField value:bind="$page.text" mod="menu"/>
                             <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
@@ -87,7 +87,7 @@ export const Menus = <cx>
                    <Submenu>
                       File
                       <Menu putInto="dropdown">
-                         <a href="#" mod="menu-pad" onClick={e=>{ e.preventDefault(); document.activeElement.blur(); }}>Link</a>
+                         <a href="#" onClick={e=>{ e.preventDefault(); document.activeElement.blur(); }}>Link</a>
                          <hr/>
                          <TextField value:bind="$page.text" mod="menu" />
                          <TextField value:bind="$page.text" mod="menu" />
@@ -102,22 +102,22 @@ export const Menus = <cx>
                          <Submenu arrow>
                             Submenu 2
                             <Menu putInto="dropdown">
-                               <a href="#" mod="menu-pad">Item 1</a>
-                               <a href="#" mod="menu-pad">Item 2</a>
+                               <a href="#">Item 1</a>
+                               <a href="#">Item 2</a>
                             </Menu>
                          </Submenu>
                          <DateField value:bind="$page.date" mod="menu" />
                          <MenuItem mod="active" class="test" style="color:red;">
-                            <a href="#" mod="menu-pad">Item Level CSS</a>
+                            <a href="#">Item Level CSS</a>
                          </MenuItem>
                       </Menu>
                    </Submenu>
                    <Submenu>
                       Edit
                       <Menu putInto="dropdown">
-                         <a href="#" mod="menu-pad">Link</a>
+                         <a href="#">Link</a>
                          <hr/>
-                         <TextField value:bind="$page.text"  mod="menu"/>
+                         <TextField value:bind="$page.text" mod="menu"/>
                          <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
                          <Submenu>
                             Submenu 1
@@ -140,7 +140,8 @@ export const Menus = <cx>
             </Content>
         </CodeSplit>
 
-        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set.
+        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set. 
+        The `menu` modifier is used to add margin/padding to menu items.
 
         ## Configuration
 

@@ -62,14 +62,14 @@ export const Controllers = <cx>
             </div>
 
             Triggers are defined using the `addTrigger` method which takes four arguments.
-            The first argument is the trigger's name. The same name can be used later to remove the trigger using the
+            The first argument is the trigger's name which can later be used to remove the trigger, using the
             `removeTrigger` method.
             The second argument is a list of bindings to be monitored.
-            The third argument is a function, which will be executed when any of the bindings change.
+            The third argument is a function which will be executed when any of the bindings change.
             The fourth argument should be a boolean value which controls if the trigger should be immediately executed or
             not.
 
-            You would use triggers to:
+            Triggers are used to:
 
             - load data from the server on selection change
             - implement complex data behavior
@@ -98,7 +98,7 @@ export const Controllers = <cx>
 
         <CodeSplit>
 
-            ### Computable Values
+            ### Computed Values
 
             Computed values are very convenient when some of the data can be calculated based on other data.
             This is similar to how spreadsheet formulas work.
@@ -146,11 +146,11 @@ export const Controllers = <cx>
             calculation.
             The third argument is a function which computes and returns the data.
 
-            You would use computed values to:
+            Computed values are used to:
 
-            - to filter data
-            - to provide additional data based on selection
-            - to store totals or other significant values which can be calculated from the data
+            - filter data
+            - provide additional data based on selection
+            - store totals or other significant values which can be calculated from the data
 
         </CodeSplit>
 
@@ -158,7 +158,7 @@ export const Controllers = <cx>
 
         <CodeSplit>
 
-            It's allowed to define custom methods within a controller which can be invoked when necessary.
+            It's allowed to define custom methods within a controller, which can be invoked when necessary.
             This keeps the view code tidy.
 
             <div class="widgets">
@@ -183,8 +183,8 @@ export const Controllers = <cx>
          `}</CodeSnippet>
         </CodeSplit>
 
-        For simple controller invocations, it's easier to use short syntax by passing the name of the
-        controller name in the handler. In this case, arguments passed to the method will be `event` and `instance`.
+        For simple controller invocations, it's easier to use short syntax by passing just the name of the
+        controller method to the handler. In this case, arguments passed to the method will be `event` and `instance`.
 
         <CodeSplit>
             <div class="widgets">

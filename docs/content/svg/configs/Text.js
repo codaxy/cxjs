@@ -16,7 +16,7 @@ export default {
       alias: 'ta',
       type: 'string',
       description: <cx><Md>
-         Used to horizontally align the text. One of `start`, `middle` or `end`.
+         Used for horizontal text alignment. Accepted values are `start`, `middle` and `end`.
       </Md></cx>
    },
    dx: {
@@ -29,8 +29,8 @@ export default {
       key: true,
       type: 'string',
       description: <cx><Md>
-         Offset along the y-axis. This property is commonly used to vertically align the text.
-         Set `dy="0.8em"` to align with the top edge and `dy="0.4em"` to vertically center the text.
+         Offset along the y-axis. This property is commonly used for vertical text alignment.
+         Set `dy="0.8em"` to align the text with the top and `dy="0.4em"` to center it vertically.
       </Md></cx>
    },
 
@@ -38,7 +38,7 @@ export default {
       key: true,
       type: 'string',
       description: <cx><Md>
-         A color used to paint the text.
+         Sets text-body color.
       </Md></cx>
    },
 
@@ -46,7 +46,7 @@ export default {
       key: false,
       type: 'string',
       description: <cx><Md>
-         A color used to paint the outline of the text.
+         Sets text-outline color.
       </Md></cx>
    }
 };

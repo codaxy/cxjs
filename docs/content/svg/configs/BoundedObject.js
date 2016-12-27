@@ -10,7 +10,7 @@ export default {
    anchors: {
       type: 'string/number/rect',
       description: <cx><Md>
-         Anchor defines how child bounds are tied to the parent. Zero aligns to the left/top edge. One aligns to the right/bottom edge.
+         Anchor defines how child bounds are tied to the parent. Zero aligns with the top/left edge. One aligns with the bottom/right edge.
          See [Svg](~/svg/svgs) for more information.
       </Md></cx>
    },

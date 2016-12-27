@@ -93,7 +93,7 @@ export const About = <cx>
             Cx provides a solid foundation and reduces the burden of dealing with UI complexities and browser quirks,
             making the development efforts more predictable.
 
-            You might be familiar with core Cx concepts, already, as it is inspired by the well known front-end
+            You might already be familiar with core Cx concepts, as it is inspired by the known front-end
             products, such as React, Redux, Ext JS, Angular and D3.
 
             Please visit our [Getting Started](~/intro/getting-started)

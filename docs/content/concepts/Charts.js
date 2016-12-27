@@ -6,7 +6,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
+import {ImportPath} from 'docs/components/ImportPath';
 
 
 
@@ -14,11 +14,13 @@ export const Charts = <cx>
    <Md>
       # Charts
 
+      <ImportPath path="import {Chart} from 'cx/charts';" />
+
       Charts represent a very important part of Cx and extend the SVG package.
       Instead of delivering advanced charts widgets for each chart type, focus is put on low level components required to assemble any chart.
-      This way developers have more control on appearance and behavior of each chart element.
+      This way, developers have more control over appearance and behavior of each chart element.
 
-      Line, bar and scatter charts are defined inside of a `Chart` widget. Alternatively, `PieChart` is used for pie charts or `PolarChart` will be used
+      Line, bar and scatter charts are defined inside of a `Chart` widget. Alternatively, `PieChart` is used for pie charts and `PolarChart` will be used
       for polar charts (not yet implemented).
 
       The `Chart` widget is used to define axes and bounds for two dimensional charts such as line, scatter, bar and column charts.
@@ -69,19 +71,22 @@ export const Charts = <cx>
 
       The most important part is axis configuration. Numeric, category and date axis types are supported.
 
-      Contents of the chart may contain different stuff. In this example there a few of elements. First, a white rectangle
-      used as a background, then gridlines and finally a line graph.
+      Charts may consist of many different child elements. In this example three other widgets are used: a Rectangle
+      serves as a white background, on top of it GridLines widget is used to add grid lines, and finally, 
+      a LineGraph is used to present the data.
 
       Child elements inherit axis information from the chart object and use it for their own drawing.
 
       ### Legends
 
-      Legends are very important chart elements. In Cx the `Legend` is context aware which means that
-      all legend aware widgets report information about themselves and that is used to populate the legend.
-      Widgets may also report their legend actions and in that case legend becomes a switch for toggling or selection.
+      <ImportPath path="import {Legend} from 'cx/charts';" />
+
+      Legends are very important chart elements. In Cx, the `Legend` is context aware which means that
+      all legend-aware widgets report information about themselves and that is used to populate the legend.
+      Widgets may also report their legend actions, and in that case, legend becomes a switch for toggling or selection.
       The `Legend` widget is not based on SVG and therefore it **should not** be put anywhere inside the `Svg` widget.
-      Legend will *grow* with the number of entries inside so it should have enough space. In case when there are multiple
-      charts and legends you may use the `Legend.Scope` widget to delimit legends scopes or use unique legend names.
+      Legend will *grow* with the number of entries inside it, so it should have enough space. In case when there are multiple
+      charts and legends, a `Legend.Scope` widget may be used to delimit legends scopes or use unique legend names.
 
       <CodeSplit>
 
@@ -146,6 +151,8 @@ export const Charts = <cx>
 
       ### Color Palettes and Maps
 
+      <ImportPath path="import {ColorMap} from 'cx/charts';" />
+
       Cx standard palette consists of 16 colors based on [Google Material Design](https://material.google.com/style/color.html).
 
       <div>
@@ -156,7 +163,7 @@ export const Charts = <cx>
 
       Standard palette supports selectable hover, selection and disabled states.
 
-      In some cases it is hard to deduce a meaningful color scheme. The `ColorMap` utility widget might help in such situations.
+      In some cases, it is hard to deduce a meaningful color scheme. The `ColorMap` utility widget might help in such situations.
       ColorMap assigns a unique color based on the name and keeps maximum distance between colors.
 
       **Examples**

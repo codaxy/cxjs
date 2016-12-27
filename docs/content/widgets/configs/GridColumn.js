@@ -10,7 +10,7 @@ export default {
         type: 'text',
         key: true,
         description: <cx><Md>
-            Name of the property inside the record to be displayed. Used for display or sorting.
+            Name of the property inside the record to be displayed. Used for displaying or sorting.
         </Md></cx>
     },
     header: {

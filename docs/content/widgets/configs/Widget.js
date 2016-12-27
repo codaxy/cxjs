@@ -11,7 +11,7 @@ export default {
    mod: {
       type: 'string/array',
       description: <cx><Md>
-         Appearance modifier. For example `mod="big"` will add the CSS class `.cxm-big` to the block element.
+         Appearance modifier. For example, `mod="big"` will add the CSS class `.cxm-big` to the block element.
       </Md></cx>
    },
    outerLayout: {

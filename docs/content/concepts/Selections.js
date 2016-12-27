@@ -34,7 +34,7 @@ export const Selections = <cx>
 
          Some widgets allow the user to select one or more objects presented to them. If
          only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
-         be selected, that's *multiple selection mode*.
+         be selected, it's referred to as *multiple selection mode*.
 
          The question here is what happens after the user selects something? There are multiple ways a selection can
          be handled and `Cx` offers commonly used methods out of the box.
@@ -60,10 +60,10 @@ export const Selections = <cx>
 
       ## Property Selection
 
-      In this mode selection is handled by setting a designated selection property to be either `true` or `false`.
+      In this mode, selection is handled by setting a designated selection property to be either `true` or `false`.
       Usually, `selected` property is used.
 
-      This mode is easy to understand with a list of checkboxes. Each checkbox determine whether a corresponding record
+      This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding record
       is selected or not.
 
       <CodeSplit>
@@ -110,12 +110,12 @@ export const Selections = <cx>
 
       This mode is usually used for multiple selection, but it can be used for single selection too.
 
-      Property selection mode is very fast for checking if a particular object is selected, however it needs to
+      Property selection mode is very fast for checking if a particular object is selected, however, it needs to
       go through the whole list of objects to determine what is selected.
 
       ## Key Selection
 
-      Key selection is a more common selection mode, where selected value(s) is stored in a separate variable.
+      Key selection is a more common selection mode, where selected value(s) is/are stored in a separate variable.
 
       <CodeSplit>
 

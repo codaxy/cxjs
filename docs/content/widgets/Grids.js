@@ -42,7 +42,7 @@ export const Grids = <cx>
 
         <ImportPath path="import {Grid} from 'cx/widgets';" />
 
-        Grid is a versatile component used for displaying tabular data. Grid control in Cx has many features such as
+        Grid is a versatile component used to display tabular data. Grid control in Cx has many features such as
         fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell
         content (including headers),
         tree columns, etc.

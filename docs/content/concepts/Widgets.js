@@ -41,7 +41,7 @@ export const Widgets = <cx>
         However, there are a few things different here:
 
         1. Cx widget trees are wrapped into the `&lt;cx&gt;` element.
-        That is an instruction to Babel (JS transpiler) to convert this section into Cx widget configuration, instead of
+        That is an instruction to Babel (JS compiler) to convert this section into Cx widget configuration, instead of
         React
         function calls.
 
@@ -82,7 +82,7 @@ export const Widgets = <cx>
         ## Widget Methods
 
         Cx widgets are very similar to React components. Each widget type has to define its `render` method,
-        and optionally `explore`, `prepare` and `cleanup` methods in more advanced use-cases.
+        and optionally, `explore`, `prepare` and `cleanup` methods in more advanced use-cases.
 
         <CodeSplit>
 
@@ -93,7 +93,7 @@ export const Widgets = <cx>
             ### `render`
 
             The `render` method should return virtual DOM representation of the widget. It's best to use standard JSX syntax
-            to do that. Note that we don't use `&lt;cx&gt;` wrapper here so this translates into React calls.
+            to do that. Note that we don't use `&lt;cx&gt;` wrapper here, so this translates into React calls.
 
 
             <Content name="code">
@@ -149,21 +149,21 @@ export const Widgets = <cx>
         other important properties related to the particular instance being rendered.
         Same `instance` parameter should be passed to all input handlers attached to elements being rendered.
 
-        3. The `key` parameter hold an identifier specific to the given widget instance. Keys are used to match
+        3. The `key` parameter holds an identifier specific to the given widget instance. Keys are used to match
         DOM elements between subsequent rendering cycles. Keys should be set on all top level
         elements returned by the render function. Widgets generally return a single top element, however
         some widgets (like form fields) return multiple top level elements (label, input).
 
         ### `explore`, `prepare` and `cleanup`
 
-        The `explore` methods is invoked first to evaluate data-bound attributes (`instance.data`)
+        The `explore` method is invoked first to evaluate data-bound attributes (`instance.data`)
         and explore children (gather information from them). If the `visible` property evaluates to `false`,
         the widget will not be rendered and all processing stops.
 
         The `prepare` method is invoked afterwards to do additional preparation work
-        before rendering. If `context` is used this is the opportunity to use get instance specific information.
+        before rendering. If `context` is used, this is the opportunity to get instance specific information.
 
-        Similarly, the `cleanup` method is invoked after rendering is finished to do the cleanup, if necessary.
+        Similarly, the `cleanup` method is invoked, after rendering is finished, to do the cleanup, if necessary.
     </Md>
 </cx>
 

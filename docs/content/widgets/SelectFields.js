@@ -17,7 +17,7 @@ export const SelectFields = <cx>
         <CodeSplit>
 
             The `Select` control is a wrapper around native HTML `select` element.
-            In most cases it's better to use [lookup fields](~/widgets/lookup-fields) as they provide more options,
+            In most cases, it's better to use [lookup fields](~/widgets/lookup-fields), as they provide more options,
             especially for multiple selection.
 
             <div class="widgets">

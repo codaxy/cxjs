@@ -89,20 +89,19 @@ export const LookupFields = <cx>
 
             Sometimes, available options are known or immediately available. In that case, it's enough to pass
             `options` to the control and search is done in the browser. This mode is similar to the functionality of
-            the native `select` HTML element, because available options appear instantly. If there are few options,
+            the native `select` HTML element, because available options appear instantly. When there are just a few options,
             the search field is automatically hidden.
 
             Another, very common use case is when available options need to be fetched from the server.
-            To achieve that it's required to implement `onQuery` callback on the widget.
+            To achieve that, it's required to implement an `onQuery` callback for the widget.
             The result of the callback should be a list of options or a `Promise` which resolves the list.
 
             It's important to remember how to properly bind data to the `LookupField` widget. If `multiple` option is
-            not specified
-            (single selection mode) then it's required to bind `value` and `text` properties.
+            not specified (single selection mode), then it's required to bind `value` and `text` properties.
 
             In multiple selection mode, it's necessary to bind the `records` or `values` property. The `records`
-            property will hold a list of
-            selected options. By default, only `id` and `text` properties are copied from the option to the selection;
+            property will hold a list of the selected options. 
+            By default, only `id` and `text` properties are copied from the option to the selection;
             however, it's possible to provide a list of `bindings` which describes the mapping between options and value
             fields.
 

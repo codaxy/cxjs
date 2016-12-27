@@ -17,7 +17,7 @@ class PageController extends Controller {
         this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
             var y = 100 + Math.random() * 200;
             return {
-                name: 'Serie ' + (i + 1),
+                name: 'Series ' + (i + 1),
                 active: true,
                 points: Array.from({length: 26}, (_, x)=>({
                     x: x * 4,
@@ -28,7 +28,6 @@ class PageController extends Controller {
     }
 }
 
-
 export const ColorMapPage = <cx>
     <Md>
         <CodeSplit>
@@ -37,8 +36,10 @@ export const ColorMapPage = <cx>
 
             <ImportPath path="import {ColorMap} from 'cx/charts';" />
 
-            The `ColorMap` widget is used to assign colors based on names. This comes very handy when the number
-            of elements on the chart is not known upfront.
+            The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the predefined color map. 
+            This comes in very handy when the number of elements on the chart is variable.
+            
+            The `ColorMap` widget assigns a different color to every chart element with the same `colorMap` attribute.
 
             <div class="widgets" controller={PageController}>
                 <Svg style="width:600px; height:400px;">
@@ -49,11 +50,12 @@ export const ColorMapPage = <cx>
                            }}>
                         <Gridlines/>
                         <ColorMap />
+                        
                         <Repeater records:bind="$page.series">
                             <LineGraph name:bind="$record.name"
-                                       active:bind="$record.active"
-                                       data:bind="$record.points"
-                                       colorMap="lines" />
+                                active:bind="$record.active"
+                                data:bind="$record.points"
+                                colorMap="lines" />
                         </Repeater>
                     </Chart>
                 </Svg>
@@ -67,7 +69,7 @@ export const ColorMapPage = <cx>
                         this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
                             var y = 100 + Math.random() * 200;
                             return {
-                                name: 'Serie ' + (i + 1),
+                                name: 'Series ' + (i + 1),
                                 active: true,
                                 points: Array.from({length: 26}, (_, x)=>({
                                     x: x * 4,

@@ -15,9 +15,9 @@ export const Lines = <cx>
 
         <ImportPath path="import {Line} from 'cx/svg';" />
 
-        The `Line` widget is a Cx version of SVG `line` element which can be used in responsive scenarios.
+        The `Line` widget is a Cx version of the SVG `line` element which can be used in responsive scenarios.
         Line is always rendered from the top-left corner to the bottom-right corner.
-        In Cx, line is a container element and allows other objects to be rendered within its boundaries, e.g. text.
+        In Cx, a line is a container element and allows other objects to be rendered within its boundaries, e.g. text.
 
         <CodeSplit>
 

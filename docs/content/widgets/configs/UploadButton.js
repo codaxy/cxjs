@@ -12,7 +12,7 @@ export default {
    baseClass: {
       type: 'string',
       description: <cx><Md>
-         Base CSS class to be applied on the element. Default is 'uploadbutton'.
+         Base CSS class to be applied to the element. Default is 'uploadbutton'.
       </Md></cx>
    },
 
@@ -32,7 +32,7 @@ export default {
         type: 'function',
         key: true,
         description: <cx><Md>
-            A callback function called when upload is complete
+            A callback function called when the upload is complete.
             Arguments:
             - `xhr` - instance of the XMLHttpRequest object used for upload
             - `instance` - widget instance
@@ -46,7 +46,7 @@ export default {
         type: 'function',
         key: true,
         description: <cx><Md>
-            A callback function called when upload is complete
+            A callback function called in case of an upload error.
             Arguments:
             - `error` - error
             - `instance` - widget instance

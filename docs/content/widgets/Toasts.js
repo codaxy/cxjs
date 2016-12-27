@@ -35,7 +35,7 @@ export const Toasts = <cx>
 
         <CodeSplit>
 
-            The `Toast` widgets is used to inform users about new events and offer quick actions. Toasts are similar
+            The `Toast` widget is used to inform the users about new events and offer quick actions. Toasts are similar
             to Overlays, with the difference that toast position is controlled by the framework.
 
 

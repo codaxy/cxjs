@@ -10,7 +10,7 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Uniform axes provide exact size and offset for all entries, while non-uniform
-            axes will adapt size and offset to the number of entries under each category.
+            axes adapt their size and offset to the number of entries under each category.
         </Md></cx>
     },
     values: {
@@ -25,15 +25,15 @@ export default {
         key: true,
         type: 'array/object',
         description: <cx><Md>
-            Names corresponding the given `values`. For example values may be 0 .. 11 and names could be Jan .. Dec.
+            Names corresponding the given `values`. For example, values may be 0 .. 11 and names could be Jan .. Dec.
         </Md></cx>
     },
     minSize: {
         key: true,
         type: 'integer',
         description: <cx><Md>
-            Sometimes there is not enough data and each category takes a lot of space.
-            `minSize` can be used to add fake entries up to the specified number so
+            Sometimes, there is not enough data and each category takes a lot of space.
+            `minSize` can be used to add fake entries up to the specified number, so
             everything looks normal.
         </Md></cx>
     }

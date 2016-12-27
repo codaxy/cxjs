@@ -24,7 +24,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            A binding used to store the name of the field used for grid sorting. Available only if `sorters` are not
+            A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not
             used.
         </Md></cx>
     },

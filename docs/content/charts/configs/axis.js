@@ -15,7 +15,7 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Inverted. Values go in the descending order.
+            When set to `true`, the values are displayed in descending order.
         </Md></cx>
     },
     vertical: {
@@ -64,7 +64,7 @@ export default {
     hidden: {
         type: 'boolean',
         description: <cx><Md>
-            Set to true to skip rendering of visual elements of the axis such as ticks and labels, but keep its function.
+            When set to `true`, rendering of visual elements of the axis, such as ticks and labels, is skipped, but their function is preserved.
         </Md></cx>
     },
 };

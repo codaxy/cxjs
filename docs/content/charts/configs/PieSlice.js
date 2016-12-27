@@ -10,15 +10,15 @@ export default {
       key: true,
       type: 'boolean',
       description: <cx><Md>
-         Used to indicate if an item is active or not. Inactive items are shown only in the legend.
+         Used to indicate whether an item is active or not. Inactive items are shown only in the legend.
       </Md></cx>
    },
    r: {
       key: true,
       type: 'number',
       description: <cx><Md>
-         Outer pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false then
-         the value represent the radius in pixels. Default is 50.
+         Outer pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
+         the value represents the radius in pixels. Default is 50.
       </Md></cx>
    },
    offset: {
@@ -32,8 +32,8 @@ export default {
       key: true,
       type: 'number',
       description: <cx><Md>
-         Inner pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false then
-         the value represent the radius in pixels. Default is 0.
+         Inner pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
+         the value represents the radius in pixels. Default is 0.
       </Md></cx>
    },
    name: {
