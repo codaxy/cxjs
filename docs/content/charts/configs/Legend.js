@@ -11,7 +11,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Name of the legend Default is `legend`.
+            Name of the legend. Default is `legend`.
         </Md></cx>
     },
 
