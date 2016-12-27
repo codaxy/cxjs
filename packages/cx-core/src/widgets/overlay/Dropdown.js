@@ -76,7 +76,7 @@ export class Dropdown extends Overlay {
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
 
-      var placement = this.findOptimalPlacement(contentSize, rel, data.placement);
+      var placement = this.findOptimalPlacement(contentSize, rel, data.placement, component.lastPlacement);
 
       switch (this.positioning) {
 
@@ -332,6 +332,8 @@ export class Dropdown extends Overlay {
          'place-down': false
       };
 
+      component.lastPlacement = placement;
+
       component.setCSSState({
          ...state,
          ['place-' + placement]: true
@@ -351,9 +353,9 @@ export class Dropdown extends Overlay {
       return size;
    }
 
-   findOptimalPlacement(contentSize, x, placement) {
+   findOptimalPlacement(contentSize, x, placement, lastPlacement) {
       var placementOrder = this.placementOrder.split(' ');
-      var best = placement;
+      var best = lastPlacement || placement;
       var first;
 
       var score = {};
