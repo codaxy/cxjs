@@ -1,6 +1,8 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Dropdown} from './Dropdown';
 import {Debug, tooltipsFlag} from '../../util/Debug';
+import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
+import {isTouchEvent} from '../../util/isTouchEvent';
 
 export class Tooltip extends Dropdown {
 
@@ -13,12 +15,45 @@ export class Tooltip extends Dropdown {
    }
 
    static show(store, tooltip, relatedElement, options) {
+
+      let tooltipStore = new ReadOnlyDataView({
+         store: store
+      });
+
+      let update = (data) => {
+         tooltipStore.setData({
+            $tooltip: data
+         })
+      };
+
+      update(tooltip);
+
+      let config;
+
       if (typeof tooltip == 'string')
-         tooltip = {
-            items: tooltip
+         config = {
+            text: {bind: "$tooltip"}
          };
-      var widget = Widget.create({type: Tooltip, relatedElement}, tooltip);
-      return widget.open(store, widget, options);
+      else
+         config = {
+            ...tooltip,
+            text: {bind: "$tooltip.text"},
+            title: {bind: "$tooltip.title"},
+            alwaysVisible: {bind: "$tooltip.alwaysVisible"},
+            visible: {expr: "{$tooltip.visible}!==false"},
+         };
+
+      let widget = Tooltip.create({relatedElement}, config);
+
+      if (isTouchEvent() && widget.touchBehavior == 'ignore')
+         return false;
+
+      return {
+         dismiss: widget.open(tooltipStore, widget, options),
+         update,
+         widget,
+         store: tooltipStore
+      }
    }
 
    renderContents(context, instance) {
@@ -59,7 +94,8 @@ Tooltip.prototype.animate = true;
 Tooltip.prototype.destroyDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
-Tooltip.prototype.touchFriendly = false;
+Tooltip.prototype.touchFriendly = false; //rename to positioningMode
+Tooltip.prototype.touchBehavior = 'toggle';
 Tooltip.prototype.arrow = true;
 
 var tooltips = new WeakMap();
@@ -88,33 +124,44 @@ class TooltipState {
       this.element = element;
    }
 
-   check(state, e) {
-      var {widget, data} = this.instance;
+   check(state, e, isTouchEvent) {
+      let {widget, data} = this.instance;
       if (widget.errorTooltipsEnabled && data.error && (!widget.suppressErrorTooltipsUntilVisited || (state && state.visited))) {
-         var errorTooltip = {
+         let errorTooltip = {
             ...data.errorTooltip,
-            items: data.error,
+            text: data.error,
             mod: 'error'
          };
-         this.show('error', errorTooltip, data.error, e);
+         this.show('error', errorTooltip, e, isTouchEvent);
       }
       else if (data.tooltip)
-         this.show('info', data.tooltip, data.tooltip, e);
+         this.show('info', data.tooltip, e, isTouchEvent);
       else
          this.destroy();
    }
 
-   show(type, config, test, e) {
-      if (this.dismiss && this.type == type && this.test == test) {
-         if (e && this.trackMouse)
-            this.trackMouse(e);
-         return;
-      }
-      this.destroy();
-      this.type = type;
-      this.test = test;
+   show(type, config, e, isTouchEvent) {
+
       this.mouseTrap = config.mouseTrap;
       this.alwaysVisible = config.alwaysVisible;
+      this.active = true;
+
+      //update existing tooltip
+      if (this.tooltip && this.type == type) {
+         this.tooltip.update(config);
+         if (e && this.trackMouse)
+            this.trackMouse(e);
+         else if (isTouchEvent && this.tooltip.widget.touchBehavior == 'toggle' && !this.alwaysVisible)
+            this.destroy();
+         return;
+      }
+
+      //create new tooltip
+      this.destroy();
+
+
+      this.type = type;
+
       if (this.mouseTrap && !this.alwaysVisible) {
          config = {
             ...config,
@@ -126,57 +173,67 @@ class TooltipState {
             }
          }
       }
+
       if (config.trackMouse)
-         config.pipeMouseTrack = x => { this.trackMouse = x };
-      this.dismiss = Tooltip.show(this.instance.store, config, this.element);
-      tooltips.set(this.element, this);
-      Debug.log(tooltipsFlag, 'show', this.element, this.instance);
+         config.pipeMouseTrack = x => {
+            this.trackMouse = x
+         };
+      this.tooltip = Tooltip.show(this.instance.store, config, this.element);
+      if (this.tooltip) {
+         tooltips.set(this.element, this);
+         Debug.log(tooltipsFlag, 'show', this.element, this.instance);
+      }
    }
 
    onElementMouseLeave() {
-      if (this.mouseTrap) {
-         setTimeout(() => {
-            if (!this.mouseTrapped)
-               this.destroy();
-         }, 200);
-      } else if (!this.alwaysVisible)
-         this.destroy();
+      let timeout = 20;
+      if (this.mouseTrap)
+         timeout = 200;
+
+      this.active = false;
+
+      setTimeout(() => {
+         if (!this.mouseTrapped && !this.alwaysVisible && !this.active)
+            this.destroy();
+      }, timeout);
    }
 
    onComponentWillReceiveProps(state) {
-      var {data} = this.instance;
-      if (this.dismiss || data.tooltip && data.tooltip.alwaysVisible || (data.error && data.errorTooltip && data.errorTooltip.alwaysVisible))
+      let {data} = this.instance;
+      if (this.tooltip || data.tooltip && data.tooltip.alwaysVisible || (data.error && data.errorTooltip && data.errorTooltip.alwaysVisible))
          this.check(state);
    }
 
    onComponentDidMount(state) {
-      var {data} = this.instance;
+      let {data} = this.instance;
       if (data.tooltip && data.tooltip.alwaysVisible || (data.error && data.errorTooltip && data.errorTooltip.alwaysVisible))
          this.check(state);
    }
 
    destroy() {
-      if (this.dismiss) {
+      if (this.tooltip) {
          Debug.log(tooltipsFlag, 'hide', this.element, this.instance);
          if (tooltips.get(this.element) == this)
             tooltips.delete(this.element);
-         this.dismiss();
-         delete this.dismiss;
+         this.tooltip.dismiss();
+         delete this.tooltip;
       }
    }
 }
 
-export function tooltipMouseMove(e, instance, state) {
-   var target = typeof e.nodeType == 'number' ? e : e.currentTarget;
+export function tooltipMouseMove(e, instance, state, target) {
+   if (!target)
+      target = typeof e.nodeType == 'number' ? e : e.currentTarget;
    Debug.log(tooltipsFlag, 'mouse-enter', target, instance);
-   var tooltipState = getTooltipState(target, instance);
-   tooltipState.check(state, e);
+   let tooltipState = getTooltipState(target, instance);
+   tooltipState.check(state, e, isTouchEvent());
 }
 
-export function tooltipMouseLeave(e, instance) {
-   var target = e.currentTarget || e.target;
+export function tooltipMouseLeave(e, instance, state, target) {
+   if (!target)
+      target = e.currentTarget || e.target;
    Debug.log(tooltipsFlag, 'mouse-leave', target, instance);
-   var tooltipState = getTooltipState(target, instance);
+   let tooltipState = getTooltipState(target, instance);
    tooltipState.onElementMouseLeave();
 }
 
@@ -185,11 +242,11 @@ export function tooltipComponentWillUnmount(element) {
 }
 
 export function tooltipComponentWillReceiveProps(element, instance, state) {
-   var tooltipState = getTooltipState(element, instance);
+   let tooltipState = getTooltipState(element, instance);
    tooltipState.onComponentWillReceiveProps(state);
 }
 
 export function tooltipComponentDidMount(element, instance, state) {
-   var tooltipState = getTooltipState(element, instance);
+   let tooltipState = getTooltipState(element, instance);
    tooltipState.onComponentDidMount(state);
 }

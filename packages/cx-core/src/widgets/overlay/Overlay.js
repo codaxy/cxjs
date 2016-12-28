@@ -426,12 +426,15 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false)
          return false;
 
-      if (widget.animate)
-         this.setState({
-            animated: false
-         });
+      //this.el might be null if visible is set to false
+      if (this.el) {
+         if (widget.animate)
+            this.setState({
+               animated: false
+            });
 
-      this.el.className = this.getOverlayCssClass();
+         this.el.className = this.getOverlayCssClass();
+      }
 
       return true;
    }

@@ -183,10 +183,11 @@ class SliderComponent extends VDOM.Component {
       if (data.disabled || data.readOnly)
          return;
 
-      var b = this.dom[handle].getBoundingClientRect();
-      var pos = getCursorPos(e);
-      var dx = pos.clientX - (b.left + b.right) / 2;
-      var dy = pos.clientY - (b.top + b.bottom) / 2;
+      let handleEl = this.dom[handle];
+      let b = handleEl.getBoundingClientRect();
+      let pos = getCursorPos(e);
+      let dx = pos.clientX - (b.left + b.right) / 2;
+      let dy = pos.clientY - (b.top + b.bottom) / 2;
 
       this.setState({
          drag: true
@@ -215,7 +216,10 @@ class SliderComponent extends VDOM.Component {
             }
          }
 
+         tooltipMouseMove(e, instance, this.state, handleEl);
+
       }, () => {
+         tooltipMouseLeave(e, instance, this.state, handleEl);
          this.setState({
             drag: false
          });

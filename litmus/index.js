@@ -8,7 +8,7 @@ import "./error";
 import './index.scss';
 
 // import {GridSection} from './sections/Grid';
-// import {FormSection} from './sections/Form';
+import {FormSection} from './sections/Form';
 // import {WindowSection} from './sections/Window';
 // import {ListSection} from './sections/List';
 // import ComplexGrid from './sections/ComplexGrid';
@@ -16,7 +16,7 @@ import './index.scss';
 //
 // import {MixedModeForm} from './components/MixedModeForm';
 
-import LongList from './performance/LongList';
+//import LongList from './performance/LongList';
 
 let store = new Store();
 
@@ -47,6 +47,6 @@ if (module.hot) {
 let stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <LongList />
+      <FormSection />
    </div>
 </cx>);

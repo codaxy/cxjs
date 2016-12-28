@@ -24,7 +24,6 @@ export const Sliders = <cx>
                 <div layout={LabelsLeftLayout}>
                     <Slider label="Standard" value:bind="$page.to" tooltip={{
                         text:{tpl: '{$page.to:n;2}' },
-                        trackMouse: true,
                         placement: 'up'
                     }} />
                     <Slider label="Stepped" from:bind="$page.from" step={10} />
@@ -40,7 +39,6 @@ export const Sliders = <cx>
                 <div layout={LabelsLeftLayout}>
                     <Slider label="Standard" value:bind="$page.to" tooltip={{
                         text:{tpl: '{$page.to:n;2}' },
-                        trackMouse: true,
                         placement: 'up'
                     }} />
                     <Slider label="Stepped" from:bind="$page.from" step={10} />

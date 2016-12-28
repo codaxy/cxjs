@@ -60,5 +60,14 @@ export default {
         description: <cx><Md>
             Set to `true` to make the tooltip follow the mouse movement.
         </Md></cx>
+    },
+    touchBehavior: {
+        key: true,
+        type: 'string',
+        description: <cx><Md>
+            This property controls how tooltips behave on touch events. Default value
+            is `toggle` which means that the tooltip is shown on first tap and closed
+            on the second tap. Use `ignore` to skip showing tooltips on touch events.
+        </Md></cx>
     }
 };
