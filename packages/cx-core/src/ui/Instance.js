@@ -2,6 +2,8 @@ var instanceId = 1000;
 import {Controller} from './Controller';
 import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, internalFlag, shouldUpdateFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
+import {throttle} from '../util/throttle';
+import {debounce} from '../util/debounce';
 
 export class Instance {
    constructor(widget, key) {
@@ -264,7 +266,38 @@ export class Instance {
    }
 
    set(prop, value) {
-      var p = this.widget[prop];
+      let setter = this.setters && this.setters[prop];
+      if (setter) {
+         setter(value);
+         return true;
+      }
+
+      let p = this.widget[prop];
+      if (p && typeof p == 'object') {
+         if (p.debounce) {
+            this.definePropertySetter(prop, debounce(value => this.doSet(prop, value), p.debounce));
+            this.set(prop, value);
+            return true;
+         }
+
+         if (p.throttle) {
+            this.definePropertySetter(prop, throttle(value => this.doSet(prop, value), p.throttle));
+            this.set(prop, value);
+            return true;
+         }
+      }
+
+      return this.doSet(prop, value);
+   }
+
+   definePropertySetter(prop, setter) {
+      if (!this.setters)
+         this.setters = {};
+      this.setters[prop] = setter;
+   }
+
+   doSet(prop, value) {
+      let p = this.widget[prop];
       if (p && typeof p == 'object') {
          if (p.set) {
             if (typeof p.set == 'function') {

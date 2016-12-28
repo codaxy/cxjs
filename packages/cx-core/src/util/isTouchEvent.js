@@ -13,7 +13,7 @@ let insideTouchEvent = 0;
 let lastTouchEvent = 0;
 let isTouchDetectionEnabled = false;
 
-function enableTouchEventDetection() {
+export function enableTouchEventDetection() {
    if (isTouchDevice() && !isTouchDetectionEnabled) {
       let options;
 

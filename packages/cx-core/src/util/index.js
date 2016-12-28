@@ -21,3 +21,7 @@ export * from './getVendorPrefix';
 export * from './eventCallbacks';
 export * from './getSearchQueryPredicate';
 export * from './escapeSpecialRegexCharacters';
+export * from './browserSupportsPassiveEventHandlers';
+export * from './isTouchEvent';
+export * from './debounce';
+export * from './throttle';
