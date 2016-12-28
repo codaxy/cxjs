@@ -15,9 +15,9 @@ export class ReduxStoreView extends View {
       return this.store.getState();
    }
 
-   set(path, value) {
-      var oldData = this.getData();
-      var newData = Binding.get(path).set(oldData, value);
+   setItem(path, value) {
+      let oldData = this.getData();
+      let newData = Binding.get(path).set(oldData, value);
 
       if (oldData !== newData)
          this.dispatch({
@@ -26,9 +26,9 @@ export class ReduxStoreView extends View {
          })
    }
 
-   delete(path) {
-      var oldData = this.getData();
-      var newData = Binding.get(path).delete(oldData);
+   deleteItem(path) {
+      let oldData = this.getData();
+      let newData = Binding.get(path).delete(oldData);
       if (oldData !== newData) {
          this.dispatch({
             type: CX_REPLACE_STATE,
@@ -45,10 +45,10 @@ export class ReduxStoreView extends View {
    }
 
    load(data) {
-      var oldData = this.getData();
-      var newData = oldData;
+      let oldData = this.getData();
+      let newData = oldData;
 
-      for (var key in data)
+      for (let key in data)
          newData = Binding.get(key).set(newData, data[key]);
 
       if (oldData !== newData)
