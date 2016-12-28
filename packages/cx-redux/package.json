@@ -1,6 +1,6 @@
 {
   "name": "cx-redux",
-  "version": "16.11.0",
+  "version": "16.12.0",
   "description": "Cx Redux integration",
   "main": "src",
   "scripts": {},
