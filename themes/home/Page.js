@@ -10,12 +10,12 @@ const themes = [{
    name: 'Neutral',
    url: 'neutral',
    imgUrl: '~/img/neutral.png',
-   description: "Neutral theme uses mild colors and minimalistic styling and it's commonly used as a base for other themes."
+   description: "Neutral theme uses mild colors and minimalistic styling. It's commonly used as a base for other themes"
 }, {
    name: 'Dark',
    url: 'dark',
    imgUrl: '~/img/dark.png',
-   description: "Dark themes ease the stress on your eyes after long hours of use and therefore are commonly used for tools and long running applications."
+   description: "Dark theme eases the stress on your eyes caused by long hours of use. Hence, it's commonly used for long-running tools and applications."
 }, {
    name: 'Frost',
    url: 'frost',

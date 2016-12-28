@@ -164,7 +164,8 @@ export const Charts = <cx>
       Standard palette supports selectable hover, selection and disabled states.
 
       In some cases, it is hard to deduce a meaningful color scheme. The `ColorMap` utility widget might help in such situations.
-      ColorMap assigns a unique color based on the name and keeps maximum distance between colors.
+      ColorMap assigns a different color to every chart element with the same `colorMap` attribute. At the same time, it will keep
+      the maximum distance between used colors.
 
       **Examples**
 
@@ -172,6 +173,7 @@ export const Charts = <cx>
       * [Bar Charts](~/charts/bar-graphs)
       * [Column Charts](~/charts/column-graphs)
       * [Pie Charts](~/charts/pie-charts)
+      * [Color Map](~/charts/color-map)
 
    </Md>
 </cx>
