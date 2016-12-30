@@ -175,13 +175,11 @@ $cx-default-monthpicker-font-size: smaller !default;
 // SLIDER
 $cx-default-slider-axis-background-color: rgba(128, 128, 128, 0.2) !default;
 $cx-default-slider-range-background-color: #98d4ff !default;
+$cx-default-slider-handle-size: 18px;
+$cx-default-slider-axis-size: 8px;
 
 $cx-slider-handle-styles: (
    default: (
-      margin: -8px 0 0 -8px,
-      padding: 0,
-      width: 16px,
-      height: 16px,
       background: rgb(235, 235, 235),
       border: 1px solid rgb(204, 204, 204),
       border-radius: 50%,
