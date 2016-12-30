@@ -36,6 +36,7 @@ export class Section extends PureContainer {
 
    declareData() {
       return super.declareData({
+         id: undefined,
          headerStyle: {structured: true},
          headerClass: {structured: true},
          bodyStyle: {structured: true},
@@ -112,6 +113,7 @@ export class Section extends PureContainer {
             key={key}
             className={data.classNames}
             style={data.style}
+            id={data.id}
          >
             { header }
             <div className={CSS.expand(CSS.element(this.baseClass, 'body'), data.bodyClass)} style={data.bodyStyle}>
