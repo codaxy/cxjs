@@ -270,7 +270,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (options.length > 0)
-         return this.getOptionKey({option: options[0]});
+         return this.getOptionKey({$option: options[0]});
 
       return null;
    }
@@ -589,10 +589,12 @@ class LookupComponent extends VDOM.Component {
    onDropdownKeyPress(e) {
       if (e.keyCode == 13) { //enter
          var index = this.findOption(this.state.options, this.state.cursorKey);
-         var itemData = {
-            $option: this.state.options[index]
+         if (index != -1) {
+            var itemData = {
+               $option: this.state.options[index]
+            }
+            this.select(e, itemData);
          }
-         this.select(e, itemData);
       }
 
       if (e.keyCode == 27) { //esc
