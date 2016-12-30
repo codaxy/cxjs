@@ -20,7 +20,6 @@ export const TextFields = <cx>
 
         <CodeSplit>
 
-
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Standard" value:bind="$page.text" autoFocus/>

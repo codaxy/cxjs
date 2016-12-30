@@ -1,5 +1,5 @@
 import { DocumentTitle, Route, RedirectRoute, Sandbox } from 'cx/widgets';
-import { FirstVisibleChildLayout, Controller, Url } from 'cx/ui';
+import { FirstVisibleChildLayout, Controller, Url, ContentResolver } from 'cx/ui';
 import { HtmlElement } from 'cx/widgets';
 import {PageNotFound} from './PageNotFound';
 import {Loading} from './Loading';
@@ -9,6 +9,8 @@ import {trackPageView} from '../ga';
 
 import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
+
+import { getVersion } from './version';
 
 function getPageName(name) {
 
@@ -41,40 +43,8 @@ let addRoutes = (path, pages, routes) => {
     });
 };
 
-let routes = [
-    <cx><RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/></cx>
-];
 
-// intro pages are always loaded to avoid the initial Loading page
-// everything else is loaded on demand
-
-import * as intro from './intro/';
-
-addRoutes('~/', {
-    intro
-}, routes);
-
-// #if development
-
-import * as widgets from './widgets/';
-import * as concepts from './concepts/';
-import * as examples from './examples/';
-import * as debug from './debug/';
-import * as charts from './charts/';
-import * as meta from './meta/';
-import * as svg from './svg/';
-
-addRoutes('~/', {
-    widgets,
-    concepts,
-    examples,
-    svg,
-    charts,
-    meta,
-    debug
-}, routes);
-
-// #end
+let chapterExports = {};
 
 class ContentController extends Controller {
     init() {
@@ -82,19 +52,28 @@ class ContentController extends Controller {
 
         this.store.set('loading', false);
 
-        // #if production
+        this.addComputable('chapter', ['url'], url => {
+            var matches = url.match(/^~\/([^/]+)\//);
+            return matches && matches[1];
+        });
+
+        // #if development
+
+        setInterval(() => {
+            this.store.set('contentVersion', getVersion())
+        }, 20);
+
+        // #end
+
 
         var chapterLoaded = {};
 
-        this.addTrigger('fetch-module', ['url'], url => {
-            var matches = url.match(/^~\/([^/]+)\//);
-            var chapter = matches && matches[1];
-            if (!chapter || chapterLoaded[chapter])
-                return;
-
-            chapterLoaded[chapter] = true;
-
+        this.addTrigger('fetch-module', ['chapter', 'contentVersion'], chapter => {
             switch (chapter) {
+
+                case 'intro':
+                    this.loadChapter(chapter, System.import('docs/content/intro'));
+                    break;
 
                 case 'concepts':
                     this.loadChapter(chapter, System.import('docs/content/concepts'));
@@ -120,8 +99,9 @@ class ContentController extends Controller {
                     this.loadChapter(chapter, System.import('docs/content/meta'));
                     break;
             }
-
         }, true);
+
+        // #if production
 
         this.addTrigger('google-analytics', ['url'], url => {
             trackPageView(url);
@@ -132,25 +112,43 @@ class ContentController extends Controller {
 
     loadChapter(chapter, promise) {
         this.store.set('loading', true);
-        promise.then(m=> {
-            var localRoutes = [];
-            addRoutes(`~/${chapter.toLowerCase()}/`, m, localRoutes);
-            var r = Route.create(localRoutes);
-            this.widget.items = [...r, ...this.widget.items];
+        promise.then(m => {
+            chapterExports[chapter] = m;
             this.store.set('loading', false);
-        }).catch(e=> {
+            this.store.update('cv2', v => (v || 0) + 1);
+        }).catch(e => {
             this.store.set('loading', false);
             console.log(e);
         })
     }
 }
 
+const getChapterRoutes = chapter => {
+    if (!chapterExports[chapter])
+        return null;
+    let routes = [];
+    addRoutes(`~/${chapter.toLowerCase()}/`, chapterExports[chapter], routes);
+    return routes;
+}
+
 export const ContentRouter = <cx>
     <div class={CSS.block("article")}>
         <ScrollReset class={CSS.element("article", "body")} trigger:bind="url">
             <DocumentTitle value=" - "/>
-            <Sandbox storage:bind="pages" key:bind="url" layout={FirstVisibleChildLayout} controller={ContentController}>
-                {[...routes, Loading, PageNotFound]}
+            <Sandbox storage:bind="pages" key:bind="url" controller={ContentController}>
+                <ContentResolver
+                    params={{
+                        chapter: { bind: "chapter" },
+                        version: { bind: "cv2" }
+                    }}
+                    layout={FirstVisibleChildLayout}
+                    onResolve={p=>getChapterRoutes(p.chapter)}
+                    mode="prepend"
+                >
+                    <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>
+                    <Loading/>
+                    <PageNotFound/>
+                </ContentResolver>
             </Sandbox>
         </ScrollReset>
     </div>

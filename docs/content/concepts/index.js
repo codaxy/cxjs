@@ -10,3 +10,12 @@ export * from './Formatting';
 export * from './Charts';
 export * from './Localization';
 
+
+import { bumpVersion } from '../version';
+
+//HMR
+if (module.hot) {
+    module.hot.accept();
+    bumpVersion();
+}
+

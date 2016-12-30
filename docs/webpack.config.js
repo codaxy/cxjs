@@ -82,12 +82,16 @@ switch (process.env.npm_lifecycle_event) {
                         "if-loader": 'development',
                     }
                 }),
+                new webpack.NamedModulesPlugin(),
                 new webpack.HotModuleReplacementPlugin()
             ],
             output: {
                 publicPath: '/'
             },
             devtool: 'eval',
+            performance: {
+                hints: false
+            },
             devServer: {
                 contentBase: '/docs',
                 hot: true,
@@ -182,7 +186,7 @@ var common = {
     },
     output: {
         path: __dirname,
-        filename: "[name].[hash].js"
+        filename: "[name].js"
     },
     // externals: {
     //    "react": "React",

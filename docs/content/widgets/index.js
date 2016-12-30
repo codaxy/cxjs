@@ -33,3 +33,11 @@ export * from './Headings';
 export * from './FlexBox';
 export * from './Toasts';
 export * from './Icons';
+
+import { bumpVersion } from '../version';
+
+//HMR
+if (module.hot) {
+    module.hot.accept();
+    bumpVersion();
+}

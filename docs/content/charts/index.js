@@ -19,3 +19,13 @@ export * from './NumericAxis';
 export * from './CategoryAxis';
 export * from './TimeAxis';
 
+
+
+import { bumpVersion } from '../version';
+
+//HMR
+if (module.hot) {
+    module.hot.accept();
+    bumpVersion();
+}
+
