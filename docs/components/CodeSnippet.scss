@@ -1,3 +1,14 @@
+.dxb-codesnippet {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+
+    & > code {
+        padding: 0 0 0 10px;
+        background: transparent;
+    }
+}
+
 .dxb-codesplit .dxe-codesplit-scrollable .cxb-tab.cxm-code {
     @extend .cxb-tab.cxm-line;
     color: white;
