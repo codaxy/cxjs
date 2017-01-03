@@ -204,6 +204,7 @@ var common = {
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
+            favicon: path.join(__dirname, 'img/favicon.png'),
             minify: {
                 removeComments: true
             }
