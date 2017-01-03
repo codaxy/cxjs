@@ -1,23 +1,23 @@
-
 // GRID
 $cx-default-grid-border-color: $cx-default-border-color !default;
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
 
-$cx-default-grid-header-background-color:  #eee !default;
+$cx-default-grid-header-background-color: #eee !default;
 $cx-default-grid-header-border-color: $cx-default-border-color !default;
 
 $cx-grid-header-state-style-map: (
-  default: (
-    background-color: $cx-default-grid-header-background-color,
-    border-color: $cx-default-grid-header-border-color
-  ),
-  hover: (
-    background-color: darken($cx-default-grid-header-background-color, 2)
-  ),
-  sorted: (
-    background-color: darken($cx-default-grid-header-background-color, 7)
-  ),
-  sorted-hover: (
-    background-color: darken($cx-default-grid-header-background-color, 5)
-  )
+   default: (
+      background-color: $cx-default-grid-header-background-color,
+      border-color: $cx-default-grid-header-border-color,
+      background-clip: padding-box
+   ),
+   hover: (
+      background-color: darken($cx-default-grid-header-background-color, 2)
+   ),
+   sorted: (
+      background-color: darken($cx-default-grid-header-background-color, 7)
+   ),
+   sorted-hover: (
+      background-color: darken($cx-default-grid-header-background-color, 5)
+   )
 ) !default;

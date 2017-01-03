@@ -11,6 +11,7 @@ import {ResizeManager} from '../../ui/ResizeManager';
 import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
+import DropDownIcon from '../icons/drop-down';
 
 export class Grid extends Widget {
 
@@ -279,8 +280,8 @@ export class Grid extends Widget {
             if (skip[colKey])
                continue;
 
-            var header = columnInstance[`header${l + 1}`];
-            let colSpan, rowSpan, style, cls, mods = [], content;
+            let header = columnInstance[`header${l + 1}`];
+            let colSpan, rowSpan, style, cls, mods = [], content, sortIcon;
 
             if (header) {
                empty[l] = false;
@@ -295,6 +296,7 @@ export class Grid extends Widget {
 
                   if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
                      mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                     sortIcon = <DropDownIcon className={CSS.element(baseClass, 'column-sort-icon')} />
                   }
                }
 
@@ -330,6 +332,7 @@ export class Grid extends Widget {
                                style={style}
                                onClick={e=>this.onHeaderClick(e, c, instance, l)}>
                {getContent(content)}
+               {sortIcon}
             </th>);
          }
       });
