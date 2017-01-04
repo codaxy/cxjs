@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Checkbox, TextField, NumberField, Select, Option, Repeater, Text } from 'cx/widgets';
+import { Content, HtmlElement, Checkbox, TextField, NumberField, Select, Option, Repeater, Text, Slider } from 'cx/widgets';
 import { LabelsLeftLayout, Controller } from 'cx/ui';
 import { computable } from 'cx/data';
 import {Md} from '../../components/Md';
@@ -204,6 +204,57 @@ export const DataBinding = <cx>
                     A = <Text bind="intro.core.a" />
                 </div>
             `}</CodeSnippet>
+        </CodeSplit>
+
+        ### Throttle / Debounce
+
+        Sometimes you want to limit the rate of propagating changes or to postpone
+        the change until the user finishes interaction. In such scenarios `throttle`
+        and `debounce` come very handy.
+
+        <CodeSplit>
+            <div class="widgets">
+                <div>
+                    <div style="text-align:center">Direct</div>
+                    <Slider value:bind='$page.slider.direct' />
+                    <br/>
+                    <Slider value:bind='$page.slider.direct' />
+                </div>
+                <div>
+                    <div style="text-align:center">Throttle: 300ms</div>
+                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300 }} />
+                    <br/>
+                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300}} />
+                </div>
+                <div>
+                    <div style="text-align:center">Debounce: 300ms</div>
+                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
+                    <br/>
+                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
+                </div>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <div>
+                    <div style="text-align:center">Direct</div>
+                    <Slider value:bind='$page.slider.direct' />
+                    <br/>
+                    <Slider value:bind='$page.slider.direct' />
+                </div>
+                <div>
+                    <div style="text-align:center">Throttle: 300ms</div>
+                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300 }} />
+                    <br/>
+                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300}} />
+                </div>
+                <div>
+                    <div style="text-align:center">Debounce: 300ms</div>
+                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
+                    <br/>
+                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
+                </div>
+            `}</CodeSnippet>
+
         </CodeSplit>
     </Md>
 </cx>;
