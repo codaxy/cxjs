@@ -30,7 +30,7 @@ export const GettingStarted = <cx>
                 Did you know that your name contains exactly <Text expr="{name}.length" /> letters?
             </p>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="5sKUUw0A">{`
 
             <TextField value:bind="name" placeholder="What's your name?" />
 
