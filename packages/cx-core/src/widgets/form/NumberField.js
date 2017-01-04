@@ -28,6 +28,10 @@ export class NumberField extends Field {
    }
 
    init() {
+
+      if (typeof this.step != 'undefined')
+         this.increment = this.step;
+
       super.init();
    }
 
