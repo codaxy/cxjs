@@ -24,8 +24,9 @@ export class CodeSplit extends Md {
 
     render(context, instance, key) {
 
-        var {data, widget, components} = instance;
-        var {CSS, baseClass} = widget;
+        let {data, widget, components} = instance;
+        let {CSS, baseClass} = widget;
+        let right = getContent(components.right.render(context));
 
         return <div key={key} className={CSS.block(widget.baseClass)}>
             <div className={CSS.element(baseClass, "left")} style={data.style}>
@@ -33,11 +34,14 @@ export class CodeSplit extends Md {
                     {this.renderChildren(context, instance)}
                 </div>
             </div>
-            <div className={CSS.element(baseClass, "right")}>
-                <div className={CSS.element(baseClass, "scrollable")}>
-                    {getContent(components.right.render(context))}
+            {
+                right &&
+                <div className={CSS.element(baseClass, "right")}>
+                    <div className={CSS.element(baseClass, "scrollable")}>
+                        {right}
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     }
 }

@@ -18,7 +18,8 @@ function lazyHighlight(text, lang) {
 export class CodeSnippet extends HtmlElement {
 
     render(context, instance, key) {
-        return <pre key={key} className={`language-${this.lang}`}>
+        let {data} = instance;
+        return <pre key={key} className={`${data.classNames} language-${this.lang}`}>
          {this.renderChildren(context, instance)}
       </pre>
     }
@@ -39,3 +40,5 @@ export class CodeSnippet extends HtmlElement {
 CodeSnippet.prototype.plainText = true;
 CodeSnippet.prototype.tag = 'pre';
 CodeSnippet.prototype.lang = 'jsx';
+CodeSnippet.prototype.baseClass = 'codesnippet';
+CodeSnippet.prototype.CSS = 'dx';
