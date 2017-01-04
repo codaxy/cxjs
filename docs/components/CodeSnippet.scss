@@ -2,11 +2,31 @@
     padding: 0 !important;
     margin: 0 !important;
     border-radius: 0 !important;
+    min-width: 100%;
 
     & > code {
         padding: 0 0 0 10px;
         background: transparent;
     }
+}
+
+.dxe-codesnippet-link {
+    position: absolute;
+    right: 20px;
+    top: -16px;
+    background: rgb(255, 218, 139);
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #376aff;
+
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    .dxb-codesnippet:hover > & {
+        opacity: 1;
+    }
+
+
 }
 
 .dxb-codesplit .dxe-codesplit-scrollable .cxb-tab.cxm-code {

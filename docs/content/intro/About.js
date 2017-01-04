@@ -40,11 +40,11 @@ export const About = <cx>
                         <TextField value:bind="text" enabled:bind="enabled"/>
                     </div>
                 </div>
-                <CodeSnippet putInto="code">{`
-                <Checkbox value:bind="enabled">Enable</Checkbox>
-                <br/>
-                <TextField enabled:bind="enabled" value:bind="name" />
-            `}</CodeSnippet>
+                <CodeSnippet putInto="code" fiddle="HkcFZwXT">{`
+                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <br/>
+                    <TextField enabled:bind="enabled" value:bind="name" />
+                `}</CodeSnippet>
             </CodeSplit>
 
 

@@ -18,9 +18,25 @@ function lazyHighlight(text, lang) {
 export class CodeSnippet extends HtmlElement {
 
     render(context, instance, key) {
-        let {data} = instance;
+        let {data} = instance,
+            fiddleLink;
+
+
+        if (this.fiddle) {
+            fiddleLink = (
+                <a
+                    href={`http://cx.codaxy.com/fiddle/?f=${this.fiddle}`}
+                    className={this.CSS.element(this.baseClass, 'link')}
+                    target="_blank"
+                >
+                    Cx Fiddle
+                </a>
+            )
+        }
+
         return <pre key={key} className={`${data.classNames} language-${this.lang}`}>
          {this.renderChildren(context, instance)}
+            {fiddleLink}
       </pre>
     }
 
