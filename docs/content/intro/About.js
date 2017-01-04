@@ -70,7 +70,7 @@ export const About = <cx>
                     </ValidationGroup>
                 </div>
 
-                <CodeSnippet putInto="code">{`
+                <CodeSnippet putInto="code" fiddle="W4kesfyt">{`
                 <ValidationGroup layout={LabelsLeftLayout} valid:bind="login.valid">
                     <TextField label="Username" required value:bind="login.username" />
                     <TextField label="Password" inputType='password' required={true} value:bind="login.password" />
