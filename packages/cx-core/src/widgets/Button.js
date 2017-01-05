@@ -8,7 +8,8 @@ export class Button extends HtmlElement {
    declareData() {
       super.declareData(...arguments, {
          confirm: {structured: true},
-         pressed: undefined
+         pressed: undefined,
+         icon: undefined
       })
    }
 
@@ -68,8 +69,8 @@ export class Button extends HtmlElement {
 
       let icon, children;
 
-      if (this.icon) {
-         icon = Icon.render(this.icon, {
+      if (data.icon) {
+         icon = Icon.render(data.icon, {
             key: 'icon',
             className: this.CSS.element(this.baseClass, 'icon')
          });
