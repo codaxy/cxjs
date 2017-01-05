@@ -91,9 +91,14 @@ class ColorPickerComponent extends VDOM.Component {
       }
 
       if (c.type == 'hsla') {
-         var [r, g, b] = rgbToHsl(c.h, c.s, c.l);
+         var [r, g, b] = hslToRgb(c.h, c.s, c.l);
+         r = this.fix255(r);
+         g = this.fix255(g);
+         b = this.fix255(b);
          return {r: r, g, b, h: c.h, s: c.s, l: c.l, a: c.a};
       }
+
+
 
       throw new Error(`Color ${color} parsing failed.`);
    }
@@ -256,6 +261,10 @@ class ColorPickerComponent extends VDOM.Component {
       move(e);
    }
 
+   fix255(v) {
+      return Math.max(0, Math.min(255, Math.round(v)));
+   }
+
    setColorProp(props, value) {
 
       if (typeof props == 'string') {
@@ -306,6 +315,10 @@ class ColorPickerComponent extends VDOM.Component {
                break;
          }
       }
+
+      state.r = this.fix255(state.r);
+      state.g = this.fix255(state.g);
+      state.b = this.fix255(state.b);
 
       if (fixAlpha && state.a === 0)
          state.a = 1;
