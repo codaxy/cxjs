@@ -41,7 +41,7 @@ export const DataViews = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="F3RHqb0x">{`
                store.set('intro.core.items', [
                   { text: 'A', checked: false },
                   { text: 'B', checked: false },
@@ -97,7 +97,7 @@ export const DataViews = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="110OL8gu">{`
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind:"$page.place", defaultValue:"winner"}} option="winner">Winner</Radio>
