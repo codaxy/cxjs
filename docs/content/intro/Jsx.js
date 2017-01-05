@@ -73,7 +73,7 @@ export const JsxPage = <cx>
             If `visible` is set or evaluated to `false`, the element and its children will not be rendered. The application
             will behave as if the element doesn't exists.
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="pXZnFu2N">{`
                 <div visible:expr="!{form.valid}">
                     Please correct all errors in the form and try again.
                 </div>
@@ -87,7 +87,7 @@ export const JsxPage = <cx>
             Whitespaces are generally ignored, and that can be very annoying sometimes.
             Cx offers the `preserveWhitespace` attribute which instructs Cx to keep the whitespaces.
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="JYu5gf20">{`
                 <a href="#" class="btn" preserveWhitespace>
                     <i class="fa fa-icon" /> Link
                 </a>
@@ -102,7 +102,7 @@ export const JsxPage = <cx>
             because the DOM API exposes these properties in that way.
             Cx does not have these restrictions, and you can freely use `style` strings, as well as both `class` and `className` attributes.
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="enqL5Fok">{`
                 <div class="well" style="width:100px; height: 100px; background: red"></div>
             `}</CodeSnippet>
         </CodeSplit>
