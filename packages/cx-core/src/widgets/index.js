@@ -4,6 +4,7 @@ import {StaticText} from '../ui/StaticText';
 import {PureContainer} from '../ui/PureContainer';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
+import {ContentResolver} from '../ui/ContentResolver';
 import {Rescope} from '../ui/Rescope';
 import {Repeater} from '../ui/Repeater';
 
@@ -15,6 +16,7 @@ export {
    PureContainer,
    Content,
    ContentPlaceholder,
+   ContentResolver,
    Rescope,
    Repeater
 };
