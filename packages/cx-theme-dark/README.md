@@ -1,49 +1,27 @@
 # Dark theme
 
-This is a command line tool for the [Cx framework](http://cx.codaxy.com/v/master/docs/intro/about).
-Cx requires tools such as babel and webpack, which are plugin-based and require a 
-significant amount of work to configure properly.
-
-Cx CLI helps you quickly set up a new Cx project that contains the basic file structure 
-as well as all of the required tools and configuration code for using the framework.
+Dark theme eases the stress on your eyes caused by long hours of use. 
+Hence, it's commonly used for long-running tools and applications.
 
 ## Usage
 
-If you haven't done so already, inside the project folder initialize the `package.json`
-file by running the command `npm init`.
+In order to use the theme, install its npm package:
 
-Install the `cx-cli` tool:
 ```
-npm install cx-cli --global
+npm install cx-theme-dark
 ```
+Then, import Cx styles from the package:
+```
+// theme variables can be overridden here
 
-For new projects, use scaffold to create basic app structure.
-```
-cx scaffold [--yarn]
-```
-Append `--yarn` to use `yarn` package manager to install packages.
+@import "~cx-theme-dark/variables";
 
+// theme state-style-maps can be overridden here, before importing css 
 
-Alternatively, use install to add packages into an existing project structure:
-```
-cx install [--yarn]
-```
-Please note that this will add `Cx`, `React`, `Babel` and `Sass` related packages.
+$cx-include-global-rules: true;
+@import "~cx-theme-dark/index";
 
-
-Start your application using:
+// add custom CSS here
 ```
-cx start
-```     
-
-Make a production build:
-```
-cx build
-```
-
-Set up a new route folder:
-```
-cx add route route_name
-```
-This command creates a new folder - `app/routes/route_name` and copies the `index.js`, 
-`index.scss` and `controller.js` files from the template.
+To learn more about Cx styling and how to customize it, 
+[click here](http://cx.codaxy.com/v/master/docs/concepts/css).
