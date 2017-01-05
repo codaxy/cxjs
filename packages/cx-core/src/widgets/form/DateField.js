@@ -176,7 +176,8 @@ class DateInput extends VDOM.Component {
                   this.input.focus();
                });
             }
-         }
+         },
+         firstChildDefinesHeight: true
       };
 
       return this.dropdown = Widget.create(dropdown);

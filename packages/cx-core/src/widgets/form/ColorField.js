@@ -81,7 +81,8 @@ class ColorInput extends VDOM.Component {
          },
          onFocusOut: () => {
             this.closeDropdown();
-         }
+         },
+         firstChildDefinesHeight: true
       };
 
       return this.dropdown = Widget.create(dropdown);
