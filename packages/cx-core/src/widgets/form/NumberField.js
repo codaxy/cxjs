@@ -68,21 +68,14 @@ export class NumberField extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <Input key={key+'-content'}
-                    data={instance.data}
-                    instance={instance}
-                    inputType="text"
-                    handleChange={(e, change, v) => this.handleChange(e, change, instance, v)}
-      />
-   }
-
-   handleChange(e, change, instance, value) {
-      if (this.reactOn.indexOf(change) != -1) {
-         instance.setState({
-            inputError: false
-         });
-         instance.set('value', value);
-      }
+      return (
+         <Input
+            key={key + '-content'}
+            data={instance.data}
+            instance={instance}
+            inputType="text"
+         />
+      )
    }
 }
 
@@ -124,38 +117,47 @@ class Input extends VDOM.Component {
       var {CSS, baseClass} = widget;
 
       var icon = widget.icon && (
-         <div
-            className={CSS.element(baseClass, 'tool')}
-            onMouseDown={preventDefault}
-            onClick={e => this.onChange(e, 'enter')}
-         >
-            {
-               Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
-            }
-         </div>
-      );
+            <div
+               className={CSS.element(baseClass, 'tool')}
+               onMouseDown={preventDefault}
+               onClick={e => this.onChange(e, 'enter')}
+            >
+               {
+                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+               }
+            </div>
+         );
 
-      return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
-                  style={data.style}
-                  onMouseDown={stopPropagation}
-                  onTouchStart={stopPropagation}>
+      return <div
+         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+         style={data.style}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}>
          <input id={data.id}
-                type={this.props.inputType}
-                className={CSS.element(baseClass, "input")}
-                defaultValue={data.formatted}
-                ref={el=>{this.input = el}}
-                style={data.inputStyle}
-                disabled={data.disabled}
-                readOnly={data.readOnly}
-                placeholder={data.placeholder}
-                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
-                onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
-                onInput={ e => this.onChange(e, 'input') }
-                onChange={ e => this.onChange(e, 'change') }
-                onKeyDown={ e => { if (e.keyCode == 13) this.onChange(e, 'enter') }}
-                onBlur={ e=> { this.onChange(e, 'blur') }}
-                onWheel={ e=> { this.onChange(e, 'wheel') }}
-                onClick={stopPropagation}
+            type={this.props.inputType}
+            className={CSS.element(baseClass, "input")}
+            defaultValue={data.formatted}
+            ref={el => {
+               this.input = el
+            }}
+            style={data.inputStyle}
+            disabled={data.disabled}
+            readOnly={data.readOnly}
+            placeholder={data.placeholder}
+            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
+            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onInput={ e => this.onChange(e, 'input') }
+            onChange={ e => this.onChange(e, 'change') }
+            onKeyDown={ e => {
+               if (e.keyCode == 13) this.onChange(e, 'enter')
+            }}
+            onBlur={ e => {
+               this.onChange(e, 'blur')
+            }}
+            onWheel={ e => {
+               this.onChange(e, 'wheel')
+            }}
+            onClick={stopPropagation}
          />
          {icon}
       </div>
@@ -171,7 +173,7 @@ class Input extends VDOM.Component {
       }
       this.data = data;
       if (data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipComponentWillReceiveProps(this.input, props.instance, this.state);
    }
 
@@ -236,13 +238,16 @@ class Input extends VDOM.Component {
       var instance = this.props.instance;
       var {data, widget} = instance;
 
+      if (widget.reactOn.indexOf(change) == -1)
+         return;
+
       if (change == 'blur')
          this.setState({visited: true});
 
       if (e.target.value) {
          var v = Culture.getNumberCulture().parse(e.target.value);
          if (isNaN(v)) {
-            this.props.instance.setState({
+            instance.setState({
                inputError: 'Invalid number entered.'
             });
             return;
@@ -281,17 +286,28 @@ class Input extends VDOM.Component {
          //re-parse to avoid differences between formatted value and value in the store
          var culture = Culture.getNumberCulture();
          v = culture.parse(formatted);
+
+         if (change == 'input' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == culture.decimalSeparator)
+            return;
+
          if (change != 'blur'
             && (e.target.value[e.target.value.length - 1] != '.' && e.target.value[e.target.value.length - 1] != ',')
-            && (e.target.value[e.target.value.length - 1] != '0' || e.target.value.indexOf(culture.decimalSeparator) == '-1')) {
+            && (e.target.value[e.target.value.length - 1] != '0'
+               || e.target.value.indexOf(culture.decimalSeparator) == -1
+               || (this.input.selectionStart == this.input.selectionEnd && this.input.selectionStart != e.target.value.length)
+            )) {
             var preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
          }
 
-         this.props.handleChange(e, change, v);
+         instance.set('value', v);
       } else
-         this.props.handleChange(e, change, null);
+         instance.set('value', null);
+
+      instance.setState({
+         inputError: false
+      });
    }
 }
 
