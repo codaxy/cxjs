@@ -114,7 +114,7 @@ export const DataBinding = <cx>
                     <TextField value:bind='intro.core.letterCount' placeholder="Type here"/>
                     <p>
                         <Text
-                            value={(storeData) => `You typed letter A ${(storeData.intro.core.letterCount.match(/A/g) || []).length} times.` }/>
+                            value={(storeData) => `You typed letter A ${((storeData.intro.core.letterCount || '').match(/A/g) || []).length} times.` }/>
                     </p>
                 </div>
             </div>
@@ -126,7 +126,7 @@ export const DataBinding = <cx>
                <TextField value:bind='intro.core.letterCount' placeholder="Type here" />
                <p>
                   <Text value={(storeData) => \`You typed letter A
-                  \${(storeData.intro.core.letterCount.match(/A/g) || []).length} times.\` } />
+                  \${((storeData.intro.core.letterCount || '').match(/A/g) || []).length} times.\` } />
                </p>
             `}</CodeSnippet>
             </Content>
@@ -210,7 +210,7 @@ export const DataBinding = <cx>
 
         Sometimes you want to limit the rate of propagating changes or to postpone
         the change until the user finishes interaction. In such scenarios `throttle`
-        and `debounce` come very handy.
+        and `debounce` come in very handy.
 
         <CodeSplit>
             <div class="widgets">
