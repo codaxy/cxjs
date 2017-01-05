@@ -41,7 +41,7 @@ export const DataViews = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle=""F3RHqb0x>{`
+                <CodeSnippet fiddle="F3RHqb0x">{`
                store.set('intro.core.items', [
                   { text: 'A', checked: false },
                   { text: 'B', checked: false },
