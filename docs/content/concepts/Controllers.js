@@ -40,6 +40,8 @@ export const Controllers = <cx>
 
     <Md>
         # Controllers
+        
+        <ImportPath path="import {Controller} from 'cx/ui';" />        
 
         <CodeSplit>
 
@@ -75,7 +77,7 @@ export const Controllers = <cx>
             - implement complex data behavior
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="QmlMqPUa">{`
                class CbController extends Controller {
                   init() {
                      this.addTrigger('t1', ['$page.cb1'], cb1 => {
@@ -117,7 +119,7 @@ export const Controllers = <cx>
             </div>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ooYt3HD9">{`
             class InfoController extends Controller {
                init() {
                   this.store.set('$page.cities', [{id: 'ams', text: 'Amsterdam', population: '1.6M'}, {id: 'bg',text: 'Belgrade',population: '3M'}]);
@@ -170,7 +172,7 @@ export const Controllers = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ztNKYqEO">{`
             class MethodController extends Controller {
                sayHello() {
                   MsgBox.alert('Hello!');
@@ -193,7 +195,7 @@ export const Controllers = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ztNKYqEO">{`
             <div controller={MethodController}>
                <button type="button" onClick="sayHello">Say Hello</button>
             </div>
