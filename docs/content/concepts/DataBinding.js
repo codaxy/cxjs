@@ -32,7 +32,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="csRQr9CA">{`
                 <Checkbox value:bind='intro.core.checked'>Checkbox</Checkbox>
             `}</CodeSnippet>
             </Content>
@@ -53,7 +53,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="csRQr9CA">{`
                     <TextField value:bind='intro.core.text'
                                enabled:expr='!{intro.core.checked}' />
                 `}</CodeSnippet>
@@ -88,7 +88,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="M60J0cyg">{`
                 <div layout={LabelsLeftLayout}>
                   <TextField value:bind='intro.core.firstName' label="First Name" />
                   <TextField value:bind='intro.core.lastName' label="Last Name"/>
