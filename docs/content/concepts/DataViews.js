@@ -97,7 +97,7 @@ export const DataViews = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code" fiddle=""110OL8gu>{`
+            <CodeSnippet putInto="code" fiddle="110OL8gu">{`
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind:"$page.place", defaultValue:"winner"}} option="winner">Winner</Radio>
