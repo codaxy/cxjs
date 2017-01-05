@@ -120,7 +120,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="dfT9CWn4">{`
                store.set('intro.core.letterCount', '');
                ...
                <TextField value:bind='intro.core.letterCount' placeholder="Type here" />
@@ -162,7 +162,7 @@ export const DataBinding = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="9CxYWdfS">{`
             <div preserveWhitespace>
                <NumberField value:bind='intro.core.a' placeholder="A" />
                +
@@ -193,7 +193,7 @@ export const DataBinding = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="9CxYWdfS">{`
                 <div preserveWhitespace>
                     A + 2 = <NumberField style="width:50px"
                                          value={{
