@@ -234,7 +234,7 @@ export const DataBinding = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="RAVD9CLT">{`
                 <div>
                     <div style="text-align:center">Direct</div>
                     <Slider value:bind='$page.slider.direct' />
