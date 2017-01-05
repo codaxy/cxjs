@@ -130,7 +130,7 @@ export const CssPage = <cx>
 
         ### Global rules
 
-        Sass maps are used for defining global rules. If you just need
+        Sass maps are used for defining global rules. If you just need to
         add/override a couple of rules, use `cx-deep-map-merge` instead
         of replacing the whole map.
 
@@ -193,7 +193,8 @@ export const CssPage = <cx>
         </CodeSplit>
 
         Some themes beside CSS include JavaScript changes as well. This requires
-        that theme JavaScript files at the JavaScript entry point of your application.
+        that theme JavaScript files are imported at the JavaScript entry point of 
+        your application.
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
@@ -204,12 +205,12 @@ export const CssPage = <cx>
 
         ## Components
 
-        Component related SCSS code is placed next to the component JS implementation.
+        Component-related SCSS code is placed next to the component JS implementation.
         For example, the `Button` component is implemented in `src/widgets/Button.js` and the
         same folder contains `Button.scss` and `Button.variables.scss`, which are related to styling.
 
         Components that offer unique styling have a separate file for defining variables.
-        Simpler components may not need a separated file and only include a single
+        Simpler components may not need that separate file and only include a single
         SCSS files which outputs CSS classes required by the component.
 
         ### Subclassing Widgets
@@ -245,7 +246,7 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        The better way would be to subclass it in JavaScript too.
+        Better yet, you can subclass `SearchField` from `TextField` in JavaScript, too.
 
         <CodeSplit>
             <CodeSnippet>{`
