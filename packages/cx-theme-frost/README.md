@@ -1,6 +1,9 @@
 # Frost theme
 
-Winter inpspired theme.
+This is a theme package for the [Cx framework](http://cx.codaxy.com/).
+
+Frost is a winter inpspired theme.
+Take a look at theme preview and compare it to the other themes [here](http://cx.codaxy.com/v/master/themes/).
 
 ## Usage
 

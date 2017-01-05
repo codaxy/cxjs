@@ -1,7 +1,10 @@
 # Dark theme
 
+This is a theme package for the [Cx framework](http://cx.codaxy.com/).
+
 Dark theme eases the stress on your eyes caused by long hours of use. 
 Hence, it's commonly used for long-running tools and applications.
+Take a look at theme preview and compare it to the other themes [here](http://cx.codaxy.com/v/master/themes/).
 
 ## Usage
 
