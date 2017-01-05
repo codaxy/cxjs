@@ -89,7 +89,9 @@ $cx-selection-background-color: rgba(135, 206, 250, 0.6);
 
 //Lists
 $cx-list: (
-   default: (),
+   default: (
+      -webkit-overflow-scrolling: touch
+   ),
    hover: (),
    focus: (
       outline: none
