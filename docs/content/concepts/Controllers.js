@@ -3,6 +3,7 @@ import { LabelsLeftLayout, Controller } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
+import {ImportPath} from '../../components/ImportPath';
 
 
 class CbController extends Controller {
