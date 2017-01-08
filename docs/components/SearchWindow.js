@@ -1,6 +1,7 @@
 import { TextField, Text, Repeater, List, Link, Menu, HtmlElement } from 'cx/widgets';
 import { Controller, History } from 'cx/ui';
 import { Window } from 'cx/widgets';
+import { KeyCode } from 'cx/util';
 
 class SearchController extends Controller {
     init() {
@@ -30,7 +31,7 @@ class SearchController extends Controller {
     }
 
     onKeyDown(e, instance) {
-        if (e.keyCode == 27)
+        if (e.keyCode == KeyCode.esc)
             instance.dismiss();
         else if (this.listKeyDownPipe)
             this.listKeyDownPipe(e);

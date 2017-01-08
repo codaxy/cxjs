@@ -13,6 +13,7 @@ import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
 import ClearIcon from '../icons/clear';
+import {KeyCode} from 'cx/util';
 
 export class MonthField extends Field {
 
@@ -312,12 +313,12 @@ class MonthInput extends VDOM.Component {
    onKeyDown(e) {
 
       switch (e.keyCode) {
-         case 13:
+         case KeyCode.enter:
             e.stopPropagation();
             this.onChange(e, 'enter');
             break;
 
-         case 27: //esc
+         case KeyCode.esc:
             if (this.state.dropdownOpen) {
                e.stopPropagation();
                this.closeDropdown(e, ()=> {
@@ -326,12 +327,12 @@ class MonthInput extends VDOM.Component {
             }
             break;
 
-         case 37:
-         case 39:
+         case KeyCode.left:
+         case KeyCode.right:
               e.stopPropagation();
               break;
 
-         case 40: //down arrow
+         case KeyCode.down:
             this.openDropdown(e);
             e.stopPropagation();
             e.preventDefault();
