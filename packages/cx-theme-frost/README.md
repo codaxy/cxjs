@@ -2,7 +2,7 @@
 
 This is a theme package for the [Cx framework](http://cx.codaxy.com/).
 
-Frost is a winter inpspired theme.
+Frost is a winter inspired theme.
 Take a look at theme preview and compare it to the other themes [here](http://cx.codaxy.com/v/master/themes/).
 
 ## Usage
@@ -16,12 +16,11 @@ Then, import Cx styles from the package:
 ```
 // theme variables can be overridden here
 
-@import "~cx-theme-frost/variables";
+@import "~cx-theme-frost/src/variables";
 
-// theme state-style-maps can be overridden here, before importing css 
+// theme state-style-maps can be overridden here, before importing css
 
-$cx-include-global-rules: true;
-@import "~cx-theme-frost/index";
+@import "~cx-theme-frost/src/index";
 
 // add custom CSS here
 ```

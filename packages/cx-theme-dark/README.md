@@ -17,12 +17,11 @@ Then, import Cx styles from the package:
 ```
 // theme variables can be overridden here
 
-@import "~cx-theme-dark/variables";
+@import "~cx-theme-dark/src/variables";
 
-// theme state-style-maps can be overridden here, before importing css 
+// theme state-style-maps can be overridden here, before importing css  
 
-$cx-include-global-rules: true;
-@import "~cx-theme-dark/index";
+@import "~cx-theme-dark/src/index";
 
 // add custom CSS here
 ```
