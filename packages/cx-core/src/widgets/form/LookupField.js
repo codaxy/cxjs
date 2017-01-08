@@ -21,6 +21,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
 import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
+import {KeyCode} from 'cx/util';
 
 export class LookupField extends Field {
 
@@ -587,7 +588,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    onDropdownKeyPress(e) {
-      if (e.keyCode == 13) { //enter
+      if (e.keyCode == KeyCode.enter) {
          var index = this.findOption(this.state.options, this.state.cursorKey);
          if (index != -1) {
             var itemData = {
@@ -597,12 +598,12 @@ class LookupComponent extends VDOM.Component {
          }
       }
 
-      if (e.keyCode == 27) { //esc
+      if (e.keyCode == KeyCode.esc) {
          this.closeDropdown(e);
          this.dom.input.focus();
       }
 
-      if (e.keyCode == 38) { //up
+      if (e.keyCode == KeyCode.up) {
          var index = this.findOption(this.state.options, this.state.cursorKey);
          if (index > 0) {
             this.setCursorKey({
@@ -613,7 +614,7 @@ class LookupComponent extends VDOM.Component {
          e.stopPropagation();
       }
 
-      if (e.keyCode == 40) { //down
+      if (e.keyCode == KeyCode.down) {
          var index = this.findOption(this.state.options, this.state.cursorKey);
          if (index + 1 < this.state.options.length) {
             this.setCursorKey({
@@ -628,13 +629,13 @@ class LookupComponent extends VDOM.Component {
    onKeyDown(e) {
 
       switch (e.keyCode) {
-         case 46:
+         case KeyCode.delete:
             this.onClearClick(e);
             return;
 
-         case 16: //shift
-         case 17: //ctrl
-         case 9: //tab
+         case KeyCode.shift:
+         case KeyCode.ctrl:
+         case KeyCode.tab:
             break;
 
          default:

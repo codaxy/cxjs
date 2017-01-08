@@ -145,7 +145,7 @@ class MenuItemComponent extends VDOM.Component {
    onDropdownKeyDown(e) {
       Debug.log(menuFlag, 'MenuItem', 'dropdownKeyDown');
       var {horizontal} = this.props.instance;
-      if (e.keyCode == 27 || (horizontal ? e.keyCode == 38 : e.keyCode == 37)) {
+      if (e.keyCode == KeyCode.esc || (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left)) {
          FocusManager.focus(this.el);
          e.preventDefault();
          e.stopPropagation();
@@ -197,7 +197,7 @@ class MenuItemComponent extends VDOM.Component {
       Debug.log(menuFlag, 'MenuItem', 'keyDown', this.el);
       var {horizontal, widget} = this.props.instance;
       if (widget.dropdown) {
-         if (e.target == this.el && (e.keyCode == 13 || (horizontal ? e.keyCode == 40 : e.keyCode == 39))) {
+         if (e.target == this.el && (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))) {
             var focusableChild = findFirstChild(this.el, isFocusable);
             if (focusableChild)
                FocusManager.focus(focusableChild);
@@ -205,7 +205,7 @@ class MenuItemComponent extends VDOM.Component {
             e.stopPropagation();
          }
 
-         if (e.keyCode == 27) {
+         if (e.keyCode == KeyCode.esc) {
             FocusManager.focus(this.el);
             e.preventDefault();
             e.stopPropagation();
