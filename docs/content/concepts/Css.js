@@ -29,7 +29,7 @@ export const CssPage = <cx>
         SCSS files are compiled into CSS using webpack's `sass-loader` which under the hood uses `node-sass`
         library.
 
-        Before going further, users not familiar with Sass should learn the basic concepts, such as variables
+        Before going further, users not familiar with Sass should learn the [basic concepts](http://sass-lang.com/guide), such as variables
         and mixins.
 
         ## Class prefixes and BESM convention
@@ -73,13 +73,13 @@ export const CssPage = <cx>
 
         By the convention, each component is represented by a single block-level element - `.cxb-`.
         Each block may contain sub-elements which do not have any standalone meaning.
-        Element clases always include name of the block and (in Cx) use a different prefix - `.cxe-`.
+        Element classes always include the name of the block and (in Cx) use a different prefix - `.cxe-`.
         Components and elements may be in different states, which is represented by appending
-        additional CSS classes - state classes - `.cxs`. Finally, `.cxm-` classes are appended to block
-        for the purpose of changing component appearance, which is also known as modding.
+        additional CSS classes - state classes - `.cxs`. Finally, `.cxm-` classes are appended to the block
+        in order to change the component's appearance, which is also known as modding.
 
         By using the BESM convention, Cx widgets are made very readable and easy to debug.
-        It's not mandatory to use the same convention in your application.
+        Nevertheless, it's not mandatory to use the same convention in your application.
 
         ## Variables and Maps
 
@@ -92,7 +92,7 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        Some widgets have many different states and each state have its visual properties.
+        Some widgets have many different states and each state has its own visual properties.
         Cx uses Sass maps to represent style rules corresponding to each state.
 
         <CodeSplit>
@@ -125,14 +125,14 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        CSS overrides should be used to override rules that are not covered
-        with variables and maps.
+        CSS overrides should be used to set the style rules that are not 
+        covered with the existing variables and maps.
 
         ### Global rules
 
-        Sass maps are used for defining global rules. If you just need to
-        add/override a couple of rules, use `cx-deep-map-merge` instead
-        of replacing the whole map.
+        Sass maps are used for defining global rules. If you need to
+        add/override just a couple of rules, use `cx-deep-map-merge` instead
+        of replacing the entire map.
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
@@ -151,54 +151,53 @@ export const CssPage = <cx>
         ## Importing SCSS files
 
         Here, we'll assume that your application is also using SCSS. The process
-        of importing Cx is somewhat complicated if you need to tweak
-        appearance of Cx widgets in your application.
+        of importing Cx SCSS files needs to be performed in a below specified order, if you need to tweak the
+        appearance of Cx widgets in your application. 
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
-            //here you have a chance to override Cx variables
+            // here you have a chance to override Cx variables
 
-            @import "~cx-core/src/variables";
+            @import "~cx-core/variables"; 
 
-            //before importing CSS you can override state-style-maps here
+            // you can override state-style-maps here, before importing CSS
 
             //$cx-include-global-rules: false; //include global rules (reset)
             //$cx-include-all: true; //include CSS for all components
-            @import "~cx-core/src/index";
+            @import "~cx-core/index";
 
             //if $cx-include-all is set to false
-            //@include cx-textfield(); //include only components you need
+            //@include cx-textfield(); //include only the components you need
             `}</CodeSnippet>
         </CodeSplit>
 
         ## Themes
 
         Cx offers a couple of [themes](http://cx.codaxy.com/themes) out of the box.
-        Before using a theme install the theme's NPM package, e.g.
+        In order to use a theme, install its npm package, e.g.
 
         ```
         npm install cx-theme-dark
         ```
 
-        and then point your application to import Cx styles from the package.
+        Then, import Cx styles from the package: 
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
             ...
-            @import "~cx-theme-dark/src/variables";
+            @import "~cx-theme-dark/variables";
             ...
-            @import "~cx-theme-dark/src/index";
+            @import "~cx-theme-dark/index";
             ...
             `}</CodeSnippet>
         </CodeSplit>
 
-        Some themes beside CSS include JavaScript changes as well. This requires
-        that theme JavaScript files are imported at the JavaScript entry point of 
-        your application.
+        Beside CSS, a theme may include JavaScript changes as well. Because of this, the theme's
+        `index.js` file needs to be imported at the JavaScript's entry point of your Cx application.
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
-                import "cx-theme-frost/src/index";
+                import "cx-theme-frost";
             `}</CodeSnippet>
         </CodeSplit>
 
@@ -209,9 +208,9 @@ export const CssPage = <cx>
         For example, the `Button` component is implemented in `src/widgets/Button.js` and the
         same folder contains `Button.scss` and `Button.variables.scss`, which are related to styling.
 
-        Components that offer unique styling have a separate file for defining variables.
-        Simpler components may not need that separate file and only include a single
-        SCSS files which outputs CSS classes required by the component.
+        Components that offer unique styling have a separate file for defining variables (e.g. `Button.variables.scss`).
+        Simpler components may not need a separate file for variables, and will only include a single
+        SCSS file which outputs CSS classes required by the component.
 
         ### Subclassing Widgets
 
@@ -238,7 +237,7 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        You can use the new widget by specifying the base class.
+        You can use the new widget by specifying the base class:
 
         <CodeSplit>
             <CodeSnippet>{`
@@ -246,7 +245,7 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        Better yet, you can subclass `SearchField` from `TextField` in JavaScript, too.
+        Better yet, you can subclass a new `SearchField` from the `TextField` widget in JavaScript as well.
 
         <CodeSplit>
             <CodeSnippet>{`
@@ -255,7 +254,7 @@ export const CssPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        After that you can use it like this:
+        After that, you can use it like this:
 
         <CodeSplit>
             <CodeSnippet>{`

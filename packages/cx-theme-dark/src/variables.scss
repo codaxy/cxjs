@@ -1,0 +1,346 @@
+
+// GLOBAL VARIABLES
+$cx-default-font-family: 'Open Sans', sans-serif !default;
+
+$cx-default-color: darken(white, 20) !default;
+
+$cx-default-background-color: rgb(44, 44, 44) !default;
+$cx-default-background-color-light: lighten($cx-default-background-color, 3) !default;
+$cx-default-background-color-dark: darken($cx-default-background-color, 2) !default;
+
+$cx-default-highlight-color: rgb(81, 90, 112) !default;
+$cx-default-error-color: rgba(220, 0, 9, 0.8) !default;
+
+$cx-default-border-color: rgb(68, 68, 68) !default;
+$cx-default-border-color-dark: darken($cx-default-border-color, 14) !default;
+$cx-default-border-radius: 2px !default;
+
+// FORM
+$cx-default-input-background-color: $cx-default-background-color-light !default;
+$cx-default-input-color: darken($cx-default-color, 2) !default;
+
+$cx-default-checkbox-size: 16px !default;
+$cx-default-radio-size: 16px !default;
+
+$cx-default-dropdown-background-color: $cx-default-background-color-dark !default;
+
+// slider
+$cx-default-slider-axis-background-color: $cx-default-border-color !default;
+$cx-default-slider-range-background-color: #024f70 !default;
+
+// BUTTON
+$cx-default-button-background-color: lighten($cx-default-background-color-light, 6) !default;
+$cx-default-button-border-color: $cx-default-border-color !default;
+$cx-default-button-color: darken($cx-default-color, 2) !default;
+$cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
+$cx-primary-button-background-color: #006699 !default;
+$cx-danger-button-background-color: #860000 !default;
+
+// GRID
+$cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
+$cx-default-grid-header-background-color: lighten($cx-default-background-color-light, 3) !default;
+$cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !default;
+
+// MENU
+// $cx-default-menu-item-padding: 10px !default;
+$cx-default-menu-separator-color: darken($cx-default-border-color, 4) !default;
+
+// TOOLTIP
+$cx-tooltip-background-color: lighten($cx-default-background-color-light, 5) !default;
+$cx-tooltip-border-color: $cx-default-border-color !default;
+$cx-tooltip-background-color-error: lighten($cx-default-background-color-light, 5) !default;
+$cx-tooltip-border-color-error: $cx-default-error-color !default;
+
+// TOAST
+$cx-default-toast-background-color: lighten($cx-tooltip-background-color, 3) !default;
+$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
+
+// MONTHPICKER
+$cx-default-monthpicker-font-size: 11px !default;
+
+// COVER
+$cx-default-cover-background-color: lighten($cx-default-background-color-light, 2) !default;
+$cx-default-cover-border-color: $cx-default-cover-background-color !default;
+
+// CHART
+$cx-default-palette-fill-whiten: 0% !default;
+$cx-default-palette-fill-blacken: 20% !default;
+
+$cx-default-palette-fill-hover-whiten: 20% !default;
+$cx-default-palette-fill-hover-blacken: 10% !default;
+
+$cx-default-palette-fill-selected-whiten: 40% !default;
+$cx-default-palette-fill-selected-blacken: 0% !default;
+
+$cx-default-palette-fill-disabled-whiten: 0% !default;
+$cx-default-palette-fill-hover-blacken: 40% !default;
+
+$cx-default-palette-stroke-blacken: 0% !default;
+$cx-default-palette-stroke-whiten: 10% !default;
+
+// Default values
+@import '~cx/variables';
+
+// BUTTON
+$cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
+  hover: (
+    background-color: darken($cx-default-button-background-color, 2),
+    border-color: darken($cx-default-button-background-color, 2),
+    box-shadow:  inset 0 -1px rgb(68, 68, 68)
+  ),
+  active: (
+    background-color: darken($cx-default-background-color-dark, 1),
+    border-color: darken($cx-default-background-color-dark, 1),
+    box-shadow:  inset 0 -1px rgb(30, 30, 30)
+  ),
+  disabled: (
+    color: rgba(255, 255, 255, 0.2),
+    background-color: rgba(112, 112, 112, 0.15),
+    border-color: transparent
+  ),
+  focus: (
+     box-shadow: 0 0 1px 1px $cx-default-highlight-color
+  )
+));
+
+$cx-button-mods: cx-deep-map-merge($cx-button-mods, (
+  primary: (
+    default: (
+        color: darken(white, 15),
+        background-color: $cx-primary-button-background-color,
+        border-color: transparent,
+        box-shadow: inset 0 -1px lighten($cx-primary-button-background-color, 3)
+    ),
+    disabled: (
+        background-color: transparentize($cx-primary-button-background-color, 0.7),
+        border-color: transparent,
+        color: transparentize(white, 0.4),
+        box-shadow: none
+    ),
+    hover: (
+        background-color: darken($cx-primary-button-background-color, 3),
+        border-color: transparent,
+        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 1)
+    ),
+    active: (
+        background-color: darken($cx-primary-button-background-color, 8),
+        border-color: transparent,
+        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 8)
+    )
+  ),
+  hollow: (
+    hover: (
+      background-color: $cx-default-background-color-dark,
+      box-shadow: none,
+      border-color: $cx-default-background-color-dark
+    ),
+    focus: (
+      background-color: darken($cx-default-highlight-color, 8),
+      box-shadow: none,
+      border-color: darken($cx-default-highlight-color, 8)
+    ),
+    active: (
+        background-color: $cx-default-highlight-color,
+        border-color: $cx-default-highlight-color
+    )
+  ),
+  danger: (
+    default: (
+        background-color: $cx-danger-button-background-color,
+        border-color: transparent,
+        box-shadow: inset 0 -1px lighten($cx-danger-button-background-color, 1)
+    ),
+    disabled: (
+        background-color: transparentize($cx-danger-button-background-color, 0.7),
+        border-color: transparent,
+        color: transparentize(white, 0.4),
+        box-shadow: none
+    ),
+    hover: (
+        background-color: darken($cx-danger-button-background-color, 3),
+        border-color:transparent,
+        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 1)
+    ),
+    active: (
+        background-color: darken($cx-danger-button-background-color, 6),
+        border-color: transparent,
+        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 6)
+    )
+  )   
+));
+
+// SECTION 
+$cx-section-mods: cx-deep-map-merge($cx-section-mods, (
+   well: (
+      background-color: $cx-default-background-color,
+      border-radius: $cx-default-border-radius + 1px
+   )
+));
+
+// LIST ITEM
+$cx-list-item: cx-deep-map-merge($cx-list-item, (
+  default: (
+  ),
+  hover: (
+    background-color: $cx-default-background-color-dark
+  ),
+  hover-focus: (
+    background-color: darken($cx-default-highlight-color, 12)
+  ),
+  selected: (
+    background-color: darken($cx-default-highlight-color, 9)
+  ),
+  selected-focus: (
+    background-color: $cx-default-highlight-color
+  )
+));
+
+// tab
+$cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
+   hover: (
+      text-decoration: none,
+      background-color: $cx-default-background-color-dark
+   ),
+   hover-focus: (
+     background-color: darken($cx-default-highlight-color, 12)
+   ),
+   selected: (
+     background-color: darken($cx-default-highlight-color, 9)
+   ),
+   selected-focus: (
+     background-color: $cx-default-highlight-color
+   ),
+   disabled: (
+     background-color: transparent
+   ),
+));
+
+$cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
+  classic: (
+    selected: (             
+      background-color: lighten($cx-default-background-color-light, 2),
+      border-color: lighten($cx-default-background-color-light, 2)
+    )
+  ),
+  line: (
+    hover-focus: (
+      border-color: darken($cx-default-highlight-color, 12)
+    ),
+    selected: (
+      border-color: darken($cx-default-highlight-color, 3)
+    ),
+    selected-focus: (
+      border-color: $cx-default-highlight-color
+    )
+  )
+));
+
+// FORM
+$cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+   focus: (
+      border-color: $cx-default-highlight-color,
+      box-shadow: 0 0 2px $cx-default-highlight-color
+   )  
+));
+
+// calendar
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+   today: (
+      background-color: transparent,
+      border-style: solid,
+      border-width: 1px,
+      border-color: darken($cx-default-error-color, 14)
+   ),
+   outside: (
+      color: darken($cx-default-color, 35)
+   )
+));
+
+// slider
+$cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
+   default: (
+      background-color: lighten($cx-default-background-color-light, 12),
+      border-color: lighten($cx-default-background-color-light, 12),
+      box-shadow: none
+   ),
+   hover: (
+      background-color: lighten($cx-default-background-color-light, 8),
+      box-shadow: none
+   ),
+   focus: (
+
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background-color: lighten($cx-default-background-color-light, 6),
+      border-color: lighten($cx-default-background-color-light, 10)
+   )
+));
+
+// WINDOW
+$cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
+   default: (
+      background-color: $cx-default-background-color-light
+   )
+));
+
+$cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
+   default: (
+      background-color: $cx-default-background-color-dark,
+      border-bottom: 1px solid $cx-default-background-color-dark
+   )
+));
+
+$cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
+   default: (
+      background: $cx-default-background-color
+   )
+));
+
+$cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
+   default: (
+      background: $cx-default-background-color
+   )
+));
+
+// GRID
+
+
+// CHART
+
+// GLOBALS
+$cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
+   html: (
+      background: #222
+   ),
+
+   h1: (
+
+   ),
+
+   h2: (
+
+   ),
+
+   h3: (
+
+   ),
+
+   h4: (
+
+   ),
+
+   h5: (
+
+   ),
+
+   h6: (
+
+   ),
+
+   a: (
+      color: darken(#9faed2, 4)
+   )
+));
