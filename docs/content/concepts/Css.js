@@ -158,13 +158,13 @@ export const CssPage = <cx>
             <CodeSnippet lang="scss">{`
             // here you have a chance to override Cx variables
 
-            @import "~cx-core/variables"; 
+            @import "~cx-core/src/variables"; 
 
             // you can override state-style-maps here, before importing CSS
 
             //$cx-include-global-rules: false; //include global rules (reset)
             //$cx-include-all: true; //include CSS for all components
-            @import "~cx-core/index";
+            @import "~cx-core/src/index";
 
             //if $cx-include-all is set to false
             //@include cx-textfield(); //include only the components you need
@@ -185,9 +185,9 @@ export const CssPage = <cx>
         <CodeSplit>
             <CodeSnippet lang="scss">{`
             ...
-            @import "~cx-theme-dark/variables";
+            @import "~cx-theme-dark/src/variables";
             ...
-            @import "~cx-theme-dark/index";
+            @import "~cx-theme-dark/src/index";
             ...
             `}</CodeSnippet>
         </CodeSplit>
@@ -197,7 +197,7 @@ export const CssPage = <cx>
 
         <CodeSplit>
             <CodeSnippet lang="scss">{`
-                import "cx-theme-frost";
+                import "cx-theme-frost/src";
             `}</CodeSnippet>
         </CodeSplit>
 
