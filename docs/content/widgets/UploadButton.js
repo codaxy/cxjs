@@ -50,7 +50,7 @@ export const UploadButtonPage = <cx>
                 </UploadButton>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="mB8pDfIq">{`
             function onUploadStarting(file, instance) {
                 if (file.type.indexOf("image/") != 0) {
                     MsgBox.alert('Only images are allowed.');
