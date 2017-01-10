@@ -100,7 +100,7 @@ export const ValidationOptions = <cx>
             </div>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="HgtYi9CY">{`
             <div class="widgets">
                 <ValidationGroup>
                     <div layout={LabelsLeftLayout} style="width:600px">
