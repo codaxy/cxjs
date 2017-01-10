@@ -76,7 +76,7 @@ export const Layouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="BSktMPwa">{`
                <div trimWhitespace={false}>
                   First some text.
                   <TextField value:bind="$page.text" label="Label 1" />
@@ -113,7 +113,7 @@ export const Layouts = <cx>
             The [`LabeledContainer`](~/widgets/labeled-containers) control can be used when multiple widgets need to be placed on the right side.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="48FYzkPT">{`
                <div layout={LabelsLeftLayout}>
                   First some text.
                   <TextField value:bind="$page.text" label="Label 1" />
@@ -166,7 +166,7 @@ export const Layouts = <cx>
             Again, you may use the LabeledContainer control to group multiple widgets under a single label.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="as225Fml">{`
                 <div>
                     <div layout={LabelsTopLayout}>
                         <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
@@ -204,7 +204,7 @@ export const Layouts = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
                 <div layout={{ type: LabelsTopLayout, vertical: true }}>
                     <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
                         <option value="Mr">Mr.</option>
@@ -246,7 +246,7 @@ export const Layouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="swXFJlhe">{`
                class FetchController extends Controller {
                   fetch() {
                      this.store.set('$page.fetch.status', 'LOADING');
@@ -312,7 +312,7 @@ export const Layouts = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="l31l5PN9">{`
                 <div layout={LabelsLeftLayout}>
                     <Checkbox value:bind="$page.showSection1">Section 1</Checkbox>
                     <PureContainer layout={UseParentLayout} visible:bind="$page.showSection1">
@@ -362,7 +362,7 @@ export const Layouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="BzPHusws">{`
                var AppLayout = <cx>
                   <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
                      <header style={{background: "lightblue", padding: '5px'}}>App Header</header>

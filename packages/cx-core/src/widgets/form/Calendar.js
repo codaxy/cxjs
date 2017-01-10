@@ -11,6 +11,7 @@ import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {isFocused} from '../../util/DOM';
+import { KeyCode } from 'cx/util';
 
 export class Calendar extends Field {
 
@@ -202,46 +203,46 @@ export class CalendarCmp extends VDOM.Component {
       var cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
-         case 13: // enter
+         case KeyCode.enter:
             this.props.handleSelect(e, this.state.cursor);
             break;
 
-         case 37: // left
+         case KeyCode.left:
             cursor.setDate(cursor.getDate() - 1);
             this.moveCursor(e, cursor);
             break;
 
-         case 39: // right
+         case KeyCode.right:
             cursor.setDate(cursor.getDate() + 1);
             this.moveCursor(e, cursor);
             break;
 
-         case 38: // up
+         case KeyCode.up:
             cursor.setDate(cursor.getDate() - 7);
             this.moveCursor(e, cursor);
             break;
 
-         case 40: // down
+         case KeyCode.down:
             cursor.setDate(cursor.getDate() + 7);
             this.moveCursor(e, cursor);
             break;
 
-         case 33: // page up
+         case KeyCode.pageUp:
             cursor.setMonth(cursor.getMonth() - 1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 34: // page down
+         case KeyCode.pageDown:
             cursor.setMonth(cursor.getMonth() + 1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 36: // home
+         case KeyCode.home:
             cursor.setDate(1);
             this.moveCursor(e, cursor, {movePage: true});
             break;
 
-         case 35: // end
+         case KeyCode.end:
             cursor.setMonth(cursor.getMonth() + 1);
             cursor.setDate(0);
             this.moveCursor(e, cursor, {movePage: true});

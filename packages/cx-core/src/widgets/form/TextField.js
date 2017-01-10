@@ -10,6 +10,7 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
+import {KeyCode} from 'cx/util';
 
 export class TextField extends Field {
    declareData() {
@@ -141,12 +142,12 @@ class Input extends VDOM.Component {
 
    onKeyDown(e) {
       switch (e.keyCode) {
-         case 13:
+         case KeyCode.enter:
             this.onChange(e, 'enter');
             break;
 
-         case 37:
-         case 39:
+         case KeyCode.left:
+         case KeyCode.right:
             e.stopPropagation();
             break;
       }
