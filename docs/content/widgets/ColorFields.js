@@ -27,7 +27,7 @@ export const ColorFields = <cx>
                 <div style={{width: '100px', height: '70px', background: {bind: '$page.color2'}}}></div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="vFQikvpS">{`
                 <div class="widgets">
                     <ColorField value={{bind:"$page.color1", defaultValue:'#f88'}} autoFocus />
                     <div style={{width:'100px', height: '70px', background:{bind:'$page.color1'}}}></div>
