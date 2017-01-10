@@ -44,7 +44,7 @@ export const Windows = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="5GzabX9A">{`
                <button type="button" onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</button>
                <Window title="Contact"
                        visible={{ bind: "$page.contact.visible", defaultValue: false }}
