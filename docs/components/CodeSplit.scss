@@ -23,40 +23,7 @@
     .dxe-codesplit-right {
         box-sizing: border-box;
         background: #494949;
-        padding: 3px;
         margin-top: 15px;
-
-        .dxe-codesplit-scrollable {
-            overflow-x: auto;
-            overflow-y: hidden;
-
-            code {
-                background: transparent;
-                padding: 5px;
-                border-radius: 0;
-            }
-
-            pre {
-                background: transparent;
-                padding: 0;
-                margin: 0;
-                display: inline-block;
-            }
-
-            &::-webkit-scrollbar-track {
-                background-color: transparent;
-            }
-
-            &::-webkit-scrollbar {
-                height: 6px;
-                background-color: transparent;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 3px;
-            }
-        }
     }
 
     @media (min-width: 700px) {
@@ -82,16 +49,8 @@
             top: 0;
             left: calc(50em + 40px);
             width: calc(100% - 50em - 40px);
-            padding: 5px 0 3px 3px;
             margin-top: 0;
             max-width: none;
-
-            .dxe-codesplit-scrollable {
-                code {
-                    padding: 0;
-                    padding-left: 10px;
-                }
-            }
 
             &:after, &:before {
                 top: 50%;

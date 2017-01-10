@@ -37,9 +37,7 @@ export class CodeSplit extends Md {
             {
                 right &&
                 <div className={CSS.element(baseClass, "right")}>
-                    <div className={CSS.element(baseClass, "scrollable")}>
-                        {right}
-                    </div>
+                    {right}
                 </div>
             }
         </div>

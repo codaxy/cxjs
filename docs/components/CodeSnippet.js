@@ -34,10 +34,13 @@ export class CodeSnippet extends HtmlElement {
             )
         }
 
-        return <pre key={key} className={`${data.classNames} language-${this.lang}`}>
-         {this.renderChildren(context, instance)}
-            {fiddleLink}
-      </pre>
+        return (
+            <div key={key} className={data.classNames}>
+                <pre className={`language-${this.lang}`}>
+                    {this.renderChildren(context, instance)}
+                </pre>
+                {fiddleLink}
+            </div>);
     }
 
     add(text) {

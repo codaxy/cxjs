@@ -1,32 +1,56 @@
 .dxb-codesnippet {
-    padding: 0 !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
-    min-width: 100%;
+    position: relative;
+    padding: 3px 5px;
 
-    & > code {
-        padding: 0 0 0 10px;
-        background: transparent;
+    pre {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+
+        & > code {
+            padding: 0 0 0 5px;
+            //padding: 5px;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar {
+            height: 6px;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
     }
 }
 
 .dxe-codesnippet-link {
     position: absolute;
-    right: 20px;
+    right: 10px;
     top: -16px;
-    background: rgb(255, 218, 139);
+    background: rgb(231, 231, 231);
     padding: 5px 10px;
     text-decoration: none;
     color: #376aff;
+    z-index: 2000;
 
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 1s;
+    transition-delay: 0.2s;
 
     .dxb-codesnippet:hover > & {
         opacity: 1;
     }
-
-
 }
 
 .dxb-codesplit .dxe-codesplit-scrollable .cxb-tab.cxm-code {
