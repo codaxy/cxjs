@@ -42,7 +42,7 @@ export const NumberFields = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="PokioWF7">{`
                <div layout={LabelsLeftLayout}>
                   <NumberField label="Standard" value:bind="$page.number" autoFocus/>
                   <NumberField label="Disabled" value:bind="$page.number" disabled />
