@@ -128,7 +128,7 @@ export const LookupFields = <cx>
             </table>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="y9CHlIUn">{`
             class PageController extends Controller {
                 init() {
                    super.init();
