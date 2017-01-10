@@ -32,7 +32,7 @@ export const ValidationGroups = <cx>
                 </ValidationGroup>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
                 <div class="widgets" style={{
                    borderLeftWidth: '3px',
                    borderLeftStyle: 'solid',
