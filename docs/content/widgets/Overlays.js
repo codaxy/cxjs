@@ -53,7 +53,7 @@ export const Overlays = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="4OdI5hlw">{`
                <div class="widgets">
                   <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
                   <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
@@ -85,7 +85,7 @@ export const Overlays = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="WnCH7fS0">{`
                var addOverlay = store => {
                   var overlay = Overlay.create(<cx>
                      <Overlay style={{
