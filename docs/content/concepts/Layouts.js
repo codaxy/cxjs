@@ -75,8 +75,8 @@ export const Layouts = <cx>
                 </div>
             </div>
 
-            <Content name="code" fiddle="BSktMPwa">
-                <CodeSnippet>{`
+            <Content name="code">
+                <CodeSnippet fiddle="BSktMPwa">{`
                <div trimWhitespace={false}>
                   First some text.
                   <TextField value:bind="$page.text" label="Label 1" />
@@ -361,8 +361,8 @@ export const Layouts = <cx>
                 </div>
             </div>
 
-            <Content name="code" fiddle="BzPHusws">
-                <CodeSnippet>{`
+            <Content name="code">
+                <CodeSnippet fiddle="BzPHusws">{`
                var AppLayout = <cx>
                   <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
                      <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
