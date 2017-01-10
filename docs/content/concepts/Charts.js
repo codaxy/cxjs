@@ -48,7 +48,7 @@ export const Charts = <cx>
             </Legend.Scope>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="Wase9Aty">{`
              <Svg style="width:300px;height:200px" margin="10 20 30 50">
                <Chart axes={{
                   x: <NumericAxis />,
@@ -120,7 +120,7 @@ export const Charts = <cx>
             </Legend.Scope>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="WEPtT9C5">{`
             <Svg style="width:200px;height:200px;">
                <ColorMap />
                <PieChart>
