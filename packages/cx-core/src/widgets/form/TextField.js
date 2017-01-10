@@ -10,7 +10,7 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
-import {KeyCode} from 'cx/util';
+import { KeyCode } from '../../util';
 
 export class TextField extends Field {
    declareData() {

@@ -13,7 +13,7 @@ import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
 import ClearIcon from '../icons/clear';
-import {KeyCode} from 'cx/util';
+import { KeyCode } from '../../util';
 
 export class MonthField extends Field {
 

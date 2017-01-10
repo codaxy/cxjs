@@ -21,7 +21,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
 import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
-import {KeyCode} from 'cx/util';
+import { KeyCode } from '../../util';
 
 export class LookupField extends Field {
 

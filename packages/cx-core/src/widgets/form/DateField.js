@@ -8,7 +8,7 @@ import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
 import {dateDiff} from '../../util/date/dateDiff';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import {KeyCode} from 'cx/util';
+import { KeyCode } from '../../util';
 import {Localization} from '../../ui/Localization';
 import CalendarIcon from '../icons/calendar';
 import {Icon} from '../Icon';

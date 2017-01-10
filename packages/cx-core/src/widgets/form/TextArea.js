@@ -2,7 +2,7 @@ import {Widget, VDOM} from '../../ui/Widget';
 import {TextField} from './TextField';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
-import {KeyCode} from 'cx/util';
+import { KeyCode } from '../../util';
 
 export class TextArea extends TextField {
 

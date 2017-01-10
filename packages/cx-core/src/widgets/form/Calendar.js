@@ -11,7 +11,7 @@ import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {isFocused} from '../../util/DOM';
-import { KeyCode } from 'cx/util';
+import { KeyCode } from '../../util';
 
 export class Calendar extends Field {
 
