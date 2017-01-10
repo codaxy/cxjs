@@ -35,7 +35,7 @@ export const Links = <cx>
          <div class="widgets">
                <Link href="~/widgets/text-fields">Text Fields</Link>
          </div>
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="navQfAlj">{`
              <div class="widgets">
                 <Link href="~/widgets/text-fields">Text Fields</Link>
              </div>
