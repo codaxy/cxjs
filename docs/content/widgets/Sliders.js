@@ -35,7 +35,7 @@ export const Sliders = <cx>
                 <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightyellow"/>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NvE9CD9C">{`
                 <div layout={LabelsLeftLayout}>
                     <Slider label="Standard" value:bind="$page.to" tooltip={{
                         text:{tpl: '{$page.to:n;2}' },

@@ -24,10 +24,10 @@ export const ColorPickers = <cx>
                 <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="9B8Xyzfj">{`
             <div class="widgets">
                 <ColorPicker value:bind="$page.color"/>
-                <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}>
+                <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
             </div>
          `}</CodeSnippet>
         </CodeSplit>
