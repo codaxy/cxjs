@@ -34,7 +34,7 @@ export const Buttons = <cx>
                 <Button mod="hollow" icon="pencil">Icon + Text</Button>
                 <Button mod="hollow" icon="refresh" />
             </div>
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ciFZc3eZ">{`
                 <Button onClick={() => { MsgBox.alert('Regular')}}>Regular</Button>
                 <Button pressed>Pressed</Button>
                 <Button disabled onClick={() => { MsgBox.alert('Disabled') }}>Disabled</Button>
