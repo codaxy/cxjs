@@ -23,7 +23,7 @@ export const MonthPickers = <cx>
                 <MonthPicker value:bind="$page.date"/>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="2v6MgcUT">{`
                 <MonthPicker range from:bind="$page.from" to:bind="$page.to" />
                 <MonthPicker value:bind="$page.date" />
             `}</CodeSnippet>
