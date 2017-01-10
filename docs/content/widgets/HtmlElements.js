@@ -31,7 +31,7 @@ export const HtmlElements = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="f8sxjeG9">{`
             <div style="width:200px" class="test">
                <h4>H4</h4>
                <p>Paragraph</p>
