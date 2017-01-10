@@ -26,7 +26,7 @@ export const MonthFields = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="3Tm7m9Cz">{`
                 <div layout={LabelsLeftLayout}>
                     <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" autoFocus/>
                     <MonthField value:bind="$page.date" label="Single"/>
