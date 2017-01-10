@@ -41,7 +41,7 @@ export const Checkboxes = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="7n19Cczs">{`
                 <div layout={LabelsLeftLayout}>
                     <Checkbox label="Native" value:bind="$page.checked" text="Checkbox" native/>
                     <Checkbox label="Standard" value:bind="$page.checked" text="Checkbox" />
@@ -82,7 +82,7 @@ export const Checkboxes = <cx>
             Please note that in order to avoid multiple instances controller should not be assigned to the repeater.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="Bhi9Crdc">{`
                class CbController extends Controller {
                   init() {
                      var options = Array.from({length: 5}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
