@@ -32,7 +32,7 @@ export const TextAreas = <cx>
                <TextArea label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A" />
             </div>
          </div>
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="KCwMQoPf">{`
             <div layout={LabelsLeftLayout}>
                <TextArea label="Standard" value:bind="$page.text" rows={5} autoFocus />
                <TextArea label="Disabled" value:bind="$page.text" disabled />
