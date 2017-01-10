@@ -41,7 +41,7 @@ export const Sections = <cx>
                     Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
                 </Section>
             </div>
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="SJ9BRvXE">{`
                 <Section mod="well" title="Section 1">
                     Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
                 </Section>
