@@ -46,7 +46,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing justify="center">
                     <div style="width: 30px; height: 30px; background: lightgray;" />
                     <div style="width: 40px; height: 40px; background: lightgray;" />
@@ -65,7 +65,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing align="center" justify="end">
                     <div style="width: 30px; height: 30px; background: lightgray;" />
                     <div style="width: 40px; height: 40px; background: lightgray;" />
@@ -84,7 +84,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing wrap>
                     <Repeater records={Array.from({length: 20})}>
                         <div style="width: 30px; height: 30px; background: lightgray;" />
@@ -102,7 +102,7 @@ export const FlexBoxPage = <cx>
                 </Repeater>
             </FlexRow>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow pad spacing wrap style="background:#eee;border:1px solid lightgray;">
                     <Repeater records={Array.from({length: 20})}>
                         <div style="width: 30px; height: 30px; background: lightgray;" />
@@ -121,7 +121,7 @@ export const FlexBoxPage = <cx>
                 </Repeater>
             </FlexRow>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow pad hspacing="xsmall" vspacing="xlarge" wrap style="background:#eee;border:1px solid lightgray;">
                     <Repeater records={Array.from({length: 40})}>
                         <div style="width: 30px; height: 30px; background: lightgray;" />
@@ -143,7 +143,7 @@ export const FlexBoxPage = <cx>
 
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing target="desktop">
                     <div style="flex: 1; height: 30px; background: lightgray;" />
                     <div style="flex: 1; height: 30px; background: lightgray;" />
@@ -165,7 +165,7 @@ export const FlexBoxPage = <cx>
 
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing target="tablet">
                     <div style="flex: 1; height: 30px; background: lightgray;" />
                     <div style="flex: 1; height: 30px; background: lightgray;" />
