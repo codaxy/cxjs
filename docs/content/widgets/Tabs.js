@@ -56,7 +56,14 @@ export const Tabs = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="NK72YwmO">{`
+            class PageController extends Controller {
+               init() {
+                  super.init();
+                  this.store.set('$page.tab', 'tab1');
+               }
+            }
+            ...
             <div style="margin:10px">
                <Tab tab="tab1" value:bind="$page.tab">Tab 1</Tab>
                <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
