@@ -36,7 +36,7 @@ export const DateFields = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="oUVatu1E">{`
                <div layout={LabelsLeftLayout}>
                   <DateField label="Standard" value:bind="$page.date" format="yyyyMMMMdd" autoFocus/>
                   <DateField label="Disabled" value:bind="$page.date" disabled />
