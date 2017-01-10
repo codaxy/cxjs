@@ -34,7 +34,7 @@ export const LabeledContainers = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="Ax68dwot">{`
             <div layout={LabelsLeftLayout}>
                <LabeledContainer label="Name" trimWhitespace={false}>
                   <TextField value:bind="$page.person.firstName" placeholder="First Name" />
