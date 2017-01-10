@@ -5,12 +5,7 @@ import { Chart, Gridlines, BubbleGraph, NumericAxis } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-
-
-
-
-
-
+import {ImportPath} from '../../components/ImportPath';
 
 class PageController extends Controller {
    init() {
@@ -31,7 +26,8 @@ export const Selections = <cx>
    <Md controller={PageController}>
       <CodeSplit>
          # Selections
-
+         <ImportPath path="import { PropertySelection, KeySelection } from 'cx/ui';" />  
+   
          Some widgets allow the user to select one or more objects presented to them. If
          only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
          be selected, it's referred to as *multiple selection mode*.
@@ -85,7 +81,7 @@ export const Selections = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="eINrAOlQ">{`
                <div class="widgets" controller={PageController}>
                   <Svg style={{width: '400px', height:"400px"}}>
                      <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
@@ -97,7 +93,7 @@ export const Selections = <cx>
                   <div>
                      <Repeater records:bind="$page.bubbles">
                         <div>
-                           <Checkbox checked:bind="record.selected" text:bind="record.name" />
+                           <Checkbox checked:bind="$record.selected" text:bind="$record.name" />
                         </div>
                      </Repeater>
                   </div>
@@ -141,7 +137,7 @@ export const Selections = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="j8o4HZQV">{`
                <Grid records:bind="$page.bubbles"
                      style={{width: "400px"}}
                      columns={[
