@@ -27,7 +27,7 @@ export const MsgBoxes = <cx>
             </button>
          </div>
 
-         <Content name="code">
+         <Content name="code" fiddle="g1Z5Q4QH">
             <CodeSnippet>{`
                <button type="button" onClick={ e => { MsgBox.alert({ message: 'This is an alert!' }) }}>Alert</button>
                <button type="button" onClick={ e => {
