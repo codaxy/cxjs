@@ -4,7 +4,8 @@
    @each $l in $lengths {
       $unit: unit($l);
       @if (map-has-key($units, $unit)) {
-         $units: map-merge($units, ($unit: map-get($units, $unit) + $l))
+         $nl: map-get($units, $unit) + $l;
+         $units: map-merge($units, ($unit: $nl))
       } @else {
          $units: map-merge($units, ($unit: $l))
       }
