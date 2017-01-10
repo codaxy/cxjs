@@ -115,7 +115,7 @@ export const Tooltips = <cx>
 
             > To make all tooltips ignore touch events by default, set `Tooltip.prototype.touchBehavior = 'ignore';`.
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="CGlqeBmC">{`
             <div class="widgets" controller={PageController}>
                <div tooltip="This is a tooltip." style="margin: 50px">
                   Basic
