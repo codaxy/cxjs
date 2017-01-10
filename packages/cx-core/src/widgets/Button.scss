@@ -3,6 +3,7 @@
    $name: 'button',
    $state-style-map: $cx-button-state-style-map,
    $mods: $cx-button-mods,
+   $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -73,8 +74,7 @@
          }
       }
    }
-
-   $iconSize: 16px;
+   
    $padding: cx-get-state-rule($state-style-map, default, padding);
 
    .#{$element}#{$name}-icon {
@@ -82,10 +82,10 @@
       position: absolute;
       top: 50%;
       left: cx-left($padding) / 2;
-      margin-top: -$iconSize / 2;
-      height: $iconSize;
-      width: $iconSize;
-      line-height: $iconSize;
+      margin-top: -$icon-size / 2;
+      height: $icon-size;
+      width: $icon-size;
+      line-height: $icon-size;
    }
 
    .#{$element}#{$name}-baseline {
@@ -95,10 +95,10 @@
    }
 
    .#{$block}#{$name}.#{$state}icon {
-      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $iconSize);
+      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $icon-size);
 
       &.#{$state}empty {
-         padding: cx-top($padding) cx-right($padding)/2 cx-bottom($padding) cx-calc(cx-left($padding)/2, $iconSize);
+         padding: cx-top($padding) cx-right($padding)/2 cx-bottom($padding) cx-calc(cx-left($padding)/2, $icon-size);
       }
    }
 }
