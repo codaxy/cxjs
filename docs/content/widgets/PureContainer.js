@@ -35,7 +35,7 @@ export const PureContainer = <cx>
             </ValidationGroup>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="IsLloM4H">{`
             <ValidationGroup layout={LabelsLeftLayout} invalid:bind="$page.invalid">
                <TextField label="Text" value:bind="$page.text" required />
                <NumberField label="Number" value:bind="$page.number" required minValue={10} />
