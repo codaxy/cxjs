@@ -29,7 +29,7 @@ export const Calendars = <cx>
          </div>
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="op5dUaHh">{`
                 <div class="widgets">
                    <Calendar value:bind="$page.date" />
                    <Calendar value:bind="$page.date"
