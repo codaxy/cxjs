@@ -62,7 +62,7 @@ export const Toasts = <cx>
                 </Toast>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="L5H66mn8">{`
 
                 function randomColor() {
                     let r = (Math.random() * 100 + 155).toFixed(0);
