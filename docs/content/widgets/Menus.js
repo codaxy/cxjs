@@ -81,7 +81,7 @@ export const Menus = <cx>
                 </Menu>
             </div>
 
-            <Content name="code">
+            <Content name="code" fiddle="LZFHw09A">
                 <CodeSnippet>{`
                <Menu horizontal>
                    <Submenu>
