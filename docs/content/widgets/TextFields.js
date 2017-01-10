@@ -38,7 +38,7 @@ export const TextFields = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="drqgvlX1">{`
                <div layout={LabelsLeftLayout}>
                   <TextField label="Standard" value:bind="$page.text" autoFocus />
                   <TextField label="Disabled" value:bind="$page.text" disabled />
