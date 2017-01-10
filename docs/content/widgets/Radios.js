@@ -41,7 +41,7 @@ export const Radios = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="w0Hk6JJo">{`
                 <div layout={LabelsLeftLayout}>
                     <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native/>
                     <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
@@ -80,7 +80,7 @@ export const Radios = <cx>
             Please note that to avoid multiple instances controller should not be assigned to the repeater.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="6Am2ggFS">{`
                class RadioController extends Controller {
                   init() {
                      var options = Array.from({length: 20}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
