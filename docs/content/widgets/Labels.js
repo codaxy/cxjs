@@ -38,7 +38,7 @@ export const Labels = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="HcJ9CpKT">{`
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Standard" value:bind="$page.text" autoFocus/>
                     <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value:bind="$page.text" />
