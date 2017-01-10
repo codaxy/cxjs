@@ -45,7 +45,7 @@ export const Icons = <cx>
 
         <CodeSplit>
         The following example shows how to register FontAwesome icon set.
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="6aQAwn3B">{`
             Icon.registerFactory((name, props) => {
                 props = { ...props };
                 props.className = \`fa fa-\${name} \${props.className || ''}\`;
