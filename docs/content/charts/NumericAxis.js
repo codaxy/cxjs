@@ -39,7 +39,7 @@ export const NumericAxisPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="SZdftaUc">{`
                 <Svg style="width:400px;height:300px;" margin="60 60 60 60">
                     <Chart axes={{
                         x: <NumericAxis min={100} max={500} />,
