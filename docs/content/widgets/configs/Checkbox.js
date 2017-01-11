@@ -19,6 +19,14 @@ export default {
             Default is `false`. Native checkboxes are difficult to style.
         </Md></cx>
     },
+    indeterminate: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to instruct the widget to indicate indeterminate state (`null` or `undefined` value) with a square icon
+            instead of appearing unchecked.
+        </Md></cx>
+    },
     baseClass: {
         type: 'string',
         description: <cx><Md>

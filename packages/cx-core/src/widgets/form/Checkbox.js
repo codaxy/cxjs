@@ -1,9 +1,16 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {
+   tooltipComponentWillReceiveProps,
+   tooltipComponentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipComponentDidMount
+} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
-import Check from '../icons/check';
+import CheckIcon from '../icons/check';
+import SquareIcon from '../icons/square';
 
 export class Checkbox extends Field {
 
@@ -16,7 +23,7 @@ export class Checkbox extends Field {
 
    declareData() {
       super.declareData({
-         value: false,
+         value: !this.indeterminate ? false : undefined,
          text: undefined,
          readOnly: undefined,
          disabled: undefined,
@@ -27,12 +34,14 @@ export class Checkbox extends Field {
    renderWrap(context, instance, key, content) {
       var {data} = instance;
       return <label key={key}
-                    className={data.classNames}
-                    onMouseDown={stopPropagation}
-                    onMouseMove={e=>tooltipMouseMove(e, instance)}
-                    onMouseLeave={e=>tooltipMouseLeave(e, instance)}
-                    onClick={ e=> { this.handleClick(e, instance) }}
-                    style={data.style}>
+         className={data.classNames}
+         onMouseDown={stopPropagation}
+         onMouseMove={e => tooltipMouseMove(e, instance)}
+         onMouseLeave={e => tooltipMouseLeave(e, instance)}
+         onClick={ e => {
+            this.handleClick(e, instance)
+         }}
+         style={data.style}>
          {content}
       </label>
    }
@@ -41,13 +50,15 @@ export class Checkbox extends Field {
       var {CSS, baseClass} = this;
       var {data} = instance;
       return <input key="input"
-                    className={CSS.element(baseClass, "checkbox")}
-                    id={data.id}
-                    type="checkbox"
-                    checked={data.value || false}
-                    disabled={data.disabled}
-                    onClick={stopPropagation}
-                    onChange={ e => { this.handleChange(e, instance) } }/>;
+         className={CSS.element(baseClass, "checkbox")}
+         id={data.id}
+         type="checkbox"
+         checked={data.value || false}
+         disabled={data.disabled}
+         onClick={stopPropagation}
+         onChange={ e => {
+            this.handleChange(e, instance)
+         } }/>;
    }
 
    renderCheck(context, instance) {
@@ -79,7 +90,8 @@ export class Checkbox extends Field {
          var el = document.getElementById(instance.data.id);
          if (el)
             el.focus();
-         this.handleChange(e, instance, !instance.data.value)
+         if (instance.data.mode != 'view')
+            this.handleChange(e, instance, !instance.data.value)
       }
    }
 
@@ -98,6 +110,7 @@ export class Checkbox extends Field {
 
 Checkbox.prototype.baseClass = "checkbox";
 Checkbox.prototype.native = false;
+Checkbox.prototype.indeterminate = false;
 
 Widget.alias('checkbox', Checkbox);
 
@@ -120,28 +133,36 @@ class CheckboxCmp extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, widget} = instance;
-      var {baseClass, CSS} = widget;
+      let {instance} = this.props;
+      let {data, widget} = instance;
+      let {baseClass, CSS} = widget;
 
+      let check = false;
 
-      return <div key="check"
-                  tabIndex={data.disabled || data.readOnly ? null : 0}
-                  className={CSS.element(baseClass, "input", {
-                     checked: this.state.value
-                  })}
-                  style={CSS.parseStyle(data.inputStyle)}
-                  id={data.id}
-                  onClick={::this.onClick}
-                  onKeyDown={::this.onKeyDown}
+      if (this.state.value == null && widget.indeterminate)
+         check = 'indeterminate';
+      else if (this.state.value)
+         check = 'check';
+
+      return <div
+         key="check"
+         tabIndex={data.disabled || data.readOnly ? null : 0}
+         className={CSS.element(baseClass, "input", {
+            checked: check
+         })}
+         style={CSS.parseStyle(data.inputStyle)}
+         id={data.id}
+         onClick={::this.onClick}
+         onKeyDown={::this.onKeyDown}
       >
-         <Check className={CSS.element(baseClass, "input-check")} />
+         { check == 'check' && <CheckIcon className={CSS.element(baseClass, "input-check")}/> }
+         { check == 'indeterminate' && <SquareIcon className={CSS.element(baseClass, "input-check")}/> }
       </div>
    }
 
    onClick(e) {
-      var {instance} = this.props;
-      var {data, widget} = instance;
+      let {instance} = this.props;
+      let {data, widget} = instance;
       if (!data.disabled && !data.readOnly) {
          e.stopPropagation();
          e.preventDefault();

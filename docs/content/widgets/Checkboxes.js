@@ -35,8 +35,8 @@ export const Checkboxes = <cx>
                 <div layout={LabelsLeftLayout}>
                     <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox"/>
                     <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
-                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox"/>
-                    <Checkbox label="EmptyText" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A"/>
+                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
+                    <Checkbox label="Three State" value:bind="$page.checked2" text="Checkbox" indeterminate />
                 </div>
             </div>
 
@@ -49,14 +49,16 @@ export const Checkboxes = <cx>
                     <Checkbox label="Readonly" value:bind="$page.checked" readOnly text="Checkbox" />
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox" />
+                    <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox"/>
                     <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
-                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" />
-                    <Checkbox label="EmptyText" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
+                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
+                    <Checkbox label="Three State" value:bind="$page.checked2" text="Checkbox" indeterminate />
                 </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
+
+        In rare cases, checkboxes offer a third state called the `indeterminate` state to indicate absence of proper value.
 
         ## Configuration
 
