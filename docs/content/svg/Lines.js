@@ -29,7 +29,7 @@ export const Lines = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="iCLI9BMb">{`
             <Svg style="width:200px;height:200px;background:white" padding={5}>
                <Line stroke="blue">
                   <Text dx="5px">Line</Text>
