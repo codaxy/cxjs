@@ -43,7 +43,7 @@ export const Rectangles = <cx>
             </Svg>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="oYKVLGpX">{`
             <Svg style="width:400px;height:400px;background:white" padding={5}>
                <Rectangle anchors="0 .25 .25 0" margin={5} colorIndex={0} />
                <Rectangle anchors="0 .5 .25 .25" margin={5} colorIndex={1} />
