@@ -64,7 +64,7 @@ export const Svgs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="SRpoMWVY">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
                <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
                <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 1 1 0</Text>
@@ -111,7 +111,7 @@ export const Svgs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="VYruDPVD">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
                <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill:lightblue" />
                <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
@@ -147,7 +147,7 @@ export const Svgs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="MzQrRNpT">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
                <Rectangle anchors="0 1 1 0" margin={5} style="fill:lightblue" />
                <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
