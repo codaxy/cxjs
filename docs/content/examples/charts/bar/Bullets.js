@@ -69,7 +69,7 @@ export const Bullets = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="Z9CYf1Ph">{`
          class PageController extends Controller {
             init() {
                super.init();
