@@ -74,7 +74,7 @@ export const ColumnGraphs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="m9BtpNbW">{`
             class PageController extends Controller {
                 init() {
                    super.init();
