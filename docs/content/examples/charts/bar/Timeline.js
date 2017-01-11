@@ -110,7 +110,7 @@ export const Timeline = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="XzIyI8pv">{`
             class PageController extends Controller {
                 init() {
                     super.init();
