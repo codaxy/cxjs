@@ -100,7 +100,7 @@ export const LegendPage = <cx>
 
 
 
-            <CodeSnippet putInto="code" lang="html">{`
+            <CodeSnippet putInto="code" lang="html" fiddle="c2Y0MiBY">{`
                 // There is a performance issue with code higlighting of this snippet, so lang is set to html instead of jsx.
 
                 class PageController extends Controller {
