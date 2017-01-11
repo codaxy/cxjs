@@ -45,7 +45,7 @@ export const Stacked = <cx>
             <Checkbox value:bind="$page.stack">Stack</Checkbox>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="m9BtpNbW">{`
             class PageController extends Controller {
                init() {
                   super.init();
