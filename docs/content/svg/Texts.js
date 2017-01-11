@@ -65,7 +65,7 @@ export const Texts = <cx>
             </Svg>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="kcimmLEt">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
                <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
                <Text anchors="0 1 1 0" textAnchor="start" dy="0.8em">Top-left</Text>
