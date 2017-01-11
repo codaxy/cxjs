@@ -31,7 +31,7 @@ export const ClipRects = <cx>
 
             * [Timeline](~/examples/charts/bar/timeline)
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="fc1P9AaB">{`
             <div class="widgets">
                 <Svg style="width:200px;height:200px;background:white;margin:5px">
                     <ClipRect margin={15}>
