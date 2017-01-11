@@ -59,6 +59,9 @@ export const Checkboxes = <cx>
         </CodeSplit>
 
         In rare cases, checkboxes offer a third state called the `indeterminate` state to indicate absence of proper value.
+        Examples:
+
+        * [Checkbox Accordion](http://cx.codaxy.com/fiddle/?f=gckby0gw)
 
         ## Configuration
 
