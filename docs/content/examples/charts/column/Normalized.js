@@ -72,7 +72,7 @@ export const Normalized = <cx>
                </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="a26d4raK">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -121,6 +121,7 @@ export const Normalized = <cx>
 
                </Repeater>
             </Chart>
+            <Legend />
          </Svg>
           `}</CodeSnippet>
       </CodeSplit>
