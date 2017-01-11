@@ -65,7 +65,7 @@ export const Grids = <cx>
                       selection={{type: KeySelection, bind: '$page.selection'}}
                 />
             </div>
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="XlL9AvMh">{`
             class PageController extends Controller {
                init() {
                   super.init();
