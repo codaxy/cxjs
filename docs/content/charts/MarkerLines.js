@@ -68,7 +68,7 @@ export const MarkerLines = <cx>
             <Legend />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="Kc5LQhGG">{`
             class PageController extends Controller {
                init() {
                   super.init();
