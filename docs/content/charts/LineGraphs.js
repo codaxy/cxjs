@@ -48,7 +48,7 @@ export const LineGraphs = <cx>
             <Legend />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="g33HXn2r">{`
             class PageController extends Controller {
                init() {
                   super.init();
