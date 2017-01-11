@@ -103,7 +103,7 @@ export const Combination = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="wG2zDoWE">{`
          var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
          class PageController extends Controller {
