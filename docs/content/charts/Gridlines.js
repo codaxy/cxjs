@@ -34,7 +34,7 @@ export const GridlinesPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ojtJNYFd">{`
              <Svg style="width:300px;height:200px" margin="10 20 30 50">
                <Chart axes={{
                   x: <NumericAxis />,
