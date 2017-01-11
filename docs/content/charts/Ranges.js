@@ -56,7 +56,7 @@ export const Ranges = <cx>
             <Legend />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="gFt6i4Vb">{`
             class PageController extends Controller {
                init() {
                   super.init();
