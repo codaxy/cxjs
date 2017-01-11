@@ -108,7 +108,7 @@ export const Stacked = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="omfsUyZA">{`
             class PageController extends Controller {
                init() {
                   super.init();
