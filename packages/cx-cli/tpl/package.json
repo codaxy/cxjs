@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.20.0",
-    "cx-core": "^16.12.12",
-    "cx-react": "^16.8.4",
+    "cx-core": "^17.1.2",
+    "cx-react": "^16.12.0",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
@@ -23,13 +23,13 @@
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.2",
     "file-loader": "^0.9.0",
-    "html-webpack-plugin": "^2.17.0",
+    "html-webpack-plugin": "^2.26.0",
     "json-loader": "^0.5.4",
-    "node-sass": "^4.1.1",
+    "node-sass": "^4.2.0",
     "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
-    "webpack": "2.1.0-beta.26",
-    "webpack-dev-server": "^2.1.0-beta.11",
-    "webpack-merge": "^2.0.0"
+    "webpack": "beta",
+    "webpack-dev-server": "beta",
+    "webpack-merge": "^2.3.1"
   }
 }
