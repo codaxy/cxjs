@@ -63,7 +63,7 @@ export const ColorMapPage = <cx>
                 <Legend />
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="8FQsfb9B">{`
                 class PageController extends Controller {
                     init() {
                         super.init();
