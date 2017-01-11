@@ -57,7 +57,7 @@ export const Columns = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="wG2zDoWE">{`
             class PageController extends Controller {
                init() {
                   super.init();
