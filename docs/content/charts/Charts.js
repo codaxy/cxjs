@@ -33,7 +33,7 @@ export const Charts = <cx>
             </Svg>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="XrmQTDYs">{`
              <Svg style="width:300px;height:200px" margin="10 20 30 50">
                <Chart axes={{
                   x: <NumericAxis />,
@@ -57,8 +57,8 @@ export const Charts = <cx>
       Main chart elements are:
 
       * `axes`
-         - [NumericAxis](~/charts/numeric-axes) - Used to present numerical data.
-         - [CategoryAxis](~/charts/category-axes) - Used to present finite data sets.
+         - [NumericAxis](~/charts/numeric-axis) - Used to present numerical data.
+         - [CategoryAxis](~/charts/category-axis) - Used to present finite data sets.
 
       * Graphs (series)
          - [LineGraph](~/charts/line-graphs) - Used to draw a line graph out of a series of 2d points.
