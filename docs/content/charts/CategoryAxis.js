@@ -49,7 +49,7 @@ export const CategoryAxisPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="mcS5ge4w">{`
                 <Svg style="width:400px;height:300px;" margin="60 60 60 60">
                     <Chart axes={{
                         x: <CategoryAxis />,
