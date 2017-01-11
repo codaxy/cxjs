@@ -27,7 +27,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
                 <FlexRow spacing>
                     <div style="width: 30px; height: 30px; background: lightgray;" />
                     <div style="width: 40px; height: 40px; background: lightgray;" />
@@ -46,7 +46,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
+            <CodeSnippet putInto="code">{`
                 <FlexRow spacing justify="center">
                     <div style="width: 30px; height: 30px; background: lightgray;" />
                     <div style="width: 40px; height: 40px; background: lightgray;" />
@@ -65,7 +65,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
+            <CodeSnippet putInto="code">{`
                 <FlexRow spacing align="center" justify="end">
                     <div style="width: 30px; height: 30px; background: lightgray;" />
                     <div style="width: 40px; height: 40px; background: lightgray;" />
@@ -84,7 +84,7 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
 
-            <CodeSnippet putInto="code" fiddle="NhTe1hyS">{`
+            <CodeSnippet putInto="code">{`
                 <FlexRow spacing wrap>
                     <Repeater records={Array.from({length: 20})}>
                         <div style="width: 30px; height: 30px; background: lightgray;" />
