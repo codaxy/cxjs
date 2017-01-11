@@ -51,7 +51,7 @@ export const TimeAxisPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
             class PageController extends Controller {
                 init() {
                     super.init();
