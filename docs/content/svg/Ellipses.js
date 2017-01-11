@@ -43,7 +43,7 @@ export const Ellipses = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="H5FB4h0F">{`
             <Svg style="width:400px;height:400px;background:white" padding={5}>
                <Ellipse margin={10} colorIndex={0} />
                <Ellipse margin={20} colorIndex={1} />
