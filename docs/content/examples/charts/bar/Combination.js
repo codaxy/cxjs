@@ -114,7 +114,7 @@ export const Combination = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="mQSxhSAU">{`
          class PageController extends Controller {
             init() {
                super.init();
