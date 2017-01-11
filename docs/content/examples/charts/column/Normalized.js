@@ -120,9 +120,9 @@ export const Normalized = <cx>
                           stacked />
 
                </Repeater>
-            </Chart>
-            <Legend />
+            </Chart>          
          </Svg>
+         <Legend />
           `}</CodeSnippet>
       </CodeSplit>
    </Md>
