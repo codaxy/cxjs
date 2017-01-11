@@ -72,7 +72,7 @@ export const BarGraphs = <cx>
             <Legend vertical />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="I9AysZCY">{`
          class PageController extends Controller {
             init() {
                super.init();
