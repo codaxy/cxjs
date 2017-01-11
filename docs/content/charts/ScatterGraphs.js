@@ -66,24 +66,24 @@ export const ScatterGraphs = <cx>
             <Legend vertical />
          </div>
 
-         <CodeSnippet putInto="code">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-                  this.store.set('$page.reds', Array.from({length: 200}, (_, i) => ({
-                     x: 100+Math.random() * 300,
-                     y: Math.random() * 300,
-                     size: Math.random() * 20
-                  })));
-                  this.store.set('$page.blues', Array.from({length: 200}, (_, i) => ({
-                     x: Math.random() * 300,
-                     y: 100 + Math.random() * 300,
-                     size: Math.random() * 20
-                  })));
-               }
+         <CodeSnippet putInto="code" fiddle="ICvov0Mt">{`
+         class PageController extends Controller {
+            init() {
+               super.init();
+               this.store.set('$page.reds', Array.from({length: 200}, (_, i) => ({
+                  x: 100+Math.random() * 300,
+                  y: Math.random() * 300,
+                  size: Math.random() * 20
+               })));
+               this.store.set('$page.blues', Array.from({length: 200}, (_, i) => ({
+                  x: Math.random() * 300,
+                  y: 100 + Math.random() * 300,
+                  size: Math.random() * 20
+               })));
             }
-            ...
-            <div class="widgets" controller={PageController}>
+          }
+          ...
+          <div class="widgets" controller={PageController}>
             <Svg style="width:500px; height:400px;">
                <Chart offset="20 -20 -40 130" axes={{
                   x: { type: NumericAxis, snapToTicks: 1 },
@@ -108,7 +108,7 @@ export const ScatterGraphs = <cx>
                </Chart>
             </Svg>
             <Legend vertical />
-         </div>
+          </div>
          `}</CodeSnippet>
       </CodeSplit>
 
