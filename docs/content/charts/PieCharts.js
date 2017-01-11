@@ -76,7 +76,19 @@ export const PieCharts = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="9C63P156">{`
+         class PageController extends Controller {
+            init() {
+               super.init();
+               var value = 100;
+               this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
+                  id: i,
+                  name: 'Item ' + (i+1),
+                  value: value = (value + (Math.random() - 0.5) * 30),
+               })));
+            }
+         }
+         ...
          <div class="widgets" controller={PageController}>
             <Legend />
             <div>
