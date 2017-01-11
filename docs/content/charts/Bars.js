@@ -64,7 +64,7 @@ export const Bars = <cx>
             <Legend vertical />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="4AAhIi6b">{`
             class PageController extends Controller {
                init() {
                   super.init();
@@ -102,6 +102,7 @@ export const Bars = <cx>
                           tooltip:tpl="{$point.v2:n;0}" />
                   </Repeater>
                </Chart>
+               <Legend />
             </Svg>
          `}</CodeSnippet>
       </CodeSplit>
