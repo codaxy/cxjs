@@ -78,7 +78,7 @@ export const Markers = <cx>
             <Legend vertical />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="SqfLY8YB">{`
             class PageController extends Controller {
                init() {
                   super.init();
