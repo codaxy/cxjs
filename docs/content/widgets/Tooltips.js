@@ -161,7 +161,9 @@ export const Tooltips = <cx>
                <div tooltip={{ visible: { bind: '$page.tooltipVisible'}, alwaysVisible: { bind: '$page.tooltipVisible'}, placement: 'down', text: "This tooltip is visible only while the checkbox is checked." }} style="margin: 50px">
                   <Checkbox value:bind="$page.tooltipVisible">Controlled visibility</Checkbox>
                </div>
-
+               <div tooltip={{text: "I'm right behind you.", trackMouse: true, offset: 20}}>
+                    Mouse tracking
+               </div>
             </div>
             ...
             class PageController extends Controller {
