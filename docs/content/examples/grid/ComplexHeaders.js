@@ -81,7 +81,7 @@ export const ComplexHeaders = <cx>
                 sorters:bind="$page.sorters"
             />
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="Qq5LHNJc">{`
                 <Grid records:bind='$page.records'
                       style={{width: "100%"}}
                       columns={[
