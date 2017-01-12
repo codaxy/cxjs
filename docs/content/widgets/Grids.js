@@ -65,7 +65,7 @@ export const Grids = <cx>
                       selection={{type: KeySelection, bind: '$page.selection'}}
                 />
             </div>
-            <CodeSnippet putInto="code" fiddle="XlL9AvMh">{`
+            <CodeSnippet putInto="code" fiddle="kzHH3vkM">{`
             class PageController extends Controller {
                init() {
                   super.init();
@@ -81,11 +81,7 @@ export const Grids = <cx>
                   })));
                }
             }
-
-            Format.registerFactory('plural', (format, text) => {
-               return value => plural(text, value);
-            });
-
+            ...
             <Grid records:bind='$page.records'
                   style={{width: "100%"}}
                   columns={[
