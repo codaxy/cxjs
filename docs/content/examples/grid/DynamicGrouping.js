@@ -97,7 +97,7 @@ export const DynamicGrouping = <cx>
             />
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="8q0SGiPg">{`
                 class PageController extends Controller {
                     init() {
                         super.init();
