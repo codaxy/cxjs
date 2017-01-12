@@ -104,7 +104,7 @@ export const FormEdit = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="xPjUX9Ad">{`
 
                class PageController extends Controller {
                   init() {
