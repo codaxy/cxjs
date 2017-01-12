@@ -82,7 +82,7 @@ export const MultiLevel = <cx>
                <Legend name="slice" vertical />
          </div>
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="kn9A3wlj">{`
          class PageController extends Controller {
             init() {
                super.init();
