@@ -108,7 +108,7 @@ export const PaginationPage = <cx>
             </div>
 
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="eYVhlLNK">{`
             class PageController extends Controller {
                 init() {
                     super.init();
