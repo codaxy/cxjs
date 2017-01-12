@@ -59,7 +59,7 @@ export const MultipleSelection = <cx>
          - [Selection](~/concepts/selections)
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="XEEzkJdp">{`
                class PageController extends Controller {
                   init() {
                      super.init();
