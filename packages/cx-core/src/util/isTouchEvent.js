@@ -38,7 +38,7 @@ export function enableTouchEventDetection() {
 }
 
 export function isTouchEvent() {
-   return isTouchDevice() && (!isTouchDetectionEnabled || (new Date().getTime() - lastTouchEvent) < 300);
+   return isTouchDevice() && (!isTouchDetectionEnabled || (new Date().getTime() - lastTouchEvent) < 1000);
 }
 
 //enable touch event detection if there is no performance penalty on scrolling

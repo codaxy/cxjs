@@ -2,7 +2,7 @@ import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field} from './Field';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
-
+import {isTouchEvent} from '../../util/isTouchEvent';
 import {Dropdown} from '../overlay/Dropdown';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
@@ -172,8 +172,10 @@ class DateInput extends VDOM.Component {
             onSelect: (e) => {
                e.stopPropagation();
                e.preventDefault();
+               let touch = isTouchEvent(e);
                this.closeDropdown(e, ()=> {
-                  this.input.focus();
+                  if (!touch)
+                     this.input.focus();
                });
             }
          },

@@ -14,6 +14,7 @@ import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
 import ClearIcon from '../icons/clear';
 import { KeyCode } from '../../util';
+import {isTouchEvent} from '../../util/isTouchEvent';
 
 export class MonthField extends Field {
 
@@ -213,13 +214,15 @@ class MonthInput extends VDOM.Component {
             type: MonthPicker,
             ...this.props.monthPicker,
             autoFocus: true,
-            onFocusOut: e=> {
+            onFocusOut: e => {
                this.closeDropdown(e);
             },
-            onKeyDown: e=>this.onKeyDown(e),
+            onKeyDown: e => this.onKeyDown(e),
             onSelect: (e) => {
-               this.closeDropdown(e, ()=> {
-                  this.input.focus();
+               let touch = isTouchEvent(e);
+               this.closeDropdown(e, () => {
+                  if (!touch)
+                     this.input.focus();
                });
             }
          },

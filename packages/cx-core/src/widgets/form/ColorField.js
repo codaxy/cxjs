@@ -4,6 +4,7 @@ import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
 import {parseColor} from '../../util/color/parseColor';
 import {isTouchDevice} from '../../util/isTouchDevice';
+import {isTouchEvent} from '../../util/isTouchEvent';
 
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
@@ -78,12 +79,22 @@ class ColorInput extends VDOM.Component {
          placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          items: {
             type: ColorPicker,
-            ...this.props.picker
+            ...this.props.picker,
+            onColorClick: (e) => {
+               e.stopPropagation();
+               e.preventDefault();
+               let touch = isTouchEvent(e);
+               this.closeDropdown(e, () => {
+                  if (!touch)
+                     this.input.focus();
+               });
+            }
          },
          onFocusOut: () => {
             this.closeDropdown();
          },
-         firstChildDefinesHeight: true
+         firstChildDefinesHeight: true,
+         firstChildDefinesWidth: true
       };
 
       return this.dropdown = Widget.create(dropdown);

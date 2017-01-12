@@ -360,6 +360,10 @@ export class Dropdown extends Overlay {
          size.height = el.firstChild.offsetHeight;
       }
 
+      if (this.firstChildDefinesWidth && el.firstChild) {
+         size.width = el.firstChild.offsetWidth;
+      }
+
       if (this.onMeasureDropdownNaturalSize) {
          var more = this.onMeasureDropdownNaturalSize(instance, component);
          Object.assign(size, more);
@@ -493,6 +497,7 @@ Dropdown.prototype.pad = false;
 Dropdown.prototype.elementExplode = 0;
 Dropdown.prototype.screenPadding = 5;
 Dropdown.prototype.firstChildDefinesHeight = false;
+Dropdown.prototype.firstChildDefinesWidth = true;
 
 Widget.alias('dropdown', Dropdown);
 Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);

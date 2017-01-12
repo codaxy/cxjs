@@ -186,17 +186,25 @@ class ColorPickerComponent extends VDOM.Component {
                </label>
             </div>
             <div className={CSS.element(baseClass, 'preview')}>
-               <div className={CSS.element(baseClass, 'color')} >
-                  <div style={{backgroundColor:hsla}}></div>
-               </div>
                <div className={CSS.element(baseClass, 'values')}>
                   <input value={hsla} readOnly />
                   <input value={rgba} readOnly/>
                   <input value={hex} readOnly/>
                </div>
+               <div className={CSS.element(baseClass, 'color')} onClick={e=>{this.onColorClick(e)}}>
+                  <div style={{backgroundColor:hsla}}></div>
+               </div>
             </div>
          </div>
       </div>;
+   }
+
+   onColorClick(e) {
+      let {instance} = this.props;
+      let {widget} = instance;
+
+      if (widget.onColorClick)
+         widget.onColorClick(e, instance);
    }
 
    onHueSelect(e) {
@@ -223,12 +231,12 @@ class ColorPickerComponent extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var el = e.currentTarget;
-      var bounds = el.getBoundingClientRect();
+      let el = e.currentTarget;
+      let bounds = el.getBoundingClientRect();
 
-      var move = e=> {
-         var pos = getCursorPos(e);
-         var x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
+      let move = e => {
+         let pos = getCursorPos(e);
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
          this.setColorProp({
             a: x
          });
@@ -242,15 +250,15 @@ class ColorPickerComponent extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var el = e.currentTarget;
-      var bounds = el.getBoundingClientRect();
+      let el = e.currentTarget;
+      let bounds = el.getBoundingClientRect();
 
-      var move = e => {
-         var pos = getCursorPos(e);
-         var x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
-         var y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / el.offsetWidth));
-         var s = x;
-         var l = 1 - y;
+      let move = e => {
+         let pos = getCursorPos(e);
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
+         let y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / el.offsetWidth));
+         let s = x;
+         let l = 1 - y;
          this.setColorProp({
             s: s * 100,
             l: l * 100,

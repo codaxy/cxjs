@@ -10,6 +10,7 @@ import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../../ui/FocusManager';
 import {isFocused} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
+import {isTouchEvent} from '../../util/isTouchEvent';
 import {
    tooltipComponentWillReceiveProps,
    tooltipComponentWillUnmount,
@@ -543,7 +544,9 @@ class LookupComponent extends VDOM.Component {
             store.set(b.local, null);
          });
       }
-      this.dom.input.focus();
+
+      if (!isTouchEvent(e))
+         this.dom.input.focus();
    }
 
    select(e, itemData) {
@@ -583,7 +586,8 @@ class LookupComponent extends VDOM.Component {
 
       if (widget.closeOnSelect) {
          this.closeDropdown(e);
-         this.dom.input.focus();
+         if (!isTouchEvent(e))
+            this.dom.input.focus();
       }
    }
 

@@ -102,7 +102,6 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
 
    .#{$element}#{$name}-alpha {
       height: 15px;
-      margin-top: 10px;
       @extend %cx-checker-bg;
       position: relative;
 
@@ -122,13 +121,15 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
 
    .#{$element}#{$name}-details {
       width: 200px;
+      min-height: 170px;
       float: left;
       margin: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
    }
 
    .#{$element}#{$name}-inputs {
-      margin-top: 10px;
-
       label {
          width: 25%;
          display: inline-block;
@@ -143,14 +144,13 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
    }
 
    .#{$element}#{$name}-preview {
-      margin-top: 20px;
    }
 
    .#{$element}#{$name}-color {
       @extend %cx-checker-bg;
       height: 70px;
       width: 70px;
-      float: left;
+      float: right;
 
       & > div {
          width: 100%;
@@ -161,7 +161,7 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
    .#{$element}#{$name}-values {
       float: left;
       width: 100px;
-      margin-left: 5px;
+      margin-right: 5px;
 
       input {
          width: 120px;
