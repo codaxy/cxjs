@@ -53,7 +53,7 @@ export const Grouping = <cx>
                }]}
          />
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="0Ztcob5B">{`
 
             class PageController extends Controller {
                init() {
