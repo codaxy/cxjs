@@ -82,6 +82,24 @@ export const ComplexHeaders = <cx>
             />
 
             <CodeSnippet putInto="code" fiddle="Qq5LHNJc">{`
+                class PageController extends Controller {
+                    init() {
+                        super.init();
+
+                        this.store.set('$page.records', Array.from({length: 20}).map((v, i) => {
+                            var name = casual.full_name;
+                            return {
+                                id: i + 1,
+                                fullName: name,
+                                phone: casual.phone,
+                                city: casual.city,
+                                email: name.toLowerCase().replace(' ', '.') + "@example.com",
+                                country: casual.country
+                            }
+                        }));
+                    }
+                };
+                ...
                 <Grid records:bind='$page.records'
                       style={{width: "100%"}}
                       columns={[
