@@ -24,11 +24,11 @@ class PageController extends Controller {
    }
 }
 
-export const Multilevel = <cx>
+export const MultiLevel = <cx>
    <Md>
 
       <CodeSplit>
-         # Multilevel Pie Charts
+         # Multi-level Pie Charts
 
          This example shows how to implement a multilevel pie chart.
 

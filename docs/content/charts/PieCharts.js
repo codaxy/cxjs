@@ -134,7 +134,7 @@ export const PieCharts = <cx>
       
       ## Examples
       
-      * [Multilevel](~/examples/charts/pie/multilevel)
+      * [Multi-level](~/examples/charts/pie/multi-level)
 
       ## `PieChart` Configuration
 
