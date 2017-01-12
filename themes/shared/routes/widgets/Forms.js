@@ -69,6 +69,6 @@ export default <cx>
    </Section>
 
    <Section mod="well" title="MonthPicker">
-      <MonthPicker range from:bind="dateFrom" to:bind="dateTo"/>
+      <MonthPicker style={{ height: '25em' }} range from:bind="dateFrom" to:bind="dateTo"/>
    </Section>
 </cx>
