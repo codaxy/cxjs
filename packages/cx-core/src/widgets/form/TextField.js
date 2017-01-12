@@ -10,7 +10,8 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
-import { KeyCode } from '../../util';
+import {KeyCode} from '../../util';
+import {isTouchDevice} from '../../util';
 
 export class TextField extends Field {
    declareData() {
@@ -135,7 +136,7 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

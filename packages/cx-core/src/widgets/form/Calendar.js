@@ -1,7 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Field} from './Field';
 import {Culture} from '../../ui/Culture';
-import {Format} from '../../util/Format';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
@@ -10,8 +9,8 @@ import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import {isFocused} from '../../util/DOM';
 import { KeyCode } from '../../util';
+import { isTouchDevice } from '../../util';
 
 export class Calendar extends Field {
 
@@ -309,6 +308,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    componentDidMount() {
+      //calendar doesn't bring up keyboard so it's ok to focus it even on mobile
       if (this.props.instance.widget.autoFocus)
          this.el.focus();
 

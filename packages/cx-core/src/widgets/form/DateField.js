@@ -3,6 +3,7 @@ import {Field} from './Field';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
 import {isTouchEvent} from '../../util/isTouchEvent';
+import { isTouchDevice } from '../../util';
 import {Dropdown} from '../overlay/Dropdown';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
@@ -345,7 +346,7 @@ class DateInput extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

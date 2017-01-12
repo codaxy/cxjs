@@ -6,6 +6,7 @@ import {StringTemplate} from '../../data/StringTemplate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
+import {isTouchDevice} from '../../util';
 
 export class NumberField extends Field {
 
@@ -179,7 +180,7 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

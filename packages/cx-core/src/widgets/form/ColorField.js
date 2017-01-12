@@ -246,7 +246,7 @@ class ColorInput extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.widget.autoFocus)
+      if (this.props.instance.widget.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

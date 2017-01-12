@@ -487,6 +487,7 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    componentDidMount() {
+      //non-input, ok to focus on mobile
       if (this.props.autoFocus)
          this.dom.el.focus();
 

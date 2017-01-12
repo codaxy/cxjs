@@ -2,7 +2,8 @@ import {Widget, VDOM} from '../../ui/Widget';
 import {TextField} from './TextField';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
-import { KeyCode } from '../../util';
+import {KeyCode} from '../../util';
+import {isTouchDevice} from '../../util';
 
 export class TextArea extends TextField {
 
@@ -78,7 +79,7 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

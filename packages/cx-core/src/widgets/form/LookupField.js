@@ -775,7 +775,7 @@ class LookupComponent extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.dom.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.dom.input.focus();
    }
 

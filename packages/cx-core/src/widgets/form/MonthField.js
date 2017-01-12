@@ -15,6 +15,7 @@ import CalendarIcon from '../icons/calendar';
 import ClearIcon from '../icons/clear';
 import { KeyCode } from '../../util';
 import {isTouchEvent} from '../../util/isTouchEvent';
+import { isTouchDevice } from '../../util';
 
 export class MonthField extends Field {
 
@@ -399,7 +400,7 @@ class MonthInput extends VDOM.Component {
       if (this.props.instance.data.visited)
          this.setState({ visited: true });
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus)
+      if (this.props.instance.data.autoFocus && isTouchDevice())
          this.input.focus();
    }
 
