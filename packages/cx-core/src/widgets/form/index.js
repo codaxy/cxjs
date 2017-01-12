@@ -16,4 +16,5 @@ export * from './MonthField';
 export * from './ColorField';
 export * from './UploadButton';
 export * from './Slider';
+export * from './Switch';
 

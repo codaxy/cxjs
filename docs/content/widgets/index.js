@@ -33,6 +33,7 @@ export * from './Headings';
 export * from './FlexBox';
 export * from './Toasts';
 export * from './Icons';
+export * from './Switches';
 
 import { bumpVersion } from '../version';
 
