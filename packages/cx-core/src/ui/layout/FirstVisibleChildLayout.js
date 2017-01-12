@@ -7,15 +7,15 @@ export class FirstVisibleChildLayout extends Layout {
          return false;
 
       if (instance.widget.layout && instance.widget.layout.useParentLayout)
-         return Array.isArray(instance.children) && instance.children.some(c=>this.checkVisible(c));
+         return Array.isArray(instance.children) && instance.children.some(c => this.checkVisible(c));
 
       return true;
    }
 
    explore(context, instance, items) {
       instance.children = [];
-      var identical = !instance.shouldUpdate && instance.cached.children != null;
-      for (var i = 0; i < items.length; i++) {
+      let identical = !instance.shouldUpdate && instance.cached.children != null;
+      for (let i = 0; i < items.length; i++) {
          let x = instance.getChild(context, items[i]);
          x.explore(context);
          if (this.checkVisible(x)) {

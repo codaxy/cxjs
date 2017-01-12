@@ -18,6 +18,10 @@ export class Repeater extends PureContainer {
       });
    }
 
+   checkVisible(context, instance, data) {
+      return instance.repeatable || super.checkVisible(context, instance, data);
+   }
+
    declareData() {
       super.declareData({
          records: undefined,
