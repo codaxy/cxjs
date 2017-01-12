@@ -57,7 +57,7 @@ export const TreeGrid = <cx>
                ]}
          />
 
-         <CodeSnippet putInto="code">{`
+         <CodeSnippet putInto="code" fiddle="riuObfzq">{`
           class PageController extends Controller {
             init() {
                super.init();
