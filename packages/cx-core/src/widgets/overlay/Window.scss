@@ -15,6 +15,8 @@
       @extend %cxb-overlay;
       box-sizing: border-box;
       z-index: 1000;
+      display: flex;
+      flex-direction: column;
 
       @include cx-add-state-rules($state-style-map, default);
 
@@ -34,6 +36,7 @@
       box-sizing: border-box;
       display: flex;
       align-items: center;
+      flex: none;
 
       @include cx-add-state-rules($header-state-style-map, default);
 
@@ -49,6 +52,7 @@
    .#{$element}#{$name}-footer {
       position: relative;
       box-sizing: border-box;
+      flex: none;
 
       @include cx-add-state-rules($footer-state-style-map, default);
 
@@ -71,6 +75,7 @@
       overflow: auto;
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
+      flex: auto;
 
       @include cx-add-state-rules($body-state-style-map, default);
 
