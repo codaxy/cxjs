@@ -10,7 +10,7 @@ import Global from 'shared/routes/global';
 
 import GAController from 'shared/GAController';
 
-const layout = createLayout("Neutral");
+const layout = createLayout("Core");
 
 export default <cx>
    <PureContainer outerLayout={layout} controller={GAController}>

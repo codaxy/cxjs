@@ -7,10 +7,10 @@ const layout = createLayout('Home', [<cx>
 </cx>]);
 
 const themes = [{
-   name: 'Neutral',
-   url: 'neutral',
-   imgUrl: '~/img/neutral.png',
-   description: "Neutral theme uses mild colors and minimalistic styling. It's commonly used as a base for other themes"
+   name: 'Core',
+   url: 'core',
+   imgUrl: '~/img/core.png',
+   description: "Core theme uses mild colors and minimalistic styling. It's commonly used as a base for other themes"
 }, {
    name: 'Dark',
    url: 'dark',
