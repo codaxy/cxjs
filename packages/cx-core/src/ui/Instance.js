@@ -204,10 +204,10 @@ export class Instance {
 
       var vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
          ? this.cached.vdom
-         : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix+'-' : '') + this.widget.widgetId));
+         : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
       if (this.shouldUpdate)
-         Debug.log(renderFlag, this.widget, (keyPrefix != null ? keyPrefix+'-' : '') + this.widget.widgetId);
+         Debug.log(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
 
       if (this.widget.memoize)
          this.cached.vdom = vdom;
@@ -327,7 +327,7 @@ export class Instance {
       this.state = state;
       this.store.notify();
    }
-   
+
    getInstanceCache() {
       if (!this.instanceCache)
          this.instanceCache = new InstanceCache(this);
@@ -341,9 +341,24 @@ export class Instance {
    getChild(context, widget, keyPrefix, store) {
       return this.getInstanceCache().getChild(widget, store || this.store, keyPrefix);
    }
-   
+
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
       return widget.prepareRenderCleanup(store || this.store, options, keyPrefix, this);
+   }
+
+   getJsxEventProps() {
+      let {widget} = this;
+
+      if (!Array.isArray(widget.jsxAttributes))
+         return null;
+
+      let props = {};
+      widget.jsxAttributes.forEach(attr => {
+         let callback = widget[attr];
+         if (attr.indexOf('on') == 0 && attr.length > 2 && typeof callback == 'function')
+            props[attr] = e => callback.call(widget, e, this);
+      });
+      return props;
    }
 }
 

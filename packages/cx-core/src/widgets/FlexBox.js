@@ -25,6 +25,11 @@ export class FlexBox extends PureContainer {
       super.init();
    }
 
+   initInstance(context, instance) {
+      instance.eventHandlers = instance.getJsxEventProps();
+      super.initInstance(context, instance);
+   }
+
    prepareCSS(context, instance) {
       let {data} = instance;
       data.stateMods = {
@@ -37,7 +42,7 @@ export class FlexBox extends PureContainer {
    }
 
    render(context, instance, key) {
-      let {data} = instance;
+      let {data, eventHandlers} = instance;
       let {CSS, baseClass} = this;
       let flexboxMods = {
          [this.spacing + '-spacing']: this.spacing,
@@ -50,7 +55,7 @@ export class FlexBox extends PureContainer {
          [this.direction]: true
       };
 
-      return <div key={key} className={data.classNames} style={data.style}>
+      return <div key={key} className={data.classNames} style={data.style} {...eventHandlers}>
          <div className={CSS.element(baseClass, 'flexbox', flexboxMods)}>
             {this.renderChildren(context, instance)}
          </div>

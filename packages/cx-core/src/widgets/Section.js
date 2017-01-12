@@ -81,8 +81,13 @@ export class Section extends PureContainer {
       super.prepareData(context, instance);
    }
 
+   initInstance(context, instance) {
+      instance.eventHandlers = instance.getJsxEventProps();
+      super.initInstance(context, instance);
+   }
+
    render(context, instance, key) {
-      let {data, components} = instance;
+      let {data, components, eventHandlers} = instance;
       let header, footer;
       let {CSS, baseClass} = this;
 
@@ -114,6 +119,7 @@ export class Section extends PureContainer {
             className={data.classNames}
             style={data.style}
             id={data.id}
+            {...eventHandlers}
          >
             { header }
             <div className={CSS.expand(CSS.element(this.baseClass, 'body'), data.bodyClass)} style={data.bodyStyle}>
