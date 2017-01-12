@@ -14,11 +14,12 @@ import {Console} from '../../util/Console';
 import {KeyCode} from '../../util/KeyCode';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 
+
 export class MonthPicker extends Field {
 
    declareData() {
 
-      var values = {};
+      let values = {};
 
       if (this.mode == 'range') {
          this.range = true;
@@ -116,7 +117,7 @@ export class MonthPicker extends Field {
 
    handleSelect(instance, date1, date2) {
 
-      var {data} = instance;
+      let {data} = instance;
 
       if (data.disabled)
          return;
@@ -180,6 +181,26 @@ export class MonthPickerComponent extends VDOM.Component {
          cursorQuarter: cursor.getMonth() / 3,
          column: 'M'
       };
+   }
+
+   extractCursorInfo(el) {
+      if (!el.attributes['data-point'].value)
+         return false;
+      let parts = el.attributes['data-point'].value.split('-');
+      if (parts[0] != 'Y')
+         return false;
+      let cursor = {
+         column: 'Y',
+         cursorYear: Number(parts[1])
+      };
+      if (parts.length == 4) {
+         cursor.column = parts[2];
+         if (cursor.column == 'M')
+            cursor.cursorMonth = Number(parts[3]);
+         else
+            cursor.cursorQuarter = Number(parts[3]);
+      }
+      return cursor;
    }
 
    moveCursor(e, data) {
@@ -290,7 +311,7 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    getCursorDates() {
-      var {cursorMonth, cursorYear, cursorQuarter, column} = this.state;
+      let {cursorMonth, cursorYear, cursorQuarter, column} = this.state;
       switch (column) {
          case 'M':
             return [new Date(cursorYear, cursorMonth-1, 1), new Date(cursorYear, cursorMonth, 1)];
@@ -304,10 +325,11 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    handleMouseDown(e, cursor, drag = true) {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
 
       e.stopPropagation();
+      e.preventDefault();
 
       if (widget.range) {
          this.dragStartDates = this.getCursorDates();
@@ -318,22 +340,23 @@ export class MonthPickerComponent extends VDOM.Component {
             });
          } else {
             widget.handleSelect(instance, ...this.dragStartDates);
+            this.moveCursor(e, cursor);
          }
       }
    }
 
    handleMouseUp(e) {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
 
       e.stopPropagation();
+      e.preventDefault();
 
       if (widget.range) {
          if (this.dragStartDates) {
             let [originFromDate, originToDate] = this.dragStartDates;
             let [cursorFromDate, cursorToDate] = this.getCursorDates();
             widget.handleSelect(instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
-            this.dragStartDates = this.getCursorDates();
          }
       } else {
          var date = this.getCursorDates()[0];
@@ -342,13 +365,13 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    render() {
-      var {data, widget} = this.props.instance;
-      var {CSS, baseClass, startYear, endYear} = widget;
+      let {data, widget} = this.props.instance;
+      let {CSS, baseClass, startYear, endYear} = widget;
 
-      var years = [];
+      let years = [];
 
-      var start = this.state.cursorYear;
-      var end = this.state.cursorYear + 20;
+      let start = this.state.cursorYear;
+      let end = this.state.cursorYear + 20;
 
       if (this.state.yearHeight) {
          var visibleItems = ceil5(Math.ceil(this.dom.el.offsetHeight / this.state.yearHeight));
@@ -360,7 +383,6 @@ export class MonthPickerComponent extends VDOM.Component {
       }
 
       var from = 10000, to = 0, a, b;
-
 
 
       if (data.date && !widget.range) {
@@ -382,7 +404,41 @@ export class MonthPickerComponent extends VDOM.Component {
          }
       }
 
-      var monthNames = Culture.getDateTimeCulture().getMonthNames('short');
+      let monthNames = Culture.getDateTimeCulture().getMonthNames('short');
+
+      // let onTouchStart = e => {
+      //    e.preventDefault();
+      //    let cursor = this.extractCursorInfo(e.target);
+      //    console.log(cursor);
+      //    this.handleMouseDown(e, cursor);
+      // };
+      //
+      // let onTouchEnd = e => {
+      //    this.handleMouseUp(e);
+      // };
+      //
+      // let onTouchMove = e => {
+      //    let el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+      //    let cursor = el && this.extractCursorInfo(el);
+      //    if (cursor) {
+      //       this.moveCursor(e, cursor);
+      //       console.log(cursor);
+      //    }
+      // };
+
+      let onMouseEnter = e => {
+         let cursor = this.extractCursorInfo(e.target);
+         this.moveCursor(e, cursor);
+      };
+
+      let onMouseDown = e => {
+         let cursor = this.extractCursorInfo(e.target);
+         this.handleMouseDown(e, cursor);
+      };
+
+      let onMouseUp = e => {
+         this.handleMouseUp(e);
+      };
 
 
       for (let y = start; y <= end; y++) {
@@ -391,54 +447,42 @@ export class MonthPickerComponent extends VDOM.Component {
             let row = [];
             if (q == 0)
                row.push(<th key="year"
-                            rowSpan={4}
-                            className={CSS.element(baseClass, 'year', {
-                               cursor: this.state.column == 'Y' && y == this.state.cursorYear
-                            })}
-                            onMouseEnter={e=> {
-                               this.moveCursor(e, {cursorYear: y, column: 'Y'})
-                            }}
-                            onMouseDown={e=> {
-                               this.handleMouseDown(e, {cursorYear: y, column: 'Y'})
-                            }}
-                            onMouseUp={e=> {
-                               this.handleMouseUp(e)
-                            }}>
+                  rowSpan={4}
+                  data-point={`Y-${y}`}
+                  className={CSS.element(baseClass, 'year', {
+                     cursor: this.state.column == 'Y' && y == this.state.cursorYear
+                  })}
+                  onMouseEnter={onMouseEnter}
+                  onMouseDown={onMouseDown}
+                  onMouseUp={onMouseUp}
+               >
                   {y}
                </th>);
 
             for (let i = 0; i < 3; i++) {
                let m = q * 3 + i + 1;
                row.push(<td key={`M${m}`}
-                            className={CSS.state({
-                               cursor: this.state.column == 'M' && y == this.state.cursorYear && m == this.state.cursorMonth,
-                               selected: y * 100 + m >= from && y * 100 + m < to
-                            })}
-                            onMouseEnter={e=> {
-                               this.moveCursor(e, {cursorYear: y, cursorMonth: m, column: 'M'})
-                            }}
-                            onMouseDown={e=> {
-                               this.handleMouseDown(e, {cursorYear: y, cursorMonth: m, column: 'M'})
-                            }}
-                            onMouseUp={e=> {
-                               this.handleMouseUp(e)
-                            }}>
+                  className={CSS.state({
+                     cursor: this.state.column == 'M' && y == this.state.cursorYear && m == this.state.cursorMonth,
+                     selected: y * 100 + m >= from && y * 100 + m < to
+                  })}
+                  data-point={`Y-${y}-M-${m}`}
+                  onMouseEnter={onMouseEnter}
+                  onMouseDown={onMouseDown}
+                  onMouseUp={onMouseUp}
+               >
                   {monthNames[m - 1].substr(0, 3)}
                </td>)
             }
             row.push(<th key={`q${q}`}
-                         className={CSS.state({
-                            cursor: this.state.column == 'Q' && y == this.state.cursorYear && q == this.state.cursorQuarter
-                         })}
-                         onMouseEnter={e=> {
-                            this.moveCursor(e, {cursorYear: y, cursorQuarter: q, column: 'Q'})
-                         }}
-                         onMouseDown={e=> {
-                            this.handleMouseDown(e, {cursorYear: y, cursorQuarter: q, column: 'Q'})
-                         }}
-                         onMouseUp={e=> {
-                            this.handleMouseUp(e)
-                         }}>
+               className={CSS.state({
+                  cursor: this.state.column == 'Q' && y == this.state.cursorYear && q == this.state.cursorQuarter
+               })}
+               data-point={`Y-${y}-Q-${q}`}
+               onMouseEnter={onMouseEnter}
+               onMouseDown={onMouseDown}
+               onMouseUp={onMouseUp}
+            >
                {`Q${q + 1}`}
             </th>);
             rows.push(row);
@@ -446,27 +490,35 @@ export class MonthPickerComponent extends VDOM.Component {
          years.push(rows);
       }
 
-      return <div ref={el=>{this.dom.el = el}}
-                  className={data.classNames}
-                  tabIndex={data.disabled ? null : 0}
-                  onKeyDown={e=>this.handleKeyPress(e)}
-                  onMouseDown={e=>e.stopPropagation()}
-                  onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
-                  onMouseLeave={::this.onMouseLeave}
-                  onFocus={e=>this.handleFocus(e)}
-                  onBlur={::this.handleBlur}
-                  onScroll={::this.onScroll}>
-         {this.state.yearHeight && <div style={{height:`${(start-startYear)*this.state.yearHeight}px`}}></div>}
-         <table ref={el=>{this.dom.table = el}}>
+      return <div
+         ref={el => {
+            this.dom.el = el
+         }}
+         className={data.classNames}
+         style={data.style}
+         tabIndex={data.disabled ? null : 0}
+         onKeyDown={e => this.handleKeyPress(e)}
+         onMouseDown={e => e.stopPropagation()}
+         onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
+         onMouseLeave={::this.onMouseLeave}
+         onFocus={e => this.handleFocus(e)}
+         onBlur={::this.handleBlur}
+         onScroll={::this.onScroll}
+      >
+         {this.state.yearHeight && <div style={{height: `${(start - startYear) * this.state.yearHeight}px`}}></div>}
+         <table ref={el => {
+            this.dom.table = el
+         }}>
             {
                years.map((rows, y) =>
                   <tbody key={y}>
-                     {rows.map((cells, i)=><tr key={i}>{cells}</tr>)}
+                  {rows.map((cells, i) => <tr key={i}>{cells}</tr>)}
                   </tbody>
                )
             }
          </table>
-         {this.state.yearHeight && <div style={{height:`${Math.max(0, endYear-end)*this.state.yearHeight}px`}}></div>}
+         {this.state.yearHeight &&
+         <div style={{height: `${Math.max(0, endYear - end) * this.state.yearHeight}px`}}></div>}
       </div>;
    }
 

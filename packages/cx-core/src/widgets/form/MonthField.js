@@ -27,7 +27,7 @@ export class MonthField extends Field {
          Console.warn('Please use the range flag on MonthFields. Syntax mode="range" is deprecated.', this);
       }
 
-      var values = {};
+      let values = {};
 
       if (this.range) {
          values = {
@@ -63,19 +63,21 @@ export class MonthField extends Field {
    prepareData(context, {data}) {
       super.prepareData(...arguments);
 
+      let formatOptions = {
+         year: 'numeric',
+         month: 'short'
+      };
+
       if (!this.range && data.value) {
-         var date = new Date(data.value);
-         data.formatted = this.culture.format(date);
-      } else if (this.range && data.from && data.to) {
-         var options = {
-            year: 'numeric',
-            month: 'short'
-         };
+         data.date = new Date(data.value);
+         data.formatted = this.culture.format(data.date, formatOptions);
+      }
+      else if (this.range && data.from && data.to) {
          data.from = new Date(data.from);
          data.to = new Date(data.to);
          data.to.setDate(data.to.getDate() - 1);
-         var fromStr = this.culture.format(data.from, options);
-         var toStr = this.culture.format(data.to, options);
+         let fromStr = this.culture.format(data.from, formatOptions);
+         let toStr = this.culture.format(data.to, formatOptions);
          if (fromStr != toStr)
             data.formatted = fromStr + ' - ' + toStr;
          else
@@ -400,7 +402,7 @@ class MonthInput extends VDOM.Component {
       if (this.props.instance.data.visited)
          this.setState({ visited: true });
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus && isTouchDevice())
+      if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

@@ -214,8 +214,8 @@ export class Dropdown extends Overlay {
             break;
 
          case 'screen-center':
-            var w = Math.min(contentSize.width, window.innerWidth);
-            var h = Math.min(contentSize.height, window.innerHeight);
+            var w = Math.min(contentSize.width, window.innerWidth - 2 * this.screenPadding);
+            var h = Math.min(contentSize.height, window.innerHeight - 2 * this.screenPadding);
             style.top = `${(window.innerHeight - h) / 2}px`;
             style.right = `${(window.innerWidth - w) / 2}px`;
             style.bottom = `${(window.innerHeight - h) / 2}px`;

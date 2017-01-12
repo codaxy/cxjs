@@ -28,8 +28,14 @@ export function enableTouchEventDetection() {
          lastTouchEvent = new Date().getTime();
       }, options);
 
+      document.addEventListener('touchmove', () => {
+         //console.log('TOUCHMOVE');
+         lastTouchEvent = new Date().getTime();
+      }, options);
+
       document.addEventListener('touchend', () => {
          insideTouchEvent--;
+         lastTouchEvent = new Date().getTime();
          //console.log('TOUCHEND');
       }, options);
 
