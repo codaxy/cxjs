@@ -49,7 +49,7 @@ export const InlineEdit = <cx>
          />
 
          <Content name="code">
-            <CodeSnippet>{`
+            <CodeSnippet fiddle="wK09BHnM">{`
                class PageController extends Controller {
                   init() {
                      super.init();
