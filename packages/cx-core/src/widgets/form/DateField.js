@@ -180,7 +180,8 @@ class DateInput extends VDOM.Component {
                });
             }
          },
-         firstChildDefinesHeight: true
+         firstChildDefinesHeight: true,
+         firstChildDefinesWidth: true
       };
 
       return this.dropdown = Widget.create(dropdown);

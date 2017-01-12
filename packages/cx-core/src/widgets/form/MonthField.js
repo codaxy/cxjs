@@ -227,7 +227,7 @@ class MonthInput extends VDOM.Component {
                });
             }
          },
-         firstChildDefinesHeight: true
+         firstChildDefinesWidth: true
       };
 
       return this.dropdown = Widget.create(dropdown);
