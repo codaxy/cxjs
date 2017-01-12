@@ -48,7 +48,7 @@ yarn start
 
 Run themes:
 ```bash
-yarn run theme:neutral
+yarn run theme:core
 yarn run theme:dark
 yarn run theme:frost
 ```

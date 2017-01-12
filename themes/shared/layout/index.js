@@ -12,7 +12,7 @@ let defaultNav = name => <cx>
    <Submenu>
       {name}
       <Menu putInto="dropdown">
-         <a href="../neutral">Neutral</a>
+         <a href="../core">Core</a>
          <a href="../dark">Dark</a>
          <a href="../frost">Frost</a>
       </Menu>
