@@ -65,7 +65,8 @@ export const SearchWindow = <cx>
                 value:bind="search.query"
                 style="width:100%;"
                 inputStyle="font-size:20px;height:40px;"
-                placeholder="Search..." autoFocus
+                placeholder="Search..."
+                autoFocus
             />
         }
         closable={false}
