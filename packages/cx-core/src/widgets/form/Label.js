@@ -34,7 +34,7 @@ export class Label extends HtmlElement {
          if (!Array.isArray(props.children))
             props.children = [props.children];
          props.children.push(' ');
-         props.children.push(<span className={this.CSS.element(this.baseClass, 'asterisk')}>*</span>)
+         props.children.push(<span key="asterisk" className={this.CSS.element(this.baseClass, 'asterisk')}>*</span>)
       }
    }
 }
