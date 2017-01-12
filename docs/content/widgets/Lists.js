@@ -48,7 +48,7 @@ export const Lists = <cx>
 
             * [Grouping](~/examples/list/grouping)
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="WBK5QrGZ">{`
             class PageController extends Controller {
                init() {
                   super.init();
