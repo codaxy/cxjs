@@ -1,6 +1,7 @@
 .dxb-codesnippet {
     position: relative;
     padding: 3px 5px;
+    background: #494949;
 
     pre {
         background: transparent !important;
@@ -51,6 +52,10 @@
     .dxb-codesnippet:hover > & {
         opacity: 1;
     }
+}
+
+.dxe-codesplit-right .dxb-codesnippet {
+    background: transparent;
 }
 
 .dxe-codesplit-right .cxb-tab.cxm-code {
