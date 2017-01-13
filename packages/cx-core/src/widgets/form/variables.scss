@@ -189,7 +189,9 @@ $cx-slider-handle-styles: (
       box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
    ),
    focus: (
-
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
    ),
    disabled: (
 
@@ -198,6 +200,14 @@ $cx-slider-handle-styles: (
       background: rgb(220, 220, 220)
    )
 ) !default;
+
+// SWITCH
+$cx-default-switch-axis-background-color: $cx-default-slider-axis-background-color !default;
+$cx-default-switch-range-background-color: #87cc8a !default;
+$cx-default-switch-handle-size: 20px;
+$cx-default-switch-axis-size: 12px;
+$cx-default-switch-width: 30px;
+$cx-switch-handle-styles: $cx-slider-handle-styles !default;
 
 // TEXTAREA
 $cx-default-textarea-width: 300px !default;
