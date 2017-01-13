@@ -1,6 +1,6 @@
 {
   "name": "cx-theme-dark",
-  "version": "17.1.0",
+  "version": "17.1.1",
   "description": "Dark theme CSS styles for Cx applications",
   "main": "./src/index.js",
   "author": "Codaxy",
