@@ -82,11 +82,13 @@
       height: 100%;
       left: 0;
       width: 0;
+      opacity: 0;
 
-      transition: width 200ms;
+      transition: all 200ms;
 
       .#{$state}on & {
-         width: 100%
+         width: 100%;
+         opacity: 1;
       }
    }
 

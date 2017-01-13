@@ -55,7 +55,8 @@ export class Switch extends Field {
 
       let text = data.text || getContent(this.renderChildren(context, instance));
 
-      return <div className={data.classNames}
+      return <div key={key}
+         className={data.classNames}
          style={data.style}
          id={data.id}
          tabIndex={data.readOnly || data.disabled ? null : 0}
