@@ -53,4 +53,16 @@ export default {
             Set to `true` to orient the slider vertically.
         </Md></cx>
     },
+    handleStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Style object to be applied on the handle.
+        </Md></cx>
+    },
+    rangeStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Style object to be applied on the selected axis range.
+        </Md></cx>
+    }
 };
