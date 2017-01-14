@@ -18,9 +18,19 @@ export const Layout = <cx>
         "dxb-layout": true,
         'dxs-navopen': {bind: 'layout.navOpen'}
     }}>
-        <div class="dxe-layout-menu" onClick={toggleMenu}><i class="fa fa-bars"/></div>
+        <div
+            class="dxe-layout-menu"
+            onClick={toggleMenu}
+            visible:expr="!{layout.touch}"
+        >
+            <i class="fa fa-bars"/>
+        </div>
 
-        <div class="dxe-layout-search" onClick={openSearch}>
+        <div
+            class="dxe-layout-search"
+            onClick={openSearch}
+            visible:expr="!{layout.touch}"
+        >
             <i class="fa fa-search"/>
         </div>
 
@@ -33,7 +43,7 @@ export const Layout = <cx>
             </div>
         </aside>
 
-        <main class="dxe-layout-content" onClick={closeMenuOnSmallScreens}>
+        <main id="content" class="dxe-layout-content" onClick={closeMenuOnSmallScreens}>
             <ContentPlaceholder />
         </main>
 
