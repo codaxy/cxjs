@@ -1,13 +1,13 @@
 .cxb-editongitx {
-    max-width: calc(50em + 40px);
+    max-width: calc(50em);
     position: relative;
 
     a {
         position: absolute;
         color: lightgray;
         text-decoration: none;
-        right: 2em;
-        top: -30px;
+        right: 0;
+        top: -20px;
         &:hover {
             color: gray;
         }
