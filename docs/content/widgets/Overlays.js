@@ -1,4 +1,4 @@
-import {HtmlElement, Checkbox, Overlay} from 'cx/widgets';
+import {Button, HtmlElement, Checkbox, Overlay} from 'cx/widgets';
 import {Content} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -80,12 +80,12 @@ export const Overlays = <cx>
             If a new store instance is passed, the overlay will be completely disconnected from the main UI.
 
             <div class="widgets">
-                <button type="button"
+                <Button
                     onClick={(e, {store}) => {
                         addOverlay(store);
                     }}>
                     Add Overlay
-                </button>
+                </Button>
             </div>
 
             <Content name="code">
@@ -109,10 +109,10 @@ export const Overlays = <cx>
                   setTimeout(close, 5000);
                };
                ...
-               <button type="button"
+               <Button
                     onClick={(e, {store}) => { addOverlay(store); }}>
                   Add Overlay
-               </button>
+               </Button>
             `}</CodeSnippet>
             </Content>
 
