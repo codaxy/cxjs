@@ -1,4 +1,4 @@
-import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { Button, Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, Window, MsgBox } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -22,7 +22,7 @@ export const Windows = <cx>
 
       <CodeSplit>
          <div class="widgets">
-            <button type="button" onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</button>
+            <Button onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</Button>
             <Window title="Contact"
                     visible={{ bind: "$page.contact.visible", defaultValue: false }}
                     center
@@ -45,7 +45,7 @@ export const Windows = <cx>
 
          <Content name="code">
             <CodeSnippet fiddle="5GzabX9A">{`
-               <button type="button" onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</button>
+               <Button onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</Button>
                <Window title="Contact"
                        visible={{ bind: "$page.contact.visible", defaultValue: false }}
                        center
