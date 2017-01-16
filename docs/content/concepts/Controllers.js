@@ -166,10 +166,10 @@ export const Controllers = <cx>
 
             <div class="widgets">
                 <div controller={MethodController}>
-                    <button type="button" onClick={(e, {controller})=> {
+                    <Button onClick={(e, {controller})=> {
                         controller.sayHello();
                     }}>Say Hello
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -181,7 +181,7 @@ export const Controllers = <cx>
             }
             ...
             <div controller={MethodController}>
-               <button type="button" onClick={(e, {controller})=>{ controller.sayHello();}}>Say Hello</button>
+               <Button onClick={(e, {controller})=>{ controller.sayHello();}}>Say Hello</Button>
             </div>
          `}</CodeSnippet>
         </CodeSplit>
@@ -192,13 +192,13 @@ export const Controllers = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div controller={MethodController}>
-                    <button type="button" onClick="sayHello">Say Hello</button>
+                    <Button onClick="sayHello">Say Hello</Button>
                 </div>
             </div>
 
             <CodeSnippet putInto="code" fiddle="ztNKYqEO">{`
             <div controller={MethodController}>
-               <button type="button" onClick="sayHello">Say Hello</button>
+               <Button onClick="sayHello">Say Hello</Button>
             </div>
          `}</CodeSnippet>
         </CodeSplit>
