@@ -18,24 +18,24 @@ export const MsgBoxes = <cx>
 
       <CodeSplit>
          <div class="widgets">
-            <button type="button" onClick={ e => { MsgBox.alert({ message: 'This is an alert!' }) }}>Alert</button>
-            <button type="button" onClick={ e => {
+            <Button onClick={ e => { MsgBox.alert({ message: 'This is an alert!' }) }}>Alert</Button>
+            <Button onClick={ e => {
                MsgBox.yesNo({ message: 'Would you like to see another alert?' })
                   .then((btn) => { if (btn == 'yes') MsgBox.alert(`Here it is.`) });
             }}>
                Yes or No
-            </button>
+            </Button>
          </div>
 
          <Content name="code">
             <CodeSnippet fiddle="g1Z5Q4QH">{`
-               <button type="button" onClick={ e => { MsgBox.alert({ message: 'This is an alert!' }) }}>Alert</button>
-               <button type="button" onClick={ e => {
+               <Button onClick={ e => { MsgBox.alert({ message: 'This is an alert!' }) }}>Alert</Button>
+               <Button type="button" onClick={ e => {
                   MsgBox.yesNo({ message: 'Would you like to see another alert?' })
                      .then((btn) => { if (btn == 'yes') MsgBox.alert('Here it is.') });
                }}>
                   Yes or No
-               </button>
+               </Button>
             `}</CodeSnippet>
          </Content>
 
