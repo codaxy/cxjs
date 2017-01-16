@@ -1,4 +1,4 @@
-import { HtmlElement, TextField, Checkbox, Grid } from 'cx/widgets';
+import { Button, HtmlElement, TextField, Checkbox, Grid } from 'cx/widgets';
 import { Content, Controller, LabelsLeftLayout, KeySelection } from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
@@ -73,19 +73,19 @@ export const FormEdit = <cx>
                       },
                       {
                           header: 'Actions', items: <cx>
-                          <button type="button" data-id:bind='$record.id' onClick={(e, {controller, data}) => {
+                          <Button data-id:bind='$record.id' onClick={(e, {controller, data}) => {
                               controller.removeRecord(data.data.id)
                           }}>Remove
-                          </button>
+                          </Button>
                       </cx>
                       }
                   ]}
             />
 
-            <button type="button" onClick={(e, {controller}) => {
+            <Button type="button" onClick={(e, {controller}) => {
                 controller.newRecord()
             }}>Add
-            </button>
+            </Button>
 
             <hr style={{margin: '30px'}}/>
 
@@ -96,10 +96,10 @@ export const FormEdit = <cx>
                     <TextField label="Phone" value:bind="$page.form.phone"/>
                     <TextField label="City" value:bind="$page.form.city"/>
                     <Checkbox label="Notified" value:bind="$page.form.notified"/>
-                    <button type="button" onClick={(e, {controller}) => {
+                    <Button onClick={(e, {controller}) => {
                         controller.saveRecord()
                     }}>Save
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -160,13 +160,13 @@ export const FormEdit = <cx>
                         { header: 'City', field: 'city', sortable: true },
                         { header: 'Notified', field: 'notified', sortable: true, value: { expr: '{$record.notified} ? "Yes" : "No"' } },
                         { header: 'Actions', items: <cx>
-                              <button type="button" data-id:bind='$record.id' onClick={(e, {controller, data}) => { controller.removeRecord(data.data.id)}}>Remove</button>
+                              <Button data-id:bind='$record.id' onClick={(e, {controller, data}) => { controller.removeRecord(data.data.id)}}>Remove</Button>
                            </cx>
                         }
                      ]}
                />
 
-               <button type="button" onClick={(e, {controller}) => { controller.newRecord() }}>Add</button>
+               <Button onClick={(e, {controller}) => { controller.newRecord() }}>Add</Button>
 
                <hr style={{ margin: '30px'}}/>
 
@@ -177,7 +177,7 @@ export const FormEdit = <cx>
                      <TextField label="Phone" value:bind="$page.form.phone" />
                      <TextField label="City" value:bind="$page.form.city" />
                      <Checkbox label="Notified" value:bind="$page.form.notified" />
-                     <button type="button" onClick={(e, {controller}) => { controller.saveRecord() }}>Save</button>
+                     <Button onClick={(e, {controller}) => { controller.saveRecord() }}>Save</Button>
                   </div>
                </ValidationGroup>
 
