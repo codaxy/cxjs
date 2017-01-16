@@ -64,7 +64,9 @@ export const StepByStep = <cx>
             follow the recommended Cx source layout) and it will create an initial `project.json`
             file for our application.
 
-            Next, we need to install prerequisite packages, by running `npm install` commands.
+            Next, we need to install prerequisite packages, by running `npm install` commands. 
+            Alternatevly, if you already cloned the project from github, just run the `npm install` command
+            without any other parameters.
             <Content name="code">
                 <CodeSnippet>{`
                     mkdir cx-getting-started && cd cx-getting-started
@@ -73,13 +75,10 @@ export const StepByStep = <cx>
 
                     npm install cx-core cx-react --save
 
-                    npm install webpack@2.1.0-beta.20 webpack-dev-server@2.0.0-beta babel-core
-                    babel babel-loader babel-plugin-cx babel-plugin-react babel-plugin-react-transform
-                    babel-plugin-syntax-jsx babel-plugin-transform-decorators-legacy
-                    babel-plugin-transform-react-jsx babel-plugin-transform-runtime babel-preset-es2015
-                    babel-preset-es2015-loose babel-preset-react babel-preset-stage-0 bundle-loader
-                    css-loader file-loader json-loader node-sass sass-loader style-loader
-                    extract-text-webpack-plugin@2.0.0-beta.2 html-webpack-plugin --save-dev
+                    npm install webpack@beta webpack-dev-server@beta babel-core babel-loader 
+                    babel-plugin-syntax-jsx babel-preset-cx-env css-loader 
+                    extract-text-webpack-plugin@beta file-loader html-webpack-plugin 
+                    json-loader node-sass sass-loader style-loader --save-dev
                 `}</CodeSnippet>
             </Content>
 
@@ -152,9 +151,9 @@ export const StepByStep = <cx>
                 `}</CodeSnippet>
 
                 <CodeSnippet visible:expr="{$page.entryPoint.tab} === 'js'">{`
-                    import {startAppLoop} from 'cx/app/startAppLoop';
-                    import {Store} from 'cx/data/Store';
-                    import {HtmlElement} from 'cx/ui/HtmlElement';
+                    import { startAppLoop } from 'cx/ui';
+                    import { Store } from 'cx/data';
+                    import { HtmlElement } from 'cx/widgets';
 
                     require('./index.scss');
                     const store = new Store();
@@ -176,6 +175,9 @@ export const StepByStep = <cx>
             to load the stylesheet from the transformation of `app/index.scss` file.
             For this to work, we need to have this file defined. For now, we will create
             a minimal SCSS file that will just import the default Cx stylesheet.
+            Notice that we are importing two SCSS files, one containing the Sass variables, 
+            and the other the actual styling. This enables easier style theming of Cx apps, which
+            is explained in depth [here](~/concepts/css#themes).
 
             <Content name="code">
                 <div>
@@ -184,6 +186,7 @@ export const StepByStep = <cx>
                     </Tab>
                 </div>
                 <CodeSnippet>{`
+                    @import "~cx-core/src/variables";
                     @import "~cx-core/src/index";
                 `}</CodeSnippet>
             </Content>
@@ -213,8 +216,8 @@ export const StepByStep = <cx>
                 </div>
                 <CodeSnippet>{`
                     ...
-                    "description": "Cx demo application",
-                    "main": "index.js",
+                    "description": "Getting started tutorial for Cx framework",
+                    "main": "app/index.js",
                     "scripts": {
                         "start": "webpack-dev-server --open"
                     },
@@ -364,11 +367,7 @@ export const StepByStep = <cx>
                 </div>
 
                 <CodeSnippet>{`
-                    import {HtmlElement} from 'cx/ui/HtmlElement';
-                    import {Repeater} from 'cx/ui/Repeater';
-                    import {TextField} from 'cx/ui/form/TextField';
-                    import {Checkbox} from 'cx/ui/form/Checkbox';
-                    import {Button} from 'cx/ui/Button';
+                    import { HtmlElement, Repeater, TextField, Checkbox, Button } from 'cx/widgets';
                     import Controller from './Controller';
 
                     export default <cx>
@@ -449,7 +448,7 @@ export const StepByStep = <cx>
                 </div>
 
                 <CodeSnippet>{`
-                    import {Controller} from 'cx/ui/Controller';
+                    import { Controller } from 'cx/ui';
 
                     export default class extends Controller {
                         init() {
@@ -528,6 +527,7 @@ export const StepByStep = <cx>
                     </Tab>
                 </div>
                 <CodeSnippet>{`
+                    @import "~cx-core/src/variables";
                     @import "~cx-core/src/index";
                     @import "todo/index";
                 `}</CodeSnippet>

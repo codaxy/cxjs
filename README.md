@@ -11,8 +11,8 @@ It provides:
 - layouts
 - customizable appearance (Sass)
 
-Cx is based on ES6 and requires babel and babel-plugin-cx. 
-Cx widgets use React to render and update DOM.
+Cx is based on ES6 and requires babel-plugin-transform-cx-jsx. 
+Cx widgets use React to render and update the DOM.
 
 ## Demo Applications
 
@@ -55,7 +55,7 @@ yarn run theme:frost
 
 ### License
 
-Cx is available under a commercial or a non-commercial license.
+Cx is available under a commercial and a non-commercial license.
 Please refer to the website for more information.
 
 

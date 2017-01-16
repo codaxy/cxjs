@@ -60,7 +60,7 @@ export const Grouping = <cx>
                 City: <span text:bind="$record.city" />
             </List>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="LHlJu3zb">{`
 
             class PageController extends Controller {
                 init() {

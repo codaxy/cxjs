@@ -1,4 +1,4 @@
-import {Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer} from 'cx/widgets';
+import {Button, Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer} from 'cx/widgets';
 import {
     ContentPlaceholder,
     Controller,
@@ -240,8 +240,8 @@ export const Layouts = <cx>
                             text:tpl="Success! Result: {$page.fetch.result:n}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                     </div>
-                    <button type="button" onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch
-                    </button>
+                    <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch
+                    </Button>
                 </div>
             </div>
 
@@ -269,7 +269,7 @@ export const Layouts = <cx>
                         <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text:tpl="Success! Result: {$page.fetch.result:n}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                      </div>
-                     <button type="button" onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch</button>
+                     <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch</Button>
                   </div>
             `}</CodeSnippet>
             </Content>
