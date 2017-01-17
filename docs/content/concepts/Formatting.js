@@ -79,15 +79,6 @@ const formats = [{
     </Md></cx>
 }, {
     signature: <cx><Md>
-        date
-
-        d
-    </Md></cx>,
-    description: <cx><Md>
-        Short date format.
-    </Md></cx>
-}, {
-    signature: <cx><Md>
         datetime
 
         datetime;options
