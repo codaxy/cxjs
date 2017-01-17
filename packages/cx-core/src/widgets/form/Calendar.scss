@@ -60,7 +60,7 @@
       &:focus {
 
          td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
-            @include cx-add-state-rules($cx-list-item, hover-focus)
+            @include cx-add-state-rules($cx-list-item, hover-focus);
 
             &:active {
                @include cx-add-state-rules($cx-list-item, active)
