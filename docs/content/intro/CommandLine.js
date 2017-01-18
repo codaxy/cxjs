@@ -12,7 +12,7 @@ export const CommandLine = <cx>
         <CodeSplit>
         
         Cx requires tools such as babel and webpack which are plugin-based and take a 
-        significant amount of work to be configured properly.
+        significant amount of work to configure properly.
         Normally, when starting a new project, you wouldn't go through all that setup 
         every single time, but rather use some kind of boilerplate project that contains the 
         basic file structure as well as all of the required tools and configuration code. 
