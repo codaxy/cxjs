@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
+import {ValidationError} from './ValidationError';
 import {Label} from './Label';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {isSelector} from '../../data/isSelector';
@@ -29,6 +30,25 @@ export class Field extends PureContainer {
    }
 
    init() {
+
+      switch (this.validationMode) {
+         case 'tooltip':
+            this.errorTooltip = true;
+            break;
+
+         case 'help':
+         case 'help-inline':
+            this.help = ValidationError;
+            break;
+
+         case 'help-block':
+            this.help = {
+               type: ValidationError,
+               mod: 'block'
+            };
+            break;
+      }
+
       if (this.help != null) {
          this.help = Widget.create(PureContainer, {items: this.help});
       }
@@ -211,7 +231,7 @@ export class Field extends PureContainer {
    }
 }
 
-Field.prototype.errorTooltipsEnabled = true;
+Field.prototype.validationMode = "tooltip";
 Field.prototype.visited = false;
 Field.prototype.suppressErrorTooltipsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";

@@ -106,5 +106,13 @@ export default {
             Additional attributes that should be rendered on the input element.
             E.g. \`inputAttrs=\{\{ autoComplete: "off" \}\}\`.
         `}</Md></cx>
+    },
+    validationMode: {
+        type: 'string',
+        description: <cx><Md>
+            Defines how to present validation errors. Default mode is `tooltip`. Other options
+            are `help` and `help-block`. See [Validation Options](~/examples/form/validation-options)
+            for more information.
+        </Md></cx>
     }
 };

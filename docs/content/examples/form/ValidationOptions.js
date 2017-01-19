@@ -1,5 +1,15 @@
-import { HtmlElement, TextField, ValidationGroup, ValidationError, Checkbox, Grid, PureContainer } from 'cx/widgets';
-import { Content, Controller, LabelsLeftLayout, FirstVisibleChildLayout, KeySelection } from 'cx/ui';
+import {
+    HtmlElement,
+    TextField,
+    ValidationGroup,
+    ValidationError,
+    Checkbox,
+    Grid,
+    PureContainer,
+    Button,
+    Icon
+} from 'cx/widgets';
+import {Content, Controller, LabelsLeftLayout, LabelsTopLayout, FirstVisibleChildLayout, KeySelection} from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
@@ -15,8 +25,8 @@ class PageController extends Controller {
     }
 
     validateUsername(v) {
-        return new Promise(fulfill=> {
-            setTimeout(()=> {
+        return new Promise(fulfill => {
+            setTimeout(() => {
                 fulfill(v == 'cx' ? "This name is taken." : false);
             }, 500)
         });
@@ -25,158 +35,244 @@ class PageController extends Controller {
 
 export const ValidationOptions = <cx>
     <Md controller={PageController}>
+        # Form Validation Options
+
+        Form fields indicate invalid state to the user by providing visual feedback such
+        as changing border colors, displaying tooltips or error messages.
+
+        By default, inputs will change colors and provide an error tooltip.
+
         <CodeSplit>
-            # Form Validation Options
 
-            The following example shows different options for validating form fields.
+            If you click
+            on the field below and then click somewhere else you'll see the change. If you hover
+            the mouse over input (or touch it) you'll see the tooltip too.
+
+            <div class="widgets" layout={LabelsLeftLayout}>
+                <TextField
+                    label="Name"
+                    value:bind="$page.default"
+                    placeholder="Required"
+                    required
+                />
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                    <TextField
+                        label="Name"
+                        value:bind="$page.default"
+                        placeholder="Required"
+                        required
+                    />
+                `}</CodeSnippet>
+
+        </CodeSplit>
+
+        Required fields can be highlighted by setting the `asterisk` flag. Alternatively,
+        fields can be marked as `visited` which will force them to show validation errors immediately.
+
+        <CodeSplit>
+
+            <div class="widgets" layout={LabelsLeftLayout}>
+                <TextField
+                    label="Asterisk"
+                    value:bind="$page.asterisk"
+                    placeholder="Required"
+                    required
+                    asterisk
+                />
+
+                <TextField
+                    label="Visited"
+                    value:bind="$page.visited"
+                    placeholder="Required"
+                    required
+                    visited
+                />
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <TextField label="Asterisk" value:bind="$page.asterisk" placeholder="Required" required asterisk />
+
+                <TextField label="Visited" value:bind="$page.visited" placeholder="Required" required visited />
+            `}</CodeSnippet>
+        </CodeSplit>
+
+        <CodeSplit>
+
+            Form fields provide the `help` property which can be used to display additional information
+            next to the field.
+
+            <div class="widgets" layout={LabelsLeftLayout}>
+                <TextField
+                    label="Help"
+                    value:bind="$page.help"
+                    help={<span style="font-size:smaller">Help text</span>}
+                />
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <TextField
+                    label="Help"
+                    value:bind="$page.help"
+                    help={<span style="font-size:smaller">Help text</span>}
+                />
+            `}</CodeSnippet>
+
+        </CodeSplit>
+
+        <CodeSplit>
+
+            `help` can be used to put any content next to the field. This can be a button or a validation error.
+            Please not that the second field in the example below will show both tooltip and error message.
 
             <div class="widgets">
-                <ValidationGroup>
-                    <div layout={LabelsLeftLayout} style="width:600px">
-                        {/* Use asterisk to indicate required fields */}
-                        <TextField
-                            label="First Name (Aterisk)"
-                            value:bind="$page.firstName"
-                            required asterisk
-                        />
+                <ValidationGroup layout={LabelsLeftLayout}>
 
-                        {/* Use visited to mark invalid fields before the user visits them */}
-                        <TextField
-                            label="First Name (Visited)"
-                            value:bind="$page.firstName"
-                            required asterisk visited
-                        />
+                    <TextField
+                        label="Help"
+                        value:bind="$page.help2"
+                        help={<Button icon="calculator" mod="hollow"/>}
+                    />
 
-                        {/* Use ValidationError to display validation info on the side */}
-                        <TextField
-                            label="Last Name (Help)"
-                            value:bind="$page.lastName"
-                            help={ValidationError}
-                            required visited
-                            minLength={5}
-                        />
+                    <TextField
+                        label="Help"
+                        value:bind="$page.help2"
+                        required visited
+                        help={ValidationError}
+                    />
+                </ValidationGroup>
 
-                        {/* Which can also be displayed as a block */}
-                        <TextField
-                            label="Last Name (Block Help)"
-                            value:bind="$page.lastName"
-                            help={{ type: ValidationError, mod: 'block' }}
-                            required visited
-                            minLength={5}
-                        />
+                <CodeSnippet putInto="code">{`
+                    <TextField label="Help" value:bind="$page.help2"
+                        help={<Button icon="calculator" mod="hollow"/>}
+                    />
 
-                        {/* Validate using a regular expression */}
-                        <TextField
-                            label="Phone (RegExp)"
-                            value:bind="$page.phone"
-                            validationRegExp={/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/}
-                            placeholder="###-###-####"
-                        />
+                    <TextField label="Help" value:bind="$page.help2"
+                        required visited help={ValidationError}
+                    />
+                `}</CodeSnippet>
+            </div>
 
-                        {/* Validate using a callback function */}
-                        <TextField
-                            label="City (Callback)"
-                            value:bind="$page.form.city"
-                            onValidate="validate"
-                        />
+        </CodeSplit>
 
-                        {/* Validate using a callback function which returns a promise*/}
-                        <TextField
-                            label="Username (Server)"
-                            value:bind="$page.form.username"
-                            required visited
-                            onValidate="validateUsername"
-                            help={<PureContainer layout={FirstVisibleChildLayout}>
-                                <ValidationError />
-                                <span>OK</span>
-                            </PureContainer>}
-                        />
-                    </div>
+        Sometimes, tooltips are not the best way to indicate errors. Instead of a tooltip,
+        you may decide to only show the error message. In that case make sure that all
+        fields are wrapped inside a `ValidationGroup` element.
+
+        <CodeSplit>
+
+            <div class="widgets">
+                <ValidationGroup layout={LabelsLeftLayout}>
+                    <TextField
+                        label="Help"
+                        value:bind="$page.help3"
+                        required
+                        minLength={5}
+                        visited
+                        validationMode="help"
+                    />
+                    <TextField
+                        label="Help Block"
+                        value:bind="$page.help4"
+                        required
+                        minLength={5}
+                        visited
+                        validationMode="help-block"
+                    />
                 </ValidationGroup>
             </div>
 
+            <CodeSnippet putInto="code">{`
+                <ValidationGroup layout={LabelsLeftLayout}>
+                    <TextField label="Help" value:bind="$page.help3" required visited
+                        minLength={5} validationMode="help" />
 
-            <CodeSnippet putInto="code" fiddle="HgtYi9CY">{`
-            class PageController extends Controller {
-                validate(v) {
-                    if (v != 'Los Angeles')
-                        return 'Please type Los Angeles.';
-                    return false;
-                }
+                    <TextField label="Help Block" value:bind="$page.help4" required visited
+                        minLength={5} validationMode="help-block" />
+                </ValidationGroup>
+            `}</CodeSnippet>
 
-                validateUsername(v) {
-                    return new Promise(fulfill=> {
-                        setTimeout(()=> {
-                            fulfill(v == 'cx' ? "This name is taken." : false);
-                        }, 500)
-                    });
-                }
-            }
-            ...
+        </CodeSplit>
+
+        ### Validation Methods
+
+        <CodeSplit>
+            Form fields accept validation callback functions through `onValidate`.
+
+
             <div class="widgets">
-                <ValidationGroup>
-                    <div layout={LabelsLeftLayout} style="width:600px">
-                        {/* Use asterisk to indicate required fields */}
-                        <TextField
-                            label="First Name (Aterisk)"
-                            value:bind="$page.firstName"
-                            required asterisk
-                        />
-
-                        {/* Use visited to mark invalid fields before the user visits them */}
-                        <TextField
-                            label="First Name (Visited)"
-                            value:bind="$page.firstName"
-                            required asterisk visited
-                        />
-
-                        {/* Use ValidationError to display validation info on the side */}
-                        <TextField
-                            label="Last Name (Help)"
-                            value:bind="$page.lastName"
-                            help={ValidationError}
-                            required visited
-                            minLength={5}
-                        />
-
-                        {/* Which can also be displayed as a block */}
-                        <TextField
-                            label="Last Name (Block Help)"
-                            value:bind="$page.lastName"
-                            help={{ type: ValidationError, mod: 'block' }}
-                            required visited
-                            minLength={5}
-                        />
-
-                        {/* Validate using a regular expression */}
-                        <TextField
-                            label="Phone (RegExp)"
-                            value:bind="$page.phone"
-                            validationRegExp={/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/}
-                            placeholder="###-###-####"
-                        />
-
-                        {/* Validate using a callback function */}
-                        <TextField
-                            label="City (Callback)"
-                            value:bind="$page.form.city"
-                            onValidate="validate"
-                        />
-
-                        {/* Validate using a callback function which returns a promise*/}
-                        <TextField
-                            label="Username (Server)"
-                            value:bind="$page.form.username"
-                            required visited
-                            onValidate="validateUsername"
-                            help={<PureContainer layout={FirstVisibleChildLayout}>
-                                <ValidationError />
-                                <span>OK</span>
-                            </PureContainer>}
-                        />
-                    </div>
+                <ValidationGroup layout={LabelsTopLayout}>
+                    <TextField
+                        label="Favorite framework?"
+                        value:bind="$page.framework"
+                        validationMode="help-block"
+                        reactOn="enter blur"
+                        onValidate={(v) => {
+                            if (v != 'Cx')
+                                return 'Oops, wrong answer!'
+                        }}
+                    />
                 </ValidationGroup>
             </div>
+
+            <CodeSnippet putInto="code">{`
+                <TextField
+                    label="Favorite framework?" value:bind="$page.framework"
+                    validationMode="help-block" reactOn="enter blur"
+                    onValidate={(v) => {
+                        if (v != 'Cx')
+                            return 'Oops, wrong answer!'
+                    }}
+                />
+            `}</CodeSnippet>
+
+        </CodeSplit>
+
+        `onValidate` can be used for server validation by returning a promise.
+
+        <CodeSplit>
+
+        <div class="widgets">
+            <ValidationGroup layout={LabelsTopLayout}>
+                <TextField
+                    label="Username"
+                    value:bind="$page.form.username"
+                    required visited
+                    onValidate={
+                        v => new Promise(fulfill => {
+                            setTimeout(() => {
+                                fulfill(v == 'cx' ? "This name is taken." : false);
+                            }, 500)
+                        })
+                    }
+                    help={
+                        <div layout={FirstVisibleChildLayout}>
+                            <ValidationError />
+                            <Icon name="check" style="color:green"/>
+                        </div>
+                    }
+                />
+            </ValidationGroup>
+        </div>
+
+            <CodeSnippet putInto="code">{`
+                <TextField label="Username" value:bind="$page.form.username"
+                    required visited
+                    onValidate={
+                        v => new Promise(fulfill => {
+                            setTimeout(() => {
+                                fulfill(v == 'cx' ? "This name is taken." : false);
+                            }, 500)
+                        })
+                    }
+                    help={
+                        <div layout={FirstVisibleChildLayout}>
+                            <ValidationError />
+                            <Icon name="check" style="color:green"/>
+                        </div>
+                    }
+                />
             `}</CodeSnippet>
         </CodeSplit>
     </Md>

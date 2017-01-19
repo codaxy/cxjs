@@ -126,7 +126,7 @@ class TooltipState {
 
    check(state, e, isTouchEvent) {
       let {widget, data} = this.instance;
-      if (widget.errorTooltipsEnabled && data.error && (!widget.suppressErrorTooltipsUntilVisited || (state && state.visited))) {
+      if (data.errorTooltip && data.error && (!widget.suppressErrorTooltipsUntilVisited || (state && state.visited))) {
          let errorTooltip = {
             ...data.errorTooltip,
             text: data.error,

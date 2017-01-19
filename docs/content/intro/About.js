@@ -13,7 +13,7 @@ class PageController extends Controller {
     }
 
     generateBubbles() {
-        var bubbles = Array.from({length: 100}).map(()=> ({
+        let bubbles = Array.from({length: 100}).map(()=> ({
             x: Math.random() * 1000,
             y: Math.random() * 1000,
             r: Math.random() * 20
@@ -57,8 +57,8 @@ export const About = <cx>
             <CodeSplit>
                 <div class="widgets">
                     <ValidationGroup valid:bind="login.valid" layout={LabelsLeftLayout}>
-                        <TextField label="Username" required value:bind="login.username"/>
-                        <TextField label="Password" inputType='password' required value:bind="login.password"/>
+                        <TextField label="Username" required value:bind="login.username" />
+                        <TextField label="Password" inputType='password' required value:bind="login.password" />
                         <Button
                             disabled:expr="!{login.valid}"
                             onClick={(e, {store}) => {
@@ -72,8 +72,8 @@ export const About = <cx>
 
                 <CodeSnippet putInto="code" fiddle="W4kesfyt">{`
                 <ValidationGroup layout={LabelsLeftLayout} valid:bind="login.valid">
-                    <TextField label="Username" required value:bind="login.username" />
-                    <TextField label="Password" inputType='password' required={true} value:bind="login.password" />
+                    <TextField label="Username" required value:bind="login.username" errorTooltip />
+                    <TextField label="Password" inputType='password' required={true} value:bind="login.password" errorTooltip />
                     <Button
                         disabled:expr="!{login.valid}"
                         onClick={(e, {store}) => {
