@@ -32,4 +32,12 @@ Localization.localize(c, 'cx/widgets/MonthField', {
 Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 Localization.localize(c, 'cx/widgets/Calendar', dateFieldErrorMessages);
 
+// NumberField
+Localization.localize(c, 'cx/widgets/NumberField', {
+   maxValueErrorText: 'The number should be at most {0:n}.',
+   maxExclusiveErrorText: 'The number should be less than {0:n}.',
+   minValueErrorText: 'The number should be at least {0:n}.',
+   inputErrorText: 'Invalid number entered.'
+});
+
 
