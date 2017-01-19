@@ -7,20 +7,20 @@ const layout = createLayout('Home', [<cx>
 </cx>]);
 
 const themes = [{
-   name: 'Core',
-   url: 'core',
-   imgUrl: '~/img/core.png',
-   description: "Core theme uses mild colors and minimalistic styling. It's commonly used as a base for other themes"
+   name: 'Frost',
+   url: 'frost',
+   imgUrl: '~/img/frost.png',
+   description: "Winter inspired theme."
 }, {
    name: 'Dark',
    url: 'dark',
    imgUrl: '~/img/dark.png',
    description: "Dark theme eases the stress on your eyes caused by long hours of use. Hence, it's commonly used for long-running tools and applications."
 }, {
-   name: 'Frost',
-   url: 'frost',
-   imgUrl: '~/img/frost.png',
-   description: "Winter inspired theme."
+   name: 'Core',
+   url: 'core',
+   imgUrl: '~/img/core.png',
+   description: "Core theme uses mild colors and minimalistic styling. It's commonly used as a base for other themes"
 }];
 
 export default <cx>
