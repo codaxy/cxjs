@@ -9,6 +9,14 @@ Localization.localize(c, 'cx/widgets/Field', {
    validationExceptionText: 'Something went wrong during input validation. Check log for more details.'
 });
 
+//LookupField
+Localization.localize(c, 'cx/widgets/LookupField', {
+   loadingText: 'Loading...',
+   queryErrorText: 'Error occurred while querying for lookup data.',
+   noResultsText: 'No results found matching the given criteria.',
+   minQueryLengthMessageText: 'Please type in at least {0} character(s) to start the search.'
+});
+
 let dateFieldErrorMessages = {
    maxValueErrorText: 'Selected date is after the latest allowed date of {0:d}.',
    maxExclusiveErrorText: 'Selected date should be before {0:d}.',
