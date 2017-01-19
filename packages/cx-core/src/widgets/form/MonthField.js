@@ -229,6 +229,7 @@ class MonthInput extends VDOM.Component {
                });
             }
          },
+         constrain: true,
          firstChildDefinesWidth: true
       };
 

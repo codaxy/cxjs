@@ -448,7 +448,7 @@ export class Dropdown extends Overlay {
          if (score[k] > score[best])
             best = k;
 
-      if (this.touchFriendly && score[best] < 5)
+      if (this.touchFriendly && isTouchDevice() && score[best] < 5)
          return 'screen-center';
 
       return best;
