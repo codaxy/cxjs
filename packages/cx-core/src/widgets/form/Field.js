@@ -5,6 +5,7 @@ import {stopPropagation} from '../../util/eventCallbacks';
 import {isSelector} from '../../data/isSelector';
 import {Localization} from '../../ui/Localization';
 import {isPromise} from '../../util/isPromise';
+import {Console} from '../../util/Console';
 
 export class Field extends PureContainer {
 
@@ -140,10 +141,13 @@ export class Field extends PureContainer {
                .catch(e=> {
                   instance.setState({
                      validating: false,
-                     inputError: 'Validation thrown an exception.'
+                     inputError: this.validationExceptionText
                   });
                   if (this.onValidationException)
                      this.onValidationException(e, instance);
+                  else {
+                     Console.warn('Unhandled validation exception:', e);
+                  }
                });
          } else {
             data.error = result;
@@ -217,8 +221,9 @@ Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
+Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
 Field.prototype.helpSpacer = true;
 
 //Field.prototype.pure = false; //validation through context - recheck
 
-Localization.registerPrototype('Cx.ui.form.Field', Field);
+Localization.registerPrototype('cx/widgets/Field', Field);
