@@ -34,7 +34,7 @@ export class TextField extends Field {
    validate(context, instance) {
       super.validate(context, instance);
 
-      var {data} = instance;
+      let {data} = instance;
       if (!data.error && this.validationRegExp)
          if (!this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
@@ -73,46 +73,49 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      var {data, widget} = this.props.instance;
-      var {CSS, baseClass} = widget;
+      let {data, widget} = this.props.instance;
+      let {CSS, baseClass} = widget;
 
-      var icon = widget.icon && (
-         <div
-            className={CSS.element(baseClass, 'tool')}
-            onMouseDown={preventDefault}
-            onClick={e => this.onChange(e, 'enter')}
-         >
-            {
-               Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
-            }
-         </div>
-      );
+      let icon = widget.icon && (
+            <div
+               className={CSS.element(baseClass, 'tool')}
+               onMouseDown={preventDefault}
+               onClick={e => this.onChange(e, 'enter')}
+            >
+               {
+                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+               }
+            </div>
+         );
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({visited: this.state.visited}))}
          style={data.style}
          onMouseDown={stopPropagation}
-         onTouchStart={stopPropagation}>
-         <input ref={el=> {
-            this.input = el
-         }}
-                className={CSS.element(baseClass, 'input')}
-                defaultValue={data.value}
-                id={data.id}
-                style={data.inputStyle}
-                type={widget.inputType}
-                disabled={data.disabled}
-                readOnly={data.readOnly}
-                placeholder={data.placeholder}
-                onMouseMove={::this.onMouseMove}
-                onMouseLeave={::this.onMouseLeave}
-                onInput={ e => this.onChange(e, 'input') }
-                onChange={ e => this.onChange(e, 'change') }
-                onKeyDown={ ::this.onKeyDown }
-                onBlur={ e => {
-                   this.onChange(e, 'blur')
-                } }
-                onClick={stopPropagation}
+         onTouchStart={stopPropagation}
+      >
+         <input
+            ref={el => {
+               this.input = el
+            }}
+            className={CSS.element(baseClass, 'input')}
+            defaultValue={data.value}
+            id={data.id}
+            style={data.inputStyle}
+            type={widget.inputType}
+            disabled={data.disabled}
+            readOnly={data.readOnly}
+            placeholder={data.placeholder}
+            {...data.inputAttrs}
+            onMouseMove={::this.onMouseMove}
+            onMouseLeave={::this.onMouseLeave}
+            onInput={ e => this.onChange(e, 'input') }
+            onChange={ e => this.onChange(e, 'change') }
+            onKeyDown={ ::this.onKeyDown }
+            onBlur={ e => {
+               this.onChange(e, 'blur')
+            } }
+            onClick={stopPropagation}
          />
          {icon}
       </div>
@@ -155,7 +158,7 @@ class Input extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {data} = props.instance;
+      let {data} = props.instance;
       if (data.value != this.input.value)
          this.input.value = data.value || '';
       if (data.visited)

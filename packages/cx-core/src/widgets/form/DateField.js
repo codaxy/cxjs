@@ -3,13 +3,19 @@ import {Field} from './Field';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import { isTouchDevice } from '../../util';
+import {isTouchDevice} from '../../util';
 import {Dropdown} from '../overlay/Dropdown';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
 import {dateDiff} from '../../util/date/dateDiff';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import { KeyCode } from '../../util';
+import {
+   tooltipComponentWillReceiveProps,
+   tooltipComponentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipComponentDidMount
+} from '../overlay/Tooltip';
+import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import CalendarIcon from '../icons/calendar';
 import {Icon} from '../Icon';
@@ -83,20 +89,20 @@ export class DateField extends Field {
 
    renderInput(context, instance, key) {
       return <DateInput key={key}
-                        instance={instance}
-                        onSelect={ date => this.onSelect(instance, date) }
-                        parseDate={ date => this.parseDate(date) }
-                        calendar={{
-                           value: this.value,
-                           minValue: this.minValue,
-                           maxValue: this.maxValue,
-                           minExclusive: this.minExclusive,
-                           maxExclusive: this.maxExclusive,
-                           maxValueErrorText: this.maxValueErrorText,
-                           maxExclusiveErrorText: this.maxExclusiveErrorText,
-                           minValueErrorText: this.minValueErrorText,
-                           minExclusiveErrorText: this.minExclusiveErrorText
-                        }}
+         instance={instance}
+         onSelect={ date => this.onSelect(instance, date) }
+         parseDate={ date => this.parseDate(date) }
+         calendar={{
+            value: this.value,
+            minValue: this.minValue,
+            maxValue: this.maxValue,
+            minExclusive: this.minExclusive,
+            maxExclusive: this.maxExclusive,
+            maxValueErrorText: this.maxValueErrorText,
+            maxExclusiveErrorText: this.maxExclusiveErrorText,
+            minValueErrorText: this.minValueErrorText,
+            minExclusiveErrorText: this.minExclusiveErrorText
+         }}
       />
    }
 
@@ -109,7 +115,7 @@ export class DateField extends Field {
          return null;
       if (date instanceof Date)
          return date;
-      date = Culture.getDateTimeCulture().parse(date, { useCurrentDateForDefaults: true });
+      date = Culture.getDateTimeCulture().parse(date, {useCurrentDateForDefaults: true});
       return date;
    }
 
@@ -142,7 +148,7 @@ class DateInput extends VDOM.Component {
    constructor(props) {
       super(props);
       this.props.instance.component = this;
-      var {data} = this.props.instance;
+      let {data} = this.props.instance;
       this.data = data;
       this.state = {
          dropdownOpen: false,
@@ -154,7 +160,7 @@ class DateInput extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
-      var dropdown = {
+      let dropdown = {
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,
@@ -166,15 +172,15 @@ class DateInput extends VDOM.Component {
             type: Calendar,
             ...this.props.calendar,
             autoFocus: true,
-            onFocusOut: e=> {
+            onFocusOut: e => {
                this.closeDropdown(e);
             },
-            onKeyDown: e=>this.onKeyDown(e),
+            onKeyDown: e => this.onKeyDown(e),
             onSelect: (e) => {
                e.stopPropagation();
                e.preventDefault();
                let touch = isTouchEvent(e);
-               this.closeDropdown(e, ()=> {
+               this.closeDropdown(e, () => {
                   if (!touch)
                      this.input.focus();
                });
@@ -188,20 +194,20 @@ class DateInput extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, store, widget} = instance;
-      var {CSS, baseClass} = widget;
+      let {instance} = this.props;
+      let {data, store, widget} = instance;
+      let {CSS, baseClass} = widget;
 
-      var insideButton;
+      let insideButton;
 
       if (!data.readOnly) {
          if (!widget.hideClear && !data.required && data.value != null && !data.disabled) {
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                    onMouseDown={e=> {
-                       this.onClearClick(e);
-                    }}>
-                  <ClearIcon className={CSS.element(baseClass, 'icon')} />
+                  onMouseDown={e => {
+                     this.onClearClick(e);
+                  }}>
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             )
          } else {
@@ -213,30 +219,39 @@ class DateInput extends VDOM.Component {
          }
       }
 
-      var dropdown = false;
+      let dropdown = false;
       if (this.state.dropdownOpen)
          dropdown = instance.prepareRenderCleanupChild(this.getDropdown(), store, 'dropdown', {name: 'datefield-dropdown'});
 
-      return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
-                  style={data.style}
-                  onMouseDown={::this.onMouseDown}
-                  onTouchStart={::this.onMouseDown}>
-         <input id={data.id}
-                ref={el=>{this.input = el}}
-                type="text"
-                className={CSS.element(baseClass, 'input')}
-                style={data.inputStyle}
-                defaultValue={data.formatted}
-                disabled={data.disabled}
-                readOnly={data.readOnly}
-                placeholder={data.placeholder}
-                onInput={ e => this.onChange(e, 'input') }
-                onChange={ e => this.onChange(e, 'change') }
-                onKeyDown={ e => this.onKeyDown(e) }
-                onBlur={ e => { this.onBlur(e) } }
-                onFocus={ e => { this.onFocus(e) } }
-                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
-                onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
+      return <div
+         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
+         style={data.style}
+         onMouseDown={::this.onMouseDown}
+         onTouchStart={::this.onMouseDown}>
+         <input
+            id={data.id}
+            ref={el => {
+               this.input = el
+            }}
+            type="text"
+            className={CSS.element(baseClass, 'input')}
+            style={data.inputStyle}
+            defaultValue={data.formatted}
+            disabled={data.disabled}
+            readOnly={data.readOnly}
+            placeholder={data.placeholder}
+            {...data.inputAttrs}
+            onInput={ e => this.onChange(e, 'input') }
+            onChange={ e => this.onChange(e, 'change') }
+            onKeyDown={ e => this.onKeyDown(e) }
+            onBlur={ e => {
+               this.onBlur(e)
+            } }
+            onFocus={ e => {
+               this.onFocus(e)
+            } }
+            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
+            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
          />
          { insideButton }
          { dropdown }
@@ -278,7 +293,7 @@ class DateInput extends VDOM.Component {
          case KeyCode.esc:
             if (this.state.dropdownOpen) {
                e.stopPropagation();
-               this.closeDropdown(e, ()=> {
+               this.closeDropdown(e, () => {
                   this.input.focus();
                });
             }
@@ -286,8 +301,8 @@ class DateInput extends VDOM.Component {
 
          case KeyCode.left:
          case KeyCode.right:
-              e.stopPropagation();
-              break;
+            e.stopPropagation();
+            break;
 
          case KeyCode.down:
             this.openDropdown(e);
@@ -317,7 +332,7 @@ class DateInput extends VDOM.Component {
    }
 
    openDropdown(e) {
-      var {data} = this.props.instance;
+      let {data} = this.props.instance;
       this.openDropdownOnFocus = false;
 
       if (!this.state.dropdownOpen && !(data.disabled || data.readOnly)) {
@@ -332,7 +347,7 @@ class DateInput extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {data, state} = props.instance;
+      let {data, state} = props.instance;
       if (data.formatted != this.input.value && (data.formatted != this.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
          props.instance.setState({
@@ -341,7 +356,7 @@ class DateInput extends VDOM.Component {
       }
       this.data = data;
       if (data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
    }
 
@@ -356,7 +371,7 @@ class DateInput extends VDOM.Component {
    }
 
    onChange(e, eventType) {
-      var date = this.props.parseDate(e.target.value);
+      let date = this.props.parseDate(e.target.value);
 
       if (eventType == 'blur' || eventType == 'enter') {
          if (date == null)

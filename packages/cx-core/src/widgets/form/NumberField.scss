@@ -20,10 +20,16 @@
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
-         $besm,
-         $state-style-map,
+            $besm,
+            $state-style-map,
          $placeholder: $placeholder
       );
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+         -webkit-appearance: none;
+         margin: 0;
+      }
    }
 
    .#{$element}#{$name}-tool {

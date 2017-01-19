@@ -99,5 +99,12 @@ export default {
             Indicates that `help` should be separated from the input with a whitespace.
             Default is `true`.
         </Md></cx>
+    },
+    inputAttrs: {
+        type: 'object',
+        description: <cx><Md>{`
+            Additional attributes that should be rendered on the input element.
+            E.g. \`inputAttrs=\{\{ autoComplete: "off" \}\}\`.
+        `}</Md></cx>
     }
 };

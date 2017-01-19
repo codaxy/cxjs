@@ -38,7 +38,7 @@ export class NumberField extends Field {
 
    prepareData(context, instance) {
       super.prepareData(context, instance);
-      var {data} = instance;
+      let {data} = instance;
 
       data.formatted = Format.value(data.value, data.format);
    }
@@ -50,7 +50,7 @@ export class NumberField extends Field {
    validate(context, instance) {
       super.validate(context, instance);
 
-      var {data} = instance;
+      let {data} = instance;
       if (typeof data.value == 'number' && !data.error) {
          if (typeof data.minValue == 'number') {
             if (data.value < data.minValue)
@@ -71,10 +71,9 @@ export class NumberField extends Field {
    renderInput(context, instance, key) {
       return (
          <Input
-            key={key + '-content'}
+            key={key}
             data={instance.data}
             instance={instance}
-            inputType="text"
          />
       )
    }
@@ -83,6 +82,7 @@ export class NumberField extends Field {
 NumberField.prototype.baseClass = "numberfield";
 NumberField.prototype.reactOn = "input wheel blur";
 NumberField.prototype.format = 'n';
+NumberField.prototype.inputType = 'text';
 
 NumberField.prototype.maxValueErrorText = 'The number should be at most {0:n}.';
 NumberField.prototype.maxExclusiveErrorText = 'The number should be less than {0:n}.';
@@ -114,10 +114,10 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      var {data, widget} = this.props.instance;
-      var {CSS, baseClass} = widget;
+      let {data, widget} = this.props.instance;
+      let {CSS, baseClass} = widget;
 
-      var icon = widget.icon && (
+      let icon = widget.icon && (
             <div
                className={CSS.element(baseClass, 'tool')}
                onMouseDown={preventDefault}
@@ -135,7 +135,7 @@ class Input extends VDOM.Component {
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}>
          <input id={data.id}
-            type={this.props.inputType}
+            type={widget.inputType}
             className={CSS.element(baseClass, "input")}
             defaultValue={data.formatted}
             ref={el => {
@@ -145,6 +145,7 @@ class Input extends VDOM.Component {
             disabled={data.disabled}
             readOnly={data.readOnly}
             placeholder={data.placeholder}
+            {...data.inputAttrs}
             onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
             onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
             onInput={ e => this.onChange(e, 'input') }
@@ -165,7 +166,7 @@ class Input extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {data, state} = props.instance;
+      let {data, state} = props.instance;
       if (this.input.value != props.data.formatted && (this.data.formatted != data.formatted || !state.inputError)) {
          this.input.value = props.data.formatted || '';
          props.instance.setState({
@@ -189,10 +190,10 @@ class Input extends VDOM.Component {
    }
 
    getPreCursorDigits(text, cursor) {
-      var res = '';
-      var culture = Culture.getNumberCulture();
-      var decimalSeparator = culture.decimalSeparator || '.';
-      for (var i = 0; i < cursor; i++) {
+      let res = '';
+      let culture = Culture.getNumberCulture();
+      let decimalSeparator = culture.decimalSeparator || '.';
+      for (let i = 0; i < cursor; i++) {
          if ('0' <= text[i] && text[i] <= '9')
             res += text[i];
          else if (text[i] == decimalSeparator)
@@ -224,9 +225,9 @@ class Input extends VDOM.Component {
       if (value == 0)
          return 0.1;
 
-      var absValue = Math.abs(value * strength);
-      var log10 = Math.floor(Math.log10(absValue) + 0.001);
-      var size = Math.pow(10, log10);
+      let absValue = Math.abs(value * strength);
+      let log10 = Math.floor(Math.log10(absValue) + 0.001);
+      let size = Math.pow(10, log10);
       if (absValue / size > 4.999)
          return 5 * size;
       if (absValue / size > 1.999)
@@ -236,8 +237,8 @@ class Input extends VDOM.Component {
 
    onChange(e, change) {
 
-      var instance = this.props.instance;
-      var {data, widget} = instance;
+      let instance = this.props.instance;
+      let {data, widget} = instance;
 
       if (widget.reactOn.indexOf(change) == -1)
          return;
@@ -297,7 +298,7 @@ class Input extends VDOM.Component {
                || e.target.value.indexOf(culture.decimalSeparator) == -1
                || (this.input.selectionStart == this.input.selectionEnd && this.input.selectionStart != e.target.value.length)
             )) {
-            var preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart);
+            let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
          }

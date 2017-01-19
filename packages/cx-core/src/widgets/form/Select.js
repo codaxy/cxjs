@@ -122,6 +122,7 @@ class SelectComponent extends VDOM.Component {
             value={data.value || widget.nullString}
             multiple={multiple}
             disabled={data.disabled}
+            {...data.inputAttrs}
             onBlur={::this.onBlur}
             onChange={e => {
                e.preventDefault();

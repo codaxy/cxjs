@@ -58,14 +58,19 @@ export class Radio extends Field {
    renderNativeCheck(context, instance) {
       var {CSS, baseClass} = this;
       var {data} = instance;
-      return <input key="input"
-                    className={CSS.element(baseClass, "radio")}
-                    id={data.id}
-                    type="radio"
-                    checked={data.checked}
-                    disabled={data.disabled}
-                    onClick={stopPropagation}
-                    onChange={ e => { this.handleChange(e, instance) } }/>;
+      return <input
+         key="input"
+         className={CSS.element(baseClass, "radio")}
+         id={data.id}
+         type="radio"
+         checked={data.checked}
+         disabled={data.disabled}
+         {...data.inputAttrs}
+         onClick={stopPropagation}
+         onChange={ e => {
+            this.handleChange(e, instance)
+         } }
+      />;
    }
 
    renderCheck(context, instance) {

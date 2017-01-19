@@ -32,7 +32,7 @@ export class Checkbox extends Field {
    }
 
    renderWrap(context, instance, key, content) {
-      var {data} = instance;
+      let {data} = instance;
       return <label key={key}
          className={data.classNames}
          onMouseDown={stopPropagation}
@@ -47,14 +47,16 @@ export class Checkbox extends Field {
    }
 
    renderNativeCheck(context, instance) {
-      var {CSS, baseClass} = this;
-      var {data} = instance;
-      return <input key="input"
+      let {CSS, baseClass} = this;
+      let {data} = instance;
+      return <input
+         key="input"
          className={CSS.element(baseClass, "checkbox")}
          id={data.id}
          type="checkbox"
          checked={data.value || false}
          disabled={data.disabled}
+         {...data.inputAttrs}
          onClick={stopPropagation}
          onChange={ e => {
             this.handleChange(e, instance)
@@ -66,14 +68,14 @@ export class Checkbox extends Field {
    }
 
    renderInput(context, instance, key) {
-      var {data} = instance;
-      var text = data.text || getContent(this.renderChildren(context, instance));
-      var {CSS, baseClass} = this;
+      let {data} = instance;
+      let text = data.text || getContent(this.renderChildren(context, instance));
+      let {CSS, baseClass} = this;
       return this.renderWrap(context, instance, key, [
          this.native
             ? this.renderNativeCheck(context, instance)
             : this.renderCheck(context, instance),
-         text && <div key="text" className={CSS.element(this.baseClass, "text")}>
+         text && <div key="text" className={CSS.element(baseClass, "text")}>
             {text}
          </div>
       ]);
@@ -99,7 +101,7 @@ export class Checkbox extends Field {
       e.preventDefault();
       e.stopPropagation();
 
-      var {data} = instance;
+      let {data} = instance;
 
       if (data.readOnly || data.disabled)
          return;
