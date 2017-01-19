@@ -34,10 +34,9 @@ export class Widget extends Component {
             if (attr.indexOf('on') == 0 && attr.length > 2 && typeof this[attr] == 'string') {
                let actionName = this[attr];
                this[attr] = (e, instance, ...args) => {
-                  let callback = instance.controller[actionName];
-                  if (typeof callback != 'function')
+                  if (typeof instance.controller[actionName] != 'function')
                      throw new Error(`Method '${actionName}' not found in the parent controller.`);
-                  callback(e, instance, ...args);
+                  instance.controller[actionName](e, instance, ...args);
                }
             }
 
