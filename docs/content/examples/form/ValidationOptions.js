@@ -8,10 +8,6 @@ import {CodeSnippet} from '../../../components/CodeSnippet';
 //phone regex: http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
 
 class PageController extends Controller {
-    init() {
-        super.init();
-    }
-
     validate(v) {
         if (v != 'Los Angeles')
             return 'Please type Los Angeles.';
@@ -101,6 +97,22 @@ export const ValidationOptions = <cx>
 
 
             <CodeSnippet putInto="code" fiddle="HgtYi9CY">{`
+            class PageController extends Controller {
+                validate(v) {
+                    if (v != 'Los Angeles')
+                        return 'Please type Los Angeles.';
+                    return false;
+                }
+
+                validateUsername(v) {
+                    return new Promise(fulfill=> {
+                        setTimeout(()=> {
+                            fulfill(v == 'cx' ? "This name is taken." : false);
+                        }, 500)
+                    });
+                }
+            }
+            ...
             <div class="widgets">
                 <ValidationGroup>
                     <div layout={LabelsLeftLayout} style="width:600px">

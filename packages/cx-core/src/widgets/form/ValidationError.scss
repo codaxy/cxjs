@@ -9,6 +9,7 @@
 
    .#{$block}validationerror {
       color: rgb(220, 0, 9);
+      font-size: smaller;
 
       &.#{$mod}block {
          display: block;
