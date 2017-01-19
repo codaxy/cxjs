@@ -9,7 +9,7 @@ Localization.localize(c, 'cx/widgets/Field', {
    validationExceptionText: 'Something went wrong during input validation. Check log for more details.'
 });
 
-//LookupField
+// LookupField
 Localization.localize(c, 'cx/widgets/LookupField', {
    loadingText: 'Loading...',
    queryErrorText: 'Error occurred while querying for lookup data.',
@@ -17,15 +17,19 @@ Localization.localize(c, 'cx/widgets/LookupField', {
    minQueryLengthMessageText: 'Please type in at least {0} character(s) to start the search.'
 });
 
+// MonthField, DateField, Calendar
 let dateFieldErrorMessages = {
    maxValueErrorText: 'Selected date is after the latest allowed date of {0:d}.',
    maxExclusiveErrorText: 'Selected date should be before {0:d}.',
-   minValueErrorText: 'Selected date is before the latest allowed date of {0:d}.',
+   minValueErrorText: 'Selected date is before the earliest allowed date of {0:d}.',
    minExclusiveErrorText: 'Selected date should be after {0:d}.',
 };
-
+// MonthField
+Localization.localize(c, 'cx/widgets/MonthField', { 
+   ...dateFieldErrorMessages, 
+   inputErrorText: 'Invalid date entered.'
+});
 Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
-
 Localization.localize(c, 'cx/widgets/Calendar', dateFieldErrorMessages);
 
 

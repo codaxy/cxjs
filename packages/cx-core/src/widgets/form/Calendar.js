@@ -11,6 +11,7 @@ import {sameDate} from '../../util/date/sameDate';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import { KeyCode } from '../../util';
 import { isTouchDevice } from '../../util';
+import { Localization } from '../../ui/Localization';
 
 export class Calendar extends Field {
 
@@ -107,8 +108,10 @@ Calendar.prototype.baseClass = "calendar";
 Calendar.prototype.highlightToday = true;
 Calendar.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 Calendar.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-Calendar.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-Calendar.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
+Calendar.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
+Calendar.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+
+Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 
 const validationCheck = (date, data) => {
 
