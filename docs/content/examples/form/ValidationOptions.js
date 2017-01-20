@@ -57,7 +57,7 @@ export const ValidationOptions = <cx>
                 />
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="89CFD32T">{`
                     <TextField
                         label="Name"
                         value:bind="$page.default"
@@ -91,7 +91,7 @@ export const ValidationOptions = <cx>
                 />
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="NrkChvlx">{`
                 <TextField label="Asterisk" value:bind="$page.asterisk" placeholder="Required" required asterisk />
 
                 <TextField label="Visited" value:bind="$page.visited" placeholder="Required" required visited />
@@ -111,7 +111,7 @@ export const ValidationOptions = <cx>
                 />
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="wS5tlMkT">{`
                 <TextField
                     label="Help"
                     value:bind="$page.help"
@@ -142,17 +142,23 @@ export const ValidationOptions = <cx>
                         help={ValidationError}
                     />
                 </ValidationGroup>
-
-                <CodeSnippet putInto="code">{`
-                    <TextField label="Help" value:bind="$page.help2"
-                        help={<Button icon="calculator" mod="hollow"/>}
-                    />
-
-                    <TextField label="Help" value:bind="$page.help2"
-                        required visited help={ValidationError}
-                    />
-                `}</CodeSnippet>
             </div>
+
+                <CodeSnippet putInto="code" fiddle="tKub0tQP">{`
+                    <ValidationGroup layout={LabelsLeftLayout}>
+                        <TextField
+                            label="Help"
+                            value:bind="$page.help2"
+                            help={<Button icon="calculator" mod="hollow"/>}
+                        />
+                        <TextField
+                            label="Help"
+                            value:bind="$page.help2"
+                            required visited
+                            help={ValidationError}
+                        />
+                    </ValidationGroup>
+                `}</CodeSnippet>
 
         </CodeSplit>
 
@@ -183,7 +189,7 @@ export const ValidationOptions = <cx>
                 </ValidationGroup>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="hY5BXIPR">{`
                 <ValidationGroup layout={LabelsLeftLayout}>
                     <TextField label="Help" value:bind="$page.help3" required visited
                         minLength={5} validationMode="help" />
@@ -216,7 +222,7 @@ export const ValidationOptions = <cx>
                 </ValidationGroup>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="HsSymblF">{`
                 <TextField
                     label="Favorite framework?" value:bind="$page.framework"
                     validationMode="help-block" reactOn="enter blur"
@@ -233,46 +239,50 @@ export const ValidationOptions = <cx>
 
         <CodeSplit>
 
-        <div class="widgets">
-            <ValidationGroup layout={LabelsTopLayout}>
-                <TextField
-                    label="Username"
-                    value:bind="$page.form.username"
-                    required visited
-                    onValidate={
-                        v => new Promise(fulfill => {
-                            setTimeout(() => {
-                                fulfill(v == 'cx' ? "This name is taken." : false);
-                            }, 500)
-                        })
-                    }
-                    help={
-                        <div layout={FirstVisibleChildLayout}>
-                            <ValidationError />
-                            <Icon name="check" style="color:green"/>
-                        </div>
-                    }
-                />
-            </ValidationGroup>
-        </div>
+            <div class="widgets">
+                <ValidationGroup layout={LabelsTopLayout}>
+                    <TextField
+                        label="Username"
+                        value:bind="$page.form.username"
+                        required visited
+                        onValidate={
+                            v => new Promise(fulfill => {
+                                setTimeout(() => {
+                                    fulfill(v == 'cx' ? "This name is taken." : false);
+                                }, 500)
+                            })
+                        }
+                        help={
+                            <div layout={FirstVisibleChildLayout}>
+                                <ValidationError />
+                                <Icon name="check" style="color:green"/>
+                            </div>
+                        }
+                    />
+                </ValidationGroup>
+            </div>
 
-            <CodeSnippet putInto="code">{`
-                <TextField label="Username" value:bind="$page.form.username"
-                    required visited
-                    onValidate={
-                        v => new Promise(fulfill => {
-                            setTimeout(() => {
-                                fulfill(v == 'cx' ? "This name is taken." : false);
-                            }, 500)
-                        })
-                    }
-                    help={
-                        <div layout={FirstVisibleChildLayout}>
-                            <ValidationError />
-                            <Icon name="check" style="color:green"/>
-                        </div>
-                    }
-                />
+            <CodeSnippet putInto="code" fiddle="qMFIX9Cc">{`
+                <ValidationGroup layout={LabelsTopLayout}>
+                    <TextField
+                        label="Username"
+                        value:bind="$page.form.username"
+                        required visited
+                        onValidate={
+                            v => new Promise(fulfill => {
+                                setTimeout(() => {
+                                    fulfill(v == 'cx' ? "This name is taken." : false);
+                                }, 500)
+                            })
+                        }
+                        help={
+                            <div layout={FirstVisibleChildLayout}>
+                                <ValidationError />
+                                <Icon name="check" style="color:green"/>
+                            </div>
+                        }
+                    />
+                </ValidationGroup>
             `}</CodeSnippet>
         </CodeSplit>
     </Md>
