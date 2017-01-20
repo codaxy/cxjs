@@ -17,13 +17,13 @@ export class Grid extends Widget {
 
    declareData() {
 
-      var selection = this.selection.configureWidget(this);
+      let selection = this.selection.configureWidget(this);
 
       super.declareData({
          records: undefined,
-         class: { structured: true },
-         className: { structured: true },
-         style: { structured: true },
+         class: {structured: true},
+         className: {structured: true},
+         style: {structured: true},
          sorters: undefined,
          scrollable: undefined,
          sortField: undefined,
@@ -41,13 +41,13 @@ export class Grid extends Widget {
          recordName: this.recordName
       });
 
-      this.columns.forEach(c=> c.init());
+      this.columns.forEach(c => c.init());
 
-      var aggregates = {};
-      this.columns.filter(c=>c.aggregate && c.aggregateField).forEach(c=> {
+      let aggregates = {};
+      this.columns.filter(c => c.aggregate && c.aggregateField).forEach(c => {
          aggregates[c.aggregateField] = {
-            value: c.value != null ? c.value : { bind: this.recordName + '.' + c.field },
-            weight: c.weight != null ? c.weight : c.weightField && { bind: this.recordName + '.' + c.weightField },
+            value: c.value != null ? c.value : {bind: this.recordName + '.' + c.field},
+            weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
             type: c.aggregate
          }
       });
@@ -88,7 +88,7 @@ export class Grid extends Widget {
 
    prepareData(context, instance) {
 
-      var {data, state} = instance;
+      let {data, state} = instance;
 
       if (state.sorters && !data.sorters)
          data.sorters = state.sorters;
@@ -146,35 +146,60 @@ export class Grid extends Widget {
 
       instance.columns = [];
 
-      this.columns.forEach(c=> {
-         var column = instance.getChild(context, c);
+      this.columns.forEach(c => {
+         let column = instance.getChild(context, c);
          if (column.explore(context))
             instance.columns.push(column);
       });
 
-      var {store} = instance;
+      let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      var record;
-      for (var i = 0; i<instance.records.length; i++) {
-         record = instance.records[i];
-         if (record.cells) {
-            var wasSelected = record.selected;
+      for (let i = 0; i < instance.records.length; i++) {
+         let record = instance.records[i];
+         if (record.type == 'data') {
+            let wasSelected = record.selected;
             record.selected = instance.isSelected(record.data, record.index);
-            record.shouldUpdate = wasSelected != record.selected;
-            for (var c = 0; c < record.cells.length; c++)
-               record.cells[c].explore(context);
+            record.shouldUpdate = wasSelected != record.selected || !record.cells;
+            let newCells = record.cells || [];
+            let oldCells = record.cells || newCells;
+            let identical = record.cells ? 0 : -1;
+
+            for (let c = 0; c < this.columns.length; c++) {
+               let cell = instance.getChild(context, this.columns[c], record.key, record.store);
+               cell.repeatable = true;
+               if (cell.explore(context)) {
+                  if (identical >= 0) {
+                     if (cell == oldCells[newCells.length - 1])
+                        identical++;
+                     else {
+                        newCells = newCells.slice(0, identical);
+                        identical = -1;
+                        record.shouldUpdate = true;
+                        newCells.push(cell);
+                     }
+                  }
+                  else
+                     newCells.push(cell);
+
+                  if (cell.shouldUpdate)
+                     record.shouldUpdate = true;
+               }
+            }
+            if (identical && newCells.length != oldCells.length)
+               record.shouldUpdate = true;
+
+            record.cells = newCells;
          }
       }
    }
 
    prepare(context, instance) {
-      var record, cell;
-      for (var i = 0; i < instance.records.length; i++) {
-         record = instance.records[i];
+      for (let i = 0; i < instance.records.length; i++) {
+         let record = instance.records[i];
          if (record.cells) {
-            for (var c = 0; c < record.cells.length; c++) {
-               cell = record.cells[c];
+            for (let c = 0; c < record.cells.length; c++) {
+               let cell = record.cells[c];
                cell.prepare(context);
                if (cell.shouldUpdate)
                   record.shouldUpdate = true;
@@ -183,20 +208,19 @@ export class Grid extends Widget {
             }
          }
       }
-      instance.columns.forEach(c=>c.prepare(context));
+      instance.columns.forEach(c => c.prepare(context));
       super.prepare(context, instance);
    }
 
    cleanup(context, instance) {
-      var record;
-      for (var i = 0; i < instance.records.length; i++) {
-         record = instance.records[i];
+      for (let i = 0; i < instance.records.length; i++) {
+         let record = instance.records[i];
          if (record.cells) {
-            for (var c = 0; c < record.cells.length; c++)
+            for (let c = 0; c < record.cells.length; c++)
                record.cells[c].cleanup(context);
          }
       }
-      instance.columns.forEach(c=>c.cleanup(context));
+      instance.columns.forEach(c => c.cleanup(context));
       super.cleanup(context, instance);
    }
 
@@ -208,7 +232,7 @@ export class Grid extends Widget {
             throw new Error('DynamicGrouping should be an array or grouping objects');
          }
 
-         grouping = grouping.map((g, i)=> {
+         grouping = grouping.map((g, i) => {
             if (typeof g == 'string') {
                return {
                   key: {
@@ -229,17 +253,17 @@ export class Grid extends Widget {
       }
 
       if (autoConfigure)
-         this.showHeader = !Array.isArray(grouping) || !grouping.some(g=>g.showHeader);
+         this.showHeader = !Array.isArray(grouping) || !grouping.some(g => g.showHeader);
 
       this.dataAdapter.groupBy(grouping);
       this.update();
    }
 
    render(context, instance, key) {
-      var {data, refs} = instance;
+      let {data, refs} = instance;
 
 
-      var fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', {
+      let fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', {
             fixed: true,
             refs: refs.fixed,
             originalRefs: refs.header
@@ -248,30 +272,30 @@ export class Grid extends Widget {
       this.renderRows(context, instance);
 
       refs.header = {};
-      var header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
+      let header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
 
       return <GridComponent key={key}
-                            instance={instance}
-                            header={header}
-                            headerRefs={refs.header}
-                            fixedHeader={fixedHeader}
-                            fixedHeaderRefs={refs.fixed} />
+         instance={instance}
+         header={header}
+         headerRefs={refs.header}
+         fixedHeader={fixedHeader}
+         fixedHeaderRefs={refs.fixed}/>
    }
 
    renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
-      var {data, widget} = instance;
+      let {data, widget} = instance;
       if (!refs)
          refs = {};
-      var {CSS, baseClass} = widget;
+      let {CSS, baseClass} = widget;
 
-      var result = [[], [], []];
-      var skip = {};
+      let result = [[], [], []];
+      let skip = {};
 
-      var empty = [ true, true, true ];
+      let empty = [true, true, true];
 
       instance.columns.forEach((columnInstance, i) => {
 
-         var c = columnInstance.widget;
+         let c = columnInstance.widget;
 
          for (let l = 0; l < 3; l++) {
 
@@ -296,7 +320,7 @@ export class Grid extends Widget {
 
                   if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
                      mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
-                     sortIcon = <DropDownIcon className={CSS.element(baseClass, 'column-sort-icon')} />
+                     sortIcon = <DropDownIcon className={CSS.element(baseClass, 'column-sort-icon')}/>
                   }
                }
 
@@ -323,32 +347,32 @@ export class Grid extends Widget {
             cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
 
             result[l].push(<th key={i}
-                               ref={c=> {
-                                  refs[colKey] = c
-                               }}
-                               colSpan={colSpan}
-                               rowSpan={rowSpan}
-                               className={cls}
-                               style={style}
-                               onClick={e=>this.onHeaderClick(e, c, instance, l)}>
+               ref={c => {
+                  refs[colKey] = c
+               }}
+               colSpan={colSpan}
+               rowSpan={rowSpan}
+               className={cls}
+               style={style}
+               onClick={e => this.onHeaderClick(e, c, instance, l)}>
                {getContent(content)}
                {sortIcon}
             </th>);
          }
       });
 
-      result = result.filter((_, i)=>!empty[i]);
+      result = result.filter((_, i) => !empty[i]);
 
       if (fixed)
          result[0].push(<th key="dummy"
-                         rowSpan={result.length}
-                         className={CSS.element(baseClass, "col-header")}
-                         ref={el=> {
-                            refs.last = el
-                         }}/>);
+            rowSpan={result.length}
+            className={CSS.element(baseClass, "col-header")}
+            ref={el => {
+               refs.last = el
+            }}/>);
 
       return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-      {result.map((h, i)=><tr key={i}>{h}</tr>)}
+      {result.map((h, i) => <tr key={i}>{h}</tr>)}
       </tbody>;
    }
 
@@ -356,16 +380,16 @@ export class Grid extends Widget {
       e.preventDefault();
       e.stopPropagation();
 
-      var {data} = instance;
-      var header = column[`header${headerLine+1}`];
+      let {data} = instance;
+      let header = column[`header${headerLine + 1}`];
 
       if (header.allowSorting && column.sortable && (column.field || column.sortField || column.value)) {
-         var sortField = column.sortField || column.field;
-         var dir = 'ASC';
+         let sortField = column.sortField || column.field;
+         let dir = 'ASC';
          if (data.sorters && data.sorters[0].field == sortField && data.sorters[0].value == column.value && data.sorters[0].direction == 'ASC')
             dir = 'DESC';
 
-         var sorters = [{
+         let sorters = [{
             field: sortField,
             direction: dir,
             value: column.value
@@ -381,9 +405,9 @@ export class Grid extends Widget {
    }
 
    renderGroupHeader(context, instance, g, level, group, i, store) {
-      var {CSS, baseClass} = this;
-      var data = store.getData();
-      var caption = g.caption(data);
+      let {CSS, baseClass} = this;
+      let data = store.getData();
+      let caption = g.caption(data);
       return <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, 'group-caption', ['level-' + level])}>
       <tr>
          <td colSpan={instance.columns.length}>{caption}</td>
@@ -392,13 +416,13 @@ export class Grid extends Widget {
    }
 
    renderGroupFooter(context, instance, g, level, group, i, store) {
-      var {CSS, baseClass} = this;
-      var data = store.getData();
-      return <tbody key={'f'+i} className={CSS.element(baseClass, 'group-footer', ['level-'+level])}>
+      let {CSS, baseClass} = this;
+      let data = store.getData();
+      return <tbody key={'f' + i} className={CSS.element(baseClass, 'group-footer', ['level-' + level])}>
       <tr>
          {
             instance.columns.map((ci, i) => {
-               var v, c = ci.widget;
+               let v, c = ci.widget;
                if (c.footer)
                   v = c.footer(data);
                else if (c.aggregate && c.aggregateField) {
@@ -407,7 +431,7 @@ export class Grid extends Widget {
                      v = Format.value(v, ci.data.format);
                }
 
-               var cls = '';
+               let cls = '';
                if (c.align)
                   cls += CSS.state('aligned-' + c.align);
                return <td key={i} className={cls}>{v}</td>;
@@ -419,14 +443,14 @@ export class Grid extends Widget {
 
    renderRows(context, instance) {
 
-      var {records} = instance;
+      let {records} = instance;
 
       if (!Array.isArray(records))
          return null;
 
-      var record, g;
+      let record, g;
 
-      for (var i = 0; i < records.length; i++) {
+      for (let i = 0; i < records.length; i++) {
          record = records[i];
          if (record.type == 'data')
             record.vdom = this.renderRow(context, instance, record);
@@ -462,16 +486,16 @@ export class Grid extends Widget {
       if (this.memoize && record.shouldUpdate === false && record.vdom)
          return record.vdom;
 
-      var cells = [], ci;
+      let cells = [], ci;
 
-      for (var i = 0; i < record.cells.length; i++) {
+      for (let i = 0; i < record.cells.length; i++) {
          ci = record.cells[i];
          if (!ci.visible)
             continue;
-         var c = ci.widget;
-         var row = ci.render(context, String(i));
-         var v = getContent(row);
-         var state = [];
+         let c = ci.widget;
+         let row = ci.render(context, String(i));
+         let v = getContent(row);
+         let state = [];
          if (c.align)
             state.push('aligned-' + c.align);
          if (ci.data.pad)
@@ -481,7 +505,7 @@ export class Grid extends Widget {
             if (ci.data.format)
                v = Format.value(v, ci.data.format);
          }
-         var cls = this.CSS.expand(ci.data.classNames, this.CSS.state(state));
+         let cls = this.CSS.expand(ci.data.classNames, this.CSS.state(state));
          cells.push(<td key={i} className={cls} style={ci.data.style}>{v}</td>);
       }
 
@@ -489,18 +513,9 @@ export class Grid extends Widget {
    }
 
    mapRecords(context, instance) {
-      var {data, store} = instance;
+      let {data, store} = instance;
       this.dataAdapter.sort(!this.remoteSort && data.sorters);
-      return this.dataAdapter.getRecords(context, instance, data.records, store).map(record => {
-         if (record.type == 'data') {
-            record.cells = this.columns.map(c => {
-               var cell = instance.getChild(context, c, record.key, record.store)
-               cell.repeatable = true;
-               return cell;
-            });
-         }
-         return record;
-      });
+      return this.dataAdapter.getRecords(context, instance, data.records, store);
    }
 }
 
@@ -520,7 +535,7 @@ class GridComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.dom = {};
-      var {widget} = props.instance;
+      let {widget} = props.instance;
       this.state = {
          cursor: widget.focused && widget.selectable ? 0 : -1,
          focused: widget.focused
@@ -528,31 +543,31 @@ class GridComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      let {instance} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass} = widget;
 
-      var children = instance.records.map((record, i)=> {
+      let children = instance.records.map((record, i) => {
          if (record.type == 'data') {
-            var {data, store, index, key, selected} = record;
-            var mod = {
+            let {data, store, index, key, selected} = record;
+            let mod = {
                selected: selected,
                cursor: i == this.state.cursor
             };
             return <GridRowComponent key={key}
-                                     className={CSS.element(baseClass, 'data', mod)}
-                                     onClick={e=>widget.onRowClick(e, data, index, store)}
-                                     onMouseEnter={e=>this.moveCursor(i)}
-                                     isSelected={selected}
-                                     cursor={mod.cursor}
-                                     shouldUpdate={record.shouldUpdate}>
+               className={CSS.element(baseClass, 'data', mod)}
+               onClick={e => widget.onRowClick(e, data, index, store)}
+               onMouseEnter={e => this.moveCursor(i)}
+               isSelected={selected}
+               cursor={mod.cursor}
+               shouldUpdate={record.shouldUpdate}>
                {record.vdom}
             </GridRowComponent>
          }
          return record.vdom;
       });
 
-      var content = [];
+      let content = [];
 
       if (instance.records.length == 0 && data.emptyText) {
          content.push(
@@ -564,33 +579,38 @@ class GridComponent extends VDOM.Component {
             </div>
          );
       } else {
-         content.push(<div key="scroller"
-                           ref={el=> {
-                              this.dom.scroller = el
-                           }}
-                           tabIndex={widget.selectable ? 0 : null}
-                           onScroll={::this.onScroll}
-                           className={CSS.element(baseClass, 'scroll-area')}
-                           onKeyDown={::this.handleKeyDown}
-                           onMouseLeave={::this.handleMouseLeave}
-                           onFocus={::this.onFocus}
-                           onBlur={::this.onBlur}>
-
-            <table ref={el=> {
-               this.dom.table = el
-            }}>
-               {this.props.header}
-               {children}
-            </table>
-         </div>);
+         content.push(
+            <div
+               key="scroller"
+               ref={el => {
+                  this.dom.scroller = el
+               }}
+               tabIndex={widget.selectable ? 0 : null}
+               onScroll={::this.onScroll}
+               className={CSS.element(baseClass, 'scroll-area')}
+               onKeyDown={::this.handleKeyDown}
+               onMouseLeave={::this.handleMouseLeave}
+               onFocus={::this.onFocus}
+               onBlur={::this.onBlur}
+            >
+               <table
+                  ref={el => {
+                     this.dom.table = el
+                  }}
+               >
+                  {this.props.header}
+                  {children}
+               </table>
+            </div>
+         );
 
          if (this.props.fixedHeader)
             content.push(<div key="fh"
-                              ref={el=> {
-                                 this.dom.fixedHeader = el
-                              }}
-                              className={CSS.element(baseClass, 'fixed-header')}
-                              style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
+               ref={el => {
+                  this.dom.fixedHeader = el
+               }}
+               className={CSS.element(baseClass, 'fixed-header')}
+               style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
                <table>
                   {this.props.fixedHeader}
                </table>
@@ -598,7 +618,7 @@ class GridComponent extends VDOM.Component {
       }
 
       return <div className={data.classNames}
-                  style={data.style}>
+         style={data.style}>
          {content}
       </div>
    }
@@ -610,12 +630,12 @@ class GridComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate !== false || state != this.state;;
+      return props.instance.shouldUpdate !== false || state != this.state;
    }
 
    componentDidMount() {
       this.componentDidUpdate();
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
       if (widget.pipeKeyDown)
@@ -623,15 +643,15 @@ class GridComponent extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {records, widget} = props.instance;
+      let {records, widget} = props.instance;
       this.setState({
          cursor: Math.max(Math.min(this.state.cursor, records.length - 1), widget.selectable && this.state.focused ? 0 : -1)
       });
    }
 
    componentWillUnmount() {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (this.offResize)
          this.offResize();
       offFocusOut(this);
@@ -640,21 +660,21 @@ class GridComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      var {headerRefs, fixedHeaderRefs, instance}= this.props;
-      var {widget, data} = instance;
+      let {headerRefs, fixedHeaderRefs, instance}= this.props;
+      let {widget, data} = instance;
 
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
          if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
-            for (var k in headerRefs) {
-               var c = headerRefs[k];
+            for (let k in headerRefs) {
+               let c = headerRefs[k];
                c.style.width = c.offsetWidth + 'px';
             }
          }
          if (this.dom.fixedHeader) {
-            for (var k in headerRefs) {
-               var c = headerRefs[k];
-               var fhe = fixedHeaderRefs[k];
+            for (let k in headerRefs) {
+               let c = headerRefs[k];
+               let fhe = fixedHeaderRefs[k];
                if (fhe) {
                   fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
                }
@@ -662,7 +682,7 @@ class GridComponent extends VDOM.Component {
             this.dom.fixedHeader.style.display = 'block';
             fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
 
-            var headerHeight = this.dom.fixedHeader.offsetHeight;
+            let headerHeight = this.dom.fixedHeader.offsetHeight;
             this.dom.table.style.marginTop = `${-headerHeight}px`;
             this.dom.scroller.style.height = `calc(100% - ${headerHeight}px`;
             this.dom.scroller.style.top = `${headerHeight}px`;
@@ -683,7 +703,7 @@ class GridComponent extends VDOM.Component {
          cursor: index
       }, () => {
          if (scrollIntoView) {
-            var item = this.dom.scroller.firstChild.children[index + 1];
+            let item = this.dom.scroller.firstChild.children[index + 1];
             scrollElementIntoView(item);
          }
       });
@@ -691,7 +711,7 @@ class GridComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         var firstSelected = this.props.instance.records.findIndex(x=>x.selected);
+         let firstSelected = this.props.instance.records.findIndex(x => x.selected);
          this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
       }
    }
@@ -701,9 +721,9 @@ class GridComponent extends VDOM.Component {
       FocusManager.nudge();
       this.showCursor(true);
 
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       if (!widget.focused)
-         oneFocusOut(this, this.dom.scroller, ()=> {
+         oneFocusOut(this, this.dom.scroller, () => {
             this.moveCursor(-1, false);
          });
 
@@ -723,15 +743,15 @@ class GridComponent extends VDOM.Component {
 
    handleKeyDown(e) {
 
-      var {instance} = this.props;
-      var {records, widget} = instance;
+      let {instance} = this.props;
+      let {records, widget} = instance;
 
       if (this.onKeyDown && this.onKeyDown(e, instance) === false)
          return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            var record = records[this.state.cursor];
+            let record = records[this.state.cursor];
             if (record)
                widget.onRowClick(e, record.data, record.index, record.store);
             break;
@@ -758,9 +778,9 @@ class GridComponent extends VDOM.Component {
 class GridColumn extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
-         style: { structured: true },
-         class: { structured: true },
-         className: { structured: true },
+         style: {structured: true},
+         class: {structured: true},
+         className: {structured: true},
          value: undefined,
          weight: undefined,
          pad: undefined,
@@ -863,16 +883,16 @@ class GridColumnHeader extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          text: undefined,
-         style: { structured: true },
-         class: { structured: true },
-         className: { structured: true },
+         style: {structured: true},
+         class: {structured: true},
+         className: {structured: true},
          colSpan: undefined,
          rowSpan: undefined
       })
    }
 
    render(context, instance, key) {
-      var {data} = instance;
+      let {data} = instance;
       return data.text || super.render(context, instance, key);
    }
 }
@@ -882,7 +902,7 @@ GridColumnHeader.prototype.rowSpan = 1;
 GridColumnHeader.prototype.allowSorting = true;
 
 function initGrouping(grouping) {
-   grouping.forEach(g=> {
+   grouping.forEach(g => {
       if (g.caption)
          g.caption = getSelector(g.caption);
    })
@@ -891,9 +911,9 @@ function initGrouping(grouping) {
 class GridRowComponent extends VDOM.Component {
    render() {
       return <tbody className={this.props.className}
-                    onClick={this.props.onClick}
-                    onMouseEnter={this.props.onMouseEnter}>
-         {this.props.children}
+         onClick={this.props.onClick}
+         onMouseEnter={this.props.onMouseEnter}>
+      {this.props.children}
       </tbody>
    }
 

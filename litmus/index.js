@@ -44,9 +44,11 @@ if (module.hot) {
       store.load(module.hot.data.state);
 }
 
+import { App } from './bugs/80';
+
 let stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <FormSection />
+      <App />
    </div>
 </cx>);
