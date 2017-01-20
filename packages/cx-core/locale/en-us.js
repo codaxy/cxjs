@@ -17,7 +17,7 @@ Localization.localize(c, 'cx/widgets/LookupField', {
    minQueryLengthMessageText: 'Please type in at least {0} character(s) to start the search.'
 });
 
-// MonthField, DateField, Calendar
+// In common for: MonthField, DateField, Calendar, MonthPicker
 let dateFieldErrorMessages = {
    maxValueErrorText: 'Selected date is after the latest allowed date of {0:d}.',
    maxExclusiveErrorText: 'Selected date should be before {0:d}.',
@@ -34,7 +34,10 @@ Localization.localize(c, 'cx/widgets/DateField', {
    ...dateFieldErrorMessages,
    inputErrorText: 'Invalid date entered.'
 });
+// Calendar
 Localization.localize(c, 'cx/widgets/Calendar', dateFieldErrorMessages);
+// MonthPicker
+Localization.localize(c, 'cx/widgets/MonthPicker', dateFieldErrorMessages);
 
 // NumberField
 Localization.localize(c, 'cx/widgets/NumberField', {
