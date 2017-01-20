@@ -44,6 +44,7 @@ Localization.localize(c, 'cx/widgets/NumberField', {
    maxValueErrorText: 'Die Zahl sollte nicht größer als {0:n} sein.',
    maxExclusiveErrorText: 'Die Zahl sollte kleiner als {0:n} sein.',
    minValueErrorText: 'Die Zahl sollte nicht kleiner als {0:n} sein.',
+   minExclusiveErrorText: 'Die Zahl sollte größer als {0:n} sein.',
    inputErrorText: 'Ungültige Zahl eingegeben.'
 });
 
