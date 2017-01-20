@@ -146,16 +146,9 @@ export const ValidationOptions = <cx>
 
                 <CodeSnippet putInto="code" fiddle="tKub0tQP">{`
                     <ValidationGroup layout={LabelsLeftLayout}>
-                        <TextField
-                            label="Help"
-                            value:bind="$page.help2"
-                            help={<Button icon="calculator" mod="hollow"/>}
+                        <TextField label="Help" value:bind="$page.help2" help={<Button icon="calculator" mod="hollow"/>}
                         />
-                        <TextField
-                            label="Help"
-                            value:bind="$page.help2"
-                            required visited
-                            help={ValidationError}
+                        <TextField label="Help" value:bind="$page.help2" required visited help={ValidationError}
                         />
                     </ValidationGroup>
                 `}</CodeSnippet>
