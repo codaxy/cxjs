@@ -40,4 +40,10 @@ Localization.localize(c, 'cx/widgets/NumberField', {
    inputErrorText: 'Invalid number entered.'
 });
 
+// TextField
+Localization.localize(c, 'cx/widgets/TextField', {
+   validationErrorText: 'The entered value is not valid.',
+   minLengthValidationErrorText: 'Please enter {[{0}-{1}]} more character(s).',
+   maxLengthValidationErrorText: 'The entered text is longer than the maximum allowed {0} characters.'
+});
 
