@@ -29,7 +29,11 @@ Localization.localize(c, 'cx/widgets/MonthField', {
    ...dateFieldErrorMessages, 
    inputErrorText: 'Invalid date entered.'
 });
-Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
+// DateField
+Localization.localize(c, 'cx/widgets/DateField', {
+   ...dateFieldErrorMessages,
+   inputErrorText: 'Invalid date entered.'
+});
 Localization.localize(c, 'cx/widgets/Calendar', dateFieldErrorMessages);
 
 // NumberField
