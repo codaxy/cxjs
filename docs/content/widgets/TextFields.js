@@ -15,7 +15,7 @@ export const TextFields = <cx>
 
         <ImportPath path="import {TextField} from 'cx/widgets';" />        
 
-        Text field control is used for text input. It's one of the most used controls.
+        Text field control is used for single line textual inputs. It's one of the mostly used controls.
         Many different states make it an advanced control.
 
         <CodeSplit>
