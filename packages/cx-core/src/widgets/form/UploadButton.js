@@ -1,6 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Field} from './Field';
 import {Url} from '../../ui/app/Url';
+import {Localization} from '../../ui/Localization';
 
 //TODO: Implement UploadStatus which will enable canceling
 
@@ -23,6 +24,10 @@ export class UploadButton extends Field {
 
 UploadButton.prototype.baseClass = 'uploadbutton';
 UploadButton.prototype.multiple = false;
+UploadButton.prototype.uploadInProgressText = 'Upload is in progress.';
+
+Localization.registerPrototype('cx/widgets/UploadButton', UploadButton);
+
 
 class UploadButtonComponent extends VDOM.Component {
 
@@ -137,7 +142,7 @@ class UploadButtonComponent extends VDOM.Component {
       var progress = 100 * (totalSize ? uploaded / totalSize : 1);
 
       this.props.instance.setState({
-         inputError: progress == 100 ? false : 'Upload is in progress'
+         inputError: progress == 100 ? false : this.props.instance.uploadInProgressText
       });
 
       this.setState({

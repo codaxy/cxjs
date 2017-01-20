@@ -47,3 +47,7 @@ Localization.localize(c, 'cx/widgets/TextField', {
    maxLengthValidationErrorText: 'The entered text is longer than the maximum allowed {0} characters.'
 });
 
+// UploadButton
+Localization.localize(c, 'cx/widgets/UploadButton', {
+   validationErrorText: 'Upload is in progress.'
+});
