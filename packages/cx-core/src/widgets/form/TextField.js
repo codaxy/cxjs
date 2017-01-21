@@ -12,6 +12,7 @@ import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
 import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
+import {Localization} from '../../ui/Localization';
 
 export class TextField extends Field {
    declareData() {
@@ -57,6 +58,8 @@ TextField.prototype.minLengthValidationErrorText = "Please enter {[{0}-{1}]} mor
 TextField.prototype.maxLengthValidationErrorText = "The entered text is longer than the maximum allowed {0} characters.";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
 TextField.prototype.icon = null;
+
+Localization.registerPrototype('cx/widgets/TextField', TextField);
 
 
 class Input extends VDOM.Component {

@@ -131,17 +131,19 @@ export class DateField extends Field {
 
 DateField.prototype.baseClass = "datefield";
 DateField.prototype.memoize = false;
+
 DateField.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 DateField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
 DateField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
+DateField.prototype.inputErrorText = 'Invalid date entered.';
+Localization.registerPrototype('cx/widgets/DateField', DateField);
+
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
 DateField.prototype.icon = 'calendar';
 DateField.prototype.hideClear = false;
 
 Widget.alias('datefield', DateField);
-
-Localization.registerPrototype('Cx.ui.form.DateField', DateField);
 
 class DateInput extends VDOM.Component {
 
@@ -380,7 +382,7 @@ class DateInput extends VDOM.Component {
             this.props.onSelect(date);
          else
             this.props.instance.setState({
-               inputError: 'Invalid date entered.'
+               inputError: this.props.instance.inputErrorText
             });
       }
    }

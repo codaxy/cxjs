@@ -7,6 +7,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {isTouchDevice} from '../../util';
+import {Localization} from '../../ui/Localization';
 
 export class NumberField extends Field {
 
@@ -86,9 +87,10 @@ NumberField.prototype.inputType = 'text';
 
 NumberField.prototype.maxValueErrorText = 'The number should be at most {0:n}.';
 NumberField.prototype.maxExclusiveErrorText = 'The number should be less than {0:n}.';
-
 NumberField.prototype.minValueErrorText = 'The number should be at least {0:n}.';
 NumberField.prototype.minExclusiveErrorText = 'The number should be greater than {0:n}.';
+NumberField.prototype.inputErrorText = 'Invalid number entered.';
+Localization.registerPrototype('cx/widgets/NumberField', NumberField);
 
 NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
 
@@ -250,7 +252,7 @@ class Input extends VDOM.Component {
          var v = Culture.getNumberCulture().parse(e.target.value);
          if (isNaN(v)) {
             instance.setState({
-               inputError: 'Invalid number entered.'
+               inputError: instance.inputErrorText
             });
             return;
          }

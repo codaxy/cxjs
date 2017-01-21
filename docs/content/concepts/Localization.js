@@ -8,8 +8,8 @@ import {ConfigTable} from '../../components/ConfigTable';
 function loadCulture(culture) {
     //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
     switch (culture) {
-        case 'sr-latn-ba':
-            return System.import('cx/locale/sr-latn-ba');
+        case 'de-de':
+            return System.import('cx/locale/de-de');
 
         default:
         case 'en-us':
@@ -45,7 +45,7 @@ export const LocalizationPage = <cx>
 
             <div class="widgets" controller={PageController}>
                 <div preserveWhitespace>
-                    <Button onClick={(e, {store}) => {setCulture('sr-latn-ba', store)}}>sr-latn-ba</Button>
+                    <Button onClick={(e, {store}) => {setCulture('de-de', store)}}>de-de</Button>
                     <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
                 </div>
                 <div layout={LabelsLeftLayout}>
@@ -60,8 +60,8 @@ export const LocalizationPage = <cx>
             function loadCulture(culture) {
                 //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
                 switch (culture) {
-                    case 'sr-latn-ba':
-                        return System.import('cx/locale/sr-latn-ba');
+                    case 'de-de':
+                        return System.import('cx/locale/de-de');
 
                     default:
                     case 'en-us':
@@ -88,7 +88,7 @@ export const LocalizationPage = <cx>
             ...
             <div class="widgets" controller={PageController}>
                 <div preserveWhitespace>
-                    <Button onClick={(e, {store}) => {setCulture('sr-latn-ba', store)}}>sr-latn-ba</Button>
+                    <Button onClick={(e, {store}) => {setCulture('de-de', store)}}>de-de</Button>
                     <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
                 </div>
                 <div layout={LabelsLeftLayout}>

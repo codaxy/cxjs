@@ -16,6 +16,7 @@ import ClearIcon from '../icons/clear';
 import { KeyCode } from '../../util';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import { isTouchDevice } from '../../util';
+import {Localization} from '../../ui/Localization';
 
 export class MonthField extends Field {
 
@@ -180,12 +181,15 @@ MonthField.prototype.baseClass = "monthfield";
 MonthField.prototype.memoize = false;
 MonthField.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 MonthField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-MonthField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-MonthField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
+MonthField.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
+MonthField.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+MonthField.prototype.inputErrorText = 'Invalid date entered';
 MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
 MonthField.prototype.hideClear = false;
 MonthField.prototype.range = false;
+
+Localization.registerPrototype('cx/widgets/MonthField', MonthField);
 
 Widget.alias('monthfield', MonthField);
 
@@ -422,7 +426,7 @@ class MonthInput extends VDOM.Component {
       if (eventType == 'blur' || eventType == 'enter') {
          if ((date1 && isNaN(date1)) || (date2 && isNaN(date2))) {
             instance.setState({
-               inputError: 'Invalid date entered.'
+               inputError: instance.inputErrorText
             });
          } else {
             if (date2)

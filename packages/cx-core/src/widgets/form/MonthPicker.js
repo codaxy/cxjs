@@ -13,6 +13,7 @@ import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {Console} from '../../util/Console';
 import {KeyCode} from '../../util/KeyCode';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {Localization} from '../../ui/Localization';
 
 
 export class MonthPicker extends Field {
@@ -140,15 +141,18 @@ export class MonthPicker extends Field {
 }
 
 MonthPicker.prototype.baseClass = "monthpicker";
-MonthPicker.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-MonthPicker.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-MonthPicker.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-MonthPicker.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 MonthPicker.prototype.range = false;
 MonthPicker.prototype.startYear = 1980;
 MonthPicker.prototype.endYear = 2030;
 
-Widget.alias('month-picker', MonthPicker)
+// Localization
+MonthPicker.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
+MonthPicker.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
+MonthPicker.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
+MonthPicker.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+Localization.registerPrototype('cx/widgets/MonthPicker', MonthPicker);
+
+Widget.alias('month-picker', MonthPicker);
 
 const validationCheck = (date, data) => {
 

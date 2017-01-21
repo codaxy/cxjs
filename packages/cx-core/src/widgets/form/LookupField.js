@@ -23,6 +23,8 @@ import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
 import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
 import { KeyCode } from '../../util';
+import { Localization } from '../../ui/Localization';
+import { StringTemplate } from '../../data/StringTemplate';
 
 export class LookupField extends Field {
 
@@ -165,8 +167,11 @@ LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.hideClear = false;
 LookupField.prototype.closeOnSelect = true;
+LookupField.prototype.minQueryLengthMessageText = 'Please type in at least {0} character(s) to start the search.';
 
-Widget.alias('lookupfield', LookupField)
+Localization.registerPrototype('cx/widgets/LookupField', LookupField);
+
+Widget.alias('lookupfield', LookupField);
 
 function getOptionKey(bindings, data) {
    return bindings
@@ -707,7 +712,7 @@ class LookupComponent extends VDOM.Component {
       if (q.length < widget.minQueryLength) {
          this.setState({
             status: "info",
-            message: `Please type in at least ${widget.minQueryLength} character(s) to start the search.`
+            message: StringTemplate.format(widget.minQueryLengthMessageText, widget.minQueryLength)
          });
          return;
       }
