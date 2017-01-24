@@ -13,6 +13,7 @@ import {Content, Controller, LabelsLeftLayout, LabelsTopLayout, FirstVisibleChil
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
+import {ImportPath} from '../../../components/ImportPath';
 
 
 //phone regex: http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
@@ -37,16 +38,18 @@ export const ValidationOptions = <cx>
     <Md controller={PageController}>
         # Form Validation Options
 
-        Form fields indicate invalid state to the user by providing visual feedback such
+        <ImportPath path="import { ValidationGroup, ValidationError } from 'cx/widgets';" />
+
+        Form fields indicate invalid input to the user by providing visual feedback such
         as changing border colors, displaying tooltips or error messages.
 
         By default, inputs will change colors and provide an error tooltip.
 
         <CodeSplit>
 
-            If you click
-            on the field below and then click somewhere else you'll see the change. If you hover
-            the mouse over input (or touch it) you'll see the tooltip too.
+            If you click on the field below and then click somewhere else, you'll see the change. 
+            Furthermore, if you hover over the input with the mouse (or touch it) afterwards, 
+            the tooltip will appear as well.
 
             <div class="widgets" layout={LabelsLeftLayout}>
                 <TextField
@@ -124,7 +127,7 @@ export const ValidationOptions = <cx>
         <CodeSplit>
 
             `help` can be used to put any content next to the field. This can be a button or a validation error.
-            Please not that the second field in the example below will show both tooltip and error message.
+            Please note that the second field in the example below will show both the tooltip and the error message.
 
             <div class="widgets">
                 <ValidationGroup layout={LabelsLeftLayout}>
@@ -156,7 +159,7 @@ export const ValidationOptions = <cx>
         </CodeSplit>
 
         Sometimes, tooltips are not the best way to indicate errors. Instead of a tooltip,
-        you may decide to only show the error message. In that case make sure that all
+        you may decide to show only the error message. In that case, make sure that all
         fields are wrapped inside a `ValidationGroup` element.
 
         <CodeSplit>
