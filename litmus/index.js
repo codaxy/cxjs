@@ -8,15 +8,15 @@ import "./error";
 import './index.scss';
 
 // import {GridSection} from './sections/Grid';
-import {FormSection} from './sections/Form';
+// import {FormSection} from './sections/Form';
 // import {WindowSection} from './sections/Window';
 // import {ListSection} from './sections/List';
 // import ComplexGrid from './sections/ComplexGrid';
 // import TimeSeries from './sections/features/TimeSeriesScroll';
-//
 // import {MixedModeForm} from './components/MixedModeForm';
+// import LongList from './performance/LongList';
 
-//import LongList from './performance/LongList';
+import { DragDrop } from './sections/features/DragDrop';
 
 let store = new Store();
 
@@ -44,11 +44,9 @@ if (module.hot) {
       store.load(module.hot.data.state);
 }
 
-import { App } from './bugs/80';
-
 let stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <App />
+      <DragDrop />
    </div>
 </cx>);

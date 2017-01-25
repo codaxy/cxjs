@@ -1,0 +1,17 @@
+.cxb-dragsource {
+   display: inline-block;
+   cursor: move;
+
+   &.cxs-dragged {
+      opacity: 0.3;
+   }
+}
+
+.cxe-dragsource-puppet {
+   pointer-events: none;
+   width: 100px;
+   height: 30px;
+   content: 'Puppet';
+   background: red;
+   position: fixed;
+}

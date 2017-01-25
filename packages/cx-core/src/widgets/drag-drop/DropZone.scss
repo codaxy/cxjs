@@ -1,0 +1,19 @@
+.cxb-dropzone {
+
+   display: inline-block;
+   transition: all 0.1s;
+   opacity: 0.05;
+
+   &.cxs-far {
+      opacity: 0.1;
+   }
+
+   &.cxs-over {
+      background: greenyellow;
+      opacity: 1;
+   }
+
+   &.cxs-near {
+      opacity: 0.5;
+   }
+}

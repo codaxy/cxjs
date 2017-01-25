@@ -26,7 +26,7 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
    var end = e=> {
       try {
          if (onMouseUp)
-            onMouseUp(e);
+            onMouseUp(e, captureData);
       } finally {
          surface.removeEventListener('mousemove', move);
          surface.removeEventListener('mouseup', end);
