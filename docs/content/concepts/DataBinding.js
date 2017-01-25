@@ -4,6 +4,7 @@ import { computable } from 'cx/data';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
+import {ImportPath} from '../../components/ImportPath';
 
 import {store} from '../../app/store';
 
@@ -148,6 +149,8 @@ export const DataBinding = <cx>
         <CodeSplit>
 
             ### Computables
+        
+            <ImportPath path="import { computable } from 'cx/data';" />
 
             Computables overcome shortcomings of function bindings by offering memoization and easier access to deep bindings.
 
