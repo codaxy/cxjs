@@ -1,19 +1,45 @@
 .cxb-dropzone {
 
-   display: inline-block;
-   transition: all 0.1s;
-   opacity: 0.05;
+   &.cxm-box {
+      display: inline-block;
+      transition: all 0.1s;
+      opacity: 0.05;
 
-   &.cxs-far {
-      opacity: 0.1;
+      &.cxs-far {
+         opacity: 0.1;
+      }
+
+      &.cxs-over {
+         background: greenyellow;
+         opacity: 1;
+      }
+
+      &.cxs-near {
+         opacity: 0.5;
+      }
    }
 
-   &.cxs-over {
-      background: greenyellow;
-      opacity: 1;
+   &.cxm-insertion {
+      height: 1px;
+
+      //transition: all 0.1s;
+      //
+      //&.cxs-near {
+      //   height: 5px;
+      //   background: gray;
+      //}
+
+      &.cxs-over {
+         background: black;
+         box-shadow: 0 0 2px black;
+      }
    }
 
-   &.cxs-near {
-      opacity: 0.5;
+   &.cxm-space {
+      height: 1px;
+
+      &.cxs-over {
+         height: 30px;
+      }
    }
 }

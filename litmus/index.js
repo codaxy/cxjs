@@ -16,7 +16,9 @@ import './index.scss';
 // import {MixedModeForm} from './components/MixedModeForm';
 // import LongList from './performance/LongList';
 
-import { DragDrop } from './sections/features/DragDrop';
+import Demo from './features/drag-drop/ReorderInsertionLine';
+//import Demo from './features/drag-drop/ReorderSpace';
+//import Demo from './features/drag-drop/Boxes';
 
 let store = new Store();
 
@@ -47,6 +49,6 @@ if (module.hot) {
 let stop = startAppLoop(document.getElementById('app'), store, <cx>
    <div>
       <h1>Litmus App</h1>
-      <DragDrop />
+      <Demo />
    </div>
 </cx>);

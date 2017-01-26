@@ -1,5 +1,6 @@
 import { SubscriberList } from '../../util/SubscriberList';
-import { captureMouseOrTouch, getCursorPos } from '../overlay/captureMouse';
+import { getCursorPos } from '../overlay/captureMouse';
+import { startAppLoop } from '../../ui/app/startAppLoop';
 
 let dropZones = new SubscriberList(),
    activeZone,
@@ -18,18 +19,26 @@ export class DragDropManager {
       let cursor = getCursorPos(e);
 
       let clone = document.createElement('div');
-      clone.className = "cxe-dragsource-puppet";
+      clone.className = "cxb-dragclone";
       clone.style.left = `-1000px`;
       clone.style.top = `-1000px`;
       clone.style.width = `${sourceBounds.width}px`;
       clone.style.height = `${sourceBounds.height}px`;
       document.body.appendChild(clone);
 
+      let source = options.source || {};
+
       puppet = {
          deltaX: cursor.clientX - sourceBounds.left,
          deltaY: cursor.clientY - sourceBounds.top,
-         el: clone
+         el: clone,
+         source,
+         margin: options.puppetMargin
       };
+
+      if (source.widget && source.store) {
+         puppet.stop = startAppLoop(clone, source.store, source.widget);
+      }
 
       let event = getDragEvent(e, 'dragstart');
       dropZones.execute(zone => {
@@ -55,15 +64,15 @@ export class DragDropManager {
 
       dropZones.execute(zone => {
          if (zone.onDragTest) {
-            let [state, score] = normalizeDragTestResult(zone.onDragTest(event));
-            if (state == 'near' || state == 'over')
+            let result = zone.onDragTest(event) || {};
+            if (result.near)
                near.push(zone);
             else
                away.push(zone);
 
-            if (state == 'over' && (best == null || score > best)) {
+            if (result.over > 0 && (best == null || result.over > best)) {
                over = zone;
-               best = score;
+               best = result.over;
             }
          }
       });
@@ -114,6 +123,9 @@ export class DragDropManager {
             zone.onDragEnd(event);
       });
 
+      if (puppet.stop)
+         puppet.stop();
+
       document.body.removeChild(puppet.el);
       nearZones = null;
       activeZone = null;
@@ -122,17 +134,28 @@ export class DragDropManager {
 }
 
 function getDragEvent(e, type) {
+
+   let r = puppet.el.getBoundingClientRect();
+
+   let bounds = {
+      left: r.left,
+      right: r.right,
+      top: r.top,
+      bottom: r.bottom
+   };
+
+   if (puppet.margin) {
+      bounds.left -= puppet.margin;
+      bounds.top -= puppet.margin;
+      bounds.right += puppet.margin;
+      bounds.bottom += puppet.margin;
+   }
+
    return {
       eventType: type,
       event: e,
-      cursor: getCursorPos(e)
+      cursor: getCursorPos(e),
+      itemBounds: bounds,
+      data: puppet.source.data
    }
-}
-
-function normalizeDragTestResult(x) {
-   if (typeof x == 'string')
-      return [x, 10000];
-   if (Array.isArray(x))
-      return x;
-   return false;
 }

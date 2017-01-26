@@ -11,6 +11,7 @@ export class DropZone extends PureContainer {
 }
 
 DropZone.prototype.styled = true;
+DropZone.prototype.nearDistance = false;
 DropZone.prototype.baseClass = 'dropzone';
 
 class DropZoneComponent extends VDOM.Component {
@@ -63,19 +64,35 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragLeave(e) {
+      let {nearDistance} = this.props.instance.widget;
       this.setState({
-         state: 'near'
+         state: nearDistance ? 'near' : 'far'
       })
    }
 
    onDragTest(e) {
       let rect = this.el.getBoundingClientRect();
+      let { nearDistance } = this.props.instance.widget;
+
+      let xOverlap = getOverlapSize(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right);
+      let yOverlap = getOverlapSize(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom);
+
+      if (xOverlap > 0 && yOverlap > 0)
+         return {
+            over: xOverlap * yOverlap,
+            near: !!nearDistance
+         };
+
+      if (!nearDistance)
+         return false;
+
       let cx = (rect.left + rect.right) / 2;
       let cy = (rect.top + rect.bottom) / 2;
       let d = Math.sqrt(Math.pow(e.cursor.clientX - cx, 2) + Math.pow(e.cursor.clientY - cy, 2));
-      if (d > 200)
+      if (d > nearDistance)
          return false;
-      return [d < 100 ? 'over' : 'near', -d];
+
+      return { near:  -d }
    }
 
    onDragOver(e) {
@@ -98,4 +115,14 @@ class DropZoneComponent extends VDOM.Component {
          state: false
       });
    }
+}
+
+function getOverlapSize(a1, a2, b1, b2) {
+   return Math.max(0, Math.min(a2, b2) - Math.max(a1, b1));
+}
+
+function getRectOverlapArea(r2, r1) {
+   let xd = Math.max(0, Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left));
+   let yd = Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top));
+   return xd * yd;
 }

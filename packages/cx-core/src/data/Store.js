@@ -52,16 +52,23 @@ export class Store extends View {
    }
 
    doNotify(path) {
-      this.changes.push(path || '');
-      if (!this.scheduled) {
-         this.scheduled = true;
-         setTimeout(()=> {
-            this.scheduled = false;
-            var changes = this.changes;
-            this.changes = [];
-            for (var key in this.subscriptions)
-               this.subscriptions[key](changes);
-         }, 0);
+      if (!this.async) {
+         for (let key in this.subscriptions)
+            this.subscriptions[key]([path]);
+      } else {
+         this.changes.push(path || '');
+         if (!this.scheduled) {
+            this.scheduled = true;
+            setTimeout(() => {
+               this.scheduled = false;
+               let changes = this.changes;
+               this.changes = [];
+               for (let key in this.subscriptions)
+                  this.subscriptions[key](changes);
+            }, 0);
+         }
       }
    }
 }
+
+Store.prototype.async = false;

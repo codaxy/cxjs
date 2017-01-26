@@ -5,6 +5,12 @@ import { DragDropManager } from './DragDropManager';
 
 export class DragSource extends PureContainer {
 
+   declareData() {
+      super.declareData(...arguments, {
+         data: {structured: true}
+      })
+   }
+
    render(context, instance, key) {
       return <DragSourceComponent key={key} instance={instance}>
          {this.renderChildren(context, instance)}
@@ -14,6 +20,7 @@ export class DragSource extends PureContainer {
 
 DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = 'dragsource';
+DragSource.prototype.hideOnDrag = false;
 
 class DragSourceComponent extends VDOM.Component {
 
@@ -22,10 +29,19 @@ class DragSourceComponent extends VDOM.Component {
       this.state = {dragged: false}
    }
 
+   shouldComponentUpdate(nextProps, nextState) {
+      return nextProps.instance.shouldUpdate || nextState != this.state;
+   }
+
    render() {
       let {instance, children} = this.props;
       let {data, widget} = instance;
       let {CSS} = widget;
+
+      console.log('DS:Render', this.state.dragged, data.data);
+
+      if (this.state.dragged && widget.hideOnDrag)
+         return null;
 
       return (
          <div
@@ -33,6 +49,7 @@ class DragSourceComponent extends VDOM.Component {
                dragged: this.state.dragged
             }))}
             style={data.style}
+            onTouchStart={::this.onMouseDown}
             onMouseDown={::this.onMouseDown}
             ref={el => {
                this.el = el
@@ -49,22 +66,32 @@ class DragSourceComponent extends VDOM.Component {
       this.onDragStart(e, captureData)
    }
 
-   onDragStart(e, captureData) {
-      DragDropManager.notifyDragStart(e, {});
+   onDragStart(e) {
+      let {instance} = this.props;
+      let {widget, store, data} = instance;
+      DragDropManager.notifyDragStart(e, {
+         source: {
+            widget,
+            store,
+            data: data.data
+         },
+         puppetMargin: widget.puppetMargin
+      });
       this.setState({
          dragged: true
       })
    }
 
-   onDragMove(e, captureData) {
+   onDragMove(e) {
       DragDropManager.notifyDragMove(e);
    }
 
-   onDragEnd(e, captureData) {
+   onDragEnd(e) {
       DragDropManager.notifyDragDrop(e);
+
       this.setState({
          dragged: false
-      })
+      });
    }
 }
 
