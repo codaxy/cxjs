@@ -382,7 +382,6 @@ class ListComponent extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            console.log(this.state.cursor, this.cursorChildIndex);
             var item = items[this.cursorChildIndex[this.state.cursor]];
             if (item)
                this.handleItemClick(e, item.instance);
