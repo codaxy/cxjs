@@ -2731,9 +2731,9 @@ interpret@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c"
 
-intl-io@^0.2.1, intl-io@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.2.tgz#1a421ff0bd1145b5f58bfafa889e7a697d852c98"
+intl-io@^0.2.1, intl-io@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.3.tgz#c6eeb3d7e9ae2145eedbc5cbc27b72bc2b39ca93"
 
 intl@^1.2.5:
   version "1.2.5"

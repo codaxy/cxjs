@@ -36,19 +36,11 @@ export class ColorField extends Field {
    renderInput(context, instance, key) {
       return <ColorInput key={key}
          instance={instance}
-         onSelect={ color => this.onSelect(instance, color) }
          picker={{
             value: this.value,
             format: this.format
          }}
       />
-   }
-
-   onSelect(instance, color) {
-      instance.setState({
-         inputError: false
-      });
-      instance.set('value', color || null);
    }
 }
 
@@ -147,8 +139,8 @@ class ColorInput extends VDOM.Component {
             onFocus={ e => {
                this.onFocus(e)
             } }
-            onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
-            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
+            onMouseLeave={e => tooltipMouseLeave(e, instance, this.state)}
          />
          { insideButton }
          { dropdown }
@@ -234,23 +226,19 @@ class ColorInput extends VDOM.Component {
       }
    }
 
-   onClearClick(e) {
-      this.props.onSelect(null);
-      e.stopPropagation();
-      e.preventDefault();
-   }
-
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
-      if (data.value != this.input.value) {
+      if (data.value != this.input.value && (this.data.value != data.value || !state.inputError)) {
          this.input.value = data.value || '';
          props.instance.setState({
             inputError: false
          })
       }
       this.data = data;
+
       if (data.visited)
          this.setState({visited: true});
+
       tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
    }
 
@@ -279,15 +267,16 @@ class ColorInput extends VDOM.Component {
          isValid = false;
       }
 
+      let {instance} = this.props;
+
       if (eventType == 'blur' || eventType == 'enter') {
-         if (value == null)
-            this.props.onSelect(null);
-         else if (isValid)
-            this.props.onSelect(value);
-         else
-            this.props.instance.setState({
-               inputError: 'Invalid color entered.'
-            });
+
+         if (isValid)
+            instance.set('value', value);
+
+         instance.setState({
+            inputError: !isValid && 'Invalid color entered.'
+         });
       }
    }
 }

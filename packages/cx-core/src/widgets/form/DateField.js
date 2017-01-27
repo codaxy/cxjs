@@ -90,8 +90,6 @@ export class DateField extends Field {
    renderInput(context, instance, key) {
       return <DateInput key={key}
          instance={instance}
-         onSelect={ date => this.onSelect(instance, date) }
-         parseDate={ date => this.parseDate(date) }
          calendar={{
             value: this.value,
             minValue: this.minValue,
@@ -118,15 +116,6 @@ export class DateField extends Field {
       date = Culture.getDateTimeCulture().parse(date, {useCurrentDateForDefaults: true});
       return date;
    }
-
-   onSelect(instance, date) {
-
-      instance.setState({
-         inputError: isNaN(date) && this.inputErrorText
-      });
-
-      instance.set('value', date ? date.toISOString() : null);
-   }
 }
 
 DateField.prototype.baseClass = "datefield";
@@ -137,13 +126,13 @@ DateField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d
 DateField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
 DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
 DateField.prototype.inputErrorText = 'Invalid date entered.';
-Localization.registerPrototype('cx/widgets/DateField', DateField);
 
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
 DateField.prototype.icon = 'calendar';
 DateField.prototype.hideClear = false;
 
 Widget.alias('datefield', DateField);
+Localization.registerPrototype('cx/widgets/DateField', DateField);
 
 class DateInput extends VDOM.Component {
 
@@ -343,7 +332,7 @@ class DateInput extends VDOM.Component {
    }
 
    onClearClick(e) {
-      this.props.onSelect(null);
+      this.setValue(null);
       e.stopPropagation();
       e.preventDefault();
    }
@@ -373,17 +362,23 @@ class DateInput extends VDOM.Component {
    }
 
    onChange(e, eventType) {
-      let date = this.props.parseDate(e.target.value);
+      let {instance} = this.props;
+      let {widget} = instance;
 
-      if (eventType == 'blur' || eventType == 'enter') {
-         if (date == null)
-            this.props.onSelect(null);
-         else if (!isNaN(date))
-            this.props.onSelect(date);
-         else
-            this.props.instance.setState({
-               inputError: this.props.instance.inputErrorText
-            });
-      }
+      let date = widget.parseDate(e.target.value);
+      if (eventType == 'blur' || eventType == 'enter')
+         this.setValue(date);
+   }
+
+   setValue(date) {
+      let {instance} = this.props;
+      let {widget} = instance;
+
+      instance.setState({
+         inputError: isNaN(date) && widget.inputErrorText
+      });
+
+      if (!isNaN(date))
+         instance.set('value', date ? date.toISOString() : null);
    }
 }

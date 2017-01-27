@@ -90,8 +90,6 @@ NumberField.prototype.maxExclusiveErrorText = 'The number should be less than {0
 NumberField.prototype.minValueErrorText = 'The number should be at least {0:n}.';
 NumberField.prototype.minExclusiveErrorText = 'The number should be greater than {0:n}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
-Localization.registerPrototype('cx/widgets/NumberField', NumberField);
-
 NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
 
 NumberField.prototype.incrementPercentage = 0.1;
@@ -99,6 +97,7 @@ NumberField.prototype.snapToIncrement = true;
 NumberField.prototype.icon = null;
 
 Widget.alias('numberfield', NumberField);
+Localization.registerPrototype('cx/widgets/NumberField', NumberField);
 
 
 class Input extends VDOM.Component {
@@ -249,10 +248,10 @@ class Input extends VDOM.Component {
          this.setState({visited: true});
 
       if (e.target.value) {
-         var v = Culture.getNumberCulture().parse(e.target.value);
+         let v = Culture.getNumberCulture().parse(e.target.value);
          if (isNaN(v)) {
             instance.setState({
-               inputError: instance.inputErrorText
+               inputError: instance.widget.inputErrorText
             });
             return;
          }
