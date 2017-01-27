@@ -122,7 +122,7 @@ export class DateField extends Field {
    onSelect(instance, date) {
 
       instance.setState({
-         inputError: false
+         inputError: isNaN(date) && this.inputErrorText
       });
 
       instance.set('value', date ? date.toISOString() : null);

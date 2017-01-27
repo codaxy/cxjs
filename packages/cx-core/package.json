@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/codaxy/cx",
   "dependencies": {
-    "intl-io": "^0.2.0",
+    "intl-io": "^0.2.1",
     "route-parser": "^0.0.5"
   }
 }

@@ -89,6 +89,7 @@
     "cx-redux": "file:./packages/cx-redux",
     "illuminate-js": "^0.3.0",
     "intl": "^1.2.5",
+    "intl-io": "^0.2.2",
     "marked": "^0.3.5",
     "plural": "^0.2.0",
     "react-dev-utils": "^0.4.2",
