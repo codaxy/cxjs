@@ -34,15 +34,18 @@ export class Cx extends VDOM.Component {
    componentDidMount() {
       if (this.props.subscribe) {
          this.unsubscribe = this.store.subscribe(() => {
-            if (VDOM.DOM.unstable_batchedUpdates) {
-               VDOM.DOM.unstable_batchedUpdates(() => {
-                  this.setState({data: this.store.getData()});
-               })
-            }
+            if (VDOM.DOM.unstable_batchedUpdates)
+               VDOM.DOM.unstable_batchedUpdates(::this.update)
             else
-               this.setState({data: this.store.getData()});
+               this.update();
          });
       }
+   }
+
+   update() {
+      let data = this.store.getData();
+      this.setState({data: data});
+      //Debug.log(appDataFlag, data);
    }
 
    componentWillUnmount() {

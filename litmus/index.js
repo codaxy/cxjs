@@ -17,8 +17,8 @@ import './index.scss';
 // import LongList from './performance/LongList';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
-//import Demo from './features/drag-drop/ReorderSpace';
-import Demo from './features/drag-drop/ReorderHorizontal';
+import Demo from './features/drag-drop/ReorderSpace';
+//import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 
 let store = new Store();
