@@ -1,6 +1,7 @@
 .cxb-dragsource {
    display: inline-block;
    cursor: move;
+   box-sizing: border-box;
 
    &.cxs-dragged {
       opacity: 0.3;
@@ -9,11 +10,17 @@
 
 .cxb-dragclone {
    pointer-events: none;
-   width: 100px;
-   height: 30px;
-   content: 'Puppet';
+   min-width: 10px;
+   min-height: 10px;
    background: white;
    position: fixed;
    opacity: 0.9;
-   box-shadow: 1px 1px 3px rgba(128, 128, 128, 0.5);
+   box-shadow: 0 0 3px rgba(128, 128, 128, 0.3);
+   display: flex;
+
+   & > * {
+      margin: 0 !important;
+      display: block;
+      flex: auto;
+   }
 }

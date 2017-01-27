@@ -8,7 +8,7 @@ export default <cx>
          Drag me around
       </DragSource>
 
-      <Repeater records={Array.from({length: 20})}>
+      <Repeater records={Array.from({length: 200})}>
          <DropZone mod="box"
                    style="padding: 10px; border: 1px solid lightgray; margin: 5px"
                    onDragDrop={(e, {store}) => {

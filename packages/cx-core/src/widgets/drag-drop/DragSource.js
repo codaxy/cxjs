@@ -38,7 +38,7 @@ class DragSourceComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS} = widget;
 
-      console.log('DS:Render', this.state.dragged, data.data);
+      //console.log('DS:Render', this.state.dragged, data.data);
 
       if (this.state.dragged && widget.hideOnDrag)
          return null;

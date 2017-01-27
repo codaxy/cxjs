@@ -1,7 +1,6 @@
 import {Widget, VDOM} from '../Widget';
 import {Store} from '../../data/Store';
-import {Instance} from '../Instance';
-import {CxRoot} from '../CxRoot';
+import {Cx} from '../Cx';
 
 export function startAppLoop(parentDOMElement, store, widget, options) {
 
@@ -13,28 +12,9 @@ export function startAppLoop(parentDOMElement, store, widget, options) {
    if (!store)
       store = new Store();
 
-   // var parentInstance = new Instance(widget, 'root');
-   // parentInstance.setStore(store);
-   //
-   // var render = function () {
-   //    widget.mount(parentDOMElement, store, options, parentInstance);
-   // };
-   //
-   // var renderPending = false;
-   // var schedule = function () {
-   //    if (!renderPending) {
-   //       requestAnimationFrame(() => {
-   //          renderPending = false;
-   //          render();
-   //       });
-   //       renderPending = true;
-   //    }
-   // };
-   // let subscription = store.subscribe(schedule);
-   // render();
-   // return subscription;
+   let root = <Cx store={store} widget={widget} options={options} subscribe={true}/>
 
-   VDOM.DOM.render(<CxRoot store={store} widget={widget} options={options} />, parentDOMElement);
+   VDOM.DOM.render(root, parentDOMElement);
 
    return function () {
       VDOM.DOM.unmountComponentAtNode(parentDOMElement);

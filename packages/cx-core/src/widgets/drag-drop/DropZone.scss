@@ -39,7 +39,23 @@
       height: 1px;
 
       &.cxs-over {
-         height: 30px;
+         height: 20px;
+         border: 2px dotted lightgray;
+         margin: 5px;
+      }
+   }
+
+   &.cxm-hspace {
+      width: 1px;
+      height: 1em;
+      vertical-align: middle;
+      transition: width 0.08s linear;
+      display: inline-block;
+
+      &.cxs-over {
+         width: 50px;
+         border: 2px dotted lightgray;
+         margin: 5px;
       }
    }
 }

@@ -22,8 +22,8 @@ export class DragDropManager {
       clone.className = "cxb-dragclone";
       clone.style.left = `-1000px`;
       clone.style.top = `-1000px`;
-      clone.style.width = `${sourceBounds.width}px`;
-      clone.style.height = `${sourceBounds.height}px`;
+      clone.style.minWidth = `${Math.ceil(sourceBounds.width)}px`;
+      clone.style.minHeight = `${Math.ceil(sourceBounds.height)}px`;
       document.body.appendChild(clone);
 
       let source = options.source || {};
