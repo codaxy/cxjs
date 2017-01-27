@@ -161,12 +161,12 @@ export class PieSlice extends PureContainer {
          offset: undefined,
          value: undefined,
          disabled: undefined,
-         tooltip: undefined,
          innerPointRadius: undefined,
          outerPointRadius: undefined,
          name: undefined,
          stack: undefined,
-         legend: undefined
+         legend: undefined,
+         tooltip: {structured: true}
       });
    }
 
