@@ -144,6 +144,10 @@ function getDragEvent(e, type) {
       bottom: r.bottom
    };
 
+   let originalBounds = {
+      ...bounds
+   };
+
    if (puppet.margin) {
       bounds.left -= puppet.margin;
       bounds.top -= puppet.margin;
@@ -156,6 +160,7 @@ function getDragEvent(e, type) {
       event: e,
       cursor: getCursorPos(e),
       itemBounds: bounds,
+      originalBounds,
       data: puppet.source.data
    }
 }

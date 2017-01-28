@@ -1,0 +1,37 @@
+.board {
+   background: rgb(0, 121, 191);
+   margin: 0;
+   border: none;
+}
+
+.cards {
+   display: flex;
+   flex-direction: row;
+
+   .cxm-hspace {
+      height: auto;
+   }
+}
+
+.card {
+   width: 300px;
+   margin: 10px;
+   padding: 10px;
+   background: #E2E4E6;
+   border-radius: 3px;
+   box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
+
+   h4 {
+      margin: 0 0 5px;
+
+   }
+}
+
+.item {
+   background: white;
+   border-radius: 3px;
+   display: block;
+   padding: 3px;
+   margin-top: 5px;
+   box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
+}

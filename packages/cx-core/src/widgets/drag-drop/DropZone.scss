@@ -37,9 +37,10 @@
 
    &.cxm-space {
       height: 1px;
+      box-sizing: border-box;
 
       &.cxs-over {
-         height: 20px;
+         height: 25px;
          border: 2px dotted lightgray;
          margin: 5px;
       }

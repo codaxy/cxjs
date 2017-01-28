@@ -29,7 +29,7 @@ class DropZoneComponent extends VDOM.Component {
       return (
          <div
             className={CSS.expand(data.classNames, CSS.state(this.state.state))}
-            style={data.style}
+            style={{...data.style, ...this.state.style}}
             ref={el=>{this.el = el;}}
          >
             {children}
@@ -66,7 +66,8 @@ class DropZoneComponent extends VDOM.Component {
    onDragLeave(e) {
       let {nearDistance} = this.props.instance.widget;
       this.setState({
-         state: nearDistance ? 'near' : 'far'
+         state: nearDistance ? 'near' : 'far',
+         style: null
       })
    }
 
@@ -96,8 +97,20 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragOver(e) {
+
+      let {instance} = this.props;
+      let {widget} = instance;
+      let style = {};
+
+      if (widget.matchWidth)
+         style.width = `${e.originalBounds.right - e.originalBounds.left}px`;
+
+      if (widget.matchHeight)
+         style.height = `${e.originalBounds.bottom - e.originalBounds.top}px`;
+
       this.setState({
-         state: 'over'
+         state: 'over',
+         style
       });
    }
 
@@ -112,7 +125,8 @@ class DropZoneComponent extends VDOM.Component {
 
    onDragEnd(e) {
       this.setState({
-         state: false
+         state: false,
+         style: null
       });
    }
 }
