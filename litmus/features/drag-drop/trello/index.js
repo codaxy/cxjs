@@ -1,6 +1,7 @@
-import {DragSource, DropZone, HtmlElement, Repeater, Text, MsgBox} from 'cx/widgets';
+import {DragSource, DropZone, DragHandle, HtmlElement, Repeater, Text, MsgBox} from 'cx/widgets';
 
 import {reorder} from '../reorder';
+import {insertElement} from '../insertElement';
 import Controller from './Controller';
 
 export default <cx>
@@ -8,27 +9,40 @@ export default <cx>
       <h3>Trello Clone</h3>
 
       <div class="cards">
-         <DropZone
-            mod="hspace"
-            style="display: block"
-            onDragDrop={(e, {store}) => {
-               store.update('cards', reorder, e.data.index, 0);
-            }}
-            nearDistance={false}
-            matchWidth
-         />
-         <Repeater records:bind="cards" recordName="$card">
+
+         <Repeater records:bind="cards" recordName="$card" indexName="$cardIndex">
+
+            <DropZone
+               mod="hspace"
+               style="display: block"
+               onDragTest={e=>e.data.type == 'card'}
+               onDragDrop={(e, {store}) => {
+                  store.update('cards', reorder, e.data.index, 0);
+               }}
+               nearDistance={false}
+               matchWidth
+            />
 
             <DragSource
                class="card"
-               data={{index: {bind: "$index"}}}
-               puppetMargin={10}
+               data={{
+                  index: {bind: "$cardIndex"},
+                  type: 'card'
+               }}
+               puppetMargin={30}
                hideOnDrag
+               handled
             >
-               <h4 text:bind="$card.name"/>
+               <DragHandle style="cursor:move">
+                  <h4 ws>
+                     &#9776;
+                     <Text bind="$card.name" />
+                  </h4>
+               </DragHandle>
                <DropZone
                   mod="space"
                   style="display: block"
+                  onDragTest={e=>e.data.type == 'item'}
                   onDragDrop={(e, {store}) => {
                      store.update('$card.items', reorder, e.data.index, 0);
                   }}
@@ -41,7 +55,11 @@ export default <cx>
                >
                   <DragSource
                      class="item"
-                     data={{index: {bind: "$index"}}}
+                     data={{
+                        index: {bind: "$index"},
+                        cardIndex: {bind: "$cardIndex"},
+                        type: 'item'
+                     }}
                      puppetMargin={10}
                      hideOnDrag
                   >
@@ -50,8 +68,18 @@ export default <cx>
                   <DropZone
                      mod="space"
                      style="display: block"
+                     onDragTest={e=>e.data.type == 'item'}
                      onDragDrop={(e, {store}) => {
-                        store.update('$card.items', reorder, e.data.index, store.get('$index') + 1);
+                        if (e.data.cardIndex == store.get('$cardIndex'))
+                           store.update('$card.items', reorder, e.data.index, store.get('$index') + 1);
+                        else {
+                           let el = e.store.get('$record');
+                           console.log('A');
+                           e.store.update('$card.items', items => items.filter(item => item != el));
+                           console.log('B');
+                           store.update('$card.items', insertElement, store.get('$index') + 1, el);
+                           console.log('C');
+                        }
                      }}
                      nearDistance={false}
                      matchHeight
@@ -62,8 +90,9 @@ export default <cx>
             <DropZone
                mod="hspace"
                style="display: block"
+               onDragTest={e=>e.data.type == 'card'}
                onDragDrop={(e, {store}) => {
-                  store.update('cards', reorder, e.data.index, 0);
+                  store.update('cards', reorder, e.data.index, store.get('$cardIndex') + 1);
                }}
                nearDistance={false}
                matchWidth

@@ -40,8 +40,14 @@ export class DragDropManager {
          puppet.stop = startAppLoop(clone, source.store, source.widget);
       }
 
+      console.log(source.store);
+
       let event = getDragEvent(e, 'dragstart');
       dropZones.execute(zone => {
+
+         if (zone.onDragTest && !zone.onDragTest(event))
+            return;
+
          if (zone.onDragStart)
             zone.onDragStart(event);
       });
@@ -63,8 +69,11 @@ export class DragDropManager {
       let near = [], away = [];
 
       dropZones.execute(zone => {
-         if (zone.onDragTest) {
-            let result = zone.onDragTest(event) || {};
+         if (zone.onDragTest && !zone.onDragTest(event))
+            return;
+
+         if (zone.onDragMeasure) {
+            let result = zone.onDragMeasure(event) || {};
             if (result.near)
                near.push(zone);
             else
@@ -116,6 +125,9 @@ export class DragDropManager {
 
       dropZones.execute(zone => {
 
+         if (zone.onDragTest && !zone.onDragTest(event))
+            return;
+
          if (nearZones != null && zone.onDragAway && nearZones[zone])
             zone.onDragAway(e);
 
@@ -161,6 +173,7 @@ function getDragEvent(e, type) {
       cursor: getCursorPos(e),
       itemBounds: bounds,
       originalBounds,
-      data: puppet.source.data
+      data: puppet.source.data,
+      store: puppet.source.store
    }
 }

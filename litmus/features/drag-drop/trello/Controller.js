@@ -6,7 +6,7 @@ export default class extends Controller {
          id: c + 1,
          name: 'Card #' + c,
          items: Array.from({length: 10}, (_, i) => ({
-            id: i + 1,
+            id: `${c + 1}:${i + 1}`,
             text: 'Item #' + i
          }))
       })));

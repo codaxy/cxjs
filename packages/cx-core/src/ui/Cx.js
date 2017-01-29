@@ -28,6 +28,8 @@ export class Cx extends VDOM.Component {
       let context = new RenderingContext(this.props.options);
       let instance = this.parentInstance.getChild(this.context, this.widget, null, this.store);
 
+      console.log('RENDER', this.widget.widgetId);
+
       return <CxProps context={context} instance={instance}/>
    }
 

@@ -45,6 +45,11 @@ class DropZoneComponent extends VDOM.Component {
       this.unregister();
    }
 
+   onDragTest(e) {
+      let {widget} = this.props.instance;
+      return !widget.onDragTest || widget.onDragTest(e);
+   }
+
    onDragStart(e) {
       this.setState({
          state: 'far'
@@ -71,7 +76,7 @@ class DropZoneComponent extends VDOM.Component {
       })
    }
 
-   onDragTest(e) {
+   onDragMeasure(e) {
       let rect = this.el.getBoundingClientRect();
       let { nearDistance } = this.props.instance.widget;
 

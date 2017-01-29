@@ -11,6 +11,14 @@ export class DragSource extends PureContainer {
       })
    }
 
+   explore(context, instance) {
+      let dragHandles = context.dragHandles;
+      context.dragHandles = [];
+      super.explore(context, instance);
+      instance.dragHandles = context.dragHandles;
+      context.dragHandles = dragHandles;
+   }
+
    render(context, instance, key) {
       return <DragSourceComponent key={key} instance={instance}>
          {this.renderChildren(context, instance)}
@@ -21,12 +29,14 @@ export class DragSource extends PureContainer {
 DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = 'dragsource';
 DragSource.prototype.hideOnDrag = false;
+DragSource.prototype.handled = false;
 
 class DragSourceComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.state = {dragged: false}
+      this.state = {dragged: false};
+      this.boundMouseDown = ::this.onMouseDown;
    }
 
    shouldComponentUpdate(nextProps, nextState) {
@@ -43,14 +53,16 @@ class DragSourceComponent extends VDOM.Component {
       if (this.state.dragged && widget.hideOnDrag)
          return null;
 
+      let handler = !widget.handled ? this.boundMouseDown : null;
+
       return (
          <div
             className={CSS.expand(data.classNames, CSS.state({
                dragged: this.state.dragged
             }))}
             style={data.style}
-            onTouchStart={::this.onMouseDown}
-            onMouseDown={::this.onMouseDown}
+            onTouchStart={handler}
+            onMouseDown={handler}
             ref={el => {
                this.el = el
             }}
@@ -58,6 +70,17 @@ class DragSourceComponent extends VDOM.Component {
             {children}
          </div>
       )
+   }
+
+   componentDidMount() {
+      this.componentDidUpdate();
+   }
+
+   componentDidUpdate() {
+      let {instance} = this.props;
+      instance.dragHandles.forEach(h => {
+         h.beginDragDropSequence = this.boundMouseDown;
+      });
    }
 
    onMouseDown(e) {
@@ -87,11 +110,10 @@ class DragSourceComponent extends VDOM.Component {
    }
 
    onDragEnd(e) {
-      DragDropManager.notifyDragDrop(e);
-
       this.setState({
          dragged: false
       });
+      DragDropManager.notifyDragDrop(e);
    }
 }
 
