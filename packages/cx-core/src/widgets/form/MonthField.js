@@ -1,4 +1,5 @@
-import {Widget, VDOM, getContent} from '../../ui/Widget';
+import {Widget, VDOM} from '../../ui/Widget';
+import {Cx} from '../../ui/Cx';
 import {Field} from './Field';
 import {MonthPicker} from './MonthPicker';
 import {DateTimeCulture} from 'intl-io';
@@ -268,7 +269,7 @@ class MonthInput extends VDOM.Component {
 
       var dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = instance.prepareRenderCleanupChild(this.getDropdown(), store, 'dropdown', {name: 'datefield-dropdown'});
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}} />;
 
       return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
                   style={data.style}

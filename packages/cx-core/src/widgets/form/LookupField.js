@@ -1,4 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
+import {Cx} from '../../ui/Cx';
 import {Field} from './Field';
 import {Text} from '../../ui/Text';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
@@ -363,13 +364,18 @@ class LookupComponent extends VDOM.Component {
          </div>
       }
       else {
-         content = <div key="msg" ref={el => {
-            this.dom.list = el
-         }}
-            className={CSS.element(baseClass, "scroll-container")}
-            onWheel={::this.onListWheel}>
-            {instance.prepareRenderCleanupChild(this.list, this.itemStore, "list", {name: 'lookupfield-list'})}
-         </div>
+         content = (
+            <div
+               key="msg"
+               ref={el => {
+                  this.dom.list = el
+               }}
+               className={CSS.element(baseClass, "scroll-container")}
+               onWheel={::this.onListWheel}
+            >
+               <Cx widget={this.list} store={this.itemStore} options={{name: 'lookupfield-list'}}/>
+            </div>
+         )
       }
 
       return <div ref={el => {
@@ -427,7 +433,7 @@ class LookupComponent extends VDOM.Component {
          this.itemStore.setData({
             $options: this.state.options
          });
-         dropdown = instance.prepareRenderCleanupChild(this.getDropdown(), this.itemStore, "dropdown", {name: 'lookupfield-dropdown'});
+         dropdown = <Cx widget={this.getDropdown()} store={this.itemStore} options={{name: 'lookupfield-dropdown'}}/>;
       }
 
       var readOnly = data.disabled || data.readOnly;

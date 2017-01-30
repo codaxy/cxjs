@@ -58,6 +58,21 @@ export class ReduxStoreView extends View {
          })
    }
 
+   silently(callback) {
+      this.notificationsSuspended = (this.notificationsSuspended || 0) + 1;
+      let wasDirty = this.dirty, dirty;
+      this.dirty = false;
+      try {
+         callback(this);
+      }
+      finally {
+         this.notificationsSuspended--;
+         dirty = this.dirty;
+         this.dirty = wasDirty;
+      }
+      return dirty;
+   }
+
    doNotify() {
       this.store.dispatch({
          type: CX_REPLACE_STATE,
@@ -73,7 +88,12 @@ export class ReduxStoreView extends View {
       this.meta.version++;
    }
 
-   subscribe() {
-      return this.store.subscribe(...arguments);
+   subscribe(callback) {
+      return this.store.subscribe((...args) => {
+         if (this.notificationsSuspended)
+            this.dirty = true;
+         else
+            callback(...args);
+      });
    }
 }

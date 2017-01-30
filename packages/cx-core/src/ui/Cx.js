@@ -8,19 +8,25 @@ export class Cx extends VDOM.Component {
    constructor(props) {
       super(props);
 
-      this.widget = Widget.create(props.widget || props.items[0]);
-
-      if (this.props.parentInstance) {
-         this.parentInstance = this.props.parentInstance;
-         this.store = this.parentInstance.store;
+      if (props.instance) {
+         this.widget = props.instance.widget;
+         this.store = props.instance.store;
       }
       else {
-         this.parentInstance = new Instance(this.widget, 0);
-         this.store = props.store;
-      }
+         this.widget = Widget.create(props.widget || props.items[0]);
 
-      if (!this.store)
-         throw new Error('Cx component requires store.');
+         if (this.props.parentInstance) {
+            this.parentInstance = this.props.parentInstance;
+            this.store = this.parentInstance.store;
+         }
+         else {
+            this.parentInstance = new Instance(this.widget, 0);
+            this.store = props.store;
+         }
+
+         if (!this.store)
+            throw new Error('Cx component requires store.');
+      }
 
       this.flags = {};
    }
@@ -30,7 +36,7 @@ export class Cx extends VDOM.Component {
          return null;
 
       let context = new RenderingContext(this.props.options);
-      let instance = this.parentInstance.getChild(this.context, this.widget, null, this.store);
+      let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
       return <CxContext context={context} instance={instance} flags={this.flags} />
    }
 
@@ -47,17 +53,8 @@ export class Cx extends VDOM.Component {
 
    update() {
       let data = this.store.getData();
-      if (this.flags.rendering) {
-         //it's not allowed to change state during render phase
-         //so mark dirty and do it afterwards
-         this.flags.dirty = true;
-      }
-      else {
-         this.setState({data: data}, () => {
-            this.pending = false;
-         });
-         Debug.log(appDataFlag, data);
-      }
+      this.setState({data: data});
+      Debug.log(appDataFlag, data);
    }
 
    componentWillUnmount() {
@@ -82,25 +79,26 @@ class CxContext extends VDOM.Component {
       };
 
       let {context, instance} = props;
-      if (instance.explore(context)) {
-         this.timings.afterExplore = Timing.now();
+      this.props.flags.dirty = instance.store.silently(() => {
+         if (instance.explore(context)) {
+            this.timings.afterExplore = Timing.now();
 
-         instance.prepare(context);
-         this.timings.afterPrepare = Timing.now();
+            instance.prepare(context);
+            this.timings.afterPrepare = Timing.now();
 
-         let result = instance.render(context);
-         this.content = getContent(result);
-         this.timings.afterRender = Timing.now();
-      }
-      else {
-         this.content = null;
-         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = Timing.now();
-      }
+            let result = instance.render(context);
+            this.content = getContent(result);
+            this.timings.afterRender = Timing.now();
+         }
+         else {
+            this.content = null;
+            this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = Timing.now();
+         }
+      });
 
       this.timings.beforeVDOMRender = Timing.now();
 
       this.props.flags.rendering = true;
-      this.props.flags.dirty = false;
    }
 
    render() {

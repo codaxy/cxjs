@@ -1,8 +1,6 @@
 export class SubscriberList {
    constructor() {
-      this.subscriptions = {};
-      this.freeSlots = [];
-      this.nextSlot = 1;
+      this.clear();
    }
 
    getSlot() {
@@ -26,6 +24,12 @@ export class SubscriberList {
       return () => {
          this.recycle(slot, callback);
       }
+   }
+
+   clear() {
+      this.subscriptions = {};
+      this.freeSlots = [];
+      this.nextSlot = 1;
    }
 
    getSubscribers() {
