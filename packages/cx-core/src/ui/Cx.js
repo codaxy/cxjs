@@ -34,14 +34,8 @@ export class Cx extends VDOM.Component {
    }
 
    componentDidMount() {
-      if (this.props.subscribe) {
-         this.unsubscribe = this.store.subscribe(() => {
-            if (VDOM.DOM.unstable_batchedUpdates)
-               VDOM.DOM.unstable_batchedUpdates(::this.update)
-            else
-               this.update();
-         });
-      }
+      if (this.props.subscribe)
+         this.unsubscribe = this.store.subscribe(::this.update);
    }
 
    update() {
@@ -67,14 +61,16 @@ class CxProps extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       let {context, instance} = props;
-      if (instance.explore(context))
-         instance.prepare(context);
+      if (instance.explore(context)) {
+         let result = instance.render(context);
+         this.content = getContent(result);
+      }
+      else
+         this.content = null;
    }
 
    render() {
-      let {context, instance} = this.props;
-      let result = instance.render(context);
-      return getContent(result);
+      return this.content;
    }
 
    componentDidUpdate() {

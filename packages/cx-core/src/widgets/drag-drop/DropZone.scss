@@ -1,5 +1,7 @@
 .cxb-dropzone {
 
+   box-sizing: border-box;
+
    &.cxm-box {
       display: inline-block;
       transition: all 0.1s;
@@ -21,6 +23,7 @@
 
    &.cxm-insertion {
       height: 1px;
+      margin-top: -1px;
 
       //transition: all 0.1s;
       //
@@ -37,7 +40,7 @@
 
    &.cxm-space {
       height: 1px;
-      box-sizing: border-box;
+      margin-top: -1px;
 
       &.cxs-over {
          height: 25px;
@@ -48,6 +51,7 @@
 
    &.cxm-hspace {
       width: 1px;
+      margin-left: -1px;
       height: 1em;
       vertical-align: middle;
       //transition: width 0.08s linear;

@@ -1,5 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
+import { getCursorPos } from '../overlay/captureMouse';
 
 export class DragHandle extends PureContainer {
 
@@ -22,6 +23,10 @@ class DragHandleComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
+
+      this.onMouseDown = ::this.onMouseDown;
+      this.onMouseUp = ::this.onMouseUp;
+      this.onMouseMove = ::this.onMouseMove;
    }
 
    shouldComponentUpdate(nextProps, nextState) {
@@ -36,8 +41,12 @@ class DragHandleComponent extends VDOM.Component {
          <div
             className={data.classNames}
             style={data.style}
-            onTouchStart={::this.onMouseDown}
-            onMouseDown={::this.onMouseDown}
+            onTouchStart={this.onMouseDown}
+            onMouseDown={this.onMouseDown}
+            onTouchMove={this.onMouseMove}
+            onMouseMove={this.onMouseMove}
+            onTouchEnd={this.onMouseUp}
+            onMouseUp={this.onMouseUp}
          >
             {children}
          </div>
@@ -45,8 +54,19 @@ class DragHandleComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
+      this.start = { ...getCursorPos(e) };
+      e.preventDefault();
+   }
+
+   onMouseUp() {
+      delete this.start;
+   }
+
+   onMouseMove(e) {
       let {instance} = this.props;
-      if (instance.beginDragDropSequence)
-         instance.beginDragDropSequence(e)
+      let cursor = getCursorPos(e);
+      if (this.start && Math.abs(cursor.clientX - this.start.clientX) + Math.abs(cursor.clientY - this.start.clientY) >= 2)
+         if (instance.beginDragDropSequence)
+            instance.beginDragDropSequence(e)
    }
 }

@@ -1,42 +1,49 @@
-import { DragSource, DropZone, HtmlElement, Repeater, Text, MsgBox } from 'cx/widgets';
+import {DragSource, DropZone, HtmlElement, Repeater, Text, MsgBox} from 'cx/widgets';
 
-import { reorder } from './reorder';
+import {reorder} from './reorder';
 
 export default <cx>
    <section>
       <h3>Drag & Drop</h3>
       <h4>Reorder</h4>
+      <br/>
 
       <div style="width:300px">
-         <DropZone mod="space"
-                   style="display: block"
-                   onDragDrop={(e, {store}) => {
-                      store.update('items', reorder, e.data.index, 0);
-                   }}
-                   nearDistance={false}
+         <DropZone
+            mod="space"
+            style="display: block"
+            onDragDrop={(e, {store}) => {
+               store.update('items', reorder, e.data.index, 0);
+            }}
+            matchHeight
+            matchMargin
+            inflate={5}
          >
          </DropZone>
          <Repeater
-            records={{bind: 'items', defaultValue: Array.from({length: 20}, (_, i) => ({
-               id: i + 1,
-               text: `Item ${i + 1}`
-            }))}}
+            records={{
+               bind: 'items', defaultValue: Array.from({length: 20}, (_, i) => ({
+                  id: i + 1,
+                  text: `Item ${i + 1}`
+               }))
+            }}
             keyField="id"
          >
             <DragSource
-               style="display:block; border: 1px solid #eee"
-               data={{ index:  {bind:"$index"}}}
-               puppetMargin={10}
+               style="display:block; border: 1px solid #ccc;margin-top:2px;background:#eee"
+               data={{index: {bind: "$index"}}}
                hideOnDrag
             >
-               <div text:bind="$record.text" style="padding:5px" />
+               <div text:bind="$record.text" style="padding:5px"/>
             </DragSource>
             <DropZone mod="space"
                style="display: block"
                onDragDrop={(e, {store}) => {
                   store.update('items', reorder, e.data.index, store.get('$index') + 1);
                }}
-               nearDistance={false}
+               matchHeight
+               matchMargin
+               inflate={5}
             >
             </DropZone>
          </Repeater>

@@ -3,14 +3,20 @@
    margin: 0;
    border: none;
    height: 100%;
+
+   h3 {
+      color: white;
+   }
 }
 
 .cards {
    display: flex;
    flex-direction: row;
+   align-items: flex-start;
+   flex-wrap: wrap;
 
    .cxm-hspace {
-      height: auto;
+      height: 450px;
    }
 }
 
@@ -24,7 +30,6 @@
 
    h4 {
       margin: 0 0 5px;
-
    }
 }
 

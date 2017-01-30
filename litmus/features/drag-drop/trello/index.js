@@ -10,30 +10,31 @@ export default <cx>
 
       <div class="cards">
 
+         <DropZone
+            mod="hspace"
+            style="display: block;"
+            onDragTest={e=>e.data.type == 'card'}
+            onDragDrop={(e, {store}) => {
+               store.update('cards', reorder, e.data.index, 0);
+            }}
+            nearDistance={false}
+            matchWidth
+            matchHeight
+            matchMargin
+            inflate={30}
+         />
+
          <Repeater records:bind="cards" recordName="$card" indexName="$cardIndex">
-
-            <DropZone
-               mod="hspace"
-               style="display: block"
-               onDragTest={e=>e.data.type == 'card'}
-               onDragDrop={(e, {store}) => {
-                  store.update('cards', reorder, e.data.index, 0);
-               }}
-               nearDistance={false}
-               matchWidth
-            />
-
             <DragSource
                class="card"
                data={{
                   index: {bind: "$cardIndex"},
                   type: 'card'
                }}
-               puppetMargin={30}
                hideOnDrag
                handled
             >
-               <DragHandle style="cursor:move">
+               <DragHandle style="cursor:move;padding:1px">
                   <h4 ws>
                      &#9776;
                      <Text bind="$card.name" />
@@ -48,6 +49,8 @@ export default <cx>
                   }}
                   nearDistance={false}
                   matchHeight
+                  matchMargin
+                  inflate={8}
                />
                <Repeater
                   records:bind="$card.items"
@@ -60,7 +63,6 @@ export default <cx>
                         cardIndex: {bind: "$cardIndex"},
                         type: 'item'
                      }}
-                     puppetMargin={10}
                      hideOnDrag
                   >
                      <div text:bind="$record.text" style="padding:5px"/>
@@ -74,15 +76,14 @@ export default <cx>
                            store.update('$card.items', reorder, e.data.index, store.get('$index') + 1);
                         else {
                            let el = e.store.get('$record');
-                           console.log('A');
                            e.store.update('$card.items', items => items.filter(item => item != el));
-                           console.log('B');
                            store.update('$card.items', insertElement, store.get('$index') + 1, el);
-                           console.log('C');
                         }
                      }}
                      nearDistance={false}
                      matchHeight
+                     matchMargin
+                     inflate={8}
                   />
                </Repeater>
             </DragSource>
@@ -96,6 +97,9 @@ export default <cx>
                }}
                nearDistance={false}
                matchWidth
+               matchHeight
+               matchMargin
+               inflate={30}
             />
 
          </Repeater>

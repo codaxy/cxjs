@@ -4,7 +4,9 @@ export default <cx>
    <section>
       <h3>Drag & Drop</h3>
 
-      <DragSource style="padding: 10px; background: yellow" data={{index: {bind: "$index"}}}>
+      <DragSource
+         style="padding: 10px; background: yellow; display:inline-block"
+         data={{index: {bind: "$index"}}}>
          Drag me around
       </DragSource>
 

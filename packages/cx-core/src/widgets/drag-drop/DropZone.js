@@ -3,6 +3,13 @@ import { PureContainer } from '../../ui/PureContainer';
 import { DragDropManager } from './DragDropManager';
 
 export class DropZone extends PureContainer {
+
+   declareData() {
+      return super.declareData(...arguments, {
+         overClass: {structured: true}
+      })
+   }
+
    render(context, instance, key) {
       return <DropZoneComponent key={key} instance={instance}>
          {this.renderChildren(context, instance)}
@@ -12,6 +19,7 @@ export class DropZone extends PureContainer {
 
 DropZone.prototype.styled = true;
 DropZone.prototype.nearDistance = false;
+DropZone.prototype.inflate = 0;
 DropZone.prototype.baseClass = 'dropzone';
 
 class DropZoneComponent extends VDOM.Component {
@@ -26,9 +34,17 @@ class DropZoneComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS} = widget;
 
+      let classes = [
+         data.classNames,
+         CSS.state(this.state.state)
+      ];
+
+      if (this.state.state == 'over')
+         classes.push(data.overClass);
+
       return (
          <div
-            className={CSS.expand(data.classNames, CSS.state(this.state.state))}
+            className={CSS.expand(classes)}
             style={{...data.style, ...this.state.style}}
             ref={el=>{this.el = el;}}
          >
@@ -51,6 +67,8 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragStart(e) {
+      this.initialWidth = this.el.offsetWidth;
+      this.initialHeight = this.el.offsetHeight;
       this.setState({
          state: 'far'
       });
@@ -77,11 +95,31 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragMeasure(e) {
-      let rect = this.el.getBoundingClientRect();
+      let r = this.el.getBoundingClientRect();
+      let rect = {
+         left: r.left,
+         right: r.right,
+         top: r.top,
+         bottom: r.bottom
+      };
+
+      let {instance} = this.props;
+      let {widget} = instance;
+
+      if (widget.inflate > 0) {
+         rect.left -= widget.inflate;
+         rect.top -= widget.inflate;
+         rect.bottom += widget.inflate;
+         rect.right += widget.inflate;
+      }
+
       let { nearDistance } = this.props.instance.widget;
 
-      let xOverlap = getOverlapSize(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right);
-      let yOverlap = getOverlapSize(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom);
+      let maxXOverlap = this.initialWidth + 2 * widget.inflate;
+      let maxYOverlap = this.initialHeight + 2 * widget.inflate;
+
+      let xOverlap = Math.min(getOverlapSize(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right), maxXOverlap);
+      let yOverlap = Math.min(getOverlapSize(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom), maxYOverlap);
 
       if (xOverlap > 0 && yOverlap > 0)
          return {
@@ -108,10 +146,13 @@ class DropZoneComponent extends VDOM.Component {
       let style = {};
 
       if (widget.matchWidth)
-         style.width = `${e.originalBounds.right - e.originalBounds.left}px`;
+         style.width = `${e.itemBounds.right - e.itemBounds.left}px`;
 
       if (widget.matchHeight)
-         style.height = `${e.originalBounds.bottom - e.originalBounds.top}px`;
+         style.height = `${e.itemBounds.bottom - e.itemBounds.top}px`;
+
+      if (widget.matchMargin)
+         style.margin = e.source.margin.join(' ');
 
       this.setState({
          state: 'over',

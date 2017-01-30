@@ -7,7 +7,7 @@ export class DragSource extends PureContainer {
 
    declareData() {
       super.declareData(...arguments, {
-         data: {structured: true}
+         data: { structured: true }
       })
    }
 
@@ -36,7 +36,10 @@ class DragSourceComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {dragged: false};
-      this.boundMouseDown = ::this.onMouseDown;
+      this.onDragStart = ::this.onDragStart;
+      this.onMouseDown = ::this.onMouseDown;
+      this.onMouseUp = ::this.onMouseUp;
+      this.onMouseMove = ::this.onMouseMove;
    }
 
    shouldComponentUpdate(nextProps, nextState) {
@@ -53,16 +56,27 @@ class DragSourceComponent extends VDOM.Component {
       if (this.state.dragged && widget.hideOnDrag)
          return null;
 
-      let handler = !widget.handled ? this.boundMouseDown : null;
+      let down = !widget.handled ? this.onMouseDown : null;
+      let move = !widget.handled ? this.onMouseMove : null;
+      let up = !widget.handled ? this.onMouseUp : null;
+
+      let classes = [
+         data.classNames,
+         CSS.state({
+            dragged: this.state.dragged
+         })
+      ];
 
       return (
          <div
-            className={CSS.expand(data.classNames, CSS.state({
-               dragged: this.state.dragged
-            }))}
+            className={CSS.expand(classes)}
             style={data.style}
-            onTouchStart={handler}
-            onMouseDown={handler}
+            onTouchStart={down}
+            onMouseDown={down}
+            onTouchMove={move}
+            onMouseMove={move}
+            onTouchEnd={up}
+            onMouseUp={up}
             ref={el => {
                this.el = el
             }}
@@ -79,26 +93,38 @@ class DragSourceComponent extends VDOM.Component {
    componentDidUpdate() {
       let {instance} = this.props;
       instance.dragHandles.forEach(h => {
-         h.beginDragDropSequence = this.boundMouseDown;
+         h.beginDragDropSequence = this.onDragStart;
       });
    }
 
    onMouseDown(e) {
-      let captureData = {};
-      captureMouseOrTouch(e, ::this.onDragMove, ::this.onDragEnd, captureData);
-      this.onDragStart(e, captureData)
+      this.start = { ...getCursorPos(e) };
+      e.preventDefault();
+   }
+
+   onMouseUp() {
+      delete this.start;
+   }
+
+   onMouseMove(e) {
+      let cursor = getCursorPos(e);
+      if (this.start && Math.abs(cursor.clientX - this.start.clientX) + Math.abs(cursor.clientY - this.start.clientY) >= 2)
+         this.onDragStart(e);
    }
 
    onDragStart(e) {
+      let captureData = {};
+      captureMouseOrTouch(e, ::this.onDragMove, ::this.onDragEnd, captureData);
+
       let {instance} = this.props;
       let {widget, store, data} = instance;
       DragDropManager.notifyDragStart(e, {
+         sourceEl: this.el,
          source: {
             widget,
             store,
             data: data.data
-         },
-         puppetMargin: widget.puppetMargin
+         }
       });
       this.setState({
          dragged: true
@@ -110,6 +136,7 @@ class DragSourceComponent extends VDOM.Component {
    }
 
    onDragEnd(e) {
+      delete this.start;
       this.setState({
          dragged: false
       });

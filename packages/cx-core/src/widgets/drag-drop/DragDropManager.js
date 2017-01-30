@@ -14,7 +14,7 @@ export class DragDropManager {
 
    static notifyDragStart(e, options = {}) {
 
-      let sourceEl = e.target || options.sourceEl;
+      let sourceEl = options.sourceEl || e.target;
       let sourceBounds = sourceEl.getBoundingClientRect();
       let cursor = getCursorPos(e);
 
@@ -26,21 +26,28 @@ export class DragDropManager {
       clone.style.minHeight = `${Math.ceil(sourceBounds.height)}px`;
       document.body.appendChild(clone);
 
-      let source = options.source || {};
+      let styles = getComputedStyle(sourceEl);
+
+      let source = {
+         ...options.source,
+         margin: [
+            styles.getPropertyValue('margin-top'),
+            styles.getPropertyValue('margin-right'),
+            styles.getPropertyValue('margin-bottom'),
+            styles.getPropertyValue('margin-left'),
+         ]
+      };
 
       puppet = {
          deltaX: cursor.clientX - sourceBounds.left,
          deltaY: cursor.clientY - sourceBounds.top,
          el: clone,
-         source,
-         margin: options.puppetMargin
+         source
       };
 
       if (source.widget && source.store) {
          puppet.stop = startAppLoop(clone, source.store, source.widget);
       }
-
-      console.log(source.store);
 
       let event = getDragEvent(e, 'dragstart');
       dropZones.execute(zone => {
@@ -120,6 +127,11 @@ export class DragDropManager {
    static notifyDragDrop(e) {
       let event = getDragEvent(e, 'dragdrop');
 
+      if (puppet.stop)
+         puppet.stop();
+
+      document.body.removeChild(puppet.el);
+
       if (activeZone && activeZone.onDragDrop)
          activeZone.onDragDrop(event);
 
@@ -135,10 +147,6 @@ export class DragDropManager {
             zone.onDragEnd(event);
       });
 
-      if (puppet.stop)
-         puppet.stop();
-
-      document.body.removeChild(puppet.el);
       nearZones = null;
       activeZone = null;
       puppet = null;
@@ -156,10 +164,6 @@ function getDragEvent(e, type) {
       bottom: r.bottom
    };
 
-   let originalBounds = {
-      ...bounds
-   };
-
    if (puppet.margin) {
       bounds.left -= puppet.margin;
       bounds.top -= puppet.margin;
@@ -172,8 +176,8 @@ function getDragEvent(e, type) {
       event: e,
       cursor: getCursorPos(e),
       itemBounds: bounds,
-      originalBounds,
       data: puppet.source.data,
-      store: puppet.source.store
+      store: puppet.source.store,
+      source: puppet.source
    }
 }
