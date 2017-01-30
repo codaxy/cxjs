@@ -28,7 +28,8 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 Timing.enable('vdom-render');
-//Debug.enable("should-update");
+//Timing.enable('app-loop');
+Debug.enable("app-data");
 
 
 if (module.hot) {
