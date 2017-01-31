@@ -1,5 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
+import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
 import {isSelector} from '../../data/isSelector';
@@ -12,6 +13,8 @@ import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import DropDownIcon from '../icons/drop-down';
+import {ddMouseDown, ddMouseUp, ddDetect, ddStart} from '../drag-drop/DragDropManager';
+
 
 export class Grid extends Widget {
 
@@ -554,9 +557,11 @@ class GridComponent extends VDOM.Component {
                selected: selected,
                cursor: i == this.state.cursor
             };
-            return <GridRowComponent key={key}
+            return <GridRowComponent
+               key={key}
                className={CSS.element(baseClass, 'data', mod)}
                onClick={e => widget.onRowClick(e, data, index, store)}
+               store={store}
                onMouseEnter={e => this.moveCursor(i)}
                isSelected={selected}
                cursor={mod.cursor}
@@ -909,12 +914,51 @@ function initGrouping(grouping) {
 }
 
 class GridRowComponent extends VDOM.Component {
+
    render() {
-      return <tbody className={this.props.className}
+
+      let classes = this.props.className;
+      if (this.state && this.state.dragged)
+         classes += ' cxs-dragged';
+
+      return <tbody
+         className={classes}
          onClick={this.props.onClick}
-         onMouseEnter={this.props.onMouseEnter}>
-      {this.props.children}
+         onMouseEnter={this.props.onMouseEnter}
+         onMouseDown={ddMouseDown}
+         onMouseMove={::this.onMouseMove}
+         onMouseUp={ddMouseUp}
+      >
+         {this.props.children}
       </tbody>
+   }
+
+   onMouseMove(e) {
+      if (ddDetect(e)) {
+         ddStart(e, {
+            sourceEl: e.currentTarget,
+            source: {
+               store: this.props.store,
+               widget: props => (
+                  <div>
+                     <table>
+                        <tbody className={this.props.className}>
+                           {this.props.children}
+                        </tbody>
+                     </table>
+                  </div>
+               )
+            }
+         }, () => {
+            this.setState({
+               dragged: false
+            })
+         });
+
+         this.setState({
+            dragged: true
+         })
+      }
    }
 
    shouldComponentUpdate(props) {

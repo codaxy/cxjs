@@ -1,5 +1,5 @@
 import { SubscriberList } from '../../util/SubscriberList';
-import { getCursorPos } from '../overlay/captureMouse';
+import { getCursorPos, captureMouseOrTouch } from '../overlay/captureMouse';
 import { startAppLoop } from '../../ui/app/startAppLoop';
 
 let dropZones = new SubscriberList(),
@@ -12,8 +12,7 @@ export class DragDropManager {
       return dropZones.subscribe(dropZone);
    }
 
-   static notifyDragStart(e, options = {}) {
-
+   static beginDragDrop(e, options = {}, onDragEnd) {
       let sourceEl = options.sourceEl || e.target;
       let sourceBounds = sourceEl.getBoundingClientRect();
       let cursor = getCursorPos(e);
@@ -42,7 +41,8 @@ export class DragDropManager {
          deltaX: cursor.clientX - sourceBounds.left,
          deltaY: cursor.clientY - sourceBounds.top,
          el: clone,
-         source
+         source,
+         onDragEnd
       };
 
       if (source.widget && source.store) {
@@ -50,6 +50,7 @@ export class DragDropManager {
       }
 
       let event = getDragEvent(e, 'dragstart');
+
       dropZones.execute(zone => {
 
          if (zone.onDragTest && !zone.onDragTest(event))
@@ -60,6 +61,8 @@ export class DragDropManager {
       });
 
       this.notifyDragMove(e);
+
+      captureMouseOrTouch(e, ::this.notifyDragMove, ::this.notifyDragDrop);
    }
 
    static notifyDragMove(e) {
@@ -147,6 +150,9 @@ export class DragDropManager {
             zone.onDragEnd(event);
       });
 
+      if (puppet.onDragEnd)
+         puppet.onDragEnd(event);
+
       nearZones = null;
       activeZone = null;
       puppet = null;
@@ -180,4 +186,31 @@ function getDragEvent(e, type) {
       store: puppet.source.store,
       source: puppet.source
    }
+}
+
+let dragCandidate = {};
+
+export function ddMouseDown(e) {
+   e.preventDefault();
+   dragCandidate = {
+      el: e.target,
+      start: {...getCursorPos(e)}
+   }
+}
+
+export function ddMouseUp() {
+   dragCandidate = {};
+}
+
+export function ddDetect(e) {
+   let cursor = getCursorPos(e);
+   if (e.target == dragCandidate.el && Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >= 2) {
+      dragCandidate = {};
+      return true;
+   }
+}
+
+export function ddStart(e, options, onDragEnd) {
+   //TODO: Get rid of DragDropManager
+   DragDropManager.beginDragDrop(e, options, onDragEnd)
 }

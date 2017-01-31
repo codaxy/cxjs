@@ -1,7 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { captureMouseOrTouch, getCursorPos } from '../overlay/captureMouse';
-import { DragDropManager } from './DragDropManager';
+import { DragDropManager, ddMouseDown, ddDetect, ddMouseUp } from './DragDropManager';
 
 export class DragSource extends PureContainer {
 
@@ -36,10 +35,13 @@ class DragSourceComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {dragged: false};
-      this.onDragStart = ::this.onDragStart;
-      this.onMouseDown = ::this.onMouseDown;
-      this.onMouseUp = ::this.onMouseUp;
-      this.onMouseMove = ::this.onMouseMove;
+
+      this.beginDragDrop = ::this.beginDragDrop;
+
+      this.onMouseMove = e => {
+         if (ddDetect(e))
+            this.beginDragDrop(e);
+      }
    }
 
    shouldComponentUpdate(nextProps, nextState) {
@@ -56,9 +58,9 @@ class DragSourceComponent extends VDOM.Component {
       if (this.state.dragged && widget.hideOnDrag)
          return null;
 
-      let down = !widget.handled ? this.onMouseDown : null;
+      let down = !widget.handled ? ddMouseDown : null;
       let move = !widget.handled ? this.onMouseMove : null;
-      let up = !widget.handled ? this.onMouseUp : null;
+      let up = !widget.handled ? ddMouseUp : null;
 
       let classes = [
          data.classNames,
@@ -93,54 +95,30 @@ class DragSourceComponent extends VDOM.Component {
    componentDidUpdate() {
       let {instance} = this.props;
       instance.dragHandles.forEach(h => {
-         h.beginDragDropSequence = this.onDragStart;
+         h.beginDragDropSequence = this.beginDragDrop;
       });
    }
 
-   onMouseDown(e) {
-      this.start = { ...getCursorPos(e) };
-      e.preventDefault();
-   }
-
-   onMouseUp() {
-      delete this.start;
-   }
-
-   onMouseMove(e) {
-      let cursor = getCursorPos(e);
-      if (this.start && Math.abs(cursor.clientX - this.start.clientX) + Math.abs(cursor.clientY - this.start.clientY) >= 2)
-         this.onDragStart(e);
-   }
-
-   onDragStart(e) {
-      let captureData = {};
-      captureMouseOrTouch(e, ::this.onDragMove, ::this.onDragEnd, captureData);
-
+   beginDragDrop(e) {
       let {instance} = this.props;
-      let {widget, store, data} = instance;
-      DragDropManager.notifyDragStart(e, {
+      let {data, widget, store} = instance;
+
+      DragDropManager.beginDragDrop(e, {
          sourceEl: this.el,
          source: {
             widget,
             store,
             data: data.data
          }
+      }, () => {
+         this.setState({
+            dragged: false
+         })
       });
+
       this.setState({
          dragged: true
       })
-   }
-
-   onDragMove(e) {
-      DragDropManager.notifyDragMove(e);
-   }
-
-   onDragEnd(e) {
-      delete this.start;
-      this.setState({
-         dragged: false
-      });
-      DragDropManager.notifyDragDrop(e);
    }
 }
 

@@ -190,6 +190,10 @@
             @include cx-add-state-rules($cx-list-item, active);
          }
       }
+
+      &.#{$state}dragged {
+         opacity: 0.5;
+      }
    }
 
    .#{$element}#{$name}-group-caption {
