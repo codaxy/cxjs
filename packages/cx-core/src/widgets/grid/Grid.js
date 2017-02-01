@@ -572,22 +572,6 @@ class GridComponent extends VDOM.Component {
                cursor: i == this.state.cursor
             };
 
-            if (this.state.dragInsertionIndex != null)
-               children.push(
-                  <tbody key={`dropzone-${i}`}>
-                  <tr>
-                     <td
-                        className={CSS.element(baseClass, 'dropzone', {active: this.state.dragInsertionIndex == i})}
-                        colSpan={1000}
-                        style={{
-                           height: this.state.dragInsertionIndex == i ? this.state.dragItemHeight : 0,
-                        }}
-                     >
-                     </td>
-                  </tr>
-                  </tbody>
-               );
-
             children.push(
                <GridRowComponent
                   key={key}
@@ -608,6 +592,23 @@ class GridComponent extends VDOM.Component {
          else
             children.push(record.vdom);
       });
+
+      if (this.state.dragInsertionIndex != null) {
+         let dragInsertionRow = (
+            <tbody key="dropzone">
+            <tr>
+               <td
+                  className={CSS.element(baseClass, 'dropzone')}
+                  colSpan={1000}
+                  style={{
+                     height: this.state.dragItemHeight,
+                  }}>
+               </td>
+            </tr>
+            </tbody>
+         );
+         children.splice(this.state.dragInsertionIndex, 0, dragInsertionRow);
+      }
 
       let content = [];
 
@@ -690,7 +691,6 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       if (widget.onDragStart)
          widget.onDragStart(e, instance);
-      this.dragTrail = {};
    }
 
    onDragDrop(e) {
@@ -768,11 +768,9 @@ class GridComponent extends VDOM.Component {
          }
       }
 
-      this.dragTrail[s] = true;
-
       this.setState({
          dragInsertionIndex: s,
-         dragItemHeight: ev.source.height + 1
+         dragItemHeight: ev.source.height - 1
       });
    }
 

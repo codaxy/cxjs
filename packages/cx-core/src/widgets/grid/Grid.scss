@@ -199,23 +199,16 @@
 
    &.#{$element}#{$name}-dropzone {
       position: relative;
-      transition: height 0.1s linear;
-      height: 0;
       padding: 0;
-
-      &.#{$state}active {
-
-         border-top: 1px solid $cx-default-grid-border-color;
-
-         &:after {
-            position: absolute;
-            left: 3px;
-            right: 3px;
-            top: 3px;
-            bottom: 3px;
-            border: 1px dotted gray;
-            content: ' ';
-         }
+      border-top: 1px solid $cx-default-grid-border-color;
+      &:after {
+         position: absolute;
+         left: 3px;
+         right: 3px;
+         top: 3px;
+         bottom: 3px;
+         border: 1px dotted gray;
+         content: ' ';
       }
    }
 
