@@ -563,49 +563,53 @@ class GridComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
 
-      let children = instance.records.map((record, i) => {
+      let children = [];
+      instance.records.forEach((record, i) => {
          if (record.type == 'data') {
             let {data, store, index, key, selected} = record;
             let mod = {
                selected: selected,
                cursor: i == this.state.cursor
             };
-            return <GridRowComponent
-               key={key}
-               className={CSS.element(baseClass, 'data', mod)}
-               onClick={e => widget.onRowClick(e, data, index, store)}
-               store={store}
-               dragSource={dragSource}
-               record={record}
-               onMouseEnter={e => this.moveCursor(i)}
-               isSelected={selected}
-               cursor={mod.cursor}
-               shouldUpdate={record.shouldUpdate}
-            >
-               {record.vdom}
-            </GridRowComponent>
+
+            if (this.state.dragInsertionIndex != null)
+               children.push(
+                  <tbody key={`dropzone-${i}`}>
+                  <tr>
+                     <td
+                        className={CSS.element(baseClass, 'dropzone', {active: this.state.dragInsertionIndex == i})}
+                        colSpan={1000}
+                        style={{
+                           height: this.state.dragInsertionIndex == i ? this.state.dragItemHeight : 0,
+                        }}
+                     >
+                     </td>
+                  </tr>
+                  </tbody>
+               );
+
+            children.push(
+               <GridRowComponent
+                  key={key}
+                  className={CSS.element(baseClass, 'data', mod)}
+                  onClick={e => widget.onRowClick(e, data, index, store)}
+                  store={store}
+                  dragSource={dragSource}
+                  record={record}
+                  onMouseEnter={e => this.moveCursor(i)}
+                  isSelected={selected}
+                  cursor={mod.cursor}
+                  shouldUpdate={record.shouldUpdate}
+               >
+                  {record.vdom}
+               </GridRowComponent>
+            );
          }
-         return record.vdom;
+         else
+            children.push(record.vdom);
       });
 
       let content = [];
-
-      if (this.state.dragInsertionIndex != null) {
-         let dragInsertionRow = (
-            <tbody key="drag" className={CSS.element(baseClass, 'data')}>
-            <tr>
-               <td
-                  className={CSS.element(baseClass, 'dropzone')}
-                  colSpan={1000}
-                  style={{
-                     height: this.state.dragItemHeight,
-                  }}>
-               </td>
-            </tr>
-            </tbody>
-         );
-         children.splice(this.state.dragInsertionIndex, 0, dragInsertionRow);
-      }
 
       if (instance.records.length == 0 && data.emptyText) {
          content.push(
@@ -686,6 +690,7 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       if (widget.onDragStart)
          widget.onDragStart(e, instance);
+      this.dragTrail = {};
    }
 
    onDragDrop(e) {
@@ -708,7 +713,8 @@ class GridComponent extends VDOM.Component {
 
    onDragEnd(e) {
       this.setState({
-         dragInsertionIndex: null
+         dragInsertionIndex: null,
+         lastDragInsertionIndex: null
       });
       let {instance} = this.props;
       let {widget} = instance;
@@ -761,6 +767,8 @@ class GridComponent extends VDOM.Component {
             }
          }
       }
+
+      this.dragTrail[s] = true;
 
       this.setState({
          dragInsertionIndex: s,
@@ -1059,10 +1067,14 @@ class GridRowComponent extends VDOM.Component {
 
    render() {
 
-      let {className, dragSource, record} = this.props;
+      let {className, dragSource} = this.props;
+
+      let style;
 
       if (this.state.dragged)
-         return null;
+         style = {
+            display: 'none'
+         }
 
       let down, move, up, ref;
 
@@ -1075,6 +1087,7 @@ class GridRowComponent extends VDOM.Component {
 
       return <tbody
          className={className}
+         style={style}
          ref={ref}
          onClick={this.props.onClick}
          onMouseEnter={this.props.onMouseEnter}

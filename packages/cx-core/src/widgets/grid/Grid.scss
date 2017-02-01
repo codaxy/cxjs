@@ -159,6 +159,7 @@
    }
 
    .#{$element}#{$name}-data {
+
       td {
          padding: 0;
          border-top: 1px solid $cx-default-grid-border-color;
@@ -192,20 +193,29 @@
       }
 
       &.#{$state}dragged {
-         opacity: 0.5;
+         display: none;
       }
    }
 
    &.#{$element}#{$name}-dropzone {
       position: relative;
-      &:after {
-         position: absolute;
-         left: 3px;
-         right: 3px;
-         top: 3px;
-         bottom: 3px;
-         border: 1px dotted gray;
-         content: ' ';
+      transition: height 0.1s linear;
+      height: 0;
+      padding: 0;
+
+      &.#{$state}active {
+
+         border-top: 1px solid $cx-default-grid-border-color;
+
+         &:after {
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            border: 1px dotted gray;
+            content: ' ';
+         }
       }
    }
 
