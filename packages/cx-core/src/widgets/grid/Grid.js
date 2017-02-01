@@ -772,7 +772,7 @@ class GridComponent extends VDOM.Component {
 
       this.setState({
          dragInsertionIndex: s,
-         dragItemHeight: ev.source.height
+         dragItemHeight: ev.source.height + 1
       });
    }
 
