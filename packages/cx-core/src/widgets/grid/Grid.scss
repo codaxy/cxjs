@@ -196,6 +196,19 @@
       }
    }
 
+   &.#{$element}#{$name}-dropzone {
+      position: relative;
+      &:after {
+         position: absolute;
+         left: 3px;
+         right: 3px;
+         top: 3px;
+         bottom: 3px;
+         border: 1px dotted gray;
+         content: ' ';
+      }
+   }
+
    .#{$element}#{$name}-group-caption {
       font-weight: bold;
       font-size: 115%;

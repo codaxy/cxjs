@@ -1,6 +1,5 @@
 .cxb-dragsource {
    box-sizing: border-box;
-
    &.cxs-dragged {
       opacity: 0.3;
    }
@@ -8,6 +7,7 @@
 
 .cxb-dragclone {
    pointer-events: none;
+   background: rgba(255, 255, 255, 0.8);
    min-width: 10px;
    min-height: 10px;
    position: fixed;

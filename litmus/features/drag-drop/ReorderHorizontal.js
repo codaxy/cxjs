@@ -11,7 +11,7 @@ export default <cx>
          <DropZone
             mod="hspace"
             onDragDrop={(e, {store}) => {
-               store.update('items', reorder, e.data.index, 0);
+               store.update('items', reorder, e.source.data.index, 0);
             }}
             matchWidth
             matchHeight
@@ -38,7 +38,7 @@ export default <cx>
             <DropZone
                mod="hspace"
                onDragDrop={(e, {store}) => {
-                  store.update('items', reorder, e.data.index, store.get('$index') + 1);
+                  store.update('items', reorder, e.source.data.index, store.get('$index') + 1);
                }}
                matchWidth
                matchHeight

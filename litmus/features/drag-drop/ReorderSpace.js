@@ -13,7 +13,7 @@ export default <cx>
             mod="space"
             style="display: block"
             onDragDrop={(e, {store}) => {
-               store.update('items', reorder, e.data.index, 0);
+               store.update('items', reorder, e.source.data.index, 0);
             }}
             matchHeight
             matchMargin
@@ -39,7 +39,7 @@ export default <cx>
             <DropZone mod="space"
                style="display: block"
                onDragDrop={(e, {store}) => {
-                  store.update('items', reorder, e.data.index, store.get('$index') + 1);
+                  store.update('items', reorder, e.source.data.index, store.get('$index') + 1);
                }}
                matchHeight
                matchMargin

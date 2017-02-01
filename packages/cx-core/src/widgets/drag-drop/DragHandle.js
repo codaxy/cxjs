@@ -1,6 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { getCursorPos } from '../overlay/captureMouse';
+import { ddHandle } from '../drag-drop/DragDropManager';
 
 export class DragHandle extends PureContainer {
 
@@ -11,62 +11,23 @@ export class DragHandle extends PureContainer {
    }
 
    render(context, instance, key) {
-      return <DragHandleComponent key={key} instance={instance}>
-         {this.renderChildren(context, instance)}
-      </DragHandleComponent>
-   }
-}
-
-DragHandle.prototype.styled = true;
-
-class DragHandleComponent extends VDOM.Component {
-
-   constructor(props) {
-      super(props);
-
-      this.onMouseDown = ::this.onMouseDown;
-      this.onMouseUp = ::this.onMouseUp;
-      this.onMouseMove = ::this.onMouseMove;
-   }
-
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.instance.shouldUpdate || nextState != this.state;
-   }
-
-   render() {
-      let {instance, children} = this.props;
       let {data} = instance;
-
       return (
          <div
             className={data.classNames}
             style={data.style}
-            onTouchStart={this.onMouseDown}
-            onMouseDown={this.onMouseDown}
-            onTouchMove={this.onMouseMove}
-            onMouseMove={this.onMouseMove}
-            onTouchEnd={this.onMouseUp}
-            onMouseUp={this.onMouseUp}
+            onTouchStart={ddHandle}
+            onMouseDown={ddHandle}
+            onTouchMove={ddHandle}
+            onMouseMove={ddHandle}
+            onTouchEnd={ddHandle}
+            onMouseUp={ddHandle}
          >
-            {children}
+            {this.renderChildren(context, instance)}
          </div>
       )
    }
-
-   onMouseDown(e) {
-      this.start = { ...getCursorPos(e) };
-      e.preventDefault();
-   }
-
-   onMouseUp() {
-      delete this.start;
-   }
-
-   onMouseMove(e) {
-      let {instance} = this.props;
-      let cursor = getCursorPos(e);
-      if (this.start && Math.abs(cursor.clientX - this.start.clientX) + Math.abs(cursor.clientY - this.start.clientY) >= 2)
-         if (instance.beginDragDropSequence)
-            instance.beginDragDropSequence(e)
-   }
 }
+
+DragHandle.prototype.styled = true;
+Widget.alias('draghandle', DragHandle);

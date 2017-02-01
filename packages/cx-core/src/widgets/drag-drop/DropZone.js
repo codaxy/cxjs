@@ -1,6 +1,7 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { DragDropManager } from './DragDropManager';
+import { getRangeOverlap } from '../../util/getRangeOverlap';
+import { registerDropZone } from './DragDropManager';
 
 export class DropZone extends PureContainer {
 
@@ -21,6 +22,8 @@ DropZone.prototype.styled = true;
 DropZone.prototype.nearDistance = false;
 DropZone.prototype.inflate = 0;
 DropZone.prototype.baseClass = 'dropzone';
+
+Widget.alias('dropzone', DropZone);
 
 class DropZoneComponent extends VDOM.Component {
 
@@ -54,7 +57,7 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      this.unregister = DragDropManager.registerDropZone(this);
+      this.unregister = registerDropZone(this);
    }
 
    componentWillUnmount() {
@@ -118,8 +121,8 @@ class DropZoneComponent extends VDOM.Component {
       let maxXOverlap = this.initialWidth + 2 * widget.inflate;
       let maxYOverlap = this.initialHeight + 2 * widget.inflate;
 
-      let xOverlap = Math.min(getOverlapSize(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right), maxXOverlap);
-      let yOverlap = Math.min(getOverlapSize(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom), maxYOverlap);
+      let xOverlap = Math.min(getRangeOverlap(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right), maxXOverlap);
+      let yOverlap = Math.min(getRangeOverlap(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom), maxYOverlap);
 
       if (xOverlap > 0 && yOverlap > 0)
          return {
@@ -146,10 +149,10 @@ class DropZoneComponent extends VDOM.Component {
       let style = {};
 
       if (widget.matchWidth)
-         style.width = `${e.itemBounds.right - e.itemBounds.left}px`;
+         style.width = `${e.source.width}px`;
 
       if (widget.matchHeight)
-         style.height = `${e.itemBounds.bottom - e.itemBounds.top}px`;
+         style.height = `${e.source.height}px`;
 
       if (widget.matchMargin)
          style.margin = e.source.margin.join(' ');
@@ -175,14 +178,4 @@ class DropZoneComponent extends VDOM.Component {
          style: null
       });
    }
-}
-
-function getOverlapSize(a1, a2, b1, b2) {
-   return Math.max(0, Math.min(a2, b2) - Math.max(a1, b1));
-}
-
-function getRectOverlapArea(r2, r1) {
-   let xd = Math.max(0, Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left));
-   let yd = Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top));
-   return xd * yd;
 }

@@ -11,7 +11,7 @@ export default <cx>
          <DropZone mod="insertion"
                    style="display: block"
                    onDragDrop={(e, {store}) => {
-                      store.update('items', reorder, e.data.index, 0);
+                      store.update('items', reorder, e.source.data.index, 0);
                    }}
                    nearDistance={false}
          >
@@ -32,7 +32,7 @@ export default <cx>
             <DropZone mod="insertion"
                style="display: block"
                onDragDrop={(e, {store}) => {
-                  store.update('items', reorder, e.data.index, store.get('$index') + 1);
+                  store.update('items', reorder, e.source.data.index, store.get('$index') + 1);
                }}
                nearDistance={false}
             >

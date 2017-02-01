@@ -1,12 +1,24 @@
-import {HtmlElement, Grid, FlexRow} from 'cx/widgets';
+import {HtmlElement, Grid, FlexRow, DragHandle} from 'cx/widgets';
 
 import Controller from './Controller';
 
+import {insertElement} from '../insertElement';
+
+function move(store, target, e) {
+
+   store.update(e.source.data.source, array => array.filter((a, i) => i != e.source.record.index));
+
+   if (e.source.data.source == target && e.source.record.index <= e.target.insertionIndex)
+      e.target.insertionIndex--;
+
+   store.update(target, insertElement, e.target.insertionIndex, e.source.record.data);
+}
+
 export default <cx>
-   <div controller={Controller}>
+   <div controller={Controller} style="padding:30px">
       <h3>Grid to Grid Drag & Drop</h3>
 
-      <FlexRow justify="center">
+      <FlexRow>
          <Grid
             records:bind="grid1"
             columns={[{
@@ -21,6 +33,12 @@ export default <cx>
                sortable: true,
                align: 'right'
             }]}
+            dragSource={{
+               type: 'record',
+               source: 'grid1'
+            }}
+            onDragTest={e=>e.source.data.type == 'record'}
+            onDragDrop={(e, {store})=>move(store, "grid1", e)}
          />
 
          <div style="width:100px"/>
@@ -28,6 +46,12 @@ export default <cx>
          <Grid
             records:bind="grid2"
             columns={[{
+               items: <cx>
+                  <DragHandle style="cursor:pointer">
+                     &#9776;
+                  </DragHandle>
+               </cx>
+            }, {
                style: 'width: 300px',
                field: 'name',
                header: 'Name',
@@ -39,9 +63,13 @@ export default <cx>
                sortable: true,
                align: 'right'
             }]}
+            dragSource={{
+               type: 'record',
+               source: 'grid2'
+            }}
+            onDragTest={e=>e.source.data.type == 'record'}
+            onDragDrop={(e, {store})=>move(store, "grid2", e)}
          />
       </FlexRow>
    </div>
-
-
 </cx>;

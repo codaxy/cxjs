@@ -13,11 +13,10 @@ export default <cx>
          <DropZone
             mod="hspace"
             style="display: block;"
-            onDragTest={e=>e.data.type == 'card'}
+            onDragTest={e=>e.source.data.type == 'card'}
             onDragDrop={(e, {store}) => {
-               store.update('cards', reorder, e.data.index, 0);
+               store.update('cards', reorder, e.source.data.index, 0);
             }}
-            nearDistance={false}
             matchWidth
             matchHeight
             matchMargin
@@ -43,11 +42,10 @@ export default <cx>
                <DropZone
                   mod="space"
                   style="display: block"
-                  onDragTest={e=>e.data.type == 'item'}
+                  onDragTest={e=>e.source.data.type == 'item'}
                   onDragDrop={(e, {store}) => {
-                     store.update('$card.items', reorder, e.data.index, 0);
+                     store.update('$card.items', reorder, e.source.data.index, 0);
                   }}
-                  nearDistance={false}
                   matchHeight
                   matchMargin
                   inflate={8}
@@ -70,13 +68,13 @@ export default <cx>
                   <DropZone
                      mod="space"
                      style="display: block"
-                     onDragTest={e=>e.data.type == 'item'}
+                     onDragTest={e=>e.source.data.type == 'item'}
                      onDragDrop={(e, {store}) => {
-                        if (e.data.cardIndex == store.get('$cardIndex'))
-                           store.update('$card.items', reorder, e.data.index, store.get('$index') + 1);
+                        if (e.source.data.cardIndex == store.get('$cardIndex'))
+                           store.update('$card.items', reorder, e.source.data.index, store.get('$index') + 1);
                         else {
-                           let el = e.store.get('$record');
-                           e.store.update('$card.items', items => items.filter(item => item != el));
+                           let el = e.source.store.get('$record');
+                           e.source.store.update('$card.items', items => items.filter(item => item != el));
                            store.update('$card.items', insertElement, store.get('$index') + 1, el);
                         }
                      }}
@@ -91,11 +89,10 @@ export default <cx>
             <DropZone
                mod="hspace"
                style="display: block"
-               onDragTest={e=>e.data.type == 'card'}
+               onDragTest={e=>e.source.data.type == 'card'}
                onDragDrop={(e, {store}) => {
-                  store.update('cards', reorder, e.data.index, store.get('$cardIndex') + 1);
+                  store.update('cards', reorder, e.source.data.index, store.get('$cardIndex') + 1);
                }}
-               nearDistance={false}
                matchWidth
                matchHeight
                matchMargin

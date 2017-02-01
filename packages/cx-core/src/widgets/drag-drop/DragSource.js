@@ -1,6 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { DragDropManager, ddMouseDown, ddDetect, ddMouseUp } from './DragDropManager';
+import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from './DragDropManager';
 
 export class DragSource extends PureContainer {
 
@@ -28,7 +28,8 @@ export class DragSource extends PureContainer {
 DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = 'dragsource';
 DragSource.prototype.hideOnDrag = false;
-DragSource.prototype.handled = false;
+
+Widget.alias('dragsource', DragSource);
 
 class DragSourceComponent extends VDOM.Component {
 
@@ -37,11 +38,10 @@ class DragSourceComponent extends VDOM.Component {
       this.state = {dragged: false};
 
       this.beginDragDrop = ::this.beginDragDrop;
-
-      this.onMouseMove = e => {
-         if (ddDetect(e))
-            this.beginDragDrop(e);
-      }
+      this.onMouseMove = ::this.onMouseMove;
+      this.setRef = el => {
+         this.el = el
+      };
    }
 
    shouldComponentUpdate(nextProps, nextState) {
@@ -53,14 +53,8 @@ class DragSourceComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS} = widget;
 
-      //console.log('DS:Render', this.state.dragged, data.data);
-
       if (this.state.dragged && widget.hideOnDrag)
          return null;
-
-      let down = !widget.handled ? ddMouseDown : null;
-      let move = !widget.handled ? this.onMouseMove : null;
-      let up = !widget.handled ? ddMouseUp : null;
 
       let classes = [
          data.classNames,
@@ -73,42 +67,40 @@ class DragSourceComponent extends VDOM.Component {
          <div
             className={CSS.expand(classes)}
             style={data.style}
-            onTouchStart={down}
-            onMouseDown={down}
-            onTouchMove={move}
-            onMouseMove={move}
-            onTouchEnd={up}
-            onMouseUp={up}
-            ref={el => {
-               this.el = el
-            }}
+            onTouchStart={ddMouseDown}
+            onMouseDown={ddMouseDown}
+            onTouchMove={this.onMouseMove}
+            onMouseMove={this.onMouseMove}
+            onTouchEnd={ddMouseUp}
+            onMouseUp={ddMouseUp}
+            ref={this.setRef}
          >
             {children}
          </div>
       )
    }
 
-   componentDidMount() {
-      this.componentDidUpdate();
-   }
-
-   componentDidUpdate() {
-      let {instance} = this.props;
-      instance.dragHandles.forEach(h => {
-         h.beginDragDropSequence = this.beginDragDrop;
-      });
+   onMouseMove(e) {
+      if (ddDetect(e)) {
+         if (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0) {
+            this.beginDragDrop(e);
+         }
+      }
    }
 
    beginDragDrop(e) {
       let {instance} = this.props;
       let {data, widget, store} = instance;
 
-      DragDropManager.beginDragDrop(e, {
+      initiateDragDrop(e, {
          sourceEl: this.el,
          source: {
-            widget,
-            store,
+            store: store,
             data: data.data
+         },
+         clone: {
+            widget,
+            store
          }
       }, () => {
          this.setState({
