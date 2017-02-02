@@ -41,7 +41,7 @@ First, install the packages using `yarn` or `npm`.
 $ yarn
 ```
 
-Run Docs:
+Run docs:
 ```bash
 yarn start
 ```
