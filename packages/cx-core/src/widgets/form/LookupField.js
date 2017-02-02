@@ -755,6 +755,9 @@ class LookupComponent extends VDOM.Component {
             Promise.resolve(result)
                .then((results) => {
 
+                  if (!Array.isArray(results))
+                     results = [];
+
                   if (fetchAll) {
                      if (cacheAll)
                         this.cachedResult = results;

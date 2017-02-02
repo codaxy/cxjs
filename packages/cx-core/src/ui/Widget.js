@@ -36,7 +36,7 @@ export class Widget extends Component {
                this[attr] = (e, instance, ...args) => {
                   if (typeof instance.controller[actionName] != 'function')
                      throw new Error(`Method '${actionName}' not found in the parent controller.`);
-                  instance.controller[actionName](e, instance, ...args);
+                  return instance.controller[actionName](e, instance, ...args);
                }
             }
 
