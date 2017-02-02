@@ -4,7 +4,7 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {MethodTable} from '../../components/MethodTable';
-
+import {ImportPath} from '../../components/ImportPath';
 
 const formats = [{
     signature: <cx><Md>
@@ -136,6 +136,8 @@ export const Formatting = <cx>
     <Md>
         <CodeSplit>
             # Formatting
+
+            <ImportPath path="import { Format } from 'cx/util';" />
 
             Cx offers rich support for value formatting. Formats are supported in data expressions and string templates.
 
