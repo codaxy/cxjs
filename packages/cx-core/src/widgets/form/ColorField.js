@@ -1,4 +1,5 @@
-import {Widget, VDOM, getContent} from '../../ui/Widget';
+import {Widget, VDOM} from '../../ui/Widget';
+import {Cx} from '../../ui/Cx';
 import {Field} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
@@ -109,7 +110,7 @@ class ColorInput extends VDOM.Component {
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = instance.prepareRenderCleanupChild(this.getDropdown(), store, 'dropdown', {name: 'colorfield-dropdown'});
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} />;
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}

@@ -1,4 +1,3 @@
-
 @mixin cx-grid(
    $name: 'grid',
    $header-state-style-map: $cx-grid-header-state-style-map,
@@ -105,10 +104,10 @@
          cursor: pointer;
 
          &.#{$state}sorted-asc, &.#{$state}sorted-desc {
-          @include cx-add-state-rules($header-state-style-map, sorted);
-          &:hover {
-            @include cx-add-state-rules($header-state-style-map, sorted-hover);
-          }
+            @include cx-add-state-rules($header-state-style-map, sorted);
+            &:hover {
+               @include cx-add-state-rules($header-state-style-map, sorted-hover);
+            }
          }
 
          &:hover, .#{$element}#{$name}-fixed-header &:hover {
@@ -116,11 +115,11 @@
          }
 
          .#{$element}#{$name}-fixed-header & {
-           &.#{$state}sorted-asc, &.#{$state}sorted-desc {
-             &:hover {
-              @include cx-add-state-rules($header-state-style-map, sorted-hover);
+            &.#{$state}sorted-asc, &.#{$state}sorted-desc {
+               &:hover {
+                  @include cx-add-state-rules($header-state-style-map, sorted-hover);
+               }
             }
-           }
          }
       }
 
@@ -159,6 +158,7 @@
    }
 
    .#{$element}#{$name}-data {
+
       td {
          padding: 0;
          border-top: 1px solid $cx-default-grid-border-color;
@@ -188,6 +188,47 @@
 
          &:active {
             @include cx-add-state-rules($cx-list-item, active);
+         }
+      }
+
+      .#{$state}drag-move &.#{$state}dragged {
+         display: none;
+      }
+
+      .#{$state}drag-copy &.#{$state}dragged {
+         opacity: 0.5;
+      }
+   }
+
+   &.#{$element}#{$name}-dropzone {
+      position: relative;
+      padding: 0;
+
+      .#{$state}drop-preview & {
+
+         border-top: 1px solid $cx-default-grid-border-color;
+         &:after {
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            border: 1px dotted gray;
+            content: ' ';
+         }
+      }
+
+      .#{$state}drop-insertion & {
+         height: 0;
+         &:after {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-top: 1px solid black;
+            content: ' ';
+            box-shadow: 0 0 2px black;
          }
       }
    }
@@ -305,7 +346,7 @@
    .#{$block}#{$name}.#{$state}selectable {
 
       .#{$element}#{$name}-scroll-area {
-          @include cx-add-state-rules($cx-list, default);
+         @include cx-add-state-rules($cx-list, default);
 
          &:focus {
             @include cx-add-state-rules($cx-list, focus);

@@ -1,0 +1,43 @@
+.board {
+   background: rgb(0, 121, 191);
+   margin: 0;
+   border: none;
+   height: 100%;
+
+   h3 {
+      color: white;
+   }
+}
+
+.cards {
+   display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+   flex-wrap: wrap;
+
+   .cxm-hspace {
+      height: 450px;
+   }
+}
+
+.card {
+   width: 300px;
+   margin: 10px;
+   padding: 10px;
+   background: #E2E4E6;
+   border-radius: 3px;
+   box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
+
+   h4 {
+      margin: 0 0 5px;
+   }
+}
+
+.item {
+   background: white;
+   border-radius: 3px;
+   display: block;
+   padding: 3px;
+   margin-top: 5px;
+   box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
+}

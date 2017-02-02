@@ -101,32 +101,16 @@ export class View {
    }
 
    batch(callback) {
-      this.notificationsSuspended = (this.notificationsSuspended || 0) + 1;
-      try {
-         callback(this);
-      }
-      finally {
-         this.notificationsSuspended--;
-         if (this.dirty) {
-            this.dirty = false;
-            this.notify();
-         }
-      }
+      let dirty = this.silently(callback);
+      if (dirty)
+         this.notify();
    }
 
    silently(callback) {
-      this.notificationsSuspended = (this.notificationsSuspended || 0) + 1;
-      var wasDirty = this.dirty, dirty;
-      this.dirty = false;
-      try {
-         callback(this);
-      }
-      finally {
-         this.notificationsSuspended--;
-         dirty = this.dirty;
-         this.dirty = wasDirty;
-      }
-      return dirty;
+      if (this.store)
+         return this.store.silently(callback);
+
+      throw new Error('abstract method');
    }
 
    notify(path) {

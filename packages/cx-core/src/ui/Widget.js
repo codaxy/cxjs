@@ -148,19 +148,19 @@ export class Widget extends Component {
       this.version = (this.version || 0) + 1;
    }
 
-   mount(parentDOMElement, store, options, parentInstance) {
-      var start = Timing.now();
-      var content = this.prepareRenderCleanup(store, options, null, parentInstance);
-      if (content) {
-         var render = Timing.now();
-         VDOM.DOM.render(content, parentDOMElement);
-         var done = Timing.now();
-         var renderCount = Timing.count(vdomRenderFlag);
-         Timing.log(vdomRenderFlag, renderCount, 'cx', (render - start).toFixed(2)+'ms', 'vdom', (done - render).toFixed(2)+'ms');
-      }
-      else
-         VDOM.DOM.unmountComponentAtNode(parentDOMElement);
-   }
+   // mount(parentDOMElement, store, options, parentInstance) {
+   //    var start = Timing.now();
+   //    var content = this.prepareRenderCleanup(store, options, null, parentInstance);
+   //    if (content) {
+   //       var render = Timing.now();
+   //       VDOM.DOM.render(content, parentDOMElement);
+   //       var done = Timing.now();
+   //       var renderCount = Timing.count(vdomRenderFlag);
+   //       Timing.log(vdomRenderFlag, renderCount, 'cx', (render - start).toFixed(2)+'ms', 'vdom', (done - render).toFixed(2)+'ms');
+   //    }
+   //    else
+   //       VDOM.DOM.unmountComponentAtNode(parentDOMElement);
+   // }
 
    prepareRenderCleanup(store, options, key, parentInstance) {
       var instance = parentInstance.getChild(null, this, key, store); //TODO remove context parameter

@@ -1,4 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
+import {Cx} from '../../ui/Cx';
 import {HtmlElement} from '../HtmlElement';
 import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep} from '../../util/DOM';
 import {Dropdown} from '../overlay/Dropdown';
@@ -113,7 +114,8 @@ class MenuItemComponent extends VDOM.Component {
       var {instance} = this.props;
       var {data, store, widget} = instance;
       var {CSS, baseClass} = widget;
-      var dropdown = this.state.dropdownOpen && instance.prepareRenderCleanupChild(this.getDropdown(), store, {name: 'submenu'});
+      var dropdown = this.state.dropdownOpen
+         && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}} />;
 
       var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')} />;
 

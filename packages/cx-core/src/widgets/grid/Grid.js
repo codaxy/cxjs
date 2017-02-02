@@ -1,5 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
+import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
 import {isSelector} from '../../data/isSelector';
@@ -12,6 +13,15 @@ import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import DropDownIcon from '../icons/drop-down';
+import {
+   ddMouseDown,
+   ddMouseUp,
+   ddDetect,
+   initiateDragDrop,
+   registerDropZone,
+   isDragHandleEvent
+} from '../drag-drop/ops';
+
 
 export class Grid extends Widget {
 
@@ -28,7 +38,9 @@ export class Grid extends Widget {
          scrollable: undefined,
          sortField: undefined,
          sortDirection: undefined,
-         emptyText: undefined
+         emptyText: undefined,
+         dragSource: {structured: true},
+         dropZone: {structured: true}
       }, selection, ...arguments);
    }
 
@@ -119,12 +131,25 @@ export class Grid extends Widget {
       if (border == null && this.scrollable)
          border = true;
 
+      let dragMode = false;
+      if (data.dragSource)
+         dragMode = data.dragSource.mode || 'move';
+
+      let dropMode = data.dropZone && data.dropZone.mode;
+
+      if (this.onDrop && !dropMode)
+         dropMode = 'preview';
+
+      data.dropMode = dropMode;
+
       data.stateMods = {
          selectable: this.selectable,
          scrollable: data.scrollable,
          ['header-' + headerMode]: true,
          border: border,
-         vlines: this.vlines
+         vlines: this.vlines,
+         ['drag-' + dragMode]: dragMode,
+         ['drop-' + dropMode]: dropMode
       };
 
       super.prepareData(context, instance);
@@ -155,6 +180,8 @@ export class Grid extends Widget {
       let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
+      let dragHandles = context.dragHandles;
+
       for (let i = 0; i < instance.records.length; i++) {
          let record = instance.records[i];
          if (record.type == 'data') {
@@ -164,6 +191,8 @@ export class Grid extends Widget {
             let newCells = record.cells || [];
             let oldCells = record.cells || newCells;
             let identical = record.cells ? 0 : -1;
+
+            context.dragHandles = [];
 
             for (let c = 0; c < this.columns.length; c++) {
                let cell = instance.getChild(context, this.columns[c], record.key, record.store);
@@ -186,12 +215,17 @@ export class Grid extends Widget {
                      record.shouldUpdate = true;
                }
             }
+
+            record.dragHandles = context.dragHandles;
+
             if (identical && newCells.length != oldCells.length)
                record.shouldUpdate = true;
 
             record.cells = newCells;
          }
       }
+
+      context.dragHandles = dragHandles;
    }
 
    prepare(context, instance) {
@@ -473,14 +507,6 @@ export class Grid extends Widget {
       }
    }
 
-   onRowClick(e, record, index, store) {
-      //e.preventDefault();
-      e.stopPropagation();
-      this.selection.select(store, record, index, {
-         toggle: e.ctrlKey
-      });
-   }
-
    renderRow(context, instance, record) {
 
       if (this.memoize && record.shouldUpdate === false && record.vdom)
@@ -538,7 +564,8 @@ class GridComponent extends VDOM.Component {
       let {widget} = props.instance;
       this.state = {
          cursor: widget.focused && widget.selectable ? 0 : -1,
-         focused: widget.focused
+         focused: widget.focused,
+         dragInsertionIndex: null
       }
    }
 
@@ -546,26 +573,58 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
+      let {dragSource} = data;
 
-      let children = instance.records.map((record, i) => {
+      let children = [];
+      instance.records.forEach((record, i) => {
          if (record.type == 'data') {
             let {data, store, index, key, selected} = record;
+            let dragged = this.state.dragged && (selected || record == this.state.dragged);
             let mod = {
                selected: selected,
+               dragged: dragged,
                cursor: i == this.state.cursor
             };
-            return <GridRowComponent key={key}
-               className={CSS.element(baseClass, 'data', mod)}
-               onClick={e => widget.onRowClick(e, data, index, store)}
-               onMouseEnter={e => this.moveCursor(i)}
-               isSelected={selected}
-               cursor={mod.cursor}
-               shouldUpdate={record.shouldUpdate}>
-               {record.vdom}
-            </GridRowComponent>
+
+            children.push(
+               <GridRowComponent
+                  key={key}
+                  className={CSS.element(baseClass, 'data', mod)}
+                  store={store}
+                  dragSource={dragSource}
+                  instance={instance}
+                  record={record}
+                  parent={this}
+                  onMouseEnter={e => this.moveCursor(i)}
+                  isSelected={selected}
+                  isBeingDragged={dragged}
+                  cursor={mod.cursor}
+                  shouldUpdate={record.shouldUpdate}
+               >
+                  {record.vdom}
+               </GridRowComponent>
+            );
          }
-         return record.vdom;
+         else
+            children.push(record.vdom);
       });
+
+      if (this.state.dragInsertionIndex != null) {
+         let dragInsertionRow = (
+            <tbody key="dropzone">
+            <tr>
+               <td
+                  className={CSS.element(baseClass, 'dropzone')}
+                  colSpan={1000}
+                  style={{
+                     height: data.dropMode == 'insertion' ? 0 : this.state.dragItemHeight,
+                  }}>
+               </td>
+            </tr>
+            </tbody>
+         );
+         children.splice(this.state.dragInsertionIndex, 0, dragInsertionRow);
+      }
 
       let content = [];
 
@@ -640,6 +699,108 @@ class GridComponent extends VDOM.Component {
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
       if (widget.pipeKeyDown)
          widget.pipeKeyDown(::this.handleKeyDown, this.props.instance);
+      this.unregisterDropZone = registerDropZone(this);
+   }
+
+   onDragStart(e) {
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.onDragStart)
+         widget.onDragStart(e, instance);
+   }
+
+   onDrop(e) {
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.onDrop) {
+         e.target = {
+            insertionIndex: this.state.dragInsertionIndex
+         };
+         widget.onDrop(e, instance);
+      }
+   }
+
+   onDropTest(e) {
+      let {widget} = this.props.instance;
+      if (widget.onDropTest)
+         return widget.onDropTest(e);
+      return true;
+   }
+
+   onDragEnd(e) {
+      this.setState({
+         dragInsertionIndex: null,
+         lastDragInsertionIndex: null
+      });
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.onDragEnd)
+         widget.onDragEnd(e, instance);
+   }
+
+   onDragMeasure(e) {
+      let r = this.dom.scroller.getBoundingClientRect();
+      let {clientX, clientY} = e.cursor;
+
+      if (clientX < r.left || clientX >= r.right || clientY < r.top || clientY >= r.bottom)
+         return false;
+
+      return {
+         over: 1000
+      };
+   }
+
+   onDragOver(ev) {
+      let {CSS, baseClass} = this.props.instance.widget;
+      let rowClass = CSS.element(baseClass, 'data');
+      let nodes = Array.from(this.dom.scroller.firstChild.childNodes)
+         .filter(node => node.className && node.className.indexOf(rowClass) != -1);
+
+      let cy = ev.cursor.clientY;
+      let s = 0, e = nodes.length, m, b;
+
+      while (s < e) {
+         m = Math.floor((s + e) / 2);
+         b = nodes[m].getBoundingClientRect();
+
+         //dragged items might be invisible and do not offer
+         if (b.top == 0 && b.bottom == 0) {
+            if (m > s)
+               m--;
+            else if (m + 1 < e)
+               m = m + 1;
+            else {
+               s = e = m;
+               break;
+            }
+            b = nodes[m].getBoundingClientRect();
+         }
+
+         if (cy < b.top)
+            e = m;
+         else if (cy > b.bottom)
+            s = m + 1;
+         else {
+            if (cy > (b.bottom + b.top) / 2)
+               s = e = m + 1;
+            else {
+               s = e = m;
+            }
+         }
+      }
+
+      if (s != this.state.dragInsertionIndex) {
+         this.setState({
+            dragInsertionIndex: s,
+            dragItemHeight: ev.source.height - 1
+         });
+      }
+   }
+
+   onDragLeave(e) {
+      this.setState({
+         dragInsertionIndex: null
+      });
    }
 
    componentWillReceiveProps(props) {
@@ -654,7 +815,12 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       if (this.offResize)
          this.offResize();
+
       offFocusOut(this);
+
+      if (this.unregisterDropZone)
+         this.unregisterDropZone();
+
       if (widget.pipeKeyDown)
          widget.pipeKeyDown(null, instance);
    }
@@ -753,7 +919,9 @@ class GridComponent extends VDOM.Component {
          case KeyCode.enter:
             let record = records[this.state.cursor];
             if (record)
-               widget.onRowClick(e, record.data, record.index, record.store);
+               widget.selection.select(instance.store, record.data, record.index, {
+                  toggle: e.ctrlKey
+               });
             break;
 
          case KeyCode.down:
@@ -772,6 +940,58 @@ class GridComponent extends VDOM.Component {
             }
             break;
       }
+   }
+
+   beginDragDrop(e, record) {
+
+      let {instance} = this.props;
+      let {data, widget, store} = instance;
+      let {CSS, baseClass} = widget;
+
+      let isSelected = widget.selection.getIsSelectedDelegate(store);
+
+      let selected = instance.records.filter(record => isSelected(record.data, record.index));
+
+      if (selected.length == 0)
+         selected = [record];
+
+      let contents = selected
+         .map((record, i) => (
+            <tbody
+               key={i}
+               className={CSS.element(baseClass, 'data', {selected: !widget.selection.isDummy})}
+            >
+            {record.vdom}
+            </tbody>
+         ));
+
+      initiateDragDrop(e, {
+         sourceEl: e.currentTarget,
+         source: {
+            data: data.dragSource.data,
+            store: store,
+            record: record,
+            records: selected
+         },
+         clone: {
+            store: record.store,
+            widget: props => (
+               <div className={data.classNames}>
+                  <table>
+                     {contents}
+                  </table>
+               </div>
+            )
+         }
+      }, () => {
+         this.setState({
+            dragged: false
+         })
+      });
+
+      this.setState({
+         dragged: record
+      })
    }
 }
 
@@ -909,12 +1129,65 @@ function initGrouping(grouping) {
 }
 
 class GridRowComponent extends VDOM.Component {
+
+   constructor(props) {
+      super(props);
+      this.onMouseMove = ::this.onMouseMove;
+      this.onMouseDown = ::this.onMouseDown;
+      this.onClick = ::this.onClick;
+   }
+
    render() {
-      return <tbody className={this.props.className}
-         onClick={this.props.onClick}
-         onMouseEnter={this.props.onMouseEnter}>
+
+      let {className, dragSource} = this.props;
+      let move, up;
+
+      if (dragSource) {
+         move = this.onMouseMove;
+         up = ddMouseUp;
+      }
+
+      return <tbody
+         className={className}
+         onClick={this.onClick}
+         onMouseEnter={this.props.onMouseEnter}
+         onTouchStart={this.onMouseDown}
+         onMouseDown={this.onMouseDown}
+         onTouchMove={move}
+         onMouseMove={move}
+         onTouchEnd={up}
+         onMouseUp={up}
+      >
       {this.props.children}
       </tbody>
+   }
+
+   onMouseDown(e) {
+      if (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0)
+         ddMouseDown(e);
+
+      let {instance, record} = this.props;
+      let {store, widget} = instance;
+      if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
+         widget.selection.select(store, record.data, record.index, {
+            toggle: e.ctrlKey
+         });
+         if (!widget.selection.isDummy)
+            e.preventDefault();
+      }
+   }
+
+   onMouseMove(e) {
+      if (ddDetect(e) && (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0))
+         this.props.parent.beginDragDrop(e, this.props.record);
+   }
+
+   onClick(e) {
+      let {instance, record} = this.props;
+      let {store, widget} = instance;
+      e.stopPropagation();
+      if (widget.selection.isSelected(store, record.data, record.index) && !e.ctrlKey)
+         widget.selection.select(store, record.data, record.index);
    }
 
    shouldComponentUpdate(props) {

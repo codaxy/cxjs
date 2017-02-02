@@ -1,0 +1,54 @@
+.cxb-dropzone {
+
+   box-sizing: border-box;
+
+   &.cxm-hline {
+      height: 1px;
+      margin-top: -1px;
+
+      &.cxs-over {
+         background: black;
+         box-shadow: 0 0 2px black;
+      }
+   }
+
+   &.cxm-vline {
+      width: 1px;
+      margin-left: -1px;
+      min-width: 1em;
+      height: 100%;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+
+      &.cxs-over {
+         background: black;
+         box-shadow: 0 0 2px black;
+      }
+   }
+
+   &.cxm-block {
+      height: 1px;
+      margin-top: -1px;
+
+      &.cxs-over {
+         height: 25px;
+         border: 2px dotted lightgray;
+         margin: 5px;
+      }
+   }
+
+   &.cxm-inline-block {
+      width: 1px;
+      margin-left: -1px;
+      height: 1em;
+      vertical-align: middle;
+      display: inline-block;
+
+      &.cxs-over {
+         width: 50px;
+         border: 2px dotted lightgray;
+         margin: 5px;
+      }
+   }
+}

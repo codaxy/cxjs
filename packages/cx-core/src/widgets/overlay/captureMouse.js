@@ -1,40 +1,43 @@
+import { VDOM } from '../../ui/Widget';
 
+function batch(callback) {
+   if (VDOM.DOM.unstable_batchedUpdates)
+      VDOM.DOM.unstable_batchedUpdates(() => {
+         callback();
+      });
+   else
+      callback();
+}
 
 export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
-   var surface;
+   let surface = document.createElement('div');
+   surface.className = 'cxb-mousecapture';
+   if (cursor)
+      surface.style.cursor = cursor;
+   document.body.appendChild(surface);
 
-   if (e.target.setCapture)
-   {
-      surface = e.currentTarget;
-      surface.setCapture();
-   } else {
-      surface = document.createElement('div');
-      surface.className = 'cxb-mousecapture';
-      if (cursor)
-         surface.style.cursor = cursor;
-      document.body.appendChild(surface);
-   }
 
-   var move = e => {
-      if (onMouseMove)
-         onMouseMove(e, captureData);
-      e.stopPropagation();
-      e.preventDefault(); //disable text selection
+   let move = e => {
+      batch(() => {
+         if (onMouseMove)
+            onMouseMove(e, captureData);
+         e.stopPropagation();
+         e.preventDefault(); //disable text selection
+      });
    };
 
-   var end = e=> {
-      try {
-         if (onMouseUp)
-            onMouseUp(e);
-      } finally {
-         surface.removeEventListener('mousemove', move);
-         surface.removeEventListener('mouseup', end);
-         if (surface.releaseCapture)
-            surface.releaseCapture();
-         else
+   let end = e => {
+      batch(() => {
+         try {
+            if (onMouseUp)
+               onMouseUp(e, captureData);
+         } finally {
+            surface.removeEventListener('mousemove', move);
+            surface.removeEventListener('mouseup', end);
             document.body.removeChild(surface);
-      }
+         }
+      });
    };
 
    surface.addEventListener('mousemove', move);
@@ -50,20 +53,23 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
       var el = e.currentTarget;
 
       var move = e => {
-         if (onMouseMove)
-            onMouseMove(e, captureData);
-         e.preventDefault();
+         batch(() => {
+            if (onMouseMove)
+               onMouseMove(e, captureData);
+            e.preventDefault();
+         })
       };
 
       var end = e=> {
+         batch(() => {
+            el.removeEventListener('touchmove', move);
+            el.removeEventListener('touchend', end);
 
-         el.removeEventListener('touchmove', move);
-         el.removeEventListener('touchend', end);
+            if (onMouseUp)
+               onMouseUp(e);
 
-         if (onMouseUp)
-            onMouseUp(e);
-
-         e.preventDefault();
+            e.preventDefault();
+         })
       };
 
       el.addEventListener('touchmove', move);
