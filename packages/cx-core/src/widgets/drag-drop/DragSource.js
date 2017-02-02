@@ -1,6 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from './DragDropManager';
+import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from './ops';
 
 export class DragSource extends PureContainer {
 

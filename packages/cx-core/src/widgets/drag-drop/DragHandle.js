@@ -1,6 +1,6 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { ddHandle } from '../drag-drop/DragDropManager';
+import { ddHandle } from '../drag-drop/ops';
 
 export class DragHandle extends PureContainer {
 

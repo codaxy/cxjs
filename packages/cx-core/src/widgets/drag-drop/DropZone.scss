@@ -2,35 +2,9 @@
 
    box-sizing: border-box;
 
-   &.cxm-box {
-      display: inline-block;
-      transition: all 0.1s;
-      opacity: 0.05;
-
-      &.cxs-far {
-         opacity: 0.1;
-      }
-
-      &.cxs-over {
-         background: greenyellow;
-         opacity: 1;
-      }
-
-      &.cxs-near {
-         opacity: 0.5;
-      }
-   }
-
-   &.cxm-insertion {
+   &.cxm-hline {
       height: 1px;
       margin-top: -1px;
-
-      //transition: all 0.1s;
-      //
-      //&.cxs-near {
-      //   height: 5px;
-      //   background: gray;
-      //}
 
       &.cxs-over {
          background: black;
@@ -38,7 +12,22 @@
       }
    }
 
-   &.cxm-space {
+   &.cxm-vline {
+      width: 1px;
+      margin-left: -1px;
+      min-width: 1em;
+      height: 100%;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+
+      &.cxs-over {
+         background: black;
+         box-shadow: 0 0 2px black;
+      }
+   }
+
+   &.cxm-block {
       height: 1px;
       margin-top: -1px;
 
@@ -49,12 +38,11 @@
       }
    }
 
-   &.cxm-hspace {
+   &.cxm-inline-block {
       width: 1px;
       margin-left: -1px;
       height: 1em;
       vertical-align: middle;
-      //transition: width 0.08s linear;
       display: inline-block;
 
       &.cxs-over {

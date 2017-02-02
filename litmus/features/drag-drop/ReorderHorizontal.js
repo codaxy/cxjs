@@ -9,14 +9,14 @@ export default <cx>
 
       <div>
          <DropZone
-            mod="hspace"
-            onDragDrop={(e, {store}) => {
+            mod="inline-block"
+            onDrop={(e, {store}) => {
                store.update('items', reorder, e.source.data.index, 0);
             }}
             matchWidth
             matchHeight
             matchMargin
-            inflate={10}
+            inflate={50}
          >
          </DropZone>
          <Repeater
@@ -36,14 +36,14 @@ export default <cx>
                <div text:bind="$record.text" style="padding:5px"/>
             </DragSource>
             <DropZone
-               mod="hspace"
-               onDragDrop={(e, {store}) => {
+               mod="inline-block"
+               onDrop={(e, {store}) => {
                   store.update('items', reorder, e.source.data.index, store.get('$index') + 1);
                }}
                matchWidth
                matchHeight
                matchMargin
-               inflate={10}
+               inflate={50}
             >
             </DropZone>
          </Repeater>

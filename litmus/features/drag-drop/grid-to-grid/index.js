@@ -1,4 +1,5 @@
 import {HtmlElement, Grid, FlexRow, DragHandle} from 'cx/widgets';
+import {KeySelection} from 'cx/ui';
 
 import Controller from './Controller';
 
@@ -6,12 +7,17 @@ import {insertElement} from '../insertElement';
 
 function move(store, target, e) {
 
-   store.update(e.source.data.source, array => array.filter((a, i) => i != e.source.record.index));
+   let selection = e.source.records.map(r => r.data);
 
-   if (e.source.data.source == target && e.source.record.index <= e.target.insertionIndex)
-      e.target.insertionIndex--;
+   store.update(e.source.data.source, array => array.filter((a, i) => selection.indexOf(a) == -1));
 
-   store.update(target, insertElement, e.target.insertionIndex, e.source.record.data);
+   if (e.source.data.source == target)
+      e.source.records.forEach(record => {
+         if (record.index < e.target.insertionIndex)
+            e.target.insertionIndex--;
+      });
+
+   store.update(target, insertElement, e.target.insertionIndex, ...selection);
 }
 
 export default <cx>
@@ -34,11 +40,18 @@ export default <cx>
                align: 'right'
             }]}
             dragSource={{
-               type: 'record',
-               source: 'grid1'
+               data: {
+                  type: 'record',
+                  source: 'grid1'
+               }
             }}
-            onDragTest={e=>e.source.data.type == 'record'}
-            onDragDrop={(e, {store})=>move(store, "grid1", e)}
+            onDropTest={e=>e.source.data.type == 'record'}
+            onDrop={(e, {store})=>move(store, "grid1", e)}
+            selection={{
+               type: KeySelection,
+               multiple: true,
+               bind: 's1'
+            }}
          />
 
          <div style="width:100px"/>
@@ -47,7 +60,7 @@ export default <cx>
             records:bind="grid2"
             columns={[{
                items: <cx>
-                  <DragHandle style="cursor:pointer">
+                  <DragHandle style="cursor:move">
                      &#9776;
                   </DragHandle>
                </cx>
@@ -64,11 +77,17 @@ export default <cx>
                align: 'right'
             }]}
             dragSource={{
-               type: 'record',
-               source: 'grid2'
+               mode: 'copy',
+               data: {
+                  type: 'record',
+                  source: 'grid2'
+               }
             }}
-            onDragTest={e=>e.source.data.type == 'record'}
-            onDragDrop={(e, {store})=>move(store, "grid2", e)}
+            dropZone={{
+               mode: 'insertion'
+            }}
+            onDropTest={e=>e.source.data.type == 'record'}
+            onDrop={(e, {store})=>move(store, "grid2", e)}
          />
       </FlexRow>
    </div>

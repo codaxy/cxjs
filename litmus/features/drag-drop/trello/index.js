@@ -11,16 +11,15 @@ export default <cx>
       <div class="cards">
 
          <DropZone
-            mod="hspace"
-            style="display: block;"
-            onDragTest={e=>e.source.data.type == 'card'}
-            onDragDrop={(e, {store}) => {
+            mod="inline-block"
+            onDropTest={e=>e.source.data.type == 'card'}
+            onDrop={(e, {store}) => {
                store.update('cards', reorder, e.source.data.index, 0);
             }}
             matchWidth
             matchHeight
             matchMargin
-            inflate={30}
+            inflate={200}
          />
 
          <Repeater records:bind="cards" recordName="$card" indexName="$cardIndex">
@@ -40,15 +39,15 @@ export default <cx>
                   </h4>
                </DragHandle>
                <DropZone
-                  mod="space"
+                  mod="block"
                   style="display: block"
-                  onDragTest={e=>e.source.data.type == 'item'}
-                  onDragDrop={(e, {store}) => {
+                  onDropTest={e=>e.source.data.type == 'item'}
+                  onDrop={(e, {store}) => {
                      store.update('$card.items', reorder, e.source.data.index, 0);
                   }}
                   matchHeight
                   matchMargin
-                  inflate={8}
+                  inflate={30}
                />
                <Repeater
                   records:bind="$card.items"
@@ -66,10 +65,10 @@ export default <cx>
                      <div text:bind="$record.text" style="padding:5px"/>
                   </DragSource>
                   <DropZone
-                     mod="space"
+                     mod="block"
                      style="display: block"
-                     onDragTest={e=>e.source.data.type == 'item'}
-                     onDragDrop={(e, {store}) => {
+                     onDropTest={e=>e.source.data.type == 'item'}
+                     onDrop={(e, {store}) => {
                         if (e.source.data.cardIndex == store.get('$cardIndex'))
                            store.update('$card.items', reorder, e.source.data.index, store.get('$index') + 1);
                         else {
@@ -81,22 +80,21 @@ export default <cx>
                      nearDistance={false}
                      matchHeight
                      matchMargin
-                     inflate={8}
+                     inflate={30}
                   />
                </Repeater>
             </DragSource>
 
             <DropZone
-               mod="hspace"
-               style="display: block"
-               onDragTest={e=>e.source.data.type == 'card'}
-               onDragDrop={(e, {store}) => {
+               mod="inline-block"
+               onDropTest={e=>e.source.data.type == 'card'}
+               onDrop={(e, {store}) => {
                   store.update('cards', reorder, e.source.data.index, store.get('$cardIndex') + 1);
                }}
                matchWidth
                matchHeight
                matchMargin
-               inflate={30}
+               inflate={200}
             />
 
          </Repeater>

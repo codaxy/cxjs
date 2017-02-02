@@ -60,7 +60,7 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
    dropZones.execute(zone => {
 
-      if (zone.onDragTest && !zone.onDragTest(event))
+      if (zone.onDropTest && !zone.onDropTest(event))
          return;
 
       if (zone.onDragStart)
@@ -74,11 +74,6 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
 function notifyDragMove(e) {
 
-   let cursor = getCursorPos(e);
-   puppet.el.style.left = `${cursor.clientX - puppet.deltaX}px`;
-   puppet.el.style.top = `${cursor.clientY - puppet.deltaY}px`;
-
-   //return a score and call dragOver over the best match
    let event = getDragEvent(e, 'dragmove');
    let over = null,
       best = null;
@@ -86,7 +81,7 @@ function notifyDragMove(e) {
    let near = [], away = [];
 
    dropZones.execute(zone => {
-      if (zone.onDragTest && !zone.onDragTest(event))
+      if (zone.onDropTest && !zone.onDropTest(event))
          return;
 
       if (zone.onDragMeasure) {
@@ -96,7 +91,7 @@ function notifyDragMove(e) {
          else
             away.push(zone);
 
-         if (result.over > 0 && (best == null || result.over > best)) {
+         if (typeof result.over == 'number' && (best == null || result.over < best)) {
             over = zone;
             best = result.over;
          }
@@ -132,6 +127,11 @@ function notifyDragMove(e) {
    if (over && over.onDragOver) {
       over.onDragOver(event);
    }
+
+   //do it last to avoid forced redraw if nothing changed
+   let cursor = getCursorPos(e);
+   puppet.el.style.left = `${cursor.clientX - puppet.deltaX}px`;
+   puppet.el.style.top = `${cursor.clientY - puppet.deltaY}px`;
 }
 
 function notifyDragDrop(e) {
@@ -142,12 +142,12 @@ function notifyDragDrop(e) {
 
    document.body.removeChild(puppet.el);
 
-   if (activeZone && activeZone.onDragDrop)
-      activeZone.onDragDrop(event);
+   if (activeZone && activeZone.onDrop)
+      activeZone.onDrop(event);
 
    dropZones.execute(zone => {
 
-      if (zone.onDragTest && !zone.onDragTest(event))
+      if (zone.onDropTest && !zone.onDropTest(event))
          return;
 
       if (nearZones != null && zone.onDragAway && nearZones[zone])
@@ -168,20 +168,20 @@ function notifyDragDrop(e) {
 
 function getDragEvent(e, type) {
 
-   let r = puppet.el.getBoundingClientRect();
-
-   let bounds = {
-      left: r.left,
-      right: r.right,
-      top: r.top,
-      bottom: r.bottom
-   };
+   // let r = puppet.el.getBoundingClientRect();
+   //
+   // let bounds = {
+   //    left: r.left,
+   //    right: r.right,
+   //    top: r.top,
+   //    bottom: r.bottom
+   // };
 
    return {
       eventType: type,
       event: e,
       cursor: getCursorPos(e),
-      itemBounds: bounds,
+      //itemBounds: bounds,
       source: puppet.source
    }
 }

@@ -1,13 +1,25 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
-import { getRangeOverlap } from '../../util/getRangeOverlap';
-import { registerDropZone } from './DragDropManager';
+import { parseStyle } from '../../util/parseStyle';
+import { registerDropZone } from './ops';
 
 export class DropZone extends PureContainer {
 
+   init() {
+      this.overStyle = parseStyle(this.overStyle);
+      this.nearStyle = parseStyle(this.nearStyle);
+      this.farStyle = parseStyle(this.farStyle);
+      super.init();
+   }
+
    declareData() {
       return super.declareData(...arguments, {
-         overClass: {structured: true}
+         overClass: {structured: true},
+         nearClass: {structured: true},
+         farClass: {structured: true},
+         overStyle: {structured: true},
+         nearStyle: {structured: true},
+         farStyle: {structured: true},
       })
    }
 
@@ -19,7 +31,7 @@ export class DropZone extends PureContainer {
 }
 
 DropZone.prototype.styled = true;
-DropZone.prototype.nearDistance = false;
+DropZone.prototype.nearDistance = 0;
 DropZone.prototype.inflate = 0;
 DropZone.prototype.baseClass = 'dropzone';
 
@@ -29,7 +41,9 @@ class DropZoneComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+         state: false
+      };
    }
 
    render() {
@@ -42,13 +56,27 @@ class DropZoneComponent extends VDOM.Component {
          CSS.state(this.state.state)
       ];
 
-      if (this.state.state == 'over')
-         classes.push(data.overClass);
+      let stateStyle;
+
+      switch  (this.state.state) {
+         case 'over':
+            classes.push(data.overClass);
+            stateStyle = parseStyle(data.overStyle);
+            break;
+         case 'near':
+            classes.push(data.nearClass);
+            stateStyle = parseStyle(data.nearStyle);
+            break;
+         case 'far':
+            classes.push(data.farClass);
+            stateStyle = parseStyle(data.farStyle);
+            break;
+      }
 
       return (
          <div
             className={CSS.expand(classes)}
-            style={{...data.style, ...this.state.style}}
+            style={{...data.style, ...this.state.style, ...stateStyle}}
             ref={el=>{this.el = el;}}
          >
             {children}
@@ -64,9 +92,9 @@ class DropZoneComponent extends VDOM.Component {
       this.unregister();
    }
 
-   onDragTest(e) {
+   onDropTest(e) {
       let {widget} = this.props.instance;
-      return !widget.onDragTest || widget.onDragTest(e);
+      return !widget.onDropTest || widget.onDropTest(e);
    }
 
    onDragStart(e) {
@@ -98,6 +126,7 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragMeasure(e) {
+
       let r = this.el.getBoundingClientRect();
       let rect = {
          left: r.left,
@@ -116,30 +145,17 @@ class DropZoneComponent extends VDOM.Component {
          rect.right += widget.inflate;
       }
 
-      let { nearDistance } = this.props.instance.widget;
+      let {clientX, clientY} = e.cursor;
+      let {nearDistance} = widget;
 
-      let maxXOverlap = this.initialWidth + 2 * widget.inflate;
-      let maxYOverlap = this.initialHeight + 2 * widget.inflate;
+      let centerDistance = Math.abs((rect.left + rect.right) / 2 - clientX) + Math.abs((rect.top + rect.bottom) / 2 - clientY);
 
-      let xOverlap = Math.min(getRangeOverlap(rect.left, rect.right, e.itemBounds.left, e.itemBounds.right), maxXOverlap);
-      let yOverlap = Math.min(getRangeOverlap(rect.top, rect.bottom, e.itemBounds.top, e.itemBounds.bottom), maxYOverlap);
+      let over = rect.left <= clientX && clientX < rect.right && rect.top <= clientY && clientY < rect.bottom;
 
-      if (xOverlap > 0 && yOverlap > 0)
-         return {
-            over: xOverlap * yOverlap,
-            near: !!nearDistance
-         };
-
-      if (!nearDistance)
-         return false;
-
-      let cx = (rect.left + rect.right) / 2;
-      let cy = (rect.top + rect.bottom) / 2;
-      let d = Math.sqrt(Math.pow(e.cursor.clientX - cx, 2) + Math.pow(e.cursor.clientY - cy, 2));
-      if (d > nearDistance)
-         return false;
-
-      return { near:  -d }
+      return {
+         over: over && centerDistance,
+         near: nearDistance && (over || Math.max(0, rect.left - clientX, clientX - rect.right) + Math.max(0, rect.top - clientY, clientY - rect.bottom) < nearDistance)
+      };
    }
 
    onDragOver(e) {
@@ -157,18 +173,19 @@ class DropZoneComponent extends VDOM.Component {
       if (widget.matchMargin)
          style.margin = e.source.margin.join(' ');
 
-      this.setState({
-         state: 'over',
-         style
-      });
+      if (this.state != 'over')
+         this.setState({
+            state: 'over',
+            style
+         });
    }
 
-   onDragDrop(e) {
+   onDrop(e) {
       let {instance} = this.props;
       let {widget} = instance;
 
-      if (this.state.state == 'over' && typeof widget.onDragDrop == 'function') {
-         widget.onDragDrop(e, instance);
+      if (this.state.state == 'over' && typeof widget.onDrop == 'function') {
+         widget.onDrop(e, instance);
       }
    }
 
@@ -179,3 +196,4 @@ class DropZoneComponent extends VDOM.Component {
       });
    }
 }
+

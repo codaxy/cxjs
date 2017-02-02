@@ -9,7 +9,7 @@ export default class extends Controller {
       })));
 
       this.store.init('grid2', Array.from({length: 15}, (_, c) => ({
-         id: c + 1,
+         id: 10000 + c + 1,
          name: 'Item ' + (c + 1),
          number: Math.random() * 100
       })));
