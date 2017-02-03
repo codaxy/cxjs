@@ -39,18 +39,20 @@ export const TextFields = <cx>
 
             <Content name="code">
                 <CodeSnippet fiddle="drqgvlX1">{`
-               <div layout={LabelsLeftLayout}>
-                  <TextField label="Standard" value:bind="$page.text" autoFocus />
-                  <TextField label="Disabled" value:bind="$page.text" disabled />
-                  <TextField label="Readonly" value:bind="$page.text" readOnly />
-                  <TextField label="Placeholder" value:bind="$page.text" placeholder="Type something here..." />
-               </div>
-               <div layout={LabelsLeftLayout}>
-                  <TextField label="Required" value:bind="$page.text" required />
-                  <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} />
-                  <TextField label="View" value:bind="$page.text" mode="view" />
-                  <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A" />
-               </div>
+                <div layout={LabelsLeftLayout}>
+                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
+                    <TextField label="Disabled" value:bind="$page.text" disabled/>
+                    <TextField label="Readonly" value:bind="$page.text" readOnly/>
+                    <TextField label="Placeholder" value:bind="$page.text" placeholder="Type something here..."/>
+                    <TextField label="Tooltip" value:bind="$page.text" tooltip='This is a tooltip.'/>
+                </div>
+                <div layout={LabelsLeftLayout}>
+                    <TextField label="Required" value:bind="$page.text" required/>
+                    <TextField label="Min/Max Length" value:bind="$page.text" minLength={3} maxLength={8}/>
+                    <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} icon="search"/>
+                    <TextField label="View" value:bind="$page.text" mode="view"/>
+                    <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
+                </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
