@@ -1,13 +1,4 @@
-import { VDOM } from '../../ui/Widget';
-
-function batch(callback) {
-   if (VDOM.DOM.unstable_batchedUpdates)
-      VDOM.DOM.unstable_batchedUpdates(() => {
-         callback();
-      });
-   else
-      callback();
-}
+import { batchUpdates } from '../../ui/batchUpdates';
 
 export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
@@ -19,7 +10,7 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
 
    let move = e => {
-      batch(() => {
+      batchUpdates(() => {
          if (onMouseMove)
             onMouseMove(e, captureData);
          e.stopPropagation();
@@ -28,7 +19,7 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
    };
 
    let end = e => {
-      batch(() => {
+      batchUpdates(() => {
          try {
             if (onMouseUp)
                onMouseUp(e, captureData);
@@ -53,7 +44,7 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
       var el = e.currentTarget;
 
       var move = e => {
-         batch(() => {
+         batchUpdates(() => {
             if (onMouseMove)
                onMouseMove(e, captureData);
             e.preventDefault();
@@ -61,7 +52,7 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
       };
 
       var end = e=> {
-         batch(() => {
+         batchUpdates(() => {
             el.removeEventListener('touchmove', move);
             el.removeEventListener('touchend', end);
 

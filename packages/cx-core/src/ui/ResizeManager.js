@@ -1,36 +1,18 @@
-var nextSlot = 1,
-   slots = [],
-   subscriptions = {};
+import { SubscriberList } from '../util/SubscriberList';
+import { batchUpdates } from './batchUpdates';
 
-function getSlot() {
-   if (slots.length)
-      return slots.pop();
-
-   var slot = String(nextSlot++);
-   return slot;
-}
-
-function recycle(slot) {
-   slots.push(slot);
-   delete subscriptions[slot];
-}
+let subscribers = new SubscriberList();
 
 window.addEventListener('resize', () => ResizeManager.notify());
 
 export class ResizeManager {
    static subscribe(callback) {
-      var slot = getSlot();
-      subscriptions[slot] = callback;
-      return function () {
-         recycle(slot);
-      }
+      return subscribers.subscribe(callback);
    }
 
    static notify() {
-      Object.keys(subscriptions).forEach(key=> {
-         var cb = subscriptions[key];
-         if (cb)
-            cb();
+      batchUpdates(() => {
+         subscribers.notify();
       });
    }
 }

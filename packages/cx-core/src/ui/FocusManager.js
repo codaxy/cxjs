@@ -1,4 +1,6 @@
 import {isSelfOrDescendant, findFirst, isFocusable, isFocusedDeep} from '../util/DOM';
+import { batchUpdates } from './batchUpdates';
+import { SubscriberList } from '../util/SubscriberList';
 
 /*
 *  Purpose of FocusManager is to provide focusout notifications.
@@ -6,41 +8,20 @@ import {isSelfOrDescendant, findFirst, isFocusable, isFocusedDeep} from '../util
 *  to determine if focus went outside or stayed inside the component.
  */
 
-var nextSlot = 1,
-   freeSlots = [],
-   subscriptions = {},
+let subscribers = new SubscriberList(),
    intervalId;
 
-function getSlot() {
-   if (freeSlots.length)
-      return freeSlots.pop();
-
-   var slot = String(nextSlot++);
-   return slot;
-}
-
-function recycle(slot, callback) {
-   if (subscriptions[slot] === callback) {
-      freeSlots.push(slot);
-      delete subscriptions[slot];
-   }
-}
-
-var lastActiveElement = null;
-var pending = false;
+let lastActiveElement = null;
+let pending = false;
 
 export class FocusManager {
 
    static subscribe(callback) {
-      var slot = getSlot();
-      subscriptions[slot] = callback;
-      return function () {
-         recycle(slot, callback);
-      }
+      return subscribers.subscribe(callback);
    }
 
    static onFocusOut(el, callback) {
-      var active = isSelfOrDescendant(el, document.activeElement);
+      let active = isSelfOrDescendant(el, document.activeElement);
       return this.subscribe(focusedEl => {
          if (!active)
             active = isSelfOrDescendant(el, document.activeElement);
@@ -53,7 +34,7 @@ export class FocusManager {
 
    static oneFocusOut(el, callback) {
       this.nudge();
-      var off = this.subscribe(focusedEl => {
+      let off = this.subscribe(focusedEl => {
          if (!isSelfOrDescendant(el, focusedEl)) {
             callback(focusedEl);
             off();
@@ -70,11 +51,9 @@ export class FocusManager {
                pending = false;
                if (document.activeElement != lastActiveElement) {
                   lastActiveElement = document.activeElement;
-                  Object.keys(subscriptions).forEach(key=> {
-                     var cb = subscriptions[key];
-                     if (cb)
-                        cb(lastActiveElement);
-                  });
+                  batchUpdates(() => {
+                     subscribers.notify(lastActiveElement);
+                  })
                }
             }, 0);
          }
@@ -87,7 +66,7 @@ export class FocusManager {
    }
 
    static focusFirst(el) {
-      var focusable = findFirst(el, isFocusable);
+      let focusable = findFirst(el, isFocusable);
       if (focusable)
          this.focus(focusable);
       return focusable;
