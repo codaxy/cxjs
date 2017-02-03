@@ -1,21 +1,25 @@
 import {TextField, Text, Repeater, List, Link, Menu, HtmlElement} from 'cx/widgets';
 import {Controller, History} from 'cx/ui';
 import {Window} from 'cx/widgets';
-import {KeyCode} from 'cx/util';
+import {KeyCode, getSearchQueryPredicate} from 'cx/util';
+
 
 class SearchController extends Controller {
     init() {
         super.init();
 
         this.addComputable('search.results', ['search.query', 'contents'], (q, contents) => {
-            var result = [];
+            let result = [],
+                filter = a => true;
+
+            if (q)
+            {
+                let predicate = getSearchQueryPredicate(q);
+                filter = a => predicate(a.title);
+            }
+
             contents.forEach(topic => {
-                var filter = a => true;
-                if (q) {
-                    var checks = q.split(' ').map(w => new RegExp(w, 'gi'));
-                    filter = a => checks.every(ex => a.title.match(ex));
-                }
-                var articles = topic.articles.filter(filter);
+                let articles = topic.articles.filter(filter);
                 if (articles.length > 0)
                     result.push(...articles.map(a => ({
                         ...a,
