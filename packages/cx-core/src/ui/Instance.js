@@ -196,21 +196,15 @@ export class Instance {
       if (this.outerLayout && this.widget.outerLayout && !this.shouldRenderContent)
          return this.outerLayout.render(context, keyPrefix);
 
-      this.cached.rawData = this.rawData;
-      this.cached.state = this.state;
-      this.cached.widgetVersion = this.widget.version;
-      this.cached.visible = true;
-      this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
-
       var vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
          ? this.cached.vdom
          : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
-      if (this.shouldUpdate)
-         Debug.log(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
-
       if (this.widget.memoize)
          this.cached.vdom = vdom;
+
+      if (this.shouldUpdate)
+         Debug.log(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
 
       return vdom;
    }
@@ -219,6 +213,12 @@ export class Instance {
 
       if (!this.visible)
          return;
+
+      this.cached.rawData = this.rawData;
+      this.cached.state = this.state;
+      this.cached.widgetVersion = this.widget.version;
+      this.cached.visible = true;
+      this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
 
       if (this.outerLayout) {
          if (this.widget.outerLayout)
