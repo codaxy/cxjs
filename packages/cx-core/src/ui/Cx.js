@@ -49,9 +49,7 @@ export class Cx extends VDOM.Component {
 
    componentDidUpdate() {
       if (this.flags.dirty) {
-         //it's important to break the loop here using setTimeout to allow portals to update
-         //before next cycle
-         setTimeout(::this.update, 0);
+         this.update();
       }
    }
 

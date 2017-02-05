@@ -64,7 +64,12 @@ export class Checkbox extends Field {
    }
 
    renderCheck(context, instance) {
-      return <CheckboxCmp key="check" instance={instance}/>;
+      return <CheckboxCmp
+         key="check"
+         instance={instance}
+         data={instance.data}
+         shouldUpdate={instance.shouldUpdate}
+      />;
    }
 
    renderInput(context, instance, key) {
@@ -120,23 +125,23 @@ class CheckboxCmp extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         value: props.instance.data.value
+         value: props.data.value
       }
    }
 
    componentWillReceiveProps(props) {
       this.setState({
-         value: props.instance.data.value
+         value: props.data.value
       });
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state != this.state;
    }
 
    render() {
-      let {instance} = this.props;
-      let {data, widget} = instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
       let {baseClass, CSS} = widget;
 
       let check = false;
@@ -163,8 +168,8 @@ class CheckboxCmp extends VDOM.Component {
    }
 
    onClick(e) {
-      let {instance} = this.props;
-      let {data, widget} = instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
       if (!data.disabled && !data.readOnly) {
          e.stopPropagation();
          e.preventDefault();

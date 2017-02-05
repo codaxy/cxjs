@@ -59,7 +59,14 @@ export class Slider extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <SliderComponent key={key} instance={instance} />
+      return (
+         <SliderComponent
+            key={key}
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+         />
+      )
    }
 }
 
@@ -75,7 +82,7 @@ class SliderComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.dom = {};
-      var {data} = props.instance;
+      var {data} = props;
       this.state = {
          from: data.from,
          to: data.to,
@@ -83,12 +90,12 @@ class SliderComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state != this.state;
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, widget} = instance;
+      var {instance, data} = this.props;
+      var {widget} = instance;
       var {CSS, baseClass} = widget;
       var {minValue, maxValue, from, to} = data;
       var {from, to} = this.state;
@@ -154,8 +161,8 @@ class SliderComponent extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       this.setState({
-         from: props.instance.data.from,
-         to: props.instance.data.to
+         from: props.data.from,
+         to: props.data.to
       });
 
       tooltipComponentWillReceiveProps(this.dom.to, props.instance, this.state);

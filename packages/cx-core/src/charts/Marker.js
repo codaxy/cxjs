@@ -120,7 +120,7 @@ export class Marker extends BoundedObject {
             selected: data.selected,
             style: data.style,
             shape: data.shape,
-            onClick: e=> {
+            onClick: e => {
                this.onLegendClick(e, instance)
             }
          });
@@ -138,9 +138,16 @@ export class Marker extends BoundedObject {
    }
 
    render(context, instance, key) {
-      return <MarkerComponent key={key} instance={instance}>
-         {this.renderChildren(context, instance)}
-      </MarkerComponent>
+      return (
+         <MarkerComponent
+            key={key}
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+         >
+            {this.renderChildren(context, instance)}
+         </MarkerComponent>
+      )
    }
 
    handleMouseDown(e, instance) {
@@ -149,7 +156,7 @@ export class Marker extends BoundedObject {
          if (svgEl)
             captureMouseOrTouch(e, (e, captureData) => {
                this.handleDragMove(e, instance, captureData);
-            }, null, {svgEl}, e.target.style.cursor);
+            }, null, {svgEl, el: e.target}, e.target.style.cursor);
       } else {
          if (!this.selection.isDummy)
             this.selection.selectInstance(instance);
@@ -177,6 +184,7 @@ export class Marker extends BoundedObject {
             y = yAxis.constrainValue(y);
          instance.set('y', yAxis.encodeValue(y));
       }
+      tooltipMouseMove(e, instance, null, captureData.el);
    }
 }
 
@@ -204,12 +212,12 @@ BoundedObject.alias('marker', Marker);
 
 class MarkerComponent extends VDOM.Component {
    shouldComponentUpdate(props) {
-      return props.instance.shouldUpdate;
+      return props.shouldUpdate;
    }
 
    render() {
-      var {instance, children} = this.props;
-      let {widget, data} = instance;
+      var {instance, children, data} = this.props;
+      let {widget} = instance;
       let {CSS, baseClass} = widget;
 
       if (!data.active)

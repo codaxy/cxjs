@@ -149,7 +149,7 @@ export class HtmlElement extends PureContainer {
          }
       }
 
-      var {data, events} = instance;
+      var {data, events, shouldUpdate} = instance;
 
       var props = Object.assign({
          key: key,
@@ -174,7 +174,16 @@ export class HtmlElement extends PureContainer {
       this.attachProps(context, instance, props);
 
       if (this.memoize || data.tooltip)
-         return <ContainerComponent key={key} tag={this.tag} props={props} instance={instance}/>
+         return (
+            <ContainerComponent
+               key={key}
+               tag={this.tag}
+               props={props}
+               instance={instance}
+               data={data}
+               shouldUpdate={shouldUpdate}
+            />
+         )
 
       return VDOM.createElement(this.tag, props, props.children);
    }
@@ -185,12 +194,11 @@ HtmlElement.prototype.styled = true;
 
 class ContainerComponent extends VDOM.Component {
    shouldComponentUpdate(props) {
-      return props.instance.shouldUpdate;
+      return props.shouldUpdate;
    }
 
    render() {
-      var {tag, props, instance} = this.props;
-      var {data} = instance;
+      var {tag, props, instance, data} = this.props;
 
       props.ref = c => { this.el = c };
 

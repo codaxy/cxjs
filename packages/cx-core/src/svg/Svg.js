@@ -49,9 +49,17 @@ export class Svg extends BoundedObject {
       if (context.options.size)
          return this.renderChildren(context, instance);
 
-      return <SvgComponent key={key} instance={instance} options={context.options}>
+      return (
+         <SvgComponent
+            key={key}
+            instance={instance}
+            data={instance.data}
+            options={context.options}
+            shouldUpdate={instance.shouldUpdate}
+         >
          {this.renderChildren(context, instance)}
-      </SvgComponent>
+         </SvgComponent>
+      )
    }
 
    cleanup(context, instance) {
@@ -85,8 +93,8 @@ class SvgComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, size} = instance;
+      var {instance, data} = this.props;
+      var {size} = instance;
 
       var children;
       if (size && sameSize(this.state.size, size))
@@ -111,7 +119,7 @@ class SvgComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props) {
-      return props.instance.shouldUpdate;
+      return props.shouldUpdate;
    }
 
    onResize() {

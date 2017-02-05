@@ -308,12 +308,17 @@ export class Grid extends Widget {
       refs.header = {};
       let header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
 
-      return <GridComponent key={key}
-         instance={instance}
-         header={header}
-         headerRefs={refs.header}
-         fixedHeader={fixedHeader}
-         fixedHeaderRefs={refs.fixed}/>
+      return (
+         <GridComponent
+            key={key}
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+            header={header}
+            headerRefs={refs.header}
+            fixedHeader={fixedHeader}
+            fixedHeaderRefs={refs.fixed}/>
+      )
    }
 
    renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
@@ -570,8 +575,8 @@ class GridComponent extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
-      let {data, widget} = instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
 
@@ -689,7 +694,7 @@ class GridComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate !== false || state != this.state;
+      return props.shouldUpdate !== false || state != this.state;
    }
 
    componentDidMount() {
@@ -826,8 +831,8 @@ class GridComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      let {headerRefs, fixedHeaderRefs, instance}= this.props;
-      let {widget, data} = instance;
+      let {headerRefs, fixedHeaderRefs, instance, data}= this.props;
+      let {widget} = instance;
 
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
@@ -944,8 +949,8 @@ class GridComponent extends VDOM.Component {
 
    beginDragDrop(e, record) {
 
-      let {instance} = this.props;
-      let {data, widget, store} = instance;
+      let {instance, data} = this.props;
+      let {widget, store} = instance;
       let {CSS, baseClass} = widget;
 
       let isSelected = widget.selection.getIsSelectedDelegate(store);

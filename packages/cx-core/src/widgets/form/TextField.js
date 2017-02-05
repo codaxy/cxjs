@@ -29,7 +29,14 @@ export class TextField extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <Input key={key} instance={instance}/>
+      return (
+         <Input
+            key={key}
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+         />
+      )
    }
 
    validate(context, instance) {
@@ -67,16 +74,17 @@ class Input extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         visited: props.instance.data.visited
+         visited: props.data.visited
       }
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state != this.state;
    }
 
    render() {
-      let {data, widget} = this.props.instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
       let {CSS, baseClass} = widget;
 
       let icon = widget.icon && (
@@ -125,7 +133,7 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.instance.shouldUpdate !== false || this.state != nextState;
+      return nextProps.shouldUpdate !== false || this.state != nextState;
    }
 
    onMouseMove(e) {
@@ -142,7 +150,7 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
+      if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

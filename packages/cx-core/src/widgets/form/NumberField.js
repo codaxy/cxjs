@@ -74,6 +74,7 @@ export class NumberField extends Field {
          <Input
             key={key}
             data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
             instance={instance}
          />
       )
@@ -104,18 +105,18 @@ class Input extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.data = props.instance.data;
       this.state = {
-         visited: props.instance.data.visited
+         visited: props.data.visited
       };
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state != this.state;
    }
 
    render() {
-      let {data, widget} = this.props.instance;
+      let {data, instance} = this.props;
+      let {widget} = instance;
       let {CSS, baseClass} = widget;
 
       let icon = widget.icon && (
@@ -168,13 +169,12 @@ class Input extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
-      if (this.input.value != props.data.formatted && (this.data.formatted != data.formatted || !state.inputError)) {
+      if (this.input.value != props.data.formatted && (this.props.data.formatted != data.formatted || !state.inputError)) {
          this.input.value = props.data.formatted || '';
          props.instance.setState({
             inputError: false
          });
       }
-      this.data = data;
       if (data.visited)
          this.setState({visited: true});
       tooltipComponentWillReceiveProps(this.input, props.instance, this.state);
@@ -182,7 +182,7 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipComponentDidMount(this.input, this.props.instance, this.state);
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
+      if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 

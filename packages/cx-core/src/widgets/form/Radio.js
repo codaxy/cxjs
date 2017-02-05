@@ -74,7 +74,14 @@ export class Radio extends Field {
    }
 
    renderCheck(context, instance) {
-      return <RadioCmp key="check" instance={instance}/>;
+      return (
+         <RadioCmp
+            key="check"
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+         />
+      );
    }
 
    renderInput(context, instance, key) {
@@ -120,41 +127,43 @@ class RadioCmp extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         value: props.instance.data.checked
+         value: props.data.checked
       }
    }
 
    componentWillReceiveProps(props) {
       this.setState({
-         value: props.instance.data.checked
+         value: props.data.checked
       });
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state != this.state;
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, widget} = instance;
+      var {instance, data} = this.props;
+      var {widget} = instance;
       var {baseClass, CSS} = widget;
 
 
-      return <div key="check"
-                  tabIndex={data.disabled || data.readOnly ? null : 0}
-                  className={CSS.element(baseClass, "input", {
-                     checked: this.state.value
-                  })}
-                  style={CSS.parseStyle(data.inputStyle)}
-                  id={data.id}
-                  onClick={::this.onClick}
-                  onKeyDown={::this.onKeyDown}
-      />
+      return (
+         <div key="check"
+              tabIndex={data.disabled || data.readOnly ? null : 0}
+              className={CSS.element(baseClass, "input", {
+                 checked: this.state.value
+              })}
+              style={CSS.parseStyle(data.inputStyle)}
+              id={data.id}
+              onClick={::this.onClick}
+              onKeyDown={::this.onKeyDown}
+         />
+      )
    }
 
    onClick(e) {
-      var {instance} = this.props;
-      var {data, widget} = instance;
+      var {instance, data} = this.props;
+      var {widget} = instance;
       if (!data.disabled && !data.readOnly) {
          e.stopPropagation();
          e.preventDefault();

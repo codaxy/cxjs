@@ -41,9 +41,16 @@ export class MenuItem extends HtmlElement {
    }
 
    render(context, instance, key) {
-      return <MenuItemComponent key={key} instance={instance}>
-         {this.renderChildren(context, instance)}
-      </MenuItemComponent>
+      return (
+         <MenuItemComponent
+            key={key}
+            instance={instance}
+            data={instance.data}
+            shouldUpdate={instance.shouldUpdate}
+         >
+            {this.renderChildren(context, instance)}
+         </MenuItemComponent>
+      )
    }
 
    add(element) {
@@ -86,7 +93,7 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.instance.shouldUpdate
+      return props.shouldUpdate
          || state != this.state
          || state.dropdownOpen; //always render if dropdown is open as we don't know if dropdown contents has changed
    }
@@ -111,13 +118,13 @@ class MenuItemComponent extends VDOM.Component {
 
    render() {
 
-      var {instance} = this.props;
-      var {data, store, widget} = instance;
+      var {instance, data} = this.props;
+      var {store, widget} = instance;
       var {CSS, baseClass} = widget;
       var dropdown = this.state.dropdownOpen
-         && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}} />;
+         && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}}/>;
 
-      var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')} />;
+      var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
       var classNames = CSS.expand(data.classNames, CSS.state({
          open: this.state.dropdownOpen,
@@ -129,16 +136,18 @@ class MenuItemComponent extends VDOM.Component {
       }));
 
       return <div className={classNames}
-         style={data.style}
-         tabIndex={widget.dropdown ? 0 : null}
-         ref={el=>{this.el = el}}
-         onKeyDown={::this.onKeyDown}
-         onMouseDown={::this.onMouseDown}
-         onMouseEnter={::this.onMouseEnter}
-         onMouseLeave={::this.onMouseLeave}
-         onFocus={::this.onFocus}
-         onClick={::this.onClick}
-         onBlur={::this.onBlur}>
+                  style={data.style}
+                  tabIndex={widget.dropdown ? 0 : null}
+                  ref={el => {
+                     this.el = el
+                  }}
+                  onKeyDown={::this.onKeyDown}
+                  onMouseDown={::this.onMouseDown}
+                  onMouseEnter={::this.onMouseEnter}
+                  onMouseLeave={::this.onMouseLeave}
+                  onFocus={::this.onFocus}
+                  onClick={::this.onClick}
+                  onBlur={::this.onBlur}>
          {this.props.children}
          {arrow}
          {dropdown}
