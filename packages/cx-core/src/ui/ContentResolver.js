@@ -16,9 +16,11 @@ export class ContentResolver extends PureContainer {
    prepareData(context, instance) {
       let {data} = instance;
       let content = null;
-      let items = this.initialItems;
+      let items = this.items;
 
-      if (data.params && this.onResolve) {
+
+      if (data.params && data.params != this.cachedParams && this.onResolve) {
+         this.cachedParams = data.params;
          let x = this.onResolve(data.params, instance);
          if (x) {
             content = Widget.create(x);
@@ -38,10 +40,10 @@ export class ContentResolver extends PureContainer {
                   items = content;
                   break;
             }
+
+            this.items = items;
          }
       }
-
-      this.items = items;
    }
 }
 

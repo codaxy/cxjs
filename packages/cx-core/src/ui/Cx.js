@@ -83,25 +83,34 @@ class CxContext extends VDOM.Component {
       };
 
       let {context, instance} = props;
-      this.props.flags.dirty = instance.store.silently(() => {
-         if (instance.explore(context)) {
-            this.timings.afterExplore = Timing.now();
+      let count = 0, dirty, visible;
 
-            instance.prepare(context);
-            this.timings.afterPrepare = Timing.now();
+      do {
+         dirty = instance.store.silently(() => {
+            visible = instance.explore(context)
+         });
+         count++;
+      } while (dirty && count < 3 && Widget.optimizePrepare);
 
-            let result = instance.render(context);
-            this.content = getContent(result);
-            this.timings.afterRender = Timing.now();
-         }
-         else {
-            this.content = null;
-            this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = Timing.now();
-         }
-      });
+      if (visible) {
+         this.timings.afterExplore = Timing.now();
+         if (instance.store.silently(() => {
+               instance.prepare(context)
+            }))
+            dirty = true;
+         this.timings.afterPrepare = Timing.now();
+
+         let result = instance.render(context);
+         this.content = getContent(result);
+         this.timings.afterRender = Timing.now();
+      }
+      else {
+         this.content = null;
+         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = Timing.now();
+      }
 
       this.timings.beforeVDOMRender = Timing.now();
-
+      this.props.flags.dirty = dirty;
       this.props.flags.rendering = true;
    }
 
