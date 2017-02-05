@@ -3,7 +3,6 @@ import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
 import {Debug, appDataFlag} from '../util/Debug';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
-import {batchUpdates} from './batchUpdates';
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -54,11 +53,9 @@ export class Cx extends VDOM.Component {
    }
 
    update() {
-      batchUpdates(() => {
-         let data = this.store.getData();
-         this.setState({data: data});
-         Debug.log(appDataFlag, data);
-      });
+      let data = this.store.getData();
+      this.setState({data: data});
+      Debug.log(appDataFlag, data);
    }
 
    componentWillUnmount() {
