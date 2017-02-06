@@ -3,6 +3,7 @@ import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
 import {Debug, appDataFlag} from '../util/Debug';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
+import { isBatchingUpdates, batchUpdates } from './batchUpdates';
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -37,7 +38,7 @@ export class Cx extends VDOM.Component {
 
       let context = new RenderingContext(this.props.options);
       let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-      return <CxContext context={context} instance={instance} flags={this.flags} />
+      return <CxContext context={context} instance={instance} flags={this.flags}/>
    }
 
    componentDidMount() {
@@ -54,11 +55,24 @@ export class Cx extends VDOM.Component {
 
    update() {
       let data = this.store.getData();
-      this.setState({data: data});
       Debug.log(appDataFlag, data);
+
+      if (isBatchingUpdates()) {
+         this.setState({data: data});
+      } else {
+         //batch sequential store commands
+         if (!this.pendingUpdateTimer) {
+            this.pendingUpdateTimer = setTimeout(() => {
+               delete this.pendingUpdateTimer;
+               this.setState({data: data});
+            }, 0);
+         }
+      }
    }
 
    componentWillUnmount() {
+      if (this.pendingUpdateTimer)
+         clearTimeout(this.pendingUpdateTimer);
       if (this.unsubscribe)
          this.unsubscribe();
    }

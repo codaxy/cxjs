@@ -59,6 +59,7 @@ class ContentController extends Controller {
 
         // #if development
 
+        this.store.set('contentVersion', getVersion());
         setInterval(() => {
             this.store.set('contentVersion', getVersion())
         }, 20);
@@ -112,14 +113,20 @@ class ContentController extends Controller {
 
     loadChapter(chapter, promise) {
         this.store.set('loading', true);
-        promise.then(m => {
-            chapterExports[chapter] = m;
-            this.store.set('loading', false);
-            this.store.update('cv2', v => (v || 0) + 1);
-        }).catch(e => {
-            this.store.set('loading', false);
-            console.log(e);
-        })
+        promise
+            .then(m => {
+                chapterExports[chapter] = m;
+                this.store.set('loading', false);
+
+                // #if development
+                this.store.update('cv2', v => (v || 0) + 1);
+                // #end
+
+            })
+            .catch(e => {
+                this.store.set('loading', false);
+                console.log(e);
+            })
     }
 }
 

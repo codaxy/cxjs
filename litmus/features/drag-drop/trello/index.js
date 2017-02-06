@@ -43,7 +43,13 @@ export default <cx>
                   style="display: block"
                   onDropTest={e=>e.source.data.type == 'item'}
                   onDrop={(e, {store}) => {
-                     store.update('$card.items', reorder, e.source.data.index, 0);
+                     if (e.source.data.cardIndex == store.get('$cardIndex'))
+                        store.update('$card.items', reorder, e.source.data.index, 0);
+                     else {
+                        let el = e.source.store.get('$record');
+                        e.source.store.update('$card.items', items => items.filter(item => item != el));
+                        store.update('$card.items', insertElement, 0, el);
+                     }
                   }}
                   matchHeight
                   matchMargin
