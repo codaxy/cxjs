@@ -56,8 +56,9 @@ export class Cx extends VDOM.Component {
    update() {
       let data = this.store.getData();
       Debug.log(appDataFlag, data);
-
-      if (isBatchingUpdates()) {
+      if (this.flags.preparing)
+         this.flags.dirty = true;
+      else if (isBatchingUpdates()) {
          this.setState({data: data});
       } else {
          //batch sequential store commands
@@ -94,21 +95,18 @@ class CxContext extends VDOM.Component {
       };
 
       let {context, instance} = props;
-      let count = 0, dirty, visible;
+      let count = 0, visible;
+
+      this.props.flags.preparing = false;
 
       do {
-         dirty = instance.store.silently(() => {
-            visible = instance.explore(context)
-         });
-         count++;
-      } while (dirty && count < 3 && Widget.optimizePrepare);
+         this.props.flags.dirty = false;
+         visible = instance.explore(context);
+      } while (visible && this.props.flags.dirty && count < 3 && Widget.optimizePrepare);
 
       if (visible) {
          this.timings.afterExplore = Timing.now();
-         if (instance.store.silently(() => {
-               instance.prepare(context)
-            }))
-            dirty = true;
+         instance.prepare(context)
          this.timings.afterPrepare = Timing.now();
 
          let result = instance.render(context);
@@ -121,7 +119,7 @@ class CxContext extends VDOM.Component {
       }
 
       this.timings.beforeVDOMRender = Timing.now();
-      this.props.flags.dirty = dirty;
+      this.props.flags.preparing = false;
       this.props.flags.rendering = true;
    }
 
