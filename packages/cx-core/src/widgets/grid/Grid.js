@@ -1168,7 +1168,7 @@ class GridRowComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
-      if (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0)
+      if (this.props.dragSource && (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0))
          ddMouseDown(e);
 
       let {instance, record} = this.props;
