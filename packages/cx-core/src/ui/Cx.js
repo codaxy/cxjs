@@ -29,6 +29,9 @@ export class Cx extends VDOM.Component {
             throw new Error('Cx component requires store.');
       }
 
+      if (this.props.subscribe)
+         this.unsubscribe = this.store.subscribe(::this.update);
+
       this.flags = {};
    }
 
@@ -42,8 +45,6 @@ export class Cx extends VDOM.Component {
    }
 
    componentDidMount() {
-      if (this.props.subscribe)
-         this.unsubscribe = this.store.subscribe(::this.update);
       this.componentDidUpdate();
    }
 
