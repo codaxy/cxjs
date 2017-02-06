@@ -25,3 +25,4 @@ export * from './browserSupportsPassiveEventHandlers';
 export * from './isTouchEvent';
 export * from './debounce';
 export * from './throttle';
+export * from './SubscriberList';
