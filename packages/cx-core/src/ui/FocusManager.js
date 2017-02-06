@@ -1,4 +1,4 @@
-import {isSelfOrDescendant, findFirst, isFocusable, isFocusedDeep} from '../util/DOM';
+import { isSelfOrDescendant, findFirst, isFocusable } from '../util/DOM';
 import { batchUpdates } from './batchUpdates';
 import { SubscriberList } from '../util/SubscriberList';
 

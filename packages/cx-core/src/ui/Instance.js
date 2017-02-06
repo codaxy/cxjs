@@ -1,6 +1,6 @@
 var instanceId = 1000;
 import {Controller} from './Controller';
-import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, internalFlag, shouldUpdateFlag} from '../util/Debug';
+import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
