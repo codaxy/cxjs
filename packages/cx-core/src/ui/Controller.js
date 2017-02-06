@@ -4,7 +4,13 @@ import {Component} from './Component';
 
 export class Controller extends Component {
 
-   prepare(context) {
+   init() {
+      super.init();
+      if (this.onInit)
+         this.onInit();
+   }
+
+   explore(context) {
       var {store} = this.instance;
       this.store = store; //in rare cases instance may change its store
 
@@ -24,10 +30,22 @@ export class Controller extends Component {
             this.triggers[key](store.getData());
          }
       }
+
+      if (this.onExplore) {
+         this.onExplore(context);
+      }
+   }
+
+   prepare(context) {
+      if (this.onPrepare) {
+         this.onPrepare(context);
+      }
    }
 
    cleanup(context) {
-
+      if (this.onCleanup) {
+         this.onCleanup(context);
+      }
    }
 
    addComputable(name, args, callback) {

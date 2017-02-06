@@ -18,19 +18,9 @@ export class ValidationGroup extends PureContainer {
             errors: []
          };
 
-      var validationErrors = context.validation.errors.length;
+      let validationErrors = context.validation.errors.length;
       super.explore(context, instance);
       instance.valid = context.validation.errors.length == validationErrors;
-   }
-
-   prepare(context, instance) {
-
-      var validationErrors = context.validation.errors.length;
-
-      super.prepare(context, instance);
-
-      instance.valid = instance.valid && context.validation.errors.length == validationErrors;
-
       instance.set('valid', instance.valid);
       instance.set('invalid', !instance.valid);
    }

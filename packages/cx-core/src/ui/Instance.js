@@ -90,7 +90,7 @@ export class Instance {
 
       if (this.controller) {
          if (this.widget.controller)
-            this.controller.prepare(context);
+            this.controller.explore(context);
          context.controller = this.controller;
       }
 
@@ -161,6 +161,9 @@ export class Instance {
 
       if (!this.visible)
          return;
+
+      if (this.widget.controller && this.controller)
+         this.controller.prepare(context);
 
       if (this.shouldUpdate || !this.pure) {
 
@@ -236,14 +239,14 @@ export class Instance {
          for (var cmp in this.components)
             this.components[cmp].cleanup(context);
 
-      if (this.controller)
-         this.controller.cleanup(context);
-
       this.widget.cleanup(context, this);
 
       if (this.helpers)
          for (var cmp in this.helpers)
             this.helpers[cmp].cleanup(context);
+
+      if (this.widget.controller && this.controller)
+         this.controller.cleanup(context);
 
       if (this.instanceCache)
          this.instanceCache.sweep();
