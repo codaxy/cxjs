@@ -8,3 +8,5 @@ export * from './LabelsTopLayout';
 
 export * from './Content';
 export * from './ContentPlaceholder';
+
+export * from './exploreChildren';

@@ -1,4 +1,5 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
+import {exploreChildren} from '../../ui/layout/exploreChildren';
 import {PureContainer} from '../../ui/PureContainer';
 import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
@@ -21,7 +22,6 @@ import {
    registerDropZone,
    isDragHandleEvent
 } from '../drag-drop/ops';
-
 
 export class Grid extends Widget {
 
@@ -64,7 +64,7 @@ export class Grid extends Widget {
          }
       });
 
-      //if some columns have aggregates and grouping is not defined, add default footer
+      //add default footer if some columns have aggregates and grouping is not defined
       if (!this.grouping && Object.keys(aggregates).length > 0)
          this.grouping = [{
             key: {},
@@ -169,60 +169,46 @@ export class Grid extends Widget {
    explore(context, instance) {
       super.explore(context, instance);
 
-      instance.columns = [];
 
-      this.columns.forEach(c => {
-         let column = instance.getChild(context, c);
-         if (column.explore(context))
-            instance.columns.push(column);
-      });
+      let columns = exploreChildren(context, instance, this.columns, instance.columns);
+      if (columns != instance.columns) {
+         instance.columns = columns;
+         instance.shouldUpdate = true;
+      }
 
       let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      let dragHandles = context.dragHandles;
+      let dragHandles = context.dragHandles,
+         record,
+         wasSelected;
 
       for (let i = 0; i < instance.records.length; i++) {
-         let record = instance.records[i];
+         record = instance.records[i];
          if (record.type == 'data') {
-            let wasSelected = record.selected;
+            wasSelected = record.selected;
             record.selected = instance.isSelected(record.data, record.index);
             record.shouldUpdate = wasSelected != record.selected || !record.cells;
-            let newCells = record.cells || [];
-            let oldCells = record.cells || newCells;
-            let identical = record.cells ? 0 : -1;
+
 
             context.dragHandles = [];
-
-            for (let c = 0; c < this.columns.length; c++) {
-               let cell = instance.getChild(context, this.columns[c], record.key, record.store);
+            let cells = exploreChildren(context, instance, this.columns, record.cells, record.key, record.store, cell => {
                cell.repeatable = true;
-               if (cell.explore(context)) {
-                  if (identical >= 0) {
-                     if (cell == oldCells[newCells.length - 1])
-                        identical++;
-                     else {
-                        newCells = newCells.slice(0, identical);
-                        identical = -1;
-                        record.shouldUpdate = true;
-                        newCells.push(cell);
-                     }
-                  }
-                  else
-                     newCells.push(cell);
+            }, cell => {
+               if (cell.shouldUpdate)
+                  record.shouldUpdate = true;
+            });
 
-                  if (cell.shouldUpdate)
-                     record.shouldUpdate = true;
-               }
+            if (cells != record.cells) {
+               record.shouldUpdate = true;
+               record.cells = cells;
             }
 
             record.dragHandles = context.dragHandles;
-
-            if (identical && newCells.length != oldCells.length)
-               record.shouldUpdate = true;
-
-            record.cells = newCells;
          }
+
+         if (record.shouldUpdate)
+            instance.shouldUpdate = true;
       }
 
       context.dragHandles = dragHandles;
@@ -237,9 +223,9 @@ export class Grid extends Widget {
                cell.prepare(context);
                if (cell.shouldUpdate)
                   record.shouldUpdate = true;
-               if (record.shouldUpdate)
-                  instance.shouldUpdate = true;
             }
+            if (record.shouldUpdate)
+               instance.shouldUpdate = true;
          }
       }
       instance.columns.forEach(c => c.prepare(context));

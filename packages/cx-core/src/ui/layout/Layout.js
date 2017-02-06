@@ -1,6 +1,7 @@
 import {Component} from '../Component';
 import {contentAppend} from '../Widget';
 import {CSSHelper} from '../CSSHelper';
+import {exploreChildren} from './exploreChildren';
 
 
 export class Layout extends Component {
@@ -12,24 +13,15 @@ export class Layout extends Component {
    }
 
    explore(context, instance, items) {
-      instance.children = [];
-      var identical = !instance.shouldUpdate && instance.cached.children != null;
-      for (var i = 0; i < items.length; i++) {
-         let x = instance.getChild(context, items[i]);
-         x.explore(context);
-         if (x.visible) {
-            if (identical && instance.cached.children[instance.children.length] !== x)
-               identical = false;
-            instance.children.push(x);
-         }
-      }
-
-      if (!identical || instance.children.length != instance.cached.children.length)
+      let children = exploreChildren(context, instance, items, instance.cached.children);
+      if (instance.children != children) {
          instance.shouldUpdate = true;
+         instance.children = children;
+      }
    }
    
    prepare(context, instance) {
-      for (var i = 0; i<instance.children.length; i++) {
+      for (let i = 0; i<instance.children.length; i++) {
          instance.children[i].prepare(context);
       }
    }

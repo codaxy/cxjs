@@ -7,7 +7,7 @@ import {
    Submenu
 } from "cx/widgets";
 
-export const App = (
+export default (
    <cx>
       <div>
          <Menu horizontal>
@@ -81,7 +81,7 @@ export const App = (
                ]
             }
             records={
-               Array.from({ length: 1 }, x => ({
+               Array.from({ length: 4 }, x => ({
                   col1: 1,
                   col2: Math.random(),
                   col3: 'X',
