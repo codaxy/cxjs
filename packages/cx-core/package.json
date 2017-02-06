@@ -1,6 +1,6 @@
 {
   "name": "cx-core",
-  "version": "17.2.1",
+  "version": "17.2.2",
   "description": "Advanced UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
