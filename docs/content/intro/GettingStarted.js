@@ -88,13 +88,13 @@ export const GettingStarted = <cx>
         There are many examples to play with, and you can also create, save and share your own snippets.
         Here are a couple of links worth checking out:
 
-        - [BMI Calculator](http://cxjs.io/fiddle/?f=luv00Rpw)
-        - [Simple Grid](http://cxjs.io/fiddle/?f=XlL9AvMh)
-        - [Grid Dashboard](http://cxjs.io/fiddle/?f=vwyHzOO1)
-        - [Pong Game](http://cxjs.io/fiddle/?f=ndK9CuDC)
-        - [Loan Calculator](http://cxjs.io/fiddle/?f=fYp9BujX)
-        - [Bullet Chart](http://cxjs.io/fiddle/?f=XTLdQm8r)
-        - [SVG Box Positioning](http://cxjs.io/fiddle/?f=W1FeJFcm)
+        - [BMI Calculator](https://cxjs.io/fiddle/?f=luv00Rpw)
+        - [Simple Grid](https://cxjs.io/fiddle/?f=XlL9AvMh)
+        - [Grid Dashboard](https://cxjs.io/fiddle/?f=vwyHzOO1)
+        - [Pong Game](https://cxjs.io/fiddle/?f=ndK9CuDC)
+        - [Loan Calculator](https://cxjs.io/fiddle/?f=fYp9BujX)
+        - [Bullet Chart](https://cxjs.io/fiddle/?f=XTLdQm8r)
+        - [SVG Box Positioning](https://cxjs.io/fiddle/?f=W1FeJFcm)
 
         ## Demo Applications
 

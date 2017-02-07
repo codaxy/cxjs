@@ -36,7 +36,7 @@ export const Layout = <cx>
 
         <aside class="dxe-layout-aside">
             <header class="dxe-layout-aside-header">
-                <h1><a href="http://cxjs.io">Cx</a> Docs</h1>
+                <h1><a href="https://cxjs.io">Cx</a> Docs</h1>
             </header>
             <div class="dxe-layout-aside-noscroll">
                 <ContentPlaceholder name="aside"/>

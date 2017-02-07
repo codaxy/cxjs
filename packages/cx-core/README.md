@@ -16,7 +16,7 @@ Cx widgets use React to render and update the DOM.
 
 ## Demo Applications
 
-<a href="http://cxjs.io/starter">
+<a href="https://cxjs.io/starter">
     <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" height="200px" />
 </a>
 <a href="https://codaxy.github.io/state-of-js-2016-explorer/">
@@ -28,13 +28,13 @@ Cx widgets use React to render and update the DOM.
 
 ### Getting Started
 
-- [Documentation](http://cxjs.io/docs)
-- [Themes](http://cxjs.io/themes)
-- [Fiddle](http://cxjs.io/fiddle)
+- [Documentation](https://cxjs.io/docs)
+- [Themes](https://cxjs.io/themes)
+- [Fiddle](https://cxjs.io/fiddle)
 
 ### Intallation
 
-The easiest way to set up a new Cx project is to use the [Cx Command Line Interface](http://cxjs.io/v/master/docs/intro/command-line).
+The easiest way to set up a new Cx project is to use the [Cx Command Line Interface](https://cxjs.io/v/master/docs/intro/command-line).
 If you wish to install the cx-core package separately, run the following line from the project folder in your command prompt:
 
 ```

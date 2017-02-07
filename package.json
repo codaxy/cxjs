@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://gitlab.com/mstijak/cx/issues"
   },
-  "homepage": "http://cxjs.io",
+  "homepage": "https://cxjs.io",
   "private": true,
   "devDependencies": {
     "babel-core": "^6.22.1",
