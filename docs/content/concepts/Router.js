@@ -71,7 +71,7 @@ export const Router = <cx>
             Url.isLocal('/app/'); //false
             Url.resolve('~/page'); // /docs/page
             Url.unresolve('/docs/page'); // ~/page
-            Url.unresolve('http://cx.codaxy.com/docs/page'); // ~/page
+            Url.unresolve('http://cxjs.io/docs/page'); // ~/page
          `}
          </CodeSnippet>
       </CodeSplit>

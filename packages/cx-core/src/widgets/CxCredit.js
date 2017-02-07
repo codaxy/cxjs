@@ -11,7 +11,7 @@ export class CxCredit extends HtmlElement {
             <div preserveWhitespace>
                User interface of this project is implemented using the Cx framework.
                For more information about Cx, please visit
-               <a href="https://cx.codaxy.com/">the Cx product page</a>.
+               <a href="https://cxjs.io/">the Cx product page</a>.
             </div>
          </cx>
       };

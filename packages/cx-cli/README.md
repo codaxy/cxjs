@@ -1,6 +1,6 @@
 # Cx Command Line Interface
 
-This is a command line tool for the [Cx framework](http://cx.codaxy.com/v/master/docs/intro/about).
+This is a command line tool for the [Cx framework](http://cxjs.io/v/master/docs/intro/about).
 Cx requires tools such as babel and webpack, which are plugin-based and require a 
 significant amount of work to configure properly.
 

@@ -84,17 +84,17 @@ export const GettingStarted = <cx>
 
         ## Cx Fiddle
 
-        [Cx Fiddle](https://cx.codaxy.com/fiddle) allows you to experiment with Cx directly in the browser, without setting up a new project.
+        [Cx Fiddle](https://cxjs.io/fiddle) allows you to experiment with Cx directly in the browser, without setting up a new project.
         There are many examples to play with, and you can also create, save and share your own snippets.
         Here are a couple of links worth checking out:
 
-        - [BMI Calculator](http://cx.codaxy.com/fiddle/?f=luv00Rpw)
-        - [Simple Grid](http://cx.codaxy.com/fiddle/?f=XlL9AvMh)
-        - [Grid Dashboard](http://cx.codaxy.com/fiddle/?f=vwyHzOO1)
-        - [Pong Game](http://cx.codaxy.com/fiddle/?f=ndK9CuDC)
-        - [Loan Calculator](http://cx.codaxy.com/fiddle/?f=fYp9BujX)
-        - [Bullet Chart](http://cx.codaxy.com/fiddle/?f=XTLdQm8r)
-        - [SVG Box Positioning](http://cx.codaxy.com/fiddle/?f=W1FeJFcm)
+        - [BMI Calculator](http://cxjs.io/fiddle/?f=luv00Rpw)
+        - [Simple Grid](http://cxjs.io/fiddle/?f=XlL9AvMh)
+        - [Grid Dashboard](http://cxjs.io/fiddle/?f=vwyHzOO1)
+        - [Pong Game](http://cxjs.io/fiddle/?f=ndK9CuDC)
+        - [Loan Calculator](http://cxjs.io/fiddle/?f=fYp9BujX)
+        - [Bullet Chart](http://cxjs.io/fiddle/?f=XTLdQm8r)
+        - [SVG Box Positioning](http://cxjs.io/fiddle/?f=W1FeJFcm)
 
         ## Demo Applications
 

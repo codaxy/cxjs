@@ -291,7 +291,7 @@ export const StepByStep = <cx>
             has the `controller` attribute set to our `Controller` class. This means that an instance of this class
             will be in charge for this view's behavior logic, in this case, data initialization and event
             handling. The same controller instance is passed to all descendants of the `div` element
-            (see [Controller documentation](http://cx.codaxy.com/docs/concepts/controllers) for more details).
+            (see [Controller documentation](~/concepts/controllers) for more details).
 
             The next interesting component is a `TextField`.
             This is a place where the user will enter new items for the Todo list. We're binding a value from this
@@ -308,7 +308,7 @@ export const StepByStep = <cx>
             To disable the button when the text field is empty, we bind its `disabled` property to
             an expression. If the result of calculating this expression is truthy (meaning, the text is empty), the
             button will be disabled. This is a very simplistic validation strategy; in real-world applications, we
-            will use something more flexible, like [Validation groups](http://cx.codaxy.com/v/master/docs/widgets/validation-groups).
+            will use something more flexible, like [Validation groups](~/widgets/validation-groups).
 
             The last part of our Todo widget is the actual dynamic list of Todo items. Here, we use a `Repeater`
             component to iterate through all items of a collection like this one:
@@ -337,7 +337,7 @@ export const StepByStep = <cx>
             property of the checkbox is bound to the current record's `text` property (`$record.text`), so that it
             shows task name. In this case, we're using one-way binding in form of a template which
             is generally more suitable for displaying formatted text
-            (see [Templates](http://cx.codaxy.com/docs/concepts/data-binding#templates-code-tpl-code-)). However,
+            (see [Templates](~/concepts/data-binding#templates-code-tpl-code-)). However,
             in this basic example (template is just a value), we could have easily used a simple binding, too.
 
             Property `value` is bound to the `$record.done` value, so that the checkbox appears checked if

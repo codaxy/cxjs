@@ -173,7 +173,7 @@ export const CssPage = <cx>
 
         ## Themes
 
-        Cx offers a couple of [themes](http://cx.codaxy.com/themes) out of the box.
+        Cx offers a couple of [themes](http://cxjs.io/themes) out of the box.
         In order to use a theme, install its npm package, e.g.
 
         ```

@@ -5,8 +5,8 @@ var assert = require('assert');
 describe('Url', function() {
    describe('.unresolve', function () {
       it('preserves query parameters', function () {
-         Url.absoluteBase = 'http://cx.codaxy.com/docs/';
-         assert.equal('~/?state=1', Url.unresolve('http://cx.codaxy.com/docs/?state=1'))
+         Url.absoluteBase = 'http://cxjs.io/docs/';
+         assert.equal('~/?state=1', Url.unresolve('http://cxjs.io/docs/?state=1'))
       });
 
       it('doesn\'t touch unresolved urls', function () {

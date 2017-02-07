@@ -42,7 +42,7 @@ export const UploadButtonPage = <cx>
             Upload buttons are used for selecting files and uploading them to the server.
 
             <div class="widgets">
-                <UploadButton url="https://cx.codaxy.com/fiddle/api/uploads"
+                <UploadButton url="https://cxjs.io/fiddle/api/uploads"
                               onUploadStarting={onUploadStarting}
                               onUploadComplete={onUploadComplete}
                               onUploadError={onUploadError}>
@@ -72,7 +72,7 @@ export const UploadButtonPage = <cx>
             }
             ...
             <div class="widgets">
-                <UploadButton url="https://cx.codaxy.com/fiddle/api/uploads"
+                <UploadButton url="https://cxjs.io/fiddle/api/uploads"
                               onUploadStarting={onUploadStarting}
                               onUploadComplete={onUploadComplete}
                               onUploadError={onUploadError}>
