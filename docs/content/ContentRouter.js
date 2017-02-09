@@ -117,10 +117,12 @@ class ContentController extends Controller {
             .then(m => {
                 chapterExports[chapter] = m;
                 this.store.set('loading', false);
+                this.store.set('error', false);
                 this.store.update('cv2', v => (v || 0) + 1);
             })
             .catch(e => {
                 this.store.set('loading', false);
+                this.store.set('error', true);
                 console.log(e);
             })
     }
