@@ -68,6 +68,10 @@ export class KeySelection extends Selection {
    select(store, record, index, {toggle} = {}) {
       if (!this.selection.bind)
          return false;
+
+      if (this.toggle)
+         toggle = true;
+
       var key = this.getKey(record);
       var selection = store.get(this.selection.bind);
       if (!this.multiple) {

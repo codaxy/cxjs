@@ -3,6 +3,10 @@ import {Selection} from './Selection';
 export class PropertySelection extends Selection {
 
    select(store, record, index, {toggle} = {}) {
+
+      if (this.toggle)
+         toggle = true;
+
       if (this.records && this.records.bind) {
          var array = store.get(this.records.bind);
          var rec = array[index];

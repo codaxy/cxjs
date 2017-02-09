@@ -1,42 +1,42 @@
-import { HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content } from 'cx/widgets';
-import { Controller, PropertySelection, KeySelection } from 'cx/ui';
-import { Svg, Rectangle } from 'cx/svg';
-import { Chart, Gridlines, BubbleGraph, NumericAxis } from 'cx/charts';
+import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content} from 'cx/widgets';
+import {Controller, PropertySelection, KeySelection} from 'cx/ui';
+import {Svg, Rectangle} from 'cx/svg';
+import {Chart, Gridlines, BubbleGraph, NumericAxis} from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ImportPath} from '../../components/ImportPath';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+    init() {
+        super.init();
 
-      this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i)=>({
-         name: `Bubble ${i+1}`,
-         x: Math.random() * 100,
-         y: Math.random() * 100,
-         r: Math.random() * 20,
-         selected: i % 2 == 0
-      })));
-   }
+        this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i) => ({
+            name: `Bubble ${i + 1}`,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            r: Math.random() * 20,
+            selected: i % 2 == 0
+        })));
+    }
 }
 
 export const Selections = <cx>
 
-   <Md controller={PageController}>
-      <CodeSplit>
-         # Selections
-         <ImportPath path="import { PropertySelection, KeySelection } from 'cx/ui';" />  
-   
-         Some widgets allow the user to select one or more objects presented to them. If
-         only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
-         be selected, it's referred to as *multiple selection mode*.
+    <Md controller={PageController}>
+        <CodeSplit>
+            # Selections
+            <ImportPath path="import { PropertySelection, KeySelection } from 'cx/ui';"/>
 
-         The question here is what happens after the user selects something? There are multiple ways a selection can
-         be handled and `Cx` offers commonly used methods out of the box.
+            Some widgets allow the user to select one or more objects presented to them. If
+            only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
+            be selected, it's referred to as *multiple selection mode*.
 
-         <Content name="code">
-            <CodeSnippet>{`
+            The question here is what happens after the user selects something? There are multiple ways a selection can
+            be handled and `Cx` offers commonly used methods out of the box.
+
+            <Content name="code">
+                <CodeSnippet>{`
                class PageController extends Controller {
                   init() {
                      super.init();
@@ -51,43 +51,58 @@ export const Selections = <cx>
                   }
                }
             `}</CodeSnippet>
-         </Content>
-      </CodeSplit>
+            </Content>
+        </CodeSplit>
 
-      ## Property Selection
+        ## Property Selection
 
-      In this mode, selection is handled by setting a designated selection property to be either `true` or `false`.
-      Usually, `selected` property is used.
+        In this mode, selection is handled by setting a designated selection property to be either `true` or `false`.
+        Usually, `selected` property is used.
 
-      This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding record
-      is selected or not.
+        This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding
+        record
+        is selected or not.
 
-      <CodeSplit>
-         <div class="widgets">
-            <Svg style={{width: '400px', height:"400px"}}>
-               <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                  <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}} />
-                  <Gridlines />
-                  <BubbleGraph data:bind='$page.bubbles' selection={{type: PropertySelection, multiple: true}}/>
-               </Chart>
-            </Svg>
-            <div>
-               <Repeater records:bind="$page.bubbles">
-                  <div>
-                     <Checkbox checked:bind="$record.selected" text:bind="$record.name" />
-                  </div>
-               </Repeater>
+        <CodeSplit>
+            <div class="widgets">
+                <Svg style={{width: '400px', height: "400px"}}>
+                    <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                        <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}}/>
+                        <Gridlines />
+                        <BubbleGraph
+                            data:bind='$page.bubbles'
+                            selection={{
+                                type: PropertySelection,
+                                multiple: true,
+                                toggle: false
+                            }}
+                        />
+                    </Chart>
+                </Svg>
+                <div>
+                    <Repeater records:bind="$page.bubbles">
+                        <div>
+                            <Checkbox checked:bind="$record.selected" text:bind="$record.name"/>
+                        </div>
+                    </Repeater>
+                </div>
             </div>
-         </div>
 
-         <Content name="code">
-            <CodeSnippet fiddle="eINrAOlQ">{`
+            <Content name="code">
+                <CodeSnippet fiddle="eINrAOlQ">{`
                <div class="widgets" controller={PageController}>
                   <Svg style={{width: '400px', height:"400px"}}>
                      <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
                         <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}} />
                         <Grid />
-                        <BubbleGraph data:bind='$page.bubbles' selection={{type: PropertySelection, multiple: true}}/>
+                        <BubbleGraph
+                            data:bind='$page.bubbles'
+                            selection={{
+                                type: PropertySelection,
+                                multiple: true,
+                                toggle: false
+                            }}
+                        />
                      </Chart>
                   </Svg>
                   <div>
@@ -99,45 +114,49 @@ export const Selections = <cx>
                   </div>
                </div>
             `}</CodeSnippet>
-         </Content>
-      </CodeSplit>
+            </Content>
+        </CodeSplit>
 
-      The `Ctrl` key can be used to toggle bubble selection.
+        The `Ctrl` key can be used to toggle bubble selection.
 
-      This mode is usually used for multiple selection, but it can be used for single selection too.
+        Alternatively, the `toggle` property can be set to `true` and selection will behave same as if the `Ctrl` key is pressed all
+        the time.
 
-      Property selection mode is very fast for checking if a particular object is selected, however, it needs to
-      go through the whole list of objects to determine what is selected.
+        This mode is usually used for multiple selection, but it can be used for single selection too.
 
-      ## Key Selection
+        Property selection mode is very fast for checking if a particular object is selected, however, it needs to
+        go through the whole list of objects to determine what is selected.
 
-      Key selection is a more common selection mode, where selected value(s) is/are stored in a separate variable.
+        ## Key Selection
 
-      <CodeSplit>
+        Key selection is a more common selection mode, where selected value(s) is/are stored in a separate variable.
 
-         <div class="widgets">
+        <CodeSplit>
 
-            <Grid records:bind="$page.bubbles"
-                  style={{width: "400px"}}
-                  columns={[
-                     { header: 'Name', field: 'name' },
-                     { header: 'X', field: 'x', format: 'n;2', align: "right" },
-                     { header: 'Y', field: 'y', format: 'n;2', align: "right" },
-                     { header: 'R', field: 'r', format: 'n;2', align: "right" }
-                  ]}
-                  selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
-            />
+            <div class="widgets">
 
-            <div>
-               <Select value:bind="$page.selection">
-                  <Repeater records:bind="$page.bubbles">                     <Option value:bind="$record.name" text:bind="$record.name" />
-                  </Repeater>
-               </Select>
+                <Grid records:bind="$page.bubbles"
+                      style={{width: "400px"}}
+                      columns={[
+                          {header: 'Name', field: 'name'},
+                          {header: 'X', field: 'x', format: 'n;2', align: "right"},
+                          {header: 'Y', field: 'y', format: 'n;2', align: "right"},
+                          {header: 'R', field: 'r', format: 'n;2', align: "right"}
+                      ]}
+                      selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
+                />
+
+                <div>
+                    <Select value:bind="$page.selection">
+                        <Repeater records:bind="$page.bubbles"> <Option value:bind="$record.name"
+                                                                        text:bind="$record.name"/>
+                        </Repeater>
+                    </Select>
+                </div>
             </div>
-         </div>
 
-         <Content name="code">
-            <CodeSnippet fiddle="j8o4HZQV">{`
+            <Content name="code">
+                <CodeSnippet fiddle="j8o4HZQV">{`
                <Grid records:bind="$page.bubbles"
                      style={{width: "400px"}}
                      columns={[
@@ -156,18 +175,19 @@ export const Selections = <cx>
                   </Select>
                </div>
             `}</CodeSnippet>
-         </Content>
+            </Content>
 
-      </CodeSplit>
+        </CodeSplit>
 
-      Key selection works similar to `select` control where only key (value) of the selected option represents the selection.
+        Key selection works similar to `select` control where only key (value) of the selected option represents the
+        selection.
 
-      Use `keyField` or `keyFields` to configure which fields form the record key.
+        Use `keyField` or `keyFields` to configure which fields form the record key.
 
-      Use `bind` property to define where selected keys will be stored.
+        Use `bind` property to define where selected keys will be stored.
 
-      Use `multiple` property to decide if multiple selection is allowed or not.
-   </Md>
+        Use `multiple` property to decide if multiple selection is allowed or not.
+    </Md>
 
 </cx>;
 

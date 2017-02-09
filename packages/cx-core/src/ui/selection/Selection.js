@@ -47,6 +47,8 @@ export class Selection extends Component {
    }
 }
 
+Selection.prototype.toggle = false;
+
 Selection.namespace = 'ui.selection.';
 
 class SimpleSelection extends Selection {
