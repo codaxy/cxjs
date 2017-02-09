@@ -12,19 +12,22 @@ export class PropertySelection extends Selection {
          var value = rec[this.selectedField];
          var newValue = toggle ? !value : true;
 
-         if (value == newValue)
-            return;
-
          var newArray = [...array];
+
+         var dirty = false;
 
          if (newValue && !toggle)
             newArray.forEach((r, i) => {
-               if (r[this.selectedField]) {
+               if (r != record && r[this.selectedField]) {
                   var nr = Object.assign({}, r);
                   nr[this.selectedField] = false;
                   newArray[i] = nr;
+                  dirty = true;
                }
             });
+
+         if (value == newValue && !dirty)
+            return;
 
          var newRec = Object.assign({}, rec);
          newRec[this.selectedField] = newValue;
