@@ -134,15 +134,19 @@ const formats = [{
 export const Formatting = <cx>
 
     <Md>
+        # Formatting
+
+        <ImportPath path="import { Format } from 'cx/util';" />
+
+        Cx offers rich support for value formatting.
+
+        You may use `Format.value(value, format)` function to format single values.
+
+        Formats are supported in data expressions and string templates.
+
+        ### Formatting Rules
+
         <CodeSplit>
-            # Formatting
-
-            <ImportPath path="import { Format } from 'cx/util';" />
-
-            Cx offers rich support for value formatting. Formats are supported in data expressions and string templates.
-
-            You may use `Format.value(value, format)` function to format single values.
-
             Use `;` to delimit format parameters.
 
             Use `:` to use chain multiple formats. Formats are applied left to right.
@@ -156,6 +160,9 @@ export const Formatting = <cx>
                 //string template
                 StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
 
+                //string template assigned to a widget property
+                <span text:tpl="{person.height:suffix; cm|N/A}" />
+
                 //multiple formats
                 Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"
                 Format.value(null, 'n;2:wrap;(;)'); //""
@@ -167,6 +174,28 @@ export const Formatting = <cx>
             ### Format Specifiers
 
             <MethodTable methods={formats} sort={false} />
+        </CodeSplit>
+
+        ### Custom Formats
+
+        Custom formats may be defined using `Format.register` and `Format.registerFactory` methods.
+
+        <CodeSplit>
+            `Format.register` can be used to register formats which do not need any parameters.
+
+            <CodeSnippet putInto="code">{`
+                Format.register('brackets', value => \`(\$\{value\})\`);
+                Format.value('test', 'brackets'); //'(test)'
+            `}</CodeSnippet>
+        </CodeSplit>
+
+        <CodeSplit>
+            `Format.registerFactory` can be used to define formats which take parameters.
+
+            <CodeSnippet putInto="code">{`
+                Format.registerFormat('suffix', (format, suffix) => value => value.toString() + suffix);
+                Format.value(10, 'suffix; kg'); //'10 kg'
+            `}</CodeSnippet>
         </CodeSplit>
     </Md>
 
