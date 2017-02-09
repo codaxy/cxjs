@@ -468,9 +468,10 @@ export class OverlayComponent extends VDOM.Component {
 
       if (widget.animate) {
          setTimeout(() => {
-            this.setState({
-               animated: true
-            });
+            if (!this.unmounting)
+               this.setState({
+                  animated: true
+               });
          }, 0);
       }
    }
