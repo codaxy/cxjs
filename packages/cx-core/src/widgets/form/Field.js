@@ -7,6 +7,7 @@ import {isSelector} from '../../data/isSelector';
 import {Localization} from '../../ui/Localization';
 import {isPromise} from '../../util/isPromise';
 import {Console} from '../../util/Console';
+import {parseStyle} from '../../util/parseStyle';
 
 export class Field extends PureContainer {
 
@@ -71,6 +72,8 @@ export class Field extends PureContainer {
          this.label = Widget.create(labelConfig);
       }
 
+      this.inputStyle = parseStyle(this.inputStyle);
+
       super.init();
    }
 
@@ -88,29 +91,45 @@ export class Field extends PureContainer {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       if (!data.id)
          data.id = 'fld-' + instance.id;
 
+      data._disabled = data.disabled;
+      instance.parentDisabled = context.parentDisabled || false;
+
       if (typeof data.enabled != 'undefined')
-         data.disabled = !data.enabled;
+         data._disabled = !data.enabled;
 
-      if (!data.error && !data.disabled)
-         this.validate(context, instance);
+      this.disableOrValidate(context, instance);
 
-      data.stateMods = {...data.stateMods,
-         error: data.error,
-         disabled: data.disabled
-      };
-      data.stateMods[(data.mode || 'edit')+'-mode'] = true;
-
-      data.inputStyle = this.CSS.parseStyle(data.inputStyle);
+      data.inputStyle = parseStyle(data.inputStyle);
 
       super.prepareData(...arguments);
    }
 
+   disableOrValidate(context, instance) {
+      let {data} = instance;
+      data.disabled = data._disabled || instance.parentDisabled;
+      if (!data.error && !data.disabled)
+         this.validate(context, instance);
+
+      data.stateMods = {
+         ...data.stateMods,
+         error: data.error,
+         disabled: data.disabled,
+         [(data.mode || 'edit') + '-mode']: true
+      };
+   }
+
    explore(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
+
+      if (context.parentDisabled !== instance.parentDisabled) {
+         instance.parentDisabled = context.parentDisabled;
+         instance.shouldUpdate = true;
+         this.disableOrValidate(context, instance);
+      }
 
       if (data.error && context.validation) {
          context.validation.errors.push({

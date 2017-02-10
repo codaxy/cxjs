@@ -10,6 +10,7 @@ export * from './TextArea';
 export * from './LabeledContainer';
 export * from './ValidationError';
 export * from './ValidationGroup';
+export * from './FieldGroup';
 export * from './MonthPicker';
 export * from './ColorPicker';
 export * from './MonthField';

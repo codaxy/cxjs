@@ -52,6 +52,7 @@ var contents = [{
         {title: 'Slider', url: '~/widgets/sliders'},
         {title: 'Label', url: '~/widgets/labels'},
         {title: 'ValidationGroup', url: '~/widgets/validation-groups'},
+        {title: 'FieldGroup', url: '~/widgets/field-groups'},
         {title: 'LabeledContainer', url: '~/widgets/labeled-containers'},
         {title: 'Switch', url: '~/widgets/switches'},
         {title: 'Grid', url: '~/widgets/grids'}

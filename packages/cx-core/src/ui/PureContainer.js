@@ -8,7 +8,6 @@ import {parseStyle} from '../util/parseStyle';
 export class PureContainer extends Widget {
 
    init() {
-
       if(typeof this.ws !== 'undefined')
          this.preserveWhitespace = this.ws;
 
@@ -18,7 +17,7 @@ export class PureContainer extends Widget {
       if (this.styled)
          this.style = parseStyle(this.style);
 
-      var items = this.items || this.children || [];
+      let items = this.items || this.children || [];
       this.items = [];
       this.add(items);
       
@@ -28,13 +27,12 @@ export class PureContainer extends Widget {
    }
 
    declareData() {
-      var styles = this.styled ? {
-         className: {structured: true},
-         class: {structured: true},
-         style: {structured: true}
-      } : {};
+      let options = {};
 
-      super.declareData(...arguments, styles);
+      if (this.styled)
+         options.class = options.className = options.style = {structured: true};
+
+      super.declareData(...arguments, options);
    }
 
    explore(context, instance) {

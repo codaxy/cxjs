@@ -18,6 +18,7 @@ export * from './Links';
 export * from './Tabs';
 export * from './PureContainer';
 export * from './ValidationGroups';
+export * from './DisabledGroups';
 export * from './LabeledContainers';
 export * from './Lists';
 export * from './ColorFields';
