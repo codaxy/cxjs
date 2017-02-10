@@ -48,7 +48,7 @@ export class Button extends HtmlElement {
          }
       }
 
-      props.type = 'button';
+      props.type = this.submit ? 'submit' : 'button';
 
       delete props.confirm;
       delete props.dismiss;
@@ -90,5 +90,6 @@ Button.prototype.tag = 'button';
 Button.prototype.baseClass = 'button';
 Button.prototype.icon = false;
 Button.prototype.focusOnMouseDown = false;
+Button.prototype.submit = false;
 
 Widget.alias('button', Button);

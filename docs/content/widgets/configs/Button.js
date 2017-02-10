@@ -54,4 +54,11 @@ export default {
             means that focus can be set only using the keyboard `Tab` key.
         </Md></cx>
     },
+    submit: {
+        type: 'boolean',
+        key: false,
+        description: <cx><Md>
+            Add `type="submit"` to the button.
+        </Md></cx>
+    },
 };
