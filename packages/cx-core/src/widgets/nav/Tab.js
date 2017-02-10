@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
+import {preventFocus} from '../../ui/FocusManager';
 
 export class Tab extends HtmlElement {
 
@@ -47,7 +48,7 @@ export class Tab extends HtmlElement {
             props.onMouseDown = e => {
                if (this.onMouseDown)
                   this.onMouseDown(e, instance);
-               e.preventDefault();
+               preventFocus(e);
             }
          }
 

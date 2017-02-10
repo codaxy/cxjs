@@ -1159,12 +1159,14 @@ class GridRowComponent extends VDOM.Component {
 
       let {instance, record} = this.props;
       let {store, widget} = instance;
+
+      if (!widget.selection.isDummy)
+         e.preventDefault();
+
       if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
          widget.selection.select(store, record.data, record.index, {
             toggle: e.ctrlKey
          });
-         if (!widget.selection.isDummy)
-            e.preventDefault();
       }
    }
 

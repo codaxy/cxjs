@@ -4,6 +4,7 @@ import {KeyCode} from '../../util/KeyCode';
 import {parseStyle} from '../../util/parseStyle';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
+import {preventFocus} from '../../ui/FocusManager';
 
 export class Switch extends Field {
 
@@ -63,7 +64,7 @@ export class Switch extends Field {
          onMouseDown={e=>{
             e.stopPropagation();
             if (!this.focusOnMouseDown)
-               e.preventDefault();
+               preventFocus(e);
          }}
          onClick={e=>{this.toggle(e, instance)}}
          onKeyDown={e=>{

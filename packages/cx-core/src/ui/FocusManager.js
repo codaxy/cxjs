@@ -95,6 +95,14 @@ export function offFocusOut(component) {
    }
 }
 
+export function preventFocus(e) {
+   if (e.currentTarget != document.activeElement) {
+      e.preventDefault();
+      document.activeElement.blur();
+      FocusManager.nudge();
+   }
+}
+
 if (module.hot) {
    module.hot.accept();
    module.hot.dispose(function () {

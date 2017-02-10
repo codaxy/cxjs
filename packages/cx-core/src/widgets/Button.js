@@ -3,6 +3,7 @@ import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
 import {Icon} from './Icon';
 import {stopPropagation} from '../util/eventCallbacks';
+import {preventFocus} from '../ui/FocusManager';
 
 export class Button extends HtmlElement {
    declareData() {
@@ -29,8 +30,8 @@ export class Button extends HtmlElement {
          props.onMouseDown = e => {
             if (this.onMouseDown)
                this.onMouseDown(e, instance);
-            e.preventDefault();
             e.stopPropagation();
+            preventFocus(e);
          }
       }
 
