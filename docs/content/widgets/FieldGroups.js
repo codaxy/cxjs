@@ -14,13 +14,13 @@ export const FieldGroups = <cx>
 
         <ImportPath path="import {FieldGroup} from 'cx/widgets';"/>
 
-        The `FieldGroup` element is pure container element which allows disabling of multiple form elements using
+        The `FieldGroup` widget is pure container which allows disabling of multiple form elements using
         a single property. `ValidationGroup` widget may be used for this purpose too, under the hood, `FieldGroup`
         is just an alias for it.
 
         <CodeSplit>
             <div class="widgets">
-                <Checkbox value:bind="$page.active">Disabled</Checkbox>
+                <Checkbox value:bind="$page.active">Active</Checkbox>
                 <FieldGroup layout={LabelsLeftLayout} enabled:bind="$page.active">
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
@@ -28,7 +28,7 @@ export const FieldGroups = <cx>
             </div>
 
             <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-                <Checkbox value:bind="$page.active">Disabled</Checkbox>
+                <Checkbox value:bind="$page.active">Active</Checkbox>
                 <FieldGroup layout={LabelsLeftLayout} enabled:bind="$page.active">
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
