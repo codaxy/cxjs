@@ -73,7 +73,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-combine-loaders": "^2.0.3",
-    "webpack-dev-server": "beta",
+    "webpack-dev-server": "^2.3.0",
     "webpack-merge": "^2.6.1"
   },
   "dependencies": {

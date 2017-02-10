@@ -1,6 +1,6 @@
 {
   "name": "cx-react-css-transition-group",
-  "version": "16.8.0",
+  "version": "17.2.0",
   "description": "Cx wrapper for ReactCSSTransitionGroup",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "react-addons-css-transition-group": "15.3.0"
+    "react-addons-css-transition-group": "15.4.2"
   },
   "peerDependencies": {
     "cx-core": "*"
