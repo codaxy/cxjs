@@ -1,5 +1,6 @@
 .cxb-dragsource {
    box-sizing: border-box;
+   touch-action: none;
    &.cxs-dragged {
       opacity: 0.3;
    }

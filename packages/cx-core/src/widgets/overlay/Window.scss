@@ -37,6 +37,7 @@
       display: flex;
       align-items: center;
       flex: none;
+      touch-action: none;
 
       @include cx-add-state-rules($header-state-style-map, default);
 

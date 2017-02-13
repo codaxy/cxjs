@@ -116,7 +116,7 @@ class ColorInput extends VDOM.Component {
          className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
-         onTouchStart={::this.onMouseDown}
+         onTouchStart={stopPropagation}
          onClick={stopPropagation}>
          <input
             id={data.id}

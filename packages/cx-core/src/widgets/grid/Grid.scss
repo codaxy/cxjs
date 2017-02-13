@@ -193,10 +193,12 @@
 
       .#{$state}drag-move &.#{$state}dragged {
          display: none;
+         touch-action: none;
       }
 
       .#{$state}drag-copy &.#{$state}dragged {
          opacity: 0.5;
+         touch-action: none;
       }
    }
 

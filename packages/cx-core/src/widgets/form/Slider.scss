@@ -84,6 +84,7 @@
       height: $size;
       margin-left: -$size / 2;
       margin-top: -$size / 2;
+      touch-action: none;
 
       .#{$block}#{$name}.#{$state}horizontal & {
          left: 0;

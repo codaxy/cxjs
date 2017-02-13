@@ -274,7 +274,7 @@ class MonthInput extends VDOM.Component {
       return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
                   style={data.style}
                   onMouseDown={::this.onMouseDown}
-                  onTouchStart={::this.onMouseDown}
+                  onTouchStart={stopPropagation}
                   onClick={stopPropagation}>
          <input id={data.id}
                 ref={el=>{this.input = el}}

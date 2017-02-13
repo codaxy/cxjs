@@ -21,6 +21,7 @@ import {Localization} from '../../ui/Localization';
 import CalendarIcon from '../icons/calendar';
 import {Icon} from '../Icon';
 import ClearIcon from '../icons/clear';
+import {stopPropagation} from '../../util/eventCallbacks';
 
 export class DateField extends Field {
 
@@ -219,7 +220,7 @@ class DateInput extends VDOM.Component {
          className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
-         onTouchStart={::this.onMouseDown}>
+         onTouchStart={stopPropagation}>
          <input
             id={data.id}
             ref={el => {
