@@ -497,7 +497,7 @@ Dropdown.prototype.pad = false;
 Dropdown.prototype.elementExplode = 0;
 Dropdown.prototype.screenPadding = 5;
 Dropdown.prototype.firstChildDefinesHeight = false;
-Dropdown.prototype.firstChildDefinesWidth = true;
+Dropdown.prototype.firstChildDefinesWidth = false;
 
 Widget.alias('dropdown', Dropdown);
 Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);
@@ -507,8 +507,6 @@ function getViewportRect(padding = 0) {
       left: padding,
       top: padding,
       right: window.innerWidth - padding,
-      bottom: window.innerHeight - padding,
-      // width: window.innerWidth - 2 * padding,
-      // height: window.innerHeight - 2 * padding,
+      bottom: window.innerHeight - padding
    }
 }
