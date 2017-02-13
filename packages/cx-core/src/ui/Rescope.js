@@ -5,8 +5,12 @@ import {ZoomIntoPropertyView} from '../data/ZoomIntoPropertyView';
 
 export class Rescope extends PureContainer {
    init() {
-      super.init();
       this.binding = Binding.get(this.bind);
+
+      if (this.rootAlias)
+         this.rootName = this.rootAlias;
+
+      super.init();
    }
 
    initInstance(context, instance) {

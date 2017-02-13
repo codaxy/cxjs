@@ -5,8 +5,11 @@ import {ExposedValueView} from '../data/ExposedValueView';
 
 export class Sandbox extends PureContainer {
    init() {
-      super.init();
+      if (this.recordAlias)
+         this.recordName = this.recordAlias;
+
       this.storageBinding = Binding.get(this.storage.bind);
+      super.init();
    }
 
    initInstance(context, instance) {

@@ -10,6 +10,13 @@ export class Repeater extends PureContainer {
       super.init();
       if (this.records && this.records.bind)
          this.recordsBinding = Binding.get(this.records.bind);
+
+      if (this.recordAlias)
+         this.recordName = this.recordAlias;
+
+      if (this.indexAlias)
+         this.indexName = this.indexAlias;
+
       this.adapter = ArrayAdapter.create(ArrayAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
