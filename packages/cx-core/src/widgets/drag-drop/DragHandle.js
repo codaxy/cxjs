@@ -30,4 +30,6 @@ export class DragHandle extends PureContainer {
 }
 
 DragHandle.prototype.styled = true;
+DragHandle.prototype.baseClass = 'draghandle';
+
 Widget.alias('draghandle', DragHandle);

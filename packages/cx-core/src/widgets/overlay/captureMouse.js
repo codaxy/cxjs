@@ -73,5 +73,9 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
 }
 
 export function getCursorPos(e) {
-   return (e.touches && e.touches[0]) || e;
+   let p = (e.touches && e.touches[0]) || e;
+   return {
+      clientX: p.clientX,
+      clientY: p.clientY
+   }
 }

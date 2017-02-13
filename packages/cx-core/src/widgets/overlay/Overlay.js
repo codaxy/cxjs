@@ -389,7 +389,11 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    getCursorPos(e) {
-      return (e.touches && e.touches[0]) || {clientX: e.clientX, clientY: e.clientY};
+      let x = (e.touches && e.touches[0]) || e;
+      return {
+         clientX: x.clientX,
+         clientY: x.clientY
+      };
    }
 
    startMoveOperation(e) {

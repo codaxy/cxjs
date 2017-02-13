@@ -574,6 +574,7 @@ class GridComponent extends VDOM.Component {
             let mod = {
                selected: selected,
                dragged: dragged,
+               draggable: dragSource && record.dragHandles.length == 0,
                cursor: i == this.state.cursor
             };
 
@@ -1130,7 +1131,7 @@ class GridRowComponent extends VDOM.Component {
 
    render() {
 
-      let {className, dragSource} = this.props;
+      let {className, dragSource, record} = this.props;
       let move, up;
 
       if (dragSource) {

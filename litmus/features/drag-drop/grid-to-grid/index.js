@@ -27,6 +27,8 @@ export default <cx>
       <FlexRow>
          <Grid
             records:bind="grid1"
+            scrollable
+            style="height:400px"
             columns={[{
                field: 'name',
                header: 'Name',
@@ -58,6 +60,8 @@ export default <cx>
 
          <Grid
             records:bind="grid2"
+            scrollable
+            style="height:400px"
             columns={[{
                items: <cx>
                   <DragHandle style="cursor:move">
