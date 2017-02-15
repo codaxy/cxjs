@@ -27,10 +27,10 @@ export class MarkerLine extends BoundedObject {
    }
 
    explore(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
 
-      var xAxis = instance.xAxis = context.axes[this.xAxis];
-      var yAxis = instance.yAxis = context.axes[this.yAxis];
+      let xAxis = instance.xAxis = context.axes[this.xAxis];
+      let yAxis = instance.yAxis = context.axes[this.yAxis];
 
       if (data.active) {
 
@@ -51,7 +51,7 @@ export class MarkerLine extends BoundedObject {
    }
 
    prepare(context, instance) {
-      var {data, xAxis, yAxis} = instance;
+      let {data, xAxis, yAxis} = instance;
 
       if (data.active)
          super.prepare(context, instance);
@@ -71,37 +71,43 @@ export class MarkerLine extends BoundedObject {
    }
 
    calculateBounds(context, instance) {
-      var {data, xAxis, yAxis} = instance;
-      var bounds = super.calculateBounds(context, instance);
+      let {data, xAxis, yAxis} = instance;
+      let bounds = super.calculateBounds(context, instance);
+
+      let x1 = bounds.l, x2 = bounds.r, y1 = bounds.t, y2 = bounds.b;
 
       if (data.x1 != null)
-         bounds.l = xAxis.map(data.x1);
+         x1 = xAxis.map(data.x1);
 
       if (data.x2 != null)
-         bounds.r = xAxis.map(data.x2);
+         x2 = xAxis.map(data.x2);
 
       if (data.y1 != null)
-         bounds.t = yAxis.map(data.y1);
+         y1 = yAxis.map(data.y1);
 
       if (data.y2 != null)
-         bounds.b = yAxis.map(data.y2);
+         y2 = yAxis.map(data.y2);
+
+      bounds.l = Math.min(x1, x2);
+      bounds.t = Math.min(y1, y2);
+      bounds.r = Math.max(x1, x2);
+      bounds.b = Math.max(y1, y2);
+
+      instance.x1 = x1;
+      instance.x2 = x2;
+      instance.y1 = y1;
+      instance.y2 = y2;
 
       return bounds;
    }
 
    render(context, instance, key) {
-      var {data} = instance;
+      let {data, x1, x2, y1, y2} = instance;
 
       if (!data.active)
          return null;
 
-      var {bounds} = data;
-      var x1 = Math.min(bounds.l, bounds.r),
-         y1 = Math.min(bounds.t, bounds.b),
-         x2 = Math.max(bounds.l, bounds.r),
-         y2 = Math.max(bounds.t, bounds.b);
-
-      var stateMods = {
+      let stateMods = {
          ['color-' + data.colorIndex]: data.colorIndex != null
       };
 
