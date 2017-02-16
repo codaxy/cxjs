@@ -21,6 +21,8 @@
       height: 100%;
       position: relative;
       width: 23em;
+      overflow-anchor: none;
+      touch-action: pan-y;
 
       table {
          border-spacing: 0;
