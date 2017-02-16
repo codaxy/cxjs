@@ -38,6 +38,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   hover-focus: (
     background-color: $cx-default-highlight-color
   ),
+  selected: (
+    background-color: lighten($cx-default-highlight-color, 2)
+  ),
   selected-focus: (
     background-color: darken($cx-default-highlight-color, 8)
   )
