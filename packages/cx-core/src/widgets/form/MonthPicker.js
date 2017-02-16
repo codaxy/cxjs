@@ -2,7 +2,6 @@ import {Widget, VDOM} from '../../ui/Widget';
 import {Field} from './Field';
 import {Culture} from '../../ui/Culture';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
-import {isFocused} from '../../util/DOM';
 import {StringTemplate} from '../../data/StringTemplate';
 import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
