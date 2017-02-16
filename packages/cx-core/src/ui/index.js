@@ -23,3 +23,13 @@ export * from './selection/index';
 export * from './layout/index';
 export * from './app/index';
 export * from './adapter/index';
+
+export * from './bind';
+export * from './tpl';
+export * from './expr';
+
+//re-export computable here
+import { computable } from '../data/computable';
+export {
+   computable
+}
