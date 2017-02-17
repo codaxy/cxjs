@@ -8,7 +8,7 @@ import {ImportPath} from '../../components/ImportPath';
 
 import configs from './configs/UploadButton';
 
-function onUploadStarting(file, instance) {
+function onUploadStarting(xhr, instance, file) {
     if (file.type.indexOf("image/") != 0) {
         MsgBox.alert('Only images are allowed.');
         return false;
@@ -22,7 +22,7 @@ function onUploadStarting(file, instance) {
     //xhr.setRequestHeader('name', 'value');
 }
 
-function onUploadComplete(xhr, instance) {
+function onUploadComplete(xhr, instance, file) {
     MsgBox.alert(`Upload completed with status ${xhr.status}.`);
 }
 
@@ -51,7 +51,7 @@ export const UploadButtonPage = <cx>
             </div>
 
             <CodeSnippet putInto="code" fiddle="mB8pDfIq">{`
-            function onUploadStarting(file, instance) {
+            function onUploadStarting(xhr, instance, file) {
                 if (file.type.indexOf("image/") != 0) {
                     MsgBox.alert('Only images are allowed.');
                     return false;
@@ -61,6 +61,8 @@ export const UploadButtonPage = <cx>
                     MsgBox.alert('The file is too large.');
                     return false;
                 }
+
+                //xhr.setRequestHeader('name', 'value');
             }
 
             function onUploadComplete(xhr, instance) {

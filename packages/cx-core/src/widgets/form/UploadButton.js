@@ -15,7 +15,7 @@ export class UploadButton extends Field {
    }
 
    renderInput(context, instance, key) {
-      var {data} = instance;
+      let {data} = instance;
       return <UploadButtonComponent key={key} instance={instance}>
          {data.text || this.renderChildren(context, instance)}
       </UploadButtonComponent>
@@ -24,6 +24,7 @@ export class UploadButton extends Field {
 
 UploadButton.prototype.baseClass = 'uploadbutton';
 UploadButton.prototype.multiple = false;
+UploadButton.prototype.method = 'POST';
 UploadButton.prototype.uploadInProgressText = 'Upload is in progress.';
 
 Localization.registerPrototype('cx/widgets/UploadButton', UploadButton);
@@ -41,9 +42,9 @@ class UploadButtonComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {widget, data} = instance;
-      var {CSS, baseClass} = widget;
+      let {instance} = this.props;
+      let {widget, data} = instance;
+      let {CSS, baseClass} = widget;
 
       return <div ref={el=>{this.el = el}} className={data.classNames} style={data.style}>
          <div key="progress"
@@ -62,7 +63,7 @@ class UploadButtonComponent extends VDOM.Component {
 
    onFileSelected(e) {
       let files = e.dataTransfer ? e.dataTransfer.files : e.target ? e.target.files : [];
-      for (var i = 0; i < files.length; i++)
+      for (let i = 0; i < files.length; i++)
          this.uploadFile(files[i]);
    }
 
@@ -72,47 +73,47 @@ class UploadButtonComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      for (var key in this.uploads) {
-         var upload = this.uploads[key];
+      for (let key in this.uploads) {
+         let upload = this.uploads[key];
          upload.xhr.abort();
       }
    }
 
    uploadFile(file) {
-      var {instance} = this.props;
-      var {widget, data} = instance;
+      let {instance} = this.props;
+      let {widget, data} = instance;
 
-      var xhr = new XMLHttpRequest();
+      if (!data.url)
+         throw new Error('Upload url not set.');
 
-      if (widget.onUploadStarting && widget.onUploadStarting(file, instance, xhr) === false)
+      let xhr = new XMLHttpRequest();
+      xhr.open(widget.method, Url.resolve(data.url));
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      if (widget.onUploadStarting && widget.onUploadStarting(xhr, instance, file, formData) === false) {
          return;
+      }
 
-      var key = this.uploadKey++;
-      var upload = this.uploads[key] = {
+      let key = this.uploadKey++;
+      let upload = this.uploads[key] = {
          progress: 0,
          size: file.size || 1,
          file: file,
          xhr: xhr
       };
 
-      if (!data.url)
-         throw new Error('Upload url not set.');
-
-      var formData = new FormData();
-      formData.append("file", file);
-
-
-      xhr.open('POST', Url.resolve(data.url));
       xhr.onload = () => {
          delete this.uploads[key];
          if (widget.onUploadComplete)
-            widget.onUploadComplete(xhr, instance, file);
+            widget.onUploadComplete(xhr, instance, file, formData);
          this.reportProgress();
       };
-      xhr.onerror = e=> {
+      xhr.onerror = e => {
          delete this.uploads[key];
          if (widget.onUploadError)
-            widget.onUploadError(e, instance, file);
+            widget.onUploadError(e, instance, file, formData);
          this.reportProgress();
       };
 
@@ -130,16 +131,16 @@ class UploadButtonComponent extends VDOM.Component {
    }
 
    reportProgress() {
-      var totalSize = 0;
-      var uploaded = 0;
+      let totalSize = 0;
+      let uploaded = 0;
 
-      for (var key in this.uploads) {
-         var upload = this.uploads[key];
+      for (let key in this.uploads) {
+         let upload = this.uploads[key];
          totalSize += upload.size;
          uploaded += upload.size * upload.progress;
       }
 
-      var progress = 100 * (totalSize ? uploaded / totalSize : 1);
+      let progress = 100 * (totalSize ? uploaded / totalSize : 1);
 
       this.props.instance.setState({
          inputError: progress == 100 ? false : this.props.instance.uploadInProgressText

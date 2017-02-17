@@ -22,9 +22,10 @@ export default {
         description: <cx><Md>
             A callback function to validate files to be uploaded.
             Arguments:
-            - `file` - file to be uploaded
             - `instance` - widget instance
             - `xhr` - instance of the XMLHttpRequest object to be used for upload
+            - `file` - file to be uploaded
+            - `formData` - FormData object to be sent containing the `file` object
         </Md></cx>
     },
 
@@ -36,6 +37,8 @@ export default {
             Arguments:
             - `xhr` - instance of the XMLHttpRequest object used for upload
             - `instance` - widget instance
+            - `file` - file to be uploaded
+            - `formData` - FormData object to be sent containing the `file` object
 
             Check `status` and `responseText` of the `xhr` object to examine
             the server response.
