@@ -3,6 +3,7 @@ $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
 $cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
 $cx-default-button-border-width: $cx-default-box-border-width !default;
+$cx-default-button-line-height: $cx-default-box-line-height !default;
 $cx-default-button-background-color: #eee !default;
 $cx-default-button-border-color: #ccc !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
@@ -18,7 +19,7 @@ $cx-button-state-style-map: (
       user-select: none,
       font-family: $cx-default-button-font-family,
       font-size: $cx-default-button-font-size,
-      line-height: $cx-default-box-line-height,
+      line-height: $cx-default-button-line-height,
       border-width: $cx-default-button-border-width,
       border-radius: $cx-default-button-border-radius,
       padding: $cx-default-button-padding,
