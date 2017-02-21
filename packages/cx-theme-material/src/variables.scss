@@ -1,19 +1,33 @@
 
 // GLOBAL VARIABLES
-$cx-default-highlight-color: #ddf1f6 !default;
+/*$cx-default-box-font-size: 14px !default;*/
+$cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
+$cx-default-color: #6a6a6a !default;
 
-$cx-default-border-color: #ccc !default;
-$cx-default-border-radius: 5px !default;
+$cx-default-background-color: #fff !default;
+$cx-primary-background-color: #2196F3 !default; 
+$cx-secondary-background-color: #F44336 !default;
 
-$cx-default-button-background-color: #eff1f7 !default;
-$cx-default-button-border-color: #e3e5eb !default;
+$cx-default-highlight-color: lighten(#FF5722, 10) !default;
 
-$cx-default-grid-header-background-color: $cx-default-button-background-color !default;
+$cx-default-border-color: transparent !default;
+$cx-default-border-radius: 2px !default;
+
+$cx-default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30) !default;
+$cx-default-box-shadow-elevated: 0 3px 7px rgba(0, 0, 0, 0.22) !default;
+
+$cx-default-button-color: $cx-primary-background-color !default;
+$cx-default-button-font-weight: 500 !default;
+$cx-default-button-background-color: #fff !default;
+$cx-default-button-border-color: transparent !default;
+$cx-default-button-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.40) !default;
+
+$cx-default-grid-header-background-color: $cx-primary-background-color !default;
 
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: 18px !default;
 $cx-default-box-border-width: 2px !default;
-$cx-default-box-padding: 5px !default;
+$cx-default-box-padding: 7px !default;
 
 $cx-default-checkbox-size: 16px !default;
 $cx-default-radio-size: 16px !default;
@@ -24,6 +38,8 @@ $cx-default-font-family: 'Open Sans', sans-serif !default;
 $cx-default-dropdown-arrow-offset: 26px !default;
 
 $cx-use-box-line-height-fix: false !default;
+
+$cx-default-transition: all 0.2s ease-out !default;
 
 @import "~cx-core/src/variables";
 
@@ -58,12 +74,86 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 // menu
 
 // BUTTON
+$cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
+  default: (
+    transition: $cx-default-transition,
+    text-transform: uppercase,
+    font-weight: $cx-default-button-font-weight,
+    margin: 5px
+  ),
+  hover: (
+     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35)
+  ),
+  focus: (
+    background-color: darken($cx-default-button-background-color, 5),
+    box-shadow: $cx-default-button-box-shadow
+  ),
+  active: (
+    background-color: darken($cx-default-button-background-color, 3),
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.45),
+    top: 0
+  ),
+  disabled: (
+    color: lighten($cx-default-color, 30)
+  )
+));
+
 $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
+  primary: (
+    default: (
+      background-color: $cx-primary-background-color,
+      border-color: $cx-default-border-color,
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+    ),
+    hover: (
+      box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4)
+    ),
+    focus: (
+      background-color: darken($cx-primary-background-color, 4)
+    ),
+    active: (
+      background-color: darken($cx-primary-background-color, 1),
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5),
+      top: 0
+    ),
+    disabled: (
+      box-shadow: none,
+      border-color: transparent
+    )
+  ),
+  danger: (
+    default: (
+      background-color: $cx-secondary-background-color,
+      border-color: $cx-default-border-color,
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+    ),
+    hover: (
+      background-color: $cx-secondary-background-color,
+      box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4)
+    ),
+    focus: (
+      background-color: darken($cx-secondary-background-color, 10 )
+    ),
+    active: (
+      background-color: darken($cx-secondary-background-color, 4),
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5),
+      top: 0
+    ),
+    disabled: (
+      box-shadow: none,
+      border-color: transparent
+    )
+  ),
   hollow: (
     focus: (
-      background-color: darken($cx-default-highlight-color, 8),
-      border-color: darken($cx-default-highlight-color, 8),
+      background-color: darken($cx-default-background-color, 8),
       box-shadow: none
+    ),
+    active: (
+      background-color: rgba(153, 153, 153, 0.4)
+    ),
+    disabled: (
+      color: rgba(0, 0, 0, 0.26)
     )
   )
 ));
