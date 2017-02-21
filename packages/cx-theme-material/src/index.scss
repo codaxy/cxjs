@@ -1,0 +1,30 @@
+
+@import "~cx-core/src/index";
+
+.cxb-section.cxm-well.cxm-well {
+   background-color: white;
+   box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
+   color: #66686e;
+}
+
+.cxe-section-header.cxe-section-header  {
+   color: #24b5d6;
+   font-weight: normal;
+
+   .cxm-pad > & {
+      border: none;
+   }
+}
+
+
+.cxb-datefield .cxb-calendar {
+   border-color: transparent !important;
+}
+
+.cxb-monthfield .cxb-monthpicker {
+   border-color: transparent !important;
+}
+
+.cxb-colorfield .cxb-colorpicker {
+   border-color: transparent !important;
+}

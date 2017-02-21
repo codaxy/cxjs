@@ -17,6 +17,7 @@ module.exports = function (name, themePath, port) {
             'cx-react': path.resolve(path.join(themePath, '../../packages/cx-react')),
             'cx-theme-dark': path.resolve(path.join(themePath, '../../packages/cx-theme-dark/')),
             'cx-theme-frost': path.resolve(path.join(themePath, '../../packages/cx-theme-frost/')),
+            'cx-theme-material': path.resolve(path.join(themePath, '../../packages/cx-theme-material/')),
             theme: themePath,
             shared: path.join(themePath, '../shared')
          }
