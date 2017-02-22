@@ -52,8 +52,8 @@ $cx-tooltip-background-color-error: lighten($cx-default-background-color-light, 
 $cx-tooltip-border-color-error: $cx-default-error-color !default;
 
 // TOAST
-$cx-default-toast-background-color: lighten($cx-tooltip-background-color, 3) !default;
-$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
+$cx-default-toast-background-color: lighten($cx-tooltip-background-color, 11) !default;
+$cx-default-toast-box-shadow: 0 2px 6px 0px rgba(101, 101, 101, 0.4) !default;
 
 // MONTHPICKER
 $cx-default-monthpicker-font-size: 11px !default;
