@@ -1,20 +1,36 @@
 
 @import "~cx-core/src/index";
 
+p {
+  line-height: $cx-default-line-height;
+}
+
 .cxb-section.cxm-well.cxm-well {
    background-color: white;
-   box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
-   color: #66686e;
+   box-shadow: $cx-default-section-box-shadow;
+
+   > .cxe-section-body {
+     padding: 1em;
+   }
 }
 
 .cxe-section-header.cxe-section-header  {
-   color: #24b5d6;
+   color: $cx-secondary-color;
    font-weight: normal;
+   border: none;
+   padding: 1em;
+   margin: 0;
+
+   h1, h2, h3, h4, h5, h6 {
+     color: $cx-secondary-color;
+   }
 
    .cxm-pad > & {
       border: none;
    }
 }
+
+.cx-section-body
 
 
 .cxb-datefield .cxb-calendar {
@@ -27,4 +43,37 @@
 
 .cxb-colorfield .cxb-colorpicker {
    border-color: transparent !important;
+}
+
+.cxb-flexbox button.cxb-button {
+  margin: 8px;
+}
+
+
+//Button Ripple Effect
+.cxb-button {
+  overflow: hidden;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(15, 15);
+    opacity: 0;
+    transition: transform .3s, opacity 1s;
+  }
+
+  &:active:after {
+    transform: scale(0, 0);
+    opacity: .2;
+    transition: 0s;
+  }
 }
