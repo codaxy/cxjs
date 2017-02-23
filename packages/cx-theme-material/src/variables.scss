@@ -11,7 +11,7 @@ $cx-primary-color: #2196F3 !default;
 $cx-secondary-color: lighten($cx-primary-color, 8) !default;
 $cx-warning-color: #F44336 !default;
 
-$cx-default-highlight-color: lighten(#FF5722, 10) !default;
+$cx-default-highlight-color: #ffb300 !default;
 
 $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
@@ -19,7 +19,9 @@ $cx-default-border-radius: 2px !default;
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: 18px !default;
 $cx-default-box-border-width: 2px !default;
-$cx-default-box-padding: 7px !default;
+$cx-default-box-padding: 8px !default;
+
+$cx-default-transition: all 0.2s ease-out !default;
 
 //Box Shadows
 $cx-default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !default;
@@ -31,7 +33,19 @@ $cx-default-button-font-weight: $cx-default-font-weight !default;
 $cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
-$cx-default-button-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !default;
+$cx-default-button-box-shadow: $cx-default-box-shadow !default;
+$cx-default-button-padding: 10px 20px !default;
+
+//Tab
+$cx-default-tab-color: rgba(255, 255, 255, 0.7) !default;
+$cx-default-tab-font-weight: 500 !default;
+$cx-default-tab-background-color: $cx-primary-color !default;
+$cx-default-tab-border-radius: 0 !default
+$cx-default-tab-padding: 0 25px !default;
+$cx-default-tab-border-width: 0 0 2px !default;
+$cx-default-tab-border-color: transparent !default;
+$cx-default-tab-border-radius: 0 !default;
+$cx-default-tab-height: 40px !default;
 
 //Section
 $cx-default-section-box-shadow: $cx-default-box-shadow !default;
@@ -48,6 +62,7 @@ $cx-default-grid-header-background-color: $cx-primary-color !default;
 //Toast
 $cx-default-toast-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !default;
 
+//Forms
 $cx-default-checkbox-size: 16px !default;
 $cx-default-radio-size: 16px !default;
 $cx-default-input-border-color: #eff1f7 !default;
@@ -57,8 +72,6 @@ $cx-default-font-family: 'Open Sans', sans-serif !default;
 $cx-default-dropdown-arrow-offset: 26px !default;
 
 $cx-use-box-line-height-fix: false !default;
-
-$cx-default-transition: all 0.2s ease-out !default;
 
 @import "~cx-core/src/variables";
 
@@ -81,13 +94,57 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   )
 ));
 
+
+// TAB
 $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
- hover-focus: (
+  default: (
+    text-transform: uppercase,
+    line-height: $cx-default-tab-height
+  ),
+  hover: (
+    background-color: darken($cx-primary-color, 2)
+  ),
+  hover-focus: (
     background-color: $cx-default-highlight-color
   ),
   selected-focus: (
-    background-color: darken($cx-default-highlight-color, 8)
+    color: #fff,
+    background-color: $cx-default-tab-background-color,
+    border-color: $cx-default-highlight-color    
+  ),
+  active: (
+    color: #fff,
+    background-color: $cx-default-tab-background-color,
+    border-color: $cx-default-highlight-color
+  ),
+  selected: (
+    color: #fff,
+    background-color: $cx-default-tab-background-color,
+    border-color: $cx-default-highlight-color
+  ),
+  disabled: (
+    background-color: $cx-primary-color,
+    color: rgba(255, 255, 255, 0.3)
   )
+));
+
+$cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
+  classic: (
+    default: (
+      color: $cx-default-color,
+      background-color: transparent,
+      border: none,          
+      border-radius: $cx-default-border-radius
+    ),
+    active: (
+      color: $cx-default-tab-color,
+      background-color: $cx-primary-color      
+    ),
+    selected: (
+      color: #fff,
+      background-color: $cx-primary-color      
+    )
+  )  
 ));
 
 // menu
@@ -113,7 +170,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
     top: 0
   ),
   disabled: (
-    color: lighten($cx-default-color, 30)
+    color: rgba(0, 0, 0, 0.26)
   )
 ));
 
@@ -137,7 +194,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     ),
     disabled: (
       box-shadow: none,
-      border-color: transparent
+      border-color: transparent,
+      color: rgba(255, 255, 255, 0.45)
     )
   ),
   danger: (
@@ -160,7 +218,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     ),
     disabled: (
       box-shadow: none,
-      border-color: transparent
+      border-color: transparent,
+      color: rgba(255, 255, 255, 0.45)
     )
   ),
   hollow: (
@@ -226,30 +285,30 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
 
 $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
-      background: #eff1f7
+      background: #fafafa
    ),
    h1: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    ),
    h2: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    ),
    h3: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    ),
    h4: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    ),
    h5: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    ),
    h6: (
       font-weight: 400,
-      color: #24b5d6
+      color: $cx-default-color
    )
 ));

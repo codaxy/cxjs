@@ -12,6 +12,10 @@ p {
    > .cxe-section-body {
      padding: 1em;
    }
+
+   h1, h2, h3, h4, h5, h6 {
+     color: $cx-secondary-color;
+   }
 }
 
 .cxe-section-header.cxe-section-header  {
@@ -21,17 +25,10 @@ p {
    padding: 1em;
    margin: 0;
 
-   h1, h2, h3, h4, h5, h6 {
-     color: $cx-secondary-color;
-   }
-
    .cxm-pad > & {
       border: none;
    }
 }
-
-.cx-section-body
-
 
 .cxb-datefield .cxb-calendar {
    border-color: transparent !important;
@@ -49,12 +46,21 @@ p {
   margin: 8px;
 }
 
+.cxb-tab {
+  position: relative;
+  height: 100%;
+}
 
-//Button Ripple Effect
-.cxb-button {
+.cxb-tab-container {
+  box-shadow: $cx-default-box-shadow;
+  height: $cx-default-tab-height;
+}
+
+//Ripple Effect
+.cxb-button, .cxb-tab {
   overflow: hidden;
 
-  &:after {
+  &:before {
     content: "";
     display: block;
     position: absolute;
@@ -68,10 +74,10 @@ p {
     background-position: 50%;
     transform: scale(15, 15);
     opacity: 0;
-    transition: transform .3s, opacity 1s;
+    transition: transform .5s, opacity 1s;
   }
 
-  &:active:after {
+  &:active:before {
     transform: scale(0, 0);
     opacity: .2;
     transition: 0s;
