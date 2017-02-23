@@ -7,7 +7,6 @@ const webpack = require('webpack'),
    babelConfig = require('../shared/babel.config');
 
 module.exports = function (name, themePath, port) {
-
    var common = {
 
       resolve: {
