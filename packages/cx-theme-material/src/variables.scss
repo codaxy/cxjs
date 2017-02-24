@@ -102,15 +102,17 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     line-height: $cx-default-tab-height
   ),
   hover: (
+    color: rgba(255, 255, 255, 0.8),
     background-color: darken($cx-primary-color, 2)
   ),
   hover-focus: (
-    background-color: $cx-default-highlight-color
+    border-color: lighten($cx-secondary-color, 10),
+    background-color: $cx-default-tab-background-color
   ),
   selected-focus: (
     color: #fff,
     background-color: $cx-default-tab-background-color,
-    border-color: $cx-default-highlight-color    
+    border-color: lighten($cx-default-highlight-color, 6)    
   ),
   active: (
     color: #fff,
@@ -131,7 +133,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   classic: (
     default: (
-      color: $cx-default-color,
+      color: rgba(0, 0, 0, 0.7),
       background-color: transparent,
       border: none,          
       border-radius: $cx-default-border-radius
@@ -143,6 +145,27 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
     selected: (
       color: #fff,
       background-color: $cx-primary-color      
+    ),
+    disabled: (
+      color: rgba(0, 0, 0, 0.26)
+    )
+  ),
+  line: ( 
+    default: (
+      color: rgba(0, 0, 0, 0.7)
+    ),
+    selected: (
+      color: $cx-secondary-color,
+      border-color: $cx-primary-color
+    ),
+    selected-focus: (
+      border-color: lighten($cx-primary-color, 10)
+    ),
+    disabled: (
+      color: rgba(0, 0, 0, 0.26)
+    ),
+    hover-focus: (
+      border-color: rgba(72, 168, 245, 0.4)
     )
   )  
 ));
