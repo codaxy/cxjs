@@ -8,7 +8,7 @@ $cx-default-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 $cx-primary-color: #2196F3 !default; 
-$cx-secondary-color: lighten($cx-primary-color, 8) !default;
+$cx-secondary-color: lighten($cx-primary-color, 5) !default;
 $cx-warning-color: #F44336 !default;
 
 $cx-default-highlight-color: #ffb300 !default;
@@ -46,6 +46,11 @@ $cx-default-tab-border-width: 0 0 2px !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: 0 !default;
 $cx-default-tab-height: 40px !default;
+
+//Form
+//label
+$cx-default-label-font-size: 12px !default;
+$cx-default-label-color: rgba(0, 0, 0, 38) !default;
 
 //Section
 $cx-default-section-box-shadow: $cx-default-box-shadow !default;
@@ -170,7 +175,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   )  
 ));
 
-// menu
+// MENU
 
 // BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
@@ -259,6 +264,26 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   )
 ));
 
+// FORM
+// label
+
+//textfield
+$cx-formfield-state-style-map: cx-deep-map-merge($cx-formfield-state-style-map, (
+  default: (
+    border-width: 0 0 1px,
+    border-color: #dbdbdb,
+    border-radius: 0,
+    padding: 12px
+  ),
+  focus: (
+    border-color: $cx-primary-color,
+    box-shadow: none
+    /*box-shadow: inset 0 -1px 0 0 $cx-primary-color*/
+  )  
+));
+
+
+// WINDOW
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
       background: white,

@@ -149,6 +149,7 @@ $cx-clear-state-style-map: (
 $cx-default-label-padding: $cx-default-box-padding 0 !default;
 $cx-default-label-font-size: $cx-default-box-font-size !default;
 $cx-default-label-font-family: $cx-default-box-font-family !default;
+$cx-default-label-font-weight: normal !default;
 $cx-default-label-line-height: $cx-default-box-line-height !default;
 $cx-default-label-color: null !default;
 $cx-default-label-asterisk-color: #a80000 !default;
@@ -158,6 +159,7 @@ $cx-label-state-style-map: (
       padding: $cx-default-label-padding,
       font-size: $cx-default-label-font-size,
       font-family: $cx-default-label-font-family,
+      font-weight: $cx-default-label-font-weight,
       line-height: $cx-default-label-line-height,
       color: $cx-default-label-color,
       border-style: solid,
@@ -175,6 +177,10 @@ $cx-label-state-style-map: (
    )
 ) !default;
 
+// TEXTFIELD
+$cx-formfield-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+    
+)) !default;
 
 // CALENDAR
 $cx-calendar-state-style-map: (

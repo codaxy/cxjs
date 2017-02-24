@@ -30,6 +30,7 @@ p {
    }
 }
 
+// Form
 .cxb-datefield .cxb-calendar {
    border-color: transparent !important;
 }
@@ -46,14 +47,61 @@ p {
   margin: 8px;
 }
 
-.cxb-tab {
-  position: relative;
-  height: 100%;
+
+//Forms 
+$form-list: (
+  (textfield, textfield-input), 
+  (numberfield, numberfield-input), 
+  (lookupfield,lookupfield-input), 
+  (datefield, datefield-input),
+  (monthfield, monthfield-input),
+  (colorfield, colorfield-input),
+  (select, select-select)
+);
+
+@each $field, $input in $form-list {
+  .cxb-#{$field} {
+    position: relative;
+    overflow: hidden;
+
+    &:after {
+      display: block;
+      content: '';
+      border-style: solid;
+      border-width: 0 0 1px;
+      border-color: transparent;
+      transform: scaleX(0);  
+      transition: transform 0.25s ease-in-out;
+    }
+    &:hover {
+      .cxe-#{$input} {
+        border-color: $cx-primary-color;
+        transition: border-color 0.4s ease-in-out
+      }
+      &:after {
+        transform: scaleX(1);
+        border-color: $cx-primary-color;
+      }
+    }
+  }
 }
 
+// Tab
 .cxb-tab-container {
   box-shadow: $cx-default-box-shadow;
   height: $cx-default-tab-height;
+}
+
+.cxb-tab {
+  position: relative;
+  height: 100%;
+
+  &:first-child {
+    border-radius: 2px 0 0 2px;
+  }
+  &:last-child {
+    border-radius: 0 2px 2px 0;
+  }
 }
 
 //Ripple Effect
