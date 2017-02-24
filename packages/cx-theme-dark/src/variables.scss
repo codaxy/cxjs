@@ -242,6 +242,11 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    )
 ));
 
+$cx-formfield-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
+
+
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    today: (
@@ -250,6 +255,9 @@ $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
       border-width: 1px,
       border-color: darken($cx-default-error-color, 14)
    ),
+  selected: (
+    border-radius: 50%
+  ),
    outside: (
       color: darken($cx-default-color, 35)
    )

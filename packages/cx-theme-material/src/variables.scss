@@ -281,7 +281,22 @@ $cx-formfield-state-style-map: cx-deep-map-merge($cx-formfield-state-style-map, 
     /*box-shadow: inset 0 -1px 0 0 $cx-primary-color*/
   )  
 ));
-
+//calendar
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+  today: (
+    background-color: rgba(255, 179, 0, 0.7),
+    border-radius: 50%
+  ),
+  today-hover: (
+      
+  ),
+  selected: (
+    border-radius: 50%
+  ),
+  outside: (
+    color: lightgray
+  )
+));
 
 // WINDOW
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
