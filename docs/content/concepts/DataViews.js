@@ -1,8 +1,9 @@
 import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope, Controller } from 'cx/ui';
+import { LabelsLeftLayout, Rescope } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
+import {ImportPath} from '../../components/ImportPath';
 
 import {store} from '../../app/store';
 
@@ -18,11 +19,13 @@ export const DataViews = <cx>
         # Data Views
 
         Having all data in a single object means that sometimes it's hard to access a particular object or a property.
-        The purpose of data views it to simplify that.
+        The purpose of data views is to simplify this.
 
         <CodeSplit>
 
             ## Repeater
+
+            <ImportPath path="import { Repeater } from 'cx/widgets';" />
 
             One of the most commonly used data views is the `ExposedRecordView` used
             by `Repeater` and `Grid` controls. It exposes a single element from an array as a separate store property
@@ -62,6 +65,8 @@ export const DataViews = <cx>
 
             ## Sandbox
 
+            <ImportPath path="import { Sandbox } from 'cx/widgets';" />
+
             The `Sandbox` control works as a data multiplexer. It selects a value pointed by the `key` from the
             `storage` object and exposes it as a new property (`$page`).
 
@@ -82,7 +87,6 @@ export const DataViews = <cx>
                 </div>
                 <div style="width:200px">
                     <strong>Results</strong>
-
                     <Rescope bind="$page.results">
                         <div>
                             1. <Text tpl="{winner.firstName} {winner.lastName}" />
@@ -100,19 +104,19 @@ export const DataViews = <cx>
             <CodeSnippet putInto="code" fiddle="110OL8gu">{`
                 <div>
                     <div preserveWhitespace>
-                        <Radio value={{bind:"$page.place", defaultValue:"winner"}} option="winner">Winner</Radio>
+                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">Winner</Radio>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$info">
+                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$info.firstName" label="First Name" />
-                            <TextField value:bind="$info.lastName" label="Last Name" />
+                            <TextField value:bind="$contestant.firstName" label="First Name"/>
+                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
-                <div>
+                <div style="width:200px">
                     <strong>Results</strong>
                     <Rescope bind="$page.results">
                         <div>
@@ -135,8 +139,10 @@ export const DataViews = <cx>
 
         ## Rescope
 
+        <ImportPath path="import { Rescope } from 'cx/ui';" />
+
         The `Rescope` widget enables shorter data binding paths by selecting a common prefix.
-        Check the previous example to see how `Rescope` was used to display results.
+        Check out the previous example to see how `Rescope` was used to display results.
 
         Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
         `winner` and `$root.$page.results.winner` point to the same object.
