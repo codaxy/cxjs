@@ -56,7 +56,7 @@ yarn run theme:frost
 ### License
 
 Cx is available under a commercial and a non-commercial license.
-Please refer to the website for more information.
+Please refer to [the website](https://cxjs.io/pricing) for more information.
 
 
 
