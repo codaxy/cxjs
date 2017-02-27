@@ -139,21 +139,18 @@ $form-list: (
 
 
 // Tab
-.cxb-tab-container {
-  box-shadow: $cx-default-box-shadow;
-  height: $cx-default-tab-height;
-}
-
-.cxb-tab {
-  position: relative;
-  height: 100%;
-
+.cxb-tab.cxm-classic {
   &:first-child {
     border-radius: 2px 0 0 2px;
   }
   &:last-child {
     border-radius: 0 2px 2px 0;
   }
+}
+
+.cxb-tab {
+  position: relative;
+  height: 100%;
 }
 
 //Ripple Effect

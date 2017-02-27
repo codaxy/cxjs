@@ -45,7 +45,7 @@ export default <cx>
       </Section>
 
       <Section mod="well" title="Tabs" style="flex:1" preserveWhitespace>
-         <div class="cxb-tab-container "style="white-space:nowrap">
+         <div style="white-space:nowrap">
             <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
@@ -66,7 +66,7 @@ export default <cx>
          bodyStyle="display:flex;flex-direction:column;"
          preserveWhitespace
       >
-         <div style="padding:0 1.5rem;white-space:nowrap;flex-shrink:none">
+         <div class="cxb-classic-tab-container">
             <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>

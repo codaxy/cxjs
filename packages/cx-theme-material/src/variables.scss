@@ -11,7 +11,7 @@ $cx-default-background-color: #fff !default;
 
 $cx-primary-color: #2196F3 !default; 
 $cx-primary-color-light: lighten($cx-primary-color, 5) !default;
-$cx-primary-color-dark: #1976D2 !default;
+$cx-primary-color-dark: darken($cx-primary-color, 5) !default;
 $cx-accent-color: #ffc107 !default;
 $cx-warning-color: #F44336 !default;
 
@@ -39,14 +39,13 @@ $cx-default-button-box-shadow: $cx-default-box-shadow !default;
 $cx-default-button-padding: 10px 20px !default;
 
 //Tab
-$cx-default-tab-color: rgba(255, 255, 255, 0.7) !default;
+$cx-default-tab-color: $cx-secondary-text-color !default;
 $cx-default-tab-font-weight: 500 !default;
-$cx-default-tab-background-color: $cx-primary-color !default;
-$cx-default-tab-border-radius: 0 !default
 $cx-default-tab-padding: 0 25px !default;
-$cx-default-tab-border-width: 0 0 2px !default;
+$cx-default-tab-background-color: transparent !default;
+$cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
-$cx-default-tab-border-radius: 0 !default;
+$cx-default-tab-border-radius: $cx-default-border-radius !default
 $cx-default-tab-height: 40px !default;
 
 //Form
@@ -62,6 +61,11 @@ $cx-default-menu-shadow: $cx-default-box-shadow !default;
 
 //Window
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
+$cx-default-window-header-padding: 10px 20px !default;
+$cx-default-window-header-font-size: 18px !default;
+$cx-default-window-header-color: #fff !default;
+$cx-default-window-header-background-color: $cx-primary-color-dark !default;
+
 
 //Grid
 $cx-default-grid-header-background-color: $cx-primary-color !default;
@@ -109,16 +113,20 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     line-height: $cx-default-tab-height
   ),
   hover: (
-    color: rgba(255, 255, 255, 0.8),
-    background-color: darken($cx-primary-color, 2)
+    color: $cx-default-color
   ),
   hover-focus: (
-    border-color: lighten($cx-primary-color-light, 10),
-    background-color: $cx-default-tab-background-color
+    background-color: rgba(0, 0, 0, 0.1),
+    color: $cx-default-color
+  ),
+  selected: (
+    color: #fff,
+    background-color: $cx-primary-color ,
+    border-color: $cx-accent-color
   ),
   selected-focus: (
     color: #fff,
-    background-color: $cx-default-tab-background-color,
+    background-color: $cx-primary-color-dark,
     border-color: lighten($cx-accent-color, 6)    
   ),
   active: (
@@ -126,35 +134,47 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     background-color: $cx-default-tab-background-color,
     border-color: $cx-accent-color
   ),
-  selected: (
-    color: #fff,
-    background-color: $cx-default-tab-background-color,
-    border-color: $cx-accent-color
-  ),
   disabled: (
-    background-color: $cx-primary-color,
-    color: rgba(255, 255, 255, 0.3)
+    background-color: $cx-default-tab-background-color,
+    color: rgba(0, 0, 0, 0.26)
   )
 ));
 
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   classic: (
     default: (
-      color: rgba(0, 0, 0, 0.7),
-      background-color: transparent,
-      border: none,          
-      border-radius: $cx-default-border-radius
+      color: rgba(255, 255, 255, 0.7),
+      background-color: $cx-primary-color,
+      border-style: solid,
+      border-width: 0 0 2px,
+      border-color: $cx-default-border-color,         
+      border-radius: 0
     ),
-    active: (
-      color: $cx-default-tab-color,
-      background-color: $cx-primary-color      
+    hover: (
+      color: rgba(255, 255, 255, 0.8),
+      background-color: darken($cx-primary-color, 2)
+    ),
+    hover-focus: (
+      color: #fff,
+      background-color: $cx-primary-color-dark
     ),
     selected: (
       color: #fff,
-      background-color: $cx-primary-color      
+      background-color: $cx-primary-color,
+      border-color: $cx-accent-color   
+    ),
+    selected-focus: (
+      color: #fff,
+      background-color: $cx-primary-color,
+      border-color: lighten($cx-accent-color, 6)    
+    ),
+    active: (
+      color: #fff,
+      background-color: $cx-default-tab-background-color,
+      border-color: $cx-accent-color
     ),
     disabled: (
-      color: rgba(0, 0, 0, 0.26)
+      color: rgba(255, 255, 255, 0.3)
     )
   ),
   line: ( 
@@ -304,20 +324,13 @@ $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
       background: white,
-      border-radius: $cx-default-border-radius
+      border-radius: $cx-default-border-radius,
+      box-shadow: $cx-default-window-box-shadow
    )
 ));
 
 $cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
-   default: (
-      background: null,
-      font-size: 1.2rem,
-      color: #24b5d6,
-      font-weight: normal,
-      margin: 0 1.5rem,
-      padding: 1rem 0,
-      border-bottom: 1px solid rgba(128, 128, 128, 0.1)
-   )
+
 ));
 
 $cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
