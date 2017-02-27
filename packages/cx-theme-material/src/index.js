@@ -13,3 +13,7 @@ Localization.override('cx/widgets/MenuItem', {
    }
 });
 
+Localization.override('cx/widgets/Field', {
+   trackFocus: true
+});
+
