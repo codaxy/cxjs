@@ -212,7 +212,8 @@ class LookupComponent extends VDOM.Component {
          value: data.formatted,
          dropdownOpen: false,
          cursorKey: null,
-         visited: data.visited
+         visited: data.visited,
+         focus: false
       };
 
       this.itemStore = new ReadOnlyDataView({
@@ -491,7 +492,8 @@ class LookupComponent extends VDOM.Component {
 
       var states = {
          visited: data.visited || this.state && this.state.visited,
-         icon: !insideButton
+         icon: !insideButton,
+         focus: this.state.focus
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}
@@ -670,12 +672,23 @@ class LookupComponent extends VDOM.Component {
    }
 
    onFocus(e) {
-
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
    }
 
    onBlur(e) {
       if (!this.state.dropdownOpen)
          this.setState({visited: true});
+
+      if (this.state.focus)
+         this.setState({
+            focus: false
+         });
    }
 
    closeDropdown(e) {

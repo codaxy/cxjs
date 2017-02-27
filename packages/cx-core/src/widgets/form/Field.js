@@ -263,6 +263,7 @@ Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
 Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
 Field.prototype.helpSpacer = true;
+Field.prototype.trackFocus = false; //add cxs-focus on parent element
 
 //Field.prototype.pure = false; //validation through context - recheck
 

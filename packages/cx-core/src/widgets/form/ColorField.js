@@ -59,7 +59,8 @@ class ColorInput extends VDOM.Component {
       this.data = data;
       this.state = {
          dropdownOpen: false,
-         visited: data.visited
+         visited: data.visited,
+         focus: false
       };
    }
 
@@ -113,7 +114,10 @@ class ColorInput extends VDOM.Component {
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} />;
 
       return <div
-         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+         className={CSS.expand(data.classNames, CSS.state({
+            visited: data.visited || this.state.visited,
+            focus: this.state.focus
+         }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
          onTouchStart={stopPropagation}
@@ -169,6 +173,14 @@ class ColorInput extends VDOM.Component {
    onFocus(e) {
       if (this.openDropdownOnFocus)
          this.openDropdown(e);
+
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
    }
 
    onKeyDown(e) {
@@ -202,6 +214,10 @@ class ColorInput extends VDOM.Component {
    }
 
    onBlur(e) {
+      if (this.state.focus)
+         this.setState({
+            focus: false
+         });
       this.onChange(e, 'blur');
    }
 
