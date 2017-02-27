@@ -8,10 +8,16 @@ import {dateDiff} from '../../util/date/dateDiff';
 import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
-import { KeyCode } from '../../util';
-import { isTouchDevice } from '../../util';
-import { Localization } from '../../ui/Localization';
+import {
+   tooltipComponentWillReceiveProps,
+   tooltipComponentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipComponentDidMount
+} from '../overlay/Tooltip';
+import {KeyCode} from '../../util';
+import {isTouchDevice} from '../../util';
+import {Localization} from '../../ui/Localization';
 
 export class Calendar extends Field {
 
@@ -77,8 +83,8 @@ export class Calendar extends Field {
 
    renderInput(context, instance, key) {
       return <CalendarCmp key={key}
-                          instance={instance}
-                          handleSelect={(e, date) => this.handleSelect(e, instance, date)}
+         instance={instance}
+         handleSelect={(e, date) => this.handleSelect(e, instance, date)}
       />
    }
 
@@ -144,7 +150,7 @@ export class CalendarCmp extends VDOM.Component {
       var monthDate = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
 
       var startDate = new Date(monthDate);
-      startDate.setDate(1- startDate.getDay());
+      startDate.setDate(1 - startDate.getDay());
 
       var endDate = new Date(monthDate);
       endDate.setMonth(monthDate.getMonth() + 1);
@@ -201,7 +207,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleKeyPress(e) {
-      
+
       var cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
@@ -295,13 +301,13 @@ export class CalendarCmp extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.onFocusOut)
          widget.onFocusOut();
-   } 
+   }
 
    handleMouseLeave(e) {
       tooltipMouseLeave(e, this.props.instance);
       this.setState({
          hover: false
-      }); 
+      });
    }
 
    handleMouseEnter(e) {
@@ -328,7 +334,7 @@ export class CalendarCmp extends VDOM.Component {
 
       tooltipComponentWillReceiveProps(this.el, props.instance);
    }
-   
+
    componentWillUnmount() {
       offFocusOut(this);
       tooltipComponentWillUnmount(this.el);
@@ -364,49 +370,61 @@ export class CalendarCmp extends VDOM.Component {
             });
             let dateInst = new Date(date);
             days.push(<td key={i}
-                          className={classNames}
-                          onMouseMove={e=> {
-                             if (!unselectable)
-                                this.moveCursor(e, dateInst)
-                          }}
-                          onMouseDown={e=> {
-                             if (!unselectable)
-                                this.props.handleSelect(e, dateInst)
-                          }}>
+               className={classNames}
+               onMouseMove={e => {
+                  if (!unselectable)
+                     this.moveCursor(e, dateInst)
+               }}
+               onMouseDown={e => {
+                  if (!unselectable)
+                     this.props.handleSelect(e, dateInst)
+               }}>
                {date.getDate()}</td>);
             date.setDate(date.getDate() + 1);
          }
-         weeks.push(<tr key={weeks.length} className={CSS.element(baseClass, 'week')}>{days}</tr>);
+         weeks.push(<tr key={weeks.length} className={CSS.element(baseClass, 'week')}>
+            <td/>
+            {days}
+            <td />
+         </tr>);
       }
 
       var culture = Culture.getDateTimeCulture();
       var monthNames = culture.getMonthNames('long');
-      var dayNames = culture.getWeekdayNames('short').map(x=>x.substr(0, 2));
+      var dayNames = culture.getWeekdayNames('short').map(x => x.substr(0, 2));
 
       return <div className={data.classNames}
-                  tabIndex={data.disabled ? null : 0}
-                  onKeyDown={e=>this.handleKeyPress(e)}
-                  onMouseDown={e=>e.stopPropagation()}
-                  ref={el=>{this.el = el}}
-                  onMouseMove={e=>tooltipMouseMove(e, this.props.instance)}
-                  onMouseLeave={e=>this.handleMouseLeave(e)}
-                  onMouseEnter={e=>this.handleMouseEnter(e)}
-                  onWheel={e=>this.handleWheel(e)}
-                  onFocus={e=>this.handleFocus(e)}
-                  onBlur={e=>this.handleBlur(e)}
-                  >
+         tabIndex={data.disabled ? null : 0}
+         onKeyDown={e => this.handleKeyPress(e)}
+         onMouseDown={e => e.stopPropagation()}
+         ref={el => {
+            this.el = el
+         }}
+         onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
+         onMouseLeave={e => this.handleMouseLeave(e)}
+         onMouseEnter={e => this.handleMouseEnter(e)}
+         onWheel={e => this.handleWheel(e)}
+         onFocus={e => this.handleFocus(e)}
+         onBlur={e => this.handleBlur(e)}
+      >
          <table>
-            <tbody>
+            <thead>
             <tr key="h" className={CSS.element(baseClass, 'header')}>
-               <td onClick={e=>this.move(e, 'y', -1)}>&laquo;</td>
-               <td onClick={e=>this.move(e, 'm', -1)}>&lsaquo;</td>
+               <td />
+               <td onClick={e => this.move(e, 'y', -1)}>&laquo;</td>
+               <td onClick={e => this.move(e, 'm', -1)}>&lsaquo;</td>
                <th colSpan="3">{monthNames[month]}<br/>{year}</th>
-               <td onClick={e=>this.move(e, 'm', +1)}>&rsaquo;</td>
-               <td onClick={e=>this.move(e, 'y', +1)}>&raquo;</td>
+               <td onClick={e => this.move(e, 'm', +1)}>&rsaquo;</td>
+               <td onClick={e => this.move(e, 'y', +1)}>&raquo;</td>
+               <td />
             </tr>
             <tr key="d" className={CSS.element(baseClass, 'day-names')}>
-               {dayNames.map((name, i)=><th key={i}>{name}</th>)}
+               <td />
+               {dayNames.map((name, i) => <th key={i}>{name}</th>)}
+               <td />
             </tr>
+            </thead>
+            <tbody>
             {weeks}
             </tbody>
          </table>

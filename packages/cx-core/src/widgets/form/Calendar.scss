@@ -57,6 +57,11 @@
          }
       }
 
+      td:first-child, td:last-child {
+         display: none;
+         pointer-events: none;
+      }
+
       &:focus {
 
          td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
