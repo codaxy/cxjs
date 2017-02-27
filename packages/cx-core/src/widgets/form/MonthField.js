@@ -208,7 +208,8 @@ class MonthInput extends VDOM.Component {
       this.data = data;
       this.state = {
          dropdownOpen: false,
-         visited: data.visited
+         visited: data.visited,
+         focus: false
       };
    }
 
@@ -287,7 +288,10 @@ class MonthInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}} />;
 
-      return <div className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
+      return <div className={CSS.expand(data.classNames, CSS.state({
+                     visited: data.visited || this.state.visited,
+                     focus: this.state.focus
+                  }))}
                   style={data.style}
                   onMouseDown={::this.onMouseDown}
                   onTouchStart={stopPropagation}
@@ -335,6 +339,13 @@ class MonthInput extends VDOM.Component {
    }
 
    onFocus(e) {
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
       if (this.openDropdownOnFocus)
          this.openDropdown(e);
    }
@@ -372,6 +383,10 @@ class MonthInput extends VDOM.Component {
    onBlur(e) {
       if (!this.state.dropdownOpen)
          this.setState({visited: true});
+      if (this.state.focus)
+         this.setState({
+            focus: false
+         });
       this.onChange(e, 'blur');
    }
 
