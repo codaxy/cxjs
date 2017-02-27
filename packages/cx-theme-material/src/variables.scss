@@ -2,16 +2,18 @@
 // GLOBAL VARIABLES
 
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
+$cx-secondary-text-color: #757575 !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
-$cx-primary-color: #2196F3 !default; 
-$cx-secondary-color: lighten($cx-primary-color, 5) !default;
-$cx-warning-color: #F44336 !default;
 
-$cx-default-highlight-color: #ffb300 !default;
+$cx-primary-color: #2196F3 !default; 
+$cx-primary-color-light: lighten($cx-primary-color, 5) !default;
+$cx-primary-color-dark: #1976D2 !default;
+$cx-accent-color: #ffc107 !default;
+$cx-warning-color: #F44336 !default;
 
 $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
@@ -89,13 +91,13 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
   hover-focus: (
-    background-color: $cx-default-highlight-color
+    background-color: $cx-accent-color
   ),
   selected: (
-    background-color: lighten($cx-default-highlight-color, 2)
+    background-color: lighten($cx-accent-color, 2)
   ),
   selected-focus: (
-    background-color: darken($cx-default-highlight-color, 8)
+    background-color: darken($cx-accent-color, 8)
   )
 ));
 
@@ -111,23 +113,23 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     background-color: darken($cx-primary-color, 2)
   ),
   hover-focus: (
-    border-color: lighten($cx-secondary-color, 10),
+    border-color: lighten($cx-primary-color-light, 10),
     background-color: $cx-default-tab-background-color
   ),
   selected-focus: (
     color: #fff,
     background-color: $cx-default-tab-background-color,
-    border-color: lighten($cx-default-highlight-color, 6)    
+    border-color: lighten($cx-accent-color, 6)    
   ),
   active: (
     color: #fff,
     background-color: $cx-default-tab-background-color,
-    border-color: $cx-default-highlight-color
+    border-color: $cx-accent-color
   ),
   selected: (
     color: #fff,
     background-color: $cx-default-tab-background-color,
-    border-color: $cx-default-highlight-color
+    border-color: $cx-accent-color
   ),
   disabled: (
     background-color: $cx-primary-color,
@@ -160,7 +162,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: rgba(0, 0, 0, 0.7)
     ),
     selected: (
-      color: $cx-secondary-color,
+      color: $cx-primary-color-light,
       border-color: $cx-primary-color
     ),
     selected-focus: (
