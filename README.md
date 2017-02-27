@@ -1,4 +1,4 @@
-Cx Framework
+Cx.js
 ============
 
 Cx is a feature-rich framework for building modern web applications.
