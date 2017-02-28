@@ -3,8 +3,6 @@ import { batchUpdates } from './batchUpdates';
 
 let subscribers = new SubscriberList();
 
-window.addEventListener('resize', () => ResizeManager.notify());
-
 export class ResizeManager {
    static subscribe(callback) {
       return subscribers.subscribe(callback);
@@ -16,3 +14,6 @@ export class ResizeManager {
       });
    }
 }
+
+if (typeof window != 'undefined')
+   window.addEventListener('resize', () => ResizeManager.notify());

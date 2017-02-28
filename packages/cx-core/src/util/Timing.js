@@ -40,7 +40,7 @@ export class Timing {
 
 var activeFlags = {};
 
-if (window.performance && window.performance.now) {
+if (typeof window != 'undefined' && window.performance && window.performance.now) {
    Timing.now = function () {
       return performance.now();
    };

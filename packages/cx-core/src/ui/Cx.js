@@ -59,7 +59,7 @@ export class Cx extends VDOM.Component {
       Debug.log(appDataFlag, data);
       if (this.flags.preparing)
          this.flags.dirty = true;
-      else if (isBatchingUpdates()) {
+      else if (isBatchingUpdates() || this.props.immediate) {
          this.setState({data: data});
       } else {
          //batch sequential store commands
@@ -80,17 +80,17 @@ export class Cx extends VDOM.Component {
    }
 }
 
-Cx.prototype.subscribe = false;
 
 class CxContext extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.componentWillReceiveProps(props);
       this.renderCount = 0;
+      this.componentWillReceiveProps(props);
    }
 
    componentWillReceiveProps(props) {
+
       this.timings = {
          start: Timing.now()
       };
