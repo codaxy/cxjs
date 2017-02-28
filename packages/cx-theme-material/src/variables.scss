@@ -27,7 +27,7 @@ $cx-default-transition: all 0.2s ease-out !default;
 
 //Box Shadows
 $cx-default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !default;
-$cx-default-box-shadow-elevated: 0 4px 8px rgba(0, 0, 0, 0.30) !default;
+$cx-default-box-shadow-elevated: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
 
 //Buttons
 $cx-default-button-color: $cx-primary-color !default;
@@ -289,13 +289,16 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 // FORM
 // label
 
-//textfield
-$cx-formfield-state-style-map: cx-deep-map-merge($cx-formfield-state-style-map, (
+//standard form field
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
   default: (
-    border-width: 0 0 1px,
-    border-color: #dbdbdb,
+    border-width: 1px,
+    border-color: transparent transparent #dbdbdb,
     border-radius: 0,
     padding: 12px
+  ),
+  hover: (
+    border-color: transparent transparent $cx-primary-color
   ),
   focus: (
     border-color: $cx-primary-color,
