@@ -214,7 +214,7 @@ class DateInput extends VDOM.Component {
 
       if (widget.icon) {
          icon = (
-            <div className={CSS.element(baseClass, 'tool')}>
+            <div className={CSS.element(baseClass, 'left-icon')}>
                { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
             </div>
          );

@@ -13,8 +13,17 @@ import {Icon} from '../Icon';
 import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
+import ClearIcon from '../icons/clear';
 
 export class TextField extends Field {
+
+   init() {
+      if (typeof this.showClear != 'undefined')
+         this.hideClear = !this.showClear;
+
+      super.init();
+   }
+
    declareData() {
       super.declareData({
          value: null,
@@ -65,6 +74,7 @@ TextField.prototype.minLengthValidationErrorText = "Please enter {[{0}-{1}]} mor
 TextField.prototype.maxLengthValidationErrorText = "The entered text is longer than the maximum allowed {0} characters.";
 TextField.prototype.suppressErrorTooltipsUntilVisited = true;
 TextField.prototype.icon = null;
+TextField.prototype.hideClear = true;
 
 Localization.registerPrototype('cx/widgets/TextField', TextField);
 
@@ -90,7 +100,7 @@ class Input extends VDOM.Component {
 
       let icon = widget.icon && (
             <div
-               className={CSS.element(baseClass, 'tool')}
+               className={CSS.element(baseClass, 'left-icon')}
                onMouseDown={preventDefault}
                onClick={e => this.onChange(e, 'enter')}
             >
@@ -100,10 +110,25 @@ class Input extends VDOM.Component {
             </div>
          );
 
+      let insideButton;
+      if (!data.readOnly && !data.disabled) {
+         if (!widget.hideClear && !data.required && data.value != null)
+            insideButton = (
+               <div className={CSS.element(baseClass, 'clear')}
+                  onMouseDown={e => {
+                     this.onClearClick(e);
+                  }}>
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            );
+      }
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: this.state.visited,
-            focus: this.state.focus
+            focus: this.state.focus,
+            icon: widget.icon,
+            clear: insideButton != null
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -131,6 +156,7 @@ class Input extends VDOM.Component {
             onBlur={ ::this.onBlur }
             onClick={stopPropagation}
          />
+         {insideButton}
          {icon}
       </div>
    }
@@ -151,6 +177,10 @@ class Input extends VDOM.Component {
             focus: false
          });
       this.onChange(e, 'blur');
+   }
+
+   onClearClick(e) {
+      this.props.instance.set('value', null);
    }
 
    shouldComponentUpdate(nextProps, nextState) {

@@ -13,6 +13,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
+import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import { KeyCode } from '../../util';
 import {isTouchEvent} from '../../util/isTouchEvent';
@@ -246,25 +247,32 @@ class MonthInput extends VDOM.Component {
       var {data, store, widget} = instance;
       var {CSS, baseClass} = widget;
 
-      var insideButton;
+      let insideButton, icon;
 
-      if (!data.readOnly) {
-         if (!widget.hideClear && !data.required && !data.disabled && (widget.range ? data.from != null : data.value != null)) {
+      if (!data.readOnly && !data.disabled) {
+         if (!widget.hideClear && !data.required && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                    onMouseDown={e=> {
-                       this.onClearClick(e);
-                    }}>
-                  <ClearIcon className={CSS.element(baseClass, 'icon')} />
+                  onMouseDown={e => {
+                     this.onClearClick(e);
+                  }}>
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
-            )
-         } else {
+            );
+         else
             insideButton = (
-               <div className={CSS.element(baseClass, 'tool')}>
-                  { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+               <div className={CSS.element(baseClass, 'right-icon')}>
+                  <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
-            )
-         }
+            );
+      }
+
+      if (widget.icon) {
+         icon = (
+            <div className={CSS.element(baseClass, 'left-icon')}>
+               { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+            </div>
+         );
       }
 
       var dropdown = false;
@@ -293,6 +301,7 @@ class MonthInput extends VDOM.Component {
                 onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
                 onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
          />
+         { icon }
          { insideButton }
          { dropdown }
       </div>;

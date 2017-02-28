@@ -70,19 +70,20 @@ $cx-default-checkbox-size: 14px !default;
 $cx-default-radio-size: 14px !default;
 $cx-default-input-icon-size: $cx-default-icon-size !default;
 
-// Left Icon
+// Tool
+$cx-default-input-tool-size: 20px !default;
 
-$cx-default-input-left-icon-size: 20px !default;
+// Left Icon
 
 $cx-input-left-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
       left: $cx-default-box-padding,
       top: 50%,
-      margin-top: -$cx-default-input-left-icon-size / 2,
-      height: $cx-default-input-left-icon-size,
-      width: $cx-default-input-left-icon-size,
-      line-height: $cx-default-input-left-icon-size,
+      margin-top: -$cx-default-input-tool-size / 2,
+      height: $cx-default-input-tool-size,
+      width: $cx-default-input-tool-size,
+      line-height: $cx-default-input-tool-size,
       opacity: 0.6,
       text-align: center
    ),
@@ -95,10 +96,8 @@ $cx-input-left-icon-state-style-map: (
 ) !default;
 
 
-// Tool
-$cx-default-input-tool-size: 20px !default;
-
-$cx-input-tool-state-style-map: (
+//Right Icon
+$cx-input-right-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
       right: $cx-default-box-padding,
@@ -118,9 +117,7 @@ $cx-input-tool-state-style-map: (
    )
 ) !default;
 
-
 // Clear
-
 $cx-default-clear-size: $cx-default-input-tool-size !default;
 $cx-default-clear-color: gray !default;
 $cx-default-clear-background-hover: rgba(128, 128, 128, 0.2) !default;

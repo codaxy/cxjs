@@ -128,7 +128,7 @@ class ColorInput extends VDOM.Component {
             );
       }
 
-      let well = <div className={CSS.element(baseClass, 'tool')}>
+      let well = <div className={CSS.element(baseClass, 'left-icon')}>
          <div style={{backgroundColor: data.value}}></div>
       </div>;
 
@@ -153,7 +153,7 @@ class ColorInput extends VDOM.Component {
             type="text"
             className={CSS.element(baseClass, 'input')}
             style={data.inputStyle}
-            defaultValue={data.value}
+            defaultValue={this.trim(data.value || '')}
             disabled={data.disabled}
             readOnly={data.readOnly}
             placeholder={data.placeholder}
@@ -267,10 +267,15 @@ class ColorInput extends VDOM.Component {
       }
    }
 
+   trim(value) {
+      return value.replace(/\s/g, '');
+   }
+
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
-      if (data.value != this.input.value && (this.data.value != data.value || !state.inputError)) {
-         this.input.value = data.value || '';
+      let nv = this.trim(data.value || '');
+      if (nv != this.input.value && (this.data.value != data.value || !state.inputError)) {
+         this.input.value = nv;
          props.instance.setState({
             inputError: false
          })

@@ -5,8 +5,8 @@
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $clear-state-style-map: $cx-clear-state-style-map,
-   $tool-state-style-map: $cx-input-left-icon-state-style-map,
-   $right-icon-state-style-map: $cx-input-tool-state-style-map,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $right-icon-state-style-map: $cx-input-right-icon-state-style-map,
    $width: $cx-default-input-width,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
@@ -45,12 +45,11 @@
       @include cxe-field-button($besm, $right-icon-state-style-map);
    }
 
-   .#{$element}#{$name}-tool {
-      @include cxe-field-button($besm, $tool-state-style-map);
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
       @extend %cx-checker-bg;
       box-sizing: border-box;
       opacity: 1;
-      //border: 1px solid #eee;
 
       div {
          width: 100%;
