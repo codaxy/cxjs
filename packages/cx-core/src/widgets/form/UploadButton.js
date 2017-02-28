@@ -46,17 +46,22 @@ class UploadButtonComponent extends VDOM.Component {
       let {widget, data} = instance;
       let {CSS, baseClass} = widget;
 
-      return <div ref={el=>{this.el = el}} className={data.classNames} style={data.style}>
-         <div key="progress"
-              className={CSS.element(baseClass, "progress", {done: this.state.progress == 100})}
-              style={{width: `${this.state.progress}%`}}/>
+      return <div ref={el => {
+         this.el = el
+      }} className={data.classNames} style={data.style}>
+         <div
+            key="progress"
+            className={CSS.element(baseClass, "progress", {done: this.state.progress == 100})}
+            style={{width: `${this.state.progress}%`}}
+         />
          {this.props.children}
          {
-            !data.disabled && <input key={this.uploadKey}
-                                     className={CSS.element(baseClass, "input")}
-                                     type="file"
-                                     onChange={::this.onFileSelected}
-                                     multiple={widget.multiple}/>
+            !data.disabled && <input
+               key={this.uploadKey}
+               className={CSS.element(baseClass, "input")}
+               type="file"
+               onChange={::this.onFileSelected}
+               multiple={widget.multiple}/>
          }
       </div>
    }
