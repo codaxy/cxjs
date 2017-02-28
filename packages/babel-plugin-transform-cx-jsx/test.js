@@ -14,8 +14,6 @@ describe('JSCX', function() {
 
    it("doesn't touch non-wrapped code", function () {
 
-      this.timeout(10000);
-
       var code = `<div id="123" />`;
 
       var output = babel.transform(code, {
@@ -28,8 +26,6 @@ describe('JSCX', function() {
 
    it('converts <cx></cx> to null', function () {
 
-      this.timeout(10000);
-
       var code = `<cx></cx>`;
 
       var output = babel.transform(code, {
@@ -41,8 +37,6 @@ describe('JSCX', function() {
    });
 
    it('allows whitespice within <cx>', function () {
-
-      this.timeout(10000);
 
       var Container = {};
 
@@ -60,8 +54,6 @@ describe('JSCX', function() {
 
    it('converts jsx like to config', function () {
 
-      this.timeout(10000);
-
       var Component = {};
 
       var code = `<cx><Component></Component></cx>`;
@@ -75,8 +67,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx attributes to config properties', function () {
-
-      this.timeout(10000);
+      
       var Component = {};
 
       var code = `<cx><Component id="123"></Component></cx>`;
@@ -91,8 +82,6 @@ describe('JSCX', function() {
 
    it('converts jsx literal attributes to config properties', function () {
 
-      this.timeout(10000);
-
       var code = `<cx><Component id={123}></Component></cx>`;
       var Component = {};
 
@@ -105,8 +94,6 @@ describe('JSCX', function() {
    });
 
    it('converts jsx object attributes to config properties', function () {
-
-      this.timeout(10000);
 
       var Component = {};
       var code = `<cx><Component value={{ x: 1 }}></Component></cx>`;
@@ -121,7 +108,7 @@ describe('JSCX', function() {
 
    it('converts jsx function attributes to config properties', function () {
 
-      this.timeout(10000);
+      
       var Component = {};
 
       var code = `<cx><Component onClick={e=>{}}></Component></cx>`;
@@ -135,7 +122,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx children into children array', function () {
-      this.timeout(10000);
+      
       var Component = {}, Child = {}, GrandChild = {};
 
       var code = `<cx><Component><Child><GrandChild></GrandChild></Child></Component></cx>`;
@@ -152,7 +139,7 @@ describe('JSCX', function() {
    });
 
    it('allows namespaces', function () {
-      this.timeout(10000);
+      
       var ui = {Component: {}};
 
       var code = `<cx><ui.Component/></cx>`;
@@ -168,7 +155,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx text child into text widget', function () {
-      this.timeout(10000);
+      
       var Component = {};
 
       var code = `<cx><Component>Text</Component></cx>`;
@@ -185,7 +172,6 @@ describe('JSCX', function() {
    });
 
    it('converts dot attributes into object configs', function () {
-      this.timeout(10000);
 
       var Component = {};
       var code = `<cx><Component value:bind="name" /></cx>`;
@@ -203,7 +189,6 @@ describe('JSCX', function() {
    });
 
    it('multiple root elements are converted to a config array', function () {
-      this.timeout(10000);
 
       var Component = {}, Component2 = {};
       var code = `<cx><Component /><Component2></Component2></cx>`;
@@ -217,7 +202,6 @@ describe('JSCX', function() {
    });
 
    it('allows expressions as children', function () {
-      this.timeout(10000);
 
       var Component = {};
 
@@ -232,7 +216,6 @@ describe('JSCX', function() {
    });
 
    it('allows props', function () {
-      this.timeout(10000);
 
       var Component = {};
 
@@ -247,7 +230,6 @@ describe('JSCX', function() {
    });
 
    it('allows spread', function () {
-      this.timeout(10000);
 
       var Component = {};
       var test = {a: 1, b: 2};
@@ -263,7 +245,6 @@ describe('JSCX', function() {
    });
 
    it('allows namespaced components', function () {
-      this.timeout(10000);
 
       var Component = { Nested: {} };
 
@@ -278,7 +259,6 @@ describe('JSCX', function() {
    });
 
    it('converts lowercase tags into HtmlElement with tag prop', function () {
-      this.timeout(10000);
 
       var HtmlElement = { };
 
@@ -293,7 +273,6 @@ describe('JSCX', function() {
    });
 
    it('converts jsx elements in attributes', function () {
-      this.timeout(10000);
 
       var Component = {};
       var Layout = {};
@@ -317,7 +296,6 @@ describe('JSCX', function() {
    });
 
    it('converts jsx element arrays in attributes', function () {
-      this.timeout(10000);
 
       var Component = {};
       var Layout = {};
@@ -345,7 +323,6 @@ describe('JSCX', function() {
    });
 
    it('converts jsx elements in structured attributes', function () {
-      this.timeout(10000);
 
       var Component = {};
       var Layout = {};
@@ -371,7 +348,6 @@ describe('JSCX', function() {
    });
 
    it('converts jsx elements within arrays', function () {
-      this.timeout(10000);
 
       var Component = {};
       var Column = {};
@@ -396,8 +372,6 @@ describe('JSCX', function() {
 
    it("doesn't touch empty Cx element", function () {
 
-      this.timeout(10000);
-
       var code = `<Cx id="123" />`;
 
       var output = babel.transform(code, {
@@ -409,8 +383,6 @@ describe('JSCX', function() {
    });
 
    it("converts only inner content of Cx elements", function () {
-
-      this.timeout(10000);
 
       var code = `<Cx><Container class="test" /></Cx>`;
 
