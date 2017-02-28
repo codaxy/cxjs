@@ -4,7 +4,8 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
-   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $clear-state-style-map: $cx-clear-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
    $besm: $cx-besm
@@ -22,16 +23,30 @@
       );
    }
 
+   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
          $state-style-map,
          $placeholder: $placeholder
       );
+
+      .#{$state}icon > & {
+         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+      }
+
+      .#{$state}clear > & {
+         padding-right: cx-calc(cx-right($padding), $cx-default-clear-size);
+      }
    }
 
-   .#{$element}#{$name}-tool {
-      @include cxe-field-button($besm, $tool-state-style-map);
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
    }
 
    .#{$element}#{$name}-icon {

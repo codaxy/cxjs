@@ -17,6 +17,9 @@ import {
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util';
 
+import DropdownIcon from '../icons/drop-down';
+import ClearIcon from '../icons/clear';
+
 export class ColorField extends Field {
 
    declareData() {
@@ -105,7 +108,27 @@ class ColorInput extends VDOM.Component {
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
-      let insideButton = <div className={CSS.element(baseClass, 'tool')}>
+      let insideButton;
+
+      if (!data.readOnly && !data.disabled) {
+         if (!widget.hideClear && !data.required && data.value != null)
+            insideButton = (
+               <div className={CSS.element(baseClass, 'clear')}
+                    onMouseDown={e => {
+                       this.onClearClick(e);
+                    }}>
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            );
+         else
+            insideButton = (
+               <div className={CSS.element(baseClass, 'right-icon')}>
+                  <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            );
+      }
+
+      let well = <div className={CSS.element(baseClass, 'left-icon')}>
          <div style={{backgroundColor: data.value}}></div>
       </div>;
 
@@ -130,7 +153,7 @@ class ColorInput extends VDOM.Component {
             type="text"
             className={CSS.element(baseClass, 'input')}
             style={data.inputStyle}
-            defaultValue={data.value}
+            defaultValue={this.trim(data.value || '')}
             disabled={data.disabled}
             readOnly={data.readOnly}
             placeholder={data.placeholder}
@@ -147,6 +170,7 @@ class ColorInput extends VDOM.Component {
             onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
             onMouseLeave={e => tooltipMouseLeave(e, instance, this.state)}
          />
+         { well }
          { insideButton }
          { dropdown }
       </div>;
@@ -243,10 +267,15 @@ class ColorInput extends VDOM.Component {
       }
    }
 
+   trim(value) {
+      return value.replace(/\s/g, '');
+   }
+
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
-      if (data.value != this.input.value && (this.data.value != data.value || !state.inputError)) {
-         this.input.value = data.value || '';
+      let nv = this.trim(data.value || '');
+      if (nv != this.input.value && (this.data.value != data.value || !state.inputError)) {
+         this.input.value = nv;
          props.instance.setState({
             inputError: false
          })
@@ -267,6 +296,16 @@ class ColorInput extends VDOM.Component {
 
    componentWillUnmount() {
       tooltipComponentWillUnmount(this.input);
+   }
+
+   onClearClick(e) {
+      let {instance} = this.props;
+      instance.set('value', null);
+      instance.setState({
+         inputError: false
+      });
+      e.stopPropagation();
+      e.preventDefault();
    }
 
    onChange(e, eventType) {

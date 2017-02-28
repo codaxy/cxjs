@@ -4,8 +4,11 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
-   $tool-state-style-map: $cx-input-tool-state-style-map,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $right-icon-state-style-map: $cx-input-right-icon-state-style-map,
    $width: $cx-default-input-width,
+   $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -17,6 +20,8 @@
       );
    }
 
+   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
@@ -25,22 +30,35 @@
          $overrides: (
             default: (
                font-family: $cx-default-colorfield-font-family,
-               font-size: 11px
+               font-size: 11px,
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(2 * cx-left($padding), $cx-default-clear-size)
             )
          )
       );
    }
 
-   .#{$element}#{$name}-tool {
-      @include cxe-field-button($besm, $tool-state-style-map);
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-right-icon {
+      @include cxe-field-button($besm, $right-icon-state-style-map);
+   }
+
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
       @extend %cx-checker-bg;
       box-sizing: border-box;
-      border: 1px solid #eee;
+      opacity: 1;
 
       div {
          width: 100%;
          height: 100%;
       }
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
    }
 
    .#{$element}#{$name}-empty-text {

@@ -3,7 +3,7 @@
    $name: 'treenode',
    $icon-size: $cx-default-icon-size,
    $handle-size: $cx-default-input-tool-size,
-   $handle-state-style-map: $cx-input-tool-state-style-map,
+   $handle-state-style-map: $cx-input-right-icon-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);

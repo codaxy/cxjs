@@ -114,5 +114,12 @@ export default {
             are `help` and `help-block`. See [Validation Options](~/examples/form/validation-options)
             for more information.
         </Md></cx>
+    },
+    trackFocus: {
+        type: 'boolean',
+        description: <cx><Md>
+            If set to `true` top level element will get additional CSS class indicating that input is focused.
+            Used for adding special effects on focus. Default is `false`.
+        </Md></cx>
     }
 };

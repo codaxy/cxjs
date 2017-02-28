@@ -19,6 +19,7 @@ import {
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import CalendarIcon from '../icons/calendar';
+import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import ClearIcon from '../icons/clear';
 import {stopPropagation} from '../../util/eventCallbacks';
@@ -91,18 +92,18 @@ export class DateField extends Field {
 
    renderInput(context, instance, key) {
       return <DateInput key={key}
-         instance={instance}
-         calendar={{
-            value: this.value,
-            minValue: this.minValue,
-            maxValue: this.maxValue,
-            minExclusive: this.minExclusive,
-            maxExclusive: this.maxExclusive,
-            maxValueErrorText: this.maxValueErrorText,
-            maxExclusiveErrorText: this.maxExclusiveErrorText,
-            minValueErrorText: this.minValueErrorText,
-            minExclusiveErrorText: this.minExclusiveErrorText
-         }}
+                        instance={instance}
+                        calendar={{
+                           value: this.value,
+                           minValue: this.minValue,
+                           maxValue: this.maxValue,
+                           minExclusive: this.minExclusive,
+                           maxExclusive: this.maxExclusive,
+                           maxValueErrorText: this.maxValueErrorText,
+                           maxExclusiveErrorText: this.maxExclusiveErrorText,
+                           minValueErrorText: this.minValueErrorText,
+                           minExclusiveErrorText: this.minExclusiveErrorText
+                        }}
       />
    }
 
@@ -191,30 +192,38 @@ class DateInput extends VDOM.Component {
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
-      let insideButton;
+      let insideButton, icon;
 
-      if (!data.readOnly) {
-         if (!widget.hideClear && !data.required && data.value != null && !data.disabled) {
+      if (!data.readOnly && !data.disabled) {
+         if (!widget.hideClear && !data.required && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={e => {
-                     this.onClearClick(e);
-                  }}>
+                    onMouseDown={e => {
+                       this.onClearClick(e);
+                    }}>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
-            )
-         } else {
+            );
+         else
             insideButton = (
-               <div className={CSS.element(baseClass, 'tool')}>
-                  { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+               <div className={CSS.element(baseClass, 'right-icon')}>
+                  <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
-            )
-         }
+            );
       }
+
+      if (widget.icon) {
+         icon = (
+            <div className={CSS.element(baseClass, 'left-icon')}>
+               { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+            </div>
+         );
+      }
+
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}} />;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state.visited}))}
@@ -246,6 +255,7 @@ class DateInput extends VDOM.Component {
             onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
             onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
          />
+         { icon }
          { insideButton }
          { dropdown }
       </div>;
