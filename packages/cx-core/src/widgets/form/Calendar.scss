@@ -63,12 +63,10 @@
 
       td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
          @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
-         border-radius: $cx-default-border-radius;
       }
 
       td.#{$state}selected {
          @include cx-add-state-rules($cx-calendar-day-state-style-map, selected);
-         border-radius: $cx-default-border-radius;
       }
 
       &:not(.#{$state}disabled) {

@@ -1,6 +1,6 @@
 
 // GLOBAL VARIABLES
-
+$cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-secondary-text-color: #757575 !default;
 $cx-default-font-weight: 500 !default;
@@ -25,11 +25,15 @@ $cx-default-box-padding: 8px !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
+$cx-default-dropdown-arrow-offset: 26px !default;
+
+$cx-use-box-line-height-fix: false !default;
+
 //Box Shadows
 $cx-default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !default;
 $cx-default-box-shadow-elevated: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
 
-//Buttons
+//BUTTON
 $cx-default-button-color: $cx-primary-color !default;
 $cx-default-button-font-weight: $cx-default-font-weight !default;
 $cx-default-button-background-color: #fff !default;
@@ -38,7 +42,7 @@ $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
 $cx-default-button-padding: 10px 20px !default;
 
-//Tab
+//TAB
 $cx-default-tab-color: $cx-secondary-text-color !default;
 $cx-default-tab-font-weight: 500 !default;
 $cx-default-tab-padding: 0 25px !default;
@@ -48,18 +52,13 @@ $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default
 $cx-default-tab-height: 40px !default;
 
-//Form
-//label
-$cx-default-label-font-size: 12px !default;
-$cx-default-label-color: rgba(0, 0, 0, 38) !default;
-
-//Section
+//SECTION
 $cx-default-section-box-shadow: $cx-default-box-shadow !default;
 
-//Menu
+//MENU
 $cx-default-menu-shadow: $cx-default-box-shadow !default;
 
-//Window
+//WINDOW
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
 $cx-default-window-header-padding: 10px 20px !default;
 $cx-default-window-header-font-size: 18px !default;
@@ -67,22 +66,35 @@ $cx-default-window-header-color: #fff !default;
 $cx-default-window-header-background-color: $cx-primary-color-dark !default;
 
 
-//Grid
+//GRID
 $cx-default-grid-header-background-color: $cx-primary-color !default;
 
-//Toast
+//TOAST
 $cx-default-toast-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !default;
 
-//Forms
+//FORM
 $cx-default-checkbox-size: 16px !default;
 $cx-default-radio-size: 16px !default;
 $cx-default-input-border-color: #eff1f7 !default;
 
-$cx-default-font-family: 'Open Sans', sans-serif !default;
+//label
+$cx-default-label-font-size: 12px !default;
+$cx-default-label-color: rgba(0, 0, 0, 38) !default;
 
-$cx-default-dropdown-arrow-offset: 26px !default;
+//calendar
+$cx-default-calendar-background-color: rgba(247, 247, 247, 0.5) !default;
+$cx-default-calendar-border-width: 0px !default;
+$cx-default-calendar-border-color: $cx-default-input-border-color !default;
+$cx-default-calendar-border-radius: $cx-default-border-radius !default;
+$cx-default-calendar-box-shadow: $cx-default-box-shadow !default;
+$cx-default-calendar-padding: 0 0 10px !default;
 
-$cx-use-box-line-height-fix: false !default;
+$cx-default-calendar-header-font-size: 18px !default;
+$cx-default-calendar-header-color: #fff !default;
+$cx-default-calendar-header-background-color: $cx-primary-color !default;
+
+$cx-default-calendar-day-border-radius: 50% !default;
+
 
 @import "~cx-core/src/variables";
 
@@ -308,19 +320,36 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, 
 ));
 //calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
-  today: (
-    background-color: rgba(255, 179, 0, 0.7),
-    border-radius: 50%
+  focus: (
+    background-color: #f7f7f7,
+    box-shadow: $cx-default-calendar-box-shadow
+  )
+));
+
+$cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
+  default: (
+    font-size: 12px,
+    height: 32px,
+    line-height: 32px,
+    width: 32px
+  ), 
+  hover-focus: (
+    background-color: rgba(33, 150, 243, 0.3)
   ),
-  today-hover: (
-      
+  hover: (
+    background-color: rgba(33, 150, 243, 0.3)
+  ),
+  today: (
+    background-color: rgba(255, 193, 7, 0.6)
   ),
   selected: (
-    border-radius: 50%
+    background-color: $cx-primary-color,
+    color: #fff
   ),
-  outside: (
-    color: lightgray
+  selected-focus: (
+    background-color: $cx-primary-color-dark
   )
+ 
 ));
 
 // WINDOW

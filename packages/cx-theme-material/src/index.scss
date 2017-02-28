@@ -87,53 +87,9 @@ $form-list: (
 }
 //calendar 
 .cxb-calendar {
-  box-shadow: $cx-default-box-shadow;
-  border: none;
-  padding: 0 0 10px;
-  background-color: rgba(247, 247, 247, 0.5);
-
-  .cxe-calendar-header {
-    background-color: $cx-primary-color;
-    color: #fff;
-    font-size: 18px;
-  }
   .cxe-calendar-day-names {
     background-color: $cx-primary-color;
     color: #fff;
-  }
-  .cxe-calendar-week {
-    height: 32px;
-    padding: 0;
-    td {
-      border-radius: 50%;
-      font-size: 12px;
-      height: 32px;
-      line-height: 32px;
-      width: 32px;
-      &:hover {
-        background-color: rgba(33, 150, 243, 0.3);
-      }
-      &.cxs-today {
-        &.cxs-cursor {
-          color: $cx-default-color;
-        }
-      }
-      &.cxs-selected {
-        background-color: $cx-primary-color;
-        color: #fff;
-        &.cxs-cursor {
-          background-color: rgba(33, 150, 243, 0.8)
-        }
-      }
-      &.cxs-cursor {
-        background-color: rgba(33, 150, 243, 0.3);
-      }
-    }
-  }
-
-  &:focus {
-    box-shadow: $cx-default-box-shadow;
-    background-color: #f7f7f7;
   }
 }
 
