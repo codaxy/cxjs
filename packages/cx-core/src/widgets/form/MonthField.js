@@ -250,7 +250,7 @@ class MonthInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (!widget.hideClear && !data.required && data.value != null)
+         if (!widget.hideClear && !data.required && (widget.range ? data.from != null : data.value != null))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={e => {
