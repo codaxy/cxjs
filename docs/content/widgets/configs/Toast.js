@@ -26,5 +26,12 @@ export default {
         description: <cx><Md>
             Base CSS class. Default is `toast`.
         </Md></cx>
+    },
+
+    pad: {
+        type: 'boolean',
+        description: <cx><Md>
+            Add default padding. Default is `true`.
+        </Md></cx>
     }
 };
