@@ -5,7 +5,7 @@ $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-secondary-text-color: #757575 !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
-$cx-default-line-height: 1.5 !default;
+$cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
@@ -20,8 +20,8 @@ $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: 18px !default;
-$cx-default-box-border-width: 2px !default;
-$cx-default-box-padding: 8px !default;
+$cx-default-box-border-width: 1px !default;
+$cx-default-box-padding: 10px !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
@@ -40,16 +40,15 @@ $cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
-$cx-default-button-padding: 10px 20px !default;
 
 //TAB
 $cx-default-tab-color: $cx-secondary-text-color !default;
 $cx-default-tab-font-weight: 500 !default;
-$cx-default-tab-padding: 0 25px !default;
 $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
-$cx-default-tab-border-radius: $cx-default-border-radius !default
+$cx-default-tab-border-radius: $cx-default-border-radius !default;
+$cx-default-tab-padding: $cx-default-box-padding (2 * $cx-default-box-padding + 5px) !default;
 $cx-default-tab-height: 40px !default;
 
 //SECTION
@@ -122,7 +121,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
 $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
   default: (
     text-transform: uppercase,
-    line-height: $cx-default-tab-height
+    line-height: $cx-default-box-line-height
   ),
   hover: (
     color: $cx-default-color
@@ -143,8 +142,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
   ),
   active: (
     color: #fff,
-    background-color: $cx-default-tab-background-color,
-    border-color: $cx-accent-color
+    background-color: $cx-default-tab-background-color
   ),
   disabled: (
     background-color: $cx-default-tab-background-color,
@@ -157,9 +155,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
     default: (
       color: rgba(255, 255, 255, 0.7),
       background-color: $cx-primary-color,
-      border-style: solid,
-      border-width: 0 0 2px,
-      border-color: $cx-default-border-color,         
+      border-width: 0 0 2px,       
       border-radius: 0
     ),
     hover: (
@@ -191,7 +187,8 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   ),
   line: ( 
     default: (
-      color: rgba(0, 0, 0, 0.7)
+      color: rgba(0, 0, 0, 0.7),
+      padding: ($cx-default-box-padding - 1px) (2 * $cx-default-box-padding + 5px) ($cx-default-box-padding - 1px)
     ),
     selected: (
       color: $cx-primary-color-light,
@@ -205,6 +202,41 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
     ),
     hover-focus: (
       border-color: rgba($cx-primary-color, 0.4)
+    )
+  ),
+  /*If a tab is inside a dark-colored container, use mod="line-accent".*/
+  line-accent: (
+    default: (
+      color: rgba(255, 255, 255, 0.7),
+      border-left-color: transparent !important,
+      border-right-color: transparent !important,
+      border-top-color: transparent !important,
+      border-left-width: 0,
+      border-right-width: 0,
+      border-bottom-width: 2px,
+      border-top-width: 0,
+      border-bottom-left-radius: 0,
+      border-bottom-right-radius: 0,
+      padding: ($cx-default-box-padding - 1px) (2 * $cx-default-box-padding + 5px) ($cx-default-box-padding - 1px)
+    ),
+    hover: (
+      border-color: rgba(255, 255, 255, 0.3),
+      background-color: transparent
+    ),
+    hover-focus: (
+      background-color: transparent,
+      border-color: rgba(255, 255, 255, 0.3),
+      color: rgba(255, 255, 255, 0.8)
+    ),
+    selected: (
+      color: #fff,
+      border-color: $cx-accent-color
+    ),
+    selected-focus: (
+      border-color: lighten($cx-accent-color, 10)
+    ),
+    disabled: (
+      color: rgba(255, 255, 255, 0.3)
     )
   )  
 ));
@@ -302,22 +334,22 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 // label
 
 //standard form field
-$cx-std-field-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    border-width: 1px,
+    line-height: $cx-default-box-line-height - 2px,
     border-color: transparent transparent #dbdbdb,
-    border-radius: 0,
-    padding: 12px
+    border-radius: 0
   ),
   hover: (
-    border-color: transparent transparent $cx-primary-color
+    border-color: transparent transparent darken(#dbdbdb, 6)
   ),
   focus: (
-    border-color: $cx-primary-color,
+    border-color: transparent transparent $cx-primary-color,
+    transition: border-color 0.5s ease-out,
     box-shadow: none
-    /*box-shadow: inset 0 -1px 0 0 $cx-primary-color*/
   )  
 ));
+
 //calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
   focus: (

@@ -177,7 +177,7 @@ $cx-label-state-style-map: (
    )
 ) !default;
 
-// STANDARD FORM FIELD
+// STANDARD FORM FIELD (textfield, numberfield, lookupfield, select,...)
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     
 )) !default;

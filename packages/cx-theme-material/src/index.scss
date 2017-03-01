@@ -2,7 +2,7 @@
 @import "~cx-core/src/index";
 
 p {
-  line-height: $cx-default-line-height;
+  line-height: $cx-default-paragraph-line-height;
 }
 
 .cxb-section.cxm-well.cxm-well {
@@ -73,11 +73,8 @@ $form-list: (
       transform: scaleX(0);  
       transition: transform 0.25s ease-in-out;
     }
-    &:hover {
-      .cxe-#{$input} {
-        border-color: $cx-primary-color;
-        transition: border-color 0.4s ease-in-out
-      }
+
+    &.cxs-focus {       
       &:after {
         transform: scaleX(1);
         border-color: $cx-primary-color;
@@ -95,7 +92,15 @@ $form-list: (
 
 
 // Tab
+.cxb-classic-tab-container {
+  box-shadow: $cx-default-box-shadow;
+  height: 2 * $cx-default-box-padding + $cx-default-box-line-height;
+  padding: 0;
+  margin-bottom: 3px;
+}
 .cxb-tab.cxm-classic {
+  height: 100%;
+
   &:first-child {
     border-radius: 2px 0 0 2px;
   }
@@ -106,7 +111,6 @@ $form-list: (
 
 .cxb-tab {
   position: relative;
-  height: 100%;
 }
 
 //Ripple Effect
