@@ -147,6 +147,16 @@ export class LookupField extends Field {
       let textPredicate = getSearchQueryPredicate(query);
       return options.filter(o => typeof o[this.optionTextField] == 'string' && textPredicate(o[this.optionTextField]));
    }
+
+   validateRequired(context, instance) {
+      let {data} = instance;
+      if (this.multiple) {
+         if ((Array.isArray(data.values) && data.values.length > 0) || (Array.isArray(data.records) && data.records.length > 0))
+            return false;
+         return this.requiredText;
+      }
+      return super.validateRequired(context, instance);
+   }
 }
 
 LookupField.prototype.baseClass = "lookupfield";
