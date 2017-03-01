@@ -72,8 +72,8 @@ $cx-default-grid-header-background-color: $cx-primary-color !default;
 $cx-default-toast-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !default;
 
 //FORM
-$cx-default-checkbox-size: 16px !default;
-$cx-default-radio-size: 16px !default;
+$cx-default-checkbox-size: 18px !default;
+$cx-default-radio-size: 18px !default;
 $cx-default-input-border-color: #eff1f7 !default;
 
 //label
@@ -346,7 +346,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   ),
   focus: (
     border-color: transparent transparent $cx-primary-color,
-    transition: border-color 0.5s ease-out,
+    transition: border-color 0.55s ease-in-out,
     box-shadow: none
   )  
 ));

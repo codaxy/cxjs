@@ -48,18 +48,20 @@ p {
 }
 
 
-//Forms 
+//FORM
+
+//std field
 $form-list: (
-  (textfield, textfield-input), 
-  (numberfield, numberfield-input), 
-  (lookupfield,lookupfield-input), 
-  (datefield, datefield-input),
-  (monthfield, monthfield-input),
-  (colorfield, colorfield-input),
-  (select, select-select)
+  textfield
+  numberfield
+  lookupfield
+  datefield
+  monthfield
+  colorfield
+  select
 );
 
-@each $field, $input in $form-list {
+@each $field in $form-list {
   .cxb-#{$field} {
     position: relative;
     overflow: hidden;
@@ -71,7 +73,7 @@ $form-list: (
       border-width: 0 0 1px;
       border-color: transparent;
       transform: scaleX(0);  
-      transition: transform 0.25s ease-in-out;
+      transition: transform 0.35s ease-in-out;
     }
 
     &.cxs-focus {       
@@ -90,11 +92,58 @@ $form-list: (
    
   }
 }
+
 //calendar 
 .cxb-calendar {
   .cxe-calendar-day-names {
     background-color: $cx-primary-color;
     color: #fff;
+  }
+}
+
+//checkbox
+.cxe-checkbox-input  {
+  position: relative;
+  border-width: 2px;
+  border-color: #dbdbdb;
+
+  &:after {
+    content: '';
+    width: 2 * $cx-default-checkbox-size;
+    height: 2 * $cx-default-checkbox-size;
+    position: absolute;
+    left: calc(50% - #{$cx-default-checkbox-size});
+    bottom: calc(50% - #{$cx-default-checkbox-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+  }
+
+   &.cxs-checked {  
+    border-color: $cx-primary-color-light;
+    border-width: 2px;
+    .cxe-checkbox-input-check  {
+      background-color: $cx-primary-color-light;  
+      opacity: 1;
+      path {
+        fill: white;
+      }
+    }
+    &:after {
+      background-color: rgba($cx-primary-color, 0.1);
+    }
+    &:focus {
+      border-color: $cx-primary-color-light;
+    }
+  }
+
+  &:focus {
+    box-shadow: none;
+    border-color: #dbdbdb;
+    
+    &:after {
+      visibility: visible;
+    }
   }
 }
 
