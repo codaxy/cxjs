@@ -117,6 +117,8 @@ $form-list: (
     background-color: rgba(black, 0.05);
     border-radius: 50%;
     visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.2s ease-in-out;
   }
 
    &.cxs-checked {  
@@ -143,6 +145,7 @@ $form-list: (
     
     &:after {
       visibility: visible;
+      transform: scale(1, 1)
     }
   }
 }
