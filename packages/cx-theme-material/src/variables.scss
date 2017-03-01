@@ -336,9 +336,10 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    line-height: $cx-default-box-line-height - 2px,
+    line-height: $cx-default-box-line-height - 1px,
     border-color: transparent transparent #dbdbdb,
-    border-radius: 0
+    border-radius: 0,
+    border-width: 0 0 1px
   ),
   hover: (
     border-color: transparent transparent darken(#dbdbdb, 6)
@@ -350,14 +351,14 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   )  
 ));
 
-//calendar
+//calendar header
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
   focus: (
     background-color: #f7f7f7,
     box-shadow: $cx-default-calendar-box-shadow
   )
 ));
-
+//calendar days
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
   default: (
     font-size: 12px,

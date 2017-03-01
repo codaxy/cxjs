@@ -79,7 +79,15 @@ $form-list: (
         transform: scaleX(1);
         border-color: $cx-primary-color;
       }
+      &.cxs-error.cxs-visited {
+        &:after {
+          transform: scaleX(1);
+          border-color: $cx-warning-color;
+        }
+      }
+
     }
+   
   }
 }
 //calendar 
