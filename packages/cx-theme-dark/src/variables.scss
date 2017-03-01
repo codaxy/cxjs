@@ -1,4 +1,3 @@
-
 // GLOBAL VARIABLES
 $cx-default-font-family: 'Open Sans', sans-serif !default;
 
@@ -83,90 +82,90 @@ $cx-default-palette-stroke-whiten: 10% !default;
 
 // BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
-  hover: (
-    background-color: darken($cx-default-button-background-color, 2),
-    border-color: darken($cx-default-button-background-color, 2),
-    box-shadow:  inset 0 -1px rgb(68, 68, 68)
-  ),
-  active: (
-    background-color: darken($cx-default-background-color-dark, 1),
-    border-color: darken($cx-default-background-color-dark, 1),
-    box-shadow:  inset 0 -1px rgb(30, 30, 30)
-  ),
-  disabled: (
-    color: rgba(255, 255, 255, 0.2),
-    background-color: rgba(112, 112, 112, 0.15),
-    border-color: transparent
-  ),
-  focus: (
-     box-shadow: 0 0 1px 1px $cx-default-highlight-color
-  )
+   hover: (
+      background-color: darken($cx-default-button-background-color, 2),
+      border-color: darken($cx-default-button-background-color, 2),
+      box-shadow: inset 0 -1px rgb(68, 68, 68)
+   ),
+   active: (
+      background-color: darken($cx-default-background-color-dark, 1),
+      border-color: darken($cx-default-background-color-dark, 1),
+      box-shadow: inset 0 -1px rgb(30, 30, 30)
+   ),
+   disabled: (
+      color: rgba(255, 255, 255, 0.2),
+      background-color: rgba(112, 112, 112, 0.15),
+      border-color: transparent
+   ),
+   focus: (
+      box-shadow: 0 0 1px 1px $cx-default-highlight-color
+   )
 ));
 
 $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
-  primary: (
-    default: (
-        color: darken(white, 15),
-        background-color: $cx-primary-button-background-color,
-        border-color: transparent,
-        box-shadow: inset 0 -1px lighten($cx-primary-button-background-color, 3)
-    ),
-    disabled: (
-        background-color: transparentize($cx-primary-button-background-color, 0.7),
-        border-color: transparent,
-        color: transparentize(white, 0.4),
-        box-shadow: none
-    ),
-    hover: (
-        background-color: darken($cx-primary-button-background-color, 3),
-        border-color: transparent,
-        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 1)
-    ),
-    active: (
-        background-color: darken($cx-primary-button-background-color, 8),
-        border-color: transparent,
-        box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 8)
-    )
-  ),
-  hollow: (
-    hover: (
-      background-color: $cx-default-background-color-dark,
-      box-shadow: none,
-      border-color: $cx-default-background-color-dark
-    ),
-    focus: (
-      background-color: darken($cx-default-highlight-color, 8),
-      box-shadow: none,
-      border-color: darken($cx-default-highlight-color, 8)
-    ),
-    active: (
-        background-color: $cx-default-highlight-color,
-        border-color: $cx-default-highlight-color
-    )
-  ),
-  danger: (
-    default: (
-        background-color: $cx-danger-button-background-color,
-        border-color: transparent,
-        box-shadow: inset 0 -1px lighten($cx-danger-button-background-color, 1)
-    ),
-    disabled: (
-        background-color: transparentize($cx-danger-button-background-color, 0.7),
-        border-color: transparent,
-        color: transparentize(white, 0.4),
-        box-shadow: none
-    ),
-    hover: (
-        background-color: darken($cx-danger-button-background-color, 3),
-        border-color:transparent,
-        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 1)
-    ),
-    active: (
-        background-color: darken($cx-danger-button-background-color, 6),
-        border-color: transparent,
-        box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 6)
-    )
-  )   
+   primary: (
+      default: (
+         color: darken(white, 15),
+         background-color: $cx-primary-button-background-color,
+         border-color: transparent,
+         box-shadow: inset 0 -1px lighten($cx-primary-button-background-color, 3)
+      ),
+      disabled: (
+         background-color: transparentize($cx-primary-button-background-color, 0.7),
+         border-color: transparent,
+         color: transparentize(white, 0.4),
+         box-shadow: none
+      ),
+      hover: (
+         background-color: darken($cx-primary-button-background-color, 3),
+         border-color: transparent,
+         box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 1)
+      ),
+      active: (
+         background-color: darken($cx-primary-button-background-color, 8),
+         border-color: transparent,
+         box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 8)
+      )
+   ),
+   hollow: (
+      hover: (
+         background-color: $cx-default-background-color-dark,
+         box-shadow: none,
+         border-color: $cx-default-background-color-dark
+      ),
+      focus: (
+         background-color: darken($cx-default-highlight-color, 8),
+         box-shadow: none,
+         border-color: darken($cx-default-highlight-color, 8)
+      ),
+      active: (
+         background-color: $cx-default-highlight-color,
+         border-color: $cx-default-highlight-color
+      )
+   ),
+   danger: (
+      default: (
+         background-color: $cx-danger-button-background-color,
+         border-color: transparent,
+         box-shadow: inset 0 -1px lighten($cx-danger-button-background-color, 1)
+      ),
+      disabled: (
+         background-color: transparentize($cx-danger-button-background-color, 0.7),
+         border-color: transparent,
+         color: transparentize(white, 0.4),
+         box-shadow: none
+      ),
+      hover: (
+         background-color: darken($cx-danger-button-background-color, 3),
+         border-color:transparent,
+         box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 1)
+      ),
+      active: (
+         background-color: darken($cx-danger-button-background-color, 6),
+         border-color: transparent,
+         box-shadow: inset 0 -1px darken($cx-danger-button-background-color, 6)
+      )
+   )
 ));
 
 // SECTION 
@@ -179,20 +178,20 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 
 // LIST ITEM
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
-  default: (
-  ),
-  hover: (
-    background-color: $cx-default-background-color-dark
-  ),
-  hover-focus: (
-    background-color: darken($cx-default-highlight-color, 12)
-  ),
-  selected: (
-    background-color: darken($cx-default-highlight-color, 9)
-  ),
-  selected-focus: (
-    background-color: $cx-default-highlight-color
-  )
+   default: (
+   ),
+   hover: (
+      background-color: $cx-default-background-color-dark
+   ),
+   hover-focus: (
+      background-color: darken($cx-default-highlight-color, 12)
+   ),
+   selected: (
+      background-color: darken($cx-default-highlight-color, 9)
+   ),
+   selected-focus: (
+      background-color: $cx-default-highlight-color
+   )
 ));
 
 // tab
@@ -202,37 +201,37 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
       background-color: $cx-default-background-color-dark
    ),
    hover-focus: (
-     background-color: darken($cx-default-highlight-color, 12)
+      background-color: darken($cx-default-highlight-color, 12)
    ),
    selected: (
-     background-color: darken($cx-default-highlight-color, 9)
+      background-color: darken($cx-default-highlight-color, 9)
    ),
    selected-focus: (
-     background-color: $cx-default-highlight-color
+      background-color: $cx-default-highlight-color
    ),
    disabled: (
-     background-color: transparent
+      background-color: transparent
    ),
 ));
 
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
-  classic: (
-    selected: (             
-      background-color: lighten($cx-default-background-color-light, 2),
-      border-color: lighten($cx-default-background-color-light, 2)
-    )
-  ),
-  line: (
-    hover-focus: (
-      border-color: darken($cx-default-highlight-color, 12)
-    ),
-    selected: (
-      border-color: darken($cx-default-highlight-color, 3)
-    ),
-    selected-focus: (
-      border-color: $cx-default-highlight-color
-    )
-  )
+   classic: (
+      selected: (
+         background-color: lighten($cx-default-background-color-light, 2),
+         border-color: lighten($cx-default-background-color-light, 2)
+      )
+   ),
+   line: (
+      hover-focus: (
+         border-color: darken($cx-default-highlight-color, 12)
+      ),
+      selected: (
+         border-color: darken($cx-default-highlight-color, 3)
+      ),
+      selected-focus: (
+         border-color: $cx-default-highlight-color
+      )
+   )
 ));
 
 // FORM
@@ -240,7 +239,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    focus: (
       border-color: $cx-default-highlight-color,
       box-shadow: 0 0 2px $cx-default-highlight-color
-   )  
+   )
 ));
 
 // calendar
@@ -268,10 +267,8 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
       box-shadow: none
    ),
    focus: (
-
    ),
    disabled: (
-
    ),
    active: (
       background-color: lighten($cx-default-background-color-light, 6),
@@ -307,7 +304,6 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
 
 // GRID
 
-
 // CHART
 
 // GLOBALS
@@ -315,31 +311,18 @@ $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
       background: #222
    ),
-
    h1: (
-
    ),
-
    h2: (
-
    ),
-
    h3: (
-
    ),
-
    h4: (
-
    ),
-
    h5: (
-
    ),
-
    h6: (
-
    ),
-
    a: (
       color: darken(#9faed2, 4)
    )
