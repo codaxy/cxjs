@@ -1,5 +1,19 @@
 
 // GLOBAL VARIABLES
+
+//Pick a color scheme
+$blue: #2196F3 #ffc107;
+$pink: #e91e63 #ffeb3b;
+$teal: #009688 #cddc39;
+$purple: #9c27b0 #ffeb3b;
+$gray: #607d8b #ffc107;
+$red: #f44336 #ffeb3b;
+$green: #689F38 #ff9800;
+$brown: #795548 #ffc107;
+$black: #212121 #ffeb3b;
+
+$cx-default-color-scheme: $teal !default;
+
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-secondary-text-color: #757575 !default;
@@ -9,10 +23,10 @@ $cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
-$cx-primary-color: #2196F3 !default; 
+$cx-primary-color: nth($cx-default-color-scheme, 1)!default; 
 $cx-primary-color-light: lighten($cx-primary-color, 5) !default;
 $cx-primary-color-dark: darken($cx-primary-color, 5) !default;
-$cx-accent-color: #ffc107 !default;
+$cx-accent-color: nth($cx-default-color-scheme, 2) !default;
 $cx-warning-color: #F44336 !default;
 
 $cx-default-border-color: transparent !default;
