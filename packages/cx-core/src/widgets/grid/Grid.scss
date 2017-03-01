@@ -123,9 +123,12 @@
          }
       }
 
+      &.cxs-tool {
+         transition: padding-left 0.2s;
+      }
+
       &.#{$state}sortable:not(.#{$state}aligned-right) {
          padding-right: cx-calc(5px, $icon-size);
-         transition: padding-left 0.2s;
 
          .#{$element}#{$name}-column-sort-icon {
             right: 2px;

@@ -71,7 +71,7 @@ export class MenuItem extends HtmlElement {
 }
 
 MenuItem.prototype.baseClass = 'menuitem';
-MenuItem.prototype.hoverFocusTimeout = 200;
+MenuItem.prototype.hoverFocusTimeout = 500;
 MenuItem.prototype.clickToOpen = false;
 MenuItem.prototype.horizontal = true;
 MenuItem.prototype.memoize = false;
@@ -79,6 +79,7 @@ MenuItem.prototype.arrow = false;
 MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
+MenuItem.prototype.placement = null; //default dropdown placement
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -106,11 +107,15 @@ class MenuItemComponent extends VDOM.Component {
             ...widget.dropdownOptions,
             relatedElement: this.el.parentElement,
             placementOrder: horizontal ? 'down-right down down-left up-right up up-left' : 'right-down right right-up left-down left left-up',
+            placement: widget.placement,
             controller: controller,
             trackScroll: true,
             inline: true,
             onKeyDown: ::this.onDropdownKeyDown,
-            items: widget.dropdown
+            items: widget.dropdown,
+            pipeValidateDropdownPosition: cb => {
+               this.validateDropdownPosition = cb;
+            }
          });
       }
       return this.dropdown;
@@ -135,23 +140,31 @@ class MenuItemComponent extends VDOM.Component {
          [instance.padding + '-padding']: instance.padding
       }));
 
-      return <div className={classNames}
-                  style={data.style}
-                  tabIndex={widget.dropdown ? 0 : null}
-                  ref={el => {
-                     this.el = el
-                  }}
-                  onKeyDown={::this.onKeyDown}
-                  onMouseDown={::this.onMouseDown}
-                  onMouseEnter={::this.onMouseEnter}
-                  onMouseLeave={::this.onMouseLeave}
-                  onFocus={::this.onFocus}
-                  onClick={::this.onClick}
-                  onBlur={::this.onBlur}>
+      return <div
+         className={classNames}
+         style={data.style}
+         tabIndex={widget.dropdown ? 0 : null}
+         ref={el => {
+            this.el = el
+         }}
+         onKeyDown={::this.onKeyDown}
+         onMouseDown={::this.onMouseDown}
+         onMouseEnter={::this.onMouseEnter}
+         onMouseLeave={::this.onMouseLeave}
+         onFocus={::this.onFocus}
+         onClick={::this.onClick}
+         onBlur={::this.onBlur}
+      >
          {this.props.children}
          {arrow}
          {dropdown}
       </div>
+   }
+
+   componentDidUpdate() {
+      if (this.state.dropdownOpen && this.validateDropdownPosition) {
+         this.validateDropdownPosition();
+      }
    }
 
    onDropdownKeyDown(e) {

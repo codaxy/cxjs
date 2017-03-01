@@ -1,11 +1,19 @@
-import { Grid, HtmlElement, Button, Submenu, Menu, Icon } from "cx/widgets";
-import { Content, Controller, KeySelection } from "cx/ui";
+import { Grid, HtmlElement, Button, Submenu, Menu, Icon, Checkbox, TextField} from "cx/widgets";
+import { Content, Controller, KeySelection, bind } from "cx/ui";
 import { Format } from "cx/util";
 import { casual } from '../../../casual';
 
 class PageController extends Controller {
    init() {
       super.init();
+
+      this.store.init('$page.grid', {
+         columns: {
+            name: { visible: true },
+            continent: { visible: true }
+         }
+      });
+
 
       //init grid data
       this.store.init(
@@ -24,9 +32,19 @@ class PageController extends Controller {
    }
 }
 
+const visibleColumnsMenu = <cx>
+   <Submenu arrow>
+      Columns
+      <Menu putInto="dropdown">
+         <Checkbox value:bind="$page.grid.columns.name.visible" mod="menu">Name</Checkbox>
+         <Checkbox value:bind="$page.grid.columns.continent.visible" mod="menu">Continent</Checkbox>
+      </Menu>
+   </Submenu>
+</cx>;
+
 export default (
    <cx>
-      <div controller={PageController}>
+      <div controller={PageController} style="padding: 20px">
          <Grid
             records:bind="$page.records"
             columns={
@@ -35,18 +53,25 @@ export default (
                      header: {
                         text: "Name",
                         tool: <cx>
-                           <Submenu>
-                              <Icon name="drop-down" />
-                              <Menu putInto="dropdown">
-                                 <a>Item 1</a>
-                              </Menu>
-                           </Submenu>
+                           <Menu horizontal itemPadding="small">
+                              <Submenu placement="down-left">
+                                 <span style="padding: 4px">
+                                    <Icon name="drop-down" />
+                                 </span>
+                                 <Menu putInto="dropdown">
+                                    <TextField mod="menu" placeholder="Filter" />
+                                    <hr/>
+                                    {visibleColumnsMenu}
+                                 </Menu>
+                              </Submenu>
+                           </Menu>
                         </cx>
                      },
                      field: "fullName",
+                     visible: bind('$page.grid.columns.name.visible'),
                      sortable: true
                   },
-                  { header: "Continent", field: "continent", sortable: true },
+                  { header: "Continent", field: "continent", sortable: true, visible: bind('$page.grid.columns.continent.visible'), },
                   { header: "Browser", field: "browser", sortable: true },
                   { header: "OS", field: "os", sortable: true },
                   {

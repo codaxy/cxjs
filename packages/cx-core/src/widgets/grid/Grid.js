@@ -13,7 +13,7 @@ import {ResizeManager} from '../../ui/ResizeManager';
 import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
-import DropDownIcon from '../icons/drop-down';
+import DropDownIcon from '../icons/sort-asc';
 import {
    ddMouseDown,
    ddMouseUp,
