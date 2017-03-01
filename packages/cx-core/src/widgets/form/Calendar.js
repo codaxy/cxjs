@@ -143,6 +143,9 @@ export class CalendarCmp extends VDOM.Component {
          focus: false,
          cursor: zeroTime(data.date || refDate),
       }, this.getPage(refDate))
+
+      this.handleMouseMove = this.handleMouseMove.bind(this);
+      this.handleMouseDown = this.handleMouseDown.bind(this);
    }
 
    getPage(refDate) {
@@ -316,6 +319,14 @@ export class CalendarCmp extends VDOM.Component {
       });
    }
 
+   handleMouseMove(e){
+      this.moveCursor(e, new Date(e.target.dataset.date))
+   }
+
+   handleMouseDown(e){
+      this.props.handleSelect(e, new Date(e.target.dataset.date));
+   }
+
    componentDidMount() {
       //calendar doesn't bring up keyboard so it's ok to focus it even on mobile
       if (this.props.instance.widget.autoFocus)
@@ -371,14 +382,9 @@ export class CalendarCmp extends VDOM.Component {
             let dateInst = new Date(date);
             days.push(<td key={i}
                className={classNames}
-               onMouseMove={e => {
-                  if (!unselectable)
-                     this.moveCursor(e, dateInst)
-               }}
-               onMouseDown={e => {
-                  if (!unselectable)
-                     this.props.handleSelect(e, dateInst)
-               }}>
+               data-date={`${dateInst.getFullYear()}-${dateInst.getMonth()+1}-${dateInst.getDate()}`}
+               onMouseMove={ unselectable ? null : this.handleMouseMove }
+               onMouseDown={ unselectable ? null : this.handleMouseDown }>
                {date.getDate()}</td>);
             date.setDate(date.getDate() + 1);
          }
