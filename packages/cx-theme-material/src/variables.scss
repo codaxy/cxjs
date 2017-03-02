@@ -407,6 +407,9 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
 
 //checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+  default: (
+    opacity: 1
+  ),
   hover: (
     border-color: $cx-default-checkbox-border-color
   ),
