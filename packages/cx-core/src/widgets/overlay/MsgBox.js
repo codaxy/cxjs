@@ -2,8 +2,10 @@ import {Widget} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Window} from './Window';
 import {Button} from '../Button';
+import {Localization} from '../../ui/Localization';
 
 export class MsgBox {
+   
    static alert(options) {
       if (typeof options == 'string')
          options = {
@@ -23,7 +25,7 @@ export class MsgBox {
                     resizable={false} closable={false}>
                {options.message}
                <div putInto="footer">
-                  <Button onClick={callback}>OK</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>OK</Button>
                </div>
             </Window>
          </cx>);
@@ -49,15 +51,14 @@ export class MsgBox {
             else
                resolve(option);
          };
-
          var w = Widget.create(<cx>
             <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
                     resizable={false} closable={false}>
                {options.message}
                <div putInto="footer">
-                  <Button onClick={callback('yes')}>Yes</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>Yes</Button>
                   {' '}
-                  <Button onClick={callback('no')}>No</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>No</Button>
                </div>
             </Window>
          </cx>);
@@ -66,3 +67,6 @@ export class MsgBox {
       });
    }
 }
+
+MsgBox.prototype.buttonMod = null;
+Localization.registerPrototype('cx/widgets/MsgBox', MsgBox);

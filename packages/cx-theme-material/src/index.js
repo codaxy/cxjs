@@ -13,7 +13,12 @@ Localization.override('cx/widgets/MenuItem', {
    }
 });
 
+// enable wrapper focus tracking so appropriate css class can be applied to it
 Localization.override('cx/widgets/Field', {
    trackFocus: true
 });
 
+// set buttonMmod to MsgBox buttons
+Localization.override('cx/widgets/MsgBox', {
+   buttonMod: "flat-color"
+});
