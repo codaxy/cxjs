@@ -22,9 +22,11 @@ import './index.scss';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
 //import Demo from './features/drag-drop/trello';
-import Demo from './features/drag-drop/grid-to-grid';
+//import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
+
+import Demo from './features/grid/header-tool';
 
 let store = new Store();
 
@@ -33,7 +35,7 @@ Widget.resetCounter();
 //Widget.prototype.memoize = false;
 Timing.enable('vdom-render');
 //Timing.enable('app-loop');
-Debug.enable("app-data");
+//Debug.enable("app-data");
 
 
 if (module.hot) {

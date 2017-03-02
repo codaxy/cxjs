@@ -4,6 +4,7 @@ import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../../ui/ResizeManager';
 import {Localization} from '../../ui/Localization';
+import {SubscriberList} from '../../util/SubscriberList';
 
 /*
  Dropdown specific features:
@@ -19,12 +20,21 @@ export class Dropdown extends Overlay {
       })
    }
 
+   initInstance(context, instance) {
+      instance.positionChangeSubcribers = new SubscriberList();
+   }
+
+   explore(context, instance) {
+      let parentPositionChangeEvent = context.parentPositionChangeEvent;
+      context.parentPositionChangeEvent = instance.positionChangeSubcribers;
+      super.explore(context, instance);
+      context.parentPositionChangeEvent = parentPositionChangeEvent;
+   }
+
    overlayDidMount(instance, component) {
       super.overlayDidMount(instance, component);
       var scrollableParents = component.scrollableParents = [window];
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
-
-      this.updateDropdownPosition(instance, component);
 
       var el = this.relatedElement.parentElement;
       while (el) {
@@ -38,6 +48,12 @@ export class Dropdown extends Overlay {
 
       if (this.onDropdownDidMount)
          this.onDropdownDidMount(instance, component);
+
+      if (this.pipeValidateDropdownPosition)
+         this.pipeValidateDropdownPosition(component.updateDropdownPosition);
+
+      if (this.parentPositionChangeEvent)
+         component.offParentPositionChange = this.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
    }
 
    overlayDidUpdate(instance, component) {
@@ -55,12 +71,20 @@ export class Dropdown extends Overlay {
       }
       if (component.offResize)
          component.offResize();
+
+      if (this.pipeValidateDropdownPosition)
+         this.pipeValidateDropdownPosition(null);
+
+      if (component.offParentPositionChange)
+         component.offParentPositionChange();
+
+      delete component.parentBounds;
    }
 
    updateDropdownPosition(instance, component) {
       var {el} = component;
       var {data} = instance;
-      var parentBounds = this.relatedElement.getBoundingClientRect();
+      var parentBounds = component.parentBounds = this.relatedElement.getBoundingClientRect();
 
       if (this.pad && typeof this.elementExplode == 'number') {
          parentBounds = {
@@ -110,6 +134,8 @@ export class Dropdown extends Overlay {
 
       if (this.onDropdownPositionDidUpdate)
          this.onDropdownPositionDidUpdate(instance, component);
+
+      instance.positionChangeSubcribers.notify();
    }
 
    applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el) {
@@ -140,7 +166,7 @@ export class Dropdown extends Overlay {
 
          case 'down-left':
             style.top = `${rel.bottom + this.offset}px`;
-            style.right = `${window.innerWidth - rel.right}px`;
+            style.right = `${document.documentElement.offsetWidth - rel.right}px`;
             style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
                ? pad
                : 'auto';
@@ -151,21 +177,21 @@ export class Dropdown extends Overlay {
          case 'up-center':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
             style.left = `${(rel.left + rel.right - el.offsetWidth) / 2}px`;
             break;
 
          case 'up-right':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
             style.left = `${rel.left}px`;
             break;
 
          case 'up-left':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
-            style.right = `${window.innerWidth - rel.right}px`;
-            style.bottom = `${window.innerHeight - rel.top + this.offset}px`;
+            style.right = `${document.documentElement.offsetWidth - rel.right}px`;
+            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
             style.left = 'auto';
             break;
 
@@ -187,39 +213,39 @@ export class Dropdown extends Overlay {
          case 'right-up':
             style.top = 'auto';
             style.right = 'auto';
-            style.bottom = `${window.innerHeight - rel.bottom}px`;
+            style.bottom = `${document.documentElement.offsetHeight - rel.bottom}px`;
             style.left = `${rel.right + this.offset}px`;
             break;
 
          case 'left':
          case 'left-center':
             style.top = `${(rel.top + rel.bottom - el.offsetHeight) / 2}px`;
-            style.right = `${window.innerWidth - rel.left + this.offset}px`;
+            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-down':
             style.top = `${rel.top}px`;
-            style.right = `${window.innerWidth - rel.left + this.offset}px`;
+            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
             style.bottom = 'auto';
             style.left = 'auto';
             break;
 
          case 'left-up':
             style.top = 'auto';
-            style.right = `${window.innerWidth - rel.left + this.offset}px`;
-            style.bottom = `${window.innerHeight - rel.bottom}px`;
+            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - rel.bottom}px`;
             style.left = 'auto';
             break;
 
          case 'screen-center':
-            var w = Math.min(contentSize.width, window.innerWidth - 2 * this.screenPadding);
-            var h = Math.min(contentSize.height, window.innerHeight - 2 * this.screenPadding);
-            style.top = `${(window.innerHeight - h) / 2}px`;
-            style.right = `${(window.innerWidth - w) / 2}px`;
-            style.bottom = `${(window.innerHeight - h) / 2}px`;
-            style.left = `${(window.innerWidth - w) / 2}px`;
+            var w = Math.min(contentSize.width, document.documentElement.offsetWidth - 2 * this.screenPadding);
+            var h = Math.min(contentSize.height, document.documentElement.offsetHeight - 2 * this.screenPadding);
+            style.top = `${(document.documentElement.offsetHeight - h) / 2}px`;
+            style.right = `${(document.documentElement.offsetWidth - w) / 2}px`;
+            style.bottom = `${(document.documentElement.offsetHeight - h) / 2}px`;
+            style.left = `${(document.documentElement.offsetWidth - w) / 2}px`;
             break;
       }
    }
@@ -485,7 +511,6 @@ export class Dropdown extends Overlay {
 
 Dropdown.prototype.offset = 0;
 Dropdown.prototype.baseClass = 'dropdown';
-Dropdown.prototype.placement = undefined;
 Dropdown.prototype.matchWidth = true;
 Dropdown.prototype.placementOrder = 'up down right left';
 Dropdown.prototype.placement = null; //default placement
@@ -506,7 +531,7 @@ function getViewportRect(padding = 0) {
    return {
       left: padding,
       top: padding,
-      right: window.innerWidth - padding,
-      bottom: window.innerHeight - padding
+      right: document.documentElement.offsetWidth - padding,
+      bottom: document.documentElement.offsetHeight - padding
    }
 }

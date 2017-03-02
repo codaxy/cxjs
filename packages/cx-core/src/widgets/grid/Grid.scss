@@ -123,11 +123,23 @@
          }
       }
 
+      &.cxs-tool {
+         transition: padding-left 0.2s;
+      }
+
       &.#{$state}sortable:not(.#{$state}aligned-right) {
          padding-right: cx-calc(5px, $icon-size);
 
          .#{$element}#{$name}-column-sort-icon {
             right: 2px;
+         }
+
+         &.cxs-tool.cxs-sorted-asc, &.cxs-tool.cxs-sorted-desc {
+            padding-left: cx-calc(5px, $icon-size);
+
+            .#{$element}#{$name}-column-sort-icon {
+               left: 2px;
+            }
          }
       }
 
@@ -361,6 +373,13 @@
 
          cursor: pointer;
       }
+   }
+
+   &.#{$element}#{$name}-col-header-tool {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
    }
 }
 

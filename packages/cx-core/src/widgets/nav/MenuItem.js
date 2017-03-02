@@ -29,6 +29,8 @@ export class MenuItem extends HtmlElement {
          instance.padding = lastMenu.itemPadding;
       }
 
+      instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
+
       if (!instance.padding && this.pad == true)
          instance.padding = 'medium';
 
@@ -71,7 +73,7 @@ export class MenuItem extends HtmlElement {
 }
 
 MenuItem.prototype.baseClass = 'menuitem';
-MenuItem.prototype.hoverFocusTimeout = 200;
+MenuItem.prototype.hoverFocusTimeout = 500;
 MenuItem.prototype.clickToOpen = false;
 MenuItem.prototype.horizontal = true;
 MenuItem.prototype.memoize = false;
@@ -79,6 +81,7 @@ MenuItem.prototype.arrow = false;
 MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
+MenuItem.prototype.placement = null; //default dropdown placement
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -99,18 +102,23 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    getDropdown() {
-      let {horizontal, controller, widget} = this.props.instance;
+      let {horizontal, controller, widget, parentPositionChangeEvent} = this.props.instance;
       if (!this.dropdown && widget.dropdown) {
          this.dropdown = Widget.create(Dropdown, {
             matchWidth: false,
             ...widget.dropdownOptions,
             relatedElement: this.el.parentElement,
             placementOrder: horizontal ? 'down-right down down-left up-right up up-left' : 'right-down right right-up left-down left left-up',
+            placement: widget.placement,
             controller: controller,
             trackScroll: true,
             inline: true,
             onKeyDown: ::this.onDropdownKeyDown,
-            items: widget.dropdown
+            items: widget.dropdown,
+            parentPositionChangeEvent,
+            pipeValidateDropdownPosition: cb => {
+               this.validateDropdownPosition = cb;
+            }
          });
       }
       return this.dropdown;
@@ -118,15 +126,15 @@ class MenuItemComponent extends VDOM.Component {
 
    render() {
 
-      var {instance, data} = this.props;
-      var {store, widget} = instance;
-      var {CSS, baseClass} = widget;
-      var dropdown = this.state.dropdownOpen
+      let {instance, data} = this.props;
+      let {store, widget} = instance;
+      let {CSS, baseClass} = widget;
+      let dropdown = this.state.dropdownOpen
          && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}}/>;
 
-      var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
+      let arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
-      var classNames = CSS.expand(data.classNames, CSS.state({
+      let classNames = CSS.expand(data.classNames, CSS.state({
          open: this.state.dropdownOpen,
          horizontal: instance.horizontal,
          vertical: !instance.horizontal,
@@ -135,28 +143,36 @@ class MenuItemComponent extends VDOM.Component {
          [instance.padding + '-padding']: instance.padding
       }));
 
-      return <div className={classNames}
-                  style={data.style}
-                  tabIndex={widget.dropdown ? 0 : null}
-                  ref={el => {
-                     this.el = el
-                  }}
-                  onKeyDown={::this.onKeyDown}
-                  onMouseDown={::this.onMouseDown}
-                  onMouseEnter={::this.onMouseEnter}
-                  onMouseLeave={::this.onMouseLeave}
-                  onFocus={::this.onFocus}
-                  onClick={::this.onClick}
-                  onBlur={::this.onBlur}>
+      return <div
+         className={classNames}
+         style={data.style}
+         tabIndex={widget.dropdown ? 0 : null}
+         ref={el => {
+            this.el = el
+         }}
+         onKeyDown={::this.onKeyDown}
+         onMouseDown={::this.onMouseDown}
+         onMouseEnter={::this.onMouseEnter}
+         onMouseLeave={::this.onMouseLeave}
+         onFocus={::this.onFocus}
+         onClick={::this.onClick}
+         onBlur={::this.onBlur}
+      >
          {this.props.children}
          {arrow}
          {dropdown}
       </div>
    }
 
+   componentDidUpdate() {
+      if (this.state.dropdownOpen && this.validateDropdownPosition) {
+         this.validateDropdownPosition();
+      }
+   }
+
    onDropdownKeyDown(e) {
       Debug.log(menuFlag, 'MenuItem', 'dropdownKeyDown');
-      var {horizontal} = this.props.instance;
+      let {horizontal} = this.props.instance;
       if (e.keyCode == KeyCode.esc || (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left)) {
          FocusManager.focus(this.el);
          e.preventDefault();
@@ -288,5 +304,8 @@ class MenuItemComponent extends VDOM.Component {
    componentWillUnmount() {
       this.clearAutoFocusTimer();
       offFocusOut(this);
+
+      if (this.offParentPositionChange)
+         this.offParentPositionChange();
    }
 }

@@ -13,7 +13,7 @@ import {ResizeManager} from '../../ui/ResizeManager';
 import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
-import DropDownIcon from '../icons/drop-down';
+import DropDownIcon from '../icons/sort-asc';
 import {
    ddMouseDown,
    ddMouseUp,
@@ -330,7 +330,7 @@ export class Grid extends Widget {
                continue;
 
             let header = columnInstance[`header${l + 1}`];
-            let colSpan, rowSpan, style, cls, mods = [], content, sortIcon;
+            let colSpan, rowSpan, style, cls, mods = [], content, sortIcon, tool;
 
             if (header) {
                empty[l] = false;
@@ -354,6 +354,13 @@ export class Grid extends Widget {
                   cls = header.data.classNames;
 
                content = header.render(context);
+
+               if (header.components && header.components.tool) {
+                  tool = <div
+                     className={CSS.element(baseClass, 'col-header-tool')}>{getContent(header.components.tool.render(context))}
+                  </div>;
+                  mods.push('tool');
+               }
 
                if (fixed && originalRefs[colKey]) {
                   style = {...style, width: originalRefs[colKey].offsetWidth + 'px'}
@@ -379,9 +386,11 @@ export class Grid extends Widget {
                rowSpan={rowSpan}
                className={cls}
                style={style}
-               onClick={e => this.onHeaderClick(e, c, instance, l)}>
+               onClick={e => this.onHeaderClick(e, c, instance, l)}
+            >
                {getContent(content)}
                {sortIcon}
+               {tool}
             </th>);
          }
       });
@@ -1100,6 +1109,12 @@ class GridColumnHeader extends PureContainer {
          className: {structured: true},
          colSpan: undefined,
          rowSpan: undefined
+      })
+   }
+
+   initComponents() {
+      return super.initComponents(...arguments, {
+         tool: this.tool && Widget.create(this.tool)
       })
    }
 
