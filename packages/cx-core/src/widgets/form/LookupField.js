@@ -26,6 +26,7 @@ import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
 import { KeyCode } from '../../util';
 import { Localization } from '../../ui/Localization';
 import { StringTemplate } from '../../data/StringTemplate';
+import { Icon } from '../Icon';
 
 export class LookupField extends Field {
 
@@ -179,6 +180,7 @@ LookupField.prototype.cacheAll = false;
 LookupField.prototype.hideClear = false;
 LookupField.prototype.closeOnSelect = true;
 LookupField.prototype.minQueryLengthMessageText = 'Please type in at least {0} character(s) to start the search.';
+LookupField.prototype.icon = null;
 
 Localization.registerPrototype('cx/widgets/LookupField', LookupField);
 
@@ -439,6 +441,22 @@ class LookupComponent extends VDOM.Component {
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
 
+      let icon = widget.icon && (
+            <div
+               className={CSS.element(baseClass, 'left-icon')}
+               onMouseDown={preventDefault}
+               onClick={e => {
+                  this.openDropdown(e);
+                  e.stopPropagation();
+                  e.preventDefault();
+               }}
+            >
+               {
+                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+               }
+            </div>
+         );
+
       var dropdown;
       if (this.state.dropdownOpen) {
          this.itemStore.setData({
@@ -502,8 +520,8 @@ class LookupComponent extends VDOM.Component {
 
       var states = {
          visited: data.visited || this.state && this.state.visited,
-         icon: !insideButton,
-         focus: this.state.focus
+         focus: this.state.focus,
+         icon: !insideButton || widget.icon
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}
@@ -528,6 +546,7 @@ class LookupComponent extends VDOM.Component {
             {text}
          </div>
          { insideButton }
+         { icon }
          { dropdown }
       </div>;
    }
