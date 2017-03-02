@@ -8,11 +8,11 @@ $teal: #009688 #cddc39;
 $purple: #9c27b0 #ffeb3b;
 $gray: #607d8b #ffc107;
 $red: #f44336 #ffeb3b;
-$green: #689F38 #ff9800;
+$green: #4caf50 #ff9800;
 $brown: #795548 #ffc107;
 $black: #212121 #ffeb3b;
 
-$cx-default-color-scheme: $teal !default;
+$cx-default-color-scheme: $blue !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
@@ -50,7 +50,7 @@ $cx-default-box-shadow-elevated: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
 //BUTTON
 $cx-default-button-color: $cx-primary-color !default;
 $cx-default-button-font-weight: $cx-default-font-weight !default;
-$cx-default-button-background-color: #fff !default;
+$cx-default-button-background-color: #f6f6f6 !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
@@ -108,6 +108,9 @@ $cx-default-calendar-header-background-color: $cx-primary-color !default;
 
 $cx-default-calendar-day-border-radius: 50% !default;
 
+//checkbox
+$cx-default-checkbox-border-width: 2px !default;  
+$cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
 @import "~cx-core/src/variables";
 
@@ -141,7 +144,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     color: $cx-default-color
   ),
   hover-focus: (
-    background-color: rgba(0, 0, 0, 0.1),
+      background-color: rgba($cx-primary-color, 0.2),
     color: $cx-default-color
   ),
   selected: (
@@ -177,8 +180,8 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       background-color: darken($cx-primary-color, 2)
     ),
     hover-focus: (
-      color: #fff,
-      background-color: $cx-primary-color-dark
+      color: rgba(255, 255, 255, 0.85),
+      border-color: rgba($cx-accent-color , 0.7)
     ),
     selected: (
       color: #fff,
@@ -290,6 +293,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
     ),
     hover: (
+      background-color: $cx-primary-color,
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4)
     ),
     focus: (
@@ -365,7 +369,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   )  
 ));
 
-//calendar header
+//calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
   focus: (
     background-color: #f7f7f7,
@@ -395,8 +399,28 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
   ),
   selected-focus: (
     background-color: $cx-primary-color-dark
+  ) 
+));
+
+//checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+  default: (
+    opacity: 1
+  ),
+  hover: (
+    border-color: $cx-default-checkbox-border-color
+  ),
+  focus: (
+    box-shadow: none,
+    border-color: #dbdbdb
+  ),
+  checked: (
+    background-color: $cx-primary-color-light,
+    border-color: $cx-primary-color-light
+  ),
+  checked-focus: (
+    border-color: $cx-primary-color-light
   )
- 
 ));
 
 // WINDOW

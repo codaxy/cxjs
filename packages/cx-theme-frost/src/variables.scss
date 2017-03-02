@@ -118,7 +118,13 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
    )
 ));
 
-//Calendar
+//calendar
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+  hover: (
+    border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+  )  
+));
+
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
   hover-focus: (
     background-color: $cx-default-highlight-color
@@ -130,6 +136,14 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
     background-color: darken($cx-default-highlight-color, 8)
   )
 ));
+
+//checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+  default: (
+    opacity: 1
+  ) 
+));
+
 
 //globals
 
