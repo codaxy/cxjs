@@ -29,6 +29,8 @@ export class MenuItem extends HtmlElement {
          instance.padding = lastMenu.itemPadding;
       }
 
+      instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
+
       if (!instance.padding && this.pad == true)
          instance.padding = 'medium';
 
@@ -100,7 +102,7 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    getDropdown() {
-      let {horizontal, controller, widget} = this.props.instance;
+      let {horizontal, controller, widget, parentPositionChangeEvent} = this.props.instance;
       if (!this.dropdown && widget.dropdown) {
          this.dropdown = Widget.create(Dropdown, {
             matchWidth: false,
@@ -113,6 +115,7 @@ class MenuItemComponent extends VDOM.Component {
             inline: true,
             onKeyDown: ::this.onDropdownKeyDown,
             items: widget.dropdown,
+            parentPositionChangeEvent,
             pipeValidateDropdownPosition: cb => {
                this.validateDropdownPosition = cb;
             }
@@ -123,15 +126,15 @@ class MenuItemComponent extends VDOM.Component {
 
    render() {
 
-      var {instance, data} = this.props;
-      var {store, widget} = instance;
-      var {CSS, baseClass} = widget;
-      var dropdown = this.state.dropdownOpen
+      let {instance, data} = this.props;
+      let {store, widget} = instance;
+      let {CSS, baseClass} = widget;
+      let dropdown = this.state.dropdownOpen
          && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}}/>;
 
-      var arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
+      let arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
-      var classNames = CSS.expand(data.classNames, CSS.state({
+      let classNames = CSS.expand(data.classNames, CSS.state({
          open: this.state.dropdownOpen,
          horizontal: instance.horizontal,
          vertical: !instance.horizontal,
@@ -169,7 +172,7 @@ class MenuItemComponent extends VDOM.Component {
 
    onDropdownKeyDown(e) {
       Debug.log(menuFlag, 'MenuItem', 'dropdownKeyDown');
-      var {horizontal} = this.props.instance;
+      let {horizontal} = this.props.instance;
       if (e.keyCode == KeyCode.esc || (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left)) {
          FocusManager.focus(this.el);
          e.preventDefault();
@@ -301,5 +304,8 @@ class MenuItemComponent extends VDOM.Component {
    componentWillUnmount() {
       this.clearAutoFocusTimer();
       offFocusOut(this);
+
+      if (this.offParentPositionChange)
+         this.offParentPositionChange();
    }
 }

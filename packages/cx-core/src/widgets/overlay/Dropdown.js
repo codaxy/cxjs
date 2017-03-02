@@ -4,6 +4,7 @@ import {findFirst, isFocusable, getFocusedElement} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../../ui/ResizeManager';
 import {Localization} from '../../ui/Localization';
+import {SubscriberList} from '../../util/SubscriberList';
 
 /*
  Dropdown specific features:
@@ -19,12 +20,21 @@ export class Dropdown extends Overlay {
       })
    }
 
+   initInstance(context, instance) {
+      instance.positionChangeSubcribers = new SubscriberList();
+   }
+
+   explore(context, instance) {
+      let parentPositionChangeEvent = context.parentPositionChangeEvent;
+      context.parentPositionChangeEvent = instance.positionChangeSubcribers;
+      super.explore(context, instance);
+      context.parentPositionChangeEvent = parentPositionChangeEvent;
+   }
+
    overlayDidMount(instance, component) {
       super.overlayDidMount(instance, component);
       var scrollableParents = component.scrollableParents = [window];
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
-
-      this.updateDropdownPosition(instance, component);
 
       var el = this.relatedElement.parentElement;
       while (el) {
@@ -40,9 +50,10 @@ export class Dropdown extends Overlay {
          this.onDropdownDidMount(instance, component);
 
       if (this.pipeValidateDropdownPosition)
-         this.pipeValidateDropdownPosition(() => {
-            this.validateDropdownPosition(instance, component)
-         });
+         this.pipeValidateDropdownPosition(component.updateDropdownPosition);
+
+      if (this.parentPositionChangeEvent)
+         component.offParentPositionChange = this.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
    }
 
    overlayDidUpdate(instance, component) {
@@ -63,22 +74,17 @@ export class Dropdown extends Overlay {
 
       if (this.pipeValidateDropdownPosition)
          this.pipeValidateDropdownPosition(null);
-   }
 
-   validateDropdownPosition(instance, component) {
-      var pb = this.relatedElement.getBoundingClientRect();
-      let ob = this.parentBounds;
-      console.log("Validate", component.el, this.relatedElement, pb, ob);
-      if (pb.left != ob.left || pb.right != ob.right || pb.top != ob.top || pb.bottom != ob.bottom) {
-         console.log('UPDATE');
-         this.updateDropdownPosition(instance, component);
-      }
+      if (component.offParentPositionChange)
+         component.offParentPositionChange();
+
+      delete component.parentBounds;
    }
 
    updateDropdownPosition(instance, component) {
       var {el} = component;
       var {data} = instance;
-      var parentBounds = this.parentBounds = this.relatedElement.getBoundingClientRect();
+      var parentBounds = component.parentBounds = this.relatedElement.getBoundingClientRect();
 
       if (this.pad && typeof this.elementExplode == 'number') {
          parentBounds = {
@@ -128,6 +134,8 @@ export class Dropdown extends Overlay {
 
       if (this.onDropdownPositionDidUpdate)
          this.onDropdownPositionDidUpdate(instance, component);
+
+      instance.positionChangeSubcribers.notify();
    }
 
    applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el) {
