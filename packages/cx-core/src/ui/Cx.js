@@ -98,7 +98,7 @@ class CxContext extends VDOM.Component {
       let {context, instance} = props;
       let count = 0, visible;
 
-      this.props.flags.preparing = false;
+      this.props.flags.preparing = true;
 
       do {
          this.props.flags.dirty = false;
