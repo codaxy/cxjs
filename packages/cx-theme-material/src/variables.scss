@@ -12,7 +12,7 @@ $green: #4caf50 #ff9800;
 $brown: #795548 #ffc107;
 $black: #212121 #ffeb3b;
 
-$cx-default-color-scheme: $teal !default;
+$cx-default-color-scheme: $gray !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
@@ -106,6 +106,7 @@ $cx-default-calendar-header-font-size: 18px !default;
 $cx-default-calendar-header-color: #fff !default;
 $cx-default-calendar-header-background-color: $cx-primary-color !default;
 
+$cx-default-calendar-day-font-size: 11px !default;
 $cx-default-calendar-day-border-radius: 50% !default;
 
 //checkbox
@@ -268,8 +269,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
   default: (
     transition: $cx-default-transition,
     text-transform: uppercase,
-    font-weight: $cx-default-button-font-weight,
-    margin: 8px
+    font-weight: $cx-default-button-font-weight
   ),
   hover: (
      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4)
@@ -386,7 +386,6 @@ $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
 //calendar days
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
   default: (
-    font-size: 12px,
     height: 32px,
     line-height: 32px,
     width: 32px

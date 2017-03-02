@@ -13,6 +13,7 @@ $cx-default-calendar-header-color: $cx-default-color !default;
 $cx-default-calendar-header-background-color: transparent !default;
 
 //day
+$cx-default-calendar-day-font-size: $cx-default-calendar-font-size !default;
 $cx-default-calendar-day-border-radius: $cx-default-calendar-border-radius !default;
 
 // CALENDAR
@@ -47,7 +48,8 @@ $cx-calendar-state-style-map: (
 $cx-calendar-day-state-style-map: (
   default: (
     background-color: transparent,
-    border-radius: $cx-default-calendar-day-border-radius
+    border-radius: $cx-default-calendar-day-border-radius,
+    font-size: $cx-default-calendar-day-font-size
   ),
   hover: (
     background-color: rgba(128, 128, 128, 0.1),
@@ -66,10 +68,10 @@ $cx-calendar-day-state-style-map: (
   ),
   hover-focus: (
     background-color: rgba(123, 190, 255, 0.15),
-    outline: none,
+    outline: none
   ),
   selected: (
-    background-color: rgba(123,190,255, 0.2),
+    background-color: rgba(123,190,255, 0.2)
   ),
   selected-focus: (
     background-color: rgba(123,190,255, 0.45),
