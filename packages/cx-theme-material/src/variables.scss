@@ -338,7 +338,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       color: rgba(255, 255, 255, 0.45)
     )
   ),
-  hollow-colored: (
+  flat-color: (
     default: (
         background-color: transparent,
         border-color: transparent,
