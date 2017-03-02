@@ -4,8 +4,9 @@ import FolderIcon from '../icons/folder';
 import FolderOpenIcon from '../icons/folder-open';
 import FileIcon from '../icons/file';
 import LoadingIcon from '../icons/loading';
+import DropdownIcon from '../icons/drop-down';
 
-import { Icon } from '../Icon';
+import {Icon} from '../Icon';
 
 export class TreeNode extends Widget {
 
@@ -49,10 +50,13 @@ export class TreeNode extends Widget {
       }
 
       return <div className={data.classNames} style={data.style}>
-         <div className={CSS.element(baseClass, 'handle')} onClick={e=>this.toggle(e, instance)}>
-            {icon({
-               className: CSS.element(baseClass, 'icon')
-            })}
+         <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
+            { !data.leaf && <DropdownIcon className={CSS.element(baseClass, 'arrow')} /> }
+            {
+               icon({
+                  className: CSS.element(baseClass, 'icon')
+               })
+            }
          </div>
          <div>
             {data.text}
