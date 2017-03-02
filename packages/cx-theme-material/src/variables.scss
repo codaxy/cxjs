@@ -338,6 +338,28 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       color: rgba(255, 255, 255, 0.45)
     )
   ),
+  hollow-colored: (
+    default: (
+        background-color: transparent,
+        border-color: transparent,
+        color: inherit,
+        box-shadow: none
+    ),
+    hover: map-merge(map-get($cx-list-item, hover), (
+        box-shadow: none,
+        border-color: transparent
+    )),
+    focus: (
+      background-color: darken($cx-default-background-color, 8),
+      box-shadow: none
+    ),
+    active: (
+      background-color: rgba(153, 153, 153, 0.4)
+    ),
+    disabled: (
+      color: rgba(0, 0, 0, 0.26)
+    )
+  ),
   hollow: (
     focus: (
       background-color: darken($cx-default-background-color, 8),
