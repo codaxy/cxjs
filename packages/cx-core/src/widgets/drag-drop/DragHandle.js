@@ -14,6 +14,7 @@ export class DragHandle extends PureContainer {
       let {data} = instance;
       return (
          <div
+            key={key}
             className={data.classNames}
             style={data.style}
             onTouchStart={ddHandle}

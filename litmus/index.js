@@ -22,11 +22,11 @@ import './index.scss';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
 //import Demo from './features/drag-drop/trello';
-//import Demo from './features/drag-drop/grid-to-grid';
+import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 
-import Demo from './features/grid/header-tool';
+//import Demo from './features/grid/header-tool';
 
 let store = new Store();
 

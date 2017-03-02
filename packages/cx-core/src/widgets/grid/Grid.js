@@ -23,6 +23,9 @@ import {
    isDragHandleEvent
 } from '../drag-drop/ops';
 
+import {GridCell} from './GridCell';
+import {GridRow, GridRowComponent} from './GridRow';
+
 export class Grid extends Widget {
 
    declareData() {
@@ -48,6 +51,8 @@ export class Grid extends Widget {
 
       if (this.records && this.records.bind)
          this.recordsBinding = Binding.get(this.records.bind);
+
+      let columns = this.columns;
 
       this.columns = Widget.create(GridColumn, this.columns || [], {
          recordName: this.recordName
@@ -88,6 +93,15 @@ export class Grid extends Widget {
          this.selectable = true;
 
       super.init();
+
+      this.row = Widget.create(GridRow, {
+         class: this.CSS.element(this.baseClass, 'data'),
+         className: this.rowClass,
+         style: this.rowStyle,
+         items: Widget.create(GridCell, columns || [], {
+            recordName: this.recordName
+         })
+      });
 
       if (this.grouping) {
          this.groupBy(this.grouping)
@@ -186,29 +200,14 @@ export class Grid extends Widget {
       for (let i = 0; i < instance.records.length; i++) {
          record = instance.records[i];
          if (record.type == 'data') {
-            wasSelected = record.selected;
-            record.selected = instance.isSelected(record.data, record.index);
-            record.shouldUpdate = wasSelected != record.selected || !record.cells;
-
-
+            let row = record.row = instance.getChild(context, this.row, record.key, record.store);
+            wasSelected = row.selected;
+            row.selected = instance.isSelected(record.data, record.index);
             context.dragHandles = [];
-            let cells = exploreChildren(context, instance, this.columns, record.cells, record.key, record.store, cell => {
-               cell.repeatable = true;
-            }, cell => {
-               if (cell.shouldUpdate)
-                  record.shouldUpdate = true;
-            });
-
-            if (cells != record.cells) {
-               record.shouldUpdate = true;
-               record.cells = cells;
-            }
-
-            record.dragHandles = context.dragHandles;
+            row.explore(context);
+            row.shouldUpdate |= wasSelected != record.selected;
+            row.dragHandles = context.dragHandles;
          }
-
-         if (record.shouldUpdate)
-            instance.shouldUpdate = true;
       }
 
       context.dragHandles = dragHandles;
@@ -217,16 +216,8 @@ export class Grid extends Widget {
    prepare(context, instance) {
       for (let i = 0; i < instance.records.length; i++) {
          let record = instance.records[i];
-         if (record.cells) {
-            for (let c = 0; c < record.cells.length; c++) {
-               let cell = record.cells[c];
-               cell.prepare(context);
-               if (cell.shouldUpdate)
-                  record.shouldUpdate = true;
-            }
-            if (record.shouldUpdate)
-               instance.shouldUpdate = true;
-         }
+         if (record.row)
+            record.row.prepare(context);
       }
       instance.columns.forEach(c => c.prepare(context));
       super.prepare(context, instance);
@@ -235,10 +226,8 @@ export class Grid extends Widget {
    cleanup(context, instance) {
       for (let i = 0; i < instance.records.length; i++) {
          let record = instance.records[i];
-         if (record.cells) {
-            for (let c = 0; c < record.cells.length; c++)
-               record.cells[c].cleanup(context);
-         }
+         if (record.row)
+            record.row.cleanup(context);
       }
       instance.columns.forEach(c => c.cleanup(context));
       super.cleanup(context, instance);
@@ -487,7 +476,7 @@ export class Grid extends Widget {
       for (let i = 0; i < records.length; i++) {
          record = records[i];
          if (record.type == 'data')
-            record.vdom = this.renderRow(context, instance, record);
+            record.vdom = getContent(record.row.render(context, record.key));
 
          if (record.type == 'group-header') {
             record.vdom = [];
@@ -505,37 +494,6 @@ export class Grid extends Widget {
                record.vdom = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store);
          }
       }
-   }
-
-   renderRow(context, instance, record) {
-
-      if (this.memoize && record.shouldUpdate === false && record.vdom)
-         return record.vdom;
-
-      let cells = [], ci;
-
-      for (let i = 0; i < record.cells.length; i++) {
-         ci = record.cells[i];
-         if (!ci.visible)
-            continue;
-         let c = ci.widget;
-         let row = ci.render(context, String(i));
-         let v = getContent(row);
-         let state = [];
-         if (c.align)
-            state.push('aligned-' + c.align);
-         if (ci.data.pad)
-            state.push('pad');
-         if (v == null) {
-            v = ci.data.value;
-            if (ci.data.format)
-               v = Format.value(v, ci.data.format);
-         }
-         let cls = this.CSS.expand(ci.data.classNames, this.CSS.state(state));
-         cells.push(<td key={i} className={cls} style={ci.data.style}>{v}</td>);
-      }
-
-      return <tr>{cells}</tr>;
    }
 
    mapRecords(context, instance) {
@@ -578,29 +536,30 @@ class GridComponent extends VDOM.Component {
       let children = [];
       instance.records.forEach((record, i) => {
          if (record.type == 'data') {
-            let {data, store, index, key, selected} = record;
-            let dragged = this.state.dragged && (selected || record == this.state.dragged);
+            let {data, store, index, key, row} = record;
+            let dragged = this.state.dragged && (row.selected || record == this.state.dragged);
             let mod = {
-               selected: selected,
+               selected: row.selected,
                dragged: dragged,
-               draggable: dragSource && record.dragHandles.length == 0,
+               draggable: dragSource && row.dragHandles.length == 0,
                cursor: i == this.state.cursor
             };
 
             children.push(
                <GridRowComponent
                   key={key}
-                  className={CSS.element(baseClass, 'data', mod)}
+                  className={CSS.expand(row.data.classNames, CSS.state(mod))}
                   store={store}
                   dragSource={dragSource}
-                  instance={instance}
+                  instance={row}
+                  grid={instance}
                   record={record}
                   parent={this}
                   onMouseEnter={e => this.moveCursor(i)}
-                  isSelected={selected}
+                  isSelected={row.selected}
                   isBeingDragged={dragged}
                   cursor={mod.cursor}
-                  shouldUpdate={record.shouldUpdate}
+                  shouldUpdate={row.shouldUpdate}
                >
                   {record.vdom}
                </GridRowComponent>
@@ -999,9 +958,6 @@ class GridComponent extends VDOM.Component {
 class GridColumn extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
-         style: {structured: true},
-         class: {structured: true},
-         className: {structured: true},
          value: undefined,
          weight: undefined,
          pad: undefined,
@@ -1096,10 +1052,6 @@ class GridColumn extends PureContainer {
    }
 }
 
-GridColumn.prototype.pad = true;
-
-Grid.Column = GridColumn;
-
 class GridColumnHeader extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
@@ -1135,72 +1087,5 @@ function initGrouping(grouping) {
    })
 }
 
-class GridRowComponent extends VDOM.Component {
 
-   constructor(props) {
-      super(props);
-      this.onMouseMove = ::this.onMouseMove;
-      this.onMouseDown = ::this.onMouseDown;
-      this.onClick = ::this.onClick;
-   }
-
-   render() {
-
-      let {className, dragSource, record} = this.props;
-      let move, up;
-
-      if (dragSource) {
-         move = this.onMouseMove;
-         up = ddMouseUp;
-      }
-
-      return <tbody
-         className={className}
-         onClick={this.onClick}
-         onMouseEnter={this.props.onMouseEnter}
-         onTouchStart={this.onMouseDown}
-         onMouseDown={this.onMouseDown}
-         onTouchMove={move}
-         onMouseMove={move}
-         onTouchEnd={up}
-         onMouseUp={up}
-      >
-      {this.props.children}
-      </tbody>
-   }
-
-   onMouseDown(e) {
-      if (this.props.dragSource && (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0))
-         ddMouseDown(e);
-
-      let {instance, record} = this.props;
-      let {store, widget} = instance;
-
-      if (!widget.selection.isDummy)
-         e.preventDefault();
-
-      if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
-         widget.selection.select(store, record.data, record.index, {
-            toggle: e.ctrlKey
-         });
-      }
-   }
-
-   onMouseMove(e) {
-      if (ddDetect(e) && (isDragHandleEvent(e) || this.props.record.dragHandles.length == 0))
-         this.props.parent.beginDragDrop(e, this.props.record);
-   }
-
-   onClick(e) {
-      let {instance, record} = this.props;
-      let {store, widget} = instance;
-      e.stopPropagation();
-      if (widget.selection.isSelected(store, record.data, record.index) && !e.ctrlKey)
-         widget.selection.select(store, record.data, record.index);
-   }
-
-   shouldComponentUpdate(props) {
-      return props.shouldUpdate !== false || props.cursor != this.props.cursor;
-   }
-}
 
