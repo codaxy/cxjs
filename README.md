@@ -1,7 +1,7 @@
 Cx.js
 ============
 
-Cx is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
+Cx (`cxjs`) is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
 
 Cx provides:
 - a complete set of widgets 
@@ -57,7 +57,7 @@ yarn run theme:frost
 ### License
 
 Cx is available under a commercial and a non-commercial license.
-Please refer to [the website](https://cxjs.io/pricing) for more information.
+Please refer to [the website](https://cxjs.io/) for more information.
 
 
 
