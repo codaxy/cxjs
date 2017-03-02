@@ -1,7 +1,7 @@
 
 @mixin cx-checkbox(
    $name: 'checkbox',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-checkbox-state-style-map,
    $width: $cx-default-input-width,
    $empty-text: $cx-empty-text,
    $besm: $cx-besm,
@@ -11,10 +11,10 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-width: cx-get-state-rule($state-style-map, default, border-width);
+   $padding: cx-get-state-rule($cx-input-state-style-map, default, padding);
+   $border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width);
 
-   $outer-styles: cx-deep-map-merge($state-style-map, (
+   $outer-styles: cx-deep-map-merge($cx-input-state-style-map, (
       default: (
          border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
       )
@@ -62,7 +62,7 @@
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
-         $state-style-map,
+         $cx-input-state-style-map,
          $input: false,
          $overrides: (
             default: (

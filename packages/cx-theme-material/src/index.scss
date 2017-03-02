@@ -73,7 +73,7 @@ $form-list: (
       border-width: 0 0 1px;
       border-color: transparent;
       transform: scaleX(0);  
-      transition: transform 0.35s ease-in-out;
+      transition: transform 0.3s ease-out;
     }
 
     &.cxs-focus {       

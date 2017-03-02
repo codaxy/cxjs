@@ -366,6 +366,9 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     border-color: transparent transparent $cx-primary-color,
     transition: border-color 0.55s ease-in-out,
     box-shadow: none
+  ),
+  disabled: (
+    border-style: dashed
   )  
 ));
 
