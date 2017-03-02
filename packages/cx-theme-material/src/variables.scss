@@ -12,7 +12,7 @@ $green: #4caf50 #ff9800;
 $brown: #795548 #ffc107;
 $black: #212121 #ffeb3b;
 
-$cx-default-color-scheme: $blue !default;
+$cx-default-color-scheme: $teal !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
@@ -310,7 +310,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     disabled: (
       box-shadow: none,
       border-color: transparent,
-      color: rgba(255, 255, 255, 0.45)
+      color: rgba(255, 255, 255, 0.45),
+      background-color: rgba($cx-primary-color, 0.5)
     )
   ),
   danger: (
