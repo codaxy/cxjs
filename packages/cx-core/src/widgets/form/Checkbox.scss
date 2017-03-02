@@ -11,10 +11,10 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   $padding: cx-get-state-rule($cx-input-state-style-map, default, padding);
-   $border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width);
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
-   $outer-styles: cx-deep-map-merge($cx-input-state-style-map, (
+   $outer-styles: cx-deep-map-merge($state-style-map, (
       default: (
          border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
       )
@@ -62,7 +62,7 @@
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
-         $cx-input-state-style-map,
+         $state-style-map,
          $input: false,
          $overrides: (
             default: (
@@ -78,16 +78,6 @@
       left: 0;
       display: inline-block;
       position: absolute;
-
-      @include cx-add-state-rules($state-style-map, default);
-
-      &:hover {
-        @include cx-add-state-rules($state-style-map, hover);
-      }
-
-      &:focus {
-        @include cx-add-state-rules($state-style-map, focus);
-      }
 
       &.#{$state}checked {
          @include cx-add-state-rules($state-style-map, checked);

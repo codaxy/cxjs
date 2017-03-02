@@ -159,28 +159,15 @@ $form-list: (
 
   
    &.cxs-checked {  
-    border-color: $cx-primary-color-light;
-    border-width: 2px;
-
     &:after {
       background-color: rgba($cx-primary-color, 0.1);
     }
-    &:focus {
-      border-color: $cx-primary-color-light;
-    }
   }
 
-   &:focus {
-    box-shadow: none;
-    border-color: #dbdbdb;
-    
-    &:after {
-      visibility: visible;
-      transform: scale(1, 1)
-    }
+   &:focus:after {
+    visibility: visible;
+    transform: scale(1, 1)
   }
-
-
 }
 
 // Tab

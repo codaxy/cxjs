@@ -139,7 +139,9 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
 
 //checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
-
+  hover: (
+    border-color: cx-get-state-rule($cx-input-state-style-map, hover, border-color)
+  )
 ));
 
 

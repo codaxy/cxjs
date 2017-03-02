@@ -112,6 +112,9 @@ $cx-default-calendar-day-border-radius: 50% !default;
 $cx-default-checkbox-border-width: 2px !default;  
 $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
+//radio
+$cx-default-radio-color: $cx-primary-color-light !default;
+
 @import "~cx-core/src/variables";
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
@@ -419,11 +422,30 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
   ),
   checked: (
     background-color: $cx-primary-color-light,
-    border-color: $cx-primary-color-light
+    border-color: $cx-primary-color-light,
+    opacity: 1
   ),
   checked-focus: (
     border-color: $cx-primary-color-light
   )
+));
+
+$cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
+  checked: (
+    color: $cx-default-radio-color,
+    border-color: $cx-default-radio-color
+  ),
+  checked-focus: (
+    /*border-color: $cx-default-radio-color*/
+  ),
+  checked-hover: (
+    border-color: $cx-default-radio-color
+  ),
+  focus: (
+    box-shadow: none, 
+    border-color: #dbdbdb
+  ),
+
 ));
 
 // WINDOW

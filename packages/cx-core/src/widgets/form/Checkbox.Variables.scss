@@ -4,21 +4,18 @@ $cx-default-checkbox-background-color: $cx-default-input-background-color !defau
 $cx-default-checkbox-border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width) !default;
 $cx-default-checkbox-border-color: $cx-default-input-border-color !default;
 
-$cx-checkbox-state-style-map: (
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
     color: $cx-default-checkbox-color,
     background-color: $cx-default-checkbox-background-color,
     border-width: $cx-default-checkbox-border-width,
     border-color: $cx-default-checkbox-border-color
   ),
-  hover: (
-
-  ),
   checked: (
-    opacity: 0.7
+    color: rgba($cx-default-checkbox-color, 0.7)
   ),
   checked-focus: (
-    opacity: 1
+    
   ),
   focus: (
     border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
@@ -38,4 +35,4 @@ $cx-checkbox-state-style-map: (
   error-focus: (
     box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
   )
-) !default;
+)) !default;
