@@ -287,14 +287,20 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
 
 //checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map,(
-  default: (
-    opacity: 1
-  ),
   focus: (
     border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
     outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
     box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
-  ),
+  )
+));
+
+//radio
+$cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map,(
+  focus: (
+    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+    outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
+    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+  )
 ));
 
 // slider

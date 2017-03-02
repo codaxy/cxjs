@@ -1,7 +1,7 @@
 
 @mixin cx-radio(
    $name: 'radio',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-radio-state-style-map,
    $size: $cx-default-radio-size,
    $besm: $cx-besm
 ) {
@@ -9,10 +9,10 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-width: cx-get-state-rule($state-style-map, default, border-width);
+   $padding: cx-get-state-rule($cx-input-state-style-map, default, padding);
+   $border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width);
 
-   $outer-styles: cx-deep-map-merge($state-style-map, (
+   $outer-styles: cx-deep-map-merge($cx-input-state-style-map, (
       default: (
          border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
       )
@@ -59,7 +59,7 @@
    .#{$element}#{$name}-input {
       @include cxe-field-input(
          $besm,
-         $state-style-map,
+         $cx-input-state-style-map,
          $input: false,
          $overrides: (
             default:(
@@ -78,6 +78,25 @@
       position: absolute;
       border-radius: 50%;
       overflow: hidden;
+      opacity: 1;
+      
+      @include cx-add-state-rules($state-style-map, default);
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, hover);
+      }
+
+      &:focus {
+        @include cx-add-state-rules($state-style-map, focus);
+      }
+
+      &.#{$state}checked {
+         @include cx-add-state-rules($state-style-map, checked);
+
+         &:focus {
+           @include cx-add-state-rules($state-style-map, checked-focus);
+         }
+      }
 
       &:before {
          content: ' ';
@@ -88,8 +107,7 @@
          margin: 3px;
          box-sizing: border-box;
          background-color: currentColor;
-         border-radius: 50%;
-         opacity: 0.7; //text color is a bit too strong
+         border-radius: 50%
       }
 
       &.#{$state}checked:before {

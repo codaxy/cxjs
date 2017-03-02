@@ -79,21 +79,21 @@
       display: inline-block;
       position: absolute;
 
-      @include cx-add-state-rules($cx-checkbox-state-style-map, default);
+      @include cx-add-state-rules($state-style-map, default);
 
       &:hover {
-        @include cx-add-state-rules($cx-checkbox-state-style-map, hover);
+        @include cx-add-state-rules($state-style-map, hover);
       }
 
       &:focus {
-        @include cx-add-state-rules($cx-checkbox-state-style-map, focus);
+        @include cx-add-state-rules($state-style-map, focus);
       }
 
       &.#{$state}checked {
-         @include cx-add-state-rules($cx-checkbox-state-style-map, checked);
+         @include cx-add-state-rules($state-style-map, checked);
 
          &:focus {
-           @include cx-add-state-rules($cx-checkbox-state-style-map, checked-focus);
+           @include cx-add-state-rules($state-style-map, checked-focus);
          }
       }
    }

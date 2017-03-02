@@ -1,5 +1,5 @@
 
-$cx-default-radio-color: #000 !default;
+$cx-default-radio-color: currentColor !default;
 $cx-default-radio-background-color: $cx-default-input-background-color !default;
 $cx-default-radio-border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width) !default;
 $cx-default-radio-border-color: $cx-default-input-border-color !default;
@@ -9,17 +9,16 @@ $cx-radio-state-style-map: (
     color: $cx-default-radio-color,
     background-color: $cx-default-radio-background-color,
     border-width: $cx-default-radio-border-width,
-    border-color: $cx-default-radio-border-color,
-    opacity: 0.7
+    border-color: $cx-default-radio-border-color    
   ),
   hover: (
 
   ),
   checked: (
-
+    color: rgba($cx-default-color, 0.7)
   ),
   checked-focus: (
-  
+    
   ),
   focus: (
     border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
