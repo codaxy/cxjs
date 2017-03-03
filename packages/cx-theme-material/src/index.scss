@@ -233,14 +233,70 @@ $form-list: (
 }
 
 @keyframes modal {
-  from {transform: scale(0.3); opacity: 0;}
-  to {transform: scale(1); opacity: 1;}
+  from {transform: scale(0);}
+  to {transform: scale(1)}
 }
 
 // MENU
 .cxb-menu {
-  position: relative;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+
+  .cxb-menuitem {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 1;
+      border-radius: 2px;
+    }
+  }
+}
+
+.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
+  background-color: transparent;
+
+  &:before {
+    width: 100%;
+    transition: width 0.35s;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
+  background-color: transparent;
+  > span {
+    color: darken(gray, 0);
+  }
+}
+
+.cxb-menuitem.cxs-open {
+  > .cxb-dropdown {
+    animation: modal 0.3s ease-in-out 0s;
+    &.cxs-place-down-right {
+      transform-origin: top left;
+    }
+    &.cxs-place-up-right {
+      transform-origin: bottom left;
+    }
+    &.cxs-place-right-down {
+      transform-origin: top left;
+    }
+    &.cxs-place-right-top {
+      transform-origin: bottom left;
+    }
+    &.cxs-place-left-top {
+      transform-origin: bottom right;
+    }
+    &.cxs-place-left-down {
+      transform-origin: top right;
+    }
+  }
+
+  
 }
 
 

@@ -14,6 +14,12 @@ $black: #212121 #ffeb3b;
 
 $cx-default-color-scheme: $blue !default;
 
+$cx-default-padding-extra-small: 6px !default;
+$cx-default-padding-small: 10px !default;
+$cx-default-padding-medium: 14px !default;
+$cx-default-padding-large: 16px !default;
+$cx-default-padding-extra-large: 20px !default;
+
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-secondary-text-color: #757575 !default;
@@ -71,6 +77,14 @@ $cx-default-section-box-shadow: $cx-default-box-shadow !default;
 //MENU
 $cx-default-menu-shadow: $cx-default-box-shadow !default;
 $cx-default-menu-separator-color: #e9e9e9 !default;
+
+$cx-menu-padding-options: (
+   xsmall: 6px 12px,
+   small: 8px 16px,
+   medium: 10px 20px,
+   large: 12px 24px,
+   xlarge: 15px 30px
+);
 
 //WINDOW
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
@@ -262,8 +276,6 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
     )
   )  
 ));
-
-// MENU
 
 // BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
