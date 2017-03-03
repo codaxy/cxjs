@@ -303,6 +303,11 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map,(
   )
 ));
 
+//textarea
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
+
 // slider
 $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
    default: (

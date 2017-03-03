@@ -227,6 +227,9 @@ $cx-switch-handle-styles: $cx-slider-handle-styles !default;
 
 // TEXTAREA
 $cx-default-textarea-width: 300px !default;
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
 
 // CALENDAR
 @import 'Calendar.Variables';

@@ -376,7 +376,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 ));
 
 // FORM
-// label
+//label
 
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
@@ -397,6 +397,13 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   disabled: (
     border-style: dashed
   )  
+));
+
+//textarea
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
+  default: (
+    border-color: transparent transparent #dbdbdb 
+  )
 ));
 
 //calendar
@@ -453,6 +460,7 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
   )
 ));
 
+//radio
 $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
   checked: (
     color: $cx-default-radio-color,
@@ -468,8 +476,9 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
     box-shadow: none, 
     border-color: #dbdbdb
   ),
-
 ));
+
+
 
 // WINDOW
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
