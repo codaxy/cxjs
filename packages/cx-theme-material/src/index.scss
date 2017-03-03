@@ -261,7 +261,7 @@ $form-list: (
 
   &:before {
     width: 100%;
-    transition: width 0.35s;
+    transition: width 0.2s ease-in-out;
     background-color: rgba(0, 0, 0, 0.1);
   }
 }
@@ -275,24 +275,32 @@ $form-list: (
 
 .cxb-menuitem.cxs-open {
   > .cxb-dropdown {
-    animation: modal 0.3s ease-in-out 0s;
+    /*animation: modal 0.3s ease-in-out 0s;*/
+    transform: scale(0,0);
+    transition: transform 0.3s ease-in-out 0.15s;
     &.cxs-place-down-right {
       transform-origin: top left;
+      transform: scale(1,1);
     }
     &.cxs-place-up-right {
       transform-origin: bottom left;
+      transform: scale(1,1);
     }
     &.cxs-place-right-down {
       transform-origin: top left;
+      transform: scale(1,1);
     }
     &.cxs-place-right-top {
       transform-origin: bottom left;
+      transform: scale(1,1);
     }
     &.cxs-place-left-top {
       transform-origin: bottom right;
+      transform: scale(1,1);
     }
     &.cxs-place-left-down {
       transform-origin: top right;
+      transform: scale(1,1);
     }
   }
 
