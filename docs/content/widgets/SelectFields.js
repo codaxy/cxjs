@@ -40,7 +40,7 @@ export const SelectFields = <cx>
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
-                    <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}}>
+                    <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
@@ -72,7 +72,7 @@ export const SelectFields = <cx>
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
-               <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}}>
+               <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>

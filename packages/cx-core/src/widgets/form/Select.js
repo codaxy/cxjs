@@ -5,6 +5,7 @@ import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMo
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
+import {Icon} from '../Icon';
 
 export class Select extends Field {
 
@@ -67,6 +68,7 @@ Select.prototype.convertValues = true;
 Select.prototype.nullString = '';
 Select.prototype.suppressErrorTooltipsUntilVisited = true;
 Select.prototype.hideClear = false;
+Select.prototype.icon = null;
 
 Widget.alias('select', Select)
 
@@ -75,6 +77,14 @@ class SelectComponent extends VDOM.Component {
       let {multiple, select, instance} = this.props;
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
+
+      let icon = widget.icon && (
+            <div className={CSS.element(baseClass, 'left-icon')}>
+               {
+                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+               }
+            </div>
+         );
 
       let insideButton, readOnly = data.disabled || data.readOnly;
 
@@ -108,7 +118,10 @@ class SelectComponent extends VDOM.Component {
       }
 
       return <div
-         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+         className={CSS.expand(data.classNames, CSS.state({
+            visited: data.visited || this.state && this.state.visited,
+            icon: widget.icon
+         }))}
          style={data.style}
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}
@@ -135,6 +148,7 @@ class SelectComponent extends VDOM.Component {
             {this.props.children}
          </select>
          {insideButton}
+         {icon}
       </div>
    }
 

@@ -29,5 +29,11 @@ export default {
         description: <cx><Md>
             Set to `true` to hide the clear button. Default value is `false`.
         </Md></cx>
+    },
+    icon: {
+        type: 'string',
+        description: <cx><Md>
+            Name of the icon to be put on the left side of the input.
+        </Md></cx>
     }
 };
