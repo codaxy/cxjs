@@ -30,7 +30,7 @@ p {
    }
 }
 
-// Form
+// FORM
 .cxb-datefield .cxb-calendar {
    border-color: transparent !important;
 }
@@ -47,9 +47,13 @@ p {
   margin: 8px;
 }
 
+// BUTTON
+/*override for chrome mobile*/
+.cxb-button {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+}
 
-//FORM
-
+// FORM
 //std field
 $form-list: (
   textfield
@@ -188,8 +192,7 @@ $form-list: (
     border-color: darken(#dbdbdb, 10);
   }
 
-  
-   &.cxs-checked {  
+  &.cxs-checked {  
     &:after {
       background-color: rgba($cx-primary-color, 0.1);
     }
@@ -201,7 +204,7 @@ $form-list: (
   }
 }
 
-// Tab
+// TAB
 .cxb-classic-tab-container {
   box-shadow: $cx-default-box-shadow;
   height: 2 * $cx-default-box-padding + $cx-default-box-line-height;
@@ -221,13 +224,55 @@ $form-list: (
 
 .cxb-tab {
   position: relative;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 }
 
-//Window
+// WINDOW
+.cxb-window {
+  /*animation: modal 0.3s ease-in-out;*/ 
+}
+
+@keyframes modal {
+  from {transform: scale(0.3); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+// MENU
+.cxb-menu {
+  position: relative;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+}
 
 
-//Ripple Effect
+//ripple effect
 .cxb-button, .cxb-tab {
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 2px);
+    left: calc(50% - 2px);
+    width: 4px;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(25, 25);
+    transition: transform 0.3s, opacity 0.8s;
+  }
+
+  &:active:before {
+    transform: scale(0, 0);
+    opacity: 0.2;
+    transition: 0s;
+  }
+}
+
+
+
+//old one
+/*.cxb-button, .cxb-tab {
   overflow: hidden;
 
   &:before {
@@ -239,7 +284,7 @@ $form-list: (
     top: 0;
     left: 5%;
     pointer-events: none;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.7) 10%, transparent 10.01%);
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.4) 10%, transparent 10.01%);
     background-repeat: no-repeat;
     background-position: 50%;
     transform: scale(15, 15);
@@ -252,4 +297,4 @@ $form-list: (
     opacity: .2;
     transition: 0s;
   }
-}
+}*/

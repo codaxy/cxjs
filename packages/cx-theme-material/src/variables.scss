@@ -70,6 +70,7 @@ $cx-default-section-box-shadow: $cx-default-box-shadow !default;
 
 //MENU
 $cx-default-menu-shadow: $cx-default-box-shadow !default;
+$cx-default-menu-separator-color: #e9e9e9 !default;
 
 //WINDOW
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
@@ -403,6 +404,12 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
   default: (
     border-color: transparent transparent #dbdbdb 
+  ),
+  focus: (
+    background-color: rgba($cx-default-color, 0.015)
+  ),
+  hover: (
+    background-color: rgba($cx-default-color, 0.009)
   )
 ));
 

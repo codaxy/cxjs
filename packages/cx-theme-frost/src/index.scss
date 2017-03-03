@@ -28,3 +28,8 @@
 .cxb-colorfield .cxb-colorpicker {
    border-color: transparent !important;
 }
+
+//override for chrome mobile default press effect
+.cxb-button, .cxb-tab, .cxb-menu {  
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+}
