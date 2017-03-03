@@ -41,7 +41,6 @@ export default {
             Increment/decrement value when using arrow keys or mouse wheel.
         </Md></cx>
     },
-
     snapToIncrement: {
         key: true,
         type: 'boolean',
@@ -49,13 +48,18 @@ export default {
             Round values to the nearest tick. Default is `true`.
         </Md></cx>
     },
-
     incrementPercentage: {
         key: true,
         type: 'number',
         description: <cx><Md>
             Percentage used to calculate the increment when it's not explicitly specified.
             Default value is `0.1` (10%).
+        </Md></cx>
+    },
+    icon: {
+        type: 'string',
+        description: <cx><Md>
+            Name of the icon to be put on the left side of the input.
         </Md></cx>
     }
 };

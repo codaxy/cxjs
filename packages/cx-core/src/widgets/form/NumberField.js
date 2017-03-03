@@ -120,11 +120,7 @@ class Input extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       let icon = widget.icon && (
-            <div
-               className={CSS.element(baseClass, 'tool')}
-               onMouseDown={preventDefault}
-               onClick={e => this.onChange(e, 'enter')}
-            >
+            <div className={CSS.element(baseClass, 'tool')}>
                {
                   Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
                }
@@ -132,7 +128,10 @@ class Input extends VDOM.Component {
          );
 
       return <div
-         className={CSS.expand(data.classNames, CSS.state({visited: data.visited || this.state && this.state.visited}))}
+         className={CSS.expand(data.classNames, CSS.state({
+            visited: data.visited || this.state && this.state.visited,
+            icon: widget.icon
+         }))}
          style={data.style}
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}>

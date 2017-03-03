@@ -11,6 +11,8 @@
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $padding: cx-get-state-rule($state-style-map, default, 'padding');
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map,
@@ -30,10 +32,15 @@
          -webkit-appearance: none;
          margin: 0;
       }
+
+      .#{$state}icon > & {
+         padding-right: cx-calc(2 * cx-left($padding), $icon-size);
+      }
    }
 
    .#{$element}#{$name}-tool {
       @include cxe-field-button($besm, $tool-state-style-map);
+      pointer-events: none;
    }
 
    .#{$element}#{$name}-icon {
