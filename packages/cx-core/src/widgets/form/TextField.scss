@@ -43,6 +43,7 @@
 
    .#{$element}#{$name}-left-icon {
       @include cxe-field-button($besm, $left-icon-state-style-map);
+      pointer-events: none;
    }
 
    .#{$element}#{$name}-clear {
