@@ -5,14 +5,14 @@
 $blue: #2196F3 #ffc107;
 $pink: #e91e63 #ffeb3b;
 $teal: #009688 #cddc39;
-$purple: #9c27b0 #ffeb3b;
+$purple: #673ab7 #ffeb3b;
 $gray: #607d8b #ffc107;
 $red: #f44336 #ffeb3b;
 $green: #4caf50 #ff9800;
 $brown: #795548 #ffc107;
 $black: #212121 #ffeb3b;
 
-$cx-default-color-scheme: $gray !default;
+$cx-default-color-scheme: $blue !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
@@ -340,10 +340,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   flat-color: (
     default: (
-        background-color: transparent,
-        border-color: transparent,
-        color: inherit,
-        box-shadow: none
+      font-size: 14px,    
+      color: $cx-primary-color-dark,
+      background-color: transparent,
+      border-color: transparent,
+      box-shadow: none
     ),
     hover: map-merge(map-get($cx-list-item, hover), (
         box-shadow: none,
@@ -354,7 +355,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       box-shadow: none
     ),
     active: (
-      background-color: rgba(153, 153, 153, 0.4)
+      background-color: rgba(153, 153, 153, 0.25)
     ),
     disabled: (
       color: rgba(0, 0, 0, 0.26)
@@ -494,10 +495,27 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
       background: null,
       margin: 0 1.5rem,
       padding: 1rem 0,
-      border-top: 1px solid rgba(128, 128, 128, 0.1)
+      border-top: none
    )
 ));
 
+$cx-window-mods: (
+  alert: (
+    default: (
+      font-size: 16px,
+      color: $cx-secondary-text-color
+    ),
+    body: (
+      padding: 25px 25px 40px,
+      text-align: left    
+    ),
+    footer: (
+      border-top: none
+    )
+  )
+);
+
+//MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
    border-width: 2px,
    border-style: solid

@@ -51,3 +51,18 @@ $cx-window-body-state-style-map: (
       background: white
    )
 ) !default;
+
+
+$cx-window-mods: (
+  alert: (
+    default: (
+      
+    ),
+    body: (
+     
+    ),
+    footer: (
+  
+    )
+  )   
+);

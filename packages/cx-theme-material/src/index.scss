@@ -198,26 +198,6 @@ $form-list: (
 
 //Window
 
-.cxm-alert {
-  .cxe-window-body {
-    padding: 25px 25px 40px;
-    font-size: 16px;
-    text-align: left;
-    color: $cx-secondary-text-color;
-  }
-  .cxe-window-footer {
-    border-top: none;
-
-    .cxb-button {
-      margin: 0 5px;
-    }
-  }
-}
-
-.cxe-window-footer {
-  border-top: none;
-}
-
 
 //Ripple Effect
 .cxb-button, .cxb-tab {
