@@ -199,7 +199,7 @@ export class Field extends PureContainer {
    }
 
    renderLabel(context, instance, key) {
-      if (instance.components.label)
+      if (instance.components.label && instance.components.help.label)
          return instance.components.label.render(context, key);
    }
 
@@ -208,7 +208,7 @@ export class Field extends PureContainer {
    }
 
    renderHelp(context, instance, key) {
-      if (instance.components.help)
+      if (instance.components.help && instance.components.help.visible)
          return instance.components.help.render(context, key);
    }
 
