@@ -14,11 +14,11 @@ $black: #212121 #ffeb3b;
 
 $cx-default-color-scheme: $blue !default;
 
-$cx-default-padding-extra-small: 6px !default;
-$cx-default-padding-small: 10px !default;
-$cx-default-padding-medium: 14px !default;
-$cx-default-padding-large: 16px !default;
-$cx-default-padding-extra-large: 20px !default;
+$cx-default-padding-extra-small: 5px !default;
+$cx-default-padding-small: 7px !default;
+$cx-default-padding-medium: 10px !default;
+$cx-default-padding-large: 14px !default;
+$cx-default-padding-extra-large: 19px !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
@@ -60,6 +60,7 @@ $cx-default-button-background-color: #f6f6f6 !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
+$cx-default-button-padding: ($cx-default-box-padding - 2px) ($cx-default-box-padding * 2) !default;
 
 //TAB
 $cx-default-tab-color: $cx-secondary-text-color !default;
@@ -68,7 +69,7 @@ $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
-$cx-default-tab-padding: $cx-default-box-padding (2 * $cx-default-box-padding + 5px) !default;
+$cx-default-tab-padding: ($cx-default-box-padding - 2px) (2 * $cx-default-box-padding + 5px) !default;
 $cx-default-tab-height: 40px !default;
 
 //SECTION
@@ -78,13 +79,13 @@ $cx-default-section-box-shadow: $cx-default-box-shadow !default;
 $cx-default-menu-shadow: $cx-default-box-shadow !default;
 $cx-default-menu-separator-color: #e9e9e9 !default;
 
-$cx-menu-padding-options: (
+/*$cx-menu-padding-options: (
    xsmall: 6px 12px,
    small: 8px 16px,
    medium: 10px 20px,
    large: 12px 24px,
    xlarge: 15px 30px
-);
+);*/
 
 //WINDOW
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
@@ -399,10 +400,9 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    //line-height: $cx-default-box-line-height - 1px,
+    padding: $cx-default-box-padding - 3px $cx-default-box-padding - 5px,
     border-color: transparent transparent #dbdbdb,
-    border-radius: 0,
-    border-width: 0 0 1px
+    border-radius: 0
   ),
   hover: (
     border-color: transparent transparent darken(#dbdbdb, 6)
@@ -414,6 +414,9 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   ),
   disabled: (
     border-style: dashed
+  ),
+  error: (
+    border-color: transparent transparent $cx-warning-color
   )  
 ));
 
@@ -555,9 +558,9 @@ $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
 ));
 
 $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
-   default: (
+  default: (
 
-   )
+  )
 ));
 
 //globals
