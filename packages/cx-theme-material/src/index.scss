@@ -261,7 +261,7 @@ $form-list: (
 
   &:before {
     width: 100%;
-    transition: width 0.2s ease-in-out;
+    transition: width 0.25s;
     background-color: rgba(0, 0, 0, 0.1);
   }
 }
@@ -277,7 +277,7 @@ $form-list: (
   > .cxb-dropdown {
     /*animation: modal 0.3s ease-in-out 0s;*/
     transform: scale(0,0);
-    transition: transform 0.3s ease-in-out 0.15s;
+    transition: transform 0.2s 0.15s;
     &.cxs-place-down-right {
       transform-origin: top left;
       transform: scale(1,1);
