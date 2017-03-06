@@ -1,6 +1,6 @@
 import {Localization} from 'cx/ui';
-//import {Icon} from 'cx/widgets';
-//import {VDOM} from 'cx/ui';
+import {Icon} from 'cx/widgets';
+import {VDOM} from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
    arrow: true,
@@ -25,3 +25,10 @@ Localization.override('cx/widgets/MsgBox', {
    buttonMod: "flat-color"
 });
 
+Icon.registerFactory((name, props) => {
+   props = { ...props };
+   props.className = 'material-icons ' + (props.className || '');
+   return <i {...props}>{name}</i>;
+});
+
+Icon.register('calendar', props => Icon.render('date_range', props));

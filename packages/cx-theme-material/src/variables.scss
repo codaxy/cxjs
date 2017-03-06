@@ -39,7 +39,7 @@ $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 13px !default;
-$cx-default-box-line-height: 18px !default;
+$cx-default-box-line-height: 24px !default;
 $cx-default-box-border-width: 1px !default;
 $cx-default-box-padding: 10px !default;
 
@@ -130,6 +130,11 @@ $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
 //radio
 $cx-default-radio-color: $cx-primary-color-light !default;
+
+//icons
+$cx-default-icon-size: 24px !default;
+$cx-default-input-tool-size: 24px !default;
+$cx-default-clear-size: 24px !default;
 
 @import "~cx-core/src/variables";
 
@@ -394,7 +399,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    line-height: $cx-default-box-line-height - 1px,
+    //line-height: $cx-default-box-line-height - 1px,
     border-color: transparent transparent #dbdbdb,
     border-radius: 0,
     border-width: 0 0 1px

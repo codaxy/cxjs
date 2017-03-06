@@ -28,7 +28,7 @@ module.exports = function (name, themePath, port) {
             loader: 'json-loader'
          }, {
             test: /\.js$/,
-            include: /(themes|cx-core|cx-react)/,
+            include: /(themes|cx-core|cx-react|cx-theme-material)/,
             loaders: [{
                loader: 'babel-loader',
                query: babelConfig
