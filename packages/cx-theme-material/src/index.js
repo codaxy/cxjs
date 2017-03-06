@@ -1,4 +1,6 @@
 import {Localization} from 'cx/ui';
+//import {Icon} from 'cx/widgets';
+//import {VDOM} from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
    arrow: true,
@@ -22,3 +24,4 @@ Localization.override('cx/widgets/Field', {
 Localization.override('cx/widgets/MsgBox', {
    buttonMod: "flat-color"
 });
+

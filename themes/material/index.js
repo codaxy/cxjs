@@ -2,6 +2,18 @@ import { Widget, startAppLoop, Url } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
 import "cx-theme-material";
+import {Icon} from 'cx/widgets';
+import {VDOM} from 'cx/ui';
+
+
+// reset Icons
+// Icon.clear();
+
+// Icon.registerFactory((name, props) => {
+//     props = { ...props };
+//     props.className = 'material-icons ' + (props.className || '');
+//     return <i {...props}>{name}</i>;
+// });
 
 import {setupHashBasedRouting} from '../shared/app/hashRoutes';
 
