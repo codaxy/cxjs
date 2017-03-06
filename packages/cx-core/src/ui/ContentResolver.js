@@ -13,37 +13,39 @@ export class ContentResolver extends PureContainer {
       this.initialItems = this.items;
    }
 
+   initInstance(context, instance) {
+      instance.content = this.initialItems;
+   }
+
    prepareData(context, instance) {
       let {data} = instance;
-      let content = null;
-      let items = this.items;
 
-
-      if (data.params && data.params != this.cachedParams && this.onResolve) {
-         this.cachedParams = data.params;
+      if (data.params && data.params != instance.cachedParams && this.onResolve) {
+         instance.cachedParams = data.params;
          let x = this.onResolve(data.params, instance);
          if (x) {
-            content = Widget.create(x);
+            let content = Widget.create(x);
             if (!Array.isArray(content))
                content = [content];
-
             switch (this.mode) {
                case 'prepend':
-                  items = [...content, ...this.initialItems];
+                  content = [...content, ...this.initialItems];
                   break;
 
                case 'append':
-                  items = [...this.initialItems, ...content];
-                  break;
-
-               default:
-                  items = content;
+                  content = [...this.initialItems, ...content];
                   break;
             }
-
-            this.items = items;
+            instance.content = content;
          }
+         else
+            instance.content = this.initialItems;
       }
+   }
+
+   explore(context, instance) {
+      this.items = instance.content;
+      super.explore(context, instance);
    }
 }
 
