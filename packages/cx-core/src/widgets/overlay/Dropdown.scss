@@ -11,7 +11,7 @@
 
    $border-width: map-get($styles, border-width);
    $border-color: map-get($styles, border-color);
-   $background-color: map-get($styles, background-color);
+   $background-color: map-get($styles, background-color); 
 
    .#{$block}#{$name} {
       @extend %cxb-overlay;

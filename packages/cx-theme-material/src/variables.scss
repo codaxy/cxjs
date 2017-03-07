@@ -146,8 +146,12 @@ $cx-default-clear-size: 24px !default;
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    hover: (
-      border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
-   )
+      /*border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)*/
+   ),
+   focus: (
+      border-color: transparent,
+      box-shadow: none
+   ),
 ));
 
 // LIST
@@ -155,8 +159,16 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   default: (
     color: $cx-default-color
   ),
+  hover: (
+    color: $cx-default-color
+  ),
   hover-focus: (
+    color: $cx-default-color,
     background-color: rgba(128, 128, 128, 0.1)  
+  ),
+  selected-hover: (
+    color: #fff,
+    background-color: $cx-primary-color-dark
   ),
   selected: (
     color: #fff,
@@ -164,7 +176,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   ),
   selected-focus: (
     color: #fff,
-    background-color: $cx-primary-color-light
+    background-color: $cx-primary-color
   )
 ));
 
