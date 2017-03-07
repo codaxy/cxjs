@@ -259,7 +259,7 @@ $form-list: (
 .cxb-menu {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 
-  .cxb-menuitem {
+  /*.cxb-menuitem {
     &:before {
       content: '';
       position: absolute;
@@ -271,10 +271,10 @@ $form-list: (
       opacity: 1;
       border-radius: $cx-default-border-radius;
     }
-  }
+  }*/
 }
 
-.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
+/*.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
   background-color: transparent;
 
   &:before {
@@ -282,18 +282,17 @@ $form-list: (
     transition: width 0.25s;
     background-color: rgba(0, 0, 0, 0.1);
   }
-}
+}*/
 
-.cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
+/*.cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
   background-color: transparent;
   > span {
     color: darken(gray, 0);
   }
-}
+}*/
 
-.cxb-menuitem.cxs-open {
+/*.cxb-menuitem.cxs-open {
   > .cxb-dropdown {
-    /*animation: modal 0.3s ease-in-out 0s;*/
     transform: scale(0,0);
     transition: transform 0.2s 0.15s;
     &.cxs-place-down-right {
@@ -321,7 +320,7 @@ $form-list: (
       transform: scale(1,1);
     }
   }
-}
+}*/
 
 .cxb-menu .cxe-menu-item > hr {
   margin: $cx-default-padding-medium 0;

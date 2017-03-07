@@ -4,8 +4,8 @@ import {VDOM} from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
    arrow: false,
-   offset: -5,
-   elementExplode: 7
+   offset: 0,
+   elementExplode: 0
 });
 
 
