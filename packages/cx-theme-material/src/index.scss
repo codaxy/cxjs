@@ -134,6 +134,10 @@ $form-list: (
 }
 
 //checkbox
+.cxb-checkbox {
+  padding: $cx-default-box-padding + 2px;
+}
+
 .cxe-checkbox-input  {
 
   &:after {

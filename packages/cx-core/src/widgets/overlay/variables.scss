@@ -13,11 +13,13 @@ $cx-tooltip-border-color-error: #e63001 !default;
 $cx-tooltip-color-error: null !default;
 
 // DROPDOWN
+$cx-default-dropdown-color: $cx-default-color !default;
 $cx-default-dropdown-background-color: white !default;
 $cx-default-dropdown-arrow-size: 6px !default;
 $cx-default-dropdown-arrow-offset: 16px !default;
 
 $cx-dropdown-styles: (
+   color: $cx-default-dropdown-color,
    background-color: $cx-default-dropdown-background-color,
    border-radius: $cx-default-border-radius,
    border-color: $cx-default-border-color,

@@ -43,7 +43,7 @@ $cx-default-border-radius: 2px !default;
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: 24px !default;
 $cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: 10px !default;
+$cx-default-box-padding: 7px !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
@@ -62,7 +62,7 @@ $cx-default-button-background-color: #f6f6f6 !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
-$cx-default-button-padding: ($cx-default-box-padding - 2px) ($cx-default-box-padding * 2) !default;
+$cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
 
 //TAB
 $cx-default-tab-color: $cx-secondary-text-color !default;
@@ -71,7 +71,7 @@ $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
-$cx-default-tab-padding: ($cx-default-box-padding - 2px) (2 * $cx-default-box-padding + 5px) !default;
+$cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
 $cx-default-tab-height: 40px !default;
 
 //SECTION
@@ -95,8 +95,7 @@ $cx-default-grid-header-background-color: $cx-primary-color !default;
 $cx-default-toast-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !default;
 
 //FORM
-$cx-default-checkbox-size: 18px !default;
-$cx-default-radio-size: 18px !default;
+$cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
 $cx-default-input-border-color: #eff1f7 !default;
 
 //label
@@ -119,10 +118,12 @@ $cx-default-calendar-day-font-size: 11px !default;
 $cx-default-calendar-day-border-radius: 50% !default;
 
 //checkbox
+$cx-default-checkbox-size: 18px !default;
 $cx-default-checkbox-border-width: 2px !default;  
 $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
 //radio
+$cx-default-radio-size: 18px !default;
 $cx-default-radio-color: $cx-primary-color-light !default;
 
 //lookupfield tag
@@ -162,7 +163,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     background-color: $cx-primary-color-light
   ),
   selected-focus: (
-    /*color: #fff,*/
+    color: #fff,
     background-color: $cx-primary-color-light
   )
 ));
@@ -207,7 +208,8 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: rgba(255, 255, 255, 0.7),
       background-color: $cx-primary-color,
       border-width: 0 0 2px,       
-      border-radius: 0
+      border-radius: 0,
+      padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
     ),
     hover: (
       color: rgba(255, 255, 255, 0.8),
@@ -239,7 +241,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
   line: ( 
     default: (
       color: rgba(0, 0, 0, 0.7),
-      padding: ($cx-default-box-padding - 1px) (2 * $cx-default-box-padding + 5px) ($cx-default-box-padding - 1px)
+      padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
     ),
     selected: (
       color: $cx-primary-color-light,
@@ -409,7 +411,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    padding: $cx-default-box-padding - 3px $cx-default-box-padding,
+    padding: $cx-default-box-padding $cx-default-box-padding,
     background-color: transparent,
     border-color: transparent transparent #dbdbdb,
     border-radius: 0

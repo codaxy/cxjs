@@ -18,7 +18,7 @@
       display: block;
       left: -10000px;
       top: -10000px;
-
+      color: $cx-default-color;
       background-color: $background-color;
 
       @include cx-add-rules($styles);
