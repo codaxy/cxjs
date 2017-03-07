@@ -3,8 +3,8 @@ import {Icon} from 'cx/widgets';
 import {VDOM} from 'cx/ui';
 
 Localization.override('cx/widgets/Dropdown', {
-   arrow: true,
-   offset: 5,
+   arrow: false,
+   offset: -5,
    elementExplode: 7
 });
 

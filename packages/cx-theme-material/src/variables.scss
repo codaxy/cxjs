@@ -20,6 +20,8 @@ $cx-default-padding-medium: 10px !default;
 $cx-default-padding-large: 14px !default;
 $cx-default-padding-extra-large: 19px !default;
 
+$cx-default-container-padding: 0 !default;
+
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-secondary-text-color: #757575 !default;
@@ -76,16 +78,8 @@ $cx-default-tab-height: 40px !default;
 $cx-default-section-box-shadow: $cx-default-box-shadow !default;
 
 //MENU
-$cx-default-menu-shadow: $cx-default-box-shadow !default;
+$cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
 $cx-default-menu-separator-color: #e9e9e9 !default;
-
-/*$cx-menu-padding-options: (
-   xsmall: 6px 12px,
-   small: 8px 16px,
-   medium: 10px 20px,
-   large: 12px 24px,
-   xlarge: 15px 30px
-);*/
 
 //WINDOW
 $cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
@@ -93,7 +87,6 @@ $cx-default-window-header-padding: 10px 20px !default;
 $cx-default-window-header-font-size: 18px !default;
 $cx-default-window-header-color: #fff !default;
 $cx-default-window-header-background-color: $cx-primary-color-dark !default;
-
 
 //GRID
 $cx-default-grid-header-background-color: $cx-primary-color !default;
@@ -400,7 +393,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    padding: $cx-default-box-padding - 3px $cx-default-box-padding - 5px,
+    padding: $cx-default-box-padding - 3px $cx-default-box-padding,
+    background-color: transparent,
     border-color: transparent transparent #dbdbdb,
     border-radius: 0
   ),
@@ -553,15 +547,23 @@ $cx-window-mods: (
 
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
-   border-width: 2px,
-   border-style: solid
+   background-color: rgb(251, 251, 251),
+   border-width: 0,
+   border-style: solid,
+   box-shadow: $cx-default-box-shadow
 ));
 
 $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
-  default: (
 
-  )
 ));
+
+/*$cx-menu-padding-options: (
+   xsmall: $cx-default-padding-extra-small 2 * $cx-default-padding-extra-small,
+   small: $cx-default-padding-small 2 * $cx-default-padding-small,
+   medium: $cx-default-padding-medium 0,
+   large: $cx-default-padding-large 2 * $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
+) !default;*/
 
 //globals
 

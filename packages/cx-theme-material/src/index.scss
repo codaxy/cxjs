@@ -226,12 +226,12 @@ $form-list: (
 
 // WINDOW
 .cxb-window {
-  /*animation: modal 0.3s ease-in-out;*/ 
+  animation: modal 0.3s ease-in; 
 }
 
 @keyframes modal {
-  from {transform: scale(0);}
-  to {transform: scale(1)}
+  from {opacity: 0.4;}
+  to {opacity: 1;}
 }
 
 // MENU
@@ -248,7 +248,7 @@ $form-list: (
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       opacity: 1;
-      border-radius: 2px;
+      border-radius: $cx-default-border-radius;
     }
   }
 }
@@ -300,8 +300,10 @@ $form-list: (
       transform: scale(1,1);
     }
   }
+}
 
-  
+.cxb-menu .cxe-menu-item > hr {
+  margin: $cx-default-padding-medium 0;
 }
 
 

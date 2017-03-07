@@ -9,4 +9,4 @@ $cx-menu-padding-options: (
    medium: $cx-default-padding-medium 2 * $cx-default-padding-medium,
    large: $cx-default-padding-large 2 * $cx-default-padding-large,
    xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
-)
+) !default;
