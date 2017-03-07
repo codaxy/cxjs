@@ -1,6 +1,7 @@
 @mixin cx-grid(
    $name: 'grid',
    $header-state-style-map: $cx-grid-header-state-style-map,
+   $data-state-style-map: $cx-grid-data-state-style-map,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
@@ -14,6 +15,8 @@
       position: relative;
 
       font-size: $cx-default-grid-font-size;
+      box-shadow: $cx-default-grid-box-shadow;
+      border-radius: $cx-default-grid-border-radius;
 
       table {
          border-spacing: 0;
@@ -174,11 +177,12 @@
 
       td {
          padding: 0;
-         border-top: 1px solid $cx-default-grid-border-color;
+         border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
+         line-height: cx-get-state-rule($data-state-style-map, default, line-height);
       }
 
       td.#{$state}pad {
-         padding: 5px;
+         padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
       &.#{$state}cursor {

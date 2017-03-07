@@ -326,6 +326,14 @@ $form-list: (
   margin: $cx-default-padding-medium 0;
 }
 
+//GRID
+.cxe-grid-fixed-header {
+  box-shadow: $cx-default-grid-header-box-shadow;
+  
+  .cxe-grid-col-header {
+    border-color: $cx-default-border-color;
+  }
+}
 
 //ripple effect
 .cxb-button, .cxb-tab {
