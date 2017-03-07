@@ -125,7 +125,12 @@ $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 //radio
 $cx-default-radio-color: $cx-primary-color-light !default;
 
-//icons
+//lookupfield tag
+$cx-default-tag-font-size: 12px !default;
+$cx-default-tag-border-radius: 20px !default;
+$cx-default-input-tag-spacing: 5px !default;
+
+//ICON
 $cx-default-icon-size: 24px !default;
 $cx-default-input-tool-size: 24px !default;
 $cx-default-clear-size: 24px !default;
@@ -141,13 +146,15 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
   hover-focus: (
-    background-color: $cx-accent-color
+    background-color: rgba(128, 128, 128, 0.1)  
   ),
   selected: (
-    background-color: lighten($cx-accent-color, 2)
+    color: #fff,
+    background-color: $cx-primary-color-light
   ),
   selected-focus: (
-    background-color: darken($cx-accent-color, 8)
+    color: #fff,
+    background-color: $cx-primary-color-light
   )
 ));
 
@@ -498,8 +505,6 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
     border-color: #dbdbdb
   ),
 ));
-
-
 
 // WINDOW
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (

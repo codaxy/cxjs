@@ -231,6 +231,10 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   
 ));
 
+// LOOKUPFIELD TAG
+$cx-default-tag-font-size: $cx-default-font-size !default;
+$cx-default-tag-border-radius: $cx-default-border-radius !default;
+
 // CALENDAR
 @import 'Calendar.Variables';
 @import 'Checkbox.Variables';
