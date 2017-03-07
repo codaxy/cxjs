@@ -6,12 +6,9 @@
    }
 }
 
-$cx-default-colorpicker-font-family: 'Consolas', monospace;
-
-
 @mixin cx-colorpicker(
    $name: 'colorpicker',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-colorpicker-state-style-map,
    $placeholder: $cx-input-placeholder,
    $besm: $cx-besm
 ) {
@@ -20,23 +17,18 @@ $cx-default-colorpicker-font-family: 'Consolas', monospace;
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $input: false,
-         $overrides: (
-            default: (
-               font-size: 11px,
-               font-family: $cx-default-colorpicker-font-family
-            )
-         )
-      );
+
+      @include cx-add-state-rules($state-style-map, default);
 
       display: inline-flex;
       flex-direction: column;
 
       @media screen and (min-width: 500px) {
          flex-direction: row;
+      }
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, hover);
       }
 
       input {

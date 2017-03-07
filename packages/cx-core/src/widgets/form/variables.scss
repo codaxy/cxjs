@@ -117,7 +117,7 @@ $cx-input-right-icon-state-style-map: (
    )
 ) !default;
 
-// Clear
+// Clear Icon
 $cx-default-clear-size: $cx-default-input-tool-size !default;
 $cx-default-clear-color: #828282 !default;
 
@@ -182,7 +182,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 )) !default;
 
 // COLORFIELD
-$cx-default-colorfield-font-family: 'Consolas', monospace;
+$cx-default-colorfield-font-family: 'Consolas', monospace !default;
 
 // MONTHPICKER
 $cx-default-monthpicker-font-size: smaller !default;
@@ -238,3 +238,4 @@ $cx-default-tag-border-radius: $cx-default-border-radius !default;
 @import 'Calendar.Variables';
 @import 'Checkbox.Variables';
 @import 'Radio.Variables';
+@import 'ColorPicker.Variables';

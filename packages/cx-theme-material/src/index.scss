@@ -201,6 +201,23 @@ $form-list: (
   }
 }
 
+//colorpicker
+.cxb-colorpicker {
+  input {
+    line-height: 16px;
+    box-shadow: none;
+    background-color: #fff;
+    border-width: 0 0 1px;
+    border-color: darken($cx-default-input-border-color, 5);
+    border-radius: 0;
+    padding: 2px 6px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
 // TAB
 .cxb-classic-tab-container {
   box-shadow: $cx-default-box-shadow;

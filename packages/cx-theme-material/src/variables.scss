@@ -130,6 +130,12 @@ $cx-default-tag-font-size: 12px !default;
 $cx-default-tag-border-radius: 20px !default;
 $cx-default-input-tag-spacing: 4px !default;
 
+//colorpicker
+$cx-default-colorpicker-font-family: $cx-default-font-family !default;
+$cx-default-colorpicker-background-color: $cx-default-calendar-background-color !default;
+$cx-default-colorpicker-border-width: 0 !default;
+$cx-default-colorpicker-box-shadow: $cx-default-box-shadow !default;
+
 //ICON
 $cx-default-icon-size: 24px !default;
 $cx-default-input-tool-size: 24px !default;
@@ -145,6 +151,9 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
+  default: (
+    color: $cx-default-color
+  ),
   hover-focus: (
     background-color: rgba(128, 128, 128, 0.1)  
   ),
@@ -153,7 +162,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     background-color: $cx-primary-color-light
   ),
   selected-focus: (
-    color: #fff,
+    /*color: #fff,*/
     background-color: $cx-primary-color-light
   )
 ));

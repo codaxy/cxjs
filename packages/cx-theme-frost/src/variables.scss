@@ -94,6 +94,13 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   
 ));
 
+//colorpicker
+$cx-colorpicker-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  hover: (
+    border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+  )
+));
+
 // BUTTON
 $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   hollow: (
