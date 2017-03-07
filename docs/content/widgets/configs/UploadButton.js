@@ -1,8 +1,6 @@
 import {Md} from '../../../components/Md';
-import field from './Field';
 
 export default {
-   ...field,
    disabled: {
       type: 'boolean',
       description: <cx><Md>
@@ -54,9 +52,5 @@ export default {
             - `error` - error
             - `instance` - widget instance
         </Md></cx>
-    },
-
-    emptyText: false,
-    inputStyle: false,
-    mode: false
+    }
 };

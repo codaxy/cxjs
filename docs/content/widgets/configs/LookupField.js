@@ -130,11 +130,5 @@ export default {
         description: <cx><Md>
             Close the dropdown after selection. Default is `true`.
         </Md></cx>
-    },
-    icon: {
-        type: 'string',
-        description: <cx><Md>
-            Name of the icon to be put on the left side of the input.
-        </Md></cx>
     }
 };

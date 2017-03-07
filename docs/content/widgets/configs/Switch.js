@@ -3,6 +3,10 @@ import field from './Field';
 
 export default {
     ...field,
+    icon: false,
+    showClear: false,
+    hideClear: false,
+    autoFocus: false,
     on: {
         key: true,
         alias: 'value',
@@ -35,6 +39,5 @@ export default {
         description: <cx><Md>
             Style object to be applied on the axis range when the switch is on.
         </Md></cx>
-    },
-    autoFocus: false
+    }
 };

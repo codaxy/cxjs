@@ -33,6 +33,13 @@ export class ColorField extends Field {
       }, ...arguments);
    }
 
+   init() {
+      if (typeof this.hideClear != 'undefined')
+         this.showClear = !this.hideClear;
+
+      super.init();
+   }
+
    prepareData(context, {data}) {
       super.prepareData(...arguments);
    }
@@ -51,6 +58,7 @@ export class ColorField extends Field {
 ColorField.prototype.baseClass = "colorfield";
 ColorField.prototype.format = 'rgba';
 ColorField.prototype.suppressErrorTooltipsUntilVisited = true;
+ColorField.prototype.showClear = true;
 
 Widget.alias('color-field', ColorField);
 
@@ -109,14 +117,16 @@ class ColorInput extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       let insideButton;
-
       if (!data.readOnly && !data.disabled) {
-         if (!widget.hideClear && !data.required && data.value != null)
+         if (widget.showClear && !data.required && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                    onMouseDown={e => {
-                       this.onClearClick(e);
-                    }}>
+                  onMouseDown={ e => {
+                     e.preventDefault();
+                     e.stopPropagation(); }}
+                  onClick={e => {
+                    this.onClearClick(e);
+                  }}>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );

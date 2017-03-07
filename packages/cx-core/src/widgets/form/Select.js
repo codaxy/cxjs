@@ -19,6 +19,13 @@ export class Select extends Field {
       }, ...arguments);
    }
 
+   init() {
+      if (typeof this.hideClear != 'undefined')
+         this.showClear = !this.hideClear;
+
+      super.init();
+   }
+
    prepareData(context, instance) {
       let {data} = instance;
       data.stateMods = {
@@ -67,7 +74,7 @@ Select.prototype.multiple = false;
 Select.prototype.convertValues = true;
 Select.prototype.nullString = '';
 Select.prototype.suppressErrorTooltipsUntilVisited = true;
-Select.prototype.hideClear = false;
+Select.prototype.showClear = true;
 Select.prototype.icon = null;
 
 Widget.alias('select', Select)
@@ -88,7 +95,7 @@ class SelectComponent extends VDOM.Component {
 
       let insideButton, readOnly = data.disabled || data.readOnly;
 
-      if (!widget.hideClear && !readOnly && !this.props.multiple && !data.required && data.placeholder && data.value != null) {
+      if (widget.showClear && !readOnly && !this.props.multiple && !data.required && data.placeholder && data.value != null) {
          insideButton = (
             <div onMouseDown={preventDefault}
                onClick={e => this.onClearClick(e)}

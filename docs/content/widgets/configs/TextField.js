@@ -70,16 +70,18 @@ export default {
             Message to be shown to the user if input text is too short.
         </Md></cx>
     },
-    icon: {
-        type: 'string',
-        description: <cx><Md>
-            Name of the icon to be put on the left side of the input.
-        </Md></cx>
-    },
     showClear: {
         type: 'string',
         description: <cx><Md>
-            Set to `true` to add a small button on the right hand size used for clearing the value.
+            Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+            Default value is `false`.
         </Md></cx>
     },
+    hideClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+            Default value is `true`.
+        </Md></cx>
+    }
 };

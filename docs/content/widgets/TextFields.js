@@ -31,7 +31,10 @@ export const TextFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Required" value:bind="$page.text" required/>
                     <TextField label="Min/Max Length" value:bind="$page.text" minLength={3} maxLength={8}/>
-                    <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} icon="search" showClear/>
+                    <TextField label="Styled" value:bind="$page.text" 
+                        inputStyle={{border: '1px solid green'}} 
+                        icon="search" 
+                        showClear />
                     <TextField label="View" value:bind="$page.text" mode="view"/>
                     <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
                 </div>
@@ -49,7 +52,10 @@ export const TextFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Required" value:bind="$page.text" required/>
                     <TextField label="Min/Max Length" value:bind="$page.text" minLength={3} maxLength={8}/>
-                    <TextField label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} icon="search" showClear/>
+                    <TextField label="Styled" value:bind="$page.text" 
+                        inputStyle={{border: '1px solid green'}} 
+                        icon="search" 
+                        showClear />
                     <TextField label="View" value:bind="$page.text" mode="view"/>
                     <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
                 </div>

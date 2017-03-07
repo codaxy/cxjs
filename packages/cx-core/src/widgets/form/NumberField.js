@@ -8,6 +8,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
+import ClearIcon from '../icons/clear';
 
 export class NumberField extends Field {
 
@@ -30,9 +31,11 @@ export class NumberField extends Field {
    }
 
    init() {
-
       if (typeof this.step != 'undefined')
          this.increment = this.step;
+         
+      if (typeof this.hideClear != 'undefined')
+         this.showClear = !this.hideClear;
 
       super.init();
    }
@@ -96,6 +99,7 @@ NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
 NumberField.prototype.incrementPercentage = 0.1;
 NumberField.prototype.snapToIncrement = true;
 NumberField.prototype.icon = null;
+NumberField.prototype.showClear = false;
 
 Widget.alias('numberfield', NumberField);
 Localization.registerPrototype('cx/widgets/NumberField', NumberField);
@@ -120,12 +124,25 @@ class Input extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       let icon = widget.icon && (
-            <div className={CSS.element(baseClass, 'tool')}>
+            <div className={CSS.element(baseClass, 'left-icon')}>
                {
                   Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
                }
             </div>
          );
+
+      let insideButton;
+      if (!data.readOnly && !data.disabled) {
+         if (widget.showClear && !data.required && data.value != null)
+            insideButton = (
+               <div className={CSS.element(baseClass, 'clear')}
+                  onMouseDown={ e => e.preventDefault() }
+                  onClick={ e => this.onClearClick(e) }
+                  >
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            );
+      }
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
@@ -162,6 +179,7 @@ class Input extends VDOM.Component {
             }}
             onClick={stopPropagation}
          />
+         {insideButton}
          {icon}
       </div>
    }
@@ -233,6 +251,10 @@ class Input extends VDOM.Component {
       if (absValue / size > 1.999)
          return 2 * size;
       return size;
+   }
+
+   onClearClick(e) {
+      this.props.instance.set('value', null);
    }
 
    onChange(e, change) {

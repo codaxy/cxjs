@@ -3,6 +3,10 @@ import field from './TextField';
 
 export default {
    ...field,
+   icon: false,
+   showClear: false,
+   hideClear: false,
+   inputType: false,
    reactOn: {
       type: 'string',
       description: <cx><Md>
@@ -15,6 +19,5 @@ export default {
       description: <cx><Md>
          Specifies the number of visible lines.
       </Md></cx>
-   },
-   inputType: false
+   }
 };

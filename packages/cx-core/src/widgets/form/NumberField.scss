@@ -4,6 +4,8 @@
    $state-style-map: $cx-input-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $clear-state-style-map: $cx-clear-state-style-map,
    $tool-state-style-map: $cx-input-right-icon-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
@@ -34,7 +36,7 @@
       }
 
       .#{$state}icon > & {
-         padding-right: cx-calc(2 * cx-left($padding), $icon-size);
+         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
       }
    }
 
@@ -45,6 +47,15 @@
 
    .#{$element}#{$name}-icon {
       @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
+      pointer-events: none;
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
    }
 
    .#{$element}#{$name}-empty-text {

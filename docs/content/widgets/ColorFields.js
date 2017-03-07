@@ -18,7 +18,7 @@ export const ColorFields = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <ColorField value={{bind: "$page.color1", defaultValue: '#f88'}} autoFocus/>
+                <ColorField value={{bind: "$page.color1", defaultValue: '#f88'}} autoFocus />
                 <div style={{width: '100px', height: '70px', background: {bind: '$page.color1'}}}></div>
             </div>
 
