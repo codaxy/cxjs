@@ -128,7 +128,7 @@ $cx-default-radio-color: $cx-primary-color-light !default;
 //lookupfield tag
 $cx-default-tag-font-size: 12px !default;
 $cx-default-tag-border-radius: 20px !default;
-$cx-default-input-tag-spacing: 5px !default;
+$cx-default-input-tag-spacing: 4px !default;
 
 //ICON
 $cx-default-icon-size: 24px !default;
@@ -441,6 +441,7 @@ $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
     box-shadow: $cx-default-calendar-box-shadow
   )
 ));
+
 //calendar days
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
   default: (
@@ -504,6 +505,14 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
     box-shadow: none, 
     border-color: #dbdbdb
   ),
+));
+
+//clear icon
+$cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
+  hover: (
+    color: darken($cx-default-color, 5),
+    background-color: transparent
+  )
 ));
 
 // WINDOW

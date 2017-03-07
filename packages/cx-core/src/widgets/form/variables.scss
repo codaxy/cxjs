@@ -119,8 +119,7 @@ $cx-input-right-icon-state-style-map: (
 
 // Clear
 $cx-default-clear-size: $cx-default-input-tool-size !default;
-$cx-default-clear-color: gray !default;
-$cx-default-clear-background-hover: rgba(128, 128, 128, 0.2) !default;
+$cx-default-clear-color: #828282 !default;
 
 $cx-clear-state-style-map: (
    default: (
@@ -136,7 +135,7 @@ $cx-clear-state-style-map: (
       text-align: center
    ),
    hover: (
-      background-color: $cx-default-clear-background-hover
+      background-color: rgba(128, 128, 128, 0.2)
    ),
    active: (
 
