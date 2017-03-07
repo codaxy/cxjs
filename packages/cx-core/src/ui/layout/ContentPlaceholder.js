@@ -23,9 +23,16 @@ export class ContentPlaceholder extends PureContainer {
          }
       }
       super.explore(context, instance);
+
+      //content will be provided through context handler
+      if (!instance.content)
+         instance.pure = false;
    }
 
    prepare(context, instance) {
+      if (instance.content != instance.cached.content)
+         instance.shouldUpdate = true;
+
       if (!instance.content)
          super.prepare(context, instance);
       else {
@@ -45,6 +52,7 @@ export class ContentPlaceholder extends PureContainer {
    cleanup(context, instance) {
       if (!instance.content)
          super.cleanup(context, instance);
+      instance.cached.content = instance.content;
    }
 
    render(context, instance, key) {
