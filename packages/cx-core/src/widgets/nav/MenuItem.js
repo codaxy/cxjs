@@ -270,6 +270,10 @@ class MenuItemComponent extends VDOM.Component {
 
    onClick(e) {
       e.stopPropagation();
+
+      let {widget} = this.props.instance;
+      if (widget.dropdown)
+         e.preventDefault(); //prevent navigation
    }
 
    onFocus() {
