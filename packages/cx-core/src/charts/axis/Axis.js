@@ -16,6 +16,9 @@ export class Axis extends BoundedObject {
       if (typeof this.minLabelDistance == "undefined")
          this.minLabelDistance = this.vertical ? this.minLabelDistanceVertical : this.minLabelDistanceHorizontal;
 
+      if (this.labelLineCountDyFactor == 'auto')
+         this.labelLineCountDyFactor = this.vertical ? -0.5 : this.secondary ? -1 : 0;
+
       super.init();
    }
 
@@ -119,7 +122,7 @@ export class Axis extends BoundedObject {
       for (let i = 0; i < parts.length; i++) {
          if (!line)
             line = parts[i];
-         else if (parts[i].length + line.length < this.maxLabelLineLength)
+         else if (parts[i].length + line.length < this.labelMaxLineLength)
             line += parts[i];
          else {
             lines.push(line);
@@ -131,7 +134,7 @@ export class Axis extends BoundedObject {
       if (lines.length == 1)
          return <tspan x={x} dy={dy}>{str}</tspan>;
 
-      let offset = this.labelWrapAlignement * (lines.length - 1);
+      let offset = this.labelLineCountDyFactor * (lines.length - 1);
       let result = [dy != null && <tspan key={-2} className={offsetClass} dy={dy}>_</tspan>];
 
       lines.forEach((p, i) => {
@@ -173,8 +176,8 @@ Axis.prototype.labelAnchor = 'auto';
 Axis.prototype.labelDx = 'auto';
 Axis.prototype.labelDy = 'auto';
 Axis.prototype.labelWrap = false;
-Axis.prototype.labelWrapAlignement = 0;
-Axis.prototype.maxLabelLineLength = 10;
+Axis.prototype.labelLineCountDyFactor = 'auto';
+Axis.prototype.labelMaxLineLength = 10;
 
 Axis.namespace = 'ui.svg.chart.axis';
 
