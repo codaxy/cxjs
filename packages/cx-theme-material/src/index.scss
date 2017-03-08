@@ -280,7 +280,7 @@ $form-list: (
   &:after {
     width: 0;
     height: 0;
-    transition: width 0.35s, height 2s;  
+    transition: width 0.35s, height 5s;  
     background-color: rgba(0, 0, 0, 0.1);
     opacity: 1;
   }
