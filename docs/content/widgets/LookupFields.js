@@ -173,7 +173,6 @@ export const LookupFields = <cx>
                         values:bind="$page.s10ids"
                         options:bind="$page.options10"
                         multiple/>
-
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
@@ -181,7 +180,6 @@ export const LookupFields = <cx>
                         records:bind="$page.selectedCities"
                         onQuery="query"
                         multiple/>
-
                     <LookupField
                         label="Local Filter"
                         records:bind="$page.selectedCities2"
