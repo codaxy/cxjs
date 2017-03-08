@@ -114,10 +114,10 @@ export class HtmlElement extends PureContainer {
    
    init() {
 
-      if(this.html)
+      if (this.html)
          this.innerHtml = this.html;
          
-      if(this.innerText)
+      if (this.innerText)
          this.text = this.innerText;         
 
       this.style = parseStyle(this.style);

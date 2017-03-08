@@ -46,7 +46,7 @@ export class LookupField extends Field {
 
    init() {
 
-      if(typeof this.hideClear != 'undefined')
+      if (typeof this.hideClear != 'undefined')
             this.showClear = !this.hideClear;
 
       if (!this.bindings) {

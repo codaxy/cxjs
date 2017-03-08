@@ -22,7 +22,7 @@ export const SelectFields = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Select value:bind="$page.selection" label="Standard" showClear={true}>
+                    <Select value:bind="$page.selection" label="Standard">
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
