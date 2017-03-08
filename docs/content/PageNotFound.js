@@ -7,7 +7,7 @@ export const PageNotFound = <cx>
         <Md visible:expr="{error}">
             # Ooops
 
-            Something went wrong. The content could not be loaded. This sometimes happens if the site is being updated.
+            Something went wrong. The content could not be loaded. This sometimes happens when the site is being updated.
             Please try refreshing the page.
         </Md>
         <Md>
