@@ -67,4 +67,33 @@ export default {
             When set to `true`, rendering of visual elements of the axis, such as ticks and labels, is skipped, but their function is preserved.
         </Md></cx>
     },
+    labelWrap: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to break long labels into multiple lines.
+            Default value is `false`. Text is split at space characters. See also
+            `labelMaxLineLength` and `labelLineCountDyFactor`.
+        </Md></cx>
+    },
+    labelMaxLineLength: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            If `labelWrap` is on, this number is used as a measure to split labels into multiple lines.
+            Default value is `10`.
+        </Md></cx>
+    },
+    labelLineCountDyFactor: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Used for vertical adjustment of multi-line labels. Default value is `auto`
+            which means that value is initialized based on axis configuration.
+            Value `0` means that label will grow towards the bottom of the screen. Value `-1`
+            will make labels to grow towards the top of the screen. `-0.5` will make
+            labels vertically centered.
+        </Md></cx>
+    }
+
 };

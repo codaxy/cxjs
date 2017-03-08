@@ -22,6 +22,10 @@
    .#{$element}#{$name}-label {
       @include cxe-axis-label();
    }
+
+   .#{$element}#{$name}-label-offset {
+      @include cxe-axis-label-offset();
+   }
 }
 
 @if (cx-include('cx/charts/TimeAxis')) {
