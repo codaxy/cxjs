@@ -66,9 +66,6 @@ class ContentController extends Controller {
 
         // #end
 
-
-        var chapterLoaded = {};
-
         this.addTrigger('fetch-module', ['chapter', 'contentVersion'], chapter => {
             switch (chapter) {
 
@@ -113,12 +110,13 @@ class ContentController extends Controller {
 
     loadChapter(chapter, promise) {
         this.store.set('loading', true);
+
         promise
             .then(m => {
                 chapterExports[chapter] = m;
                 this.store.set('loading', false);
                 this.store.set('error', false);
-                this.store.update('cv2', v => (v || 0) + 1);
+                this.store.set('activeVersion', this.store.get('contentVersion'));
             })
             .catch(e => {
                 this.store.set('loading', false);
@@ -144,7 +142,7 @@ export const ContentRouter = <cx>
                 <ContentResolver
                     params={{
                         chapter: { bind: "chapter" },
-                        version: { bind: "cv2" }
+                        version: { bind: "activeVersion" }
                     }}
                     layout={FirstVisibleChildLayout}
                     onResolve={p=>getChapterRoutes(p.chapter)}
