@@ -40,7 +40,7 @@ export const ColumnGraphs = <cx>
                 <Legend />
                 <Svg style="width:600px; height:400px;">
                     <Chart offset="20 -20 -100 40" axes={{
-                        x: {type: CategoryAxis, snapToTicks: 0, labelRotation: -45, labelAnchor: 'end'},
+                        x: {type: CategoryAxis, snapToTicks: 0, labelRotation: -90, labelAnchor: 'end', labelWrap: true },
                         y: {type: NumericAxis, vertical: true, snapToTicks: 1}
                     }}>
                         <Gridlines/>

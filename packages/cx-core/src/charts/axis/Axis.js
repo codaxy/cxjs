@@ -97,13 +97,22 @@ export class Axis extends BoundedObject {
                               dy={this.labelDy}
                               textAnchor={this.labelAnchor}
                               transform={transform}>
-                  {valueFormatter(v)}
+                  {this.multiLineFormat(valueFormatter(v), x)}
                </text>);
             });
          });
       }
       res[1] = <path key="ticks" className={this.CSS.element(this.baseClass, "ticks")} d={t.join(' ')}/>;
       return res;
+   }
+
+   multiLineFormat(str, x) {
+      if (!this.labelWrap || typeof str != 'string')
+         return str;
+
+      let parts = str.split(' ');
+      let offset = this.labelWrapAlignement * (parts.length - 1);
+      return parts.map((p, i) => <tspan key={i} dy={`${(i == 0 ? offset : 1) * 1.2}em`} x={x}>{p}</tspan>);
    }
 
    prepare(context, instance) {
@@ -137,6 +146,8 @@ Axis.prototype.labelRotation = 0;
 Axis.prototype.labelAnchor = 'auto';
 Axis.prototype.labelDx = 'auto';
 Axis.prototype.labelDy = 'auto';
+Axis.prototype.labelWrap = false;
+Axis.prototype.labelWrapAlignement = -0.5;
 
 Axis.namespace = 'ui.svg.chart.axis';
 
