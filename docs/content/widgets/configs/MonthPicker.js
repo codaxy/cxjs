@@ -3,6 +3,9 @@ import field from './Field';
 
 export default {
     ...field,
+    icon: false,
+    showClear: false,
+    hideClear: false,
     range: {
         key: true,
         type: 'boolean',
@@ -38,12 +41,6 @@ export default {
         type: 'string',
         description: <cx><Md>
             Base CSS class to be applied on the field. Defaults to `monthpicker`.
-        </Md></cx>
-    },
-    hideClear: {
-        type: 'boolean',
-        description: <cx><Md>
-            Set to `true` to hide the clear button. Default value is `false`.
         </Md></cx>
     }
 };

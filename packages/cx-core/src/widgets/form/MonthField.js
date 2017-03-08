@@ -60,6 +60,10 @@ export class MonthField extends Field {
    init() {
       if (!this.culture)
          this.culture = new DateTimeCulture(Format.culture);
+      
+      if (typeof this.hideClear != 'undefined')
+         this.showClear = !this.hideClear;
+
       super.init();
    }
 
@@ -188,7 +192,7 @@ MonthField.prototype.minExclusiveErrorText = 'Selected date should be after {0:d
 MonthField.prototype.inputErrorText = 'Invalid date entered';
 MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
-MonthField.prototype.hideClear = false;
+MonthField.prototype.showClear = true;
 MonthField.prototype.range = false;
 
 Localization.registerPrototype('cx/widgets/MonthField', MonthField);
@@ -250,10 +254,14 @@ class MonthInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (!widget.hideClear && !data.required && (widget.range ? data.from != null : data.value != null))
+         if (widget.showClear && !data.required && (widget.range ? data.from != null : data.value != null))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={e => {
+                  onMouseDown={ e => { 
+                     e.preventDefault();
+                     e.stopPropagation();
+                  }}
+                  onClick={e => {
                      this.onClearClick(e);
                   }}>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>

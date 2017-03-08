@@ -3,6 +3,8 @@ import field from './Field';
 
 export default {
     ...field,
+    readOnly: false,
+    placeholder: false,
     value: {
         key: true,
         type: 'number/string',
@@ -16,24 +18,18 @@ export default {
             Convert values before selection. Useful for converting strings into numbers. Default is `true`.
         </Md></cx>
     },
-    nullString: {
+    showClear: {
         type: 'string',
         description: <cx><Md>
-            String values representing the `null` value. Default is empty string.
+            Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+            Default value is `true`. Note, the `placeholder` needs to be specified for the clear button to render.
         </Md></cx>
     },
-    readOnly: false,
-    placeholder: false,
     hideClear: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to hide the clear button. Default value is `false`.
-        </Md></cx>
-    },
-    icon: {
-        type: 'string',
-        description: <cx><Md>
-            Name of the icon to be put on the left side of the input.
+            Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+            Default value is `false`. Note, the `placeholder` needs to be specified for the clear button to render.
         </Md></cx>
     }
 };

@@ -43,6 +43,9 @@ export class DateField extends Field {
    }
 
    init() {
+      if (typeof this.hideClear != 'undefined')
+         this.showClear = !this.hideClear;
+
       super.init();
    }
 
@@ -132,7 +135,7 @@ DateField.prototype.inputErrorText = 'Invalid date entered.';
 
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
 DateField.prototype.icon = 'calendar';
-DateField.prototype.hideClear = false;
+DateField.prototype.showClear = true;
 
 Widget.alias('datefield', DateField);
 Localization.registerPrototype('cx/widgets/DateField', DateField);
@@ -195,12 +198,14 @@ class DateInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (!widget.hideClear && !data.required && data.value != null)
+         if (widget.showClear && !data.required && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                     onMouseDown={e => {
-                       this.onClearClick(e);
-                    }}>
+                       e.preventDefault();
+                       e.stopPropagation();
+                    }}
+                    onClick={ e => this.onClearClick(e) }>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );

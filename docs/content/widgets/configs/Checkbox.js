@@ -3,6 +3,10 @@ import field from './Field';
 
 export default {
     ...field,
+    placeholder: false,
+    icon: false,
+    showClear: false,
+    hideClear: false,
     value: {
         key: true,
         alias: 'checked',
@@ -33,5 +37,4 @@ export default {
             Base CSS class to be applied to the field. Defaults to `checkbox`.
         </Md></cx>
     },
-    placeholder: false
 };

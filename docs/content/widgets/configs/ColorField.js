@@ -3,6 +3,8 @@ import field from './Field';
 
 export default {
     ...field,
+    icon: false,
+    inputType: false,
     value: {
         type: 'string',
         key: true,
@@ -24,7 +26,4 @@ export default {
             Defaults to 'false'. Used to report an error when selecting a color.
             </Md></cx>
     },
-
-      
-      inputType: false
 };

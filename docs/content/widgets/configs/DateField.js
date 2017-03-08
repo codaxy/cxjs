@@ -21,11 +21,5 @@ export default {
         description: <cx><Md>
             Date format used to display the selected date. See [Formatting](~/concepts/formatting) for more details.
         </Md></cx>
-    },
-    hideClear: {
-        type: 'boolean',
-        description: <cx><Md>
-            Set to `true` to hide the clear button. Default value is `false`.
-        </Md></cx>
     }
 };

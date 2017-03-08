@@ -48,7 +48,7 @@ export class Widget extends Component {
    }
 
    init() {
-      if(typeof this.if !== 'undefined')
+      if (typeof this.if !== 'undefined')
          this.visible = this.if;
 
       this.declareData();

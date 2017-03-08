@@ -118,23 +118,24 @@ export default {
             whenever the dropdown is shown.
         </Md></cx>
     },
-    hideClear: {
-        type: 'boolean',
-        description: <cx><Md>
-            Set to `true` to hide the clear button. Default value is `false`.
-            No effect if `multiple` is used.
-        </Md></cx>
-    },
     closeOnSelect: {
         type: 'boolean',
         description: <cx><Md>
             Close the dropdown after selection. Default is `true`.
         </Md></cx>
     },
-    icon: {
+    showClear: {
         type: 'string',
         description: <cx><Md>
-            Name of the icon to be put on the left side of the input.
+            Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+            No effect if `multiple` is used. Default value is `true`.
+        </Md></cx>
+    },
+    hideClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+            No effect if `multiple` is used. Default value is `false`.
         </Md></cx>
     }
 };

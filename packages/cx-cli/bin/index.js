@@ -45,7 +45,7 @@ if (program.scaffold) {
 
    var err = copydir.sync(tplPath, appPath, function(stat, filepath, filename){
       //skip package.json and _template folder
-      if(filepath.indexOf('_template') != -1 || filename == 'package.json')
+      if (filepath.indexOf('_template') != -1 || filename == 'package.json')
          return false;
       return true; 
    });
@@ -124,7 +124,7 @@ if (program.build) {
 if (program.route) {
    var newRoute = program.args[0].split('/');
    console.log();
-   if(!newRoute){
+   if (!newRoute){
       console.log("Syntax error: missing route name. Correct syntax: cx add route route_name");
       return;
    }

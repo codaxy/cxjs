@@ -32,7 +32,6 @@ export default {
             Base CSS class to be applied to the field. Defaults to `numberfield`.
         </Md></cx>
     },
-
     increment: {
         key: true,
         alias: 'step',
@@ -56,10 +55,18 @@ export default {
             Default value is `0.1` (10%).
         </Md></cx>
     },
-    icon: {
+    showClear: {
         type: 'string',
         description: <cx><Md>
-            Name of the icon to be put on the left side of the input.
+            Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+            Default value is `false`.
+        </Md></cx>
+    },
+    hideClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+            Default value is `true`.
         </Md></cx>
     }
 };

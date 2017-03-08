@@ -3,6 +3,9 @@ import field from './Field';
 
 export default {
     ...field,
+    icon: false,
+    showClear: false,
+    hideClear: false,
     value: {
         type: 'string/Date',
         key: true,

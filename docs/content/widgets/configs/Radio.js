@@ -3,6 +3,10 @@ import field from './Field';
 
 export default {
     ...field,
+    placeholder: false,
+    icon: false,
+    showClear: false,
+    hideClear: false,
     value: {
         key: true,
         alias: 'selection',
@@ -33,6 +37,5 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `radio`.
         </Md></cx>
-    },
-    placeholder: false
+    }
 };

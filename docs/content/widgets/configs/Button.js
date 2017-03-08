@@ -61,4 +61,10 @@ export default {
             Add `type="submit"` to the button.
         </Md></cx>
     },
+    icon: {
+        type: 'string',
+        description: <cx><Md>
+            Name of the icon to be put on the left side of the button.
+        </Md></cx>
+    }
 };

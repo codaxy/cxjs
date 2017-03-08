@@ -3,6 +3,9 @@ import field from './Field';
 
 export default {
     ...field,
+    icon: false,
+    showClear: false,
+    hideClear: false,
     to: {
         key: true,
         alias: 'value',
