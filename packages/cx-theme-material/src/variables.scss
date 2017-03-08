@@ -90,15 +90,15 @@ $cx-default-window-header-background-color: $cx-primary-color-dark !default;
 
 //GRID
 $cx-default-grid-border-radius: $cx-default-border-radius !default;
-$cx-default-grid-box-shadow: $cx-default-box-shadow !default;
-$cx-default-grid-border-color: transparent !default;
+/*$cx-default-grid-box-shadow: $cx-default-box-shadow !default;*/
+$cx-default-grid-border-color: #e0e0e0 !default;
 
 /* header */
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height !default;
 $cx-default-grid-header-color: lighten($cx-secondary-text-color, 15) !default;
 $cx-default-grid-header-background-color: $cx-default-background-color !default;
-$cx-default-grid-header-border-color: transparent transparent #e0e0e0 !default;
+$cx-default-grid-header-border-color: transparent transparent $cx-default-grid-border-color !default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
 $cx-default-grid-header-padding: $cx-default-button-padding !default;
 
@@ -616,6 +616,22 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
   )
 ));
 
+/* pagination */
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
+  default: (
+    border-radius: $cx-default-border-radius
+  )
+));
+
+/* grid mods */
+$cx-grid-mods: cx-deep-map-merge($cx-grid-mods, (
+  shadow: (
+    default: (
+      box-shadow: $cx-default-box-shadow,
+      border-width: 0 !important
+    )   
+  )
+));
 
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (

@@ -53,7 +53,7 @@ p {
 }
 
 // FORM
-//std field
+/* standard field */
 $form-list: (
   textfield
   numberfield
@@ -125,7 +125,7 @@ $form-list: (
   }   
 }
 
-//calendar 
+/* calendar */ 
 .cxb-calendar {
   .cxe-calendar-day-names {
     background-color: $cx-primary-color;
@@ -133,7 +133,7 @@ $form-list: (
   }
 }
 
-//checkbox
+/* checkbox */
 .cxb-checkbox {
   padding: $cx-default-box-padding + 2px;
 }
@@ -167,7 +167,7 @@ $form-list: (
   }
 }
 
-//radio
+/* radio */
 .cxe-radio-input {
   border-width: 2px;
   border-color: darken(#dbdbdb, 10);
@@ -205,7 +205,7 @@ $form-list: (
   }
 }
 
-//colorpicker
+/* colorpicker */
 .cxb-colorpicker {
   input {
     line-height: 16px;
@@ -222,7 +222,7 @@ $form-list: (
   }
 }
 
-// TAB
+//TAB
 .cxb-classic-tab-container {
   box-shadow: $cx-default-box-shadow;
   height: 2 * $cx-default-box-padding + $cx-default-box-line-height;
@@ -245,7 +245,7 @@ $form-list: (
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 }
 
-// WINDOW
+//WINDOW
 .cxb-window {
   animation: modal 0.3s ease-in; 
 }
@@ -255,34 +255,36 @@ $form-list: (
   to {opacity: 1;}
 }
 
-// MENU
+//MENU
 .cxb-menu {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 
-  /*.cxb-menuitem {
-    &:before {
+  .cxb-menuitem {
+    &:after {
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      width: 0;
+      right: 0;
+      width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
-      opacity: 1;
+      opacity: 0;
       border-radius: $cx-default-border-radius;
     }
-  }*/
+  }
 }
 
-/*.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
-  background-color: transparent;
+.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
+  /*background-color: transparent;*/
 
-  &:before {
-    width: 100%;
-    transition: width 0.25s;
+  &:after {
+    width: 0;
+    height: 0;
+    transition: width 0.35s, height 2s;  
     background-color: rgba(0, 0, 0, 0.1);
+    opacity: 1;
   }
-}*/
+}
 
 /*.cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
   background-color: transparent;
@@ -331,7 +333,14 @@ $form-list: (
   box-shadow: $cx-default-grid-header-box-shadow;
   
   .cxe-grid-col-header {
-    border-color: $cx-default-border-color;
+    border-color: #fff;
+  }
+
+  .cxs-sorted-asc, .cxs-sorted-desc {
+    border-color: darken($cx-default-grid-header-background-color, 2);
+    &:hover {
+      border-color: darken($cx-default-grid-header-background-color, 3);
+    }
   }
 }
 
@@ -385,35 +394,7 @@ $form-list: (
   font-feature-settings: 'liga';
 }
 
-//old one
-/*.cxb-button, .cxb-tab {
-  overflow: hidden;
-
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 5%;
-    pointer-events: none;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.4) 10%, transparent 10.01%);
-    background-repeat: no-repeat;
-    background-position: 50%;
-    transform: scale(15, 15);
-    opacity: 0;
-    transition: transform .5s, opacity 1s;
-  }
-
-  &:active:before {
-    transform: scale(0, 0);
-    opacity: .2;
-    transition: 0s;
-  }
-}*/
-
-//Scrollbar style
+//scrollbar
 @if ($cx-include-global-rules) {
   ::-webkit-scrollbar {
 	  width: 10px;

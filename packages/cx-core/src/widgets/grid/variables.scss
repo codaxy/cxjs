@@ -13,11 +13,6 @@ $cx-default-grid-header-border-color: $cx-default-border-color !default;
 $cx-default-grid-header-box-shadow: null !default;
 $cx-default-grid-header-padding: null !default;
 
-/* data */
-$cx-default-grid-data-line-height: null !default;
-$cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
-$cx-default-grid-data-padding: 5px !default;
-
 $cx-grid-header-state-style-map: (
   default: (
     font-size: $cx-default-grid-header-font-size,
@@ -25,7 +20,6 @@ $cx-grid-header-state-style-map: (
     color: $cx-default-grid-header-color,
     background-color: $cx-default-grid-header-background-color,
     border-color: $cx-default-grid-header-border-color,
-    /*box-shadow: $cx-default-grid-header-box-shadow,*/
     background-clip: padding-box,
     padding: $cx-default-grid-header-padding
    ),
@@ -40,6 +34,10 @@ $cx-grid-header-state-style-map: (
   )
 ) !default;
 
+/* data */
+$cx-default-grid-data-line-height: null !default;
+$cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
+$cx-default-grid-data-padding: 5px !default;
 
 $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
   default: (
@@ -48,3 +46,32 @@ $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
     padding: $cx-default-grid-data-padding
   )
 )) !default;
+
+/* pagination */
+$cx-grid-pagination-default-border-width: $cx-default-border-width !default;
+$cx-grid-pagination-default-border-color: $cx-default-border-color !default;
+$cx-grid-pagination-default-border-radius: null !default;
+$cx-grid-pagination-default-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
+
+)) !default;
+
+/* mods */
+$cx-grid-mods: (
+  primary: (
+    default: (
+      background-color: #1f99f8,
+      border-color: #1E88E5,
+      color: white
+    ),
+    disabled: (
+       background-color: transparentize(#1f99f8, 0.5),
+       border-color: transparentize(#1E88E5, 0.9),
+       color: transparentize(white, 0.4),
+    ),
+    hover: (
+        background-color: #1f99f8
+    )
+  )
+) !default;
