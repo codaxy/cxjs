@@ -32,7 +32,7 @@ $cx-default-paragraph-line-height: 1.5 !default;
 $cx-default-background-color: #fff !default;
 
 $cx-primary-color: nth($cx-default-color-scheme, 1)!default; 
-$cx-primary-color-light: lighten($cx-primary-color, 5) !default;
+$cx-primary-color-light: lighten($cx-primary-color, 8) !default;
 $cx-primary-color-dark: darken($cx-primary-color, 5) !default;
 $cx-accent-color: nth($cx-default-color-scheme, 2) !default;
 $cx-warning-color: #F44336 !default;
@@ -96,7 +96,7 @@ $cx-default-grid-border-color: transparent !default;
 /* header */
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height !default;
-$cx-default-grid-header-color: lighten($cx-secondary-text-color, 5) !default;
+$cx-default-grid-header-color: lighten($cx-secondary-text-color, 15) !default;
 $cx-default-grid-header-background-color: $cx-default-background-color !default;
 $cx-default-grid-header-border-color: transparent transparent #e0e0e0 !default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
@@ -599,6 +599,23 @@ $cx-window-mods: (
     )
   )
 );
+
+//GRID  
+$cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-map, (
+  hover: (
+    color: darken($cx-default-grid-header-color, 10),
+    background-color: $cx-default-grid-header-background-color
+  ),
+  sorted: (
+    color: $cx-default-color,
+    background-color: darken($cx-default-grid-header-background-color, 2)
+  ),
+  sorted-hover: (
+    color: darken($cx-default-grid-header-color, 25),
+    background-color: darken($cx-default-grid-header-background-color, 3)
+  )
+));
+
 
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
