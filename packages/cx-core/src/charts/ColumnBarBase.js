@@ -15,7 +15,7 @@ export class ColumnBarBase extends PureContainer {
 
       return super.declareData(...arguments, selection, {
          x: undefined,
-         y: undefined,         
+         y: undefined,
          style: {structured: true},
          class: {structured: true},
          className: {structured: true},
@@ -39,7 +39,7 @@ export class ColumnBarBase extends PureContainer {
       data.valid = this.checkValid(data);
       super.prepareData(context, instance);
    }
-   
+
    checkValid(data) {
       return true;
    }
@@ -54,12 +54,14 @@ export class ColumnBarBase extends PureContainer {
             instance.shouldUpdate = true;
          }
       }
-      
+
       if (!data.valid)
          return;
 
       if (data.active) {
          instance.bounds = this.calculateRect(instance);
+         if (!instance.bounds.isEqual(instance.cached.bounds))
+            instance.shouldUpdate = true;
 
          var parentBounds = context.parentRect;
          context.parentRect = instance.bounds;
@@ -78,7 +80,9 @@ export class ColumnBarBase extends PureContainer {
             selected: this.selection.isInstanceSelected(instance),
             style: data.style,
             shape: this.legendShape,
-            onClick: e=> { this.onLegendClick(e, instance) }
+            onClick: e => {
+               this.onLegendClick(e, instance)
+            }
          });
    }
 
@@ -97,8 +101,9 @@ export class ColumnBarBase extends PureContainer {
       let {data} = instance;
       if (data.active && data.valid)
          super.cleanup(context, instance);
+      instance.cached.bounds = instance.bounds;
    }
-   
+
    calculateRect(context, instance) {
       throw new Error('Abstract method.')
    }
@@ -117,15 +122,22 @@ export class ColumnBarBase extends PureContainer {
       };
 
       return <g className={data.classNames} key={key}>
-         <rect className={this.CSS.element(this.baseClass, 'rect', stateMods)}
-               style={data.style}
-               x={bounds.l}
-               y={bounds.t}
-               width={Math.max(0.0001, bounds.width())}
-               height={Math.max(0.0001, bounds.height())}
-               onMouseMove={e=>{tooltipMouseMove(e, instance)}}
-               onMouseLeave={e=>{tooltipMouseLeave(e, instance)}}
-               onClick={e=>{this.handleClick(e, instance)}}
+         <rect
+            className={this.CSS.element(this.baseClass, 'rect', stateMods)}
+            style={data.style}
+            x={bounds.l}
+            y={bounds.t}
+            width={Math.max(0.0001, bounds.width())}
+            height={Math.max(0.0001, bounds.height())}
+            onMouseMove={e => {
+               tooltipMouseMove(e, instance)
+            }}
+            onMouseLeave={e => {
+               tooltipMouseLeave(e, instance)
+            }}
+            onClick={e => {
+               this.handleClick(e, instance)
+            }}
          />
          {this.renderChildren(context, instance)}
       </g>;
