@@ -22,7 +22,9 @@ Localization.override('cx/widgets/Field', {
 
 // set buttonMmod to MsgBox buttons
 Localization.override('cx/widgets/MsgBox', {
-   buttonMod: "flat-color"
+   buttonMod: "flat-color",
+   footerDirection: "row-reverse",
+   footerJustify: "start"
 });
 
 Icon.registerFactory((name, props) => {

@@ -42,6 +42,10 @@
          flex-direction: row;
       }
 
+      &.#{$state}row-reverse {
+         flex-direction: row-reverse;
+      }
+
       @each $pad, $size in $cx-pad-size
       {
          &.#{$state}#{$pad}-spacing {
