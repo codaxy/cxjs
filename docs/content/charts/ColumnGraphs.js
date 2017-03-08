@@ -18,7 +18,7 @@ class PageController extends Controller {
         super.init();
         var v1 = 100;
         var v2 = 110;
-        this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
+        this.store.init('$page.points', Array.from({length: 11}, (_, i) => ({
             x: casual.city,
             v1: v1 = (v1 + (Math.random() - 0.5) * 30),
             v2: v2 = (v2 + (Math.random() - 0.5) * 30)
@@ -40,7 +40,7 @@ export const ColumnGraphs = <cx>
                 <Legend />
                 <Svg style="width:600px; height:400px;">
                     <Chart offset="20 -20 -100 40" axes={{
-                        x: {type: CategoryAxis, snapToTicks: 0, labelRotation: -90, labelAnchor: 'end', labelWrap: true },
+                        x: {type: CategoryAxis, snapToTicks: 0, labelWrap: true, labelOffset: 15, labelRotation: -45, labelDy: '0.3em', labelAnchor: 'end', labelWrapAlignement: -0.5 },
                         y: {type: NumericAxis, vertical: true, snapToTicks: 1}
                     }}>
                         <Gridlines/>

@@ -39,6 +39,7 @@ export class Axis extends BoundedObject {
       var size = calculator.findTickSize(this.minLabelDistance);
 
       var labelClass = this.CSS.element(this.baseClass, 'label');
+      var offsetClass = this.CSS.element(this.baseClass, 'label-offset');
 
       var x1, y1, x2, y2, tickSize = this.tickSize;
 
@@ -94,10 +95,9 @@ export class Axis extends BoundedObject {
                               x={x}
                               y={y}
                               dx={this.labelDx}
-                              dy={this.labelDy}
                               textAnchor={this.labelAnchor}
                               transform={transform}>
-                  {this.multiLineFormat(valueFormatter(v), x)}
+                  {this.wrapLines(valueFormatter(v), x, this.labelDy, offsetClass)}
                </text>);
             });
          });
@@ -106,13 +106,39 @@ export class Axis extends BoundedObject {
       return res;
    }
 
-   multiLineFormat(str, x) {
+   wrapLines(str, x, dy, offsetClass) {
       if (!this.labelWrap || typeof str != 'string')
-         return str;
+         return <tspan x={x} dy={dy}>{str}</tspan>;
 
       let parts = str.split(' ');
-      let offset = this.labelWrapAlignement * (parts.length - 1);
-      return parts.map((p, i) => <tspan key={i} dy={`${(i == 0 ? offset : 1) * 1.2}em`} x={x}>{p}</tspan>);
+      if (parts.length == 0)
+         return null;
+
+      let lines = [];
+      let line = null;
+      for (let i = 0; i < parts.length; i++) {
+         if (!line)
+            line = parts[i];
+         else if (parts[i].length + line.length < this.maxLabelLineLength)
+            line += parts[i];
+         else {
+            lines.push(line);
+            line = parts[i];
+         }
+      }
+      lines.push(line);
+
+      if (lines.length == 1)
+         return <tspan x={x} dy={dy}>{str}</tspan>;
+
+      let offset = this.labelWrapAlignement * (lines.length - 1);
+      let result = [dy != null && <tspan key={-2} className={offsetClass} dy={dy}>_</tspan>];
+
+      lines.forEach((p, i) => {
+         result.push(<tspan key={i} dy={`${(i == 0 ? offset : 1) * 1.1}em`} x={x}>{p}</tspan>)
+      });
+
+      return result;
    }
 
    prepare(context, instance) {
@@ -147,7 +173,8 @@ Axis.prototype.labelAnchor = 'auto';
 Axis.prototype.labelDx = 'auto';
 Axis.prototype.labelDy = 'auto';
 Axis.prototype.labelWrap = false;
-Axis.prototype.labelWrapAlignement = -0.5;
+Axis.prototype.labelWrapAlignement = 0;
+Axis.prototype.maxLabelLineLength = 10;
 
 Axis.namespace = 'ui.svg.chart.axis';
 

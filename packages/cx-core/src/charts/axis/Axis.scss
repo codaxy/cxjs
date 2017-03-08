@@ -17,3 +17,7 @@
    font-size: smaller;
    fill: currentColor;
 }
+
+@mixin cxe-axis-label-offset() {
+   visibility: hidden;
+}
