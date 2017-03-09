@@ -11,7 +11,7 @@ Localization.override('cx/widgets/Dropdown', {
 
 Localization.override('cx/widgets/MenuItem', {
    dropdownOptions: {
-      pad: true
+      pad: false
    }
 });
 
