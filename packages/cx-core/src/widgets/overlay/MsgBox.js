@@ -25,9 +25,12 @@ export class MsgBox {
             <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
                     resizable={false} closable={false}>
                {options.message}
-               <div putInto="footer">
+               <FlexRow putInto="footer"
+                  direction={MsgBox.prototype.footerDirection} 
+                  justify={MsgBox.prototype.footerJustify}  
+               >
                   <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>OK</Button>
-               </div>
+               </FlexRow>
             </Window>
          </cx>);
 
