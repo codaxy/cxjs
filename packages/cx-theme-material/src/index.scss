@@ -293,68 +293,6 @@ $form-list: (
   }
 }
 
-
-/*.cxb-menu {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
-
-  .cxb-menuitem {
-    &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      border-radius: $cx-default-border-radius;
-    }
-  }
-}
-
-.cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
-  background-color: transparent;
-
-  &:after {
-    width: 0;
-    height: 0;
-    transition: width 0.2s, height 0s 0.2s;  
-    background-color: rgba(255,255,255, 1);
-    opacity: 1;
-  }
-}*/
-
-/*.cxb-menuitem.cxs-open {
-  > .cxb-dropdown {
-    transform: scale(0,0);
-    transition: transform 0.2s 0.15s;
-    &.cxs-place-down-right {
-      transform-origin: top left;
-      transform: scale(1,1);
-    }
-    &.cxs-place-up-right {
-      transform-origin: bottom left;
-      transform: scale(1,1);
-    }
-    &.cxs-place-right-down {
-      transform-origin: top left;
-      transform: scale(1,1);
-    }
-    &.cxs-place-right-top {
-      transform-origin: bottom left;
-      transform: scale(1,1);
-    }
-    &.cxs-place-left-top {
-      transform-origin: bottom right;
-      transform: scale(1,1);
-    }
-    &.cxs-place-left-down {
-      transform-origin: top right;
-      transform: scale(1,1);
-    }
-  }
-}*/
-
 .cxb-menu .cxe-menu-item > hr {
   margin: $cx-default-padding-medium 0;
 }
@@ -379,6 +317,15 @@ $form-list: (
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* sum total row - maybe a class is needed there */
+.cxe-grid-group-footer, .cxe-grid-group-caption {
+  td {
+    line-height: $cx-default-grid-data-line-height;
+    padding: $cx-default-grid-data-padding;
+    border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
+  }
 }
 
 //ripple effect
