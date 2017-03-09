@@ -57,9 +57,10 @@ class ContentController extends Controller {
             return matches && matches[1];
         });
 
+        this.store.set('contentVersion', getVersion());
+
         // #if development
 
-        this.store.set('contentVersion', getVersion());
         setInterval(() => {
             this.store.set('contentVersion', getVersion())
         }, 20);
