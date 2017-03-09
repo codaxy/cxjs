@@ -12,14 +12,6 @@ export class Rect {
       return this.b - this.t;
    }
 
-   width() {
-      return this.r - this.l;
-   }
-
-   height() {
-      return this.b - this.t;
-   }
-
    valid() {
       return this.r > this.l && this.b > this.t;
    }
