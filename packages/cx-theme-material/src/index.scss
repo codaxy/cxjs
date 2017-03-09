@@ -385,7 +385,7 @@ $form-list: (
 .cxb-button, .cxb-tab {
   overflow: hidden;
 
-  &:before {
+  &:not(.cxs-empty):before {
     content: '';
     position: absolute;
     top: calc(50% - 2px);
@@ -406,6 +406,9 @@ $form-list: (
   }
 }
 
+
+
+//material-icons
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;

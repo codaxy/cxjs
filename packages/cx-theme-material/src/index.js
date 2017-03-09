@@ -34,3 +34,4 @@ Icon.registerFactory((name, props) => {
 });
 
 Icon.register('calendar', props => Icon.render('date_range', props));
+//Icon.register('clear', props => Icon.render('close', props));

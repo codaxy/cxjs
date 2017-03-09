@@ -423,7 +423,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   hollow: (
     focus: (
-      background-color: darken($cx-default-background-color, 8),
+      background-color: rgba(0, 0, 0, 0.08),
       box-shadow: none
     ),
     active: (
