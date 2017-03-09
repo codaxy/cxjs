@@ -259,7 +259,7 @@ $form-list: (
 .cxb-menu {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 
-  .cxb-menuitem {
+  /*.cxb-menuitem {
     &:after {
       content: '';
       position: absolute;
@@ -271,20 +271,51 @@ $form-list: (
       opacity: 0;
       border-radius: $cx-default-border-radius;
     }
-  }
+  }*/
 }
 
 .cxs-focusable.cxs-cursor > .cxb-menuitem.cxs-cursor {
   /*background-color: transparent;*/
 
-  &:after {
+  /*&:after {
     width: 0;
     height: 0;
-    transition: width 0.35s, height 5s;  
-    background-color: rgba(0, 0, 0, 0.1);
+    transition: width 0.2s, height 0s 0.2s;  
+    background-color: rgba(255,255,255, 1);
+    opacity: 1;
+  }*/
+}
+
+/*.cxb-menuitem.cxs-vertical.cxs-cursor.cxs-medium-padding > a {
+  padding: 7px 14px;
+  line-height: 24px;
+  border: 1px solid transparent;
+  display: block;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    opacity: 1;
+    border-radius: $cx-default-border-radius;
+  }
+  
+}*/
+
+/*.cxs-focusable  .cxb-menuitem.cxs-vertical.cxs-cursor.cxs-medium-padding > a {
+
+  &:focus:after {
+    width: 0;
+    height: 0;
+    transition: width 0.2s;  
+    background-color: #fbfbfb;
     opacity: 1;
   }
-}
+}*/
 
 /*.cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
   background-color: transparent;
@@ -342,6 +373,12 @@ $form-list: (
       border-color: darken($cx-default-grid-header-background-color, 3);
     }
   }
+}
+
+.cxe-grid-col-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 //ripple effect

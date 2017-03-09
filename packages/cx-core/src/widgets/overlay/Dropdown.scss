@@ -9,6 +9,7 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
+   $color: map-get($styles, color);
    $border-width: map-get($styles, border-width);
    $border-color: map-get($styles, border-color);
    $background-color: map-get($styles, background-color); 
@@ -18,7 +19,7 @@
       display: block;
       left: -10000px;
       top: -10000px;
-      color: $cx-default-color;
+      color: $color;
       background-color: $background-color;
 
       @include cx-add-rules($styles);
