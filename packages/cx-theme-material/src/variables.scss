@@ -108,7 +108,7 @@ $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-paddi
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
 //TOAST
-$cx-default-toast-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !default;
+$cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
@@ -591,11 +591,12 @@ $cx-window-mods: (
       color: $cx-secondary-text-color
     ),
     body: (
-      padding: 25px 25px 40px,
+      padding: 24px 24px 20px,
       text-align: left    
     ),
     footer: (
-      border-top: none
+      border-top: none,
+      padding: 8px 0
     )
   )
 );

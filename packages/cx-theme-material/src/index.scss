@@ -247,7 +247,11 @@ $form-list: (
 
 //WINDOW
 .cxb-window {
-  animation: modal 0.3s ease-in; 
+  animation: modal 0.3s ease-in;
+  
+  &.cxm-alert .cxb-button {
+    margin: 0 0 0 8px;
+  } 
 }
 
 @keyframes modal {
