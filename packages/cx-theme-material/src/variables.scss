@@ -108,7 +108,10 @@ $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-paddi
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
 //TOAST
+$cx-default-toast-color: #fff !default;
+$cx-default-toast-background-color: rgb(51, 51, 51) !default;
 $cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
+$cx-default-toast-padding: $cx-default-box-padding + 5px 4 * $cx-default-box-padding !default; 
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
@@ -154,9 +157,9 @@ $cx-default-colorpicker-border-width: 0 !default;
 $cx-default-colorpicker-box-shadow: $cx-default-box-shadow !default;
 
 /* icon */
-$cx-default-icon-size: 24px !default;
-$cx-default-input-tool-size: 24px !default;
-$cx-default-clear-size: 24px !default;
+$cx-default-icon-size: $cx-default-box-line-height !default;
+$cx-default-input-tool-size: $cx-default-icon-size !default;
+$cx-default-clear-size: $cx-default-icon-size !default;
 
 @import "~cx-core/src/variables";
 

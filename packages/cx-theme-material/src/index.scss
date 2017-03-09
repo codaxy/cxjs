@@ -42,10 +42,6 @@ p {
    border-color: transparent !important;
 }
 
-.cxb-flexbox button.cxb-button {
-  margin: 8px;
-}
-
 // BUTTON
 /*override for chrome mobile*/
 .cxb-button {
@@ -414,7 +410,7 @@ $form-list: (
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: $cx-default-box-line-height;  /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;

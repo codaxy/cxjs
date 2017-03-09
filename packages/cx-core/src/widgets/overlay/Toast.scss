@@ -9,7 +9,8 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      background: $cx-default-toast-background-color;
+      color: $cx-default-toast-color;
+      background-color: $cx-default-toast-background-color;
       box-sizing: border-box;
       position: relative;
       z-index: 1000;
@@ -28,12 +29,13 @@
       align-items: center;
 
       &.#{$state}pad {
-         padding: 10px;
+         padding: $cx-default-toast-padding;
       }
 
       &.#{$state}animated {
          transform: scale(1);
-         opacity: 1;
+         opacity: 1;      
+         transition: all 0.2s ease-in-out;
       }
    }
 }
