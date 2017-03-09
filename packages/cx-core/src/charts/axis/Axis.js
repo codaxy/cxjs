@@ -123,7 +123,7 @@ export class Axis extends BoundedObject {
          if (!line)
             line = parts[i];
          else if (parts[i].length + line.length < this.labelMaxLineLength)
-            line += parts[i];
+            line += ' ' + parts[i];
          else {
             lines.push(line);
             line = parts[i];
