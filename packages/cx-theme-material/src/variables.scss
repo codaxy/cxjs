@@ -443,8 +443,22 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       width: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px,
       height: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px
     ),
+    hover: (
+       background-color: $cx-accent-color,
+       box-shadow: 0 5px 8px rgba(0, 0, 0, 0.45)
+    ),
+    focus: (
+      background-color: darken($cx-accent-color, 4)
+    ),
     active: (
+      background-color: lighten($cx-accent-color, 3),
       box-shadow: 0 8px 12px rgba(0, 0, 0, 0.45)
+    ),
+    disabled: (
+      box-shadow: none,
+      border-color: transparent,
+      color: rgba(255, 255, 255, 0.45),
+      background-color: rgba($cx-primary-color, 0.5)
     )
   )
 ));

@@ -336,11 +336,11 @@ $form-list: (
 .cxb-button, .cxb-tab {
   overflow: hidden;
 
-  &:not(.cxs-empty):before {
+  &:before {
     content: '';
     position: absolute;
-    top: calc(50% - 2px);
-    left: calc(50% - 2px);
+    top: calc(50% - 3px);
+    left: calc(50% - 3px);
     width: 6px;
     height: 6px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -348,6 +348,10 @@ $form-list: (
     border-radius: 100%;
     transform: scale(18, 18);
     transition: transform 0.3s, opacity 0.8s;
+  }
+
+  &.cxm-float:before {
+    transform: scale(9, 9);
   }
 
   &:active:before {
