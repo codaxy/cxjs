@@ -432,6 +432,20 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     disabled: (
       color: rgba(0, 0, 0, 0.26)
     )
+  ),
+  float: (
+    default: (
+      color: #fff,
+      background-color: $cx-accent-color,
+      border-radius: 50%,
+      box-shadow:  0 4px 6px rgba(0, 0, 0, 0.45),
+      padding: 0 !important,
+      width: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px,
+      height: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px
+    ),
+    active: (
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.45)
+    )
   )
 ));
 

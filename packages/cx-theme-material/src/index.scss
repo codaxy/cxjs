@@ -46,6 +46,10 @@ p {
 /*override for chrome mobile*/
 .cxb-button {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+
+  &.cxm-float .cxe-button-icon {
+    left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+  }
 }
 
 // FORM
@@ -337,12 +341,12 @@ $form-list: (
     position: absolute;
     top: calc(50% - 2px);
     left: calc(50% - 2px);
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     border-radius: 100%;
-    transform: scale(25, 25);
+    transform: scale(18, 18);
     transition: transform 0.3s, opacity 0.8s;
   }
 
