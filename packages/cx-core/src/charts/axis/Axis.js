@@ -138,7 +138,7 @@ export class Axis extends BoundedObject {
       let result = [dy != null && <tspan key={-2} className={offsetClass} dy={dy}>_</tspan>];
 
       lines.forEach((p, i) => {
-         result.push(<tspan key={i} dy={`${(i == 0 ? offset : 1) * 1.1}em`} x={x}>{p}</tspan>)
+         result.push(<tspan key={i} dy={`${i == 0 ? offset : 1}em`} x={x}>{p}</tspan>)
       });
 
       return result;
