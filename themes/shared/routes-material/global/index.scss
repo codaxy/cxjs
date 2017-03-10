@@ -1,0 +1,59 @@
+.b-color-well {
+   width: 70px;
+   height: 70px;
+   line-height: 66px;
+   box-sizing: border-box;
+   position: relative;
+   border-radius: 5px;
+   overflow: hidden;
+   box-shadow: 0 0 5px rgba(128, 128, 128, 0.5);
+   border-width: 2px;
+   border-style: solid;
+   margin: 5px 10px 5px 0;
+   text-align: center;
+
+   @extend %cx-checker-bg;
+
+   &:after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+   }
+
+   &.m-text:after {
+      content: ' ';
+      background: $cx-default-empty-text-color;
+   }
+
+   &.m-border:after {
+      content: ' ';
+      background: $cx-default-border-color;
+   }
+
+   &.m-button:after {
+      content: ' ';
+      background: $cx-default-button-background-color;
+   }
+
+   &.m-input:after {
+      content: ' ';
+      background: $cx-default-input-background-color;
+   }
+
+   &.m-focus:after {
+      content: ' ';
+      background: cx-get-state-rule($cx-input-state-style-map, focus, border-color);
+   }
+
+   &.m-selection:after {
+      content: ' ';
+      background: cx-get-state-rule($cx-list-item, selected, background-color);
+   }
+
+   &.m-selection-focus:after {
+      content: ' ';
+      background: cx-get-state-rule($cx-list-item, selected-focus, background-color);
+   }
+}
