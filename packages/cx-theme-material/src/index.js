@@ -32,8 +32,8 @@ Icon.registerFactory((name, props) => {
    props.className = 'material-icons ' + (props.className || '');
    return <i {...props}>{name}</i>;
 });
+Icon.unregister('close');
 
 Icon.register('calendar', props => Icon.render('date_range', props));
 Icon.register('drop-down', props => Icon.render('keyboard_arrow_down', props));
-Icon.register('close', props => Icon.render('clear', props));
 Icon.register('sort-asc', props => Icon.render('arrow_upward', props));
