@@ -40,6 +40,7 @@ export default <cx>
             <Button mod="hollow" disabled>Disabled</Button>
 
             <Button mod="hollow" icon="calendar">Icon + Text</Button>
+            <Button mod="hollow" icon="calendar" />
             <Button mod="hollow" mod="float" icon="calendar" />
          </FlexRow>
       </Section>
