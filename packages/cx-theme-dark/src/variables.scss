@@ -170,7 +170,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 
 // SECTION 
 $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
-   well: (
+   card: (
       background-color: $cx-default-background-color,
       border-radius: $cx-default-border-radius + 1px
    )

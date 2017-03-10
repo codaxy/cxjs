@@ -17,8 +17,8 @@
 
       @include cx-add-rules($cx-section-styles);
 
-      &.cxm-well {
-         @include cx-add-state-rules($mods, well);
+      &.cxm-card {
+         @include cx-add-state-rules($mods, card);
       }
    }
 

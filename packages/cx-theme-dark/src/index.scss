@@ -33,7 +33,10 @@
 .cxe-grid-header .cxe-textfield-input {
   background-color: $cx-default-background-color;
 }
-
+// can be used interchangeably with mod='card'
+.cxm-well {
+  @extend .cxm-card;
+}
 
 /* Scrollbar Style*/
 

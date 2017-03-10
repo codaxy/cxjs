@@ -4,7 +4,7 @@ export default <cx>
    <span putInto="breadcrumbs">Global</span>
 
    <FlexCol pad spacing wrap>
-      <Section title="Typography" mod="well" style="flex:1" preserveWhitespace>
+      <Section title="Typography" mod="card" style="flex:1" preserveWhitespace>
          <h1>Header 1</h1>
          <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
@@ -63,7 +63,7 @@ export default <cx>
 
       </Section>
 
-      <Section title="Color Palette" mod="well" style="flex:1" preserveWhitespace>
+      <Section title="Color Palette" mod="card" style="flex:1" preserveWhitespace>
          <h4>Default</h4>
          <FlexRow spacing wrap>
             <Repeater records={Array.from({length: 16})}>

@@ -19,7 +19,7 @@ export const Sections = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <Section mod="well" title="Section 1">
+                <Section mod="card" title="Section 1">
                     Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
                 </Section>
 
@@ -33,7 +33,7 @@ export const Sections = <cx>
                     </FlexRow>
                 </Section>
 
-                <Section mod="well">
+                <Section mod="card">
                     <FlexRow align="center" putInto="header">
                         <Heading level="4" style="color:lightblue">Custom Header</Heading>
                         <Button mod="hollow" icon="close" style="margin-left: auto"/>
@@ -42,7 +42,7 @@ export const Sections = <cx>
                 </Section>
             </div>
             <CodeSnippet putInto="code" fiddle="SJ9BRvXE">{`
-                <Section mod="well" title="Section 1">
+                <Section mod="card" title="Section 1">
                     Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
                 </Section>
 
@@ -56,7 +56,7 @@ export const Sections = <cx>
                     </FlexRow>
                 </Section>
 
-                <Section mod="well">
+                <Section mod="card">
                     <FlexRow align="center" putInto="header">
                         <Heading level="4" style="color:lightblue">Custom Header</Heading>
                         <Button mod="hollow" icon="close" style="margin-left: auto"/>

@@ -18,19 +18,19 @@ export default <cx>
       <span putInto="breadcrumbs">Grids</span>
 
       <FlexRow pad spacing wrap target="desktop">
-         <Section title="Pagination" style="flex:1" mod="well">
+         <Section title="Pagination" style="flex:1" mod="card">
             <Pagination />
          </Section>
 
-         <Section title="Fixed Header" style="flex:1" mod="well">
+         <Section title="Fixed Header" style="flex:1" mod="card">
             <FixedHeader />
          </Section>
 
-         <Section title="Grouping" style="flex:1" mod="well">
+         <Section title="Grouping" style="flex:1" mod="card">
             <Grouping />
          </Section>
 
-         <Section title="Grid Dashboard" style="flex:2" mod="well" >
+         <Section title="Grid Dashboard" style="flex:2" mod="card" >
             <Dashboard />
          </Section>
       </FlexRow>

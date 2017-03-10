@@ -25,7 +25,7 @@ export default <cx>
    <span putInto="breadcrumbs">Widgets</span>
 
    <FlexRow pad spacing wrap target="tablet">
-      <Section mod="well" title="Buttons" style="flex:1;min-width:250px" preserveWhitespace>
+      <Section mod="card" title="Buttons" style="flex:1;min-width:250px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
             <Button disabled>Disabled</Button>
@@ -44,7 +44,7 @@ export default <cx>
          </FlexRow>
       </Section>
 
-      <Section mod="well" title="Tabs" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Tabs" style="flex:1" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
@@ -58,7 +58,7 @@ export default <cx>
       </Section>
 
       <Section
-         mod="well"
+         mod="card"
          title="Classic Tabs"
          pad={false}
          style="flex:1;"
@@ -77,7 +77,7 @@ export default <cx>
          </div>
       </Section>
 
-      <Section mod="well" title="Underline" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Underline" style="flex:1" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
@@ -87,7 +87,7 @@ export default <cx>
          <br/>
          <TabContent />
       </Section>
-         <Section mod="well" title="Windows" style="flex:1">
+         <Section mod="card" title="Windows" style="flex:1">
             <FlexRow spacing align wrap>
                <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
                <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
@@ -98,11 +98,11 @@ export default <cx>
             <ContactWindow />
          </Section>
 
-         <Section mod="well" title="Menus" style="flex:1">
+         <Section mod="card" title="Menus" style="flex:1">
             <Menu1 />
          </Section>
 
-         <Section mod="well" title="Toasts" style="flex:1">
+         <Section mod="card" title="Toasts" style="flex:1">
             <Toasts />
          </Section>
 

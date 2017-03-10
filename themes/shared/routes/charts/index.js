@@ -8,13 +8,13 @@ export default <cx>
    <span putInto="breadcrumbs">Charts</span>
 
    <FlexRow pad spacing wrap>
-      <Section mod="well" style="flex:1" title="Line Chart">
+      <Section mod="card" style="flex:1" title="Line Chart">
          <LineChart />
       </Section>
-      <Section mod="well" style="flex:1" title="Bar Chart">
+      <Section mod="card" style="flex:1" title="Bar Chart">
          <BarChart />
       </Section>
-      <Section mod="well" style="flex:1" title="Pie Chart">
+      <Section mod="card" style="flex:1" title="Pie Chart">
          <PieChart />
       </Section>
    </FlexRow>

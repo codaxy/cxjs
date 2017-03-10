@@ -1,10 +1,14 @@
 
 @import "~cx-core/src/index";
 
-.cxb-section.cxm-well.cxm-well {
+.cxb-section.cxm-card.cxm-card {
    background-color: white;
    box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
    color: #66686e;
+}
+// can be used interchangeably with mod='card'
+.cxm-well {
+  @extend .cxm-card;
 }
 
 .cxe-section-header.cxe-section-header  {
