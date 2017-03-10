@@ -335,7 +335,11 @@ $form-list: (
     border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
   }
 }
-
+.cxs-border {
+  .cxe-grid-col-header {
+    border-width: 0;
+  }
+}
 //ripple effect
 .cxb-button, .cxb-tab {
   overflow: hidden;

@@ -143,7 +143,7 @@ export class Grid extends Widget {
 
       let border = this.border;
 
-      if (border == null && this.scrollable)
+      if (border == null) //&& this.scrollable)
          border = true;
 
       let dragMode = false;
