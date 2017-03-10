@@ -472,6 +472,19 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   )
 ));
 
+//SECTION
+$cx-section-mods: cx-deep-map-merge($cx-section-mods, (
+  card: (
+    background-color: white,
+    box-shadow: $cx-default-section-box-shadow
+  )
+));
+
+/* can be used interchangeably with mod='card' */
+.cxm-well {
+  @extend .cxm-card;
+}
+
 //FORM
 
 /* standard form field */
