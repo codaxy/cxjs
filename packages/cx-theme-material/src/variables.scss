@@ -64,6 +64,15 @@ $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
 $cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
 
+/* float button text color picker */
+@function set-text-color($bg-color) {
+  @if (lightness($bg-color) > 55) {
+    @return $cx-default-color; // Lighter backgorund, return dark color
+  } @else {
+    @return #ffffff; // Darker background, return light color
+  }
+}
+
 //TAB
 $cx-default-tab-color: $cx-secondary-text-color !default;
 $cx-default-tab-font-weight: 500 !default;
@@ -435,7 +444,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   float: (
     default: (
-      color: #fff,
+      color: set-text-color($cx-accent-color),
       background-color: $cx-accent-color,
       border-radius: 50%,
       box-shadow:  0 4px 6px rgba(0, 0, 0, 0.45),
