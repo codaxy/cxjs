@@ -162,6 +162,27 @@ export const Svgs = <cx>
          `}</CodeSnippet>
         </CodeSplit>
 
+        ## Aspect Ratio
+
+        When it's not possible to give fixed dimensions to a chart or other SVG based element, it's best to use
+        the `aspectRatio` configuration to automatically resize the element based on available screen space.
+
+        <CodeSplit>
+            <div class="widgets">
+                <Svg style="width:100%" aspectRatio={4} autoHeight>
+                    <Rectangle anchors="0 1 1 0" style="fill:lightblue"/>
+                </Svg>
+            </div>
+
+            In this example, the height of the rectangle is exactly four times smaller than its width.
+
+            <CodeSnippet putInto="code">{`
+                <Svg style="width:100%" aspectRatio={4} autoHeight>
+                    <Rectangle anchors="0 1 1 0" style="fill:lightblue"/>
+                </Svg>
+            `}</CodeSnippet>
+        </CodeSplit>
+
         ## Configuration
 
         <ConfigTable props={configs}/>

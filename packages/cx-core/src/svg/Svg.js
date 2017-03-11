@@ -75,6 +75,9 @@ export class Svg extends BoundedObject {
 Svg.prototype.pure = false;
 Svg.prototype.anchors = '0 1 1 0';
 Svg.prototype.baseClass = 'svg';
+Svg.prototype.autoWidth = false;
+Svg.prototype.autoHeight = false;
+Svg.prototype.aspectRatio = 1.618;
 
 function sameSize(a, b) {
    if (!a || !b)
@@ -94,7 +97,7 @@ class SvgComponent extends VDOM.Component {
 
    render() {
       var {instance, data} = this.props;
-      var {size} = instance;
+      var {size, widget} = instance;
 
       var children;
       if (size && sameSize(this.state.size, size))
@@ -110,7 +113,19 @@ class SvgComponent extends VDOM.Component {
          </clipPath>);
       }
 
-      return <svg ref={el=>{this.svg = el}} className={data.classNames} style={data.style}>
+      let style = data.style;
+      if (widget.autoHeight)
+         style = {
+            ...style,
+            height: `${this.state.size.height}px`
+         };
+      if (widget.autoWidth)
+         style = {
+            ...style,
+            width: `${this.state.size.width}px`
+         };
+
+      return <svg ref={el=>{this.svg = el}} className={data.classNames} style={style}>
          <defs>
             {defs}
          </defs>
@@ -123,11 +138,21 @@ class SvgComponent extends VDOM.Component {
    }
 
    onResize() {
+
+      let { widget } = this.props.instance;
+
       var bounds = this.svg.getBoundingClientRect();
       var size = {
          width: bounds.width,
          height: bounds.height
       };
+
+      if (widget.autoHeight)
+         size.height = size.width / widget.aspectRatio;
+
+      if (widget.autoWidth)
+         size.width = size.height * widget.aspectRatio;
+
       if (!sameSize(this.state.size, size))
          this.setState({
             size: size
