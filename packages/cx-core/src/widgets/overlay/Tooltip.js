@@ -335,7 +335,7 @@ export function tooltipComponentWillUnmount(instance) {
 export function tooltipComponentWillReceiveProps(element, instance, state) {}
 
 export function tooltipComponentDidMount(element, instance, state) {
-   getTooltipInstance(null, instance, state, element);
+   getTooltipInstance(element, instance, state);
    if (instance.tooltip && instance.tooltip.widget.alwaysVisible != false) {
       if (!instance.tooltip.initialized)
          instance.tooltip.init();
@@ -344,3 +344,5 @@ export function tooltipComponentDidMount(element, instance, state) {
          tooltipMouseMove(null, instance, state, element);
    }
 }
+
+//tooltipComponent => tooltipParent
