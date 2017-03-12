@@ -124,7 +124,7 @@ export class Overlay extends PureContainer {
       return el;
    }
 
-   open(store, options) {
+   open(storeOrInstance, options) {
       if (!this.initialized)
          this.init();
 
@@ -156,7 +156,7 @@ export class Overlay extends PureContainer {
             }, this.destroyDelay);
          }
       };
-      stop = startAppLoop(el, store, this, options);
+      stop = startAppLoop(el, storeOrInstance, this, options);
       return dismiss;
    }
 }

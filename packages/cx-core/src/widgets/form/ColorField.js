@@ -305,7 +305,7 @@ class ColorInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.input);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 
    onClearClick(e) {

@@ -219,7 +219,7 @@ class ContainerComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.el, this.props.instance);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 
    componentWillReceiveProps(props) {

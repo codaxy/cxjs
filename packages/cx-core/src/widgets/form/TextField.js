@@ -196,7 +196,7 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.input);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 
    componentDidMount() {

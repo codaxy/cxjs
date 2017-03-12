@@ -573,7 +573,7 @@ export class MonthPickerComponent extends VDOM.Component {
 
    componentWillUnmount() {
       offFocusOut(this);
-      tooltipComponentWillUnmount(this.dom.el);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 }
 

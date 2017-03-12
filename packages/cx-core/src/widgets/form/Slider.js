@@ -169,7 +169,7 @@ class SliderComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.dom.to, this.props.instance);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 
    componentDidMount() {

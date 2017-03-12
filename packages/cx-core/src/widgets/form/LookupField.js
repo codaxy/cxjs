@@ -841,7 +841,7 @@ class LookupComponent extends VDOM.Component {
    componentWillUnmount() {
       if (this.queryTimeoutId)
          clearTimeout(this.queryTimeoutId);
-      tooltipComponentWillUnmount(this.dom.input);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 }
 

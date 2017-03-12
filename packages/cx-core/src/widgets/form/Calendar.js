@@ -348,7 +348,7 @@ export class CalendarCmp extends VDOM.Component {
 
    componentWillUnmount() {
       offFocusOut(this);
-      tooltipComponentWillUnmount(this.el);
+      tooltipComponentWillUnmount(this.props.instance);
    }
 
    render() {
