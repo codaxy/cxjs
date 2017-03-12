@@ -1,5 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
@@ -164,8 +164,8 @@ class Input extends VDOM.Component {
             readOnly={data.readOnly}
             placeholder={data.placeholder}
             {...data.inputAttrs}
-            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
             onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
             onKeyDown={ e => {
@@ -198,7 +198,7 @@ class Input extends VDOM.Component {
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }

@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {TextField} from './TextField';
+import {getFieldTooltip} from './Field';
 import {
    tooltipComponentWillReceiveProps,
    tooltipComponentWillUnmount,
@@ -76,8 +77,8 @@ class Input extends VDOM.Component {
                this.onChange(e, 'blur')
             } }
             onClick={stopPropagation}
-            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, instance)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
          />
       </div>
    }
@@ -91,7 +92,7 @@ class Input extends VDOM.Component {
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }

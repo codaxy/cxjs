@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Text} from '../../ui/Text';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Repeater} from '../../ui/Repeater';
@@ -537,8 +537,8 @@ class LookupComponent extends VDOM.Component {
             ref={el => {
                this.dom.input = el
             }}
-            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
             onClick={ e => this.onClick(e) }
             onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
@@ -833,7 +833,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.dom.input, this.props.instance, this.state);
+      tooltipComponentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.dom.input.focus();
    }

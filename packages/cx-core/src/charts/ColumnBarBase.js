@@ -130,10 +130,10 @@ export class ColumnBarBase extends PureContainer {
             width={Math.max(0.0001, bounds.width())}
             height={Math.max(0.0001, bounds.height())}
             onMouseMove={e => {
-               tooltipMouseMove(e, instance)
+               tooltipMouseMove(e, instance, this.tooltip)
             }}
             onMouseLeave={e => {
-               tooltipMouseLeave(e, instance)
+               tooltipMouseLeave(e, instance, this.tooltip)
             }}
             onClick={e => {
                this.handleClick(e, instance)

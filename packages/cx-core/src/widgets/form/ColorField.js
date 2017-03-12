@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
 import {parseColor} from '../../util/color/parseColor';
@@ -177,8 +177,8 @@ class ColorInput extends VDOM.Component {
             onFocus={ e => {
                this.onFocus(e)
             } }
-            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, instance, this.state)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
          />
          { well }
          { insideButton }
@@ -299,7 +299,7 @@ class ColorInput extends VDOM.Component {
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.widget.autoFocus && !isTouchDevice())
          this.input.focus();
    }

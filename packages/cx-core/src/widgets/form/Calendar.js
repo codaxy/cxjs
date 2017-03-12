@@ -9,7 +9,6 @@ import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {
-   tooltipComponentWillReceiveProps,
    tooltipComponentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
@@ -307,7 +306,8 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleMouseLeave(e) {
-      tooltipMouseLeave(e, this.props.instance);
+      let {widget} = this.props.instance;
+      tooltipMouseLeave(e, this.props.instance, widget.tooltip);
       this.setState({
          hover: false
       });
@@ -406,7 +406,7 @@ export class CalendarCmp extends VDOM.Component {
          ref={el => {
             this.el = el
          }}
-         onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
+         onMouseMove={e => tooltipMouseMove(e, this.props.instance, widget.tooltip)}
          onMouseLeave={e => this.handleMouseLeave(e)}
          onMouseEnter={e => this.handleMouseEnter(e)}
          onWheel={e => this.handleWheel(e)}

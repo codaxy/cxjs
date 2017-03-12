@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {tooltipMouseMove, tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
+import {tooltipMouseMove, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
 import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {Console} from '../util/Console';
@@ -173,7 +173,7 @@ export class HtmlElement extends PureContainer {
 
       this.attachProps(context, instance, props);
 
-      if (this.memoize || data.tooltip)
+      if (this.memoize || this.tooltip)
          return (
             <ContainerComponent
                key={key}
@@ -183,7 +183,7 @@ export class HtmlElement extends PureContainer {
                data={data}
                shouldUpdate={shouldUpdate}
             />
-         )
+         );
 
       return VDOM.createElement(this.tag, props, props.children);
    }
@@ -198,19 +198,19 @@ class ContainerComponent extends VDOM.Component {
    }
 
    render() {
-      var {tag, props, instance, data} = this.props;
+      var {tag, props, instance} = this.props;
 
       props.ref = c => { this.el = c };
 
-      if (data.tooltip) {
+      if (this.tooltip) {
          var {onMouseLeave, onMouseMove} = props;
 
          props.onMouseLeave = (e) => {
-            tooltipMouseLeave(e, instance);
+            tooltipMouseLeave(e, instance, this.tooltip);
             if (onMouseLeave) onMouseLeave(e);
          };
          props.onMouseMove = (e) => {
-            tooltipMouseMove(e, instance);
+            tooltipMouseMove(e, instance, this.tooltip);
             if (onMouseMove) onMouseMove(e);
          }
       }
@@ -225,9 +225,8 @@ class ContainerComponent extends VDOM.Component {
    componentWillReceiveProps(props) {
       tooltipComponentWillReceiveProps(this.el, props.instance);
    }
-
    componentDidMount() {
-      tooltipComponentDidMount(this.el, this.props.instance);
+      tooltipComponentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }
 

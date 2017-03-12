@@ -1,5 +1,5 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
@@ -148,7 +148,7 @@ class SliderComponent extends VDOM.Component {
                        tabIndex={-1}
                     style={toHandleStyle}
                     onMouseDown={e=>this.onHandleMouseDown(e, 'to')}
-                    onMouseMove={e=>tooltipMouseMove(e, instance, this.state)}
+                    onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(instance))}
                     onMouseLeave={e=>this.onHandleMouseLeave(e, 'to')}
                     onTouchStart={e=>this.onHandleMouseDown(e, 'to')}
                     ref={c=>this.dom.to = c}>
@@ -173,12 +173,12 @@ class SliderComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.dom.to, this.props.instance);
+      tooltipComponentDidMount(this.dom.to, ...getFieldTooltip(this.props.instance));
    }
 
    onHandleMouseLeave(e, handle) {
       if (!this.state.drag)
-         tooltipMouseLeave(e, this.props.instance, this.state);
+         tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
    }
 
    onHandleMouseDown(e, handle) {
@@ -222,11 +222,9 @@ class SliderComponent extends VDOM.Component {
                   this.setState({from: value});
             }
          }
-
-         tooltipMouseMove(e, instance, this.state, handleEl);
-
+         tooltipMouseMove(e, ...getFieldTooltip(instance), handleEl);
       }, () => {
-         tooltipMouseLeave(e, instance, this.state, handleEl);
+         tooltipMouseLeave(e, ...getFieldTooltip(instance), handleEl);
          this.setState({
             drag: false
          });

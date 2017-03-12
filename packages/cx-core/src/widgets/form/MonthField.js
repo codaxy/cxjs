@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {MonthPicker} from './MonthPicker';
 import {DateTimeCulture} from 'intl-io';
 import {Format} from '../../util/Format';
@@ -306,8 +306,8 @@ class MonthInput extends VDOM.Component {
                 onKeyDown={ e => this.onKeyDown(e) }
                 onBlur={ e => { this.onBlur(e) } }
                 onFocus={ e => { this.onFocus(e) } }
-                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
-                onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
+                onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+                onMouseLeave={e=>tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
          />
          { icon }
          { insideButton }
@@ -424,7 +424,7 @@ class MonthInput extends VDOM.Component {
    componentDidMount() {
       if (this.props.instance.data.visited)
          this.setState({ visited: true });
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }

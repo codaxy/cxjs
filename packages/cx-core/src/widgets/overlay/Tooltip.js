@@ -265,83 +265,90 @@ Tooltip.prototype.alwaysVisible = false;
 //    }
 // }
 
-export function getTooltipInstance(e, instance, state, target, options = {}) {
-   if (!target)
-      target = typeof e.nodeType == 'number' ? e : e.currentTarget;
+export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
-   Debug.log(tooltipsFlag, 'mouse-move', target, instance);
-
-   let {widget} = instance;
-   if (!widget.tooltip)
+   if (!tooltip)
       return;
 
-   if (instance.tooltip && instance.tooltip.widget.relatedElement != target) {
-      if (instance.tooltip.dismiss)
-         instance.tooltip.dismiss();
-      instance.tooltip = null;
+   let target = options.target || typeof e.nodeType == 'number' ? e : e.currentTarget;
+
+   Debug.log(tooltipsFlag, 'mouse-move', target, parentInstance);
+
+   let name = options.tooltipName || 'tooltip';
+
+   if (!parentInstance.tooltips)
+      parentInstance.tooltips = {};
+
+   let tooltipInstance = parentInstance.tooltips[name];
+
+   if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
+      if (tooltipInstance.dismiss)
+         tooltipInstance.dismiss();
+      parentInstance.tooltips[name] = null;
+      tooltipInstance = null;
    }
 
-   if (!instance.tooltip) {
-      let config = widget.tooltip;
-      if (typeof config == 'string') {
+   if (!tooltipInstance) {
+      let config = tooltip;
+      if (typeof tooltip == 'string') {
          config = {
-            text: config
+            text: tooltip
          };
       }
-      let tooltip = Tooltip.create({relatedElement: target}, config);
+      let tooltipWidget = Tooltip.create({relatedElement: target}, config);
       let store = new ReadOnlyDataView({
-         store: instance.store
+         store: parentInstance.store
       });
-      instance.tooltip = instance.getChild(null, tooltip, null, store);
+      tooltipInstance = parentInstance.tooltips[name] = parentInstance.getChild(null, tooltipWidget, null, store);
+      tooltipInstance.config = tooltip;
    }
+
+   return tooltipInstance;
 }
 
-export function tooltipMouseMove(e, instance, state, target, options = {}) {
-   getTooltipInstance(e, instance, state, target, options)
+export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
+   let instance = getTooltipInstance(e, parentInstance, tooltip, options);
 
-   if (!instance.tooltip)
+   if (!instance)
       return;
 
-   if (isTouchEvent() && instance.tooltip.widget.touchBehavior == 'ignore')
+   if (isTouchEvent() && instance.widget.touchBehavior == 'ignore')
       return false;
 
-   instance.tooltip.store.setData(options.data);
-   instance.tooltip.active = true;
+   instance.store.setData(options.data);
+   instance.active = true;
 
-   if (!instance.tooltip.dismiss)
-      instance.tooltip.dismiss = instance.tooltip.widget.open(instance.tooltip, options);
+   if (!instance.dismiss)
+      instance.dismiss = instance.widget.open(instance);
 
-   if (instance.tooltip.trackMouse && e)
-      instance.tooltip.trackMouse(e);
+   if (instance.trackMouse && e)
+      instance.trackMouse(e);
 }
 
-export function tooltipMouseLeave(e, instance, state, target) {
-   if (!target)
-      target = e.currentTarget || e.target;
-
-   Debug.log(tooltipsFlag, 'mouse-leave', target, instance);
-
-   if (instance.tooltip) {
-      instance.tooltip.active = false;
-      instance.tooltip.widget.handleMouseLeavesParent(instance.tooltip);
+export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
+   let instance = getTooltipInstance(e, parentInstance, tooltip, options);
+   if (instance) {
+      instance.active = false;
+      instance.widget.handleMouseLeavesParent(instance);
    }
 }
 
-export function tooltipComponentWillUnmount(instance) {
-   if (instance.tooltip && instance.tooltip.dismiss)
-      instance.tooltip.dismiss();
+export function tooltipComponentWillUnmount(parentInstance) {
+   if (parentInstance.tooltips) {
+      for (let name in parentInstance.tooltips)
+         if (parentInstance.tooltips[name].dismiss)
+            parentInstance.tooltips[name].dismiss();
+   }
 }
 
-export function tooltipComponentWillReceiveProps(element, instance, state) {}
-
-export function tooltipComponentDidMount(element, instance, state) {
-   getTooltipInstance(element, instance, state);
-   if (instance.tooltip && instance.tooltip.widget.alwaysVisible != false) {
-      if (!instance.tooltip.initialized)
-         instance.tooltip.init();
-      let data = instance.tooltip.dataSelector(instance.tooltip.store.getData());
+export function tooltipComponentDidMount(element, parentInstance, tooltip, options) {
+   if (tooltip && tooltip.alwaysVisible) {
+      let instance = getTooltipInstance(element, parentInstance, tooltip, options);
+      if (!instance.initialized)
+         instance.init();
+      let data = instance.dataSelector(instance.store.getData());
       if (data.alwaysVisible)
-         tooltipMouseMove(null, instance, state, element);
+         tooltipMouseMove(element, parentInstance, instance, options);
    }
 }
 

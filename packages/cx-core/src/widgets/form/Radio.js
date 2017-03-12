@@ -47,8 +47,8 @@ export class Radio extends Field {
                     style={data.style}
                     onMouseDown={stopPropagation}
                     onTouchStart={stopPropagation}
-                    onMouseMove={e=>tooltipMouseMove(e, instance)}
-                    onMouseLeave={e=>tooltipMouseLeave(e, instance)}
+                    onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(instance))}
+                    onMouseLeave={e=>tooltipMouseLeave(e, ...getFieldTooltip(instance))}
                     onClick={e=>{this.handleClick(e, instance)}}
                     htmlFor={data.id}>
          {content}
