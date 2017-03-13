@@ -8,11 +8,11 @@ import {isTouchDevice} from '../../util/isTouchDevice';
 import {isTouchEvent} from '../../util/isTouchEvent';
 
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util';
@@ -295,17 +295,17 @@ class ColorInput extends VDOM.Component {
       if (data.visited)
          this.setState({visited: true});
 
-      tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.widget.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    onClearClick(e) {

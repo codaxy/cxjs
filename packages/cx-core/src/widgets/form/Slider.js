@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
 
@@ -165,15 +165,15 @@ class SliderComponent extends VDOM.Component {
          to: props.data.to
       });
 
-      tooltipComponentWillReceiveProps(this.dom.to, props.instance, this.state);
+      tooltipParentWillReceiveProps(this.dom.to, ...getFieldTooltip(props.instance, this.state));
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.dom.to, ...getFieldTooltip(this.props.instance));
+      tooltipParentDidMount(this.dom.to, ...getFieldTooltip(this.props.instance));
    }
 
    onHandleMouseLeave(e, handle) {
@@ -222,9 +222,9 @@ class SliderComponent extends VDOM.Component {
                   this.setState({from: value});
             }
          }
-         tooltipMouseMove(e, ...getFieldTooltip(instance), handleEl);
-      }, () => {
-         tooltipMouseLeave(e, ...getFieldTooltip(instance), handleEl);
+         tooltipMouseMove(e, ...getFieldTooltip(instance), { target: handleEl });
+      }, (e) => {
+         tooltipMouseLeave(e, ...getFieldTooltip(instance), { target: handleEl });
          this.setState({
             drag: false
          });

@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {tooltipMouseMove, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
+import {tooltipMouseMove, tooltipParentWillUnmount, tooltipMouseLeave, tooltipParentWillReceiveProps, tooltipParentDidMount} from './overlay/Tooltip';
 import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {Console} from '../util/Console';
@@ -193,6 +193,7 @@ HtmlElement.prototype.tag = 'div';
 HtmlElement.prototype.styled = true;
 
 class ContainerComponent extends VDOM.Component {
+
    shouldComponentUpdate(props) {
       return props.shouldUpdate;
    }
@@ -200,17 +201,17 @@ class ContainerComponent extends VDOM.Component {
    render() {
       var {tag, props, instance} = this.props;
 
-      props.ref = c => { this.el = c };
+      if (instance.widget.tooltip) {
+         props.ref = c => { this.el = c };
 
-      if (this.tooltip) {
          var {onMouseLeave, onMouseMove} = props;
 
          props.onMouseLeave = (e) => {
-            tooltipMouseLeave(e, instance, this.tooltip);
+            tooltipMouseLeave(e, instance, instance.widget.tooltip);
             if (onMouseLeave) onMouseLeave(e);
          };
          props.onMouseMove = (e) => {
-            tooltipMouseMove(e, instance, this.tooltip);
+            tooltipMouseMove(e, instance, instance.widget.tooltip);
             if (onMouseMove) onMouseMove(e);
          }
       }
@@ -219,14 +220,14 @@ class ContainerComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    componentWillReceiveProps(props) {
-      tooltipComponentWillReceiveProps(this.el, props.instance);
+      tooltipParentWillReceiveProps(this.el, props.instance, this.props.instance.widget.tooltip);
    }
    componentDidMount() {
-      tooltipComponentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+      tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }
 

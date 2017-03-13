@@ -3,7 +3,7 @@ import {Field, getFieldTooltip} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {isTouchDevice} from '../../util';
@@ -194,17 +194,17 @@ class Input extends VDOM.Component {
       }
       if (data.visited)
          this.setState({visited: true});
-      tooltipComponentWillReceiveProps(this.input, props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance, this.state));
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    getPreCursorDigits(text, cursor) {

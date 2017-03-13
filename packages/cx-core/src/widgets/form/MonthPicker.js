@@ -12,11 +12,11 @@ import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {Console} from '../../util/Console';
 import {KeyCode} from '../../util/KeyCode';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
@@ -547,7 +547,7 @@ export class MonthPickerComponent extends VDOM.Component {
       if (this.props.autoFocus)
          this.dom.el.focus();
 
-      tooltipComponentDidMount(this.dom.el, ...getFieldTooltip(this.props.instance));
+      tooltipParentDidMount(this.dom.el, ...getFieldTooltip(this.props.instance));
       let yearHeight = this.dom.table.scrollHeight / (this.props.instance.widget.bufferSize + 1);
       this.setState({
          yearHeight: yearHeight
@@ -568,12 +568,12 @@ export class MonthPickerComponent extends VDOM.Component {
       this.setState({
          state: 'normal'
       });
-      tooltipComponentWillReceiveProps(this.dom.el, props.instance);
+      tooltipParentWillReceiveProps(this.dom.el, ...getFieldTooltip(props.instance));
    }
 
    componentWillUnmount() {
       offFocusOut(this);
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 }
 

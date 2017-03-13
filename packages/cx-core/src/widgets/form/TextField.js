@@ -1,11 +1,11 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
@@ -196,11 +196,11 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
@@ -225,7 +225,7 @@ class Input extends VDOM.Component {
          this.input.value = data.value || '';
       if (data.visited)
          this.setState({visited: true});
-      tooltipComponentWillReceiveProps(this.input, props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance, this.state));
    }
 
    onChange(e, change) {

@@ -10,11 +10,11 @@ import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
 import {dateDiff} from '../../util/date/dateDiff';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
@@ -365,17 +365,17 @@ class DateInput extends VDOM.Component {
       this.data = data;
       if (data.visited)
          this.setState({visited: true});
-      tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    onChange(e, eventType) {
