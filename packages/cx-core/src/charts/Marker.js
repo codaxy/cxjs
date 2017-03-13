@@ -34,7 +34,6 @@ export class Marker extends BoundedObject {
          style: {structured: true},
          class: {structured: true},
          className: {structured: true},
-         tooltip: {structured: true},
          disabled: undefined,
          colorIndex: undefined,
          legendColorIndex: undefined,
@@ -184,7 +183,7 @@ export class Marker extends BoundedObject {
             y = yAxis.constrainValue(y);
          instance.set('y', yAxis.encodeValue(y));
       }
-      tooltipMouseMove(e, instance, null, captureData.el);
+      tooltipMouseMove(e, instance, this.tooltip, { target: captureData.el });
    }
 }
 
@@ -233,10 +232,10 @@ class MarkerComponent extends VDOM.Component {
          cy: (bounds.t + bounds.b) / 2,
          r: data.size / 2,
          onMouseMove: e=> {
-            tooltipMouseMove(e, instance)
+            tooltipMouseMove(e, instance, widget.tooltip)
          },
          onMouseLeave: e=> {
-            tooltipMouseLeave(e, instance)
+            tooltipMouseLeave(e, instance, widget.tooltip)
          },
          onMouseDown: e=> {
             widget.handleMouseDown(e, instance)

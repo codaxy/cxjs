@@ -23,9 +23,7 @@ export class Field extends PureContainer {
          inputStyle: {structured: true},
          inputAttrs: {structured: true},
          style: {structured: true},
-         tooltip: {structured: true},
          emptyText: undefined,
-         errorTooltip: {structured: true},
          visited: undefined,
          autoFocus: undefined
       }, ...arguments);
@@ -35,7 +33,11 @@ export class Field extends PureContainer {
 
       switch (this.validationMode) {
          case 'tooltip':
-            this.errorTooltip = true;
+            this.errorTooltip = {
+               text: { bind: '$error' },
+               mod: 'error',
+               ...this.errorTooltip
+            };
             break;
 
          case 'help':
@@ -268,3 +270,19 @@ Field.prototype.trackFocus = false; //add cxs-focus on parent element
 //Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);
+
+export function getFieldTooltip(instance, state) {
+   let {widget, data} = instance;
+
+   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorTooltipsUntilVisited))
+      return [
+         instance,
+         widget.errorTooltip,
+         {
+            data: {
+               $error: data.error
+            }
+         }
+      ];
+   return [instance, widget.tooltip];
+}

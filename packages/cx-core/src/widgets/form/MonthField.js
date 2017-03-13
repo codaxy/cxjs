@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {MonthPicker} from './MonthPicker';
 import {DateTimeCulture} from 'intl-io';
 import {Format} from '../../util/Format';
@@ -9,7 +9,7 @@ import {Console} from '../../util/Console';
 import {StringTemplate} from '../../data/StringTemplate';
 import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
@@ -306,8 +306,8 @@ class MonthInput extends VDOM.Component {
                 onKeyDown={ e => this.onKeyDown(e) }
                 onBlur={ e => { this.onBlur(e) } }
                 onFocus={ e => { this.onFocus(e) } }
-                onMouseMove={e=>tooltipMouseMove(e, this.props.instance, this.state)}
-                onMouseLeave={e=>tooltipMouseLeave(e, this.props.instance)}
+                onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+                onMouseLeave={e=>tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
          />
          { icon }
          { insideButton }
@@ -418,19 +418,19 @@ class MonthInput extends VDOM.Component {
       this.data = data;
       if (data.visited)
          this.setState({ visited: true });
-      tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
    componentDidMount() {
       if (this.props.instance.data.visited)
          this.setState({ visited: true });
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.input);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    onChange(e, eventType) {

@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {tooltipMouseMove, tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseLeave, tooltipComponentDidMount} from './overlay/Tooltip';
+import {tooltipMouseMove, tooltipParentWillUnmount, tooltipMouseLeave, tooltipParentWillReceiveProps, tooltipParentDidMount} from './overlay/Tooltip';
 import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {Console} from '../util/Console';
@@ -27,9 +27,6 @@ export class HtmlElement extends PureContainer {
       var data = {
          text: undefined,
          innerHtml: undefined,
-         tooltip: {
-            structured: true
-         },
          attrs: {
             structured: true
          },
@@ -173,7 +170,7 @@ export class HtmlElement extends PureContainer {
 
       this.attachProps(context, instance, props);
 
-      if (this.memoize || data.tooltip)
+      if (this.memoize || this.tooltip)
          return (
             <ContainerComponent
                key={key}
@@ -183,7 +180,7 @@ export class HtmlElement extends PureContainer {
                data={data}
                shouldUpdate={shouldUpdate}
             />
-         )
+         );
 
       return VDOM.createElement(this.tag, props, props.children);
    }
@@ -193,24 +190,25 @@ HtmlElement.prototype.tag = 'div';
 HtmlElement.prototype.styled = true;
 
 class ContainerComponent extends VDOM.Component {
+
    shouldComponentUpdate(props) {
       return props.shouldUpdate;
    }
 
    render() {
-      var {tag, props, instance, data} = this.props;
+      var {tag, props, instance} = this.props;
 
-      props.ref = c => { this.el = c };
+      if (instance.widget.tooltip) {
+         props.ref = c => { this.el = c };
 
-      if (data.tooltip) {
          var {onMouseLeave, onMouseMove} = props;
 
          props.onMouseLeave = (e) => {
-            tooltipMouseLeave(e, instance);
+            tooltipMouseLeave(e, instance, instance.widget.tooltip);
             if (onMouseLeave) onMouseLeave(e);
          };
          props.onMouseMove = (e) => {
-            tooltipMouseMove(e, instance);
+            tooltipMouseMove(e, instance, instance.widget.tooltip);
             if (onMouseMove) onMouseMove(e);
          }
       }
@@ -219,15 +217,14 @@ class ContainerComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.el, this.props.instance);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    componentWillReceiveProps(props) {
-      tooltipComponentWillReceiveProps(this.el, props.instance);
+      tooltipParentWillReceiveProps(this.el, props.instance, this.props.instance.widget.tooltip);
    }
-
    componentDidMount() {
-      tooltipComponentDidMount(this.el, this.props.instance);
+      tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }
 

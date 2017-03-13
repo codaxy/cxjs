@@ -1,11 +1,10 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
@@ -36,8 +35,8 @@ export class Checkbox extends Field {
       return <label key={key}
          className={data.classNames}
          onMouseDown={stopPropagation}
-         onMouseMove={e => tooltipMouseMove(e, instance)}
-         onMouseLeave={e => tooltipMouseLeave(e, instance)}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+         onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          onClick={ e => {
             this.handleClick(e, instance)
          }}

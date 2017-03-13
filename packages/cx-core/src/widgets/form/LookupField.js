@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Text} from '../../ui/Text';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Repeater} from '../../ui/Repeater';
@@ -13,11 +13,11 @@ import {isFocused} from '../../util/DOM';
 import {isTouchDevice} from '../../util/isTouchDevice';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
@@ -537,8 +537,8 @@ class LookupComponent extends VDOM.Component {
             ref={el => {
                this.dom.input = el
             }}
-            onMouseMove={e => tooltipMouseMove(e, this.props.instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, this.props.instance)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
             onClick={ e => this.onClick(e) }
             onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
@@ -829,11 +829,11 @@ class LookupComponent extends VDOM.Component {
    componentWillReceiveProps(props) {
       if (props.instance.data.visited)
          this.setState({visited: true});
-      tooltipComponentWillReceiveProps(this.dom.input, props.instance, this.state);
+      tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance, this.state));
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.dom.input, this.props.instance, this.state);
+      tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.dom.input.focus();
    }
@@ -841,7 +841,7 @@ class LookupComponent extends VDOM.Component {
    componentWillUnmount() {
       if (this.queryTimeoutId)
          clearTimeout(this.queryTimeoutId);
-      tooltipComponentWillUnmount(this.dom.input);
+      tooltipParentWillUnmount(this.props.instance);
    }
 }
 

@@ -1,5 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Culture} from '../../ui/Culture';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {StringTemplate} from '../../data/StringTemplate';
@@ -12,11 +12,11 @@ import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {Console} from '../../util/Console';
 import {KeyCode} from '../../util/KeyCode';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
@@ -500,7 +500,7 @@ export class MonthPickerComponent extends VDOM.Component {
          tabIndex={data.disabled ? null : 0}
          onKeyDown={e => this.handleKeyPress(e)}
          onMouseDown={e => e.stopPropagation()}
-         onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
          onMouseLeave={::this.onMouseLeave}
          onFocus={e => this.handleFocus(e)}
          onBlur={::this.handleBlur}
@@ -536,7 +536,7 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    onMouseLeave(e) {
-      tooltipMouseLeave(e, this.props.instance);
+      tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
       this.moveCursor(e, {
          hover: false
       });
@@ -547,7 +547,7 @@ export class MonthPickerComponent extends VDOM.Component {
       if (this.props.autoFocus)
          this.dom.el.focus();
 
-      tooltipComponentDidMount(this.dom.el, this.props.instance);
+      tooltipParentDidMount(this.dom.el, ...getFieldTooltip(this.props.instance));
       let yearHeight = this.dom.table.scrollHeight / (this.props.instance.widget.bufferSize + 1);
       this.setState({
          yearHeight: yearHeight
@@ -568,12 +568,12 @@ export class MonthPickerComponent extends VDOM.Component {
       this.setState({
          state: 'normal'
       });
-      tooltipComponentWillReceiveProps(this.dom.el, props.instance);
+      tooltipParentWillReceiveProps(this.dom.el, ...getFieldTooltip(props.instance));
    }
 
    componentWillUnmount() {
       offFocusOut(this);
-      tooltipComponentWillUnmount(this.dom.el);
+      tooltipParentWillUnmount(this.props.instance);
    }
 }
 

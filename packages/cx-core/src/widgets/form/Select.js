@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {Field} from './Field';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {Field, getFieldTooltip} from './Field';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
@@ -148,8 +148,8 @@ class SelectComponent extends VDOM.Component {
                e.preventDefault();
                select(e.target.value);
             }}
-            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, instance)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
          >
             {placeholder}
             {this.props.children}
@@ -174,13 +174,13 @@ class SelectComponent extends VDOM.Component {
    componentDidMount() {
       var { select } = this.props;
       select(this.select.value);
-      tooltipComponentDidMount(this.select, this.props.instance, this.state);
+      tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus)
          this.select.focus();
    }
 
    componentWillReceiveProps(props) {
-      tooltipComponentWillReceiveProps(this.select, props.instance, this.state);
+      tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance, this.state));
    }
 }
 

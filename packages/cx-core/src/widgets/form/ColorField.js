@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
 import {ColorPicker} from './ColorPicker';
 import {parseColor} from '../../util/color/parseColor';
@@ -8,11 +8,11 @@ import {isTouchDevice} from '../../util/isTouchDevice';
 import {isTouchEvent} from '../../util/isTouchEvent';
 
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util';
@@ -177,8 +177,8 @@ class ColorInput extends VDOM.Component {
             onFocus={ e => {
                this.onFocus(e)
             } }
-            onMouseMove={e => tooltipMouseMove(e, instance, this.state)}
-            onMouseLeave={e => tooltipMouseLeave(e, instance, this.state)}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
          />
          { well }
          { insideButton }
@@ -295,17 +295,17 @@ class ColorInput extends VDOM.Component {
       if (data.visited)
          this.setState({visited: true});
 
-      tooltipComponentWillReceiveProps(this.input, this.props.instance, this.state);
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
    componentDidMount() {
-      tooltipComponentDidMount(this.input, this.props.instance, this.state);
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.widget.autoFocus && !isTouchDevice())
          this.input.focus();
    }
 
    componentWillUnmount() {
-      tooltipComponentWillUnmount(this.input);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    onClearClick(e) {

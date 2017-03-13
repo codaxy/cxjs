@@ -165,8 +165,7 @@ export class PieSlice extends PureContainer {
          outerPointRadius: undefined,
          name: undefined,
          stack: undefined,
-         legend: undefined,
-         tooltip: {structured: true}
+         legend: undefined
       });
    }
 
@@ -289,8 +288,8 @@ export class PieSlice extends PureContainer {
          <path className={this.CSS.element(this.baseClass, 'slice', stateMods)}
             style={data.style}
             d={d}
-            onMouseMove={e=>{tooltipMouseMove(e, instance)}}
-            onMouseLeave={e=>{tooltipMouseLeave(e, instance)}}
+            onMouseMove={e=>{tooltipMouseMove(e, instance, this.tooltip)}}
+            onMouseLeave={e=>{tooltipMouseLeave(e, instance, this.tooltip)}}
             onClick={e=>{this.handleClick(e, instance)}}
          />
          {this.renderChildren(context, instance)}

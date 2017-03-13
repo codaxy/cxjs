@@ -46,6 +46,9 @@ export class Cx extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
+
+      if (this.props.options && this.props.options.onPipeUpdate)
+         this.props.options.onPipeUpdate(::this.update);
    }
 
    componentDidUpdate() {
@@ -77,6 +80,8 @@ export class Cx extends VDOM.Component {
          clearTimeout(this.pendingUpdateTimer);
       if (this.unsubscribe)
          this.unsubscribe();
+      if (this.props.options && this.props.options.onPipeUpdate)
+         this.props.options.onPipeUpdate(null);
    }
 }
 

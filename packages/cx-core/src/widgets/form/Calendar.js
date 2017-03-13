@@ -9,11 +9,11 @@ import {lowerBoundCheck} from '../../util/date/lowerBoundCheck';
 import {upperBoundCheck} from '../../util/date/upperBoundCheck';
 import {sameDate} from '../../util/date/sameDate';
 import {
-   tooltipComponentWillReceiveProps,
-   tooltipComponentWillUnmount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipComponentDidMount
+   tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
@@ -307,7 +307,8 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleMouseLeave(e) {
-      tooltipMouseLeave(e, this.props.instance);
+      let {widget} = this.props.instance;
+      tooltipMouseLeave(e, this.props.instance, widget.tooltip);
       this.setState({
          hover: false
       });
@@ -332,7 +333,7 @@ export class CalendarCmp extends VDOM.Component {
       if (this.props.instance.widget.autoFocus)
          this.el.focus();
 
-      tooltipComponentDidMount(this.el, this.props.instance);
+      tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 
    componentWillReceiveProps(props) {
@@ -343,12 +344,12 @@ export class CalendarCmp extends VDOM.Component {
             value: data.date
          });
 
-      tooltipComponentWillReceiveProps(this.el, props.instance);
+      tooltipParentWillReceiveProps(this.el, props.instance, props.instance.widget.tooltip);
    }
 
    componentWillUnmount() {
       offFocusOut(this);
-      tooltipComponentWillUnmount(this.el);
+      tooltipParentWillUnmount(this.props.instance);
    }
 
    render() {
@@ -406,7 +407,7 @@ export class CalendarCmp extends VDOM.Component {
          ref={el => {
             this.el = el
          }}
-         onMouseMove={e => tooltipMouseMove(e, this.props.instance)}
+         onMouseMove={e => tooltipMouseMove(e, this.props.instance, widget.tooltip)}
          onMouseLeave={e => this.handleMouseLeave(e)}
          onMouseEnter={e => this.handleMouseEnter(e)}
          onWheel={e => this.handleWheel(e)}

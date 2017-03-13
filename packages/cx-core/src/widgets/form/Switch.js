@@ -2,7 +2,7 @@ import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field} from './Field';
 import {KeyCode} from '../../util/KeyCode';
 import {parseStyle} from '../../util/parseStyle';
-import {tooltipComponentWillReceiveProps, tooltipComponentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipComponentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {preventFocus} from '../../ui/FocusManager';
 
