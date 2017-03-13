@@ -3,6 +3,7 @@ import {Dropdown} from './Dropdown';
 import {Debug, tooltipsFlag} from '../../util/Debug';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {isTouchEvent} from '../../util/isTouchEvent';
+import {shallowEquals} from '../../util/shallowEquals';
 
 export class Tooltip extends Dropdown {
 
@@ -151,12 +152,13 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
 export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
-
    if (!instance)
       return;
 
    if (isTouchEvent() && instance.widget.touchBehavior == 'ignore')
       return false;
+
+   let dirty = !shallowEquals(options.data, instance.store.data);
 
    instance.store.setData(options.data);
    instance.active = true;
@@ -167,6 +169,14 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
             instance.update = cb;
          }
       });
+   else {
+      if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
+         instance.dismiss();
+         instance.dismiss = null;
+      }
+      else if (dirty && instance.update)
+         instance.update();
+   }
 
    if (instance.trackMouse && e && e.target)
       instance.trackMouse(e);
