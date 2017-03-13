@@ -23,6 +23,7 @@ var contents = [{
         {title: 'Data Binding', url: '~/concepts/data-binding'},
         {title: 'Data Views', url: '~/concepts/data-views'},
         {title: 'Controllers', url: '~/concepts/controllers'},
+        {title: 'Store', url: '~/concepts/store'},
         {title: 'Layouts', url: '~/concepts/layouts'},
         {title: 'Router', url: '~/concepts/router'},
         {title: 'Selection', url: '~/concepts/selections'},
@@ -136,7 +137,7 @@ var contents = [{
 class CController extends Controller {
     init() {
         super.init();
-        this.store.init('contents', contents);
+        this.store.set('contents', contents);
 
         this.addTrigger('active-topic-expand', ['url'], (url) => {
             this.store.update('contents', updateArray, t => ({

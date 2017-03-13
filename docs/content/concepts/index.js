@@ -9,6 +9,7 @@ export * from './Router';
 export * from './Formatting';
 export * from './Charts';
 export * from './Localization';
+export * from './Store';
 
 
 import { bumpVersion } from '../version';
