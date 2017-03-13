@@ -21,6 +21,10 @@
       &:active {
          @include cx-add-state-rules($state-style-map, active);
       }
+
+      &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
+      }
    }
 
    .#{$element}label-asterisk {

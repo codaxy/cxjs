@@ -60,6 +60,8 @@ export class Field extends PureContainer {
       if (this.label != null) {
          let labelConfig = {
             type: Label,
+            mod: this.mod,
+            disabled: this.disabled,
             required: this.required,
             asterisk: this.asterisk
          };

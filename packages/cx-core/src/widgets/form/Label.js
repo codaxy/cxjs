@@ -7,8 +7,18 @@ export class Label extends HtmlElement {
    declareData() {
       super.declareData(...arguments, {
          required: undefined,
+         disabled: undefined,
          htmlFor: undefined
       })
+   }
+
+   prepareData(context, instance) {
+      let {data} = instance;
+      data.stateMods = {
+         ...data.stateMods,
+         disabled: data.disabled
+      };
+      super.prepareData(context, instance);
    }
 
    explore(context, instance) {

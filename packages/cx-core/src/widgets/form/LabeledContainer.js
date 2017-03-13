@@ -1,9 +1,9 @@
 import {Widget} from '../../ui/Widget';
-import {PureContainer} from '../../ui/PureContainer';
+import {FieldGroup} from './FieldGroup';
 import {Label} from './Label';
 import {isSelector} from '../../data/isSelector';
 
-export class LabeledContainer extends PureContainer
+export class LabeledContainer extends FieldGroup
 {
    declareData() {
       super.declareData({
@@ -16,6 +16,8 @@ export class LabeledContainer extends PureContainer
       if (this.label != null) {
          let labelConfig = {
             type: Label,
+            disabled: this.disabled,
+            mod: this.mod,
             asterisk: this.asterisk,
             required: true
          };
