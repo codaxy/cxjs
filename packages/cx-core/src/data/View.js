@@ -45,16 +45,16 @@ export class View {
       return this.setItem(path, value);
    }
 
-   //copy
    copy(from, to) {
       let value = this.get(from);
       this.set(to, value);
    }
-
-   //move 
+ 
    move(from, to) {
-      this.copy(from, to);
-      this.delete(from);
+      this.batch(store => {
+         store.copy(from, to);
+         store.delete(from);
+      });
    }
 
    //protected

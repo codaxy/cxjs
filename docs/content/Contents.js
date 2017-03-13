@@ -137,7 +137,7 @@ var contents = [{
 class CController extends Controller {
     init() {
         super.init();
-        this.store.set('contents', contents);
+        this.store.init('contents', contents);
 
         this.addTrigger('active-topic-expand', ['url'], (url) => {
             this.store.update('contents', updateArray, t => ({
