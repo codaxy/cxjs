@@ -23,9 +23,7 @@ export class Field extends PureContainer {
          inputStyle: {structured: true},
          inputAttrs: {structured: true},
          style: {structured: true},
-         tooltip: {structured: true},
          emptyText: undefined,
-         errorTooltip: {structured: true},
          visited: undefined,
          autoFocus: undefined
       }, ...arguments);

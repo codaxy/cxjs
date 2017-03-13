@@ -165,8 +165,7 @@ export class PieSlice extends PureContainer {
          outerPointRadius: undefined,
          name: undefined,
          stack: undefined,
-         legend: undefined,
-         tooltip: {structured: true}
+         legend: undefined
       });
    }
 

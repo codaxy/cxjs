@@ -34,7 +34,6 @@ export class Marker extends BoundedObject {
          style: {structured: true},
          class: {structured: true},
          className: {structured: true},
-         tooltip: {structured: true},
          disabled: undefined,
          colorIndex: undefined,
          legendColorIndex: undefined,

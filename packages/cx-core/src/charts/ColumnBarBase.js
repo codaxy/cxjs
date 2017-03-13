@@ -19,7 +19,6 @@ export class ColumnBarBase extends PureContainer {
          style: {structured: true},
          class: {structured: true},
          className: {structured: true},
-         tooltip: {structured: true},
          disabled: undefined,
          colorIndex: undefined,
          colorMap: undefined,

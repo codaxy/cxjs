@@ -27,9 +27,6 @@ export class HtmlElement extends PureContainer {
       var data = {
          text: undefined,
          innerHtml: undefined,
-         tooltip: {
-            structured: true
-         },
          attrs: {
             structured: true
          },
