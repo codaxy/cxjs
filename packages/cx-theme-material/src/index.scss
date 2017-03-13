@@ -243,7 +243,12 @@ $form-list: (
       visibility: visible;
       transform: scale(1, 1);
       background-color: rgba($cx-primary-color-dark, 1);
-    }
+    }    
+  }
+  &:focus:after {
+    visibility: visible;
+    transform: scale(1.5, 1.5);
+    background-color: rgba($cx-primary-color-dark, 0.2);
   }
 }
 

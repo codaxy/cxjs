@@ -638,6 +638,9 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
   ),
   active: (
     background-color: $cx-primary-color-dark
+  ),
+  focus: (
+    box-shadow: none
   )  
 ));
 

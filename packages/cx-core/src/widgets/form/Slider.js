@@ -145,7 +145,7 @@ class SliderComponent extends VDOM.Component {
             {
                widget.showTo &&
                <button type="button" className={CSS.element(baseClass, "handle")}
-                       tabIndex={-1}
+                       //tabIndex={-1}
                     style={toHandleStyle}
                     onMouseDown={e=>this.onHandleMouseDown(e, 'to')}
                     onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(instance))}
