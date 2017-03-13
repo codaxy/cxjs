@@ -24,6 +24,9 @@ module.exports = {
             include: /(app|cx-core)/,
             loader: 'babel-loader',
             query: babelCfg
+        }, {
+           test: /\.(png|jpg)/,
+           loader: 'file-loader'
         }]
     },
     entry: {
