@@ -235,10 +235,10 @@ $form-list: (
     border-radius: 50%;
     visibility: hidden;
     transform: scale(0.6, 0.6);
-    transition: transform 0.15s ease-out;
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
   }
 
-  &:active {
+  &:active, &:active:focus {
     &:after {
       visibility: visible;
       transform: scale(1, 1);
@@ -255,6 +255,13 @@ $form-list: (
 .cxe-slider-handle[style*="left: 0%;"] {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.26);
+  
+  &:focus:after {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &:active {
+    background-color: #fff;
+  }
 }
 
 //TAB
