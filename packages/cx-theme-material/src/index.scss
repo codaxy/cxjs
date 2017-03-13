@@ -220,11 +220,13 @@ $form-list: (
 }
 
 //TAB
-.cxb-classic-tab-container {
+div.cxb-classic-tab-container {
   box-shadow: $cx-default-box-shadow;
-  height: 2 * $cx-default-box-padding + $cx-default-box-line-height;
+  height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
   padding: 0;
   margin-bottom: 3px;
+  white-space: nowrap;
+  flex-shrink: none;
 }
 .cxb-tab.cxm-classic {
   height: 100%;

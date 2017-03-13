@@ -4,10 +4,3 @@ $cx-include-global-rules: true;
 @import "~cx-theme-material/src/variables";
 @import "~cx-theme-material/src/index";
 @import "../shared/index";
-
-.cxb-classic-tab-container {
-  box-shadow: $cx-default-box-shadow;
-  height: $cx-default-tab-height;
-  padding: 0;
-  margin-bottom: 3px;
-}

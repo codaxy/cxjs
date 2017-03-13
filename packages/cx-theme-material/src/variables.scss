@@ -14,6 +14,12 @@ $black: #212121 #ffeb3b;
 
 $cx-default-color-scheme: $blue !default;
 
+//Pick a theme size
+$normal: 24px 7px !default;
+$small: 20px 6px !default;
+
+$cx-default-theme-size: $normal !default;
+
 $cx-default-padding-extra-small: 5px !default;
 $cx-default-padding-small: 7px !default;
 $cx-default-padding-medium: 10px !default;
@@ -41,9 +47,9 @@ $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 13px !default;
-$cx-default-box-line-height: 24px !default;
+$cx-default-box-line-height: nth($cx-default-theme-size, 1) !default;
 $cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: 7px !default;
+$cx-default-box-padding: nth($cx-default-theme-size, 2) !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
@@ -81,7 +87,6 @@ $cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
 $cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
-$cx-default-tab-height: 40px !default;
 
 //SECTION
 $cx-default-section-box-shadow: $cx-default-box-shadow !default;
@@ -117,8 +122,6 @@ $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-paddi
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
 //TOAST
-$cx-default-toast-color: #fff !default;
-$cx-default-toast-background-color: rgb(51, 51, 51) !default;
 $cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
 $cx-default-toast-padding: $cx-default-box-padding + 5px 4 * $cx-default-box-padding !default; 
 
@@ -484,6 +487,16 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 .cxm-well {
   @extend .cxm-card;
 }
+
+//TOAST
+$cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
+  contrast: (
+    default: (
+      color: #fff,
+      background-color: rgb(51, 51, 51)
+    ) 
+  )
+));
 
 //FORM
 
