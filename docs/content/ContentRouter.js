@@ -9,6 +9,7 @@ import {trackPageView} from '../ga';
 
 import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
+import {HashRestore} from '../components/HashRestore';
 
 import { getVersion } from './version';
 
@@ -31,6 +32,7 @@ let addRoutes = (path, pages, routes) => {
             routes.push(<cx>
                 <Route url:bind="url"
                        route={path + getPageName(name)}>
+                    <HashRestore />
                     <EditOnGitX url={path + name}/>
                     {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
                         {pages[name]}
