@@ -189,17 +189,27 @@ $cx-default-colorfield-font-family: 'Consolas', monospace !default;
 $cx-default-monthpicker-font-size: smaller !default;
 
 // SLIDER
+$cx-default-slider-axis-size: 8px !default;
 $cx-default-slider-axis-background-color: rgba(128, 128, 128, 0.2) !default;
 $cx-default-slider-range-background-color: #98d4ff !default;
-$cx-default-slider-handle-size: 18px;
-$cx-default-slider-axis-size: 8px;
+
+/* handle */
+$cx-default-slider-handle-size: 18px !default;
+$cx-default-slider-handle-background-color: rgb(235, 235, 235) !default;
+$cx-default-slider-handle-border-width: 1px !default;
+$cx-default-slider-handle-border-color: rgb(204, 204, 204) !default;
+$cx-default-slider-handle-border-radius: 50% !default;
+$cx-default-slider-handle-box-shadow: 0 0 3px rgba(128, 128, 128, 0.3) !default;
+
 
 $cx-slider-handle-styles: (
    default: (
-      background: rgb(235, 235, 235),
-      border: 1px solid rgb(204, 204, 204),
-      border-radius: 50%,
-      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
+      background-color: $cx-default-slider-handle-background-color,
+      border-style: solid,
+      border-width: $cx-default-slider-handle-border-width,
+      border-color: $cx-default-slider-handle-border-color,
+      border-radius: $cx-default-slider-handle-border-radius,
+      box-shadow: $cx-default-slider-handle-box-shadow
    ),
    hover: (
       box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)

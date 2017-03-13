@@ -168,6 +168,16 @@ $cx-default-colorpicker-background-color: $cx-default-calendar-background-color 
 $cx-default-colorpicker-border-width: 0 !default;
 $cx-default-colorpicker-box-shadow: $cx-default-box-shadow !default;
 
+/* slider */
+$cx-default-slider-axis-size: 2px !default;
+$cx-default-slider-axis-background-color: rgba(0, 0, 0, 0.26) !default;
+$cx-default-slider-range-background-color: $cx-primary-color-dark !default;
+$cx-default-slider-handle-size: 16px !default;
+$cx-default-slider-handle-background-color: $cx-primary-color-dark !default;
+$cx-default-slider-handle-border-width: 2px !default;
+$cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
+$cx-default-slider-handle-box-shadow: none !default;
+
 /* icon */
 $cx-default-icon-size: $cx-default-box-line-height !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
@@ -619,6 +629,16 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
     box-shadow: none, 
     border-color: #dbdbdb
   ),
+));
+
+/* slider */
+$cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
+  hover: (
+    box-shadow: none
+  ),
+  active: (
+    background-color: $cx-primary-color-dark
+  )  
 ));
 
 /* clear icon */

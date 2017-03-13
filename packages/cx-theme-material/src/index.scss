@@ -101,6 +101,7 @@ $form-list: (
   }
 }
 
+/* textarea */
 .cxb-textarea {
   overflow: hidden;
 
@@ -139,7 +140,6 @@ $form-list: (
 }
 
 .cxe-checkbox-input  {
-
   &:after {
     content: '';
     width: 2 * $cx-default-checkbox-size;
@@ -220,6 +220,36 @@ $form-list: (
       box-shadow: none;
     }
   }
+}
+
+/* slider */
+.cxe-slider-handle {
+  &:after {
+    content: "";
+    width: 1.5 * $cx-default-slider-handle-size;
+    height: 1.5 * $cx-default-slider-handle-size;
+    position: absolute;
+    left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.15s ease-out;
+  }
+
+  &:active {
+    &:after {
+      visibility: visible;
+      transform: scale(1, 1);
+      background-color: rgba($cx-primary-color-dark, 1);
+    }
+  }
+}
+
+.cxe-slider-handle[style*="left: 0%;"] {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.26);
 }
 
 //TAB

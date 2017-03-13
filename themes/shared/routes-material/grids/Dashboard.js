@@ -120,7 +120,7 @@ export default <cx>
                   <Slider value:bind="$record.target"
                      min={-20}
                      max={20}
-                     style="width:100px;"/>
+                     style="width:300px;"/>
                </cx>
             },
             {
