@@ -14,51 +14,9 @@ export class Tooltip extends Dropdown {
       })
    }
 
-   // static show(store, tooltip, relatedElement, options) {
-   //
-   //    let tooltipStore = new ReadOnlyDataView({
-   //       store: store
-   //    });
-   //
-   //    let update = (data) => {
-   //       tooltipStore.setData({
-   //          $tooltip: data
-   //       })
-   //    };
-   //
-   //    update(tooltip);
-   //
-   //    let config;
-   //
-   //    if (typeof tooltip == 'string')
-   //       config = {
-   //          text: {bind: "$tooltip"}
-   //       };
-   //    else
-   //       config = {
-   //          ...tooltip,
-   //          text: {bind: "$tooltip.text"},
-   //          title: {bind: "$tooltip.title"},
-   //          alwaysVisible: {bind: "$tooltip.alwaysVisible"},
-   //          visible: {expr: "{$tooltip.visible}!==false"},
-   //       };
-   //
-   //    let widget = Tooltip.create({relatedElement}, config);
-   //
-   //    if (isTouchEvent() && widget.touchBehavior == 'ignore')
-   //       return false;
-   //
-   //    return {
-   //       dismiss: widget.open(tooltipStore, widget, options),
-   //       update,
-   //       widget,
-   //       store: tooltipStore
-   //    }
-   // }
-
    renderContents(context, instance) {
-      var {data} = instance;
-      var {CSS, baseClass} = this;
+      let {data} = instance;
+      let {CSS, baseClass} = this;
       return [
          data.title && <div key="title" className={CSS.element(baseClass, "title")}>{data.title}</div>,
          data.text,
@@ -248,5 +206,3 @@ export function tooltipParentWillUnmount(parentInstance) {
             parentInstance.tooltips[name].dismiss();
    }
 }
-
-//tooltipComponent => tooltipParent
