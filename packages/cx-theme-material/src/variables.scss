@@ -324,6 +324,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
     ),
     selected: (
       color: #fff,
+      background-color: transparent,
       border-color: $cx-accent-color
     ),
     selected-focus: (
@@ -478,8 +479,18 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 //SECTION
 $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
   card: (
-    background-color: white,
-    box-shadow: $cx-default-section-box-shadow
+    default: (
+      background-color: white,
+      box-shadow: $cx-default-section-box-shadow
+    )
+  ),
+  card-accent: (
+    default: (
+      color: #fff,
+      background-color: $cx-primary-color,
+      border-radius: $cx-default-border-radius,
+      box-shadow: $cx-default-section-box-shadow      
+    )
   )
 ));
 

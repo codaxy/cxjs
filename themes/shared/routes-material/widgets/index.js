@@ -9,9 +9,12 @@ import Forms from './Forms';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>      
    </div>
-
+   <div visible:expr="{$page.tab}=='tab-accent'">
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+      <Button mod="hollow" mod="float" icon="calendar" />
+   </div>
    <div visible:expr="{$page.tab}=='tab2'">
       <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p>
    </div>
@@ -42,69 +45,79 @@ export default <cx>
             <Button mod="hollow" icon="calendar">Icon + Text</Button>
             <Button mod="hollow" mod="float" icon="calendar" />
          </FlexRow>
-      </Section>
+        </Section>
 
-      <Section mod="card" title="Tabs" style="flex:1" preserveWhitespace>
-         <div style="white-space:nowrap">
-            <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
-            <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
-            <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
-            <Tab tab="tab4" value:bind="$page.tab" disabled>Disabled</Tab>
-         </div>
+        <Section mod="card" title="Tabs" style="flex:1" preserveWhitespace>
+           <div style="white-space:nowrap">
+              <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
+              <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
+              <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
+              <Tab tab="tab4" value:bind="$page.tab" disabled>Disabled</Tab>
+           </div>
 
-         <br/>
+           <br/>
 
-         <TabContent />
-      </Section>
+           <TabContent />
+        </Section>
 
-      <Section
-         mod="card"
-         title="Classic Tabs"
-         pad={false}
-         style="flex:1;"
-         headerStyle="border-bottom: none"
-         bodyStyle="display:flex;flex-direction:column;"
-         preserveWhitespace
-      >
-         <div class="cxb-classic-tab-container">
-            <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
-            <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-            <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-            <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
-         </div>
-         <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex:auto; border-radius:3px">
-            <TabContent />
-         </div>
-      </Section>
+        <Section
+           mod="card"
+           title="Classic Tabs"
+           pad={false}
+           style="flex:1;"
+           headerStyle="border-bottom: none"
+           bodyStyle="display:flex;flex-direction:column;"
+           preserveWhitespace
+        >
+           <div class="cxb-classic-tab-container">
+              <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
+              <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
+              <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
+              <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
+           </div>
+           <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex:auto; border-radius:3px">
+              <TabContent />
+           </div>
+        </Section>
 
-      <Section mod="card" title="Underline" style="flex:1" preserveWhitespace>
-         <div style="white-space:nowrap">
-            <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
-            <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
-            <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
-            <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Disabled</Tab>
-         </div>
-         <br/>
-         <TabContent />
-      </Section>
-         <Section mod="card" title="Windows" style="flex:1">
-            <FlexRow spacing align wrap>
-               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
-               <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
-               <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>
-               <Button onClick={()=>{MsgBox.yesNo('Would you like to close this window?')}}>Confirm</Button>
-            </FlexRow>
-            <LoginWindow />
-            <ContactWindow />
-         </Section>
+        <Section mod="card" title="Underline Tabs" style="flex:1" preserveWhitespace>
+           <div style="white-space:nowrap">
+              <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
+              <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
+              <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
+              <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Disabled</Tab>
+           </div>
+           <br/>
+           <TabContent />
+        </Section>
+        <Section mod="card-accent" title="Underline Accent Tabs" style="flex:1" preserveWhitespace>
+           <div style="white-space:nowrap">
+              <Tab tab="tab1" value:bind="$page.tab" mod="line-accent">Tab 1</Tab>
+              <Tab tab="tab2" value:bind="$page.tab" mod="line-accent">Tab 2</Tab>
+              <Tab tab="tab3" value:bind="$page.tab" mod="line-accent">Tab 3</Tab>
+              <Tab tab="tab4" value:bind="$page.tab" mod="line-accent" disabled>Disabled</Tab>
+           </div>
+           <br/>
+           <TabContent />
+        </Section>
+        <Section mod="card" title="Windows" style="flex:1">
+          <FlexRow spacing align wrap>
+              <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
+              <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
+              <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>
+              <Button onClick={()=>{MsgBox.yesNo('Would you like to close this window?')}}>Confirm</Button>
+          </FlexRow>
+          <LoginWindow />
+          <ContactWindow />
+        </Section>
 
-         <Section mod="card" title="Menus" style="flex:1">
-            <Menu1 />
-         </Section>
+        <Section mod="card" title="Menus" style="flex:1">
+          <Menu1 />
+        </Section>
 
-         <Section mod="card" title="Toasts" style="flex:1">
-            <Toasts />
-         </Section>
+        <Section mod="card" title="Toasts" style="flex:1">
+          <Toasts />
+        </Section>
 
       <Forms />
 

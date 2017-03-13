@@ -8,10 +8,17 @@ p {
    > .cxe-section-body {
      padding: 1em;
    }
+}
 
-   h1, h2, h3, h4, h5, h6 {
-     color: $cx-primary-color-light;
-   }
+@for $i from 1 through 6 {
+  .cxs-level-#{$i} {
+    .cxm-card & {
+      color: $cx-primary-color-light;
+    }
+    .cxm-card-accent & {
+      color: #fff;
+    }
+  }
 }
 
 .cxe-section-header.cxe-section-header  {
@@ -63,10 +70,6 @@ $form-list: (
 
 @each $field in $form-list {
   .cxb-#{$field} {
-    /* TODO - this should be removed */
-    min-width: 240px;
-    max-width: 240px !important;
-    /* Previous two lines are only for presentation. */
     position: relative;
     overflow: hidden;
 
@@ -331,6 +334,7 @@ div.cxb-classic-tab-container {
     line-height: $cx-default-grid-data-line-height;
     padding: $cx-default-grid-data-padding;
     border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
+    font-weight: 500;
   }
 }
 .cxs-border {

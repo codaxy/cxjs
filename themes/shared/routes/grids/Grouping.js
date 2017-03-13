@@ -26,7 +26,6 @@ export default <cx>
       <Grid records:bind='$page.records'
          scrollable
          mod="responsive"
-         mod="shadow"
          style={{width: "100%", height: '450px'}}
          columns={[
             {

@@ -18,15 +18,15 @@ export default <cx>
       <span putInto="breadcrumbs">Grids</span>
 
       <FlexRow pad spacing wrap target="desktop">
-         <Section title="Pagination" style="flex:1" mod="card">
+         <Section title="Pagination" style="flex:1.2" mod="card">
             <Pagination />
          </Section>
 
-         <Section title="Fixed Header" style="flex:1" mod="card">
+         <Section title="Fixed Header" style="flex:1.5" mod="card">
             <FixedHeader />
          </Section>
 
-         <Section title="Grouping" style="flex:1" mod="card">
+         <Section title="Grouping" style="flex:1.5" mod="card">
             <Grouping />
          </Section>
 

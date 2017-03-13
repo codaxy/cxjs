@@ -51,7 +51,7 @@ export default <cx>
    <div controller={PageController}>
       <Grid records:bind='$page.pagedRecords'
          style={{width: "100%"}}
-         mod={["bordered", "responsive"]}
+         mod={["bordered", "responsive", "shadow"]}
          lockColumnWidths
          columns={[
             {
