@@ -264,6 +264,33 @@ $form-list: (
   }
 }
 
+/* switch */
+.cxe-switch-handle {
+  &:after {
+    content: "";
+    width: 1.5 * $cx-default-slider-handle-size;
+    height: 1.5 * $cx-default-slider-handle-size;
+    position: absolute;
+    left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: visible;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+  }
+}
+
+.cxb-switch:focus {
+  .cxe-switch-handle {
+    &:after {
+      visibility: visible;
+      transform: scale(1.5, 1.5);
+      background-color: rgba($cx-primary-color-dark, 0.2);
+    }
+  }
+}
+
 //TAB
 div.cxb-classic-tab-container {
   box-shadow: $cx-default-box-shadow;

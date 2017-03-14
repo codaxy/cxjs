@@ -7,7 +7,7 @@ $pink: #e91e63 #ffeb3b;
 $teal: #009688 #cddc39;
 $purple: #673ab7 #ffeb3b;
 $gray: #607d8b #ffc107;
-$red: #f44336 #ffeb3b;
+$red: #d32f2f #ffeb3b;
 $green: #4caf50 #ff9800;
 $brown: #795548 #ffc107;
 $black: #212121 #ffeb3b;
@@ -16,7 +16,7 @@ $cx-default-color-scheme: $blue !default;
 
 //Pick a theme size
 $normal: 24px 7px !default;
-$small: 20px 6px !default;
+$small: 20px 5px !default;
 
 $cx-default-theme-size: $normal !default;
 
@@ -177,6 +177,11 @@ $cx-default-slider-handle-background-color: $cx-primary-color-dark !default;
 $cx-default-slider-handle-border-width: 2px !default;
 $cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
 $cx-default-slider-handle-box-shadow: none !default;
+
+/* switch */
+$cx-default-switch-axis-size: 8px !default;
+$cx-default-switch-axis-background-color: rgba(0, 0, 0, 0.26) !default;
+$cx-default-switch-range-background-color: rgba($cx-primary-color, 0.8) !default;
 
 /* icon */
 $cx-default-icon-size: $cx-default-box-line-height !default;
@@ -640,8 +645,28 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
     background-color: $cx-primary-color-dark
   ),
   focus: (
-    box-shadow: none
+    box-shadow: none,
+    border-color: $cx-primary-color-dark
   )  
+));
+
+/* switch */
+$cx-switch-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
+  default: (
+    background-color: $cx-primary-color,
+    border-color: $cx-primary-color,
+    box-shadow: $cx-default-box-shadow
+  ),
+  hover: (
+    box-shadow: $cx-default-box-shadow
+  ),
+  active: (
+    border-color: $cx-primary-color-dark
+  ),
+  focus: (
+    box-shadow: $cx-default-box-shadow,
+    border-color: $cx-primary-color
+  )
 ));
 
 /* clear icon */

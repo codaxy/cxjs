@@ -5,6 +5,7 @@ import {
    Select,
    Radio,
    Checkbox,
+   Switch,
    MonthField,
    MonthPicker,
    Calendar,
@@ -39,6 +40,11 @@ export default <cx>
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
+         <Switch
+           label="Default"
+           on:bind="$page.check"
+           text:expr="{$page.check} ? 'ON' : 'OFF'"
+         />
       </div>
    </Section>
 
