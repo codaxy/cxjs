@@ -16,9 +16,9 @@ $cx-default-color-scheme: $blue !default;
 
 //Pick a theme size
 $normal: 24px 7px !default;
-$small: 20px 5px !default;
+$small: 22px 4px !default;
 
-$cx-default-theme-size: $normal !default;
+$cx-default-theme-size: $small !default;
 
 $cx-default-padding-extra-small: 5px !default;
 $cx-default-padding-small: 7px !default;
@@ -149,12 +149,12 @@ $cx-default-calendar-day-font-size: 11px !default;
 $cx-default-calendar-day-border-radius: 50% !default;
 
 /* checkbox */
-$cx-default-checkbox-size: 18px !default;
+$cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
 $cx-default-checkbox-border-width: 2px !default;  
 $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
 /* radio */
-$cx-default-radio-size: 18px !default;
+$cx-default-radio-size: $cx-default-box-line-height - 6px !default;
 $cx-default-radio-color: $cx-primary-color-light !default;
 
 /* lookupfield tag */
