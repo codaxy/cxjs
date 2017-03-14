@@ -41,7 +41,7 @@ export default <cx>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
          <Switch
-           label="Default"
+           label="Switch"
            on:bind="$page.check"
            text:expr="{$page.check} ? 'ON' : 'OFF'"
          />

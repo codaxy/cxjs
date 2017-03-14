@@ -66,7 +66,6 @@ $cx-input-state-style-map: (
    )
 ) !default;
 
-$cx-default-input-tag-spacing: 3px !default;
 $cx-default-checkbox-size: 14px !default;
 $cx-default-radio-size: 14px !default;
 $cx-default-input-icon-size: $cx-default-icon-size !default;
@@ -242,8 +241,22 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 ));
 
 // LOOKUPFIELD TAG
+$cx-default-input-tag-spacing: 3px !default;
 $cx-default-tag-font-size: $cx-default-font-size !default;
+$cx-default-tag-background-color: $cx-default-button-background-color !default;
 $cx-default-tag-border-radius: $cx-default-border-radius !default;
+$cx-default-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
+
+$cx-tag-state-style-map: (
+  default: (
+    font-size: $cx-default-tag-font-size,
+    background-color: $cx-default-tag-background-color,
+    margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing,
+    padding: $cx-default-tag-padding,
+    padding-right: cx-calc($cx-default-clear-size, 2px),
+    border-radius: $cx-default-tag-border-radius
+  )
+) !default;
 
 // CALENDAR
 @import 'Calendar.Variables';

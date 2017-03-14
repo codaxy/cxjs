@@ -9,6 +9,7 @@
    $tool-state-style-map: $cx-input-right-icon-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
+   $tag-state-style-map: $cx-tag-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -50,15 +51,15 @@
    }
 
    .#{$element}#{$name}-tag {
-      font-size: $cx-default-tag-font-size;
-      background: $cx-default-button-background-color;
       display: inline-block;
       position: relative;
-      margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
       box-sizing: border-box;
-      padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
-      padding-right: cx-calc($cx-default-clear-size, 2px);
-      border-radius: $cx-default-tag-border-radius;
+
+      @include cx-add-state-rules($tag-state-style-map, default);
+
+      &:hover {
+        @include cx-add-state-rules($tag-state-style-map, hover);
+      }
    }
 
    .#{$element}#{$name}-placeholder {

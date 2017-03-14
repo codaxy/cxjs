@@ -636,6 +636,13 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
   ),
 ));
 
+/* lookupfield tag */
+$cx-tag-state-style-map: cx-deep-map-merge($cx-tag-state-style-map, (
+  hover: (    
+    background-color: darken($cx-default-tag-background-color, 10)
+  )
+));
+
 /* slider */
 $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
   hover: (
