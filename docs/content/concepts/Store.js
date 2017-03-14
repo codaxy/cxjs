@@ -4,6 +4,7 @@ import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {Controller} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
+import {MethodTable} from '../../components/MethodTable';
 
 import {store} from '../../app/store';
 
@@ -39,6 +40,49 @@ export const Store = <cx>
         - Widgets react on user inputs and update the store either directly (two-way bindings) or by dispatching
         actions which are translated into new application state (see Redux).
         - Store sends change notifications which produce a new rendering of the widget tree and DOM update.
+
+        ### Principles
+
+        - The state of the whole application is stored in an object tree within a single store.
+        - The state is read-only. The only way to change the state is through store methods or with the use of
+        two-way data binding.
+        - The state is immutable. On every change, a new copy of the state is created containing the updated values.
+
+        ### Store methods
+
+        <MethodTable methods={[{
+            signature: 'Store.init(path, value)',
+            description: <cx><Md>
+               If the `path` key is not already defined inside the store, it sets its value to `value` and 
+               returns `true`. Otherwise it returns `false`, without making any changes. `path` is a string.
+            </Md></cx>
+         }, {
+            signature: 'Store.set(path, value)',
+            description: <cx><Md>
+               Sets the base path of the application by examining DOM `script` elements.
+               If the `src` property matches the given path, the base is used as the application path base.
+            </Md></cx>
+         }, {
+            signature: 'Store.get(path)',
+            description: <cx><Md>
+               Takes a single string or an array of strings and returns the corresponding values.
+            </Md></cx>
+         }, {
+            signature: 'Store.delete(path)',
+            description: <cx><Md>
+               Takes given relative and absolute path and returns tilde based path.
+            </Md></cx>
+         }, {
+            signature: 'Store.update(path, updateFn, ...args)',
+            description: <cx><Md>
+               Checks if the given path is local.
+            </Md></cx>
+         }, {
+            signature: 'Store.toggle(path)',
+            description: <cx><Md>
+               Checks if the given path is local.
+            </Md></cx>
+         }]}/> 
 
         <CodeSplit>
 
