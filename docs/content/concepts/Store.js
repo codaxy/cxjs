@@ -8,7 +8,7 @@ import {MethodTable} from '../../components/MethodTable';
 
 import {store} from '../../app/store';
 
-store.set('store.itemsA', [
+store.set('store-itemsA', [
    { text: 'A', checked: false },
    { text: 'B', checked: false },
    { text: 'C', checked: false },
@@ -17,9 +17,9 @@ store.set('store.itemsA', [
    { text: 'F', checked: false }
 ]);
 
-store.copy('store.itemsA', 'store.itemsB');
+store.copy('store-itemsA', 'store.itemsB');
 
-store.move('store.itemsA', 'store.itemsC');
+store.move('store-itemsA', 'store.itemsC');
 
 class StController extends Controller {
     init() {
@@ -42,73 +42,85 @@ export const Store = <cx>
         - Store sends change notifications which produce a new rendering of the widget tree and DOM update.
 
         ### Principles
+        
+        <CodeSplit>
+            
+            - The state of the whole application is stored in an object tree within a single store.
+            - The state is read-only. The only way to change the state is through store methods or with the use of
+            two-way data binding.
+            - The state is immutable. On every change, a new copy of the state is created containing the updated values.
+        
+            <div class="widgets">
+                <div controller={StController}>
+                    
+                </div>
+            </div>
 
-        - The state of the whole application is stored in an object tree within a single store.
-        - The state is read-only. The only way to change the state is through store methods or with the use of
-        two-way data binding.
-        - The state is immutable. On every change, a new copy of the state is created containing the updated values.
+            <Content name="code">
+                <CodeSnippet>{`
+                import { Store } from 'cx/data';
+                const store = new Store();
+                store.init('appdata', 'some data');
+            `}
+                </CodeSnippet>
+            </Content>
+        </CodeSplit>
 
         ### Store methods
 
         <MethodTable methods={[{
             signature: 'Store.init(path, value)',
             description: <cx><Md>
-               If the `path` key is not already defined inside the store, it sets its value to `value` and 
-               returns `true`. Otherwise it returns `false`, without making any changes. `path` is a string.
+               The `init` method, unlike the `set` method, does not overwrite the existing value stored under the given
+               `path`. In such cases it returns `false`. Otherwise it saves tha `value` and returns `true`.
             </Md></cx>
          }, {
             signature: 'Store.set(path, value)',
             description: <cx><Md>
-               Sets the base path of the application by examining DOM `script` elements.
-               If the `src` property matches the given path, the base is used as the application path base.
+               `path` is a unique string used as a key for storing and later reading the `value` from the store. 
+               This method overwrites any values previously stored under the given `path`.
             </Md></cx>
          }, {
             signature: 'Store.get(path)',
             description: <cx><Md>
-               Takes a single string or an array of strings and returns the corresponding values.
+               The `get` method can take any number of arguments or an array of strings representing paths, 
+               and returns the corresponding values.
             </Md></cx>
          }, {
             signature: 'Store.delete(path)',
             description: <cx><Md>
-               Takes given relative and absolute path and returns tilde based path.
+               Removes data from the store, stored under the given `path`.
             </Md></cx>
          }, {
             signature: 'Store.update(path, updateFn, ...args)',
             description: <cx><Md>
-               Checks if the given path is local.
+               Applies the `updateFn` to the data stored under the given `path`. `args` can contain additional parameters
+               used by the `updateFn`.
             </Md></cx>
          }, {
             signature: 'Store.toggle(path)',
             description: <cx><Md>
-               Checks if the given path is local.
+               Toggles the boolean value stored under the given `path`.
             </Md></cx>
          }]}/> 
 
-        <CodeSplit>
 
-            
+         ## Updating arrays
 
-            <div class="widgets">
-                <div controller={StController}>
-                    <Repeater records:bind="store.items">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
-                        <br/>
-                    </Repeater>
-                </div>
-            </div>
+         <ImportPath path="import { updateArray } from 'cx/data';" />      
 
-            <Content name="code">
-                <CodeSnippet>{`
-               export const Main = <cx>
-                  <main outerLayout={Layout}>
-                     <Content name="aside" items={Contents} />
-                     <ContentRouter />
-                  </main>
-               </cx>
-            `}
-                </CodeSnippet>
-            </Content>
-        </CodeSplit>
+         `updateArray` function can be used for updating array data structures inside the `store`. 
+         The function either creates the updated copy, or returns the original array, if no changes were made.
+
+         <MethodTable methods={[{
+            signature: 'updateArray(array, updateCallback, itemFilter)',
+            description: <cx><Md>
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+                `itemFilter` is optional.
+            </Md></cx>
+         }]}/>
+
+        
     </Md>
 </cx>
 
