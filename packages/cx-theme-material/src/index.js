@@ -32,8 +32,12 @@ Icon.registerFactory((name, props) => {
    props.className = 'material-icons ' + (props.className || '');
    return <i {...props}>{name}</i>;
 });
+
 Icon.unregister('close');
+Icon.unregister('folder');
 
 Icon.register('calendar', props => Icon.render('date_range', props));
 Icon.register('drop-down', props => Icon.render('keyboard_arrow_down', props));
 Icon.register('sort-asc', props => Icon.render('arrow_upward', props));
+Icon.register('folder-open', props => Icon.render('folder_open', props));
+Icon.register('file', props => Icon.render('insert_drive_file', props));

@@ -6,6 +6,8 @@ import Pagination from './Pagination';
 import FixedHeader from './FixedHeader';
 import Grouping from './Grouping';
 import MultipleSelection from './MultipleSelection';
+import GridFormEditing from './GridFormEditing';
+import TreeGrid from './TreeGrid';
 
 import {casual} from 'shared/data/casual';
 import plural from 'plural';
@@ -36,9 +38,16 @@ export default <cx>
          </Section>
 
          <Section title="Multiple Selection" style="flex:2" mod="card" >
-            <MultipleSelection/>
+            <MultipleSelection />
          </Section>
 
+         <Section title="Grid With Form Editing" style="flex:2" mod="card" >
+            <GridFormEditing />
+         </Section>
+
+         <Section title="Tree Grid" style="flex:2" mod="card" >
+            <TreeGrid />
+         </Section>
       </FlexRow>
    </div>
 </cx>;
