@@ -135,8 +135,10 @@ $form-list: (
 }
 
 /* checkbox */
+/* corrects illusion that label is not centered due to font Roboto */
+$checkbox-padding-correction: 2px !default;
 .cxb-checkbox {
-  padding: $cx-default-box-padding + 2px;
+  padding: $cx-default-box-padding + $checkbox-padding-correction;
 }
 
 .cxe-checkbox-input  {
@@ -248,7 +250,7 @@ $form-list: (
   &:focus:after {
     visibility: visible;
     transform: scale(1.5, 1.5);
-    background-color: rgba($cx-primary-color-dark, 0.2);
+    background-color: rgba($cx-primary-color-dark, 0.1);
   }
 }
 
@@ -275,7 +277,7 @@ $form-list: (
     bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
     background-color: rgba(black, 0.05);
     border-radius: 50%;
-    visibility: visible;
+    visibility: hidden;
     transform: scale(0.6, 0.6);
     transition: transform 0.15s ease-out, background-color 0.15s ease-out;
   }
@@ -286,7 +288,7 @@ $form-list: (
     &:after {
       visibility: visible;
       transform: scale(1.5, 1.5);
-      background-color: rgba($cx-primary-color-dark, 0.2);
+      background-color: rgba($cx-primary-color, 0.1);
     }
   }
 }
@@ -373,6 +375,7 @@ div.cxb-classic-tab-container {
 }
 
 //GRID
+/* shadow added to fixed header */
 .cxe-grid-fixed-header {
   box-shadow: $cx-default-grid-header-box-shadow;
   
@@ -388,6 +391,7 @@ div.cxb-classic-tab-container {
   }
 }
 
+/* ellipsis added to grid header */
 .cxe-grid-col-header {
   white-space: nowrap;
   overflow: hidden;
@@ -397,7 +401,7 @@ div.cxb-classic-tab-container {
   -ms-user-select: none; /* IE10+ */
 }
 
-/* sum total row - maybe a class is needed there */
+/* group grid styles */
 .cxe-grid-group-footer, .cxe-grid-group-caption {
   td {
     line-height: $cx-default-grid-data-line-height;
@@ -406,12 +410,42 @@ div.cxb-classic-tab-container {
     font-weight: 500;
   }
 }
+
+/* default grey border color in group grid is too dark */
+.cxe-grid-group-caption {
+  @for $i from 2 through 4 {
+    &.cxs-level-#{$i} {
+      td {
+        border-bottom: 1px solid darken($cx-default-grid-data-border-color, 20);
+      }
+    }
+  } 
+}
+
+.cxe-grid-group-footer {
+  @for $i from 2 through 4 {
+    &.cxs-level-#{$i} {
+      td {
+        border-top: 1px solid darken($cx-default-grid-data-border-color, 20);
+      }
+    }
+  } 
+}
+
+/* grid header border removed */
 .cxs-border {
   .cxe-grid-col-header {
     border-width: 0;
   }
 }
-//ripple effect
+
+/* grid checkbox padding removed */
+.cxb-grid .cxb-checkbox {
+  margin-top: 4 * $checkbox-padding-correction;
+}
+
+
+//RIPPLE EFFECT
 .cxb-button, .cxb-tab {
   overflow: hidden;
 
@@ -440,9 +474,7 @@ div.cxb-classic-tab-container {
   }
 }
 
-
-
-//material-icons
+//MATERIAL ICONS
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -468,7 +500,7 @@ div.cxb-classic-tab-container {
   font-feature-settings: 'liga';
 }
 
-//scrollbar
+//SCROLLBAR
 @if ($cx-include-global-rules) {
   ::-webkit-scrollbar {
 	  width: 10px;

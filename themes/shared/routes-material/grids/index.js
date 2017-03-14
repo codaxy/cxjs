@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import Pagination from './Pagination';
 import FixedHeader from './FixedHeader';
 import Grouping from './Grouping';
+import MultipleSelection from './MultipleSelection';
 
 import {casual} from 'shared/data/casual';
 import plural from 'plural';
@@ -33,6 +34,11 @@ export default <cx>
          <Section title="Grid Dashboard" style="flex:2" mod="card" >
             <Dashboard />
          </Section>
+
+         <Section title="Multiple Selection" style="flex:2" mod="card" >
+            <MultipleSelection/>
+         </Section>
+
       </FlexRow>
    </div>
 </cx>;
