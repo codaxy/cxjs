@@ -4,6 +4,7 @@ import {Debug, tooltipsFlag} from '../../util/Debug';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {shallowEquals} from '../../util/shallowEquals';
+import {isSelector} from '../../data/isSelector';
 
 export class Tooltip extends Dropdown {
 
@@ -129,7 +130,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
    if (!tooltipInstance) {
       let config = tooltip;
-      if (typeof tooltip == 'string') {
+      if (isSelector(tooltip)) {
          config = {
             text: tooltip
          };
