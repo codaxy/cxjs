@@ -55,7 +55,7 @@ export default <cx>
          <Section title="Complex Header" style="flex:2" mod="card" >
             <ComplexHeader />
          </Section>
-      </FlexRow>
+    </FlexRow>
    </div>
 </cx>;
 
