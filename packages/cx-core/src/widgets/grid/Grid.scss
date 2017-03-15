@@ -74,7 +74,6 @@
       }
 
       &.#{$mod}responsive {
-         display: block;
          width: 100%;
 
          & > .#{$element}#{$name}-scroll-area {
