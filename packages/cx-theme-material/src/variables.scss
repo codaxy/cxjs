@@ -18,7 +18,7 @@ $cx-default-color-scheme: $blue !default;
 $normal: (line-height: 24px, padding: 7px) !default;
 $small: (line-height: 22px, padding: 4px) !default;
 
-$cx-default-theme-size: $small !default;
+$cx-default-theme-size: $normal !default;
 
 $cx-default-padding-extra-small: 5px !default;
 $cx-default-padding-small: map-get($cx-default-theme-size, padding) !default;
@@ -208,21 +208,23 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   default: (
     color: $cx-default-color
   ),
+  hover: (
+    background-color: rgba(0, 0, 0, 0.03)
+  ),
   hover-focus: (
     color: $cx-default-color,
-    background-color: rgba(128, 128, 128, 0.1)  
+    background-color: rgba(0, 0, 0, 0.04)  
   ),
   selected-hover: (
     color: #fff,
-    background-color: $cx-primary-color-dark
+    background-color: $cx-primary-color-light
   ),
   selected: (
-    color: #fff,
-    background-color: $cx-primary-color-light
+    background-color: rgba(0, 0, 0, 0.06)
   ),
   selected-focus: (
     color: #fff,
-    background-color: $cx-primary-color
+    background-color: $cx-primary-color-light
   )
 ));
 
@@ -667,15 +669,18 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
   ),
   active: (
     background-color: #e0e0e0,
-    border-color: #e0e0e0
+    border-color: transparent
   ),
   focus: (
     box-shadow: $cx-default-box-shadow,
-    border-color: $cx-primary-color
+    border-color: transparent
   ),
   on: (
     background-color: $cx-primary-color,
-    border-color: $cx-primary-color
+    border-color: transparent
+  ),
+  on-active: (
+    background-color: $cx-primary-color-dark
   )
 ));
 

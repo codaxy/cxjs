@@ -444,9 +444,9 @@ div.cxb-classic-tab-container {
 }
 
 /* tree grid icon set to white when row is selected */
-.cxs-selected {
+.cxe-grid-data.cxs-selected.cxs-cursor {
   .cxe-treenode-handle {
-    color: #fff;
+    /*color: #fff;*/
   }
 }
 
