@@ -229,10 +229,43 @@ $cx-slider-handle-styles: (
 // SWITCH
 $cx-default-switch-axis-background-color: $cx-default-slider-axis-background-color !default;
 $cx-default-switch-range-background-color: #87cc8a !default;
-$cx-default-switch-handle-size: 18px !default;
 $cx-default-switch-axis-size: 20px !default;
 $cx-default-switch-width: 32px !default;
-$cx-switch-handle-styles: $cx-slider-handle-styles !default;
+
+$cx-default-switch-handle-background-color: $cx-default-slider-handle-background-color !default;
+$cx-default-switch-handle-border-width: $cx-default-slider-handle-border-width !default;  
+$cx-default-switch-handle-border-color: $cx-default-slider-handle-border-color !default; 
+$cx-default-switch-handle-border-radius: $cx-default-slider-handle-border-radius !default; 
+$cx-default-switch-handle-box-shadow: $cx-default-slider-handle-box-shadow !default;
+$cx-default-switch-handle-size: 18px !default;
+
+$cx-switch-handle-styles: (
+  default: (
+    background-color: $cx-default-switch-handle-background-color,
+    border-style: solid,
+    border-width: $cx-default-switch-handle-border-width,
+    border-color: $cx-default-switch-handle-border-color,
+    border-radius: $cx-default-switch-handle-border-radius,
+    box-shadow: $cx-default-switch-handle-box-shadow
+   ),
+  hover: (
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+  ),
+  focus: (
+    border-color: rgba(77, 144, 254, 0.8),
+    outline: none,
+    box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+  ),
+  disabled: (
+
+  ),
+  active: (
+      background: rgb(220, 220, 220)
+  ),
+  on: (
+
+  )  
+) !default;
 
 // TEXTAREA
 $cx-default-textarea-width: 300px !default;

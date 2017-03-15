@@ -39,6 +39,8 @@ export default <cx>
    <div controller={Dashboard}>
       <Grid records:bind="$page.dashboard"
          lockColumnWidths
+         style={{height: "450px"}}
+         scrollable
          keyField="id"
          defaultSortField="sales"
          defaultSortDirection="DESC"

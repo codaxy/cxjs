@@ -405,6 +405,7 @@ div.cxb-classic-tab-container {
 /* group grid styles */
 .cxe-grid-group-footer, .cxe-grid-group-caption {
   td {
+    color: $cx-primary-color;
     line-height: $cx-default-grid-data-line-height;
     padding: $cx-default-grid-data-padding;
     border-top: 1px solid darken($cx-default-grid-data-border-color, 10);

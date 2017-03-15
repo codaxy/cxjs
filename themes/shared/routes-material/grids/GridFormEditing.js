@@ -65,61 +65,62 @@ class PageController extends Controller {
 export default <cx>
     <div controller={PageController}>
       <Grid
-records:bind="$page.records"
-style={{ width: "100%" }}
-selection={{ type: KeySelection, bind: "$page.id", keyField: "id" }}
-columns={[
-  { header: "Name", field: "fullName", sortable: true },
-  { header: "Phone", field: "phone" },
-  { header: "City", field: "city", sortable: true },
-  {
-    header: "Notified",
-    field: "notified",
-    sortable: true,
-    value: { expr: '{$record.notified} ? "Yes" : "No"' }
-  },
-  {
-    header: "Actions",
-    items: (
-      <cx>
-        <Button
-          type="button"
-          data-id:bind="$record.id"
-            onClick={(e, { controller, data }) => {
-                        controller.removeRecord(data.data.id);
-}}
-                  >
-Remove
-</Button>
-</cx>
-              )
-}
-]}
-      />
-<Button
-type="button"
-onClick={(e, { controller }) => {
-  controller.newRecord();
-}}
+        records:bind="$page.records"
+        style={{ height: "532px" }}
+        scrollable
+        selection={{ type: KeySelection, bind: "$page.id", keyField: "id" }}
+        columns={[
+          { header: "Name", field: "fullName", sortable: true },
+          { header: "Phone", field: "phone" },
+          { header: "City", field: "city", sortable: true },
+          {
+            header: "Notified",
+            field: "notified",
+            sortable: true,
+            value: { expr: '{$record.notified} ? "Yes" : "No"' }
+          },
+          {
+            header: "Actions",
+            items: (
+              <cx>
+                <Button
+                  type="button"
+                  data-id:bind="$record.id"
+                    onClick={(e, { controller, data }) => {
+                                controller.removeRecord(data.data.id);
+        }}
+                          >
+        Remove
+        </Button>
+        </cx>
+                      )
+        }
+        ]}
+              />
+    <Button style="margin-top: 20px;"
+      type="button"
+      onClick={(e, { controller }) => {
+        controller.newRecord();
+      }}
       >
-Add
-</Button>
-<hr style={{ margin: "30px" }} />
-<ValidationGroup visible:expr="{$page.form}">
-  <h4 text:bind="$page.form.fullName" />
-  <div layout={LabelsLeftLayout}>
-    <TextField label="Name" value:bind="$page.form.fullName" />
-    <TextField label="Phone" value:bind="$page.form.phone" />
-    <TextField label="City" value:bind="$page.form.city" />
-    <Checkbox label="Notified" value:bind="$page.form.notified" />
-    <Button
-onClick={(e, { controller }) => {
-  controller.saveRecord();
-}}
-          >
-Save
-</Button>
-</div>
-</ValidationGroup>
-</div>
+      Add
+    </Button>
+      <hr style={{ margin: "30px" }} />
+      <ValidationGroup visible:expr="{$page.form}">
+        <h4 text:bind="$page.form.fullName" />
+        <div layout={LabelsLeftLayout}>
+          <TextField label="Name" value:bind="$page.form.fullName" />
+          <TextField label="Phone" value:bind="$page.form.phone" />
+          <TextField label="City" value:bind="$page.form.city" />
+          <Checkbox label="Notified" value:bind="$page.form.notified" />
+          <Button
+      onClick={(e, { controller }) => {
+        controller.saveRecord();
+      }}
+                >
+      Save
+    </Button>
+      </div>
+      </ValidationGroup>
+  </div>
 </cx>

@@ -182,6 +182,9 @@ $cx-default-slider-handle-box-shadow: none !default;
 $cx-default-switch-axis-size: 8px !default;
 $cx-default-switch-axis-background-color: rgba(0, 0, 0, 0.26) !default;
 $cx-default-switch-range-background-color: rgba($cx-primary-color, 0.8) !default;
+$cx-default-switch-handle-background-color: #fff !default;
+$cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default; 
+$cx-default-switch-handle-box-shadow: $cx-default-box-shadow !default;
 
 /* icon */
 $cx-default-icon-size: $cx-default-box-line-height !default;
@@ -658,12 +661,7 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
 ));
 
 /* switch */
-$cx-switch-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
-  default: (
-    background-color: $cx-primary-color,
-    border-color: $cx-primary-color,
-    box-shadow: $cx-default-box-shadow
-  ),
+$cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
   hover: (
     box-shadow: $cx-default-box-shadow
   ),
@@ -672,6 +670,10 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
   ),
   focus: (
     box-shadow: $cx-default-box-shadow,
+    border-color: $cx-primary-color
+  ),
+  on: (
+    background-color: $cx-primary-color,
     border-color: $cx-primary-color
   )
 ));

@@ -21,7 +21,7 @@ class PageController extends Controller {
 export default <cx>
    <div controller={PageController} style="width:100%">
       <Grid records:bind='$page.fixedRecords'
-         style={{height: "450px"}}
+         style={{height: "532px"}}
          mod={["responsive", "shadow"]}
          scrollable
          columns={[

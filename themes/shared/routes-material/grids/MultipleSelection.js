@@ -35,7 +35,8 @@ export default <cx>
   <div controller={PageController}>
     <Grid
       records:bind="$page.records"
-      style={{ width: "100%" }}
+      style={{ height: "532px" }}
+      scrollable
       columns={
         [
         {

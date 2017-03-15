@@ -6,6 +6,7 @@ import ContactWindow from './ContactWindow';
 import Menu1 from './Menu1';
 import Toasts from './Toasts';
 import Forms from './Forms';
+import List from './List';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
@@ -100,6 +101,11 @@ export default <cx>
            <br/>
            <TabContent />
         </Section>
+      </FlexRow>
+      <FlexRow pad spacing wrap target="tablet">
+        <Forms />
+      </FlexRow>
+      <FlexRow pad spacing wrap target="tablet">
         <Section mod="card" title="Windows" style="flex:1">
           <FlexRow spacing align wrap>
               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
@@ -118,9 +124,9 @@ export default <cx>
         <Section mod="card" title="Toasts" style="flex:1">
           <Toasts />
         </Section>
-
-      <Forms />
-
-
-   </FlexRow>
+        <Section mod="card"  title="Lists" style="flex:1">
+          <List />
+        </Section>
+    </FlexRow>
+    
 </cx>

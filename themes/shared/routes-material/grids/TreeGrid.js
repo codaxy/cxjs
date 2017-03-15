@@ -37,43 +37,42 @@ class PageController extends Controller {
 export default <cx>
     <div controller={PageController}>
       <Grid
-records:bind="$page.data"
-mod="tree"
-style={{ width: "100%" }}
-dataAdapter={
-  {
-    type: TreeAdapter,
-    load: (context, { controller }, node) =>
-      controller.generateRecords(node)
-  }
-}
-selection={{ type: KeySelection, bind: "$page.selection" }}
-columns={[
-  {
-    header: "Name",
-    field: "fullName",
-    sortable: true,
-    items: (
-      <cx>
-        <TreeNode
-    expanded:bind="$record.$expanded"
-  leaf:bind="$record.$leaf"
-level:bind="$record.$level"
-loading:bind="$record.$loading"
-text:bind="$record.fullName"
-/>
-</cx>
-              )
-},
-{ header: "Phone", field: "phone" },
-{ header: "City", field: "city", sortable: true },
-{
-header: "Notified",
-  field: "notified",
-sortable: true,
-value: { expr: '{$record.notified} ? "Yes" : "No"' }
-}
-]}
+        records:bind="$page.data"
+        mod="tree"
+        dataAdapter={
+          {
+            type: TreeAdapter,
+            load: (context, { controller }, node) =>
+              controller.generateRecords(node)
+          }
+        }
+        selection={{ type: KeySelection, bind: "$page.selection" }}
+        columns={[
+          {
+            header: "Name",
+            field: "fullName",
+            sortable: true,
+            items: (
+              <cx>
+                <TreeNode
+                  expanded:bind="$record.$expanded"
+                  leaf:bind="$record.$leaf"
+                  level:bind="$record.$level"
+                  loading:bind="$record.$loading"
+                  text:bind="$record.fullName"
+                />
+              </cx>
+            )
+          },
+          { header: "Phone", field: "phone" },
+          { header: "City", field: "city", sortable: true },
+          {
+          header: "Notified",
+          field: "notified",
+          sortable: true,
+          value: { expr: '{$record.notified} ? "Yes" : "No"' }
+          }
+        ]}
       />
-</div>
+  </div>
 </cx>

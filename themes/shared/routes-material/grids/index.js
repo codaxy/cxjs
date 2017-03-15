@@ -8,6 +8,7 @@ import Grouping from './Grouping';
 import MultipleSelection from './MultipleSelection';
 import GridFormEditing from './GridFormEditing';
 import TreeGrid from './TreeGrid';
+import ComplexHeader from './ComplexHeader';
 
 import {casual} from 'shared/data/casual';
 import plural from 'plural';
@@ -21,14 +22,15 @@ export default <cx>
       <span putInto="breadcrumbs">Grids</span>
 
       <FlexRow pad spacing wrap target="desktop">
-         <Section title="Pagination" style="flex:1.2" mod="card">
+         <Section title="Pagination" style="flex:1" mod="card">
             <Pagination />
          </Section>
 
-         <Section title="Fixed Header" style="flex:1.5" mod="card">
+         <Section title="Fixed Header" style="flex:1" mod="card">
             <FixedHeader />
          </Section>
-
+      </FlexRow>
+      <FlexRow pad spacing wrap target="desktop">
          <Section title="Grouping" style="flex:1.5" mod="card">
             <Grouping />
          </Section>
@@ -36,17 +38,22 @@ export default <cx>
          <Section title="Grid Dashboard" style="flex:2" mod="card" >
             <Dashboard />
          </Section>
-
-         <Section title="Multiple Selection" style="flex:2" mod="card" >
-            <MultipleSelection />
+      </FlexRow>
+      <FlexRow pad spacing wrap target="desktop">       
+         <Section title="Tree Grid" style="flex:2" mod="card" >
+            <TreeGrid />
          </Section>
-
          <Section title="Grid With Form Editing" style="flex:2" mod="card" >
             <GridFormEditing />
          </Section>
-
-         <Section title="Tree Grid" style="flex:2" mod="card" >
-            <TreeGrid />
+     </FlexRow>
+     <FlexRow pad spacing wrap target="desktop"> 
+         <Section title="Multiple Selection" style="flex:2" mod="card" >
+            <MultipleSelection />
+         </Section>
+      
+         <Section title="Complex Header" style="flex:2" mod="card" >
+            <ComplexHeader />
          </Section>
       </FlexRow>
    </div>
