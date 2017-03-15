@@ -326,7 +326,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       border-top-width: 0,
       border-bottom-left-radius: 0,
       border-bottom-right-radius: 0,
-      padding: ($cx-default-box-padding - 1px) (2 * $cx-default-box-padding + 5px) ($cx-default-box-padding - 1px)
+      padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
     ),
     hover: (
       border-color: rgba(255, 255, 255, 0.3),

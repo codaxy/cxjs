@@ -295,6 +295,7 @@ $checkbox-padding-correction: 2px !default;
 
 //TAB
 div.cxb-classic-tab-container {
+  background-color: $cx-primary-color;
   box-shadow: $cx-default-box-shadow;
   height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
   padding: 0;
