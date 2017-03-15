@@ -8,7 +8,7 @@ import {MethodTable} from '../../components/MethodTable';
 
 import {store} from '../../app/store';
 
-store.set('store-itemsA', [
+store.set('store.itemsA', [
    { text: 'A', checked: false },
    { text: 'B', checked: false },
    { text: 'C', checked: false },
@@ -17,9 +17,11 @@ store.set('store-itemsA', [
    { text: 'F', checked: false }
 ]);
 
-store.copy('store-itemsA', 'store.itemsB');
+store.copy('store.itemsA', 'store.itemsB');
 
-store.move('store-itemsA', 'store.itemsC');
+store.move('store.itemsA', 'store.itemsC');
+
+store.set('storeitemsC', store.get('store.itemsC[0].checked'))
 
 class StController extends Controller {
     init() {
