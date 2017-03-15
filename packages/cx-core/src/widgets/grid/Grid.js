@@ -810,7 +810,7 @@ class GridComponent extends VDOM.Component {
 
             let headerHeight = this.dom.fixedHeader.offsetHeight;
             this.dom.table.style.marginTop = `${-headerHeight}px`;
-            this.dom.scroller.style.top = `${headerHeight}px`;
+            this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
       }
    }

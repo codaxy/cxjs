@@ -55,13 +55,12 @@
             border-right: none;
          }
 
+         display: flex;
+         flex-direction: column;
+
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            flex: 1;
          }
 
          & > .#{$element}#{$name}-fixed-header {

@@ -6,6 +6,7 @@ import {
    ddDetect,
    isDragHandleEvent
 } from '../drag-drop/ops';
+import {isTouchEvent} from '../../util/isTouchEvent';
 
 export class GridRow extends PureContainer {
    render(context, instance, key) {
@@ -69,13 +70,15 @@ export class GridRowComponent extends VDOM.Component {
 
       let {store, widget} = grid;
 
-      if (!widget.selection.isDummy)
-         e.preventDefault();
+      if (!isTouchEvent()) {
+         if (!widget.selection.isDummy)
+            e.preventDefault();
 
-      if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
-         widget.selection.select(store, record.data, record.index, {
-            toggle: e.ctrlKey
-         });
+         if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
+            widget.selection.select(store, record.data, record.index, {
+               toggle: e.ctrlKey
+            });
+         }
       }
    }
 
@@ -94,7 +97,8 @@ export class GridRowComponent extends VDOM.Component {
       }
 
       e.stopPropagation();
-      if (widget.selection.isSelected(store, record.data, record.index) && !e.ctrlKey)
+
+      if (isTouchEvent() || (widget.selection.isSelected(store, record.data, record.index) && !e.ctrlKey))
          widget.selection.select(store, record.data, record.index);
    }
 
