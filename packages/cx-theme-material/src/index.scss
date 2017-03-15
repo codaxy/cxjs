@@ -389,14 +389,21 @@ div.cxb-classic-tab-container {
   }
 }
 
-/* ellipsis added to grid header */
-.cxe-grid-col-header {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-user-select: none; /* Chrome/Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
+.cxe-grid-header {
+  /* if a grid header has two or more rows */
+  tr:not(:first-child) .cxe-grid-col-header {
+    border-top: 1px solid $cx-default-grid-data-border-color;
+  }
+
+  /* ellipsis added to grid header */
+  .cxe-grid-col-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+  }
 }
 
 /* group grid styles */
@@ -442,6 +449,7 @@ div.cxb-classic-tab-container {
 .cxb-grid .cxb-checkbox {
   margin-top: 4 * $checkbox-padding-correction;
 }
+
 
 /* tree grid icon set to white when row is selected */
 .cxe-grid-data.cxs-selected.cxs-cursor {
