@@ -11,7 +11,7 @@ p {
 }
 
 @for $i from 1 through 6 {
-  .cxs-level-#{$i} {
+  h#{$i} {
     .cxm-card & {
       color: $cx-primary-color-light;
     }
@@ -445,6 +445,12 @@ div.cxb-classic-tab-container {
   margin-top: 4 * $checkbox-padding-correction;
 }
 
+/* tree grid icon set to white when row is selected */
+.cxs-selected {
+  .cxe-treenode-handle {
+    color: #fff;
+  }
+}
 
 //RIPPLE EFFECT
 .cxb-button, .cxb-tab {

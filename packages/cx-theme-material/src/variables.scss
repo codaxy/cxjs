@@ -684,6 +684,14 @@ $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
   )
 ));
 
+/* right icon */
+$cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-state-style-map,(
+  default: (
+    color: $cx-secondary-text-color,
+    opacity: 1
+  )
+));
+
 //WINDOW
 $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    default: (
