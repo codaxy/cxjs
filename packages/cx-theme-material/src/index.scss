@@ -73,6 +73,8 @@ $form-list: (
     position: relative;
     overflow: hidden;
 
+    max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+
     &:after {
       display: block;
       content: '';     
@@ -364,7 +366,7 @@ div.cxb-classic-tab-container {
 .cxs-focusable > .cxb-menuitem.cxs-cursor:hover {
   background-color: transparent;
   > span {
-    color: darken(gray, 0);
+    color: $cx-secondary-text-color;
   }
 }
 
