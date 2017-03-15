@@ -1,4 +1,4 @@
-import { HtmlElement, Content, Checkbox, Repeater, FlexBox } from 'cx/widgets';
+import { HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, Button } from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
@@ -8,24 +8,20 @@ import {MethodTable} from '../../components/MethodTable';
 
 import {store} from '../../app/store';
 
-store.set('store.itemsA', [
-   { text: 'A', checked: false },
-   { text: 'B', checked: false },
-   { text: 'C', checked: false },
-   { text: 'D', checked: false },
-   { text: 'E', checked: false },
-   { text: 'F', checked: false }
-]);
-
-store.copy('store.itemsA', 'store.itemsB');
-
-store.move('store.itemsA', 'store.itemsC');
-
-store.set('storeitemsC', store.get('store.itemsC[0].checked'))
-
-class StController extends Controller {
+class PageController extends Controller {
     init() {
         super.init();
+        this.store.set('pageData', { 
+            text: 'Stored text',
+            list: ['item 1', 'item 2', 'item 3']            
+        })
+    }
+
+    setData(input) {
+      this.store.set('pageData.text', input);
+    }
+    getData() {
+      return this.store.get('pageData.text');
     }
 }
 
@@ -51,24 +47,64 @@ export const Store = <cx>
             - The state is read-only. The only way to change the state is through store methods or with the use of
             two-way data binding.
             - The state is immutable. On every change, a new copy of the state is created containing the updated values.
+            
+
+
+            
+        </CodeSplit>
+
+        ### Store methods
+
+        As Cx Controllers have direct access to the `store`, we will use one in our examples to demonstrate the use of Store methods. 
+
+        ## `set`
+
+        <CodeSplit>
+            
+            - The `set` method is used to write data to the store. It takes two arguments, `path` and `value`. The `path` is a string 
+            which is used as a key for storing the `value`. The same constraints apply to the path as to naming a JavaScript variable. 
         
             <div class="widgets">
-                <div controller={StController}>
-                    
+                <div controller={PageController}>
+                    <TextField value:bind="page.input" />
+                    <Button onClick={(e, {controller})=>{ controller.setData(store.get('page.input'));}}>Store data</Button>
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet>{`
-                import { Store } from 'cx/data';
-                const store = new Store();
-                store.init('appdata', 'some data');
+                class PageController extends Controller {
+                    init() {
+                        super.init();
+                        this.store.set('pageData', { 
+                            text: 'Stored text',
+                            list: ['item 1', 'item 2', 'item 3']            
+                        })
+                    }
+                }
+                ...
+                <div controller={PageController}>
+                    <TextField value={store.get('pageData.text')} />
+                </div>
             `}
                 </CodeSnippet>
             </Content>
         </CodeSplit>
 
-        ### Store methods
+        ## `get`
+
+        <CodeSplit>
+            
+            - The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
+            Notice how we are able to directly access a certain property by using the `.` in our `path` string. 
+        
+            <div class="widgets">
+                <div controller={PageController}>
+                    <TextField value:bind="page.output" placeholder="stored text" readOnly />
+                </div>
+            </div>
+
+        </CodeSplit>
 
         <MethodTable methods={[{
             signature: 'Store.init(path, value)',
