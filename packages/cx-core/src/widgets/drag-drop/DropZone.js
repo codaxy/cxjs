@@ -138,6 +138,9 @@ class DropZoneComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
 
+      let {clientX, clientY} = e.cursor;
+      let distance = Math.max(0, rect.left - clientX, clientX - rect.right) + Math.max(0, rect.top - clientY, clientY - rect.bottom);
+
       if (widget.inflate > 0) {
          rect.left -= widget.inflate;
          rect.top -= widget.inflate;
@@ -145,16 +148,13 @@ class DropZoneComponent extends VDOM.Component {
          rect.right += widget.inflate;
       }
 
-      let {clientX, clientY} = e.cursor;
       let {nearDistance} = widget;
-
-      let centerDistance = Math.abs((rect.left + rect.right) / 2 - clientX) + Math.abs((rect.top + rect.bottom) / 2 - clientY);
 
       let over = rect.left <= clientX && clientX < rect.right && rect.top <= clientY && clientY < rect.bottom;
 
       return {
-         over: over && centerDistance,
-         near: nearDistance && (over || Math.max(0, rect.left - clientX, clientX - rect.right) + Math.max(0, rect.top - clientY, clientY - rect.bottom) < nearDistance)
+         over: over && distance,
+         near: nearDistance && (over || distance < nearDistance)
       };
    }
 

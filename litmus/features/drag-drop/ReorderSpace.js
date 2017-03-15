@@ -16,20 +16,21 @@ export default <cx>
             }}
             matchHeight
             matchMargin
-            inflate={20}
+            inflate={300}
          >
          </DropZone>
          <Repeater
             records={{
                bind: 'items', defaultValue: Array.from({length: 20}, (_, i) => ({
                   id: i + 1,
-                  text: `Item ${i + 1}`
+                  text: `Item ${i + 1}`,
+                  height: 30 + Math.random() * 300
                }))
             }}
             keyField="id"
          >
             <DragSource
-               style="display:block; border: 1px solid #ccc;margin-top:2px;background:#eee"
+               style:tpl="display:block; border: 1px solid #ccc;margin-top:2px;background:#eee;height:{$record.height}px"
                data={{index: {bind: "$index"}}}
                hideOnDrag
             >
@@ -41,7 +42,7 @@ export default <cx>
                }}
                matchHeight
                matchMargin
-               inflate={20}
+               inflate={300}
             >
             </DropZone>
          </Repeater>
