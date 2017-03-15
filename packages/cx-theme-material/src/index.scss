@@ -137,9 +137,6 @@ $form-list: (
 /* checkbox */
 /* corrects illusion that label is not centered due to font Roboto */
 $checkbox-padding-correction: 2px !default;
-.cxb-checkbox {
-  padding: $cx-default-box-padding + $checkbox-padding-correction;
-}
 
 .cxe-checkbox-input  {
   &:after {
@@ -460,19 +457,10 @@ div.cxb-classic-tab-container {
     background-color: rgba(0, 0, 0, 0.02);
     border-width: 1px;
     border-color: transparent transparent rgba(0, 0, 0, 0.09);
-
-    /* when list is out of focus, list item remains selected  */
-    &.cxs-selected {
-      background-color: rgba(0, 0, 0, 0.04);
-      color: $cx-default-color;
-    }
   }
 
   &.cxs-focused {
     > .cxe-list-item.cxs-selected {
-      background-color: $cx-primary-color-light;
-      color: #fff;
-
       /* overrides the default h element style */
       @for $i from 1 through 6 {
         h#{$i} { color: #fff; }
