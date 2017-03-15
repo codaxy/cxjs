@@ -119,7 +119,7 @@ class ContentController extends Controller {
                 chapterExports[chapter] = m;
                 this.store.set('loading', false);
                 this.store.set('error', false);
-                this.store.set('activeVersion.' + chapter, this.store.get('contentVersion'));
+                this.store.set('activeVersion.' + chapter, getVersion());
             })
             .catch(e => {
                 this.store.set('loading', false);
