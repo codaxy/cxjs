@@ -49,7 +49,7 @@ export class TreeNode extends Widget {
             icon = FolderIcon;
       }
 
-      return <div className={data.classNames} style={data.style}>
+      return <div key={key} className={data.classNames} style={data.style}>
          <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
             { !data.leaf && <DropdownIcon className={CSS.element(baseClass, 'arrow')} /> }
             {
