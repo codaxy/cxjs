@@ -2,21 +2,21 @@
 // GLOBAL VARIABLES
 
 //Pick a color scheme
-$blue: #2196F3 #ffc107;
-$pink: #e91e63 #ffeb3b;
-$teal: #009688 #cddc39;
-$purple: #673ab7 #ffeb3b;
-$gray: #607d8b #ffc107;
-$red: #d32f2f #ffeb3b;
-$green: #4caf50 #ff9800;
-$brown: #795548 #ffc107;
-$black: #212121 #ffeb3b;
+$blue: (primary-color: #2196F3, accent-color: #ffc107) !default;
+$pink: (primary-color: #e91e63, accent-color: #ffeb3b) !default;
+$teal: (primary-color: #009688, accent-color: #cddc39) !default;
+$purple: (primary-color: #673ab7, accent-color: #ffeb3b) !default;
+$gray: (primary-color: #607d8b, accent-color: #ffc107) !default;
+$red: (primary-color: #d32f2f, accent-color: #ffeb3b) !default;
+$green: (primary-color: #4caf50, accent-color: #ff9800) !default;
+$brown: (primary-color: #795548, accent-color: #ffc107) !default;
+$black: (primary-color: #212121, accent-color: #ffeb3b) !default;
 
 $cx-default-color-scheme: $blue !default;
 
 //Pick a theme size
-$normal: 24px 7px !default;
-$small: 22px 4px !default;
+$normal: (line-height: 24px, padding: 7px) !default;
+$small: (line-height: 22px, padding: 4px) !default;
 
 $cx-default-theme-size: $normal !default;
 
@@ -37,19 +37,19 @@ $cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
-$cx-primary-color: nth($cx-default-color-scheme, 1)!default; 
+$cx-primary-color: map-get($cx-default-color-scheme, primary-color)!default; 
 $cx-primary-color-light: lighten($cx-primary-color, 8) !default;
 $cx-primary-color-dark: darken($cx-primary-color, 5) !default;
-$cx-accent-color: nth($cx-default-color-scheme, 2) !default;
+$cx-accent-color: map-get($cx-default-color-scheme, accent-color) !default;
 $cx-warning-color: #F44336 !default;
 
 $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 13px !default;
-$cx-default-box-line-height: nth($cx-default-theme-size, 1) !default;
+$cx-default-box-line-height: map-get($cx-default-theme-size, line-height) !default;
 $cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: nth($cx-default-theme-size, 2) !default;
+$cx-default-box-padding: map-get($cx-default-theme-size, padding) !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
