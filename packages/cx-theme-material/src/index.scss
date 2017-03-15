@@ -373,8 +373,17 @@ div.cxb-classic-tab-container {
 }
 
 //GRID
-/* shadow added to fixed header */
+.cxb-grid.cxs-scrollable {
+  /* border removed from a first row of grid with fixed header */
+  .cxe-grid-header + .cxe-grid-data {
+    td {
+      border-top-color: transparent;
+    }
+  }
+}
+
 .cxe-grid-fixed-header {
+  /* shadow added to fixed header */
   box-shadow: $cx-default-grid-header-box-shadow;
   
   .cxe-grid-col-header {
@@ -403,6 +412,13 @@ div.cxb-classic-tab-container {
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
+  }
+}
+
+/* grid header border removed */
+.cxs-border {
+  .cxe-grid-col-header {
+    border-width: 0;
   }
 }
 
@@ -436,13 +452,6 @@ div.cxb-classic-tab-container {
       }
     }
   } 
-}
-
-/* grid header border removed */
-.cxs-border {
-  .cxe-grid-col-header {
-    border-width: 0;
-  }
 }
 
 /* grid checkbox padding removed */

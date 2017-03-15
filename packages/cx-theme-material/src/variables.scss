@@ -753,7 +753,8 @@ $cx-window-mods: (
 $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-map, (
   hover: (
     color: darken($cx-default-grid-header-color, 10),
-    background-color: $cx-default-grid-header-background-color
+    background-color: $cx-default-grid-header-background-color,
+    border-color: $cx-default-grid-data-border-color
   ),
   sorted: (
     color: $cx-default-color,
