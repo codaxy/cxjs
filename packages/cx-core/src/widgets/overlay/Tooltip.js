@@ -28,7 +28,7 @@ export class Tooltip extends Dropdown {
 
    overlayDidMount(instance, component) {
       if (this.pipeMouseTrack)
-         this.pipeMouseTrack((e)=> {
+         this.pipeMouseTrack((e) => {
             component.mousePosition = {
                x: e.clientX,
                y: e.clientY
@@ -47,9 +47,17 @@ export class Tooltip extends Dropdown {
       }
 
       super.overlayDidMount(instance, component);
+
+      instance.parentValidityCheckTimer = setInterval(() => {
+         if (!document.body.contains(this.relatedElement) && instance.dismiss) {
+            instance.dismiss();
+            instance.dismiss = null;
+         }
+      }, 500);
    }
 
    overlayWillUnmount(instance, component) {
+      clearInterval(instance.parentValidityCheckTimer);
       super.overlayWillUnmount(instance, component);
       if (this.pipeMouseTrack)
          this.pipeMouseTrack(null);
@@ -164,23 +172,31 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
    instance.store.setData(options.data);
    instance.active = true;
 
-   if (!instance.dismiss)
-      instance.dismiss = instance.widget.open(instance, {
-         onPipeUpdate: cb => {
-            instance.update = cb;
-         }
-      });
-   else {
+   if (!instance.dismiss) {
+      if (!instance.pending) {
+         instance.pending = true;
+         setTimeout(() => {
+            instance.pending = false;
+            if (instance.active && document.body.contains(instance.widget.relatedElement)) {
+               instance.dismiss = instance.widget.open(instance, {
+                  onPipeUpdate: cb => {
+                     instance.update = cb;
+                  }
+               });
+            }
+         }, 200);
+      }
+   } else {
       if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
          instance.dismiss();
          instance.dismiss = null;
       }
       else if (dirty && instance.update)
          instance.update();
-   }
 
-   if (instance.trackMouse && e && e.target)
-      instance.trackMouse(e);
+      if (instance.trackMouse && e && e.target)
+         instance.trackMouse(e);
+   }
 }
 
 export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
@@ -212,8 +228,11 @@ export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, 
 
 export function tooltipParentWillUnmount(parentInstance) {
    if (parentInstance.tooltips) {
-      for (let name in parentInstance.tooltips)
-         if (parentInstance.tooltips[name].dismiss)
+      for (let name in parentInstance.tooltips) {
+         let instance = parentInstance.tooltips[name];
+         instance.active = false;
+         if (instance.dismiss)
             parentInstance.tooltips[name].dismiss();
+      }
    }
 }
