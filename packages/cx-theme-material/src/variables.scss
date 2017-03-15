@@ -364,7 +364,8 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
     font-weight: $cx-default-button-font-weight
   ),
   hover: (
-     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4)
+     background-color: darken($cx-default-button-background-color, 2),
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
   ),
   focus: (
     background-color: darken($cx-default-button-background-color, 5),

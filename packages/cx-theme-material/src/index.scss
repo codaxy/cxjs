@@ -375,9 +375,11 @@ div.cxb-classic-tab-container {
 //GRID
 .cxb-grid.cxs-scrollable {
   /* border removed from a first row of grid with fixed header */
-  .cxe-grid-header + .cxe-grid-data {
-    td {
-      border-top-color: transparent;
+  .cxe-grid-header {
+    + .cxe-grid-data, + .cxe-grid-group-caption {
+      td {
+        border-top-color: transparent;
+      }
     }
   }
 }
