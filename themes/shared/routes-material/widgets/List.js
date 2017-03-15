@@ -22,9 +22,9 @@ export default  <cx>
       mod="bordered"
       >
       <div>
-        <strong>Header <Text expr="{$index}+1" /></strong>
+        <h4>Header <Text expr="{$index}+1" /></h4>
       </div>
-      Description
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
     </List>
   </div>
 </cx>

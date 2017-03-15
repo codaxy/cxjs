@@ -666,7 +666,8 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
     box-shadow: $cx-default-box-shadow
   ),
   active: (
-    border-color: $cx-primary-color-dark
+    background-color: #e0e0e0,
+    border-color: #e0e0e0
   ),
   focus: (
     box-shadow: $cx-default-box-shadow,
