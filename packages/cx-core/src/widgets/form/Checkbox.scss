@@ -16,7 +16,7 @@
 
    $outer-styles: cx-deep-map-merge($state-style-map, (
       default: (
-         border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
+         border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0
       )
    ));
 
