@@ -10,9 +10,9 @@ function addToast3(e, {store}) {
 
 function addToast5(e, {store}) {
    let toast = Toast.create({
-      message: 'This toast has mod: "contrast" set.',
+      message: 'This toast has mod: "dark" set.',
       timeout: 5001,
-      mod: "contrast"
+      mod: "dark"
    });
    toast.open(store);
 }
@@ -23,15 +23,15 @@ export default <cx>
       <Checkbox value:bind="$page.toast2">Toast With Icon</Checkbox>
       <Checkbox value:bind="$page.toast3">Toast With Checkbox</Checkbox>
       <Button onClick={addToast3}>Default</Button>
-      <Button onClick={addToast5}>Contrast</Button>
+      <Button onClick={addToast5}>Dark</Button>
 
-      <Toast visible:bind="$page.toast1" mod="contrast" pad>
+      <Toast visible:bind="$page.toast1" pad>
          <FlexRow spacing align="center">
             <span>Toast 1</span>
             <Button dismiss icon="close" mod="hollow" />
          </FlexRow>
       </Toast>
-      <Toast visible:bind="$page.toast2" mod="contrast" closable pad>
+      <Toast visible:bind="$page.toast2" closable pad>
          <FlexRow spacing align="center">
             <div>
                <i class="material-icons">person</i>
