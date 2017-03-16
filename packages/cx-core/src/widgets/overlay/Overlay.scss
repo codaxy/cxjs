@@ -22,6 +22,7 @@
 
       &.#{$state}draggable {
          cursor: pointer;
+         touch-action: none;
       }
 
       &:focus {

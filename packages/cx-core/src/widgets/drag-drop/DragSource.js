@@ -19,7 +19,7 @@ export class DragSource extends PureContainer {
    }
 
    render(context, instance, key) {
-      return <DragSourceComponent key={key} instance={instance}>
+      return <DragSourceComponent key={key} instance={instance} handled={this.handled || instance.dragHandles.length > 0}>
          {this.renderChildren(context, instance)}
       </DragSourceComponent>
    }
@@ -28,6 +28,7 @@ export class DragSource extends PureContainer {
 DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = 'dragsource';
 DragSource.prototype.hideOnDrag = false;
+DragSource.prototype.handled = false;
 
 Widget.alias('dragsource', DragSource);
 
@@ -50,7 +51,7 @@ class DragSourceComponent extends VDOM.Component {
    }
 
    render() {
-      let {instance, children} = this.props;
+      let {instance, children, handled} = this.props;
       let {data, widget} = instance;
       let {CSS} = widget;
 
@@ -60,7 +61,8 @@ class DragSourceComponent extends VDOM.Component {
       let classes = [
          data.classNames,
          CSS.state({
-            dragged: this.state.dragged
+            dragged: this.state.dragged,
+            draggable: !handled
          })
       ];
 
@@ -83,13 +85,13 @@ class DragSourceComponent extends VDOM.Component {
 
    onMouseDown(e) {
       ddMouseDown(e);
-      if (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0)
+      if (isDragHandleEvent(e) || !this.props.handled)
          e.preventDefault();
    }
 
    onMouseMove(e) {
       if (ddDetect(e)) {
-         if (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0) {
+         if (isDragHandleEvent(e) || !this.props.handled) {
             this.beginDragDrop(e);
          }
       }

@@ -46,8 +46,12 @@
       min-height: 1em;
       position: relative;
       display: inline-block;
-      vertical-align: middle;
+      vertical-align: top;
       align-self: stretch;
+
+      &:after {
+         content: ' ';
+      }
 
       &.cxs-over {
          width: 50px;

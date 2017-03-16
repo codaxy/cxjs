@@ -177,12 +177,12 @@ function notifyDragMove(e, captureData) {
             let cb = () => {
                if (scrollY) {
                   let current = vscrollParent.scrollTop;
-                  let next = Math.min(vscrollParent.scrollHeight, Math.max(0, current + scrollY * 5 * Math.max(50, event.source.height) / 60)); //60 FPS
+                  let next = Math.min(vscrollParent.scrollHeight, Math.max(0, current + scrollY * 5 * Math.min(200, Math.max(50, event.source.height) / 60))); //60 FPS
                   vscrollParent.scrollTop = next;
                }
                if (scrollX) {
                   let current = hscrollParent.scrollLeft;
-                  let next = Math.min(hscrollParent.scrollWidth, Math.max(0, current + scrollX * 5 * Math.max(50, event.source.width) / 60)); //60 FPS
+                  let next = Math.min(hscrollParent.scrollWidth, Math.max(0, current + scrollX * 5 * Math.min(200, Math.max(50, event.source.width) / 60))); //60 FPS
                   hscrollParent.scrollLeft = next;
                }
                scrollTimer = requestAnimationFrame(cb);
