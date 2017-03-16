@@ -11,6 +11,7 @@ $red: (primary-color: #d32f2f, accent-color: #ffeb3b) !default;
 $green: (primary-color: #4caf50, accent-color: #ff9800) !default;
 $brown: (primary-color: #795548, accent-color: #ffc107) !default;
 $black: (primary-color: #212121, accent-color: #ffeb3b) !default;
+$indigo: (primary-color: #3f51b5, accent-color: #ff9800) !default;
 
 $cx-default-color-scheme: $blue !default;
 
@@ -432,10 +433,33 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       color: rgba(255, 255, 255, 0.45)
     )
   ),
-  flat-color: (
+  flat-primary: (
     default: (
       font-size: 14px,    
       color: $cx-primary-color-dark,
+      background-color: transparent,
+      border-color: transparent,
+      box-shadow: none
+    ),
+    hover: map-merge(map-get($cx-list-item, hover), (
+        box-shadow: none,
+        border-color: transparent
+    )),
+    focus: (
+      background-color: darken($cx-default-background-color, 8),
+      box-shadow: none
+    ),
+    active: (
+      background-color: rgba(153, 153, 153, 0.25)
+    ),
+    disabled: (
+      color: rgba(0, 0, 0, 0.26)
+    )
+  ),
+  flat-accent: (
+    default: (
+      font-size: 14px,    
+      color: $cx-accent-color,
       background-color: transparent,
       border-color: transparent,
       box-shadow: none

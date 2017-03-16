@@ -22,7 +22,7 @@ Localization.override('cx/widgets/Field', {
 
 // set buttonMmod to MsgBox buttons
 Localization.override('cx/widgets/MsgBox', {
-   buttonMod: "flat-color",
+   buttonMod: "flat-primary",
    footerDirection: "row-reverse",
    footerJustify: "start"
 });
