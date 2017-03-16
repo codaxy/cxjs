@@ -390,8 +390,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
     ),
     hover: (
-      background-color: $cx-primary-color,
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4)
+      background-color: darken($cx-primary-color, 3),
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6)
     ),
     focus: (
       background-color: darken($cx-primary-color, 8)
@@ -415,8 +415,8 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
     ),
     hover: (
-      background-color: $cx-warning-color,
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4)
+      background-color: darken($cx-warning-color, 3),
+      box-shadow:  0 1px 3px rgba(0, 0, 0, 0.6)
     ),
     focus: (
       background-color: darken($cx-warning-color, 15)

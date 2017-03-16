@@ -14,7 +14,7 @@ const TabContent = <cx>
    </div>
    <div visible:expr="{$page.tab}=='tab-accent'">
       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-      <Button mod="hollow" mod="float" icon="calendar" />
+      <Button mod="float" icon="calendar" />
    </div>
    <div visible:expr="{$page.tab}=='tab2'">
       <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p>
@@ -40,7 +40,7 @@ export default <cx>
             <Button mod="danger">Danger</Button>
             <Button mod="danger" disabled>Disabled</Button>
 
-            <Button mod="hollow" >Hollow</Button>
+            <Button mod="hollow" >Flat</Button>
             <Button mod="hollow" disabled>Disabled</Button>
 
             <Button mod="hollow" icon="calendar">Icon + Text</Button>
@@ -49,7 +49,7 @@ export default <cx>
          </FlexRow>
         </Section>
 
-        <Section mod="card" title="Tabs" style="flex:1" preserveWhitespace>
+        <Section mod="card" title="Tabs default" style="flex:1" preserveWhitespace>
            <div style="white-space:nowrap">
               <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
@@ -64,7 +64,7 @@ export default <cx>
 
         <Section
            mod="card"
-           title="Classic Tabs"
+           title="Tabs classic mod"
            pad={false}
            style="flex:1;"
            headerStyle="border-bottom: none"
@@ -82,7 +82,7 @@ export default <cx>
            </div>
         </Section>
 
-        <Section mod="card" title="Underline Tabs" style="flex:1" preserveWhitespace>
+        <Section mod="card" title="Tabs line mod" style="flex:1" preserveWhitespace>
            <div style="white-space:nowrap">
               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
@@ -92,7 +92,7 @@ export default <cx>
            <br/>
            <TabContent />
         </Section>
-        <Section mod="card-accent" title="Underline Accent Tabs" style="flex:1" preserveWhitespace>
+        <Section mod="card-accent" title="Tabs line-accent mod" style="flex:1" preserveWhitespace>
            <div style="white-space:nowrap">
               <Tab tab="tab1" value:bind="$page.tab" mod="line-accent">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line-accent">Tab 2</Tab>

@@ -73,6 +73,7 @@ $form-list: (
     position: relative;
     overflow: hidden;
 
+    /* if a div is positioned in flexbox next to a higher item, it will grow bigger than input */
     max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
 
     &:after {
@@ -101,6 +102,10 @@ $form-list: (
       }
     }   
   }
+}
+
+.cxb-lookupfield {
+  max-height: none;
 }
 
 /* textarea */
