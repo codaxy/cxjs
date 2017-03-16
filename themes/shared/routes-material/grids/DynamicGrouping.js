@@ -62,7 +62,7 @@ export default (
   <Grid
   records:bind="$page.records"
   style={{ width: "100%" }}
-  mod="shadow"
+  
   columns={
     [
     {
