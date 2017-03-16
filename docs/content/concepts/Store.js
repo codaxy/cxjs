@@ -1,4 +1,4 @@
-import { HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, Button } from 'cx/widgets';
+import { HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, Button, MsgBox } from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
@@ -11,17 +11,19 @@ import {store} from '../../app/store';
 class PageController extends Controller {
     init() {
         super.init();
-        this.store.set('pageData', { 
-            text: 'Stored text',
-            list: ['item 1', 'item 2', 'item 3']            
-        })
+        this.store.set('dataset1.text', 'Text stored using "set"');
+        this.store.init('dataset2', {
+            name: 'Jane',
+            list: ['item 1', 'item 2', 'item 3']
+        });
     }
 
-    setData(input) {
-      this.store.set('pageData.text', input);
+    greet() {
+      MsgBox.alert(`Hello, ${store.get('dataset2.name')}!`);
     }
-    getData() {
-      return this.store.get('pageData.text');
+
+    deleteData() {
+      store.delete('dataset2.name');
     }
 }
 
@@ -48,61 +50,120 @@ export const Store = <cx>
             two-way data binding.
             - The state is immutable. On every change, a new copy of the state is created containing the updated values.
             
-
-
-            
         </CodeSplit>
+
+        <CodeSplit>
 
         ### Store methods
 
         As Cx Controllers have direct access to the `store`, we will use one in our examples to demonstrate the use of Store methods. 
 
         ## `set`
+           
+        The `set` method is used to write data to the store. It takes two arguments, `path` and `value`. The `path` is a string 
+        which is used as a key for storing the `value`. The same constraints apply to the path as to naming a JavaScript variable. 
 
-        <CodeSplit>
+        <div class="widgets">
+            <div>
+                <p><TextField value:bind="dataset1.text" /></p>
+                <p>Any changes will be lost if you leave this page.</p>
+            </div>
+        </div>
+
+        <Content name="code">
+                <CodeSnippet>{`
+                    class PageController extends Controller {
+                        init() {
+                            super.init();
+
+                            // writes data to the store using 'set'
+                            this.store.set('dataset1.text', 'Text stored using "set"');
+
+                            // this is another way to write to the store
+                            // note, this operation will cause another DOM update
+                            this.store.init('dataset2', {
+                                name: 'Jane',
+                                list: ['item 1', 'item 2', 'item 3']
+                            });
+                        }
+                    
+                        greet() {
+                            MsgBox.alert(\`Hello, \${store.get('dataset2.name')}!\`);
+                        }
+                    }
+
+                    ...
+
+                    <div class="widgets">
+                        <div>
+                           <TextField value:bind="dataset1.text" />
+                           <p>Any changes will be lost if you leave this page.</p>
+                        </div>
+                    </div>
+                `}
+                </CodeSnippet>
+            </Content>
+        </CodeSplit>
+
+        ## `init`
             
-            - The `set` method is used to write data to the store. It takes two arguments, `path` and `value`. The `path` is a string 
-            which is used as a key for storing the `value`. The same constraints apply to the path as to naming a JavaScript variable. 
+        The `init` method is another way to write data to the store. But unlike the `set` method, it does not overwrite the existing 
+        value stored under the given `path`. In such cases it returns `false`. Otherwise it saves tha `value` and returns `true`.
+
+        ## `get`
+
+        The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
+        Notice how we are able to directly access a certain property by using the `.` in our `path` string. 
         
+        <CodeSplit>
             <div class="widgets">
                 <div controller={PageController}>
-                    <TextField value:bind="page.input" />
-                    <Button onClick={(e, {controller})=>{ controller.setData(store.get('page.input'));}}>Store data</Button>
+                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
+                    <Button onClick="greet">Greet</Button>
+                    <p>Any changes will persist even if you leave this page.</p>
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet>{`
-                class PageController extends Controller {
-                    init() {
-                        super.init();
-                        this.store.set('pageData', { 
-                            text: 'Stored text',
-                            list: ['item 1', 'item 2', 'item 3']            
-                        })
-                    }
-                }
-                ...
-                <div controller={PageController}>
-                    <TextField value={store.get('pageData.text')} />
-                </div>
-            `}
+                    <div class="widgets">
+                        <div controller={PageController}>
+                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
+                            <Button onClick="greet">Greet</Button>
+                            <p>Any changes will persist even if you leave this page.</p>
+                        </div>
+                    </div>
+                `}
                 </CodeSnippet>
             </Content>
+
         </CodeSplit>
 
-        ## `get`
+        ## `delete`
 
-        <CodeSplit>
-            
-            - The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
-            Notice how we are able to directly access a certain property by using the `.` in our `path` string. 
+        The `delet` method is used to remove data from the store. It takes one parameter, the `path` under which the value is stored.
         
+        <CodeSplit>
             <div class="widgets">
                 <div controller={PageController}>
-                    <TextField value:bind="page.output" placeholder="stored text" readOnly />
+                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
+                    <Button onClick="deleteData">Clear</Button>
+                    <p>Any changes will persist even if you leave this page.</p>
                 </div>
             </div>
+
+            <Content name="code">
+                <CodeSnippet>{`
+                    <div class="widgets">
+                        <div controller={PageController}>
+                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
+                            <Button onClick="greet">Greet</Button>
+                            <p>Any changes will persist even if you leave this page.</p>
+                        </div>
+                    </div>
+                `}
+                </CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
