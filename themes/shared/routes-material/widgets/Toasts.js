@@ -2,16 +2,15 @@ import { HtmlElement, Checkbox, Button, Toast, FlexRow } from 'cx/widgets';
 
 function addToast3(e, {store}) {
    let toast = Toast.create({
-      message: 'This toast will disappear after 3 seconds.',
-      timeout: 3001,
-      mod: "contrast"
+      message: 'This is the default toast. It will disappear after 3 seconds.',
+      timeout: 3001
    });
    toast.open(store);
 }
 
 function addToast5(e, {store}) {
    let toast = Toast.create({
-      message: 'This toast will disappear after 5 seconds.',
+      message: 'This toast has mod: "contrast" set.',
       timeout: 5001,
       mod: "contrast"
    });
@@ -20,11 +19,11 @@ function addToast5(e, {store}) {
 
 export default <cx>
    <FlexRow spacing align wrap>
-      <Checkbox value:bind="$page.toast1">Toast1</Checkbox>
-      <Checkbox value:bind="$page.toast2">Toast2</Checkbox>
-      <Checkbox value:bind="$page.toast3">Toast3</Checkbox>
-      <Button onClick={addToast3}>3s Toast</Button>
-      <Button onClick={addToast5}>5s Toast</Button>
+      <Checkbox value:bind="$page.toast1">Closable Toast</Checkbox>
+      <Checkbox value:bind="$page.toast2">Toast With Icon</Checkbox>
+      <Checkbox value:bind="$page.toast3">Toast With Checkbox</Checkbox>
+      <Button onClick={addToast3}>Default</Button>
+      <Button onClick={addToast5}>Contrast</Button>
 
       <Toast visible:bind="$page.toast1" mod="contrast" pad>
          <FlexRow spacing align="center">
@@ -34,12 +33,11 @@ export default <cx>
       </Toast>
       <Toast visible:bind="$page.toast2" mod="contrast" closable pad>
          <FlexRow spacing align="center">
-            <Button dismiss icon="close" mod="hollow" />
-            <span>Toast 2</span>
             <div>
-               <Button dismiss icon="close" mod="hollow" />
-               <Button dismiss icon="close" mod="hollow" />
-            </div>
+               <i class="material-icons">person</i>
+            </div> 
+            <span>Toast 2</span>
+            <Button dismiss icon="close" mod="hollow" />            
          </FlexRow>
       </Toast>
       <Toast visible:bind="$page.toast3" mod="contrast" closable pad>
