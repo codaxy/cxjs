@@ -1,7 +1,8 @@
-import { Widget, VDOM } from '../../ui/Widget';
-import { PureContainer } from '../../ui/PureContainer';
-import { parseStyle } from '../../util/parseStyle';
-import { registerDropZone } from './ops';
+import {Widget, VDOM} from '../../ui/Widget';
+import {PureContainer} from '../../ui/PureContainer';
+import {parseStyle} from '../../util/parseStyle';
+import {registerDropZone} from './ops';
+import {findScrollableParent} from '../../util/findScrollableParent'
 
 export class DropZone extends PureContainer {
 
@@ -58,7 +59,7 @@ class DropZoneComponent extends VDOM.Component {
 
       let stateStyle;
 
-      switch  (this.state.state) {
+      switch (this.state.state) {
          case 'over':
             classes.push(data.overClass);
             stateStyle = parseStyle(data.overStyle);
@@ -77,7 +78,9 @@ class DropZoneComponent extends VDOM.Component {
          <div
             className={CSS.expand(classes)}
             style={{...data.style, ...this.state.style, ...stateStyle}}
-            ref={el=>{this.el = el;}}
+            ref={el => {
+               this.el = el;
+            }}
          >
             {children}
          </div>
@@ -158,8 +161,7 @@ class DropZoneComponent extends VDOM.Component {
       };
    }
 
-   onDragOver(e) {
-
+   onDragEnter(e) {
       let {instance} = this.props;
       let {widget} = instance;
       let style = {};
@@ -178,6 +180,18 @@ class DropZoneComponent extends VDOM.Component {
             state: 'over',
             style
          });
+   }
+
+   onDragOver(e) {
+
+   }
+
+   onGetHScrollParent() {
+      return findScrollableParent(this.el, true);
+   }
+
+   onGetVScrollParent() {
+      return findScrollableParent(this.el);
    }
 
    onDrop(e) {

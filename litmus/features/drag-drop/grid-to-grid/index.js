@@ -94,5 +94,7 @@ export default <cx>
             onDrop={(e, {store})=>move(store, "grid2", e)}
          />
       </FlexRow>
+
+      <div style="height: 1000px" />
    </div>
 </cx>;

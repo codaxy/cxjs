@@ -27,7 +27,7 @@ export default <cx>
             keyField="id"
          >
             <DragSource
-               style="display:block; border: 1px solid #eee"
+               style="display:block; border: 1px solid #eee;cursor:pointer"
                data={{index: {bind: "$index"}}}
             >
                <div text:bind="$record.text" style="padding:5px"/>

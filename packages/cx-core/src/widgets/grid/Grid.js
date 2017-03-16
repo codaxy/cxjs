@@ -12,6 +12,7 @@ import {GroupAdapter} from '../../ui/adapter/GroupAdapter';
 import {ResizeManager} from '../../ui/ResizeManager';
 import {KeyCode} from '../../util/KeyCode';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
+import {findScrollableParent} from '../../util/findScrollableParent'
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import DropDownIcon from '../icons/sort-asc';
 import {
@@ -761,6 +762,20 @@ class GridComponent extends VDOM.Component {
       this.setState({
          dragInsertionIndex: null
       });
+   }
+
+   onGetHScrollParent() {
+      let {widget} = this.props.instance;
+      if (widget.scrollable)
+         return this.dom.scroller;
+      return findScrollableParent(this.el, true);
+   }
+
+   onGetVScrollParent() {
+      let {widget} = this.props.instance;
+      if (widget.scrollable)
+         return this.dom.scroller;
+      return findScrollableParent(this.el);
    }
 
    componentWillReceiveProps(props) {

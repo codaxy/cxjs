@@ -1,10 +1,12 @@
 .cxb-dropzone {
 
    box-sizing: border-box;
+   position: relative;
 
    &.cxm-hline {
       height: 1px;
       margin-top: -1px;
+      align-self: stretch;
 
       &.cxs-over {
          background: black;
@@ -15,11 +17,10 @@
    &.cxm-vline {
       width: 1px;
       margin-left: -1px;
-      min-width: 1em;
-      height: 100%;
-      position: relative;
+      min-height: 1em;
       display: inline-block;
       vertical-align: middle;
+      align-self: stretch;
 
       &.cxs-over {
          background: black;
@@ -30,6 +31,7 @@
    &.cxm-block {
       height: 1px;
       margin-top: -1px;
+      align-self: stretch;
 
       &.cxs-over {
          height: 25px;
@@ -41,9 +43,11 @@
    &.cxm-inline-block {
       width: 1px;
       margin-left: -1px;
-      height: 1em;
-      vertical-align: middle;
+      min-height: 1em;
+      position: relative;
       display: inline-block;
+      vertical-align: middle;
+      align-self: stretch;
 
       &.cxs-over {
          width: 50px;

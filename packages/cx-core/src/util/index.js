@@ -26,3 +26,5 @@ export * from './isTouchEvent';
 export * from './debounce';
 export * from './throttle';
 export * from './SubscriberList';
+export * from './findScrollableParent';
+export * from './getScrollerBoundingClientRect';

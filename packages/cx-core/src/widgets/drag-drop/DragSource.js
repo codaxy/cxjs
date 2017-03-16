@@ -39,6 +39,7 @@ class DragSourceComponent extends VDOM.Component {
 
       this.beginDragDrop = ::this.beginDragDrop;
       this.onMouseMove = ::this.onMouseMove;
+      this.onMouseDown = ::this.onMouseDown;
       this.setRef = el => {
          this.el = el
       };
@@ -67,8 +68,8 @@ class DragSourceComponent extends VDOM.Component {
          <div
             className={CSS.expand(classes)}
             style={data.style}
-            onTouchStart={ddMouseDown}
-            onMouseDown={ddMouseDown}
+            onTouchStart={this.onMouseDown}
+            onMouseDown={this.onMouseDown}
             onTouchMove={this.onMouseMove}
             onMouseMove={this.onMouseMove}
             onTouchEnd={ddMouseUp}
@@ -78,6 +79,12 @@ class DragSourceComponent extends VDOM.Component {
             {children}
          </div>
       )
+   }
+
+   onMouseDown(e) {
+      ddMouseDown(e);
+      if (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0)
+         e.preventDefault();
    }
 
    onMouseMove(e) {

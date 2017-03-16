@@ -1,18 +1,27 @@
 import {SubscriberList} from '../../util/SubscriberList';
 import {getCursorPos, captureMouseOrTouch} from '../overlay/captureMouse';
 import {startAppLoop} from '../../ui/app/startAppLoop';
+import {getScrollerBoundingClientRect} from '../../util/getScrollerBoundingClientRect';
 
 let dropZones = new SubscriberList(),
    activeZone,
    nearZones,
-   puppet;
-
+   puppet,
+   scrollTimer,
+   vscrollParent,
+   hscrollParent;
 
 export function registerDropZone(dropZone) {
    return dropZones.subscribe(dropZone);
 }
 
 export function initiateDragDrop(e, options = {}, onDragEnd) {
+
+   if (puppet) {
+      //last operation didn't finish properly
+      notifyDragDrop(e);
+   }
+
    let sourceEl = options.sourceEl || e.currentTarget;
    let sourceBounds = sourceEl.getBoundingClientRect();
    let cursor = getCursorPos(e);
@@ -72,7 +81,7 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    captureMouseOrTouch(e, notifyDragMove, notifyDragDrop);
 }
 
-function notifyDragMove(e) {
+function notifyDragMove(e, captureData) {
 
    let event = getDragEvent(e, 'dragmove');
    let over = null,
@@ -116,11 +125,22 @@ function notifyDragMove(e) {
 
    nearZones = newNear;
 
+   if (over != activeZone) {
+      vscrollParent = null;
+      hscrollParent = null;
+   }
+
    if (over != activeZone && activeZone && activeZone.onDragLeave)
       activeZone.onDragLeave(event);
 
-   if (over != activeZone && over && over.onDragEnter)
-      over.onDragEnter(event);
+
+   if (over != activeZone && over) {
+      if (over.onDragEnter)
+         over.onDragEnter(event);
+
+      vscrollParent = over.onGetVScrollParent && over.onGetVScrollParent();
+      hscrollParent = over.onGetHScrollParent && over.onGetHScrollParent();
+   }
 
    activeZone = over;
 
@@ -132,9 +152,61 @@ function notifyDragMove(e) {
    let cursor = getCursorPos(e);
    puppet.el.style.left = `${cursor.clientX - puppet.deltaX}px`;
    puppet.el.style.top = `${cursor.clientY - puppet.deltaY}px`;
+
+   if (vscrollParent || hscrollParent) {
+      let scrollX = 0, scrollY = 0;
+      let vscrollBounds = vscrollParent && getScrollerBoundingClientRect(vscrollParent);
+      let hscrollBounds = hscrollParent == vscrollParent ? vscrollBounds : hscrollParent && getScrollerBoundingClientRect(hscrollParent);
+
+      if (vscrollBounds) {
+         if (cursor.clientY < vscrollBounds.top + 20)
+            scrollY = -1;
+         else if (cursor.clientY >= vscrollBounds.bottom - 20)
+            scrollY = 1;
+      }
+
+      if (hscrollBounds) {
+         if (cursor.clientX < hscrollBounds.left + 20)
+            scrollX = -1;
+         else if (cursor.clientX >= hscrollBounds.right - 20)
+            scrollX = 1;
+      }
+
+      if (scrollY || scrollX) {
+         if (!scrollTimer) {
+            let cb = () => {
+               if (scrollY) {
+                  let current = vscrollParent.scrollTop;
+                  let next = Math.min(vscrollParent.scrollHeight, Math.max(0, current + scrollY * 5 * Math.max(50, event.source.height) / 60)); //60 FPS
+                  vscrollParent.scrollTop = next;
+               }
+               if (scrollX) {
+                  let current = hscrollParent.scrollLeft;
+                  let next = Math.min(hscrollParent.scrollWidth, Math.max(0, current + scrollX * 5 * Math.max(50, event.source.width) / 60)); //60 FPS
+                  hscrollParent.scrollLeft = next;
+               }
+               scrollTimer = requestAnimationFrame(cb);
+            };
+            scrollTimer = requestAnimationFrame(cb)
+         }
+      } else {
+         clearScrollTimer();
+      }
+   }
+   else
+      clearScrollTimer();
+}
+
+function clearScrollTimer() {
+   if (scrollTimer) {
+      cancelAnimationFrame(scrollTimer);
+      scrollTimer = null;
+   }
 }
 
 function notifyDragDrop(e) {
+   clearScrollTimer();
+
    let event = getDragEvent(e, 'dragdrop');
 
    if (puppet.stop)
@@ -168,20 +240,10 @@ function notifyDragDrop(e) {
 
 function getDragEvent(e, type) {
 
-   // let r = puppet.el.getBoundingClientRect();
-   //
-   // let bounds = {
-   //    left: r.left,
-   //    right: r.right,
-   //    top: r.top,
-   //    bottom: r.bottom
-   // };
-
    return {
       eventType: type,
       event: e,
       cursor: getCursorPos(e),
-      //itemBounds: bounds,
       source: puppet.source
    }
 }
@@ -189,7 +251,6 @@ function getDragEvent(e, type) {
 let dragCandidate = {};
 
 export function ddMouseDown(e) {
-   e.preventDefault();
    dragCandidate = {
       el: e.target,
       start: {...getCursorPos(e)}
@@ -217,3 +278,4 @@ export function ddHandle(e) {
 export function isDragHandleEvent(e) {
    return e.target == lastDragHandle;
 }
+
