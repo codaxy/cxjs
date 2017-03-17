@@ -1,6 +1,9 @@
 
 $cx-include-global-rules: true;
 
+/* for small theme, uncomment next line */
+/*@import "~cx-theme-material/src/variables-small";*/
+
 @import "~cx-theme-material/src/variables";
 @import "~cx-theme-material/src/index";
 @import "../shared/index";
