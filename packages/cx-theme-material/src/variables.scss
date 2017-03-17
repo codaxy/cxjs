@@ -13,16 +13,16 @@ $brown: (primary-color: #795548, accent-color: #ffc107) !default;
 $black: (primary-color: #212121, accent-color: #ffeb3b) !default;
 $indigo: (primary-color: #3f51b5, accent-color: #ff9800) !default;
 
-$cx-default-color-scheme: $blue !default;
+$cx-theme-color-scheme: $teal !default;
 
 //Pick a theme size
 $normal: (line-height: 24px, padding: 7px) !default;
 $small: (line-height: 22px, padding: 4px) !default;
 
-$cx-default-theme-size: $normal !default;
+$cx-theme-size: $normal !default;
 
 $cx-default-padding-extra-small: 5px !default;
-$cx-default-padding-small: map-get($cx-default-theme-size, padding) !default;
+$cx-default-padding-small: map-get($cx-theme-size, padding) !default;
 $cx-default-padding-medium: 10px !default;
 $cx-default-padding-large: 14px !default;
 $cx-default-padding-extra-large: 19px !default;
@@ -37,19 +37,19 @@ $cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
-$cx-primary-color: map-get($cx-default-color-scheme, primary-color)!default; 
+$cx-primary-color: map-get($cx-theme-color-scheme, primary-color)!default; 
 $cx-primary-color-light: lighten($cx-primary-color, 8) !default;
 $cx-primary-color-dark: darken($cx-primary-color, 5) !default;
-$cx-accent-color: map-get($cx-default-color-scheme, accent-color) !default;
+$cx-accent-color: map-get($cx-theme-color-scheme, accent-color) !default;
 $cx-warning-color: #F44336 !default;
 
 $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 13px !default;
-$cx-default-box-line-height: map-get($cx-default-theme-size, line-height) !default;
+$cx-default-box-line-height: map-get($cx-theme-size, line-height) !default;
 $cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: map-get($cx-default-theme-size, padding) !default;
+$cx-default-box-padding: map-get($cx-theme-size, padding) !default;
 
 $cx-default-transition: all 0.2s ease-out !default;
 
