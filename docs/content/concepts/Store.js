@@ -2,11 +2,11 @@ import { HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, Button, M
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller} from 'cx/ui';
+import {Controller, LabelsTopLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
 
-import {store} from '../../app/store';
+//import {store} from '../../app/store';
 
 class PageController extends Controller {
     init() {
@@ -19,11 +19,15 @@ class PageController extends Controller {
     }
 
     greet() {
-      MsgBox.alert(`Hello, ${store.get('dataset2.name')}!`);
+        MsgBox.alert(`Hello, ${this.store.get('dataset2.name')}!`);
     }
 
     deleteData() {
-      store.delete('dataset2.name');
+        this.store.delete('dataset2.name');
+    }
+
+    copyData(){
+        this.store.copy('dataset2.name', 'dataset2.nameCopy');
     }
 }
 
@@ -119,10 +123,6 @@ export const Store = <cx>
             If the `path` is already taken, the method returns `false` without overwriting the existing value. 
             Otherwise it saves the `value` and returns `true`.
 
-            **Note on path strings:** When choosing a `path` string, think of them as addressing a specific property on the state object 
-            (you can use the JavaScript dot notation). 
-            Infact, path strings containing dots are mapped to the corresponding object tree structures inside the store.
-
             <Content name="code">
                 <CodeSnippet>{`
                     class PageController extends Controller {
@@ -158,6 +158,9 @@ export const Store = <cx>
 
         The `set` method is typically used to update data in the store. It takes two arguments, `path` and `value`. Any existing data stored
         under the given `path` gets overwritten.
+
+        **Note on `path` parameter:** Think of `path` as a property accessor on the state object. 
+        Infact, paths containing dots are mapped to the corresponding object tree structures inside the store.
 
             <div class="widgets">
                 <div>
@@ -227,14 +230,18 @@ export const Store = <cx>
 
         ## `copy`
 
-        The `delet` method is used to remove data from the store. It takes one parameter, the `path` under which the value is stored.
+        The `copy` method is used to copy data from one path to another. It takes two parameters, 
+        the origin path, `from` and the destination path, `to`. Any existing data stored under the destination path
+        is overwritten.
         
         <CodeSplit>
             <div class="widgets">
-                <div controller={PageController}>
-                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                    <Button onClick="deleteData">Clear</Button>
-                    <p>Any changes will persist even if you leave this page.</p>
+                <div layout={LabelsTopLayout}>
+                    <TextField label="Origin" value:bind="dataset2.name" placeholder="original data" />
+                    <TextField label="Destination" value:bind="dataset2.nameCopy" placeholder="copied data" />
+                    <Button onClick={(e, {store}) => {
+                        store.copy('dataset2.name', 'dataset2.nameCopy');    
+                    }}>Copy</Button>
                 </div>
             </div>
 
@@ -255,14 +262,19 @@ export const Store = <cx>
 
         ## `move`
 
-        The `delet` method is used to remove data from the store. It takes one parameter, the `path` under which the value is stored.
+        The `move` method is simmilar to the `copy` method, with the difference that it removes the original data
+        from the store after creating a copy. 
+        It takes two parameters, the origin path, `from` and the destination path, `to`. 
+        Any existing data stored under the destination path is overwritten.
         
         <CodeSplit>
             <div class="widgets">
-                <div controller={PageController}>
-                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                    <Button onClick="deleteData">Clear</Button>
-                    <p>Any changes will persist even if you leave this page.</p>
+                <div layout={LabelsTopLayout}>
+                    <TextField label="Origin" value:bind="dataset2.name" placeholder="original data" />
+                    <TextField label="Destination" value:bind="dataset2.nameCopy" placeholder="moved data" />
+                    <Button onClick={(e, {store}) => {
+                        store.move('dataset2.name', 'dataset2.nameCopy');    
+                    }}>Move</Button>
                 </div>
             </div>
 
