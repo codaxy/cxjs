@@ -11,23 +11,19 @@ import {MethodTable} from '../../components/MethodTable';
 class PageController extends Controller {
     init() {
         super.init();
-        this.store.set('dataset1.text', 'Text stored using "set"');
-        this.store.init('dataset2', {
+        this.store.init('$page', {
             name: 'Jane',
-            list: ['item 1', 'item 2', 'item 3']
+            list: ['item 1', 'item 2', 'item 3'],
+
         });
     }
 
     greet() {
-        MsgBox.alert(`Hello, ${this.store.get('dataset2.name')}!`);
+        MsgBox.alert(`Hello, ${this.store.get('$page.name')}!`);
     }
 
-    deleteData() {
-        this.store.delete('dataset2.name');
-    }
-
-    copyData(){
-        this.store.copy('dataset2.name', 'dataset2.nameCopy');
+    setName(newName){
+        this.store.set('$page.name', newName)
     }
 }
 
@@ -114,7 +110,7 @@ export const Store = <cx>
         ### Examples
         
         <CodeSplit>
-            As Cx Controllers have direct access to the `store`, we will use one in our examples to demonstrate the use of Store methods. 
+            As Cx [Controllers](~/concepts/controllers) have direct access to the `store`, we will use one in our examples to demonstrate the use of Store methods. 
 
             ## `init`
             
@@ -130,14 +126,14 @@ export const Store = <cx>
                             super.init();
 
                             // initilize the data
-                            this.store.init('dataset2', {
+                            this.store.init('$page', {
                                 name: 'Jane',
                                 list: ['item 1', 'item 2', 'item 3']
                             });
                         }
                     
                         greet() {
-                            MsgBox.alert(\`Hello, \${store.get('dataset2.name')}!\`);
+                            MsgBox.alert(\`Hello, \${this.store.get('$page.name')}!\`);
                         }
                     }
 
@@ -146,59 +142,54 @@ export const Store = <cx>
                     <div class="widgets">
                         <div>
                            <TextField value:bind="dataset1.text" />
-                           <p>Any changes will be lost if you leave this page.</p>
                         </div>
                     </div>
                 `}
                 </CodeSnippet>
             </Content>
+        </CodeSplit>
+
+
+        ## `get`
+
+        The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
+        In the example, the `greet` method inside the controller is invoking the `store.get` method to read the name from the store.
+        Notice how we are able to directly access a certain property of our `$page` object by using the `.` in our `path` string. 
+
+        **Note on `path`:** Think of `path` as a property accessor of our data object. 
+        Infact, paths containing dots are mapped to the corresponding object tree structures inside the store.
         
+        <CodeSplit>
+            <div class="widgets">
+                <div layout={LabelsTopLayout} controller={PageController}>
+                    <TextField label="Name" value:bind='$page.name' readOnly />
+                    <Button onClick="greet">Greet</Button>
+                </div>
+            </div>
+        </CodeSplit>
 
         ## `set`
 
         The `set` method is typically used to update data in the store. It takes two arguments, `path` and `value`. Any existing data stored
         under the given `path` gets overwritten.
-
-        **Note on `path` parameter:** Think of `path` as a property accessor on the state object. 
-        Infact, paths containing dots are mapped to the corresponding object tree structures inside the store.
-
-            <div class="widgets">
-                <div>
-                    <p><TextField value:bind="dataset1.text" /></p>
-                    <p>Any changes will be lost if you leave this page.</p>
-                </div>
-            </div>
-
-        </CodeSplit>
-
-        ## `get`
-
-        The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
-        Notice how we are able to directly access a certain property by using the `.` in our `path` string. 
         
         <CodeSplit>
             <div class="widgets">
-                <div controller={PageController}>
-                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                    <Button onClick="greet">Greet</Button>
-                    <p>Any changes will persist even if you leave this page.</p>
+                <div layout={LabelsTopLayout} controller={PageController}>
+                    <TextField label="New name" value:bind="$page.newName" />
+                    <Button onClick={(e, instance) => {
+                        let {controller, store} = instance;
+                        console.log('Controller: ---------------------', store)
+                        controller.setName(store.get('$page.newName'));
+                    }}>
+                        Set name
+                    </Button>
                 </div>
             </div>
 
-            <Content name="code">
-                <CodeSnippet>{`
-                    <div class="widgets">
-                        <div controller={PageController}>
-                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                            <Button onClick="greet">Greet</Button>
-                            <p>Any changes will persist even if you leave this page.</p>
-                        </div>
-                    </div>
-                `}
-                </CodeSnippet>
-            </Content>
-
         </CodeSplit>
+
+        
 
         ## `delete`
 
@@ -206,7 +197,7 @@ export const Store = <cx>
         
         <CodeSplit>
             <div class="widgets">
-                <div controller={PageController}>
+                <div >
                     <TextField value:bind="dataset2.name" placeholder="enter your name" />
                     <Button onClick="deleteData">Clear</Button>
                     <p>Any changes will persist even if you leave this page.</p>
