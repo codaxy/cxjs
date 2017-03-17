@@ -77,6 +77,18 @@
          align-items: center;
       }
 
+      &.#{$state}align-start {
+         align-items: flex-start;
+      }
+
+      &.#{$state}align-end {
+         align-items: flex-end;
+      }
+
+      &.#{$state}align-baseline {
+         align-items: baseline;
+      }
+
       &.#{$state}wrap {
          flex-wrap: wrap;
       }
