@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {ColumnBarGraphBase} from './ColumnBarGraphBase';
+import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/Tooltip';
 
 export class ColumnGraph extends ColumnBarGraphBase {
 
@@ -39,7 +40,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
 
       var isSelected = this.selection.getIsSelectedDelegate(store);
 
-      return data.data.map((p, i)=> {
+      return data.data.map((p, i) => {
 
          var {offset, size} = data;
 
@@ -65,14 +66,37 @@ export class ColumnGraph extends ColumnBarGraphBase {
             [`color-${color}`]: color != null
          };
 
-         return <rect key={i}
-                      className={this.CSS.element(this.baseClass, 'column', state)}
-                      onClick={e=>{this.handleClick(e, instance, p, i)}}
-                      x={Math.min(x1, x2)}
-                      y={Math.min(y1, y2)}
-                      width={Math.abs(x2 - x1)}
-                      height={Math.abs(y2 - y1)}
-                      style={data.style}/>
+         let mmove, mleave;
+
+         if (this.tooltip) {
+            mmove = e => tooltipMouseMove(e, instance, this.tooltip, {
+               target: e.target.parent,
+               data: {
+                  $record: p
+               }
+            });
+            mleave = e => tooltipMouseLeave(e, instance, this.tooltip, {
+               target: e.target.parent,
+               data: {
+                  $record: p
+               }
+            });
+         }
+
+         return <rect
+            key={i}
+            className={this.CSS.element(this.baseClass, 'column', state)}
+            onClick={e => {
+               this.handleClick(e, instance, p, i)
+            }}
+            x={Math.min(x1, x2)}
+            y={Math.min(y1, y2)}
+            width={Math.abs(x2 - x1)}
+            height={Math.abs(y2 - y1)}
+            style={data.style}
+            onMouseMove={mmove}
+            onMouseLeave={mleave}
+         />
       });
    }
 }

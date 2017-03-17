@@ -73,6 +73,12 @@ export const ColumnGraphs = <cx>
                                 bind: '$page.selected.x',
                                 keyField: 'x'
                             }}
+                            tooltip={{
+                                title: 'V1',
+                                text: { tpl: "{$record.v1:n;2}" },
+                                trackMouse: true
+                            }}
+
                         />
 
                         <ColumnGraph
@@ -87,7 +93,13 @@ export const ColumnGraphs = <cx>
                                 type: KeySelection,
                                 bind: '$page.selected.x',
                                 keyField: 'x'
-                            }}/>
+                            }}
+                            tooltip={{
+                                title: 'V2',
+                                text: { tpl: "{$record.v2:n;2}" },
+                                trackMouse: true
+                            }}
+                        />
                     </Chart>
                 </Svg>
             </div>

@@ -146,7 +146,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       tooltipInstance = parentInstance.tooltips[name] = parentInstance.getChild(null, tooltipWidget, null, store);
       tooltipInstance.config = tooltip;
 
-      if (tooltip.alwaysVisible) {
+      if (tooltip.alwaysVisible || tooltip.trackMouse) {
          tooltipInstance.init();
          tooltipInstance.data = tooltipInstance.dataSelector(store.getData());
       }
