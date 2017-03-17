@@ -95,12 +95,12 @@ export class Dropdown extends Overlay {
          }
       }
 
-      if (this.trackMouse && component.mousePosition) {
+      if (this.trackMouse && instance.mousePosition) {
          parentBounds = {
-            left: component.mousePosition.x,
-            right: component.mousePosition.x,
-            top: component.mousePosition.y,
-            bottom: component.mousePosition.y,
+            left: instance.mousePosition.x,
+            right: instance.mousePosition.x,
+            top: instance.mousePosition.y,
+            bottom: instance.mousePosition.y,
          }
       }
       var style = {};

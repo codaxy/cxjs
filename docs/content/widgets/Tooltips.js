@@ -38,7 +38,7 @@ export const Tooltips = <cx>
                 </div>
 
                 <div tooltip={{placement: 'up', text: "This tooltip is displayed on top, unless you scroll..."}}
-                     style="margin: 50px">
+                    style="margin: 50px">
                     Displayed on top!
                 </div>
 
@@ -50,11 +50,15 @@ export const Tooltips = <cx>
                     Title
                 </div>
 
-                <TextField value:bind="$page.text" required visited placeholder="Validation"
-                           tooltip="Tooltips are commonly used to show validation errors on form elements."/>
+                <TextField
+                    value:bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
+                    tooltip="Tooltips are commonly used to show validation errors on form elements."
+                />
 
-                <TextField value:bind="$page.text" required visited placeholder="More Validation"
-                           errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}}/>
+                <TextField
+                    value:bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
+                    errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}}
+                />
 
                 <div style="padding: 10px" tooltip={{
                     mouseTrap: true, items: <cx><Md>
@@ -129,9 +133,15 @@ export const Tooltips = <cx>
                   Title
                </div>
 
-               <TextField value:bind="$page.text" required placeholder="Validation" tooltip="Tooltips are commonly used to show validation errors on form elements." />
+               <TextField
+                    value:bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
+                    tooltip="Tooltips are commonly used to show validation errors on form elements."
+                />
 
-               <TextField value:bind="$page.text" required placeholder="More Validation" errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}} />
+               <TextField
+                   value:bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
+                   errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}}
+               />
 
                <div style="padding: 10px" tooltip={{ mouseTrap: true, items: <cx><Md>
                   Tooltips can contain any content. For example, we can add [a link to the overlays page](~/widgets/overlays) or **make some text bold** because

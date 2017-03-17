@@ -1,5 +1,9 @@
 export function shallowEquals(v1, v2) {
-   var t1 = typeof v1,
+
+   if (v1 === v2)
+      return true;
+
+   let t1 = typeof v1,
       t2 = typeof v2,
       k, i;
 

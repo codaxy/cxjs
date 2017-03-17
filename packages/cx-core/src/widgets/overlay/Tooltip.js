@@ -26,25 +26,23 @@ export class Tooltip extends Dropdown {
       ]
    }
 
-   overlayDidMount(instance, component) {
-      if (this.pipeMouseTrack)
-         this.pipeMouseTrack((e) => {
-            component.mousePosition = {
-               x: e.clientX,
-               y: e.clientY
-            };
-            this.updateDropdownPosition(instance, component);
-         });
+   initInstance(context, instance) {
+      super.initInstance(context, instance);
 
       if (this.trackMouse) {
          instance.trackMouse = (e) => {
-            component.mousePosition = {
+            instance.mousePosition = {
                x: e.clientX,
                y: e.clientY
             };
-            this.updateDropdownPosition(instance, component);
+            if (instance.tooltipComponent)
+               this.updateDropdownPosition(instance, instance.tooltipComponent);
          }
       }
+   }
+
+   overlayDidMount(instance, component) {
+      instance.tooltipComponent = component;
 
       super.overlayDidMount(instance, component);
 
@@ -59,9 +57,7 @@ export class Tooltip extends Dropdown {
    overlayWillUnmount(instance, component) {
       clearInterval(instance.parentValidityCheckTimer);
       super.overlayWillUnmount(instance, component);
-      if (this.pipeMouseTrack)
-         this.pipeMouseTrack(null);
-      instance.trackMouse = null;
+      instance.tooltipComponent = null;
    }
 
    handleMouseEnter(instance, component) {
@@ -193,10 +189,10 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       }
       else if (dirty && instance.update)
          instance.update();
-
-      if (instance.trackMouse && e && e.target)
-         instance.trackMouse(e);
    }
+
+   if (instance.trackMouse && e && e.target)
+      instance.trackMouse(e);
 }
 
 export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
