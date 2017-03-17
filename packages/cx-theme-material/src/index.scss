@@ -13,7 +13,7 @@ p {
 @for $i from 1 through 6 {
   .cxe-section-header h#{$i} {
     .cxm-card & {
-      color: $cx-primary-color-light;
+      color: $cx-theme-primary-color-light;
     }
     .cxm-card-accent & {
       color: #fff;
@@ -22,7 +22,7 @@ p {
 }
 
 .cxe-section-header.cxe-section-header  {
-   color: $cx-primary-color-light;
+   color: $cx-theme-primary-color-light;
    font-weight: normal;
    border: none;
    padding: 1em;
@@ -83,7 +83,7 @@ $form-list: (
       content: '';     
       height: 2px;
       width: 100%;
-      background-color: $cx-primary-color;
+      background-color: $cx-theme-primary-color;
       transform: scaleX(0);  
       transition: 0s;
       position: absolute;
@@ -99,7 +99,7 @@ $form-list: (
       &.cxs-error.cxs-visited {
         &:after {
           transform: scaleX(1);
-          background-color: $cx-warning-color;       
+          background-color: $cx-theme-warning-color;       
         }
       }
     }   
@@ -119,7 +119,7 @@ $form-list: (
     content: '';     
     height: 2px;
     width: 100%;
-    background-color: $cx-primary-color;
+    background-color: $cx-theme-primary-color;
     transform: scaleX(0);  
     transition: 0s;
     position: absolute;
@@ -138,7 +138,7 @@ $form-list: (
 /* calendar */ 
 .cxb-calendar {
   .cxe-calendar-day-names {
-    background-color: $cx-primary-color;
+    background-color: $cx-theme-primary-color;
     color: #fff;
   }
 }
@@ -166,7 +166,7 @@ $checkbox-padding-correction: 2px !default;
       fill: white;
     }
     &:after {
-      background-color: rgba($cx-primary-color, 0.1);
+      background-color: rgba($cx-theme-primary-color, 0.1);
     }
   }
   &:focus:after {    
@@ -181,7 +181,7 @@ $checkbox-padding-correction: 2px !default;
   border-color: darken(#dbdbdb, 10);
   color: darken(#dbdbdb, 20);
   overflow: visible;
-  color: $cx-primary-color;
+  color: $cx-theme-primary-color;
 
   &:after {
     content: '';
@@ -203,7 +203,7 @@ $checkbox-padding-correction: 2px !default;
 
   &.cxs-checked {  
     &:after {
-      background-color: rgba($cx-primary-color, 0.1);
+      background-color: rgba($cx-theme-primary-color, 0.1);
     }
   }
 
@@ -250,13 +250,13 @@ $checkbox-padding-correction: 2px !default;
     &:after {
       visibility: visible;
       transform: scale(1, 1);
-      background-color: rgba($cx-primary-color-dark, 1);
+      background-color: rgba($cx-theme-primary-color-dark, 1);
     }    
   }
   &:focus:after {
     visibility: visible;
     transform: scale(1.5, 1.5);
-    background-color: rgba($cx-primary-color-dark, 0.1);
+    background-color: rgba($cx-theme-primary-color-dark, 0.1);
   }
 }
 
@@ -294,14 +294,14 @@ $checkbox-padding-correction: 2px !default;
     &:after {
       visibility: visible;
       transform: scale(1.5, 1.5);
-      background-color: rgba($cx-primary-color, 0.1);
+      background-color: rgba($cx-theme-primary-color, 0.1);
     }
   }
 }
 
 //TAB
 div.cxb-classic-tab-container {
-  background-color: $cx-primary-color;
+  background-color: $cx-theme-primary-color;
   box-shadow: $cx-default-box-shadow;
   height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
   padding: 0;
@@ -436,7 +436,7 @@ div.cxb-classic-tab-container {
 /* group grid styles */
 .cxe-grid-group-footer, .cxe-grid-group-caption {
   td {
-    color: $cx-primary-color;
+    color: $cx-theme-primary-color;
     line-height: $cx-default-grid-data-line-height;
     padding: $cx-default-grid-data-padding;
     border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
