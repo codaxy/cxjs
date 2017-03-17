@@ -5,6 +5,7 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {Controller, LabelsTopLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
+import { computable } from 'cx/data';
 
 //import {store} from '../../app/store';
 
@@ -13,17 +14,14 @@ class PageController extends Controller {
         super.init();
         this.store.init('$page', {
             name: 'Jane',
+            disableInput: true,
             list: ['item 1', 'item 2', 'item 3'],
-
+            origin: "Text data"
         });
     }
 
     greet() {
         MsgBox.alert(`Hello, ${this.store.get('$page.name')}!`);
-    }
-
-    setName(newName){
-        this.store.set('$page.name', newName)
     }
 }
 
@@ -109,12 +107,16 @@ export const Store = <cx>
          
         ### Examples
         
+        In the examples below we'll explore the most common ways to use the Store in Cx:
+        - inside Controllers (they have direct access to the Store via `this.store`)
+        - through two-way data binding (explained [here](~/concepts/data-binding))
+        - inside event handlers
+        
         <CodeSplit>
-            As Cx [Controllers](~/concepts/controllers) have direct access to the `store`, we will use one in our examples to demonstrate the use of Store methods. 
 
-            ## `init`
-            
-            The `init` method is typically used inside the controller's `init` method to initilize the data on first page load.
+            ## `init`      
+
+            The `init` method is typically used inside the Controller's `init` method to initilize the data on first page load.
             It takes two arguments, `path` and `value`. The `path` is a string which is used as a key for storing the `value`. 
             If the `path` is already taken, the method returns `false` without overwriting the existing value. 
             Otherwise it saves the `value` and returns `true`.
@@ -124,11 +126,11 @@ export const Store = <cx>
                     class PageController extends Controller {
                         init() {
                             super.init();
-
-                            // initilize the data
                             this.store.init('$page', {
                                 name: 'Jane',
-                                list: ['item 1', 'item 2', 'item 3']
+                                disableInput: true,
+                                list: ['item 1', 'item 2', 'item 3'],
+                                origin: "Text data"
                             });
                         }
                     
@@ -152,12 +154,13 @@ export const Store = <cx>
 
         ## `get`
 
-        The `get` method is used to read data from the store. It takes one parameter, the `path` under which the value is stored. 
-        In the example, the `greet` method inside the controller is invoking the `store.get` method to read the name from the store.
-        Notice how we are able to directly access a certain property of our `$page` object by using the `.` in our `path` string. 
+        The `get` method is used to read data from the Store. It takes one parameter, the `path` under which the value is stored. 
+        In the previous example, the `greet` method inside the controller is invoking the `Store.get` method to read the name from the Store.
+        Notice how we are able to directly access a certain property (`$page.name`) by using the `.` in our `path` string. 
 
         **Note on `path`:** Think of `path` as a property accessor of our data object. 
-        Infact, paths containing dots are mapped to the corresponding object tree structures inside the store.
+        Infact, paths containing dots are mapped to the corresponding object tree structures inside the store. This is also used in two-way data binding.
+        The `$` prefix is not obligatory, it's more of a convention, indicating that this data is only used on the current page. 
         
         <CodeSplit>
             <div class="widgets">
@@ -170,48 +173,106 @@ export const Store = <cx>
 
         ## `set`
 
-        The `set` method is typically used to update data in the store. It takes two arguments, `path` and `value`. Any existing data stored
-        under the given `path` gets overwritten.
-        
         <CodeSplit>
+
+            The `set` method is typically used to update data in the Store. It takes two arguments, `path` and `value`. Any existing data stored
+            under the given `path` gets overwritten. 
+            In this example, we are accesing the Store from inside an event handler. In Cx, all event handlers are passed two arguments, `event` and `instance`.
+            `instance` represents the Cx widget that fired the event, and we are using it to obtain the access to the Store instance.      
+        
             <div class="widgets">
-                <div layout={LabelsTopLayout} controller={PageController}>
-                    <TextField label="New name" value:bind="$page.newName" />
+                <div layout={LabelsTopLayout} >
+                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
                     <Button onClick={(e, instance) => {
-                        let {controller, store} = instance;
-                        console.log('Controller: ---------------------', store)
-                        controller.setName(store.get('$page.newName'));
-                    }}>
-                        Set name
-                    </Button>
+                            let {store} = instance;
+                            store.set('$page.disableInput', !store.get('$page.disableInput'));
+                        }}
+                        text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                    />
                 </div>
             </div>
+            We are also using the [`computable`](~/concepts/data-binding#computables) function to dynamically change the button text, 
+            depending on the `$page.disableInput` value.
+
+            <Content name="code">
+                <CodeSnippet>{`
+                    <div layout={LabelsTopLayout} >
+                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                        <Button onClick={(e, instance) => {
+                                let {store} = instance;
+                                store.set('$page.disableInput', !store.get('$page.disableInput'));
+                            }}
+                            text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                        />
+                    </div>
+                `}
+                </CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
-        
-
-        ## `delete`
-
-        The `delete` method is used to remove data from the store. It takes one parameter, the `path` under which the value is stored.
-        
         <CodeSplit>
+
+            ## `toggle`      
+
+            Toggling boolean values inside the Store is quite common, and the `toggle` method provides a more practical way to do it.
+            Below is the same example, only this time done using `toggle`.
+        
             <div class="widgets">
-                <div >
-                    <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                    <Button onClick="deleteData">Clear</Button>
-                    <p>Any changes will persist even if you leave this page.</p>
+                <div layout={LabelsTopLayout} >
+                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                    <Button onClick={(e, instance) => {
+                            let {store} = instance;
+                            store.toggle('$page.disableInput');
+                        }}
+                        text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                    />
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet>{`
-                    <div class="widgets">
-                        <div controller={PageController}>
-                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                            <Button onClick="greet">Greet</Button>
-                            <p>Any changes will persist even if you leave this page.</p>
-                        </div>
+                    <div layout={LabelsTopLayout} >
+                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                        <Button onClick={(e, instance) => {
+                                let {store} = instance;
+                                store.toggle('$page.disableInput');
+                            }}
+                            text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                        />
+                    </div>
+                `}
+                </CodeSnippet>
+            </Content>
+
+        </CodeSplit>
+
+        ## `delete`
+
+        <CodeSplit>
+
+            The `delete` method is used to remove data from the store. It takes one parameter, the `path` under which the value is stored.
+        
+            <div class="widgets">
+                <div layout={LabelsTopLayout}>
+                    <TextField value:bind="$page.name" label="Name" />
+                    <Button onClick={(e, {store}) =>
+                        store.delete('$page.name')
+                    }>
+                        Clear
+                    </Button>
+                </div>
+            </div>
+
+            <Content name="code">
+                <CodeSnippet>{`
+                    <div layout={LabelsTopLayout}>
+                        <TextField value:bind="$page.name" label="Name" />
+                        <Button onClick={(e, {store}) =>
+                            store.delete('$page.name')
+                        }>
+                            Clear
+                        </Button>
                     </div>
                 `}
                 </CodeSnippet>
@@ -221,29 +282,29 @@ export const Store = <cx>
 
         ## `copy`
 
-        The `copy` method is used to copy data from one path to another. It takes two parameters, 
-        the origin path, `from` and the destination path, `to`. Any existing data stored under the destination path
-        is overwritten.
-        
         <CodeSplit>
+
+            The `copy` method is used to copy data from one path to another. It takes two parameters, the origin path and the destination path.
+            Any existing data stored under the destination path is overwritten.
+        
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Origin" value:bind="dataset2.name" placeholder="original data" />
-                    <TextField label="Destination" value:bind="dataset2.nameCopy" placeholder="copied data" />
+                    <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
+                    <TextField label="Destination" value:bind="$page.copyDestination" placeholder="copied data" />
                     <Button onClick={(e, {store}) => {
-                        store.copy('dataset2.name', 'dataset2.nameCopy');    
+                        store.copy('$page.origin', '$page.copyDestination');    
                     }}>Copy</Button>
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet>{`
-                    <div class="widgets">
-                        <div controller={PageController}>
-                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                            <Button onClick="greet">Greet</Button>
-                            <p>Any changes will persist even if you leave this page.</p>
-                        </div>
+                    <div layout={LabelsTopLayout}>
+                        <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
+                        <TextField label="Destination" value:bind="$page.copyDestination" placeholder="copied data" />
+                        <Button onClick={(e, {store}) => {
+                            store.copy('$page.origin', '$page.copyDestination');    
+                        }}>Copy</Button>
                     </div>
                 `}
                 </CodeSnippet>
@@ -253,30 +314,29 @@ export const Store = <cx>
 
         ## `move`
 
-        The `move` method is simmilar to the `copy` method, with the difference that it removes the original data
-        from the store after creating a copy. 
-        It takes two parameters, the origin path, `from` and the destination path, `to`. 
-        Any existing data stored under the destination path is overwritten.
-        
         <CodeSplit>
+
+            The `move` method is simmilar to the `copy` method, with the difference that it removes the original data
+            from the Store after creating a copy. Any existing data stored under the destination path is overwritten.
+        
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Origin" value:bind="dataset2.name" placeholder="original data" />
-                    <TextField label="Destination" value:bind="dataset2.nameCopy" placeholder="moved data" />
+                    <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
+                    <TextField label="Destination" value:bind="$page.moveDestination" placeholder="moved data" />
                     <Button onClick={(e, {store}) => {
-                        store.move('dataset2.name', 'dataset2.nameCopy');    
+                        store.move('$page.origin', '$page.moveDestination'); 
                     }}>Move</Button>
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet>{`
-                    <div class="widgets">
-                        <div controller={PageController}>
-                            <TextField value:bind="dataset2.name" placeholder="enter your name" />
-                            <Button onClick="greet">Greet</Button>
-                            <p>Any changes will persist even if you leave this page.</p>
-                        </div>
+                    <div layout={LabelsTopLayout}>
+                        <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
+                        <TextField label="Destination" value:bind="$page.moveDestination" placeholder="moved data" />
+                        <Button onClick={(e, {store}) => {
+                            store.move('$page.origin', '$page.moveDestination'); 
+                        }}>Move</Button>
                     </div>
                 `}
                 </CodeSnippet>
