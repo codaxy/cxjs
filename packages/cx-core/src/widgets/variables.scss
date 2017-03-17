@@ -64,5 +64,5 @@ $cx-section-mods: (
 
 // for backward compatibility
 .cxm-well {
-   @extend .cxm-card;
+   @extend .cxm-card !optional;
 }
