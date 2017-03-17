@@ -649,7 +649,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    ),
 ));
 
-/* standard form field */
+/* standard form field - textfield, numberfield, lookupfield,... */
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
     padding: $cx-default-box-padding $cx-default-box-padding,
