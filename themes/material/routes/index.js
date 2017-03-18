@@ -3,10 +3,10 @@ import {HtmlElement, Route, PureContainer, Submenu, Menu, Text, ContentPlacehold
 
 import createLayout from 'shared/layout';
 
-import Widgets from 'shared/routes-material/widgets';
-import Grids from 'shared/routes-material/grids';
-import Charts from 'shared/routes-material/charts';
-import Global from 'shared/routes-material/global';
+import Widgets from './widgets';
+import Grids from './grids';
+import Charts from './charts';
+import Global from './global';
 
 import GAController from 'shared/GAController';
 
