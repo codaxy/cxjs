@@ -2,10 +2,10 @@ import { HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, Button, M
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, LabelsTopLayout} from 'cx/ui';
+import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
-import { computable } from 'cx/data';
+import { computable, updateArray } from 'cx/data';
 
 //import {store} from '../../app/store';
 
@@ -15,13 +15,18 @@ class PageController extends Controller {
         this.store.init('$page', {
             name: 'Jane',
             disableInput: true,
-            list: ['item 1', 'item 2', 'item 3'],
-            origin: "Text data"
+            greeting: "Hello",
+            todoList: [
+                { id: 1, text: 'Learn Cx', done: true }, 
+                { id: 2, text: "Feed the cat", done: false },
+                { id: 3, text: "Take a break", done: false }
+            ]
         });
     }
 
     greet() {
-        MsgBox.alert(`Hello, ${this.store.get('$page.name')}!`);
+        let data = this.store.get('$page.greeting','$page.name')
+        MsgBox.alert(`${data[0]}, ${data[1]}!`);
     }
 }
 
@@ -103,6 +108,12 @@ export const Store = <cx>
               Returns a reference to the object tree representing the application state. 
               It is typically used for debugging and Hot Module Replacement.
            </Md></cx>
+        }, {
+           signature: 'Store.update(path, updateFn, ...args)',
+           description: <cx><Md>
+              This method requires two parameters, `path` under which the value is stored and an update function `updateFn`. Optionally, 
+              additional arguments can be provided, that are used by the update function.
+           </Md></cx>
         }]}/>
          
         ### Examples
@@ -129,23 +140,20 @@ export const Store = <cx>
                             this.store.init('$page', {
                                 name: 'Jane',
                                 disableInput: true,
-                                list: ['item 1', 'item 2', 'item 3'],
-                                origin: "Text data"
+                                greeting: "Hello",
+                                todoList: [
+                                    { id: 1, text: 'Learn Cx', done: true }, 
+                                    { id: 2, text: "Feed the cat", done: false },
+                                    { id: 3, text: "Take a break", done: false }
+                                ]
                             });
                         }
                     
                         greet() {
-                            MsgBox.alert(\`Hello, \${this.store.get('$page.name')}!\`);
+                            let data = this.store.get('$page.greeting','$page.name')
+                            MsgBox.alert(\`\${data[0]}, \${data[1]}!\`);
                         }
                     }
-
-                    ...
-
-                    <div class="widgets">
-                        <div>
-                           <TextField value:bind="dataset1.text" />
-                        </div>
-                    </div>
                 `}
                 </CodeSnippet>
             </Content>
@@ -154,8 +162,8 @@ export const Store = <cx>
 
         ## `get`
 
-        The `get` method is used to read data from the Store. It takes one parameter, the `path` under which the value is stored. 
-        In the previous example, the `greet` method inside the controller is invoking the `Store.get` method to read the name from the Store.
+        The `get` method is used to read data from the Store. It takes any number of arguments or an array of strings representing paths, 
+        and returns the corresponding values. In the previous example, the `greet` method inside the controller is invoking the `Store.get` method to read the name from the Store.
         Notice how we are able to directly access a certain property (`$page.name`) by using the `.` in our `path` string. 
 
         **Note on `path`:** Think of `path` as a property accessor of our data object. 
@@ -165,7 +173,7 @@ export const Store = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div layout={LabelsTopLayout} controller={PageController}>
-                    <TextField label="Name" value:bind='$page.name' readOnly />
+                    <TextField label="Name" value:bind='$page.name' />
                     <Button onClick="greet">Greet</Button>
                 </div>
             </div>
@@ -215,14 +223,13 @@ export const Store = <cx>
 
             ## `toggle`      
 
-            Toggling boolean values inside the Store is quite common, and the `toggle` method provides a more practical way to do it.
-            Below is the same example, only this time done using `toggle`.
+            Toggling boolean values inside Store is quite common, and the `toggle` method provides a more practical way to do it.
+            Below is the same example, only this time done using `toggle`. 
         
             <div class="widgets">
                 <div layout={LabelsTopLayout} >
                     <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
-                    <Button onClick={(e, instance) => {
-                            let {store} = instance;
+                    <Button onClick={(e, {store}) => {
                             store.toggle('$page.disableInput');
                         }}
                         text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
@@ -230,12 +237,13 @@ export const Store = <cx>
                 </div>
             </div>
 
+            You can also make the code more compact by doing destructuring right inside the function declaration.
+
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout} >
                         <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
-                        <Button onClick={(e, instance) => {
-                                let {store} = instance;
+                        <Button onClick={(e, {store}) => {
                                 store.toggle('$page.disableInput');
                             }}
                             text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
@@ -289,10 +297,10 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
-                    <TextField label="Destination" value:bind="$page.copyDestination" placeholder="copied data" />
+                    <TextField label="Text" value:bind="$page.greeting" />
+                    <TextField label="Copied text" value:bind="$page.copyDestination" placeholder="click Copy" />
                     <Button onClick={(e, {store}) => {
-                        store.copy('$page.origin', '$page.copyDestination');    
+                        store.copy('$page.greeting', '$page.copyDestination');    
                     }}>Copy</Button>
                 </div>
             </div>
@@ -300,10 +308,10 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
-                        <TextField label="Destination" value:bind="$page.copyDestination" placeholder="copied data" />
+                        <TextField label="Origin" value:bind="$page.greeting" />
+                        <TextField label="Destination" value:bind="$page.copyDestination" placeholder="click Copy" />
                         <Button onClick={(e, {store}) => {
-                            store.copy('$page.origin', '$page.copyDestination');    
+                            store.copy('$page.greeting', '$page.copyDestination');    
                         }}>Copy</Button>
                     </div>
                 `}
@@ -316,15 +324,15 @@ export const Store = <cx>
 
         <CodeSplit>
 
-            The `move` method is simmilar to the `copy` method, with the difference that it removes the original data
+            The `move` method is simmilar to the `copy` method, with the difference that it removes the textal data
             from the Store after creating a copy. Any existing data stored under the destination path is overwritten.
         
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
-                    <TextField label="Destination" value:bind="$page.moveDestination" placeholder="moved data" />
+                    <TextField label="Text" value:bind="$page.greeting" />
+                    <TextField label="Moved text" value:bind="$page.moveDestination" placeholder="click Move" />
                     <Button onClick={(e, {store}) => {
-                        store.move('$page.origin', '$page.moveDestination'); 
+                        store.move('$page.greeting', '$page.moveDestination'); 
                     }}>Move</Button>
                 </div>
             </div>
@@ -332,10 +340,10 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.origin" placeholder="original data" />
-                        <TextField label="Destination" value:bind="$page.moveDestination" placeholder="moved data" />
+                        <TextField label="Origin" value:bind="$page.greeting" />
+                        <TextField label="Destination" value:bind="$page.moveDestination" placeholder="click Move" />
                         <Button onClick={(e, {store}) => {
-                            store.move('$page.origin', '$page.moveDestination'); 
+                            store.move('$page.greeting', '$page.moveDestination'); 
                         }}>Move</Button>
                     </div>
                 `}
@@ -345,12 +353,70 @@ export const Store = <cx>
         </CodeSplit>
 
 
-         ## Updating arrays
+         ## Manipulating arrays
+
+         ## `update`
+
+         The `update` method is used to update entire data subsets, such as arrays or object trees. This method requires two parameters, `path` under which the value is stored
+         and an update function `updateFn`. Optionally, additional arguments can be provided, that are used by the update function.  
+         
+         `updateFn` should receive the initial value as a first argument followed by any additional arguments that are 
+         provided, and should return **either the updated value, or the initial value, if no changes were made**. It's important to note that `updateFn` should be a pure function, without any side effects,
+         e.g. direct array mutations.
+
+         Cx provides a set of commonly used update functions, which are listed below.
+         We will go through an example for the `updateArray` function, as one of the most commonly used update functions. Other functions should than be self-explanatory.
+
+         ### `updateArray`
 
          <ImportPath path="import { updateArray } from 'cx/data';" />      
 
-         `updateArray` function can be used for updating array data structures inside the `store`. 
-         The function either creates the updated copy, or returns the original array, if no changes were made.
+         <CodeSplit>
+ 
+            `updateArray` takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+        
+            <div class="widgets">
+                <div layout={LabelsLeftLayout} >
+                    Todo List
+                    <a href="#" onClick={
+                            (e, {store}) => {
+                                store.update('$page.todoList', updateArray, (item) => ({ ...item, done: true }), (item) => !item.done);
+                            }
+                        }>
+                        Mark all as done
+                    </a>
+                    <Repeater records:bind="$page.todoList">
+                        <Checkbox value:bind="$record.done" text:bind="$record.text" />
+                        <br/>
+                    </Repeater>                    
+                </div>
+            </div>
+
+            <Content name="code">
+                <CodeSnippet>{`
+                    <div layout={LabelsLeftLayout} >
+                        Todo List
+                        <a href="#" onClick={
+                                (e, {store}) => {
+                                    store.update('$page.todoList', updateArray, (item) => ({ ...item, done: true }), (item) => !item.done);
+                                }
+                            }>
+                            Mark all as done
+                        </a>
+                        <Repeater records:bind="$page.todoList">
+                            <Checkbox value:bind="$record.done" text:bind="$record.text" />
+                            <br/>
+                        </Repeater>                    
+                    </div>
+                `}
+                </CodeSnippet>
+            </Content>
+
+            Each item is passed through the `itemFilter` function, if one is provided. 
+            If `itemFilter` returns true, the item is than passed to the `updateCallback` function, which returns the updated value.
+            Finally, `updateArray` function either creates the updated copy, or returns the original array, if no changes were made.
+
+         </CodeSplit>         
 
          <MethodTable methods={[{
             signature: 'updateArray(array, updateCallback, itemFilter)',
@@ -358,9 +424,31 @@ export const Store = <cx>
                 `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
                 `itemFilter` is optional.
             </Md></cx>
-         }]}/>
-
-        
+         }, {
+            signature: 'merge(item, data)',
+            description: <cx><Md>
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+                `itemFilter` is optional.
+            </Md></cx>
+         }, {
+            signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty)',
+            description: <cx><Md>
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+                `itemFilter` is optional.
+            </Md></cx>
+         }, {
+            signature: 'append(array, ...items)',
+            description: <cx><Md>
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+                `itemFilter` is optional.
+            </Md></cx>
+         }, {
+            signature: 'filter(array, callback)',
+            description: <cx><Md>
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
+                `itemFilter` is optional.
+            </Md></cx>
+         }]}/>        
     </Md>
 </cx>
 
