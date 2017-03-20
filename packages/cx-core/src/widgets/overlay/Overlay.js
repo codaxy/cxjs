@@ -81,9 +81,8 @@ export class Overlay extends PureContainer {
    overlayDidMount(instance, component) {
       if (this.center) {
          var {el} = component;
-         var rect = el.getBoundingClientRect();
-         el.style.left = `${(window.innerWidth - rect.width) / 2}px`;
-         el.style.top = `${(window.innerHeight - rect.height) / 2}px`;
+         el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+         el.style.top = `${(window.innerHeight - el.offsetHeight) / 2}px`;
       }
    }
 
