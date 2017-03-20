@@ -1,23 +1,32 @@
 
 //THEME SPECIFIC VARIABLES
 /* pick theme color scheme */
-$blue: (primary-color: #2196F3, accent-color: #ffc107) !default;
-$pink: (primary-color: #c2185b, accent-color: #ffeb3b) !default;
-$teal: (primary-color: #009688, accent-color: #cddc39) !default;
-$purple: (primary-color: #673ab7, accent-color: #ffeb3b) !default;
-$gray: (primary-color: #607d8b, accent-color: #ffc107) !default;
-$red: (primary-color: #d32f2f, accent-color: #ffeb3b) !default;
-$green: (primary-color: #4caf50, accent-color: #ff9800) !default;
-$brown: (primary-color: #795548, accent-color: #ffc107) !default;
-$black: (primary-color: #212121, accent-color: #ffeb3b) !default;
-$indigo: (primary-color: #3f51b5, accent-color: #ff9800) !default;
+$primary-color-blue: #2196F3 !default;
+$primary-color-gray: #607d8b !default;
+$primary-color-brown: #795548 !default;
+$primary-color-pink: #c2185b !default;
+$primary-color-purple: #673ab7 !default;
+$primary-color-red: #d32f2f !default;
+$primary-color-black: #212121 !default;
+$primary-color-green: #4caf50 !default;
+$primary-color-indigo: #3f51b5 !default;
+$primary-color-teal: #009688 !default;
 
-$cx-theme-color-scheme: $blue !default;
-
-$cx-theme-primary-color: map-get($cx-theme-color-scheme, primary-color)!default; 
+$cx-theme-primary-color: $primary-color-blue !default; 
 $cx-theme-primary-color-light: lighten($cx-theme-primary-color, 8) !default;
 $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 5) !default;
-$cx-theme-accent-color: map-get($cx-theme-color-scheme, accent-color) !default;
+@function get-accent-color($primary-color) {
+  $accent-color: null;
+  @if green($primary-color) <= 80 {
+    $accent-color: #ffeb3b;
+  } @elseif green($primary-color) >= 150 and red($primary-color) < 20 and saturation($primary-color) > 90% {
+      $accent-color: #cddc39;
+    } @elseif green($primary-color) > 80 and green($primary-color) <= 175 and saturation($primary-color) < 50% and saturation($primary-color) > 20% {
+        $accent-color: #ff9800;
+      } @else { $accent-color: #ffc107; }
+  @return $accent-color;
+}
+$cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
 $cx-theme-warning-color: #F44336 !default;
 
 /* pick theme size */
@@ -43,10 +52,10 @@ $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
 $cx-default-box-border-width: 1px !default;
 @if $cx-theme-base-size < 14px {
-  $cx-default-box-padding: $cx-theme-base-size/3 !global; 
+  $cx-default-box-padding: round($cx-theme-base-size/3) !global; 
 } 
 @else {
-  $cx-default-box-padding: $cx-theme-base-size/2 !global;
+  $cx-default-box-padding: round($cx-theme-base-size/2) !global;
 }
 
 $cx-default-padding-extra-small: 5px !default;
