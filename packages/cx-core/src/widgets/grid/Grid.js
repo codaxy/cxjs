@@ -410,7 +410,7 @@ export class Grid extends Widget {
       if (header.allowSorting && column.sortable && (column.field || column.sortField || column.value)) {
          let sortField = column.sortField || column.field;
          let dir = 'ASC';
-         if (data.sorters && data.sorters[0].field == sortField && data.sorters[0].value == column.value && data.sorters[0].direction == 'ASC')
+         if (data.sorters && data.sorters[0].field == sortField && (data.sorters[0].value == column.value || data.sortField) && data.sorters[0].direction == 'ASC')
             dir = 'DESC';
 
          let sorters = [{
