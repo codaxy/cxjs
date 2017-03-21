@@ -222,12 +222,16 @@ class SliderComponent extends VDOM.Component {
                   this.setState({from: value});
             }
          }
-         tooltipMouseMove(e, ...getFieldTooltip(instance), { target: handleEl });
+         tooltipMouseMove(e, ...getFieldTooltip(instance), {target: handleEl});
       }, (e) => {
-         tooltipMouseLeave(e, ...getFieldTooltip(instance), { target: handleEl });
          this.setState({
             drag: false
          });
+
+         let pos = getCursorPos(e);
+         let el = document.elementFromPoint(pos.clientX, pos.clientY);
+         if (el != handleEl)
+            tooltipMouseLeave(e, ...getFieldTooltip(instance), {target: handleEl});
       })
    }
 
