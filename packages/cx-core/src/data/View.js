@@ -51,10 +51,9 @@ export class View {
    }
  
    move(from, to) {
-      this.batch(store => {
-         debugger;
-         store.copy(from, to);
-         store.delete(from);
+      this.batch(() => {
+         this.copy(from, to);
+         this.delete(from);
       });
    }
 

@@ -5,7 +5,7 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
-import { computable, updateArray } from 'cx/data';
+import { computable, updateArray, merge } from 'cx/data';
 
 //import {store} from '../../app/store';
 
@@ -14,8 +14,7 @@ class PageController extends Controller {
         super.init();
         this.store.init('$page', {
             name: 'Jane',
-            disableInput: true,
-            greeting: "Hello",
+            disable: true,
             todoList: [
                 { id: 1, text: 'Learn Cx', done: true }, 
                 { id: 2, text: "Feed the cat", done: false },
@@ -25,8 +24,8 @@ class PageController extends Controller {
     }
 
     greet() {
-        let data = this.store.get('$page.greeting','$page.name')
-        MsgBox.alert(`${data[0]}, ${data[1]}!`);
+        let name = this.store.get('$page.name')
+        MsgBox.alert(`Hello, ${name}!`);
     }
 }
 
@@ -139,8 +138,8 @@ export const Store = <cx>
                             super.init();
                             this.store.init('$page', {
                                 name: 'Jane',
-                                disableInput: true,
-                                greeting: "Hello",
+                                disabled: true,
+                                name: "Hello",
                                 todoList: [
                                     { id: 1, text: 'Learn Cx', done: true }, 
                                     { id: 2, text: "Feed the cat", done: false },
@@ -150,7 +149,7 @@ export const Store = <cx>
                         }
                     
                         greet() {
-                            let data = this.store.get('$page.greeting','$page.name')
+                            let data = this.store.get('$page.name','$page.name')
                             MsgBox.alert(\`\${data[0]}, \${data[1]}!\`);
                         }
                     }
@@ -190,27 +189,27 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsTopLayout} >
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                     <Button onClick={(e, instance) => {
                             let {store} = instance;
-                            store.set('$page.disableInput', !store.get('$page.disableInput'));
+                            store.set('$page.disabled', !store.get('$page.disabled'));
                         }}
-                        text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                        text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
                     />
                 </div>
             </div>
             We are also using the [`computable`](~/concepts/data-binding#computables) function to dynamically change the button text, 
-            depending on the `$page.disableInput` value.
+            depending on the `$page.disabled` value.
 
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                         <Button onClick={(e, instance) => {
                                 let {store} = instance;
-                                store.set('$page.disableInput', !store.get('$page.disableInput'));
+                                store.set('$page.disabled', !store.get('$page.disabled'));
                             }}
-                            text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
                         />
                     </div>
                 `}
@@ -228,11 +227,11 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsTopLayout} >
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                     <Button onClick={(e, {store}) => {
-                            store.toggle('$page.disableInput');
+                            store.toggle('$page.disabled');
                         }}
-                        text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                        text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
                     />
                 </div>
             </div>
@@ -242,11 +241,11 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disableInput" />
+                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                         <Button onClick={(e, {store}) => {
-                                store.toggle('$page.disableInput');
+                                store.toggle('$page.disabled');
                             }}
-                            text={computable('$page.disableInput', (disableInput) => disableInput ? "Enable input" : "Disable input")}   
+                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
                         />
                     </div>
                 `}
@@ -297,10 +296,10 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.greeting" />
+                    <TextField label="Text" value:bind="$page.name" />
                     <TextField label="Copied text" value:bind="$page.copyDestination" placeholder="click Copy" />
                     <Button onClick={(e, {store}) => {
-                        store.copy('$page.greeting', '$page.copyDestination');    
+                        store.copy('$page.name', '$page.copyDestination');    
                     }}>Copy</Button>
                 </div>
             </div>
@@ -308,10 +307,10 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.greeting" />
+                        <TextField label="Origin" value:bind="$page.name" />
                         <TextField label="Destination" value:bind="$page.copyDestination" placeholder="click Copy" />
                         <Button onClick={(e, {store}) => {
-                            store.copy('$page.greeting', '$page.copyDestination');    
+                            store.copy('$page.name', '$page.copyDestination');    
                         }}>Copy</Button>
                     </div>
                 `}
@@ -329,10 +328,11 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.greeting" />
+                    <TextField label="Text" value:bind="$page.name" />
                     <TextField label="Moved text" value:bind="$page.moveDestination" placeholder="click Move" />
                     <Button onClick={(e, {store}) => {
-                        store.move('$page.greeting', '$page.moveDestination'); 
+                        store.move('$page.name', '$page.moveDestination'); 
+                        //store.update('$page', merge, { name: 'howdy' });
                     }}>Move</Button>
                 </div>
             </div>
@@ -340,10 +340,10 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet>{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.greeting" />
+                        <TextField label="Origin" value:bind="$page.name" />
                         <TextField label="Destination" value:bind="$page.moveDestination" placeholder="click Move" />
                         <Button onClick={(e, {store}) => {
-                            store.move('$page.greeting', '$page.moveDestination'); 
+                            store.move('$page.name', '$page.moveDestination'); 
                         }}>Move</Button>
                     </div>
                 `}
@@ -361,8 +361,9 @@ export const Store = <cx>
          and an update function `updateFn`. Optionally, additional arguments can be provided, that are used by the update function.  
          
          `updateFn` should receive the initial value as a first argument followed by any additional arguments that are 
-         provided, and should return **either the updated value, or the initial value, if no changes were made**. It's important to note that `updateFn` should be a pure function, without any side effects,
-         e.g. direct array mutations.
+         provided, and should return **either the updated value, or the initial value, if no changes were made**. 
+         This helps the Store to determine the state changes more efficiently. It's important to note that `updateFn` 
+         should be a pure function, without any side effects, e.g. direct array mutations.
 
          Cx provides a set of commonly used update functions, which are listed below.
          We will go through an example for the `updateArray` function, as one of the most commonly used update functions. Other functions should than be self-explanatory.
@@ -377,18 +378,18 @@ export const Store = <cx>
         
             <div class="widgets">
                 <div layout={LabelsLeftLayout} >
-                    Todo List
-                    <a href="#" onClick={
+                    <strong>Todo List</strong>
+                    <Repeater records:bind="$page.todoList">
+                        <Checkbox value:bind="$record.done" text:bind="$record.text" />
+                        <br/>
+                    </Repeater>
+                    <Button onClick={
                             (e, {store}) => {
                                 store.update('$page.todoList', updateArray, (item) => ({ ...item, done: true }), (item) => !item.done);
                             }
                         }>
                         Mark all as done
-                    </a>
-                    <Repeater records:bind="$page.todoList">
-                        <Checkbox value:bind="$record.done" text:bind="$record.text" />
-                        <br/>
-                    </Repeater>                    
+                    </Button>     
                 </div>
             </div>
 
@@ -422,31 +423,30 @@ export const Store = <cx>
             signature: 'updateArray(array, updateCallback, itemFilter)',
             description: <cx><Md>
                 `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
-                `itemFilter` is optional.
+                `itemFilter` is optional. It returns the original array if no changes were made. Otherwise, a new array is returned.
             </Md></cx>
          }, {
             signature: 'merge(item, data)',
             description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
-                `itemFilter` is optional.
+                `merge` function takes two arguments, `item` and `data`, and attempts to merge `data` with the `item` object. It returns the original
+                object if no changes were made. Otherwise, a new object is returned.
             </Md></cx>
          }, {
             signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty)',
             description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
-                `itemFilter` is optional.
+                `updateTree` function
             </Md></cx>
          }, {
             signature: 'append(array, ...items)',
             description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
-                `itemFilter` is optional.
+                `append` function takes any number of arguments. First argument is the `array` to which all subsequent arguments will be appendedd. 
+                If no changes were made, it returns the original array. Otherwise, a new array is returned.
             </Md></cx>
          }, {
             signature: 'filter(array, callback)',
             description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and `itemFilter` functions.
-                `itemFilter` is optional.
+                `filter` function works just like the `Array.prototype.filter` function with the difference that it returns the original array if 
+                none of the items were filtered out.
             </Md></cx>
          }]}/>        
     </Md>
