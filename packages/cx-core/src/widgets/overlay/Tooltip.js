@@ -47,9 +47,9 @@ export class Tooltip extends Dropdown {
       super.overlayDidMount(instance, component);
 
       instance.parentValidityCheckTimer = setInterval(() => {
-         if (!document.body.contains(this.relatedElement) && instance.dismiss) {
-            instance.dismiss();
-            instance.dismiss = null;
+         if (!document.body.contains(this.relatedElement) && instance.dismissTooltip) {
+            instance.dismissTooltip();
+            instance.dismissTooltip = null;
          }
       }, 500);
    }
@@ -61,12 +61,12 @@ export class Tooltip extends Dropdown {
    }
 
    handleMouseEnter(instance, component) {
-      instance.mouseOver = true;
+      instance.mouseOverTooltip = true;
       super.handleMouseEnter(instance, component);
    }
 
    handleMouseLeave(instance, component) {
-      instance.mouseOver = false;
+      instance.mouseOverTooltip = false;
       if (this.mouseTrap)
          this.handleMouseLeavesParent(instance);
       super.handleMouseLeave(instance, component);
@@ -77,20 +77,20 @@ export class Tooltip extends Dropdown {
          return;
 
       if (!this.mouseTrap) {
-         this.dismiss(instance);
+         this.dismissTooltip(instance);
       }
       else {
          setTimeout(() => {
-            if (!instance.mouseOver && !instance.active)
-               this.dismiss(instance);
+            if (!instance.mouseOverTooltip && !instance.active)
+               this.dismissTooltip(instance);
          }, 200);
       }
    }
 
-   dismiss(instance) {
-      if (instance && instance.dismiss && (!instance.data || !instance.data.alwaysVisible)) {
-         instance.dismiss();
-         instance.dismiss = null;
+   dismissTooltip(instance) {
+      if (instance && instance.dismissTooltip && (!instance.data || !instance.data.alwaysVisible)) {
+         instance.dismissTooltip();
+         instance.dismissTooltip = null;
       }
    }
 }
@@ -101,7 +101,7 @@ Tooltip.prototype.baseClass = 'tooltip';
 Tooltip.prototype.offset = 8;
 Tooltip.prototype.placementOrder = 'right up down left';
 Tooltip.prototype.animate = true;
-Tooltip.prototype.destroyDelay = 200;
+Tooltip.prototype.destroyDelay = 300;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
 Tooltip.prototype.touchFriendly = false; //rename to positioningMode
@@ -123,8 +123,8 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    let tooltipInstance = parentInstance.tooltips[name];
 
    if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
-      if (tooltipInstance.dismiss)
-         tooltipInstance.dismiss();
+      if (tooltipInstance.dismissTooltip)
+         tooltipInstance.dismissTooltip();
       delete parentInstance.tooltips[name];
       tooltipInstance = null;
    }
@@ -166,15 +166,15 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
    let dirty = !shallowEquals(options.data, instance.store.data);
 
    instance.store.setData(options.data);
-   instance.active = true;
+   instance.mouseOverTarget = true;
 
-   if (!instance.dismiss) {
+   if (!instance.dismissTooltip) {
       if (!instance.pending) {
          instance.pending = true;
          setTimeout(() => {
             instance.pending = false;
-            if (instance.active && document.body.contains(instance.widget.relatedElement)) {
-               instance.dismiss = instance.widget.open(instance, {
+            if (instance.mouseOverTarget && document.body.contains(instance.widget.relatedElement)) {
+               instance.dismissTooltip = instance.widget.open(instance, {
                   onPipeUpdate: cb => {
                      instance.update = cb;
                   }
@@ -184,8 +184,8 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       }
    } else {
       if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
-         instance.dismiss();
-         instance.dismiss = null;
+         instance.dismissTooltip();
+         instance.dismissTooltip = null;
       }
       else if (dirty && instance.update)
          instance.update();
@@ -198,7 +198,7 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
 export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
    if (instance) {
-      instance.active = false;
+      instance.mouseOverTarget = false;
       instance.widget.handleMouseLeavesParent(instance);
    }
 }
@@ -217,7 +217,7 @@ export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, 
       instance.store.setData(options.data);
       if (instance.update)
          instance.update();
-      if (instance.active || (instance.data && instance.data.alwaysVisible))
+      if (instance.mouseOverTarget || (instance.data && instance.data.alwaysVisible))
          tooltipMouseMove(element, parentInstance, tooltip, options);
    }
 }
@@ -226,9 +226,9 @@ export function tooltipParentWillUnmount(parentInstance) {
    if (parentInstance.tooltips) {
       for (let name in parentInstance.tooltips) {
          let instance = parentInstance.tooltips[name];
-         instance.active = false;
-         if (instance.dismiss)
-            parentInstance.tooltips[name].dismiss();
+         instance.mouseOverTarget = false;
+         if (instance.dismissTooltip)
+            parentInstance.tooltips[name].dismissTooltip();
       }
    }
 }

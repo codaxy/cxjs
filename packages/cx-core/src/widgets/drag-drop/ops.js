@@ -62,7 +62,9 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    };
 
    if (clone.widget && clone.store) {
-      puppet.stop = startAppLoop(cloneEl, clone.store, clone.widget);
+      puppet.stop = startAppLoop(cloneEl, clone.store, clone.widget, {
+         removeParentDOMElement: true
+      });
    }
 
    let event = getDragEvent(e, 'dragstart');
@@ -211,8 +213,6 @@ function notifyDragDrop(e) {
 
    if (puppet.stop)
       puppet.stop();
-
-   document.body.removeChild(puppet.el);
 
    if (activeZone && activeZone.onDrop)
       activeZone.onDrop(event);

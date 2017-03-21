@@ -32,7 +32,7 @@ export class Overlay extends PureContainer {
    }
 
    prepareData(context, instance) {
-      var {data, store} = instance;
+      var {data} = instance;
       data.stateMods = {
          ...data.stateMods,
          inline: this.inline,
@@ -42,34 +42,48 @@ export class Overlay extends PureContainer {
          draggable: data.draggable
       };
 
-      if (context.options.dismiss)
-         instance.dismiss = context.options.dismiss;
-      else if (this.visible && this.visible.bind) {
+      super.prepareData(context, instance);
+   }
+
+   initInstance(context, instance) {
+      if (this.visible && this.visible.bind) {
          instance.dismiss = () => {
-            store.set(this.visible.bind, false)
+            if (instance.onBeforeDismiss && instance.onBeforeDismiss() == false)
+               return;
+            instance.set('visible', false)
          };
       }
-
-      super.prepareData(context, instance);
    }
 
    explore(context, instance) {
       var oldParentOptions = context.parentOptions;
+
+      if (context.options.dismiss)
+         instance.dismiss = context.options.dismiss;
+
       if (instance.dismiss)
          context.parentOptions = {
             ...context.parentOptions,
             dismiss: instance.dismiss
          };
 
+      if (instance.dismiss != instance.cached.dismiss)
+         instance.shouldUpdate = true;
+
       super.explore(context, instance);
       context.parentOptions = oldParentOptions;
    }
 
+   cleanup(context, instance) {
+      super.cleanup(context, instance);
+      instance.cached.dismiss = instance.dismiss;
+   }
+
    render(context, instance, key) {
       return <OverlayComponent key={key}
-                               instance={instance}
-                               subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
-                               parentEl={context.options.parentEl}>
+         instance={instance}
+         subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
+         parentEl={context.options.parentEl}>
          {this.renderContents(context, instance)}
       </OverlayComponent>
    }
@@ -127,36 +141,29 @@ export class Overlay extends PureContainer {
       if (!this.initialized)
          this.init();
 
-      var el = this.containerFactory();
+      let el = this.containerFactory();
       el.style.display = "hidden";
+
+      let beforeDismiss, stop;
+
       options = {
+         destroyDelay: this.destroyDelay,
+         removeParentDOMElement: true,
          ...options,
-         parentEl: el
-      };
-      options.name = options.name || 'overlay';
-      var stop, beforeDismiss, dismissed;
-      options.subscribeToBeforeDismiss = function (callback) {
-         beforeDismiss = callback;
-      };
-      var dismiss = options.dismiss = () => {
-         if (dismissed)
-            return;
-         if (beforeDismiss && beforeDismiss() === false)
-            return;
-         dismissed = true;
-         stop();
-         if (el) {
-            setTimeout(() => {
-               if (VDOM.DOM.unmountComponentAtNode)
-                  VDOM.DOM.unmountComponentAtNode(el);
-               if (el.parentNode)
-                  el.parentNode.removeChild(el);
-               el = null;
-            }, this.destroyDelay);
+         parentEl: el,
+         dismiss: () => {
+            if (beforeDismiss && beforeDismiss() === false)
+               return;
+            stop();
+            beforeDismiss = null;
+         },
+         subscribeToBeforeDismiss: cb => {
+            beforeDismiss = cb;
          }
       };
+      options.name = options.name || 'overlay';
       stop = startAppLoop(el, storeOrInstance, this, options);
-      return dismiss;
+      return options.dismiss;
    }
 }
 
@@ -436,7 +443,8 @@ export class OverlayComponent extends VDOM.Component {
                animated: false
             });
 
-         this.el.className = this.getOverlayCssClass();
+         //verify this is really needed
+         //this.el.className = this.getOverlayCssClass();
       }
 
       return true;
@@ -465,8 +473,10 @@ export class OverlayComponent extends VDOM.Component {
       else if (isSelfOrDescendant(this.el, document.activeElement))
          oneFocusOut(this, this.el, ::this.onFocusOut);
 
+      instance.onBeforeDismiss = ::this.onBeforeDismiss;
+
       if (subscribeToBeforeDismiss) {
-         subscribeToBeforeDismiss(::this.onBeforeDismiss);
+         subscribeToBeforeDismiss(instance.onBeforeDismiss);
       }
 
       if (widget.animate) {
@@ -482,11 +492,12 @@ export class OverlayComponent extends VDOM.Component {
    componentWillUnmount() {
 
       offFocusOut(this);
-
-      //we didn't have a chance to call onBeforeDismiss
       this.unmounting = true;
-      if (this.state.animated)
-         this.onBeforeDismiss();
+
+      // //we didn't have a chance to call onBeforeDismiss
+      if (this.state.animated && this.el) {
+         this.el.className = this.getOverlayCssClass();
+      }
 
       let {widget} = this.props.instance;
 

@@ -2,7 +2,7 @@ import {Widget, VDOM} from '../Widget';
 import {Store} from '../../data/Store';
 import {Cx} from '../Cx';
 
-export function startAppLoop(parentDOMElement, storeOrInstance, widget, options) {
+export function startAppLoop(parentDOMElement, storeOrInstance, widget, options = {}) {
 
    if (!parentDOMElement || parentDOMElement.nodeType !== 1)
       throw new Error('First argument to startAppLoop should be a valid DOM element.');
@@ -24,8 +24,26 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options)
    let root = <Cx store={store} widget={widget} instance={instance} options={options} subscribe={true}/>;
 
    VDOM.DOM.render(root, parentDOMElement);
+   let stopped = false;
 
    return function () {
-      VDOM.DOM.unmountComponentAtNode(parentDOMElement);
+      if (stopped)
+         return;
+
+      stopped = true;
+
+      if (!options.destroyDelay)
+         destroy(parentDOMElement, options);
+      else {
+         setTimeout(() => {
+            destroy(parentDOMElement, options);
+         }, options.destroyDelay)
+      }
    }
+}
+
+function destroy(parentDOMElement, options) {
+   VDOM.DOM.unmountComponentAtNode(parentDOMElement);
+   if (options.removeParentDOMElement && parentDOMElement.parentNode)
+      parentDOMElement.parentNode.removeChild(parentDOMElement);
 }

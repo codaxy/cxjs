@@ -95,7 +95,7 @@
       }
 
       &.#{$state}placement-bottom {
-         justify-content: flex-end;
+         flex-direction: column-reverse;
       }
    }
 
