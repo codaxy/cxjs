@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {KeyCode} from '../../util/KeyCode';
+import ForwardIcon from '../icons/forward';
 
 export class Pagination extends Widget {
 
@@ -55,6 +56,9 @@ export class PaginationComponent extends VDOM.Component {
 
       this.pageRefs = {};
 
+      let nextPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-next-page")} />;
+      let prevPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-prev-page")} />;
+
       for (let p = minPage-1; p <= maxPage+1; p++) {
          pageBtns.push(<li key={p < minPage ? '-1' : p > maxPage ? '-2' : p}
                            ref={c=>{this.pageRefs[p] = c;}}
@@ -63,7 +67,7 @@ export class PaginationComponent extends VDOM.Component {
                            onKeyDown={e=>this.onKeyDown(e, p)}
                            onMouseDown={e=> {e.stopPropagation(); e.preventDefault();}}
                            onClick={e=>this.props.onSetPage(e, p < minPage ? page - 1 : p > maxPage ? page + 1 : p)}>
-            {p < minPage ? '\u00ab' : p > maxPage ? '\u00bb' : p}
+            {p < minPage ? prevPageIcon : p > maxPage ? nextPageIcon : p}
          </li>)
       }
 

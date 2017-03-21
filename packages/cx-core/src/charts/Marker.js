@@ -86,6 +86,11 @@ export class Marker extends BoundedObject {
 
    explore(context, instance) {
       let {data, xAxis, yAxis} = instance;
+
+      instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
+      if (instance.colorMap && data.name)
+         instance.colorMap.acknowledge(data.name);
+
       if (data.active) {
          if (xAxis && data.x != null)
             xAxis.acknowledge(data.x, 0, this.xOffset);
@@ -98,7 +103,13 @@ export class Marker extends BoundedObject {
    }
 
    prepare(context, instance) {
-      var {data, xAxis, yAxis} = instance;
+      var {data, xAxis, yAxis, colorMap} = instance;
+
+      if (colorMap && data.name) {
+         data.colorIndex = colorMap.map(data.name);
+         if (instance.cached.colorIndex != data.colorIndex)
+            instance.shouldUpdate = true;
+      }
 
       if (data.active) {
          if (xAxis && xAxis.shouldUpdate)
@@ -123,6 +134,12 @@ export class Marker extends BoundedObject {
                this.onLegendClick(e, instance)
             }
          });
+   }
+
+   cleanup(context, instance) {
+      super.cleanup(context, instance);
+      if (instance.colorMap)
+         instance.cached.colorIndex = instance.data.colorIndex;
    }
 
    onLegendClick(e, instance) {
