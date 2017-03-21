@@ -62,9 +62,9 @@ export class MsgBox {
                <FlexRow putInto="footer" 
                   direction={MsgBox.prototype.footerDirection} 
                   justify={MsgBox.prototype.footerJustify}
+                  hspacing="small"
                >
                   <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>Yes</Button>
-                  {' '}
                   <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>No</Button>
                </FlexRow>
             </Window>
