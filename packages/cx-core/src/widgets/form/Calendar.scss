@@ -36,6 +36,7 @@
 
       td {
         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
+        user-select: none;
       }
 
       .#{$element}#{$name}-header {
@@ -117,6 +118,7 @@
       display: inline-block;
       font-size: $icon-size;
       line-height: $icon-size;
+      user-select: none;
    }
 
    .#{$element}#{$name}-icon-prev-year {

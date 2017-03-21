@@ -53,6 +53,7 @@
    .#{$element}#{$name}-text {
       display: inline-block;
       margin-left: $size;
+      user-select: none;
    }
 
    //non-native implementation

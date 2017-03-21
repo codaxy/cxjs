@@ -107,6 +107,7 @@
       &.#{$state}sortable {
 
          cursor: pointer;
+         user-select: none;
 
          &.#{$state}sorted-asc, &.#{$state}sorted-desc {
             @include cx-add-state-rules($header-state-style-map, sorted);
