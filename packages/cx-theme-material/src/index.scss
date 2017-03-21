@@ -579,30 +579,3 @@ div.cxb-classic-tab-container {
 	  background-color: rgba(0, 0, 0, 0.02);
   }
 }
-
-.cxe-calendar-icon-next-year {
-  &:first-child {
-    transform: translate(3px, 12px) rotate(0) !important;
-  }
-  &:nth-child(2) {
-    transform: translate(-3px, -12px) rotate(0) !important;
-  }
-}
-
-.cxe-pagination-icon-next-page {
-  &:first-child {
-    transform: translate(3px, 0) rotate(0) !important;
-  }
-  &:nth-child(2) {
-    transform: translate(-3px, 0) rotate(0) !important;
-  }
-}
-
-.cxe-pagination-icon-prev-page {
-  &:first-child {
-    transform: translate(3px, 0) rotate(180deg) !important;
-  }
-  &:nth-child(2) {
-    transform: translate(-3px, 0) rotate(180deg) !important;
-  }
-} 

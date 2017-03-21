@@ -41,22 +41,19 @@ Icon.register('drop-down', props => Icon.render('keyboard_arrow_down', props));
 Icon.register('sort-asc', props => Icon.render('arrow_upward', props));
 Icon.register('folder-open', props => Icon.render('folder_open', props));
 Icon.register('file', props => Icon.render('insert_drive_file', props));
-Icon.register('forward', props => Icon.render('arrow_forward', props));
 
 Icon.register('forward', props => {
-  props = { ...props };
-  props.className = 'material-icons ' + (props.className || '');
-  return <span style={{ display: 'inline-block' }}>
-     <i {...props} style={{ transform: 'translate(3px, 12px) rotate(180deg)' }} >navigate_next</i>
-     <i {...props} style={{ transform: 'translate(-3px, -12px) rotate(180deg)' }}>navigate_next</i>
-  </span>;
-});
+  return <svg 
+    {...props}
+    viewBox="0 0 24 24">
+    <path fill="currentColor" 
+      strokeWidth="0"
+      stroke="currentColor"
+      d="M11.59 16.34l4.58-4.59-4.58-4.59L13 5.75l6 6-6 6z"/>
 
-//Icon.register('forward', props => {
-//  props = { ...props };
-//  props.className = 'material-icons ' + (props.className || '');
-//  return <span style={{ display: 'inline-block', position: 'relative' }}>
-//     <i {...props} style={{ position: 'absolute', top: '-6px', right: '3px'}} >navigate_next</i>
-//     <i {...props} style={{ position: 'absolute', bottom: '-6px', left: '3px' }}>navigate_next</i>
-//  </span>;
-//});
+    <path fill="currentColor" 
+      strokeWidth="0"
+      stroke="currentColor"
+      d="M4.59 16.34l4.58-4.59-4.58-4.59L6 5.75l6 6-6 6z"/>
+  </svg>
+});
