@@ -31,27 +31,20 @@ export default <cx>
          </Section>
       </FlexRow>
       <FlexRow pad spacing wrap target="desktop">
-         <Section title="Grouping" style="flex:1.5" mod="card">
-            <Grouping />
+        <Section title="Grid With Form Editing" style="flex:2" mod="card" >
+            <GridFormEditing />
          </Section>
-
          <Section title="Grid Dashboard" style="flex:2" mod="card" >
             <Dashboard />
          </Section>
       </FlexRow>
       <FlexRow pad spacing wrap target="desktop">       
-         <Section title="Tree Grid" style="flex:2" mod="card" >
-            <TreeGrid />
-         </Section>
-         <Section title="Grid With Form Editing" style="flex:2" mod="card" >
-            <GridFormEditing />
-         </Section>
+         
      </FlexRow>
      <FlexRow pad spacing wrap target="desktop"> 
-         <Section title="Multiple Selection" style="flex:2" mod="card" >
+         <Section title="MultipleSelection" style="flex:1.5" mod="card">
             <MultipleSelection />
          </Section>
-      
          <Section title="Complex Header" style="flex:2" mod="card" >
             <ComplexHeader />
          </Section>

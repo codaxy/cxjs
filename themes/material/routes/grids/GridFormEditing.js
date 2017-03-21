@@ -66,7 +66,7 @@ export default <cx>
     <div controller={PageController}>
       <Grid
         records:bind="$page.records"
-        style={{ height: "532px" }}
+        style={{ height: "450px" }}
         scrollable
         selection={{ type: KeySelection, bind: "$page.id", keyField: "id" }}
         columns={[
@@ -88,14 +88,14 @@ export default <cx>
                   data-id:bind="$record.id"
                     onClick={(e, { controller, data }) => {
                                 controller.removeRecord(data.data.id);
-        }}
-                          >
-        Remove
-        </Button>
-        </cx>
-                      )
-        }
-        ]}
+                    }}
+                >
+                  Remove
+                </Button>
+            </cx>
+          )
+          }
+           ]}
               />
     <Button style="margin-top: 20px;"
       type="button"
