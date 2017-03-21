@@ -1,6 +1,7 @@
 
 @mixin cx-pagination(
    $name: 'pagination',
+   $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -36,15 +37,26 @@
       margin-left: -1px;
       text-decoration: none;
       cursor: pointer;
+      position: relative;
 
       &:first-child {
          border-top-left-radius: $cx-default-border-radius;
          border-bottom-left-radius: $cx-default-border-radius;
+
+         &:after {
+            content: '<';
+            visibility: hidden;
+         }
       }
 
       &:last-child {
          border-top-right-radius: $cx-default-border-radius;
          border-bottom-right-radius: $cx-default-border-radius;
+
+         &:after {
+            content: '>';
+            visibility: hidden;
+         }
       }
 
       &:hover, &:focus {
@@ -69,6 +81,23 @@
       &.#{$state}disabled {
          @include cx-add-state-rules($cx-list-item, disabled);
       }
+   }
+
+   .#{$element}#{$name}-icon-prev-page,
+   .#{$element}#{$name}-icon-next-page {
+      width: $icon-size;
+      height: $icon-size;
+      font-size: $icon-size;
+      line-height: $icon-size;
+      position: absolute;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      left: 50%;
+      margin-left: -$icon-size / 2;
+   }
+
+   .#{$element}#{$name}-icon-prev-page {
+      transform: rotate(180deg);
    }
 }
 

@@ -1,8 +1,8 @@
-
 @mixin cx-calendar(
    $name: 'calendar',
    $state-style-map: $cx-input-state-style-map,
    $width: $cx-default-input-width,
+   $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -10,7 +10,7 @@
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
-   .#{$block}calendar {
+   .#{$block}#{$name} {
       @include cxe-field-input($besm, $state-style-map, $input: false);
       width: 18em;
 
@@ -26,11 +26,11 @@
       }
 
       td.#{$state}today {
-        @include cx-add-state-rules($cx-calendar-state-style-map, today);
+         @include cx-add-state-rules($cx-calendar-state-style-map, today);
 
-        &:hover {
-           @include cx-add-state-rules($cx-calendar-state-style-map, hover)
-        }
+         &:hover {
+            @include cx-add-state-rules($cx-calendar-state-style-map, hover)
+         }
       }
 
       td.#{$state}outside {
@@ -76,13 +76,38 @@
             @include cx-add-state-rules($cx-list-item, selected-focus)
          }
       }
+
+      &.#{$state}disabled {
+         background-color: transparent;
+         border-color: transparent;
+         color: darken(#fff, 18);
+         cursor: not-allowed;
+      }
    }
 
-   .#{$block}#{$name}.#{$state}disabled {
-      background-color: transparent;
-      border-color: transparent;
-      color: darken(#fff, 18);
-      cursor: not-allowed;
+   .#{$element}#{$name}-header td {
+      line-height: 0;
+   }
+
+   .#{$element}#{$name}-icon-next-year,
+   .#{$element}#{$name}-icon-prev-year,
+   .#{$element}#{$name}-icon-prev-month,
+   .#{$element}#{$name}-icon-next-month {
+      width: $icon-size;
+      height: $icon-size;
+      display: inline-block;
+      font-size: $icon-size;
+      line-height: $icon-size;
+   }
+
+   .#{$element}#{$name}-icon-prev-year {
+      transform: rotate(180deg);
+   }
+   .#{$element}#{$name}-icon-prev-month {
+      transform: rotate(90deg);
+   }
+   .#{$element}#{$name}-icon-next-month {
+      transform: rotate(-90deg);
    }
 }
 

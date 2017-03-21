@@ -18,6 +18,8 @@ import {
 import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
+import ForwardIcon from '../icons/forward';
+import DropdownIcon from '../icons/drop-down';
 
 export class Calendar extends Field {
 
@@ -418,11 +420,25 @@ export class CalendarCmp extends VDOM.Component {
             <thead>
             <tr key="h" className={CSS.element(baseClass, 'header')}>
                <td />
-               <td onClick={e => this.move(e, 'y', -1)}>&laquo;</td>
-               <td onClick={e => this.move(e, 'm', -1)}>&lsaquo;</td>
-               <th colSpan="3">{monthNames[month]}<br/>{year}</th>
-               <td onClick={e => this.move(e, 'm', +1)}>&rsaquo;</td>
-               <td onClick={e => this.move(e, 'y', +1)}>&raquo;</td>
+               <td onClick={e => this.move(e, 'y', -1)}>
+                  <ForwardIcon className={CSS.element(baseClass, 'icon-prev-year')}/>
+               </td>
+               <td onClick={e => this.move(e, 'm', -1)}>
+                  <DropdownIcon className={CSS.element(baseClass, 'icon-prev-month')}/>
+               </td>
+               <th
+                  className={CSS.element(baseClass, 'display')}
+                  colSpan="3"
+               >
+                  {monthNames[month]}<br/>
+                  {year}
+               </th>
+               <td onClick={e => this.move(e, 'm', +1)}>
+                  <DropdownIcon className={CSS.element(baseClass, 'icon-next-month')}/>
+               </td>
+               <td onClick={e => this.move(e, 'y', +1)}>
+                  <ForwardIcon className={CSS.element(baseClass, 'icon-next-year')}/>
+               </td>
                <td />
             </tr>
             <tr key="d" className={CSS.element(baseClass, 'day-names')}>
