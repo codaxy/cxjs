@@ -33,15 +33,16 @@ export class Cx extends VDOM.Component {
          this.unsubscribe = this.store.subscribe(::this.update);
 
       this.flags = {};
+      this.renderCount = 0;
    }
 
    render() {
       if (!this.widget)
          return null;
 
-      let context = new RenderingContext(this.props.options);
       let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-      return <CxContext context={context} instance={instance} flags={this.flags}/>
+      return <CxContext instance={instance} flags={this.flags} options={this.props.options}
+         buster={++this.renderCount }/>
    }
 
    componentDidMount() {
@@ -100,15 +101,17 @@ class CxContext extends VDOM.Component {
          start: Timing.now()
       };
 
-      let {context, instance} = props;
-      let count = 0, visible;
+      let {instance, options} = props;
+      let count = 0, visible, context;
 
       this.props.flags.preparing = true;
 
       do {
+         context = new RenderingContext(options);
          this.props.flags.dirty = false;
          visible = instance.explore(context);
-      } while (visible && this.props.flags.dirty && count < 3 && Widget.optimizePrepare);
+      }
+      while (visible && this.props.flags.dirty && count < 3 && Widget.optimizePrepare);
 
       if (visible) {
          this.timings.afterExplore = Timing.now();
@@ -160,7 +163,7 @@ class CxContext extends VDOM.Component {
       Timing.log(
          appLoopFlag,
          this.renderCount,
-         context.options.name || 'main',
+         this.props.options.name || 'main',
          'total', (afterCleanup - start).toFixed(1) + 'ms',
          'explore', (afterExplore - start).toFixed(1) + 'ms',
          'prepare', (afterPrepare - afterExplore).toFixed(1),

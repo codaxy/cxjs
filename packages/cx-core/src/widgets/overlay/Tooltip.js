@@ -76,15 +76,12 @@ export class Tooltip extends Dropdown {
       if (instance.data && instance.data.alwaysVisible)
          return;
 
-      if (!this.mouseTrap) {
-         this.dismissTooltip(instance);
-      }
-      else {
-         setTimeout(() => {
-            if (!instance.mouseOverTooltip && !instance.active)
-               this.dismissTooltip(instance);
-         }, 200);
-      }
+      let timeout = this.mouseTrap ? 200 : 10;
+
+      setTimeout(() => {
+         if (!instance.mouseOverTooltip && !instance.active)
+            this.dismissTooltip(instance);
+      }, timeout);
    }
 
    dismissTooltip(instance) {

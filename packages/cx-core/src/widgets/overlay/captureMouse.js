@@ -20,6 +20,7 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
    let end = e => {
       batchUpdates(() => {
+         surface.style.display = "none";
          try {
             if (onMouseUp)
                onMouseUp(e, captureData);
