@@ -21,6 +21,14 @@ export default {
         </Md></cx>
     },
 
+    timeout: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Value of timeout in milliseconds after which the toast is automatically dismissed.
+        </Md></cx>
+    },
+
     baseClass: {
         type: 'string',
         description: <cx><Md>
