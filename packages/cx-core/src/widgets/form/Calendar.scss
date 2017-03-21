@@ -12,8 +12,7 @@
 
    .#{$block}calendar {
       @include cx-add-state-rules($state-style-map, 'default');
-   .#{$block}#{$name} {
-      @include cxe-field-input($besm, $state-style-map, $input: false);
+
       width: 18em;
 
       &:hover {
@@ -52,12 +51,6 @@
 
         &:hover {
            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover)
-        }
-
-        @include cx-add-state-rules($cx-calendar-state-style-map, today);
-
-        &:hover {
-          @include cx-add-state-rules($cx-calendar-state-style-map, hover)
         }
       }
 
