@@ -5,13 +5,13 @@ import {Md} from '../components/Md';
 export const PageNotFound = <cx>
     <PureContainer layout={FirstVisibleChildLayout}>
         <Md visible:expr="{error}">
-            # Ooops
+            # Error
 
             Something went wrong. The content could not be loaded. This sometimes happens when the site is being updated.
             Please try refreshing the page.
         </Md>
         <Md>
-            # Not Found
+            # Page Not Found
 
             Page that you're looking for could not be found.
         </Md>
