@@ -7,9 +7,9 @@ import {Floater} from '../components/Floater';
 
 export const Main = <cx>
     <PureContainer outerLayout={Layout}>
-        <DocumentTitle value="Cx"/>
         <Content name="aside" items={Contents}/>
         <ContentRouter />
         <Floater if:expr="{layout.touch}"/>
+        <DocumentTitle value=" - Cx Docs"/>
     </PureContainer>
 </cx>;

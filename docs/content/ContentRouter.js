@@ -140,7 +140,6 @@ const getChapterRoutes = chapter => {
 export const ContentRouter = <cx>
     <div class={CSS.block("article")}>
         <ScrollReset class={CSS.element("article", "body")} trigger:bind="url">
-            <DocumentTitle value=" - "/>
             <Sandbox storage:bind="pages" key:bind="url" controller={ContentController}>
                 <ContentResolver
                     params={{
