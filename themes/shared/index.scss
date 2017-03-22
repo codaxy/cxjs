@@ -3,7 +3,7 @@
 @import "components/index";
 @import "routes/index";
 
-.cxb-classic-tab-container {
+.#{$block}classic-tab-container {
   padding: 0 1.5rem;
   white-space: nowrap;
   flex-shrink: none;

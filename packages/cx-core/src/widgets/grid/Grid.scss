@@ -129,7 +129,7 @@
          }
       }
 
-      &.cxs-tool {
+      &.#{$state}tool {
          transition: padding-left 0.2s;
       }
 
@@ -140,7 +140,7 @@
             right: 2px;
          }
 
-         &.cxs-tool.cxs-sorted-asc, &.cxs-tool.cxs-sorted-desc {
+         &.#{$state}tool.#{$state}sorted-asc, &.#{$state}tool.#{$state}sorted-desc {
             padding-left: cx-calc(5px, $icon-size);
 
             .#{$element}#{$name}-column-sort-icon {
