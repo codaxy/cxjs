@@ -1,9 +1,9 @@
 # Cx Framework
 
-This is the core package for the [Cx Framework](https://cxjs.io/). 
+This is the main package of the [Cx Framework](https://cxjs.io/). 
 Cx is a feature-rich framework for building modern web applications.
 
-It provides:
+Cx provides:
 - a complete set of widgets 
 - charts
 - two-way data-binding options
@@ -52,5 +52,5 @@ alias: {
 
 ### License
 
-Cx is available under a commercial and a non-commercial license.
+Cx is available under a commercial and a free for non-commercial license.
 Please refer to the website for more information.
