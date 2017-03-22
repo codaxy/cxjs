@@ -104,13 +104,37 @@ export const Store = <cx>
            signature: 'Store.getData()',
            description: <cx><Md>
               Returns a reference to the object tree representing the application state. 
-              It is typically used for debugging and Hot Module Replacement.
+              It is typically used for debugging and to save data for Hot Module Replacement.
            </Md></cx>
         }, {
-           signature: 'Store.update(path, updateFn, ...args)',
+           signature: 'Store.notify(path)',
            description: <cx><Md>
-              This method requires two parameters, `path` under which the value is stored and an update function `updateFn`. Optionally, 
-              additional arguments can be provided, that are used by the update function.
+              `notify` method causes the application to re-render. Optional `path` argument can be provided to limit the effect to a
+              number of Store subscribers.
+           </Md></cx>
+        }, {
+           signature: 'Store.silently(callback)',
+           description: <cx><Md>
+              `silently` method can be used to perform a single Store operation silently, without fireing a re-render.
+              The `callback` function is passed the Store instance.
+           </Md></cx>
+        }, {
+           signature: 'Store.batch(callback)',
+           description: <cx><Md>
+              `batch` method can be used to perform multiple Store operations silently and re-render the application only once.
+              The `callback` function is passed the Store instance.
+           </Md></cx>
+        }, {
+           signature: 'Store.dispatch(action)',
+           description: <cx><Md>
+              `dispatch` method is useful if the Store is used in combination with Redux. This is an abstract method that needs to be
+              implemented.
+           </Md></cx>
+        }, {
+           signature: 'Store.load(data)',
+           description: <cx><Md>
+              Loads `data` object into the Store. This method is used to restore the application state when doing Hot Module Replacement.
+              See also `Store.getData`.
            </Md></cx>
         }]}/>
          
@@ -331,7 +355,6 @@ export const Store = <cx>
                     <TextField label="Moved text" value:bind="$page.moveDestination" placeholder="click Move" />
                     <Button onClick={(e, {store}) => {
                         store.move('$page.name', '$page.moveDestination'); 
-                        //store.update('$page', merge, { name: 'howdy' });
                     }}>Move</Button>
                 </div>
             </div>
@@ -463,7 +486,8 @@ export const Store = <cx>
          }, {
             signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty)',
             description: <cx><Md>
-                `updateTree` 
+                `updateTree` is simmilar to `updateArray`, with the difference that it can be applied to array tree structures
+                multiple levels deep. It basically applieas `updateArray` function to each item.
             </Md></cx>
          }, {
             signature: 'append(array, ...items)',
