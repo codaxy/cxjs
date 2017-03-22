@@ -23,6 +23,7 @@ var contents = [{
         {title: 'Data Binding', url: '~/concepts/data-binding'},
         {title: 'Data Views', url: '~/concepts/data-views'},
         {title: 'Controllers', url: '~/concepts/controllers'},
+        {title: 'Store', url: '~/concepts/store'},
         {title: 'Layouts', url: '~/concepts/layouts'},
         {title: 'Router', url: '~/concepts/router'},
         {title: 'Selection', url: '~/concepts/selections'},
