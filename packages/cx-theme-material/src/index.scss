@@ -177,7 +177,7 @@ $checkbox-padding-correction: 2px !default;
   }
   &:focus:after {    
     visibility: visible;
-    transform: scale(1, 1)    
+    transform: scale(.9, .9)    
   }
 }
 
@@ -215,7 +215,7 @@ $checkbox-padding-correction: 2px !default;
 
    &:focus:after {
     visibility: visible;
-    transform: scale(1, 1)
+    transform: scale(.9, .9)
   }
 }
 
@@ -261,7 +261,7 @@ $checkbox-padding-correction: 2px !default;
   }
   &:focus:after {
     visibility: visible;
-    transform: scale(1.5, 1.5);
+    transform: scale(1.4, 1.4);
     background-color: rgba($cx-theme-primary-color-dark, 0.1);
   }
 }
@@ -299,7 +299,7 @@ $checkbox-padding-correction: 2px !default;
   .#{$element}switch-handle {
     &:after {
       visibility: visible;
-      transform: scale(1.5, 1.5);
+      transform: scale(1.4, 1.4);
       background-color: rgba($cx-theme-primary-color, 0.1);
     }
   }
@@ -481,14 +481,6 @@ div.#{$block}classic-tab-container {
 /* grid checkbox padding removed */
 .#{$block}grid .#{$block}checkbox {
   margin-top: 4 * $checkbox-padding-correction;
-}
-
-
-/* tree grid icon set to white when row is selected */
-.#{$element}grid-data.#{$state}selected.#{$state}cursor {
-  .#{$element}treenode-handle {
-    /*color: #fff;*/
-  }
 }
 
 //LIST
