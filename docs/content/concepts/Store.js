@@ -117,14 +117,14 @@ export const Store = <cx>
             signature: 'Store.silently(callback)',
             description: <cx><Md>
                 `silently` method can be used to perform data changes which do not cause notifications (re-render).
-                The `callback` function is passed the Store instance.
+                The Store instance is passed to the `callback` function.
             </Md></cx>
         }, {
             signature: 'Store.batch(callback)',
             description: <cx><Md>
                 `batch` method can be used to perform multiple Store operations silently and re-render the application
                 only once afterwards.
-                The `callback` function is passed the Store instance.
+                The Store instance is passed to the `callback` function.
             </Md></cx>
         }, {
             signature: 'Store.dispatch(action)',
