@@ -5,7 +5,7 @@ export function updateTree(array, updateCallback, itemFilter, childrenProperty) 
       var updatedItem = updateCallback(item);
       if (updatedItem) {
          var children = updatedItem[childrenProperty];
-         var updatedChildren = updateTree(children, itemFilter, updateCallback, childrenProperty);
+         var updatedChildren = updateTree(children, updateCallback, itemFilter, childrenProperty);
          if (updatedChildren != children) {
             updatedItem = {
                ...updatedItem,
