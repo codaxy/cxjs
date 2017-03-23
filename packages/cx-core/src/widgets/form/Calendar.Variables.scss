@@ -9,6 +9,7 @@ $cx-default-calendar-padding: 5px !default;
 
 //header
 $cx-default-calendar-header-font-size: $cx-default-box-font-size !default;
+$cx-default-calendar-header-font-weight: 500 !default;
 $cx-default-calendar-header-color: $cx-default-color !default;
 $cx-default-calendar-header-background-color: transparent !default;
 
@@ -33,6 +34,7 @@ $cx-calendar-state-style-map: (
   ),
   header: (
     font-size: $cx-default-calendar-header-font-size,
+    font-weight: $cx-default-calendar-header-font-weight,
     color: $cx-default-calendar-header-color,
     background-color: $cx-default-calendar-header-background-color, 
   ),
