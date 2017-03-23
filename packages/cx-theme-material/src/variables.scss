@@ -590,7 +590,7 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
 /* window mods */
 $cx-window-mods: (
   alert: (
-    default: (
+    frame: (
       font-size: 16px,
       color: $cx-secondary-text-color
     ),

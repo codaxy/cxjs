@@ -89,7 +89,7 @@
 
     @each $modname, $config in $mods {
       &.#{$mod}#{$modname} {
-        @include cx-add-state-rules($config, default);
+        @include cx-add-state-rules($config, frame);
 
         .#{$element}#{$name}-body {
           @include cx-add-state-rules($config, body);
