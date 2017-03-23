@@ -45,44 +45,19 @@ $cx-calendar-state-style-map: (
 ) !default;
 
 // calendar day field styles
-$cx-calendar-day-state-style-map: (
+$cx-calendar-day-state-style-map: cx-deep-map-merge($cx-list-item, (
   default: (
     background-color: transparent,
     border-radius: $cx-default-calendar-day-border-radius,
     font-size: $cx-default-calendar-day-font-size
-  ),
-  hover: (
-    background-color: rgba(128, 128, 128, 0.1),
-    outline: none
   ),
   today: (
     background-color: rgba(220, 250, 183, 0.5),
   ),
   outside: (
     color: rgba(0, 0, 0, 0.3)
-  ),
-  disabled: (
-    color: rgba(128, 128, 128, .5),
-    background-color: rgba(128, 128, 128, .1),
-    cursor: default
-  ),
-  hover-focus: (
-    background-color: rgba(123, 190, 255, 0.15),
-    outline: none
-  ),
-  selected: (
-    background-color: rgba(123,190,255, 0.2)
-  ),
-  selected-focus: (
-    background-color: rgba(123,190,255, 0.45),
-    outline: none
-  ),
-  active: (
-    //causes flickering
-    //background: rgba(123,190,255, 0.7)
-  ),
- 
+  ), 
   today-hover: (
       
   )
-);
+));
