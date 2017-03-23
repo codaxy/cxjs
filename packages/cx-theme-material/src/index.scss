@@ -6,10 +6,12 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
+/* sets the line height for all paragrphs */
 p {
   line-height: $cx-default-paragraph-line-height;
 }
 
+//SECTION
 .#{$block}section.cxm-card.cxm-card {
    > .#{$element}section-body {
      padding: 1em;
@@ -39,24 +41,13 @@ p {
    }
 }
 
-// FORM
-.#{$block}datefield .#{$block}calendar {
-   border-color: transparent !important;
-}
-
-.#{$block}monthfield .#{$block}monthpicker {
-   border-color: transparent !important;
-}
-
-.#{$block}colorfield .#{$block}colorpicker {
-   border-color: transparent !important;
-}
-
 // BUTTON
-/*override for chrome mobile*/
+
 .#{$block}button {
+  /* overrides tap color effect for mobile devices */
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 
+  /* aligns float button icon in the center */
   &.cxm-float .#{$element}button-icon {
     left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
   }
@@ -81,9 +72,10 @@ $form-list: (
 
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 
-    /* if a div is positioned in flexbox next to a higher item, it will grow bigger than input */
+    /* disables parent input div height to grow bigger then input in FlexRow */
     max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
 
+    /* standard field focus effect */
     &:after {
       display: block;
       content: '';     
@@ -120,6 +112,7 @@ $form-list: (
 .#{$block}textarea {
   overflow: hidden;
 
+  /* textarea focus effect */
   &:after {
     display: block;
     content: '';     
@@ -149,8 +142,7 @@ $form-list: (
   }
 }
 
-/* checkbox */
-/* corrects illusion that label is not centered due to font Roboto */
+/* checkbox focus effect */
 $checkbox-padding-correction: 2px !default;
 
 .#{$element}checkbox-input  {
@@ -181,7 +173,7 @@ $checkbox-padding-correction: 2px !default;
   }
 }
 
-/* radio */
+/* radio focus effect */
 .#{$element}radio-input {
   border-width: 2px;
   border-color: darken(#dbdbdb, 10);
@@ -222,7 +214,7 @@ $checkbox-padding-correction: 2px !default;
 /* colorpicker */
 .#{$block}colorpicker {
   input {
-    line-height: 16px;
+    line-height: $cx-default-box-line-height - 8px;
     box-shadow: none;
     background-color: #fff;
     border-width: 0 0 1px;
@@ -236,7 +228,7 @@ $checkbox-padding-correction: 2px !default;
   }
 }
 
-/* slider */
+/* slider focus effect */
 .#{$element}slider-handle {
   &:after {
     content: "";
@@ -278,7 +270,7 @@ $checkbox-padding-correction: 2px !default;
   }
 }
 
-/* switch */
+/* switch focus effect */
 .#{$element}switch-handle {
   &:after {
     content: "";
@@ -332,6 +324,7 @@ div.#{$block}classic-tab-container {
 }
 
 //WINDOW
+/* window animation */
 .#{$block}window {
   animation: modal 0.28s ease-in-out;
   
@@ -344,7 +337,7 @@ div.#{$block}classic-tab-container {
 @keyframes modal {
   0% {
     opacity: 0;
-    transform: scale(0.3, 0.2)
+    transform: scale(0.3)
   }
   100% {
     opacity: 1;
@@ -356,6 +349,7 @@ div.#{$block}classic-tab-container {
 .#{$block}menu {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
+  /* menu focus animation */
   .#{$block}menuitem {
     &:before {
       content: '';
@@ -434,8 +428,7 @@ div.#{$block}classic-tab-container {
   .#{$element}grid-col-header {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    /*user-select: none;*/     
+    text-overflow: ellipsis;    
   }
 }
 
@@ -457,7 +450,7 @@ div.#{$block}classic-tab-container {
   }
 }
 
-/* default grey border color in group grid is too dark */
+/* default grey border color in group grid changed */
 .#{$element}grid-group-caption {
   @for $i from 2 through 4 {
     &.#{$state}level-#{$i} {
@@ -478,7 +471,7 @@ div.#{$block}classic-tab-container {
   } 
 }
 
-/* grid checkbox padding removed */
+/* grid checkbox margin corrected */
 .#{$block}grid .#{$block}checkbox {
   margin-top: 4 * $checkbox-padding-correction;
 }
