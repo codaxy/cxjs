@@ -1,7 +1,7 @@
 
 @mixin cx-lookupfield(
    $name: 'lookupfield',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
@@ -9,6 +9,7 @@
    $tool-state-style-map: $cx-input-right-icon-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
+   $tag-state-style-map: $cx-input-tag-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -50,14 +51,15 @@
    }
 
    .#{$element}#{$name}-tag {
-      background: $cx-default-button-background-color;
       display: inline-block;
       position: relative;
-      margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
       box-sizing: border-box;
-      padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
-      padding-right: cx-calc($cx-default-clear-size, 2px);
-      border-radius: $cx-default-border-radius;
+
+      @include cx-add-state-rules($tag-state-style-map, default);
+
+      &:hover {
+        @include cx-add-state-rules($tag-state-style-map, hover);
+      }
    }
 
    .#{$element}#{$name}-placeholder {
@@ -73,7 +75,7 @@
    }
 
    .#{$element}#{$name}-tag-value {
-      padding: 0 $cx-default-input-tag-spacing;
+      padding: 0 cx-calc($cx-default-input-tag-spacing, round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4));
       display: inline-block;
    }
 
@@ -96,7 +98,7 @@
 
       & > li {
          list-style: none;
-         padding: 0.5em 1em;
+         padding: map-get($cx-menu-padding-options, medium);
          margin: 0;
          cursor: pointer;
 

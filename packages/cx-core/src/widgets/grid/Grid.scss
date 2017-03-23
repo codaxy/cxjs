@@ -1,6 +1,8 @@
 @mixin cx-grid(
    $name: 'grid',
    $header-state-style-map: $cx-grid-header-state-style-map,
+   $data-state-style-map: $cx-grid-data-state-style-map,
+   $mods: $cx-grid-mods,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
@@ -14,6 +16,8 @@
       position: relative;
 
       font-size: $cx-default-grid-font-size;
+      box-shadow: $cx-default-grid-box-shadow;
+      border-radius: $cx-default-grid-border-radius;
 
       table {
          border-spacing: 0;
@@ -103,6 +107,7 @@
       &.#{$state}sortable {
 
          cursor: pointer;
+         user-select: none;
 
          &.#{$state}sorted-asc, &.#{$state}sorted-desc {
             @include cx-add-state-rules($header-state-style-map, sorted);
@@ -124,7 +129,7 @@
          }
       }
 
-      &.cxs-tool {
+      &.#{$state}tool {
          transition: padding-left 0.2s;
       }
 
@@ -135,7 +140,7 @@
             right: 2px;
          }
 
-         &.cxs-tool.cxs-sorted-asc, &.cxs-tool.cxs-sorted-desc {
+         &.#{$state}tool.#{$state}sorted-asc, &.#{$state}tool.#{$state}sorted-desc {
             padding-left: cx-calc(5px, $icon-size);
 
             .#{$element}#{$name}-column-sort-icon {
@@ -174,11 +179,12 @@
 
       td {
          padding: 0;
-         border-top: 1px solid $cx-default-grid-border-color;
+         border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
+         line-height: cx-get-state-rule($data-state-style-map, default, line-height);
       }
 
       td.#{$state}pad {
-         padding: 5px;
+         padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
       &.#{$state}cursor {
@@ -382,6 +388,29 @@
       top: 0;
       bottom: 0;
    }
+
+   /* Mods */
+   @each $modname, $config in $mods {
+    &.#{$mod}#{$modname} {
+      @include cx-add-state-rules($config, default);
+
+      &[disabled], &.#{$state}disabled {
+          @include cx-add-state-rules($config, disabled);
+      }
+
+      &:hover {
+          @include cx-add-state-rules($config, hover);
+      }
+
+      &:focus {
+          @include cx-add-state-rules($config, focus);
+      }
+
+      &:active, &.#{$state}pressed {
+          @include cx-add-state-rules($config, active);
+      }
+    }
+  }
 }
 
 @if (cx-include('cx/widgets/Grid')) {

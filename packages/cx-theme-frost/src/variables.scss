@@ -19,6 +19,8 @@ $cx-default-checkbox-size: 16px !default;
 $cx-default-radio-size: 16px !default;
 $cx-default-input-border-color: #eff1f7 !default;
 
+$cx-default-input-tag-background-color: $cx-default-button-background-color !default;
+
 $cx-default-font-family: 'Open Sans', sans-serif !default;
 
 $cx-default-dropdown-arrow-offset: 26px !default;
@@ -28,9 +30,9 @@ $cx-use-box-line-height-fix: false !default;
 @import "~cx-core/src/variables";
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-   hover: (
-      border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
-   )
+  hover: (
+     border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+  )
 ));
 
 // LIST
@@ -56,6 +58,50 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 ));
 
 // menu
+
+// FORM
+//standard form field
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
+
+//calendar
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+  hover: (
+    border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+  )  
+));
+
+$cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
+  hover-focus: (
+    background-color: $cx-default-highlight-color
+  ),
+  selected: (
+    background-color: $cx-default-highlight-color
+  ),
+  selected-focus: (
+    background-color: darken($cx-default-highlight-color, 8)
+  )
+));
+
+//checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+  hover: (
+    border-color: cx-get-state-rule($cx-input-state-style-map, hover, border-color)
+  )
+));
+
+//textarea
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
+
+//colorpicker
+$cx-colorpicker-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  hover: (
+    border-color: transparentize(cx-get-state-rule($cx-input-state-style-map, focus, border-color), 0.5)
+  )
+));
 
 // BUTTON
 $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
@@ -112,6 +158,8 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
 
    )
 ));
+
+
 
 //globals
 

@@ -1,39 +1,43 @@
 
 @import '~cx-core/src/index';
 
-.cxb-grid.cxs-scrollable.cxs-border {
+$block: map-get($cx-besm, block);
+$element: map-get($cx-besm, element);
+$state: map-get($cx-besm, state);
+$mod: map-get($cx-besm, mod);
+
+.#{$block}grid.#{$state}scrollable.#{$state}border {
   border-color: $cx-default-grid-header-border-color;
 }
 
-.cxe-grid-data {
+.#{$element}grid-data {
   &:nth-child(odd) {
     background-color: lighten($cx-default-background-color, 2);   
 
-    &.cxs-selected {
+    &.#{$state}selected {
       @include cx-add-state-rules($cx-list-item, selected);
       &:hover {
         @include cx-add-state-rules($cx-list-item, selected);
       }
     }  
-    &.cxs-cursor {
+    &.#{$state}cursor {
       @include cx-add-state-rules($cx-list-item, hover);
     }
   
-    .cxs-focused &, :focus & {
-      &.cxs-cursor {
+    .#{$state}focused &, :focus & {
+      &.#{$state}cursor {
         @include cx-add-state-rules($cx-list-item, hover-focus);
       }
-      &.cxs-selected {
+      &.#{$state}selected {
         @include cx-add-state-rules($cx-list-item, selected-focus);
       }
     }
   }
 }
 
-.cxe-grid-header .cxe-textfield-input {
+.#{$element}grid-header .#{$element}textfield-input {
   background-color: $cx-default-background-color;
 }
-
 
 /* Scrollbar Style*/
 
@@ -66,4 +70,9 @@
 	  border-top: 1px solid $cx-default-border-color;
 	  -webkit-box-shadow: darken($cx-default-background-color, 3) 0 1px inset;
   }
+}
+
+//override for chrome mobile default press effect
+.#{$block}button, .#{$block}tab, .#{$block}menu {  
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 }

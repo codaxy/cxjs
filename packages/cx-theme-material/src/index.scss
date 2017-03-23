@@ -1,0 +1,573 @@
+
+@import "~cx-core/src/index";
+
+$block: map-get($cx-besm, block);
+$element: map-get($cx-besm, element);
+$state: map-get($cx-besm, state);
+$mod: map-get($cx-besm, mod);
+
+/* sets the line height for all paragrphs */
+p {
+  line-height: $cx-default-paragraph-line-height;
+}
+
+//SECTION
+.#{$block}section.cxm-card.cxm-card {
+   > .#{$element}section-body {
+     padding: 1em;
+   }
+}
+
+@for $i from 1 through 6 {
+  .#{$element}section-header h#{$i} {
+    .cxm-card & {
+      color: $cx-theme-primary-color-light;
+    }
+    .cxm-card-accent & {
+      color: #fff;
+    }
+  }
+}
+
+.#{$element}section-header.#{$element}section-header  {
+   color: $cx-theme-primary-color-light;
+   font-weight: normal;
+   border: none;
+   padding: 1em;
+   margin: 0;
+
+   .cxm-pad > & {
+      border: none;
+   }
+}
+
+// BUTTON
+
+.#{$block}button {
+  /* overrides tap color effect for mobile devices */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+
+  /* aligns float button icon in the center */
+  &.cxm-float .#{$element}button-icon {
+    left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+  }
+}
+
+// FORM
+/* standard field */
+$form-list: (
+  textfield
+  numberfield
+  lookupfield
+  datefield
+  monthfield
+  colorfield
+  select
+);
+
+@each $field in $form-list {
+  .#{$block}#{$field} {
+    position: relative;
+    overflow: hidden;
+
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+
+    /* disables parent input div height to grow bigger then input in FlexRow */
+    max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+
+    /* standard field focus effect */
+    &:after {
+      display: block;
+      content: '';     
+      height: 2px;
+      width: 100%;
+      background-color: $cx-theme-primary-color;
+      transform: scaleX(0);  
+      transition: 0s;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    &.#{$state}focus {       
+      &:after {
+        transform: scaleX(1);
+        transition: transform 0.3s ease-out;
+      }
+      &.#{$state}error.#{$state}visited {
+        &:after {
+          transform: scaleX(1);
+          background-color: $cx-theme-warning-color;       
+        }
+      }
+    }   
+  }
+}
+
+.#{$block}lookupfield {
+  max-height: none;
+}
+
+/* textarea */
+.#{$block}textarea {
+  overflow: hidden;
+
+  /* textarea focus effect */
+  &:after {
+    display: block;
+    content: '';     
+    height: 2px;
+    width: 100%;
+    background-color: $cx-theme-primary-color;
+    transform: scaleX(0);  
+    transition: 0s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  &.#{$state}focus {       
+    &:after {
+      transform: scaleX(1);
+      transition: transform 0.3s ease-out;
+    }
+  }   
+}
+
+/* calendar */ 
+.#{$block}calendar {
+  .#{$element}calendar-day-names {
+    background-color: $cx-theme-primary-color;
+    color: #fff;
+  }
+}
+
+/* checkbox focus effect */
+$checkbox-padding-correction: 2px !default;
+
+.#{$element}checkbox-input  {
+  &:after {
+    content: '';
+    width: 2 * $cx-default-checkbox-size;
+    height: 2 * $cx-default-checkbox-size;
+    position: absolute;
+    left: calc(50% - #{$cx-default-checkbox-size});
+    bottom: calc(50% - #{$cx-default-checkbox-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.2s ease-in-out;
+  }
+  &.#{$state}checked {    
+    path {
+      fill: white;
+    }
+    &:after {
+      background-color: rgba($cx-theme-primary-color, 0.1);
+    }
+  }
+  &:focus:after {    
+    visibility: visible;
+    transform: scale(.9, .9)    
+  }
+}
+
+/* radio focus effect */
+.#{$element}radio-input {
+  border-width: 2px;
+  border-color: darken(#dbdbdb, 10);
+  color: darken(#dbdbdb, 20);
+  overflow: visible;
+  color: $cx-theme-primary-color;
+
+  &:after {
+    content: '';
+    width: 2 * $cx-default-radio-size;
+    height: 2 * $cx-default-radio-size;
+    position: absolute;
+    left: calc(50% - #{$cx-default-radio-size});
+    bottom: calc(50% - #{$cx-default-radio-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover {
+    border-color: darken(#dbdbdb, 10);
+  }
+
+  &.#{$state}checked {  
+    &:after {
+      background-color: rgba($cx-theme-primary-color, 0.1);
+    }
+  }
+
+   &:focus:after {
+    visibility: visible;
+    transform: scale(.9, .9)
+  }
+}
+
+/* colorpicker */
+.#{$block}colorpicker {
+  input {
+    line-height: $cx-default-box-line-height - 8px;
+    box-shadow: none;
+    background-color: #fff;
+    border-width: 0 0 1px;
+    border-color: darken($cx-default-input-border-color, 5);
+    border-radius: 0;
+    padding: 2px 6px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+/* slider focus effect */
+.#{$element}slider-handle {
+  &:after {
+    content: "";
+    width: 1.5 * $cx-default-slider-handle-size;
+    height: 1.5 * $cx-default-slider-handle-size;
+    position: absolute;
+    left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+  }
+
+  &:active, &:active:focus {
+    &:after {
+      visibility: visible;
+      transform: scale(1, 1);
+      background-color: rgba($cx-theme-primary-color-dark, 1);
+    }    
+  }
+  &:focus:after {
+    visibility: visible;
+    transform: scale(1.4, 1.4);
+    background-color: rgba($cx-theme-primary-color-dark, 0.1);
+  }
+}
+
+.#{$element}slider-handle[style*="left: 0%;"] {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.26);
+  
+  &:focus:after {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &:active {
+    background-color: #fff;
+  }
+}
+
+/* switch focus effect */
+.#{$element}switch-handle {
+  &:after {
+    content: "";
+    width: 1.5 * $cx-default-slider-handle-size;
+    height: 1.5 * $cx-default-slider-handle-size;
+    position: absolute;
+    left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+    background-color: rgba(black, 0.05);
+    border-radius: 50%;
+    visibility: hidden;
+    transform: scale(0.6, 0.6);
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+  }
+}
+
+.#{$block}switch:focus {
+  .#{$element}switch-handle {
+    &:after {
+      visibility: visible;
+      transform: scale(1.4, 1.4);
+      background-color: rgba($cx-theme-primary-color, 0.1);
+    }
+  }
+}
+
+//TAB
+div.#{$block}classic-tab-container {
+  background-color: $cx-theme-primary-color;
+  box-shadow: $cx-default-box-shadow;
+  height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
+  padding: 0;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  flex-shrink: none;
+}
+.#{$block}tab.cxm-classic {
+  height: 100%;
+
+  &:first-child {
+    border-radius: 2px 0 0 2px;
+  }
+  &:last-child {
+    border-radius: 0 2px 2px 0;
+  }
+}
+
+.#{$block}tab {
+  position: relative;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+}
+
+//WINDOW
+/* window animation */
+.#{$block}window {
+   opacity: 0;
+   transform: scale(0.3);
+   transition: opacity .2s, transform .2s;
+
+   &.#{$state}animated {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity .3s, transform .3s;
+   }
+}
+
+//MENU
+.#{$block}menu {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+  /* menu focus animation */
+  .#{$block}menuitem {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 1;
+      border-radius: $cx-default-border-radius;
+      pointer-events: none;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+  }
+}
+
+.#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
+  background-color: transparent;
+  color: $cx-default-dropdown-color;    
+
+  &:before {
+    transform: scaleX(1);
+    transition: transform 0.25s;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
+  background-color: transparent;
+  > span {
+    color: $cx-secondary-text-color;
+  }
+}
+
+.#{$block}menu .#{$element}menu-item > hr {
+  margin: $cx-default-padding-medium 0;
+}
+
+//GRID
+.#{$block}grid.#{$state}scrollable {
+  /* border removed from a first row of grid with fixed header */
+  .#{$element}grid-header {
+    + .#{$element}grid-data, + .#{$element}grid-group-caption {
+      td {
+        border-top-color: transparent;
+      }
+    }
+  }
+}
+
+.#{$element}grid-fixed-header {
+  /* shadow added to fixed header */
+  box-shadow: $cx-default-grid-header-box-shadow;
+  
+  .#{$element}grid-col-header {
+    border-color: #fff;
+  }
+
+  .#{$state}sorted-asc, .#{$state}sorted-desc {
+    border-color: darken($cx-default-grid-header-background-color, 2);
+    &:hover {
+      border-color: darken($cx-default-grid-header-background-color, 3);
+    }
+  }
+}
+
+.#{$element}grid-header {
+  /* if a grid header has two or more rows */
+  tr:not(:first-child) .#{$element}grid-col-header {
+    border-top: 1px solid $cx-default-grid-data-border-color;
+  }
+
+  /* ellipsis added to grid header */
+  .#{$element}grid-col-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+  }
+}
+
+/* grid header border removed */
+.#{$state}border {
+  .#{$element}grid-col-header {
+    border-width: 0;
+  }
+}
+
+/* group grid styles */
+.#{$element}grid-group-footer, .#{$element}grid-group-caption {
+  td {
+    color: $cx-theme-primary-color;
+    line-height: $cx-default-grid-data-line-height;
+    padding: $cx-default-grid-data-padding;
+    border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
+    font-weight: 500;
+  }
+}
+
+/* default grey border color in group grid changed */
+.#{$element}grid-group-caption {
+  @for $i from 2 through 4 {
+    &.#{$state}level-#{$i} {
+      td {
+        border-bottom: 1px solid darken($cx-default-grid-data-border-color, 20);
+      }
+    }
+  } 
+}
+
+.#{$element}grid-group-footer {
+  @for $i from 2 through 4 {
+    &.#{$state}level-#{$i} {
+      td {
+        border-top: 1px solid darken($cx-default-grid-data-border-color, 20);
+      }
+    }
+  } 
+}
+
+/* grid checkbox margin corrected */
+.#{$block}grid .#{$block}checkbox {
+  margin-top: 4 * $checkbox-padding-correction;
+}
+
+//LIST
+.#{$block}list.#{$state}selectable {
+  > .#{$element}list-item {
+    padding: 3 * $cx-default-box-padding;
+    border-width: 1px;
+    border-color: transparent transparent rgba(0, 0, 0, 0.09);
+  }
+
+  &.#{$state}focused {
+    > .#{$element}list-item.#{$state}selected {
+      /* overrides the default h element style */
+      @for $i from 1 through 6 {
+        h#{$i} { color: #fff; }
+      }
+    }
+  }
+}
+
+//RIPPLE EFFECT
+.#{$block}button, .#{$block}tab {
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 3px);
+    left: calc(50% - 3px);
+    width: 6px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(18, 18);
+    transition: transform 0.3s, opacity 0.8s;
+  }
+
+  &.cxm-float:before {
+    transform: scale(9, 9);
+  }
+
+  &:active:before {
+    transform: scale(0, 0);
+    opacity: 0.2;
+    transition: 0s;
+  }
+}
+
+//SCROLLBAR
+@if ($cx-include-global-rules) {
+  ::-webkit-scrollbar {
+	  width: 10px;
+	  height: 10px;
+	  background-color: rgba(0, 0, 0, 0.05);
+  }
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0;
+		
+    &:vertical {
+	    background-color: rgba(0, 0, 0, 0.07);
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+
+	  &:horizontal {
+		  background-color: rgba(0, 0, 0, 0.07);
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.12);
+        }
+	  }
+  }
+  ::-webkit-scrollbar-corner {			
+	  background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+//MATERIAL ICONS
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: $cx-default-box-line-height;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+
+  user-select: none;
+}

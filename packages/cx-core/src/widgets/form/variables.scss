@@ -10,6 +10,7 @@ $cx-use-box-line-height-fix: true !default;
 
 // Appearance
 $cx-default-input-font-family: $cx-default-box-font-family !default;
+$cx-default-input-font-size: $cx-default-box-font-size !default;
 $cx-default-input-border-color: $cx-default-border-color !default;
 $cx-default-input-border-radius: $cx-default-border-radius !default;
 $cx-default-input-background-color: white !default;
@@ -28,7 +29,7 @@ $cx-input-state-style-map: (
       line-height: $cx-default-box-line-height,
       padding: $cx-default-input-padding,
       border-width: $cx-default-box-border-width,
-      font-size: $cx-default-box-font-size,
+      font-size: $cx-default-input-font-size,
       font-family: $cx-default-input-font-family,
       border-color: $cx-default-input-border-color,
       border-style: solid,
@@ -65,7 +66,6 @@ $cx-input-state-style-map: (
    )
 ) !default;
 
-$cx-default-input-tag-spacing: 3px !default;
 $cx-default-checkbox-size: 14px !default;
 $cx-default-radio-size: 14px !default;
 $cx-default-input-icon-size: $cx-default-icon-size !default;
@@ -117,10 +117,9 @@ $cx-input-right-icon-state-style-map: (
    )
 ) !default;
 
-// Clear
+// Clear Icon
 $cx-default-clear-size: $cx-default-input-tool-size !default;
-$cx-default-clear-color: gray !default;
-$cx-default-clear-background-hover: rgba(128, 128, 128, 0.2) !default;
+$cx-default-clear-color: #828282 !default;
 
 $cx-clear-state-style-map: (
    default: (
@@ -136,7 +135,7 @@ $cx-clear-state-style-map: (
       text-align: center
    ),
    hover: (
-      background-color: $cx-default-clear-background-hover
+      background-color: rgba(128, 128, 128, 0.2)
    ),
    active: (
 
@@ -149,6 +148,7 @@ $cx-clear-state-style-map: (
 $cx-default-label-padding: $cx-default-box-padding 0 !default;
 $cx-default-label-font-size: $cx-default-box-font-size !default;
 $cx-default-label-font-family: $cx-default-box-font-family !default;
+$cx-default-label-font-weight: normal !default;
 $cx-default-label-line-height: $cx-default-box-line-height !default;
 $cx-default-label-color: null !default;
 $cx-default-label-asterisk-color: #a80000 !default;
@@ -158,6 +158,7 @@ $cx-label-state-style-map: (
       padding: $cx-default-label-padding,
       font-size: $cx-default-label-font-size,
       font-family: $cx-default-label-font-family,
+      font-weight: $cx-default-label-font-weight,
       line-height: $cx-default-label-line-height,
       color: $cx-default-label-color,
       border-style: solid,
@@ -175,39 +176,39 @@ $cx-label-state-style-map: (
    )
 ) !default;
 
-
-// CALENDAR
-$cx-calendar-state-style-map: (
-   today: (
-      background-color: rgba(220, 250, 183, 0.5),
-      border-radius: $cx-default-border-radius
-   ),
-   today-hover: (
-      
-   ),
-   outside: (
-      color: lightgray
-   )
-) !default;
+// STANDARD FORM FIELD (textfield, numberfield, lookupfield, select,...)
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+    
+)) !default;
 
 // COLORFIELD
-$cx-default-colorfield-font-family: 'Consolas', monospace;
+$cx-default-colorfield-font-family: 'Consolas', monospace !default;
 
 // MONTHPICKER
 $cx-default-monthpicker-font-size: smaller !default;
 
 // SLIDER
+$cx-default-slider-axis-size: 8px !default;
 $cx-default-slider-axis-background-color: rgba(128, 128, 128, 0.2) !default;
 $cx-default-slider-range-background-color: #98d4ff !default;
-$cx-default-slider-handle-size: 18px;
-$cx-default-slider-axis-size: 8px;
+
+/* handle */
+$cx-default-slider-handle-size: 18px !default;
+$cx-default-slider-handle-background-color: rgb(235, 235, 235) !default;
+$cx-default-slider-handle-border-width: 1px !default;
+$cx-default-slider-handle-border-color: rgb(204, 204, 204) !default;
+$cx-default-slider-handle-border-radius: 50% !default;
+$cx-default-slider-handle-box-shadow: 0 0 3px rgba(128, 128, 128, 0.3) !default;
+
 
 $cx-slider-handle-styles: (
    default: (
-      background: rgb(235, 235, 235),
-      border: 1px solid rgb(204, 204, 204),
-      border-radius: 50%,
-      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3)
+      background-color: $cx-default-slider-handle-background-color,
+      border-style: solid,
+      border-width: $cx-default-slider-handle-border-width,
+      border-color: $cx-default-slider-handle-border-color,
+      border-radius: $cx-default-slider-handle-border-radius,
+      box-shadow: $cx-default-slider-handle-box-shadow
    ),
    hover: (
       box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
@@ -228,10 +229,73 @@ $cx-slider-handle-styles: (
 // SWITCH
 $cx-default-switch-axis-background-color: $cx-default-slider-axis-background-color !default;
 $cx-default-switch-range-background-color: #87cc8a !default;
-$cx-default-switch-handle-size: 18px;
-$cx-default-switch-axis-size: 20px;
-$cx-default-switch-width: 32px;
-$cx-switch-handle-styles: $cx-slider-handle-styles !default;
+$cx-default-switch-axis-size: 20px !default;
+$cx-default-switch-width: 32px !default;
+
+$cx-default-switch-handle-background-color: $cx-default-slider-handle-background-color !default;
+$cx-default-switch-handle-border-width: $cx-default-slider-handle-border-width !default;  
+$cx-default-switch-handle-border-color: $cx-default-slider-handle-border-color !default; 
+$cx-default-switch-handle-border-radius: $cx-default-slider-handle-border-radius !default; 
+$cx-default-switch-handle-box-shadow: $cx-default-slider-handle-box-shadow !default;
+$cx-default-switch-handle-size: 18px !default;
+
+$cx-switch-handle-styles: (
+  default: (
+    background-color: $cx-default-switch-handle-background-color,
+    border-style: solid,
+    border-width: $cx-default-switch-handle-border-width,
+    border-color: $cx-default-switch-handle-border-color,
+    border-radius: $cx-default-switch-handle-border-radius,
+    box-shadow: $cx-default-switch-handle-box-shadow
+   ),
+  hover: (
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+  ),
+  focus: (
+    border-color: rgba(77, 144, 254, 0.8),
+    outline: none,
+    box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+  ),
+  disabled: (
+
+  ),
+  active: (
+      background: rgb(220, 220, 220)
+  ),
+  on: (
+
+  ),
+  on-active: (
+  
+  )  
+) !default;
 
 // TEXTAREA
 $cx-default-textarea-width: 300px !default;
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  
+));
+
+// LOOKUPFIELD TAG
+$cx-default-input-tag-spacing: 3px !default;
+$cx-default-input-tag-font-size: $cx-default-font-size !default;
+$cx-default-input-tag-background-color: #eee !default;
+$cx-default-input-tag-border-radius: $cx-default-border-radius !default;
+$cx-default-input-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
+
+$cx-input-tag-state-style-map: (
+  default: (
+    font-size: $cx-default-input-tag-font-size,
+    background-color: $cx-default-input-tag-background-color,
+    margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing,
+    padding: $cx-default-input-tag-padding,
+    padding-right: cx-calc($cx-default-clear-size, 2px),
+    border-radius: $cx-default-input-tag-border-radius
+  )
+) !default;
+
+// CALENDAR
+@import 'Calendar.variables';
+@import 'Checkbox.variables';
+@import 'Radio.variables';
+@import 'ColorPicker.variables';

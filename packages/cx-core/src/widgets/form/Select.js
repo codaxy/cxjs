@@ -80,6 +80,15 @@ Select.prototype.icon = null;
 Widget.alias('select', Select)
 
 class SelectComponent extends VDOM.Component {
+
+   constructor(props){
+      super(props);
+      this.state = {
+         visited: false,
+         focus: false
+      }
+   }
+
    render() {
       let {multiple, select, instance} = this.props;
       let {data, widget} = instance;
@@ -127,7 +136,8 @@ class SelectComponent extends VDOM.Component {
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
-            icon: widget.icon
+            icon: widget.icon,
+            focus: this.state.focus
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -144,6 +154,7 @@ class SelectComponent extends VDOM.Component {
             disabled={data.disabled}
             {...data.inputAttrs}
             onBlur={::this.onBlur}
+            onFocus={ e=> this.onFocus() }
             onChange={e => {
                e.preventDefault();
                select(e.target.value);
@@ -160,7 +171,21 @@ class SelectComponent extends VDOM.Component {
    }
 
    onBlur() {
-      this.setState({visited: true})
+      this.setState({visited: true});
+      if (this.state.focus)
+         this.setState({
+            focus: false
+         });
+   }
+
+   onFocus(){
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
    }
 
    onClearClick(e) {

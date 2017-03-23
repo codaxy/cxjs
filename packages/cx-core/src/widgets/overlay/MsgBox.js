@@ -2,8 +2,11 @@ import {Widget} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Window} from './Window';
 import {Button} from '../Button';
+import {Localization} from '../../ui/Localization';
+import {FlexRow} from '../FlexBox';
 
 export class MsgBox {
+   
    static alert(options) {
       if (typeof options == 'string')
          options = {
@@ -22,9 +25,12 @@ export class MsgBox {
             <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
                     resizable={false} closable={false}>
                {options.message}
-               <div putInto="footer">
-                  <Button onClick={callback}>OK</Button>
-               </div>
+               <FlexRow putInto="footer"
+                  direction={MsgBox.prototype.footerDirection} 
+                  justify={MsgBox.prototype.footerJustify}  
+               >
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>OK</Button>
+               </FlexRow>
             </Window>
          </cx>);
 
@@ -49,16 +55,18 @@ export class MsgBox {
             else
                resolve(option);
          };
-
          var w = Widget.create(<cx>
             <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
                     resizable={false} closable={false}>
                {options.message}
-               <div putInto="footer">
-                  <Button onClick={callback('yes')}>Yes</Button>
-                  {' '}
-                  <Button onClick={callback('no')}>No</Button>
-               </div>
+               <FlexRow putInto="footer" 
+                  direction={MsgBox.prototype.footerDirection} 
+                  justify={MsgBox.prototype.footerJustify}
+                  hspacing="small"
+               >
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>Yes</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>No</Button>
+               </FlexRow>
             </Window>
          </cx>);
 
@@ -66,3 +74,8 @@ export class MsgBox {
       });
    }
 }
+
+MsgBox.prototype.buttonMod = null;
+MsgBox.prototype.footerDirection = "row";
+MsgBox.prototype.footerJustify = "center";
+Localization.registerPrototype('cx/widgets/MsgBox', MsgBox);

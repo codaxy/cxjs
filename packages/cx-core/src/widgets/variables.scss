@@ -54,8 +54,15 @@ $cx-caption-level-style-map: (
 $cx-section-styles: () !default;
 
 $cx-section-mods: (
-   well: (
-         background-color: rgba(255, 255, 255, 0.9),
-         border-radius: 3px
-   )
+  card: (
+    default: (
+      background-color: rgba(255, 255, 255, 0.9),
+      border-radius: 3px
+    )
+  )
 ) !default;
+
+// for backward compatibility
+.cxm-well {
+   @extend .cxm-card !optional;
+}

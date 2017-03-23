@@ -1,6 +1,7 @@
 
 @mixin cx-pagination(
    $name: 'pagination',
+   $state-style-map: $cx-grid-pagination-state-style-map,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
@@ -29,14 +30,18 @@
 
    .#{$element}#{$name}-page {
       display: inline-block;
-      box-sizing: border-box;
-      padding: $cx-default-box-padding 2 * $cx-default-box-padding;
-      border-width: $cx-default-border-width;
-      border-color: $cx-default-border-color;
+      box-sizing: border-box;      
       border-style: solid;
       margin-left: -1px;
       text-decoration: none;
       cursor: pointer;
+      border-width: $cx-grid-pagination-default-border-width;
+      border-color: $cx-grid-pagination-default-border-color;
+      border-radius: $cx-grid-pagination-default-border-radius;
+      padding: $cx-grid-pagination-default-padding;
+
+      @include cx-add-state-rules($state-style-map, default);
+
       position: relative;
 
       &:first-child {
@@ -60,26 +65,26 @@
       }
 
       &:hover, &:focus {
-        @include cx-add-state-rules($cx-list-item, hover);
+        @include cx-add-state-rules($state-style-map, hover);
 
          &:focus {
-            @include cx-add-state-rules($cx-list-item, hover-focus);
+            @include cx-add-state-rules($state-style-map, hover-focus);
          }
       }
 
       &:active {
-         @include cx-add-state-rules($cx-list-item, active);
+         @include cx-add-state-rules($state-style-map, active);
       }
 
       &.#{$state}active {
-         @include cx-add-state-rules($cx-list-item, selected);
+         @include cx-add-state-rules($state-style-map, selected);
          &:focus {
-            @include cx-add-state-rules($cx-list-item, selected-focus);
+            @include cx-add-state-rules($state-style-map, selected-focus);
          }
       }
 
       &.#{$state}disabled {
-         @include cx-add-state-rules($cx-list-item, disabled);
+         @include cx-add-state-rules($state-style-map, disabled);
       }
    }
 

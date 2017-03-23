@@ -17,9 +17,12 @@
 
       @include cx-add-rules($cx-section-styles);
 
-      &.cxm-well {
-         @include cx-add-state-rules($mods, well);
+      @each $modname, $config in $mods {
+        &.#{$mod}#{$modname} {
+          @include cx-add-state-rules($config, default);
+        }
       }
+      
    }
 
    .#{$element}#{$name}-header {

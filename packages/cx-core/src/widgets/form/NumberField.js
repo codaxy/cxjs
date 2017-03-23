@@ -110,7 +110,8 @@ class Input extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         visited: props.data.visited
+         visited: props.data.visited,
+         focus: false
       };
    }
 
@@ -147,7 +148,8 @@ class Input extends VDOM.Component {
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
-            icon: widget.icon
+            icon: widget.icon,
+            focus: this.state.focus
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -174,6 +176,7 @@ class Input extends VDOM.Component {
             onBlur={ e => {
                this.onChange(e, 'blur')
             }}
+            onFocus={ e => this.onFocus() }
             onWheel={ e => {
                this.onChange(e, 'wheel')
             }}
@@ -265,8 +268,13 @@ class Input extends VDOM.Component {
       if (widget.reactOn.indexOf(change) == -1)
          return;
 
-      if (change == 'blur')
+      if (change == 'blur') {
          this.setState({visited: true});
+         if (this.state.focus)
+            this.setState({
+               focus: false
+            });
+      }
 
       if (e.target.value) {
          let v = Culture.getNumberCulture().parse(e.target.value);
@@ -332,6 +340,16 @@ class Input extends VDOM.Component {
       instance.setState({
          inputError: false
       });
+   }
+
+   onFocus(){
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
    }
 }
 

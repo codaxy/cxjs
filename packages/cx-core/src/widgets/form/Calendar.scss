@@ -1,6 +1,6 @@
 @mixin cx-calendar(
    $name: 'calendar',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-calendar-state-style-map,
    $width: $cx-default-input-width,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
@@ -10,9 +10,19 @@
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
-   .#{$block}#{$name} {
-      @include cxe-field-input($besm, $state-style-map, $input: false);
+   .#{$block}calendar {
+      @include cx-add-state-rules($state-style-map, 'default');
+
       width: 18em;
+      box-sizing: border-box;
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, 'hover');
+      }
+
+      &:focus {
+        @include cx-add-state-rules($state-style-map, 'focus');
+      }
 
       table {
          border-spacing: 0;
@@ -25,30 +35,45 @@
          line-height: 2em;
       }
 
-      td.#{$state}today {
-         @include cx-add-state-rules($cx-calendar-state-style-map, today);
+      th {
 
-         &:hover {
-            @include cx-add-state-rules($cx-calendar-state-style-map, hover)
+      }
+
+      td {
+        @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
+        user-select: none;
+      }
+
+      .#{$element}#{$name}-header {
+         @include cx-add-state-rules($state-style-map, header);
+
+         td {
+           border-radius: inherit;
          }
       }
 
+      td.#{$state}today {
+        @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
+
+        &:hover {
+           @include cx-add-state-rules($cx-calendar-day-state-style-map, hover)
+        }
+      }
+
       td.#{$state}outside {
-         @include cx-add-state-rules($cx-calendar-state-style-map, outside)
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, outside)
       }
 
       td.#{$state}unselectable {
-         @include cx-add-state-rules($cx-list-item, disabled)
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, disabled)
       }
 
       td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
-         @include cx-add-state-rules($cx-list-item, hover);
-         border-radius: $cx-default-border-radius;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
       }
 
       td.#{$state}selected {
-         @include cx-add-state-rules($cx-list-item, selected);
-         border-radius: $cx-default-border-radius;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, selected);
       }
 
       &:not(.#{$state}disabled) {
@@ -65,15 +90,15 @@
       &:focus {
 
          td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
-            @include cx-add-state-rules($cx-list-item, hover-focus);
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover-focus);
 
             &:active {
-               @include cx-add-state-rules($cx-list-item, active)
+               @include cx-add-state-rules($cx-calendar-day-state-style-map, active)
             }
          }
 
          td.#{$state}selected {
-            @include cx-add-state-rules($cx-list-item, selected-focus)
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected-focus)
          }
       }
 
@@ -98,6 +123,7 @@
       display: inline-block;
       font-size: $icon-size;
       line-height: $icon-size;
+      user-select: none;
    }
 
    .#{$element}#{$name}-icon-prev-year {
@@ -108,6 +134,11 @@
    }
    .#{$element}#{$name}-icon-next-month {
       transform: rotate(-90deg);
+   }
+
+   th.#{$element}#{$name}-display {
+      line-height: 1.5;
+      padding: 0.5em;
    }
 }
 

@@ -1,7 +1,7 @@
 
 @mixin cx-numberfield(
    $name: 'numberfield',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $left-icon-state-style-map: $cx-input-left-icon-state-style-map,

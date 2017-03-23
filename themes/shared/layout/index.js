@@ -15,6 +15,7 @@ let defaultNav = name => <cx>
          <a href="../core">Core</a>
          <a href="../dark">Dark</a>
          <a href="../frost">Frost</a>
+         <a href="../material">Material</a>
       </Menu>
    </Submenu>
    <Submenu arrow>

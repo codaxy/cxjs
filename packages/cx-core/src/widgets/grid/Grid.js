@@ -26,6 +26,7 @@ import {
 
 import {GridCell} from './GridCell';
 import {GridRow, GridRowComponent} from './GridRow';
+import {Localization} from '../../ui/Localization';
 
 export class Grid extends Widget {
 
@@ -143,7 +144,7 @@ export class Grid extends Widget {
 
       let border = this.border;
 
-      if (border == null && this.scrollable)
+      if (this.showBorder || (border == null && this.scrollable))
          border = true;
 
       let dragMode = false;
@@ -513,8 +514,10 @@ Grid.prototype.lockColumnWidths = false;
 Grid.prototype.lockColumnWidthsRequiredRowCount = 3;
 Grid.prototype.focused = false;
 Grid.prototype.emptyText = false;
+Grid.prototype.showBorder = false; // show border override for material theme
 
 Widget.alias('grid', Grid);
+Localization.registerPrototype('cx/widgets/Grid', Grid);
 
 class GridComponent extends VDOM.Component {
    constructor(props) {

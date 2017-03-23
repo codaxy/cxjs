@@ -10,16 +10,12 @@
    $state: map-get($besm, state);
 
    $border-width: map-get($styles, border-width);
-   $border-color: map-get($styles, border-color);
-   $background-color: map-get($styles, background-color);
 
    .#{$block}#{$name} {
       @extend %cxb-overlay;
       display: block;
       left: -10000px;
       top: -10000px;
-
-      background-color: $background-color;
 
       @include cx-add-rules($styles);
 
@@ -43,12 +39,12 @@
    }
 
    .#{$element}#{$name}-arrow-border {
-      color: $border-color;
+      color: map-get($styles, border-color);
       border-width: $border-width + $arrow-size;
    }
 
    .#{$element}#{$name}-arrow-fill {
-      color: $background-color;
+      color: map-get($styles, background-color);
       border-width: $arrow-size;
    }
 
@@ -64,7 +60,7 @@
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
-         margin-top: -$border-width - $arrow-size;
+         margin-top: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -80,7 +76,7 @@
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
-         margin-top: -$border-width - $arrow-size;
+         margin-top: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -114,7 +110,7 @@
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
-         margin-left: -$border-width - $arrow-size;
+         margin-left: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -130,7 +126,7 @@
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
-         margin-left: -$border-width - $arrow-size;
+         margin-left: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 

@@ -15,15 +15,15 @@ $cx-button-state-style-map: (
       background-color: $cx-default-button-background-color,
       box-shadow: $cx-default-button-box-shadow,
       border-color: $cx-default-button-border-color,
+      border-width: $cx-default-button-border-width,
+      border-radius: $cx-default-button-border-radius,
       border-style: solid,
       user-select: none,
+      color: $cx-default-button-color,
       font-family: $cx-default-button-font-family,
       font-size: $cx-default-button-font-size,
       line-height: $cx-default-button-line-height,
-      border-width: $cx-default-button-border-width,
-      border-radius: $cx-default-button-border-radius,
       padding: $cx-default-button-padding,
-      color: $cx-default-button-color,
       cursor: pointer,
       -webkit-appearance: none,
       -moz-appearance: none,
@@ -36,6 +36,9 @@ $cx-button-state-style-map: (
    focus: (
       outline: none,
       box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8)
+   ),
+   hover-focus: (
+       
    ),
    disabled: (
       color: gray,

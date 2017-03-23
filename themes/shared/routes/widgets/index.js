@@ -9,15 +9,15 @@ import Forms from './Forms';
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
    </div>
 
    <div visible:expr="{$page.tab}=='tab2'">
-      Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+      <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p>
    </div>
 
    <div visible:expr="{$page.tab}=='tab3'">
-      Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+      <p>Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.</p>
    </div>
 </cx>
 
@@ -25,7 +25,7 @@ export default <cx>
    <span putInto="breadcrumbs">Widgets</span>
 
    <FlexRow pad spacing wrap target="tablet">
-      <Section mod="well" title="Buttons" style="flex:1;min-width:250px" preserveWhitespace>
+      <Section mod="card" title="Buttons" style="flex:1 0 200px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
             <Button disabled>Disabled</Button>
@@ -41,10 +41,11 @@ export default <cx>
 
             <Button mod="hollow" icon="calendar">Icon + Text</Button>
             <Button mod="hollow" icon="calendar" />
+
          </FlexRow>
       </Section>
 
-      <Section mod="well" title="Tabs" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Tabs" style="flex:1 0 300px" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
@@ -58,15 +59,15 @@ export default <cx>
       </Section>
 
       <Section
-         mod="well"
+         mod="card"
          title="Classic Tabs"
          pad={false}
-         style="flex:1;"
+         style="flex:1 0 300px;"
          headerStyle="border-bottom: none"
          bodyStyle="display:flex;flex-direction:column;"
          preserveWhitespace
       >
-         <div style="padding:0 1.5rem;white-space:nowrap;flex-shrink:none">
+         <div class="cxb-classic-tab-container">
             <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
@@ -77,7 +78,7 @@ export default <cx>
          </div>
       </Section>
 
-      <Section mod="well" title="Underline" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Underline" style="flex:1 0 300px" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
@@ -87,7 +88,7 @@ export default <cx>
          <br/>
          <TabContent />
       </Section>
-         <Section mod="well" title="Windows" style="flex:1">
+         <Section mod="card" title="Windows" style="flex:1 0 150px">
             <FlexRow spacing align wrap>
                <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
                <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
@@ -98,11 +99,11 @@ export default <cx>
             <ContactWindow />
          </Section>
 
-         <Section mod="well" title="Menus" style="flex:1">
+         <Section mod="card" title="Menus" style="flex:1 0 300px">
             <Menu1 />
          </Section>
 
-         <Section mod="well" title="Toasts" style="flex:1">
+         <Section mod="card" title="Toasts" style="flex:1 0 200px">
             <Toasts />
          </Section>
 

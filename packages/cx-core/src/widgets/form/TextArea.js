@@ -44,7 +44,8 @@ class Input extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         visited: props.instance.data.visited
+         visited: props.instance.data.visited,
+         focus: false
       }
    }
 
@@ -54,7 +55,10 @@ class Input extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       return <div
-         className={CSS.expand(data.classNames, CSS.state({visited: this.state.visited}))}
+         className={CSS.expand(data.classNames, CSS.state({
+            visited: this.state.visited,
+            focus: this.state.focus
+         }))}
          style={data.style}
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}
@@ -76,6 +80,7 @@ class Input extends VDOM.Component {
             onBlur={ e => {
                this.onChange(e, 'blur')
             } }
+            onFocus={ e => this.onFocus() }
             onClick={stopPropagation}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
@@ -122,8 +127,21 @@ class Input extends VDOM.Component {
    onChange(e, change) {
       if (change == 'blur')
          this.setState({visited: true});
-
+      if (this.state.focus)
+         this.setState({
+            focus: false
+         });
       this.props.handleChange(e, change)
+   }
+
+   onFocus() {
+      let {instance} = this.props;
+      let {widget} = instance;
+      if (widget.trackFocus) {
+         this.setState({
+            focus: true
+         });
+      }
    }
 }
 

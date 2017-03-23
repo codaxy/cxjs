@@ -105,6 +105,11 @@
 
       .#{$state}on & {
          left: 100%;
+         @include cx-add-state-rules($styles, on);
+      }
+
+      .#{$state}on:active & {
+         @include cx-add-state-rules($styles, on-active);
       }
 
       @include cx-add-state-rules($styles, default);

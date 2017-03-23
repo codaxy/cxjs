@@ -31,7 +31,7 @@ const options = [
 ];
 
 export default <cx>
-   <Section mod="well" title="Inputs" style="flex:1">
+   <Section mod="card" title="Inputs" style="flex:1 0 auto">
       <div layout={{type: LabelsLeftLayout, mod: "stretch"}}>
          <TextField label="TextField" value:bind="text" style="width:100%; max-width:180px" />
          <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
@@ -42,7 +42,7 @@ export default <cx>
       </div>
    </Section>
 
-   <Section mod="well" title="Dropdowns" style="flex:1">
+   <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
       <div layout={LabelsLeftLayout}>
          <Select label="Select" value:bind="radio" style="width:100%; max-width:180px">
             <option value={1}>Option 1</option>
@@ -60,15 +60,15 @@ export default <cx>
       </div>
    </Section>
 
-   <Section mod="well" title="Calendar">
+   <Section mod="card" title="Calendar">
       <Calendar value:bind="date"/>
    </Section>
 
-   <Section mod="well" title="ColorPicker">
+   <Section mod="card" title="ColorPicker">
       <ColorPicker value:bind="color"/>
    </Section>
 
-   <Section mod="well" title="MonthPicker">
+   <Section mod="card" title="MonthPicker">
       <MonthPicker style={{ height: '25em' }} range from:bind="dateFrom" to:bind="dateTo"/>
    </Section>
 </cx>

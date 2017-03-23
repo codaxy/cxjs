@@ -1,7 +1,7 @@
 
 @mixin cx-checkbox(
    $name: 'checkbox',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-checkbox-state-style-map,
    $width: $cx-default-input-width,
    $empty-text: $cx-empty-text,
    $besm: $cx-besm,
@@ -16,7 +16,7 @@
 
    $outer-styles: cx-deep-map-merge($state-style-map, (
       default: (
-         border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
+         border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0
       )
    ));
 
@@ -52,6 +52,7 @@
    .#{$element}#{$name}-text {
       display: inline-block;
       margin-left: $size;
+      user-select: none;
    }
 
    .#{$element}#{$name}-empty-text {
@@ -78,6 +79,14 @@
       left: 0;
       display: inline-block;
       position: absolute;
+
+      &.#{$state}checked {
+         @include cx-add-state-rules($state-style-map, checked);
+
+         &:focus {
+           @include cx-add-state-rules($state-style-map, checked-focus);
+         }
+      }
    }
 
    .#{$element}#{$name}-input-check {
@@ -90,7 +99,6 @@
       top: 0;
       right: 0;
       bottom: 0;
-      opacity: 0.7;
 
       .#{$state}checked > & {
          visibility: visible;

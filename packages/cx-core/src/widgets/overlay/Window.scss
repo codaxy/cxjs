@@ -4,6 +4,7 @@
    $header-state-style-map: $cx-window-header-state-style-map,
    $body-state-style-map: $cx-window-body-state-style-map,
    $footer-state-style-map: $cx-window-footer-state-style-map,
+   $mods: $cx-window-mods,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -85,6 +86,19 @@
          text-align: center;
       }
    }
+
+    @each $modname, $config in $mods {
+      &.#{$mod}#{$modname} {
+        @include cx-add-state-rules($config, frame);
+
+        .#{$element}#{$name}-body {
+          @include cx-add-state-rules($config, body);
+        }
+        .#{$element}#{$name}-footer {
+          @include cx-add-state-rules($config, footer);
+        }
+      }
+    }
 
    //.#{$element}#{$name}-close {
    //   position: absolute;

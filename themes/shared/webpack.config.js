@@ -7,7 +7,6 @@ const webpack = require('webpack'),
    babelConfig = require('../shared/babel.config');
 
 module.exports = function (name, themePath, port) {
-
    var common = {
 
       resolve: {
@@ -17,6 +16,7 @@ module.exports = function (name, themePath, port) {
             'cx-react': path.resolve(path.join(themePath, '../../packages/cx-react')),
             'cx-theme-dark': path.resolve(path.join(themePath, '../../packages/cx-theme-dark/')),
             'cx-theme-frost': path.resolve(path.join(themePath, '../../packages/cx-theme-frost/')),
+            'cx-theme-material': path.resolve(path.join(themePath, '../../packages/cx-theme-material/')),
             theme: themePath,
             shared: path.join(themePath, '../shared')
          }
@@ -28,7 +28,7 @@ module.exports = function (name, themePath, port) {
             loader: 'json-loader'
          }, {
             test: /\.js$/,
-            include: /(themes|cx-core|cx-react)/,
+            include: /(themes|cx-core|cx-react|cx-theme-material)/,
             loaders: [{
                loader: 'babel-loader',
                query: babelConfig

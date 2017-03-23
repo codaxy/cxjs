@@ -1,7 +1,7 @@
 
 @mixin cx-textarea(
    $name: 'textarea',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-textarea-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $tool-state-style-map: $cx-input-right-icon-state-style-map,

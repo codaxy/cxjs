@@ -21,6 +21,7 @@
 
          & > .#{$element}#{$name}-item {
             display: inline-block;
+            user-select: none;
 
             @each $size, $value in $cx-menu-padding-options {
                &.#{$state}size-#{$size} > .#{$mod}#{$name} {

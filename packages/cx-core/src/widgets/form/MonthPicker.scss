@@ -80,6 +80,9 @@
       td.#{$state}selected {
          @include cx-add-state-rules($cx-list-item, selected);
          border-color: transparent;
+         &:hover {
+           @include cx-add-state-rules($cx-list-item, selected-hover);
+         }
       }
 
       td.#{$state}cursor, th.#{$state}cursor {

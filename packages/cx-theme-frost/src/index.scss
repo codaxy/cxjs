@@ -1,30 +1,44 @@
 
 @import "~cx-core/src/index";
 
-.cxb-section.cxm-well.cxm-well {
+$block: map-get($cx-besm, block);
+$element: map-get($cx-besm, element);
+$state: map-get($cx-besm, state);
+$mod: map-get($cx-besm, mod);
+
+.#{$block}section.#{$mod}card.#{$mod}card {
    background-color: white;
    box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
    color: #66686e;
 }
+// can be used interchangeably with mod='card'
+.#{$mod}well {
+  @extend .#{$mod}card;
+}
 
-.cxe-section-header.cxe-section-header  {
+.#{$element}section-header.#{$element}section-header  {
    color: #24b5d6;
    font-weight: normal;
 
-   .cxm-pad > & {
+   .#{$mod}pad > & {
       border: none;
    }
 }
 
 
-.cxb-datefield .cxb-calendar {
+.#{$block}datefield .#{$block}calendar {
    border-color: transparent !important;
 }
 
-.cxb-monthfield .cxb-monthpicker {
+.#{$block}monthfield .#{$block}monthpicker {
    border-color: transparent !important;
 }
 
-.cxb-colorfield .cxb-colorpicker {
+.#{$block}colorfield .#{$block}colorpicker {
    border-color: transparent !important;
+}
+
+//override for chrome mobile default press effect
+.#{$block}button, .#{$block}tab, .#{$block}menu {  
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
 }

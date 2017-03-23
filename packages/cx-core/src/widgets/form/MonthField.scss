@@ -1,7 +1,7 @@
 
 @mixin cx-monthfield(
    $name: 'monthfield',
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
    $clear-state-style-map: $cx-clear-state-style-map,
