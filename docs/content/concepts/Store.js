@@ -34,18 +34,18 @@ export const Store = <cx>
 
         <ImportPath path="import { Store } from 'cx/data';"/>
 
-        Cx widgets are tightly connected to a central data repository called `store`.
+        Cx widgets are tightly connected to a central data repository called `Store`.
 
         - Widgets access stored data to calculate data required for rendering (data binding process).
-        - Widgets react on user inputs and update the store either directly (two-way bindings) or by dispatching
+        - Widgets react on user inputs and update the Store either directly (two-way bindings) or by dispatching
         actions which are translated into new application state.
         - Store sends change notifications which produce a new rendering of the widget tree and DOM update.
 
         ### Principles
 
-        - The state of the whole application is stored in an object tree within a single store.
+        - The state of the whole application is stored in an object tree within a single Store.
         - The state is immutable. On every change, a new copy of the state is created containing the updated values.
-        - The only way to change the state is through store methods or with the use of two-way data binding.
+        - The only way to change the state is through Store methods or with the use of two-way data binding.
 
         ### Store methods
 
@@ -58,14 +58,14 @@ export const Store = <cx>
         <MethodTable methods={[{
             signature: 'Store.init(path, value)',
             description: <cx><Md>
-                Saves `value` in the store under the given `path`.
+                Saves `value` in the Store under the given `path`.
                 If the `path` is already taken, it returns `false` without overwriting the existing value.
                 Otherwise, saves the `value` and returns `true`.
             </Md></cx>
         }, {
             signature: 'Store.set(path, value)',
             description: <cx><Md>
-                Saves `value` in the store under the given `path`.
+                Saves `value` in the Store under the given `path`.
                 Any existing data stored under that `path` gets overwritten.
             </Md></cx>
         }, {
@@ -77,7 +77,7 @@ export const Store = <cx>
         }, {
             signature: 'Store.delete(path)',
             description: <cx><Md>
-                Removes data from the store, stored under the given `path`.
+                Removes data from the Store, stored under the given `path`.
             </Md></cx>
         }, {
             signature: 'Store.update(path, updateFn, ...args)',
@@ -99,7 +99,7 @@ export const Store = <cx>
             signature: 'Store.move(from, to)',
             description: <cx><Md>
                 Copies the value stored under the `from` path and saves it under the `to` path.
-                Afterwards, the `from` entry is deleted from the store.
+                Afterwards, the `from` entry is deleted from the Store.
             </Md></cx>
         }, {
             signature: 'Store.getData()',
@@ -109,14 +109,14 @@ export const Store = <cx>
         }, {
             signature: 'Store.notify(path)',
             description: <cx><Md>
-                Notifies store subscribers about the change. Usually, notifications cause the application to re-render.
+                Notifies Store subscribers about the change. Usually, notifications cause the application to re-render.
                 This method is automatically called whenever a change is made.
                 Optional `path` argument can be provided to indicate where the change occurred.
             </Md></cx>
         }, {
             signature: 'Store.silently(callback)',
             description: <cx><Md>
-                `silently` method can be used to perform data changes which do not cause notifications (re-render).
+                `silently` method can be used to perform data changes which do not fire notifications, that is, cause re-render.
                 The Store instance is passed to the `callback` function.
             </Md></cx>
         }, {
@@ -130,7 +130,7 @@ export const Store = <cx>
             signature: 'Store.dispatch(action)',
             description: <cx><Md>
                 `dispatch` method is useful if the Store is used in combination with Redux. This method is available
-                only if application store is based on a Redux store (See cx-redux package).
+                only if application Store is based on a Redux store (See [cx-redux](https://www.npmjs.com/package/cx-redux) package).
             </Md></cx>
         }, {
             signature: 'Store.load(data)',
@@ -507,23 +507,21 @@ export const Store = <cx>
             signature: 'updateArray(array, updateCallback, itemFilter)',
             description: <cx><Md>
                 `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and
-                `itemFilter` functions.
-                `itemFilter` is optional. It returns the original array if no changes were made. Otherwise, a new array
-                is returned.
+                `itemFilter` functions. `itemFilter` is optional. 
+                It returns the original array if no changes were made. Otherwise, a new array is returned.
             </Md></cx>
         }, {
             signature: 'merge(item, data)',
             description: <cx><Md>
                 `merge` function takes two arguments, `item` and `data`, and attempts to merge `data` with the `item`
-                object. It returns the original
-                object if no changes were made. Otherwise, a new object is returned.
+                object. It returns the original object if no changes were made. Otherwise, a new object is returned.
             </Md></cx>
         }, {
             signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty)',
             description: <cx><Md>
                 `updateTree` is similar to `updateArray`, with the difference that it can be applied to array tree
-                structures
-                multiple levels deep. It basically applies `updateArray` function to each item's children.
+                structures multiple levels deep. It basically applies `updateArray` function to each item's children.
+                If no changes were made, it returns the original array. Otherwise, a new array is returned.
             </Md></cx>
         }, {
             signature: 'append(array, ...items)',
@@ -536,8 +534,7 @@ export const Store = <cx>
             signature: 'filter(array, callback)',
             description: <cx><Md>
                 `filter` function works just like the `Array.prototype.filter` function with the difference that it
-                returns the original array if
-                none of the items were filtered out.
+                returns the original array if none of the items were filtered out.
             </Md></cx>
         }]}/>
     </Md>
