@@ -1,7 +1,7 @@
 import {updateArray} from './updateArray';
 
 export function updateTree(array, updateCallback, itemFilter, childrenProperty) {
-   return updateArray(array, itemFilter, (item) => {
+   return updateArray(array, (item) => {
       var updatedItem = updateCallback(item);
       if (updatedItem) {
          var children = updatedItem[childrenProperty];
@@ -14,5 +14,5 @@ export function updateTree(array, updateCallback, itemFilter, childrenProperty) 
          }
       }
       return updatedItem;
-   });
+   }, itemFilter);
 }
