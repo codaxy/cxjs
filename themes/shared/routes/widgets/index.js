@@ -25,7 +25,7 @@ export default <cx>
    <span putInto="breadcrumbs">Widgets</span>
 
    <FlexRow pad spacing wrap target="tablet">
-      <Section mod="card" title="Buttons" style="flex:1;min-width:250px" preserveWhitespace>
+      <Section mod="card" title="Buttons" style="flex:1 0 200px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
             <Button disabled>Disabled</Button>
@@ -45,7 +45,7 @@ export default <cx>
          </FlexRow>
       </Section>
 
-      <Section mod="card" title="Tabs" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Tabs" style="flex:1 0 300px" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
@@ -62,7 +62,7 @@ export default <cx>
          mod="card"
          title="Classic Tabs"
          pad={false}
-         style="flex:1;"
+         style="flex:1 0 300px;"
          headerStyle="border-bottom: none"
          bodyStyle="display:flex;flex-direction:column;"
          preserveWhitespace
@@ -78,7 +78,7 @@ export default <cx>
          </div>
       </Section>
 
-      <Section mod="card" title="Underline" style="flex:1" preserveWhitespace>
+      <Section mod="card" title="Underline" style="flex:1 0 300px" preserveWhitespace>
          <div style="white-space:nowrap">
             <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
@@ -88,7 +88,7 @@ export default <cx>
          <br/>
          <TabContent />
       </Section>
-         <Section mod="card" title="Windows" style="flex:1">
+         <Section mod="card" title="Windows" style="flex:1 0 150px">
             <FlexRow spacing align wrap>
                <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
                <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
@@ -99,11 +99,11 @@ export default <cx>
             <ContactWindow />
          </Section>
 
-         <Section mod="card" title="Menus" style="flex:1">
+         <Section mod="card" title="Menus" style="flex:1 0 300px">
             <Menu1 />
          </Section>
 
-         <Section mod="card" title="Toasts" style="flex:1">
+         <Section mod="card" title="Toasts" style="flex:1 0 200px">
             <Toasts />
          </Section>
 
