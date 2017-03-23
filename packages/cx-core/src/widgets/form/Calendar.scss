@@ -35,6 +35,10 @@
          line-height: 2em;
       }
 
+      th {
+
+      }
+
       td {
         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
         user-select: none;
@@ -130,6 +134,11 @@
    }
    .#{$element}#{$name}-icon-next-month {
       transform: rotate(-90deg);
+   }
+
+   th.#{$element}#{$name}-display {
+      line-height: 1.5;
+      padding: 0.5em;
    }
 }
 

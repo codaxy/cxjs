@@ -326,23 +326,15 @@ div.#{$block}classic-tab-container {
 //WINDOW
 /* window animation */
 .#{$block}window {
-  animation: modal 0.28s ease-in-out;
-  
-  &.cxm-alert .#{$block}button {
-    margin: 0 0 0 8px;
-  } 
-}
+   opacity: 0;
+   transform: scale(0.3);
+   transition: opacity .2s, transform .2s;
 
-/* window animation */
-@keyframes modal {
-  0% {
-    opacity: 0;
-    transform: scale(0.3)
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1)
-  }
+   &.#{$state}animated {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity .3s, transform .3s;
+   }
 }
 
 //MENU

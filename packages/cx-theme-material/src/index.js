@@ -8,6 +8,11 @@ Localization.override('cx/widgets/Dropdown', {
    elementExplode: 0
 });
 
+Localization.override('cx/widgets/Window', {
+   animate: true,
+   destroyDelay: 200
+});
+
 
 Localization.override('cx/widgets/MenuItem', {
    dropdownOptions: {

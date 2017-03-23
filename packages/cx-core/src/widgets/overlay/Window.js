@@ -5,6 +5,7 @@ import {ZIndexManager} from '../../ui/ZIndexManager';
 import {Button} from '../Button';
 import CloseIcon from '../icons/close';
 import {parseStyle} from '../../util/parseStyle';
+import {Localization} from '../../ui/Localization';
 
 export class Window extends Overlay {
 
@@ -89,6 +90,7 @@ Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
 
 Widget.alias('window', Window);
+Localization.registerPrototype("cx/widgets/Window", Window);
 
 class WindowComponent extends OverlayComponent {
 
