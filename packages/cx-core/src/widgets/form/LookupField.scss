@@ -75,7 +75,7 @@
    }
 
    .#{$element}#{$name}-tag-value {
-      padding: 0 cx-calc($cx-default-input-tag-spacing + round($cx-default-input-tag-border-radius/4));
+      padding: 0 cx-calc($cx-default-input-tag-spacing, round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4));
       display: inline-block;
    }
 
