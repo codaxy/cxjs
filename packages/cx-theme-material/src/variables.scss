@@ -169,8 +169,8 @@ $cx-default-radio-size: $cx-default-box-line-height - 6px !default;
 $cx-default-radio-color: $cx-theme-primary-color-light !default;
 
 /* lookupfield tag */
-$cx-default-tag-font-size: 12px !default;
-$cx-default-tag-border-radius: 20px !default;
+$cx-default-input-tag-font-size: 12px !default;
+$cx-default-input-tag-border-radius: 20px !default;
 $cx-default-input-tag-spacing: 4px !default;
 
 /* colorpicker */
@@ -769,9 +769,9 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
 ));
 
 /* lookupfield tag */
-$cx-tag-state-style-map: cx-deep-map-merge($cx-tag-state-style-map, (
+$cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, (
   hover: (    
-    background-color: darken($cx-default-tag-background-color, 10)
+    background-color: darken($cx-default-input-tag-background-color, 10)
   )
 ));
 

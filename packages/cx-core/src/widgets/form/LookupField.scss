@@ -9,7 +9,7 @@
    $tool-state-style-map: $cx-input-right-icon-state-style-map,
    $icon-size: $cx-default-input-icon-size,
    $width: $cx-default-input-width,
-   $tag-state-style-map: $cx-tag-state-style-map,
+   $tag-state-style-map: $cx-input-tag-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -75,7 +75,7 @@
    }
 
    .#{$element}#{$name}-tag-value {
-      padding: 0 cx-calc($cx-default-input-tag-spacing + round($cx-default-tag-border-radius/4));
+      padding: 0 cx-calc($cx-default-input-tag-spacing + round($cx-default-input-tag-border-radius/4));
       display: inline-block;
    }
 

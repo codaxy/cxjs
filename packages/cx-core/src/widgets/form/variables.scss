@@ -278,19 +278,19 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 
 // LOOKUPFIELD TAG
 $cx-default-input-tag-spacing: 3px !default;
-$cx-default-tag-font-size: $cx-default-font-size !default;
-$cx-default-tag-background-color: #eee !default;
-$cx-default-tag-border-radius: $cx-default-border-radius !default;
-$cx-default-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
+$cx-default-input-tag-font-size: $cx-default-font-size !default;
+$cx-default-input-tag-background-color: #eee !default;
+$cx-default-input-tag-border-radius: $cx-default-border-radius !default;
+$cx-default-input-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
 
-$cx-tag-state-style-map: (
+$cx-input-tag-state-style-map: (
   default: (
-    font-size: $cx-default-tag-font-size,
-    background-color: $cx-default-tag-background-color,
+    font-size: $cx-default-input-tag-font-size,
+    background-color: $cx-default-input-tag-background-color,
     margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing,
-    padding: $cx-default-tag-padding,
+    padding: $cx-default-input-tag-padding,
     padding-right: cx-calc($cx-default-clear-size, 2px),
-    border-radius: $cx-default-tag-border-radius
+    border-radius: $cx-default-input-tag-border-radius
   )
 ) !default;
 
