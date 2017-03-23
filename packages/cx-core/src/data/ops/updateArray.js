@@ -1,9 +1,14 @@
 export function updateArray(array, updateCallback, itemFilter) {
-   var newArray = [];
-   var dirty = false;
+   
+   if (!array)
+      return array;
+   
+   let newArray = [];
+   let dirty = false;
+   
    array.forEach(item => {
       if (!itemFilter || itemFilter(item)) {
-         var newItem = updateCallback(item);
+         let newItem = updateCallback(item);
          newArray.push(newItem);
          if (newItem !== item)
             dirty = true;
