@@ -5,13 +5,13 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
-import {computable, updateArray, merge} from 'cx/data';
+import {computable, updateArray} from 'cx/data';
 
 class PageController extends Controller {
     onInit() {
         this.store.init('$page', {
             name: 'Jane',
-            disable: true,
+            disabled: true,
             todoList: [
                 {id: 1, text: 'Learn Cx', done: true},
                 {id: 2, text: "Feed the cat", done: false},
@@ -157,7 +157,7 @@ export const Store = <cx>
             Otherwise it saves the `value` and returns `true`.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="fMy6p8FB">{`
                     class PageController extends Controller {
                         onInit() {
                             this.store.init('$page', {
@@ -229,7 +229,7 @@ export const Store = <cx>
             button text, depending on the `$page.disabled` value.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="RzBoFq52">{`
                     <div layout={LabelsTopLayout} >
                         <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                         <Button onClick={(e, instance) => {
@@ -267,7 +267,7 @@ export const Store = <cx>
             You can also make the code more compact by doing destructuring right inside the function declaration.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="tBnXbiZo">{`
                     <div layout={LabelsTopLayout} >
                         <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
                         <Button onClick={(e, {store}) => {
@@ -301,7 +301,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="d8JViIoe">{`
                     <div layout={LabelsTopLayout}>
                         <TextField value:bind="$page.name" label="Name" />
                         <Button onClick={(e, {store}) =>
@@ -335,7 +335,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="vKZrbYe4">{`
                     <div layout={LabelsTopLayout}>
                         <TextField label="Origin" value:bind="$page.name" />
                         <TextField label="Destination" value:bind="$page.copyDestination" placeholder="click Copy" />
@@ -367,7 +367,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="E4BOtF4S">{`
                     <div layout={LabelsTopLayout}>
                         <TextField label="Origin" value:bind="$page.name" />
                         <TextField label="Destination" value:bind="$page.moveDestination" placeholder="click Move" />
@@ -412,7 +412,7 @@ export const Store = <cx>
             should be a pure function, without any side effects, e.g. direct object or array mutations.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="t5fbQpxq">{`
                     <div layout={LabelsTopLayout}>
                         <NumberField label="Count" value:bind="$page.count" style="width: 50px"/>
                         <Button onClick={(e, {store}) => {
@@ -466,7 +466,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="u89Crydo">{`
                     <div class="widgets">
                         <div layout={LabelsLeftLayout}>
                             <strong>Todo List</strong>
