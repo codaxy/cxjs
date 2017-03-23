@@ -5,8 +5,6 @@ import {PageNotFound} from './PageNotFound';
 import {Loading} from './Loading';
 import {CSS} from '../app/CSS';
 //import {CSSTransitionGroup} from 'cx-react-css-transition-group/src/CSSTransitionGroup';
-import {trackPageView} from '../ga';
-
 import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
 import {HashRestore} from '../components/HashRestore';
@@ -101,14 +99,6 @@ class ContentController extends Controller {
                     break;
             }
         }, true);
-
-        // #if production
-
-        this.addTrigger('google-analytics', ['url'], url => {
-            trackPageView(url);
-        });
-
-        // #end
     }
 
     loadChapter(chapter, promise) {

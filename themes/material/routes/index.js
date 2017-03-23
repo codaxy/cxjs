@@ -8,12 +8,10 @@ import Grids from './grids';
 import Charts from './charts';
 import Global from './global';
 
-import GAController from 'shared/GAController';
-
 const layout = createLayout("Material");
 
 export default <cx>
-   <PureContainer outerLayout={layout} controller={GAController}>
+   <PureContainer outerLayout={layout}>
       <Route route="#" url:bind="hash">
          <Widgets />
       </Route>

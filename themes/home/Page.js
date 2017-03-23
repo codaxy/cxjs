@@ -1,6 +1,5 @@
 import { HtmlElement, PureContainer, Repeater, Section, FlexRow } from 'cx/widgets';
 import createLayout from 'shared/layout';
-import GAController from 'shared/GAController';
 
 const layout = createLayout('Home', [<cx>
    <a>Themes</a>
@@ -24,7 +23,7 @@ const themes = [{
 }];
 
 export default <cx>
-   <PureContainer outerLayout={layout} controller={GAController}>
+   <PureContainer outerLayout={layout}>
       <FlexRow pad="xlarge" spacing="xlarge" wrap justify="center" class="b-list">
          <Repeater records={themes} recordName="$theme">
             <Section mod="card" pad={false}>

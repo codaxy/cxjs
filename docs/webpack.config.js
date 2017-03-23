@@ -6,7 +6,8 @@ const webpack = require('webpack'),
     merge = require('webpack-merge'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
-    babelConfig = require('./babel.config');
+    babelConfig = require('./babel.config'),
+    gtm = require('../misc/tracking/gtm.config.js');
 
 var specific, production = false;
 
@@ -204,6 +205,8 @@ var common = {
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
+            gtmh: gtm.head,
+            gtmb: gtm.body,
             favicon: path.join(__dirname, 'img/favicon.png'),
             minify: {
                 removeComments: true

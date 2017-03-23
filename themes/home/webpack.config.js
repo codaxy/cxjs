@@ -5,7 +5,8 @@ const webpack = require('webpack'),
    merge = require('webpack-merge'),
    combine = require('webpack-combine-loaders'),
    path = require('path'),
-   babelConfig = require('../shared/babel.config');
+   babelConfig = require('../shared/babel.config'),
+   gtm = require('../../misc/tracking/gtm.config.js');
 
 var common = {
 
@@ -49,7 +50,9 @@ var common = {
    },
    plugins: [
       new HtmlWebpackPlugin({
-         template: path.join(__dirname, 'index.html')
+         template: path.join(__dirname, 'index.html'),
+         gtmb: gtm.body,
+         gtmh: gtm.head
       })
    ]
 };
