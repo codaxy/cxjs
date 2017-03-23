@@ -130,6 +130,7 @@ class CxContext extends VDOM.Component {
       this.timings.beforeVDOMRender = Timing.now();
       this.props.flags.preparing = false;
       this.props.flags.rendering = true;
+      this.renderingContext = context;
    }
 
    render() {
@@ -144,8 +145,8 @@ class CxContext extends VDOM.Component {
       this.props.flags.rendering = false;
       this.timings.afterVDOMRender = Timing.now();
 
-      let {context, instance} = this.props;
-      instance.cleanup(context);
+      let {instance} = this.props;
+      instance.cleanup(this.renderingContext);
 
       this.timings.afterCleanup = Timing.now();
 
