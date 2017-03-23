@@ -19,6 +19,7 @@ var contents = [{
     topic: 'Concepts',
     expanded: false,
     articles: [
+        {title: 'Store', url: '~/concepts/store'},
         {title: 'Widgets', url: '~/concepts/widgets'},
         {title: 'Data Binding', url: '~/concepts/data-binding'},
         {title: 'Data Views', url: '~/concepts/data-views'},
