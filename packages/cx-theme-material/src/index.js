@@ -27,6 +27,11 @@ Localization.override('cx/widgets/MsgBox', {
    footerJustify: "start"
 });
 
+// always show all borders on Grids in material theme
+Localization.override('cx/widgets/Grid', {
+  showBorder: true
+})
+
 Icon.registerFactory((name, props) => {
    props = { ...props };
    props.className = 'material-icons ' + (props.className || '');
