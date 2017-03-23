@@ -9,6 +9,8 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
+   $border-width: map-get($styles, border-width);
+
    .#{$block}#{$name} {
       @extend %cxb-overlay;
       display: block;
@@ -38,7 +40,7 @@
 
    .#{$element}#{$name}-arrow-border {
       color: map-get($styles, border-color);
-      border-width: cx-calc(map-get($styles, border-width) + $arrow-size);
+      border-width: $border-width + $arrow-size;
    }
 
    .#{$element}#{$name}-arrow-fill {
@@ -58,7 +60,7 @@
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
-         margin-top: cx-calc(-(map-get($styles, border-width)) - $arrow-size);
+         margin-top: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -74,7 +76,7 @@
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
-         margin-top: cx-calc(-(map-get($styles, border-width)) - $arrow-size);
+         margin-top: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -108,7 +110,7 @@
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
-         margin-left: cx-calc(-(map-get($styles, border-width)) - $arrow-size);
+         margin-left: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
@@ -124,7 +126,7 @@
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
-         margin-left: cx-calc(-(map-get($styles, border-width)) - $arrow-size);
+         margin-left: cx-calc(-(map-get($styles, border-width)), -$arrow-size);
       }
    }
 
