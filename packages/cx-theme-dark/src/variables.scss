@@ -19,7 +19,7 @@ $cx-default-button-background-color: lighten($cx-default-background-color-light,
 $cx-default-button-border-color: $cx-default-border-color !default;
 $cx-default-button-color: darken($cx-default-color, 2) !default;
 $cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
-$cx-primary-button-background-color: #006699 !default;
+$cx-theme-primary-button-background-color: #006699 !default;
 $cx-danger-button-background-color: #860000 !default;
 
 // FORM
@@ -37,6 +37,9 @@ $cx-default-slider-range-background-color: #024f70 !default;
 
 // tag
 $cx-default-input-tag-background-color: $cx-default-button-background-color !default;
+
+// calendar
+$cx-default-calendar-header-font-size: 14px !default;
 
 // GRID
 $cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
@@ -109,25 +112,25 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    primary: (
       default: (
          color: darken(white, 15),
-         background-color: $cx-primary-button-background-color,
+         background-color: $cx-theme-primary-button-background-color,
          border-color: transparent,
-         box-shadow: inset 0 -1px lighten($cx-primary-button-background-color, 3)
+         box-shadow: inset 0 -1px lighten($cx-theme-primary-button-background-color, 3)
       ),
       disabled: (
-         background-color: transparentize($cx-primary-button-background-color, 0.7),
+         background-color: transparentize($cx-theme-primary-button-background-color, 0.7),
          border-color: transparent,
          color: transparentize(white, 0.4),
          box-shadow: none
       ),
       hover: (
-         background-color: darken($cx-primary-button-background-color, 3),
+         background-color: darken($cx-theme-primary-button-background-color, 3),
          border-color: transparent,
-         box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 1)
+         box-shadow: inset 0 -1px darken($cx-theme-primary-button-background-color, 1)
       ),
       active: (
-         background-color: darken($cx-primary-button-background-color, 8),
+         background-color: darken($cx-theme-primary-button-background-color, 8),
          border-color: transparent,
-         box-shadow: inset 0 -1px darken($cx-primary-button-background-color, 8)
+         box-shadow: inset 0 -1px darken($cx-theme-primary-button-background-color, 8)
       )
    ),
    hollow: (

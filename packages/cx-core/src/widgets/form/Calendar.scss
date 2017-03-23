@@ -36,7 +36,7 @@
       }
 
       th {
-
+        font-weight: cx-get-state-rule($state-style-map, header, font-weight);
       }
 
       td {
