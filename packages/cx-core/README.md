@@ -4,7 +4,7 @@ This is the main package of the [CxJS](https://cxjs.io/) framework.
 
 Cx is a feature-rich framework for building data-oriented web applications.
 
-Cx is inspired by React and Angular and tries the offer the best features from both worlds.
+Cx is inspired by React and Angular and tries to offer the best features from both worlds.
 Out of the box, Cx provides:
 - a complete set of widgets 
 - charts
