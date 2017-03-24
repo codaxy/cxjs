@@ -502,6 +502,7 @@ div.#{$block}classic-tab-container {
     border-radius: 100%;
     transform: scale(18, 18);
     transition: transform 0.3s, opacity 0.8s;
+    pointer-events: none;
   }
 
   &.cxm-float:before {
