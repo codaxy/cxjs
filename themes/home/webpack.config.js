@@ -25,7 +25,7 @@ var common = {
          loader: 'json-loader'
       }, {
          test: /\.js$/,
-         include: /(themes|cx-core|cx-react)/,
+         include: /(themes|cx|cx-react)/,
          loaders: [{
             loader: 'babel-loader',
             query: babelConfig

@@ -1,6 +1,6 @@
 "use strict";
 
-var manifest = require('cx-core/manifest.js');
+var manifest = require('cx/manifest.js');
 
 // let manifest = {
 //    'widgets/TextField': {
@@ -25,9 +25,6 @@ module.exports = function(options, o1) {
 
                if (opts.useSrc) {
                   var imports = [];
-
-                  console.log(remainder);
-
                   path.node.specifiers.forEach(function (s) {
                      var expanded = remainder + '/' + s.imported.name;
                      var srcFile = manifest[expanded];

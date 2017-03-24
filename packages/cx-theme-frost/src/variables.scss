@@ -30,7 +30,7 @@ $cx-default-dropdown-arrow-offset: 26px !default;
 
 $cx-use-box-line-height-fix: false !default;
 
-@import "~cx-core/src/variables";
+@import "~cx/src/variables";
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   hover: (

@@ -143,7 +143,7 @@ Promise
    .all(all)
    .then(()=> {
       fs.writeFileSync(dist('manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
-      //console.log(node_modules('cx-core/dist/manifest.js'));
-      fs.writeFileSync(node_modules('cx-core/dist/manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
+      //console.log(node_modules('cx/dist/manifest.js'));
+      fs.writeFileSync(node_modules('cx/dist/manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
       //console.log(manifest);
    });

@@ -73,7 +73,7 @@ export const StepByStep = <cx>
 
                     npm init
 
-                    npm install cx-core cx-react --save
+                    npm install cx cx-react --save
 
                     npm install webpack@beta webpack-dev-server@beta babel-core babel-loader 
                     babel-plugin-syntax-jsx babel-preset-cx-env css-loader 
@@ -186,8 +186,8 @@ export const StepByStep = <cx>
                     </Tab>
                 </div>
                 <CodeSnippet>{`
-                    @import "~cx-core/src/variables";
-                    @import "~cx-core/src/index";
+                    @import "~cx/src/variables";
+                    @import "~cx/src/index";
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -527,8 +527,8 @@ export const StepByStep = <cx>
                     </Tab>
                 </div>
                 <CodeSnippet>{`
-                    @import "~cx-core/src/variables";
-                    @import "~cx-core/src/index";
+                    @import "~cx/src/variables";
+                    @import "~cx/src/index";
                     @import "todo/index";
                 `}</CodeSnippet>
             </Content>

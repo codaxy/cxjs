@@ -152,9 +152,7 @@ var common = {
 
     resolve: {
         alias: {
-            "cx/locale": path.resolve(path.join(__dirname, '../packages/cx-core/locale')),
-            cx: path.resolve(path.join(__dirname, '../packages/cx-core/src')),
-            "cx-core": path.resolve(path.join(__dirname, '../packages/cx-core')),
+            "cx": path.resolve(path.join(__dirname, '../packages/cx-core')),
             'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
             //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
             //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
@@ -166,7 +164,7 @@ var common = {
     module: {
         loaders: [{
             test: /\.js$/,
-            include: /(docs|cx-core|cx-react)/,
+            include: /(docs|cx|cx-react)/,
             loaders: [{
                 loader: 'babel-loader',
                 query: babelConfig({production: production})

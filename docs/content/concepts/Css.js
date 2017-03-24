@@ -158,13 +158,13 @@ export const CssPage = <cx>
             <CodeSnippet lang="scss">{`
             // here you have a chance to override Cx variables
 
-            @import "~cx-core/src/variables"; 
+            @import "~cx/src/variables";
 
             // you can override state-style-maps here, before importing CSS
 
             //$cx-include-global-rules: false; //include global rules (reset)
             //$cx-include-all: true; //include CSS for all components
-            @import "~cx-core/src/index";
+            @import "~cx/src/index";
 
             //if $cx-include-all is set to false
             //@include cx-textfield(); //include only the components you need

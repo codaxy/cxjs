@@ -102,7 +102,7 @@
       "^.+\\.js$": "./test/jest.transform.js"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!cx-core|cx-react)"
+      "node_modules/(?!cx|cx-react)"
     ]
   }
 }

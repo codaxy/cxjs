@@ -25,11 +25,8 @@ export const BreakingChanges = <cx>
 
             In `package.json` replace `cx-core` with `cx`.
             ```
-            "cx-core": "^17.3.14",
-            ```
-            should become
-            ```
-            "cx": "^17.4.0",
+            yarn remove cx-core
+            yarn add cx
             ```
 
             Additionally, if `babel-plugin-transform-cx-imports` is used with `useSrc` option,
@@ -40,6 +37,13 @@ export const BreakingChanges = <cx>
                 test: /\.js$/,
                 loader: 'babel-loader',
                 include: /(app|cx)/,  //previously (app|cx-core)
+            ```
+
+            If `cx-core` reference is used `.scss` files, replace it with `cx`.
+
+            ```
+            @import "~cx/src/variables";    //cx-core => cx
+            @import "~cx/src/index";        //cx-core => cx
             ```
 
             After you're done, please upgrade all Cx related packages to the latest version.

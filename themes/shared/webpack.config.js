@@ -12,8 +12,7 @@ module.exports = function (name, themePath, port) {
 
       resolve: {
          alias: {
-            'cx': path.resolve(path.join(themePath, '../../packages/cx-core/src')),
-            'cx-core': path.resolve(path.join(themePath, '../../packages/cx-core')),
+            'cx': path.resolve(path.join(themePath, '../../packages/cx-core')),
             'cx-react': path.resolve(path.join(themePath, '../../packages/cx-react')),
             'cx-theme-dark': path.resolve(path.join(themePath, '../../packages/cx-theme-dark/')),
             'cx-theme-frost': path.resolve(path.join(themePath, '../../packages/cx-theme-frost/')),
@@ -29,7 +28,7 @@ module.exports = function (name, themePath, port) {
             loader: 'json-loader'
          }, {
             test: /\.js$/,
-            include: /(themes|cx-core|cx-react|cx-theme-material)/,
+            include: /(themes|cx|cx-react|cx-theme-material)/,
             loaders: [{
                loader: 'babel-loader',
                query: babelConfig

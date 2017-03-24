@@ -84,7 +84,7 @@ $cx-default-palette-stroke-blacken: 0% !default;
 $cx-default-palette-stroke-whiten: 10% !default;
 
 // Default values
-@import '~cx-core/src/variables';
+@import '~cx/src/variables';
 
 // BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
