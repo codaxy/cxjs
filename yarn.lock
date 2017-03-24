@@ -559,9 +559,9 @@ babel-plugin-transform-class-properties@6.23.0, babel-plugin-transform-class-pro
     babel-runtime "^6.22.0"
     babel-template "^6.23.0"
 
-babel-plugin-transform-cx-imports@^17.4.0:
-  version "17.4.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-cx-imports/-/babel-plugin-transform-cx-imports-17.4.0.tgz#25a29e6b8d8c80ecc1727620be3c3c8b3ed6be42"
+babel-plugin-transform-cx-imports@^17.4.2:
+  version "17.4.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-cx-imports/-/babel-plugin-transform-cx-imports-17.4.2.tgz#cc061415c70c24721605b835fa862fcd16824743"
   dependencies:
     babel-plugin-syntax-jsx "^6.18.0"
 
@@ -828,12 +828,12 @@ babel-polyfill@^6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-preset-cx-env@^17.4.0:
-  version "17.4.0"
-  resolved "https://registry.yarnpkg.com/babel-preset-cx-env/-/babel-preset-cx-env-17.4.0.tgz#e78c9951bbf7cbd129cfbbf8ad768e51f04e128b"
+babel-preset-cx-env@^17.4.3:
+  version "17.4.3"
+  resolved "https://registry.yarnpkg.com/babel-preset-cx-env/-/babel-preset-cx-env-17.4.3.tgz#20d68811f2260a9f3abb46593462d914514a4b39"
   dependencies:
     babel-plugin-transform-class-properties "6.23.0"
-    babel-plugin-transform-cx-imports "^17.4.0"
+    babel-plugin-transform-cx-imports "^17.4.2"
     babel-plugin-transform-cx-jsx "^16.12.0"
     babel-plugin-transform-function-bind "6.22.0"
     babel-plugin-transform-object-rest-spread "^6.23.0"
