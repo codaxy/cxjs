@@ -164,7 +164,7 @@ class CxContext extends VDOM.Component {
       Timing.log(
          appLoopFlag,
          this.renderCount,
-         this.props.options.name || 'main',
+         this.renderingContext.options.name || 'main',
          'total', (afterCleanup - start).toFixed(1) + 'ms',
          'explore', (afterExplore - start).toFixed(1) + 'ms',
          'prepare', (afterPrepare - afterExplore).toFixed(1),

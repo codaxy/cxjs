@@ -1,6 +1,6 @@
 {
   "name": "cx-react-css-transition-group",
-  "version": "17.2.0",
+  "version": "17.4.0",
   "description": "Cx wrapper for ReactCSSTransitionGroup",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "react-addons-css-transition-group": "15.4.2"
   },
   "peerDependencies": {
-    "cx-core": "*"
+    "cx": "*"
   }
 }
 

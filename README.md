@@ -1,7 +1,7 @@
-Cx.js
+CxJS
 ============
 
-Cx is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
+Cx JS is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
 
 Cx provides:
 - a complete set of widgets 

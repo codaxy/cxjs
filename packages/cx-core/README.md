@@ -1,9 +1,11 @@
-# Cx Framework
+# CxJS
 
-This is the main package of the [Cx Framework](https://cxjs.io/). 
-Cx is a feature-rich framework for building modern web applications.
+This is the main package of the [CxJS](https://cxjs.io/) framework. 
 
-Cx provides:
+Cx is a feature-rich framework for building data-oriented web applications.
+
+Cx is inspired by React and Angular and tries the offer the best features from both worlds.
+Out of the box, Cx provides:
 - a complete set of widgets 
 - charts
 - two-way data-binding options
@@ -11,46 +13,35 @@ Cx provides:
 - layouts
 - customizable appearance (Sass)
 
-Cx is based on ES6 and requires babel-plugin-transform-cx-jsx. 
+Cx is based on ES6 and JSX and requires `babel-plugin-transform-cx-jsx`. 
 Cx widgets use React to render and update the DOM.
-
-## Demo Applications
-
-<a href="https://cxjs.io/starter">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" height="200px" />
-</a>
-<a href="https://codaxy.github.io/state-of-js-2016-explorer/">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" height="200px" />
-</a>
-<a href="https://mstijak.github.io/tdo/">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/tdo/tdo.png" alt="Tdo" height="200px" />
-</a>
 
 ### Getting Started
 
+- [Examples](https://cxjs.io/examples)
 - [Documentation](https://cxjs.io/docs)
 - [Themes](https://cxjs.io/themes)
 - [Fiddle](https://cxjs.io/fiddle)
 
-### Intallation
+## Demo Applications
 
-The easiest way to set up a new Cx project is to use the [Cx Command Line Interface](https://cxjs.io/v/master/docs/intro/command-line).
-If you wish to install the cx-core package separately, run the following line from the project folder in your command prompt:
+<a href="https://cxjs.io/starter">
+    <img src="https://raw.githubusercontent.com/codaxy/cx/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" height="200px" />
+</a>
+<a href="https://codaxy.github.io/state-of-js-2016-explorer/">
+    <img src="https://raw.githubusercontent.com/codaxy/cx/master/misc/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" height="200px" />
+</a>
+<a href="https://mstijak.github.io/tdo/">
+    <img src="https://raw.githubusercontent.com/codaxy/cx/master/misc/screenshots/tdo/tdo.png" alt="Tdo" height="200px" />
+</a>
 
-```
-npm i cx-core -S
-```
+### Installation
 
-In order to use the simplified import paths for the Cx components, as listed in the documentation, 
-it is important to add the following alias to your webpack config:
-
-```
-alias: {
-   cx: 'cx-core/src'
-}
-```
+The easiest way to set up a new Cx project is to use 
+the [Cx Command Line Interface](https://cxjs.io/v/master/docs/intro/command-line).
 
 ### License
 
-Cx is available under a commercial and a free for non-commercial license.
-Please refer to the website for more information.
+Cx is free for to use for non-commercial purposes.
+Commercial use requires a license.
+Please refer to [our website](https://cxjs.io/pricing) for more information.

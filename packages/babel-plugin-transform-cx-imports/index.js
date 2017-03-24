@@ -20,21 +20,23 @@ module.exports = function(options, o1) {
             var src = path.node.source.value;
             var importScss = opts.sass || opts.scss;
 
-            if (src.indexOf("cx/") == 0) {
+            if (src.indexOf("cx/") == 0 && src.indexOf('cx/src/') != 0) {
                var remainder = src.substring(3);
 
                if (opts.useSrc) {
                   var imports = [];
+
+                  console.log(remainder);
 
                   path.node.specifiers.forEach(function (s) {
                      var expanded = remainder + '/' + s.imported.name;
                      var srcFile = manifest[expanded];
                      if (srcFile) {
                         if (srcFile.js)
-                           imports.push(t.importDeclaration([s], t.stringLiteral('cx-core/' + srcFile.js)));
+                           imports.push(t.importDeclaration([s], t.stringLiteral('cx/' + srcFile.js)));
 
                         if (srcFile.scss && importScss) {
-                           imports.push(t.importDeclaration([], t.stringLiteral('cx-core/' + srcFile.scss)));
+                           imports.push(t.importDeclaration([], t.stringLiteral('cx/' + srcFile.scss)));
                         }
                      }
                      else {
@@ -43,10 +45,6 @@ module.exports = function(options, o1) {
                   });
 
                   path.replaceWithMultiple(imports);
-               }
-               else {
-                  //cx-core => cx
-                  path.replaceWith(t.importDeclaration(path.node.specifiers, t.stringLiteral("cx-core/" + remainder)));
                }
             }
          }

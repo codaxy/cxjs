@@ -26,17 +26,6 @@ describe('babel-plugin-transform-cx-imports', function() {
       assert.equal(unwrap(output), 'import _ from "lodash"');
    });
 
-   it("rewrites cx into cx-core", function () {
-
-      let code = `import { Widget } from "cx/ui"`;
-
-      let output = babel.transform(code, {
-         plugins: [plugin]
-      }).code;
-
-      assert.equal(unwrap(output), 'import { Widget } from "cx-core/ui"');
-   });
-
    it("supports multiple imports", function () {
 
       let code = `import { Widget, VDOM } from "cx/ui"`;
@@ -45,7 +34,7 @@ describe('babel-plugin-transform-cx-imports', function() {
          plugins: [plugin]
       }).code;
 
-      assert.equal(unwrap(output), 'import { Widget, VDOM } from "cx-core/ui"');
+      assert.equal(unwrap(output), 'import { Widget, VDOM } from "cx/ui"');
    });
 
    it("imports Cx widgets from source", function () {
@@ -56,7 +45,7 @@ describe('babel-plugin-transform-cx-imports', function() {
          plugins: [[plugin, { useSrc: true }]]
       }).code;
 
-      assert.equal(unwrap(output), 'import { TextField } from "cx-core/src/widgets/form/TextField.js"');
+      assert.equal(unwrap(output), 'import { TextField } from "cx/src/widgets/form/TextField.js"');
    });
 
    it("imports scss file if available and option is set", function () {
@@ -68,8 +57,8 @@ describe('babel-plugin-transform-cx-imports', function() {
       }).code;
 
       assert.deepEqual(lines(output), [
-         'import { TextField } from "cx-core/src/widgets/form/TextField.js";',
-         'import "cx-core/src/widgets/form/TextField.scss"'
+         'import { TextField } from "cx/src/widgets/form/TextField.js";',
+         'import "cx/src/widgets/form/TextField.scss"'
       ]);
    });
 
@@ -82,8 +71,8 @@ describe('babel-plugin-transform-cx-imports', function() {
       }).code;
 
       assert.deepEqual(lines(output), [
-         'import { Text } from "cx-core/src/ui/Text.js";',
-         'import { TextField } from "cx-core/src/widgets/form/TextField.js"'
+         'import { Text } from "cx/src/ui/Text.js";',
+         'import { TextField } from "cx/src/widgets/form/TextField.js"'
       ]);
    });
 });

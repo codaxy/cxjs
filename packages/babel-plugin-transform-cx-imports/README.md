@@ -1,25 +1,24 @@
 # babel-plugin-transform-cx-imports
 
-This plugin does three things:
+What this is plugin is used for?
+ 
+1. Rewrites Cx imports to use `src` files which may result with smaller builds:
 
-1. rewrites `cx` based imports to `cx-core`. E.g. 
-`import { TextField} from 'cx/widgets'` becomes `import { TextField} from 'cx-core/widgets'`.
-  
-2. optionally rewrites imports to use `src` files:
-`import { TextField} from 'cx/widgets'` becomes `import { TextField} from 'cx-core/src/ui/form/TextField'`.
+`import { TextField} from 'cx/widgets'` 
 
-3. optionally includes SCSS files for imported components. E.g. 
-`import { TextField} from 'cx/widgets'` adds also `import 'cx-core/src/ui/form/TextField.scss'`.
+becomes 
+
+`import { TextField} from 'cx/src/form/TextField'`.
+
+2. Include SCSS files for imported components (experimental).
+
+`import { TextField} from 'cx/widgets'` 
+
+adds also 
+
+`import 'cx/src/form/TextField.scss'`.
 
 ### Usage
-
-Standard:
-```
-//.babelrc
-"plugins": [
-    "transform-cx-imports"
-]
-```
 
 To use src files, use:
 
@@ -29,7 +28,7 @@ To use src files, use:
     ["transform-cx-imports", { useSrc: true }]
 ]
 ```
-Note that if using src files, your babel/webpack configuration should whitelist `cx-core` path.
+Note that if using src files, your babel/webpack configuration should whitelist `cx` path.
 
 Optionally, if you want to include .scss files, use:
 
