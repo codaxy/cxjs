@@ -31,12 +31,12 @@ export const BreakingChanges = <cx>
 
             Additionally, if `babel-plugin-transform-cx-imports` is used with `useSrc` option,
             in `webpack.config.js` `cx` package should be whitelisted
-            instead of `cx-core` in your `.js` `babel-loader`.
+            instead of `cx-core` in the `babel-loader` configuration.
 
             ```
-                test: /\.js$/,
-                loader: 'babel-loader',
-                include: /(app|cx)/,  //previously (app|cx-core)
+            test: /\.js$/,
+            loader: 'babel-loader',
+            include: /(app|cx)/,  //previously (app|cx-core)
             ```
 
             If `cx-core` reference is used `.scss` files, replace it with `cx`.
@@ -49,6 +49,10 @@ export const BreakingChanges = <cx>
             After you're done, please upgrade all Cx related packages to the latest version.
             ```
             yarn upgrade-interactive
+            ```
+            Also, upgrade `cx-cli` tools globally.
+            ```
+            yarn global add cx-cli
             ```
 
             That's it.

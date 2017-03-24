@@ -19,7 +19,7 @@
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-syntax-jsx": "^6.8.0",
-    "babel-preset-cx-env": "^17.4.0",
+    "babel-preset-cx-env": "^17.4.3",
     "css-loader": "^0.27.3",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
