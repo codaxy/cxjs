@@ -1,7 +1,29 @@
 export = Cx;
 export as namespace Cx;
 
+import * as React from 'react';
+
 declare namespace Cx {
+
+    interface Binding {
+        bind?: string,
+        tpl?: string,
+        expr?: string
+    }
+
+    type Selector<T> = (data: any) => T;
+
+    type Prop<T> = T | Binding | Selector<T>;
+
+    interface Structure {
+        [key: string]: Prop<any>
+    }
+
+    type StringProp = Prop<string>;
+    type StyleProp = Prop<string | React.CSSProperties>;
+    type NumberProp = Prop<number>;
+    type BooleanProp = Prop<boolean>;
+    type ClassProp = Prop<string | Structure>;
 
     interface WidgetProps {
         layout?: any,
@@ -11,22 +33,14 @@ declare namespace Cx {
         controller?: any
     }
 
-    interface Binding {
-        bind?: string,
-        tpl?: string,
-        expr?: string
-    }
-
     interface PureContainerProps extends WidgetProps {
         ws?: boolean
     }
 
-    type Selector<T> = (data: any) => T;
-
     interface StyledContainerProps extends PureContainerProps {
-        class?: string | Binding | Selector<string>,
-        className?: string | Binding | Selector<string>,
-        style?: any,
+        class?: ClassProp,
+        className?: ClassProp,
+        style?: StyleProp,
     }
 
     class Widget<P extends WidgetProps> {
@@ -58,10 +72,10 @@ declare global {
     }
 }
 
-import * as React from 'react';
+
 
 declare module "react" {
     interface HTMLProps<T> extends Cx.PureContainerProps {
-        class?: string
+        class?: Cx.ClassProp
     }
 }
