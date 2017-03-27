@@ -77,9 +77,9 @@ export class Component {
    }
 }
 
-Component.isComponentType = true;
-
 Component.prototype.isComponent = true;
+
+Component.isComponentType = true;
 Component.namespace = '';
 Component.lazyInit = false;
 
