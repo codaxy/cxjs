@@ -9,7 +9,7 @@ const themes = [{
   name: 'Material',
   url: 'material',
   imgUrl: '~/img/material.png',
-  description: "Material deisgn theme."
+  description: "Material design theme."
 },{
    name: 'Frost',
    url: 'frost',
