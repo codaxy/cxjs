@@ -1,6 +1,8 @@
 CxJS
 ============
 
+[![Join the chat at https://gitter.im/cx-js/Lobby](https://badges.gitter.im/cx-js/Lobby.svg)](https://gitter.im/cx-js/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Cx JS is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
 
 Cx provides:
