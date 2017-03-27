@@ -1,9 +1,8 @@
 import * as Cx from '../core';
 
 interface SectionProps extends Cx.StyledContainerProps {
-    /** Idas dsa dasd */
-    id?: string,
-    pad?: boolean
+    id?: string | number | Cx.Binding | Cx.Selector<string | number>,
+    pad?: boolean | Cx.Binding | Cx.Selector<boolean>
 }
 
 export class Section extends Cx.Widget<SectionProps> {}

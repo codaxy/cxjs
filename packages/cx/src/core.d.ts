@@ -11,13 +11,21 @@ declare namespace Cx {
         controller?: any
     }
 
+    interface Binding {
+        bind?: string,
+        tpl?: string,
+        expr?: string
+    }
+
     interface PureContainerProps extends WidgetProps {
         ws?: boolean
     }
 
+    type Selector<T> = (data: any) => T;
+
     interface StyledContainerProps extends PureContainerProps {
-        class?: string,
-        className?: string,
+        class?: string | Binding | Selector<string>,
+        className?: string | Binding | Selector<string>,
         style?: any,
     }
 
@@ -26,30 +34,19 @@ declare namespace Cx {
         state: any;
         context: any;
         refs: any;
+
         constructor(props: P);
+
         render();
+
         setState(state: any);
+
         forceUpdate();
     }
 
     interface HtmlElementProps extends StyledContainerProps {
-        id?: string,
-        text?: string
-    }
-
-    interface CxRootProps {
-        children?: string
-    }
-
-    class CxRoot {
-        props: CxRootProps;
-        state: any;
-        context: any;
-        refs: any;
-        constructor(props: CxRootProps);
-        render();
-        setState(state: any);
-        forceUpdate();
+        id?: string | number | Binding | Selector<string | number>,
+        text?: string | number | Binding | Selector<string | number>
     }
 }
 
