@@ -1,4 +1,4 @@
-import { HtmlElement, PureContainer, Repeater, Section, FlexRow } from 'cx/widgets';
+import { HtmlElement, PureContainer, Repeater, Section, FlexCol } from 'cx/widgets';
 import createLayout from 'shared/layout';
 
 const layout = createLayout('Home', [<cx>
@@ -6,6 +6,11 @@ const layout = createLayout('Home', [<cx>
 </cx>]);
 
 const themes = [{
+  name: 'Material',
+  url: 'material',
+  imgUrl: '~/img/material.png',
+  description: "Material design theme."
+},{
    name: 'Frost',
    url: 'frost',
    imgUrl: '~/img/frost.png',
@@ -24,7 +29,7 @@ const themes = [{
 
 export default <cx>
    <PureContainer outerLayout={layout}>
-      <FlexRow pad="xlarge" spacing="xlarge" wrap justify="center" class="b-list">
+      <FlexCol pad="xlarge" spacing="xlarge" align="center" class="b-list">
          <Repeater records={themes} recordName="$theme">
             <Section mod="card" pad={false}>
                <a class="b-card" href:bind="$theme.url">
@@ -38,7 +43,7 @@ export default <cx>
                </a>
             </Section>
          </Repeater>
-      </FlexRow>
+      </FlexCol>
    </PureContainer>
 </cx>
 

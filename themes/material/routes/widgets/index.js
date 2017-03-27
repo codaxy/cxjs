@@ -102,11 +102,8 @@ export default <cx>
            <br/>
            <TabContent />
         </Section>
-      </FlexRow>
-      <FlexRow pad spacing wrap target="tablet">
+
         <Forms />
-      </FlexRow>
-      <FlexRow pad spacing wrap target="tablet">
         <Section mod="card" title="Windows" style="flex:1">
           <FlexRow spacing align wrap>
               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
