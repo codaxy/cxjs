@@ -9,12 +9,13 @@ const themes = [{
   name: 'Material',
   url: 'material',
   imgUrl: '~/img/material.png',
-  description: "Material design theme."
+  description: `This theme is based on Google's ground-breaking Material design principles. It closely follows their detailed specifications on colors, shapes, shadows and motion effects.
+                The best part is, you can easily choose one of the many predefined color schemes or define your own unique look.`
 },{
    name: 'Frost',
    url: 'frost',
    imgUrl: '~/img/frost.png',
-   description: "Winter inspired theme."
+   description: "Frost is another beautiful theme inspired by winter colors. It feauters minimalistic design, whose beauty lies in a lot of small eye pleasing details."
 }, {
    name: 'Dark',
    url: 'dark',
