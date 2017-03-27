@@ -12,7 +12,7 @@ var common = {
 
    resolve: {
       alias: {
-         cx: path.resolve(path.join(__dirname, '../../packages/cx-core/src')),
+         cx: path.resolve(path.join(__dirname, '../../packages/cx/src')),
          'cx-react': path.resolve(path.join(__dirname, '../../packages/cx-react')),
          theme: __dirname,
          shared: path.join(__dirname, '../shared')

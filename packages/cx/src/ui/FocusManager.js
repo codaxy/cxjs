@@ -44,7 +44,7 @@ export class FocusManager {
    }
 
    static nudge() {
-      if (document.activeElement != lastActiveElement) {
+      if (typeof document != "undefined" && document.activeElement != lastActiveElement) {
          if (!pending) {
             pending = true;
             setTimeout(function () {

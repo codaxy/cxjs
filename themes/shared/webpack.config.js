@@ -12,7 +12,7 @@ module.exports = function (name, themePath, port) {
 
       resolve: {
          alias: {
-            'cx': path.resolve(path.join(themePath, '../../packages/cx-core')),
+            'cx': path.resolve(path.join(themePath, '../../packages/cx')),
             'cx-react': path.resolve(path.join(themePath, '../../packages/cx-react')),
             'cx-theme-dark': path.resolve(path.join(themePath, '../../packages/cx-theme-dark/')),
             'cx-theme-frost': path.resolve(path.join(themePath, '../../packages/cx-theme-frost/')),
