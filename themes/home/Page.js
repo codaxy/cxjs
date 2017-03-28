@@ -9,7 +9,6 @@ const themes = [{
   name: 'Material',
   url: 'material',
   imgUrl: '~/img/material.png',
-
   description: `This theme is based on Google's ground-breaking Material design principles. It closely follows their detailed specifications on colors, shapes, shadows and motion effects.
                 The best part is, you can easily choose one of the many predefined color schemes or define your own unique look.`
 },{
