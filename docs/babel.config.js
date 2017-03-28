@@ -1,11 +1,11 @@
 
 
 module.exports = function (options) {
-    var isProduction = options.production
+    var isProduction = options.production;
 
     return {
         "cacheDirectory": true,
-        "cacheIdentifier": "v10",
+        "cacheIdentifier": "v11",
         "presets": [
             ["env", {
                 loose: true,

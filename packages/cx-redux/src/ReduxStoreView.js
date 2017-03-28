@@ -19,11 +19,16 @@ export class ReduxStoreView extends View {
       let oldData = this.getData();
       let newData = Binding.get(path).set(oldData, value);
 
-      if (oldData !== newData)
+      if (oldData !== newData) {
          this.dispatch({
             type: CX_REPLACE_STATE,
             state: newData
-         })
+         });
+         return true;
+      }
+
+      return false;
+
    }
 
    deleteItem(path) {
@@ -33,8 +38,10 @@ export class ReduxStoreView extends View {
          this.dispatch({
             type: CX_REPLACE_STATE,
             state: newData
-         })
+         });
+         return true;
       }
+      return false;
    }
 
    clear() {

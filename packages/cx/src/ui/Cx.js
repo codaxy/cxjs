@@ -3,7 +3,7 @@ import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
 import {Debug, appDataFlag} from '../util/Debug';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
-import { isBatchingUpdates, batchUpdates } from './batchUpdates';
+import { isBatchingUpdates, notifyBatchedUpdateCompleted } from './batchUpdates';
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -64,13 +64,13 @@ export class Cx extends VDOM.Component {
       if (this.flags.preparing)
          this.flags.dirty = true;
       else if (isBatchingUpdates() || this.props.immediate) {
-         this.setState({data: data});
+         this.setState({data: data}, notifyBatchedUpdateCompleted);
       } else {
-         //batch sequential store commands
+         //in standard mode sequential store commands are batched
          if (!this.pendingUpdateTimer) {
             this.pendingUpdateTimer = setTimeout(() => {
                delete this.pendingUpdateTimer;
-               this.setState({data: data});
+               this.setState({data: data}, notifyBatchedUpdateCompleted);
             }, 0);
          }
       }
