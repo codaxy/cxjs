@@ -29,7 +29,7 @@ export default <cx>
    <span putInto="breadcrumbs">Widgets</span>
 
    <FlexRow pad spacing wrap target="tablet">
-      <Section mod="card" title="Buttons" style="flex:1 0 0%; min-width: 250px" preserveWhitespace>
+      <Section mod="card" title="Buttons" style="flex:1 0 auto; min-width: 250px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
             <Button disabled>Disabled</Button>
@@ -49,8 +49,8 @@ export default <cx>
          </FlexRow>
         </Section>
 
-        <Section mod="card" title="Tabs default" style="flex:1 0 0%" preserveWhitespace>
-           <div style="white-space:nowrap">
+        <Section mod="card" title="Tabs default" style="flex:1 0 auto" preserveWhitespace>
+           <div class="cxb-tab-container">
               <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
               <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
@@ -66,12 +66,12 @@ export default <cx>
            mod="card"
            title="Tabs classic mod"
            pad={false}
-           style="flex:1 0 0%;"
+           style="flex:1 0 auto;"
            headerStyle="border-bottom: none"
            bodyStyle="display:flex;flex-direction:column;"
            preserveWhitespace
         >
-           <div class="cxb-classic-tab-container">
+           <div class="cxb-tab-container cxm-classic">
               <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
               <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
@@ -82,8 +82,8 @@ export default <cx>
            </div>
         </Section>
 
-        <Section mod="card" title="Tabs line mod" style="flex:1 0 0%" preserveWhitespace>
-           <div style="white-space:nowrap">
+        <Section mod="card" title="Tabs line mod" style="flex:1 0 auto" preserveWhitespace>
+           <div class="cxb-tab-container">
               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
               <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
@@ -92,8 +92,8 @@ export default <cx>
            <br/>
            <TabContent />
         </Section>
-        <Section mod="card-accent" title="Tabs line-accent mod" style="flex:1" preserveWhitespace>
-           <div style="white-space:nowrap">
+        <Section mod="card-accent" title="Tabs line-accent mod" style="flex:1 0 auto" preserveWhitespace>
+           <div class="cxb-tab-container">
               <Tab tab="tab1" value:bind="$page.tab" mod="line-accent">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line-accent">Tab 2</Tab>
               <Tab tab="tab3" value:bind="$page.tab" mod="line-accent">Tab 3</Tab>
@@ -104,7 +104,7 @@ export default <cx>
         </Section>
 
         <Forms />
-        <Section mod="card" title="Windows" style="flex:1">
+        <Section mod="card" title="Windows" style="flex:1 0 300px">
           <FlexRow spacing align wrap>
               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
               <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
@@ -115,14 +115,14 @@ export default <cx>
           <ContactWindow />
         </Section>
 
-        <Section mod="card" title="Menus" style="flex:1">
+        <Section mod="card" title="Menus" style="flex:1 0 auto">
           <Menu1 />
         </Section>
 
-        <Section mod="card" title="Toasts" style="flex:1">
+        <Section mod="card" title="Toasts" style="flex:1 0 auto">
           <Toasts />
         </Section>
-        <Section mod="card"  title="Lists" style="flex:1">
+        <Section mod="card"  title="Lists" style="flex:1 0 auto">
           <List />
         </Section>
     </FlexRow>

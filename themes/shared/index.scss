@@ -3,8 +3,12 @@
 @import "components/index";
 @import "routes/index";
 
-.cxb-classic-tab-container {
-  padding: 0 1.5rem;
-  white-space: nowrap;
-  flex-shrink: 0;
+.cxb-tab-container {
+   white-space: nowrap;
+   flex-shrink: 0;
+   overflow-x: auto;
+
+   &.cxm-classic {
+      padding: 0 1.5rem;
+   }
 }

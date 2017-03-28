@@ -32,11 +32,11 @@ const options = [
 ];
 
 export default <cx>
-   <Section mod="card" title="Inputs" style="flex:1 0 0%">
+   <Section mod="card" title="Inputs" style="flex:1 0 auto">
       <div layout={{type: LabelsLeftLayout, mod: "stretch"}}>
-         <TextField label="TextField" value:bind="text" style="width:240px" />
+         <TextField label="TextField" value:bind="text" />
          <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
-         <NumberField label="NumberField" value:bind="number" style="width:240px"/>
+         <NumberField label="NumberField" value:bind="number" />
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
@@ -48,9 +48,9 @@ export default <cx>
       </div>
    </Section>
 
-   <Section mod="card" title="Dropdowns" style="flex:1 0 0%">
+   <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
       <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio" style="width: 240px;">
+         <Select label="Select" value:bind="radio" style="width:100%">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
@@ -75,6 +75,6 @@ export default <cx>
    </Section>
 
    <Section mod="card" title="MonthPicker">
-      <MonthPicker style={{ height: '25em' }} range from:bind="dateFrom" to:bind="dateTo"/>
+      <MonthPicker style={{ height: '25em', maxWidth: '100%' }} range from:bind="dateFrom" to:bind="dateTo"/>
    </Section>
 </cx>

@@ -46,7 +46,7 @@ export default <cx>
       </Section>
 
       <Section mod="card" title="Tabs" style="flex:1 0 300px" preserveWhitespace>
-         <div style="white-space:nowrap">
+         <div class="cxb-tab-container">
             <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
@@ -67,7 +67,7 @@ export default <cx>
          bodyStyle="display:flex;flex-direction:column;"
          preserveWhitespace
       >
-         <div class="cxb-classic-tab-container">
+         <div class="cxb-tab-container cxm-classic">
             <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
@@ -79,7 +79,7 @@ export default <cx>
       </Section>
 
       <Section mod="card" title="Underline" style="flex:1 0 300px" preserveWhitespace>
-         <div style="white-space:nowrap">
+         <div class="cxb-tab-container">
             <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
             <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
             <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
