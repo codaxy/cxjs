@@ -16,7 +16,7 @@ interface SectionProps extends StyledContainerProps {
     bodyClass?: ClassProp,
     footerStyle?: StyleProp,
     footerClass?: ClassProp,
-    title: StringProp
+    title?: StringProp
 }
 
 export class Section extends Widget<SectionProps> {}

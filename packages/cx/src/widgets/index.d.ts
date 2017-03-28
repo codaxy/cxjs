@@ -1,25 +1,25 @@
-// import {Widget} from '../ui/Widget';
-// import {Text} from '../ui/Text';
-// import {StaticText} from '../ui/StaticText';
-// import {PureContainer} from '../ui/PureContainer';
-// import {Content} from '../ui/layout/Content';
-// import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
-// import {ContentResolver} from '../ui/ContentResolver';
-// import {Rescope} from '../ui/Rescope';
-// import {Repeater} from '../ui/Repeater';
-//
-// //re-export widgets defined in ui namespace
-// export {
-//     Widget,
-//     StaticText,
-//     Text,
-//     PureContainer,
-//     Content,
-//     ContentPlaceholder,
-//     ContentResolver,
-//     Rescope,
-//     Repeater
-// };
+import {Widget} from '../ui/Widget';
+import {Text} from '../ui/Text';
+import {StaticText} from '../ui/StaticText';
+import {PureContainer} from '../ui/PureContainer';
+import {Content} from '../ui/layout/Content';
+import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
+import {ContentResolver} from '../ui/ContentResolver';
+import {Rescope} from '../ui/Rescope';
+import {Repeater} from '../ui/Repeater';
+
+//re-export widgets defined in ui namespace
+export {
+    Widget,
+    StaticText,
+    Text,
+    PureContainer,
+    Content,
+    ContentPlaceholder,
+    ContentResolver,
+    Rescope,
+    Repeater
+};
 
 export * from './HtmlElement';
 export * from './Button';

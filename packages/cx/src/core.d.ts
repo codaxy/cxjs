@@ -15,7 +15,11 @@ declare namespace Cx {
 
     type Prop<T> = T | Binding | Selector<T>;
 
-    interface Structure {
+    interface Record {
+        [key: string]: any
+    }
+
+    interface StructuredProp {
         [key: string]: Prop<any>
     }
 
@@ -23,14 +27,17 @@ declare namespace Cx {
     type StyleProp = Prop<string | React.CSSProperties>;
     type NumberProp = Prop<number>;
     type BooleanProp = Prop<boolean>;
-    type ClassProp = Prop<string | Structure>;
+    type ClassProp = Prop<string> | StructuredProp;
+    type RecordsProp = Prop<Record[]>;
 
     interface WidgetProps {
         layout?: any,
         outerLayout?: any,
         putInto?: string,
         contentFor?: string,
-        controller?: any
+        controller?: any,
+        visible?: BooleanProp,
+        if?: BooleanProp
     }
 
     interface PureContainerProps extends WidgetProps {
@@ -41,6 +48,11 @@ declare namespace Cx {
         class?: ClassProp,
         className?: ClassProp,
         style?: StyleProp,
+    }
+
+    interface HtmlElementProps extends StyledContainerProps {
+        id?: string | number | Binding | Selector<string | number>,
+        text?: string | number | Binding | Selector<string | number>
     }
 
     class Widget<P extends WidgetProps> {
@@ -56,11 +68,6 @@ declare namespace Cx {
         setState(state: any);
 
         forceUpdate();
-    }
-
-    interface HtmlElementProps extends StyledContainerProps {
-        id?: string | number | Binding | Selector<string | number>,
-        text?: string | number | Binding | Selector<string | number>
     }
 }
 
