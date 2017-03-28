@@ -78,6 +78,11 @@
    .#{$element}#{$name}-tool {
       @include cxe-field-button($besm, $tool-state-style-map);
       pointer-events: none; //cannot call open-dropdown on native element
+
+      .#{$state}disabled > & {
+        @include cx-add-state-rules($state-style-map, disabled);
+        border-width: 0;
+      }
    }
 
    .#{$element}#{$name}-icon {
