@@ -33,7 +33,9 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     background: rgb(235, 235, 228),
     color: rgb(84, 84, 84)
   ),
-
+  disabled-checked: (
+  
+  ),
   error: (
     border-color: rgba(220, 0, 9, 0.8)
   ),

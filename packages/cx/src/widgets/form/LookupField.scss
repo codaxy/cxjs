@@ -164,6 +164,10 @@
 
    .#{$element}#{$name}-tool {
       @include cxe-field-button($besm, $tool-state-style-map);
+      .#{$state}disabled > & {
+        @include cx-add-state-rules($state-style-map, disabled);
+        border-width: 0;
+      }
    }
 
    .#{$element}#{$name}-left-icon {

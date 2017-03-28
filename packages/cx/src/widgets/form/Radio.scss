@@ -90,6 +90,10 @@
          &:hover {
            @include cx-add-state-rules($state-style-map, checked-hover);
          }
+
+        .#{$state}disabled > & {
+          @include cx-add-state-rules($state-style-map, disabled-checked);
+        }
       }
 
       &:before {

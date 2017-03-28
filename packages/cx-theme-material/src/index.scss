@@ -297,6 +297,12 @@ $checkbox-padding-correction: 2px !default;
   }
 }
 
+/*.#{$state}disabled {
+  .#{$element}datefield-left-icon { 
+    color: red !important;
+  }
+}*/
+
 //TAB
 div.#{$block}classic-tab-container {
   background-color: $cx-theme-primary-color;
