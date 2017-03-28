@@ -86,6 +86,10 @@
          &:focus {
            @include cx-add-state-rules($state-style-map, checked-focus);
          }
+
+        .#{$state}disabled > & {
+          @include cx-add-state-rules($state-style-map, disabled-checked);
+        }
       }
    }
 

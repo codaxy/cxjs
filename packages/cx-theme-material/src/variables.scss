@@ -675,6 +675,8 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     box-shadow: none
   ),
   disabled: (
+    color: rgba($cx-secondary-text-color, 0.5),
+    background-color: transparent,
     border-style: dashed
   ),
   error: (
@@ -747,6 +749,14 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
   ),
   checked-focus: (
     border-color: $cx-theme-primary-color-light
+  ),
+  disabled: (
+    background-color: transparent,
+    border-color: rgba(0, 0, 0, 0.1)
+  ),
+  disabled-checked: (
+    background-color: rgba(0, 0, 0, 0.26),
+    border-color: rgba(0, 0, 0, 0)
   )
 ));
 
@@ -766,6 +776,14 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
     box-shadow: none, 
     border-color: #dbdbdb
   ),
+  disabled: (
+    background-color: transparent,
+    border-color: rgba(0, 0, 0, 0.1)
+  ),
+  disabled-checked: (
+    color: rgba(0, 0, 0, 0.26),
+    border-color: rgba(0, 0, 0, 0.1)
+  )
 ));
 
 /* lookupfield tag */
