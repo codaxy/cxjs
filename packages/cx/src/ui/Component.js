@@ -2,6 +2,10 @@ var componentAlias = {};
 
 export class Component {
    constructor(config) {
+      if (config && config.$props) {
+         Object.assign(config, config.$props);
+         delete config.$props;
+      }
       Object.assign(this, config);
    }
 
