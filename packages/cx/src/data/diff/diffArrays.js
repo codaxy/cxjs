@@ -1,11 +1,11 @@
-export function diffArrays(oldArray, newArray, key) {
-   if (!key)
-      key = e => e;
+export function diffArrays(oldArray, newArray, keyFn) {
+   if (!keyFn)
+      keyFn = e => e;
 
    var map = new Map();
 
    for (let i = 0; i < oldArray.length; i++)
-      map.set(key(oldArray[i]), oldArray[i]);
+      map.set(keyFn(oldArray[i]), oldArray[i]);
 
    var added = [],
       changed = [],
@@ -13,7 +13,7 @@ export function diffArrays(oldArray, newArray, key) {
 
    for (let i = 0; i < newArray.length; i++) {
       let el = newArray[i];
-      let k = key(el);
+      let k = keyFn(el);
       let old = map.get(k);
       if (typeof old == 'undefined')
          added.push(el);

@@ -12,7 +12,7 @@ describe('Grouper', function() {
             value: 2
          }];
 
-         var grouper = new Grouper([{bind:'key'}]);
+         var grouper = new Grouper({ key: {bind:'key'}});
          grouper.processAll(data);
 
          var results = grouper.getResults();

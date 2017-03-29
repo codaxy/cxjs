@@ -1,5 +1,6 @@
 import {
     Widget,
+    Prop,
     StyledContainerProps,
     BooleanProp,
     StringProp,
@@ -8,7 +9,7 @@ import {
 } from '../core';
 
 interface SectionProps extends StyledContainerProps {
-    id?: Cx.Prop<string | number>,
+    id?: Prop<string | number>,
     pad?: BooleanProp,
     headerStyle?: StyleProp,
     headerClass?: ClassProp,

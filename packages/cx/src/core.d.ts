@@ -13,6 +13,10 @@ declare namespace Cx {
 
     type Selector<T> = (data: any) => T;
 
+    interface StructuredSelector {
+        [key: string]: Selector<any>
+    }
+
     type Prop<T> = T | Binding | Selector<T>;
 
     interface Record {
@@ -53,6 +57,12 @@ declare namespace Cx {
     interface HtmlElementProps extends StyledContainerProps {
         id?: string | number | Binding | Selector<string | number>,
         text?: string | number | Binding | Selector<string | number>
+    }
+
+    interface Sorter {
+        field?: string;
+        value?: (Record) => any;
+        direction: 'ASC' | 'DESC';
     }
 
     class Widget<P extends WidgetProps> {
