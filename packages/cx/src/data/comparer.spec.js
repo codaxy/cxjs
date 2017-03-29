@@ -1,8 +1,8 @@
 import {sorter} from './comparer';
 import assert from 'assert';
 
-describe.only('comparer', function() {
-   describe.only('sorter', function() {
+describe('comparer', function() {
+   describe('sorter', function() {
       it('orders by numeric values ASC', function () {
          let records = [
             {value: 3, id: 1},
