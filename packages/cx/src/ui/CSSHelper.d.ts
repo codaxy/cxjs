@@ -1,13 +1,9 @@
 import * as Cx from '../core';
 
-export class Controller {
-    onInit?(): void;
+export class CSSHelper {
+   static get(code: string) : any;
 
-    onExplore?(): void;
+   static register(code, helper);
 
-    onPrepare?(): void;
-
-    onCleanup?(): void;
-
-    init?(): void;
+   static alias(code, helper);
 }

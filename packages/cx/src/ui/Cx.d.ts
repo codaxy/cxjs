@@ -1,4 +1,3 @@
-import * as Cx from '../core';
 import * as React from 'react';
 
 interface CxProps {}

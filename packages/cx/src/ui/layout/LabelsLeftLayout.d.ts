@@ -1,3 +1,3 @@
 import * as Cx from '../../core';
 
-export class Content extends Cx.Widget<any> {}
+export class LabelsLeftLayout extends Cx.Widget<any> {}

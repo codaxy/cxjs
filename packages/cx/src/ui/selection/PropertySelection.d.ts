@@ -1,5 +1,12 @@
 import * as Cx from '../../core';
 
-export class Selection {
-    static create(type: any, config: any, more: any): any;
+import {Selection} from './Selection'
+
+interface PropertySelectionConfig {
+   selectedField?: string;
+   multiple?: boolean;
+}
+
+export class PropertySelection extends Selection {
+   constructor(config: PropertySelectionConfig);
 }

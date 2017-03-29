@@ -1,13 +1,18 @@
 import * as Cx from '../core';
 
-export class Controller {
-    onInit?(): void;
+export class CSS {
 
-    onExplore?(): void;
+   static resolve(...args): string;
 
-    onPrepare?(): void;
+   static block(baseClass: string, styleModifiers: any, stateModifiers: any): string;
 
-    onCleanup?(): void;
+   static element(baseClass: string, elementClass: string, stateModifiers: any): string;
 
-    init?(): void;
+   static state(stateModifiers: any): string;
+
+   static expand(...args): string;
+
+   static parseStyle(str: any): any;
+
+   static classPrefix: string;
 }

@@ -1,5 +1,11 @@
 import * as Cx from '../../core';
 
-export class Selection {
-    static create(type: any, config: any, more: any): any;
+import {Selection} from './Selection'
+
+interface KeySelectionConfig {
+   bind?: string;
+}
+
+export class KeySelection extends Selection {
+   constructor(config: KeySelectionConfig);
 }

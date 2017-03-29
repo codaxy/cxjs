@@ -1,3 +1,3 @@
 import * as Cx from '../../core';
 
-export class Calendar extends Cx.Widget<any> {}
+export class MonthField extends Cx.Widget<any> {}

@@ -1,13 +1,15 @@
 import * as Cx from '../core';
 
-export class Controller {
-    onInit?(): void;
+export class Culture {
+   static setCulture(cultureCode: string);
 
-    onExplore?(): void;
+   static setDefaultCurrency(currencyCode: string);
 
-    onPrepare?(): void;
+   readonly defaultCurrency: string;
 
-    onCleanup?(): void;
+   readonly culture: string;
 
-    init?(): void;
+   static getNumberCulture(): any;
+
+   static getDateTimeCulture(): any;
 }
