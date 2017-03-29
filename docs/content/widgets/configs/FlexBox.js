@@ -4,7 +4,7 @@ import container from './PureContainer';
 export default {
     ...container,
     pad: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -13,7 +13,7 @@ export default {
     },
 
     hpad: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add horizontal padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -22,7 +22,7 @@ export default {
     },
 
     vpad: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add vertical padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -39,7 +39,7 @@ export default {
     },
 
     spacing: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -48,7 +48,7 @@ export default {
     },
 
     hspacing: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add horizontal spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -57,7 +57,7 @@ export default {
     },
 
     vspacing: {
-        type: 'boolean',
+        type: 'string/boolean',
         key: true,
         description: <cx><Md>
             Add vertical spacing between items by applying a margin to children. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -83,7 +83,7 @@ export default {
     },
 
     wrap: {
-        type: 'string',
+        type: 'boolean',
         key: true,
         description: <cx><Md>
             Set to `true` to allow overflow content to wrap.
