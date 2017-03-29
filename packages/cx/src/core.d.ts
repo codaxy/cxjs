@@ -23,6 +23,10 @@ declare namespace Cx {
         [key: string]: any
     }
 
+    interface Config {
+        [key: string]: any
+    }
+
     interface StructuredProp {
         [key: string]: Prop<any>
     }
@@ -88,8 +92,6 @@ declare global {
         }
     }
 }
-
-
 
 declare module "react" {
     interface HTMLProps<T> extends Cx.PureContainerProps {
