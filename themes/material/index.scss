@@ -4,3 +4,16 @@ $cx-include-global-rules: true;
 @import "~cx-theme-material/src/variables";
 @import "~cx-theme-material/src/index";
 @import "../shared/index";
+
+@media screen and (max-width: 428px) {
+  .cxb-section {
+    p {
+      max-height: 94px;
+      overflow-y: auto;
+    }
+    .cxb-menu.cxs-horizontal {
+      overflow-x: auto;
+      padding: 5px 5px 5px 0;
+    }
+  }
+}

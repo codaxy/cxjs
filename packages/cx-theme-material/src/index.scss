@@ -297,12 +297,6 @@ $checkbox-padding-correction: 2px !default;
   }
 }
 
-/*.#{$state}disabled {
-  .#{$element}datefield-left-icon { 
-    color: red !important;
-  }
-}*/
-
 //TAB
 div.#{$block}classic-tab-container {
   background-color: $cx-theme-primary-color;
@@ -524,30 +518,32 @@ div.#{$block}classic-tab-container {
 
 //SCROLLBAR
 @if ($cx-include-global-rules) {
-  ::-webkit-scrollbar {
-	  width: 10px;
-	  height: 10px;
-	  background-color: rgba(0, 0, 0, 0.05);
-  }
-  ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 0;
-		
-    &:vertical {
-	    background-color: rgba(0, 0, 0, 0.07);
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.12);
-        }
+  @media screen and (min-width: 700px) {
+    ::-webkit-scrollbar {
+	    width: 10px;
+	    height: 10px;
+	    background-color: rgba(0, 0, 0, 0.05);
     }
+    ::-webkit-scrollbar-thumb {
+      -webkit-border-radius: 0;
+		
+      &:vertical {
+	      background-color: rgba(0, 0, 0, 0.07);
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+          }
+      }
 
-	  &:horizontal {
-		  background-color: rgba(0, 0, 0, 0.07);
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.12);
-        }
-	  }
-  }
-  ::-webkit-scrollbar-corner {			
-	  background-color: rgba(0, 0, 0, 0.02);
+	    &:horizontal {
+		    background-color: rgba(0, 0, 0, 0.07);
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+          }
+	    }
+    }
+    ::-webkit-scrollbar-corner {			
+	    background-color: rgba(0, 0, 0, 0.02);
+    }
   }
 }
 
