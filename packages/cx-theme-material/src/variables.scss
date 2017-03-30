@@ -227,6 +227,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   selected-focus: (
     color: #fff,
     background-color: $cx-theme-primary-color-light
+  ),
+  disabled: (
+    background-color: transparent
   )
 ));
 

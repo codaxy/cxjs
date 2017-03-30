@@ -30,6 +30,7 @@
 
       cursor: pointer;
       min-width: cx-calc($width, $handle-size);
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
       &.#{$state}disabled {
          pointer-events: none;
