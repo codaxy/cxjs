@@ -1,7 +1,10 @@
 import {View, ViewConfig} from './View';
 
+import { Binding } from './Binding';
+
 interface ExposedValueViewConfig extends ViewConfig {
-   itemIndex?: number;
+   containerBinding: Binding;
+   recordName?: string;
    immutable?: boolean;
 }
 
