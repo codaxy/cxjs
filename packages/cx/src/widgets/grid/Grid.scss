@@ -131,6 +131,7 @@
 
       &.#{$state}tool {
          transition: padding-left 0.2s;
+         padding-right: cx-calc(15px, $icon-size);
       }
 
       &.#{$state}sortable:not(.#{$state}aligned-right) {
@@ -154,7 +155,7 @@
       }
 
       &.#{$state}sortable.#{$state}aligned-right {
-         padding-right: cx-calc(15px, $icon-size);
+         padding-left: cx-calc(5px, $icon-size);
 
          .#{$element}#{$name}-column-sort-icon {
             left: 2px;
