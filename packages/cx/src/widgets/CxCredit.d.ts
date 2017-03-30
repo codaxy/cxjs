@@ -1,3 +1,8 @@
 import * as Cx from '../core';
 
-export class CxCredit extends Cx.Widget<any> {}
+interface CxCreditProps extends Cx.HtmlElementProps{
+   baseClass?: string,
+   tag?: string
+}
+
+export class CxCredit extends Cx.Widget<CxCreditProps> {}
