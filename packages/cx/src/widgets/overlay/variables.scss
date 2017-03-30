@@ -24,7 +24,10 @@ $cx-dropdown-styles: (
    border-radius: $cx-default-border-radius,
    border-color: $cx-default-border-color,
    border-width: 0,
-   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29)
+   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29),
+   white-space: normal,
+   font-weight: normal,
+   text-align: left
 ) !default;
 
 // TOAST
