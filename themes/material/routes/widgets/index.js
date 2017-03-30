@@ -29,7 +29,7 @@ export default <cx>
    <span putInto="breadcrumbs">Widgets</span>
 
    <FlexRow pad spacing wrap target="tablet">
-      <Section mod="card" title="Buttons" style="flex:1 0 auto; min-width: 250px" preserveWhitespace>
+      <Section mod="card" title="Buttons" style="flex:1 0 0%; min-width: 250px" preserveWhitespace>
          <FlexRow spacing wrap align>
             <Button>Default</Button>
             <Button disabled>Disabled</Button>
@@ -49,7 +49,7 @@ export default <cx>
          </FlexRow>
         </Section>
 
-        <Section mod="card" title="Tabs default" style="flex:1 0 auto" preserveWhitespace>
+        <Section mod="card" title="Tabs default" style="flex:1 0 0%" preserveWhitespace>
            <div class="cxb-tab-container">
               <Tab tab="tab1" value={{bind:"$page.tab", defaultValue: 'tab1'}}>Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
@@ -66,7 +66,7 @@ export default <cx>
            mod="card"
            title="Tabs classic mod"
            pad={false}
-           style="flex:1 0 auto;"
+           style="flex:1 0 0%;"
            headerStyle="border-bottom: none"
            bodyStyle="display:flex;flex-direction:column;"
            preserveWhitespace
@@ -82,7 +82,7 @@ export default <cx>
            </div>
         </Section>
 
-        <Section mod="card" title="Tabs line mod" style="flex:1 0 auto" preserveWhitespace>
+        <Section mod="card" title="Tabs line mod" style="flex:1 0 0%" preserveWhitespace>
            <div class="cxb-tab-container">
               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
@@ -92,7 +92,7 @@ export default <cx>
            <br/>
            <TabContent />
         </Section>
-        <Section mod="card-accent" title="Tabs line-accent mod" style="flex:1 0 auto" preserveWhitespace>
+        <Section mod="card-accent" title="Tabs line-accent mod" style="flex:1 0 0%" preserveWhitespace>
            <div class="cxb-tab-container">
               <Tab tab="tab1" value:bind="$page.tab" mod="line-accent">Tab 1</Tab>
               <Tab tab="tab2" value:bind="$page.tab" mod="line-accent">Tab 2</Tab>
@@ -115,14 +115,14 @@ export default <cx>
           <ContactWindow />
         </Section>
 
-        <Section mod="card" title="Menus" style="flex:1 0 auto">
+        <Section mod="card" title="Menus" style="flex:1 0 0%">
           <Menu1 />
         </Section>
 
-        <Section mod="card" title="Toasts" style="flex:1 0 auto">
+        <Section mod="card" title="Toasts" style="flex:1 0 0%">
           <Toasts />
         </Section>
-        <Section mod="card"  title="Lists" style="flex:1 0 auto">
+        <Section mod="card"  title="Lists" style="flex:1 0 0%">
           <List />
         </Section>
     </FlexRow>
