@@ -1,1 +1,1 @@
-export * from './dist/manifest';
+module.exports = require('./dist/manifest');

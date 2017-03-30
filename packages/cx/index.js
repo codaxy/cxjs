@@ -5,11 +5,11 @@ import * as widgets from './widgets';
 import * as svg from './svg';
 import * as charts from './charts';
 
-export default {
-   util: util,
-   data: data,
-   ui: ui,
-   widgets: widgets,
-   svg: svg,
-   charts: charts
+export {
+   util,
+   data,
+   ui,
+   widgets,
+   svg,
+   charts
 };
