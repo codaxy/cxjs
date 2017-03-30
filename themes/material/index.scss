@@ -5,7 +5,7 @@ $cx-include-global-rules: true;
 @import "~cx-theme-material/src/index";
 @import "../shared/index";
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 428px) {
   .cxb-section {
     p {
       max-height: 94px;
