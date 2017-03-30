@@ -5,12 +5,12 @@ interface IconProps extends Cx.WidgetProps{
     name?: Cx.StringProp,
     /** Additional CSS classes to be applied to the field. 
      * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. */
-    className?: Cx.Prop<string | {}>,
+    className?: Cx.ClassProp,
     /** Additional CSS classes to be applied to the field. 
      * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. */
-    class?: Cx.Prop<string | {}>,
+    class?: Cx.ClassProp,
     /** Style object applied to the wrapper div. Used for setting the dimensions of the field. */
-    style?: Cx.Prop<string | {}>,
+    style?: Cx.StyleProp,
     /** Base CSS class to be applied to the element. Default is `icon`. */
     baseClass?: string
 }
