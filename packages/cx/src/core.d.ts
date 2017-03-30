@@ -5,96 +5,110 @@ import * as React from 'react';
 
 declare namespace Cx {
 
-    interface Binding {
-        bind?: string,
-        tpl?: string,
-        expr?: string
-    }
+   interface Binding {
+      bind?: string,
+      tpl?: string,
+      expr?: string,
+      defaultValue?: any
+   }
 
-    type Selector<T> = (data: any) => T;
+   type Selector<T> = (data: any) => T;
 
-    interface StructuredSelector {
-        [key: string]: Selector<any>
-    }
+   interface StructuredSelector {
+      [prop: string]: Selector<any>
+   }
 
-    type Prop<T> = T | Binding | Selector<T>;
+   type Prop<T> = Binding | T | Selector<T>;
 
-    interface Record {
-        [key: string]: any
-    }
+   interface Record {
+      [prop: string]: any
+   }
 
-    interface Config {
-        [key: string]: any
-    }
+   interface Config {
+      [prop: string]: any
+   }
 
-    interface StructuredProp {
-        [key: string]: Prop<any>
-    }
+   interface StructuredProp {
+      [prop: string]: Prop<any>
+   }
 
-    type StringProp = Prop<string>;
-    type StyleProp = Prop<string | React.CSSProperties>;
-    type NumberProp = Prop<number>;
-    type BooleanProp = Prop<boolean>;
-    type ClassProp = Prop<string> | StructuredProp;
-    type RecordsProp = Prop<Record[]>;
+   type StringProp = Prop<string>;
+   type StyleProp = Prop<string | React.CSSProperties>;
+   type NumberProp = Prop<number>;
+   type BooleanProp = Prop<boolean>;
+   type ClassProp = Prop<string> | StructuredProp;
+   type RecordsProp = Prop<Record[]>;
 
-    interface WidgetProps {
-        layout?: any,
-        outerLayout?: any,
-        putInto?: string,
-        contentFor?: string,
-        controller?: any,
-        visible?: BooleanProp,
-        if?: BooleanProp
-    }
+   interface WidgetProps {
+      layout?: any,
+      outerLayout?: any,
+      putInto?: string,
+      contentFor?: string,
+      controller?: any,
+      visible?: BooleanProp,
+      if?: BooleanProp,
+      mod?: StringProp | Prop<string[]> | StructuredProp
+   }
 
-    interface PureContainerProps extends WidgetProps {
-        ws?: boolean
-    }
+   interface PureContainerProps extends WidgetProps {
+      ws?: boolean
+   }
 
-    interface StyledContainerProps extends PureContainerProps {
-        class?: ClassProp,
-        className?: ClassProp,
-        style?: StyleProp,
-    }
+   interface StyledContainerProps extends PureContainerProps {
 
-    interface HtmlElementProps extends StyledContainerProps {
-        id?: string | number | Binding | Selector<string | number>,
-        text?: string | number | Binding | Selector<string | number>
-    }
+     /** 
+     * Additional CSS classes to be applied to the element. 
+     * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+     */
+      class?: ClassProp,
 
-    interface Sorter {
-        field?: string;
-        value?: (Record) => any;
-        direction: 'ASC' | 'DESC';
-    }
+      /** 
+     * Additional CSS classes to be applied to the element. 
+     * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+     */
+      className?: ClassProp,
 
-    class Widget<P extends WidgetProps> {
-        props: P;
-        state: any;
-        context: any;
-        refs: any;
+      /** Style object applied to the element */
+      style?: StyleProp,
+   }
 
-        constructor(props: P);
+   interface HtmlElementProps extends StyledContainerProps {
+      id?: string | number | Binding | Selector<string | number>,
+      text?: string | number | Binding | Selector<string | number>
+   }
 
-        render();
+   interface Sorter {
+      field?: string;
+      value?: (Record) => any;
+      direction: 'ASC' | 'DESC';
+   }
 
-        setState(state: any);
+   class Widget<P extends WidgetProps> {
+      props: P;
+      state: any;
+      context: any;
+      refs: any;
 
-        forceUpdate();
-    }
+      constructor(props: P);
+
+      render();
+
+      setState(state: any);
+
+      forceUpdate();
+   }
 }
 
 declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            cx: any
-        }
-    }
+   namespace JSX {
+      interface IntrinsicElements {
+         cx: any
+      }
+   }
 }
 
 declare module "react" {
-    interface HTMLProps<T> extends Cx.PureContainerProps {
-        class?: Cx.ClassProp
-    }
+   interface HTMLProps<T> extends Cx.PureContainerProps {
+      class?: Cx.ClassProp
+   }
 }
