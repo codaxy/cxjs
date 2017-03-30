@@ -23,7 +23,9 @@ export class Store extends View {
          this.data = next;
          this.meta.version++;
          this.notify(path);
+         return true;
       }
+      return false;
    }
    
    deleteItem(path) {
@@ -32,7 +34,9 @@ export class Store extends View {
          this.data = next;
          this.meta.version++;
          this.notify(path);
+         return true;
       }
+      return false;
    }
    
    clear() {

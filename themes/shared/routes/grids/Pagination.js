@@ -61,14 +61,14 @@ export default <cx>
                header2: {
                   allowSorting: false,
                   items: <TextField value:bind="$page.filter.name" reactOn="enter blur"
-                     style="width:100%"/>
+                     style="width:100%" showClear/>
                }
             },
             {
                header1: 'Phone',
                header2: {
                   items: <TextField value:bind="$page.filter.phone" reactOn="enter blur"
-                     style="width:100%"/>
+                     style="width:100%" showClear/>
                },
                field: 'phone',
                style: 'white-space: nowrap'
@@ -78,7 +78,7 @@ export default <cx>
                header2: {
                   allowSorting: false,
                   items: <TextField value:bind="$page.filter.city" reactOn="enter blur"
-                     style="width:100%"/>
+                     style="width:100%" showClear/>
                },
                field: 'city',
                sortable: true

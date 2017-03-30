@@ -1,5 +1,5 @@
-import { HtmlElement, Section, FlexRow } from 'cx/widgets';
-import { Format } from 'cx/util';
+import {HtmlElement, Section, FlexRow} from 'cx/widgets';
+import {Format} from 'cx/util';
 
 import Dashboard from './Dashboard';
 import Pagination from './Pagination';
@@ -22,33 +22,29 @@ export default <cx>
       <span putInto="breadcrumbs">Grids</span>
 
       <FlexRow pad spacing wrap target="desktop">
-         <Section title="Pagination" style="flex:1" mod="card">
+         <Section title="Pagination" style="flex:1 0 auto" mod="card">
             <Pagination />
          </Section>
 
-         <Section title="Fixed Header" style="flex:1" mod="card">
+         <Section title="Fixed Header" style="flex:1 0 auto" mod="card">
             <FixedHeader />
          </Section>
-      </FlexRow>
-      <FlexRow pad spacing wrap target="desktop">
-        <Section title="Grid With Form Editing" style="flex:2" mod="card" >
+
+         <Section title="Grid With Form Editing" style="flex:2 0 auto" mod="card">
             <GridFormEditing />
          </Section>
-         <Section title="Grid Dashboard" style="flex:2" mod="card" >
+
+         <Section title="Grid Dashboard" style="flex:2 0 auto" mod="card">
             <Dashboard />
          </Section>
-      </FlexRow>
-      <FlexRow pad spacing wrap target="desktop">       
-         
-     </FlexRow>
-     <FlexRow pad spacing wrap target="desktop"> 
-         <Section title="MultipleSelection" style="flex:1.5" mod="card">
+
+         <Section title="MultipleSelection" style="flex:1.5 0 auto" mod="card">
             <MultipleSelection />
          </Section>
-         <Section title="Complex Header" style="flex:2" mod="card" >
+         <Section title="Complex Header" style="flex:2 0 auto" mod="card">
             <ComplexHeader />
          </Section>
-    </FlexRow>
+      </FlexRow>
    </div>
 </cx>;
 
