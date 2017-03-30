@@ -11,5 +11,9 @@ $cx-include-global-rules: true;
       max-height: 94px;
       overflow-y: auto;
     }
+    .cxb-menu.cxs-horizontal {
+      overflow-x: auto;
+      padding: 5px 5px 5px 0;
+    }
   }
 }
