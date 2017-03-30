@@ -36,12 +36,14 @@ $cx-grid-header-state-style-map: (
 
 /* data */
 $cx-default-grid-data-line-height: null !default;
+$cx-default-grid-data-background-color: transparent !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-data-padding: 5px !default;
 
 $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
   default: (
     line-height: $cx-default-grid-data-line-height,
+    background-color: $cx-default-grid-data-background-color,
     border-color: $cx-default-grid-data-border-color,
     padding: $cx-default-grid-data-padding
   )

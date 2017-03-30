@@ -34,6 +34,7 @@
 
       th, td {
          border-top: 1px solid transparentize($border-color, 0.5);
+         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
 
       tbody:not(:first-child) {

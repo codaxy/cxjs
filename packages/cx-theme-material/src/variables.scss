@@ -133,6 +133,7 @@ $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-b
 
 /* data */
 $cx-default-grid-data-border-color: #e0e0e0 !default;
+$cx-default-grid-data-background-color: $cx-default-grid-header-background-color !default;
 $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 1px !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
@@ -211,7 +212,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     color: $cx-default-color
   ),
   hover: (
-    background-color: rgba(0, 0, 0, 0.03)
+    background-color: rgba(0, 0, 0, 0.02)
   ),
   hover-focus: (
     color: $cx-default-color,
@@ -225,8 +226,11 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     background-color: rgba(0, 0, 0, 0.06)
   ),
   selected-focus: (
-    color: #fff,
-    background-color: $cx-theme-primary-color-light
+    color: $cx-default-color,
+    background-color: rgba(0, 0, 0, 0.10)
+  ),
+  disabled: (
+    background-color: transparent
   )
 ));
 
