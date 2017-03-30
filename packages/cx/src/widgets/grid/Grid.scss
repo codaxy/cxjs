@@ -154,7 +154,7 @@
       }
 
       &.#{$state}sortable.#{$state}aligned-right {
-         padding-left: cx-calc(5px, $icon-size);
+         padding-right: cx-calc(15px, $icon-size);
 
          .#{$element}#{$name}-column-sort-icon {
             left: 2px;
