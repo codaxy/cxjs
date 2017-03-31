@@ -193,16 +193,6 @@
          &.#{$state}cursor {
             @include cx-add-state-rules($cx-list-item, selected-focus);
          }
-
-         td {
-            border-color: cx-get-state-rule($cx-list-item, selected, border-color);
-         }
-
-         + .#{$element}#{$name}-data {
-            td {
-               border-color: cx-get-state-rule($cx-list-item, selected, border-color);
-            }
-         }
       }
 
       .#{$state}focused &, :focus & {

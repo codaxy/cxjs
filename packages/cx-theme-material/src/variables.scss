@@ -28,6 +28,7 @@ $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 5) !default;
 }
 $cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
 $cx-theme-warning-color: #F44336 !default;
+$cx-theme-secondary-text-color: #757575 !default;
 
 /* pick theme size */
 $normal-base-size: 14px !default;
@@ -39,7 +40,6 @@ $cx-default-container-padding: 5px !default;
 
 $cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
-$cx-theme-secondary-text-color: #757575 !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
 
@@ -212,26 +212,25 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     color: $cx-default-color
   ),
   hover: (
-    background-color: rgba($cx-theme-primary-color, 0.06)
+    background-color: rgba(0, 0, 0, 0.02)
   ),
   hover-focus: (
     color: $cx-default-color,
-    background-color: rgba($cx-theme-primary-color, 0.1)  
+    background-color: rgba(0, 0, 0, 0.04)  
   ),
   selected-hover: (
     color: #fff,
-    background-color: rgba($cx-theme-primary-color-light, 0.2)
+    background-color: $cx-theme-primary-color-light
   ),
   selected: (
-    color: $cx-default-color,
-    background-color: rgba($cx-theme-primary-color, 0.15)
+    background-color: rgba(0, 0, 0, 0.06)
   ),
   selected-focus: (
-    /*color: #fff,*/
-    background-color: rgba($cx-theme-primary-color-light, 0.25)
+    color: $cx-default-color,
+    background-color: rgba(0, 0, 0, 0.10)
   ),
   selected-cursor: (
-    background-color: rgba($cx-theme-primary-color-light, 0.3)
+    background-color: rgba(0, 0, 0, 0.13)
   ),
   disabled: (
     background-color: transparent
