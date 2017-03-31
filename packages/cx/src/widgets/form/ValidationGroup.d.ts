@@ -2,6 +2,8 @@ import * as Cx from '../../core';
 
 interface ValidationGroupProps extends Cx.PureContainerProps{
 
+   errors?: Cx.Record[],
+
    /** Binding which will be set to true if all child form field are valid. */
    valid?: Cx.BooleanProp,
 
@@ -13,6 +15,8 @@ interface ValidationGroupProps extends Cx.PureContainerProps{
 
    /** Set to `false` to disable all inner elements that support `disabled` property. */
    enabled?: Cx.BooleanProp,
+
+
 
 }
 
