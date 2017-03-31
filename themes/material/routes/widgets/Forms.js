@@ -50,7 +50,7 @@ export default <cx>
 
    <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
       <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio" style="width:100%">
+         <Select label="Select" value:bind="radio" style="width:100%; max-width: 230px;">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
