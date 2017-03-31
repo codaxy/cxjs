@@ -475,15 +475,6 @@ div.#{$block}classic-tab-container {
     border-width: 1px;
     border-color: transparent transparent rgba(0, 0, 0, 0.09);
   }
-
-  &.#{$state}focused {
-    > .#{$element}list-item.#{$state}selected {
-      /* overrides the default h element style */
-      @for $i from 1 through 6 {
-        h#{$i} { color: #fff; }
-      }
-    }
-  }
 }
 
 //RIPPLE EFFECT

@@ -214,23 +214,16 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   hover: (
     background-color: rgba(0, 0, 0, 0.02)
   ),
-  hover-focus: (
+  cursor: (
     color: $cx-default-color,
-    background-color: rgba(0, 0, 0, 0.04)  
-  ),
-  selected-hover: (
-    color: #fff,
-    background-color: $cx-theme-primary-color-light
+    background-color: rgba(0, 0, 0, 0.02)  
   ),
   selected: (
     background-color: rgba(0, 0, 0, 0.06)
   ),
-  selected-focus: (
+  selected-cursor: (
     color: $cx-default-color,
     background-color: rgba(0, 0, 0, 0.10)
-  ),
-  selected-cursor: (
-    background-color: rgba(0, 0, 0, 0.13)
   ),
   disabled: (
     background-color: transparent
@@ -410,16 +403,17 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
   hover: (
     color: $cx-default-color
   ),
-  hover-focus: (
-      background-color: rgba($cx-theme-primary-color, 0.2),
-    color: $cx-default-color
+  cursor: (
+    background-color: rgba($cx-theme-primary-color, 0.2),
+    color: $cx-default-color,
+    outline: none
   ),
   selected: (
     color: #fff,
     background-color: $cx-theme-primary-color ,
     border-color: $cx-theme-accent-color
   ),
-  selected-focus: (
+  selected-cursor: (
     color: #fff,
     background-color: $cx-theme-primary-color-dark,
     border-color: lighten($cx-theme-accent-color, 6)    
@@ -448,7 +442,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: rgba(255, 255, 255, 0.8),
       background-color: darken($cx-theme-primary-color, 2)
     ),
-    hover-focus: (
+    cursor: (
       color: rgba(255, 255, 255, 0.85),
       border-color: rgba($cx-theme-accent-color , 0.7)
     ),
@@ -457,7 +451,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       background-color: $cx-theme-primary-color,
       border-color: $cx-theme-accent-color   
     ),
-    selected-focus: (
+    selected-cursor: (
       color: #fff,
       background-color: $cx-theme-primary-color,
       border-color: lighten($cx-theme-accent-color, 6)    
@@ -480,13 +474,13 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: $cx-theme-primary-color-light,
       border-color: $cx-theme-primary-color
     ),
-    selected-focus: (
+    selected-cursor: (
       border-color: lighten($cx-theme-primary-color, 10)
     ),
     disabled: (
       color: rgba(0, 0, 0, 0.26)
     ),
-    hover-focus: (
+    cursor: (
       border-color: rgba($cx-theme-primary-color, 0.4)
     )
   ),
@@ -509,7 +503,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       border-color: rgba(255, 255, 255, 0.3),
       background-color: transparent
     ),
-    hover-focus: (
+    cursor: (
       background-color: transparent,
       border-color: rgba(255, 255, 255, 0.3),
       color: rgba(255, 255, 255, 0.8)
@@ -519,7 +513,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       background-color: transparent,
       border-color: $cx-theme-accent-color
     ),
-    selected-focus: (
+    selected-cursor: (
       border-color: lighten($cx-theme-accent-color, 10)
     ),
     disabled: (

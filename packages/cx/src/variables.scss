@@ -104,7 +104,21 @@ $cx-list-item: (
       background-color: rgba(128, 128, 128, 0.1),
       outline: none
    ),
-   hover-focus: (
+   cursor: (
+      background-color: rgba(123,190,255, 0.15),
+      outline: none,
+   ),
+   selected: (
+      background-color: rgba(123,190,255, 0.2)
+   ),
+   selected-hover: (
+      background-color: rgba(123,190,255, 0.2)
+   ),
+   selected-cursor: (
+      background-color: rgba(123,190,255, 0.45),
+      outline: none
+   ),
+   /*hover-focus: (
       background-color: rgba(123,190,255, 0.15),
       outline: none,
    ),
@@ -118,16 +132,16 @@ $cx-list-item: (
    ),
    selected-cursor: (
       background-color: rgba(123, 190, 255, 0.3)
+   ),*/
+   disabled: (
+      color: rgba(128, 128, 128, .5),
+      background-color: rgba(128, 128, 128, .1),
+      cursor: default
    ),
    active: (
       //causes flickering
       //background: rgba(123,190,255, 0.7)
    ),
-   disabled: (
-      color: rgba(128, 128, 128, .5),
-      background-color: rgba(128, 128, 128, .1),
-      cursor: default
-   )
 ) !default;
 
 $cx-default-font-family: -apple-system,

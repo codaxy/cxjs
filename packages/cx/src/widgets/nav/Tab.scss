@@ -23,14 +23,14 @@
       }
 
       &:focus {
-         @include cx-add-state-rules($state-style-map, hover-focus);
+         @include cx-add-state-rules($state-style-map, cursor);
       }
 
       &.#{$state}active {
          @include cx-add-state-rules($state-style-map, selected);
 
          &:focus {
-            @include cx-add-state-rules($state-style-map, selected-focus);
+            @include cx-add-state-rules($state-style-map, selected-cursor);
          }
       }
 
@@ -47,14 +47,14 @@
             }
 
             &:focus {
-               @include cx-add-state-rules($config, hover-focus);
+               @include cx-add-state-rules($config, cursor);
             }
 
             &.#{$state}active {
                @include cx-add-state-rules($config, selected);
 
                &:focus {
-                  @include cx-add-state-rules($config, selected-focus);
+                  @include cx-add-state-rules($config, selected-cursor);
                }
             }
 

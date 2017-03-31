@@ -92,11 +92,11 @@
 
       &:focus {
          td.#{$state}selected {
-            @include cx-add-state-rules($cx-list-item, selected-focus);
+            @include cx-add-state-rules($cx-list-item, selected);
          }
 
          td.#{$state}cursor, th.#{$state}cursor {
-            @include cx-add-state-rules($cx-list-item, hover-focus);
+            @include cx-add-state-rules($cx-list-item, selected-cursor);
          }
       }
    }

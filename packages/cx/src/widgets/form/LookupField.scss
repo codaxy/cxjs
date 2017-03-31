@@ -93,11 +93,11 @@
          cursor: pointer;
 
          &.cursor {
-            @include cx-add-state-rules($cx-list-item, hover-focus);
+            @include cx-add-state-rules($cx-list-item, cursor);
          }
 
          &.selected {
-            @include cx-add-state-rules($cx-list-item, selected-focus);
+            @include cx-add-state-rules($cx-list-item, cursor);
 
             &.cursor {
                @include cx-add-state-rules($cx-list-item, selected-cursor);

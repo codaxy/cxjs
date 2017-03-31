@@ -17,7 +17,7 @@ $mod: map-get($cx-besm, mod);
     &.#{$state}selected {
       @include cx-add-state-rules($cx-list-item, selected);
       &:hover {
-        @include cx-add-state-rules($cx-list-item, selected);
+        @include cx-add-state-rules($cx-list-item, selected-cursor);
       }
     }  
     &.#{$state}cursor {
@@ -26,10 +26,10 @@ $mod: map-get($cx-besm, mod);
   
     .#{$state}focused &, :focus & {
       &.#{$state}cursor {
-        @include cx-add-state-rules($cx-list-item, hover-focus);
+        @include cx-add-state-rules($cx-list-item, cursor);
       }
       &.#{$state}selected {
-        @include cx-add-state-rules($cx-list-item, selected-focus);
+        @include cx-add-state-rules($cx-list-item, selected-cursor);
       }
     }
   }

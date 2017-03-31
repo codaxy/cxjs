@@ -60,13 +60,13 @@ $cx-tab-mods: (
       hover: (
          border-color: rgba(128, 128, 128, 0.2),
       ),
-      hover-focus: (
+      cursor: (
          border-color: rgba(123,190,255, 0.3),
       ),
       selected: (
          border-color: rgba(128, 128, 128, 0.4),
       ),
-      selected-focus: (
+      selected-cursor: (
          border-color: rgba(123,190,255, 0.7),
       ),
       active: (),

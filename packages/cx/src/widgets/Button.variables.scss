@@ -93,7 +93,7 @@ $cx-button-mods: (
          box-shadow: none,
          border-color: transparent
       )),
-      focus: map-merge(map-get($cx-list-item, selected-focus), (
+      focus: map-merge(map-get($cx-list-item, selected-cursor), (
          box-shadow: none,
          border-color: transparent
       )),
