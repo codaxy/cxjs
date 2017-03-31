@@ -12,7 +12,16 @@ interface ListProps extends Cx.StyledContainerProps {
     
     itemStyle?: Cx.StyleProp,
     
-    emptyText?:  Cx.StringProp
+    emptyText?:  Cx.StringProp,
+
+    recordName?: string,
+    indexName?: string,
+    baseClass?: string,
+    focusable?: boolean,
+    focused?: boolean,
+    itemPad?: boolean,
+    cached?: boolean
+
 }
 
 export class List extends Cx.Widget<ListProps> {}
