@@ -35,6 +35,7 @@
    .#{$element}#{$name}-body {
       flex: 1 0 auto;
       box-sizing: border-box;
+      overflow: auto;
 
       .#{$state}pad > & {
          padding: 1rem 1.5rem;

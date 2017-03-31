@@ -1,3 +1,40 @@
+@mixin cx-flexbox-spacing(
+   $divider,
+   $besm: $cx-besm
+) {
+   $state: map-get($besm, state);
+   @each $pad, $size in $cx-pad-size
+   {
+
+      &.#{$state}#{$pad}-spacing {
+         margin: -$size / $divider;
+
+         & > * {
+            margin: $size / $divider;
+         }
+      }
+
+      &.#{$state}#{$pad}-hspacing {
+         margin-left: -$size / $divider;
+         margin-right: -$size / $divider;
+
+         & > * {
+            margin-left: $size / $divider;
+            margin-right: $size / $divider;
+         }
+      }
+
+      &.#{$state}#{$pad}-vspacing {
+         margin-top: -$size / $divider;
+         margin-bottom: -$size / $divider;
+
+         & > * {
+            margin-top: $size / $divider;
+            margin-bottom: $size / $divider;
+         }
+      }
+   }
+}
 
 @mixin cx-flexbox(
    $name: 'flexbox',
@@ -46,36 +83,7 @@
          flex-direction: row-reverse;
       }
 
-      @each $pad, $size in $cx-pad-size
-      {
-         &.#{$state}#{$pad}-spacing {
-            margin: -$size / 2;
-
-            & > * {
-               margin: $size / 2;
-            }
-         }
-
-         &.#{$state}#{$pad}-hspacing {
-            margin-left: -$size / 2;
-            margin-right: -$size / 2;
-
-            & > * {
-               margin-left: $size / 2;
-               margin-right: $size / 2;
-            }
-         }
-
-         &.#{$state}#{$pad}-vspacing {
-            margin-top: -$size / 2;
-            margin-bottom: -$size / 2;
-
-            & > * {
-               margin-top: $size / 2;
-               margin-bottom: $size / 2;
-            }
-         }
-      }
+      @include cx-flexbox-spacing(2, $besm);
 
       &.#{$state}align-center {
          align-items: center;
@@ -111,19 +119,22 @@
 
       &.#{$state}target-phone {
          @media not screen and (min-width: $cx-screen-size-small) {
-            flex-direction: column;
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-tablet {
          @media not screen and (min-width: $cx-screen-size-medium) {
-            flex-direction: column;
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-desktop {
          @media not screen and (min-width: $cx-screen-size-large) {
-            flex-direction: column;
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
          }
       }
    }

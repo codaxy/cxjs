@@ -54,6 +54,7 @@ Run themes:
 yarn run theme:core
 yarn run theme:dark
 yarn run theme:frost
+yarn run theme:material
 ```
 
 ### License
