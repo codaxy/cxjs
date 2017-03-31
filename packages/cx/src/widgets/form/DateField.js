@@ -127,10 +127,10 @@ export class DateField extends Field {
 DateField.prototype.baseClass = "datefield";
 DateField.prototype.memoize = false;
 
-DateField.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-DateField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-DateField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
+DateField.prototype.maxValueErrorText = 'Select {0:d} or before.';
+DateField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
+DateField.prototype.minValueErrorText = 'Select {0:d} or later.';
+DateField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 DateField.prototype.inputErrorText = 'Invalid date entered.';
 
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;

@@ -114,10 +114,10 @@ export class Calendar extends Field {
 
 Calendar.prototype.baseClass = "calendar";
 Calendar.prototype.highlightToday = true;
-Calendar.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-Calendar.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-Calendar.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
-Calendar.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+Calendar.prototype.maxValueErrorText = 'Select a date not after {0:d}.';
+Calendar.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
+Calendar.prototype.minValueErrorText = 'Select a date not before {0:d}.';
+Calendar.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 
 Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 
