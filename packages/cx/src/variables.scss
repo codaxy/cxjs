@@ -110,6 +110,7 @@ $cx-list-item: (
    ),
    selected: (
       background-color: rgba(123,190,255, 0.2),
+      border-color: $cx-default-border-color
    ),
    selected-focus: (
       background-color: rgba(123,190,255, 0.45),
