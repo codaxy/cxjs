@@ -48,6 +48,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   ),
   selected-focus: (
     background-color: darken($cx-default-highlight-color, 8)
+  ),
+  selected-cursor: (
+     background-color: darken($cx-default-highlight-color, 13)
   )
 ));
 

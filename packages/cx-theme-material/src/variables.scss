@@ -229,6 +229,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     color: $cx-default-color,
     background-color: rgba(0, 0, 0, 0.10)
   ),
+  selected-cursor: (
+    background-color: rgba(0, 0, 0, 0.13)
+  ),
   disabled: (
     background-color: transparent
   )

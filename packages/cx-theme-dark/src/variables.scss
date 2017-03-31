@@ -203,6 +203,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
    ),
    selected-focus: (
       background-color: $cx-default-highlight-color
+   ),
+   selected-cursor: (
+      background-color: lighten($cx-default-highlight-color, 4)
    )
 ));
 
