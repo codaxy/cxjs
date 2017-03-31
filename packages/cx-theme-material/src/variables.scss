@@ -223,14 +223,15 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     background-color: $cx-theme-primary-color-light
   ),
   selected: (
-    background-color: rgba(0, 0, 0, 0.06)
+    color: #fff,
+    background-color: rgba($cx-theme-primary-color-light, 0.75)     
   ),
   selected-focus: (
-    color: $cx-default-color,
-    background-color: rgba(0, 0, 0, 0.10)
+    color: #fff,
+    background-color: rgba($cx-theme-primary-color-light, 0.85)
   ),
   selected-cursor: (
-    background-color: rgba(0, 0, 0, 0.13)
+    background-color: $cx-theme-primary-color-light
   ),
   disabled: (
     background-color: transparent
