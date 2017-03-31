@@ -1,6 +1,9 @@
 import * as Cx from '../../core';
 
 interface LabelProps extends Cx.HtmlElementProps{
+   required?: 
+   disabled?:
+   htmlFor?:
    
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string,
