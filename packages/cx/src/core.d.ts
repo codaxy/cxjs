@@ -111,4 +111,9 @@ declare module "react" {
    interface HTMLProps<T> extends Cx.PureContainerProps {
       class?: Cx.ClassProp
    }
+
+   //this doesn't work, however, it would be nice if it does
+   interface EventHandler<E extends React.SyntheticEvent<any>> {
+      (event: E, instance?: any): void;
+   }
 }

@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface CheckboxProps extends {
+interface CheckboxProps extends Cx.WidgetProps {
 
    /** Value of the checkbox. `true` makes the checkbox checked. */
    value?: Cx.BooleanProp,
