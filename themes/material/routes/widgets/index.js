@@ -77,7 +77,7 @@ export default <cx>
               <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
               <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
            </div>
-           <div mod="cover" style="padding: 1.5rem; border-width:1px 0 0 0; flex:auto; border-radius:3px">
+           <div style="padding: 1rem 0 0; border-width:1px 0 0 0; flex:auto; border-radius:3px">
               <TabContent />
            </div>
         </Section>
@@ -119,10 +119,10 @@ export default <cx>
           <Menu1 />
         </Section>
 
-        <Section mod="card" title="Toasts" style="flex:1 0 0%">
+        <Section mod="card" title="Toasts" style="flex:1 0 200px">
           <Toasts />
         </Section>
-        <Section mod="card"  title="Lists" style="flex:1 0 0%">
+        <Section mod="card"  title="Lists" style="flex:1 0 300px">
           <List />
         </Section>
     </FlexRow>
