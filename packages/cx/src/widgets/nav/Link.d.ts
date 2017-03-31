@@ -7,10 +7,12 @@ interface LinkProp extends Cx.HtmlElementProps{
 
    /** Target url. */
    href?: Cx.StringProp,
-   
-   baseClass?: string,
-   tag?: string,
 
+   text?: Cx.StringProp,
+   url?: Cx.String,
+   baseClass?: string,
+   match?: "equal" | "prefix"
+   
 
 }
 
