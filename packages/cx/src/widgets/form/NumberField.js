@@ -89,10 +89,10 @@ NumberField.prototype.reactOn = "input wheel blur";
 NumberField.prototype.format = 'n';
 NumberField.prototype.inputType = 'text';
 
-NumberField.prototype.maxValueErrorText = 'The number should be at most {0:n}.';
-NumberField.prototype.maxExclusiveErrorText = 'The number should be less than {0:n}.';
-NumberField.prototype.minValueErrorText = 'The number should be at least {0:n}.';
-NumberField.prototype.minExclusiveErrorText = 'The number should be greater than {0:n}.';
+NumberField.prototype.maxValueErrorText = 'Enter {0:n} or less.';
+NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0:n}.';
+NumberField.prototype.minValueErrorText = 'Enter {0:n} or more.';
+NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0:n}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
 NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
 

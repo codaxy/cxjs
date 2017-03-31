@@ -153,10 +153,10 @@ MonthPicker.prototype.endYear = 2030;
 MonthPicker.prototype.bufferSize = 15;
 
 // Localization
-MonthPicker.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-MonthPicker.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-MonthPicker.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
-MonthPicker.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+MonthPicker.prototype.maxValueErrorText = 'Select {0:d} or before.';
+MonthPicker.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
+MonthPicker.prototype.minValueErrorText = 'Select {0:d} or later.';
+MonthPicker.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 Localization.registerPrototype('cx/widgets/MonthPicker', MonthPicker);
 
 Widget.alias('month-picker', MonthPicker);
