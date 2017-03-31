@@ -97,17 +97,11 @@ export function offFocusOut(component) {
 }
 
 export function preventFocus(e) {
-   if (e.currentTarget != document.activeElement) {
+   if (e.currentTarget != document.activeElement && !document.activeElement.contains(e.currentTarget)) {
       e.preventDefault();
-      //dropdowns may close if focus moves outside which might not be desired behaviour
-      //let the developer close the dropdown if necessary
-
-      //force field validation on outside click
-      document.activeElement.blur();
-      // if (!document.activeElement.contains(e.currentTarget)) {
-      //    let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
-      //    focusableParent.focus();
-      // }
+      //force field validation on outside click, however, preserve active window or dropdown menu
+      let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
+      focusableParent.focus();
       FocusManager.nudge();
    }
 }
