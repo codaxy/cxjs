@@ -15,7 +15,7 @@ const themes = [{
    name: 'Frost',
    url: 'frost',
    imgUrl: '~/img/frost.png',
-   description: "Frost is another beautiful theme inspired by winter colors. It feauters minimalistic design, whose beauty lies in a lot of small eye pleasing details."
+   description: "Frost is a theme inspired by winter colors. It features minimalistic design, whose beauty lies in small eye pleasing details."
 }, {
    name: 'Dark',
    url: 'dark',
