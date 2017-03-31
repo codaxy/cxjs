@@ -65,12 +65,8 @@
          }
       }
 
-      &:hover, &:focus {
+      &:hover {
         @include cx-add-state-rules($state-style-map, hover);
-
-         &:focus {
-            @include cx-add-state-rules($state-style-map, hover-focus);
-         }
       }
 
       &:active {
@@ -79,7 +75,8 @@
 
       &.#{$state}active {
          @include cx-add-state-rules($state-style-map, selected);
-         &:focus {
+
+         .#{$block}#{$name}:focus > & {
             @include cx-add-state-rules($state-style-map, selected-focus);
          }
       }

@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {KeyCode} from '../../util/KeyCode';
+import {preventMouseFocusOnTouch} from '../../ui/FocusManager';
 import ForwardIcon from '../icons/forward';
 
 export class Pagination extends Widget {
@@ -22,16 +23,77 @@ export class Pagination extends Widget {
    }
 
    render(context, instance, key) {
-      return <PaginationComponent key={key} instance={instance} onSetPage={(e, page)=>{this.onSetPage(e, instance, page)}} />
+      let {data, widget} = instance;
+      let {page, pageCount, length} = data;
+      let {CSS, baseClass} = widget;
+
+      if (!pageCount)
+         pageCount = 1;
+
+      let minPage = Math.max(1, page - Math.floor(length / 2));
+      let maxPage = minPage + length - 1;
+
+      if (maxPage > pageCount) {
+         maxPage = Math.max(pageCount, length);
+         minPage = maxPage - length + 1;
+      }
+
+      let nextPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-next-page")}/>;
+      let prevPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-prev-page")}/>;
+
+      let pageBtns = [];
+
+      for (let p = minPage - 1; p <= maxPage + 1; p++) {
+         pageBtns.push(<li
+            key={p < minPage ? '-1' : p > maxPage ? '-2' : p}
+            className={CSS.element(baseClass, "page", {
+               active: page == p,
+               disabled: p > pageCount || (p < page && page == 1)
+            })}
+            onMouseDown={e => {
+               e.stopPropagation();
+               preventMouseFocusOnTouch(e);
+            }}
+            onClick={e => {
+               this.setPage(e, instance, p < minPage ? page - 1 : p > maxPage ? page + 1 : p)
+            }}>
+            {p < minPage ? prevPageIcon : p > maxPage ? nextPageIcon : p}
+         </li>)
+      }
+
+      return <ul
+         key={key}
+         className={data.classNames}
+         style={data.style}
+         tabIndex={0}
+         onKeyDown={ e => {
+            this.onKeyDown(e, instance)
+         }}
+      >
+         {pageBtns}
+      </ul>;
    }
 
-   onSetPage(e, instance, page) {
-      var {data} = instance;
-      var {pageCount} = data;
-      if (page <= pageCount && page > 0)
-         instance.set('page', page);
+   onKeyDown(e, instance) {
+      let {data} = instance;
+      switch (e.keyCode) {
+         case KeyCode.left:
+            this.setPage(e, instance, data.page - 1);
+            break;
+
+         case KeyCode.right:
+            this.setPage(e, instance, data.page + 1);
+            break;
+      }
+   }
+
+   setPage(e, instance, page) {
       e.preventDefault();
       e.stopPropagation();
+      let {data} = instance;
+      let {pageCount} = data;
+      if (page <= pageCount && page > 0)
+         instance.set('page', page);
    }
 }
 
@@ -39,64 +101,3 @@ Pagination.prototype.baseClass = "pagination";
 Pagination.prototype.length = 5;
 
 Widget.alias('pagination', Pagination);
-
-export class PaginationComponent extends VDOM.Component {
-   render() {
-      var {data, widget} = this.props.instance;
-      var {page, pageCount, length} = data;
-      var {CSS, baseClass} = widget;
-
-      if (!pageCount)
-         pageCount = 1;
-
-      var minPage = Math.max(1, page - Math.floor(length / 2));
-      var maxPage = minPage + length -1;
-
-      var pageBtns = [];
-
-      this.pageRefs = {};
-
-      let nextPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-next-page")} />;
-      let prevPageIcon = <ForwardIcon className={CSS.element(baseClass, "icon-prev-page")} />;
-
-      for (let p = minPage-1; p <= maxPage+1; p++) {
-         pageBtns.push(<li key={p < minPage ? '-1' : p > maxPage ? '-2' : p}
-                           ref={c=>{this.pageRefs[p] = c;}}
-                           className={CSS.element(baseClass, "page", { active: page == p, disabled: p > pageCount || (p < page && page == 1) })}
-                           tabIndex={p==page ? 0 : -1}
-                           onKeyDown={e=>this.onKeyDown(e, p)}
-                           onMouseDown={e=> {e.stopPropagation(); e.preventDefault();}}
-                           onClick={e=>this.props.onSetPage(e, p < minPage ? page - 1 : p > maxPage ? page + 1 : p)}>
-            {p < minPage ? prevPageIcon : p > maxPage ? nextPageIcon : p}
-         </li>)
-      }
-
-      return <ul className={data.classNames} style={data.style}>
-         {pageBtns}
-      </ul>;
-   }
-
-   onKeyDown(e, page) {
-      switch (e.keyCode) {
-         case KeyCode.enter:
-            this.props.onSetPage(e, page);
-            break;
-
-         case KeyCode.left:
-            var el = this.pageRefs[page - 1];
-            if (el)
-               el.focus();
-            e.preventDefault();
-            e.stopPropagation();
-            break;
-
-         case KeyCode.right:
-            var el = this.pageRefs[page + 1];
-            if (el)
-               el.focus();
-            e.preventDefault();
-            e.stopPropagation();
-            break;
-      }
-   }
-}
