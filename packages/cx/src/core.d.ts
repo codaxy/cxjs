@@ -74,6 +74,8 @@ declare namespace Cx {
 
    interface HtmlElementProps extends StyledContainerProps {
       id?: string | number | Binding | Selector<string | number>,
+
+      /** Inner text contents. */
       text?: string | number | Binding | Selector<string | number>
    }
 
