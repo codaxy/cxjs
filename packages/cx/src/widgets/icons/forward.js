@@ -17,5 +17,5 @@ export default Icon.register('forward', props => {
          d="M6.15 15.5L10.5 10 6.17 4.53 5.52 5l3.98 5-4 5z" />
 
    </svg>
-});
+}, true);
 

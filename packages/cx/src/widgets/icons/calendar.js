@@ -12,5 +12,5 @@ export default Icon.register('calendar', props => {
       <path fill="currentColor" d="M10 8h10v2H10z"/>
       <path fill="none" stroke="currentColor" strokeWidth="2" d="M3 5h24v24H3z"/>
    </svg>
-});
+}, true);
 

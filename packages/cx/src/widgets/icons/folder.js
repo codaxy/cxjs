@@ -8,5 +8,5 @@ export default Icon.register('folder', props => {
 
       <path d="M1 5h13v9H1zm1 0h6L7 3H3z" fill="currentColor" stroke="none"/>
    </svg>
-});
+}, true);
 
