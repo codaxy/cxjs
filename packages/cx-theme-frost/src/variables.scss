@@ -40,25 +40,43 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
-  hover-focus: (
+  cursor: (
     background-color: $cx-default-highlight-color
   ),
   selected: (
     background-color: lighten($cx-default-highlight-color, 2)
   ),
-  selected-focus: (
+  selected-cursor: (
     background-color: darken($cx-default-highlight-color, 8)
   )
 ));
 
 $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
- hover-focus: (
-    background-color: $cx-default-highlight-color
+  cursor: (
+    background-color: lighten($cx-default-highlight-color, 2)
   ),
-  selected-focus: (
+  selected: (
+    background-color: darken($cx-default-highlight-color, 4)
+  ),
+  selected-cursor: (
     background-color: darken($cx-default-highlight-color, 8)
   )
 ));
+
+$cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
+  line: (
+    cursor: (
+      border-color: $cx-default-highlight-color
+    ),
+   selected: (
+      border-color: darken($cx-default-highlight-color, 10)
+   ),
+   selected-cursor: (
+      border-color: darken($cx-default-highlight-color, 20)
+   )
+ )
+));
+
 
 // menu
 

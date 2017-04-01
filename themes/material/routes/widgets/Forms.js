@@ -50,19 +50,19 @@ export default <cx>
 
    <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
       <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio" style="width:100%">
+         <Select label="Select" value:bind="radio" style="width:100%; max-width: 230px;">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
          <LookupField label="LookupField" value:bind="radio"
             options={options}
-            style="width:100%;"/>
+            style="width:100%; max-width: 230px;"/>
          <LookupField label="LookupField (multiple)" multiple values:bind="options"
             options={options}
-            style="width:100%;"/>
-         <DateField label="DateField" value:bind="date" style="width:100%"/>
-         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%"/>
-         <ColorField label="ColorField" value:bind="color" style="width:100%;"/>
+            style="width:100%; max-width: 230px;"/>
+         <DateField label="DateField" value:bind="date" style="width:100%; max-width: 230px;"/>
+         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%; max-width: 230px;"/>
+         <ColorField label="ColorField" value:bind="color" style="width:100%; max-width: 230px;"/>
       </div>
    </Section>
 

@@ -28,7 +28,7 @@
       }
 
       .#{$state}focusable.#{$state}cursor > &.#{$state}cursor {
-         @include cx-add-state-rules($state-style-map, selected-focus);
+         @include cx-add-state-rules($state-style-map, selected-cursor);
       }
 
       & > a {

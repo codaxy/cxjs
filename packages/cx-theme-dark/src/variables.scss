@@ -203,6 +203,9 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
    ),
    selected-focus: (
       background-color: $cx-default-highlight-color
+   ),
+   selected-cursor: (
+      background-color: lighten($cx-default-highlight-color, 4)
    )
 ));
 
@@ -212,13 +215,14 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
       text-decoration: none,
       background-color: $cx-default-background-color-dark
    ),
-   hover-focus: (
-      background-color: darken($cx-default-highlight-color, 12)
+   cursor: (
+      background-color: darken($cx-default-highlight-color, 12),
+      outline: none
    ),
    selected: (
       background-color: darken($cx-default-highlight-color, 9)
    ),
-   selected-focus: (
+   selected-cursor: (
       background-color: $cx-default-highlight-color
    ),
    disabled: (
@@ -234,13 +238,13 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       )
    ),
    line: (
-      hover-focus: (
+      cursor: (
          border-color: darken($cx-default-highlight-color, 12)
       ),
       selected: (
          border-color: darken($cx-default-highlight-color, 3)
       ),
-      selected-focus: (
+      selected-cursor: (
          border-color: $cx-default-highlight-color
       )
    )

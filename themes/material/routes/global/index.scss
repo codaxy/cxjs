@@ -54,6 +54,6 @@
 
    &.m-selection-focus:after {
       content: ' ';
-      background: cx-get-state-rule($cx-list-item, selected-focus, background-color);
+      background: cx-get-state-rule($cx-list-item, selected-cursor, background-color);
    }
 }

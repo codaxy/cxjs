@@ -17,7 +17,7 @@ $mod: map-get($cx-besm, mod);
     &.#{$state}selected {
       @include cx-add-state-rules($cx-list-item, selected);
       &:hover {
-        @include cx-add-state-rules($cx-list-item, selected);
+        @include cx-add-state-rules($cx-list-item, selected-cursor);
       }
     }  
     &.#{$state}cursor {
@@ -26,10 +26,10 @@ $mod: map-get($cx-besm, mod);
   
     .#{$state}focused &, :focus & {
       &.#{$state}cursor {
-        @include cx-add-state-rules($cx-list-item, hover-focus);
+        @include cx-add-state-rules($cx-list-item, cursor);
       }
       &.#{$state}selected {
-        @include cx-add-state-rules($cx-list-item, selected-focus);
+        @include cx-add-state-rules($cx-list-item, selected-cursor);
       }
     }
   }
@@ -42,34 +42,40 @@ $mod: map-get($cx-besm, mod);
 /* Scrollbar Style*/
 
 @if ($cx-include-global-rules) {
-  ::-webkit-scrollbar {
-	  width: 10px;
-	  height: 10px;
-	  background-color: $cx-default-background-color-dark;
-  }
-  ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 8px;
-		
-    &:vertical {
-	    background-color: lighten($cx-default-background-color-light, 6);
-        &:hover {
-          background-color: lighten($cx-default-background-color-light, 8);
-        }
-    }
+   @media screen and (min-width: 700px) {
+      ::-webkit-scrollbar {
+         width: 10px;
+         height: 10px;
+         background-color: $cx-default-background-color-dark;
+      }
 
-	  &:horizontal {
-		  background-color: lighten($cx-default-background-color-light, 8);
-        &:hover {
-          background-color: lighten($cx-default-background-color-light, 10);
-        }
-	  }
-  }
-  ::-webkit-scrollbar-corner {			
-	  background-color: darken($cx-default-background-color-light, 2);
-	  border-left: 1px solid $cx-default-border-color;
-	  border-top: 1px solid $cx-default-border-color;
-	  -webkit-box-shadow: darken($cx-default-background-color, 3) 0 1px inset;
-  }
+      ::-webkit-scrollbar-thumb {
+         -webkit-border-radius: 8px;
+
+         &:vertical {
+            background-color: lighten($cx-default-background-color-light, 6);
+
+            &:hover {
+               background-color: lighten($cx-default-background-color-light, 8);
+            }
+         }
+
+         &:horizontal {
+            background-color: lighten($cx-default-background-color-light, 8);
+
+            &:hover {
+               background-color: lighten($cx-default-background-color-light, 10);
+            }
+         }
+      }
+
+      ::-webkit-scrollbar-corner {
+         background-color: darken($cx-default-background-color-light, 2);
+         border-left: 1px solid $cx-default-border-color;
+         border-top: 1px solid $cx-default-border-color;
+         -webkit-box-shadow: darken($cx-default-background-color, 3) 0 1px inset;
+      }
+   }
 }
 
 //override for chrome mobile default press effect

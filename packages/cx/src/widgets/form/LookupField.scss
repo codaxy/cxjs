@@ -1,27 +1,23 @@
 
-@mixin cx-lookupfield(
-   $name: 'lookupfield',
-   $state-style-map: $cx-std-field-state-style-map,
-   $placeholder: $cx-input-placeholder,
-   $empty-text: $cx-empty-text,
-   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
-   $clear-state-style-map: $cx-clear-state-style-map,
-   $tool-state-style-map: $cx-input-right-icon-state-style-map,
-   $icon-size: $cx-default-input-icon-size,
-   $width: $cx-default-input-width,
-   $tag-state-style-map: $cx-input-tag-state-style-map,
-   $besm: $cx-besm
+@mixin cx-lookupfield( 
+   $name: 'lookupfield', 
+   $state-style-map: $cx-std-field-state-style-map, 
+   $placeholder: $cx-input-placeholder, 
+   $empty-text: $cx-empty-text, 
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map, 
+   $clear-state-style-map: $cx-clear-state-style-map, 
+   $tool-state-style-map: $cx-input-right-icon-state-style-map, 
+   $icon-size: $cx-default-input-icon-size, 
+   $width: $cx-default-input-width, 
+   $tag-state-style-map: $cx-input-tag-state-style-map, 
+   $besm: $cx-besm 
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $state-style-map,
-         $width: $width,
-         $input: false
-      );
-
+      @include cxb-field($besm, $state-style-map, $width: $width, $input: false );
       min-width: $cx-default-input-width;
       cursor: pointer
    }
@@ -29,22 +25,17 @@
    $padding: cx-get-state-rule($state-style-map, default, padding);
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $placeholder: $placeholder,
-         $input: false,
-         $overrides: (
-            default: (
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding)
-            )
-         )
+      @include cxe-field-input ( 
+         $besm, $state-style-map, 
+         $placeholder: $placeholder, 
+         $input: false, 
+         $overrides: ( default: ( padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding) ) )
       );
-      
+
       .#{$state}multiple > & {
          padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) $cx-default-input-tag-spacing 0;
       }
-      
+
       .#{$state}icon > & {
          padding-left: cx-calc(2 * cx-left($padding), $icon-size);
       }
@@ -58,12 +49,11 @@
       @include cx-add-state-rules($tag-state-style-map, default);
 
       &:hover {
-        @include cx-add-state-rules($tag-state-style-map, hover);
+         @include cx-add-state-rules($tag-state-style-map, hover);
       }
    }
 
    .#{$element}#{$name}-placeholder {
-
       color: $cx-default-input-placeholder-color;
 
       .#{$block}#{$name}.#{$state}multiple & {
@@ -93,7 +83,7 @@
       width: 100%;
 
       &:focus {
-        @include cx-add-state-rules($cx-list, focus);
+         @include cx-add-state-rules($cx-list, focus);
       }
 
       & > li {
@@ -103,27 +93,26 @@
          cursor: pointer;
 
          &.cursor {
-            @include cx-add-state-rules($cx-list-item, hover-focus);
+            @include cx-add-state-rules($cx-list-item, cursor);
          }
 
          &.selected {
-            @include cx-add-state-rules($cx-list-item, selected-focus);
+            @include cx-add-state-rules($cx-list-item, cursor);
+
+            &.cursor {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
          }
       }
    }
 
    .#{$element}#{$name}-query {
-      @include cxe-field-input($besm, $state-style-map,
-         $placeholder: $placeholder,
-         $width: calc(100% - 10px),
-         $overrides: (
-            default: (
-               margin: 5px,
-               flex: 0 0 auto
-            )
-         )
+      @include cxe-field-input (
+         $besm, $state-style-map, 
+         $placeholder: $placeholder, 
+         $width: calc(100% - 10px), 
+         $overrides: ( default: ( margin: 5px, flex: 0 0 auto ) ) 
       );
-
       //put query field down when placed up
       .#{$state}place-up-right &,
       .#{$state}place-up &,
@@ -164,9 +153,10 @@
 
    .#{$element}#{$name}-tool {
       @include cxe-field-button($besm, $tool-state-style-map);
+
       .#{$state}disabled > & {
-        @include cx-add-state-rules($state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($state-style-map, disabled);
+         border-width: 0;
       }
    }
 

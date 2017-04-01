@@ -374,7 +374,7 @@ div.#{$block}classic-tab-container {
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
   background-color: transparent;
   > span {
-    color: $cx-secondary-text-color;
+    color: $cx-theme-secondary-text-color;
   }
 }
 
@@ -475,15 +475,6 @@ div.#{$block}classic-tab-container {
     border-width: 1px;
     border-color: transparent transparent rgba(0, 0, 0, 0.09);
   }
-
-  &.#{$state}focused {
-    > .#{$element}list-item.#{$state}selected {
-      /* overrides the default h element style */
-      @for $i from 1 through 6 {
-        h#{$i} { color: #fff; }
-      }
-    }
-  }
 }
 
 //RIPPLE EFFECT
@@ -574,3 +565,16 @@ div.#{$block}classic-tab-container {
 
   user-select: none;
 }
+
+
+/*.cxe-grid-data.cxs-selected {
+   td {
+      border-color: rgba($cx-theme-primary-color-light, 0.4)
+   }
+
+   + .cxe-grid-data {
+      td {
+         border-color: rgba($cx-theme-primary-color-light, 0.4)
+      }
+   }
+}*/

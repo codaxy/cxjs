@@ -75,9 +75,9 @@
 
       &.#{$state}active {
          @include cx-add-state-rules($state-style-map, selected);
-
+        
          .#{$block}#{$name}:focus > & {
-            @include cx-add-state-rules($state-style-map, selected-focus);
+            @include cx-add-state-rules($state-style-map, selected-cursor);
          }
       }
 
