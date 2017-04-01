@@ -8,7 +8,7 @@ import "./error";
 import './index.scss';
 
 // import {GridSection} from './sections/Grid';
-// import {FormSection} from './sections/Form';
+import {FormSection as Demo} from './sections/Form';
 // import {WindowSection} from './sections/Window';
 //import {ListSection as Demo} from './sections/List';
 // import ComplexGrid from './sections/ComplexGrid';
@@ -20,7 +20,7 @@ import './index.scss';
 //import Demo from './bugs/search';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
-import Demo from './features/drag-drop/ReorderSpace';
+//import Demo from './features/drag-drop/ReorderSpace';
 //import Demo from './features/drag-drop/trello';
 //import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';

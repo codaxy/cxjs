@@ -185,10 +185,10 @@ export class MonthField extends Field {
 
 MonthField.prototype.baseClass = "monthfield";
 MonthField.prototype.memoize = false;
-MonthField.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-MonthField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-MonthField.prototype.minValueErrorText = 'Selected date is before the earliest allowed date of {0:d}.';
-MonthField.prototype.minExclusiveErrorText = 'Selected date should be after {0:d}.';
+MonthField.prototype.maxValueErrorText = 'Select {0:d} or before.';
+MonthField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
+MonthField.prototype.minValueErrorText = 'Select {0:d} or later.';
+MonthField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 MonthField.prototype.inputErrorText = 'Invalid date entered';
 MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';

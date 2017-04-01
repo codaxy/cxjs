@@ -8,5 +8,5 @@ export default Icon.register('sort-asc', props => {
       <path fill="currentColor"
          d="M4.5 10.2l3 3 3-3-.7-.7L8 11.3V3H7v8.3L5.2 9.5z"/>
    </svg>
-});
+}, true);
 

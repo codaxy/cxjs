@@ -3,6 +3,8 @@ import { Widget, VDOM } from '../ui/Widget';
 let icons = {};
 let iconFactory = null;
 
+let unregisteredDefaultIcons = {};
+
 export class Icon extends Widget {
    declareData() {
       super.declareData(...arguments, {
@@ -22,14 +24,20 @@ export class Icon extends Widget {
       });
    }
 
-   static register(name, icon) {
-      icons[name] = icon;
+   static register(name, icon, defaultIcon = false) {
+      if (!defaultIcon || !unregisteredDefaultIcons[name])
+         icons[name] = icon;
+
+      if (!defaultIcon)
+         unregisteredDefaultIcons[name] = true;
+
       return props => this.render(name, props);
    }
 
    static unregister(...args) {
       args.forEach(name => {
          delete icons[name];
+         unregisteredDefaultIcons[name] = true;
       });
    }
 
