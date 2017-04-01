@@ -4,6 +4,7 @@ import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpda
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
+import {batchUpdates} from './batchUpdates';
 
 export class Instance {
    constructor(widget, key) {
@@ -300,29 +301,31 @@ export class Instance {
    }
 
    doSet(prop, value) {
-      let p = this.widget[prop];
-      if (p && typeof p == 'object') {
-         if (p.set) {
-            if (typeof p.set == 'function') {
-               p.set(value, this);
+      batchUpdates(() => {
+         let p = this.widget[prop];
+         if (p && typeof p == 'object') {
+            if (p.set) {
+               if (typeof p.set == 'function') {
+                  p.set(value, this);
+                  return true;
+               }
+               else if (typeof p.set == 'string') {
+                  this.controller[p.set](value, this);
+                  return true;
+               }
+            }
+            else if (p.action) {
+               let action = p.action(value, this);
+               this.store.dispatch(action);
                return true;
             }
-            else if (typeof p.set == 'string') {
-               this.controller[p.set](value, this);
+            else if (p.bind) {
+               this.store.set(p.bind, value);
                return true;
             }
          }
-         else if (p.action) {
-            let action = p.action(value, this);
-            this.store.dispatch(action);
-            return true;
-         }
-         else if (p.bind) {
-            this.store.set(p.bind, value);
-            return true;
-         }
-      }
-      return false;
+         return false;
+      });
    }
 
    replaceState(state) {

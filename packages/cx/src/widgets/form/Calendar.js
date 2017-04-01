@@ -174,6 +174,8 @@ export class CalendarCmp extends VDOM.Component {
       e.stopPropagation();
 
       date = zeroTime(date);
+      if (date.getTime() == this.state.cursor.getTime())
+         return;
 
       var refDate = this.state.refDate;
 
