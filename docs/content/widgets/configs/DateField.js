@@ -2,12 +2,19 @@ import {Md} from '../../../components/Md';
 import field from './Field';
 import calendar from './Calendar';
 
-let fromCalendar = (({minValue, minExclusive, maxValue, maxExclusive, value }) => (
-        { minValue, minExclusive, maxValue, maxExclusive, value }
-    ))(calendar);
+let {
+    minValue, 
+    minExclusive, 
+    maxValue, 
+    maxExclusive, 
+    value 
+} = calendar;
 
 export default {
-    ...fromCalendar,
+    minValue,
+    minExclusive,
+    maxValue,
+    maxExclusive,
     ...field,
     baseClass: {
         type: 'string',
