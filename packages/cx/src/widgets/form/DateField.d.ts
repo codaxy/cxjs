@@ -3,7 +3,7 @@ import { FieldProps } from './Field';
 
 interface DateFieldProps extends FieldProps {
    
-   /** Selected datee. This should be a valid date string consumable by Date.parse function. */
+   /** Selected date. This should be a Date object or a valid date string consumable by Date.parse function. */
    value?: Cx.StringProp | Date,
 
    /** Defaults to `false`. Set to `true` to disable the field. */
@@ -19,7 +19,7 @@ interface DateFieldProps extends FieldProps {
    placeholder?: Cx.StringProp,
 
    /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.StringProp,
+   required?: Cx.BooleanProp,
 
    /** Minimum date value. This should be a valid date string consumable by Date.parse function. */
    minValue?: Cx.StringProp | Date,
