@@ -7,7 +7,6 @@ let {
     minExclusive, 
     maxValue, 
     maxExclusive, 
-    value 
 } = calendar;
 
 export default {

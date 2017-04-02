@@ -15,6 +15,7 @@ export default {
     minExclusive,
     maxValue,
     maxExclusive,
+    value,
     ...field,
     baseClass: {
         type: 'string',
