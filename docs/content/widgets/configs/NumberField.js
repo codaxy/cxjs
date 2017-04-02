@@ -1,7 +1,20 @@
 import {Md} from '../../../components/Md';
 import field from './Field';
+import calendar from './Calendar';
+
+let {
+    minValue, 
+    minExclusive, 
+    maxValue, 
+    maxExclusive, 
+    value 
+} = calendar;
 
 export default {
+    minValue,
+    minExclusive,
+    maxValue,
+    maxExclusive,
     ...field,
     format: {
         key: true,
