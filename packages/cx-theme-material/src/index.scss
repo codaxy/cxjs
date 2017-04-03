@@ -362,7 +362,7 @@ div.#{$block}classic-tab-container {
 
 .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
   background-color: transparent;
-  color: $cx-default-dropdown-color;    
+  /*color: $cx-default-dropdown-color;*/    
 
   &:before {
     transform: scaleX(1);
@@ -374,7 +374,7 @@ div.#{$block}classic-tab-container {
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
   background-color: transparent;
   > span {
-    color: $cx-theme-secondary-text-color;
+    /*color: $cx-theme-secondary-text-color;*/
   }
 }
 
