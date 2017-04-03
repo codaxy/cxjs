@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface LinkProp extends Cx.HtmlElementProps{
+interface LinkProps extends Cx.HtmlElementProps{
 
    /** Defaults to `false`. Set to `true` to disable the field. */
    disabled?: Cx.BooleanProp,
@@ -9,11 +9,11 @@ interface LinkProp extends Cx.HtmlElementProps{
    href?: Cx.StringProp,
 
    text?: Cx.StringProp,
-   url?: Cx.String,
+   url?: Cx.StringProp,
    baseClass?: string,
    match?: "equal" | "prefix"
    
 
 }
 
-export class Link extends Cx.Widget<LinkProp> {}
+export class Link extends Cx.Widget<LinkProps> {}
