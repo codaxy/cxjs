@@ -3,9 +3,6 @@ import { FieldProps } from './Field';
 
 interface MonthFieldProps extends FieldProps {
    
-   /** Either `view` or `edit` (default). In view mode, the field is displayed as plain text. */
-   mode?: Cx.Prop<"view" | "edit">,
-
    /** Set to `true` to allow range select. */
    range?: Cx.BooleanProp,
 
@@ -48,12 +45,22 @@ interface MonthFieldProps extends FieldProps {
    /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
    baseClass?: string,
 
-   memoize?: boolean,
+   /** Maximum value error text. */
    maxValueErrorText?: string,
+
+   /** Maximum exclusive value error text. */
    maxExclusiveErrorText?: string,
+
+   /** Minimum value error text. */
    minValueErrorText?: string,
+
+   /** Minimum exclusive value error text. */
    minExclusiveErrorText?: string,
+
+   /** Invalid input error text. */
    inputErrorText?: string,
+
+   /** When `true`, error tooltips are suppressed until the field has been visited. Default value is `true`. */
    suppressErrorTooltipsUntilVisited?: boolean,
 
    /** Name of the icon to be put on the left side of the input. */
