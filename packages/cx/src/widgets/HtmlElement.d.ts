@@ -2,7 +2,6 @@ import * as Cx from '../core';
 
 interface HtmlElementProps extends Cx.HtmlElementProps {
 
-   
    /** HTML to be injected into the element. */
    innerHtml?: Cx.StringProp,
 
