@@ -24,6 +24,7 @@ export default <cx>
          style={{height: "450px"}}
          mod="responsive"
          scrollable
+         cached
          columns={[
             {
                header: 'Name',

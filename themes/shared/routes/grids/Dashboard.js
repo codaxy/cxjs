@@ -1,7 +1,7 @@
-import { MarkerLine, LineGraph, NumericAxis, Chart } from 'cx/charts';
-import { NumberField, Slider, TextField, Grid, HtmlElement, Section } from 'cx/widgets';
-import { Svg } from 'cx/svg';
-import { Controller } from 'cx/ui';
+import {MarkerLine, LineGraph, NumericAxis, Chart} from 'cx/charts';
+import {NumberField, Slider, TextField, Grid, HtmlElement, Section} from 'cx/widgets';
+import {Svg} from 'cx/svg';
+import {Controller} from 'cx/ui';
 
 import {casual} from 'shared/data/casual';
 
@@ -43,6 +43,7 @@ export default <cx>
          defaultSortField="sales"
          defaultSortDirection="DESC"
          mod="responsive"
+         cached
          columns={[
             {
                field: 'name',

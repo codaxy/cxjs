@@ -195,41 +195,54 @@ export class Grid extends Widget {
       let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      let dragHandles = context.dragHandles,
-         record,
-         wasSelected;
+      //do not process rows in cached mode if nothing has changed;
+      if (!this.cached || instance.shouldUpdate) {
+         let dragHandles = context.dragHandles,
+            record,
+            wasSelected;
 
-      for (let i = 0; i < instance.records.length; i++) {
-         record = instance.records[i];
-         if (record.type == 'data') {
-            let row = record.row = instance.getChild(context, this.row, record.key, record.store);
-            wasSelected = row.selected;
-            row.selected = instance.isSelected(record.data, record.index);
-            context.dragHandles = [];
-            row.explore(context);
-            row.shouldUpdate |= wasSelected != record.selected;
-            row.dragHandles = context.dragHandles;
+         for (let i = 0; i < instance.records.length; i++) {
+            record = instance.records[i];
+            if (record.type == 'data') {
+               let row = record.row = instance.getChild(context, this.row, record.key, record.store);
+               wasSelected = row.selected;
+               row.selected = instance.isSelected(record.data, record.index);
+               if (this.cached && row.cached && row.cached.record && row.cached.record.data == record.data) {
+                  row.shouldUpdate = false;
+               } else {
+                  context.dragHandles = [];
+                  row.explore(context);
+                  row.shouldUpdate |= wasSelected != record.selected;
+                  row.dragHandles = context.dragHandles;
+               }
+            }
          }
-      }
 
-      context.dragHandles = dragHandles;
+         context.dragHandles = dragHandles;
+      }
    }
 
    prepare(context, instance) {
-      for (let i = 0; i < instance.records.length; i++) {
-         let record = instance.records[i];
-         if (record.row)
-            record.row.prepare(context);
+      if (!this.cached || instance.shouldUpdate) {
+         for (let i = 0; i < instance.records.length; i++) {
+            let record = instance.records[i];
+            if (record.row && (record.row.shouldUpdate || !this.cached))
+               record.row.prepare(context);
+         }
       }
       instance.columns.forEach(c => c.prepare(context));
       super.prepare(context, instance);
    }
 
    cleanup(context, instance) {
-      for (let i = 0; i < instance.records.length; i++) {
-         let record = instance.records[i];
-         if (record.row)
-            record.row.cleanup(context);
+      if (!this.cached || instance.shouldUpdate) {
+         for (let i = 0; i < instance.records.length; i++) {
+            let record = instance.records[i];
+            if (record.row && (record.row.shouldUpdate || !this.cached)) {
+               record.row.cleanup(context);
+               record.row.cached.record = record;
+            }
+         }
       }
       instance.columns.forEach(c => c.cleanup(context));
       super.cleanup(context, instance);
@@ -515,6 +528,7 @@ Grid.prototype.lockColumnWidthsRequiredRowCount = 3;
 Grid.prototype.focused = false;
 Grid.prototype.emptyText = false;
 Grid.prototype.showBorder = false; // show border override for material theme
+Grid.prototype.cached = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -560,7 +574,7 @@ class GridComponent extends VDOM.Component {
                   record={record}
                   parent={this}
                   onMouseEnter={e => this.moveCursor(i)}
-                  isSelected={row.selected}
+                  selected={row.selected}
                   isBeingDragged={dragged}
                   cursor={mod.cursor}
                   shouldUpdate={row.shouldUpdate}

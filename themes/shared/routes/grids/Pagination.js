@@ -53,6 +53,7 @@ export default <cx>
          style={{width: "100%"}}
          mod={["bordered", "responsive"]}
          lockColumnWidths
+         cached
          columns={[
             {
                field: 'fullName',
@@ -93,7 +94,7 @@ export default <cx>
          <div style="flex:1" />
          <Select value:bind="$page.pageSize" style="width: 50px">
             <option value="5">5</option>
-            <option value={10}>10</option>
+            <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
          </Select>
