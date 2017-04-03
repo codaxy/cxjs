@@ -13,7 +13,6 @@ export default {
          Base CSS class to be applied to the element. Default is 'uploadbutton'.
       </Md></cx>
    },
-
     onUploadStarting: {
         type: 'function',
         key: true,
@@ -26,7 +25,6 @@ export default {
             - `formData` - FormData object to be sent containing the `file` object
         </Md></cx>
     },
-
     onUploadComplete: {
         type: 'function',
         key: true,
@@ -42,7 +40,6 @@ export default {
             the server response.
         </Md></cx>
     },
-
     onUploadError: {
         type: 'function',
         key: true,
@@ -51,6 +48,12 @@ export default {
             Arguments:
             - `error` - error
             - `instance` - widget instance
+        </Md></cx>
+    },
+    text: {
+        type: 'string',
+        description: <cx><Md>
+            Text description.
         </Md></cx>
     }
 };
