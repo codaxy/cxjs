@@ -103,7 +103,7 @@
          }
 
          &.selected {
-            @include cx-add-state-rules($cx-list-item, cursor);
+            @include cx-add-state-rules($cx-list-item, selected);
 
             &.cursor {
                @include cx-add-state-rules($cx-list-item, selected-cursor);
