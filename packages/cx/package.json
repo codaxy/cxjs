@@ -14,5 +14,9 @@
   "dependencies": {
     "intl-io": "^0.2.3",
     "route-parser": "^0.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
   }
 }
