@@ -501,7 +501,7 @@ class LookupComponent extends VDOM.Component {
 
       if (this.props.multiple) {
          if (Array.isArray(data.records) && data.records.length > 0) {
-            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag')}>
+            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag', { "readonly": readOnly })}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
                {!readOnly && (
                   <div className={CSS.element(baseClass, 'tag-clear')}

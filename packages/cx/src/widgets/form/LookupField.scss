@@ -23,6 +23,7 @@
    }
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4);
 
    .#{$element}#{$name}-input {
       @include cxe-field-input ( 
@@ -51,6 +52,11 @@
       &:hover {
          @include cx-add-state-rules($tag-state-style-map, hover);
       }
+
+      &.#{$state}readonly {
+         padding-right: cx-right($padding);
+         pointer-events: none;
+      }
    }
 
    .#{$element}#{$name}-placeholder {
@@ -65,13 +71,13 @@
    }
 
    .#{$element}#{$name}-tag-value {
-      padding: 0 cx-calc($cx-default-input-tag-spacing, round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4));
+      padding: 0 cx-calc($cx-default-input-tag-spacing, $border-radius-offset);
       display: inline-block;
    }
 
    .#{$element}#{$name}-tag-clear {
       @include cxe-field-button($besm, $clear-state-style-map);
-      right: 0;
+      right: $border-radius-offset / 2;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
    }

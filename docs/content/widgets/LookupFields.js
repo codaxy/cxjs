@@ -67,6 +67,12 @@ export const LookupFields = <cx>
                         values:bind="$page.s10ids"
                         options:bind="$page.options10"
                         multiple/>
+
+                    <LookupField
+                        label="Records"
+                        values:bind="$page.s10ids"
+                        options:bind="$page.options10"
+                        multiple disabled/>
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
