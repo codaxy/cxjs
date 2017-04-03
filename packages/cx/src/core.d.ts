@@ -47,7 +47,8 @@ declare namespace Cx {
       controller?: any,
       visible?: BooleanProp,
       if?: BooleanProp,
-      mod?: StringProp | Prop<string[]> | StructuredProp
+      mod?: StringProp | Prop<string[]> | StructuredProp,
+      memoize?: BooleanProp
    }
 
    interface PureContainerProps extends WidgetProps {

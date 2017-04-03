@@ -39,7 +39,6 @@ interface DateFieldProps extends FieldProps {
    /** Base CSS class to be applied to the field. Defaults to `datefield`. */
    baseClass?: string,
 
-   memoize?: boolean,
    suppressErrorTooltipsUntilVisited?: boolean,
 
    /** Name of the icon to be put on the left side of the input. */

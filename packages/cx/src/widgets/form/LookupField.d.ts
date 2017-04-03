@@ -45,7 +45,6 @@ interface LookupFieldProps extends FieldProps {
    /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string,
 
-   memoize?: boolean,
    queryDelay?: number,
    minQueryLength?: number,
 
