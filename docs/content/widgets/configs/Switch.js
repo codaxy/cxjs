@@ -39,5 +39,11 @@ export default {
         description: <cx><Md>
             Style object to be applied on the axis range when the switch is on.
         </Md></cx>
+    },
+    text: {
+        type: 'string',
+        description: <cx><Md>
+            Text description.
+        </Md></cx>
     }
 };
