@@ -741,7 +741,7 @@ class GridComponent extends VDOM.Component {
          m = Math.floor((s + e) / 2);
          b = nodes[m].getBoundingClientRect();
 
-         //dragged items might be invisible and do not offer
+         //dragged items might be invisible and have no client bounds
          if (b.top == 0 && b.bottom == 0) {
             if (m > s)
                m--;
@@ -873,7 +873,7 @@ class GridComponent extends VDOM.Component {
          //if there are no selected records, find the first data record (skip group header)
          if (cursor == -1)
             cursor = records.findIndex(x => x.type == 'data');
-         this.moveCursor(cursor);
+         this.moveCursor(cursor, true, true);
       }
    }
 
