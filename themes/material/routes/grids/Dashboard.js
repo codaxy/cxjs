@@ -1,5 +1,5 @@
 import { MarkerLine, LineGraph, NumericAxis, Chart } from 'cx/charts';
-import { NumberField, Slider, TextField, Grid, HtmlElement, Section, PropertySelection } from 'cx/widgets';
+import { NumberField, Slider, TextField, Grid, HtmlElement, Section } from 'cx/widgets';
 import { Svg } from 'cx/svg';
 import { Controller } from 'cx/ui';
 

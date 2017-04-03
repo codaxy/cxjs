@@ -209,20 +209,18 @@ $cx-default-clear-size: $cx-default-icon-size !default;
 //LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
   default: (
-    color: $cx-default-color
+    color: inherit
   ),
   hover: (
     background-color: rgba(0, 0, 0, 0.02)
   ),
   cursor: (
-    color: $cx-default-color,
     background-color: rgba(0, 0, 0, 0.02)  
   ),
   selected: (
     background-color: rgba(0, 0, 0, 0.06)
   ),
   selected-cursor: (
-    color: $cx-default-color,
     background-color: rgba(0, 0, 0, 0.10)
   ),
   disabled: (
@@ -554,7 +552,9 @@ $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
 ));
 
 $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
-
+   default: (
+      color: inherit
+   )
 ));
 
 //WINDOW
