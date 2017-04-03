@@ -62,26 +62,6 @@ export default <cx>
            <TabContent />
         </Section>
 
-        <Section
-           mod="card"
-           title="Tabs classic mod"
-           pad={false}
-           style="flex:1 0 0%;"
-           headerStyle="border-bottom: none"
-           bodyStyle="display:flex;flex-direction:column;"
-           preserveWhitespace
-        >
-           <div class="cxb-tab-container cxm-classic">
-              <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
-              <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-              <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-              <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Disabled</Tab>
-           </div>
-           <div style="padding: 1rem 0 0; border-width:1px 0 0 0; flex:auto; border-radius:3px">
-              <TabContent />
-           </div>
-        </Section>
-
         <Section mod="card" title="Tabs line mod" style="flex:1 0 0%" preserveWhitespace>
            <div class="cxb-tab-container">
               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
