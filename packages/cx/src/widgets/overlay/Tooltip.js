@@ -79,7 +79,7 @@ export class Tooltip extends Dropdown {
       let timeout = this.mouseTrap ? 200 : 10;
 
       setTimeout(() => {
-         if (!instance.mouseOverTooltip && !instance.active)
+         if (!instance.mouseOverTarget && !(this.mouseTrap && instance.mouseOverTooltip))
             this.dismissTooltip(instance);
       }, timeout);
    }
