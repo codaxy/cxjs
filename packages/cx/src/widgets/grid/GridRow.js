@@ -7,7 +7,7 @@ import {
    isDragHandleEvent
 } from '../drag-drop/ops';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import {preventMouseFocusOnTouch} from '../../ui/FocusManager';
+import {preventFocusOnTouch} from '../../ui/FocusManager';
 
 export class GridRow extends PureContainer {
    render(context, instance, key) {
@@ -75,7 +75,7 @@ export class GridRowComponent extends VDOM.Component {
       let {store, widget} = grid;
 
       if (widget.selectable)
-         preventMouseFocusOnTouch(e);
+         preventFocusOnTouch(e);
 
       if (!isTouchEvent()) {
          if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {

@@ -97,8 +97,10 @@ export function offFocusOut(component) {
 }
 
 export function preventFocus(e) {
+   e.preventDefault();
+
+   //unfocus activeElement
    if (e.currentTarget != document.activeElement && !document.activeElement.contains(e.currentTarget)) {
-      e.preventDefault();
       //force field validation on outside click, however, preserve active window or dropdown menu
       let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
       focusableParent.focus();
@@ -106,8 +108,8 @@ export function preventFocus(e) {
    }
 }
 
-export function preventMouseFocusOnTouch(e, override = true) {
-   if (!override || isTouchEvent())
+export function preventFocusOnTouch(e, force = false) {
+   if (force || isTouchEvent())
       preventFocus(e);
 }
 

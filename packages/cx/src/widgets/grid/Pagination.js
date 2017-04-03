@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {KeyCode} from '../../util/KeyCode';
-import {preventMouseFocusOnTouch} from '../../ui/FocusManager';
+import {preventFocusOnTouch} from '../../ui/FocusManager';
 import ForwardIcon from '../icons/forward';
 
 export class Pagination extends Widget {
@@ -52,7 +52,7 @@ export class Pagination extends Widget {
             })}
             onMouseDown={e => {
                e.stopPropagation();
-               preventMouseFocusOnTouch(e);
+               preventFocusOnTouch(e);
             }}
             onClick={e => {
                this.setPage(e, instance, p < minPage ? page - 1 : p > maxPage ? page + 1 : p)

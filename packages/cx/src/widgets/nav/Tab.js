@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {preventFocus} from '../../ui/FocusManager';
+import {preventFocusOnTouch} from '../../ui/FocusManager';
 
 export class Tab extends HtmlElement {
 
@@ -14,7 +14,7 @@ export class Tab extends HtmlElement {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       data.stateMods = {
          active: data.tab == data.value,
          disabled: data.disabled,
@@ -44,13 +44,11 @@ export class Tab extends HtmlElement {
          props.href = '#';
          delete props.value;
 
-         if (!this.focusOnMouseDown) {
-            props.onMouseDown = e => {
-               if (this.onMouseDown)
-                  this.onMouseDown(e, instance);
-               preventFocus(e);
-            }
-         }
+         props.onMouseDown = e => {
+            if (this.onMouseDown)
+               this.onMouseDown(e, instance);
+            preventFocusOnTouch(e);
+         };
 
          props.onClick = e => this.handleClick(e, instance);
       }
@@ -64,7 +62,7 @@ export class Tab extends HtmlElement {
       e.preventDefault();
       e.stopPropagation();
 
-      var {data} = instance;
+      let {data} = instance;
 
       if (data.disabled)
          return;
