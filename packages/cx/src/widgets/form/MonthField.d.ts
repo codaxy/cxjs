@@ -25,16 +25,16 @@ interface MonthFieldProps extends FieldProps {
    required?: Cx.BooleanProp,
 
    /** Minimum date value. This should be a valid date string consumable by Date.parse function. */
-   minValue?: Cx.StringProp | Date,
+   minValue?: Cx.Prop< string | Date >,
 
    /** Minimum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minExclusive?: Cx.StringProp | Date,
+   minExclusive?: Cx.Prop< string | Date >,
 
    /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxValue?: Cx.StringProp | Date,
+   maxValue?: Cx.Prop< string | Date >,
    
    /** Maximum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxExclusive?: Cx.StringProp | Date,
+   maxExclusive?: Cx.Prop< string | Date >,
 
    /** String representing culture. Default is `en` */
    culture?: string,
