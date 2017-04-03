@@ -868,11 +868,14 @@ class GridComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         let firstSelected = this.props.instance.records.findIndex(x => x.selected);
-         this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
+         let {records, isSelected} = this.props.instance;
+         let cursor = records.findIndex(x => isSelected(x.data, x.index));
+         //if there are no selected records, find the first data record (skip group header)
+         if (cursor == -1)
+            cursor = records.findIndex(x => x.type == 'data');
+         this.moveCursor(cursor);
       }
    }
-
 
    onFocus() {
       FocusManager.nudge();
