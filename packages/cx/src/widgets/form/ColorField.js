@@ -118,7 +118,7 @@ class ColorInput extends VDOM.Component {
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && data.value != null)
+         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => {
@@ -338,7 +338,7 @@ class ColorInput extends VDOM.Component {
       if (eventType == 'blur' || eventType == 'enter') {
 
          if (isValid)
-            instance.set('value', value);
+            instance.set('value', value || null);
 
          instance.setState({
             inputError: !isValid && 'Invalid color entered.'

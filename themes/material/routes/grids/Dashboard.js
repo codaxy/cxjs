@@ -45,6 +45,7 @@ export default <cx>
          defaultSortField="sales"
          defaultSortDirection="DESC"
          mod="responsive"
+         cached
          columns={[
             {
                field: 'name',

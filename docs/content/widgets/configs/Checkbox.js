@@ -27,7 +27,8 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to instruct the widget to indicate indeterminate state (`null` or `undefined` value) with a square icon
+            Set to `true` to instruct the widget to indicate indeterminate state (`null` or `undefined` value) with a
+            square icon
             instead of appearing unchecked.
         </Md></cx>
     },
@@ -35,6 +36,13 @@ export default {
         type: 'string',
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `checkbox`.
+        </Md></cx>
+    },
+    unfocusable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Prevent moving focus on the checkbox. This is useful when checkboxes are found
+            inside other focusable elements, such as grids or lists.
         </Md></cx>
     },
 };

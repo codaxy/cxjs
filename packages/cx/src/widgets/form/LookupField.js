@@ -172,7 +172,7 @@ LookupField.prototype.hideSearchField = false;
 LookupField.prototype.minOptionsForSearchField = 7;
 LookupField.prototype.loadingText = 'Loading...';
 LookupField.prototype.queryErrorText = 'Error occurred while querying for lookup data.';
-LookupField.prototype.noResultsText = 'No results found matching the given criteria.';
+LookupField.prototype.noResultsText = 'No results found.';
 LookupField.prototype.optionIdField = 'id';
 LookupField.prototype.optionTextField = 'text';
 LookupField.prototype.valueIdField = 'id';
@@ -182,7 +182,7 @@ LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.showClear = true;
 LookupField.prototype.closeOnSelect = true;
-LookupField.prototype.minQueryLengthMessageText = 'Please type in at least {0} character(s) to start the search.';
+LookupField.prototype.minQueryLengthMessageText = 'Type in at least {0} character(s).';
 LookupField.prototype.icon = null;
 
 Localization.registerPrototype('cx/widgets/LookupField', LookupField);
@@ -501,7 +501,7 @@ class LookupComponent extends VDOM.Component {
 
       if (this.props.multiple) {
          if (Array.isArray(data.records) && data.records.length > 0) {
-            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag')}>
+            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag', { "readonly": readOnly })}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
                {!readOnly && (
                   <div className={CSS.element(baseClass, 'tag-clear')}

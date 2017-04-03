@@ -13,16 +13,16 @@ Localization.localize(c, 'cx/widgets/Field', {
 Localization.localize(c, 'cx/widgets/LookupField', {
    loadingText: 'Wird geladen...',
    queryErrorText: 'Bei der Abfrage der gesuchten Daten ist ein Felhler aufgetreten.',
-   noResultsText: 'Für die gegebene Suchanfrage wurden keine Ergebnisse gefunden.',
-   minQueryLengthMessageText: 'Bitte geben Sie mindestens {0} Zeichen ein, um die Suche zu starten.'
+   noResultsText: 'Keine Ergebnisse gefunden.',
+   minQueryLengthMessageText: 'Geben Sie mindestens {0} Zeichen ein.'
 });
 
 // In common for Calendar and MonthPicker
 const calendarErrorMessages = {
-   maxValueErrorText: 'Das gewählte Datum ist nach dem spätestmöglichen Datum ({0:d}).',
-   maxExclusiveErrorText: 'Das gewählte Datum sollte vor dem {0:d} liegen.',
-   minValueErrorText: 'Das gewählte Datum ist vor dem frühestmöglichen Datum ({0:d}).',
-   minExclusiveErrorText: 'Das gewählte Datum sollte nach dem {0:d} liegen.',
+   maxValueErrorText: 'Wählen Sie {0:d} oder vorher.',
+   maxExclusiveErrorText: 'Wählen Sie ein Datum vor dem {0:d}.',
+   minValueErrorText: 'Wählen Sie {0:d} oder später.',
+   minExclusiveErrorText: 'Wählen Sie ein Datum nach dem {0:d}.',
 };
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
@@ -41,10 +41,10 @@ Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 
 // NumberField
 Localization.localize(c, 'cx/widgets/NumberField', {
-   maxValueErrorText: 'Die Zahl sollte nicht größer als {0:n} sein.',
-   maxExclusiveErrorText: 'Die Zahl sollte kleiner als {0:n} sein.',
-   minValueErrorText: 'Die Zahl sollte nicht kleiner als {0:n} sein.',
-   minExclusiveErrorText: 'Die Zahl sollte größer als {0:n} sein.',
+   maxValueErrorText: 'Geben Sie {0:n} oder weniger ein.',
+   maxExclusiveErrorText: 'Geben Sie eine Zahl kleiner als {0:n} ein.',
+   minValueErrorText: 'Geben Sie {0:n} oder mehr ein.',
+   minExclusiveErrorText: 'Geben Sie eine Zahl größer als {0:n} ein.',
    inputErrorText: 'Ungültige Zahl eingegeben.'
 });
 
@@ -52,7 +52,7 @@ Localization.localize(c, 'cx/widgets/NumberField', {
 Localization.localize(c, 'cx/widgets/TextField', {
    validationErrorText: 'Ungültige Eingabe.',
    minLengthValidationErrorText: 'Bitte tragen Sie noch {[{0}-{1}]} Zeichen ein.',
-   maxLengthValidationErrorText: 'Die Textlänge ist größer als die maximal zulässige Zeichenanzahl ({0}).'
+   maxLengthValidationErrorText: 'Benutzen Sie {0} oder weniger Zeichen.'
 });
 
 // UploadButton

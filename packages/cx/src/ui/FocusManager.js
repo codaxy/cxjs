@@ -1,6 +1,7 @@
-import { isSelfOrDescendant, findFirst, isFocusable } from '../util/DOM';
+import { isSelfOrDescendant, findFirst, isFocusable, closestParent } from '../util/DOM';
 import { batchUpdates } from './batchUpdates';
 import { SubscriberList } from '../util/SubscriberList';
+import {isTouchEvent} from '../util/isTouchEvent';
 
 /*
 *  Purpose of FocusManager is to provide focusout notifications.
@@ -96,11 +97,20 @@ export function offFocusOut(component) {
 }
 
 export function preventFocus(e) {
-   if (e.currentTarget != document.activeElement) {
-      e.preventDefault();
-      document.activeElement.blur();
+   e.preventDefault();
+
+   //unfocus activeElement
+   if (e.currentTarget != document.activeElement && !document.activeElement.contains(e.currentTarget)) {
+      //force field validation on outside click, however, preserve active window or dropdown menu
+      let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
+      focusableParent.focus();
       FocusManager.nudge();
    }
+}
+
+export function preventFocusOnTouch(e, force = false) {
+   if (force || isTouchEvent())
+      preventFocus(e);
 }
 
 if (module.hot) {

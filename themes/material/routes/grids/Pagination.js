@@ -1,6 +1,6 @@
-import { Controller } from 'cx/ui';
-import { Select, Pagination, TextField, Grid, HtmlElement } from 'cx/widgets';
-import { getComparer } from 'cx/data';
+import {Controller} from 'cx/ui';
+import {Select, Pagination, TextField, Grid, HtmlElement} from 'cx/widgets';
+import {getComparer} from 'cx/data';
 import {casual} from 'shared/data/casual';
 
 class PageController extends Controller {
@@ -53,6 +53,7 @@ export default <cx>
          style={{width: "100%"}}
          mod={["bordered", "responsive"]}
          lockColumnWidths
+         cached
          columns={[
             {
                field: 'fullName',
@@ -90,7 +91,7 @@ export default <cx>
 
       <div style="display: flex; margin-top: 20px">
          <Pagination page:bind="$page.page" pageCount:bind="$page.pageCount"/>
-         <div style="flex:1" />
+         <div style="flex:1"/>
          <Select value:bind="$page.pageSize" style="width: 50px">
             <option value="5">5</option>
             <option value={10}>10</option>

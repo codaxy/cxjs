@@ -1,10 +1,22 @@
 import {Widget} from '../ui/Widget';
 
-export class DocumentTitle extends Widget
-{
+export class DocumentTitle extends Widget {
+   init() {
+      if (this.value)
+         this.text = this.value;
+
+      if (this.append)
+         this.action = "append";
+
+      super.init();
+   }
+
    declareData() {
       super.declareData(...arguments, {
-         value: undefined
+         value: undefined,
+         text: undefined,
+         action: undefined,
+         separator: undefined
       });
    }
 
@@ -16,12 +28,23 @@ export class DocumentTitle extends Widget
          }
       }
 
-      if (instance.data.value) {
-         if (this.append)
-            context.documentTitle.title += instance.data.value;
-         else {
-            context.documentTitle.title = instance.data.value;
-            context.documentTitle.activeInstance = instance;
+      let {data} = instance;
+
+      if (data.text) {
+
+         switch (data.action) {
+            case "append":
+               context.documentTitle.title += data.separator + data.text;
+               break;
+
+            case "prepend":
+               context.documentTitle.title = data.text + data.separator + context.documentTitle.title;
+               break;
+
+            default:
+            case "replace":
+               context.documentTitle.title = data.text;
+               break;
          }
       }
 
@@ -40,6 +63,7 @@ export class DocumentTitle extends Widget
 }
 
 DocumentTitle.prototype.pure = false;
-DocumentTitle.prototype.append = true;
+DocumentTitle.prototype.action = "append";
+DocumentTitle.prototype.separator = '';
 
 Widget.alias('document-title', DocumentTitle);

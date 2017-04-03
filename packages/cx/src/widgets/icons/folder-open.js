@@ -10,5 +10,5 @@ export default Icon.register('folder-open', props => {
       <path d="M3 7h13l-3 7H0z" fill="currentColor" stroke="none"/>
 
    </svg>
-});
+}, true);
 

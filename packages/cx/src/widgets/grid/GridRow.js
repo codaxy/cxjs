@@ -7,6 +7,7 @@ import {
    isDragHandleEvent
 } from '../drag-drop/ops';
 import {isTouchEvent} from '../../util/isTouchEvent';
+import {preventFocusOnTouch} from '../../ui/FocusManager';
 
 export class GridRow extends PureContainer {
    render(context, instance, key) {
@@ -73,10 +74,10 @@ export class GridRowComponent extends VDOM.Component {
 
       let {store, widget} = grid;
 
-      if (!isTouchEvent()) {
-         if (!widget.selection.isDummy)
-            e.preventDefault();
+      if (widget.selectable)
+         preventFocusOnTouch(e);
 
+      if (!isTouchEvent()) {
          if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
             widget.selection.select(store, record.data, record.index, {
                toggle: e.ctrlKey
@@ -106,6 +107,8 @@ export class GridRowComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props) {
-      return props.shouldUpdate !== false || props.cursor != this.props.cursor;
+      return props.shouldUpdate !== false
+         || props.cursor != this.props.cursor
+         || props.selected != this.props.selected;
    }
 }

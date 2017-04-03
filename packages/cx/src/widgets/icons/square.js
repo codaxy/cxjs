@@ -13,5 +13,5 @@ export default Icon.register('square', props => {
          fill="currentColor"
       />
    </svg>
-});
+}, true);
 

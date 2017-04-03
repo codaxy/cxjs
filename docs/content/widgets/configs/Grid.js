@@ -115,5 +115,15 @@ export default {
             are sortable. Plain mode better suits reports and other scenarios in which
             users do not interact with the grid.
         </Md></cx>
+    },
+    cached: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to enable row caching. This greatly improves grid performance
+            on subsequent render operations, however, only changes on `records`
+            are allowed. If grid rows display any data outside `records`, changes on that
+            data will not be caught.
+        </Md></cx>
     }
 };

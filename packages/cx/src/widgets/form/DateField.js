@@ -127,10 +127,10 @@ export class DateField extends Field {
 DateField.prototype.baseClass = "datefield";
 DateField.prototype.memoize = false;
 
-DateField.prototype.maxValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-DateField.prototype.maxExclusiveErrorText = 'Selected date should be before {0:d}.';
-DateField.prototype.minValueErrorText = 'Selected date is after the latest allowed date of {0:d}.';
-DateField.prototype.minExclusiveErrorText = 'Selected date should be before {0:d}.';
+DateField.prototype.maxValueErrorText = 'Select {0:d} or before.';
+DateField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
+DateField.prototype.minValueErrorText = 'Select {0:d} or later.';
+DateField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 DateField.prototype.inputErrorText = 'Invalid date entered.';
 
 DateField.prototype.suppressErrorTooltipsUntilVisited = true;
@@ -199,7 +199,7 @@ class DateInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && data.value != null)
+         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                     onMouseDown={e => {
@@ -398,6 +398,11 @@ class DateInput extends VDOM.Component {
       let {widget} = instance;
 
       let date = widget.parseDate(e.target.value);
+
+      instance.setState({
+         inputError: isNaN(date) && widget.inputErrorText
+      });
+
       if (eventType == 'blur' || eventType == 'enter')
          this.setValue(date);
    }
