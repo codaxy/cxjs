@@ -3,11 +3,12 @@ import * as Cx from '../../core';
 export interface FieldProps extends Cx.StyledContainerProps {
    
    /** Field label. For advanced use cases, see Labels. */
-   label?: Cx.StringProp,
+   label?: Cx.StringProp | Cx.Config,
 
-   labelWidth?: Cx.NumberProp,
-   mode?: any, // TODO: check type
-   id?: string | number | Cx.Binding | Cx.Selector<string | number>,
+   /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
+   mode?: Cx.Prop<'view' | 'edit'>,
+
+   id?: Cx.Prop<string | number>,
    
    /** Used for validation. If error evaluates to non-null, the field is marked in red. */
    error?: Cx.StringProp,
