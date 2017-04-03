@@ -573,7 +573,7 @@ class GridComponent extends VDOM.Component {
                   grid={instance}
                   record={record}
                   parent={this}
-                  onMouseEnter={e => this.moveCursor(i)}
+                  cursorIndex={i}
                   selected={row.selected}
                   isBeingDragged={dragged}
                   cursor={mod.cursor}

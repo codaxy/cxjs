@@ -25,6 +25,7 @@ export class GridRowComponent extends VDOM.Component {
       super(props);
       this.onMouseMove = ::this.onMouseMove;
       this.onMouseDown = ::this.onMouseDown;
+      this.onMouseEnter = ::this.onMouseEnter;
       this.onClick = ::this.onClick;
 
       if (props.grid.widget.onRowDoubleClick)
@@ -35,7 +36,7 @@ export class GridRowComponent extends VDOM.Component {
 
    render() {
 
-      let {className, dragSource, instance, onMouseEnter} = this.props;
+      let {className, dragSource, instance} = this.props;
       let {data} = instance;
       let move, up;
 
@@ -50,7 +51,7 @@ export class GridRowComponent extends VDOM.Component {
             style={data.style}
             onClick={this.onClick}
             onDoubleClick={this.onDoubleClick}
-            onMouseEnter={onMouseEnter}
+            onMouseEnter={this.onMouseEnter}
             onTouchStart={this.onMouseDown}
             onMouseDown={this.onMouseDown}
             onTouchMove={move}
@@ -61,6 +62,11 @@ export class GridRowComponent extends VDOM.Component {
             {this.props.children}
          </tbody>
       )
+   }
+
+   onMouseEnter(e) {
+      let {parent, cursorIndex} = this.props;
+      parent.moveCursor(cursorIndex);
    }
 
    onMouseDown(e) {
