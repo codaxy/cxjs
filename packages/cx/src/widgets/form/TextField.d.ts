@@ -1,7 +1,7 @@
 import * as Cx from '../../core';
 import { FieldProps } from './Field';
 
-interface TextFieldProps extends FieldProps{
+export interface TextFieldProps extends FieldProps{
 
    /** 
     * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. 
