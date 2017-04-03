@@ -58,7 +58,8 @@ export class Md extends HtmlElement {
             super.add({
                 type: DocumentTitle,
                 value: lastH1Text,
-                append: true
+                action: "prepend",
+                separator: " - "
             });
 
         return super.add({

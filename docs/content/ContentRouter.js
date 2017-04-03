@@ -1,4 +1,4 @@
-import { DocumentTitle, Route, RedirectRoute, Sandbox } from 'cx/widgets';
+import { Route, RedirectRoute, Sandbox } from 'cx/widgets';
 import { FirstVisibleChildLayout, Controller, Url, ContentResolver } from 'cx/ui';
 import { HtmlElement } from 'cx/widgets';
 import {PageNotFound} from './PageNotFound';
