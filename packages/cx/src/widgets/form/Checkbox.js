@@ -117,6 +117,7 @@ export class Checkbox extends Field {
 Checkbox.prototype.baseClass = "checkbox";
 Checkbox.prototype.native = false;
 Checkbox.prototype.indeterminate = false;
+Checkbox.prototype.unfocusable = false;
 
 Widget.alias('checkbox', Checkbox);
 
@@ -152,7 +153,7 @@ class CheckboxCmp extends VDOM.Component {
 
       return <div
          key="check"
-         tabIndex={data.disabled || data.readOnly ? null : 0}
+         tabIndex={widget.unfocusable || data.disabled || data.readOnly ? null : 0}
          className={CSS.element(baseClass, "input", {
             checked: check
          })}

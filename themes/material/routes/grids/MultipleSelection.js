@@ -42,10 +42,10 @@ export default <cx>
             [
                {
                   header: {
-                     items: <cx><Checkbox value:bind="$page.selectAll"/></cx>
+                     items: <cx><Checkbox value:bind="$page.selectAll" unfocusable/></cx>
                   },
                   field: "selected",
-                  items: <cx><Checkbox value:bind="$record.selected"/></cx>
+                  items: <cx><Checkbox value:bind="$record.selected" unfocusable/></cx>
                },
                {header: "Name", field: "fullName", sortable: true},
                {header: "Phone", field: "phone"},

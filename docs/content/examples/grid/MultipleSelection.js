@@ -51,10 +51,10 @@ export const MultipleSelection = <cx>
                 records:bind='$page.records'
                 style={{width: "100%"}}
                 columns={[{
-                    header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate /></cx>},
+                    header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate unfocusable /></cx>},
                     field: 'selected',
                     style: 'width: 1px',
-                    items: <cx><Checkbox value:bind="$record.selected" /></cx>
+                    items: <cx><Checkbox value:bind="$record.selected" unfocusable /></cx>
                 },
                     {header: 'Name', field: 'fullName', sortable: true},
                     {header: 'Phone', field: 'phone'},
@@ -103,10 +103,10 @@ export const MultipleSelection = <cx>
                    records:bind='$page.records'
                    tyle={{width: "100%"}}
                    columns={[{
-                       header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate /></cx>},
+                       header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate unfocusable/></cx>},
                        field: 'selected',
                        style: 'width: 1px',
-                       items: <cx><Checkbox value:bind="$record.selected" /></cx>
+                       items: <cx><Checkbox value:bind="$record.selected" unfocusable/></cx>
                    },
                        {header: 'Name', field: 'fullName', sortable: true},
                        {header: 'Phone', field: 'phone'},
