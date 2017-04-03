@@ -18,7 +18,7 @@ $cx-default-calendar-day-font-size: $cx-default-calendar-font-size !default;
 $cx-default-calendar-day-border-radius: $cx-default-calendar-border-radius !default;
 
 // CALENDAR
-$cx-calendar-state-style-map: (
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
     font-size: $cx-default-calendar-font-size,
     background-color: $cx-default-calendar-background-color,
@@ -43,8 +43,7 @@ $cx-calendar-state-style-map: (
     box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
     outline: none
   )
-  
-) !default;
+)) !default;
 
 // calendar day field styles
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-list-item, (
