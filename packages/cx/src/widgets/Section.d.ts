@@ -36,11 +36,9 @@ interface SectionProps extends StyledContainerProps {
 
    /** Contents that should go in the header. */
    header?: Config,
-   
-   /** Base CSS class to be applied to the element. Default is 'section'. */
-   baseClass?: string,
 
-   styled?: boolean
+   /** Contents that should go in the footer. */
+   footer?: Config
 }
 
 export class Section extends Widget<SectionProps> {
