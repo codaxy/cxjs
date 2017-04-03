@@ -134,7 +134,7 @@ class Input extends VDOM.Component {
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && data.value != null)
+         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => e.preventDefault() }
@@ -257,6 +257,7 @@ class Input extends VDOM.Component {
    }
 
    onClearClick(e) {
+      this.input.value = '';
       this.props.instance.set('value', null);
    }
 

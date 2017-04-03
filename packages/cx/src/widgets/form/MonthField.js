@@ -255,10 +255,10 @@ class MonthInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && (widget.range ? data.from != null : data.value != null))
+         if (widget.showClear && ((!data.required && (widget.range ? data.from != null : data.value != null)) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={ e => { 
+                  onMouseDown={ e => {
                      e.preventDefault();
                      e.stopPropagation();
                   }}
@@ -286,32 +286,38 @@ class MonthInput extends VDOM.Component {
 
       var dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}} />;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
       return <div className={CSS.expand(data.classNames, CSS.state({
-                     visited: data.visited || this.state.visited,
-                     focus: this.state.focus
-                  }))}
-                  style={data.style}
-                  onMouseDown={::this.onMouseDown}
-                  onTouchStart={stopPropagation}
-                  onClick={stopPropagation}>
+         visited: data.visited || this.state.visited,
+         focus: this.state.focus
+      }))}
+         style={data.style}
+         onMouseDown={::this.onMouseDown}
+         onTouchStart={stopPropagation}
+         onClick={stopPropagation}>
          <input id={data.id}
-                ref={el=>{this.input = el}}
-                type="text"
-                className={CSS.element(baseClass, 'input')}
-                style={data.inputStyle}
-                defaultValue={data.formatted}
-                disabled={data.disabled}
-                readOnly={data.readOnly}
-                placeholder={data.placeholder}
-                onInput={ e => this.onChange(e, 'input') }
-                onChange={ e => this.onChange(e, 'change') }
-                onKeyDown={ e => this.onKeyDown(e) }
-                onBlur={ e => { this.onBlur(e) } }
-                onFocus={ e => { this.onFocus(e) } }
-                onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
-                onMouseLeave={e=>tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
+            ref={el => {
+               this.input = el
+            }}
+            type="text"
+            className={CSS.element(baseClass, 'input')}
+            style={data.inputStyle}
+            defaultValue={data.formatted}
+            disabled={data.disabled}
+            readOnly={data.readOnly}
+            placeholder={data.placeholder}
+            onInput={ e => this.onChange(e, 'input') }
+            onChange={ e => this.onChange(e, 'change') }
+            onKeyDown={ e => this.onKeyDown(e) }
+            onBlur={ e => {
+               this.onBlur(e)
+            } }
+            onFocus={ e => {
+               this.onFocus(e)
+            } }
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
          />
          { icon }
          { insideButton }
@@ -361,7 +367,7 @@ class MonthInput extends VDOM.Component {
          case KeyCode.esc:
             if (this.state.dropdownOpen) {
                e.stopPropagation();
-               this.closeDropdown(e, ()=> {
+               this.closeDropdown(e, () => {
                   this.input.focus();
                });
             }
@@ -369,8 +375,8 @@ class MonthInput extends VDOM.Component {
 
          case KeyCode.left:
          case KeyCode.right:
-              e.stopPropagation();
-              break;
+            e.stopPropagation();
+            break;
 
          case KeyCode.down:
             this.openDropdown(e);
@@ -432,13 +438,13 @@ class MonthInput extends VDOM.Component {
       }
       this.data = data;
       if (data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
    componentDidMount() {
       if (this.props.instance.data.visited)
-         this.setState({ visited: true });
+         this.setState({visited: true});
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
@@ -456,16 +462,15 @@ class MonthInput extends VDOM.Component {
       var date1 = widget.parseDate(parts[0]);
       var date2 = widget.parseDate(parts[1]) || date1;
 
-      if (eventType == 'blur' || eventType == 'enter') {
-         if ((date1 && isNaN(date1)) || (date2 && isNaN(date2))) {
-            instance.setState({
-               inputError: instance.inputErrorText
-            });
-         } else {
-            if (date2)
-               date2 = new Date(date2.getFullYear(), date2.getMonth() + 1, 1);
-            widget.onSelect(instance, date1, date2);
-         }
+      if ((date1 != null && isNaN(date1)) || (date2 != null && isNaN(date2))) {
+         instance.setState({
+            inputError: widget.inputErrorText
+         });
+      }
+      else if (eventType == 'blur' || eventType == 'enter') {
+         if (date2)
+            date2 = new Date(date2.getFullYear(), date2.getMonth() + 1, 1);
+         widget.onSelect(instance, date1, date2);
       }
    }
 }

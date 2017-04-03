@@ -199,7 +199,7 @@ class DateInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && data.value != null)
+         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                     onMouseDown={e => {
@@ -398,6 +398,11 @@ class DateInput extends VDOM.Component {
       let {widget} = instance;
 
       let date = widget.parseDate(e.target.value);
+
+      instance.setState({
+         inputError: isNaN(date) && widget.inputErrorText
+      });
+
       if (eventType == 'blur' || eventType == 'enter')
          this.setValue(date);
    }

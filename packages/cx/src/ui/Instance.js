@@ -265,7 +265,9 @@ export class Instance {
       if (!skip) {
          this.cached.state = this.state;
          this.state = Object.assign({}, this.state, state);
-         this.store.notify();
+         batchUpdates(() => {
+            this.store.notify();
+         });
       }
    }
 
