@@ -7,7 +7,7 @@ export default {
         type: 'number',
         key: true,
         description: <cx><Md>
-            Heading level. Allowed values go from 1 to 6. Default is 2.
+            Heading level. Allowed values go from 1 to 6. Default is 3.
         </Md></cx>
     },
     baseClass: {
