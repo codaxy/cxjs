@@ -9,6 +9,9 @@ interface LookupFieldProps extends FieldProps {
    /** Selected value. Used only if `multiple` is set to `false`. */
    value?: Cx.Prop<number | string>,
 
+   /** A list of selected ids. Used only if `multiple` is set to `true`. */
+   values?: Cx.Prop<any[]>,
+
    /** A list of selected records. Used only if `multiple` is set to `true`. */
    records?: Cx.Record[],
 

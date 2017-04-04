@@ -1,9 +1,11 @@
 import * as Cx from '../../core';
+import * as React from 'react';
+import {Instance} from "../../ui/Instance";
 
 interface GridProps extends Cx.WidgetProps{
 
    /** An array of records to be displayed in the grid. */ 
-   records?: Cx.Record[],
+   records?: Cx.Prop<Cx.Record[]>,
 
    /** 
     * Additional CSS classes to be applied to the field. 
@@ -76,7 +78,16 @@ interface GridProps extends Cx.WidgetProps{
 
    lockColumnWidthsRequiredRowCount?: number,
    focused?: boolean,
-   showBorder?: boolean   
+   showBorder?: boolean 
+
+   // methods
+   onDrop?: (e: React.SyntheticEvent<any>, instance: Instance) => void;
+   onDropTest?: (e: React.SyntheticEvent<any>) => void;
+   onDragStart?: (e: React.SyntheticEvent<any>) => void;
+   onDragEnd?: (e: React.SyntheticEvent<any>) => void;
+   onDragMeasure?: (e: React.SyntheticEvent<any>) => void;
+   onDragOver?: (e: React.SyntheticEvent<any>) => void;
+   onDragLeave?: (e: React.SyntheticEvent<any>) => void;
 
 }
 

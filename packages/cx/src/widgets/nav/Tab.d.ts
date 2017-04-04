@@ -24,5 +24,6 @@ interface TabProps extends Cx.HtmlElementProps {
     *  Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
     */
    focusOnMouseDown?: boolean
+}
 
 export class Tab extends Cx.Widget<TabProps> {}

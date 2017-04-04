@@ -31,13 +31,13 @@ interface SliderProps extends FieldProps {
    handleStyle?: Cx.StyleProp,
 
    /** Minimum allowed value. Default is `0`. */
-   min?: number,
+   min?: Cx.NumberProp,
 
    /** Maximum allowed value. Default is `100`. */
-   max?: number,
+   max?: Cx.NumberProp,
    
    /** High value of the slider range. */
-   value?: number,
+   value?: Cx.NumberProp,
 
    /** Base CSS class to be applied to the field. Defaults to `slider`. */
    baseClass?: string,

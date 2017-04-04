@@ -6,6 +6,18 @@ interface MonthFieldProps extends FieldProps {
    /** Set to `true` to allow range select. */
    range?: Cx.BooleanProp,
 
+   /** 
+    * Start of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
+    * Used only if `range` is set to `true`.
+    */
+   from?: Cx.StringProp | Cx.Prop<Date>,
+
+   /** 
+    * End of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
+    * Used only if `range` is set to `true`. 
+    */
+   to?: Cx.StringProp | Cx.Prop<Date>,
+
    /** Defaults to `false`. Set to `true` to disable the field. */
    disabled?: Cx.BooleanProp,
 
