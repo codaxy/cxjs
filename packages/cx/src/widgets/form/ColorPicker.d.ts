@@ -4,7 +4,7 @@ import { FieldProps } from './Field';
 interface ColorPickerProps extends FieldProps {
 
    /** Either `rgba`, `hsla` or `hex` value of the selected color. */
-   value?: Cx.Prop< "rgba" | "hsla" | "hex" >,
+   value?: Cx.StringProp,
    
    baseClass?: string,
    reportOn?: string,

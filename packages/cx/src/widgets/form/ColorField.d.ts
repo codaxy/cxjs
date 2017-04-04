@@ -4,7 +4,7 @@ import { FieldProps } from './Field';
 interface ColorFieldProps extends FieldProps {
 
    /** Either `rgba`, `hsla` or `hex` value of the selected color. */
-   value?: Cx.Prop< "rgba" | "hsla" | "hex">,
+   value?: Cx.StringProp,
 
    /** Defaults to `false`. Set to `true` to disable the field. */
    disabled?: Cx.BooleanProp,
