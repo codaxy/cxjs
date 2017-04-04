@@ -1,3 +1,50 @@
 import * as Cx from '../../core';
+import { FieldProps } from './Field';
 
-export class Select extends Cx.Widget<any> {}
+interface SelectProps extends FieldProps {
+
+   /** Select value. */
+   value?: Cx.Prop<number | string>,
+
+   /** Defaults to `false`. Set to `true` to disable the field. */
+   disabled?: Cx.BooleanProp,
+
+   /** The opposite of `disabled`. */
+   enabled?: Cx.BooleanProp,
+
+   /** Defaults to `false`. Used to make the field required. */
+   required?: Cx.BooleanProp,
+
+   /**  */
+   placeholder?: Cx.StringProp,
+   
+   /** 
+    * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. Default value is `false`. 
+    * Note, the `placeholder` needs to be specified for the clear button to render. 
+    */
+   hideClear?: boolean,
+   
+   /**
+    * Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property. Default value is `true`. 
+    * Note, the `placeholder` needs to be specified for the clear button to render. 
+    */
+   showClear?: boolean,
+
+   baseClass?: string,
+   multiple?: boolean,
+
+   /** 
+    * Convert values before selection. 
+    * Useful for converting strings into numbers. Default is `true`. 
+    */
+   convertValues?: boolean,
+
+   nullString?: string,
+   suppressErrorTooltipsUntilVisited?: boolean,
+
+   /** Name of the icon to be put on the left side of the input. */
+   icon?: string
+
+}
+
+export class Select extends Cx.Widget<SelectProps> {}
