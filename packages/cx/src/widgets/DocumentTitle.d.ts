@@ -1,7 +1,7 @@
 import * as Cx from '../core';
 
 interface DocumentTitleProps extends Cx.WidgetProps {
-   value: Cx.StringProp,
+   value?: Cx.StringProp,
    pure?: boolean,
    append?: boolean
 }
