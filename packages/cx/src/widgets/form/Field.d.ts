@@ -33,4 +33,4 @@ export interface FieldProps extends Cx.StyledContainerProps {
    validationMode?: 'tooltip' | 'help' | 'help-block';
 }
 
-export class Field extends Cx.Widget<Cx.FieldProps> {}
+export class Field extends Cx.Widget<FieldProps> {}
