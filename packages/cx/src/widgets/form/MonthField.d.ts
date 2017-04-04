@@ -21,7 +21,7 @@ interface MonthFieldProps extends FieldProps {
    /** Defaults to `false`. Used to make the field required. */
    required?: Cx.BooleanProp,
 
-   /** Minimum date value. This should be a valid date string consumable by Date.parse function. */
+   /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    minValue?: Cx.Prop< string | Date >,
 
    /** Minimum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
