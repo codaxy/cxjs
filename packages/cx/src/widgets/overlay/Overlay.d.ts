@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface OverlayProps extends Cx.PureContainerProps, StyledContainerProps {
+export interface OverlayProps extends Cx.PureContainerProps, StyledContainerProps {
    
    /** Set to `true` to enable resizing. */
    resizable?: Cx.BooleanProp,
