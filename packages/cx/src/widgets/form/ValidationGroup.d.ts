@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface ValidationGroupProps extends Cx.PureContainerProps{
+export interface ValidationGroupProps extends Cx.PureContainerProps{
 
    errors?: Cx.Record[],
 
