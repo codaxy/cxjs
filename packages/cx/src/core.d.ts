@@ -52,7 +52,16 @@ declare namespace Cx {
    }
 
    interface PureContainerProps extends WidgetProps {
-      ws?: boolean
+      
+      /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
+      ws?: boolean,
+
+      /** Remove all whitespace in text based children. Default is `true`. See also `preserveWhitespace`. */
+      trimWhitespace?: boolean,
+
+      /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
+      preserveWhitespace?: boolean,
+
    }
 
    interface StyledContainerProps extends PureContainerProps {
