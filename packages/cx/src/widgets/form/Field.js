@@ -34,7 +34,7 @@ export class Field extends PureContainer {
       switch (this.validationMode) {
          case 'tooltip':
             this.errorTooltip = {
-               text: { bind: '$error' },
+               text: {bind: '$error'},
                mod: 'error',
                ...this.errorTooltip
             };
@@ -102,7 +102,7 @@ export class Field extends PureContainer {
       data._disabled = data.disabled;
       instance.parentDisabled = context.parentDisabled || false;
 
-      if (typeof data.enabled != 'undefined')
+      if (typeof data.enabled !== 'undefined')
          data._disabled = !data.enabled;
 
       this.disableOrValidate(context, instance);
@@ -176,13 +176,13 @@ export class Field extends PureContainer {
                lastValidatedValue: data.value
             });
             result
-               .then(r=> {
+               .then(r => {
                   instance.setState({
                      validating: false,
                      inputError: r
                   })
                })
-               .catch(e=> {
+               .catch(e => {
                   instance.setState({
                      validating: false,
                      inputError: this.validationExceptionText
@@ -234,23 +234,29 @@ export class Field extends PureContainer {
 
    renderWrap(context, instance, key, content) {
       var {data} = instance;
-      return <div key={key} className={data.classNames} style={data.style} onMouseDown={stopPropagation} onTouchStart={stopPropagation}>
-         {content}
-      </div>;
+      return (
+         <div key={key}
+            className={data.classNames} style={data.style} onMouseDown={stopPropagation}
+            onTouchStart={stopPropagation}
+         >
+            {content}
+         </div>
+      );
    }
 
    renderEmptyText(context, {data}, key) {
-      return <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>{data.emptyText || <span>&nbsp;</span>}</span>;
+      return <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>{data.emptyText ||
+      <span>&nbsp;</span>}</span>;
    }
 
    render(context, instance, key) {
       var {data} = instance;
-      var content = data.mode != 'view'
+      var content = data.mode !== 'view'
          ? this.renderInput(context, instance, key + 'input')
          : this.renderContent(context, instance, key + 'content');
 
       return {
-         label: this.renderLabel(context, instance, key),
+         label: !this.labelPlacement && this.renderLabel(context, instance, key),
          content: content,
          helpSpacer: this.helpSpacer && instance.components.help ? ' ' : null,
          help: this.renderHelp(context, instance, key)
@@ -268,7 +274,7 @@ Field.prototype.validatingText = "Validation is in progress...";
 Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
 Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
-
+Field.prototype.labelPlacement = false;
 //Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);
