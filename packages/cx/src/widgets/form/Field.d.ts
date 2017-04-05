@@ -36,12 +36,12 @@ export interface FieldProps extends Cx.StyledContainerProps {
    validationMode?: 'tooltip' | 'help' | 'help-block',
 
    /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: boolean,
+   disabled?: Cx.BooleanProp,
 
    /** Defaults to `false`. Used to make the field required. */
-   required?: boolean,
+   required?: Cx.BooleanProp,
 
-   suppressErrorTooltipsUntilVisited?: string,
+   suppressErrorTooltipsUntilVisited?: boolean,
    requiredText?: string,
    asterisk?: boolean,
    validatingText?: string,
