@@ -31,7 +31,7 @@ interface LookupFieldProps extends FieldProps {
    required?: Cx.BooleanProp,
 
    /** A list of available options. */
-   options?: Cx.Prop<Array<string>>,
+   options?: Cx.RecordsProp,
 
    /** 
     * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. 

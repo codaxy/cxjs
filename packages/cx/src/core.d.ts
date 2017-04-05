@@ -5,12 +5,22 @@ import * as React from 'react';
 
 declare namespace Cx {
 
-   interface Binding {
-      bind?: string,
-      tpl?: string,
-      expr?: string,
+   interface Bind {
+      bind: string,
       defaultValue?: any
    }
+
+   interface Tpl {
+      tpl: string,
+      defaultValue?: any
+   }
+
+   interface Expr {
+      expr: string,
+      defaultValue?: any
+   }
+
+   type Binding = Bind | Tpl | Expr;
 
    type Selector<T> = (data: any) => T;
 
