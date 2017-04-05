@@ -1,3 +1,10 @@
 import * as Cx from '../../core';
+import { RouteProps } from './Route';
 
-export class RedirectRoute extends Cx.Widget<any> {}
+interface RedirectRouteProps extends RouteProps {
+
+   redirect?: string
+   
+}
+
+export class RedirectRoute extends Cx.Widget<RedirectRouteProps> {}
