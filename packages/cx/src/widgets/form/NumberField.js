@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
@@ -41,10 +41,16 @@ export class NumberField extends Field {
    }
 
    prepareData(context, instance) {
-      super.prepareData(context, instance);
       let {data} = instance;
-
+      if (this.labelPlacement) {
+        data.stateMods = {
+          ...data.stateMods,
+          ['label-placement-' + this.labelPlacement]: true,
+          "empty": this.labelPlacement && !data.value
+        }
+      }
       data.formatted = Format.value(data.value, data.format);
+      super.prepareData(context, instance);
    }
 
    formatValue(context, {data}) {
@@ -79,6 +85,7 @@ export class NumberField extends Field {
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
             instance={instance}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          />
       )
    }
@@ -120,7 +127,7 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let {data, instance} = this.props;
+      let {data, instance, label} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -184,6 +191,7 @@ class Input extends VDOM.Component {
          />
          {insideButton}
          {icon}
+         {label}
       </div>
    }
 

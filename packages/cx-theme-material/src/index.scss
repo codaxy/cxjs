@@ -135,15 +135,17 @@ $form-list: (
 }
 
 //ANIMATED LABELS
-@each $field in $form-list {
-   .#{$block}#{$field}.#{$state}label-placement-material {
+
+  .#{$state}label-placement-material {
       overflow: visible;
+      margin-top: 10px;
       //position: relative;
       & > .#{$block}label {
          position: absolute;
          top: 0;
          left: 0;
          transition: all 0.2s;
+         cursor: text;
       }
 
       &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
@@ -157,9 +159,10 @@ $form-list: (
 
       &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
          margin-top: -20px;
+         cursor: default;
       }
    }
-}
+
 
 /* calendar */ 
 .#{$block}calendar {

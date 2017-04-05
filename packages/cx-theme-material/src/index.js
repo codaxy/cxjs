@@ -30,6 +30,11 @@ Localization.override('cx/widgets/TextField', {
    labelPlacement: "material"
 });
 
+Localization.override('cx/widgets/NumberField', {
+  trackFocus: true,
+  labelPlacement: "material"
+});
+
 // set buttonMmod to MsgBox buttons
 Localization.override('cx/widgets/MsgBox', {
    buttonMod: "flat-primary",
