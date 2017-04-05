@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface DragHandleProps extends Cx.PureContainerProps{
+interface DragHandleProps extends Cx.PureContainerProps {
 
    styled?: boolean,
    baseClass?: string
