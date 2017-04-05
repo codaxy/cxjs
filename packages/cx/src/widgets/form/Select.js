@@ -32,6 +32,13 @@ export class Select extends Field {
          ...data.stateMods,
          empty: data.value == null
       };
+      if (this.labelPlacement) {
+        data.stateMods = {
+          ...data.stateMods,
+          ['label-placement-' + this.labelPlacement]: true,
+          "empty": this.labelPlacement && !data.value
+        }
+      }
       return super.prepareData(context, instance);
    }
 
@@ -39,7 +46,8 @@ export class Select extends Field {
       return <SelectComponent key={key}
                               instance={instance}
                               multiple={this.multiple}
-                              select={v => this.select(v, instance)}>
+                              select={v => this.select(v, instance)}
+                              label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}>
          {this.renderChildren(context, instance)}
       </SelectComponent>
    }
@@ -90,7 +98,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    render() {
-      let {multiple, select, instance} = this.props;
+      let {multiple, select, instance, label} = this.props;
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -165,8 +173,9 @@ class SelectComponent extends VDOM.Component {
             {placeholder}
             {this.props.children}
          </select>
-         {insideButton}
-         {icon}
+         { insideButton }
+         { icon }
+         { label }
       </div>
    }
 
