@@ -3,6 +3,7 @@ import { RouteProps } from './Route';
 
 interface RedirectRouteProps extends RouteProps {
 
+   /** Redirection URL. */
    redirect?: string
    
 }

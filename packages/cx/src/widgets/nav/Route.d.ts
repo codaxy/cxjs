@@ -2,12 +2,16 @@ import * as Cx from '../../core';
 
 export interface RouteProps extends Cx.PureContainerProps {
 
-   path?: string,
-   route?: string,
+   /** Url binding. Bind this to the global `url` variable. */
+   url?: Cx.StringProp,
 
-   // TODO: Check type
-   matcher?: any
+   /** Target route, e.g. `~/user/:userId`. All routes should start with `~/`. */
+   path?: string,
+
+   /** Target route, e.g. `~/user/:userId`. All routes should start with `~/`. */
+   route?: string,
    
+   /** Name used to expose local data. Defaults to `$route`. */
    recordName?: string
 
 }

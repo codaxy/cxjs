@@ -2,17 +2,18 @@ import * as Cx from '../../core';
 
 interface LinkProps extends Cx.HtmlElementProps{
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
+   /** Set to `true` to disable the link. */
    disabled?: Cx.BooleanProp,
 
-   /** Target url. */
+   /** Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation. */
    href?: Cx.StringProp,
 
+   /** Text associated with the link. */
    text?: Cx.StringProp,
+   
    url?: Cx.StringProp,
    baseClass?: string,
    match?: "equal" | "prefix"
-   
 
 }
 
