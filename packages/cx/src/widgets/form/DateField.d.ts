@@ -6,9 +6,6 @@ interface DateFieldProps extends FieldProps {
    /** Selected date. This should be a Date object or a valid date string consumable by Date.parse function. */
    value?: Cx.StringProp | Date,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Defaults to false. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
    
@@ -17,9 +14,6 @@ interface DateFieldProps extends FieldProps {
 
    /** Default text displayed when the field is empty. */
    placeholder?: Cx.StringProp,
-
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
 
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    minValue?: Cx.StringProp | Date,
@@ -39,7 +33,19 @@ interface DateFieldProps extends FieldProps {
    /** Base CSS class to be applied to the field. Defaults to `datefield`. */
    baseClass?: string,
 
-   suppressErrorTooltipsUntilVisited?: boolean,
+   /** Maximum value error text. */
+   maxValueErrorText?: string,
+
+   /** Maximum exclusive value error text. */
+   maxExclusiveErrorText?: string,
+
+   /** Minimum value error text. */
+   minValueErrorText?: string,
+
+    /** Minimum exclusive value error text. */
+   minExclusiveErrorText?: string,
+
+   inputErrorText?: string,
 
    /** Name of the icon to be put on the left side of the input. */
    icon?: string,
@@ -49,6 +55,7 @@ interface DateFieldProps extends FieldProps {
 
    /** Set to true to hide the clear button. It can be used interchangeably with the showClear property. Default value is false. */
    hideClear?: boolean
+   
 }
 
 export class DateField extends Cx.Widget<DateFieldProps> {}

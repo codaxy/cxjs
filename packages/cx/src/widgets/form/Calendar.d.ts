@@ -8,10 +8,7 @@ interface CalendarProps extends FieldProps {
 
    /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
    refDate?: Cx.StringProp | Cx.Prop<Date>,
-   
-   /** Defaults to false. Set to true to disable the field. */
-   disabled?: Cx.BooleanProp,
-
+ 
    /** Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
    minValue?: Cx.StringProp | Cx.Prop<Date>,
 
