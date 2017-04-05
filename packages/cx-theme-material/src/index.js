@@ -59,13 +59,7 @@ Localization.override('cx/widgets/ColorField', {
   labelPlacement: "material"
 });
 
-Localization.override('cx/widgets/Select', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-
-// set buttonMmod to MsgBox buttons
+// set all MsgBox buttons to flat-primary
 Localization.override('cx/widgets/MsgBox', {
    buttonMod: "flat-primary",
    footerDirection: "row-reverse",

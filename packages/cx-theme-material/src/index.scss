@@ -183,18 +183,34 @@ $form-list: (
    }
 }
 
-.#{$block}datefield, .#{$block}monthfield {
-   &.#{$state}label-placement-material {
-      & > .#{$block}label {
-         left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
-      }
-      &.#{$state}focus > .#{$block}label,
-      &:not(.#{$state}empty) > .#{$block}label {
-         margin-left: cx-calc(- $cx-default-icon-size, - $cx-default-box-padding);      
+@mixin input-with-icon-label( 
+   $field
+) {
+   .#{$block}#{$field} {
+      &.#{$state}label-placement-material {
+         & > .#{$block}label {
+            left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
+         }
+
+         &.#{$state}focus > .#{$block}label,
+         &:not(.#{$state}empty) > .#{$block}label {
+            margin-left: cx-calc(- $cx-default-icon-size, - $cx-default-box-padding);
+         }
+
+         &.#{$state}focus { 
+            .#{$element}#{$field}-icon {
+               color: $cx-theme-primary-color;
+            }
+            .#{$element}#{$field}-left-icon {
+               opacity: 1;
+            }
+         }
       }
    }
 }
 
+@include input-with-icon-label($field: datefield);
+@include input-with-icon-label($field: monthfield);
 
 /* calendar */ 
 .#{$block}calendar {

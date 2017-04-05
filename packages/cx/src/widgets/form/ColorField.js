@@ -1,4 +1,4 @@
-import {Widget, VDOM, getContent} from '../../ui/Widget';
+import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
