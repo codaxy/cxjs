@@ -1,6 +1,7 @@
 import * as Cx from '../../core';
 import * as React from 'react';
 import {Instance} from "../../ui/Instance";
+import {DragEvent} from '../drag-drop/ops';
 
 interface GridProps extends Cx.WidgetProps{
 
@@ -81,13 +82,13 @@ interface GridProps extends Cx.WidgetProps{
    showBorder?: boolean 
 
    // methods
-   onDrop?: (e: React.SyntheticEvent<any>, instance: Instance) => void;
-   onDropTest?: (e: React.SyntheticEvent<any>) => void;
-   onDragStart?: (e: React.SyntheticEvent<any>) => void;
-   onDragEnd?: (e: React.SyntheticEvent<any>) => void;
-   onDragMeasure?: (e: React.SyntheticEvent<any>) => void;
-   onDragOver?: (e: React.SyntheticEvent<any>) => void;
-   onDragLeave?: (e: React.SyntheticEvent<any>) => void;
+   onDrop?: (e: DragEvent, instance: Instance) => void;
+   onDropTest?: (e: DragEvent) => void;
+   onDragStart?: (e: DragEvent) => void;
+   onDragEnd?: (e: DragEvent) => void;
+   onDragMeasure?: (e: DragEvent) => void;
+   onDragOver?: (e: DragEvent) => void;
+   onDragLeave?: (e: DragEvent) => void;
 
 }
 
