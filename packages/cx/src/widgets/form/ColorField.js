@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
@@ -41,6 +41,13 @@ export class ColorField extends Field {
    }
 
    prepareData(context, {data}) {
+     if (this.labelPlacement) {
+       data.stateMods = {
+         ...data.stateMods,
+         ['label-placement-' + this.labelPlacement]: true,
+         "empty": this.labelPlacement && !data.value
+       }
+     }
       super.prepareData(...arguments);
    }
 
@@ -51,6 +58,7 @@ export class ColorField extends Field {
             value: this.value,
             format: this.format
          }}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       />
    }
 }
@@ -112,7 +120,7 @@ class ColorInput extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
+      let {instance, label} = this.props;
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -183,6 +191,7 @@ class ColorInput extends VDOM.Component {
          { well }
          { insideButton }
          { dropdown }
+         { label }
       </div>;
    }
 

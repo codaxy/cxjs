@@ -110,7 +110,9 @@ $form-list: (
 }
 
 /* padding in fields with icon */
-.#{$element}datefield-input, .#{$element}monthfield-input {
+.#{$element}datefield-input, 
+.#{$element}monthfield-input,
+.#{$element}colorfield-input {
    padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
 }
 
@@ -149,7 +151,7 @@ $form-list: (
       position: absolute;
       top: 0;
       left: 0;
-      transition: all 0.2s;
+      transition: all 0.2s linear;
       cursor: text;
    }
 
@@ -175,7 +177,7 @@ $form-list: (
          color: $cx-theme-primary-color;
       }
 
-      &.#{$state}error > .#{$block}label {
+      &.#{$state}error.#{$state}visited > .#{$block}label {
          color: $cx-theme-warning-color;
       }
    }
@@ -185,6 +187,10 @@ $form-list: (
    &.#{$state}label-placement-material {
       & > .#{$block}label {
          left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
+      }
+      &.#{$state}focus > .#{$block}label,
+      &:not(.#{$state}empty) > .#{$block}label {
+         margin-left: cx-calc(- $cx-default-icon-size, - $cx-default-box-padding);      
       }
    }
 }
