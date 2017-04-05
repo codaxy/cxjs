@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Calendar} from './Calendar';
@@ -66,6 +66,13 @@ export class DateField extends Field {
       if (data.minValue)
          data.minValue = zeroTime(new Date(data.minValue));
 
+      if (this.labelPlacement) {
+        data.stateMods = {
+          ...data.stateMods,
+          ['label-placement-' + this.labelPlacement]: true,
+          "empty": this.labelPlacement && !data.value
+        }
+      }
       super.prepareData(...arguments);
    }
 
@@ -107,6 +114,7 @@ export class DateField extends Field {
                            minValueErrorText: this.minValueErrorText,
                            minExclusiveErrorText: this.minExclusiveErrorText
                         }}
+                        label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       />
    }
 
@@ -192,7 +200,7 @@ class DateInput extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
+      let {instance, label} = this.props;
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -267,6 +275,7 @@ class DateInput extends VDOM.Component {
          { icon }
          { insideButton }
          { dropdown }
+         { label }
       </div>;
    }
 

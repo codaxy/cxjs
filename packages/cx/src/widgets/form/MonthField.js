@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {MonthPicker} from './MonthPicker';
@@ -100,6 +100,14 @@ export class MonthField extends Field {
       if (data.minValue)
          data.minValue = monthStart(new Date(data.minValue));
 
+      if (this.labelPlacement) {
+        data.stateMods = {
+          ...data.stateMods,
+          ['label-placement-' + this.labelPlacement]: true,
+          "empty": this.labelPlacement && !data.value
+        }
+      }
+
       super.prepareData(...arguments);
    }
 
@@ -153,6 +161,7 @@ export class MonthField extends Field {
                             minValueErrorText: this.minValueErrorText,
                             minExclusiveErrorText: this.minExclusiveErrorText
                          }}
+                         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       />
    }
 
@@ -248,7 +257,7 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
+      var {instance, label} = this.props;
       var {data, store, widget} = instance;
       var {CSS, baseClass} = widget;
 
@@ -322,6 +331,7 @@ class MonthInput extends VDOM.Component {
          { icon }
          { insideButton }
          { dropdown }
+         { label }
       </div>;
    }
 

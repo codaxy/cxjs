@@ -13,7 +13,6 @@ Localization.override('cx/widgets/Window', {
    destroyDelay: 200
 });
 
-
 Localization.override('cx/widgets/MenuItem', {
    dropdownOptions: {
       pad: false
@@ -36,6 +35,21 @@ Localization.override('cx/widgets/NumberField', {
 });
 
 Localization.override('cx/widgets/LookupField', {
+  trackFocus: true,
+  labelPlacement: "material"
+});
+
+Localization.override('cx/widgets/DateField', {
+  trackFocus: true,
+  labelPlacement: "material"
+});
+
+Localization.override('cx/widgets/MonthField', {
+  trackFocus: true,
+  labelPlacement: "material"
+});
+
+Localization.override('cx/widgets/Select', {
   trackFocus: true,
   labelPlacement: "material"
 });

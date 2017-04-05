@@ -104,8 +104,14 @@ $form-list: (
   }
 }
 
+/* lookupfield */
 .#{$block}lookupfield {
   max-height: none;
+}
+
+/* padding in fields with icon */
+.#{$element}datefield-input, .#{$element}monthfield-input {
+   padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
 }
 
 /* textarea */
@@ -135,34 +141,53 @@ $form-list: (
 }
 
 //ANIMATED LABELS
+.#{$state}label-placement-material {
+   overflow: visible;
+   margin-top: 2 * $cx-default-box-padding;
+   //position: relative;
+   & > .#{$block}label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.2s;
+      cursor: text;
+   }
 
-  .#{$state}label-placement-material {
-      overflow: visible;
-      margin-top: 10px;
-      //position: relative;
-      & > .#{$block}label {
-         position: absolute;
-         top: 0;
-         left: 0;
-         transition: all 0.2s;
-         cursor: text;
+   &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
+      color: $cx-default-input-placeholder-color;
+      font-size: $cx-default-input-font-size;
+   }
+
+   &.#{$state}focus > .#{$block}label {
+      color: $cx-default-label-color;
+   }
+
+   &.#{$state}focus > .#{$block}label,
+   &:not(.#{$state}empty) > .#{$block}label {
+      margin-top: - $cx-default-box-line-height + 1px;
+      cursor: default;
+      color: rgba($cx-default-label-color, 0.6);
+      font-size: $cx-default-label-font-size;
+   }
+
+   &.#{$state}focus {
+      > .#{$block}label {
+         color: $cx-theme-primary-color;
       }
 
-      &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
-         color: $cx-default-input-placeholder-color;
-         font-size: $cx-default-input-font-size;
-      }
-
-      &.#{$state}focus > .#{$block}label {
-         color: $cx-default-label-color;
-      }
-
-      &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
-         margin-top: -20px;
-         cursor: default;
-         color: rgba($cx-default-label-color, 0.6);
+      &.#{$state}error > .#{$block}label {
+         color: $cx-theme-warning-color;
       }
    }
+}
+
+.#{$block}datefield, .#{$block}monthfield {
+   &.#{$state}label-placement-material {
+      & > .#{$block}label {
+         left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
+      }
+   }
+}
 
 
 /* calendar */ 
