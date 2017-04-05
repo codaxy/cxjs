@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Text} from '../../ui/Text';
@@ -100,6 +100,14 @@ export class LookupField extends Field {
          disabled: data.disabled
       };
 
+      if (this.labelPlacement) {
+        data.stateMods = {
+          ...data.stateMods,
+          ['label-placement-' + this.labelPlacement]: true,
+          "empty": this.labelPlacement && !data.value
+        }
+      }
+
       super.prepareData(context, instance);
 
       data.selectedKeys = [];
@@ -142,6 +150,7 @@ export class LookupField extends Field {
          bindings={this.bindings}
          baseClass={this.baseClass}
          onQuery={this.onQuery}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       />
    }
 
@@ -440,7 +449,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
+      var {instance, label} = this.props;
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
 
@@ -551,6 +560,7 @@ class LookupComponent extends VDOM.Component {
          { insideButton }
          { icon }
          { dropdown }
+         { label }
       </div>;
    }
 

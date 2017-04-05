@@ -160,6 +160,7 @@ $form-list: (
       &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
          margin-top: -20px;
          cursor: default;
+         color: rgba($cx-default-label-color, 0.6);
       }
    }
 
