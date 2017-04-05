@@ -104,7 +104,7 @@ export class MonthField extends Field {
         data.stateMods = {
           ...data.stateMods,
           ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value
+          "empty": this.labelPlacement && !data.value && !data.from
         }
       }
 
