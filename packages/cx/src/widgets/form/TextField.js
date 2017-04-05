@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {
    tooltipParentWillReceiveProps,
@@ -18,7 +18,7 @@ import ClearIcon from '../icons/clear';
 export class TextField extends Field {
 
    init() {
-      if (typeof this.hideClear != 'undefined')
+      if (typeof this.hideClear !== 'undefined')
          this.showClear = !this.hideClear;
 
       super.init();
@@ -37,6 +37,18 @@ export class TextField extends Field {
       }, ...arguments);
    }
 
+   prepareData(context, instance) {
+      let {data} = instance;
+      if (this.labelPlacement) {
+         data.stateMods = {
+            ...data.stateMods,
+            ['label-placement-' + this.labelPlacement]: true,
+            "empty": this.labelPlacement && !data.value
+         }
+      }
+      super.prepareData(context, instance);
+   }
+
    renderInput(context, instance, key) {
       return (
          <Input
@@ -44,6 +56,7 @@ export class TextField extends Field {
             instance={instance}
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          />
       )
    }
@@ -57,9 +70,9 @@ export class TextField extends Field {
             data.error = this.validationErrorText;
 
       if (!data.error && data.value) {
-         if (typeof data.value == 'string' && data.minLength != null && data.value.length < data.minLength)
+         if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
             data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
-         else if (typeof data.value == 'string' && data.maxLength != null && data.value.length > data.maxLength)
+         else if (typeof data.value === 'string' && data.maxLength != null && data.value.length > data.maxLength)
             data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);
       }
    }
@@ -90,11 +103,11 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state !== this.state;
    }
 
    render() {
-      let {instance, data} = this.props;
+      let {instance, data, label} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -158,6 +171,7 @@ class Input extends VDOM.Component {
          />
          {insideButton}
          {icon}
+         {label}
       </div>
    }
 
@@ -181,10 +195,6 @@ class Input extends VDOM.Component {
 
    onClearClick(e) {
       this.props.instance.set('value', null);
-   }
-
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.shouldUpdate !== false || this.state != nextState;
    }
 
    onMouseMove(e) {

@@ -538,6 +538,32 @@ div.#{$block}classic-tab-container {
   }
 }
 
+//ANIMATED LABELS
+.#{$block}textfield.#{$state}label-placement-material {
+   overflow: visible;
+   //position: relative;
+
+   & > .#{$block}label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.2s;
+   }
+
+   &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
+      color: lightgray;
+      font-size: 16px;
+   }
+
+   &.#{$state}focus > .#{$block}label {
+      color: red;
+   }
+
+   &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
+      margin-top: -20px;
+   }
+}
+
 //MATERIAL ICONS
 .material-icons {
   font-family: 'Material Icons';
