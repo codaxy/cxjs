@@ -42,6 +42,8 @@ Localization.override('cx/widgets/Grid', {
   showBorder: true
 });
 
+
+// material icons added
 Icon.registerFactory((name, props) => {
    return VDOM.createElement('i', {
       ...props,

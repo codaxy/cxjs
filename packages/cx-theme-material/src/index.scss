@@ -134,6 +134,33 @@ $form-list: (
   }   
 }
 
+//ANIMATED LABELS
+@each $field in $form-list {
+   .#{$block}#{$field}.#{$state}label-placement-material {
+      overflow: visible;
+      //position: relative;
+      & > .#{$block}label {
+         position: absolute;
+         top: 0;
+         left: 0;
+         transition: all 0.2s;
+      }
+
+      &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
+         color: $cx-default-input-placeholder-color;
+         font-size: $cx-default-input-font-size;
+      }
+
+      &.#{$state}focus > .#{$block}label {
+         color: $cx-default-label-color;
+      }
+
+      &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
+         margin-top: -20px;
+      }
+   }
+}
+
 /* calendar */ 
 .#{$block}calendar {
   .#{$element}calendar-day-names {
@@ -532,32 +559,6 @@ div.#{$block}classic-tab-container {
 	    background-color: rgba(0, 0, 0, 0.02);
     }
   }
-}
-
-//ANIMATED LABELS
-.#{$block}textfield.#{$state}label-placement-material {
-   overflow: visible;
-   //position: relative;
-
-   & > .#{$block}label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: all 0.2s;
-   }
-
-   &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
-      color: lightgray;
-      font-size: 16px;
-   }
-
-   &.#{$state}focus > .#{$block}label {
-      color: red;
-   }
-
-   &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
-      margin-top: -20px;
-   }
 }
 
 //MATERIAL ICONS
