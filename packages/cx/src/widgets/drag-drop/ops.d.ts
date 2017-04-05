@@ -1,13 +1,14 @@
 import * as Cx from '../../core';
 import * as React from 'react';
-import { DragSource } from './DragSource';
+import { DragSourceProps } from './DragSource';
 
 
 export interface DragEvent {
    eventType: string,
    event: React.SyntheticEvent<any>,
-   cursor: any,
-   source: any
+   // TODO: define type/interface in captureMouse ts file
+   cursor: { clientX: number, clientY: number },
+   source: DragSourceProps
 }
 
 
