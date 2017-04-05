@@ -27,12 +27,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/mstijak/sui.git"
+    "url": "git@github.com:codaxy/cx.git"
   },
   "keywords": [
     "UI"
   ],
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
     "url": "https://gitlab.com/mstijak/cx/issues"

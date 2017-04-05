@@ -5,7 +5,7 @@ import {Binding} from '../data/Binding';
 import {Selection} from '../ui/selection/Selection';
 import {KeyCode} from '../util/KeyCode';
 import {scrollElementIntoView} from '../util/scrollElementIntoView';
-import {FocusManager, oneFocusOut, offFocusOut} from '../ui/FocusManager';
+import {FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch} from '../ui/FocusManager';
 
 /*
  - renders list of items
@@ -294,6 +294,7 @@ class ListComponent extends VDOM.Component {
          className={CSS.expand(data.classNames, CSS.state({focused: this.state.focused}))}
          style={data.style}
          tabIndex={widget.focusable && selectable && items.length > 0 ? 0 : null}
+         onMouseDown={e=>preventFocusOnTouch(e)}
          onKeyDown={::this.handleKeyDown}
          onMouseLeave={::this.handleMouseLeave}
          onFocus={::this.onFocus}

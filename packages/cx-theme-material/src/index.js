@@ -35,12 +35,13 @@ Localization.override('cx/widgets/MsgBox', {
 // always show all borders on Grids in material theme
 Localization.override('cx/widgets/Grid', {
   showBorder: true
-})
+});
 
 Icon.registerFactory((name, props) => {
-   props = { ...props };
-   props.className = 'material-icons ' + (props.className || '');
-   return <i {...props}>{name}</i>;
+   return VDOM.createElement('i', {
+      ...props,
+      className: 'material-icons ' + (props.className || '')
+   }, name)
 });
 
 Icon.unregister('close');

@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "17.4.4",
+  "version": "17.4.7",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -14,5 +14,9 @@
   "dependencies": {
     "intl-io": "^0.2.3",
     "route-parser": "^0.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
   }
 }

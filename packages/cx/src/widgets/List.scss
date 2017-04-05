@@ -56,7 +56,7 @@
             @include cx-add-state-rules($cx-list-item, cursor);
 
             &:active {
-              @include cx-add-state-rules($cx-list-item, active);
+               @include cx-add-state-rules($cx-list-item, active);
             }
          }
       }
@@ -64,8 +64,12 @@
       &.#{$state}selected {
           @include cx-add-state-rules($cx-list-item, selected);
 
-         .#{$block}#{$name}.#{$state}focused > & {
-             @include cx-add-state-rules($cx-list-item, selected-cursor);
+         &.#{$state}cursor {
+            @include cx-add-state-rules($cx-list-item, selected-hover);
+
+            .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+                @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
          }
       }
    }

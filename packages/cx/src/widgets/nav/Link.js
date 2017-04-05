@@ -43,7 +43,7 @@ export class Link extends HtmlElement {
                 className={data.classNames}
                 style={data.style}
                 tabIndex={this.tabIndex}
-                onClick={e=> {
+                onClick={e => {
                    this.handleClick(e, instance)
                 }}>
          {data.text || this.renderChildren(context, instance)}
@@ -53,16 +53,15 @@ export class Link extends HtmlElement {
    handleClick(e, instance) {
       let {data} = instance;
       e.preventDefault();
+
       if (data.disabled)
          return;
 
-      if (this.onClick)
-         this.onClick(e, instance);
+      if (this.onClick && this.onClick(e, instance) === false)
+         return;
 
-      if (History.pushState({}, null, data.href)) {
+      if (History.pushState({}, null, data.href))
          e.stopPropagation();
-         e.preventDefault();
-      }
    }
 }
 

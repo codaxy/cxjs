@@ -1,5 +1,5 @@
 import {Url} from './Url';
-import {batchUpdates} from '../batchUpdates';
+import {batchUpdatesAndNotify} from '../batchUpdates';
 
 export class History {
 
@@ -24,7 +24,7 @@ export class History {
       if (window.history.pushState) {
          url = Url.resolve(url);
          let changed = false;
-         batchUpdates(() => {
+         batchUpdatesAndNotify(() => {
             changed = this.updateStore(url);
          }, () => {
             //update history once the page is rendered and the title is set (SEO)

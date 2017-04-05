@@ -1,5 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {Field} from './Field';
+import {Field, getFieldTooltip} from './Field';
 import {Culture} from '../../ui/Culture';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {StringTemplate} from '../../data/StringTemplate';
@@ -16,7 +16,6 @@ import {
    tooltipParentDidMount
 } from '../overlay/Tooltip';
 import {KeyCode} from '../../util';
-import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ForwardIcon from '../icons/forward';
 import DropdownIcon from '../icons/drop-down';
@@ -118,6 +117,7 @@ Calendar.prototype.maxValueErrorText = 'Select a date not after {0:d}.';
 Calendar.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 Calendar.prototype.minValueErrorText = 'Select a date not before {0:d}.';
 Calendar.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
+Calendar.prototype.suppressErrorTooltipsUntilVisited = false;
 
 Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 
@@ -311,8 +311,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleMouseLeave(e) {
-      let {widget} = this.props.instance;
-      tooltipMouseLeave(e, this.props.instance, widget.tooltip);
+      tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
       this.setState({
          hover: false
       });
@@ -324,8 +323,8 @@ export class CalendarCmp extends VDOM.Component {
       });
    }
 
-   handleMouseMove(e){
-      this.moveCursor(e, new Date(e.target.dataset.date))
+   handleMouseMove(e) {
+      this.moveCursor(e, new Date(e.target.dataset.date));
    }
 
    handleMouseDown(e){
@@ -337,7 +336,7 @@ export class CalendarCmp extends VDOM.Component {
       if (this.props.instance.widget.autoFocus)
          this.el.focus();
 
-      tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+      tooltipParentDidMount(this.el, ...getFieldTooltip(this.props.instance));
    }
 
    componentWillReceiveProps(props) {
@@ -348,7 +347,7 @@ export class CalendarCmp extends VDOM.Component {
             value: data.date
          });
 
-      tooltipParentWillReceiveProps(this.el, props.instance, props.instance.widget.tooltip);
+      tooltipParentWillReceiveProps(this.el, ...getFieldTooltip(props.instance));
    }
 
    componentWillUnmount() {
@@ -411,7 +410,7 @@ export class CalendarCmp extends VDOM.Component {
          ref={el => {
             this.el = el
          }}
-         onMouseMove={e => tooltipMouseMove(e, this.props.instance, widget.tooltip)}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
          onMouseLeave={e => this.handleMouseLeave(e)}
          onMouseEnter={e => this.handleMouseEnter(e)}
          onWheel={e => this.handleWheel(e)}

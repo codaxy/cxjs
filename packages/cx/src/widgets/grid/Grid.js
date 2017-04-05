@@ -573,7 +573,7 @@ class GridComponent extends VDOM.Component {
                   grid={instance}
                   record={record}
                   parent={this}
-                  onMouseEnter={e => this.moveCursor(i)}
+                  cursorIndex={i}
                   selected={row.selected}
                   isBeingDragged={dragged}
                   cursor={mod.cursor}
@@ -741,7 +741,7 @@ class GridComponent extends VDOM.Component {
          m = Math.floor((s + e) / 2);
          b = nodes[m].getBoundingClientRect();
 
-         //dragged items might be invisible and do not offer
+         //dragged items might be invisible and have no client bounds
          if (b.top == 0 && b.bottom == 0) {
             if (m > s)
                m--;
@@ -868,11 +868,14 @@ class GridComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         let firstSelected = this.props.instance.records.findIndex(x => x.selected);
-         this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
+         let {records, isSelected} = this.props.instance;
+         let cursor = records.findIndex(x => isSelected(x.data, x.index));
+         //if there are no selected records, find the first data record (skip group header)
+         if (cursor == -1)
+            cursor = records.findIndex(x => x.type == 'data');
+         this.moveCursor(cursor, true, true);
       }
    }
-
 
    onFocus() {
       FocusManager.nudge();
