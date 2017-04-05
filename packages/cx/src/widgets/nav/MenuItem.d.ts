@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface MenuItemProps extends Cx.HtmlElementProps {
+export interface MenuItemProps extends Cx.HtmlElementProps {
    
    baseClass?: string,
    hoverFocusTimeout?: number,
