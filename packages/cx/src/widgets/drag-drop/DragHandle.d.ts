@@ -1,3 +1,10 @@
 import * as Cx from '../../core';
 
-export class DragHandle extends Cx.Widget<any> {}
+interface DragHandleProps extends Cx.PureContainerProps{
+
+   styled?: boolean,
+   baseClass?: string
+   
+}
+
+export class DragHandle extends Cx.Widget<DragHandleProps> {}
