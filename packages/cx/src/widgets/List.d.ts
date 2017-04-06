@@ -2,25 +2,28 @@ import * as Cx from '../core';
 
 interface ListProps extends Cx.StyledContainerProps {
     
-    /** An array of records to be displayed in the list. */
-    records?: Cx.RecordsProp,
+   /** An array of records to be displayed in the list. */
+   records?: Cx.RecordsProp,
     
-    /** Used for sorting the list. */
-    sorters?: Cx.Sorter[],
+   /** Used for sorting the list. */
+   sorters?: Cx.Sorter[],
     
-    filterParams?: Cx.StructuredProp, 
+   filterParams?: Cx.StructuredProp, 
     
-    itemStyle?: Cx.StyleProp,
+   itemStyle?: Cx.StyleProp,
     
-    emptyText?:  Cx.StringProp,
+   emptyText?:  Cx.StringProp,
+   
+   /** Grouping configuration. */
+   grouping?: Cx.Config,
 
-    recordName?: string,
-    indexName?: string,
-    baseClass?: string,
-    focusable?: boolean,
-    focused?: boolean,
-    itemPad?: boolean,
-    cached?: boolean
+   recordName?: string,
+   indexName?: string,
+   baseClass?: string,
+   focusable?: boolean,
+   focused?: boolean,
+   itemPad?: boolean,
+   cached?: boolean
 
 }
 

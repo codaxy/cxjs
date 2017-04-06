@@ -10,7 +10,10 @@ import {
 } from '../core';
 
 interface SectionProps extends StyledContainerProps {
+
    id?: Prop<string | number>,
+
+   /** Add default padding to the section body. Default is `true`. */
    pad?: BooleanProp,
 
    /** A custom style which will be applied to the header. */
@@ -39,6 +42,7 @@ interface SectionProps extends StyledContainerProps {
 
    /** Contents that should go in the footer. */
    footer?: Config
+
 }
 
 export class Section extends Widget<SectionProps> {
