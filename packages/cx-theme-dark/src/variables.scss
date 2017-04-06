@@ -190,19 +190,14 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 
 // LIST ITEM
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
-   default: (
-   ),
    hover: (
-      background-color: $cx-default-background-color-dark
+      background-color:  darken($cx-default-highlight-color, 12)
    ),
-   hover-focus: (
+   cursor: (
       background-color: darken($cx-default-highlight-color, 12)
    ),
    selected: (
-      background-color: darken($cx-default-highlight-color, 9)
-   ),
-   selected-focus: (
-      background-color: $cx-default-highlight-color
+      background-color: darken($cx-default-highlight-color, 1)
    ),
    selected-cursor: (
       background-color: lighten($cx-default-highlight-color, 4)
