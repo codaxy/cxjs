@@ -361,8 +361,7 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
-  background-color: transparent;
-  /*color: $cx-default-dropdown-color;*/    
+  background-color: transparent;  
 
   &:before {
     transform: scaleX(1);
@@ -373,9 +372,6 @@ div.#{$block}classic-tab-container {
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
   background-color: transparent;
-  > span {
-    /*color: $cx-theme-secondary-text-color;*/
-  }
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
@@ -565,16 +561,3 @@ div.#{$block}classic-tab-container {
 
   user-select: none;
 }
-
-
-/*.cxe-grid-data.cxs-selected {
-   td {
-      border-color: rgba($cx-theme-primary-color-light, 0.4)
-   }
-
-   + .cxe-grid-data {
-      td {
-         border-color: rgba($cx-theme-primary-color-light, 0.4)
-      }
-   }
-}*/

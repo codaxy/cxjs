@@ -212,13 +212,13 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
     color: inherit
   ),
   hover: (
-    background-color: rgba(0, 0, 0, 0.02)
+    background-color: rgba(0, 0, 0, 0.03)
   ),
   cursor: (
-    background-color: rgba(0, 0, 0, 0.02)  
+    background-color: rgba(0, 0, 0, 0.03)  
   ),
   selected: (
-    background-color: rgba(0, 0, 0, 0.06)
+    background-color: rgba(0, 0, 0, 0.07)
   ),
   selected-cursor: (
     background-color: rgba(0, 0, 0, 0.10)
@@ -399,10 +399,11 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
     line-height: $cx-default-box-line-height
   ),
   hover: (
-    color: $cx-default-color
+    color: $cx-default-color,
+    background-color: rgba(0, 0, 0, 0.05)
   ),
   cursor: (
-    background-color: rgba($cx-theme-primary-color, 0.2),
+    background-color: rgba(0, 0, 0, 0.1),
     color: $cx-default-color,
     outline: none
   ),
@@ -468,6 +469,9 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: rgba(0, 0, 0, 0.7),
       padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
     ),
+    hover: (
+      border-color: rgba(0, 0, 0, 0.06)
+    ),
     selected: (
       color: $cx-theme-primary-color-light,
       border-color: $cx-theme-primary-color
@@ -479,7 +483,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       color: rgba(0, 0, 0, 0.26)
     ),
     cursor: (
-      border-color: rgba($cx-theme-primary-color, 0.4)
+      border-color: rgba(0, 0, 0, 0.13)
     )
   ),
   /*If a tab is inside a dark-colored container, use mod="line-accent".*/
