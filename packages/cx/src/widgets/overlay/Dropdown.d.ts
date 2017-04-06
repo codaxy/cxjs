@@ -18,6 +18,7 @@ export interface DropdownProps extends OverlayProps {
    screenPadding?: number,
    firstChildDefinesHeight?: boolean,
    firstChildDefinesWidth?: boolean
+   
 }
 
 export class Dropdown extends Cx.Widget<DropdownProps> {}

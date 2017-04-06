@@ -7,8 +7,10 @@ export interface OverlayProps extends Cx.StyledContainerProps {
 
    /** Set to `true` to enable dragging the overlay. */
    draggable?: Cx.BooleanProp,
-
+   
+   /** Base CSS class to be applied to the field. Defaults to `overlay`. */
    baseClass?: string,
+
    resizeWidth?: number,
 
    /** Set to `true` to initially place the overlay in the center of the page. */
@@ -23,7 +25,8 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    /** Set to `true` to force the element to be rendered inline, instead of being appended to the body element. 
     * Inline overlays have z-index set to a very high value, to ensure they are displayed on top of the other content. */
    inline?: boolean,
-
+   
+   /** Set to `true` to automatically focus the field, after it renders for the first time. */
    autoFocus?: boolean,
 
    /** Set to `true` to append the set animate state after the initial render. Appended CSS class may be used to add show/hide animations. */
@@ -34,6 +37,7 @@ export interface OverlayProps extends Cx.StyledContainerProps {
 
    dismissOnFocusOut?: boolean,
    focusable?: boolean
+   
 }
 
 export class Overlay extends Cx.Widget<OverlayProps> {}

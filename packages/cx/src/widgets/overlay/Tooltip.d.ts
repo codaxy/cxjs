@@ -15,17 +15,14 @@ interface TooltipProps extends DropdownProps {
     */
    alwaysVisible?: Cx.BooleanProp,
    
+   /** Base CSS class to be applied to the field. Defaults to 'tooltip'. */
+   baseClass?: string,
+
    /** 
     * Set to `true` to append the set `animate` state after the initial render.
     *  Appended CSS class may be used to add show/hide animations.
     */
    animate?: boolean,
-   
-   /** 
-    * Number of milliseconds to wait, before removing the element from the DOM.
-    * Used in combination with the `animate` property. 
-    */
-   destroyDelay?: number,
    
    /** Set to `true` to make the tooltip follow the mouse movement. */
    trackMouse?: string, 
@@ -35,7 +32,8 @@ interface TooltipProps extends DropdownProps {
     * Default value is `toggle` which means that the tooltip is shown on first tap and closed on the second tap. 
     * Use `ignore` to skip showing tooltips on touch events. 
     */
-   touchBehavior?: string,
+   touchBehavior?: string
+
 }
 
 export class Tooltip extends Cx.Widget<TooltipProps> {}

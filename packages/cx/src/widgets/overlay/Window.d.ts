@@ -17,6 +17,17 @@ interface WindowProps extends OverlayProps {
 
    /** A custom style which will be applied to the footer. */
    footerStyle?: Cx.StyleProp
+   
+   /** Base CSS class to be applied to the field. Defaults to `window`. */
+   baseClass?: string,
+   
+   /** Set to `true` to enable resizing. */
+   resizable?: boolean,
+   /** Set to `true` to automatically focus the field, after it renders for the first time. */
+   autoFocus?: boolean,
+   
+   focusable?: boolean
+
 }
 
 export class Window extends Cx.Widget<WindowProps> {}

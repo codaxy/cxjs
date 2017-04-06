@@ -1,9 +1,11 @@
 import * as Cx from '../../core';
 
 interface MsgBoxProps {
+
    buttonMod?: null,
    footerDirection?: string,
    footerJustify?: string
+   
 }
 
 export class MsgBox {
