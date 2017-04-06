@@ -155,8 +155,8 @@ class Input extends VDOM.Component {
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
-            icon: widget.icon,
-            focus: this.state.focus
+            focus: this.state.focus,
+            icon: !!icon
          }))}
          style={data.style}
          onMouseDown={stopPropagation}

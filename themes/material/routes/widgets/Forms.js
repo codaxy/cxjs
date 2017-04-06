@@ -15,7 +15,8 @@ import {
    TextField,
    HtmlElement,
    Section,
-   FlexRow
+   FlexRow,
+   FlexCol
 } from 'cx/widgets';
 
 import {LabelsLeftLayout} from 'cx/ui';
@@ -48,22 +49,22 @@ export default <cx>
       </div>
    </Section>
 
-   <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
-      <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio" style="width:100%; max-width: 230px;">
+   <Section mod="card" title="Dropdowns" style="flex:1 0 230px">
+      <FlexCol>
+         <Select label="Select" value:bind="radio" style="width:100%;">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
-         <LookupField label="LookupField" value:bind="radio"
+         <LookupField label="LookupField" value:bind="lookup"
             options={options}
-            style="width:100%; max-width: 230px;"/>
+            style="width:100%;"/>
          <LookupField label="LookupField (multiple)" multiple values:bind="options"
             options={options}
-            style="width:100%; max-width: 230px;"/>
-         <DateField label="DateField" value:bind="date" style="width:100%; max-width: 230px;"/>
-         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%; max-width: 230px;"/>
-         <ColorField label="ColorField" value:bind="color" style="width:100%; max-width: 230px;"/>
-      </div>
+            style="width:100%"/>
+         <DateField label="DateField" value:bind="date" style="width:100%;"/>
+         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%"/>
+         <ColorField label="ColorField" value:bind="color" style="width:100%"/>
+      </FlexCol>
    </Section>
 
    <Section mod="card" title="Calendar">

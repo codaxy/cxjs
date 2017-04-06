@@ -140,7 +140,7 @@ class Input extends VDOM.Component {
          className={CSS.expand(data.classNames, CSS.state({
             visited: this.state.visited,
             focus: this.state.focus,
-            icon: widget.icon,
+            icon: !!icon,
             clear: insideButton != null
          }))}
          style={data.style}

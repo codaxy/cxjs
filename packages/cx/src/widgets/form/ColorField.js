@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
@@ -19,6 +19,7 @@ import {KeyCode} from '../../util';
 
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
+import {Localization} from '../../ui/Localization';
 
 export class ColorField extends Field {
 
@@ -69,6 +70,7 @@ ColorField.prototype.suppressErrorTooltipsUntilVisited = true;
 ColorField.prototype.showClear = true;
 
 Widget.alias('color-field', ColorField);
+Localization.registerPrototype('cx/widgets/ColorField', ColorField);
 
 class ColorInput extends VDOM.Component {
 
@@ -157,7 +159,8 @@ class ColorInput extends VDOM.Component {
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state.visited,
-            focus: this.state.focus
+            focus: this.state.focus || this.state.dropdownOpen,
+            icon: true
          }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}

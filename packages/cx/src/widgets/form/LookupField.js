@@ -100,20 +100,9 @@ export class LookupField extends Field {
          disabled: data.disabled
       };
 
-      if (this.labelPlacement) {
-        data.stateMods = {
-          ...data.stateMods,
-          ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value
-        }
-      }
-
-      super.prepareData(context, instance);
-
       data.selectedKeys = [];
 
       if (this.multiple) {
-
          if (Array.isArray(data.values) && Array.isArray(data.options)) {
             data.selectedKeys = data.values.map(v => this.keyBindings.length == 1 ? [v] : v);
             var map = {};
@@ -132,7 +121,8 @@ export class LookupField extends Field {
          }
          else if (Array.isArray(data.records))
             data.selectedKeys.push(...data.records.map($value => this.keyBindings.map(b => Binding.get(b.local).value({$value}))))
-      } else {
+      }
+      else {
          var dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map(b => Binding.get(b.local).value(dataViewData)));
          if (!this.text && Array.isArray(data.options)) {
@@ -140,6 +130,16 @@ export class LookupField extends Field {
             data.text = option && option[this.optionTextField] || '';
          }
       }
+
+      if (this.labelPlacement) {
+         data.stateMods = {
+            ...data.stateMods,
+            ['label-placement-' + this.labelPlacement]: true,
+            "empty": this.labelPlacement && this.multiple ? data.selectedKeys.length === 0 : !data.value
+         }
+      }
+
+      super.prepareData(context, instance);
    }
 
    renderInput(context, instance, key) {
@@ -532,7 +532,7 @@ class LookupComponent extends VDOM.Component {
 
       var states = {
          visited: data.visited || this.state && this.state.visited,
-         focus: this.state.focus,
+         focus: this.state.focus || this.state.dropdownOpen,
          icon: !insideButton || widget.icon
       };
 

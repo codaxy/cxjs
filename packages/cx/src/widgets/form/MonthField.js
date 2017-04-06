@@ -299,7 +299,8 @@ class MonthInput extends VDOM.Component {
 
       return <div className={CSS.expand(data.classNames, CSS.state({
          visited: data.visited || this.state.visited,
-         focus: this.state.focus
+         focus: this.state.focus || this.state.dropdownOpen,
+         icon: !!icon
       }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}

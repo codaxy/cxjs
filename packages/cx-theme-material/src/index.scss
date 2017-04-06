@@ -145,7 +145,7 @@ $form-list: (
 //ANIMATED LABELS
 .#{$state}label-placement-material {
    overflow: visible;
-   margin-top: 2 * $cx-default-box-padding;
+   margin: 2 * $cx-default-box-padding 0;
    //position: relative;
    & > .#{$block}label {
       position: absolute;
@@ -166,7 +166,7 @@ $form-list: (
 
    &.#{$state}focus > .#{$block}label,
    &:not(.#{$state}empty) > .#{$block}label {
-      margin-top: - $cx-default-box-line-height + 1px;
+      margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
       cursor: default;
       color: rgba($cx-default-label-color, 0.6);
       font-size: $cx-default-label-font-size;
@@ -181,27 +181,18 @@ $form-list: (
          color: $cx-theme-warning-color;
       }
    }
-}
 
-@mixin input-with-icon-label( 
-   $field
-) {
-   .#{$block}#{$field} {
-      &.#{$state}label-placement-material {
-         & > .#{$block}label {
-            left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
-         }
+   &.#{$state}icon {
+      & > .#{$block}label {
+         left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
+      }
 
-         &.#{$state}focus > .#{$block}label,
-         &:not(.#{$state}empty) > .#{$block}label {
-            margin-left: cx-calc(- $cx-default-icon-size, - $cx-default-box-padding);
-         }
+      &.#{$state}focus > .#{$block}label,
+      &:not(.#{$state}empty) > .#{$block}label {
+         margin-left: cx-calc(-$cx-default-icon-size, -$cx-default-box-padding);
       }
    }
 }
-
-@include input-with-icon-label($field: datefield);
-@include input-with-icon-label($field: monthfield);
 
 /* calendar */ 
 .#{$block}calendar {

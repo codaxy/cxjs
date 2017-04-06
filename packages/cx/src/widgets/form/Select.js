@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field, getFieldTooltip} from './Field';
 import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
@@ -6,6 +6,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Icon} from '../Icon';
+import {Localization} from '../../ui/Localization';
 
 export class Select extends Field {
 
@@ -85,7 +86,8 @@ Select.prototype.suppressErrorTooltipsUntilVisited = true;
 Select.prototype.showClear = true;
 Select.prototype.icon = null;
 
-Widget.alias('select', Select)
+Widget.alias('select', Select);
+Localization.registerPrototype("cx/widgets/Select", Select);
 
 class SelectComponent extends VDOM.Component {
 
