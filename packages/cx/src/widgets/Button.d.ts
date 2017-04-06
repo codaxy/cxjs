@@ -19,7 +19,10 @@ interface ButtonProps extends Cx.HtmlElementProps {
    /** Base CSS class to be applied to the element. Default is 'button'. */
    baseClass?: string,
 
-   /** Determines if button should receive focus on mousedown event. Default is `false`, which means that focus can be set only using the keyboard Tab key. */
+   /** 
+    * Determines if button should receive focus on mousedown event. 
+    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key. 
+    */
    focusOnMouseDown?: boolean,
 
    /** Add type="submit" to the button. */
