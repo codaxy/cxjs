@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Instance} from "../../ui/Instance";
 import {DragEvent} from '../drag-drop/ops';
 
-interface GridProps extends Cx.WidgetProps{
+interface GridProps extends Cx.WidgetProps {
 
    /** An array of records to be displayed in the grid. */ 
    records?: Cx.Prop<Cx.Record[]>,
@@ -79,7 +79,7 @@ interface GridProps extends Cx.WidgetProps{
 
    lockColumnWidthsRequiredRowCount?: number,
    focused?: boolean,
-   showBorder?: boolean 
+   showBorder?: boolean,
 
    // methods
    onDrop?: (e: DragEvent, instance: Instance) => void;
