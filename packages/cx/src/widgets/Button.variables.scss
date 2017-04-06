@@ -32,7 +32,8 @@ $cx-button-state-style-map: (
       text-decoration: none
    ),
    hover: (
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+      text-decoration: none
    ),
    focus: (
       outline: none,

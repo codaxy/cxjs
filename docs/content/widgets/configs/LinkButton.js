@@ -5,13 +5,6 @@ import button from './Button';
 export default {
     ...button,
 
-    baseClass: {
-        type: 'string',
-        description: <cx><Md>
-            Base CSS class to be applied to the element. Default is 'uploadbutton'.
-        </Md></cx>
-    },
-
     disabled: {
         type: 'boolean',
         description: <cx><Md>
