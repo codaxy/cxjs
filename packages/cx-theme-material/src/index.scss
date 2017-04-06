@@ -362,7 +362,6 @@ div.#{$block}classic-tab-container {
 
 .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
   background-color: transparent;
-  /*color: $cx-default-dropdown-color;*/    
 
   &:before {
     transform: scaleX(1);
@@ -373,9 +372,6 @@ div.#{$block}classic-tab-container {
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
   background-color: transparent;
-  > span {
-    /*color: $cx-theme-secondary-text-color;*/
-  }
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
@@ -536,6 +532,32 @@ div.#{$block}classic-tab-container {
 	    background-color: rgba(0, 0, 0, 0.02);
     }
   }
+}
+
+//ANIMATED LABELS
+.#{$block}textfield.#{$state}label-placement-material {
+   overflow: visible;
+   //position: relative;
+
+   & > .#{$block}label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.2s;
+   }
+
+   &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
+      color: lightgray;
+      font-size: 16px;
+   }
+
+   &.#{$state}focus > .#{$block}label {
+      color: red;
+   }
+
+   &.#{$state}focus > .#{$block}label, &:not(.#{$state}empty) > .#{$block}label {
+      margin-top: -20px;
+   }
 }
 
 //MATERIAL ICONS
