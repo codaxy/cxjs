@@ -26,7 +26,11 @@ interface SwitchProps extends FieldProps {
 
    /** Base CSS class to be applied to the field. Defaults to `switch`. */
    baseClass?: string,
-
+   
+   /** 
+    * Determines if button should receive focus on mousedown event. 
+    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key. 
+    */
    focusOnMouseDown?: boolean
    
 }
