@@ -9,7 +9,9 @@ interface TextAreaProps extends TextFieldProps {
    /** Event used to report on a new value. Defaults to `blur`. Other permitted value is `input`. */
    reachOn?: string,
    
-   suppressErrorTooltipsUntilVisited?: boolean
+   /** Base CSS class to be applied to the element. Defaults to `textarea`. */
+   baseClass?: string
+   
 }
 
 export class TextArea extends Cx.Widget<TextAreaProps> {}

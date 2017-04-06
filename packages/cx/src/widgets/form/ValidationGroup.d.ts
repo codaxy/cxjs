@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-export interface ValidationGroupProps extends Cx.PureContainerProps{
+export interface ValidationGroupProps extends Cx.PureContainerProps {
 
    errors?: Cx.Record[],
 
@@ -10,14 +10,9 @@ export interface ValidationGroupProps extends Cx.PureContainerProps{
    /** Binding which will be set to true if any of child form field reports validation error. */
    invalid?: Cx.BooleanProp,
 
-   /** Set to `true` to disable all inner elements that support `disabled` property. */
-   disabled?: Cx.BooleanProp,
-
    /** Set to `false` to disable all inner elements that support `disabled` property. */
-   enabled?: Cx.BooleanProp,
-
-
-
+   enabled?: Cx.BooleanProp
+   
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}

@@ -40,7 +40,8 @@ interface NumberFieldProps extends FieldProps {
    /** Increment/decrement value when using arrow keys or mouse wheel. */
    increment: Cx.NumberProp,
 
-   step: number,   // is step bindable since it is an alias for increments and it is not defined in declareData method
+   /** Increment/decrement value when using arrow keys or mouse wheel. */
+   step: number,
 
    /** Base CSS class to be applied to the field. Defaults to `numberfield`. */
    baseClass?: string,

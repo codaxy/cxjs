@@ -6,6 +6,7 @@ interface ValidationErrorProps extends Cx.WidgetProps {
    baseClass?: boolean,
 
    pure?: boolean
+   
 }
 
 export class ValidationError extends Cx.Widget<ValidationErrorProps> {}

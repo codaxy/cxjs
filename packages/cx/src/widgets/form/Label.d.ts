@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-interface LabelProps extends Cx.HtmlElementProps{
+interface LabelProps extends Cx.HtmlElementProps {
 
    required?: boolean,
    disabled?: boolean,

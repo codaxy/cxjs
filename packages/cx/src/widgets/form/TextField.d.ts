@@ -1,25 +1,22 @@
 import * as Cx from '../../core';
 import { FieldProps } from './Field';
 
-export interface TextFieldProps extends FieldProps{
+export interface TextFieldProps extends FieldProps {
 
    /** 
     * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. 
     * Default value is `true`. 
     */
-   hideClear?: Cx.BooleanProp,
+   hideClear?: boolean,
 
    /** 
     * Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property. 
     * Default value is `false`. 
     */
-   showClear?: Cx.BooleanProp,
+   showClear?: boolean,
 
    /** Textual value of the input. */
    value?: Cx.StringProp,
-
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
 
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
@@ -29,9 +26,6 @@ export interface TextFieldProps extends FieldProps{
 
    /** Default text displayed when the field is empty. */
    placeholder?: Cx.StringProp,
-
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
 
    /** Minimal length of the input text. */
    minLength?: Cx.NumberProp,
@@ -63,11 +57,10 @@ export interface TextFieldProps extends FieldProps{
 
    /** Regular expression used to validate the user's input. */
    validationRegExp?: RegExp,
-
-   suppressErrorTooltipsUntilVisited?: boolean,
    
    /** Name of the icon to be put on the left side of the input. */
    icon?: string,
+   
 }
 
 export class TextField extends Cx.Widget<TextFieldProps> {}

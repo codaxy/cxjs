@@ -26,11 +26,12 @@ interface ColorFieldProps extends FieldProps {
     * It can be used interchangeably with the `hideClear` property. Default value is `true`.
     */
    showClear?: boolean,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `colorfield`. */
    baseClass?: boolean,
 
    /** Format of the color representation. Either `rgba`, `hsla` or `hex`. */
-   format?: "rgba" | "hsla" | "hex",
+   format?: "rgba" | "hsla" | "hex"
 
 }
 

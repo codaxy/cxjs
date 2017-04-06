@@ -23,7 +23,8 @@ interface SelectProps extends FieldProps {
     * Note, the `placeholder` needs to be specified for the clear button to render. 
     */
    showClear?: boolean,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `select`. */
    baseClass?: string,
 
    /** Defaults to `false`. Set to `true` to enable multiple selection. */

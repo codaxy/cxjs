@@ -2,10 +2,7 @@ import * as Cx from '../../core';
 import { FieldProps } from './Field';
 
 interface UploadButtonProps extends FieldProps {
-
-   /** Set to `true` to disable the button. */
-   disabled?: Cx.BooleanProp,
-   
+ 
    /** Text description. */
    text?: Cx.StringProp,
 
@@ -13,8 +10,10 @@ interface UploadButtonProps extends FieldProps {
 
    /** Base CSS class to be applied to the element. Default is 'uploadbutton'. */
    baseClass?: string,
-
+   
+   /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: boolean,
+   
    method?: string,
    uploadInProgressText?: string
 

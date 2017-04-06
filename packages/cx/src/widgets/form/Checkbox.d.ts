@@ -26,6 +26,7 @@ interface CheckboxProps extends FieldProps {
 
    /** Value of the checkbox. `true` makes the checkbox checked. */
     checked?: boolean
+    
 }
 
 export class Checkbox extends Cx.Widget<CheckboxProps> {}
