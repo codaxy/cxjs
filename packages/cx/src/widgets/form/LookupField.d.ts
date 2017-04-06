@@ -18,17 +18,11 @@ interface LookupFieldProps extends FieldProps {
    /** Text associated with the selection. Used only if `multiple` is set to `false`. */
    text?: Cx.StringProp,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** The opposite of `disabled`. */
    enabled?: Cx.BooleanProp,
 
    /** Default text displayed when the field is empty. */
    placeholder?: Cx.StringProp,
-
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
 
    /** A list of available options. */
    options?: Cx.RecordsProp,
@@ -47,6 +41,13 @@ interface LookupFieldProps extends FieldProps {
 
    /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string,
+   
+   /** TODO: Check type */
+   items?: any,
+   itemsConfig?: any,
+   children?: any,
+   bindings?: any,
+   keyBindings?: any,
 
    queryDelay?: number,
    minQueryLength?: number,
@@ -59,7 +60,7 @@ interface LookupFieldProps extends FieldProps {
     * If there are only a few options, there is no need for search. Defaults to `7`. 
     */
    minOptionsForSearchField?: number,
-
+   
    loadingText?: string,
    queryErrorText?: string,
    noResultsText?: string,
@@ -82,8 +83,6 @@ interface LookupFieldProps extends FieldProps {
     */
    valueTextField?: string,
 
-   suppressErrorTooltipsUntilVisited?: boolean,
-
    /** 
     * If `true` `onQuery` will be called only once to fetch all options. 
     * After that options are filtered client-side. 
@@ -103,6 +102,7 @@ interface LookupFieldProps extends FieldProps {
 
    /** Name of the icon to be put on the left side of the input. */
    icon?: string
+   
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

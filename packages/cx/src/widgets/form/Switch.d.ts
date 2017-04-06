@@ -12,9 +12,6 @@ interface SwitchProps extends FieldProps {
    /** Value indicating that switch is on. */
    value?: Cx.BooleanProp,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
 
@@ -31,6 +28,7 @@ interface SwitchProps extends FieldProps {
    baseClass?: string,
 
    focusOnMouseDown?: boolean
+   
 }
 
 export class Switch extends Cx.Widget<SwitchProps> {}

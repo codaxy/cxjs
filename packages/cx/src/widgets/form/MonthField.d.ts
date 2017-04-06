@@ -18,9 +18,6 @@ interface MonthFieldProps extends FieldProps {
     */
    to?: Cx.StringProp | Cx.Prop<Date>,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
 
@@ -29,9 +26,6 @@ interface MonthFieldProps extends FieldProps {
 
    /** Default text displayed when the field is empty. */
    placeholder?: Cx.StringProp,
-
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
 
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    minValue?: Cx.Prop< string | Date >,
@@ -72,9 +66,6 @@ interface MonthFieldProps extends FieldProps {
    /** Invalid input error text. */
    inputErrorText?: string,
 
-   /** When `true`, error tooltips are suppressed until the field has been visited. Default value is `true`. */
-   suppressErrorTooltipsUntilVisited?: boolean,
-
    /** Name of the icon to be put on the left side of the input. */
    icon?: string,
 
@@ -82,7 +73,8 @@ interface MonthFieldProps extends FieldProps {
     * Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property. 
     * Default value is `true`. 
     */
-   showClear?: boolean
+   showClear?: boolean,
+
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

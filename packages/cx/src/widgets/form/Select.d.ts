@@ -6,16 +6,10 @@ interface SelectProps extends FieldProps {
    /** Select value. */
    value?: Cx.Prop<number | string>,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** The opposite of `disabled`. */
    enabled?: Cx.BooleanProp,
 
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
-
-   /**  */
+   /** Default text displayed when the field is empty. */
    placeholder?: Cx.StringProp,
    
    /** 
@@ -31,6 +25,8 @@ interface SelectProps extends FieldProps {
    showClear?: boolean,
 
    baseClass?: string,
+
+   /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: boolean,
 
    /** 
@@ -40,8 +36,7 @@ interface SelectProps extends FieldProps {
    convertValues?: boolean,
 
    nullString?: string,
-   suppressErrorTooltipsUntilVisited?: boolean,
-
+   
    /** Name of the icon to be put on the left side of the input. */
    icon?: string
 

@@ -3,9 +3,6 @@ import { FieldProps } from './Field';
 
 interface MonthPickerProps extends FieldProps {
 
-   /** Either `view` or `edit` (default). In view mode, the field is displayed as plain text. */
-   mode?: Cx.Prop<"view" | "edit">,
-
    /** Set to `true` to allow range select. */
    range?: Cx.BooleanProp,
 
@@ -30,9 +27,6 @@ interface MonthPickerProps extends FieldProps {
    /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
    refDate?: Cx.StringProp | Cx.Prop<Date>,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    minValue?: Cx.StringProp | Date,
 
@@ -51,10 +45,19 @@ interface MonthPickerProps extends FieldProps {
    startYear?: number,
    endYear?: number,
    bufferSize?: number,
+
+   /** Maximum value error text. */
    maxValueErrorText?: string,
+
+   /** Maximum exclusive value error text. */
    maxExclusiveErrorText?: string,
+
+   /** Minimum value error text. */
    minValueErrorText?: string,
-   minExclusiveErrorText?: string
+
+   /** Minimum exclusive value error text. */
+   minExclusiveErrorText?: string,
+
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}

@@ -18,9 +18,6 @@ interface SliderProps extends FieldProps {
    /** Maximum allowed value. Default is `100`. */
    maxValue?: Cx.NumberProp,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
 
@@ -43,7 +40,11 @@ interface SliderProps extends FieldProps {
    baseClass?: string,
 
    /** Set to `true` to orient the slider vertically. */
-   vertical?: boolean
+   vertical?: boolean,
+
+   /** TODO: Check type */
+   showTo?: any,
+   showFrom?: any
 
 }
 

@@ -12,14 +12,8 @@ interface RadioProps extends FieldProps {
    /** Value to be written into `value` if radio button is clicked. */
    option?: Cx.Prop< number | string | boolean >,
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: Cx.BooleanProp,
-
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
-
-   /** Defaults to `false`. Used to make the field required. */
-   required?: Cx.BooleanProp,
 
    /** Text description. */
    text?: Cx.StringProp,
