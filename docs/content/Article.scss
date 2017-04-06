@@ -32,7 +32,6 @@
         padding: 26px 16px;
     }
 
-
     h1 {
         margin: 0 0 5px 0;
         padding: 0;
@@ -81,5 +80,23 @@
 
     ul, ol {
         max-width: 46em;
+    }
+
+    a {
+        color: rgb(209, 89, 83);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    h1 > a, h2 > a, h3 > a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
