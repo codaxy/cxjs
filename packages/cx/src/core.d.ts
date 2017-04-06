@@ -55,9 +55,16 @@ declare namespace Cx {
       putInto?: string,
       contentFor?: string,
       controller?: any,
+
+      /** Visibility of the widget. Defaults to `true`. */
       visible?: BooleanProp,
+
+      /** Visibility of the widget. Defaults to `true`. */
       if?: BooleanProp,
+
+      /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
       mod?: StringProp | Prop<string[]> | StructuredProp,
+      
       memoize?: BooleanProp
    }
 
@@ -83,9 +90,9 @@ declare namespace Cx {
       class?: ClassProp,
 
       /** 
-     * Additional CSS classes to be applied to the element. 
-     * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
-     */
+      * Additional CSS classes to be applied to the element. 
+      * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+      */
       className?: ClassProp,
 
       /** Style object applied to the element */
