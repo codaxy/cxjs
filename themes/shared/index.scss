@@ -11,9 +11,10 @@
       padding: 0 1.5rem;
    }
 
-   //not the best solution
    @media screen and (max-width: 400px) {
       overflow-x: scroll;
       overflow-y: hidden;
+      padding-bottom: 1px;
+      margin-bottom: -1px;
    }
 }
