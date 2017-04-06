@@ -6,21 +6,7 @@ import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-
-const properties = {
-   href: {
-      type: 'string',
-      description: <cx><Md>
-         Target url.
-      </Md></cx>
-   },
-   disabled: {
-      type: 'boolean',
-      description: <cx><Md>
-         Defaults to `false`. Set to `true` to disable the field.
-      </Md></cx>
-   }
-};
+import config from './configs/Link';
 
 export const Links = <cx>
    <Md>
@@ -33,19 +19,17 @@ export const Links = <cx>
       <CodeSplit>
 
          <div class="widgets">
-               <Link href="~/widgets/text-fields">Text Fields</Link>
+               <Link href="~/widgets/link-buttons">Link Buttons</Link>
          </div>
          <CodeSnippet putInto="code" fiddle="navQfAlj">{`
              <div class="widgets">
-                <Link href="~/widgets/text-fields">Text Fields</Link>
+                <Link href="~/widgets/link-buttons">Link Buttons</Link>
              </div>
          `}</CodeSnippet>
       </CodeSplit>
 
-
       ## Configuration
 
-      <ConfigTable props={properties} />
-
+      <ConfigTable props={config} />
    </Md>
 </cx>
