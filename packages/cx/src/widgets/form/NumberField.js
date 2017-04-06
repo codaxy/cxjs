@@ -42,13 +42,6 @@ export class NumberField extends Field {
 
    prepareData(context, instance) {
       let {data} = instance;
-      if (this.labelPlacement) {
-        data.stateMods = {
-          ...data.stateMods,
-          ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value
-        }
-      }
       data.formatted = Format.value(data.value, data.format);
       super.prepareData(context, instance);
    }

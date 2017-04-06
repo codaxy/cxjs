@@ -61,14 +61,18 @@ export default <cx>
                header1: 'Name',
                header2: {
                   allowSorting: false,
-                  items: <TextField value:bind="$page.filter.name" reactOn="enter blur"
+                  items: <TextField
+                     value:bind="$page.filter.name" reactOn="enter blur"
+                     placeholder="Filter by Name"
                      style="width:100%" showClear/>
                }
             },
             {
                header1: 'Phone',
                header2: {
-                  items: <TextField value:bind="$page.filter.phone" reactOn="enter blur"
+                  items: <TextField
+                     value:bind="$page.filter.phone" reactOn="enter blur"
+                     placeholder="Filter by Phone"
                      style="width:100%" showClear/>
                },
                field: 'phone',
@@ -78,7 +82,9 @@ export default <cx>
                header1: 'City',
                header2: {
                   allowSorting: false,
-                  items: <TextField value:bind="$page.filter.city" reactOn="enter blur"
+                  items: <TextField
+                     value:bind="$page.filter.city" reactOn="enter blur"
+                     placeholder="Filter by City"
                      style="width:100%" showClear/>
                },
                field: 'city',

@@ -57,6 +57,10 @@ export class MonthField extends Field {
       }, ...arguments);
    }
 
+   isEmpty(data) {
+      return this.range ? data.from == null : data.value == null;
+   }
+
    init() {
       if (!this.culture)
          this.culture = new DateTimeCulture(Format.culture);
@@ -99,14 +103,6 @@ export class MonthField extends Field {
 
       if (data.minValue)
          data.minValue = monthStart(new Date(data.minValue));
-
-      if (this.labelPlacement) {
-        data.stateMods = {
-          ...data.stateMods,
-          ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value && !data.from
-        }
-      }
 
       super.prepareData(...arguments);
    }
@@ -264,7 +260,7 @@ class MonthInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && ((!data.required && (widget.range ? data.from != null : data.value != null)) || instance.state.inputError))
+         if (widget.showClear && ((!data.required && !data.empty) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => {

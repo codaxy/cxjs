@@ -66,13 +66,6 @@ export class DateField extends Field {
       if (data.minValue)
          data.minValue = zeroTime(new Date(data.minValue));
 
-      if (this.labelPlacement) {
-        data.stateMods = {
-          ...data.stateMods,
-          ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value
-        }
-      }
       super.prepareData(...arguments);
    }
 

@@ -27,22 +27,6 @@ export class Select extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
-      let {data} = instance;
-      data.stateMods = {
-         ...data.stateMods,
-         empty: data.value == null
-      };
-      if (this.labelPlacement) {
-        data.stateMods = {
-          ...data.stateMods,
-          ['label-placement-' + this.labelPlacement]: true,
-          "empty": this.labelPlacement && !data.value
-        }
-      }
-      return super.prepareData(context, instance);
-   }
-
    renderInput(context, instance, key) {
       return <SelectComponent key={key}
                               instance={instance}

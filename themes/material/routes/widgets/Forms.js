@@ -33,8 +33,8 @@ const options = [
 ];
 
 export default <cx>
-   <Section mod="card" title="Inputs" style="flex:1 0 auto">
-      <div layout={{type: LabelsLeftLayout, mod: "stretch"}}>
+   <Section mod="card" title="Inputs" style="flex:1 0 300px">
+      <FlexCol>
          <TextField label="TextField" value:bind="text" />
          <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
          <NumberField label="NumberField" value:bind="number" />
@@ -46,7 +46,7 @@ export default <cx>
            on:bind="$page.check"
            text:expr="{$page.check} ? 'ON' : 'OFF'"
          />
-      </div>
+      </FlexCol>
    </Section>
 
    <Section mod="card" title="Dropdowns" style="flex:1 0 230px">

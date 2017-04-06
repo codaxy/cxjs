@@ -21,42 +21,8 @@ Localization.override('cx/widgets/MenuItem', {
 
 // enable wrapper focus tracking so appropriate css class can be applied to it
 Localization.override('cx/widgets/Field', {
-   trackFocus: true
-});
-
-Localization.override('cx/widgets/TextField', {
    trackFocus: true,
    labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/NumberField', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/LookupField', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/DateField', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/MonthField', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/Select', {
-  trackFocus: true,
-  labelPlacement: "material"
-});
-
-Localization.override('cx/widgets/ColorField', {
-  trackFocus: true,
-  labelPlacement: "material"
 });
 
 // set all MsgBox buttons to flat-primary

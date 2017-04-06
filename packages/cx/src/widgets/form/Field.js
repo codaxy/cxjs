@@ -109,6 +109,14 @@ export class Field extends PureContainer {
 
       data.inputStyle = parseStyle(data.inputStyle);
 
+      if (this.labelPlacement && this.label) {
+         data.mod = [data.mod, 'label-placement-' + this.labelPlacement];
+      }
+
+      data.empty = this.isEmpty(data);
+
+      data.stateMods = [data.stateMods, data.empty && 'empty'];
+
       super.prepareData(...arguments);
    }
 
@@ -150,9 +158,13 @@ export class Field extends PureContainer {
       delete context.lastFieldId;
    }
 
+   isEmpty(data) {
+      return data.value == null;
+   }
+
    validateRequired(context, instance) {
       var {data} = instance;
-      if (data.value == null)
+      if (this.isEmpty(data))
          return this.requiredText;
    }
 
@@ -240,6 +252,7 @@ export class Field extends PureContainer {
             onTouchStart={stopPropagation}
          >
             {content}
+            {this.labelPlacement && this.renderLabel(context, instance, "label")}
          </div>
       );
    }

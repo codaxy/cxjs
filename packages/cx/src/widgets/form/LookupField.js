@@ -131,14 +131,6 @@ export class LookupField extends Field {
          }
       }
 
-      if (this.labelPlacement) {
-         data.stateMods = {
-            ...data.stateMods,
-            ['label-placement-' + this.labelPlacement]: true,
-            "empty": this.labelPlacement && this.multiple ? data.selectedKeys.length === 0 : !data.value
-         }
-      }
-
       super.prepareData(context, instance);
    }
 
@@ -161,14 +153,13 @@ export class LookupField extends Field {
       return options.filter(o => typeof o[this.optionTextField] == 'string' && textPredicate(o[this.optionTextField]));
    }
 
-   validateRequired(context, instance) {
-      let {data} = instance;
+   isEmpty(data) {
       if (this.multiple) {
          if ((Array.isArray(data.values) && data.values.length > 0) || (Array.isArray(data.records) && data.records.length > 0))
             return false;
-         return this.requiredText;
       }
-      return super.validateRequired(context, instance);
+
+      return data.value == null;
    }
 }
 

@@ -42,13 +42,9 @@ export class ColorField extends Field {
    }
 
    prepareData(context, {data}) {
-     if (this.labelPlacement) {
-       data.stateMods = {
-         ...data.stateMods,
-         ['label-placement-' + this.labelPlacement]: true,
-         "empty": this.labelPlacement && !data.value
-       }
-     }
+      data.stateMods = [data.stateMods, {
+         "empty": !data.value
+      }];
       super.prepareData(...arguments);
    }
 

@@ -27,7 +27,7 @@ $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 5) !default;
   @return $accent-color;
 }
 $cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
-$cx-theme-warning-color: #F44336 !default;
+$cx-theme-danger-color: #F44336 !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
 /* pick theme size */
@@ -283,19 +283,19 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   danger: (
     default: (
-      background-color: $cx-theme-warning-color,
+      background-color: $cx-theme-danger-color,
       border-color: $cx-default-border-color,
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
     ),
     hover: (
-      background-color: darken($cx-theme-warning-color, 3),
+      background-color: darken($cx-theme-danger-color, 3),
       box-shadow:  0 1px 3px rgba(0, 0, 0, 0.6)
     ),
     focus: (
-      background-color: darken($cx-theme-warning-color, 15)
+      background-color: darken($cx-theme-danger-color, 15)
     ),
     active: (
-      background-color: darken($cx-theme-warning-color, 4),
+      background-color: darken($cx-theme-danger-color, 4),
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
       top: 0
     ),
@@ -682,7 +682,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     border-style: dashed
   ),
   error: (
-    border-color: transparent transparent $cx-theme-warning-color
+    border-color: transparent transparent $cx-theme-danger-color
   ),
   error-focus: (
     box-shadow: none

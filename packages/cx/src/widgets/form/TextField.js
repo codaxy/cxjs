@@ -37,18 +37,6 @@ export class TextField extends Field {
       }, ...arguments);
    }
 
-   prepareData(context, instance) {
-      let {data} = instance;
-      if (this.labelPlacement) {
-         data.stateMods = {
-            ...data.stateMods,
-            ['label-placement-' + this.labelPlacement]: true,
-            "empty": this.labelPlacement && !data.value
-         }
-      }
-      super.prepareData(context, instance);
-   }
-
    renderInput(context, instance, key) {
       return (
          <Input
