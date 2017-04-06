@@ -7,14 +7,14 @@ interface ButtonProps extends Cx.HtmlElementProps {
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
    confirm?: Cx.Prop<string | Cx.Config>,
 
-   /** Set to `true` to disable the button. */
-   disabled?: Cx.BooleanProp,
-
    /** If true button appears in pressed state. Useful for implementing toggle buttons. */
    pressed?: Cx.BooleanProp,
 
    /** Name of the icon to be put on the left side of the button. */
    icon?: Cx.StringProp,
+   
+   /** HTML tag to be used. Default is `button`. */
+   tag?: string,
 
    /** Base CSS class to be applied to the element. Default is 'button'. */
    baseClass?: string,

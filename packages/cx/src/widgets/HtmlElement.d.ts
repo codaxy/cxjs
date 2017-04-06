@@ -7,7 +7,14 @@ interface HtmlElementProps extends Cx.HtmlElementProps {
 
    attrs?: Cx.StructuredProp,
    data?: Cx.StructuredProp,
-   tag?: string
+
+   /** Name of the HTML element to be rendered. Default is `div`. */
+   tag?: string,
+
+   /** HTML to be injected into the element. */
+   html?: string,
+
+   styled?: boolean
  
 }
 
