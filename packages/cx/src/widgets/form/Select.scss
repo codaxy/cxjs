@@ -83,6 +83,9 @@
         @include cx-add-state-rules($state-style-map, disabled);
         border-width: 0;
       }
+      .#{$state}focus > & {
+        @include cx-add-state-rules($tool-state-style-map, focus);
+      }
    }
 
    .#{$element}#{$name}-icon {

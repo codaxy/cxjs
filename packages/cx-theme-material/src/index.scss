@@ -196,15 +196,6 @@ $form-list: (
          &:not(.#{$state}empty) > .#{$block}label {
             margin-left: cx-calc(- $cx-default-icon-size, - $cx-default-box-padding);
          }
-
-         &.#{$state}focus { 
-            .#{$element}#{$field}-icon {
-               color: $cx-theme-primary-color;
-            }
-            .#{$element}#{$field}-left-icon {
-               opacity: 1;
-            }
-         }
       }
    }
 }
