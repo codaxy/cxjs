@@ -113,6 +113,9 @@ export class Field extends PureContainer {
          data.mod = [data.mod, 'label-placement-' + this.labelPlacement];
       }
 
+      if (this.helpPlacement && this.help)
+         data.mod = [data.mod, 'help-placement-' + this.helpPlacement];
+
       data.empty = this.isEmpty(data);
 
       data.stateMods = [data.stateMods, data.empty && 'empty'];
@@ -143,7 +146,12 @@ export class Field extends PureContainer {
          this.disableOrValidate(context, instance);
       }
 
-      if (data.error && context.validation) {
+      if (!context.validation)
+         context.validation = {
+            errors: []
+         };
+
+      if (data.error) {
          context.validation.errors.push({
             fieldId: data.id,
             message: data.error,
@@ -272,7 +280,7 @@ export class Field extends PureContainer {
          label: !this.labelPlacement && this.renderLabel(context, instance, key),
          content: content,
          helpSpacer: this.helpSpacer && instance.components.help ? ' ' : null,
-         help: this.renderHelp(context, instance, key)
+         help: !this.helpPlacement && this.renderHelp(context, instance, key)
       }
    }
 }
@@ -288,6 +296,7 @@ Field.prototype.validationExceptionText = "Something went wrong during input val
 Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
 Field.prototype.labelPlacement = false;
+Field.prototype.helpPlacement = false;
 //Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);

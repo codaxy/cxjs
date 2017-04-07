@@ -22,7 +22,9 @@ Localization.override('cx/widgets/MenuItem', {
 // enable wrapper focus tracking so appropriate css class can be applied to it
 Localization.override('cx/widgets/Field', {
    trackFocus: true,
-   labelPlacement: "material"
+   labelPlacement: "material",
+   helpPlacement: "material",
+   validationMode: "help"
 });
 
 // set all MsgBox buttons to flat-primary

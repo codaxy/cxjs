@@ -16,7 +16,8 @@ import {
    HtmlElement,
    Section,
    FlexRow,
-   FlexCol
+   FlexCol,
+   ValidationGroup,
 } from 'cx/widgets';
 
 import {LabelsLeftLayout} from 'cx/ui';
@@ -35,7 +36,7 @@ const options = [
 export default <cx>
    <Section mod="card" title="Inputs" style="flex:1 0 300px">
       <FlexCol>
-         <TextField label="TextField" value:bind="text" />
+         <TextField label="TextField" value:bind="text" required minLength={5} />
          <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
          <NumberField label="NumberField" value:bind="number" />
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>

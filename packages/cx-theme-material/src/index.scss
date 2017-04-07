@@ -191,6 +191,21 @@ $form-list: (
    }
 }
 
+.#{$mod}help-placement-material {
+   .#{$block}validationerror {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      line-height: normal;
+      display: none;
+   }
+
+   &.#{$state}focus:not(.#{$state}empty) > .#{$block}validationerror,
+   &.#{$state}visited > .#{$block}validationerror {
+      display: inline-block;
+   }
+}
+
 /* calendar */
 .#{$block}calendar {
    .#{$element}calendar-day-names {

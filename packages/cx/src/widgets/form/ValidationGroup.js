@@ -17,7 +17,7 @@ export class ValidationGroup extends PureContainer {
 
       let parentDisabled = context.parentDisabled;
 
-      if (typeof instance.data.enabled != 'undefined')
+      if (typeof instance.data.enabled !== 'undefined')
          instance.data.disabled = !instance.data.enabled;
 
       context.parentDisabled = parentDisabled || instance.data.disabled;
