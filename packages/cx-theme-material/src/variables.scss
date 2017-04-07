@@ -220,8 +220,11 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
   selected: (
     background-color: rgba(0, 0, 0, 0.07)
   ),
+  selected-hover: (
+    background-color: rgba(0, 0, 0, 0.1)
+  ),
   selected-cursor: (
-    background-color: rgba(0, 0, 0, 0.10)
+    background-color: rgba(0, 0, 0, 0.1)
   ),
   disabled: (
     background-color: transparent
@@ -351,6 +354,9 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     )
   ),
   hollow: (
+    hover: (
+      background-color: rgba(0, 0, 0, 0.03)
+    ),
     focus: (
       background-color: rgba(0, 0, 0, 0.08),
       box-shadow: none
