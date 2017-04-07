@@ -15,6 +15,7 @@ export * from './Tooltips';
 export * from './Windows';
 export * from './MsgBoxes';
 export * from './Links';
+export * from './LinkButtons';
 export * from './Tabs';
 export * from './PureContainer';
 export * from './ValidationGroups';
