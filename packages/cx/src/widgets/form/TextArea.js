@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {TextField} from './TextField';
 import {getFieldTooltip} from './Field';
 import {
@@ -25,6 +25,8 @@ export class TextArea extends TextField {
          data={instance.data}
          instance={instance}
          handleChange={(e, change) => this.handleChange(e, change, instance)}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -50,7 +52,7 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
+      let {instance, label, help} = this.props;
       let {widget, data} = instance;
       let {CSS, baseClass} = widget;
 
@@ -85,6 +87,8 @@ class Input extends VDOM.Component {
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
          />
+         {label}
+         {help}
       </div>
    }
 

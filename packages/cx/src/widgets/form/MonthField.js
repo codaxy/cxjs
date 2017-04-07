@@ -158,6 +158,7 @@ export class MonthField extends Field {
                             minExclusiveErrorText: this.minExclusiveErrorText
                          }}
                          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -253,7 +254,7 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var {instance, label} = this.props;
+      var {instance, label, help} = this.props;
       var {data, store, widget} = instance;
       var {CSS, baseClass} = widget;
 
@@ -329,6 +330,7 @@ class MonthInput extends VDOM.Component {
          { insideButton }
          { dropdown }
          { label }
+         { help }
       </div>;
    }
 

@@ -79,6 +79,7 @@ export class NumberField extends Field {
             shouldUpdate={instance.shouldUpdate}
             instance={instance}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
       )
    }
@@ -120,7 +121,7 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let {data, instance, label} = this.props;
+      let {data, instance, label, help} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -185,6 +186,7 @@ class Input extends VDOM.Component {
          {insideButton}
          {icon}
          {label}
+         {help}
       </div>
    }
 

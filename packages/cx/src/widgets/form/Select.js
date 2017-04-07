@@ -32,7 +32,8 @@ export class Select extends Field {
                               instance={instance}
                               multiple={this.multiple}
                               select={v => this.select(v, instance)}
-                              label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}>
+                              label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                              help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
          {this.renderChildren(context, instance)}
       </SelectComponent>
    }
@@ -84,7 +85,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    render() {
-      let {multiple, select, instance, label} = this.props;
+      let {multiple, select, instance, label, help} = this.props;
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -162,6 +163,7 @@ class SelectComponent extends VDOM.Component {
          { insideButton }
          { icon }
          { label }
+         { help }
       </div>
    }
 

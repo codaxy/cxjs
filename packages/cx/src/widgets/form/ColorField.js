@@ -56,6 +56,7 @@ export class ColorField extends Field {
             format: this.format
          }}
          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 }
@@ -118,7 +119,7 @@ class ColorInput extends VDOM.Component {
    }
 
    render() {
-      let {instance, label} = this.props;
+      let {instance, label, help} = this.props;
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -191,6 +192,7 @@ class ColorInput extends VDOM.Component {
          { insideButton }
          { dropdown }
          { label }
+         { help }
       </div>;
    }
 

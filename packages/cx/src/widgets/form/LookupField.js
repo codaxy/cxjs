@@ -143,6 +143,7 @@ export class LookupField extends Field {
          baseClass={this.baseClass}
          onQuery={this.onQuery}
          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -440,7 +441,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, label} = this.props;
+      var {instance, label, help} = this.props;
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
 
@@ -552,6 +553,7 @@ class LookupComponent extends VDOM.Component {
          { icon }
          { dropdown }
          { label }
+         { help }
       </div>;
    }
 

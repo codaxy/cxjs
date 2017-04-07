@@ -108,6 +108,7 @@ export class DateField extends Field {
                            minExclusiveErrorText: this.minExclusiveErrorText
                         }}
                         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                        help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -193,7 +194,7 @@ class DateInput extends VDOM.Component {
    }
 
    render() {
-      let {instance, label} = this.props;
+      let {instance, label, help} = this.props;
       let {data, store, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -270,6 +271,7 @@ class DateInput extends VDOM.Component {
          { insideButton }
          { dropdown }
          { label }
+         { help }
       </div>;
    }
 

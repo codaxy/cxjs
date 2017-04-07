@@ -845,6 +845,10 @@ $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
   ),
   focus: (
     color: $cx-theme-primary-color
+  ),
+  error: (
+    color: $cx-default-color,
+    opacity: 0.6
   ) 
 ));
 
@@ -857,7 +861,11 @@ $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-sta
   ),
   focus: (
    color: $cx-theme-primary-color
-  )
+  ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
 ));
 
 /* left icon */
@@ -868,6 +876,10 @@ $cx-input-left-icon-state-style-map: cx-deep-map-merge($cx-input-left-icon-state
    focus: (
       color: $cx-theme-primary-color,
       opacity: 1
+   ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
    )
 ));
 

@@ -40,6 +40,9 @@
       .#{$state}focus > & {
         @include cx-add-state-rules($clear-state-style-map, focus);
       }
+      .#{$state}error > & {
+        @include cx-add-state-rules($clear-state-style-map, error);
+      }
    }
 
    .#{$element}#{$name}-left-icon {
@@ -52,6 +55,9 @@
       .#{$state}focus > & {
         @include cx-add-state-rules($left-icon-state-style-map, focus);
       }
+      .#{$state}error > & {
+        @include cx-add-state-rules($left-icon-state-style-map, error);
+      }
    }
 
    .#{$element}#{$name}-right-icon {
@@ -62,6 +68,9 @@
       }
       .#{$state}focus > & {
         @include cx-add-state-rules($right-icon-state-style-map, focus);
+      }
+      .#{$state}error > & {
+        @include cx-add-state-rules($right-icon-state-style-map, error);
       }
    }
 

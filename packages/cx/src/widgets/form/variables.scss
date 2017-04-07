@@ -95,6 +95,9 @@ $cx-input-left-icon-state-style-map: (
    ),
    focus: (
    
+   ),
+   error: (
+   
    )
 ) !default;
 
@@ -119,6 +122,9 @@ $cx-input-right-icon-state-style-map: (
 
    ),
    focus: (
+   
+   ),
+   error: (
    
    )
 ) !default;
@@ -147,6 +153,9 @@ $cx-clear-state-style-map: (
 
    ),
    focus: (
+   
+   ),
+   error: (
    
    )
 ) !default;

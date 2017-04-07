@@ -112,7 +112,6 @@ $form-list: (
 /* textarea */
 .#{$block}textarea {
    overflow: hidden;
-
    /* textarea focus effect */
    &:after {
       display: block;
@@ -131,6 +130,13 @@ $form-list: (
       &:after {
          transform: scaleX(1);
          transition: transform 0.3s ease-out;
+      }
+
+      &.#{$state}error.#{$state}visited {
+         &:after {
+            transform: scaleX(1);
+            background-color: $cx-theme-danger-color;
+         }
       }
    }
 }
