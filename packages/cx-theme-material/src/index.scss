@@ -202,13 +202,15 @@ $form-list: (
    }
 }
 
+/* validation error */
 .#{$mod}help-placement-material {
    .#{$block}validationerror {
       position: absolute;
-      right: 0;
-      top: 100%;
+      left: 0;
+      top: 110%;
       line-height: normal;
       display: none;
+      color: $cx-theme-danger-color;
    }
 
    &.#{$state}focus:not(.#{$state}empty) > .#{$block}validationerror,
