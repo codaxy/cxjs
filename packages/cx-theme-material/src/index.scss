@@ -143,7 +143,6 @@ $form-list: (
    &:first-child {
       margin-top: round(0.5 * $cx-default-box-line-height);
    }
-
    //position: relative;
    & > .#{$block}label {
       position: absolute;
@@ -169,6 +168,14 @@ $form-list: (
       font-size: $cx-default-label-font-size;
    }
 
+   &.#{$state}error {
+      &:not(.#{$state}empty) {
+         > .#{$block}label {
+            margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
+         }
+      }
+   }
+
    &.#{$state}focus {
       > .#{$block}label {
          color: $cx-theme-primary-color;
@@ -176,6 +183,7 @@ $form-list: (
 
       &.#{$state}error.#{$state}visited > .#{$block}label {
          color: $cx-theme-danger-color;
+         font-size: $cx-default-label-font-size;
       }
    }
 
@@ -185,8 +193,11 @@ $form-list: (
       }
 
       &.#{$state}focus > .#{$block}label,
+      &.#{$state}error > .#{$block}label,
       &:not(.#{$state}empty) > .#{$block}label {
          margin-left: cx-calc(-$cx-default-icon-size, -$cx-default-box-padding);
+         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
+         font-size: $cx-default-label-font-size;
       }
    }
 }
