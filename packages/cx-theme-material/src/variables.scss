@@ -354,6 +354,9 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
     )
   ),
   hollow: (
+    hover: (
+      background-color: rgba(0, 0, 0, 0.03)
+    ),
     focus: (
       background-color: rgba(0, 0, 0, 0.08),
       box-shadow: none

@@ -371,7 +371,8 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
-  background-color: transparent;
+   /* there wasn't any effect on menu hover with bg set to transparent */
+  /*background-color: transparent;*/
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
