@@ -12,7 +12,7 @@ export const LinkButtons = <cx>
     <Md>
         # LinkButton
 
-        <ImportPath path="import {Link} from 'cx/widgets';"/>
+        <ImportPath path="import {LinkButton} from 'cx/widgets';"/>
 
         Link buttons look like buttons and behave like [Links](~/widgets/links). `LinkButton` inherits `Button` options
         such as `confirm`, `icon` or `disabled` state.
