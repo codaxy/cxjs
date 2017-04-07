@@ -141,7 +141,7 @@ $form-list: (
    margin-top: round(1.5 * $cx-default-box-line-height);
 
    &:first-child {
-      margin-top: round(0.5 * $cx-default-box-line-height);
+      margin-top: round(0.8 * $cx-default-box-line-height);
    }
    //position: relative;
    & > .#{$block}label {
@@ -207,10 +207,11 @@ $form-list: (
    .#{$block}validationerror {
       position: absolute;
       left: 0;
-      top: 110%;
+      top: 105%;
       line-height: normal;
       display: none;
       color: $cx-theme-danger-color;
+      font-size: 10px;
    }
 
    &.#{$state}focus:not(.#{$state}empty) > .#{$block}validationerror,
