@@ -5,17 +5,17 @@ import * as React from 'react';
 
 declare namespace Cx {
 
-   interface Bind {
+   type Bind = {
       bind: string,
       defaultValue?: any
    }
 
-   interface Tpl {
+   type Tpl = {
       tpl: string,
       defaultValue?: any
    }
 
-   interface Expr {
+   type Expr = {
       expr: string,
       defaultValue?: any
    }
