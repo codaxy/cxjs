@@ -1,3 +1,10 @@
 import * as Cx from '../core';
 
-export class ContentResolver extends Cx.Widget<any> {}
+interface ContentResolverProps extends Cx.PureContainerProps {
+
+   parms?: Cx.StructuredProp,
+   mode?: 'replace' | 'prepend' | 'append'
+
+}
+
+export class ContentResolver extends Cx.Widget<ContentResolverProps> {}
