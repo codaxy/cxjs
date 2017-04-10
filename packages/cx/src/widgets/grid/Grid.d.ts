@@ -81,15 +81,11 @@ interface GridProps extends Cx.WidgetProps {
    focused?: boolean,
    showBorder?: boolean,
 
-   // methods
+   // drag-drop handlers
    onDrop?: (e: DragEvent, instance: Instance) => void;
-   onDropTest?: (e: DragEvent) => void;
-   onDragStart?: (e: DragEvent) => void;
-   onDragEnd?: (e: DragEvent) => void;
-   onDragMeasure?: (e: DragEvent) => void;
-   onDragOver?: (e: DragEvent) => void;
-   onDragLeave?: (e: DragEvent) => void;
-
+   onDropTest?: (e: DragEvent, instance: Instance) => boolean;
+   onDragStart?: (e: DragEvent, instance: Instance) => void;
+   onDragEnd?: (e: DragEvent, instance: Instance) => void;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}
