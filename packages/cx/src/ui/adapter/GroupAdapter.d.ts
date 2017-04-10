@@ -1,4 +1,4 @@
 import * as Cx from '../../core';
-import {DataAdapter} from './DataAdapter';
+import {ArrayAdapter} from './ArrayAdapter';
 
-export class GroupAdapter extends DataAdapter {}
+export class GroupAdapter extends ArrayAdapter {}
