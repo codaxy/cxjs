@@ -11,7 +11,21 @@ export interface DragEvent {
    source: DragSourceProps
 }
 
-export function initiateDragDrop(e: DragEvent, options?: Cx.Config, onDragEnd?: (e: DragEvent) => void) : void;
+type DragEventHandler = (e: DragEvent) => void;
 
-export function registerDropZone(dropZone: DropZone) : () => void;
+export interface IDropZone {
+   onDropTest?: (e: DragEvent) => boolean;
+   onDragStart?: DragEventHandler;
+   onDragAway?: DragEventHandler;
+   onDragEnd?: DragEventHandler;
+   onDragMeasure?: (e: DragEvent) => { over: boolean, near: boolean };
+   onDragLeave?: DragEventHandler;
+   onDragOver?: DragEventHandler;
+   onDragEnter?: DragEventHandler;
+   onDrop?: DragEventHandler;
+}
+
+export function registerDropZone(dropZone: IDropZone) : () => void;
+
+export function initiateDragDrop(e: DragEvent, options?: Cx.Config, onDragEnd?: (e: DragEvent) => void) : void;
 
