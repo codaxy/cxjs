@@ -1,5 +1,9 @@
 import * as Cx from '../core';
 
+interface DecoratorFactory<T> {
+   (t: T): T;
+}
+
 export class Component {
 
    /**
@@ -15,7 +19,8 @@ export class Component {
     * @param alias 
     * @param type 
     */
-   static alias(alias: any, type?: {}): void;
+   static alias<T>(alias: string, type: T);
+   static alias<T>(alias: string) : DecoratorFactory<T>;
 
 }
 
