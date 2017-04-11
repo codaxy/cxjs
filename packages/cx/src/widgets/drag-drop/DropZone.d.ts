@@ -1,6 +1,7 @@
 import * as Cx from '../../core';
+import { IDropZone } from './ops';
 
-interface DropZoneProps extends Cx.StyledContainerProps {
+interface DropZoneProps extends IDropZone, Cx.StyledContainerProps {
    
    overStyle?: Cx.StyleProp,
    nearStyle?: Cx.StyleProp,

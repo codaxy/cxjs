@@ -1,14 +1,18 @@
 import * as Cx from '../../core';
 import * as React from 'react';
-import { DragSourceProps } from './DragSource';
-import { DropZone } from './DropZone';
 import { CursorPosition } from '../overlay/captureMouse';
 
 export interface DragEvent {
    eventType: string,
    event: React.SyntheticEvent<any>,
    cursor: CursorPosition,
-   source: DragSourceProps
+   source: IDragSource
+}
+
+// TODO: check props
+export interface IDragSource {
+   data: Cx.StructuredProp,
+   hideOnDrag?: boolean,
 }
 
 type DragEventHandler = (e: DragEvent) => void;
