@@ -6,7 +6,8 @@ import {
    LookupField,
    Select,
    TextField,
-   ValidationGroup
+   ValidationGroup,
+   FlexCol
 } from "cx/widgets";
 import {Controller, KeySelection, LabelsLeftLayout} from "cx/ui";
 
@@ -106,11 +107,11 @@ export default <cx>
       <hr style={{margin: "30px"}}/>
       <ValidationGroup visible:expr="{$page.form}">
          <h4 text:bind="$page.form.fullName"/>
-         <div layout={LabelsLeftLayout}>
+         <FlexCol align="start">
             <TextField label="Name" value:bind="$page.form.fullName"/>
             <TextField label="Phone" value:bind="$page.form.phone"/>
             <TextField label="City" value:bind="$page.form.city"/>
-            <Checkbox label="Notified" value:bind="$page.form.notified"/>
+            <Checkbox  value:bind="$page.form.notified" text="Notified"/>
             <Button
                onClick={(e, {controller}) => {
                   controller.saveRecord();
@@ -118,7 +119,7 @@ export default <cx>
             >
                Save
             </Button>
-         </div>
+         </FlexCol>
       </ValidationGroup>
    </div>
 </cx>

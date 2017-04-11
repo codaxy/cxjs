@@ -17,6 +17,7 @@
       line-height: $cx-default-box-line-height;
       box-sizing: border-box;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      user-select: none;
 
       @include cx-add-state-rules($cx-list, default);
 
