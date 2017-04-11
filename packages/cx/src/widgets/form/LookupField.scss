@@ -99,14 +99,14 @@
          margin: 0;
          cursor: pointer;
 
-         &.cursor {
+         &.#{$state}cursor {
             @include cx-add-state-rules($cx-list-item, cursor);
          }
 
-         &.selected {
+         &.#{$state}selected {
             @include cx-add-state-rules($cx-list-item, selected);
 
-            &.cursor {
+            &.#{$state}cursor {
                @include cx-add-state-rules($cx-list-item, selected-cursor);
             }
          }

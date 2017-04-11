@@ -306,14 +306,17 @@ class LookupComponent extends VDOM.Component {
       var {widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
+      // generate class names for 'selected' and 'cursor' with state prefix
+      let [selected, cursor] = CSS.state({ selected: true, cursor: true }).split(/\s+/);
+
       this.list = Widget.create(<cx>
          <ul class={CSS.element(baseClass, "lookup-options")}>
             <Repeater records:bind="$options" recordName="$option">
                <li data-option:bind="$option"
                   memoize={false}
                   class={{
-                     selected: (data) => this.props.instance.data.selectedKeys.find(x => this.areKeysEqual(x, this.getOptionKey(data))) != null,
-                     cursor: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
+                     [selected]: (data) => this.props.instance.data.selectedKeys.find(x => this.areKeysEqual(x, this.getOptionKey(data))) != null,
+                     [cursor]: (data) => this.areKeysEqual(this.getOptionKey(data), this.state.cursorKey)
                   }}
                   children={this.props.itemConfig}
                   onMouseDown={preventDefault}
