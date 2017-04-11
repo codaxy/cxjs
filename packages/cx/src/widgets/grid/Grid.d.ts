@@ -3,25 +3,10 @@ import * as React from 'react';
 import {Instance} from "../../ui/Instance";
 import {DragEvent} from '../drag-drop/ops';
 
-interface GridProps extends Cx.WidgetProps {
+interface GridProps extends Cx.StyledContainerProps {
 
    /** An array of records to be displayed in the grid. */ 
    records?: Cx.Prop<Cx.Record[]>,
-
-   /** 
-    * Additional CSS classes to be applied to the field. 
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. 
-    */
-   class?: Cx.ClassProp,
-
-   /** 
-    * Additional CSS classes to be applied to the field. 
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. 
-    */
-   className?: Cx.ClassProp,
-
-   /** Style object applied to the wrapper div. Used for setting the dimensions of the field. */
-   style?: Cx.StyleProp,
 
    /** A binding used to store the sorting order list. Commonly used for server-side sorting */
    sorters?: Cx.RecordsProp,
