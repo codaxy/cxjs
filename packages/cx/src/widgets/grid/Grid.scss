@@ -62,6 +62,7 @@
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
             flex: 1;
+            -webkit-overflow-scrolling: touch
          }
 
          & > .#{$element}#{$name}-fixed-header {
