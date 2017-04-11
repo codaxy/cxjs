@@ -16,6 +16,15 @@ export class Tooltip extends Dropdown {
       })
    }
 
+   prepareData(context, instance) {
+      let {data} = instance;
+      data.stateMods = {
+         ...data.stateMods,
+         "mouse-trap": this.mouseTrap
+      }
+      super.prepareData(context, instance);
+   }
+
    renderContents(context, instance) {
       let {data} = instance;
       let {CSS, baseClass} = this;
