@@ -306,6 +306,7 @@ class LookupComponent extends VDOM.Component {
       var {widget} = this.props.instance;
       var {CSS, baseClass} = widget;
 
+      // generate class names for 'selected' and 'cursor' with state prefix
       let [selected, cursor] = CSS.state({ selected: true, cursor: true }).split(/\s+/);
 
       this.list = Widget.create(<cx>
