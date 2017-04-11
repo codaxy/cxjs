@@ -12,7 +12,7 @@ export const GettingStarted = <cx>
 
         ## Basic Concepts
 
-        The most important steps of getting familiar with Cx is to understand its syntax and data-binding process.
+        The most important steps of getting familiar with Cx is to understand its syntax and the data-binding process.
 
         Cx uses JSX syntax, [introduced by React](https://facebook.github.io/react/docs/introducing-jsx.html),
         which enables HTML/XML-like structures inside JavaScript.

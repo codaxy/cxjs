@@ -41,10 +41,10 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
   cursor: (
-    background-color: $cx-default-highlight-color
+    background-color: lighten($cx-default-highlight-color, 4)
   ),
   selected: (
-    background-color: lighten($cx-default-highlight-color, 2)
+    background-color: darken($cx-default-highlight-color, 2)
   ),
   selected-cursor: (
     background-color: darken($cx-default-highlight-color, 8)

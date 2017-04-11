@@ -1,13 +1,13 @@
 {
   "name": "cx-react",
-  "version": "17.4.0",
-  "description": "React based rendering for Cx applications.",
+  "version": "17.4.1",
+  "description": "React based rendering for CxJS applications.",
   "main": "index.js",
   "scripts": {},
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
-  "homepage": "https://github.com/codaxy/cx",
-  "dependencies": {
+  "homepage": "https://github.com/codaxy/cxjs",
+  "peerDependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }

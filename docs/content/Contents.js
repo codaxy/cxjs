@@ -65,7 +65,8 @@ var contents = [{
     articles: [
         {title: 'Menu', url: '~/widgets/menus'},
         {title: 'Tabs', url: '~/widgets/tabs'},
-        {title: 'Links', url: '~/widgets/links'},
+        {title: 'Link', url: '~/widgets/links'},
+        {title: 'LinkButton', url: '~/widgets/link-buttons'},
     ]
 }, {
     topic: 'General Purpose Widgets',
