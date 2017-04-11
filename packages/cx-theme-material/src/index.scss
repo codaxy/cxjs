@@ -87,7 +87,7 @@ $form-list: (
             transform: scaleX(1);
             transition: transform 0.3s ease-out;
          }
-         &.#{$state}error.#{$state}visited {
+         &.#{$state}error {
             &:after {
                transform: scaleX(1);
                background-color: $cx-theme-danger-color;
@@ -149,61 +149,47 @@ $form-list: (
    &:first-child {
       margin-top: round(0.8 * $cx-default-box-line-height);
    }
-   //position: relative;
+
    & > .#{$block}label {
       position: absolute;
       top: 0;
       left: 0;
-      transition: all 0.2s linear;
-   }
-
-   &.#{$state}empty:not(.#{$state}focus) > .#{$block}label {
+      transition: margin-left 0.2s linear, margin-top 0.2s linear, font-size 0.2s linear;
       color: $cx-default-input-placeholder-color;
       font-size: $cx-default-input-font-size;
       pointer-events: none;
    }
 
-   &.#{$state}focus > .#{$block}label {
-      color: $cx-default-label-color;
-   }
+   &.#{$state}focus,
+   &.#{$state}error,
+   &:not(.#{$state}empty) {
+      & > .#{$block}label {
+         pointer-events: auto;
+         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
+         color: rgba($cx-default-label-color, 0.6);
+         font-size: $cx-default-label-font-size;
+         padding-bottom: 0;
+         border-bottom-width: 0;
+      }
 
-   &.#{$state}focus > .#{$block}label,
-   &:not(.#{$state}empty) > .#{$block}label {
-      margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
-      color: rgba($cx-default-label-color, 0.6);
-      font-size: $cx-default-label-font-size;
-   }
-
-   &.#{$state}error {
-      &:not(.#{$state}empty) {
-         > .#{$block}label {
-            margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
-         }
+      &.#{$state}icon > .#{$block}label {
+         margin-left: cx-calc(-$cx-default-icon-size, -$cx-default-box-padding);
       }
    }
 
    &.#{$state}focus {
-      > .#{$block}label {
+      & > .#{$block}label {
          color: $cx-theme-primary-color;
       }
+   }
 
-      &.#{$state}error.#{$state}visited > .#{$block}label {
-         color: $cx-theme-danger-color;
-         font-size: $cx-default-label-font-size;
-      }
+   &.#{$state}error > .#{$block}label {
+      color: $cx-theme-danger-color
    }
 
    &.#{$state}icon {
       & > .#{$block}label {
          left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
-      }
-
-      &.#{$state}focus > .#{$block}label,
-      &.#{$state}error > .#{$block}label,
-      &:not(.#{$state}empty) > .#{$block}label {
-         margin-left: cx-calc(-$cx-default-icon-size, -$cx-default-box-padding);
-         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
-         font-size: $cx-default-label-font-size;
       }
    }
 }
@@ -269,7 +255,6 @@ $checkbox-padding-correction: 2px !default;
 .#{$element}radio-input {
    border-width: 2px;
    border-color: darken(#dbdbdb, 10);
-   color: darken(#dbdbdb, 20);
    overflow: visible;
    color: $cx-theme-primary-color;
 

@@ -196,10 +196,11 @@ MonthField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 MonthField.prototype.minValueErrorText = 'Select {0:d} or later.';
 MonthField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 MonthField.prototype.inputErrorText = 'Invalid date entered';
-MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
+MonthField.prototype.suppressErrorsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
 MonthField.prototype.showClear = true;
 MonthField.prototype.range = false;
+MonthField.prototype.reactOn = "enter blur";
 
 Localization.registerPrototype('cx/widgets/MonthField', MonthField);
 
@@ -255,8 +256,8 @@ class MonthInput extends VDOM.Component {
 
    render() {
       var {instance, label, help} = this.props;
-      var {data, store, widget} = instance;
-      var {CSS, baseClass} = widget;
+      var {data, widget} = instance;
+      var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton, icon;
 
@@ -294,10 +295,14 @@ class MonthInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div className={CSS.expand(data.classNames, CSS.state({
          visited: data.visited || this.state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !!icon
+         icon: !!icon,
+         empty: empty,
+         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
       }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -466,6 +471,9 @@ class MonthInput extends VDOM.Component {
    onChange(e, eventType) {
       var {instance} = this.props;
       var {widget} = instance;
+
+      if (widget.reactOn.indexOf(eventType) == -1)
+         return;
 
       var parts = e.target.value.split('-');
       var date1 = widget.parseDate(parts[0]);

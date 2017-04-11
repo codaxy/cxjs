@@ -63,7 +63,7 @@ export class ColorField extends Field {
 
 ColorField.prototype.baseClass = "colorfield";
 ColorField.prototype.format = 'rgba';
-ColorField.prototype.suppressErrorTooltipsUntilVisited = true;
+ColorField.prototype.suppressErrorsUntilVisited = true;
 ColorField.prototype.showClear = true;
 
 Widget.alias('color-field', ColorField);
@@ -120,8 +120,8 @@ class ColorInput extends VDOM.Component {
 
    render() {
       let {instance, label, help} = this.props;
-      let {data, store, widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {data, widget} = instance;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
@@ -153,11 +153,15 @@ class ColorInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} />;
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state.visited,
             focus: this.state.focus || this.state.dropdownOpen,
-            icon: true
+            icon: true,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}

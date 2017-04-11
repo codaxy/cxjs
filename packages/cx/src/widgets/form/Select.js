@@ -67,7 +67,7 @@ Select.prototype.baseClass = "select";
 Select.prototype.multiple = false;
 Select.prototype.convertValues = true;
 Select.prototype.nullString = '';
-Select.prototype.suppressErrorTooltipsUntilVisited = true;
+Select.prototype.suppressErrorsUntilVisited = true;
 Select.prototype.showClear = true;
 Select.prototype.icon = null;
 

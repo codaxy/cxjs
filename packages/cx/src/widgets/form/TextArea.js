@@ -39,7 +39,7 @@ export class TextArea extends TextField {
 
 TextArea.prototype.baseClass = "textarea";
 TextArea.prototype.reactOn = "blur";
-TextArea.prototype.suppressErrorTooltipsUntilVisited = true;
+TextArea.prototype.suppressErrorsUntilVisited = true;
 
 class Input extends VDOM.Component {
 
@@ -54,12 +54,16 @@ class Input extends VDOM.Component {
    render() {
       let {instance, label, help} = this.props;
       let {widget, data} = instance;
-      let {CSS, baseClass} = widget;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
+
+      let empty = this.input ? !this.input.value : data.empty;
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: this.state.visited,
-            focus: this.state.focus
+            focus: this.state.focus,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}

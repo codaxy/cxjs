@@ -95,7 +95,7 @@ export class Field extends PureContainer {
    }
 
    prepareData(context, instance) {
-      let {data} = instance;
+      let {data, state} = instance;
       if (!data.id)
          data.id = 'fld-' + instance.id;
 
@@ -109,16 +109,13 @@ export class Field extends PureContainer {
 
       data.inputStyle = parseStyle(data.inputStyle);
 
-      if (this.labelPlacement && this.label) {
+      if (this.labelPlacement && this.label)
          data.mod = [data.mod, 'label-placement-' + this.labelPlacement];
-      }
 
       if (this.helpPlacement && this.help)
          data.mod = [data.mod, 'help-placement-' + this.helpPlacement];
 
       data.empty = this.isEmpty(data);
-
-      data.stateMods = [data.stateMods, data.empty && 'empty'];
 
       super.prepareData(...arguments);
    }
@@ -131,7 +128,6 @@ export class Field extends PureContainer {
 
       data.stateMods = {
          ...data.stateMods,
-         error: data.error,
          disabled: data.disabled,
          [(data.mode || 'edit') + '-mode']: true
       };
@@ -183,8 +179,11 @@ export class Field extends PureContainer {
       if (!data.error) {
          if (state.validating)
             data.error = this.validatingText;
-         else if (data.required)
-            data.error = this.validateRequired(context, instance);
+         else if (data.required) {
+            let required = this.validateRequired(context, instance);
+            if (required)
+               data.error = state.inputError || required;
+         }
       }
 
       if (!data.error && data.value != null && this.onValidate && !state.validating && data.value != state.lastValidatedValue) {
@@ -287,7 +286,7 @@ export class Field extends PureContainer {
 
 Field.prototype.validationMode = "tooltip";
 Field.prototype.visited = false;
-Field.prototype.suppressErrorTooltipsUntilVisited = false;
+Field.prototype.suppressErrorsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
@@ -304,7 +303,7 @@ Localization.registerPrototype('cx/widgets/Field', Field);
 export function getFieldTooltip(instance, state) {
    let {widget, data} = instance;
 
-   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorTooltipsUntilVisited))
+   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))
       return [
          instance,
          widget.errorTooltip,

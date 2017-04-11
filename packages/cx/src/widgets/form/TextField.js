@@ -74,7 +74,7 @@ TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = 'The entered value is not valid.';
 TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
 TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.";
-TextField.prototype.suppressErrorTooltipsUntilVisited = true;
+TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 
@@ -98,7 +98,7 @@ class Input extends VDOM.Component {
    render() {
       let {instance, data, label, help} = this.props;
       let {widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div
@@ -125,12 +125,16 @@ class Input extends VDOM.Component {
             );
       }
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: this.state.visited,
             focus: this.state.focus,
             icon: !!icon,
-            clear: insideButton != null
+            clear: insideButton != null,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}

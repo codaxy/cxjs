@@ -178,7 +178,7 @@ LookupField.prototype.optionIdField = 'id';
 LookupField.prototype.optionTextField = 'text';
 LookupField.prototype.valueIdField = 'id';
 LookupField.prototype.valueTextField = 'text';
-LookupField.prototype.suppressErrorTooltipsUntilVisited = true;
+LookupField.prototype.suppressErrorsUntilVisited = true;
 LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.showClear = true;
@@ -443,7 +443,7 @@ class LookupComponent extends VDOM.Component {
    render() {
       var {instance, label, help} = this.props;
       var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div
@@ -522,10 +522,14 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
+      var empty = !text;
+
       var states = {
          visited: data.visited || this.state && this.state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !insideButton || widget.icon
+         icon: !insideButton || widget.icon,
+         empty: empty,
+         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !data.empty)
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}

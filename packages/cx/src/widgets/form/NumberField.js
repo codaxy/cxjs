@@ -95,7 +95,7 @@ NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0:n}.';
 NumberField.prototype.minValueErrorText = 'Enter {0:n} or more.';
 NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0:n}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
-NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
+NumberField.prototype.suppressErrorsUntilVisited = true;
 
 NumberField.prototype.incrementPercentage = 0.1;
 NumberField.prototype.snapToIncrement = true;
@@ -117,13 +117,13 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state !== this.state;
    }
 
    render() {
       let {data, instance, label, help} = this.props;
       let {widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div className={CSS.element(baseClass, 'left-icon')}>
@@ -146,11 +146,15 @@ class Input extends VDOM.Component {
             );
       }
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
             focus: this.state.focus,
-            icon: !!icon
+            icon: !!icon,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
