@@ -1,5 +1,22 @@
 import * as Cx from '../core';
 
 export class Component {
-    static create(type: any, config: any, more: any): any;
+
+   /**
+    * 
+    * @param {} type 
+    * @param {object} config
+    * @param {object} more 
+    */
+   static create(typeAlias?: any, config?: object, more?: object): any;
+   
+   /**
+    * 
+    * @param alias 
+    * @param type 
+    */
+   static alias(alias: any, type?: {}): void;
+
 }
+
+
