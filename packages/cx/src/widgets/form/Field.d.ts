@@ -5,7 +5,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Field label. For advanced use cases. */
    label?: Cx.StringProp | Cx.Config,
    
-   /** TODO : Check type */
+   /* TODO : Check type */
    labelWidth?: any,
 
    /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */

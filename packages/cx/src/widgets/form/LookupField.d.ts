@@ -42,7 +42,7 @@ interface LookupFieldProps extends FieldProps {
    /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string,
    
-   /** TODO: Check type */
+   /* TODO: Check type */
    items?: any,
    itemsConfig?: any,
    children?: any,

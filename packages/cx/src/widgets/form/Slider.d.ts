@@ -42,7 +42,7 @@ interface SliderProps extends FieldProps {
    /** Set to `true` to orient the slider vertically. */
    vertical?: boolean,
 
-   /** TODO: Check type */
+   /* TODO: Check type */
    showTo?: any,
    showFrom?: any
 

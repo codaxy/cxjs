@@ -5,7 +5,7 @@ interface LabelProps extends Cx.HtmlElementProps {
    required?: boolean,
    disabled?: boolean,
 
-   /** TODO: Check type */
+   /* TODO: Check type */
    htmlFor?: any,
    
    /** Base CSS class to be applied to the element. No class is applied by default. */
