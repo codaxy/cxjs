@@ -75,6 +75,9 @@ export function enableMaterialLabelPlacement() {
    Localization.override('cx/widgets/Field', {
       labelPlacement: "material"
    });
+   Localization.override('cx/widgets/LabeledContainer', {
+      labelPlacement: "material"
+   });
 }
 
 export function enableMaterialHelpPlacement() {
