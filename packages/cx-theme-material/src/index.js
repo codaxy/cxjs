@@ -34,7 +34,7 @@ Localization.override('cx/widgets/MsgBox', {
    footerJustify: "start"
 });
 
-// always show all borders on Grids in material theme
+// show all borders on all grids
 Localization.override('cx/widgets/Grid', {
   showBorder: true
 });
