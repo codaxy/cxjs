@@ -1,9 +1,11 @@
 import * as Cx from '../core';
 
 export class CSSHelper {
-   static get(code: string) : any;
 
-   static register(code, helper);
+   static get(code: string) : {};
 
-   static alias(code, helper);
-}
+   static register(code?: string, helper?: {}): void;
+
+   static alias(code?: string, helper?: {}): void;
+   
+} 
