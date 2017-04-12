@@ -8,7 +8,8 @@
    position: relative;
    width: $size;
    height: $size;
-   margin-right: 10px;
+   margin-right: 1rem;
+   flex-shrink: 0;
 
    &:after,
    &:before {

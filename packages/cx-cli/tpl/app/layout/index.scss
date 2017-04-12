@@ -3,12 +3,15 @@
 }
 
 $header-color: #a73232;
+$aside-width: 260px;
+$small-device-width: 800px;
 
 .header {
    padding: 1.5em;
    background: $header-color;
    position: fixed;
-   left: 300px;
+   transition: all 0.2s linear;
+   left: 0;
    top: 0;
    right: 0;
    box-shadow: 3px 2px 5px rgba(0,0,0,.26);
@@ -21,6 +24,14 @@ $header-color: #a73232;
       margin: 0;
       color: white;
    }
+
+   .layout.nav & {
+      transform: translateX($aside-width);
+      @media screen and (min-width: $small-device-width) {
+         left: $aside-width;
+         transform: none;
+      }
+   }
 }
 
 .aside {
@@ -28,10 +39,18 @@ $header-color: #a73232;
    left: 0;
    top: 0;
    bottom: 0;
-   width: 300px;
+   width: $aside-width;
    background: white;
    box-shadow: 0 0 1px rgba(0,0,0,.26);
    font-size: 13px;
+
+   transform: translateX(-300px);
+   transition: transform 0.2s linear;
+
+   .layout.nav & {
+      transform: none;
+   }
+
 
    h1 {
       line-height: 3rem;
@@ -61,10 +80,18 @@ $header-color: #a73232;
 
 .main {
    padding: 5.5rem 1rem 1rem;
-   margin-left: 300px;
+   transition: all 0.2s linear;
    height: 100%;
    box-sizing: border-box;
    display: block;
+
+   .layout.nav & {
+      transform: translateX($aside-width);
+      @media screen and (min-width: $small-device-width) {
+         margin-left: $aside-width;
+         transform: none;
+      }
+   }
 }
 
 h3 {
