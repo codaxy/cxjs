@@ -79,6 +79,10 @@ declare namespace Cx {
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
       preserveWhitespace?: boolean,
 
+      items?: any,
+      plainText?: boolean,
+      styled?: boolean,
+
    }
 
    interface StyledContainerProps extends PureContainerProps {
