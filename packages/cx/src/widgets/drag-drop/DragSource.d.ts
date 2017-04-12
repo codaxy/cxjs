@@ -1,7 +1,9 @@
 import * as Cx from '../../core';
-import {IDragSource} from './ops';
 
-interface DragSourceProps extends IDragSource, Cx.StyledContainerProps {
+interface DragSourceProps extends Cx.StyledContainerProps {
+   data?: Cx.StructuredProp,
+   hideOnDrag?: boolean,
+   handled?: boolean,
    baseClass?: string,
 }
 
