@@ -61,7 +61,11 @@
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, $left-icon-state-style-map);
+      @include cxe-field-button($besm, cx-deep-map-merge($left-icon-state-style-map, (
+         default: (
+            cursor: pointer
+         )
+      )));
       @extend %cx-checker-bg;
       box-sizing: border-box;
       opacity: 1;

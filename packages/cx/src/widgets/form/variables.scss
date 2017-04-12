@@ -113,7 +113,8 @@ $cx-input-right-icon-state-style-map: (
       width: $cx-default-input-tool-size,
       line-height: $cx-default-input-tool-size,
       opacity: 0.6,
-      text-align: center
+      text-align: center,
+      cursor: pointer
    ),
    hover: (
       opacity: 1
