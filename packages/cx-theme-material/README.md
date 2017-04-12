@@ -1,8 +1,6 @@
 # Material Theme
 
-This is a theme package for the [CxJS framework](https://cxjs.io/).
-
-Material is a Google Material Design inspired theme.
+This is a package that enables Material Design like appearance for the [CxJS framework](https://cxjs.io/).
 Take a look at the theme preview and compare it to the other themes [here](https://cxjs.io/v/master/themes/).
 
 ## Usage
