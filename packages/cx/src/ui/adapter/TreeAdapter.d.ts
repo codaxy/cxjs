@@ -1,4 +1,4 @@
 import * as Cx from '../../core';
-import {DataAdapter} from './DataAdapter';
+import {ArrayAdapter} from './ArrayAdapter';
 
-export class TreeAdapter extends DataAdapter {}
+export class TreeAdapter extends ArrayAdapter {}
