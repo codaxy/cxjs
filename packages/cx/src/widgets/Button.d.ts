@@ -28,6 +28,15 @@ interface ButtonProps extends Cx.HtmlElementProps {
    /** Add type="submit" to the button. */
    submit?: boolean,
 
+   /** Set to `true` to disable the button. */
+   disabled?: Cx.BooleanProp,
+
+   /** 
+    * Click handler.
+    *
+    * @param {React.SyntheticEvent<any>} e - Event.
+    * @param {Instance} instance - Cx widget instance that fired the event. 
+    */
    onClick?: (e: React.SyntheticEvent<any>, instance: Instance) => void;
 }
 
