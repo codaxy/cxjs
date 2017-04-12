@@ -6,10 +6,15 @@
 .cxb-tab-container {
    white-space: nowrap;
    flex-shrink: 0;
-   overflow-x: auto;
-   overflow-y: hidden;
 
    &.cxm-classic {
       padding: 0 1.5rem;
+   }
+
+   @media screen and (max-width: 400px) {
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding-bottom: 1px;
+      margin-bottom: -1px;
    }
 }

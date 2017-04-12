@@ -15,7 +15,9 @@ import {
    TextField,
    HtmlElement,
    Section,
-   FlexRow
+   FlexRow,
+   FlexCol,
+   ValidationGroup,
 } from 'cx/widgets';
 
 import {LabelsLeftLayout} from 'cx/ui';
@@ -32,11 +34,11 @@ const options = [
 ];
 
 export default <cx>
-   <Section mod="card" title="Inputs" style="flex:1 0 auto">
-      <div layout={{type: LabelsLeftLayout, mod: "stretch"}}>
-         <TextField label="TextField" value:bind="text" />
-         <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
-         <NumberField label="NumberField" value:bind="number" />
+   <Section mod="card" title="Inputs" style="flex:1 0 300px">
+      <FlexCol>
+         <TextField label="TextField" value:bind="text" required minLength={5} />
+         <TextArea label="TextArea" value:bind="text2" rows={5} required style="width:100%" />
+         <NumberField label="NumberField" required value:bind="number" />
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
@@ -45,25 +47,25 @@ export default <cx>
            on:bind="$page.check"
            text:expr="{$page.check} ? 'ON' : 'OFF'"
          />
-      </div>
+      </FlexCol>
    </Section>
 
-   <Section mod="card" title="Dropdowns" style="flex:1 0 auto">
-      <div layout={LabelsLeftLayout}>
-         <Select label="Select" value:bind="radio" style="width:100%; max-width: 230px;">
+   <Section mod="card" title="Dropdowns" style="flex:1 0 230px">
+      <FlexCol>
+         <Select label="Select" value:bind="radio" required style="width:100%;">
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>
          </Select>
-         <LookupField label="LookupField" value:bind="radio"
+         <LookupField label="LookupField" required value:bind="lookup"
             options={options}
-            style="width:100%; max-width: 230px;"/>
+            style="width:100%;"/>
          <LookupField label="LookupField (multiple)" multiple values:bind="options"
             options={options}
-            style="width:100%; max-width: 230px;"/>
-         <DateField label="DateField" value:bind="date" style="width:100%; max-width: 230px;"/>
-         <MonthField label="MonthField" range from:bind="dateFrom" to:bind="dateTo" style="width:100%; max-width: 230px;"/>
-         <ColorField label="ColorField" value:bind="color" style="width:100%; max-width: 230px;"/>
-      </div>
+            style="width:100%"/>
+         <DateField label="DateField" required value:bind="date" style="width:100%;"/>
+         <MonthField label="MonthField" required range from:bind="dateFrom" to:bind="dateTo" style="width:100%"/>
+         <ColorField label="ColorField" value:bind="color" style="width:100%"/>
+      </FlexCol>
    </Section>
 
    <Section mod="card" title="Calendar">

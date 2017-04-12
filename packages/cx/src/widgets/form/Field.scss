@@ -102,7 +102,7 @@
       }
    }
 
-   .#{$state}error.#{$state}visited > & {
+   .#{$state}error > & {
       @include cx-add-state-rules($styles, error);
 
       &:focus {

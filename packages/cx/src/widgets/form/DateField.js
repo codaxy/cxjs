@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Calendar} from './Calendar';
@@ -107,6 +107,8 @@ export class DateField extends Field {
                            minValueErrorText: this.minValueErrorText,
                            minExclusiveErrorText: this.minExclusiveErrorText
                         }}
+                        label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                        help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -133,9 +135,10 @@ DateField.prototype.minValueErrorText = 'Select {0:d} or later.';
 DateField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 DateField.prototype.inputErrorText = 'Invalid date entered.';
 
-DateField.prototype.suppressErrorTooltipsUntilVisited = true;
+DateField.prototype.suppressErrorsUntilVisited = true;
 DateField.prototype.icon = 'calendar';
 DateField.prototype.showClear = true;
+DateField.prototype.reactOn = "enter blur";
 
 Widget.alias('datefield', DateField);
 Localization.registerPrototype('cx/widgets/DateField', DateField);
@@ -192,9 +195,9 @@ class DateInput extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
-      let {data, store, widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {instance, label, help} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton, icon;
 
@@ -231,10 +234,15 @@ class DateInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state.visited,
-            focus: this.state.focus
+            focus: this.state.focus || this.state.dropdownOpen,
+            icon: !!icon,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -267,6 +275,8 @@ class DateInput extends VDOM.Component {
          { icon }
          { insideButton }
          { dropdown }
+         { label }
+         { help }
       </div>;
    }
 
@@ -397,14 +407,16 @@ class DateInput extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
 
+      if (widget.reactOn.indexOf(eventType) == -1)
+         return;
+
       let date = widget.parseDate(e.target.value);
 
       instance.setState({
          inputError: isNaN(date) && widget.inputErrorText
       });
 
-      if (eventType == 'blur' || eventType == 'enter')
-         this.setValue(date);
+      this.setValue(date);
    }
 
    setValue(date) {

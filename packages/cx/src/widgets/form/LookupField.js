@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Text} from '../../ui/Text';
@@ -100,12 +100,9 @@ export class LookupField extends Field {
          disabled: data.disabled
       };
 
-      super.prepareData(context, instance);
-
       data.selectedKeys = [];
 
       if (this.multiple) {
-
          if (Array.isArray(data.values) && Array.isArray(data.options)) {
             data.selectedKeys = data.values.map(v => this.keyBindings.length == 1 ? [v] : v);
             var map = {};
@@ -124,7 +121,8 @@ export class LookupField extends Field {
          }
          else if (Array.isArray(data.records))
             data.selectedKeys.push(...data.records.map($value => this.keyBindings.map(b => Binding.get(b.local).value({$value}))))
-      } else {
+      }
+      else {
          var dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map(b => Binding.get(b.local).value(dataViewData)));
          if (!this.text && Array.isArray(data.options)) {
@@ -132,6 +130,8 @@ export class LookupField extends Field {
             data.text = option && option[this.optionTextField] || '';
          }
       }
+
+      super.prepareData(context, instance);
    }
 
    renderInput(context, instance, key) {
@@ -142,6 +142,8 @@ export class LookupField extends Field {
          bindings={this.bindings}
          baseClass={this.baseClass}
          onQuery={this.onQuery}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -152,14 +154,13 @@ export class LookupField extends Field {
       return options.filter(o => typeof o[this.optionTextField] == 'string' && textPredicate(o[this.optionTextField]));
    }
 
-   validateRequired(context, instance) {
-      let {data} = instance;
+   isEmpty(data) {
       if (this.multiple) {
          if ((Array.isArray(data.values) && data.values.length > 0) || (Array.isArray(data.records) && data.records.length > 0))
             return false;
-         return this.requiredText;
       }
-      return super.validateRequired(context, instance);
+
+      return data.value == null;
    }
 }
 
@@ -177,7 +178,7 @@ LookupField.prototype.optionIdField = 'id';
 LookupField.prototype.optionTextField = 'text';
 LookupField.prototype.valueIdField = 'id';
 LookupField.prototype.valueTextField = 'text';
-LookupField.prototype.suppressErrorTooltipsUntilVisited = true;
+LookupField.prototype.suppressErrorsUntilVisited = true;
 LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.showClear = true;
@@ -443,9 +444,9 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
+      var {instance, label, help} = this.props;
       var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div
@@ -524,10 +525,14 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
+      var empty = data.empty;
+
       var states = {
          visited: data.visited || this.state && this.state.visited,
-         focus: this.state.focus,
-         icon: !insideButton || widget.icon
+         focus: this.state.focus || this.state.dropdownOpen,
+         icon: !insideButton || widget.icon,
+         empty: empty,
+         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}
@@ -554,6 +559,8 @@ class LookupComponent extends VDOM.Component {
          { insideButton }
          { icon }
          { dropdown }
+         { label }
+         { help }
       </div>;
    }
 

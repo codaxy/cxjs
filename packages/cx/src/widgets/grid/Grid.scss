@@ -94,6 +94,7 @@
       box-sizing: border-box;
       position: relative;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-user-select: none;
 
       .#{$state}header-default & {
          border-width: 1px;

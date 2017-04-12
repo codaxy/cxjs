@@ -27,7 +27,7 @@ $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 5) !default;
   @return $accent-color;
 }
 $cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
-$cx-theme-warning-color: #F44336 !default;
+$cx-theme-danger-color: #F44336 !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
 /* pick theme size */
@@ -140,6 +140,7 @@ $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
 $cx-default-input-border-color: #eff1f7 !default;
+$cx-theme-input-padding: $cx-default-box-padding 0 !default;
 
 /* label */
 $cx-default-label-font-size: 12px !default;
@@ -285,19 +286,19 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
   ),
   danger: (
     default: (
-      background-color: $cx-theme-warning-color,
+      background-color: $cx-theme-danger-color,
       border-color: $cx-default-border-color,
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
     ),
     hover: (
-      background-color: darken($cx-theme-warning-color, 3),
+      background-color: darken($cx-theme-danger-color, 3),
       box-shadow:  0 1px 3px rgba(0, 0, 0, 0.6)
     ),
     focus: (
-      background-color: darken($cx-theme-warning-color, 15)
+      background-color: darken($cx-theme-danger-color, 15)
     ),
     active: (
-      background-color: darken($cx-theme-warning-color, 4),
+      background-color: darken($cx-theme-danger-color, 4),
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
       top: 0
     ),
@@ -672,7 +673,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 /* standard form field - textfield, numberfield, lookupfield,... */
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
   default: (
-    padding: $cx-default-box-padding $cx-default-box-padding,
+    padding: $cx-theme-input-padding,
     background-color: transparent,
     border-color: transparent transparent #dbdbdb,
     border-radius: 0
@@ -691,8 +692,11 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
     border-style: dashed
   ),
   error: (
-    border-color: transparent transparent $cx-theme-warning-color
-  )  
+    border-color: transparent transparent $cx-theme-danger-color
+  ),
+  error-focus: (
+    box-shadow: none
+  )
 ));
 
 /* textarea */
@@ -842,18 +846,51 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
 
 /* clear icon */
 $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
+  default: (
+    right: 0
+  ),
   hover: (
     color: darken($cx-default-color, 5),
     background-color: transparent
-  )
+  ),
+  focus: (
+    color: $cx-theme-primary-color
+  ),
+  error: (
+    color: $cx-default-color,
+    opacity: 0.6
+  ) 
 ));
 
 /* right icon */
 $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-state-style-map,(
   default: (
     color: $cx-theme-secondary-text-color,
-    opacity: 1
-  )
+    opacity: 1,
+    right: 0
+  ),
+  focus: (
+   color: $cx-theme-primary-color
+  ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
+));
+
+/* left icon */
+$cx-input-left-icon-state-style-map: cx-deep-map-merge($cx-input-left-icon-state-style-map, (
+   default: (
+      left: 0
+   ),
+   focus: (
+      color: $cx-theme-primary-color,
+      opacity: 1
+   ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
 ));
 
 //GLOBALS

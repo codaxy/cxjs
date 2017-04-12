@@ -52,6 +52,7 @@ export class Radio extends Field {
                     onClick={e=>{this.handleClick(e, instance)}}
                     htmlFor={data.id}>
          {content}
+         {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       </label>
    }
 

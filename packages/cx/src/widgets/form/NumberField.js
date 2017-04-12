@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
@@ -41,10 +41,9 @@ export class NumberField extends Field {
    }
 
    prepareData(context, instance) {
-      super.prepareData(context, instance);
       let {data} = instance;
-
       data.formatted = Format.value(data.value, data.format);
+      super.prepareData(context, instance);
    }
 
    formatValue(context, {data}) {
@@ -79,6 +78,8 @@ export class NumberField extends Field {
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
             instance={instance}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
       )
    }
@@ -94,7 +95,7 @@ NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0:n}.';
 NumberField.prototype.minValueErrorText = 'Enter {0:n} or more.';
 NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0:n}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
-NumberField.prototype.suppressErrorTooltipsUntilVisited = true;
+NumberField.prototype.suppressErrorsUntilVisited = true;
 
 NumberField.prototype.incrementPercentage = 0.1;
 NumberField.prototype.snapToIncrement = true;
@@ -116,13 +117,13 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state !== this.state;
    }
 
    render() {
-      let {data, instance} = this.props;
+      let {data, instance, label, help} = this.props;
       let {widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div className={CSS.element(baseClass, 'left-icon')}>
@@ -145,11 +146,15 @@ class Input extends VDOM.Component {
             );
       }
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
-            icon: widget.icon,
-            focus: this.state.focus
+            focus: this.state.focus,
+            icon: !!icon,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -184,6 +189,8 @@ class Input extends VDOM.Component {
          />
          {insideButton}
          {icon}
+         {label}
+         {help}
       </div>
    }
 

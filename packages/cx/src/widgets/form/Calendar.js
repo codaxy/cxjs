@@ -117,7 +117,7 @@ Calendar.prototype.maxValueErrorText = 'Select a date not after {0:d}.';
 Calendar.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 Calendar.prototype.minValueErrorText = 'Select a date not before {0:d}.';
 Calendar.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
-Calendar.prototype.suppressErrorTooltipsUntilVisited = false;
+Calendar.prototype.suppressErrorsUntilVisited = false;
 
 Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 

@@ -42,6 +42,7 @@ export class Checkbox extends Field {
          }}
          style={data.style}>
          {content}
+         {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       </label>
    }
 

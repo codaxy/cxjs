@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {
    tooltipParentWillReceiveProps,
@@ -18,7 +18,7 @@ import ClearIcon from '../icons/clear';
 export class TextField extends Field {
 
    init() {
-      if (typeof this.hideClear != 'undefined')
+      if (typeof this.hideClear !== 'undefined')
          this.showClear = !this.hideClear;
 
       super.init();
@@ -44,6 +44,8 @@ export class TextField extends Field {
             instance={instance}
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
       )
    }
@@ -57,9 +59,9 @@ export class TextField extends Field {
             data.error = this.validationErrorText;
 
       if (!data.error && data.value) {
-         if (typeof data.value == 'string' && data.minLength != null && data.value.length < data.minLength)
+         if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
             data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
-         else if (typeof data.value == 'string' && data.maxLength != null && data.value.length > data.maxLength)
+         else if (typeof data.value === 'string' && data.maxLength != null && data.value.length > data.maxLength)
             data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);
       }
    }
@@ -72,7 +74,7 @@ TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = 'The entered value is not valid.';
 TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
 TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.";
-TextField.prototype.suppressErrorTooltipsUntilVisited = true;
+TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 
@@ -90,13 +92,13 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
+      return props.shouldUpdate || state !== this.state;
    }
 
    render() {
-      let {instance, data} = this.props;
+      let {instance, data, label, help} = this.props;
       let {widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = widget.icon && (
             <div
@@ -123,12 +125,16 @@ class Input extends VDOM.Component {
             );
       }
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: this.state.visited,
             focus: this.state.focus,
-            icon: widget.icon,
-            clear: insideButton != null
+            icon: !!icon,
+            clear: insideButton != null,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -158,6 +164,8 @@ class Input extends VDOM.Component {
          />
          {insideButton}
          {icon}
+         {label}
+         {help}
       </div>
    }
 
@@ -181,10 +189,6 @@ class Input extends VDOM.Component {
 
    onClearClick(e) {
       this.props.instance.set('value', null);
-   }
-
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.shouldUpdate !== false || this.state != nextState;
    }
 
    onMouseMove(e) {

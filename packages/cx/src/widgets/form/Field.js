@@ -34,7 +34,7 @@ export class Field extends PureContainer {
       switch (this.validationMode) {
          case 'tooltip':
             this.errorTooltip = {
-               text: { bind: '$error' },
+               text: {bind: '$error'},
                mod: 'error',
                ...this.errorTooltip
             };
@@ -95,19 +95,27 @@ export class Field extends PureContainer {
    }
 
    prepareData(context, instance) {
-      let {data} = instance;
+      let {data, state} = instance;
       if (!data.id)
          data.id = 'fld-' + instance.id;
 
       data._disabled = data.disabled;
       instance.parentDisabled = context.parentDisabled || false;
 
-      if (typeof data.enabled != 'undefined')
+      if (typeof data.enabled !== 'undefined')
          data._disabled = !data.enabled;
 
       this.disableOrValidate(context, instance);
 
       data.inputStyle = parseStyle(data.inputStyle);
+
+      if (this.labelPlacement && this.label)
+         data.mod = [data.mod, 'label-placement-' + this.labelPlacement];
+
+      if (this.helpPlacement && this.help)
+         data.mod = [data.mod, 'help-placement-' + this.helpPlacement];
+
+      data.empty = this.isEmpty(data);
 
       super.prepareData(...arguments);
    }
@@ -120,7 +128,6 @@ export class Field extends PureContainer {
 
       data.stateMods = {
          ...data.stateMods,
-         error: data.error,
          disabled: data.disabled,
          [(data.mode || 'edit') + '-mode']: true
       };
@@ -135,7 +142,12 @@ export class Field extends PureContainer {
          this.disableOrValidate(context, instance);
       }
 
-      if (data.error && context.validation) {
+      if (!context.validation)
+         context.validation = {
+            errors: []
+         };
+
+      if (data.error) {
          context.validation.errors.push({
             fieldId: data.id,
             message: data.error,
@@ -150,9 +162,13 @@ export class Field extends PureContainer {
       delete context.lastFieldId;
    }
 
+   isEmpty(data) {
+      return data.value == null;
+   }
+
    validateRequired(context, instance) {
       var {data} = instance;
-      if (data.value == null)
+      if (this.isEmpty(data))
          return this.requiredText;
    }
 
@@ -163,8 +179,11 @@ export class Field extends PureContainer {
       if (!data.error) {
          if (state.validating)
             data.error = this.validatingText;
-         else if (data.required)
-            data.error = this.validateRequired(context, instance);
+         else if (data.required) {
+            let required = this.validateRequired(context, instance);
+            if (required)
+               data.error = state.inputError || required;
+         }
       }
 
       if (!data.error && data.value != null && this.onValidate && !state.validating && data.value != state.lastValidatedValue) {
@@ -176,13 +195,13 @@ export class Field extends PureContainer {
                lastValidatedValue: data.value
             });
             result
-               .then(r=> {
+               .then(r => {
                   instance.setState({
                      validating: false,
                      inputError: r
                   })
                })
-               .catch(e=> {
+               .catch(e => {
                   instance.setState({
                      validating: false,
                      inputError: this.validationExceptionText
@@ -234,33 +253,40 @@ export class Field extends PureContainer {
 
    renderWrap(context, instance, key, content) {
       var {data} = instance;
-      return <div key={key} className={data.classNames} style={data.style} onMouseDown={stopPropagation} onTouchStart={stopPropagation}>
-         {content}
-      </div>;
+      return (
+         <div key={key}
+            className={data.classNames} style={data.style} onMouseDown={stopPropagation}
+            onTouchStart={stopPropagation}
+         >
+            {content}
+            {this.labelPlacement && this.renderLabel(context, instance, "label")}
+         </div>
+      );
    }
 
    renderEmptyText(context, {data}, key) {
-      return <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>{data.emptyText || <span>&nbsp;</span>}</span>;
+      return <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>{data.emptyText ||
+      <span>&nbsp;</span>}</span>;
    }
 
    render(context, instance, key) {
       var {data} = instance;
-      var content = data.mode != 'view'
+      var content = data.mode !== 'view'
          ? this.renderInput(context, instance, key + 'input')
          : this.renderContent(context, instance, key + 'content');
 
       return {
-         label: this.renderLabel(context, instance, key),
+         label: !this.labelPlacement && this.renderLabel(context, instance, key),
          content: content,
          helpSpacer: this.helpSpacer && instance.components.help ? ' ' : null,
-         help: this.renderHelp(context, instance, key)
+         help: !this.helpPlacement && this.renderHelp(context, instance, key)
       }
    }
 }
 
 Field.prototype.validationMode = "tooltip";
 Field.prototype.visited = false;
-Field.prototype.suppressErrorTooltipsUntilVisited = false;
+Field.prototype.suppressErrorsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
@@ -268,7 +294,8 @@ Field.prototype.validatingText = "Validation is in progress...";
 Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
 Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
-
+Field.prototype.labelPlacement = false;
+Field.prototype.helpPlacement = false;
 //Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);
@@ -276,7 +303,7 @@ Localization.registerPrototype('cx/widgets/Field', Field);
 export function getFieldTooltip(instance, state) {
    let {widget, data} = instance;
 
-   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorTooltipsUntilVisited))
+   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))
       return [
          instance,
          widget.errorTooltip,
