@@ -1,7 +1,10 @@
 import { Widget, startAppLoop, Url } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
-import "cx-theme-material";
+import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-material";
+
+enableMaterialHelpPlacement();
+enableMaterialLabelPlacement();
 
 import {setupHashBasedRouting} from '../shared/app/hashRoutes';
 

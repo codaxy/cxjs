@@ -36,14 +36,31 @@
 
    .#{$element}#{$name}-clear {
       @include cxe-field-button($besm, $clear-state-style-map);
+
+      .#{$state}focus > & {
+        @include cx-add-state-rules($clear-state-style-map, focus);
+      }
+      .#{$state}error > & {
+        @include cx-add-state-rules($clear-state-style-map, error);
+      }
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, $left-icon-state-style-map);
+      @include cxe-field-button($besm, cx-deep-map-merge($left-icon-state-style-map, (
+         default: (
+            cursor: pointer
+         )
+      )));
 
       .#{$state}disabled > & {
         @include cx-add-state-rules($input-state-style-map, disabled);
         border-width: 0;
+      }
+      .#{$state}focus > & {
+        @include cx-add-state-rules($left-icon-state-style-map, focus);
+      }
+      .#{$state}error > & {
+        @include cx-add-state-rules($left-icon-state-style-map, error);
       }
    }
 
@@ -52,6 +69,12 @@
       .#{$state}disabled > & {
         @include cx-add-state-rules($input-state-style-map, disabled);
         border-width: 0;
+      }
+      .#{$state}focus > & {
+        @include cx-add-state-rules($right-icon-state-style-map, focus);
+      }
+      .#{$state}error > & {
+        @include cx-add-state-rules($right-icon-state-style-map, error);
       }
    }
 

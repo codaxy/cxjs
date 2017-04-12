@@ -103,7 +103,11 @@ export function preventFocus(e) {
    if (e.currentTarget != document.activeElement && !document.activeElement.contains(e.currentTarget)) {
       //force field validation on outside click, however, preserve active window or dropdown menu
       let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
-      focusableParent.focus();
+      if (focusableParent === document.body)
+         document.activeElement.blur();
+      else
+         focusableParent.focus();
+
       FocusManager.nudge();
    }
 }

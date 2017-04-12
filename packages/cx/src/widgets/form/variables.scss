@@ -92,6 +92,12 @@ $cx-input-left-icon-state-style-map: (
    ),
    active: (
 
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
    )
 ) !default;
 
@@ -107,13 +113,20 @@ $cx-input-right-icon-state-style-map: (
       width: $cx-default-input-tool-size,
       line-height: $cx-default-input-tool-size,
       opacity: 0.6,
-      text-align: center
+      text-align: center,
+      cursor: pointer
    ),
    hover: (
       opacity: 1
    ),
    active: (
 
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
    )
 ) !default;
 
@@ -139,6 +152,12 @@ $cx-clear-state-style-map: (
    ),
    active: (
 
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
    )
 ) !default;
 
@@ -273,7 +292,9 @@ $cx-switch-handle-styles: (
 // TEXTAREA
 $cx-default-textarea-width: 300px !default;
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-  
+   default: (
+      line-height: normal
+   )
 ));
 
 // LOOKUPFIELD TAG

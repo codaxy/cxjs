@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {MonthPicker} from './MonthPicker';
@@ -55,6 +55,10 @@ export class MonthField extends Field {
          maxValue: undefined,
          maxExclusive: undefined
       }, ...arguments);
+   }
+
+   isEmpty(data) {
+      return this.range ? data.from == null : data.value == null;
    }
 
    init() {
@@ -153,6 +157,8 @@ export class MonthField extends Field {
                             minValueErrorText: this.minValueErrorText,
                             minExclusiveErrorText: this.minExclusiveErrorText
                          }}
+                         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -190,10 +196,11 @@ MonthField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 MonthField.prototype.minValueErrorText = 'Select {0:d} or later.';
 MonthField.prototype.minExclusiveErrorText = 'Select a date after {0:d}.';
 MonthField.prototype.inputErrorText = 'Invalid date entered';
-MonthField.prototype.suppressErrorTooltipsUntilVisited = true;
+MonthField.prototype.suppressErrorsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
 MonthField.prototype.showClear = true;
 MonthField.prototype.range = false;
+MonthField.prototype.reactOn = "enter blur";
 
 Localization.registerPrototype('cx/widgets/MonthField', MonthField);
 
@@ -248,14 +255,14 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var {instance} = this.props;
-      var {data, store, widget} = instance;
-      var {CSS, baseClass} = widget;
+      var {instance, label, help} = this.props;
+      var {data, widget} = instance;
+      var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && ((!data.required && (widget.range ? data.from != null : data.value != null)) || instance.state.inputError))
+         if (widget.showClear && ((!data.required && !data.empty) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => {
@@ -288,9 +295,14 @@ class MonthInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div className={CSS.expand(data.classNames, CSS.state({
          visited: data.visited || this.state.visited,
-         focus: this.state.focus
+         focus: this.state.focus || this.state.dropdownOpen,
+         icon: !!icon,
+         empty: empty,
+         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
       }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -322,6 +334,8 @@ class MonthInput extends VDOM.Component {
          { icon }
          { insideButton }
          { dropdown }
+         { label }
+         { help }
       </div>;
    }
 
@@ -457,6 +471,9 @@ class MonthInput extends VDOM.Component {
    onChange(e, eventType) {
       var {instance} = this.props;
       var {widget} = instance;
+
+      if (widget.reactOn.indexOf(eventType) == -1)
+         return;
 
       var parts = e.target.value.split('-');
       var date1 = widget.parseDate(parts[0]);

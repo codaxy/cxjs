@@ -1,6 +1,12 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
+import {
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipParentDidMount
+} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
 
@@ -124,36 +130,38 @@ class SliderComponent extends VDOM.Component {
       };
 
       return <div className={data.classNames}
-                  style={data.style}
-                  id={data.id}
-                  onClick={::this.onClick}>
+         style={data.style}
+         id={data.id}
+         onClick={::this.onClick}>
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
             {
                rangeSize > 0 &&
-               <div className={CSS.element(baseClass, "range")} style={rangeStyle} />
+               <div className={CSS.element(baseClass, "range")} style={rangeStyle}/>
             }
-            <div className={CSS.element(baseClass, "space")} ref={c=>this.dom.range = c}>
-            {
-               widget.showFrom &&
-               <div className={CSS.element(baseClass, "handle")}
-                    style={fromHandleStyle}
-                    onMouseDown={e=>this.onHandleMouseDown(e, 'from')}
-                    onTouchStart={e=>this.onHandleMouseDown(e, 'from')}
-                    ref={c=>this.dom.from = c} />
-            }
-            {
-               widget.showTo &&
-               <button type="button" className={CSS.element(baseClass, "handle")}
-                       //tabIndex={-1}
-                    style={toHandleStyle}
-                    onMouseDown={e=>this.onHandleMouseDown(e, 'to')}
-                    onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(instance))}
-                    onMouseLeave={e=>this.onHandleMouseLeave(e, 'to')}
-                    onTouchStart={e=>this.onHandleMouseDown(e, 'to')}
-                    ref={c=>this.dom.to = c}>
-               </button>
-            }
+            <div className={CSS.element(baseClass, "space")} ref={c => this.dom.range = c}>
+               {
+                  widget.showFrom &&
+                  <div
+                     className={CSS.element(baseClass, "handle")}
+                     tabIndex={0}
+                     style={fromHandleStyle}
+                     onMouseDown={e => this.onHandleMouseDown(e, 'from')}
+                     onTouchStart={e => this.onHandleMouseDown(e, 'from')}
+                     ref={c => this.dom.from = c} />
+               }
+               {
+                  widget.showTo &&
+                  <div
+                     className={CSS.element(baseClass, "handle")}
+                     tabIndex={0}
+                     style={toHandleStyle}
+                     onMouseDown={e => this.onHandleMouseDown(e, 'to')}
+                     onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+                     onMouseLeave={e => this.onHandleMouseLeave(e, 'to')}
+                     onTouchStart={e => this.onHandleMouseDown(e, 'to')}
+                     ref={c => this.dom.to = c} />
+               }
             </div>
          </div>
       </div>;
@@ -235,7 +243,7 @@ class SliderComponent extends VDOM.Component {
       })
    }
 
-   getValues(e, d=0) {
+   getValues(e, d = 0) {
       var {data, widget} = this.props.instance;
       var {minValue, maxValue} = data;
       var b = this.dom.range.getBoundingClientRect();

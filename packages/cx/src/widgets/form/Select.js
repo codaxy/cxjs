@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field, getFieldTooltip} from './Field';
 import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
@@ -6,6 +6,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Icon} from '../Icon';
+import {Localization} from '../../ui/Localization';
 
 export class Select extends Field {
 
@@ -26,20 +27,13 @@ export class Select extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
-      let {data} = instance;
-      data.stateMods = {
-         ...data.stateMods,
-         empty: data.value == null
-      };
-      return super.prepareData(context, instance);
-   }
-
    renderInput(context, instance, key) {
       return <SelectComponent key={key}
                               instance={instance}
                               multiple={this.multiple}
-                              select={v => this.select(v, instance)}>
+                              select={v => this.select(v, instance)}
+                              label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                              help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
          {this.renderChildren(context, instance)}
       </SelectComponent>
    }
@@ -73,11 +67,12 @@ Select.prototype.baseClass = "select";
 Select.prototype.multiple = false;
 Select.prototype.convertValues = true;
 Select.prototype.nullString = '';
-Select.prototype.suppressErrorTooltipsUntilVisited = true;
+Select.prototype.suppressErrorsUntilVisited = true;
 Select.prototype.showClear = true;
 Select.prototype.icon = null;
 
-Widget.alias('select', Select)
+Widget.alias('select', Select);
+Localization.registerPrototype("cx/widgets/Select", Select);
 
 class SelectComponent extends VDOM.Component {
 
@@ -90,7 +85,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    render() {
-      let {multiple, select, instance} = this.props;
+      let {multiple, select, instance, label, help} = this.props;
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
 
@@ -165,8 +160,10 @@ class SelectComponent extends VDOM.Component {
             {placeholder}
             {this.props.children}
          </select>
-         {insideButton}
-         {icon}
+         { insideButton }
+         { icon }
+         { label }
+         { help }
       </div>
    }
 

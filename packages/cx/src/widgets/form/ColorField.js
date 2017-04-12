@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {Field, getFieldTooltip} from './Field';
 import {Dropdown} from '../overlay/Dropdown';
@@ -19,6 +19,7 @@ import {KeyCode} from '../../util';
 
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
+import {Localization} from '../../ui/Localization';
 
 export class ColorField extends Field {
 
@@ -41,6 +42,9 @@ export class ColorField extends Field {
    }
 
    prepareData(context, {data}) {
+      data.stateMods = [data.stateMods, {
+         "empty": !data.value
+      }];
       super.prepareData(...arguments);
    }
 
@@ -51,16 +55,19 @@ export class ColorField extends Field {
             value: this.value,
             format: this.format
          }}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 }
 
 ColorField.prototype.baseClass = "colorfield";
 ColorField.prototype.format = 'rgba';
-ColorField.prototype.suppressErrorTooltipsUntilVisited = true;
+ColorField.prototype.suppressErrorsUntilVisited = true;
 ColorField.prototype.showClear = true;
 
 Widget.alias('color-field', ColorField);
+Localization.registerPrototype('cx/widgets/ColorField', ColorField);
 
 class ColorInput extends VDOM.Component {
 
@@ -112,9 +119,9 @@ class ColorInput extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
-      let {data, store, widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {instance, label, help} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
@@ -146,10 +153,15 @@ class ColorInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} />;
 
+      let empty = this.input ? !this.input.value : data.empty;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state.visited,
-            focus: this.state.focus
+            focus: this.state.focus || this.state.dropdownOpen,
+            icon: true,
+            empty: empty,
+            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -183,6 +195,8 @@ class ColorInput extends VDOM.Component {
          { well }
          { insideButton }
          { dropdown }
+         { label }
+         { help }
       </div>;
    }
 

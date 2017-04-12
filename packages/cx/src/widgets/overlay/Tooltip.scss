@@ -30,6 +30,9 @@
       &.#{$state}animated {
          opacity: 1;
          transition-delay: 0.3s;
+      }
+
+      &.#{$state}mouse-trap {
          pointer-events: auto;
       }
 
@@ -59,7 +62,6 @@
       height: 0;
       width: 0;
       position: absolute;
-      pointer-events: none;
    }
 
    .#{$element}#{$name}-arrow-border {

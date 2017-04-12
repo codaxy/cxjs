@@ -25,6 +25,10 @@ export class Switch extends Field {
       }, ...arguments);
    }
 
+   isEmpty() {
+      return false;
+   }
+
    init() {
       if (typeof this.value != 'undefined')
          this.on = this.value;
@@ -73,6 +77,7 @@ export class Switch extends Field {
             }
          }}
       >
+         {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
             <div className={CSS.element(baseClass, "range")} style={parseStyle(rangeStyle)}/>

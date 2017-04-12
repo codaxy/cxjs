@@ -13,7 +13,6 @@ Localization.override('cx/widgets/Window', {
    destroyDelay: 200
 });
 
-
 Localization.override('cx/widgets/MenuItem', {
    dropdownOptions: {
       pad: false
@@ -22,21 +21,24 @@ Localization.override('cx/widgets/MenuItem', {
 
 // enable wrapper focus tracking so appropriate css class can be applied to it
 Localization.override('cx/widgets/Field', {
-   trackFocus: true
+   trackFocus: true,
+   validationMode: "help"
 });
 
-// set buttonMmod to MsgBox buttons
+// set all MsgBox buttons to flat-primary
 Localization.override('cx/widgets/MsgBox', {
    buttonMod: "flat-primary",
    footerDirection: "row-reverse",
    footerJustify: "start"
 });
 
-// always show all borders on Grids in material theme
+// show all borders on all grids
 Localization.override('cx/widgets/Grid', {
   showBorder: true
 });
 
+
+// material icons added
 Icon.registerFactory((name, props) => {
    return VDOM.createElement('i', {
       ...props,
@@ -68,3 +70,15 @@ Icon.register('forward', props => {
       d="M4.59 16.34l4.58-4.59-4.58-4.59L6 5.75l6 6-6 6z"/>
   </svg>
 });
+
+export function enableMaterialLabelPlacement() {
+   Localization.override('cx/widgets/Field', {
+      labelPlacement: "material"
+   });
+}
+
+export function enableMaterialHelpPlacement() {
+   Localization.override('cx/widgets/Field', {
+      helpPlacement: "material"
+   });
+}
