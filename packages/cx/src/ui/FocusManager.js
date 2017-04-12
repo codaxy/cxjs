@@ -7,7 +7,7 @@ import {isTouchEvent} from '../util/isTouchEvent';
 *  Purpose of FocusManager is to provide focusout notifications.
 *  IE and Firefox do not provide relatedTarget info in blur events which makes it impossible
 *  to determine if focus went outside or stayed inside the component.
- */
+*/
 
 let subscribers = new SubscriberList(),
    intervalId;
@@ -45,12 +45,12 @@ export class FocusManager {
    }
 
    static nudge() {
-      if (typeof document != "undefined" && document.activeElement != lastActiveElement) {
+      if (typeof document !== "undefined" && document.activeElement !== lastActiveElement) {
          if (!pending) {
             pending = true;
             setTimeout(function () {
                pending = false;
-               if (document.activeElement != lastActiveElement) {
+               if (document.activeElement !== lastActiveElement) {
                   lastActiveElement = document.activeElement;
                   batchUpdates(() => {
                      subscribers.notify(lastActiveElement);
@@ -97,10 +97,15 @@ export function offFocusOut(component) {
 }
 
 export function preventFocus(e) {
+   //Focus can be prevented only on mousedown event. On touchstart should not call
+   //preventDefault as it prevents scrolling
+   if (e.type !== "mousedown")
+      return;
+
    e.preventDefault();
 
    //unfocus activeElement
-   if (e.currentTarget != document.activeElement && !document.activeElement.contains(e.currentTarget)) {
+   if (e.currentTarget !== document.activeElement && !document.activeElement.contains(e.currentTarget)) {
       //force field validation on outside click, however, preserve active window or dropdown menu
       let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
       if (focusableParent === document.body)
