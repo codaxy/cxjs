@@ -61,12 +61,6 @@ interface NumberFieldProps extends FieldProps {
    /** Defaults to `input`. Other permitted values are `enter` and `blur`. Multiple values should be separated by space, .e.g. 'enter blur'. */
    reactOn?: string,
    
-   /** 
-    * Template used to format the value. Examples: ps - percentage sign; n;2 - two decimals. 
-    * By default, number formatting is applied with optional maximum decimal precision.
-    */
-   format?: string,
-   
    /** Defaults to `text`. Other permitted value is `password`. */
    inputType?: "text" | "password",
 
@@ -84,9 +78,6 @@ interface NumberFieldProps extends FieldProps {
 
    /** Invalid input error text. */
    inputErrorText?: string,
-
-   /** Round values to the nearest tick. Default is `true`. */
-   snapToIncrement?: boolean
 
 }
 
