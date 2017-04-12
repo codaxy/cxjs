@@ -80,6 +80,7 @@ declare namespace Cx {
       preserveWhitespace?: boolean,
 
       items?: any,
+      children?: any,
       plainText?: boolean,
       styled?: boolean,
 
