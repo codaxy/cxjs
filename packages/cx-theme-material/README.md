@@ -1,9 +1,9 @@
-# material theme
+# Material Theme
 
-This is a theme package for the [Cx framework](https://cxjs.io/).
+This is a theme package for the [CxJS framework](https://cxjs.io/).
 
 Material is a Google Material Design inspired theme.
-Take a look at theme preview and compare it to the other themes [here](https://cxjs.io/v/master/themes/).
+Take a look at the theme preview and compare it to the other themes [here](https://cxjs.io/v/master/themes/).
 
 ## Usage
 
@@ -12,7 +12,23 @@ In order to use the theme, install its npm package:
 ```
 npm install cx-theme-material
 ```
-Then, import Cx styles from the package:
+
+Import theme's JavaScript. If you want material design label and validation behavior, do the following:
+
+```
+import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-material";
+
+enableMaterialLabelPlacement();
+enableMaterialHelpPlacement();
+```
+
+otherwise, just import the theme:
+
+```
+import "cx-theme-material";
+```
+
+Then, import theme styles from the package by adding the following snippet to one of your SCSS files:
 ```
 // theme variables can be overridden here
 

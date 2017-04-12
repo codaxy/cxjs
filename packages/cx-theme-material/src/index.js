@@ -22,8 +22,6 @@ Localization.override('cx/widgets/MenuItem', {
 // enable wrapper focus tracking so appropriate css class can be applied to it
 Localization.override('cx/widgets/Field', {
    trackFocus: true,
-   labelPlacement: "material",
-   helpPlacement: "material",
    validationMode: "help"
 });
 
@@ -72,3 +70,15 @@ Icon.register('forward', props => {
       d="M4.59 16.34l4.58-4.59-4.58-4.59L6 5.75l6 6-6 6z"/>
   </svg>
 });
+
+export function enableMaterialLabelPlacement() {
+   Localization.override('cx/widgets/Field', {
+      labelPlacement: "material"
+   });
+}
+
+export function enableMaterialHelpPlacement() {
+   Localization.override('cx/widgets/Field', {
+      helpPlacement: "material"
+   });
+}
