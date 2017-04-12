@@ -1,5 +1,5 @@
 //THEME SPECIFIC VARIABLES
-/* pick theme color scheme */
+// pick theme color scheme
 $primary-color-blue: #2196F3 !default;
 $primary-color-gray: #607d8b !default;
 $primary-color-brown: #795548 !default;
@@ -32,7 +32,7 @@ $cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
 $cx-theme-danger-color: #F44336 !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
-/* pick theme size */
+// pick theme size
 $normal-base-size: 14px !default;
 $small-base-size: 12px !default;
 $cx-theme-base-size: $normal-base-size !default;
@@ -83,7 +83,7 @@ $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-default-box-shadow !default;
 $cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
 
-/* float button text color picker */
+// float button text color picker
 @function set-text-color($bg-color) {
    @if (lightness($bg-color) > 55) {
       @return $cx-default-color; // Lighter backgorund, return dark color
@@ -123,7 +123,7 @@ $cx-default-toast-padding: $cx-default-box-padding + 5px 4 * $cx-default-box-pad
 $cx-default-grid-border-radius: $cx-default-border-radius !default;
 $cx-default-grid-border-color: #e0e0e0 !default;
 
-/* header */
+// header
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height + 1px !default;
 $cx-default-grid-header-color: lighten($cx-theme-secondary-text-color, 15) !default;
@@ -132,7 +132,7 @@ $cx-default-grid-header-border-color: transparent transparent $cx-default-grid-b
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
 $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
-/* data */
+// data
 $cx-default-grid-data-border-color: #e0e0e0 !default;
 $cx-default-grid-data-background-color: $cx-default-grid-header-background-color !default;
 $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 1px !default;
@@ -143,11 +143,11 @@ $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
 $cx-default-input-border-color: #eff1f7 !default;
 $cx-theme-input-padding: $cx-default-box-padding 0 !default;
 
-/* label */
+// label
 $cx-default-label-font-size: 12px !default;
 $cx-default-label-color: rgba(0, 0, 0, 38) !default;
 
-/* calendar */
+// calendar
 $cx-default-calendar-background-color: rgba(247, 247, 247, 0.5) !default;
 $cx-default-calendar-border-width: 0px !default;
 $cx-default-calendar-border-color: $cx-default-input-border-color !default;
@@ -162,27 +162,27 @@ $cx-default-calendar-header-background-color: $cx-theme-primary-color !default;
 $cx-default-calendar-day-font-size: 11px !default;
 $cx-default-calendar-day-border-radius: 50% !default;
 
-/* checkbox */
+// checkbox
 $cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
 $cx-default-checkbox-border-width: 2px !default;
 $cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
 
-/* radio */
+// radio
 $cx-default-radio-size: $cx-default-box-line-height - 6px !default;
 $cx-default-radio-color: $cx-theme-primary-color-light !default;
 
-/* lookupfield tag */
+// lookupfield tag
 $cx-default-input-tag-font-size: 12px !default;
 $cx-default-input-tag-border-radius: 20px !default;
 $cx-default-input-tag-spacing: 4px !default;
 
-/* colorpicker */
+// colorpicker
 $cx-default-colorpicker-font-family: $cx-default-font-family !default;
 $cx-default-colorpicker-background-color: $cx-default-calendar-background-color !default;
 $cx-default-colorpicker-border-width: 1px !default;
 $cx-default-colorpicker-box-shadow: none !default;
 
-/* slider */
+// slider
 $cx-default-slider-axis-size: 2px !default;
 $cx-default-slider-axis-background-color: rgba(0, 0, 0, 0.26) !default;
 $cx-default-slider-range-background-color: $cx-theme-primary-color-dark !default;
@@ -192,7 +192,7 @@ $cx-default-slider-handle-border-width: 2px !default;
 $cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
 $cx-default-slider-handle-box-shadow: none !default;
 
-/* switch */
+// switch
 $cx-default-switch-axis-size: 8px !default;
 $cx-default-switch-axis-background-color: rgba(0, 0, 0, 0.26) !default;
 $cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.8) !default;
@@ -200,7 +200,7 @@ $cx-default-switch-handle-background-color: #fff !default;
 $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
 $cx-default-switch-handle-box-shadow: $cx-default-box-shadow !default;
 
-/* icon */
+// icon
 $cx-default-icon-size: $cx-default-box-line-height !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
 $cx-default-clear-size: $cx-default-icon-size !default;
@@ -258,7 +258,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    )
 ));
 
-/* button mods */
+// button mods
 $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    primary: (
       default: (
@@ -435,7 +435,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
    )
 ));
 
-/* tab mods */
+// tab mods
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
    classic: (
       default: (
@@ -494,7 +494,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
          border-color: rgba(0, 0, 0, 0.13)
       )
    ),
-   /*If a tab is inside a dark-colored container, use mod="line-accent".*/
+   // If a tab is inside a dark-colored container, use mod="line-accent".
    line-accent: (
       default: (
          color: rgba(255, 255, 255, 0.7),
@@ -550,7 +550,7 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
    )
 ));
 
-/* can be used interchangeably with mod='card' */
+// can be used interchangeably with mod='card'
 .cxm-well {
    @extend .cxm-card;
 }
@@ -578,18 +578,18 @@ $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
    )
 ));
 
-/* header */
+// header
 $cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
 ));
 
-/* body */
+// body
 $cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
    default: (
       background: null
    )
 ));
 
-/* footer */
+// footer
 $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
    default: (
       background: null,
@@ -599,7 +599,7 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
    )
 ));
 
-/* window mods */
+// window mods
 $cx-window-mods: (
    alert: (
       frame: (
@@ -644,14 +644,14 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    )
 ));
 
-/* pagination */
+// pagination
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
    default: (
       border-radius: $cx-default-border-radius
    )
 ));
 
-/* grid mods */
+// grid mods
 $cx-grid-mods: cx-deep-map-merge($cx-grid-mods, (
    shadow: (
       default: (
@@ -662,7 +662,7 @@ $cx-grid-mods: cx-deep-map-merge($cx-grid-mods, (
 ));
 
 //FORM
-/* global inputs */
+// global inputs
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    focus: (
       border-color: transparent,
@@ -670,7 +670,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    ),
 ));
 
-/* standard form field - textfield, numberfield, lookupfield,... */
+// standard form field - textfield, numberfield, lookupfield,...
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
       padding: $cx-theme-input-padding,
@@ -699,7 +699,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    )
 ));
 
-/* textarea */
+// textarea
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
    default: (
       border-color: transparent transparent #dbdbdb
@@ -712,7 +712,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
    )
 ));
 
-/* calendar */
+// calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    focus: (
       background-color: #f7f7f7,
@@ -720,7 +720,7 @@ $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    )
 ));
 
-/* calendar days */
+// calendar days
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
    default: (
       height: 32px,
@@ -745,7 +745,7 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
    )
 ));
 
-/* checkbox */
+// checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    default: (
       opacity: 1
@@ -775,14 +775,14 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    )
 ));
 
-/* radio */
+// radio
 $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
    checked: (
       color: $cx-default-radio-color,
       border-color: $cx-default-radio-color
    ),
    checked-focus: (
-      /*border-color: $cx-default-radio-color*/
+      // border-color: $cx-default-radio-color
    ),
    checked-hover: (
       border-color: $cx-default-radio-color
@@ -801,14 +801,14 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
    )
 ));
 
-/* lookupfield tag */
+// lookupfield tag
 $cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, (
    hover: (
       background-color: darken($cx-default-input-tag-background-color, 10)
    )
 ));
 
-/* slider */
+// slider
 $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
    default: (
       box-shadow: null
@@ -825,7 +825,7 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
    )
 ));
 
-/* switch */
+// switch
 $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
    hover: (
       box-shadow: $cx-default-box-shadow
@@ -847,7 +847,7 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
    )
 ));
 
-/* clear icon */
+// clear icon
 $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
    default: (
       right: 0
@@ -865,7 +865,7 @@ $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
    )
 ));
 
-/* right icon */
+// right icon
 $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-state-style-map, (
    default: (
       color: $cx-theme-secondary-text-color,
@@ -881,7 +881,7 @@ $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-sta
    )
 ));
 
-/* left icon */
+// left icon
 $cx-input-left-icon-state-style-map: cx-deep-map-merge($cx-input-left-icon-state-style-map, (
    default: (
       left: 0

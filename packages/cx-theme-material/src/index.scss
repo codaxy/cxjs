@@ -5,7 +5,7 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
-/* sets the line height for all paragrphs */
+// sets the line height for all paragrphs
 p {
    line-height: $cx-default-paragraph-line-height;
 }
@@ -40,20 +40,20 @@ p {
    }
 }
 
-// BUTTON
+//BUTTON
 
 .#{$block}button {
-   /* overrides tap color effect for mobile devices */
+   // overrides tap color effect for mobile devices
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-   /* aligns float button icon in the center */
+   // aligns float button icon in the center
    &.cxm-float .#{$element}button-icon {
       left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
    }
 }
 
-// FORM
-/* standard field */
+//FORM
+// standard field
 $form-list: (
    textfield numberfield lookupfield datefield monthfield colorfield select
 );
@@ -65,10 +65,10 @@ $form-list: (
 
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-      /* disables parent input div height to grow bigger then input in FlexRow */
+      // disables parent input div height to grow bigger then input in FlexRow
       max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
 
-      /* standard field focus effect */
+      // standard field focus effect
       &:after {
          display: block;
          content: '';
@@ -97,22 +97,22 @@ $form-list: (
    }
 }
 
-/* lookupfield */
+// lookupfield
 .#{$block}lookupfield {
    max-height: none;
 }
 
-/* padding in fields with icon */
+// padding in fields with icon
 .#{$element}datefield-input,
 .#{$element}monthfield-input,
 .#{$element}colorfield-input {
    padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
 }
 
-/* textarea */
+// textarea
 .#{$block}textarea {
    overflow: hidden;
-   /* textarea focus effect */
+   // textarea focus effect
    &:after {
       display: block;
       content: '';
@@ -194,7 +194,7 @@ $form-list: (
    }
 }
 
-/* validation error */
+// validation error
 .#{$mod}help-placement-material {
    .#{$block}validationerror {
       position: absolute;
@@ -212,7 +212,7 @@ $form-list: (
    }
 }
 
-/* calendar */
+// calendar
 .#{$block}calendar {
    .#{$element}calendar-day-names {
       background-color: $cx-theme-primary-color;
@@ -220,7 +220,7 @@ $form-list: (
    }
 }
 
-/* checkbox focus effect */
+// checkbox focus effect
 $checkbox-padding-correction: 2px !default;
 
 .#{$element}checkbox-input {
@@ -251,7 +251,7 @@ $checkbox-padding-correction: 2px !default;
    }
 }
 
-/* radio focus effect */
+// radio focus effect
 .#{$element}radio-input {
    border-width: 2px;
    border-color: darken(#dbdbdb, 10);
@@ -288,7 +288,7 @@ $checkbox-padding-correction: 2px !default;
    }
 }
 
-/* colorpicker */
+// colorpicker
 .#{$block}colorpicker {
    input {
       line-height: $cx-default-box-line-height - 8px;
@@ -305,7 +305,7 @@ $checkbox-padding-correction: 2px !default;
    }
 }
 
-/* slider focus effect */
+// slider focus effect
 .#{$element}slider-handle {
    &:after {
       content: "";
@@ -347,7 +347,7 @@ $checkbox-padding-correction: 2px !default;
    }
 }
 
-/* switch focus effect */
+// switch focus effect
 .#{$element}switch-handle {
    &:after {
       content: "";
@@ -402,7 +402,7 @@ div.#{$block}classic-tab-container {
 }
 
 //WINDOW
-/* window animation */
+// window animation
 .#{$block}window {
    opacity: 0;
    transform: scale(0.3);
@@ -429,7 +429,7 @@ div.#{$block}classic-tab-container {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-/* menu focus animation */
+// menu focus animation
 .#{$block}menuitem {
    &:before {
       content: '';
@@ -458,8 +458,8 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
-   /* there wasn't any effect on menu hover with bg set to transparent */
-  /*background-color: transparent;*/
+   // there wasn't any effect on menu hover with bg set to transparent
+  //background-color: transparent;
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
@@ -468,7 +468,7 @@ div.#{$block}classic-tab-container {
 
 //GRID
 .#{$block}grid.#{$state}scrollable {
-   /* border removed from a first row of grid with fixed header */
+   // border removed from a first row of grid with fixed header
    .#{$element}grid-header {
       + .#{$element}grid-data, + .#{$element}grid-group-caption {
          td {
@@ -479,7 +479,7 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$element}grid-fixed-header {
-   /* shadow added to fixed header */
+   // shadow added to fixed header
    box-shadow: $cx-default-grid-header-box-shadow;
 
    .#{$element}grid-col-header {
@@ -495,12 +495,12 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$element}grid-header {
-   /* if a grid header has two or more rows */
+   // if a grid header has two or more rows
    tr:not(:first-child) .#{$element}grid-col-header {
       border-top: 1px solid $cx-default-grid-data-border-color;
    }
 
-   /* ellipsis added to grid header */
+   // ellipsis added to grid header
    .#{$element}grid-col-header {
       white-space: nowrap;
       overflow: hidden;
@@ -508,14 +508,14 @@ div.#{$block}classic-tab-container {
    }
 }
 
-/* grid header border removed */
+// grid header border removed
 .#{$state}border {
    .#{$element}grid-col-header {
       border-width: 0;
    }
 }
 
-/* group grid styles */
+// group grid styles
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
    td {
       color: $cx-theme-primary-color;
@@ -526,7 +526,7 @@ div.#{$block}classic-tab-container {
    }
 }
 
-/* default grey border color in group grid changed */
+// default grey border color in group grid changed
 .#{$element}grid-group-caption {
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
@@ -547,7 +547,7 @@ div.#{$block}classic-tab-container {
    }
 }
 
-/* grid checkbox margin corrected */
+// grid checkbox margin corrected
 .#{$block}grid .#{$block}checkbox {
    margin-top: 4 * $checkbox-padding-correction;
 }
@@ -636,15 +636,15 @@ div.#{$block}classic-tab-container {
    white-space: nowrap;
    direction: ltr;
 
-   /* Support for all WebKit browsers. */
+   // Support for all WebKit browsers.
    -webkit-font-smoothing: antialiased;
-   /* Support for Safari and Chrome. */
+   // Support for Safari and Chrome.
    text-rendering: optimizeLegibility;
 
-   /* Support for Firefox. */
+   // Support for Firefox.
    -moz-osx-font-smoothing: grayscale;
 
-   /* Support for IE. */
+   // Support for IE.
    font-feature-settings: 'liga';
 
    user-select: none;
