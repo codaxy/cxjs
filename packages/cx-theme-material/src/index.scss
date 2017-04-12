@@ -415,6 +415,15 @@ div.#{$block}classic-tab-container {
    }
 }
 
+.#{$element}window-shadow {
+   opacity: 0;
+   transition: opacity .2s;
+
+   &.#{$state}animated {
+      opacity: 1;
+   }
+}
+
 //MENU
 .#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);

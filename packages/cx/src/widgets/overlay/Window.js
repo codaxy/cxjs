@@ -10,13 +10,13 @@ import {Localization} from '../../ui/Localization';
 export class Window extends Overlay {
 
    init() {
-      if (typeof this.headerStyle == 'string')
+      if (typeof this.headerStyle === 'string')
          this.headerStyle = parseStyle(this.headerStyle);
 
-      if (typeof this.footerStyle == 'string')
+      if (typeof this.footerStyle === 'string')
          this.footerStyle = parseStyle(this.footerStyle);
 
-      if (typeof this.bodyStyle == 'string')
+      if (typeof this.bodyStyle === 'string')
          this.bodyStyle = parseStyle(this.bodyStyle);
 
       super.init();
@@ -134,18 +134,6 @@ class WindowComponent extends OverlayComponent {
       }
 
       var bodyStyle = data.bodyStyle;
-      {/*if (this.el) {*/}
-         {/*//set body height to spread across available window height.*/}
-      //    var nonBodyHeight = 0;
-      //    if (this.headerEl)
-      //       nonBodyHeight += this.headerEl.offsetHeight;
-      //    if (this.footerEl)
-      //       nonBodyHeight += this.footerEl.offsetHeight;
-      //    bodyStyle = {
-      //       ...bodyStyle,
-      //       height: `calc(100% - ${nonBodyHeight}px`
-      //    };
-      // }
 
       var body = (
          <div

@@ -234,10 +234,11 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.modal || widget.backdrop) {
          result = (
             <div
-               ref = {el => {
+               key="shadow"
+               ref={el => {
                   this.shadowEl = el
                }}
-               className={CSS.element(baseClass, 'shadow')} key="shadow"
+               className={CSS.element(baseClass, 'shadow', {animated: this.state.animated})}
             >
                {content}
             </div>
@@ -494,9 +495,13 @@ export class OverlayComponent extends VDOM.Component {
       offFocusOut(this);
       this.unmounting = true;
 
+      let {baseClass, CSS} = this.props.instance.widget;
+
       // //we didn't have a chance to call onBeforeDismiss
       if (this.state.animated && this.el) {
          this.el.className = this.getOverlayCssClass();
+         if (this.shadowEl)
+            this.shadowEl.className = CSS.element(baseClass, 'shadow');
       }
 
       let {widget} = this.props.instance;
