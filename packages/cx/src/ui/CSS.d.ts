@@ -12,7 +12,7 @@ export class CSS {
 
    static expand(...args): string;
 
-   static parseStyle(str: string): {};
+   static parseStyle(str: string): Cx.Config;
    static parseStyle(str: any): any;
 
    static classPrefix: string;

@@ -8,7 +8,7 @@ export class Component {
 
    /**
     * 
-    * @param {} type 
+    * @param {any} type 
     * @param {object} config
     * @param {object} more 
     */

@@ -17,7 +17,7 @@ export interface DragEvent {
 interface DragDropOptions {
    sourceEl?: HTMLElement,
    clone?: any,
-   source?: {},
+   source?: Cx.Config,
 }
 
 type DragEventHandler = (e: DragEvent) => void;
