@@ -38,7 +38,8 @@ export class DateField extends Field {
          minExclusive: undefined,
          maxValue: undefined,
          maxExclusive: undefined,
-         format: undefined
+         format: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -221,10 +222,10 @@ class DateInput extends VDOM.Component {
             );
       }
 
-      if (widget.icon) {
+      if (data.icon) {
          icon = (
             <div className={CSS.element(baseClass, 'left-icon')}>
-               { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+               { Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')}) }
             </div>
          );
       }

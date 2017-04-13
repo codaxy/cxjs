@@ -53,7 +53,8 @@ export class MonthField extends Field {
          minValue: undefined,
          minExclusive: undefined,
          maxValue: undefined,
-         maxExclusive: undefined
+         maxExclusive: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -283,10 +284,10 @@ class MonthInput extends VDOM.Component {
             );
       }
 
-      if (widget.icon) {
+      if (data.icon) {
          icon = (
             <div className={CSS.element(baseClass, 'left-icon')}>
-               { Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')}) }
+               { Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')}) }
             </div>
          );
       }

@@ -40,7 +40,8 @@ export class LookupField extends Field {
          enabled: undefined,
          placeholder: undefined,
          required: undefined,
-         options: undefined
+         options: undefined,
+         icon: undefined
       }, additionalAttributes, ...arguments);
    }
 
@@ -448,7 +449,7 @@ class LookupComponent extends VDOM.Component {
       var {data, widget} = instance;
       var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
-      let icon = widget.icon && (
+      let icon = data.icon && (
             <div
                className={CSS.element(baseClass, 'left-icon')}
                onMouseDown={preventDefault}
@@ -459,7 +460,7 @@ class LookupComponent extends VDOM.Component {
                }}
             >
                {
-                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
                }
             </div>
          );
@@ -530,7 +531,7 @@ class LookupComponent extends VDOM.Component {
       var states = {
          visited: data.visited || this.state && this.state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !insideButton || widget.icon,
+         icon: !insideButton || data.icon,
          empty: empty,
          error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
       };

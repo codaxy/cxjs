@@ -26,7 +26,8 @@ export class NumberField extends Field {
          minExclusive: undefined,
          maxExclusive: undefined,
          incrementPercentage: undefined,
-         increment: undefined
+         increment: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -125,10 +126,10 @@ class Input extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
-      let icon = widget.icon && (
+      let icon = data.icon && (
             <div className={CSS.element(baseClass, 'left-icon')}>
                {
-                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
                }
             </div>
          );

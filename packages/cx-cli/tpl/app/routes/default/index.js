@@ -30,7 +30,8 @@ export default <cx>
          CSS for this application is generated using Sass(SCSS) configured as webpack plugins.
          Sass provides variables, mixins and other helpful features for authoring CSS.
          Let's try it. Go to <code>app/layout/index.scss</code> and change the <code>$header-color</code>.
-         <code>#3b4888</code> looks nice.
+         <code>#3b4888</code> looks nice. You should also consider using one of
+         <a href="https://cxjs.io/themes" target="_blank">available CxJS themes</a>.
       </p>
 
       <h6>Next Steps</h6>

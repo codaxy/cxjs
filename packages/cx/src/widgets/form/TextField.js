@@ -14,7 +14,6 @@ import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
-import "../icons";
 
 export class TextField extends Field {
 
