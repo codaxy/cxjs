@@ -1,3 +1,4 @@
 import * as Cx from '../../core';
+import { Layout } from './Layout';
 
-export class FirstVisibleChildLayout extends Cx.Widget<any> {}
+export class FirstVisibleChildLayout extends Layout {}

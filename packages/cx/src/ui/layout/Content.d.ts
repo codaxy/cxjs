@@ -1,3 +1,10 @@
 import * as Cx from '../../core';
 
-export class Content extends Cx.Widget<any> {}
+interface ContentProps extends Cx.PureContainerProps {
+
+   name?: string
+   isContent?: boolean
+
+}
+
+export class Content extends Cx.Widget<ContentProps> {}

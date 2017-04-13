@@ -1,3 +1,9 @@
 import * as Cx from '../../core';
 
-export class ContentPlaceholder extends Cx.Widget<any> {}
+interface ContentPlaceholderProps extends Cx.PureContainerProps {
+
+   name?: Cx.StringProp
+
+}
+
+export class ContentPlaceholder extends Cx.Widget<ContentPlaceholderProps> {}
