@@ -1,4 +1,4 @@
-import { Window, TextField, Checkbox, Button, Section } from 'cx/widgets';
+import { Window, TextField, Checkbox, Button, Section, FlexCol } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 
 export default <cx>
@@ -10,12 +10,15 @@ export default <cx>
       title="Login"
       center
       modal
+      style="min-width: 300px;"
    >
-      <Section layout={LabelsLeftLayout}>
-         <TextField label="Username" value:bind="$page.login.username" required/>
-         <TextField label="Password" inputType="password" value:bind="$page.login.password"/>
-         <Checkbox value:bind="$page.login.rememberMe">Remember Me</Checkbox>
-         <Button mod="primary">Login</Button>
+      <Section>
+         <FlexCol>
+            <TextField label="Username" value:bind="$page.login.username" required style="width:100%;"/>
+            <TextField label="Password" inputType="password" value:bind="$page.login.password" style="width:100%;" required/>
+            <Checkbox value:bind="$page.login.rememberMe" style="margin: 20px 0;">Remember Me</Checkbox>
+            <Button mod="primary"  style="align-self: flex-end;" mod="flat-primary">Login</Button>
+         </FlexCol>         
       </Section>
    </Window>
 </cx>

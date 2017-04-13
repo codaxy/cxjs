@@ -36,9 +36,9 @@ const options = [
 export default <cx>
    <Section mod="card" title="Inputs" style="flex:1 0 300px">
       <FlexCol>
-         <TextField label="TextField" value:bind="text" minLength={5} />
+         <TextField label="TextField" value:bind="text" minLength={5} style="width:100%" />
          <TextArea label="TextArea" value:bind="text2" rows={5} style="width:100%" />
-         <NumberField label="NumberField" value:bind="number" />
+         <NumberField label="NumberField" value:bind="number" style="width:100%" />
          <Checkbox label="Checkbox" value:bind="checked">Checkbox</Checkbox>
          <Radio label="Radio" value:bind="radio" option={1}>Option 1</Radio>
          <Radio value:bind="radio" option={2}>Option 2</Radio>
