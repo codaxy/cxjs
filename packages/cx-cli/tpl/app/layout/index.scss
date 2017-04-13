@@ -1,10 +1,10 @@
-#app, .layout {
-   height: 100%;
-}
-
 $header-color: #a73232;
 $aside-width: 260px;
 $small-device-width: 800px;
+
+#app, .layout {
+   height: 100%;
+}
 
 .header {
    padding: 1.5em;
@@ -96,6 +96,10 @@ $small-device-width: 800px;
 
 h3 {
    color: $header-color;
+}
+
+p {
+   max-width: 40em;
 }
 
 .cxb-section.cxm-card {

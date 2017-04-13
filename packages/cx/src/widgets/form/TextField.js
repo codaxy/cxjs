@@ -14,6 +14,7 @@ import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
+import "../icons";
 
 export class TextField extends Field {
 
@@ -34,6 +35,7 @@ export class TextField extends Field {
          required: undefined,
          minLength: undefined,
          maxLength: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -100,14 +102,14 @@ class Input extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
-      let icon = widget.icon && (
+      let icon = data.icon && (
             <div
                className={CSS.element(baseClass, 'left-icon')}
                onMouseDown={preventDefault}
                onClick={e => this.onChange(e, 'enter')}
             >
                {
-                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
                }
             </div>
          );

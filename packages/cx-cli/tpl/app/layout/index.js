@@ -37,8 +37,23 @@ export default <cx>
                </Link>
             </dd>
             <dd>
+               <Link href="~/dashboard" url:bind="url">
+                  Dashboard
+               </Link>
+            </dd>
+            <dd>
                <Link href="~/about" url:bind="url">
                   About
+               </Link>
+            </dd>
+         </dl>
+         <dl>
+            <dt>
+               Admin
+            </dt>
+            <dd>
+               <Link href="~/users" url:bind="url" match="prefix">
+                  Users
                </Link>
             </dd>
          </dl>

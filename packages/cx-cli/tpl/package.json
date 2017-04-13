@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "copy-webpack-plugin": "^4.0.1",
     "cx": "^17.4.10",
     "cx-react": "^17.4.1",
     "react": "^15.5.4",
