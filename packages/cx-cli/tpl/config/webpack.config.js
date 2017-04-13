@@ -9,7 +9,6 @@ module.exports = {
     resolve: {
         alias: {
             app: p("app"),
-            cx: p("../../cx")
             //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
             //'cx-react': 'cx-preact',
         }

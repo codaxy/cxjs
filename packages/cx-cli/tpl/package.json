@@ -11,8 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "copy-webpack-plugin": "^4.0.1",
-    "cx": "^17.4.10",
+    "cx": "^17.4.11",
     "cx-react": "^17.4.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -23,6 +22,7 @@
     "babel-loader": "^6.4.1",
     "babel-plugin-syntax-jsx": "^6.8.0",
     "babel-preset-cx-env": "^17.4.3",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
