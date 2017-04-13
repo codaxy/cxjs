@@ -39,7 +39,7 @@ $mod: map-get($cx-besm, mod);
   background-color: $cx-default-background-color;
 }
 
-/* Scrollbar Style*/
+//Scrollbar Style
 
 @if ($cx-include-global-rules) {
    @media screen and (min-width: 700px) {
