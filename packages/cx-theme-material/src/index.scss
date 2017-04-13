@@ -146,10 +146,6 @@ $form-list: (
    overflow: visible;
    margin-top: round(1.5 * $cx-default-box-line-height);
 
-   &:first-child {
-      margin-top: round(0.8 * $cx-default-box-line-height);
-   }
-
    & > .#{$block}label {
       position: absolute;
       top: 0;
