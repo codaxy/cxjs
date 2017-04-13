@@ -1,7 +1,7 @@
 import {VDOM} from '../../ui/Widget';
-import {Icon} from '../Icon';
+import {registerIcon} from './registry';
 
-export default Icon.register('loading', props => {
+export default registerIcon('loading', props => {
    let style = {
       animation: 'linear infinite 0.5s cx-rotate',
       ...props.style

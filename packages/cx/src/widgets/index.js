@@ -32,8 +32,6 @@ export * from './Section';
 export * from './FlexBox';
 export * from './Icon';
 
-import "./icons/index";
-
 export * from './icons/index';
 export * from './overlay/index';
 export * from './nav/index';

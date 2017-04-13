@@ -12,7 +12,7 @@ export default <cx>
       <p ws>
          Navigate through the pages to see if all pages load correctly. Bear in mind that
          routing is done completely client-side. No server calls are made to load pages. This is ok
-         for smaller apps. If your app gets big, you should consider <a
+         for smaller apps. If your app gets big and slow, you should consider <a
          href="https://webpack.js.org/guides/code-splitting/" target="_blank">Code Splitting</a>.
       </p>
 

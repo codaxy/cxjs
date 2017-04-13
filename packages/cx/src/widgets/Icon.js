@@ -1,9 +1,7 @@
 import { Widget, VDOM } from '../ui/Widget';
+import { registerIcon, registerIconFactory, clearIcons, unregisterIcon, renderIcon } from './icons/registry';
+import "./icons/index";
 
-let icons = {};
-let iconFactory = null;
-
-let unregisteredDefaultIcons = {};
 
 export class Icon extends Widget {
    declareData() {
@@ -17,7 +15,7 @@ export class Icon extends Widget {
 
    render(context, instance, key) {
       let {data} = instance;
-      return Icon.render(data.name, {
+      return renderIcon(data.name, {
          key: key,
          className: data.classNames,
          style: data.style
@@ -25,42 +23,23 @@ export class Icon extends Widget {
    }
 
    static register(name, icon, defaultIcon = false) {
-      if (!defaultIcon || !unregisteredDefaultIcons[name])
-         icons[name] = icon;
-
-      if (!defaultIcon)
-         unregisteredDefaultIcons[name] = true;
-
-      return props => this.render(name, props);
+      return registerIcon(name, icon, defaultIcon);
    }
 
    static unregister(...args) {
-      args.forEach(name => {
-         delete icons[name];
-         unregisteredDefaultIcons[name] = true;
-      });
+      return unregisterIcon(...args);
    }
 
    static render(name, props) {
-
-      if (typeof name == 'function')
-         return name(props);
-
-      if (icons[name])
-         return icons[name](props);
-
-      if (iconFactory)
-         return iconFactory(name, props);
-
-      return null;
+      return renderIcon(name, props);
    }
 
    static clear() {
-      icons = {};
+      return clearIcons();
    }
 
    static registerFactory(factory) {
-      iconFactory = factory;
+      return registerIconFactory(factory);
    }
 }
 
