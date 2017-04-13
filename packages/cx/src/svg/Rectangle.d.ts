@@ -1,7 +1,7 @@
 import * as Cx from '../core';
 import {TextualBoundedObject, TextualBoundedObjectProps} from './TextualBoundedObject';
 
-interface EllipseProps extends TextualBoundedObjectProps {
+interface RectangleProps extends TextualBoundedObjectProps {
    
    /** 
     * Index of the color in the default color palette. Setting this property will set 
@@ -16,9 +16,9 @@ interface EllipseProps extends TextualBoundedObjectProps {
    /** A color used to paint the outline of the box. */
    stroke?: Cx.StringProp,
 
-   /** Base CSS class to be applied to the element. Defaults to `ellipse`. */
+   /** Base CSS class to be applied to the element. Defaults to `rectangle`. */
    baseClass?: string
 
 }
 
-export class Ellipse extends Cx.Widget<EllipseProps> {}
+export class Rectangle extends Cx.Widget<RectangleProps> {}
