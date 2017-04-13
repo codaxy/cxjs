@@ -61,19 +61,5 @@ $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
 
 /* mods */
 $cx-grid-mods: (
-  primary: (
-    default: (
-      background-color: #1f99f8,
-      border-color: #1E88E5,
-      color: white
-    ),
-    disabled: (
-       background-color: transparentize(#1f99f8, 0.5),
-       border-color: transparentize(#1E88E5, 0.9),
-       color: transparentize(white, 0.4),
-    ),
-    hover: (
-        background-color: #1f99f8
-    )
-  )
+  
 ) !default;

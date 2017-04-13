@@ -1,4 +1,4 @@
-import { HtmlElement, Button, Tab, Section, FlexRow, MsgBox, UploadButton } from 'cx/widgets';
+import { HtmlElement, Button, Tab, Section, FlexRow, MsgBox } from 'cx/widgets';
 
 import LoginWindow from './LoginWindow';
 import ContactWindow from './ContactWindow';
@@ -7,26 +7,6 @@ import Menu1 from './Menu1';
 import Toasts from './Toasts';
 import Forms from './Forms';
 import List from './List';
-
-function onUploadStarting(file, instance) {
-   if (file.type.indexOf("image/") != 0) {
-      MsgBox.alert("Only images are allowed.");
-      return false;
-   }
-
-   if (file.size > 1e6) {
-      MsgBox.alert("The file is too large.");
-      return false;
-   }
-}
-
-function onUploadComplete(xhr, instance) {
-   MsgBox.alert(`Upload completed with status ${xhr.status}.`);
-}
-
-function onUploadError(e) {
-   console.log(e);
-}
 
 const TabContent = <cx>
    <div visible:expr="{$page.tab}=='tab1'">
@@ -109,16 +89,7 @@ export default <cx>
               <Button onClick={(e, {store}) => { store.toggle('$page.login.visible')}}>Modal</Button>
               <Button onClick={(e, {store}) => { store.toggle('$page.contact.visible')}}>Backdrop</Button>
               <Button onClick={()=>{MsgBox.alert('This is a very important message.')}}>Alert</Button>
-              <Button mod="primary" onClick={()=>{MsgBox.yesNo('Would you like to close this window?')}}>Confirm</Button>
-              <UploadButton
-                 url="https://cx.codaxy.com/fiddle/api/uploads"
-                 onUploadStarting={onUploadStarting}
-                 onUploadComplete={onUploadComplete}
-                 onUploadError={onUploadError}
-                 mod="flat-primary"
-               >
-                 Upload
-              </UploadButton>
+              <Button onClick={()=>{MsgBox.yesNo('Would you like to close this window?')}}>Confirm</Button>
           </FlexRow>
           <LoginWindow />
           <ContactWindow />
