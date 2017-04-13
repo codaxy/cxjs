@@ -16,7 +16,8 @@ export class Select extends Field {
          disabled: undefined,
          enabled: undefined,
          required: undefined,
-         placeholder: undefined
+         placeholder: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -89,10 +90,10 @@ class SelectComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
 
-      let icon = widget.icon && (
+      let icon = data.icon && (
             <div className={CSS.element(baseClass, 'left-icon')}>
                {
-                  Icon.render(widget.icon, {className: CSS.element(baseClass, 'icon')})
+                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
                }
             </div>
          );
@@ -131,7 +132,7 @@ class SelectComponent extends VDOM.Component {
       return <div
          className={CSS.expand(data.classNames, CSS.state({
             visited: data.visited || this.state && this.state.visited,
-            icon: widget.icon,
+            icon: data.icon,
             focus: this.state.focus
          }))}
          style={data.style}

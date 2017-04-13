@@ -3,15 +3,13 @@ const webpack = require('webpack'),
     merge = require('webpack-merge'),
     path = require('path'),
     babelCfg = require("./babel.config"),
-    paths = {
-        app: p => path.join(__dirname, '../app/', p || ''),
-        dist : p => path.join(__dirname, '../dist/', p || ''),
-    };
+    p = p => path.join(__dirname, '../', p || '')
 
 module.exports = {
     resolve: {
         alias: {
-            app: paths.app()
+            app: p("app"),
+            cx: p("../../cx")
             //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
             //'cx-react': 'cx-preact',
         }
@@ -30,13 +28,13 @@ module.exports = {
         }]
     },
     entry: {
-        vendor: ['cx-react', paths.app('polyfill.js')],
+        vendor: ['cx-react', p('app/polyfill.js')],
         app: [
-           paths.app('index.js')
+           p('app/index.js')
         ]
     },
     output: {
-        path: paths.dist(),
+        path: p("dist"),
         filename: "[name].js"
     },
     plugins: [
@@ -44,7 +42,7 @@ module.exports = {
             name: "vendor"
         }),
         new HtmlWebpackPlugin({
-            template: paths.app('index.html'),
+            template: p('app/index.html'),
             hash: true
         })
     ]
