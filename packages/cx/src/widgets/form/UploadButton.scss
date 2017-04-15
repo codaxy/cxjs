@@ -4,6 +4,7 @@
 @mixin cx-uploadbutton(
    $name: 'uploadbutton',
    $state-style-map: $cx-button-state-style-map,
+   $mods: $cx-button-mods,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -11,7 +12,7 @@
    $state: map-get($besm, state);
 
    @include cx-button($name,
-      $mods: (),
+      $mods: $mods,
       $state-style-map: $state-style-map,
       $besm: $besm
    );

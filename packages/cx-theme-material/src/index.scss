@@ -373,7 +373,7 @@ $checkbox-padding-correction: 2px !default;
 //TAB
 div.#{$block}classic-tab-container {
    background-color: $cx-theme-primary-color;
-   box-shadow: $cx-default-box-shadow;
+   box-shadow: $cx-theme-box-shadow;
    height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
    padding: 0;
    margin-bottom: 3px;
@@ -548,6 +548,12 @@ div.#{$block}classic-tab-container {
    margin-top: 4 * $checkbox-padding-correction;
 }
 
+// grid shadow mod
+.#{$block}grid.#{$mod}shadow {
+   box-shadow: $cx-theme-box-shadow;
+   border-width: 0 !important;
+}
+
 //LIST
 .#{$block}list.#{$state}selectable {
    > .#{$element}list-item {
@@ -623,7 +629,7 @@ div.#{$block}classic-tab-container {
    font-family: 'Material Icons';
    font-weight: normal;
    font-style: normal;
-   font-size: $cx-default-box-line-height; /* Preferred icon size */
+   font-size: $cx-default-box-line-height; // Preferred icon size
    display: inline-block;
    line-height: 1;
    text-transform: none;

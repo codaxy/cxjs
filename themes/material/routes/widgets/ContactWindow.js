@@ -1,6 +1,6 @@
 import {
    HtmlElement, Window, TextField, TextArea, Checkbox, Button, Section,
-   FlexRow
+   FlexRow, FlexCol
 } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 
@@ -24,10 +24,12 @@ export default <cx>
          </FlexRow>
       }
    >
-      <Section layout={{ type: LabelsLeftLayout, mod: 'stretch' }}>
-         <TextField label="Email" value:bind="$page.contact.email" required/>
-         <TextField label="Name" value:bind="$page.contact.name" required/>
-         <TextArea label="Message" value:bind="$page.contact.msg" required style="width:100%" rows={10}/>
+      <Section>
+         <FlexCol>
+            <TextField label="Email" value:bind="$page.contact.email" required style="width: 80%"/>
+            <TextField label="Name" value:bind="$page.contact.name" required style="width: 80%"/>
+            <TextArea label="Message" value:bind="$page.contact.msg" required style="width:100%" rows={6}/>
+         </FlexCol>
       </Section>
    </Window>
 </cx>

@@ -1,7 +1,6 @@
 @mixin cx-grid( $name: 'grid', 
    $header-state-style-map: $cx-grid-header-state-style-map, 
    $data-state-style-map: $cx-grid-data-state-style-map, 
-   $mods: $cx-grid-mods, 
    $icon-size: $cx-default-icon-size, $besm: $cx-besm 
 ) {
    $block: map-get($besm, block);
@@ -209,8 +208,6 @@
          }
 
          &.#{$state}selected {
-            /*@include cx-add-state-rules($cx-list-item, selected-cursor);*/
-
             &.#{$state}cursor {
                @include cx-add-state-rules($cx-list-item, selected-cursor);
             }
@@ -397,28 +394,6 @@
       right: 0;
       top: 0;
       bottom: 0;
-   }
-   /* Mods */
-   @each $modname, $config in $mods {
-      &.#{$mod}#{$modname} {
-         @include cx-add-state-rules($config, default);
-
-         &[disabled], &.#{$state}disabled {
-            @include cx-add-state-rules($config, disabled);
-         }
-
-         &:hover {
-            @include cx-add-state-rules($config, hover);
-         }
-
-         &:focus {
-            @include cx-add-state-rules($config, focus);
-         }
-
-         &:active, &.#{$state}pressed {
-            @include cx-add-state-rules($config, active);
-         }
-      }
    }
 }
 
