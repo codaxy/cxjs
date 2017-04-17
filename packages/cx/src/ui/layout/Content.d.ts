@@ -2,7 +2,8 @@ import * as Cx from '../../core';
 
 interface ContentProps extends Cx.PureContainerProps {
 
-   name?: string
+   name?: string,
+   putInto?: string,
    isContent?: boolean
 
 }
