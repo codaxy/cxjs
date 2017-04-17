@@ -15,7 +15,7 @@ interface TimeAxisProps extends AxisProps {
    /** A number ranged between `0-2`. `0` means that the range is aligned with the lowest ticks. Default value is `1`, which means that the range is aligned with medium ticks. Use value `2` to align with major ticks. */
    snapToTicks?: 0 | 1 | 2,
 
-   tickDivisions?: { [prop: string]: number[] },
+   tickDivisions?: { [prop: string]: Array<number[]> },
    minLabelDistance?: number,
    minTickUnit?: string,
 
