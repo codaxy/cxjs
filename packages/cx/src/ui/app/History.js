@@ -13,11 +13,11 @@ export class History {
    }
 
    static pushState(state, title, url) {
-      this.navigate(state, title, url);
+      return this.navigate(state, title, url);
    }
 
    static replaceState(state, title, url) {
-      this.navigate(state, title, url, true);
+      return this.navigate(state, title, url, true);
    }
 
    static navigate(state, title, url, replace = false) {
