@@ -1,13 +1,20 @@
 type RectMargin = string | Rect | Array<string | number>;
 
-export class Rect {
+export interface IRect {
+   l: number,
+   r: number,
+   t: number,
+   b: number
+}
+
+export class Rect implements IRect {
 
    isRect: boolean = true;
 
-   l: number = 0;
-   r: number = 0;
-   t: number = 0;
-   b: number = 0;
+   l: number;
+   r: number;
+   t: number;
+   b: number;
 
    constructor(config?: { t?: number, r?: number, b?: number, l?: number });
 
