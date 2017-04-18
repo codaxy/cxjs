@@ -1,11 +1,11 @@
 import {Record} from '../../core';
-
+import {Component} from '../Component';
 import {View} from '../../data/View';
 import {Instance} from '../Instance';
 
-export class Selection {
+export class Selection extends Component {
 
-   isSelected(store: View, record: Record, index: number);
+   isSelected(store: View, record: Record, index?: number);
 
    getIsSelectedDelegate(store: View) : (record: Record, index: number) => boolean;
    
@@ -19,5 +19,4 @@ export class Selection {
 
    isInstanceSelected(instance: Instance): boolean;
 
-   static create(type: any, config: any, more: any): any;
 }

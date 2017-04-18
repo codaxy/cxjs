@@ -1,4 +1,5 @@
 import * as Cx from '../core';
+import {NumberCulture, DateTimeCulture} from 'intl-io';
 
 export class Culture {
    static setCulture(cultureCode: string);
@@ -9,7 +10,7 @@ export class Culture {
 
    readonly culture: string;
 
-   static getNumberCulture(): any;
+   static getNumberCulture(): NumberCulture;
 
-   static getDateTimeCulture(): any;
+   static getDateTimeCulture(): DateTimeCulture;
 }
