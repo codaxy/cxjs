@@ -12,8 +12,10 @@ interface BarProps extends ColumnBarBaseProps {
    /** Set to true to auto calculate size and offset. Available only if the x axis is a category axis. */
    autoSize?: Cx.BooleanProp,
    
+   height?: number,
+ 
+   /** Base CSS class to be applied to the element. Defaults to `bar`. */
    baseClass?: string,
-   legendShape?: string
 
 }
 

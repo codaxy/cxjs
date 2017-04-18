@@ -16,7 +16,7 @@ interface LineGraphProps extends Cx.WidgetProps {
 
    /** 
     * Additional CSS classes to be applied to the field. 
-    If an object is provided, all keys with a "truthy" value will be added to the CSS class list. 
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. 
     */
    class?: Cx.ClassProp,
 
@@ -68,8 +68,10 @@ interface LineGraphProps extends Cx.WidgetProps {
 
    /** Name of the property which holds the y value. Default value is `y`. */
    yField?: string,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `linegraph`. */
    baseClass?: string,
+
    pure?: boolean,
 
    /** Name of the property which holds the y0 value. Default value is `false`, which means y0 value is not read from the data array. */
@@ -78,9 +80,7 @@ interface LineGraphProps extends Cx.WidgetProps {
    /** Name of the legend to be used. Default is `legend`. */
    legend?: string,
 
-   
    legendAction?: string
-
 
 }
 

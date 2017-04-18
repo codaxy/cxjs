@@ -44,7 +44,8 @@ interface MarkerLineProps extends BoundedObjectProps {
     *  in the axes configuration if the parent Chart component. Default value is y. 
     */
    yAxis?: string,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `markerline`. */
    baseClass?: string,
 
    legendAction?: string

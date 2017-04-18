@@ -15,6 +15,7 @@ interface GridlinesProps extends BoundedObjectProps {
     */
    yAxis?: string,
    
+   /** Base CSS class to be applied to the element. Defaults to `gridlines`. */
    baseClass?: string
 
 }

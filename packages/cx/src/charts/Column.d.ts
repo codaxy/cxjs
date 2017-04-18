@@ -11,9 +11,11 @@ interface ColumnProps extends ColumnBarBaseProps {
 
    /** Set to true to auto calculate size and offset. Available only if the x axis is a category axis. */
    autoSize?: Cx.BooleanProp,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `column`. */
    baseClass?: boolean,
-   legendShape?: string
+   
+   width?: number,
 
 }
 

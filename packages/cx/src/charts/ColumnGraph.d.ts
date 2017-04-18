@@ -2,7 +2,8 @@ import * as Cx from '../core';
 import { ColumnBarGraphBaseProps } from './ColumnBarGraphBase';
 
 interface ColumnGraphProps extends ColumnBarGraphBaseProps {
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `columngraph`. */
    baseClass?: string,
    
    /** 
@@ -11,11 +12,6 @@ interface ColumnGraphProps extends ColumnBarGraphBaseProps {
     */
    y0Field?: string,
 
-   /** Column base value. Default value is `0`. */
-   y0?: number,
-
-   legendShape?: string
-   
 }
 
 export class ColumnGraph extends Cx.Widget<ColumnGraphProps> {}

@@ -3,6 +3,7 @@ import { ColumnBarGraphBaseProps } from './ColumnBarGraphBase';
 
 interface BarGraphProps extends ColumnBarGraphBaseProps {
 
+   /** Base CSS class to be applied to the element. Defaults to `bargraph`. */
    baseClass?: string,
 
    /** 
@@ -10,12 +11,7 @@ interface BarGraphProps extends ColumnBarGraphBaseProps {
     * Default value is `false`, which means x0 value is not read from the data array.
     */
    x0Field?: string,
-
-   /** Base value. Default value is `0`. */
-   x0?: number,
-   
-   legendShape?: string
-   
+  
 }
 
 export class BarGraph extends Cx.Widget<BarGraphProps> {}

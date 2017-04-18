@@ -45,7 +45,10 @@ interface RangeProps extends BoundedObjectProps {
    ySize?: number,
    xOffset?: number,
    yOffset?: number,
+
+   /** Base CSS class to be applied to the element. Defaults to `range`. */
    baseClass?: string,
+   
    legendAction?: string
    
 }

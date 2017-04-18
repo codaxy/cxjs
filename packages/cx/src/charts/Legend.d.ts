@@ -4,8 +4,10 @@ interface LegendProps extends Cx.HtmlElementProps {
    
    /** Name of the legend. Default is `legend`. */
    name?: string,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `legend`. */
    baseClass?: string,
+   
    pure?: boolean,
    
    /** Switch to vertical mode. */

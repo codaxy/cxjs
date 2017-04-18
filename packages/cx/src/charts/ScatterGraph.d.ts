@@ -39,7 +39,8 @@ interface ScatterGraphProps extends Cx.WidgetProps {
 
    /** Used to indicate if an item is active or not. Inactive items are shown only in the legend. */
    active?: Cx.BooleanProp,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `scattergraph`. */
    baseClass?: string,
 
    /** 

@@ -42,7 +42,8 @@ interface MarkerProps extends BoundedObjectProps {
     *  in the `axes` configuration if the parent `Chart` component. Default value is `y`.
     */
    yAxis?: string,
-
+   
+   /** Base CSS class to be applied to the element. Defaults to `marker`. */
    baseClass?: string,
 
    /** Set to `true` to make the shape draggable along the X axis. */
