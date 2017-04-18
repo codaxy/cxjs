@@ -1,8 +1,6 @@
 import * as Cx from '../core';
 
-interface IShape {
-   (cx: number, cy: number, size: number, props?: Cx.Config, options?: Cx.Config): any;
-}
+type ShapeRender = (cx: number, cy: number, size: number, props?: Cx.Config, options?: Cx.Config) => JSX.Element;
 
 export function registerShape(name: string, callback: (cx: number) => any); 
 
@@ -10,16 +8,16 @@ export function getShape(shapeName: string): string;
 
 export function getAvailableShapes(): string[];
 
-export const circle: IShape;
+export const circle: ShapeRender;
 
-export function square(cx, cy, size, props, options):
+export const square: ShapeRender;
 
-export function bar(cx, cy, size, props, options):
+export const bar: ShapeRender;
 
-export function column(cx, cy, size, props, options):
+export const column: ShapeRender;
 
-export function line(cx, cy, size, props, options):
+export const line: ShapeRender;
 
-export function vline(cx, cy, size, props, options):
+export const vline: ShapeRender;
 
-export function triangle(cx, cy, size, props, options):
+export const triangle: ShapeRender;
