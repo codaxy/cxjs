@@ -1,12 +1,16 @@
 import * as Cx from '../core';
 
-export function registerShape(name: string, callback: string); 
+interface IShape {
+   (cx: number, cy: number, size: number, props?: Cx.Config, options?: Cx.Config): any;
+}
+
+export function registerShape(name: string, callback: (cx: number) => any); 
 
 export function getShape(shapeName: string): string;
 
 export function getAvailableShapes(): string[];
 
-export function circle(cx: number, cy: number, size: number, props, options):
+export const circle: IShape;
 
 export function square(cx, cy, size, props, options):
 
