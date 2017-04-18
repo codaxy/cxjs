@@ -8,9 +8,6 @@ interface MarkerProps extends BoundedObjectProps {
    
    /** The `y` value binding or expression. */
    y?:  Cx.Prop<string | number>,
-   
-   /** Size of the shape in pixels. */
-   size?: Cx.NumberProp,
 
    /** Shape kind. `circle`, `square`, `triangle`, etc. */
    shape?: Cx.StringProp,

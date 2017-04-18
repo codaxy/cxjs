@@ -46,9 +46,6 @@ interface MarkerLineProps extends BoundedObjectProps {
    yAxis?: string,
 
    baseClass?: string,
-   
-   /** Name of the legend to be used. Default is `legend`. */
-   legend?: string,
 
    legendAction?: string
 
