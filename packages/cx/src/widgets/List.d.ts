@@ -19,7 +19,10 @@ interface ListProps extends Cx.StyledContainerProps {
 
    recordName?: string,
    indexName?: string,
+
+   /** Base CSS class to be applied to the element. Defaults to 'list'. */
    baseClass?: string,
+   
    focusable?: boolean,
    focused?: boolean,
    itemPad?: boolean,

@@ -10,6 +10,8 @@ interface DropZoneProps extends Cx.StyledContainerProps {
    farClass?: Cx.ClassProp,
    nearDistance?: number,
    inflate?: number,
+
+   /** Base CSS class to be applied to the element. Defaults to 'dropzone'. */
    baseClass?: string  
    
 }

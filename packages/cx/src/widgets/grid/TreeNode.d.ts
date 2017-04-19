@@ -7,6 +7,8 @@ interface TreeNodeProps extends Cx.WidgetProps {
    leaf?: Cx.BooleanProp,
    text?: Cx.StringProp,
    loading?: Cx.BooleanProp,
+
+   /** Base CSS class to be applied to the element. Defaults to 'treenode'. */
    baseClass?: string
    
 }
