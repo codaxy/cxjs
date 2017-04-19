@@ -7,9 +7,11 @@ export class Instance {
 
    store: View;
    data: Cx.Record;
-   widget: Cx.Config;
+   widget: Widget;
    key: number;
    id: string;
+
+   constructor(widget: Widget, key: number);
 
    setStore(store: View) : void;
 
@@ -21,7 +23,7 @@ export class Instance {
 
    cleanup(context: RenderingContext): void;
 
-   render(context: RenderingContext, keyPrefix?: string): void | VDOM;
+   render(context: RenderingContext, keyPrefix?: string): JSX.Element | void;
 
    setState(state: Cx.Record): void;
 
@@ -29,7 +31,13 @@ export class Instance {
 
    definePropertySetter(prop: string, setter: (value: any) => void) : boolean;
 
-   doSet(prop: string, value: any) : boolean;
+   /**
+    * @protected
+    * @param {string} prop 
+    * @param {any} value 
+    * @returns boolean
+    */
+   protected doSet(prop: string, value: any) : boolean;
 
    replaceState(state: Cx.Config);
 
@@ -40,9 +48,9 @@ export class Instance {
    getChild(context: RenderingContext | null, widget: Widget, keyPrefix?: string, store?: View) : Instance;
 
    // TODO: check return type
-   prepareRenderCleanupChild(widget: Widget, store?: View, keyPrefix?: string, options?: object) : any;
+   prepareRenderCleanupChild(widget: Widget, store?: View, keyPrefix?: string, options?: object) : JSX.Element | void;
 
-   getJsxEventProps() : { [prop?: string]: any };
+   getJsxEventProps() : Cx.Config;
 
 }
 

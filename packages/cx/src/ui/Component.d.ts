@@ -30,7 +30,7 @@ export class Component {
    static namespace: string;
    static lazyInit: boolean;
 
-   static factory(alias: string, config: object, more: object);   
+   static factory(alias: string, config: Cx.Config, more?: Cx.Config) : Component;
 
 }
 

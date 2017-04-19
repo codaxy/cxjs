@@ -8,3 +8,9 @@ export class Widget extends Cx.Widget<Cx.WidgetProps> {
 export interface VDOM {
    createElement(type, props, ...children);
 }
+
+export function contentAppend(result, w, prependSpace) : boolean;
+
+export function getContentArray(x) : any[];
+
+export function getContent(x) : null | any | any[];
