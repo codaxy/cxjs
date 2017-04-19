@@ -1,4 +1,3 @@
-import * as Cx from '../core';
 
 type RGBColor = { 
    type: string,
@@ -16,10 +15,30 @@ type HSLColor = {
    a: number
 }
 
+/**
+ * 
+ * @param {string} color 
+ * @returns {RGBColor|HSLColor}
+ */
 export function parseColor(color: string): RGBColor | HSLColor;
 
+/**
+ * 
+ * @param {string} color 
+ * @returns {RGBColor}
+ */
 export function parseHexColor(color: string): RGBColor;
 
+/**
+ * 
+ * @param {string} color 
+ * @returns {RGBColor}
+ */
 export function parseRgbColor(color: string): RGBColor;
 
+/**
+ * 
+ * @param {string} color 
+ * @returns {HSLColor}
+ */
 export function parseHslColor(color: string): HSLColor;
