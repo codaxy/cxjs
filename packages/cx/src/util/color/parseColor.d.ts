@@ -1,14 +1,30 @@
-
+/**
+ * An object representing `rgba` color.
+ * @typedef {Object} RGBColor
+ * @property {string} type
+ * @property {number} r
+ * @property {number} g
+ * @property {number} b
+ * @property {number} a
+ */
 type RGBColor = { 
-   type: string,
+   type: 'rgba',
    r: number,
    g: number,
    b: number,
    a: number
 }
-
+/**
+ * An object representing `hsla` color.
+ * @typedef {Object} HSLColor
+ * @property {string} type
+ * @property {number} h
+ * @property {number} s
+ * @property {number} l
+ * @property {number} a
+ */
 type HSLColor = {
-   type: string,
+   type: 'hsla',
    h: number,
    s: number,
    l: number,
