@@ -53,7 +53,7 @@ declare namespace Cx {
    interface WidgetProps {
 
       /** Inner layout used to display children inside the widget. */
-      layout?: Layout,
+      layout?: any,
 
       /** Outer (wrapper) layout used to display the widget in. */
       outerLayout?: any,
@@ -99,8 +99,8 @@ declare namespace Cx {
       items?: any,
 
       /** List of child elements. */
-      children?: any,
-      
+      children?: React.ReactNode,
+
       plainText?: boolean,
       styled?: boolean,
 
