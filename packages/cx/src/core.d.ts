@@ -95,8 +95,12 @@ declare namespace Cx {
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
       preserveWhitespace?: boolean,
 
+      /** List of child elements. */
       items?: any,
+
+      /** List of child elements. */
       children?: any,
+      
       plainText?: boolean,
       styled?: boolean,
 

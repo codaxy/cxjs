@@ -2,8 +2,8 @@ type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Eleme
 
 /** 
  * Returns first child element, or the parent element itself, that satisfies the `condition` function.
- * @param {Element} el
- * @param {Function} condition
+ * @param el
+ * @param condition
  * @returns {Element}
  */
 export const findFirst: ElementFilter;

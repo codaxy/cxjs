@@ -23,13 +23,13 @@ export class SubscriberList {
 
    /** 
     * Trigger all subscribed callbacks with provided arguments.
-    * @param {...any} args - Arguments that will be passed to callback functions.
+    * @param args - Arguments that will be passed to callback functions.
     */
    notify(...args: any[]);
 
    /**
     * 
-    * @param {Function} callback
+    * @param callback
     */
    execute(callback: (c: Callback) => void);
 

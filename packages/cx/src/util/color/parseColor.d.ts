@@ -1,11 +1,11 @@
 /**
  * An object representing `rgba` color.
- * @typedef {Object} RGBColor
- * @property {string} type
- * @property {number} r
- * @property {number} g
- * @property {number} b
- * @property {number} a
+ * @typedef RGBColor
+ * @property type
+ * @property  r
+ * @property  g
+ * @property  b
+ * @property  a
  */
 type RGBColor = { 
    type: 'rgba',
@@ -16,12 +16,12 @@ type RGBColor = {
 }
 /**
  * An object representing `hsla` color.
- * @typedef {Object} HSLColor
- * @property {string} type
- * @property {number} h
- * @property {number} s
- * @property {number} l
- * @property {number} a
+ * @typedef HSLColor
+ * @property type
+ * @property h
+ * @property s
+ * @property l
+ * @property a
  */
 type HSLColor = {
    type: 'hsla',
@@ -33,28 +33,28 @@ type HSLColor = {
 
 /**
  * 
- * @param {string} color 
+ * @param  color 
  * @returns {RGBColor|HSLColor}
  */
 export function parseColor(color: string): RGBColor | HSLColor;
 
 /**
  * 
- * @param {string} color 
+ * @param color 
  * @returns {RGBColor}
  */
 export function parseHexColor(color: string): RGBColor;
 
 /**
  * 
- * @param {string} color 
+ * @param color 
  * @returns {RGBColor}
  */
 export function parseRgbColor(color: string): RGBColor;
 
 /**
  * 
- * @param {string} color 
+ * @param color 
  * @returns {HSLColor}
  */
 export function parseHslColor(color: string): HSLColor;

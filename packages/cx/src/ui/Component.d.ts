@@ -18,9 +18,9 @@ export class Component {
 
    /**
     * 
-    * @param {any} type
-    * @param {object} config
-    * @param {object} more
+    * @param type
+    * @param config
+    * @param more
     */
    static create(typeAlias?: any, config?: object, more?: object): any;
 

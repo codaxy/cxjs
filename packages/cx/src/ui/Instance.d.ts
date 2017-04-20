@@ -33,9 +33,9 @@ export class Instance {
 
    /**
     * @protected
-    * @param {string} prop 
-    * @param {any} value 
-    * @returns boolean
+    * @param prop 
+    * @param value 
+    * @returns {boolean}
     */
    protected doSet(prop: string, value: any) : boolean;
 

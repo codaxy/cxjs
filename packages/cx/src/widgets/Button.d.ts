@@ -34,8 +34,8 @@ interface ButtonProps extends Cx.HtmlElementProps {
    /** 
     * Click handler.
     *
-    * @param {React.SyntheticEvent<any>} e - Event.
-    * @param {Instance} instance - Cx widget instance that fired the event. 
+    * @param e - Event.
+    * @param instance - Cx widget instance that fired the event. 
     */
    onClick?: (e: React.SyntheticEvent<any>, instance: Instance) => void;
 }

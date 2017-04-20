@@ -10,7 +10,7 @@ export interface CursorPosition {
 
 /**
  * Returns the object representing cursor position
- * @param {React.SyntheticEvent<any>} e - Event
+ * @param e - Event
  * @returns {{ clientX: number, clientY: number }}
  */
 export function getCursorPos(e: React.SyntheticEvent<any>) : CursorPosition;
