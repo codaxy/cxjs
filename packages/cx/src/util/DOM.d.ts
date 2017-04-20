@@ -1,4 +1,4 @@
-type ElementFilter = (el: Element, condition: (el) => boolean) => Element | null;
+type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Element | null;
 
 /** 
  * Returns first child element, or the parent element itself, that satisfies the `condition` function.
