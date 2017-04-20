@@ -29,8 +29,8 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Text to be displayed instead of an empty table. */
    emptyText?: Cx.StringProp,
 
-   dragSource?: Cx.Config,
-   dropZone?: Cx.Config,
+   dragSource?: Cx.StructuredProp,
+   dropZone?: Cx.StructuredProp,
 
    /**An array of columns. Check column configuration options in the section below. */
    columns?: Cx.Record[],
@@ -50,10 +50,21 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Set to `true` to add default border around the table. Automatically set if grid is `scrollable`. */
    border?: Cx.BooleanProp,
    
+   /** Base CSS class to be applied to the element. Default is 'grid'. */
    baseClass?: string,
+
+   /** A field used to get the unique identifier of the record. Setting `keyField` improves grid performance on sort operations as the widget is able to identify row movement inside the grid.  */
+   keyField?: string;
+
    showHeader?: boolean,
    showFooter?: boolean,
+   
+   /** Record alias. Default is `$record`. */
    recordName?: string,
+
+   /** Record alias. Default is `$record`. */
+   recordAlias?: string,
+   
    remoteSort?: boolean,
 
    /** 
