@@ -41,12 +41,23 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Defaults to `false`. Used to make the field required. */
    required?: Cx.BooleanProp,
 
+   /** Renamed to suppressErrorsUntilVisited. Used to indicate that required fields should not be marked as invalid before the user visits them. */
    suppressErrorTooltipsUntilVisited?: boolean,
+
+   /** Error message used to indicate that field is required. */
    requiredText?: string,
+
+   /** Append asterisk to the label to indicate a required field. */
    asterisk?: boolean,
+
+   /** Text displayed to the user to indicate that server-side validation is in progress. */
    validatingText?: string,
+
+   /** Text displayed to the user to indicate that server-side validation has thrown an exception. */
    validationExceptionText?: string,
-   errorTooltip?: string
+
+   /** Configuration of the toolitp used to indicate validation errors. */
+   errorTooltip?: Cx.Config,
    
    /** Indicates that `help` should be separated from the input with a whitespace. Default is `true`. */
    helpSpacer?: boolean,

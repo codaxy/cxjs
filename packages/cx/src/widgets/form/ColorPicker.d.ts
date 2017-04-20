@@ -8,6 +8,11 @@ interface ColorPickerProps extends FieldProps {
    
    /** Base CSS class to be applied to the element. Defaults to `colorpicker`. */
    baseClass?: string,
+
+   /** 
+    * A string containing the list of all events that cause that selected value is written to the store. 
+    * Default value is `blur change` which means that changes are propagated immediately. 
+    */
    reportOn?: string,
 
    /** Format of the color representation. Either `rgba`, `hsla` or `hex`. */

@@ -43,13 +43,20 @@ interface LookupFieldProps extends FieldProps {
    baseClass?: string,
    
    /* TODO: Check type */
-   items?: any,
-   itemsConfig?: any,
-   children?: any,
-   bindings?: any,
-   keyBindings?: any,
 
+   /** Additional config to be applied to all items */
+   itemsConfig?: any,
+
+   /** 
+    * An array of objects describing the mapping of option data to store data. 
+    * Each entry must define `local`, `remote` bindings. `key: true` is used to indicate fields that are used in the primary key. 
+    */
+   bindings?: any,
+   
+   /** A delay in milliseconds before making the query used to wait that the user stops typing. */
    queryDelay?: number,
+
+   /** Minimal number of characters required before query is made. */
    minQueryLength?: number,
 
    /** Set to `true` to hide the search field. */
@@ -61,8 +68,13 @@ interface LookupFieldProps extends FieldProps {
     */
    minOptionsForSearchField?: number,
    
+   /** Text to display while data is being loaded. */
    loadingText?: string,
+
+   /** Error message displayed to the user if server query throws an exception. */
    queryErrorText?: string,
+
+   /** Message to be displayed if no entries match the user query. */
    noResultsText?: string,
 
    /** Name of the field which holds the id of the option. Default value is `id`. */
@@ -97,7 +109,8 @@ interface LookupFieldProps extends FieldProps {
    
    /** Close the dropdown after selection. Default is `true`. */
    closeOnSelect?: boolean,
-
+   
+   /** Mesasge to be displayed to the user if the entered search query is too short. */
    minQueryLengthMessageText?: string,
 
    /** Name of the icon to be put on the left side of the input. */

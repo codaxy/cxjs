@@ -1,12 +1,15 @@
 import * as Cx from '../../core';
 
 interface LabelProps extends Cx.HtmlElementProps {
+   
+   /** Used in combination with `asterisk` to indicate required fields. */
+   required?: Cx.BooleanProp,
 
-   required?: boolean,
-   disabled?: boolean,
+   /** Set to true to disable the label. */
+   disabled?: Cx.BooleanProp,
 
-   /* TODO: Check type */
-   htmlFor?: any,
+   /** Id of the field. */
+   htmlFor?: Cx.StringProp,
    
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string,

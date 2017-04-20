@@ -44,7 +44,8 @@ interface DateFieldProps extends FieldProps {
 
     /** Minimum exclusive value error text. */
    minExclusiveErrorText?: string,
-
+   
+   /** Error message used to indicate wrong user input, e.g. invalid date entered. */
    inputErrorText?: string,
 
    /** Name of the icon to be put on the left side of the input. */

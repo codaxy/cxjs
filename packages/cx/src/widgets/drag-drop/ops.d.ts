@@ -35,8 +35,11 @@ export interface IDropZone {
 }
 
 type UnregisterFunction = () => void;
+
+/** Register a drop zone. Return value is a function that can be used to unregister the drop zone. */
 export function registerDropZone(dropZone: IDropZone) : UnregisterFunction;
 
+/** Initiate a drag-drop operation. */
 export function initiateDragDrop(e: DragEvent, options?: DragDropOptions, onDragEnd?: (e?: DragEvent) => void) : void;
 
 export function ddMouseDown(e: React.SyntheticEvent<any>) : void;

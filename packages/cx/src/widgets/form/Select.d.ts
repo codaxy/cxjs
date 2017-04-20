@@ -35,7 +35,8 @@ interface SelectProps extends FieldProps {
     * Useful for converting strings into numbers. Default is `true`. 
     */
    convertValues?: boolean,
-
+   
+   /** String value used to indicate a `null` entry */
    nullString?: string,
    
    /** Name of the icon to be put on the left side of the input. */

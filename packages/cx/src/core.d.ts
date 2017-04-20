@@ -50,10 +50,20 @@ declare namespace Cx {
    type RecordsProp = Prop<Record[]>;
 
    interface WidgetProps {
+
+      /** Inner layout used to display children inside the widget. */
       layout?: any,
+
+      /** Outer (wrapper) layout used to display the widget in. */
       outerLayout?: any,
+
+      /** Name of the ContentPlaceholder that should be used to display the widget. */
       putInto?: string,
+
+      /** Name of the ContentPlaceholder that should be used to display the widget. */
       contentFor?: string,
+
+      /** Controller. */
       controller?: any,
 
       /** Visibility of the widget. Defaults to `true`. */
@@ -65,6 +75,7 @@ declare namespace Cx {
       /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
       mod?: StringProp | Prop<string[]> | StructuredProp,
       
+      /** Cache render output. Default is `true`. */
       memoize?: BooleanProp
    }
 
@@ -105,6 +116,8 @@ declare namespace Cx {
    }
 
    interface HtmlElementProps extends StyledContainerProps {
+
+      /** Id of the element */
       id?: string | number | Binding | Selector<string | number>,
 
       /** Inner text contents. */

@@ -42,8 +42,13 @@ interface MonthPickerProps extends FieldProps {
    /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
    baseClass?: string,
    
+   /** Minimum year available in the range. */
    startYear?: number,
+
+   /** Max year available in the range. */
    endYear?: number,
+
+   /** Number of years to be rendered in each render chunk. */
    bufferSize?: number,
 
    /** Maximum value error text. */
