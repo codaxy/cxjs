@@ -17,7 +17,11 @@ interface GridCellProps extends Cx.PureContainerProps {
    /** Name of the field that holds the value to be displayed. */
    field?: boolean,
 
+   /** Record alias. Default is `$record`. */
    recordName?: string,
+
+   /** Record alias. Default is `$record`. */
+   recordAlias?: string
 
 }
 

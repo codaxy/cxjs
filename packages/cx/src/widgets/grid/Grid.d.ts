@@ -29,7 +29,10 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Text to be displayed instead of an empty table. */
    emptyText?: Cx.StringProp,
 
+   /** Drag source configuration. Define `mode` as 'move' or 'copy` and additional `data`. */
    dragSource?: Cx.StructuredProp,
+
+   /** Drop zone configuration. Define `mode` as either `preview` or `insertion`. */
    dropZone?: Cx.StructuredProp,
 
    /**An array of columns. Check column configuration options in the section below. */
@@ -55,8 +58,11 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** A field used to get the unique identifier of the record. Setting `keyField` improves grid performance on sort operations as the widget is able to identify row movement inside the grid.  */
    keyField?: string;
-
+   
+   /** Show grid header within the group. Useful for long report-like (printable) grids. Defaults to `false`. */
    showHeader?: boolean,
+
+   /** Show grid footer. Defaults to `false`. */
    showFooter?: boolean,
    
    /** Record alias. Default is `$record`. */
@@ -76,6 +82,15 @@ interface GridProps extends Cx.StyledContainerProps {
    lockColumnWidthsRequiredRowCount?: number,
    focused?: boolean,
    showBorder?: boolean,
+
+   /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
+   dataAdapter?: any,
+
+   /** Additional CSS class to be added to each grid row. */
+   rowClass?: Cx.ClassProp,
+
+   /** Additional CSS styles to be added to each grid row. */
+   rowStyle?: Cx.StyleProp
 
    // drag-drop handlers
    onDrop?: (e: DragEvent, instance: Instance) => void;

@@ -2,6 +2,7 @@ export = Cx;
 export as namespace Cx;
 
 import * as React from 'react';
+import {Layout} from './ui/layout/Layout';
 
 declare namespace Cx {
 
@@ -52,7 +53,7 @@ declare namespace Cx {
    interface WidgetProps {
 
       /** Inner layout used to display children inside the widget. */
-      layout?: any,
+      layout?: Layout,
 
       /** Outer (wrapper) layout used to display the widget in. */
       outerLayout?: any,
@@ -76,7 +77,11 @@ declare namespace Cx {
       mod?: StringProp | Prop<string[]> | StructuredProp,
       
       /** Cache render output. Default is `true`. */
-      memoize?: BooleanProp
+      memoize?: BooleanProp,
+
+      /** Indicate that the widget does not rely on data obtained through the context. Default is `true`. */
+      pure?: boolean
+
    }
 
    interface PureContainerProps extends WidgetProps {

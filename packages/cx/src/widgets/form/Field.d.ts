@@ -5,7 +5,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Field label. For advanced use cases. */
    label?: Cx.StringProp | Cx.Config,
    
-   /* TODO : Check type */
+   /* Deprecated */
    labelWidth?: any,
 
    /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
@@ -72,8 +72,8 @@ export interface FieldProps extends Cx.StyledContainerProps {
     * Additional content to be displayed next to the field. 
     * This is commonly used for presenting additional information or validation errors. 
     */
-   help?: Cx.Config
-
+   help?: Cx.Config,
+   
 }
 
 export class Field extends Cx.Widget<FieldProps> {}
