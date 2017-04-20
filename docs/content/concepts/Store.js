@@ -162,7 +162,7 @@ export const Store = <cx>
                         onInit() {
                             this.store.init('$page', {
                                 name: 'Jane',
-                                disable: true,
+                                disabled: true,
                                 todoList: [
                                     { id: 1, text: 'Learn Cx', done: true }, 
                                     { id: 2, text: "Feed the cat", done: false },
@@ -177,6 +177,12 @@ export const Store = <cx>
                             MsgBox.alert(\`Hello, \${name}!\`);
                         }
                     }
+                    ...
+
+                    <div layout={LabelsTopLayout} controller={PageController}>
+                        <TextField label="Name" value:bind="$page.name" />
+                        <Button onClick="greet">Greet</Button>
+                    </div>
                 `}
                 </CodeSnippet>
             </Content>
