@@ -17,10 +17,28 @@ export class View {
 
    set(path: Path | Record, value?: any): boolean;
 
+   /**
+    * Copies the value stored under the `from` path and saves it under the `to` path.
+    * @param from - Origin path.
+    * @param to - Destination path.
+    */
    copy(from: Path, to: Path);
 
    move(from: Path, to: Path);
 
+   /**
+    * Removes data from the Store.
+    * @param path - Path to be deleted.
+    * @return {boolean}
+    *//**
+    * Removes data from the Store.
+    * @param paths - Array of paths to be deleted.
+    * @return {boolean}
+    *//**
+    * Removes data from the Store.
+    * @param ...paths - Any number of paths to be deleted.
+    * @return {boolean}
+    */
    delete(path: Path): boolean;
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
@@ -35,7 +53,14 @@ export class View {
 
    update(path: Path, updateFn: (currentValue: any) => any, ...args): boolean;
 
-   batch(callback: () => void): boolean;
+   /** 
+    * `batch` method can be used to perform multiple Store operations silently 
+    * and re-render the application only once afterwards. The Store instance 
+    * is passed to the `callback` function.
+    * @param callback - Function that will perform multiple Store operations
+    * @return {boolean}
+    */
+   batch(callback: (store: View) => void): boolean;
 
    silently(callback: () => void): boolean;
 
