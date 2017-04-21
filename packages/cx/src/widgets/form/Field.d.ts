@@ -60,7 +60,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
    errorTooltip?: Cx.Config,
 
    /** Tooltip configuration. */
-   tooltip?: StringProp | StructuredProp
+   tooltip?: Cx.StringProp | Cx.StructuredProp
    
    /** Indicates that `help` should be separated from the input with a whitespace. Default is `true`. */
    helpSpacer?: boolean,
