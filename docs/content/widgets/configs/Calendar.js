@@ -40,9 +40,9 @@ export default {
         </Md></cx>
     }, 
     minExclusive: {
-        type: 'string/Date',
+        type: 'boolean',
         description: <cx><Md>
-            Minimum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
+            Set to `true` to disallow the `minValue`. Default value is `false`.
         </Md></cx>
     }, 
     maxValue: {
@@ -52,9 +52,9 @@ export default {
         </Md></cx>
     }, 
     maxExclusive: {
-        type: 'string/Date',
+        type: 'boolean',
         description: <cx><Md>
-            Maximum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
+            Set to `true` to disallow the `maxValue`. Default value is `false`.
         </Md></cx>
     }
 };
