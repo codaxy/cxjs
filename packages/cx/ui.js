@@ -1,1 +1,1 @@
-module.exports = require('./dist/ui');
+export * from './dist/ui';

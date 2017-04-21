@@ -2,6 +2,10 @@ var componentAlias = {};
 
 export class Component {
    constructor(config) {
+      if (config && config.$props) {
+         Object.assign(config, config.$props);
+         delete config.$props;
+      }
       Object.assign(this, config);
    }
 
@@ -77,9 +81,9 @@ export class Component {
    }
 }
 
-Component.isComponentType = true;
-
 Component.prototype.isComponent = true;
+
+Component.isComponentType = true;
 Component.namespace = '';
 Component.lazyInit = false;
 

@@ -72,7 +72,7 @@ export default {
         type: 'config',
         key: true,
         description: <cx><Md>
-            Contents that should go in the header.
+            Contents that should go in the footer.
         </Md></cx>
     },
     baseClass: {

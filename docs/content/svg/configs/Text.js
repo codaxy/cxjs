@@ -4,7 +4,7 @@ import boundedObject from './BoundedObject';
 
 export default {
    ...boundedObject,
-   text: {
+   value: {
       key: true,
       type: 'string',
       description: <cx><Md>
@@ -20,6 +20,7 @@ export default {
       </Md></cx>
    },
    dx: {
+      key: true, 
       type: 'string',
       description: <cx><Md>
          Offset along the x-axis.

@@ -27,14 +27,14 @@ export default {
     },
     labelOffset: {
         key: true,
-        type: 'string',
+        type: 'number/string',
         description: <cx><Md>
             Distance between labels and the axis.
         </Md></cx>
     },
     labelRotation: {
         key: true,
-        type: 'string',
+        type: 'number/string',
         description: <cx><Md>
             Label rotation angle in degrees.
         </Md></cx>

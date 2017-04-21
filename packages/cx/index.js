@@ -1,15 +1,15 @@
-var util = require('./util'),
-   data = require('./data'),
-   ui = require('./ui'),
-   widgets = require('./widgets'),
-   svg = require('./svg'),
-   charts = require('./charts');
+import * as util from './util';
+import * as data from './data';
+import * as ui from './ui';
+import * as widgets from './widgets';
+import * as svg from './svg';
+import * as charts from './charts';
 
-module.exports = {
-   util: util,
-   data: data,
-   ui: ui,
-   widgets: widgets,
-   svg: svg,
-   charts: charts
+export {
+   util,
+   data,
+   ui,
+   widgets,
+   svg,
+   charts
 };

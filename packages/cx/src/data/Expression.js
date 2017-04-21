@@ -126,8 +126,8 @@ export class Expression {
       return this.get(str).memoize();
    }
 
-   static registerHelper(name, callback) {
-      helpers[name] = callback;
+   static registerHelper(name, helper) {
+      helpers[name] = helper;
       helperNames = Object.keys(helpers);
       helperValues = helperNames.map(n=>helpers[n]);
    }

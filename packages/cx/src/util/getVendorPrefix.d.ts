@@ -1,0 +1,1 @@
+export function getVendorPrefix(type: 'dom' | 'lowercase' | 'css' | 'js') : string; 

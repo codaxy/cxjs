@@ -105,17 +105,18 @@ export class View {
    }
 
    toggle(path) {
-      this.set(path, !this.get(path))
+      return this.set(path, !this.get(path))
    }
 
    update(path, updateFn, ...args) {
-      this.set(path, updateFn.apply(null, [this.get(path), ...args]));
+      return this.set(path, updateFn.apply(null, [this.get(path), ...args]));
    }
 
    batch(callback) {
       let dirty = this.silently(callback);
       if (dirty)
          this.notify();
+      return dirty;
    }
 
    silently(callback) {
@@ -147,7 +148,7 @@ export class View {
    }
 
    load(data) {
-      this.batch(store=> {
+      return this.batch(store=> {
          for (var key in data)
             store.set(key, data[key]);
       });

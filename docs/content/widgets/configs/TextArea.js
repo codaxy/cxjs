@@ -19,5 +19,11 @@ export default {
       description: <cx><Md>
          Specifies the number of visible lines.
       </Md></cx>
+   },
+   baseClass: {
+      type: 'string',
+      description: <cx><Md>
+         Base CSS class to be applied to the field. Defaults to `textarea`.
+      </Md></cx>
    }
 };

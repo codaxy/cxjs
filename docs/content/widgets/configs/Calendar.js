@@ -10,7 +10,7 @@ export default {
         type: 'string/Date',
         key: true,
         description: <cx><Md>
-            Selected date. This should be a valid date string consumable by `Date.parse` function.
+            Selected date. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
         </Md></cx>
     },
     refDate: {
@@ -31,6 +31,30 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Highlight today's date. Default is `true`.
+        </Md></cx>
+    },
+    minValue: {
+        type: 'string/Date',
+        description: <cx><Md>
+            Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
+        </Md></cx>
+    }, 
+    minExclusive: {
+        type: 'string/Date',
+        description: <cx><Md>
+            Minimum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
+        </Md></cx>
+    }, 
+    maxValue: {
+        type: 'string/Date',
+        description: <cx><Md>
+            Maximum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
+        </Md></cx>
+    }, 
+    maxExclusive: {
+        type: 'string/Date',
+        description: <cx><Md>
+            Maximum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
         </Md></cx>
     }
 };

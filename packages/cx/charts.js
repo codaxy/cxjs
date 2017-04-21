@@ -1,1 +1,1 @@
-module.exports = require('./dist/charts');
+export * from './dist/charts';

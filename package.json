@@ -40,6 +40,7 @@
   "homepage": "https://cxjs.io",
   "private": true,
   "devDependencies": {
+    "@types/react": "^15.0.20",
     "babel-core": "^6.24.0",
     "babel-jest": "^19.0.0",
     "babel-loader": "^6.4.1",

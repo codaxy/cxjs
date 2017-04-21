@@ -72,6 +72,7 @@ export class HtmlElement extends PureContainer {
 
    isValidHtmlAttribute(attrName) {
       switch (attrName) {
+         case 'tag':
          case 'layout':
          case 'class':
          case 'className':

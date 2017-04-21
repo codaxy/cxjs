@@ -53,6 +53,9 @@ export class Button extends HtmlElement {
       delete props.confirm;
       delete props.dismiss;
       delete props.pressed;
+      delete props.submit;
+      delete props.focusOnMouseDown;
+      delete props.icon;
 
       let oldOnClick, {data} = instance;
 

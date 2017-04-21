@@ -36,7 +36,7 @@ export default {
         </Md></cx>
     },
     scrollable: {
-        type: 'bool',
+        type: 'boolean',
         key: true,
         description: <cx><Md>
             Set to `true` to add a vertical scroll and a fixed header to the grid.

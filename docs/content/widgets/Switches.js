@@ -35,7 +35,7 @@ export const Switches = <cx>
                     </Switch>
                 </div>
             </div>
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="2kT3rmdr">{`
                 <div layout={LabelsLeftLayout}>
                     <Switch label="Default" on:bind="$page.check" text:expr="{$page.check} ? 'ON' : 'OFF'" />
                     <Switch label="Disabled" value:bind="$page.check" disabled/>
