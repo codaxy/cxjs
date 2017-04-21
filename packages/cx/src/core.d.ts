@@ -131,6 +131,9 @@ declare namespace Cx {
 
       /** Inner text contents. */
       text?: string | number | Binding | Selector<string | number>
+
+      /** Tooltip configuration. */
+      tooltip?: StringProp | StructuredProp
    }
 
    interface Sorter {
