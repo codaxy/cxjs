@@ -72,8 +72,6 @@ interface LineGraphProps extends Cx.WidgetProps {
    /** Base CSS class to be applied to the element. Defaults to `linegraph`. */
    baseClass?: string,
 
-   pure?: boolean,
-
    /** Name of the property which holds the y0 value. Default value is `false`, which means y0 value is not read from the data array. */
    y0Field?: string,
 

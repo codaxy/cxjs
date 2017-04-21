@@ -12,6 +12,9 @@ interface ColumnGraphProps extends ColumnBarGraphBaseProps {
     */
    y0Field?: string,
 
+   /** Column base value. Default value is `0`. */
+   y0?: Cx.NumberProp,
+
 }
 
 export class ColumnGraph extends Cx.Widget<ColumnGraphProps> {}

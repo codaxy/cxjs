@@ -8,8 +8,6 @@ interface LegendProps extends Cx.HtmlElementProps {
    /** Base CSS class to be applied to the element. Defaults to `legend`. */
    baseClass?: string,
    
-   pure?: boolean,
-   
    /** Switch to vertical mode. */
    vertical?: boolean,
 
