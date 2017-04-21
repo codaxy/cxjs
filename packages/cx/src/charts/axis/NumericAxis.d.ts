@@ -29,4 +29,11 @@ interface NumericAxisProps extends AxisProps {
 
 }
 
-export class NumericAxis extends Cx.Widget<NumericAxisProps> {}
+export class NumericAxis extends Cx.Widget<NumericAxisProps> {
+
+   static XY() : { 
+      x: { type: NumericAxis }, 
+      y: { type: NumericAxis, vertical: true } 
+   };
+
+}
