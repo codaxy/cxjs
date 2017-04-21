@@ -12,14 +12,14 @@ interface CalendarProps extends FieldProps {
    /** Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
    minValue?: Cx.StringProp | Cx.Prop<Date>,
 
-   /** Minimum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   minExclusive?: Cx.StringProp | Cx.Prop<Date>,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
    
    /** Maximum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
    maxValue?: Cx.StringProp | Cx.Prop<Date>,
 
-   /** Maximum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   maxExclusive?: Cx.StringProp | Cx.Prop<Date>,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
 
    /** Base CSS class to be applied to the calendar. Defaults to `calendar`. */
    baseClass?: string,

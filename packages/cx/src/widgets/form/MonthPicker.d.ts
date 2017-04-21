@@ -30,14 +30,14 @@ interface MonthPickerProps extends FieldProps {
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    minValue?: Cx.StringProp | Date,
 
-   /** Minimum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
 
    /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
    maxValue?: Cx.StringProp | Date,
    
-   /** Maximum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
    
    /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
    baseClass?: string,
