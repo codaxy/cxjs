@@ -8,7 +8,9 @@ declare namespace Cx {
 
    type Bind = {
       bind: string,
-      defaultValue?: any
+      defaultValue?: any,
+      throttle?: number,
+      debounce?: number
    }
 
    type Tpl = {
