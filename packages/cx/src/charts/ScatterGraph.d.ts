@@ -1,4 +1,5 @@
 import * as Cx from '../core';
+import {PropertySelection, KeySelection} from '../ui/selection';
 
 interface ScatterGraphProps extends Cx.WidgetProps {
    
@@ -71,8 +72,8 @@ interface ScatterGraphProps extends Cx.WidgetProps {
    
    legendAction?: string,
 
-   // TODO: define description for type property to indicate a constructor function that extends Selection
-   selection?: { type: any, [prop: string]: any },
+   /** Selection configuration. */
+   selection?: { type: typeof PropertySelection | typeof KeySelection, [prop: string]: any }
 
 }
 
