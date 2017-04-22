@@ -22,7 +22,7 @@ export class Component {
     * @param config
     * @param more
     */
-   static create(typeAlias?: any, config?: object, more?: object): any;
+   static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
 
    isComponent: boolean;
    

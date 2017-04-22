@@ -69,7 +69,10 @@ interface ScatterGraphProps extends Cx.WidgetProps {
    /** Name of the legend to be used. Default is legend. */
    legend?: string,
    
-   legendAction?: string
+   legendAction?: string,
+
+   // TODO: define description for type property to indicate a constructor function that extends Selection
+   selection?: { type: any, [prop: string]: any },
 
 }
 
