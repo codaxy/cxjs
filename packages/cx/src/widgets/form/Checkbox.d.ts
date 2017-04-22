@@ -25,7 +25,7 @@ interface CheckboxProps extends FieldProps {
    indeterminate?: boolean,
 
    /** Value of the checkbox. `true` makes the checkbox checked. */
-   checked?: boolean,
+   checked?: Cx.BooleanProp,
 
    /** Text property. */
    text?: Cx.StringProp

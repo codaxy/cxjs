@@ -9,7 +9,7 @@ export interface IRect {
 
 export class Rect implements IRect {
 
-   isRect: boolean = true;
+   isRect: boolean;
 
    l: number;
    r: number;

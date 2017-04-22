@@ -10,6 +10,7 @@ export class Instance {
    widget: Widget;
    key: number;
    id: string;
+   controller: any;
 
    constructor(widget: Widget, key: number);
 
