@@ -1,5 +1,4 @@
 import { HtmlElement, MsgBox, Button } from 'cx/widgets';
-import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';

@@ -2,7 +2,7 @@ import {Widget, VDOM, getContentArray} from '../ui/Widget';
 import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
 import {Icon} from './Icon';
-import {stopPropagation} from '../util/eventCallbacks';
+//import {stopPropagation} from '../util/eventCallbacks';
 import {preventFocus} from '../ui/FocusManager';
 
 export class Button extends HtmlElement {
@@ -30,16 +30,9 @@ export class Button extends HtmlElement {
          props.onMouseDown = e => {
             if (this.onMouseDown)
                this.onMouseDown(e, instance);
-            e.stopPropagation();
             preventFocus(e);
          }
       }
-
-      if (!props.onMouseDown)
-         props.onMouseDown = stopPropagation;
-
-      if (!props.onTouchStart)
-         props.onTouchStart = stopPropagation;
 
       if (this.dismiss) {
          props.onClick = () => {

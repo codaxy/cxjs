@@ -3,6 +3,7 @@ import {PureContainer} from '../../ui/PureContainer';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
+import {parseStyle} from '../../util/parseStyle';
 import {captureMouseOrTouch} from './captureMouse';
 
 /*
@@ -17,13 +18,7 @@ import {captureMouseOrTouch} from './captureMouse';
 export class Overlay extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
-         style: {
-            structured: true
-         },
-         class: {
-            structured: true
-         },
-         className: {
+         shadowStyle: {
             structured: true
          },
          resizable: undefined,
@@ -32,7 +27,7 @@ export class Overlay extends PureContainer {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       data.stateMods = {
          ...data.stateMods,
          inline: this.inline,
@@ -48,7 +43,7 @@ export class Overlay extends PureContainer {
    initInstance(context, instance) {
       if (this.visible && this.visible.bind) {
          instance.dismiss = () => {
-            if (instance.onBeforeDismiss && instance.onBeforeDismiss() == false)
+            if (instance.onBeforeDismiss && instance.onBeforeDismiss() === false)
                return;
             instance.set('visible', false)
          };
@@ -56,7 +51,7 @@ export class Overlay extends PureContainer {
    }
 
    explore(context, instance) {
-      var oldParentOptions = context.parentOptions;
+      let oldParentOptions = context.parentOptions;
 
       if (context.options.dismiss)
          instance.dismiss = context.options.dismiss;
@@ -67,7 +62,7 @@ export class Overlay extends PureContainer {
             dismiss: instance.dismiss
          };
 
-      if (instance.dismiss != instance.cached.dismiss)
+      if (instance.dismiss !== instance.cached.dismiss)
          instance.shouldUpdate = true;
 
       super.explore(context, instance);
@@ -94,7 +89,7 @@ export class Overlay extends PureContainer {
 
    overlayDidMount(instance, component) {
       if (this.center) {
-         var {el} = component;
+         let {el} = component;
          el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
          el.style.top = `${(window.innerHeight - el.offsetHeight) / 2}px`;
       }
@@ -134,6 +129,8 @@ export class Overlay extends PureContainer {
    containerFactory() {
       let el = document.createElement('div');
       document.body.appendChild(el);
+      if (this.containerStyle)
+         Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
    }
 
@@ -167,6 +164,7 @@ export class Overlay extends PureContainer {
    }
 }
 
+Overlay.prototype.styled = true;
 Overlay.prototype.baseClass = 'overlay';
 Overlay.prototype.resizable = false;
 Overlay.prototype.resizeWidth = 7;
@@ -180,6 +178,7 @@ Overlay.prototype.draggable = false;
 Overlay.prototype.destroyDelay = 0;
 Overlay.prototype.dismissOnFocusOut = false;
 Overlay.prototype.focusable = false;
+Overlay.prototype.containerStyle = null;
 
 Widget.alias('overlay', Overlay);
 
@@ -192,8 +191,8 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, parentEl} = this.props;
-      var {widget} = instance;
+      let {instance, parentEl} = this.props;
+      let {widget} = instance;
 
       if (widget.inline || parentEl)
          return this.renderOverlay();
@@ -224,7 +223,9 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={::this.onMouseEnter}
             onMouseLeave={::this.onMouseLeave}
          >
-            { widget.modal || widget.backdrop && <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')} onClick={::this.onBackdropClick} /> }
+            { widget.modal || widget.backdrop &&
+            <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')}
+               onClick={::this.onBackdropClick}/> }
             {this.renderOverlayBody()}
          </div>
       );
@@ -239,6 +240,7 @@ export class OverlayComponent extends VDOM.Component {
                   this.shadowEl = el
                }}
                className={CSS.element(baseClass, 'shadow', {animated: this.state.animated})}
+               style={parseStyle(data.shadowStyle)}
             >
                {content}
             </div>
@@ -267,36 +269,36 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onFocusOut() {
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       widget.handleFocusOut(this.props.instance, this);
    }
 
    onMouseEnter(e) {
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       widget.handleMouseEnter(this.props.instance, this);
    }
 
    onMouseLeave(e) {
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       widget.handleMouseLeave(this.props.instance, this);
    }
 
    onKeyDown(e) {
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       widget.handleKeyDown(e, this.props.instance, this);
    }
 
    getResizePrefix(e) {
-      var {widget, data} = this.props.instance;
+      let {widget, data} = this.props.instance;
       if (!data.resizable)
          return '';
-      var cursor = this.getCursorPos(e);
-      var bounds = this.el.getBoundingClientRect();
-      var leftMargin = cursor.clientX - bounds.left;
-      var rightMargin = bounds.right - cursor.clientX;
-      var topMargin = cursor.clientY - bounds.top;
-      var bottomMargin = bounds.bottom - cursor.clientY;
-      var prefix = '';
+      let cursor = this.getCursorPos(e);
+      let bounds = this.el.getBoundingClientRect();
+      let leftMargin = cursor.clientX - bounds.left;
+      let rightMargin = bounds.right - cursor.clientX;
+      let topMargin = cursor.clientY - bounds.top;
+      let bottomMargin = bounds.bottom - cursor.clientY;
+      let prefix = '';
 
       if (topMargin >= 0 && topMargin < widget.resizeWidth)
          prefix += 'n';
@@ -311,14 +313,14 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
-      var {data} = this.props.instance;
-      var prefix = this.getResizePrefix(e);
+      let {data} = this.props.instance;
+      let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();
          e.stopPropagation();
-         var rect = this.el.getBoundingClientRect();
-         var cursor = this.getCursorPos(e);
-         var captureData = {
+         let rect = this.el.getBoundingClientRect();
+         let cursor = this.getCursorPos(e);
+         let captureData = {
             prefix: prefix,
             dl: cursor.clientX - rect.left,
             dt: cursor.clientY - rect.top,
@@ -338,8 +340,8 @@ export class OverlayComponent extends VDOM.Component {
 
    onBackdropClick(e) {
       e.stopPropagation();
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
 
       if (widget.onBackdropClick)
          widget.onBackdropClick(e, instance);
@@ -356,8 +358,8 @@ export class OverlayComponent extends VDOM.Component {
 
    onMouseMove(e, captureData) {
       if (captureData && captureData.prefix) {
-         var {prefix, rect, dl, dt, dr, db} = captureData;
-         var cursor = this.getCursorPos(e);
+         let {prefix, rect, dl, dt, dr, db} = captureData;
+         let cursor = this.getCursorPos(e);
 
          if (prefix.indexOf('w') != -1)
             this.setCustomStyle({
@@ -388,7 +390,7 @@ export class OverlayComponent extends VDOM.Component {
             });
       }
       else {
-         var prefix = this.getResizePrefix(e);
+         let prefix = this.getResizePrefix(e);
          this.setCustomStyle({
             cursor: prefix ? prefix + '-resize' : null
          });
@@ -406,9 +408,9 @@ export class OverlayComponent extends VDOM.Component {
    startMoveOperation(e) {
       if (this.el && !this.getResizePrefix(e)) {
          e.stopPropagation();
-         var rect = this.el.getBoundingClientRect();
-         var cursor = this.getCursorPos(e);
-         var data = {
+         let rect = this.el.getBoundingClientRect();
+         let cursor = this.getCursorPos(e);
+         let data = {
             dx: cursor.clientX - rect.left,
             dy: cursor.clientY - rect.top
          };
@@ -419,7 +421,7 @@ export class OverlayComponent extends VDOM.Component {
 
    onMove(e, data) {
       if (data) {
-         var cursor = this.getCursorPos(e);
+         let cursor = this.getCursorPos(e);
          e.preventDefault();
          this.setCustomStyle({
             left: (cursor.clientX - data.dx) + 'px',
@@ -534,7 +536,7 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    getOverlayStyle() {
-      var {data} = this.props.instance;
+      let {data} = this.props.instance;
       return {
          ...data.style,
          ...this.customStyle
@@ -542,9 +544,9 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    setCSSState(mods) {
-      var m = {...this.state.mods};
-      var changed = false;
-      for (var k in mods)
+      let m = {...this.state.mods};
+      let changed = false;
+      for (let k in mods)
          if (m[k] !== mods[k]) {
             m[k] = mods[k];
             changed = true;
@@ -557,8 +559,8 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    getOverlayCssClass() {
-      var {data, widget} = this.props.instance;
-      var {CSS} = widget;
+      let {data, widget} = this.props.instance;
+      let {CSS} = widget;
 
       return CSS.expand(data.classNames, CSS.state({
          ...this.state.mods,
@@ -570,7 +572,7 @@ export class OverlayComponent extends VDOM.Component {
       if (this.containerEl) {
          VDOM.DOM.render(this.renderOverlay(), this.containerEl);
       }
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       widget.overlayDidUpdate(this.props.instance, this);
       this.el.className = this.getOverlayCssClass();
       Object.assign(this.el.style, this.getOverlayStyle());

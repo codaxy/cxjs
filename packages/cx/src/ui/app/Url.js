@@ -25,7 +25,7 @@ export class Url {
 
    static isLocal(url) {
       var absBase = this.getAbsoluteBase();
-      return url.indexOf(absBase) == 0 || url.indexOf(this.base) == 0;
+      return url.indexOf('~/') == 0 || url.indexOf(absBase) == 0 || url.indexOf(this.base) == 0;
    }
 
    static setBase(base) {
