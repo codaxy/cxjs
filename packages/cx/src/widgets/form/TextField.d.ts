@@ -60,6 +60,10 @@ export interface TextFieldProps extends FieldProps {
    
    /** Name of the icon to be put on the left side of the input. */
    icon?: string,
+
+   /** Set to `true` to monitor and report if input value has changed after the form has been
+    automatically filled. */
+   trackBrowserAutofill?: boolean
    
 }
 

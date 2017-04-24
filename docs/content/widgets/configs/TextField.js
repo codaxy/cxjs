@@ -87,7 +87,7 @@ export default {
     trackBrowserAutofill: {
         type: 'string',
         description: <cx><Md>
-            Set to `true` to monitor and report that input value has changed after the form has been
+            Set to `true` to monitor and report if input value has changed after the form has been
             automatically filled.
         </Md></cx>
     }

@@ -3,4 +3,4 @@
  * @param args 
  * @returns {Date}
  */
-export function maxDate(...args: Date[]) : Date; 
+export function minDate(...args: Date[]) : Date;

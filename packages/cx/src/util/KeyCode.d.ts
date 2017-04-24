@@ -1,24 +1,20 @@
-type Enum = {
-   [prop: string]: number;
+export class KeyCode {
+   static backspace: 8;
+   static tab: 9;
+   static enter: 13;
+   static shift: 16;
+   static ctrl: 17;
+   static alt: 18;
+   static esc: 27;
+   static space: 32;
+   static pageUp: 33;
+   static pageDown: 34;
+   static end: 35;
+   static home: 36;
+   static left: 37;
+   static up: 38;
+   static right: 39;
+   static down: 40;
+   static insert: 45;
+   static "delete": 46;
 }
-
-export const KeyCode : Enum = {
-   backspace: 8,
-   tab: 9,
-   enter: 13,
-   shift: 16,
-   ctrl: 17,
-   alt: 18,
-   esc: 27,
-   space: 32,
-   pageUp: 33,
-   pageDown: 34,
-   end: 35,
-   home: 36,
-   left: 37,
-   up: 38,
-   right: 39,
-   down: 40,
-   insert: 45,
-   "delete": 46
-};

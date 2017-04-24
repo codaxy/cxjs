@@ -1,10 +1,10 @@
 
 export class Debug {
 
-   static enable(flag: boolean);
+   static enable(flag: string);
 
-   static disable(flag: boolean);
+   static disable(flag: string);
 
-   static log(flag): boolean;
+   static log(flag): string;
 
 }
