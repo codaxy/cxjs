@@ -6,6 +6,7 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    baseClass?: string,
    hoverFocusTimeout?: number,
    clickToOpen?: boolean,
+   hoverToOpen?: boolean,
    horizontal?: boolean,
    arrow?: boolean,
    dropdownOptions?: Cx.Config | null,
