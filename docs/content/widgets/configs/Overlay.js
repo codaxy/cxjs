@@ -71,5 +71,12 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `overlay`.
         </Md></cx>
+    },
+    containerStyle: {
+        key: false,
+        type: 'string',
+        description: <cx><Md>
+            Add
+        </Md></cx>
     }
 };

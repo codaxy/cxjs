@@ -56,7 +56,7 @@ export default (
                            <Menu horizontal itemPadding="small">
                               <Submenu placement="down-left">
                                  <span style="padding: 4px">
-                                    <Icon name="drop-down" />
+                                    <Icon name="search" />
                                  </span>
                                  <Menu putInto="dropdown">
                                     <TextField mod="menu" placeholder="Filter" />

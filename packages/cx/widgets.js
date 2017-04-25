@@ -1,1 +1,1 @@
-module.exports = require('./dist/widgets');
+export * from './dist/widgets';

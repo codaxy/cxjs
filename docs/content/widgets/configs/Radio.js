@@ -37,5 +37,11 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `radio`.
         </Md></cx>
+    },
+    text: {
+        type: 'string',
+        description: <cx><Md>
+            Text description.
+        </Md></cx>
     }
 };

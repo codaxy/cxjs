@@ -6,9 +6,9 @@ export function updateArray(array, updateCallback, itemFilter) {
    let newArray = [];
    let dirty = false;
    
-   array.forEach(item => {
-      if (!itemFilter || itemFilter(item)) {
-         let newItem = updateCallback(item);
+   array.forEach((item, index) => {
+      if (!itemFilter || itemFilter(item, index)) {
+         let newItem = updateCallback(item, index);
          newArray.push(newItem);
          if (newItem !== item)
             dirty = true;

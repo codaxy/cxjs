@@ -74,6 +74,7 @@ export class MenuItem extends HtmlElement {
 
 MenuItem.prototype.baseClass = 'menuitem';
 MenuItem.prototype.hoverFocusTimeout = 500;
+MenuItem.prototype.hoverToOpen = false;
 MenuItem.prototype.clickToOpen = false;
 MenuItem.prototype.horizontal = true;
 MenuItem.prototype.memoize = false;
@@ -82,6 +83,7 @@ MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
 MenuItem.prototype.placement = null; //default dropdown placement
+MenuItem.prototype.autoClose = false;
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -194,7 +196,9 @@ class MenuItemComponent extends VDOM.Component {
       if (widget.dropdown && !this.state.dropdownOpen) {
          this.clearAutoFocusTimer();
 
-         if (!widget.clickToOpen) {
+         if (widget.hoverToOpen)
+            FocusManager.focus(this.el);
+         else if (!widget.clickToOpen) {
             // Automatically open the dropdown only if parent menu is focused
             let commonParentMenu = closest(this.el, el => el.tagName == 'UL' && el.contains(document.activeElement));
             if (commonParentMenu)
@@ -218,6 +222,9 @@ class MenuItemComponent extends VDOM.Component {
       if (widget.dropdown) {
          Debug.log(menuFlag, 'MenuItem', 'mouseLeave', this.el);
          this.clearAutoFocusTimer();
+
+         if (widget.hoverToOpen && document.activeElement == this.el)
+            this.el.blur();
       }
    }
 
@@ -248,7 +255,7 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
          e.stopPropagation();
-         if (this.state.dropdownOpen)
+         if (this.state.dropdownOpen && !widget.hoverToOpen)
             this.closeDropdown();
          else {
             //IE sometimes does not focus parent on child click
@@ -274,6 +281,9 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.dropdown)
          e.preventDefault(); //prevent navigation
+
+      if (widget.autoClose)
+         document.activeElement.blur();
    }
 
    onFocus() {

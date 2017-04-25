@@ -22,9 +22,9 @@ export const TextFields = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label="Disabled" value:bind="$page.text" disabled/>
-                    <TextField label="Readonly" value:bind="$page.text" readOnly/>
+                    <TextField label="Standard" value:bind="$page.text" autoFocus />
+                    <TextField label="Disabled" value:bind="$page.text" disabled />
+                    <TextField label="Readonly" value:bind="$page.text" readOnly />
                     <TextField label="Placeholder" value:bind="$page.text" placeholder="Type something here..."/>
                     <TextField label="Tooltip" value:bind="$page.text" tooltip='This is a tooltip.'/>
                 </div>
@@ -43,9 +43,9 @@ export const TextFields = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="drqgvlX1">{`
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label="Disabled" value:bind="$page.text" disabled/>
-                    <TextField label="Readonly" value:bind="$page.text" readOnly/>
+                    <TextField label="Standard" value:bind="$page.text" autoFocus />
+                    <TextField label="Disabled" value:bind="$page.text" disabled />
+                    <TextField label="Readonly" value:bind="$page.text" readOnly />
                     <TextField label="Placeholder" value:bind="$page.text" placeholder="Type something here..."/>
                     <TextField label="Tooltip" value:bind="$page.text" tooltip='This is a tooltip.'/>
                 </div>

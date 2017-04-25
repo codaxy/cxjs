@@ -21,6 +21,7 @@ export {
    Repeater
 };
 
+export * from './cx';
 export * from './HtmlElement';
 export * from './Button';
 export * from './DocumentTitle';

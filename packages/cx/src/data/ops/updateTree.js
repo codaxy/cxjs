@@ -1,15 +1,15 @@
 import {updateArray} from './updateArray';
 
-export function updateTree(array, updateCallback, itemFilter, childrenProperty) {
+export function updateTree(array, updateCallback, itemFilter, childrenField) {
    return updateArray(array, (item) => {
-      var updatedItem = updateCallback(item);
+      let updatedItem = updateCallback(item);
       if (updatedItem) {
-         var children = updatedItem[childrenProperty];
-         var updatedChildren = updateTree(children, updateCallback, itemFilter, childrenProperty);
+         let children = updatedItem[childrenField];
+         let updatedChildren = updateTree(children, updateCallback, itemFilter, childrenField);
          if (updatedChildren != children) {
             updatedItem = {
                ...updatedItem,
-               [childrenProperty]: updatedChildren
+               [childrenField]: updatedChildren
             }
          }
       }

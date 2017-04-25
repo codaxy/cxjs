@@ -2,7 +2,7 @@ import {Widget, VDOM, getContentArray} from '../ui/Widget';
 import {HtmlElement} from './HtmlElement';
 import {MsgBox} from './overlay/MsgBox';
 import {Icon} from './Icon';
-import {stopPropagation} from '../util/eventCallbacks';
+//import {stopPropagation} from '../util/eventCallbacks';
 import {preventFocus} from '../ui/FocusManager';
 
 export class Button extends HtmlElement {
@@ -30,16 +30,9 @@ export class Button extends HtmlElement {
          props.onMouseDown = e => {
             if (this.onMouseDown)
                this.onMouseDown(e, instance);
-            e.stopPropagation();
             preventFocus(e);
          }
       }
-
-      if (!props.onMouseDown)
-         props.onMouseDown = stopPropagation;
-
-      if (!props.onTouchStart)
-         props.onTouchStart = stopPropagation;
 
       if (this.dismiss) {
          props.onClick = () => {
@@ -53,13 +46,15 @@ export class Button extends HtmlElement {
       delete props.confirm;
       delete props.dismiss;
       delete props.pressed;
+      delete props.submit;
+      delete props.focusOnMouseDown;
+      delete props.icon;
 
       let oldOnClick, {data} = instance;
 
       if (data.confirm) {
          oldOnClick = props.onClick;
-         props.onClick = e => {
-            e.stopPropagation();
+         props.onClick = () => {
             MsgBox.yesNo(data.confirm)
                .then(btn => {
                   if (btn == 'yes')

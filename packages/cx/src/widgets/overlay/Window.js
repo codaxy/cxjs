@@ -6,6 +6,7 @@ import {Button} from '../Button';
 import CloseIcon from '../icons/close';
 import {parseStyle} from '../../util/parseStyle';
 import {Localization} from '../../ui/Localization';
+import {stopPropagation} from '../../util/eventCallbacks';
 
 export class Window extends Overlay {
 
@@ -40,7 +41,9 @@ export class Window extends Overlay {
             mod: 'hollow',
             dismiss: true,
             icon: 'close',
-            style: 'margin-left: auto'
+            style: 'margin-left: auto',
+            onTouchStart: stopPropagation,
+            onMouseDown: stopPropagation
          })
       });
    }

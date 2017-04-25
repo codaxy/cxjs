@@ -58,7 +58,8 @@ export class Menu extends HtmlElement {
       if (item && item.tag == 'a') {
          this.add({
             type: MenuItem,
-            items: item
+            items: item,
+            autoClose: true
          })
       }
       else

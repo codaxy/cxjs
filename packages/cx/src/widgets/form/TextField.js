@@ -78,6 +78,7 @@ TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.
 TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
+TextField.prototype.trackBrowserAutofill = false;
 
 Localization.registerPrototype('cx/widgets/TextField', TextField);
 
@@ -200,14 +201,21 @@ class Input extends VDOM.Component {
       tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state));
    }
 
-   componentWillUnmount() {
-      tooltipParentWillUnmount(this.props.instance);
-   }
-
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
+      if (this.props.instance.widget.trackBrowserAutofill)
+         this.autoFillTimer = setInterval(() => {
+            if (this.props.data.value != this.input.value && document.activeElement !== this.input)
+               this.props.instance.set('value', this.input.value || null);
+         }, 300);
+   }
+
+   componentWillUnmount() {
+      tooltipParentWillUnmount(this.props.instance);
+      if (this.autoFillTimer)
+         clearInterval(this.autoFillTimer);
    }
 
 

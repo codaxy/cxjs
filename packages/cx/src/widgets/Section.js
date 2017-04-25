@@ -60,7 +60,7 @@ export class Section extends PureContainer {
          });
 
       if (this.header)
-         return Widget.create(this.header);
+         return Heading.create(this.header);
 
       return null;
    }

@@ -1,7 +1,7 @@
 import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content} from 'cx/widgets';
 import {Controller, PropertySelection, KeySelection} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
-import {Chart, Gridlines, BubbleGraph, NumericAxis} from 'cx/charts';
+import {Chart, Gridlines, ScatterGraph, NumericAxis} from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
@@ -15,7 +15,7 @@ class PageController extends Controller {
             name: `Bubble ${i + 1}`,
             x: Math.random() * 100,
             y: Math.random() * 100,
-            r: Math.random() * 20,
+            d: Math.random() * 40,
             selected: i % 2 == 0
         })));
     }
@@ -36,7 +36,7 @@ export const Selections = <cx>
             be handled and `Cx` offers commonly used methods out of the box.
 
             <Content name="code">
-                <CodeSnippet>{`
+               <CodeSnippet>{`
                class PageController extends Controller {
                   init() {
                      super.init();
@@ -45,7 +45,7 @@ export const Selections = <cx>
                         name: \`Bubble \${i+1}\`,
                         x: Math.random() * 100,
                         y: Math.random() * 100,
-                        r: Math.random() * 20,
+                        d: Math.random() * 40,
                         selected: i % 2 == 0
                      })));
                   }
@@ -64,25 +64,29 @@ export const Selections = <cx>
         is selected or not.
 
         <CodeSplit>
-            <div class="widgets">
-                <Svg style={{width: '400px', height: "400px"}}>
+            <div class="widgets" controller={PageController}>
+                <Svg style={{ width: "400px", height: "400px" }}>
                     <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                        <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}}/>
+                        <Rectangle
+                            anchors="0 1 1 0"
+                            style={{ fill: "rgba(100, 100, 100, 0.1)" }}
+                        />
                         <Gridlines />
-                        <BubbleGraph
-                            data:bind='$page.bubbles'
-                            selection={{
-                                type: PropertySelection,
-                                multiple: true,
-                                toggle: false
-                            }}
+                        <ScatterGraph
+                            data:bind="$page.bubbles"
+                            selection={{ type: PropertySelection, multiple: true }}
+                            sizeField="d"
+                            colorIndex={0}
                         />
                     </Chart>
                 </Svg>
                 <div>
                     <Repeater records:bind="$page.bubbles">
                         <div>
-                            <Checkbox checked:bind="$record.selected" text:bind="$record.name"/>
+                            <Checkbox
+                                checked:bind="$record.selected"
+                                text:bind="$record.name"
+                            />
                         </div>
                     </Repeater>
                 </div>
@@ -90,29 +94,33 @@ export const Selections = <cx>
 
             <Content name="code">
                 <CodeSnippet fiddle="eINrAOlQ">{`
-               <div class="widgets" controller={PageController}>
-                  <Svg style={{width: '400px', height:"400px"}}>
-                     <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                        <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}} />
-                        <Grid />
-                        <BubbleGraph
-                            data:bind='$page.bubbles'
-                            selection={{
-                                type: PropertySelection,
-                                multiple: true,
-                                toggle: false
-                            }}
-                        />
-                     </Chart>
-                  </Svg>
-                  <div>
-                     <Repeater records:bind="$page.bubbles">
-                        <div>
-                           <Checkbox checked:bind="$record.selected" text:bind="$record.name" />
-                        </div>
-                     </Repeater>
-                  </div>
-               </div>
+                <div class="widgets" controller={PageController}>
+                    <Svg style={{ width: "400px", height: "400px" }}>
+                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                            <Rectangle
+                                anchors="0 1 1 0"
+                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
+                            />
+                            <Gridlines />
+                            <ScatterGraph
+                                data:bind="$page.bubbles"
+                                selection={{ type: PropertySelection, multiple: true }}
+                                sizeField="d"
+                                colorIndex={0}
+                            />
+                        </Chart>
+                    </Svg>
+                    <div>
+                        <Repeater records:bind="$page.bubbles">
+                            <div>
+                                <Checkbox
+                                    checked:bind="$record.selected"
+                                    text:bind="$record.name"
+                                />
+                            </div>
+                        </Repeater>
+                    </div>
+                </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>

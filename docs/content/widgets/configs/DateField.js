@@ -1,15 +1,22 @@
 import {Md} from '../../../components/Md';
 import field from './Field';
+import calendar from './Calendar';
+
+let {
+    minValue, 
+    minExclusive, 
+    maxValue, 
+    maxExclusive, 
+    value 
+} = calendar;
 
 export default {
+    minValue,
+    minExclusive,
+    maxValue,
+    maxExclusive,
+    value,
     ...field,
-    value: {
-        key: true,
-        type: 'string',
-        description: <cx><Md>
-            Selected date. This should be a valid date string consumable by `Date.parse` function.
-        </Md></cx>
-    },
     baseClass: {
         type: 'string',
         description: <cx><Md>

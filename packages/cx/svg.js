@@ -1,1 +1,1 @@
-module.exports = require('./dist/svg');
+export * from './dist/svg';

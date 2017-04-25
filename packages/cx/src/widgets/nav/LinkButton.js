@@ -49,16 +49,20 @@ export class LinkButton extends Button {
 
    handleClick(e, instance) {
       let {data} = instance;
-      e.preventDefault();
 
-      if (data.disabled)
+
+      if (data.disabled) {
+         e.preventDefault();
          return;
+      }
 
       if (this.onClick && this.onClick(e, instance) === false)
          return;
 
-      if (History.pushState({}, null, data.href))
-         e.stopPropagation();
+      if (Url.isLocal(data.href)) {
+         e.preventDefault();
+         History.pushState({}, null, data.href);
+      }
    }
 }
 

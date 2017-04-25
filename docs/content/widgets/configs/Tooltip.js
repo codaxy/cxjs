@@ -69,5 +69,12 @@ export default {
             is `toggle` which means that the tooltip is shown on first tap and closed
             on the second tap. Use `ignore` to skip showing tooltips on touch events.
         </Md></cx>
+    },
+    baseClass: {
+        key: false,
+        type: 'string',
+        description: <cx><Md>
+            Base CSS class to be applied to the field. Defaults to `tooltip`.
+        </Md></cx>
     }
 };
