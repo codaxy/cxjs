@@ -54,8 +54,7 @@ export class Button extends HtmlElement {
 
       if (data.confirm) {
          oldOnClick = props.onClick;
-         props.onClick = e => {
-            e.stopPropagation();
+         props.onClick = () => {
             MsgBox.yesNo(data.confirm)
                .then(btn => {
                   if (btn == 'yes')

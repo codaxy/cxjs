@@ -50,7 +50,7 @@ export const Menus = <cx>
                                 </Menu>
                             </Submenu>
                             <DateField value:bind="$page.date" mod="menu"/>
-                            <MenuItem mod="active" class="test" style="color:red;">
+                            <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
                         </Menu>
@@ -107,7 +107,7 @@ export const Menus = <cx>
                             </Menu>
                          </Submenu>
                          <DateField value:bind="$page.date" mod="menu" />
-                         <MenuItem mod="active" class="test" style="color:red;">
+                         <MenuItem mod="active" class="test" style="color:red;" autoClose>
                             <a href="#">Item Level CSS</a>
                          </MenuItem>
                       </Menu>

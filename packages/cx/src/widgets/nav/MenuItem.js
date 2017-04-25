@@ -83,6 +83,7 @@ MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
 MenuItem.prototype.placement = null; //default dropdown placement
+MenuItem.prototype.autoClose = false;
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -280,6 +281,9 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.dropdown)
          e.preventDefault(); //prevent navigation
+
+      if (widget.autoClose)
+         document.activeElement.blur();
    }
 
    onFocus() {
