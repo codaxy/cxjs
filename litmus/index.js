@@ -8,7 +8,7 @@ import "./error";
 import './index.scss';
 
 // import {GridSection} from './sections/Grid';
-import {FormSection as Demo} from './sections/Form';
+//import {FormSection as Demo} from './sections/Form';
 // import {WindowSection} from './sections/Window';
 //import {ListSection as Demo} from './sections/List';
 // import ComplexGrid from './sections/ComplexGrid';
@@ -19,6 +19,8 @@ import {FormSection as Demo} from './sections/Form';
 //import Demo from './bugs/80';
 //import Demo from './bugs/search';
 
+import Demo from './features/caching/CachedBoxes';
+
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
 //import Demo from './features/drag-drop/trello';
@@ -26,15 +28,15 @@ import {FormSection as Demo} from './sections/Form';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 
-import Demo from './features/grid/header-tool';
+//import Demo from './features/grid/header-tool';
 
 let store = new Store();
 
 Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
-Timing.enable('vdom-render');
-//Timing.enable('app-loop');
+//Timing.enable('vdom-render');
+Timing.enable('app-loop');
 //Debug.enable("app-data");
 
 

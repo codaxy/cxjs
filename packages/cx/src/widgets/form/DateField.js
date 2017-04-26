@@ -384,9 +384,7 @@ class DateInput extends VDOM.Component {
       let {data, state} = props.instance;
       if (data.formatted != this.input.value && (data.formatted != this.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
-         props.instance.setState({
-            inputError: false
-         })
+         this.revalidate = true;
       }
       this.data = data;
       if (data.visited)
@@ -400,6 +398,11 @@ class DateInput extends VDOM.Component {
          this.input.focus();
    }
 
+   componentDidUpdate() {
+      if (this.revalidate)
+         this.setValue(this.input.value);
+   }
+
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
    }
@@ -411,18 +414,14 @@ class DateInput extends VDOM.Component {
       if (widget.reactOn.indexOf(eventType) == -1)
          return;
 
-      let date = widget.parseDate(e.target.value);
-
-      instance.setState({
-         inputError: isNaN(date) && widget.inputErrorText
-      });
-
-      this.setValue(date);
+      this.setValue(e.target.value);
    }
 
-   setValue(date) {
+   setValue(value) {
       let {instance} = this.props;
       let {widget} = instance;
+
+      let date = widget.parseDate(value);
 
       instance.setState({
          inputError: isNaN(date) && widget.inputErrorText
@@ -430,5 +429,7 @@ class DateInput extends VDOM.Component {
 
       if (!isNaN(date))
          instance.set('value', date ? date.toISOString() : null);
+
+      this.revalidate = false;
    }
 }

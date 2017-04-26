@@ -101,10 +101,9 @@ export class Instance {
       this.shouldUpdate = this.rawData !== this.cached.rawData
          || this.cached.state !== this.state
          || this.cached.widgetVersion !== this.widget.version
-         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get();
-
-      if (!this.widget.memoize)
-         this.shouldUpdate = true;
+         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get()
+         || !this.widget.memoize
+         || this.childStateDirty;
 
       if (this.shouldUpdate) {
          this.data = {...this.rawData};
@@ -163,6 +162,9 @@ export class Instance {
       if (!this.visible)
          return;
 
+      //clear the flag here as children are going to be rendered soon
+      this.childStateDirty = false;
+
       if (this.widget.controller && this.controller)
          this.controller.prepare(context);
 
@@ -200,7 +202,7 @@ export class Instance {
       if (this.outerLayout && this.widget.outerLayout && !this.shouldRenderContent)
          return this.outerLayout.render(context, keyPrefix);
 
-      var vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
+      let vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
          ? this.cached.vdom
          : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
@@ -265,9 +267,15 @@ export class Instance {
       if (!skip) {
          this.cached.state = this.state;
          this.state = Object.assign({}, this.state, state);
+         let parent = this.parent;
+         //notify all parents that child state change to bust up caching
+         while (parent) {
+            parent.childStateDirty = true;
+            parent = parent.parent;
+         }
          batchUpdates(() => {
             this.store.notify();
-         });
+         })
       }
    }
 

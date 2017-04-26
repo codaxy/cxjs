@@ -2,6 +2,7 @@ import {Widget} from '../ui/Widget';
 import {Text} from '../ui/Text';
 import {StaticText} from '../ui/StaticText';
 import {PureContainer} from '../ui/PureContainer';
+import {IsolatedScope} from '../ui/IsolatedScope';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
@@ -18,7 +19,8 @@ export {
    ContentPlaceholder,
    ContentResolver,
    Rescope,
-   Repeater
+   Repeater,
+   IsolatedScope
 };
 
 export * from './cx';
