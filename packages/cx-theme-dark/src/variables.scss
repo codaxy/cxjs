@@ -27,7 +27,9 @@ $cx-default-input-background-color: $cx-default-background-color-light !default;
 $cx-default-input-color: darken($cx-default-color, 2) !default;
 
 $cx-default-checkbox-size: 16px !default;
+$cx-default-checkbox-color: rgba($cx-default-color, 0.7) !default;
 $cx-default-radio-size: 16px !default;
+$cx-default-radio-color: rgba($cx-default-color, 0.7) !default;
 
 $cx-default-dropdown-background-color: $cx-default-background-color-dark !default;
 

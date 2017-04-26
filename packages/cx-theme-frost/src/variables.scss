@@ -1,5 +1,6 @@
 
 // GLOBAL VARIABLES
+$cx-default-color: #373a3c !default;
 $cx-default-highlight-color: #ddf1f6 !default;
 
 $cx-default-border-color: #ccc !default;
@@ -16,7 +17,10 @@ $cx-default-box-border-width: 2px !default;
 $cx-default-box-padding: 5px !default;
 
 $cx-default-checkbox-size: 16px !default;
+$cx-default-checkbox-color: rgba($cx-default-color, 0.7) !default;
+
 $cx-default-radio-size: 16px !default;
+$cx-default-radio-color: rgba($cx-default-color, 0.7) !default;
 $cx-default-input-border-color: #eff1f7 !default;
 
 $cx-default-input-tag-background-color: $cx-default-button-background-color !default;
