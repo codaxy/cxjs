@@ -34,7 +34,9 @@ export class DocumentTitle extends Widget {
 
          switch (data.action) {
             case "append":
-               context.documentTitle.title += data.separator + data.text;
+               if (context.documentTitle.title)
+                  context.documentTitle.title += data.separator;
+               context.documentTitle.title += data.text;
                break;
 
             case "prepend":
