@@ -7,18 +7,20 @@ import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
 import {Rescope} from '../ui/Rescope';
 import {Repeater} from '../ui/Repeater';
+import {IsolatedScope} from '../ui/IsolatedScope';
 
 //re-export widgets defined in ui namespace
 export {
-    Widget,
-    StaticText,
-    Text,
-    PureContainer,
-    Content,
-    ContentPlaceholder,
-    ContentResolver,
-    Rescope,
-    Repeater
+   Widget,
+   StaticText,
+   Text,
+   PureContainer,
+   Content,
+   ContentPlaceholder,
+   ContentResolver,
+   Rescope,
+   Repeater,
+   IsolatedScope
 };
 
 export * from './cx';

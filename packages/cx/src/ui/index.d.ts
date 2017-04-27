@@ -18,6 +18,7 @@ export * from './Cx';
 export * from './Instance';
 export * from './ContentResolver';
 export * from './batchUpdates';
+export * from './IsolatedScope';
 
 export * from './selection/index';
 export * from './layout/index';

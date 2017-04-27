@@ -36,6 +36,7 @@ export * from './FlexBox';
 export * from './Toasts';
 export * from './Icons';
 export * from './Switches';
+export * from './IsolatedScope';
 
 import { bumpVersion } from '../version';
 

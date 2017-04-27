@@ -15,9 +15,9 @@ export const PureContainer = <cx>
 
       <ImportPath path="import {PureContainer} from 'cx/widgets';" />
 
-      The `PureContainer` component does not render a top-level HTML element and therefore doesn't have any visual
-      attributes. It outputs its children, however, the container provides a good place to control
-      group level features such as layout or visibility.
+      The `PureContainer` component provides a place to control layout or visibility for all of its children.
+       The component itself doesn't render any markup and therefore doesn't have any visual
+      attributes.
 
       The `PureContainer` class is commonly used as a base class for other widgets such as:
 

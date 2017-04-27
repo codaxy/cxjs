@@ -73,13 +73,14 @@ var contents = [{
     expanded: false,
     articles: [
         {title: 'HtmlElement', url: '~/widgets/html-elements'},
-        {title: 'PureContainer', url: '~/widgets/pure-container'},
         {title: 'Button', url: '~/widgets/buttons'},
         {title: 'UploadButton', url: '~/widgets/upload-button'},
         {title: 'Section', url: '~/widgets/sections'},
         {title: 'Heading', url: '~/widgets/headings'},
         {title: 'FlexBox', url: '~/widgets/flex-box'},
         {title: 'Icon', url: '~/widgets/icons'},
+        {title: 'PureContainer', url: '~/widgets/pure-container'},
+        {title: 'IsolatedScope', url: '~/widgets/isolated-scope'},
 
     ]
 }, {
