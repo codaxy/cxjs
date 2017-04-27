@@ -2,7 +2,7 @@ import * as Cx from '../core';
 import * as React from 'react';
 import {Instance} from "../ui/Instance";
 /**  */
-interface ButtonProps extends Cx.HtmlElementProps {
+export interface ButtonProps extends Cx.HtmlElementProps {
 
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
    confirm?: Cx.Prop<string | Cx.Config>,
