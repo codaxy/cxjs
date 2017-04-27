@@ -13,4 +13,8 @@ interface LegendProps extends Cx.HtmlElementProps {
 
 }
 
-export class Legend extends Cx.Widget<LegendProps> {}
+export class Legend extends Cx.Widget<LegendProps> {
+
+   static Scope() : any;
+
+}
