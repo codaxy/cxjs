@@ -384,7 +384,7 @@ class DateInput extends VDOM.Component {
       let {data, state} = props.instance;
       if (data.formatted != this.input.value && (data.formatted != this.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
-         this.revalidate = true;
+         this.setValue(this.input.value);
       }
       this.data = data;
       if (data.visited)
@@ -396,11 +396,6 @@ class DateInput extends VDOM.Component {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
-   }
-
-   componentDidUpdate() {
-      if (this.revalidate)
-         this.setValue(this.input.value);
    }
 
    componentWillUnmount() {
@@ -429,7 +424,5 @@ class DateInput extends VDOM.Component {
 
       if (!isNaN(date))
          instance.set('value', date ? date.toISOString() : null);
-
-      this.revalidate = false;
    }
 }
