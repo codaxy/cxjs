@@ -1,6 +1,12 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
+import {
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipParentDidMount
+} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
 
@@ -43,14 +49,16 @@ export class Radio extends Field {
    renderWrap(context, instance, key, content) {
       var {data} = instance;
       return <label key={key}
-                    className={data.classNames}
-                    style={data.style}
-                    onMouseDown={stopPropagation}
-                    onTouchStart={stopPropagation}
-                    onMouseMove={e=>tooltipMouseMove(e, ...getFieldTooltip(instance))}
-                    onMouseLeave={e=>tooltipMouseLeave(e, ...getFieldTooltip(instance))}
-                    onClick={e=>{this.handleClick(e, instance)}}
-                    htmlFor={data.id}>
+         className={data.classNames}
+         style={data.style}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+         onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+         onClick={e => {
+            this.handleClick(e, instance)
+         }}
+         htmlFor={data.id}>
          {content}
          {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
       </label>
@@ -106,12 +114,12 @@ export class Radio extends Field {
          var el = document.getElementById(instance.data.id);
          if (el)
             el.focus();
+         e.preventDefault();
          this.handleChange(e, instance, !instance.data.value)
       }
    }
 
    handleChange(e, instance) {
-      e.preventDefault();
       var {data} = instance;
       if (data.disabled || data.readOnly)
          return;
@@ -149,15 +157,16 @@ class RadioCmp extends VDOM.Component {
 
 
       return (
-         <div key="check"
-              tabIndex={data.disabled || data.readOnly ? null : 0}
-              className={CSS.element(baseClass, "input", {
-                 checked: this.state.value
-              })}
-              style={CSS.parseStyle(data.inputStyle)}
-              id={data.id}
-              onClick={::this.onClick}
-              onKeyDown={::this.onKeyDown}
+         <span
+            key="check"
+            tabIndex={data.disabled || data.readOnly ? null : 0}
+            className={CSS.element(baseClass, "input", {
+               checked: this.state.value
+            })}
+            style={CSS.parseStyle(data.inputStyle)}
+            id={data.id}
+            onClick={::this.onClick}
+            onKeyDown={::this.onKeyDown}
          />
       )
    }

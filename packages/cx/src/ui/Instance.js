@@ -275,7 +275,7 @@ export class Instance {
          }
          batchUpdates(() => {
             this.store.notify();
-         })
+         });
       }
    }
 

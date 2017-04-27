@@ -97,15 +97,15 @@ export class Checkbox extends Field {
          var el = document.getElementById(instance.data.id);
          if (el)
             el.focus();
-         if (instance.data.mode != 'view')
-            this.handleChange(e, instance, !instance.data.value)
+         if (instance.data.mode != 'view') {
+            e.preventDefault();
+            e.stopPropagation();
+            this.handleChange(e, instance, !instance.data.value);
+         }
       }
    }
 
    handleChange(e, instance, checked) {
-      e.preventDefault();
-      e.stopPropagation();
-
       let {data} = instance;
 
       if (data.readOnly || data.disabled)
@@ -152,7 +152,7 @@ class CheckboxCmp extends VDOM.Component {
       else if (this.state.value)
          check = 'check';
 
-      return <div
+      return <span
          key="check"
          tabIndex={widget.unfocusable || data.disabled || data.readOnly ? null : 0}
          className={CSS.element(baseClass, "input", {
@@ -165,7 +165,7 @@ class CheckboxCmp extends VDOM.Component {
       >
          { check == 'check' && <CheckIcon className={CSS.element(baseClass, "input-check")}/> }
          { check == 'indeterminate' && <SquareIcon className={CSS.element(baseClass, "input-check")}/> }
-      </div>
+      </span>
    }
 
    onClick(e) {

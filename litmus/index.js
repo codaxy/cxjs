@@ -18,8 +18,9 @@ import './index.scss';
 
 //import Demo from './bugs/80';
 //import Demo from './bugs/search';
+import Demo from './bugs/NativeCheckboxesAndRadios';
 
-import Demo from './features/caching/CachedBoxes';
+//import Demo from './features/caching/IsolatedBoxes';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
