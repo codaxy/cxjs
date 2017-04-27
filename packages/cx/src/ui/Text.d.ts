@@ -4,7 +4,9 @@ interface TextProps extends Cx.WidgetProps {
     value?: Cx.StringProp,
     bind?: string,
     tpl?: string,
-    expr?: string
+    expr?: string,
+    dy?: string,
+    ta?: string
 }
 
 export class Text extends Cx.Widget<TextProps> {}
