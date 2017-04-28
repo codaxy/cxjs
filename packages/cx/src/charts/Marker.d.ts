@@ -69,6 +69,8 @@ interface MarkerProps extends BoundedObjectProps {
 
    legendAction?: string,
 
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.Prop<Cx.Config | string>
 }
 
 export class Marker extends Cx.Widget<MarkerProps> {}
