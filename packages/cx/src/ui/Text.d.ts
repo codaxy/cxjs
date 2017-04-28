@@ -7,7 +7,8 @@ interface TextProps extends Cx.WidgetProps {
     expr?: string,
     dy?: string,
     ta?: string,
-    textAnchor?: string
+    textAnchor?: string,
+    style?: Cx.StyleProp
 }
 
 export class Text extends Cx.Widget<TextProps> {}

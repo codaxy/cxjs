@@ -56,7 +56,10 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    baseClass?: string,
 
    pure?: boolean,
-   legendAction?: string
+   legendAction?: string,
+   
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.StringProp | Cx.StructuredProp
 
 }
 

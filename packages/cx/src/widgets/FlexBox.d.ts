@@ -1,6 +1,6 @@
 import * as Cx from '../core';
 
-interface FlexBoxProps extends Cx.PureContainerProps {
+interface FlexBoxProps extends Cx.StyledContainerProps {
    
    /** Base CSS class. Default is `flexbox`. */
    baseClass?: string,

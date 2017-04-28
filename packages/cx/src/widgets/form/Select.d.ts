@@ -6,6 +6,9 @@ interface SelectProps extends FieldProps {
    /** Select value. */
    value?: Cx.Prop<number | string>,
 
+   /** Value when no selection is made. Default is `undefined` */
+   emptyValue?: any,
+
    /** The opposite of `disabled`. */
    enabled?: Cx.BooleanProp,
 
