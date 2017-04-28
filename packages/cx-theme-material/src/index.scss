@@ -374,7 +374,7 @@ div.#{$block}classic-tab-container {
    padding: 0;
    margin-bottom: 3px;
    white-space: nowrap;
-   flex-shrink: none;
+   flex-shrink: 0;
 }
 
 .#{$block}tab.cxm-classic {
