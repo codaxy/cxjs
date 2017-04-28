@@ -78,7 +78,7 @@
       display: inline-block;
       position: absolute;
       border-radius: 50%;
-      overflow: hidden;
+      //overflow: hidden;
       opacity: 1;
 
       &.#{$state}checked {

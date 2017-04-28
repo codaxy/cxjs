@@ -61,7 +61,6 @@ $form-list: (
 @each $field in $form-list {
    .#{$block}#{$field} {
       position: relative;
-      overflow: hidden;
 
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
@@ -111,7 +110,6 @@ $form-list: (
 
 // textarea
 .#{$block}textarea {
-   overflow: hidden;
    // textarea focus effect
    &:after {
       display: block;
@@ -143,7 +141,6 @@ $form-list: (
 
 //ANIMATED LABELS
 .#{$mod}label-placement-material {
-   overflow: visible;
    margin-top: round(1.5 * $cx-default-box-line-height);
 
    & > .#{$block}label {
@@ -251,7 +248,6 @@ $checkbox-padding-correction: 2px !default;
 .#{$element}radio-input {
    border-width: 2px;
    border-color: darken(#dbdbdb, 10);
-   overflow: visible;
    color: $cx-theme-primary-color;
 
    &:after {
@@ -496,12 +492,12 @@ div.#{$block}classic-tab-container {
       border-top: 1px solid $cx-default-grid-data-border-color;
    }
 
-   // ellipsis added to grid header
-   .#{$element}grid-col-header {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-   }
+   //// ellipsis added to grid header
+   //.#{$element}grid-col-header {
+   //   white-space: nowrap;
+   //   overflow: hidden;
+   //   text-overflow: ellipsis;
+   //}
 }
 
 // grid header border removed
