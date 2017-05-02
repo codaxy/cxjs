@@ -6,10 +6,39 @@ $cx-include-all: true !default;
 $cx-excluded: () !default;
 $cx-only: null !default;
 
+$cx-deps: () !default;
+
 @function cx-exclude($name) {
    $cx-excluded: map_merge($cx-excluded, ($name: true)) !global;
 }
 
 @function cx-include($name) {
-   @return (($cx-include-all and map-get($cx-excluded, $name) != true) or ($cx-only != null and map-get($cx-only, $name) == true)) and cx-call-once($name);
+   @return (
+      ($cx-include-all and map-get($cx-excluded, $name) != true)
+      or ($cx-only != null and map-get($cx-only, $name) == true)
+   )
+   and cx-call-once($name);
+}
+
+@function cx-widget($name) {
+   $cx-only: map_merge($cx-only, ($name: true)) !global;
+   $dummy: 1;
+   $deps: map-get($cx-deps, $name);
+   @if ($deps == null) {
+      @return 0;
+   }
+
+   @each $dep in $deps {
+      $dummy: cx-widget($dep);
+   }
+   @return $dummy;
+}
+
+@mixin cx-widgets($names...) {
+   $dummy: 1;
+   $cx-only: () !default !global;
+
+   @each $name in $names {
+      $dummy: cx-widget($name)
+   }
 }

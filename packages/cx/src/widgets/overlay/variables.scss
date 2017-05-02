@@ -47,3 +47,9 @@ $cx-toast-mods: (
 
 // WINDOW
 @import "Window.variables";
+
+$cx-deps: map-merge($cx-deps, (
+   'cx/widgets/Dropdown': 'cx/widgets/Overlay',
+   'cx/widgets/Window': 'cx/widgets/Overlay',
+   'cx/widgets/Tooltip': 'cx/widgets/Dropdown',
+));
