@@ -3,6 +3,9 @@ import { FieldProps } from './Field';
 
 interface MonthFieldProps extends FieldProps {
    
+   /** Selected month. This should be a Date object or a valid date string consumable by Date.parse function. */
+   value?: Cx.Prop< string | Date >,
+   
    /** Set to `true` to allow range select. */
    range?: Cx.BooleanProp,
 
@@ -10,13 +13,13 @@ interface MonthFieldProps extends FieldProps {
     * Start of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `true`.
     */
-   from?: Cx.StringProp | Cx.Prop<Date>,
+   from?: Cx.Prop< string | Date >,
 
    /** 
     * End of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `true`. 
     */
-   to?: Cx.StringProp | Cx.Prop<Date>,
+   to?: Cx.Prop< string | Date >,
 
    /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,

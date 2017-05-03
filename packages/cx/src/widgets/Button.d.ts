@@ -1,7 +1,7 @@
 import * as Cx from '../core';
 import * as React from 'react';
 import {Instance} from "../ui/Instance";
-/**  */
+
 export interface ButtonProps extends Cx.HtmlElementProps {
 
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
@@ -37,7 +37,12 @@ export interface ButtonProps extends Cx.HtmlElementProps {
     * @param e - Event.
     * @param instance - Cx widget instance that fired the event. 
     */
-   onClick?: (e: React.SyntheticEvent<any>, instance: Instance) => void;
+   onClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void),
+
+   /** Button type. */
+   type?: 'submit' | 'button',
+
+   dismiss?: boolean
 }
 
 export class Button extends Cx.Widget<ButtonProps> {}

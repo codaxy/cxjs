@@ -116,7 +116,8 @@ interface LookupFieldProps extends FieldProps {
    /** Name of the icon to be put on the left side of the input. */
    icon?: string,
 
-   onQuery?: string
+   /** Query function. */
+   onQuery?: string | (() => void)
    
 }
 
