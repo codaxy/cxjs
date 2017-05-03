@@ -16,7 +16,6 @@ function CxScssManifestPlugin(options) {
 CxScssManifestPlugin.prototype.apply = function(compiler) {
    let manifest = this.manifest;
    let dirty = false;
-   let count = 0;
 
    compiler.plugin('after-emit', (compilation, callback) => {
       compilation.chunks.forEach(chunk => {
@@ -29,11 +28,6 @@ CxScssManifestPlugin.prototype.apply = function(compiler) {
                 if (!dep.module || !dep.module.rawRequest || dep.module.rawRequest.indexOf('cx/') != 0)
                   return;
 
-               // if (++count <= 1) {
-               //    //console.log(module.resource, dep.module.rawRequest, dep.module.resource, dep.importedVar, dep.request, dep.userRequest);//, Object.keys(dep))
-               //    console.log(dep.module.rawRequest, dep.module.usedExports);
-               // }
-
                dep.module.usedExports.forEach(exp => {
                   let cxModule = dep.module.rawRequest.substring(3) + '/' + exp;
                   //console.log(cxModule);
@@ -44,20 +38,6 @@ CxScssManifestPlugin.prototype.apply = function(compiler) {
                   }
                });
             });
-
-            // if (!module.resource)
-            //    return;
-            // let index = module.resource.indexOf('cx\\src\\');
-            // if (index == -1)
-            //    return;
-            //
-            // let path = module.resource.substring(index + 3).replace(/\\/g, '/');
-            // let cxModule = cxModuleNameMap[path];
-            // if (cxModule && !manifest[cxModule]) {
-            //    //console.log(cxModule);
-            //    dirty = true;
-            //    manifest[cxModule] = true;
-            // }
          })
       });
 
@@ -68,24 +48,13 @@ CxScssManifestPlugin.prototype.apply = function(compiler) {
       content += Object.keys(manifest).map(k=>'\t"cx/' + k + '"').join(',\n');
       content += "\n);\n";
 
-      // content += "$cx-only: map-merge($cx-only, (\n";
-      // content += Object.keys(manifest).map(k=>'\t"' + k + '": true').join(',\n');
-      // content += "\n));\n";
-
       if (dirty) {
-         fs.writeFileSync(this.opts.output, content);
+         fs.writeFileSync(this.opts.outputPath, content);
          dirty = false;
       }
 
       callback();
    });
-
-   // compiler.plugin("compilation", (compilation) => {
-   //    compilation.plugin("seal", function () {
-   //       console.log(compilation.modules.filter(m => m.resource && m.resource.indexOf('manifest') != -1));
-   //       console.log(compilation.modules.map(m => [m.resource, m.assets]));
-   //    });
-   // });
 };
 
 module.exports = CxScssManifestPlugin;

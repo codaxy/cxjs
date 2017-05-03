@@ -2,7 +2,7 @@
   "name": "babel-plugin-transform-cx-imports",
   "version": "17.4.2",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
-  "repository": "https://github.com/codaxy/cx",
+  "repository": "https://github.com/codaxy/cxjs",
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",

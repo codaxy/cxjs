@@ -1,0 +1,20 @@
+{
+  "name": "cx-scss-manifest-webpack-plugin",
+  "version": "17.5.1",
+  "description": "Webpack plugin that inspects app's source code and generates a manifest file for importing only required elements of CxJS SCSS",
+  "main": "src/index.js",
+  "scripts": {},
+  "author": "Codaxy",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs"
+  },
+  "homepage": "https://github.com/codaxy/cxjs",
+  "peerDependencies": {
+    "cx": "^17.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
+  }
+}

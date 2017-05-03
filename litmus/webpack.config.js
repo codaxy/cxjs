@@ -49,7 +49,7 @@ var common = {
          template: path.join(__dirname, 'index.html')
       }),
       new CxScssManifestPlugin({
-         output: path.join(__dirname, 'manifest.scss')
+         outputPath: path.join(__dirname, 'manifest.scss')
       })
    ]
 };

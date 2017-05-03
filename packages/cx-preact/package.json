@@ -6,7 +6,7 @@
   "scripts": {},
   "author": "Marko Stijak",
   "license": "SEE LICENSE IN LICENSE.md",
-  "homepage": "https://github.com/codaxy/cx",
+  "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
     "preact-compat": "^3.0.1",
     "preact": "^6.0.1"
