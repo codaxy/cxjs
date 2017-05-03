@@ -88,7 +88,7 @@ export class ReduxStoreView extends View {
    }
 
    dispatch(action) {
-      if (typeof action == 'function')
+      if (typeof action === 'function')
          return action(::this.dispatch);
 
       this.store.dispatch(...arguments);

@@ -3,7 +3,7 @@ import {createAppReducer} from './createAppReducer';
 
 export function createStore(reducer, defaultState = {}, enhancer) {
    var appReducer = createAppReducer(reducer);
-   if (typeof defaultState == 'function') {
+   if (typeof defaultState === 'function') {
       enhancer = defaultState;
       defaultState = {};
    }
