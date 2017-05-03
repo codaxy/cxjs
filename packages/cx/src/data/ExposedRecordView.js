@@ -4,18 +4,20 @@ import {Binding} from './Binding';
 export class ExposedRecordView extends View {
 
    getData() {
-      if (!this.immutable || this.meta.version != this.cache.version || this.cache.itemIndex != this.itemIndex) {
-         this.cache.result = this.embed(this.store.getData());
-         this.cache.version = this.meta.version;
-         this.cache.itemIndex = this.itemIndex;
-      }
+      if (this.cache.durable && this.meta.version === this.cache.version && this.cache.itemIndex === this.itemIndex)
+         return this.cache.result;
+
+      this.cache.result = this.embed(this.store.getData());
+      this.cache.version = this.meta.version;
+      this.cache.itemIndex = this.itemIndex;
+      this.cache.durable = this.immutable || this.store.sealed;
       return this.cache.result;
    }
 
    embed(data) {
       var collection = this.collectionBinding.value(data);
       var record = collection[this.itemIndex];
-      var copy = this.immutable ? {...data} : data;
+      var copy = this.immutable || this.store.sealed ? {...data} : data;
       copy[this.recordName] = record;
       if (this.indexName)
          copy[this.indexName] = this.itemIndex;

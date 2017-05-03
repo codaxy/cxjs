@@ -104,3 +104,5 @@ export class ReduxStoreView extends View {
       });
    }
 }
+
+ReduxStoreView.prototype.sealed = true;

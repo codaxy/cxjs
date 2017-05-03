@@ -170,3 +170,5 @@ export class View {
       this.meta = store.getMeta();
    }
 }
+
+View.prototype.sealed = false; //indicate that data should be copied before virtual items are added

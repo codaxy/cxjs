@@ -1,7 +1,7 @@
 /.idea
 .vscode
 
-/node_modules
+node_modules
 *.hot-update.js
 *.log
 dist
