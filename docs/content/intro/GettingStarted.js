@@ -53,6 +53,7 @@ export const GettingStarted = <cx>
 
         * [Data Binding](~/concepts/data-binding)
         * [JSX](~/intro/jsx)
+        * [NPM Packages](~/intro/npm-packages)
 
         ## Widgets
 

@@ -36,10 +36,12 @@ export class MethodTable extends PureContainer {
         return <div key={key} className="dxb-methodtable">
             <table>
                 <tbody>
-                <tr>
-                    <th>Signature</th>
-                    <th>Description</th>
-                </tr>
+                {
+                    !this.hideHeader && <tr>
+                        <th>Signature</th>
+                        <th>Description</th>
+                    </tr>
+                }
                 {this.renderChildren(context, instance)}
                 </tbody>
             </table>
@@ -48,3 +50,4 @@ export class MethodTable extends PureContainer {
 }
 
 MethodTable.prototype.sort = true;
+MethodTable.prototype.hideHeader = false;

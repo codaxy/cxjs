@@ -5,6 +5,7 @@ export * from './CommandLine';
 export * from './StepByStep';
 export * from './Jsx';
 export * from './BreakingChanges';
+export * from './NpmPackages';
 
 import { bumpVersion } from '../version';
 
