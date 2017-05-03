@@ -28,6 +28,6 @@
    }
 }
 
-@if (cx-include('cx/charts/NumericAxis')) {
+@if (cx-should-include('cx/charts/NumericAxis')) {
    @include cx-numericaxis();
 }

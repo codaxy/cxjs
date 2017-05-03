@@ -60,7 +60,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/Overlay')) {
+@if (cx-should-include('cx/widgets/Overlay')) {
    @include cx-overlay();
 }
 

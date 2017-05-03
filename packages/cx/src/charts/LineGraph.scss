@@ -19,6 +19,6 @@
    }
 }
 
-@if (cx-include('cx/charts/LineGraph')) {
+@if (cx-should-include('cx/charts/LineGraph')) {
    @include cx-linegraph();
 }

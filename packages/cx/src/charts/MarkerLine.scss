@@ -13,6 +13,6 @@
    }
 }
 
-@if (cx-include('cx/charts/MarkerLine')) {
+@if (cx-should-include('cx/charts/MarkerLine')) {
    @include cx-markerline();
 }

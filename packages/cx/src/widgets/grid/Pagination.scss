@@ -109,6 +109,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Pagination')) {
+@if (cx-should-include('cx/widgets/Pagination')) {
    @include cx-pagination();
 }

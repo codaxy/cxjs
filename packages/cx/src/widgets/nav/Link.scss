@@ -14,7 +14,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/Link')) {
+@if (cx-should-include('cx/widgets/Link')) {
    @include cx-link();
 }
 

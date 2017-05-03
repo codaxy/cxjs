@@ -39,6 +39,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Caption')) {
+@if (cx-should-include('cx/widgets/Caption')) {
    @include cxb-heading();
 }

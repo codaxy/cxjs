@@ -30,6 +30,6 @@
    }
 }
 
-@if (cx-include('cx/charts/Marker')) {
+@if (cx-should-include('cx/charts/Marker')) {
    @include cx-marker();
 }

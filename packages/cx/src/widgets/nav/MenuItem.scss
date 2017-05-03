@@ -76,6 +76,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/MenuItem')) {
+@if (cx-should-include('cx/widgets/MenuItem')) {
    @include cx-menuitem();
 }

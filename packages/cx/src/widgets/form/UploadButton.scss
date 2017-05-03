@@ -42,6 +42,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/UploadButton')) {
+@if (cx-should-include('cx/widgets/UploadButton')) {
    @include cx-uploadbutton();
 }

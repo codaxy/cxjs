@@ -8,9 +8,9 @@
   "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/codaxy/cx"
+    "url": "https://github.com/codaxy/cxjs"
   },
-  "homepage": "https://github.com/codaxy/cx",
+  "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
     "intl-io": "^0.2.3",
     "route-parser": "^0.0.5"

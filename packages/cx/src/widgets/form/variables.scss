@@ -320,3 +320,7 @@ $cx-input-tag-state-style-map: (
 @import 'Checkbox.variables';
 @import 'Radio.variables';
 @import 'ColorPicker.variables';
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   "cx/widgets/DateField": "cx/widgets/Dropdown" "cx/widgets/Calendar"
+))

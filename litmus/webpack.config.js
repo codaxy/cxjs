@@ -1,6 +1,7 @@
 const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
+   CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
    merge = require('webpack-merge'),
    path = require('path'),
    babelConfig = require('./babel.config');
@@ -46,6 +47,9 @@ var common = {
       new webpack.optimize.CommonsChunkPlugin("vendor"),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
+      }),
+      new CxScssManifestPlugin({
+         outputPath: path.join(__dirname, 'manifest.scss')
       })
    ]
 };
@@ -111,7 +115,8 @@ switch(process.env.npm_lifecycle_event) {
             port: 8086,
             noInfo: false,
             inline: true,
-            historyApiFallback: true
+            historyApiFallback: true,
+            //quiet: true
          }
       };
       break;

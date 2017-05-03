@@ -1,0 +1,11 @@
+//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin
+
+$cx-include-all: false;
+
+@include cx-widgets(
+	"cx/ui/LabelsLeftLayout",
+	"cx/widgets/TextField",
+	"cx/widgets/DateField",
+	"cx/widgets/NumberField",
+	"cx/widgets/FlexRow"
+);

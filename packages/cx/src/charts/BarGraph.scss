@@ -23,6 +23,6 @@
 }
 
 
-@if (cx-include('cx/charts/BarGraph')) {
+@if (cx-should-include('cx/charts/BarGraph')) {
    @include cx-bargraph();
 }

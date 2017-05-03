@@ -81,6 +81,6 @@
 }
 
 
-@if (cx-include('cx/widgets/TreeNode')) {
+@if (cx-should-include('cx/widgets/TreeNode')) {
    @include cx-treenode();
 }

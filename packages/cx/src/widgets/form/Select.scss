@@ -93,6 +93,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Select')) {
+@if (cx-should-include('cx/widgets/Select')) {
    @include cx-select;
 }

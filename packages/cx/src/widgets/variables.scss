@@ -66,3 +66,8 @@ $cx-section-mods: (
 .cxm-well {
    @extend .cxm-card !optional;
 }
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/FlexRow': 'cx/widgets/FlexBox',
+   'cx/widgets/FlexCol': 'cx/widgets/FlexBox'
+))

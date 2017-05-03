@@ -44,6 +44,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/CxCredit')) {
+@if (cx-should-include('cx/widgets/CxCredit')) {
    @include cx-cxcredit();
 }

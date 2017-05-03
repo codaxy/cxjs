@@ -54,6 +54,6 @@
    }
 }
 
-@if (cx-include('cx/ui/LabelsTopLayout')) {
+@if (cx-should-include('cx/ui/LabelsTopLayout')) {
    @include cx-labelstoplayout();
 }

@@ -397,6 +397,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Grid')) {
+@if (cx-should-include('cx/widgets/Grid')) {
    @include cx-grid();
 }

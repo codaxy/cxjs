@@ -140,7 +140,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/Window')) {
+@if (cx-should-include('cx/widgets/Window')) {
    @include cx-window();
 }
 

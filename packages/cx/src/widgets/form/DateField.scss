@@ -87,6 +87,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/DateField')) {
+@if (cx-should-include('cx/widgets/DateField')) {
    @include cx-datefield();
 }

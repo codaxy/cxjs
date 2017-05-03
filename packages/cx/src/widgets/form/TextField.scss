@@ -59,7 +59,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/TextField')) {
+@if (cx-should-include('cx/widgets/TextField')) {
    @include cx-textfield();
 }
 

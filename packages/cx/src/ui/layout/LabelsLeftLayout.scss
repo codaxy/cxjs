@@ -40,6 +40,6 @@
    }
 }
 
-@if (cx-include('cx/ui/LabelsLeftLayout')) {
+@if (cx-should-include('cx/ui/LabelsLeftLayout')) {
   @include cx-labelsleftlayout();
 }

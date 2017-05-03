@@ -16,6 +16,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/cover')) {  // check path
+@if (cx-should-include('cx/widgets/cover')) {  // check path
    @include cx-cover();
 }
