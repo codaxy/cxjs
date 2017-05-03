@@ -17,6 +17,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/ValidationError')) {
+@if (cx-should-include('cx/widgets/ValidationError')) {
    @include cx-validationerror();
 }

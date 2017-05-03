@@ -116,6 +116,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Slider')) {
+@if (cx-should-include('cx/widgets/Slider')) {
    @include cx-slider();
 }

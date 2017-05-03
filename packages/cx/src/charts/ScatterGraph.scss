@@ -17,6 +17,6 @@
    }
 }
 
-@if (cx-include('cx/charts/ScatterGraph')) {
+@if (cx-should-include('cx/charts/ScatterGraph')) {
    @include cx-scattergraph();
 }

@@ -139,6 +139,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Tooltip')) {
+@if (cx-should-include('cx/widgets/Tooltip')) {
    @include cx-tooltip();
 }

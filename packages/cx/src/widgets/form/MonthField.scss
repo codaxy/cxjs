@@ -93,7 +93,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/MonthField')) {
+@if (cx-should-include('cx/widgets/MonthField')) {
    @include cx-monthfield();
 }
 

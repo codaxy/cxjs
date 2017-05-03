@@ -28,6 +28,6 @@
    }
 }
 
-@if (cx-include('cx/charts/TimeAxis')) {
+@if (cx-should-include('cx/charts/TimeAxis')) {
    @include cx-timeaxis();
 }

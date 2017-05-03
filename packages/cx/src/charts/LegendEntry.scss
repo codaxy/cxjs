@@ -28,6 +28,6 @@
    }
 }
 
-@if (cx-include('cx/charts/LegendEntry')) {
+@if (cx-should-include('cx/charts/LegendEntry')) {
    @include cx-legendentry();
 }

@@ -28,6 +28,6 @@
    }
 }
 
-@if (cx-include('cx/charts/CategoryAxis')) {
+@if (cx-should-include('cx/charts/CategoryAxis')) {
    @include cx-categoryaxis();
 }

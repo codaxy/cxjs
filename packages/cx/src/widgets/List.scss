@@ -83,6 +83,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/List')) {
+@if (cx-should-include('cx/widgets/List')) {
    @include cx-list();
 }

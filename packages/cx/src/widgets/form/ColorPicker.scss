@@ -169,6 +169,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/ColorPicker')) {
+@if (cx-should-include('cx/widgets/ColorPicker')) {
    @include cx-colorpicker();
 }

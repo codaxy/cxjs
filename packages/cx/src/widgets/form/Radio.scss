@@ -114,6 +114,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Radio')) {
+@if (cx-should-include('cx/widgets/Radio')) {
    @include cx-radio();
 }

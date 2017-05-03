@@ -151,6 +151,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Calendar')) {
+@if (cx-should-include('cx/widgets/Calendar')) {
    @include cx-calendar();
 }

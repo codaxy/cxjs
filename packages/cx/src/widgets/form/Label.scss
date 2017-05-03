@@ -32,6 +32,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Label')) {
+@if (cx-should-include('cx/widgets/Label')) {
    @include cx-label();
 }

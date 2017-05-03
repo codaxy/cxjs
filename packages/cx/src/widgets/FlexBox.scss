@@ -140,6 +140,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/FlexBox')) {
+@if (cx-should-include('cx/widgets/FlexBox')) {
    @include cx-flexbox();
 }

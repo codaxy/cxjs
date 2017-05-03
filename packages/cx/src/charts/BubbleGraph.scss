@@ -25,6 +25,6 @@
    }
 }
 
-@if (cx-include('cx/charts/BubbleGraph')) {
+@if (cx-should-include('cx/charts/BubbleGraph')) {
    @include cx-bubblegraph();
 }

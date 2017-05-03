@@ -110,7 +110,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/Toast')) {
+@if (cx-should-include('cx/widgets/Toast')) {
    @include cx-toast();
    @include cx-toaster();
 }

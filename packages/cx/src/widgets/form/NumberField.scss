@@ -63,6 +63,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/NumberField')) {
+@if (cx-should-include('cx/widgets/NumberField')) {
    @include cx-numberfield();
 }

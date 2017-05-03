@@ -22,6 +22,6 @@
    }
 }
 
-@if (cx-include('cx/charts/Column')) {
+@if (cx-should-include('cx/charts/Column')) {
    @include cx-column();
 }

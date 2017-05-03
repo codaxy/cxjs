@@ -85,7 +85,7 @@
    }
 }
 
-@if (cx-include('cx/widgets/ColorField')) {
+@if (cx-should-include('cx/widgets/ColorField')) {
    @include cx-colorfield();
 }
 

@@ -18,6 +18,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/Icon')) {
+@if (cx-should-include('cx/widgets/Icon')) {
    @include cx-icon();
 }

@@ -4,26 +4,22 @@
 $cx-include-all: true !default;
 
 $cx-excluded: () !default;
-$cx-only: null !default;
+$cx-used: null !default;
 
-$cx-deps: () !default;
+$cx-dependencies: () !default;
 
-@function cx-exclude($name) {
-   $cx-excluded: map_merge($cx-excluded, ($name: true)) !global;
-}
-
-@function cx-include($name) {
+@function cx-should-include($name, $once: true) {
    @return (
       ($cx-include-all and map-get($cx-excluded, $name) != true)
-      or ($cx-only != null and map-get($cx-only, $name) == true)
+      or ($cx-used != null and map-get($cx-used, $name) == true)
    )
-   and cx-call-once($name);
+   and ($once != true or cx-call-once($name));
 }
 
 @function cx-widget($name) {
-   $cx-only: map_merge($cx-only, ($name: true)) !global;
+   $cx-used: map_merge($cx-used, ($name: true)) !global;
    $dummy: 1;
-   $deps: map-get($cx-deps, $name);
+   $deps: map-get($cx-dependencies, $name);
    @if ($deps == null) {
       @return 0;
    }
@@ -36,7 +32,7 @@ $cx-deps: () !default;
 
 @mixin cx-widgets($names...) {
    $dummy: 1;
-   $cx-only: () !default !global;
+   $cx-used: () !default !global;
 
    @each $name in $names {
       $dummy: cx-widget($name)

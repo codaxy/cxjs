@@ -50,7 +50,7 @@
    }
 }
 
-@if (cx-include('widgets/TextArea')) {
+@if (cx-should-include('widgets/TextArea')) {
    @include cx-textarea;
 }
 

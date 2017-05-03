@@ -18,6 +18,6 @@
    }
 }
 
-@if (cx-include('cx/charts/Gridlines')) {
+@if (cx-should-include('cx/charts/Gridlines')) {
    @include cx-gridlines();
 }

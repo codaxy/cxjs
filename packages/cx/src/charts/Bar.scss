@@ -22,6 +22,6 @@
    }
 }
 
-@if (cx-include('cx/charts/Bar')) {
+@if (cx-should-include('cx/charts/Bar')) {
    @include cx-bar();
 }

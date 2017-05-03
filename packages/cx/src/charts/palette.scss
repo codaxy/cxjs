@@ -84,6 +84,6 @@ $cx-default-palette-stroke-blacken: 10% !default;
    }
 }
 
-@if (cx-include('cx/charts/palette')) {
+@if (cx-should-include('cx/charts/palette')) {
    @include cx-palette();
 }

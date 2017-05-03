@@ -193,6 +193,6 @@
    }
 }
 
-@if (cx-include('cx/widgets/LookupField')) {
+@if (cx-should-include('cx/widgets/LookupField')) {
    @include cx-lookupfield();
 }
