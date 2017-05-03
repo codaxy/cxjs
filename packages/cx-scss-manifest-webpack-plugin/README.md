@@ -17,7 +17,7 @@ In `webpack.config.js`, import the plugin
 const CxScssManifestPlugin = require('cx-scss-manifest-webpack-plugin');
 ```
 
-and add it the `plugins`.
+and add it to the `plugins` list.
 
 ```
     plugins: [
@@ -30,11 +30,11 @@ and add it the `plugins`.
 Finally, import the manifest in main `scss` file.
 
 ```
-@import "../packages/cx/src/variables";
+@import "~cx/src/variables";
 
 @import "manifest";
 
-@import "../packages/cx/src/index";
+@import "~cx/src/index";
 ```
 
 For smaller apps, this will cause a drastic reduction of generated CSS.
