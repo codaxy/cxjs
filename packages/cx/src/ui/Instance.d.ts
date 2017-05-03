@@ -11,6 +11,7 @@ export class Instance {
    key: number;
    id: string;
    controller: any;
+   parentOptions: any;
 
    constructor(widget: Widget, key: number);
 

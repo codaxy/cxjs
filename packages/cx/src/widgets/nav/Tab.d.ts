@@ -12,7 +12,7 @@ interface TabProps extends Cx.HtmlElementProps {
    value?: Cx.StringProp,
 
    /** Set to `true` to disable selection. */
-   disabled?:Cx.StringProp,
+   disabled?: Cx.BooleanProp,
  
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string,

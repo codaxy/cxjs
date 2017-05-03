@@ -157,6 +157,8 @@ declare namespace Cx {
       setState(state: any);
 
       forceUpdate();
+
+      static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
    }
 }
 
