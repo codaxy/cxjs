@@ -7,13 +7,19 @@ export class Binding {
       this.parts = path.split('.');
       var fstr = 'return (x';
       var cpath = 'x';
-      for (var i = 0; i<this.parts.length; i++) {
+
+      for (var i = 0; i < this.parts.length; i++) {
          if (this.parts[i][0] >= '0' && this.parts[i][0] <= '9')
             cpath += '[' + this.parts[i] + ']';
          else
             cpath += '.' + this.parts[i];
-         fstr += ' && ' + cpath;
+
+         if (i + 1 < this.parts.length)
+            fstr += ' && ' + cpath;
+         else
+            fstr += ' ? ' + cpath + ' : undefined';
       }
+
       fstr += ')';
       this.value = new Function('x', fstr);
    }
