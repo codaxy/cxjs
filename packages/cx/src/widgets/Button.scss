@@ -103,6 +103,6 @@
    }
 }
 
-@if (cx-should-include('ui/Button')) {
+@if (cx-should-include('cx/widgets/Button')) {
    @include cx-button;
 }

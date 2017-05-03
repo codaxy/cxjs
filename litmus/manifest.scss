@@ -3,9 +3,9 @@
 $cx-include-all: false;
 
 @include cx-widgets(
-	"cx/ui/LabelsLeftLayout",
 	"cx/widgets/TextField",
 	"cx/widgets/DateField",
 	"cx/widgets/NumberField",
-	"cx/widgets/FlexRow"
+	"cx/widgets/FlexRow",
+	"cx/ui/LabelsLeftLayout"
 );
