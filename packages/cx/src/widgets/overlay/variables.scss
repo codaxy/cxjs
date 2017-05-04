@@ -43,7 +43,10 @@ $cx-toast-mods: () !default;
 @import "Window.variables";
 
 $cx-dependencies: map-merge($cx-dependencies, (
+   "cx/widgets/Overlay": "cx/widgets/captureMouse",
    'cx/widgets/Dropdown': 'cx/widgets/Overlay',
    'cx/widgets/Window': 'cx/widgets/Overlay',
    'cx/widgets/Tooltip': 'cx/widgets/Dropdown',
+   'cx/widgets/MsgBox': 'cx/widgets/Window',
+   'cx/widgets/Toast': 'cx/widgets/Overlay',
 ));

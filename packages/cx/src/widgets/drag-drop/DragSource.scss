@@ -1,28 +1,25 @@
-.cxb-dragsource {
-   box-sizing: border-box;
+@mixin cx-dragsource(
+   $name: 'dragsource',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   &.cxs-dragged {
-      opacity: 0.3;
-   }
+   .#{$block}#{$name} {
+      box-sizing: border-box;
 
-   &.cxs-draggable {
-      touch-action: none;
+      &.#{$state}dragged {
+         opacity: 0.3;
+      }
+
+      &.#{$state}draggable {
+         touch-action: none;
+      }
    }
 }
 
-.cxb-dragclone {
-   pointer-events: none;
-   background: rgba(255, 255, 255, 0.8);
-   min-width: 10px;
-   min-height: 10px;
-   position: fixed;
-   opacity: 0.9;
-   box-shadow: 0 0 3px rgba(128, 128, 128, 0.3);
-   display: flex;
-
-   & > * {
-      margin: 0 !important;
-      display: block;
-      flex: auto;
-   }
+@if (cx-should-include('cx/widgets/DragSource')) {
+   @include cx-dragsource();
 }

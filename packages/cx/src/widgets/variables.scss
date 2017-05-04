@@ -18,6 +18,7 @@ $cx-pad-size: (
 @import "grid/variables";
 @import "nav/variables";
 @import "overlay/variables";
+@import "drag-drop/variables";
 @import "Button.variables";
 
 // HEADING
@@ -69,5 +70,8 @@ $cx-section-mods: (
 
 $cx-dependencies: map-merge($cx-dependencies, (
    'cx/widgets/FlexRow': 'cx/widgets/FlexBox',
-   'cx/widgets/FlexCol': 'cx/widgets/FlexBox'
+   'cx/widgets/FlexCol': 'cx/widgets/FlexBox',
+   'cx/widgets/CxCredit': 'cx/widgets/Tooltip',
+   'cx/widgets/Button': 'cx/widgets/HtmlElement',
+   'cx/widgets/HtmlElement': 'cx/widgets/Tooltip'
 ))

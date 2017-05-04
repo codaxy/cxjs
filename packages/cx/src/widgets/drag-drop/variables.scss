@@ -1,0 +1,3 @@
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/DragSource': 'cx/widgets/DragClone'
+))

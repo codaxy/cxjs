@@ -58,3 +58,8 @@ $cx-grid-pagination-default-padding: $cx-default-box-padding 2 * $cx-default-box
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
 
 )) !default;
+
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/Grid': 'cx/widgets/DragClone'
+))
