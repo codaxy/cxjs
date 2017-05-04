@@ -23,6 +23,6 @@ const store = new ReduxStoreView();
 
 ### Examples
 
-Please visit [Cx Redux Examples](https://github.com/codaxy/cx-redux-examples) project to see this package in action.
+Please visit [Cx Redux Examples](https://github.com/codaxy/cx-redux-examples) to see this package in action.
 
 

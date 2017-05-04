@@ -8,6 +8,7 @@
 
       &.#{$state}#{$pad}-spacing {
          margin: -$size / $divider;
+         height: calc(100% + #{2 * $size / $divider});
 
          & > * {
             margin: $size / $divider;
@@ -27,6 +28,7 @@
       &.#{$state}#{$pad}-vspacing {
          margin-top: -$size / $divider;
          margin-bottom: -$size / $divider;
+         height: calc(100% + #{2 * $size / $divider});
 
          & > * {
             margin-top: $size / $divider;
@@ -48,6 +50,7 @@
    .#{$block}#{$name} {
 
       box-sizing: border-box;
+      position: relative;
 
       @each $pad, $size in $cx-pad-size
       {
@@ -70,6 +73,7 @@
    .#{$element}#{$name}-flexbox {
 
       display: flex;
+      height: 100%;
 
       &.#{$state}column {
          flex-direction: column;
