@@ -1,6 +1,6 @@
 import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
-import {CSS} from './CSS';
+import './Format';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {Debug, appDataFlag} from '../util/Debug';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
