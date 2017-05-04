@@ -48,8 +48,27 @@ interface RangeProps extends BoundedObjectProps {
 
    /** Base CSS class to be applied to the element. Defaults to `range`. */
    baseClass?: string,
+
+   /** Set to `true` to make the range draggable along the X axis. */
+   draggableX?: boolean,
+
+   /** Set to `true` to make the range draggable along the Y axis. */
+   draggableY?: boolean,
+
+   /** Set to `true` to make the range draggable along the X and Y axis. */
+   draggable?: boolean,
+
+   /** Constrain the range position to min/max values of the X axis during drag operations. */
+   constrainX?: boolean,
+
+   /** Constrain the range position to min/max values of the Y axis during drag operations. */
+   constrainY?: boolean,
+
+   /** When set to `true`, it is equivalent to setting `constrainX` and `constrainY` to true. */
+   constrain?: boolean,
    
-   legendAction?: string
+   legendAction?: string,
+   hidden?: boolean
    
 }
 

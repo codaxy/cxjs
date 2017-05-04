@@ -1,4 +1,5 @@
 import * as Cx from '../../core';
+import { Instance } from '../../ui';
 
 export interface FieldProps extends Cx.StyledContainerProps {
    
@@ -76,6 +77,9 @@ export interface FieldProps extends Cx.StyledContainerProps {
     * This is commonly used for presenting additional information or validation errors. 
     */
    help?: Cx.Config,
+
+   /** Custom validation function. */
+   onValidate?: string | ((value, instance: Instance) => any)
    
 }
 
