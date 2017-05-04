@@ -1,7 +1,7 @@
 import {Axis} from './Axis';
 import {VDOM} from '../../ui/Widget';
 import {Stack} from './Stack';
-import {Format} from '../../util/Format';
+import {Format} from '../../ui/Format';
 
 Format.registerFactory('yearOrMonth', (format) => {
    var year = Format.parse('datetime;yyyy');

@@ -266,7 +266,7 @@ class MenuItemComponent extends VDOM.Component {
          let el = itemInfo[itemIndex].el;
          let focusedEl = getFocusedElement();
          let focusedChild = FocusManager.focusFirst(el);
-         if (focusedChild != focusedEl) {
+         if (focusedChild !== focusedEl) {
             Debug.log(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
          }
       }
@@ -277,9 +277,9 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      var {itemInfo, itemIndex, cursor} = this.props;
-      var focusable = findFirst(itemInfo[itemIndex].el, isFocusable) != null;
-      if (focusable != this.state.focusable) {
+      let {itemInfo, itemIndex} = this.props;
+      let focusable = !!findFirst(this.el, isFocusable);
+      if (focusable !== this.state.focusable) {
          itemInfo[itemIndex].focusable = focusable;
          this.setState({focusable: focusable});
       }

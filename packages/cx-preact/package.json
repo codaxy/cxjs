@@ -1,14 +1,14 @@
 {
   "name": "cx-preact",
-  "version": "16.6.1",
-  "description": "Preact based rendering for Cx applications.",
+  "version": "17.5.0",
+  "description": "Preact based rendering for CxJS applications.",
   "main": "index.js",
   "scripts": {},
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://github.com/codaxy/cxjs",
-  "dependencies": {
-    "preact-compat": "^3.0.1",
-    "preact": "^6.0.1"
+  "peerDependencies": {
+    "preact-compat": "*",
+    "preact": "*"
   }
 }

@@ -87,7 +87,7 @@ export class NumberField extends Field {
 }
 
 NumberField.prototype.baseClass = "numberfield";
-NumberField.prototype.reactOn = "input wheel blur";
+NumberField.prototype.reactOn = "input change wheel blur";
 NumberField.prototype.format = 'n';
 NumberField.prototype.inputType = 'text';
 
@@ -174,7 +174,7 @@ class Input extends VDOM.Component {
             {...data.inputAttrs}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
-            onInput={ e => this.onChange(e, 'input') }
+            //onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
             onKeyDown={ e => {
                if (e.keyCode == 13) this.onChange(e, 'enter')

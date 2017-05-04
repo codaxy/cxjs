@@ -12,6 +12,7 @@ var common = {
       alias: {
          'cx': path.resolve(path.join(__dirname, '../packages/cx')),
          'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
+         //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          litmus: __dirname
       }
@@ -39,10 +40,10 @@ var common = {
       path: __dirname,
       filename: "[name].js"
    },
-   externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
-   },
+   // externals: {
+   //    "react": "React",
+   //    "react-dom": "ReactDOM"
+   // },
    plugins: [
       new webpack.optimize.CommonsChunkPlugin("vendor"),
       new HtmlWebpackPlugin({

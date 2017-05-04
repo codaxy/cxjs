@@ -2234,6 +2234,18 @@ fbjs@^0.8.1, fbjs@^0.8.4:
     promise "^7.1.1"
     ua-parser-js "^0.7.9"
 
+fbjs@^0.8.9:
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.9"
+
 figures@^1.3.5:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-1.7.0.tgz#cbe1e3affcf1cd44b80cadfed28dc793a9701d2e"
@@ -2749,6 +2761,12 @@ illuminate-js@^0.3.0:
     is-plain-object "^2.0.1"
     lodash.clonedeep "^4.0.1"
 
+immutability-helper@^2.1.2:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.2.0.tgz#c4385ad4f68315843efaf0cff3575ee82ffa405f"
+  dependencies:
+    invariant "^2.2.0"
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
@@ -2771,9 +2789,82 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
+inferno-compat@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inferno-compat/-/inferno-compat-3.1.0.tgz#5f3a4ec30f9a2c10ad3eb1432348ef9d254ae514"
+  dependencies:
+    inferno "3.1.0"
+    inferno-component "3.1.0"
+    inferno-create-class "3.1.0"
+    inferno-create-element "3.1.0"
+    inferno-shared "^3.0.0"
+    inferno-transition-group "1.1.1"
+    inferno-vnode-flags "^3.0.0"
+    rc-css-transition-group-modern "^2.1.6"
+
+inferno-component@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.1.0.tgz#21e41ac4764ecd734eee3d045742e624c78c823c"
+  dependencies:
+    inferno "3.1.0"
+    inferno-shared "^3.0.0"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-create-class@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inferno-create-class/-/inferno-create-class-3.1.0.tgz#f091f77c4091aa00928eece77014bf3d6d3c5eaf"
+  dependencies:
+    inferno-component "3.1.0"
+    inferno-shared "^3.0.0"
+
+inferno-create-element@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-3.1.0.tgz#0d4b134e821e08e4c55256ff99aab958060890e1"
+  dependencies:
+    inferno "3.1.0"
+    inferno-component "3.1.0"
+    inferno-shared "^3.0.0"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-shared@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-1.6.1.tgz#6ff7a8eacc254b766c930720916130c3c0c62bf3"
+
+inferno-shared@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.0.0.tgz#daaeaf1b52803ab0572c7765ccfcfb925cfe8272"
+
+inferno-transition-group@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/inferno-transition-group/-/inferno-transition-group-1.1.1.tgz#cf91eb574491da20dfbf0e558869a0c8a77d1ff1"
+  dependencies:
+    inferno "^1.1.1"
+
 inferno-vnode-flags@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-1.4.1.tgz#fc249a07da2a5a7a8380a3b78bc7e7f69905db85"
+
+inferno-vnode-flags@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-1.6.2.tgz#12410f4f26eda30a7a7374bba0cafaed495bcc19"
+
+inferno-vnode-flags@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
+
+inferno@3.1.0, inferno@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.1.0.tgz#4a7f5a9ba756e8b9374b8a47961ca487a4411b71"
+  dependencies:
+    inferno-shared "^3.0.0"
+    inferno-vnode-flags "^3.0.0"
+
+inferno@^1.1.1:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-1.6.2.tgz#355bd475d348143737f8197affb865aa9bc06ad5"
+  dependencies:
+    inferno-shared "^1.6.1"
+    inferno-vnode-flags "^1.6.2"
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -4159,6 +4250,30 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.1.2"
 
+preact-compat@^3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/preact-compat/-/preact-compat-3.16.0.tgz#cf2bc1b2f8fca14900d68094f9e10b8b329cc41e"
+  dependencies:
+    immutability-helper "^2.1.2"
+    preact-render-to-string "^3.6.0"
+    preact-transition-group "^1.1.0"
+    prop-types "^15.5.8"
+    standalone-react-addons-pure-render-mixin "^0.1.1"
+
+preact-render-to-string@^3.6.0:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-3.6.1.tgz#3be5dfc4e917fbe619398374deaa5b8f717ddf7c"
+  dependencies:
+    pretty-format "^3.5.1"
+
+preact-transition-group@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/preact-transition-group/-/preact-transition-group-1.1.1.tgz#f0a49327ea515ece34ea2be864c4a7d29e5d6e10"
+
+preact@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-8.1.0.tgz#f035b808eebb74e46d56246b02ca0f190b6d6574"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
@@ -4177,6 +4292,10 @@ pretty-error@^2.0.2:
   dependencies:
     renderkid "~2.0.0"
     utila "~0.4"
+
+pretty-format@^3.5.1:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
 
 private@^0.1.6:
   version "0.1.6"
@@ -4199,6 +4318,12 @@ promise@^7.1.1:
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.1.1.tgz#489654c692616b8aa55b0724fa809bb7db49c5bf"
   dependencies:
     asap "~2.0.3"
+
+prop-types@^15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
 
 proxy-addr@~1.1.2:
   version "1.1.2"
@@ -4282,6 +4407,10 @@ randombytes@^2.0.0, randombytes@^2.0.1:
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
+
+rc-css-transition-group-modern@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/rc-css-transition-group-modern/-/rc-css-transition-group-modern-2.1.6.tgz#e34d63752110ee2ccf5185cd6ba4c774cfdf1bb7"
 
 rc@~1.1.6:
   version "1.1.6"
@@ -4739,7 +4868,7 @@ set-immediate-shim@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
 
-setimmediate@^1.0.4:
+setimmediate@^1.0.4, setimmediate@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
 
@@ -4899,6 +5028,10 @@ sshpk@^1.7.0:
     jodid25519 "^1.0.0"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+standalone-react-addons-pure-render-mixin@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/standalone-react-addons-pure-render-mixin/-/standalone-react-addons-pure-render-mixin-0.1.1.tgz#3c7409f4c79c40de9ac72c616cf679a994f37551"
 
 "statuses@>= 1.3.1 < 2", statuses@~1.3.0:
   version "1.3.1"

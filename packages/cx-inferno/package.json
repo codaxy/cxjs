@@ -1,13 +1,13 @@
 {
   "name": "cx-inferno",
-  "version": "16.6.1",
-  "description": "Inferno based rendering for Cx applications.",
+  "version": "17.5.0",
+  "description": "Inferno based rendering for CxJS applications.",
   "main": "index.js",
   "scripts": {},
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://github.com/codaxy/cxjs",
-  "dependencies": {
-    "inferno": "^1.0.0-alpha11"
+  "peerDependencies": {
+    "inferno-compat": "*"
   }
 }

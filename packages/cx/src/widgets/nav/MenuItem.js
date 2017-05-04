@@ -269,9 +269,12 @@ class MenuItemComponent extends VDOM.Component {
    openDropdown(callback) {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
-         this.setState({
-            dropdownOpen: true
-         }, callback);
+         if (!this.state.dropdownOpen)
+            this.setState({
+               dropdownOpen: true
+            }, callback);
+         else if (callback)
+            callback(this.state);
       }
    }
 
