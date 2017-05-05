@@ -6,6 +6,9 @@ interface SelectProps extends FieldProps {
    /** Select value. */
    value?: Cx.Prop<number | string>,
 
+   /** Value when no selection is made. Default is `undefined` */
+   emptyValue?: any,
+
    /** The opposite of `disabled`. */
    enabled?: Cx.BooleanProp,
 
@@ -45,3 +48,21 @@ interface SelectProps extends FieldProps {
 }
 
 export class Select extends Cx.Widget<SelectProps> {}
+
+interface OptionProps extends Cx.HtmlElementProps {
+   
+   /** Value property. */
+   value?: Cx.StringProp,
+
+   /** Defaults to `false`. Set to `true` to disable the field. */
+   disabled?: Cx.BooleanProp,
+
+   /** The opposite of `disabled`. */
+   enabled?: Cx.BooleanProp,
+
+   /** Defaults to `false`. Set to `true` to select the the option. */
+   selected?: Cx.BooleanProp,
+
+}
+
+export class Option extends Cx.Widget<OptionProps> {}

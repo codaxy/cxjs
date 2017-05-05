@@ -22,19 +22,19 @@ interface NumberFieldProps extends FieldProps {
    /** Minimum number value. */
    minValue?: Cx.NumberProp,
 
-   /** Minimum (exclusive) number value. */
-   minExclusive?: Cx.NumberProp,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
 
    /** Maximum number value. */
    maxValue?: Cx.NumberProp,
    
-   /** Maximum (exclusive) number value. */
-   maxExclusive?: Cx.NumberProp,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
    
    /** 
     * Percentage used to calculate the increment when it's not explicitly specified. 
     * Default value is `0.1` (10%).
-     */
+    */
    incrementPercentage: Cx.NumberProp,
 
    /** Increment/decrement value when using arrow keys or mouse wheel. */

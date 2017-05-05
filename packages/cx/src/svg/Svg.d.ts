@@ -13,7 +13,7 @@ interface SvgProps extends BoundedObjectProps {
     * Aspect ratio of the the SVG element. Default value is `1.618`. 
     * This value doesn't have any effect unless `autoWidth` or `autoHeight` is set.
     */
-   aspectRation?: number,
+   aspectRatio?: number,
 
    /** Base CSS class to be applied to the element. Defaults to `svg`. */
    baseClass?: string

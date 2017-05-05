@@ -17,7 +17,7 @@ export class Controller {
 
    addTrigger(name: string, args: string[], callback: (values: any[]) => void, autoRun?: boolean) : void;
 
-   addComputable(name: string, args: string[], callback: () => any) : void;
+   addComputable(name: string, args: string[], callback: (...args) => any) : void;
 
    removeTrigger(name: string) : void
 }

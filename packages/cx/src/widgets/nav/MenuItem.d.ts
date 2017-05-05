@@ -12,7 +12,8 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    dropdownOptions?: Cx.Config | null,
    showCursor?: boolean,
    pad?: boolean,
-   placement?: string | null
+   placement?: string | null,
+   autoClose?: boolean
    
 }
 

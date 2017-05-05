@@ -4,7 +4,7 @@ import { FieldProps } from './Field';
 interface DateFieldProps extends FieldProps {
    
    /** Selected date. This should be a Date object or a valid date string consumable by Date.parse function. */
-   value?: Cx.StringProp | Date,
+   value?: Cx.Prop< string | Date >,
 
    /** Defaults to false. Used to make the field read-only. */
    readOnly?: Cx.BooleanProp,
@@ -16,16 +16,16 @@ interface DateFieldProps extends FieldProps {
    placeholder?: Cx.StringProp,
 
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minValue?: Cx.StringProp | Date,
+   minValue?: Cx.Prop< string | Date >,
 
-   /** Minimum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
 
    /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxValue?: Cx.StringProp | Date,
+   maxValue?: Cx.Prop< string | Date >,
    
-   /** Maximum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
    
    /** Date format used to display the selected date. See Formatting for more details. */
    format?: Cx.StringProp,

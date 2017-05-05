@@ -13,7 +13,7 @@ interface LookupFieldProps extends FieldProps {
    values?: Cx.Prop<any[]>,
 
    /** A list of selected records. Used only if `multiple` is set to `true`. */
-   records?: Cx.Record[],
+   records?: Cx.RecordsProp,
 
    /** Text associated with the selection. Used only if `multiple` is set to `false`. */
    text?: Cx.StringProp,
@@ -114,7 +114,10 @@ interface LookupFieldProps extends FieldProps {
    minQueryLengthMessageText?: string,
 
    /** Name of the icon to be put on the left side of the input. */
-   icon?: string
+   icon?: string,
+
+   /** Query function. */
+   onQuery?: string | (() => void)
    
 }
 

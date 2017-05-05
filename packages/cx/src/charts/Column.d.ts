@@ -1,5 +1,7 @@
 import * as Cx from '../core';
 import { ColumnBarBaseProps } from './ColumnBarBase';
+import { Selection } from '../ui/selection';
+
 
 interface ColumnProps extends ColumnBarBaseProps {
    
@@ -16,6 +18,9 @@ interface ColumnProps extends ColumnBarBaseProps {
    baseClass?: boolean,
    
    width?: number,
+
+   selection?: Selection,
+   tooltip?: Cx.StringProp
 
 }
 

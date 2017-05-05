@@ -15,7 +15,7 @@ interface MarkerProps extends BoundedObjectProps {
    disabled?: Cx.BooleanProp,
 
    /** Index of a color from the standard palette of colors. 0-15. */
-   colorIndex?: Cx.NumberProp,
+   colorIndex?: Cx.Prop<string | number>,
 
    legendColorIndex?: Cx.NumberProp,
 
@@ -29,7 +29,7 @@ interface MarkerProps extends BoundedObjectProps {
    yOffset?: number,
 
    /** Size of the shape in pixels. */
-   size?: number,
+   size?: Cx.NumberProp,
 
    /** 
     * Name of the horizontal axis. The value should match one of the horizontal axes set
@@ -69,6 +69,8 @@ interface MarkerProps extends BoundedObjectProps {
 
    legendAction?: string,
 
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.StringProp | Cx.StructuredProp
 }
 
 export class Marker extends Cx.Widget<MarkerProps> {}

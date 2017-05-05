@@ -6,7 +6,7 @@ interface HeadingProps extends Cx.HtmlElementProps {
    tag?: string,
 
    /** Heading level. Allowed values go from 1 to 6. Default is 3. */
-   level?: number,
+   level?: number | string,
 
     /** Base CSS class. Default is `heading`. */
     baseClass?: string

@@ -51,7 +51,7 @@ export class View {
 
    toggle(path: Path): boolean;
 
-   update(path: Path, updateFn: (currentValue: any) => any, ...args): boolean;
+   update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
 
    /** 
     * `batch` method can be used to perform multiple Store operations silently 

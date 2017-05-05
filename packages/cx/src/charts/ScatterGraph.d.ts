@@ -1,6 +1,7 @@
 import * as Cx from '../core';
+import {PropertySelection, KeySelection} from '../ui/selection';
 
-interface ScatterGraphProps extends Cx.WidgetProps {
+interface ScatterGraphProps extends Cx.StyledContainerProps {
    
    /** 
     * Data for the graph. Each entry should be an object with at least two properties
@@ -12,21 +13,6 @@ interface ScatterGraphProps extends Cx.WidgetProps {
    size?: Cx.NumberProp,
 
    shape?: Cx.StringProp,
-
-   /** Style object applied to the wrapper div. Used for setting the dimensions of the field. */
-   style?: Cx.StyleProp,
-
-   /** 
-    * Additional CSS classes to be applied to the field. If an object is provided, 
-    * all keys with a "truthy" value will be added to the CSS class list.
-    */
-   class?: Cx.ClassProp,
-
-    /** 
-    * Additional CSS classes to be applied to the field. If an object is provided, 
-    * all keys with a "truthy" value will be added to the CSS class list.
-    */
-   className?: Cx.ClassProp,
 
    /** Index of a color from the standard palette of colors. 0-15. */
    colorIndex?: Cx.NumberProp,
@@ -69,7 +55,10 @@ interface ScatterGraphProps extends Cx.WidgetProps {
    /** Name of the legend to be used. Default is legend. */
    legend?: string,
    
-   legendAction?: string
+   legendAction?: string,
+
+   /** Selection configuration. */
+   selection?: { type: typeof PropertySelection | typeof KeySelection, [prop: string]: any }
 
 }
 

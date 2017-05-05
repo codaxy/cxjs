@@ -7,7 +7,9 @@ interface KeySelectionConfig {
    multiple?: boolean;
    keyField?: string;
    storage?: string;
-   selection?: Cx.Prop<any>
+   selection?: Cx.Prop<any>,
+   record?: Cx.Prop<any>,
+   index?: Cx.Prop<any>
 }
 
 export class KeySelection extends Selection {

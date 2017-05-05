@@ -1,4 +1,5 @@
 import * as Cx from '../core';
+import {PropertySelection, KeySelection} from '../ui/selection';
 
 interface ListProps extends Cx.StyledContainerProps {
     
@@ -26,7 +27,10 @@ interface ListProps extends Cx.StyledContainerProps {
    focusable?: boolean,
    focused?: boolean,
    itemPad?: boolean,
-   cached?: boolean
+   cached?: boolean,
+
+   /** Selection configuration. */
+   selection?: typeof PropertySelection | typeof KeySelection
 
 }
 

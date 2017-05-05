@@ -1,5 +1,6 @@
 import * as Cx from '../core';
-import { BoundedObject, BoundedObjectProps } from '../svg/BoundedObject';
+import {BoundedObject, BoundedObjectProps} from '../svg/BoundedObject';
+import {PropertySelection, KeySelection} from '../ui/selection';
 
 interface PieChartProps extends BoundedObjectProps {
    
@@ -56,7 +57,13 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    baseClass?: string,
 
    pure?: boolean,
-   legendAction?: string
+   legendAction?: string,
+   
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.StringProp | Cx.StructuredProp,
+
+   /** Selection configuration. */
+   selection?: { type: typeof PropertySelection | typeof KeySelection, [prop: string]: any }
 
 }
 

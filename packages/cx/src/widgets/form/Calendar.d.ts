@@ -4,22 +4,22 @@ import { FieldProps } from './Field';
 interface CalendarProps extends FieldProps {
    
    /** Selected date. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   value?: Cx.StringProp | Cx.Prop<Date>,
+   value?: Cx.Prop< string | Date >,
 
    /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
-   refDate?: Cx.StringProp | Cx.Prop<Date>,
+   refDate?: Cx.Prop< string | Date >,
  
    /** Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   minValue?: Cx.StringProp | Cx.Prop<Date>,
+   minValue?: Cx.Prop< string | Date >,
 
-   /** Minimum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   minExclusive?: Cx.StringProp | Cx.Prop<Date>,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
    
    /** Maximum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   maxValue?: Cx.StringProp | Cx.Prop<Date>,
+   maxValue?: Cx.Prop< string | Date >,
 
-   /** Maximum (exclusive) date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
-   maxExclusive?: Cx.StringProp | Cx.Prop<Date>,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
 
    /** Base CSS class to be applied to the calendar. Defaults to `calendar`. */
    baseClass?: string,

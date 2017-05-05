@@ -8,7 +8,9 @@ declare namespace Cx {
 
    type Bind = {
       bind: string,
-      defaultValue?: any
+      defaultValue?: any,
+      throttle?: number,
+      debounce?: number
    }
 
    type Tpl = {
@@ -44,7 +46,7 @@ declare namespace Cx {
    }
 
    type StringProp = Prop<string>;
-   type StyleProp = Prop<string | React.CSSProperties>;
+   type StyleProp = Prop<string | React.CSSProperties> | StructuredProp;
    type NumberProp = Prop<number>;
    type BooleanProp = Prop<boolean>;
    type ClassProp = Prop<string> | StructuredProp;
@@ -122,6 +124,9 @@ declare namespace Cx {
 
       /** Style object applied to the element */
       style?: StyleProp,
+
+      /** Style object applied to the element */
+      styles?: Cx.StyleProp
    }
 
    interface HtmlElementProps extends StyledContainerProps {
@@ -155,6 +160,8 @@ declare namespace Cx {
       setState(state: any);
 
       forceUpdate();
+
+      static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
    }
 }
 
@@ -168,7 +175,8 @@ declare global {
 
 declare module "react" {
    interface HTMLProps<T> extends Cx.PureContainerProps {
-      class?: Cx.ClassProp
+      class?: Cx.ClassProp,
+      styles?: Cx.StyleProp
    }
 
    //this doesn't work, however, it would be nice if it does

@@ -10,34 +10,34 @@ interface MonthPickerProps extends FieldProps {
     * Start of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `true`.
     */
-   from?: Cx.StringProp | Cx.Prop<Date>,
+   from?: Cx.Prop< string | Date >,
 
    /** 
     * End of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `true`. 
     */
-   to?: Cx.StringProp | Cx.Prop<Date>,
+   to?: Cx.Prop< string | Date >,
 
    /** 
     * Selected month date. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `false` (default).
     */
-   value?: Cx.StringProp | Cx.Prop<Date>,
+   value?: Cx.Prop< string | Date >,
 
    /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
-   refDate?: Cx.StringProp | Cx.Prop<Date>,
+   refDate?: Cx.Prop< string | Date >,
 
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minValue?: Cx.StringProp | Date,
+   minValue?: Cx.Prop< string | Date >,
 
-   /** Minimum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: Cx.BooleanProp,
 
    /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxValue?: Cx.StringProp | Date,
+   maxValue?: Cx.Prop< string | Date >,
    
-   /** Maximum (exclusive) date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxExclusive?: Cx.StringProp | Date,
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: Cx.BooleanProp,
    
    /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
    baseClass?: string,
