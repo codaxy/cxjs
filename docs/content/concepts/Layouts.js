@@ -290,7 +290,7 @@ export const Layouts = <cx>
 
         <ImportPath path="import {UseParentLayout} from 'cx/ui';" />
 
-        `UseParentLayout` is not a real layout, but an instruction that the widget should use the parent's layout instead of
+        `UseParentLayout` is not a real layout, but an instruction that the widget should use parent's layout instead of
         its own. `UseParentLayout` can be used only on widgets which are pure containers, that is, which only render its 
         children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or `FirstVisibleChildLayout`
         as parent layouts.

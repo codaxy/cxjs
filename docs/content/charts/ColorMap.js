@@ -1,7 +1,7 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
-import { Controller } from 'cx/ui';
-import { Svg } from 'cx/svg';
-import { Gridlines, NumericAxis, Chart, LineGraph, Legend, ColorMap } from 'cx/charts';
+import {HtmlElement, Repeater} from 'cx/widgets';
+import {Controller} from 'cx/ui';
+import {Svg} from 'cx/svg';
+import {Gridlines, NumericAxis, Chart, LineGraph, Legend, ColorMap} from 'cx/charts';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -19,7 +19,7 @@ class PageController extends Controller {
             return {
                 name: 'Series ' + (i + 1),
                 active: true,
-                points: Array.from({length: 26}, (_, x)=>({
+                points: Array.from({length: 26}, (_, x) => ({
                     x: x * 4,
                     y: (y = y + Math.random() * 100 - 50)
                 }))
@@ -34,29 +34,30 @@ export const ColorMapPage = <cx>
 
             # ColorMap
 
-            <ImportPath path="import {ColorMap} from 'cx/charts';" />
+            <ImportPath path="import {ColorMap} from 'cx/charts';"/>
 
-            The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the predefined color map. 
+            The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the
+            standard color palette.
             This comes in very handy when the number of elements on the chart is variable.
-            
-            `ColorMap` assigns a different color to every chart element with the same `colorMap` attribute. 
-            At the same time, it will keep the maximum distance between used colors.
+
+            `ColorMap` assigns a different color to every chart element with the same `colorMap` attribute
+            and keeps the maximum distance between used colors.
 
             <div class="widgets" controller={PageController}>
                 <Svg style="width:600px; height:400px;">
                     <Chart offset="20 -10 -40 40"
-                           axes={{
-                               x: {type: NumericAxis},
-                               y: {type: NumericAxis, vertical: true}
-                           }}>
+                        axes={{
+                            x: {type: NumericAxis},
+                            y: {type: NumericAxis, vertical: true}
+                        }}>
                         <Gridlines/>
                         <ColorMap />
-                        
+
                         <Repeater records:bind="$page.series">
                             <LineGraph name:bind="$record.name"
                                 active:bind="$record.active"
                                 data:bind="$record.points"
-                                colorMap="lines" />
+                                colorMap="lines"/>
                         </Repeater>
                     </Chart>
                 </Svg>
@@ -102,6 +103,10 @@ export const ColorMapPage = <cx>
                 </div>
             `}</CodeSnippet>
         </CodeSplit>
+
+        > Please note that `ColorMap` widget must be placed above the elements that use it.
+
+        > To isolate overlapping color maps, use the `ColorMapScope` widget.
 
         {/*## Configuration*/}
 
