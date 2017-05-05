@@ -12,6 +12,7 @@ export class NumericAxis extends Axis {
          normalized: undefined,
          inverted: undefined,
          labelDivisor: undefined,
+         format: undefined
       })
    }
 
@@ -21,7 +22,7 @@ export class NumericAxis extends Axis {
       if (!data.bounds.valid())
          return null;
 
-      var baseFormatter = Format.parse(this.format);
+      var baseFormatter = Format.parse(data.format);
       var formatter = data.labelDivisor != 1
          ?  v => baseFormatter(v / data.labelDivisor)
          : baseFormatter;

@@ -25,7 +25,7 @@ interface NumericAxisProps extends AxisProps {
    snapToTicks?: 0 | 1 | 2,
 
    /** Value format. Default is `n`. */
-   format?: string,
+   format?: Cx.StringProp,
 
 }
 
