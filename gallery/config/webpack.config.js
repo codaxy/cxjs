@@ -1,0 +1,57 @@
+const webpack = require('webpack'),
+   HtmlWebpackPlugin = require('html-webpack-plugin'),
+   merge = require('webpack-merge'),
+   path = require('path'),
+   babelCfg = require("./babel.config"),
+   p = p => path.join(__dirname, '../', p || '')
+
+module.exports = {
+   resolve: {
+      alias: {
+         app: p("."),
+         cx: p("../packages/cx"),
+         "cx-react": p("../packages/cx-react")
+         //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
+         //'cx-react': 'cx-preact',
+      },
+      extensions: [".js", ".ts", ".tsx"]
+   },
+
+   module: {
+      loaders: [{
+         test: /\.tsx?$/,
+         include: /gallery/,
+         loader: 'ts-loader'
+      }, {
+         test: /\.js$/,
+         //add here any ES6 based library
+         include: /(cx|gallery)/,
+         loader: 'babel-loader',
+         query: babelCfg
+      }, {
+         test: /\.(png|jpg)/,
+         loader: 'file-loader'
+      }]
+   },
+   entry: {
+      vendor: ['cx-react', p('polyfill.js')],
+      app: [
+         p('index')
+      ]
+   },
+   output: {
+      path: p("dist"),
+      filename: "[name].js"
+   },
+   plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+         name: "vendor"
+      }),
+      new HtmlWebpackPlugin({
+         template: p('index.html'),
+         hash: true
+      })
+   ]
+};
+
+
