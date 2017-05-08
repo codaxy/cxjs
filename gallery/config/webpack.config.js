@@ -10,7 +10,10 @@ module.exports = {
       alias: {
          app: p("."),
          cx: p("../packages/cx"),
-         "cx-react": p("../packages/cx-react")
+         "cx-react": p("../packages/cx-react"),
+         "cx-theme-material": p("../packages/cx-theme-material"),
+         "cx-theme-frost": p("../packages/cx-theme-frost"),
+         "cx-theme-dark": p("../packages/cx-theme-dark")
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },

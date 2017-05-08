@@ -2,7 +2,7 @@ import * as Cx from '../core';
 
 interface ContentResolverProps extends Cx.PureContainerProps {
 
-   parms?: Cx.StructuredProp,
+   params?: Cx.StructuredProp,
    mode?: 'replace' | 'prepend' | 'append'
 
 }

@@ -7,10 +7,23 @@ var specific = {
    module: {
       loaders: [{
          test: /\.scss$/,
-         loaders: ["style-loader", "css-loader", "sass-loader"]
+         use: [
+            "style-loader",
+            "css-loader",
+            "sass-loader"
+         ]
+      }, {
+         test: /\.useadble\.scss$/,
+         use: [
+            {
+               loader: "style-loader/useable"
+            },
+            "css-loader",
+            "sass-loader"
+         ]
       }, {
          test: /\.css$/,
-         loader: ["style-loader", "css-loader"]
+         loaders: ["style-loader", "css-loader"]
       }]
    },
    plugins: [

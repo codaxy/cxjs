@@ -99,6 +99,7 @@ export class HtmlElement extends PureContainer {
          case "baseClass":
          case "CSS":
          case "tooltip":
+         case "styles":
             return false;
 
          default:

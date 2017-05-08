@@ -4,6 +4,8 @@ export default class extends Controller {
    onInit() {
       this.store.init("layout.aside.open", window.innerWidth >= 800);
 
+      this.store.init('theme', "material");
+
       this.addTrigger('navigation', ['url'], () => {
          if (window.innerWidth < 800)
             this.store.set('layout.aside.open', false);

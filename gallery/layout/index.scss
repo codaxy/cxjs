@@ -7,7 +7,7 @@ $small-device-width: 800px;
 }
 
 .header {
-   padding: 1.5em;
+   padding: 1.5rem 1.5rem 0;
    background: $header-color;
    position: fixed;
    transition: all 0.2s linear;
@@ -15,8 +15,24 @@ $small-device-width: 800px;
    top: 0;
    right: 0;
    box-shadow: 3px 2px 5px rgba(0,0,0,.26);
-   display: flex;
-   align-items: center;
+
+   .title {
+      display: flex;
+      align-items: center;
+   }
+
+   .tabs {
+      min-height: 3rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+
+      color: white;
+
+      .cxb-tab.cxs-active {
+         border-color: white;
+      }
+   }
 
    h2 {
       line-height: 1;
@@ -33,6 +49,8 @@ $small-device-width: 800px;
       }
    }
 }
+
+
 
 .aside {
    position: fixed;
@@ -79,7 +97,7 @@ $small-device-width: 800px;
 }
 
 .main {
-   padding: 5.5rem 1rem 1rem;
+   padding: 8rem 1rem 1rem;
    transition: all 0.2s linear;
    height: 100%;
    box-sizing: border-box;

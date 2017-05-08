@@ -14,9 +14,7 @@ module.exports = {
          loose: true,
          useBuiltIns: true,
          cx: {
-            imports: {
-               useSrc: true
-            }
+            imports: false
          }
       }]
    ],
