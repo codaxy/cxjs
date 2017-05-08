@@ -8,6 +8,9 @@ export class Sandbox extends PureContainer {
       if (this.recordAlias)
          this.recordName = this.recordAlias;
 
+      if (this.accessKey)
+         this.key = this.accessKey;
+
       this.storageBinding = Binding.get(this.storage.bind);
       super.init();
    }

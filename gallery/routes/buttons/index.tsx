@@ -6,8 +6,12 @@ export default <cx>
     </h2>
     <Section mod="well">
         <FlexRow spacing>
-            <Button>Normal</Button>
+            <Button>Normal7</Button>
             <Button disabled>Disabled</Button>
         </FlexRow>
     </Section>
 </cx>
+
+import { hmr } from '../hmr';
+declare let module: any;
+hmr(module);

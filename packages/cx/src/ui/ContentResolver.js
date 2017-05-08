@@ -1,5 +1,6 @@
 import {PureContainer} from './PureContainer';
 import {Widget} from './Widget';
+import {isPromise} from '../util/isPromise';
 
 export class ContentResolver extends PureContainer {
    declareData() {
@@ -20,27 +21,39 @@ export class ContentResolver extends PureContainer {
    prepareData(context, instance) {
       let {data} = instance;
 
-      if (data.params && data.params != instance.cachedParams && this.onResolve) {
+      if (data.params !== instance.cachedParams && this.onResolve) {
          instance.cachedParams = data.params;
-         let x = this.onResolve(data.params, instance);
-         if (x) {
-            let content = Widget.create(x);
-            if (!Array.isArray(content))
-               content = [content];
-            switch (this.mode) {
-               case 'prepend':
-                  content = [...content, ...this.initialItems];
-                  break;
-
-               case 'append':
-                  content = [...this.initialItems, ...content];
-                  break;
-            }
-            instance.content = content;
+         let content = this.onResolve(data.params, instance);
+         if (isPromise(content)) {
+            //instance.setState({loading: true});
+            content.then(cnt => {
+               this.setContent(instance, cnt);
+               instance.setState({loading: {}});
+            })
          }
          else
-            instance.content = this.initialItems;
+            this.setContent(instance, content);
       }
+   }
+
+   setContent(instance, content) {
+      if (content) {
+         let cnt = Widget.create(content);
+         if (!Array.isArray(cnt))
+            cnt = [cnt];
+         switch (this.mode) {
+            case 'prepend':
+               cnt = [...cnt, ...this.initialItems];
+               break;
+
+            case 'append':
+               cnt = [...this.initialItems, ...cnt];
+               break;
+         }
+         instance.content = cnt;
+      }
+      else
+         instance.content = this.initialItems;
    }
 
    explore(context, instance) {
@@ -50,3 +63,4 @@ export class ContentResolver extends PureContainer {
 }
 
 ContentResolver.prototype.mode = 'replace';
+ContentResolver.prototype.params = null;

@@ -40,5 +40,8 @@ Debug.enable('app-data');
 
 //app loop
 import Routes from './routes';
+import { registerStore } from './routes/hmr';
+
+registerStore(store);
 
 let stop = startAppLoop(document.getElementById('app'), store, Routes);

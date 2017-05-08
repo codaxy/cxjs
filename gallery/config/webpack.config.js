@@ -9,7 +9,8 @@ module.exports = {
    resolve: {
       alias: {
          app: p("."),
-         cx: p("../packages/cx"),
+         "cx/src": p("../packages/cx/src"),
+         cx: p("../packages/cx/src"),
          "cx-react": p("../packages/cx-react"),
          "cx-theme-material": p("../packages/cx-theme-material"),
          "cx-theme-frost": p("../packages/cx-theme-frost"),

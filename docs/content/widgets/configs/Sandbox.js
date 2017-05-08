@@ -11,6 +11,7 @@ export default {
    key: {
       type: 'string',
       key: true,
+      alias: 'accessKey',
       description: <cx><Md>
          Key value used to access the data from the `storage`.
       </Md></cx>

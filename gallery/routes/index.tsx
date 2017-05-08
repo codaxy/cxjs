@@ -1,25 +1,33 @@
-import {cx, Route, PureContainer, Section, Sandbox} from 'cx/widgets';
+import {cx, Route, PureContainer, Section, Sandbox, ContentResolver} from 'cx/widgets';
 import {FirstVisibleChildLayout, bind} from 'cx/ui'
 
 import AppLayout from '../layout';
 
 import Default from './default';
 import About from './about';
-import Buttons from './buttons';
-import Grids from './grids';
 
+const asyncRoute = (route: string, content: () => Promise<any>) => <cx>
+    <Route route={route} url={bind("url")}>
+        <ContentResolver
+            params={bind("version")}
+            onResolve={() => content().then(x=>x.default)}
+        />
+    </Route>
+</cx>;
+
+declare let System: any;
 
 export default <cx>
     <Sandbox
-        key={1}
+        accessKey={bind("url")}
         storage={bind("pages")}
         outerLayout={AppLayout}
         layout={FirstVisibleChildLayout}
     >
         <Route route="~/" url={bind("url")} items={Default}/>
         <Route route="~/about" url={bind("url")} items={About}/>
-        <Route route="~/buttons" url={bind("url")} items={Buttons}/>
-        <Route route="~/grids" url={bind("url")} items={Grids}/>
+        {asyncRoute("~/buttons", ()=>System.import("./buttons"))}
+        {asyncRoute("~/grids", ()=>System.import("./grids"))}
 
         <Section title="Page Not Found" mod="card">
             This page doesn't exists. Please check your URL.
