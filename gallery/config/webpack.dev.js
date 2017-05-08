@@ -8,13 +8,6 @@ var specific = {
       loaders: [{
          test: /\.scss$/,
          use: [
-            "style-loader",
-            "css-loader",
-            "sass-loader"
-         ]
-      }, {
-         test: /\.useadble\.scss$/,
-         use: [
             {
                loader: "style-loader/useable"
             },

@@ -2,7 +2,7 @@ import { Store } from 'cx/data';
 import { Url, History, Widget, startAppLoop } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 //css
-import "./index.scss";
+import "./style";
 
 //store
 const store = new Store();
