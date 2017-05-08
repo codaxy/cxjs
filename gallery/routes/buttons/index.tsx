@@ -6,7 +6,7 @@ export default <cx>
     </h2>
     <Section mod="well">
         <FlexRow spacing>
-            <Button>Normal7</Button>
+            <Button>Normal</Button>
             <Button disabled>Disabled</Button>
         </FlexRow>
     </Section>

@@ -25,10 +25,9 @@ export class ContentResolver extends PureContainer {
          instance.cachedParams = data.params;
          let content = this.onResolve(data.params, instance);
          if (isPromise(content)) {
-            //instance.setState({loading: true});
             content.then(cnt => {
                this.setContent(instance, cnt);
-               instance.setState({loading: {}});
+               instance.setState({cacheBuster: {}});
             })
          }
          else

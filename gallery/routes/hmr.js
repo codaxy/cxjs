@@ -8,8 +8,6 @@ export function registerStore(s) {
 export function hmr(module) {
    if (module && module.hot) {
       module.hot.accept();
-      setTimeout(() => {
-         store.update('version', v => v + 1)
-      }, 5);
+      store.update('version', v => v + 1);
    }
 }
