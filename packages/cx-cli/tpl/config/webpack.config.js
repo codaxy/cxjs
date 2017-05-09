@@ -29,7 +29,7 @@ module.exports = {
     entry: {
         vendor: ['cx-react', p('app/polyfill.js')],
         app: [
-           p('app/index.js')
+           p('app/index.ts')
         ]
     },
     output: {

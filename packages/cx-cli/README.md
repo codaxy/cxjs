@@ -45,5 +45,5 @@ Set up a new route folder:
 ```
 cx add route route_name
 ```
-This command creates a new folder - `app/routes/route_name` and copies the `index.js`, 
+This command creates a new folder - `app/routes/route_name` and copies the `index.ts`,
 `index.scss` and `controller.js` files from the template.

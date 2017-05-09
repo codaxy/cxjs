@@ -25,7 +25,13 @@ module.exports = {
       loaders: [{
          test: /\.tsx?$/,
          include: /gallery/,
-         loader: 'ts-loader'
+         loaders: [
+            {
+               loader: 'babel-loader',
+               query: babelCfg
+            },
+            'ts-loader',
+         ]
       }, {
          test: /\.js$/,
          //add here any ES6 based library

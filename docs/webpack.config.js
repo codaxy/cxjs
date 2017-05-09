@@ -74,7 +74,7 @@ switch (process.env.npm_lifecycle_event) {
             entry: {
               app: [
                   'react-dev-utils/webpackHotDevClient',
-                  __dirname + '/index.js'
+                  __dirname + '/index.ts'
               ]
             },
             plugins: [
@@ -183,7 +183,7 @@ var common = {
     },
     entry: {
         vendor: ['cx-react', path.join(__dirname, 'polyfill')],
-        app: __dirname + '/index.js',
+        app: __dirname + '/index.ts',
     },
     output: {
         path: __dirname,
