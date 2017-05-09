@@ -64,6 +64,17 @@ export default <cx>
                         Home
                     </Link>
                 </dd>
+
+                <dd>
+                    <Link href="~/about" url={bind("url")}>
+                        About
+                    </Link>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    General
+                </dt>
                 <dd>
                     <Link href="~/buttons" url={bind("url")}>
                         Button
@@ -72,11 +83,6 @@ export default <cx>
                 <dd>
                     <Link href="~/grids" url={bind("url")}>
                         Grid
-                    </Link>
-                </dd>
-                <dd>
-                    <Link href="~/about" url={bind("url")}>
-                        About
                     </Link>
                 </dd>
             </dl>
