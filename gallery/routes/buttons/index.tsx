@@ -18,6 +18,9 @@ export default <cx>
     <div putInto="tabs">
         <Tab mod="line" value="1" tab="1">States</Tab>
     </div>
+    <div putInto="links">
+        <a href="https://cxjs.io/docs/widgets/buttons" target="_blank">Docs</a>
+    </div>
     <Section mod="well">
         <p>
             <strong>Normal</strong>

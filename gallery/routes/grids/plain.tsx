@@ -10,7 +10,7 @@ class PageController extends Controller {
         this.store.init(
             "$page.records",
             Array
-                .from({length: 100})
+                .from({length: 50})
                 .map((v, i) => ({
                     id: i + 1,
                     fullName: casual.full_name,
@@ -28,7 +28,7 @@ export default (
         <PureContainer controller={PageController}>
             <Grid
                 records={bind("$page.records")}
-                style={{ height: "100%" }}
+                style="flex: 1"
                 mod="responsive"
                 scrollable
                 columns={[

@@ -35,17 +35,8 @@ export default <cx>
                     }}
                 />
                 <ContentPlaceholder name="header"/>
-                <LookupField
-                    style="margin-left: auto"
-                    value={bind("theme")}
-                    required
-                    options={[
-                        { id: 'material', text: 'Material'},
-                        { id: 'frost', text: 'Frost'},
-                        { id: 'dark', text: 'Dark'},
-                        { id: 'core', text: 'Core'}
-                    ]}
-                />
+                <div styles="flex:1" />
+                <ContentPlaceholder name="links"/>
             </div>
             <div class="tabs">
                 <ContentPlaceholder name="tabs"/>
@@ -55,6 +46,19 @@ export default <cx>
 
         <aside class="aside">
             <h1>Cx App</h1>
+            <div styles="padding: 1rem">
+            <LookupField
+                style="width: 100%"
+                value={bind("theme")}
+                required
+                options={[
+                        { id: 'material', text: 'Material'},
+                        { id: 'frost', text: 'Frost'},
+                        { id: 'dark', text: 'Dark'},
+                        { id: 'core', text: 'Core'}
+                    ]}
+            />
+            </div>
             <dl>
                 <dt>
                     App
