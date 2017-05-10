@@ -183,7 +183,7 @@ var common = {
     },
     entry: {
         vendor: ['cx-react', path.join(__dirname, 'polyfill')],
-        app: __dirname + '/index.ts',
+        app: __dirname + '/index',
     },
     output: {
         path: __dirname,
