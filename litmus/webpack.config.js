@@ -34,7 +34,7 @@ var common = {
          'babel-polyfill',
          'cx-react'
       ],
-      app: __dirname + '/index.ts'
+      app: __dirname + '/index.js'
    },
    output: {
       path: __dirname,

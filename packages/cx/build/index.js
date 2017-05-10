@@ -26,41 +26,41 @@ var node_modules = getPath(path.resolve(__dirname, '../../../node_modules'));
 var entries = [{
    name: 'util',
    options: {
-      entry: [src('util/index.ts')]
+      entry: [src('util/index.js')]
    },
    output: {}
 }, {
    name: 'data',
 
    options: {
-      entry: src('data/index.ts')
+      entry: src('data/index.js')
    },
    output: {}
 }, {
    name: 'ui',
    options: {
-      entry: [src('ui/index.ts')]
+      entry: [src('ui/index.js')]
    },
    output: {}
 }, {
    name: 'widgets',
    css: true,
    options: {
-      entry: [src('widgets/index.ts'), src('variables.scss'), src('widgets/index.scss')]
+      entry: [src('widgets/index.js'), src('variables.scss'), src('widgets/index.scss')]
    },
    output: {}
 }, {
    name: 'svg',
    css: true,
    options: {
-      entry: [src('svg/index.ts'), src('variables.scss'), src('svg/index.scss')]
+      entry: [src('svg/index.js'), src('variables.scss'), src('svg/index.scss')]
    },
    output: {}
 }, {
    name: 'charts',
    css: true,
    options: {
-      entry: [src('charts/index.ts'), src('variables.scss'), src('charts/index.scss')]
+      entry: [src('charts/index.js'), src('variables.scss'), src('charts/index.scss')]
    },
    output: {}
 }];

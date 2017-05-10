@@ -38,7 +38,7 @@ var common = {
       }]
    },
    entry: {
-      app: __dirname + '/index.ts',
+      app: __dirname + '/index.js',
    },
    output: {
       path: __dirname,

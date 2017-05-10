@@ -91,7 +91,7 @@ module.exports = function (name, themePath, port) {
          ],
 
          entry: {
-            app: themePath + '/index.ts',
+            app: themePath + '/index.js',
          },
 
          output: {
@@ -123,7 +123,7 @@ module.exports = function (name, themePath, port) {
          entry: {
             app: [
                'react-dev-utils/webpackHotDevClient',
-               themePath + '/index.ts'
+               themePath + '/index.js'
             ]
          },
          output: {
