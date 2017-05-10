@@ -11,7 +11,8 @@ export class Route extends PureContainer
 
       super.init();
 
-      this.matcher = new RouteMatcher(this.route);
+      if (this.route && this.route[0] !== '+')
+         this.matcher = new RouteMatcher(this.route + (this.prefix ? '(*remainder)' : ''));
    }
 
    initInstance(context, instance) {
@@ -37,7 +38,17 @@ export class Route extends PureContainer
 
       if (data.url !== instance.cached.url) {
          instance.cached.url = data.url;
-         instance.cached.result = this.matcher.match(data.url);
+         let matcher = this.matcher;
+         let route = this.route;
+         if (this.route[0] === '+') {
+            route = context.lastRoute.route + this.route.substring(1) + (this.prefix ? '(*remainder)' : '');
+            if (!instance.cached.matcher || instance.cached.route !== route)
+               instance.cached.matcher = new RouteMatcher(route);
+            matcher = instance.cached.matcher;
+         }
+         instance.cached.result = matcher.match(data.url);
+         instance.cached.matcher = matcher;
+         instance.cached.route = data.route = route;
       }
       if (!instance.cached.result)
          return false;
@@ -68,8 +79,30 @@ export class Route extends PureContainer
          }
       }
    }
+
+   explore(context, instance) {
+
+      let lastRoute = context.lastRoute;
+
+      context.lastRoute = {
+         route: instance.cached.route,
+         result: instance.cached.result,
+         reverse: function (data) {
+            return instance.cached.matcher.reverse({
+               ...instance.cached.result,
+               remainder: '',
+               ...data
+            })
+         }
+      };
+
+      super.explore(context, instance);
+
+      context.lastRoute = lastRoute;
+   }
 }
 
 Route.prototype.recordName = '$route';
+Route.prototype.prefix = false;
 
 Widget.alias('route', Route);

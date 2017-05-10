@@ -14,12 +14,23 @@ export class LinkButton extends Button {
 
    prepareData(context, instance) {
       let {data} = instance;
+
+      data.unresolvedHref = data.href;
+
+      if (typeof data.href === 'string') {
+         if (data.unresolvedHref[0] === '+')
+            data.unresolvedHref = context.lastRoute.reverse() + data.href.substring(1);
+
+         data.href = Url.resolve(data.unresolvedHref);
+         if (data.attrs)
+            data.attrs.href = data.href;
+      }
+
       data.stateMods = {
          disabled: data.disabled,
          active: this.isActive(data)
       };
-      if (typeof data.href == 'string')
-         data.href = Url.resolve(data.href);
+
       super.prepareData(context, instance);
    }
 
@@ -27,10 +38,10 @@ export class LinkButton extends Button {
       switch (this.match) {
          default:
          case 'equal':
-            return data.url == data.href;
+            return data.url === data.unresolvedHref;
 
          case 'prefix':
-            return data.url && data.href && data.url.indexOf(data.href) == 0;
+            return data.url && data.unresolvedHref && data.url.indexOf(data.unresolvedHref) === 0;
       }
    }
 
@@ -42,7 +53,7 @@ export class LinkButton extends Button {
    }
 
    isValidHtmlAttribute(attr) {
-      if (attr == 'url' || attr == 'match')
+      if (attr === 'url' || attr === 'match')
          return false;
       return super.isValidHtmlAttribute(attr);
    }

@@ -33,8 +33,19 @@ $small-device-width: 800px;
 
       color: white;
 
-      .cxb-tab.cxs-active {
-         border-color: white;
+      .cxb-button.cxm-hollow {
+
+         border: 0;
+
+         &.cxs-active {
+            border-radius: 0;
+            border-bottom: 2px solid white;
+
+         }
+
+         &:hover {
+            background: rgba(255, 255, 255, 0.1);
+         }
       }
    }
 
@@ -75,13 +86,15 @@ $small-device-width: 800px;
 
 
    h1 {
-      line-height: 3rem;
       margin: 0;
-      padding: .5em;
-      text-align: center;
-      box-shadow: 0 0 1px rgba(0,0,0,.26);
-      text-transform: uppercase;
       font-size: 1.5rem;
+      padding: .5em;
+   }
+
+   header {
+      box-shadow: 0 0 1px rgba(0,0,0,.26);
+      text-align: center;
+      padding: 0.5rem;
    }
 
    dt {
@@ -132,4 +145,16 @@ p {
 
 .layout.nav {
 
+}
+
+.theme-dark {
+   aside {
+      background: #3b3a3c;
+   }
+}
+
+.theme-frost {
+   aside {
+      background: #f3f5f7;
+   }
 }

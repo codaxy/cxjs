@@ -28,7 +28,11 @@ interface CheckboxProps extends FieldProps {
    checked?: Cx.BooleanProp,
 
    /** Text property. */
-   text?: Cx.StringProp
+   text?: Cx.StringProp,
+
+   /** Prevent moving focus on the checkbox. This is useful when checkboxes are found
+    inside other focusable elements, such as grids or lists. */
+   unfocusable?: boolean
     
 }
 

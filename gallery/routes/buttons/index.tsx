@@ -1,48 +1,27 @@
-import {cx, Button, Section, FlexRow, Tab} from 'cx/widgets';
+import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 'cx/widgets';
+import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
-const buttons = mod => <cx>
-    <FlexRow spacing>
-        <Button mod={mod}>Normal</Button>
-        <Button mod={mod} disabled>Disabled</Button>
-        <Button mod={mod} pressed>Pressed</Button>
-        <Button mod={mod} icon="search" />
-        <Button mod={mod} icon="search">Icon + Text</Button>
-    </FlexRow>
-    <br/>
-</cx>
+import {getHeader} from "../../components/getHeader";
+import {asyncRoute} from "../../components/asyncRoute";
+
+const header = getHeader({
+    title: "Button",
+    tabs: {
+        states: 'States'
+    },
+    docsUrl: 'https://cxjs.io/docs/widgets/buttons'
+});
+
+import Default from './states';
 
 export default <cx>
-    <h2 putInto="header">
-        Button
-    </h2>
-    <div putInto="tabs">
-        <Tab mod="line" value="1" tab="1">States</Tab>
-    </div>
-    <div putInto="links">
-        <a href="https://cxjs.io/docs/widgets/buttons" target="_blank">Docs</a>
-    </div>
-    <Section mod="well">
-        <p>
-            <strong>Normal</strong>
-        </p>
-        {buttons(null)}
-
-        <p>
-            <strong>Primary</strong>
-        </p>
-        {buttons("primary")}
-
-        <p>
-            <strong>Danger</strong>
-        </p>
-        {buttons("danger")}
-
-        <p>
-            <strong>Hollow</strong>
-        </p>
-        {buttons("hollow")}
-
-    </Section>
+    {header}
+    <PureContainer layout={FirstVisibleChildLayout}>
+        <Route url={{bind: '$root.url'}} route="+/states">
+            {Default}
+        </Route>
+        <RedirectRoute redirect="+/states" />
+    </PureContainer>
 </cx>
 
 import {hmr} from '../hmr.js';

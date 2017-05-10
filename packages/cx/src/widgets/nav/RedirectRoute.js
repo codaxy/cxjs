@@ -5,6 +5,17 @@ import {Url} from '../../ui/app/Url';
 
 export class RedirectRoute extends Route
 {
+   checkVisible(context, instance, data) {
+
+      if (!data.visible)
+         return false;
+
+      if (!data.url && !data.route)
+         return true;
+
+      return super.checkVisible(context, instance, data);
+   }
+
    declareData() {
       super.declareData(...arguments, {
          redirect: undefined
@@ -15,6 +26,9 @@ export class RedirectRoute extends Route
       super.prepareData(...arguments);
 
       var {data} = instance;
+
+      if (data.redirect && data.redirect[0] === '+')
+         data.redirect = context.lastRoute.reverse() + data.redirect.substring(1);
 
       if (data.redirect && History.store)
          History.replaceState({}, null, Url.resolve(data.redirect));

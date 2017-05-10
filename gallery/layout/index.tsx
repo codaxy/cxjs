@@ -1,5 +1,5 @@
-import {cx, Link, ContentResolver, LookupField} from 'cx/widgets';
-import {ContentPlaceholder, bind} from 'cx/ui';
+import {cx, Link, ContentResolver, Menu, Submenu} from 'cx/widgets';
+import {ContentPlaceholder, bind, tpl, computable} from 'cx/ui';
 import Controller from "./Controller";
 import {loadTheme} from '../themes';
 
@@ -8,10 +8,11 @@ declare let System: any;
 export default <cx>
     <div
         controller={Controller}
-        class={{
+        class={computable("layout.aside.open", "$route.theme", (nav, theme) => ({
             "layout": true,
-            "nav": {bind: "layout.aside.open"}
-        }}
+            ["theme-"+ theme]: true,
+            "nav": nav
+        }))}
     >
         <main
             class="main"
@@ -35,7 +36,7 @@ export default <cx>
                     }}
                 />
                 <ContentPlaceholder name="header"/>
-                <div styles="flex:1" />
+                <div styles="flex:1"/>
                 <ContentPlaceholder name="links"/>
             </div>
             <div class="tabs">
@@ -43,56 +44,42 @@ export default <cx>
             </div>
         </header>
 
-
         <aside class="aside">
-            <h1>Cx App</h1>
-            <div styles="padding: 1rem">
-            <LookupField
-                style="width: 100%"
-                value={bind("theme")}
-                required
-                options={[
-                        { id: 'material', text: 'Material'},
-                        { id: 'frost', text: 'Frost'},
-                        { id: 'dark', text: 'Dark'},
-                        { id: 'core', text: 'Core'}
-                    ]}
-            />
-            </div>
-            <dl>
-                <dt>
-                    App
-                </dt>
-                <dd>
-                    <Link href="~/" url={bind("url")}>
-                        Home
-                    </Link>
-                </dd>
-
-                <dd>
-                    <Link href="~/about" url={bind("url")}>
-                        About
-                    </Link>
-                </dd>
-            </dl>
+            <header>
+                <h1><a href="https://cxjs.io/">CxJS</a> Gallery</h1>
+                <div>
+                    Theme:
+                    <Menu horizontal styles="display: inline-block; margin-left: 5px; font-weight: 500">
+                        <Submenu arrow>
+                            <a text={{bind: "themeName"}} />
+                            <Menu putInto="dropdown">
+                                <Link href={tpl("~/material{$route.remainder}")}>Material</Link>
+                                <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
+                                <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
+                                <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
+                            </Menu>
+                        </Submenu>
+                    </Menu>
+                </div>
+            </header>
             <dl>
                 <dt>
                     General
                 </dt>
                 <dd>
-                    <Link href="~/buttons" url={bind("url")}>
+                    <Link href={tpl("~/{$route.theme}/button")} url={bind("url")} match="prefix">
                         Button
                     </Link>
                 </dd>
                 <dd>
-                    <Link href="~/grids" url={bind("url")}>
+                    <Link href={tpl("~/{$route.theme}/grid")} url={bind("url")} match="prefix">
                         Grid
                     </Link>
                 </dd>
             </dl>
         </aside>
         <ContentResolver
-            params={bind("theme")}
+            params={bind("$route.theme")}
             onResolve={theme => {
                 switch (theme) {
                     case "material":
@@ -100,15 +87,15 @@ export default <cx>
                         return null;
 
                     case "frost":
-                        System.import("../themes/frost").then(() => loadTheme("frost"));;
+                        System.import("../themes/frost").then(() => loadTheme("frost"));
                         return null;
 
                     case "dark":
-                        System.import("../themes/dark").then(() => loadTheme("dark"));;
+                        System.import("../themes/dark").then(() => loadTheme("dark"));
                         return null;
 
                     case "core":
-                        System.import("../themes/core").then(() => loadTheme("core"));;
+                        System.import("../themes/core").then(() => loadTheme("core"));
                         return null;
                 }
             }}

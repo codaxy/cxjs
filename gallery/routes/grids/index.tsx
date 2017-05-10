@@ -1,36 +1,35 @@
-import {cx, Button, Section, FlexRow, Tab} from 'cx/widgets';
-import {bind, expr} from 'cx/ui';
+import {cx, PureContainer, RedirectRoute, Route} from 'cx/widgets';
+import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
 import Plain from "./plain";
 
+declare let System: any;
+
+import {getHeader} from "../../components/getHeader";
+import {asyncRoute} from "../../components/asyncRoute";
+
+const header = getHeader({
+    title: "Grid",
+    tabs: {
+        plain: 'Plain',
+        "multi-select": "Multiple Selection"
+    },
+    docsUrl: 'https://cxjs.io/docs/widgets/grids'
+});
+
+
 export default <cx>
-    <h2 putInto="header">
-        Grid
-    </h2>
+    { header }
 
-    <div putInto="tabs">
-        <Tab mod="line" value={bind("tab")} tab="1">Regular</Tab>
-        <Tab mod="line" value={bind("tab")} tab="2">Tab 2</Tab>
-        <Tab mod="line" value={bind("tab")} tab="3">Tab 3</Tab>
-        <Tab mod="line" value={bind("tab")} tab="4" visible={expr("{theme}=='material'")}>Tab 4</Tab>
-    </div>
-
-    <Section
-        mod="well"
-        visible={expr("{tab}=='1'")}
-        style="height: 100%"
-        bodyStyle="display:flex; flex-direction:column"
-    >
-        {Plain}
-    </Section>
-
-    <Section mod="well" visible={expr("{tab}=='2'")}>
-        Grid 2
-    </Section>
-
-    <Section mod="well" visible={expr("{tab}=='3'")}>
-        Grid 3
-    </Section>
+    <PureContainer layout={FirstVisibleChildLayout}>
+        <Route url={{bind: "$root.url"}} route="+/plain">
+            {Plain}
+        </Route>
+        {
+            asyncRoute("+/multi-select", () => System.import("./multi-select"))
+        }
+        <RedirectRoute redirect="+/plain" />
+    </PureContainer>
 </cx>
 
 import {hmr} from '../hmr.js';

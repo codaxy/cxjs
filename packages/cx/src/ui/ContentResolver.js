@@ -37,22 +37,28 @@ export class ContentResolver extends PureContainer {
 
    setContent(instance, content) {
       if (content) {
-         let cnt = Widget.create(content);
-         if (!Array.isArray(cnt))
-            cnt = [cnt];
+         this.items = [];
          switch (this.mode) {
             case 'prepend':
-               cnt = [...cnt, ...this.initialItems];
+               this.add(content);
+               this.add(this.initialItems);
                break;
 
             case 'append':
-               cnt = [...this.initialItems, ...cnt];
+               this.add(content);
+               this.add(this.initialItems);
+               break;
+
+            case "replace":
+               this.add(content);
                break;
          }
-         instance.content = cnt;
+         instance.content = this.items;
       }
       else
          instance.content = this.initialItems;
+
+      this.items = this.initialItems;
    }
 
    explore(context, instance) {

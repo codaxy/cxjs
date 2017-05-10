@@ -12,8 +12,10 @@ export interface RouteProps extends Cx.PureContainerProps {
    route?: string,
    
    /** Name used to expose local data. Defaults to `$route`. */
-   recordName?: string
+   recordName?: string,
 
+   /** Match route even if given `route` is only a prefix of the current `url`. */
+   prefix?: boolean
 }
 
 export class Route extends Cx.Widget<RouteProps> {}

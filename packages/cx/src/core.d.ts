@@ -176,7 +176,11 @@ declare global {
 declare module "react" {
    interface HTMLProps<T> extends Cx.PureContainerProps {
       class?: Cx.ClassProp,
-      styles?: Cx.StyleProp
+      styles?: Cx.StyleProp,
+      text?: Cx.StringProp,
+      innerText?: Cx.StringProp,
+      html?: Cx.StringProp,
+      innerHtml?: Cx.StringProp
    }
 
    //this doesn't work, however, it would be nice if it does

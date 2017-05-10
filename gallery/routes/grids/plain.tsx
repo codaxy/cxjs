@@ -1,4 +1,4 @@
-import {Grid, PureContainer, cx} from "cx/widgets";
+import {Grid, Section, cx} from "cx/widgets";
 import {Controller, KeySelection, bind} from "cx/ui";
 import casual from '../../util/casual';
 
@@ -25,7 +25,12 @@ class PageController extends Controller {
 
 export default (
     <cx>
-        <PureContainer controller={PageController}>
+        <Section
+            mod="well"
+            style="height: 100%"
+            bodyStyle="display:flex; flex-direction:column"
+            controller={PageController}
+        >
             <Grid
                 records={bind("$page.records")}
                 style="flex: 1"
@@ -45,7 +50,7 @@ export default (
                 ]}
                 selection={{ type: KeySelection, bind: "$page.selection" }}
             />
-        </PureContainer>
+        </Section>
     </cx>
 );
 
