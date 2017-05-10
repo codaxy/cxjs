@@ -11,15 +11,15 @@ var sass = new ExtractTextPlugin({
 });
 
 var specific = {
-   module: {
-      loaders: [{
-         test: /\.scss$/,
-         loaders: sass.extract(['css-loader', 'sass-loader'])
-      }, {
-         test: /\.css$/,
-         loaders: sass.extract(['css-loader'])
-      }]
-   },
+   // module: {
+   //    loaders: [{
+   //       test: /\.scss$/,
+   //       loaders: sass.extract(['css-loader', 'sass-loader'])
+   //    }, {
+   //       test: /\.css$/,
+   //       loaders: sass.extract(['css-loader'])
+   //    }]
+   // },
 
    plugins: [
       new webpack.optimize.UglifyJsPlugin(),

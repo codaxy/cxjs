@@ -9,7 +9,7 @@
     "jsxFactory": "cx",
     "baseUrl": ".",
     "paths": {
-      "cx": [ "../packages/cx/src" ],
+      "cx": [ "../packages/cx" ],
       "cx-react": [ "../packages/cx-react" ]
     }
   },

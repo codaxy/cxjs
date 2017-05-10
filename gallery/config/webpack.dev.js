@@ -5,19 +5,7 @@ var webpack = require('webpack'),
 
 var specific = {
    module: {
-      loaders: [{
-         test: /\.scss$/,
-         use: [
-            {
-               loader: "style-loader/useable"
-            },
-            "css-loader",
-            "sass-loader"
-         ]
-      }, {
-         test: /\.css$/,
-         loaders: ["style-loader", "css-loader"]
-      }]
+      loaders: []
    },
    plugins: [
       new webpack.HotModuleReplacementPlugin()

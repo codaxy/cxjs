@@ -12,6 +12,7 @@ export default <cx>
             accessKey={bind("url")}
             storage={bind("pages")}
             outerLayout={AppLayout}
+            visible={{expr: "!!{$route.theme}"}}
         >
             <Rescope bind="$page" layout={FirstVisibleChildLayout}>
                 {asyncRoute("+/button", () => System.import("./buttons"), {prefix: true})}

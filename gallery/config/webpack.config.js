@@ -10,7 +10,7 @@ module.exports = {
       alias: {
          app: p("."),
          "cx/src": p("../packages/cx/src"),
-         cx: p("../packages/cx/src"),
+         cx: p("../packages/cx"),
          "cx-react": p("../packages/cx-react"),
          "cx-theme-material": p("../packages/cx-theme-material"),
          "cx-theme-frost": p("../packages/cx-theme-frost"),
@@ -41,6 +41,18 @@ module.exports = {
       }, {
          test: /\.(png|jpg)/,
          loader: 'file-loader'
+      }, {
+         test: /\.scss$/,
+         use: [
+            {
+               loader: "style-loader/useable"
+            },
+            "css-loader",
+            "sass-loader"
+         ]
+      }, {
+         test: /\.css$/,
+         loaders: ["style-loader", "css-loader"]
       }]
    },
    entry: {
