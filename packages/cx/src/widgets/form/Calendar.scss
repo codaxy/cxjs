@@ -115,7 +115,8 @@
          background-color: transparent;
          border-color: transparent;
          color: darken(#fff, 18);
-         cursor: not-allowed;
+         pointer-events: none;
+         opacity: 0.9;
       }
    }
 

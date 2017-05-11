@@ -62,26 +62,7 @@ export default <cx>
                     </Menu>
                 </div>
             </header>
-            <dl>
-                <dt>
-                    General
-                </dt>
-                <dd>
-                    <Link href={tpl("~/{$route.theme}/button")} url={bind("url")} match="prefix">
-                        Button
-                    </Link>
-                </dd>
-                <dd>
-                    <Link href={tpl("~/{$route.theme}/text-field")} url={bind("url")} match="prefix">
-                        TextField
-                    </Link>
-                </dd>
-                <dd>
-                    <Link href={tpl("~/{$route.theme}/grid")} url={bind("url")} match="prefix">
-                        Grid
-                    </Link>
-                </dd>
-            </dl>
+            <ContentPlaceholder name="nav" />
         </aside>
         <ContentResolver
             params={bind("$route.theme")}

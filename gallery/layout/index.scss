@@ -1,4 +1,4 @@
-$header-color: #a73232;
+$header-color: #2196F3;
 $aside-width: 260px;
 $small-device-width: 800px;
 
@@ -100,7 +100,7 @@ $small-device-width: 800px;
       font-weight: bold;
    }
 
-   dl .cxb-link {
+   .cxb-link {
       padding: 0.5rem;
       display: block;
       color: inherit;
@@ -132,14 +132,26 @@ $small-device-width: 800px;
 }
 
 .theme-dark {
-   aside {
+   .aside {
       background: #3b3a3c;
+
+      .cxb-link.cxs-active {
+         color: #7887ab;
+      }
+   }
+
+   .header {
+      background: #41495b;
    }
 }
 
 .theme-frost {
-   aside {
+   .aside {
       background: #f3f5f7;
+
+      .cxb-link.cxs-active {
+         color: #24b5d6;
+      }
    }
 
    .header {

@@ -1,13 +1,32 @@
-import {cx, Route, RedirectRoute, Section, Sandbox, Rescope} from 'cx/widgets';
-import {FirstVisibleChildLayout, bind} from 'cx/ui'
+import {cx, Route, RedirectRoute, Section, Sandbox, Rescope, Link} from 'cx/widgets';
+import {FirstVisibleChildLayout, bind, tpl} from 'cx/ui'
 import {asyncRoute} from "../components/asyncRoute";
-
 import AppLayout from '../layout';
-declare let System: any;
+
+import list from './list';
+
 
 export default <cx>
     <Route route="~/(:theme)" url={bind("url")} prefix>
         <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
+
+        <div putInto="nav">
+            {list.map(cat =>
+                <dl>
+                    <dt>
+                        {cat.name}
+                    </dt>
+                    {cat.items.map(item =>
+                        <dd>
+                            <Link href={tpl("~/{$route.theme}" + item.route.substring(1))} url={bind("url")} match="prefix">
+                                {item.name}
+                            </Link>
+                        </dd>
+                    )}
+                </dl>
+            )}
+        </div>
+
         <Sandbox
             accessKey={bind("url")}
             storage={bind("pages")}
@@ -16,9 +35,7 @@ export default <cx>
         >
             <Rescope bind="$page" layout={FirstVisibleChildLayout}>
 
-                {asyncRoute("+/button", () => System.import("./buttons"), {prefix: true})}
-                {asyncRoute("+/grid", () => System.import("./grids"), {prefix: true})}
-                {asyncRoute("+/text-field", () => System.import("./text-field"), {prefix: true})}
+                {list.map(cat => cat.items.map(item => asyncRoute(item.route, item.content, {prefix: true})))}
 
                 <RedirectRoute route="+" url={bind("$root.url")} redirect="+/button"/>
                 <Section title="Page Not Found" mod="card">
