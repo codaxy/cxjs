@@ -1,6 +1,7 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
 import {ValidationError} from './ValidationError';
+import {HelpText} from './HelpText';
 import {Label} from './Label';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {isSelector} from '../../data/isSelector';
@@ -54,12 +55,20 @@ export class Field extends PureContainer {
       }
 
       if (this.help != null) {
-         this.help = Widget.create(PureContainer, {items: this.help});
+         let helpConfig = {};
+
+         if (this.help.isComponentType)
+            helpConfig = this.help;
+         else if (isSelector(this.help))
+            helpConfig.text = this.help;
+         else
+            Object.assign(helpConfig, this.help);
+
+         this.help = HelpText.create(helpConfig);
       }
 
       if (this.label != null) {
          let labelConfig = {
-            type: Label,
             mod: this.mod,
             disabled: this.disabled,
             required: this.required,
@@ -73,7 +82,7 @@ export class Field extends PureContainer {
          else
             Object.assign(labelConfig, this.label);
 
-         this.label = Widget.create(labelConfig);
+         this.label = Label.create(labelConfig);
       }
 
       this.inputStyle = parseStyle(this.inputStyle);

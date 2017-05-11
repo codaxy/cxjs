@@ -256,7 +256,9 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 ));
 
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-  
+   disabled: (
+      background: darken($cx-default-border-color, 3)
+   )
 ));
 
 
@@ -376,18 +378,6 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
 $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
       background: #222
-   ),
-   h1: (
-   ),
-   h2: (
-   ),
-   h3: (
-   ),
-   h4: (
-   ),
-   h5: (
-   ),
-   h6: (
    ),
    a: (
       color: darken(#9faed2, 4)

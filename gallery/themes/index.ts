@@ -1,3 +1,4 @@
+import {bump} from '../routes/hmr.js'
 let activeStyle = null;
 
 export function loadTheme(name) {
@@ -8,6 +9,8 @@ export function loadTheme(name) {
    let style = themes[name];
    activeStyle = style;
    style.use();
+
+   bump();
 }
 
 const themes = {};

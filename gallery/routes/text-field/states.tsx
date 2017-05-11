@@ -1,5 +1,5 @@
 import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
-import {cx, TextField, Section, FlexRow, Heading} from "cx/widgets";
+import {cx, TextField, Section, FlexRow, HelpText} from "cx/widgets";
 
 export default (
     <cx>
@@ -100,7 +100,7 @@ export default (
                     label="Help"
                     value={bind("standard")}
                     help={<cx>
-                        <div>Block</div>
+                        <HelpText mod="block">Block</HelpText>
                     </cx>}
                 />
             </Section>
