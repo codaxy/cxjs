@@ -41,7 +41,8 @@ export class Button extends HtmlElement {
          }
       }
 
-      props.type = this.submit ? 'submit' : 'button';
+      if (this.tag === "button")
+         props.type = this.submit ? 'submit' : 'button';
 
       delete props.confirm;
       delete props.dismiss;

@@ -5,7 +5,9 @@ interface SandboxProps extends Cx.PureContainerProps {
     storage: Cx.StringProp,
 
     /* Cx.StringProp doesn't work for unknown reason */
-    key: any,
+    key?: any,
+
+    accessKey?: Cx.StringProp,
     
     recordName?: string,
     recordAlias?: string,

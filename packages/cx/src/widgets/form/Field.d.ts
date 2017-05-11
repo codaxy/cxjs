@@ -76,7 +76,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
     * Additional content to be displayed next to the field. 
     * This is commonly used for presenting additional information or validation errors. 
     */
-   help?: Cx.Config,
+   help?: string | Cx.Config,
 
    /** Custom validation function. */
    onValidate?: string | ((value, instance: Instance) => any)

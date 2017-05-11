@@ -127,7 +127,7 @@ class Input extends VDOM.Component {
             );
       }
 
-      let empty = this.input ? !this.input.value : data.empty;
+      let empty = !data.placeholder && (this.input ? !this.input.value  : data.empty);
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({

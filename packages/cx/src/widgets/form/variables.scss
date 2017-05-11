@@ -322,7 +322,7 @@ $cx-input-tag-state-style-map: (
 @import 'ColorPicker.variables';
 
 $cx-dependencies: map-merge($cx-dependencies, (
-   "cx/widgets/Field": "cx/widgets/Tooltip",
+   "cx/widgets/Field": "cx/widgets/Label" "cx/widgets/Tooltip" "cx/widgets/ValidationError" "cx/widgets/HelpText",
    "cx/widgets/DateField": "cx/widgets/Field" "cx/widgets/Calendar" "cx/widgets/Dropdown",
    "cx/widgets/TextField": "cx/widgets/Field",
    "cx/widgets/NumberField": "cx/widgets/Field",

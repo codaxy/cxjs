@@ -18,4 +18,5 @@ export * from './ColorField';
 export * from './UploadButton';
 export * from './Slider';
 export * from './Switch';
+export * from './HelpText';
 

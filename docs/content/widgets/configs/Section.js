@@ -80,5 +80,11 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the element. Default is 'section'.
         </Md></cx>
+    },
+    hLevel: {
+        type: 'number',
+        description: <cx><Md>
+            Heading level. Default value is 3.
+        </Md></cx>
     }
 };

@@ -4,6 +4,7 @@ import './Format';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {Debug, appDataFlag} from '../util/Debug';
+import {parseStyle} from '../util/parseStyle';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {RenderingContext} from './RenderingContext';
 
@@ -109,7 +110,7 @@ export class Widget extends Component {
          data.class,
          data.className
       );
-      data.style = this.CSS.parseStyle(data.style);
+      data.style = parseStyle(data.style);
    }
 
    prepareData(context, instance) {
