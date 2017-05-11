@@ -65,8 +65,6 @@ $small-device-width: 800px;
    }
 }
 
-
-
 .aside {
    position: fixed;
    left: 0;
@@ -92,7 +90,7 @@ $small-device-width: 800px;
    }
 
    header {
-      box-shadow: 0 0 1px rgba(0,0,0,.26);
+      box-shadow: -1px 0 1px rgba(0,0,0,.26);
       text-align: center;
       padding: 0.5rem;
    }
@@ -127,20 +125,6 @@ $small-device-width: 800px;
          transform: none;
       }
    }
-}
-
-h3 {
-   color: $header-color;
-}
-
-p {
-   max-width: 40em;
-}
-
-.cxb-section.cxm-card {
-   background: white;
-   box-shadow: 0 0 5px rgba(0,0,0,.26);
-   border-radius: 1px;
 }
 
 .layout.nav {

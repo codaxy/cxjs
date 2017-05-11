@@ -15,8 +15,11 @@ export default <cx>
             visible={{expr: "!!{$route.theme}"}}
         >
             <Rescope bind="$page" layout={FirstVisibleChildLayout}>
+
                 {asyncRoute("+/button", () => System.import("./buttons"), {prefix: true})}
                 {asyncRoute("+/grid", () => System.import("./grids"), {prefix: true})}
+                {asyncRoute("+/text-field", () => System.import("./text-field"), {prefix: true})}
+
                 <RedirectRoute route="+" url={bind("$root.url")} redirect="+/button"/>
                 <Section title="Page Not Found" mod="card">
                     This page doesn't exists. Please check your URL.

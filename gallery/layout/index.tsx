@@ -72,6 +72,11 @@ export default <cx>
                     </Link>
                 </dd>
                 <dd>
+                    <Link href={tpl("~/{$route.theme}/text-field")} url={bind("url")} match="prefix">
+                        TextField
+                    </Link>
+                </dd>
+                <dd>
                     <Link href={tpl("~/{$route.theme}/grid")} url={bind("url")} match="prefix">
                         Grid
                     </Link>

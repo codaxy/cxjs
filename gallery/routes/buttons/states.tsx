@@ -2,35 +2,28 @@ import {cx, Button, Section, FlexRow } from 'cx/widgets';
 
 const buttons = mod => <cx>
     <FlexRow spacing>
-        <Button mod={mod}>Normal</Button>
+        <Button mod={mod}>Default</Button>
         <Button mod={mod} disabled>Disabled</Button>
         <Button mod={mod} pressed>Pressed</Button>
         <Button mod={mod} icon="search" />
         <Button mod={mod} icon="search">Icon + Text</Button>
     </FlexRow>
     <br/>
+    <br/>
 </cx>
 
 export default <cx>
     <Section mod="well">
-        <p>
-            <strong>Normal</strong>
-        </p>
+        <h6>Standard</h6>
         {buttons(null)}
 
-        <p>
-            <strong>Primary</strong>
-        </p>
+        <h6>Primary</h6>
         {buttons("primary")}
 
-        <p>
-            <strong>Danger</strong>
-        </p>
+        <h6>Danger</h6>
         {buttons("danger")}
 
-        <p>
-            <strong>Hollow</strong>
-        </p>
+        <h6>Hollow</h6>
         {buttons("hollow")}
     </Section>
 </cx>

@@ -56,7 +56,8 @@ export class Section extends PureContainer {
    getHeader() {
       if (this.title)
          return Widget.create(Heading, {
-            text: this.title
+            text: this.title,
+            level: this.hLevel
          });
 
       if (this.header)
@@ -135,3 +136,4 @@ export class Section extends PureContainer {
 Section.prototype.styled = true;
 Section.prototype.pad = true;
 Section.prototype.baseClass = 'section';
+Section.prototype.hLevel = 3;

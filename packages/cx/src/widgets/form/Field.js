@@ -1,4 +1,4 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
 import {ValidationError} from './ValidationError';
 import {Label} from './Label';
@@ -223,7 +223,7 @@ export class Field extends PureContainer {
 
    renderLabel(context, instance, key) {
       if (instance.components.label)
-         return instance.components.label.render(context, key);
+         return getContent(instance.components.label.render(context, key));
    }
 
    renderInput(context, instance, key) {
@@ -232,7 +232,7 @@ export class Field extends PureContainer {
 
    renderHelp(context, instance, key) {
       if (instance.components.help)
-         return instance.components.help.render(context, key);
+         return getContent(instance.components.help.render(context, key));
    }
 
    formatValue(context, {data}) {

@@ -41,7 +41,10 @@ interface SectionProps extends StyledContainerProps {
    header?: Config,
 
    /** Contents that should go in the footer. */
-   footer?: Config
+   footer?: Config,
+
+   /** Title heading level (1-6) */
+   hLevel?: number
 
 }
 

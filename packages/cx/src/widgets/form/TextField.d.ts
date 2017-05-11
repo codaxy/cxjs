@@ -63,7 +63,13 @@ export interface TextFieldProps extends FieldProps {
 
    /** Set to `true` to monitor and report if input value has changed after the form has been
     automatically filled. */
-   trackBrowserAutofill?: boolean
+   trackBrowserAutofill?: boolean,
+
+   /** Set custom label placement instruction. Used in Material theme to implement animated labels. */
+   labelPlacement?: string,
+
+   /** Set custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages. */
+   helpPlacement?: string,
    
 }
 
