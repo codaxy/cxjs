@@ -97,6 +97,12 @@ interface GridProps extends Cx.StyledContainerProps {
    onDropTest?: (e: DragEvent, instance: Instance) => boolean;
    onDragStart?: (e: DragEvent, instance: Instance) => void;
    onDragEnd?: (e: DragEvent, instance: Instance) => void;
+
+   /** Parameters that affect filtering. */
+   filterParams?: Cx.StructuredProp,
+
+   /** Callback to create a filter function for given filter params. */
+   onCreateFilter?: (filterParams: any, instance: Instance) => (record: Cx.Record) => boolean;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

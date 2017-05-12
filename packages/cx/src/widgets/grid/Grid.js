@@ -519,7 +519,7 @@ export class Grid extends Widget {
       if (this.onCreateFilter)
          filter = this.onCreateFilter(data.filterParams, instance);
 
-      this.adapter.setFilter(filter);
+      this.dataAdapter.setFilter(filter);
       this.dataAdapter.sort(!this.remoteSort && data.sorters);
 
       return this.dataAdapter.getRecords(context, instance, data.records, store);

@@ -1,5 +1,6 @@
 import * as Cx from '../core';
 import {PropertySelection, KeySelection} from '../ui/selection';
+import {Instance} from '../ui/Instance';
 
 interface ListProps extends Cx.StyledContainerProps {
     
@@ -8,8 +9,6 @@ interface ListProps extends Cx.StyledContainerProps {
     
    /** Used for sorting the list. */
    sorters?: Cx.Sorter[],
-    
-   filterParams?: Cx.StructuredProp, 
     
    itemStyle?: Cx.StyleProp,
     
@@ -30,7 +29,13 @@ interface ListProps extends Cx.StyledContainerProps {
    cached?: boolean,
 
    /** Selection configuration. */
-   selection?: typeof PropertySelection | typeof KeySelection
+   selection?: typeof PropertySelection | typeof KeySelection,
+
+   /** Parameters that affect filtering */
+   filterParams?: Cx.StructuredProp,
+
+   /** Callback to create a filter function for given filter params. */
+   onCreateFilter?: (filterParams: any, instance: Instance) => (record: Cx.Record) => boolean;
 
 }
 
