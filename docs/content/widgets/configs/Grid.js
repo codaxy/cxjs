@@ -39,7 +39,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Set to `true` to add a vertical scroll and a fixed header to the grid.
+            Set to `true` to add a vertical scroll and a fixed header to the grid. Scrollable grids shoud have `height` or `max-height` set. 
+            Otherwise, the grid will grow to accomodate all rows.
         </Md></cx>
     },
     selection: {
