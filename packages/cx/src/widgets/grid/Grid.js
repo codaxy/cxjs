@@ -45,7 +45,8 @@ export class Grid extends Widget {
          sortDirection: undefined,
          emptyText: undefined,
          dragSource: {structured: true},
-         dropZone: {structured: true}
+         dropZone: {structured: true},
+         filterParams: {structured: true}
       }, selection, ...arguments);
    }
 
@@ -513,7 +514,14 @@ export class Grid extends Widget {
 
    mapRecords(context, instance) {
       let {data, store} = instance;
+
+      let filter = null;
+      if (this.onCreateFilter)
+         filter = this.onCreateFilter(data.filterParams, instance);
+
+      this.adapter.setFilter(filter);
       this.dataAdapter.sort(!this.remoteSort && data.sorters);
+
       return this.dataAdapter.getRecords(context, instance, data.records, store);
    }
 }

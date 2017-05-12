@@ -45,7 +45,13 @@ export class Repeater extends PureContainer {
       if (!instance.repeatable) {
          let {data} = instance;
          this.adapter.sort(data.sorters);
-         this.adapter.setFilter(this.filter && (item => this.filter(item, data.filterParams)));
+
+         let filter = null;
+         if (this.onCreateFilter)
+            this.onCreateFilter(data.filterParams, instance);
+         else if (this.filter)
+            filter = item => this.filter(item, data.filterParams);
+         this.adapter.setFilter(filter);
          instance.mappedRecords = this.adapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
       }
    }

@@ -9,14 +9,14 @@ class ListController extends Controller {
          text: String(2000 + i)
       })))
 
-      this.addComputable('$data', ['data', 'filter'], (data, filter) => {
-         if (!filter || !filter.query)
-            return data;
-
-         let predicate = getSearchQueryPredicate(filter.query);
-
-         return data.filter(el => predicate(el.text));
-      });
+      // this.addComputable('$data', ['data', 'filter'], (data, filter) => {
+      //    if (!filter || !filter.query)
+      //       return data;
+      //
+      //    let predicate = getSearchQueryPredicate(filter.query);
+      //
+      //    return data.filter(el => predicate(el.text));
+      // });
    }
 }
 
@@ -28,10 +28,18 @@ export default<cx>
       {/* Observe timing differences when typing in this field with cached set on/off */}
       <TextField value:bind="filter.dummy"  />
       <List
-         records:bind="$data"
+         records:bind="data"
          style="height: 500px"
-         cached={true}
+         cached
          keyField="id"
+         filterParams:bind="filter"
+         onCreateFilter={(filter) => {
+            if (!filter || !filter.query)
+               return null;
+
+            let predicate = getSearchQueryPredicate(filter.query);
+            return el => predicate(el.text);
+         }}
       >
          <div>
             <span text:bind="$record.text" />
