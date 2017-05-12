@@ -231,9 +231,6 @@ $checkbox-padding-correction: 2px !default;
       transition: transform 0.2s ease-in-out;
    }
    &.#{$state}checked {
-      path {
-         fill: white;
-      }
       &:after {
          background-color: rgba($cx-theme-primary-color, 0.1);
       }

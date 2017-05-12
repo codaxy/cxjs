@@ -46,6 +46,12 @@ export class Checkbox extends Field {
       </label>
    }
 
+   validateRequired(context, instance) {
+      let {data} = instance;
+      if (!data.value)
+         return this.requiredText;
+   }
+
    renderNativeCheck(context, instance) {
       let {CSS, baseClass} = this;
       let {data} = instance;

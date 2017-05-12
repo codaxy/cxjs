@@ -178,22 +178,22 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 
 // SECTION 
 $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
-  card: (
-    default: (
-      background-color: $cx-default-background-color,
-      border-radius: $cx-default-border-radius + 1px
-    )        
-  )
+   card: (
+      default: (
+         background-color: $cx-default-background-color,
+         border-radius: $cx-default-border-radius + 1px
+      )
+   )
 ));
 // can be used interchangeably with mod='card'
 .cxm-well {
-  @extend .cxm-card;
+   @extend .cxm-card;
 }
 
 // LIST ITEM
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
    hover: (
-      background-color:  darken($cx-default-highlight-color, 12)
+      background-color: darken($cx-default-highlight-color, 12)
    ),
    cursor: (
       background-color: darken($cx-default-highlight-color, 12)
@@ -252,75 +252,80 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    focus: (
       border-color: $cx-default-highlight-color,
       box-shadow: 0 0 2px $cx-default-highlight-color
-   )
-));
-
-$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+   ),
    disabled: (
       background: darken($cx-default-border-color, 3)
    )
 ));
 
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+
+));
 
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
-  hover: (
-    border-color: $cx-default-input-border-color
-  ),
-  focus: (
-    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
-    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
-  )
+   hover: (
+      border-color: $cx-default-input-border-color
+   ),
+   focus: (
+      border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+      box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+   )
 ));
 
 $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
-  default: (
-    border-width: 1px,
-    border-style: solid,
-    border-color: transparent
-  ),
-  hover: (
-    background-color: $cx-default-background-color-dark
-  ),
-  hover-focus: (
-    background-color: darken($cx-default-highlight-color, 12)
-  ),
-  selected: (
-    background-color: darken($cx-default-highlight-color, 6)
-  ),
-  selected-focus: (
-    background-color: $cx-default-highlight-color
-  ),
-  today: (
-    background-color: transparent,
-    border-color: darken($cx-default-error-color, 10)
-  ),
-  outside: (
-    color: rgba(204, 204, 204, 0.3)
-  )
+   default: (
+      border-width: 1px,
+      border-style: solid,
+      border-color: transparent
+   ),
+   hover: (
+      background-color: $cx-default-background-color-dark
+   ),
+   hover-focus: (
+      background-color: darken($cx-default-highlight-color, 12)
+   ),
+   selected: (
+      background-color: darken($cx-default-highlight-color, 6)
+   ),
+   selected-focus: (
+      background-color: $cx-default-highlight-color
+   ),
+   today: (
+      background-color: transparent,
+      border-color: darken($cx-default-error-color, 10)
+   ),
+   outside: (
+      color: rgba(204, 204, 204, 0.3)
+   )
 ));
 
 //checkbox
-$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map,(
-  focus: (
-    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
-    outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
-    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
-  )
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+   focus: (
+      border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+      outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
+      box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+   ),
+   disabled: (
+      background: darken($cx-default-border-color, 3)
+   )
 ));
 
 //radio
-$cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map,(
-  focus: (
-    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
-    outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
-    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
-  )
+$cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
+   focus: (
+      border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+      outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
+      box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+   ),
+   disabled: (
+      background: darken($cx-default-border-color, 3)
+   )
 ));
 
 //textarea
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-  
 ));
 
 // slider
