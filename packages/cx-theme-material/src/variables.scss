@@ -751,6 +751,7 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    checked: (
       background-color: $cx-theme-primary-color-light,
       border-color: $cx-theme-primary-color-light,
+      color: white,
       opacity: 1
    ),
    checked-focus: (

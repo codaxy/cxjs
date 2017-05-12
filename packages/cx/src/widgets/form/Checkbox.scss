@@ -53,6 +53,10 @@
       display: inline-block;
       margin-left: $size;
       user-select: none;
+
+      .#{$state}disabled > & {
+         opacity: 0.5;
+      }
    }
 
    .#{$element}#{$name}-empty-text {
