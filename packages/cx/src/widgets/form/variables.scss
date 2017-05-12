@@ -54,7 +54,8 @@ $cx-input-state-style-map: (
 
    disabled: (
       background: rgb(235, 235, 228),
-      color: rgb(84, 84, 84)
+      color: rgb(84, 84, 84),
+      pointer-events: none
    ),
 
    error: (
