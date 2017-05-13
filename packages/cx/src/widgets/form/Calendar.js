@@ -371,7 +371,7 @@ export class CalendarCmp extends VDOM.Component {
       var date = startDate;
 
       var today = zeroTime(new Date());
-
+      var pad2 = val => val < 10 ? ('0' + val) : val;
       while (date < refDate || date.getMonth() == month) {
          let days = [];
          for (var i = 0; i < 7; i++) {
@@ -386,7 +386,7 @@ export class CalendarCmp extends VDOM.Component {
             let dateInst = new Date(date);
             days.push(<td key={i}
                className={classNames}
-               data-date={`${dateInst.getFullYear()}-${dateInst.getMonth()+1}-${dateInst.getDate()}`}
+               data-date={`${dateInst.getFullYear()}-${pad2(dateInst.getMonth()+1)}-${pad2(dateInst.getDate())}`}
                onMouseMove={ unselectable ? null : this.handleMouseMove }
                onMouseDown={ unselectable ? null : this.handleMouseDown }>
                {date.getDate()}</td>);
