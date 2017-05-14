@@ -1,5 +1,7 @@
 const webpack = require('webpack'),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
+   PreloadWebpackPlugin = require('preload-webpack-plugin'),
+   ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
    merge = require('webpack-merge'),
    path = require('path'),
    babelCfg = require("./babel.config"),
@@ -56,22 +58,61 @@ module.exports = {
       }]
    },
    entry: {
-      vendor: ['cx-react', p('polyfill.js')],
+      //vendor: ['cx-react', p('polyfill.js')],
       app: [
-         p('index')
+         p('entry')
       ]
    },
    output: {
       path: p("dist"),
       filename: "[name].js"
    },
+   externals: {
+      "react": "React",
+      "react-dom": "ReactDOM"
+   },
    plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-         name: "vendor"
+      new webpack.NamedChunksPlugin(chunk => {
+         if (chunk.name)
+            return chunk.name;
+
+         // if (chunk.entryModule)
+         //    console.log('CHUNK', chunk.entryModule.resource);
+         // else
+         //    console.log('CH', chunk.modules.map(x=>x.resource));
+
+         if (chunk.modules.some(m => m.resource.match(/themes.material\.js$/)))
+            return 'material';
+
+         if (chunk.modules.some(m => m.resource.match(/themes.frost\.js$/)))
+            return 'frost';
+
+         if (chunk.modules.some(m => m.resource.match(/themes.core\.js$/)))
+            return 'core';
+
+         if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
+            return 'dark';
+
+         if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
+            return 'polyfill';
+
+         return chunk.name;
       }),
+      // new webpack.optimize.CommonsChunkPlugin({
+      //    name: "vendor"
+      // }),
       new HtmlWebpackPlugin({
-         template: p('index.html'),
-         hash: true
+         template: p('index.html')
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+         preload: {
+            test: /(material)/,
+            chunks: 'async'
+         },
+         prefetch: {
+            test: /(frost|dark|core)/,
+            chunks: 'async'
+         }
       })
    ]
 };
