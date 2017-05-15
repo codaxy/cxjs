@@ -2,7 +2,7 @@ import {cx, Section, FlexRow, Checkbox} from 'cx/widgets';
 import {bind, LabelsLeftLayout, LabelsTopLayout} from 'cx/ui';
 
 export default <cx>
-    <FlexRow wrap spacing="large">
+    <FlexRow wrap spacing="large" target="tablet">
         <Section mod="well" title="Standard" hLevel={4} layout={LabelsLeftLayout}>
             <Checkbox label="Standard" value={bind("checked")} text="Checkbox"/>
             <Checkbox label="Disabled" value={bind("checked")} disabled text="Checkbox"/>

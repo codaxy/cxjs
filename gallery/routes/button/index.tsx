@@ -8,7 +8,7 @@ const header = getHeader({
     title: "Button",
     tabs: {
         states: 'States',
-        "baseline": "Baseline"
+        baseline: "Baseline"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/buttons'
 });

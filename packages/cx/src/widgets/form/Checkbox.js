@@ -86,9 +86,11 @@ export class Checkbox extends Field {
          this.native
             ? this.renderNativeCheck(context, instance)
             : this.renderCheck(context, instance),
-         text && <div key="text" className={CSS.element(baseClass, "text")}>
-            {text}
-         </div>
+         text
+            ? <div key="text" className={CSS.element(baseClass, "text")}>
+               {text}
+            </div>
+            : <span className={CSS.element(baseClass, "baseline")}>&nbsp;</span>
       ]);
    }
 

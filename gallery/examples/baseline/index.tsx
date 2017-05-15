@@ -1,11 +1,14 @@
-import {cx, Section, FlexRow, Button, TextField, Menu, Submenu} from 'cx/widgets';
+import {cx, Section, FlexRow, Button, TextField, Menu, Submenu, Checkbox} from 'cx/widgets';
 import {bind} from 'cx/ui';
 
 export default <cx>
     <Section mod="well" ws>
         <p>
-            All widgets should respect the baseline.
+            All widgets respect the baseline.
         </p>
+
+        <Checkbox value={bind("check")} />
+        &nbsp;
         <TextField value={bind("text")} placeholder="TextField"/>
         &nbsp;
         <Button mod="hollow" icon="search" />
@@ -14,14 +17,26 @@ export default <cx>
         &nbsp;
         <Button>Regular Button</Button>
         &nbsp;
+        <span>Span of text</span>
+        &nbsp;
         <Menu horizontal style="display:inline-block">
             <Submenu>
-                <a>Menu1</a>
+                Menu1
+                <Menu putInto="dropdown">
+                    <a href="#">Item1</a>
+                    <a href="#">Item2</a>
+                </Menu>
             </Submenu>
             <Submenu>
-                <a>Menu2</a>
+                Menu2
+                <Menu putInto="dropdown">
+                    <a href="#">Item1</a>
+                    <a href="#">Item2</a>
+                </Menu>
             </Submenu>
         </Menu>
+        &nbsp;
+        <Checkbox value={bind("check")}>Check</Checkbox>
     </Section>
 </cx>
 
