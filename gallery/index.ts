@@ -26,8 +26,6 @@ export default function() {
       //apply data on hot replace
       if (module.hot.data)
          store.load(module.hot.data.state);
-
-      registerStore(store);
    }
 
    //routing
@@ -38,6 +36,8 @@ export default function() {
    Widget.resetCounter();
    Timing.enable('app-loop');
    Debug.enable('app-data');
+
+   registerStore(store);
 
    //app loop
    let stop = startAppLoop(document.getElementById('app'), store, Routes);
