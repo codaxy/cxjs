@@ -1,5 +1,5 @@
 import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
-import {cx, TextField, Section, FlexRow, HelpText} from "cx/widgets";
+import {cx, NumberField, Section, FlexRow, HelpText} from "cx/widgets";
 
 export default (
     <cx>
@@ -12,18 +12,18 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <TextField label="Standard" value={bind("standard")} labelPlacement="material"/>
+                    <NumberField label="Standard" value={bind("standard")} labelPlacement="material"/>
                     <br/>
-                    <TextField label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
+                    <NumberField label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
                     <br/>
-                    <TextField
+                    <NumberField
                         label="Icon"
                         value={bind("icon")}
                         icon="search"
                         labelPlacement="material"
                     />
                     <br/>
-                    <TextField
+                    <NumberField
                         label="Placeholder"
                         value={bind("placeholder")}
                         placeholder="Type something here..."
@@ -38,11 +38,11 @@ export default (
                 hLevel={4}
                 layout={LabelsLeftLayout}
             >
-                <TextField label="Standard" value={bind("standard")}/>
-                <TextField label="Disabled" value={bind("disabled")} disabled/>
-                <TextField label="Readonly" value={bind("standard")} readOnly/>
-                <TextField label="View Mode" value={bind("standard")} mode="view"/>
-                <TextField
+                <NumberField label="Standard" value={bind("standard")}/>
+                <NumberField label="Disabled" value={bind("disabled")} disabled/>
+                <NumberField label="Readonly" value={bind("standard")} readOnly/>
+                <NumberField label="View Mode" value={bind("standard")} mode="view"/>
+                <NumberField
                     label="EmptyText"
                     value={bind("standard")}
                     mode="view"
@@ -56,8 +56,8 @@ export default (
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
-                <TextField label="Standard" value={bind("standard")}/>
-                <TextField
+                <NumberField label="Standard" value={bind("standard")}/>
+                <NumberField
                     label="Placeholder"
                     value={bind("placeholder")}
                     placeholder="Type something here..."
@@ -70,33 +70,33 @@ export default (
                 title="Helpers"
                 hLevel={4}
             >
-                <TextField
+                <NumberField
                     label="Placeholder"
                     value={bind("placeholder")}
-                    placeholder="Type something here..."
+                    placeholder="Enter a number..."
                 />
-                <TextField
+                <NumberField
                     label="Clear"
-                    value={{ bind: "clear", defaultValue: "Text"}}
+                    value={{ bind: "clear", defaultValue: "123456"}}
                     placeholder="Hidden when empty"
                     showClear
                 />
-                <TextField
+                <NumberField
                     label="Icon"
                     value={bind("icon")}
                     icon="search"
                 />
-                <TextField
+                <NumberField
                     label="Tooltip"
                     value={bind("text")}
                     tooltip="This is a tooltip."
                 />
-                <TextField
+                <NumberField
                     label="Help"
                     value={bind("standard")}
                     help="Inline"
                 />
-                <TextField
+                <NumberField
                     label="Help"
                     value={bind("standard")}
                     help={<cx>
@@ -115,14 +115,14 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Required" value={bind("required")} required/>
-                    <TextField label="Visited" value={bind("visited")} required visited/>
-                    <TextField label="Asterisk" value={bind("asterisk")} required asterisk/>
-                    <TextField
-                        label="Min/Max Length"
+                    <NumberField label="Required" value={bind("required")} required/>
+                    <NumberField label="Visited" value={bind("visited")} required visited/>
+                    <NumberField label="Asterisk" value={bind("asterisk")} required asterisk/>
+                    <NumberField
+                        label="Min/Max Value"
                         value={bind("text")}
-                        minLength={3}
-                        maxLength={8}
+                        minValue={1}
+                        maxValue={10}
                     />
                 </div>
             </Section>
@@ -135,11 +135,11 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextField label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <TextField label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <TextField label="Help Block" value={bind("validation")} required validationMode="help-block"
+                        <NumberField label="Tooltip" value={bind("validation")} required minLength={10}/>
+                        <NumberField label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
+                        <NumberField label="Help Block" value={bind("validation")} required validationMode="help-block"
                             minLength={10}/>
-                        <TextField label="Material" value={bind("validation")} required
+                        <NumberField label="Material" value={bind("validation")} required
                             validationMode="help" minLength={10}
                             helpPlacement="material"
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
@@ -154,7 +154,7 @@ export default (
                 layout={LabelsLeftLayout}
                 hLevel={4}
             >
-                <TextField
+                <NumberField
                     label="Styled"
                     value={bind("styled")}
                     inputStyle={{background: "rgba(255, 255, 0, 0.3)"}}

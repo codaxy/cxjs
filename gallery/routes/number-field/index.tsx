@@ -5,11 +5,11 @@ import {getHeader} from "../../components/getHeader";
 import {asyncRoute} from "../../components/asyncRoute";
 
 const header = getHeader({
-    title: "TextField",
+    title: "NumberField",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/text-fields'
+    docsUrl: 'https://cxjs.io/docs/widgets/number-fields'
 });
 
 import Default from './states';
