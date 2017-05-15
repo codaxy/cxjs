@@ -145,6 +145,7 @@ export default (
                         value={bind("text")}
                         minValue={1}
                         maxValue={10}
+                        placeholder="Value between 1 and 10"
                     />
                 </div>
             </Section>
