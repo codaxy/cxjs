@@ -21,7 +21,7 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/states">
             {Default}
         </Route>
-        { asyncRoute("+/baseline", ()=>System.import("../../examples/toolbar-baseline")) }
+        { asyncRoute("+/baseline", ()=>System.import("../../examples/baseline")) }
         <RedirectRoute redirect="+/states" />
     </PureContainer>
 </cx>
