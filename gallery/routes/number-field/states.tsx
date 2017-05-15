@@ -77,7 +77,7 @@ export default (
                 />
                 <NumberField
                     label="Clear"
-                    value={{ bind: "clear", defaultValue: "123456"}}
+                    value={{ bind: "clear", defaultValue: 123456 }}
                     placeholder="Hidden when empty"
                     showClear
                 />
@@ -103,6 +103,28 @@ export default (
                         <HelpText mod="block">Block</HelpText>
                     </cx>}
                 />
+            </Section>
+
+            <Section
+                mod="card"
+                layout={LabelsLeftLayout}
+                title="Formatting"
+                hLevel={4}
+            >
+                <div layout={LabelsLeftLayout}>
+
+                </div>
+                <div layout={LabelsLeftLayout}>
+                    <NumberField 
+                        label="Currency" 
+                        value={{ bind: "formatting", defaultValue: 75 }} 
+                        placeholder="EUR" 
+                        format="currency;EUR" />
+                    <NumberField label="Currency" value={bind("formatting")} placeholder="USD" format="currency;USD" />
+                    <NumberField label="Formatted" value={bind("formatting")} format="n;2" />
+                    <NumberField label="Percentage" value={bind("formatting")} format="ps" placeholder="%" />
+                    <NumberField label="Suffix" value={bind("formatting")} format="suffix; kg" placeholder="kg" />
+                </div>
             </Section>
 
             <Section
