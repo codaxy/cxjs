@@ -1908,9 +1908,9 @@ cx-redux@^17.5.0:
   version "17.5.0"
   resolved "https://registry.yarnpkg.com/cx-redux/-/cx-redux-17.5.0.tgz#288f900cf64584259b3d09acdefd003728f4b287"
 
-cx@^17.5.8:
-  version "17.5.8"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-17.5.8.tgz#356eea85037dc4dbc993706179c609cee91dab1b"
+cx@^17.5.10:
+  version "17.5.10"
+  resolved "https://registry.yarnpkg.com/cx/-/cx-17.5.10.tgz#1e1b9e4534dcb8fdbef9601f3ac1962aa668a8af"
   dependencies:
     intl-io "^0.2.3"
     route-parser "^0.0.5"

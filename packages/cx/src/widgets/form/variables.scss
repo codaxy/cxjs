@@ -300,7 +300,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 
 // LOOKUPFIELD TAG
 $cx-default-input-tag-spacing: 3px !default;
-$cx-default-input-tag-font-size: $cx-default-font-size !default;
+$cx-default-input-tag-font-size: null !default;
 $cx-default-input-tag-background-color: #eee !default;
 $cx-default-input-tag-border-radius: $cx-default-border-radius !default;
 $cx-default-input-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;

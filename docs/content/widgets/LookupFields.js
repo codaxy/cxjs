@@ -82,13 +82,11 @@ export const LookupFields = <cx>
                         fetchAll
                         cacheAll
                         multiple
-                        icon="filter"
                         closeOnSelect={false}/>
                     <LookupField
                         label="Select"
                         value:bind="$page.s5.id"
                         text:bind="$page.s5.text"
-                        icon="pencil"
                         options:bind="$page.options5"/>
                 </div>
             </div>

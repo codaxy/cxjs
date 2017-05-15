@@ -18,9 +18,17 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $state-style-map, $width: $width, $input: false );
-      min-width: $cx-default-input-width;
-      cursor: pointer
+      @include cxb-field($besm, $state-style-map, $input: false);
+      cursor: pointer;
+      width: $width;
+
+      font: cx-get-state-rule($state-style-map, default, 'font');
+      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+
+      &.#{$state}multiple {
+         min-width: $cx-default-input-width;
+         width: auto;
+      }
    }
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
