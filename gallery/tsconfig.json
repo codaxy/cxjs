@@ -7,7 +7,7 @@
     "module": "es2015",
     "sourceMap": false,
     "jsxFactory": "cx",
-    "baseUrl": ".",
+    "baseUrl": "../node_modules",
     "paths": {
       "cx": [ "../packages/cx" ],
       "cx-react": [ "../packages/cx-react" ]

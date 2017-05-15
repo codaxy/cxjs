@@ -7,10 +7,10 @@ var webpack = require('webpack'),
    common = require('./webpack.config'),
    path = require('path');
 
-var sass = new ExtractTextPlugin({
-   filename: "app.css",
-   allChunks: true
-});
+// var sass = new ExtractTextPlugin({
+//    filename: "app.css",
+//    allChunks: true
+// });
 
 var specific = {
    // module: {
@@ -44,7 +44,7 @@ var specific = {
       path: path.join(__dirname, '../dist'),
       filename: "[name].[chunkhash].js",
       hashDigestLength: 5,
-      publicPath: "/"
+      publicPath: "/gallery"
    }
 };
 

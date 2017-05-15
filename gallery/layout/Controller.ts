@@ -1,5 +1,4 @@
 import {Controller, Url, History} from 'cx/ui';
-import Route from 'route-parser';
 
 export default class extends Controller {
    onInit() {
@@ -19,17 +18,6 @@ export default class extends Controller {
             default: return "New theme?";
          }
       });
-
-      // this.addTrigger('theme-change', ['theme'], (theme) => {
-      //    let url = Url.unresolve(document.location.toString());
-      //    let route = new Route("~/:theme/(*remainder)");
-      //    let result = route.match(url);
-      //    let redirect = route.reverse({
-      //       ...result,
-      //       theme
-      //    });
-      //    History.pushState({}, null, redirect);
-      // });
    }
 
    onMainClick(e, {store}) {
