@@ -24,6 +24,10 @@ export default [{
       name: 'NumberField',
       content: () => System.import("./number-field")
    }, {
+      route: '+/date-field',
+      name: 'DateField',
+      content: () => System.import("./date-field")
+   }, {
       route: '+/calendar',
       name: 'Calendar',
       content: () => System.import("./calendar")
