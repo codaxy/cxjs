@@ -20,6 +20,10 @@ export default [{
       name: 'TextField',
       content: () => System.import("./text-field")
    }, {
+      route: '+/number-field',
+      name: 'NumberField',
+      content: () => System.import("./number-field")
+   }, {
       route: '+/calendar',
       name: 'Calendar',
       content: () => System.import("./calendar")
