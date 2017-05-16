@@ -54,6 +54,7 @@ export default <cx>
         <Grid
             records={{bind: "$page.records"}}
             style={{width: "100%"}}
+            scrollable
             columns={[
                 {
                     header: {

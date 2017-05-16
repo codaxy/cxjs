@@ -1,14 +1,16 @@
 var webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    CopyWebpackPlugin = require('copy-webpack-plugin'),
+   ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+   WebpackMd5Hash = require('webpack-md5-hash'),
    merge = require('webpack-merge'),
    common = require('./webpack.config'),
-path = require('path')
+   path = require('path');
 
-var sass = new ExtractTextPlugin({
-   filename: "app.css",
-   allChunks: true
-});
+// var sass = new ExtractTextPlugin({
+//    filename: "app.css",
+//    allChunks: true
+// });
 
 var specific = {
    // module: {
@@ -22,19 +24,27 @@ var specific = {
    // },
 
    plugins: [
+      new WebpackMd5Hash(),
       new webpack.optimize.UglifyJsPlugin(),
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
       }),
-      sass,
+      //sass,
       new CopyWebpackPlugin([{
          from: path.join(__dirname, '../assets'),
          to: path.join(__dirname, '../dist/assets'),
-      }])
+      }]),
+      new ChunkManifestPlugin({
+         manifestVariable: "webpackManifest",
+         inlineManifest: true
+      }),
    ],
 
    output: {
-      publicPath: '/'
+      path: path.join(__dirname, '../dist'),
+      filename: "[name].[chunkhash].js",
+      hashDigestLength: 5,
+      publicPath: "/gallery/"
    }
 };
 

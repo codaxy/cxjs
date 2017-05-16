@@ -59,6 +59,10 @@
       }
    }
 
+   .#{$element}#{$name}-baseline {
+      user-select: none;
+   }
+
    .#{$element}#{$name}-empty-text {
       @include cxe-field-empty-text($empty-text);
    }

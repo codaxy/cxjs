@@ -5,12 +5,12 @@ import {getHeader} from "../../components/getHeader";
 import {asyncRoute} from "../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Checkbox",
+    title: "Switch",
     tabs: {
         states: 'States',
         baseline: "Baseline"
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/checkboxes'
+    docsUrl: 'https://cxjs.io/docs/widgets/switches'
 });
 
 import Default from './states';

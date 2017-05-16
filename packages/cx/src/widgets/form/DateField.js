@@ -235,7 +235,7 @@ class DateInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
-      let empty = this.input ? !this.input.value : data.empty;
+      let empty = !data.placeholder && (this.input ? !this.input.value  : data.empty);
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
