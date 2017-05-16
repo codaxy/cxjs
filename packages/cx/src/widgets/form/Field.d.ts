@@ -5,6 +5,12 @@ export interface FieldProps extends Cx.StyledContainerProps {
    
    /** Field label. For advanced use cases. */
    label?: Cx.StringProp | Cx.Config,
+
+   /** Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels. */
+   labelPlacement?: 'material',
+
+   /** Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages. */
+   helpPlacement?: 'material',
    
    /* Deprecated */
    labelWidth?: any,
