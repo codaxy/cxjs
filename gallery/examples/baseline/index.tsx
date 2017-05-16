@@ -1,4 +1,4 @@
-import {cx, Section, FlexRow, Button, TextField, Menu, Submenu, Checkbox} from 'cx/widgets';
+import {cx, Section, FlexRow, Button, TextField, Menu, Submenu, Checkbox, Switch} from 'cx/widgets';
 import {bind} from 'cx/ui';
 
 export default <cx>
@@ -37,6 +37,8 @@ export default <cx>
         </Menu>
         &nbsp;
         <Checkbox value={bind("check")}>Check</Checkbox>
+        &nbsp;
+        <Switch on={bind("check")} />
     </Section>
 </cx>
 

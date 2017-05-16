@@ -8,7 +8,7 @@ export default <cx>
             <Checkbox label="Disabled" value={bind("checked")} disabled text="Checkbox"/>
             <Checkbox label="Readonly" value={bind("checked")} readOnly text="Checkbox"/>
             <Checkbox label="Styled" value={bind("checked")} inputStyle="color:red" text="Checkbox"/>
-            <Checkbox label="View Mode" value={bind("checked")} mode="view" text="Checkbox" emptyText="N/A"/>
+            <Checkbox label="View Mode" value={bind("checked")} mode="view" emptyText="N/A"/>
             <Checkbox label="Three State" value={bind("threeState")} text="Checkbox" indeterminate/>
         </Section>
         <Section mod="well" title="Native" hLevel={4} layout={LabelsLeftLayout}>

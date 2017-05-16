@@ -31,5 +31,9 @@ export default [{
       route: '+/calendar',
       name: 'Calendar',
       content: () => System.import("./calendar")
+   }, {
+      route: '+/switch',
+      name: 'Switch',
+      content: () => System.import("./switch")
    }]
 }]
