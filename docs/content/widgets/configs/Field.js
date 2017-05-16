@@ -141,5 +141,17 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             Default value is `false`.
         </Md></cx>
+    },
+    labelPlacement: {
+        type: 'string',
+        description: <cx><Md>
+            Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels.
+        </Md></cx>
+    },
+    helpPlacement: {
+        type: 'string',
+        description: <cx><Md>
+            Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages.
+        </Md></cx>
     }
 };
