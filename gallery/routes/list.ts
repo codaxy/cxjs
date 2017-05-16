@@ -35,5 +35,9 @@ export default [{
       route: '+/switch',
       name: 'Switch',
       content: () => System.import("./switch")
+   }, {
+      route: '+/radio',
+      name: 'Radio',
+      content: () => System.import("./radio")
    }]
 }]
