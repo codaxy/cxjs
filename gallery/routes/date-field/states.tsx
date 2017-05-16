@@ -1,6 +1,19 @@
 import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
 import {cx, DateField, Section, FlexRow, HelpText} from "cx/widgets";
 
+const range = (function() {
+    let today = new Date();
+    let dayOfWeek = today.getDay();
+
+    let from = new Date();
+    from.setDate(from.getDate() - dayOfWeek);
+
+    let to = new Date();
+    to.setDate(to.getDate() - dayOfWeek + 7);
+
+    return { from, to };
+})();
+
 export default (
     <cx>
         <FlexRow wrap spacing="large" target="desktop">
@@ -12,20 +25,20 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <DateField label="Standard" value={bind("standard")} labelPlacement="material" />
+                    <DateField label="Standard" value={bind("material")} labelPlacement="material" />
                     <br/>
-                    <DateField label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
+                    <DateField label="Disabled" value={bind("material")} disabled labelPlacement="material"/>
                     <br/>
                     <DateField
                         label="Icon"
-                        value={bind("icon")}
+                        value={bind("material")}
                         icon="search"
                         labelPlacement="material"
                     />
                     <br/>
                     <DateField
                         label="Placeholder"
-                        value={bind("placeholder")}
+                        value={bind("material")}
                         placeholder="Enter a date"
                         labelPlacement="material"
                     />
@@ -44,7 +57,7 @@ export default (
                 <DateField label="View Mode" value={bind("standard")} mode="view"/>
                 <DateField
                     label="EmptyText"
-                    value={bind("standard")}
+                    value={bind("empty")}
                     mode="view"
                     emptyText="N/A"
                 />
@@ -56,11 +69,11 @@ export default (
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
-                <DateField label="Standard" value={bind("standard")}/>
+                <DateField label="Standard" value={bind("vertical")}/>
                 <DateField
                     label="Placeholder"
-                    value={bind("placeholder")}
-                    placeholder="Type something here..."
+                    value={bind("vertical")}
+                    placeholder="Enter a date"
                 />
             </Section>
 
@@ -72,33 +85,33 @@ export default (
             >
                 <DateField
                     label="Placeholder"
-                    value={bind("placeholder")}
-                    placeholder="Enter a number..."
+                    value={bind("helper")}
+                    placeholder="Enter a date..."
                 />
                 <DateField
                     label="Clear"
-                    value={{ bind: "clear", defaultValue: "123456"}}
+                    value={{ bind: "clear", defaultValue: new Date()}}
                     placeholder="Hidden when empty"
                     showClear
                 />
                 <DateField
                     label="Icon"
-                    value={bind("icon")}
+                    value={bind("helper")}
                     icon="search"
                 />
                 <DateField
                     label="Tooltip"
-                    value={bind("text")}
+                    value={bind("helper")}
                     tooltip="This is a tooltip."
                 />
                 <DateField
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helper")}
                     help="Inline"
                 />
                 <DateField
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helper")}
                     help={<cx>
                         <HelpText mod="block">Block</HelpText>
                     </cx>}
@@ -115,14 +128,14 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <DateField label="Required" value={bind("required")} required/>
-                    <DateField label="Visited" value={bind("visited")} required visited/>
-                    <DateField label="Asterisk" value={bind("asterisk")} required asterisk/>
+                    <DateField label="Required" value={bind("validation")} required/>
+                    <DateField label="Visited" value={bind("validation")} required visited/>
+                    <DateField label="Asterisk" value={bind("validation")} required asterisk/>
                     <DateField
                         label="Min/Max Value"
-                        value={bind("text")}
-                        minValue="2017-01-01"
-                        maxValue="2017-12-31"
+                        value={bind("validation")}
+                        minValue={range.from}
+                        maxValue={range.to}
                     />
                 </div>
             </Section>
@@ -135,12 +148,14 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <DateField label="Tooltip" value={bind("validation")} required />
-                        <DateField label="Help" value={bind("validation")} required validationMode="help" />
-                        <DateField label="Help Block" value={bind("validation")} required validationMode="help-block" />
-                        <DateField label="Material" value={bind("validation")} required
+                        <DateField label="Tooltip" value={bind("validationMode")} required />
+                        <DateField label="Help" value={bind("validationMode")} required validationMode="help" />
+                        <DateField label="Help Block" value={bind("validationMode")} required validationMode="help-block" />
+                        <DateField label="Material" value={bind("validationMode")} required
                             validationMode="help" 
                             helpPlacement="material"
+                            minValue={range.from}
+                            maxValue={range.to}
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
                         />
                     </div>
