@@ -12,7 +12,7 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <DateField label="Standard" value={bind("standard")} labelPlacement="material"/>
+                    <DateField label="Standard" value={bind("standard")} labelPlacement="material" />
                     <br/>
                     <DateField label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
                     <br/>
@@ -26,7 +26,7 @@ export default (
                     <DateField
                         label="Placeholder"
                         value={bind("placeholder")}
-                        placeholder="Type something here..."
+                        placeholder="Enter a date"
                         labelPlacement="material"
                     />
                 </div>
@@ -38,8 +38,8 @@ export default (
                 hLevel={4}
                 layout={LabelsLeftLayout}
             >
-                <DateField label="Standard" value={bind("standard")}/>
-                <DateField label="Disabled" value={bind("disabled")} disabled/>
+                <DateField label="Standard" value={bind("standard")} />
+                <DateField label="Disabled" value={bind("standard")} disabled/>
                 <DateField label="Readonly" value={bind("standard")} readOnly/>
                 <DateField label="View Mode" value={bind("standard")} mode="view"/>
                 <DateField
@@ -135,12 +135,11 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <DateField label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <DateField label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <DateField label="Help Block" value={bind("validation")} required validationMode="help-block"
-                            minLength={10}/>
+                        <DateField label="Tooltip" value={bind("validation")} required />
+                        <DateField label="Help" value={bind("validation")} required validationMode="help" />
+                        <DateField label="Help Block" value={bind("validation")} required validationMode="help-block" />
                         <DateField label="Material" value={bind("validation")} required
-                            validationMode="help" minLength={10}
+                            validationMode="help" 
                             helpPlacement="material"
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
                         />
