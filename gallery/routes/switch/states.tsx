@@ -13,12 +13,13 @@ export default <cx>
             >
                 <span style={{ color: "red" }}>Switch</span>
             </Switch>
-            <Switch label="View Mode" value={bind("empty")} mode="view" emptyText="N/A"/>
+            <Switch label="View Mode" value={bind("checked")} mode="view" text="On" emptyText="N/A" />
+            <Switch label="Label only" on={bind("checked")} />
         </Section>
         <Section mod="well" title="Label On Top" hLevel={4} layout={{ type: LabelsTopLayout, vertical: true }}>
             <Switch label="Default" on={bind("checked")} text={expr("{checked} ? 'ON' : 'OFF'")} />
             <Switch label="Disabled" value={bind("checked")} disabled text="Switch" />
-            <Switch label="Read-only" off={bind("checked")} readOnly text="Switch" />
+            <Switch label="Readonly" off={bind("checked")} readOnly text="Switch" />
             <Switch
                 label="Styled"
                 off={bind("checked")}
@@ -27,6 +28,7 @@ export default <cx>
             >
                 <span style={{ color: "red" }}>Switch</span>
             </Switch>
+            <Switch label="Label only" off={bind("checked")} />
         </Section>
     </FlexRow>
 </cx>

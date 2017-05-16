@@ -57,7 +57,7 @@ export default (
                 <DateField label="View Mode" value={bind("standard")} mode="view"/>
                 <DateField
                     label="EmptyText"
-                    value={bind("empty")}
+                    value={bind("standard")}
                     mode="view"
                     emptyText="N/A"
                 />

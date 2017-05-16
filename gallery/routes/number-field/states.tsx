@@ -44,7 +44,7 @@ export default (
                 <NumberField label="View Mode" value={bind("standard")} mode="view"/>
                 <NumberField
                     label="EmptyText"
-                    value={bind("empty")}
+                    value={bind("standard")}
                     mode="view"
                     emptyText="N/A"
                 />
