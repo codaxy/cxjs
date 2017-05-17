@@ -22,8 +22,6 @@ export default <cx>
                 <br/>
                 <Radio label="Readonly" value={bind("radio")} option="0" readOnly text="Radio" labelPlacement="material" />
                 <br/>
-                <Radio label="Styled" value={bind("radio")} option="0" inputStyle="color:red" text="Radio" labelPlacement="material" />
-                <br/>
                 <Radio label="Label only" value={bind("radio")} option="0" labelPlacement="material" />
                 <br/>
                 <Radio label="View Mode" value={bind("radio")} option="0" mode="view" text="Checked" emptyText="N/A" labelPlacement="material" />
@@ -33,7 +31,6 @@ export default <cx>
             <Radio label="Standard" value={bind("radio")} option="1" text="Radio"/>
             <Radio label="Disabled" value={bind("radio")} option="1" disabled text="Radio"/>
             <Radio label="Readonly" value={bind("radio")} option="1" readOnly text="Radio"/>
-            <Radio label="Styled" value={bind("radio")} option="1" inputStyle="color:red" text="Radio"/>
             <Radio label="Label only" value={bind("radio")} option="1" />
             <Radio label="View Mode" value={bind("radio")} option="1" mode="view" text="Checked" emptyText="N/A" />
         </Section>
@@ -41,12 +38,15 @@ export default <cx>
             <Radio label="Standard" value={bind("radio")} option="2" text="Radio" native/>
             <Radio label="Disabled" value={bind("radio")} option="2" disabled text="Radio" native/>
             <Radio label="Readonly" value={bind("radio")} option="2" readOnly text="Radio" native/>
-            <Radio label="Label only" value={bind("radio")} option="0" native />
+            <Radio label="Label only" value={bind("radio")} option="2" native />
             <Radio label="View Mode" value={bind("radio")} option="2" mode="view" text="Checked" emptyText="N/A" native/>
         </Section>
         <Section mod="well" title="Label On Top" hLevel={4} layout={{ type: LabelsTopLayout, vertical: true }}>
             <Radio label="Label" value={bind("radio")} option="3" text="Text"  />
             <Radio label="Label Only" value={bind("radio")} option="3" />
+        </Section>
+        <Section mod="well" title="Misc" hLevel={4} >
+            <Radio label="Styled" value={bind("radio")} option="4" inputStyle="color:red" text="Radio"/>
         </Section>
     </FlexRow>
 </cx>
