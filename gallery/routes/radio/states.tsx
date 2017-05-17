@@ -15,7 +15,7 @@ export default <cx>
             visible={{expr: "{$root.$route.theme} == 'material'"}}
             hLevel={4}
         >
-            <div style={{ marginTop: "-2.5rem" }}>
+            <div style={{ marginTop: "-30px" }}>
                 <Radio label="Standard" value={bind("radio")} option="0" text="Radio" labelPlacement="material" />
                 <br/>
                 <Radio label="Disabled" value={bind("radio")} option="0" disabled text="Radio" labelPlacement="material" />
