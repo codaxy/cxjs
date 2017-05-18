@@ -90,7 +90,7 @@ export class Calendar extends Field {
    }
 
    handleSelect(e, instance, date) {
-
+      
       var {store, data} = instance;
 
       e.stopPropagation();
@@ -122,7 +122,7 @@ Calendar.prototype.suppressErrorsUntilVisited = false;
 Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 
 const validationCheck = (date, data) => {
-
+   
    if (data.maxValue && !upperBoundCheck(date, data.maxValue, data.maxExclusive))
       return false;
 
@@ -324,11 +324,11 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleMouseMove(e) {
-      this.moveCursor(e, new Date(e.target.dataset.date));
+      this.moveCursor(e, zeroTime(new Date(e.target.dataset.date)));
    }
 
    handleMouseDown(e){
-      this.props.handleSelect(e, new Date(e.target.dataset.date));
+      this.props.handleSelect(e, zeroTime(new Date(e.target.dataset.date)));
    }
 
    componentDidMount() {
