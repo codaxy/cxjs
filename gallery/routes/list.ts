@@ -39,5 +39,17 @@ export default [{
       route: '+/calendar',
       name: 'Calendar',
       content: () => System.import("./calendar")
+   }, {
+      route: '+/month-picker',
+      name: 'MonthPicker',
+      content: () => System.import("./month-picker")
+   }, {
+      route: '+/month-field',
+      name: 'MonthField',
+      content: () => System.import("./month-field")
+   }, {
+      route: '+/text-area',
+      name: 'TextArea',
+      content: () => System.import("./text-area")
    }]
 }]

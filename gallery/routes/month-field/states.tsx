@@ -1,5 +1,18 @@
 import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
-import {cx, TextArea, Section, FlexRow, HelpText} from "cx/widgets";
+import {cx, MonthField, Section, FlexRow, HelpText} from "cx/widgets";
+
+const range = (function() {
+    let today = new Date();
+    let dayOfWeek = today.getDay();
+
+    let from = new Date();
+    from.setDate(from.getDate() - dayOfWeek);
+
+    let to = new Date();
+    to.setDate(to.getDate() - dayOfWeek + 7);
+
+    return { from, to };
+})();
 
 export default (
     <cx>
@@ -12,21 +25,21 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <TextArea label="Standard" value={bind("standard")} labelPlacement="material"/>
+                    <MonthField label="Standard" value={bind("material")} labelPlacement="material" />
                     <br/>
-                    <TextArea label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
+                    <MonthField label="Disabled" value={bind("material")} disabled labelPlacement="material"/>
                     <br/>
-                    <TextArea
+                    <MonthField
                         label="Icon"
-                        value={bind("icon")}
+                        value={bind("material")}
                         icon="search"
                         labelPlacement="material"
                     />
                     <br/>
-                    <TextArea
+                    <MonthField
                         label="Placeholder"
-                        value={bind("placeholder")}
-                        placeholder="Type something here..."
+                        value={bind("material")}
+                        placeholder="Enter a month"
                         labelPlacement="material"
                     />
                 </div>
@@ -38,11 +51,11 @@ export default (
                 hLevel={4}
                 layout={LabelsLeftLayout}
             >
-                <TextArea label="Standard" value={bind("standard")}/>
-                <TextArea label="Disabled" value={bind("disabled")} disabled/>
-                <TextArea label="Readonly" value={bind("standard")} readOnly/>
-                <TextArea label="View Mode" value={bind("standard")} mode="view"/>
-                <TextArea
+                <MonthField label="Standard" value={bind("standard")} />
+                <MonthField label="Disabled" value={bind("standard")} disabled/>
+                <MonthField label="Readonly" value={bind("standard")} readOnly/>
+                <MonthField label="View Mode" value={bind("standard")} mode="view"/>
+                <MonthField
                     label="EmptyText"
                     value={bind("standard")}
                     mode="view"
@@ -56,11 +69,11 @@ export default (
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
-                <TextArea label="Standard" value={bind("standard")}/>
-                <TextArea
+                <MonthField label="Standard" value={bind("vertical")}/>
+                <MonthField
                     label="Placeholder"
-                    value={bind("placeholder")}
-                    placeholder="Type something here..."
+                    value={bind("vertical")}
+                    placeholder="Enter a month"
                 />
             </Section>
 
@@ -70,35 +83,35 @@ export default (
                 title="Helpers"
                 hLevel={4}
             >
-                <TextArea
+                <MonthField
                     label="Placeholder"
-                    value={bind("placeholder")}
-                    placeholder="Type something here..."
+                    value={bind("helper")}
+                    placeholder="Enter a month..."
                 />
-                <TextArea
+                <MonthField
                     label="Clear"
-                    value={{ bind: "clear", defaultValue: "Text"}}
+                    value={{ bind: "clear", defaultValue: new Date()}}
                     placeholder="Hidden when empty"
                     showClear
                 />
-                <TextArea
+                <MonthField
                     label="Icon"
-                    value={bind("icon")}
+                    value={bind("helper")}
                     icon="search"
                 />
-                <TextArea
+                <MonthField
                     label="Tooltip"
-                    value={bind("text")}
+                    value={bind("helper")}
                     tooltip="This is a tooltip."
                 />
-                <TextArea
+                <MonthField
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helper")}
                     help="Inline"
                 />
-                <TextArea
+                <MonthField
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helper")}
                     help={<cx>
                         <HelpText mod="block">Block</HelpText>
                     </cx>}
@@ -115,14 +128,14 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextArea label="Required" value={bind("required")} required/>
-                    <TextArea label="Visited" value={bind("visited")} required visited/>
-                    <TextArea label="Asterisk" value={bind("asterisk")} required asterisk/>
-                    <TextArea
-                        label="Min/Max Length"
-                        value={bind("text")}
-                        minLength={3}
-                        maxLength={8}
+                    <MonthField label="Required" value={bind("validation")} required/>
+                    <MonthField label="Visited" value={bind("validation")} required visited/>
+                    <MonthField label="Asterisk" value={bind("validation")} required asterisk/>
+                    <MonthField
+                        label="Min/Max Value"
+                        value={bind("validation")}
+                        minValue={range.from}
+                        maxValue={range.to}
                     />
                 </div>
             </Section>
@@ -135,13 +148,14 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextArea label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <TextArea label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <TextArea label="Help Block" value={bind("validation")} required validationMode="help-block"
-                            minLength={10}/>
-                        <TextArea label="Material" value={bind("validation")} required
-                            validationMode="help" minLength={10}
+                        <MonthField label="Tooltip" value={bind("validationMode")} required />
+                        <MonthField label="Help" value={bind("validationMode")} required validationMode="help" />
+                        <MonthField label="Help Block" value={bind("validationMode")} required validationMode="help-block" />
+                        <MonthField label="Material" value={bind("validationMode")} required
+                            validationMode="help" 
                             helpPlacement="material"
+                            minValue={range.from}
+                            maxValue={range.to}
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
                         />
                     </div>
@@ -154,7 +168,7 @@ export default (
                 layout={LabelsLeftLayout}
                 hLevel={4}
             >
-                <TextArea
+                <MonthField
                     label="Styled"
                     value={bind("styled")}
                     inputStyle={{background: "rgba(255, 255, 0, 0.3)"}}
