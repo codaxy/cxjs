@@ -1,5 +1,5 @@
 import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
-import {cx, TextArea, Section, FlexRow, HelpText} from "cx/widgets";
+import {cx, TextField, Section, FlexRow, HelpText} from "cx/widgets";
 
 export default (
     <cx>
@@ -12,18 +12,18 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <TextArea label="Standard" value={bind("standard")} labelPlacement="material"/>
+                    <TextField label="Standard" value={bind("standard")} labelPlacement="material"/>
                     <br/>
-                    <TextArea label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
+                    <TextField label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
                     <br/>
-                    <TextArea
+                    <TextField
                         label="Icon"
                         value={bind("icon")}
                         icon="search"
                         labelPlacement="material"
                     />
                     <br/>
-                    <TextArea
+                    <TextField
                         label="Placeholder"
                         value={bind("placeholder")}
                         placeholder="Type something here..."
@@ -38,11 +38,11 @@ export default (
                 hLevel={4}
                 layout={LabelsLeftLayout}
             >
-                <TextArea label="Standard" value={bind("standard")}/>
-                <TextArea label="Disabled" value={bind("disabled")} disabled/>
-                <TextArea label="Readonly" value={bind("standard")} readOnly/>
-                <TextArea label="View Mode" value={bind("standard")} mode="view"/>
-                <TextArea
+                <TextField label="Standard" value={bind("standard")}/>
+                <TextField label="Disabled" value={bind("disabled")} disabled/>
+                <TextField label="Readonly" value={bind("standard")} readOnly/>
+                <TextField label="View Mode" value={bind("standard")} mode="view"/>
+                <TextField
                     label="EmptyText"
                     value={bind("standard")}
                     mode="view"
@@ -56,8 +56,8 @@ export default (
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
-                <TextArea label="Standard" value={bind("standard")}/>
-                <TextArea
+                <TextField label="Standard" value={bind("standard")}/>
+                <TextField
                     label="Placeholder"
                     value={bind("placeholder")}
                     placeholder="Type something here..."
@@ -70,33 +70,33 @@ export default (
                 title="Helpers"
                 hLevel={4}
             >
-                <TextArea
+                <TextField
                     label="Placeholder"
                     value={bind("placeholder")}
                     placeholder="Type something here..."
                 />
-                <TextArea
+                <TextField
                     label="Clear"
                     value={{ bind: "clear", defaultValue: "Text"}}
                     placeholder="Hidden when empty"
                     showClear
                 />
-                <TextArea
+                <TextField
                     label="Icon"
                     value={bind("icon")}
                     icon="search"
                 />
-                <TextArea
+                <TextField
                     label="Tooltip"
                     value={bind("text")}
                     tooltip="This is a tooltip."
                 />
-                <TextArea
+                <TextField
                     label="Help"
                     value={bind("standard")}
                     help="Inline"
                 />
-                <TextArea
+                <TextField
                     label="Help"
                     value={bind("standard")}
                     help={<cx>
@@ -115,10 +115,10 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextArea label="Required" value={bind("required")} required/>
-                    <TextArea label="Visited" value={bind("visited")} required visited/>
-                    <TextArea label="Asterisk" value={bind("asterisk")} required asterisk/>
-                    <TextArea
+                    <TextField label="Required" value={bind("required")} required/>
+                    <TextField label="Visited" value={bind("visited")} required visited/>
+                    <TextField label="Asterisk" value={bind("asterisk")} required asterisk/>
+                    <TextField
                         label="Min/Max Length"
                         value={bind("text")}
                         minLength={3}
@@ -135,11 +135,11 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextArea label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <TextArea label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <TextArea label="Help Block" value={bind("validation")} required validationMode="help-block"
+                        <TextField label="Tooltip" value={bind("validation")} required minLength={10}/>
+                        <TextField label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
+                        <TextField label="Help Block" value={bind("validation")} required validationMode="help-block"
                             minLength={10}/>
-                        <TextArea label="Material" value={bind("validation")} required
+                        <TextField label="Material" value={bind("validation")} required
                             validationMode="help" minLength={10}
                             helpPlacement="material"
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
@@ -154,7 +154,7 @@ export default (
                 layout={LabelsLeftLayout}
                 hLevel={4}
             >
-                <TextArea
+                <TextField
                     label="Styled"
                     value={bind("styled")}
                     inputStyle={{background: "rgba(255, 255, 0, 0.3)"}}

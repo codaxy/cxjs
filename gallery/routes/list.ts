@@ -47,5 +47,9 @@ export default [{
       route: '+/month-field',
       name: 'MonthField',
       content: () => System.import("./month-field")
+   }, {
+      route: '+/text-area',
+      name: 'TextArea',
+      content: () => System.import("./text-area")
    }]
 }]
