@@ -1,0 +1,49 @@
+.cxb-wheel {
+
+   display: inline-block;
+   text-align: center;
+   padding: 20px 0;
+   vertical-align: middle;
+   background: inherit;
+}
+
+.cxe-wheel-wrap {
+   position: relative;
+   overflow: hidden;
+   background: inherit;
+}
+
+.cxe-wheel-mask {
+   position: absolute;
+   left: 0;
+   right: 0;
+   pointer-events: none;
+   background: inherit;
+   opacity: 0.8;
+}
+
+.cxe-wheel-wheel {
+   overflow: auto;
+   display: inline-block;
+}
+
+.cxe-wheel-option {
+   padding: 10px;
+
+   &.cxs-dummy {
+      visibility: hidden;
+   }
+}
+
+.cxe-wheel-selection {
+   position: absolute;
+   left: 0;
+   right: 0;
+   margin-top: -2px;
+   box-sizing: content-box;
+   border-width: 2px 0 2px 0;
+   border-style: solid;
+   border-color: #3c7eff;
+   pointer-events: none;
+   background: rgba(#3c7eff, 0.1);
+}
