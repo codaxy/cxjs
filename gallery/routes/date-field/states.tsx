@@ -9,7 +9,7 @@ const range = (function() {
     from.setDate(from.getDate() - dayOfWeek);
 
     let to = new Date();
-    to.setDate(to.getDate() - dayOfWeek + 7);
+    to.setDate(to.getDate() - dayOfWeek + 6);
 
     return { from, to };
 })();

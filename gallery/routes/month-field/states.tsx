@@ -2,14 +2,12 @@ import {bind, LabelsLeftLayout, LabelsTopLayout} from "cx/ui";
 import {cx, MonthField, Section, FlexRow, HelpText} from "cx/widgets";
 
 const range = (function() {
-    let today = new Date();
-    let dayOfWeek = today.getDay();
-
+        
     let from = new Date();
-    from.setDate(from.getDate() - dayOfWeek);
+    from.setMonth(0);
 
     let to = new Date();
-    to.setDate(to.getDate() - dayOfWeek + 7);
+    to.setMonth(11);
 
     return { from, to };
 })();
