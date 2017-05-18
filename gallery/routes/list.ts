@@ -39,5 +39,9 @@ export default [{
       route: '+/calendar',
       name: 'Calendar',
       content: () => System.import("./calendar")
+   }, {
+      route: '+/month-picker',
+      name: 'MonthPicker',
+      content: () => System.import("./month-picker")
    }]
 }]
