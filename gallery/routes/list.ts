@@ -43,5 +43,9 @@ export default [{
       route: '+/month-picker',
       name: 'MonthPicker',
       content: () => System.import("./month-picker")
+   }, {
+      route: '+/month-field',
+      name: 'MonthField',
+      content: () => System.import("./month-field")
    }]
 }]
