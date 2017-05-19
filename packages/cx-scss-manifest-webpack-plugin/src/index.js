@@ -50,8 +50,11 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
          let content = "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin\n\n";
          content += "$cx-include-all: false;\n\n";
 
+         let keys = Object.keys(manifest);
+         keys.sort();
+
          content += "@include cx-widgets(\n";
-         content += Object.keys(manifest).map(k => '\t"cx/' + k + '"').join(',\n');
+         content += keys.map(k => '\t"cx/' + k + '"').join(',\n');
          content += "\n);\n";
 
          if (dirty) {

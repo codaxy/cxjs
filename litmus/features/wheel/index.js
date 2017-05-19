@@ -1,5 +1,6 @@
-import {FlexCol, FlexRow, HtmlElement} from "cx/widgets";
+import {FlexCol, FlexRow, HtmlElement, Icon} from "cx/widgets";
 import {Widget, PureContainer, VDOM} from "cx/ui";
+import {KeyCode} from 'cx/util';
 
 class Wheel extends PureContainer {
 
@@ -13,14 +14,15 @@ class Wheel extends PureContainer {
    render(context, instance, key) {
 
       let {value, options} = instance.data;
-      let index = options.findIndex(a=>a.id === value);
+      let index = options.findIndex(a => a.id === value);
       if (index === -1)
-         index = 0;
+         index = Math.floor(options.length / 2);
 
       return (
          <WheelComponent
             key={key}
-            size={3}
+            size={this.size}
+            focusable
             instance={instance}
             data={instance.data}
             index={index}
@@ -38,6 +40,7 @@ class Wheel extends PureContainer {
 }
 
 Wheel.prototype.baseClass = "wheel";
+Wheel.prototype.size = 3;
 
 class WheelComponent extends VDOM.Component {
 
@@ -56,7 +59,7 @@ class WheelComponent extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let optionClass = CSS.element(baseClass, "option");
-      let dummyClass = CSS.element(baseClass, "option", { dummy: true });
+      let dummyClass = CSS.element(baseClass, "option", {dummy: true});
 
       let tpad = [],
          bpad = [],
@@ -78,9 +81,13 @@ class WheelComponent extends VDOM.Component {
          ...bpad];
 
       if (!this.state.wheelHeight)
-         displayedOptions = displayedOptions.slice(0, size);
+         displayedOptions = displayedOptions.slice(this.index, this.index + size);
 
-      return <div className={data.classNames}>
+      return <div
+         tabIndex={this.props.focusable ? 0 : null}
+         className={data.classNames}
+         onKeyDown={::this.onKeyDown}
+      >
          <div
             className={CSS.element(baseClass, "wrap")}
             style={{
@@ -94,6 +101,8 @@ class WheelComponent extends VDOM.Component {
                }}
                ref={this.wheelRef}
                onWheel={this.onWheel}
+               onTouchStart={::this.onTouchStart}
+               onTouchEnd={::this.onTouchEnd}
             >
                {
                   displayedOptions.map(opt => <div
@@ -126,6 +135,20 @@ class WheelComponent extends VDOM.Component {
                }}
             />
          </div>
+         <div className={CSS.element(baseClass, "arrow-up")}
+            onClick={(e) => {
+               e.preventDefault();
+               this.select(this.index - 1)
+            }}>
+            {Icon.render('drop-down', {className: CSS.element(baseClass, "icon")})}
+         </div>
+         <div className={CSS.element(baseClass, "arrow-down")}
+            onClick={(e) => {
+               e.preventDefault();
+               this.select(this.index + 1)
+            }}>
+            {Icon.render('drop-down', {className: CSS.element(baseClass, "icon")})}
+         </div>
       </div>
    }
 
@@ -145,6 +168,20 @@ class WheelComponent extends VDOM.Component {
       this.scrolling = false;
    }
 
+   onKeyDown(e) {
+      switch (e.keyCode) {
+         case KeyCode.up:
+            e.preventDefault();
+            this.select(this.index - 1);
+            break;
+
+         case KeyCode.down:
+            e.preventDefault();
+            this.select(this.index + 1);
+            break;
+      }
+   }
+
    onWheel(e) {
       e.preventDefault();
       let index = this.index;
@@ -155,14 +192,25 @@ class WheelComponent extends VDOM.Component {
       this.select(index);
    }
 
+   onTouchStart(e) {
+      this.scrolling = false;
+   }
+
+   onTouchEnd(e) {
+      let {size} = this.props;
+      let index = Math.round(this.wheelEl.scrollTop / (this.state.wheelHeight / size));
+      console.log(index);
+      this.select(index);
+   }
+
    select(newIndex) {
-      let {children, index} = this.props;
+      let {children} = this.props;
       newIndex = Math.max(0, Math.min(children.length - 1, newIndex));
-      if (index !== newIndex) {
+      if (this.index !== newIndex) {
          this.index = newIndex;
-         this.scrollTo();
          this.props.onChange(newIndex);
       }
+      this.scrollTo();
    }
 
    scrollTo() {
@@ -197,9 +245,9 @@ class WheelComponent extends VDOM.Component {
 
 export default (
    <cx>
-      <div style="padding: 50px;" ws>
+      <div style="padding: 10px;" ws>
          <div style="background: white; padding: 10px; display: inline-block" ws>
-            <Wheel size={3}
+            <Wheel 
                value:bind="month"
                options={[
                   {id: 1, text: "Jan"},
@@ -218,7 +266,7 @@ export default (
 
             &nbsp; &nbsp;
 
-            <Wheel size={3}
+            <Wheel 
                options={[
                   {id: 1, text: "01"},
                   {id: 2, text: "02"},
@@ -236,7 +284,7 @@ export default (
 
             &nbsp; &nbsp;
 
-            <Wheel size={3}
+            <Wheel
                options={[
                   {id: 1, text: "2000"},
                   {id: 2, text: "2001"},
@@ -255,7 +303,7 @@ export default (
          </div>
          <div style="background: #eee; padding: 10px; display: inline-block" ws>
 
-            <Wheel size={3}
+            <Wheel 
                options={[
                   {id: 2, text: "01"},
                   {id: 3, text: "02"},
@@ -273,7 +321,7 @@ export default (
 
             &nbsp; : &nbsp;
 
-            <Wheel size={3}
+            <Wheel 
                options={[
                   {id: 2, text: "00"},
                   {id: 3, text: "05"},
@@ -291,10 +339,29 @@ export default (
 
             &nbsp; &nbsp;
 
-            <Wheel size={3}
+            <Wheel 
                options={[
                   {id: 2, text: "AM"},
                   {id: 3, text: "PM"}
+               ]}/>
+         </div>
+
+         <div style="background: white; padding: 10px; display: inline-block" ws>
+            <Wheel 
+               value:bind="month"
+               options={[
+                  {id: 1, text: "Jan"},
+                  {id: 2, text: "Feb"},
+                  {id: 3, text: "Mar"},
+                  {id: 4, text: "Apr"},
+                  {id: 5, text: "May"},
+                  {id: 6, text: "Jun"},
+                  {id: 7, text: "Jul"},
+                  {id: 8, text: "Aug"},
+                  {id: 9, text: "Sep"},
+                  {id: 10, text: "Oct"},
+                  {id: 11, text: "Nov"},
+                  {id: 12, text: "Dec"},
                ]}/>
          </div>
       </div>

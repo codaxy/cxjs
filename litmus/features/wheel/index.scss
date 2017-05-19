@@ -2,9 +2,19 @@
 
    display: inline-block;
    text-align: center;
-   padding: 20px 0;
+   padding: 15px 0;
    vertical-align: middle;
    background: inherit;
+   position: relative;
+
+   &:focus {
+      outline: 0;
+
+      .cxe-wheel-selection {
+         border-color: #3c7eff;
+         background: rgba(#3c7eff, 0.1);
+      }
+   }
 }
 
 .cxe-wheel-wrap {
@@ -24,11 +34,16 @@
 
 .cxe-wheel-wheel {
    overflow: auto;
+   touch-action: pan-y;
    display: inline-block;
+
+   &::-webkit-scrollbar {
+      display: none;
+   }
 }
 
 .cxe-wheel-option {
-   padding: 10px;
+   padding: 10px 20px;
 
    &.cxs-dummy {
       visibility: hidden;
@@ -43,7 +58,42 @@
    box-sizing: content-box;
    border-width: 2px 0 2px 0;
    border-style: solid;
-   border-color: #3c7eff;
+   border-color: #9bc8ff;
    pointer-events: none;
-   background: rgba(#3c7eff, 0.1);
+   background: rgba(#9bc8ff, 0.1);
+}
+
+.cxe-wheel-arrow-up,
+.cxe-wheel-arrow-down {
+   position: absolute;
+   left: 50%;
+   margin-left: -8px;
+   width: 20px;
+   height: 20px;
+   opacity: 0.7;
+
+   &:hover {
+      background: lightgray;
+      opacity: 1;
+   }
+}
+
+.cxe-wheel-arrow-down
+{
+   bottom: 0;
+}
+
+.cxe-wheel-arrow-up {
+   transform: rotate(180deg);
+   top: 0;
+}
+
+.cxe-wheel-arrow-icon {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin-left: -8px;
+   margin-top: -8px;
+   width: 16px;
+   height: 16px;
 }
