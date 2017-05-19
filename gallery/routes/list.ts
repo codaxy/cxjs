@@ -51,10 +51,13 @@ export default [{
       route: '+/text-area',
       name: 'TextArea',
       content: () => System.import("./forms/text-area")
-   },
-   , {
+   }, {
       route: '+/select',
       name: 'Select',
       content: () => System.import("./forms/select")
+   }, {
+      route: '+/lookup-field',
+      name: 'LookupField',
+      content: () => System.import("./forms/lookup-field")
    }]
 }]
