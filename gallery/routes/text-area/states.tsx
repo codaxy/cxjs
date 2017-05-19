@@ -12,20 +12,13 @@ export default (
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">
-                    <TextArea label="Standard" value={bind("standard")} labelPlacement="material"/>
+                    <TextArea label="Standard" value={bind("material")} labelPlacement="material"/>
                     <br/>
-                    <TextArea label="Disabled" value={bind("disabled")} disabled labelPlacement="material"/>
-                    <br/>
-                    <TextArea
-                        label="Icon"
-                        value={bind("icon")}
-                        icon="search"
-                        labelPlacement="material"
-                    />
+                    <TextArea label="Disabled" value={bind("material")} disabled labelPlacement="material"/>
                     <br/>
                     <TextArea
                         label="Placeholder"
-                        value={bind("placeholder")}
+                        value={bind("material")}
                         placeholder="Type something here..."
                         labelPlacement="material"
                     />
@@ -39,7 +32,7 @@ export default (
                 layout={LabelsLeftLayout}
             >
                 <TextArea label="Standard" value={bind("standard")}/>
-                <TextArea label="Disabled" value={bind("disabled")} disabled/>
+                <TextArea label="Disabled" value={bind("standard")} disabled/>
                 <TextArea label="Readonly" value={bind("standard")} readOnly/>
                 <TextArea label="View Mode" value={bind("standard")} mode="view"/>
                 <TextArea
@@ -56,10 +49,10 @@ export default (
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
-                <TextArea label="Standard" value={bind("standard")}/>
+                <TextArea label="Standard" value={bind("vertical")}/>
                 <TextArea
                     label="Placeholder"
-                    value={bind("placeholder")}
+                    value={bind("vertical")}
                     placeholder="Type something here..."
                 />
             </Section>
@@ -72,33 +65,22 @@ export default (
             >
                 <TextArea
                     label="Placeholder"
-                    value={bind("placeholder")}
+                    value={bind("helpers")}
                     placeholder="Type something here..."
                 />
                 <TextArea
-                    label="Clear"
-                    value={{ bind: "clear", defaultValue: "Text"}}
-                    placeholder="Hidden when empty"
-                    showClear
-                />
-                <TextArea
-                    label="Icon"
-                    value={bind("icon")}
-                    icon="search"
-                />
-                <TextArea
                     label="Tooltip"
-                    value={bind("text")}
+                    value={bind("helpers")}
                     tooltip="This is a tooltip."
                 />
                 <TextArea
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helpers")}
                     help="Inline"
                 />
                 <TextArea
                     label="Help"
-                    value={bind("standard")}
+                    value={bind("helpers")}
                     help={<cx>
                         <HelpText mod="block">Block</HelpText>
                     </cx>}
@@ -115,14 +97,14 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextArea label="Required" value={bind("required")} required/>
-                    <TextArea label="Visited" value={bind("visited")} required visited/>
-                    <TextArea label="Asterisk" value={bind("asterisk")} required asterisk/>
+                    <TextArea label="Required" value={bind("validation")} required/>
+                    <TextArea label="Visited" value={bind("validation")} required visited/>
+                    <TextArea label="Asterisk" value={bind("validation")} required asterisk/>
                     <TextArea
                         label="Min/Max Length"
-                        value={bind("text")}
+                        value={bind("validation")}
                         minLength={3}
-                        maxLength={8}
+                        maxLength={10}
                     />
                 </div>
             </Section>
@@ -135,12 +117,14 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextArea label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <TextArea label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <TextArea label="Help Block" value={bind("validation")} required validationMode="help-block"
+                        <TextArea label="Tooltip" value={bind("validationMode")} required minLength={10}/>
+                        <TextArea label="Help" value={bind("validationMode")} required validationMode="help" minLength={10}/>
+                        <TextArea label="Help Block" value={bind("validationMode")} required validationMode="help-block"
                             minLength={10}/>
-                        <TextArea label="Material" value={bind("validation")} required
-                            validationMode="help" minLength={10}
+                        <TextArea label="Material" value={bind("validationMode")} required
+                            validationMode="help" 
+                            minLength={3}
+                            maxLength={10}
                             helpPlacement="material"
                             visible={{expr: "{$root.$route.theme} == 'material'"}}
                         />
@@ -158,6 +142,7 @@ export default (
                     label="Styled"
                     value={bind("styled")}
                     inputStyle={{background: "rgba(255, 255, 0, 0.3)"}}
+                    rows={5}
                 />
             </Section>
         </FlexRow>
