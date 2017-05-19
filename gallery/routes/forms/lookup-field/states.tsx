@@ -3,7 +3,44 @@ import {cx, Section, FlexRow, Select, HelpText} from 'cx/widgets';
 import {bind, expr, LabelsLeftLayout, LabelsTopLayout, Controller} from 'cx/ui';
 import casual from '../../../util/casual';
 
+class PageController extends Controller {
 
+    cityDb: any;
+
+    init() {
+        super.init();
+
+        this.store.set(
+        "$page.options5",
+        Array
+            .from({ length: 5 })
+            .map((v, i) => ({ id: i, text: `Option ${i + 1}` }))
+        );
+
+        this.store.set(
+        "$page.options10",
+        Array
+            .from({ length: 10 })
+            .map((v, i) => ({ id: i, text: `Option ${i + 1}` }))
+        );
+    }
+
+    query(q) {
+        //fake data
+        if (!this.cityDb)
+        this.cityDb = Array
+            .from({ length: 100 })
+            .map((_, i) => ({ id: i, text: casual.city }));
+
+        var regex = new RegExp(q, "gi");
+        return new Promise(resolve => {
+        setTimeout(
+            () => resolve(this.cityDb.filter(x => x.text.match(regex))),
+            100
+        );
+        });
+    }
+}
 
 export default <cx>
     <FlexRow wrap spacing="large" target="desktop">
