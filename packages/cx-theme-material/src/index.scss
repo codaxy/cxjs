@@ -151,6 +151,7 @@ $form-list: (
       color: $cx-default-input-placeholder-color;
       font-size: $cx-default-input-font-size;
       pointer-events: none;
+      white-space: nowrap; 
    }
 
    &.#{$state}focus,
