@@ -3,53 +3,53 @@ export default [{
    items: [{
       route: '+/button',
       name: 'Button',
-      content: () => System.import("./button")
+      content: () => System.import("./general/button")
    }, {
       route: '+/grid',
       name: 'Grid',
-      content: () => System.import("./grids")
+      content: () => System.import("./general/grids")
    }]
 }, {
    name: 'Forms',
    items: [{
       route: '+/checkbox',
       name: 'Checkbox',
-      content: () => System.import("./checkbox")
+      content: () => System.import("./forms/checkbox")
    }, {
       route: '+/radio',
       name: 'Radio',
-      content: () => System.import("./radio")
+      content: () => System.import("./forms/radio")
    }, {
       route: '+/switch',
       name: 'Switch',
-      content: () => System.import("./switch")
+      content: () => System.import("./forms/switch")
    }, {
       route: '+/text-field',
       name: 'TextField',
-      content: () => System.import("./text-field")
+      content: () => System.import("./forms/text-field")
    }, {
       route: '+/number-field',
       name: 'NumberField',
-      content: () => System.import("./number-field")
+      content: () => System.import("./forms/number-field")
    }, {
       route: '+/date-field',
       name: 'DateField',
-      content: () => System.import("./date-field")
+      content: () => System.import("./forms/date-field")
    }, {
       route: '+/calendar',
       name: 'Calendar',
-      content: () => System.import("./calendar")
+      content: () => System.import("./forms/calendar")
    }, {
       route: '+/month-picker',
       name: 'MonthPicker',
-      content: () => System.import("./month-picker")
+      content: () => System.import("./forms/month-picker")
    }, {
       route: '+/month-field',
       name: 'MonthField',
-      content: () => System.import("./month-field")
+      content: () => System.import("./forms/month-field")
    }, {
       route: '+/text-area',
       name: 'TextArea',
-      content: () => System.import("./text-area")
+      content: () => System.import("./forms/text-area")
    }]
 }]
