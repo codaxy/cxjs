@@ -59,6 +59,10 @@ let list = [{
       route: '+/lookup-field',
       name: 'LookupField',
       content: () => System.import("./forms/lookup-field")
+   }, {
+      route: '+/list',
+      name: 'List',
+      content: () => System.import("./forms/list")
    }]
 }];
 
