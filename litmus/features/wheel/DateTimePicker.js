@@ -71,7 +71,7 @@ class DateTimePickerComponent extends WheelComponent {
    }
 
    handleChange() {
-      this.props.instance.set('value', this.state.date);
+      this.props.instance.set('value', this.state.date.toISOString());
    }
 
    render() {
