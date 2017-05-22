@@ -11,19 +11,23 @@ export default <cx>
             layout={LabelsLeftLayout}
             visible={{expr: "{$root.$route.theme} == 'material'"}}
         >
-            <Select value={bind("material")} label="Standard" labelPlacement="material" >
+            <Select value={bind("standard")} label="Standard" labelPlacement="material" >
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("material")} label="Disabled" disabled labelPlacement="material">
+            <Select value={bind("standard")} label="Disabled" disabled labelPlacement="material">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("material")} label="Placeholder" placeholder="Please select..." labelPlacement="material">
+            <Select value={bind("clear")} label="View only" mode="view" emptyText="N/A" labelPlacement="material">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("material")} label="Icon" labelPlacement="material" icon="calendar">
+            <Select value={bind("placeholder")} label="Placeholder" placeholder="Please select..." labelPlacement="material">
+               <option value={1}>Option 1</option>
+               <option value={2}>Option 2</option>
+            </Select>
+            <Select value={bind("icon")} label="Icon" labelPlacement="material" icon="calendar">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
@@ -42,11 +46,15 @@ export default <cx>
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("standard")} label="Placeholder" placeholder="Please select...">
+            <Select value={bind("clear")} label="View only" mode="view" emptyText="N/A" >
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("standard")} label="Icon" icon="calendar">
+            <Select value={bind("placeholder")} label="Placeholder" placeholder="Please select...">
+               <option value={1}>Option 1</option>
+               <option value={2}>Option 2</option>
+            </Select>
+            <Select value={bind("icon")} label="Icon" icon="calendar">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
@@ -57,19 +65,23 @@ export default <cx>
             hLevel={4}
             layout={{type: LabelsTopLayout, vertical: true}}
         >
-            <Select value={bind("vertical")} label="Standard">
+            <Select value={bind("standard")} label="Standard">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("vertical")} label="Disabled" disabled>
+            <Select value={bind("clear")} label="Disabled" disabled>
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("vertical")} label="Placeholder" placeholder="Please select...">
+            <Select value={bind("clear")} label="View only" mode="view" emptyText="N/A" >
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
-            <Select value={bind("standard")} label="Icon" icon="calendar">
+            <Select value={bind("placeholder")} label="Placeholder" placeholder="Please select...">
+               <option value={1}>Option 1</option>
+               <option value={2}>Option 2</option>
+            </Select>
+            <Select value={bind("icon")} label="Icon" icon="calendar">
                <option value={1}>Option 1</option>
                <option value={2}>Option 2</option>
             </Select>
@@ -80,17 +92,21 @@ export default <cx>
                 title="Helpers"
                 hLevel={4}
             >
-                <Select label="Placeholder" value={bind("helper")} placeholder="Enter a number...">
+                <Select label="Placeholder" value={bind("placeholder")} placeholder="Please select...">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Clear" value={bind("helper")} placeholder="Requires a placeholder" >
+                <Select label="Clear" value={bind("clear")} placeholder="Requires a placeholder" >
+                    <option value={1}>Option 1</option>
+                    <option value={2}>Option 2</option>
+                </Select>
+                <Select value={bind("icon")} label="Icon" icon="search">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
                 <Select
                     label="Tooltip"
-                    value={bind("helper")}
+                    value={bind("tooltip")}
                     tooltip="This is a tooltip."
                 >
                     <option value={1}>Option 1</option>
@@ -98,7 +114,7 @@ export default <cx>
                 </Select>
                 <Select
                     label="Help"
-                    value={bind("helper")}
+                    value={bind("inline")}
                     help="Inline"
                 >
                     <option value={1}>Option 1</option>
@@ -106,7 +122,7 @@ export default <cx>
                 </Select>
                 <Select
                     label="Help"
-                    value={bind("helper")}
+                    value={bind("help")}
                     help={<cx>
                         <HelpText mod="block">Block</HelpText>
                     </cx>}
@@ -121,7 +137,11 @@ export default <cx>
                 hLevel={4}
                 layout={LabelsLeftLayout}
             >
-                <Select value={bind("required")} label="Required" placeholder="Please select..." required >
+                <Select value={bind("required")} label="Required" placeholder="Please select..." required>
+                   <option value={1}>Option 1</option>
+                   <option value={2}>Option 2</option>
+                </Select>
+                <Select value={bind("visited")} label="Visited" placeholder="Please select..." required visited>
                    <option value={1}>Option 1</option>
                    <option value={2}>Option 2</option>
                 </Select>
@@ -137,19 +157,19 @@ export default <cx>
                 hLevel={4}
             >
                 
-                <Select label="Tooltip" value={bind("validationMode")} required placeholder="Please select...">
+                <Select label="Tooltip" value={bind("validation.tooltip")} required placeholder="Please select...">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Help" value={bind("validationMode")} required validationMode="help" placeholder="Please select...">
+                <Select label="Help" value={bind("validation.help")} required validationMode="help" placeholder="Please select...">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Help Block" value={bind("validationMode")} required validationMode="help-block" placeholder="Please select..." >
+                <Select label="Help Block" value={bind("validation.block")} required validationMode="help-block" placeholder="Please select..." >
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Material" value={bind("validationMode")} required
+                <Select label="Material" value={bind("validation.material")} required
                     validationMode="help"
                     helpPlacement="material"
                     visible={{expr: "{$root.$route.theme} == 'material'"}}
