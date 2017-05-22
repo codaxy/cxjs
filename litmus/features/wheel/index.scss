@@ -6,6 +6,7 @@
    vertical-align: middle;
    background: inherit;
    position: relative;
+   font-size: 14px;
 
    &:focus {
       outline: 0;
@@ -29,7 +30,7 @@
    right: 0;
    pointer-events: none;
    background: inherit;
-   opacity: 0.8;
+   opacity: 0.6;
 }
 
 .cxe-wheel-wheel {
@@ -43,7 +44,7 @@
 }
 
 .cxe-wheel-option {
-   padding: 10px 20px;
+   padding: 5px 15px;
 
    &.cxs-dummy {
       visibility: hidden;
@@ -54,7 +55,7 @@
    position: absolute;
    left: 0;
    right: 0;
-   margin-top: -2px;
+   margin-top: -4px;
    box-sizing: content-box;
    border-width: 2px 0 2px 0;
    border-style: solid;
@@ -70,10 +71,10 @@
    margin-left: -8px;
    width: 20px;
    height: 20px;
-   opacity: 0.7;
+   opacity: 0.5;
 
    &:hover {
-      background: lightgray;
+      background: #eee;
       opacity: 1;
    }
 }
