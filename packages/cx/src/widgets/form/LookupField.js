@@ -526,7 +526,7 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
-      var empty = data.empty;
+      var empty = !data.placeholder && data.empty;
 
       var states = {
          visited: data.visited || this.state && this.state.visited,
