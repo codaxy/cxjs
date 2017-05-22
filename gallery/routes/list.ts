@@ -1,4 +1,4 @@
-export default [{
+let list = [{
    name: 'General',
    items: [{
       route: '+/button',
@@ -60,4 +60,16 @@ export default [{
       name: 'LookupField',
       content: () => System.import("./forms/lookup-field")
    }]
-}]
+}];
+
+list.map(section => {
+   section.items.sort((a,b) => {
+      if(a.name >= b.name)
+         return 1;
+      else
+         return -1
+   });
+   return section;
+});
+
+export default list;
