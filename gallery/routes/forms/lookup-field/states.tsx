@@ -1,5 +1,5 @@
 
-import {cx, Section, FlexRow, Select, HelpText} from 'cx/widgets';
+import {cx, Section, FlexRow, LookupField, HelpText} from 'cx/widgets';
 import {bind, expr, LabelsLeftLayout, LabelsTopLayout, Controller} from 'cx/ui';
 import casual from '../../../util/casual';
 
@@ -11,14 +11,14 @@ class PageController extends Controller {
         super.init();
 
         this.store.set(
-        "$page.options5",
+        "options5",
         Array
             .from({ length: 5 })
             .map((v, i) => ({ id: i, text: `Option ${i + 1}` }))
         );
 
         this.store.set(
-        "$page.options10",
+        "options10",
         Array
             .from({ length: 10 })
             .map((v, i) => ({ id: i, text: `Option ${i + 1}` }))
@@ -51,22 +51,41 @@ export default <cx>
             layout={LabelsLeftLayout}
             visible={{expr: "{$root.$route.theme} == 'material'"}}
         >
-            <Select value={bind("material")} label="Standard" labelPlacement="material" >
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("material")} label="Disabled" disabled labelPlacement="material">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("material")} label="Placeholder" placeholder="Please select..." labelPlacement="material">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("material")} label="Icon" labelPlacement="material" icon="calendar">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
+            <LookupField 
+                label="Standard" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                labelPlacement="material"
+            />
+            <LookupField 
+                label="Disabled" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                disabled
+                labelPlacement="material"
+            />
+            <LookupField 
+                label="View only" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                labelPlacement="material"
+                mode="view"
+                emptyText="N/A"
+            />
+            <LookupField 
+                label="Placeholder" 
+                value={bind("placeholder")} 
+                options={bind("options5")}
+                placeholder="Please select..."
+                labelPlacement="material"
+            />
+            <LookupField 
+                label="Icon" 
+                value={bind("icon")} 
+                options={bind("options5")}
+                labelPlacement="material"
+                icon="calendar"
+            />
         </Section>
         <Section
             mod="card"
@@ -74,22 +93,36 @@ export default <cx>
             hLevel={4}
             layout={LabelsLeftLayout}
         >
-            <Select value={bind("standard")} label="Standard">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("standard")} label="Disabled" disabled>
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("standard")} label="Placeholder" placeholder="Please select...">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("standard")} label="Icon" icon="calendar">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
+            <LookupField 
+                label="Standard" 
+                value={bind("standard")} 
+                options={bind("options5")}
+            />
+            <LookupField 
+                label="Disabled" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                disabled
+            />
+            <LookupField 
+                label="View only" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                mode="view"
+                emptyText="N/A"
+            />
+            <LookupField 
+                label="Placeholder" 
+                value={bind("placeholder")} 
+                options={bind("options5")}
+                placeholder="Please select..."
+            />
+            <LookupField 
+                label="Icon" 
+                value={bind("icon")} 
+                options={bind("options5")}
+                icon="calendar"
+            />
         </Section>
         <Section
             mod="card"
@@ -97,119 +130,171 @@ export default <cx>
             hLevel={4}
             layout={{type: LabelsTopLayout, vertical: true}}
         >
-            <Select value={bind("vertical")} label="Standard">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("vertical")} label="Disabled" disabled>
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("vertical")} label="Placeholder" placeholder="Please select...">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
-            <Select value={bind("standard")} label="Icon" icon="calendar">
-               <option value={1}>Option 1</option>
-               <option value={2}>Option 2</option>
-            </Select>
+            <LookupField 
+                label="Standard" 
+                value={bind("standard")} 
+                options={bind("options5")}
+            />
+            <LookupField 
+                label="Disabled" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                disabled
+            />
+            <LookupField 
+                label="View only" 
+                value={bind("standard")} 
+                options={bind("options5")}
+                mode="view"
+                emptyText="N/A"
+            />
+            <LookupField 
+                label="Placeholder"
+                value={bind("placeholder")} 
+                options={bind("options5")}
+                placeholder="Please select..."
+            />
+            <LookupField 
+                label="Icon" 
+                value={bind("icon")} 
+                options={bind("options5")}
+                icon="calendar"
+            />
         </Section>
         <Section
-                mod="card"
-                layout={LabelsLeftLayout}
-                title="Helpers"
-                hLevel={4}
-            >
-                <Select label="Placeholder" value={bind("helper")} placeholder="Enter a number...">
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select label="Clear" value={bind("helper")} placeholder="Requires a placeholder" >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select
-                    label="Tooltip"
-                    value={bind("helper")}
-                    tooltip="This is a tooltip."
-                >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select
-                    label="Help"
-                    value={bind("helper")}
-                    help="Inline"
-                >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select
-                    label="Help"
-                    value={bind("helper")}
-                    help={<cx>
-                        <HelpText mod="block">Block</HelpText>
-                    </cx>}
-                >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-            </Section>
-            <Section
-                mod="card"
-                title="Validation"
-                hLevel={4}
-                layout={LabelsLeftLayout}
-            >
-                <Select value={bind("required")} label="Required" placeholder="Please select..." required >
-                   <option value={1}>Option 1</option>
-                   <option value={2}>Option 2</option>
-                </Select>
-                <Select value={bind("asterisk")} label="Asterisk" placeholder="Please select..." required asterisk>
-                   <option value={1}>Option 1</option>
-                   <option value={2}>Option 2</option>
-                </Select>
-            </Section>
-            <Section
-                title="Validation Modes"
-                mod="card"
-                layout={LabelsLeftLayout}
-                hLevel={4}
-            >
-                
-                <Select label="Tooltip" value={bind("validationMode")} required placeholder="Please select...">
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select label="Help" value={bind("validationMode")} required validationMode="help" placeholder="Please select...">
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select label="Help Block" value={bind("validationMode")} required validationMode="help-block" placeholder="Please select..." >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-                <Select label="Material" value={bind("validationMode")} required
-                    validationMode="help"
-                    helpPlacement="material"
-                    visible={{expr: "{$root.$route.theme} == 'material'"}}
-                    placeholder="Please select..."
-                >
-                    <option value={1}>Option 1</option>
-                    <option value={2}>Option 2</option>
-                </Select>
-            </Section>
-            <Section
-                mod="card"
-                title="Misc"
-                hLevel={4}
-                layout={LabelsLeftLayout}
-            >
-                <Select value={bind("styled")} label="Styled" inputStyle={{background: "rgba(255, 255, 0, 0.3)"}} >
-                   <option value={1}>Option 1</option>
-                   <option value={2}>Option 2</option>
-                </Select>
-            </Section>
+            mod="card"
+            layout={LabelsLeftLayout}
+            title="Helpers"
+            hLevel={4}
+        >
+            <LookupField
+                label="Placeholder"
+                value={bind("placeholder")}
+                options={bind("options5")}
+                placeholder="Please select..."
+            />
+            <LookupField
+                label="Clear"
+                value={{ bind: "clear", defaultValue: 0 }}
+                options={bind("options5")}
+                placeholder="Hidden when empty"
+            />
+            <LookupField
+                label="Icon"
+                value={bind("icon")}
+                options={bind("options5")}
+                icon="search"
+            />
+            <LookupField
+                label="Tooltip"
+                value={bind("tooltip")}
+                options={bind("options5")}
+                tooltip="This is a tooltip."
+            />
+            <LookupField
+                label="Help"
+                value={bind("inline")}
+                options={bind("options5")}
+                help="Inline"
+            />
+            <LookupField
+                label="Help"
+                value={bind("block")}
+                options={bind("options5")}
+                help={<cx>
+                    <HelpText mod="block">Block</HelpText>
+                </cx>}
+            />
+        </Section>
+        <Section
+            mod="card"
+            title="Validation"
+            hLevel={4}
+            layout={LabelsLeftLayout}
+        >
+            <LookupField 
+                value={bind("required")}
+                options={bind("options5")}
+                label="Required" 
+                placeholder="Please select..." 
+                required 
+            />
+            <LookupField 
+                value={bind("visited")} 
+                options={bind("options5")}
+                label="Visited" 
+                placeholder="Please select..." 
+                required 
+                visited
+            />
+            <LookupField 
+                value={bind("asterisk")} 
+                options={bind("options5")}
+                label="Asterisk" 
+                placeholder="Please select..." 
+                required 
+                asterisk
+            />
+        </Section>
+        <Section
+            title="Validation Modes"
+            mod="card"
+            layout={LabelsLeftLayout}
+            hLevel={4}
+        >
+            <LookupField 
+                label="Tooltip" 
+                value={bind("validation.tooltip")} 
+                options={bind("options5")}
+                required 
+                placeholder="Please select..." 
+            />
+            <LookupField 
+                label="Help" 
+                value={bind("validation.help")} 
+                options={bind("options5")}
+                required validationMode="help" 
+                placeholder="Please select..."
+            />
+            <LookupField 
+                label="Help Block" 
+                value={bind("validation.block")} 
+                options={bind("options5")}
+                required 
+                validationMode="help-block" 
+                placeholder="Please select..." 
+            />
+            <LookupField 
+                label="Material" 
+                value={bind("validation.material")} 
+                options={bind("options5")}
+                required
+                validationMode="help"
+                helpPlacement="material"
+                visible={{expr: "{$root.$route.theme} == 'material'"}}
+                placeholder="Please select..."
+            />
+        </Section>
+        <Section
+            mod="card"
+            title="Misc"
+            hLevel={4}
+            layout={LabelsLeftLayout}
+            controller={PageController}
+        >
+            <LookupField 
+                value={bind("syled")}
+                options={bind("options5")}
+                label="Styled"
+                style={{background: "rgba(255, 255, 0, 0.3)"}} 
+            />
+            <LookupField 
+                values={bind("syled")}
+                options={bind("options10")}
+                label="Multiple"
+                multiple
+            />
+        </Section>
     </FlexRow>
 </cx>
 
