@@ -65,7 +65,7 @@ export default (
 
             <Section
                 mod="card"
-                title="Vertical Labels"
+                title="Labels on Top"
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
