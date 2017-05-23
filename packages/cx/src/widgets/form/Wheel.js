@@ -13,8 +13,8 @@ export class Wheel extends PureContainer {
    }
 
    render(context, instance, key) {
-
-      let {value, options} = instance.data;
+      let {data} = instance;
+      let {value, options} = data;
       let index = options.findIndex(a => a.id === value);
       if (index === -1)
          index = Math.floor(options.length / 2);
@@ -24,8 +24,11 @@ export class Wheel extends PureContainer {
             key={key}
             size={this.size}
             focusable
-            instance={instance}
-            data={instance.data}
+            CSS={this.CSS}
+            baseClass={this.baseClass}
+            className={data.classNames}
+            style={data.style}
+            shouldUpdate={instance.shouldUpdate}
             index={index}
             onChange={(newIndex) => {
                let option = options[newIndex];
@@ -42,6 +45,7 @@ export class Wheel extends PureContainer {
 
 Wheel.prototype.baseClass = "wheel";
 Wheel.prototype.size = 3;
+Wheel.prototype.styled = true;
 
 export class WheelComponent extends VDOM.Component {
 
@@ -53,12 +57,15 @@ export class WheelComponent extends VDOM.Component {
          this.wheelEl = el;
       };
       this.onWheel = ::this.onWheel;
+      this.onKeyDown = ::this.onKeyDown
+   }
+
+   shouldComponentUpdate(props, state) {
+      return props.shouldUpdate !== false || state !== this.state;
    }
 
    render() {
-      let {instance, data, size, children} = this.props;
-      let {widget} = instance;
-      let {CSS, baseClass} = widget;
+      let {size, children, CSS, baseClass, active, className, style} = this.props;
       let optionClass = CSS.element(baseClass, "option");
       let dummyClass = CSS.element(baseClass, "option", {dummy: true});
 
@@ -86,11 +93,12 @@ export class WheelComponent extends VDOM.Component {
 
       return <div
          tabIndex={this.props.focusable ? 0 : null}
-         className={data.classNames}
-         onKeyDown={::this.onKeyDown}
+         className={className || CSS.element(baseClass, "container", { active })}
+         style={style}
+         onKeyDown={this.onKeyDown}
       >
          <div
-            className={CSS.element(baseClass, "wrap")}
+            className={CSS.element(baseClass, "clip")}
             style={{
                width: this.state.wheelWidth
             }}
@@ -159,7 +167,10 @@ export class WheelComponent extends VDOM.Component {
          wheelWidth: this.wheelEl.offsetWidth
       }, () => {
          this.wheelEl.scrollTop = this.index * this.state.wheelHeight / this.props.size;
-      })
+      });
+
+      if (this.props.onPipeKeyDown)
+         this.props.onPipeKeyDown(this.onKeyDown);
    }
 
    componentWillReceiveProps(props) {

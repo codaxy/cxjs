@@ -5,11 +5,13 @@ export default (
       <div style="padding: 10px;" ws>
          <Calendar value:bind="date" />
          <DateTimePicker value:bind="date" />
+         <DateTimePicker value:bind="date" />
       </div>
       <div style="padding: 10px;" ws>
          <div style="background: white; padding: 10px; display: inline-block" ws>
             <Wheel 
                value:bind="month"
+               size={5}
                options={[
                   {id: 1, text: "Jan"},
                   {id: 2, text: "Feb"},

@@ -13,6 +13,8 @@
    .#{$block}calendar {
       @include cx-add-state-rules($state-style-map, 'default');
 
+      display: inline-block;
+      vertical-align: middle;
       width: 18em;
       box-sizing: border-box;
 

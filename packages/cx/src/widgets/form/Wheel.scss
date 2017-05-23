@@ -1,100 +1,143 @@
-.cxb-wheel {
+@mixin cx-wheel-elements(
+   $name: 'wheel',
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   display: inline-block;
-   text-align: center;
-   padding: 15px 0;
-   vertical-align: middle;
-   background: inherit;
-   position: relative;
-   font-size: 14px;
+   .#{$element}#{$name}-container {
+      position: relative;
+      display: inline-block;
+      padding: 30px 5px;
+      vertical-align: middle;
+      background: inherit;
+      text-align: center;
+   }
 
-   &:focus {
-      outline: 0;
+   .#{$element}#{$name}-clip {
+      position: relative;
+      overflow: hidden;
+      background: inherit;
+      user-select: none;
+      border: 1px solid lightgray;
+   }
 
-      .cxe-wheel-selection {
-         border-color: #3c7eff;
-         background: rgba(#3c7eff, 0.1);
+   .#{$element}#{$name}-mask {
+      position: absolute;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      background: inherit;
+      opacity: 0.6;
+   }
+
+   .#{$element}#{$name}-wheel {
+      overflow: auto;
+      touch-action: pan-y;
+      display: flex;
+      flex-direction: column;
+
+      &::-webkit-scrollbar {
+         display: none;
       }
    }
-}
 
-.cxe-wheel-wrap {
-   position: relative;
-   overflow: hidden;
-   background: inherit;
-}
+   .#{$element}#{$name}-option {
+      padding: 5px 15px;
 
-.cxe-wheel-mask {
-   position: absolute;
-   left: 0;
-   right: 0;
-   pointer-events: none;
-   background: inherit;
-   opacity: 0.6;
-}
+      &.cxs-dummy {
+         visibility: hidden;
+      }
+   }
 
-.cxe-wheel-wheel {
-   overflow: auto;
-   touch-action: pan-y;
-   display: inline-block;
+   .#{$element}#{$name}-selection {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-top: -2px;
+      box-sizing: content-box;
+      border-width: 2px 0 2px 0;
+      border-style: solid;
+      border-color: #9bc8ff;
+      pointer-events: none;
+      background: rgba(#9bc8ff, 0.1);
+   }
 
-   &::-webkit-scrollbar {
-      display: none;
+   .#{$element}#{$name}-container.#{$state}active .#{$element}#{$name}-selection {
+      border-color: #3c7eff;
+      background: rgba(#3c7eff, 0.1);
+   }
+
+   .#{$element}#{$name}-arrow-up,
+   .#{$element}#{$name}-arrow-down {
+      position: absolute;
+      left: 50%;
+      margin-left: -8px;
+      width: 20px;
+      height: 20px;
+      opacity: 0.5;
+
+      &:hover {
+         background: #eee;
+         opacity: 1;
+      }
+   }
+
+   .#{$element}#{$name}-arrow-down {
+      bottom: 5px;
+   }
+
+   .#{$element}#{$name}-arrow-up {
+      transform: rotate(180deg);
+      top: 5px;
+   }
+
+   .#{$element}#{$name}-arrow-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      width: 16px;
+      height: 16px;
    }
 }
 
-.cxe-wheel-option {
-   padding: 5px 15px;
+@mixin cx-wheel(
+   $name: 'wheel',
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
 
-   &.cxs-dummy {
-      visibility: hidden;
+   .#{$block}#{$name} {
+      display: inline-block;
+      text-align: center;
+      padding: 30px 5px;
+      vertical-align: middle;
+      background: inherit;
+      position: relative;
+      font-size: 14px;
+      user-select: none;
+
+      &:focus {
+         outline: 0;
+
+         .#{$element}#{$name}-selection {
+            border-color: #3c7eff;
+            background: rgba(#3c7eff, 0.1);
+         }
+      }
    }
+
+   @include cx-wheel-elements($name, $icon-size, $besm)
 }
 
-.cxe-wheel-selection {
-   position: absolute;
-   left: 0;
-   right: 0;
-   margin-top: -4px;
-   box-sizing: content-box;
-   border-width: 2px 0 2px 0;
-   border-style: solid;
-   border-color: #9bc8ff;
-   pointer-events: none;
-   background: rgba(#9bc8ff, 0.1);
-}
-
-.cxe-wheel-arrow-up,
-.cxe-wheel-arrow-down {
-   position: absolute;
-   left: 50%;
-   margin-left: -8px;
-   width: 20px;
-   height: 20px;
-   opacity: 0.5;
-
-   &:hover {
-      background: #eee;
-      opacity: 1;
-   }
-}
-
-.cxe-wheel-arrow-down
-{
-   bottom: 0;
-}
-
-.cxe-wheel-arrow-up {
-   transform: rotate(180deg);
-   top: 0;
-}
-
-.cxe-wheel-arrow-icon {
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   margin-left: -8px;
-   margin-top: -8px;
-   width: 16px;
-   height: 16px;
+@if (cx-should-include('cx/widgets/Wheel')) {
+   @include cx-wheel();
 }

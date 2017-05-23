@@ -22,9 +22,9 @@ export class DateTimePicker extends Widget {
    }
 }
 
-DateTimePicker.prototype.baseClass = "wheel";
+DateTimePicker.prototype.baseClass = "datetimepicker";
 
-class DateTimePickerComponent extends WheelComponent {
+class DateTimePickerComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
@@ -32,11 +32,26 @@ class DateTimePickerComponent extends WheelComponent {
       if (isNaN(date.getTime()))
          date = new Date();
       this.state = {
-         date: date
+         date: date,
+         activeWheel: null
       };
 
       this.handleChange = ::this.handleChange;
+      this.onFocus = ::this.onFocus;
+      this.onBlur = ::this.onBlur;
+      this.onKeyDown = ::this.onKeyDown;
+
+      this.wheels = {
+         year: true,
+         month: true,
+         date: true,
+         hours: true,
+         minutes: true
+      };
+
+      this.keyDownPipes = {};
    }
+
 
    componentWillReceiveProps(props) {
       let date = new Date(props.data.value);
@@ -76,14 +91,16 @@ class DateTimePickerComponent extends WheelComponent {
    }
 
    render() {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
+      let {widget} = instance;
+      let {CSS, baseClass} = widget;
       let date = this.state.date;
 
       let culture = Culture.getDateTimeCulture();
       let monthNames = culture.getMonthNames('short');
 
       let years = [];
-      for (let y = 2000; y<=2050; y++)
+      for (let y = 2000; y <= 2050; y++)
          years.push(<span key={y}>{y}</span>);
 
       let days = [];
@@ -107,90 +124,162 @@ class DateTimePickerComponent extends WheelComponent {
 
       return <div
          tabIndex={0}
-         style={{
-            background: "white",
-            border: '1px solid lightgray',
-            display: 'inline-block',
-            padding: '10px'
-         }}>
+         className={data.classNames}
+         onFocus={this.onFocus}
+         onBlur={this.onBlur}
+         onKeyDown={this.onKeyDown}
+      >
          <WheelComponent
             size={3}
-            instance={instance}
-            data={instance.data}
+            CSS={CSS}
+            active={this.state.activeWheel === "year"}
+            baseClass={baseClass + "-wheel"}
             index={date.getFullYear() - 2000}
             onChange={(newIndex) => {
                this.setState(state => ({
                   date: this.setDateComponent(this.state.date, 'year', newIndex + 2000)
                }), this.handleChange);
             }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["year"] = kd;
+            }}
          >
             {years}
          </WheelComponent>
-
-         <span style={{padding: "5px"}}>-</span>
-
+         -
          <WheelComponent
             size={3}
-            instance={instance}
-            data={instance.data}
+            CSS={CSS}
+            active={this.state.activeWheel === "month"}
+            baseClass={baseClass + "-wheel"}
             index={date.getMonth()}
             onChange={(newIndex) => {
                this.setState(state => ({
                   date: this.setDateComponent(this.state.date, 'month', newIndex)
                }), this.handleChange);
             }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["month"] = kd;
+            }}
          >
             {monthNames.map((m, i) => <span key={i}>{m}</span>)}
          </WheelComponent>
-
-         <span style={{padding: "5px"}}>-</span>
-
+         -
          <WheelComponent
             size={3}
-            instance={instance}
-            data={instance.data}
-            index={date.getDate()-1}
+            CSS={CSS}
+            active={this.state.activeWheel === "date"}
+            baseClass={baseClass + "-wheel"}
+            index={date.getDate() - 1}
             onChange={(newIndex) => {
                this.setState(state => ({
                   date: this.setDateComponent(this.state.date, 'date', newIndex + 1)
                }), this.handleChange);
             }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["date"] = kd;
+            }}
          >
             {days}
          </WheelComponent>
 
-         <span style={{padding: "5px"}}> &nbsp; </span>
+         <span className={CSS.element(baseClass, "spacer")}/>
 
          <WheelComponent
             size={3}
-            instance={instance}
-            data={instance.data}
+            CSS={CSS}
+            active={this.state.activeWheel === "hours"}
+            baseClass={baseClass + "-wheel"}
             index={date.getHours()}
             onChange={(newIndex) => {
                this.setState(state => ({
                   date: this.setDateComponent(this.state.date, 'hours', newIndex)
                }), this.handleChange);
             }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["hours"] = kd;
+            }}
          >
             {hours}
          </WheelComponent>
-
-         <span style={{padding: "5px"}}>:</span>
-
+         :
          <WheelComponent
             size={3}
-            instance={instance}
-            data={instance.data}
+            CSS={CSS}
+            baseClass={baseClass + "-wheel"}
+            active={this.state.activeWheel === "minutes"}
             index={date.getMinutes()}
             onChange={(newIndex) => {
                this.setState(state => ({
                   date: this.setDateComponent(this.state.date, 'minutes', newIndex)
                }), this.handleChange);
             }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["minutes"] = kd;
+            }}
          >
             {minutes}
          </WheelComponent>
       </div>
+   }
+
+   onFocus() {
+      let firstWheel = null;
+      for (let wheel in this.wheels) {
+         if (this.wheels[wheel]) {
+            firstWheel = wheel;
+            break;
+         }
+      }
+
+      this.setState({
+         activeWheel: firstWheel
+      })
+   }
+
+   onBlur() {
+      this.setState({
+         activeWheel: null
+      })
+   }
+
+   onKeyDown(e) {
+      let tmp = null;
+      switch (e.keyCode) {
+
+         case KeyCode.right:
+            e.preventDefault();
+            for (let wheel in this.wheels) {
+               if (this.wheels[wheel]) {
+                  if (tmp === this.state.activeWheel) {
+                     this.setState({activeWheel: wheel});
+                     break;
+                  }
+                  tmp = wheel;
+               }
+
+            }
+            break;
+
+         case KeyCode.left:
+            e.preventDefault();
+            for (let wheel in this.wheels) {
+               if (this.wheels[wheel]) {
+                  if (wheel === this.state.activeWheel && tmp) {
+                     this.setState({activeWheel: tmp});
+                     break;
+                  }
+                  tmp = wheel;
+               }
+            }
+            break;
+
+         default:
+            let kdp = this.keyDownPipes[this.state.activeWheel];
+            if (kdp)
+               kdp(e);
+            break;
+      }
    }
 }
 
