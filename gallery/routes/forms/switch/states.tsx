@@ -1,4 +1,4 @@
-import {cx, Section, FlexRow, Switch} from 'cx/widgets';
+import {cx, Section, FlexRow, Switch, HelpText} from 'cx/widgets';
 import {bind, expr, LabelsLeftLayout, LabelsTopLayout} from 'cx/ui';
 
 export default <cx>
@@ -10,33 +10,45 @@ export default <cx>
             hLevel={4}
         >
             <div style={{ marginTop: "-30px" }} >
-                <Switch label="Standard" value={bind("checked")} text="Switch" labelPlacement="material" />
+                <Switch label="Standard" value={bind("standard")} text="Switch" labelPlacement="material" />
                 <br/>
-                <Switch label="Disabled" value={bind("checked")} disabled text="Switch" labelPlacement="material" />
+                <Switch label="Disabled" value={bind("standard")} disabled text="Switch" labelPlacement="material" />
                 <br/>
-                <Switch label="Readonly" value={bind("checked")} readOnly text="Switch" labelPlacement="material" />
+                <Switch label="Readonly" value={bind("standard")} readOnly text="Switch" labelPlacement="material" />
                 <br/>
-                <Switch label="View Mode" value={bind("checked")} mode="view" text="On" emptyText="N/A" labelPlacement="material" />
+                <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" labelPlacement="material" />
                 <br/>
-                <Switch label="Label only" on={bind("checked")} labelPlacement="material" />
+                <Switch label="Label only" on={bind("label")} labelPlacement="material" />
             </div>
         </Section>
         <Section mod="well" title="Standard" hLevel={4} layout={LabelsLeftLayout}>
-            <Switch label="Standard" value={bind("checked")} text="Switch" />
-            <Switch label="Disabled" value={bind("checked")} disabled text="Switch" />
-            <Switch label="Readonly" value={bind("checked")} readOnly text="Switch" />
-            <Switch label="View Mode" value={bind("checked")} mode="view" text="On" emptyText="N/A" />
-            <Switch label="Label only" on={bind("checked")} />
+            <Switch label="Standard" value={bind("standard")} text="Switch" />
+            <Switch label="Disabled" value={bind("standard")} disabled text="Switch" />
+            <Switch label="Readonly" value={bind("standard")} readOnly text="Switch" />
+            <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" />
+            <Switch label="Label only" on={bind("label")} />
         </Section>
         <Section mod="well" title="Label On Top" hLevel={4} layout={{ type: LabelsTopLayout, vertical: true }}>
-            <Switch label="Standard" value={bind("checked")} text="Switch" />
-            <Switch label="Disabled" value={bind("checked")} disabled text="Switch" />
-            <Switch label="View Mode" value={bind("checked")} mode="view" text="On" emptyText="N/A" />
-            <Switch label="Label only" on={bind("checked")} />
+            <Switch label="Standard" value={bind("standard")} text="Switch" />
+            <Switch label="Disabled" value={bind("standard")} disabled text="Switch" />
+            <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" />
+            <Switch label="Label only" on={bind("label")} />
+        </Section>
+        <Section mod="well" title="Helpers" hLevel={4} layout={LabelsLeftLayout}>
+            <Switch label="Tooltip" value={bind("tooltip")} text="Switch" tooltip="This is a tooltip." />
+            <Switch label="Help" value={bind("inline")} text="Switch" help="Inline" />
+            <Switch label="Help" 
+                value={bind("block")} 
+                text="Switch" 
+                help={<cx>
+                    <HelpText mod="block">Block</HelpText>
+                </cx>} 
+            />
+            <Switch label="Label only" on={bind("label")} />
         </Section>
         <Section mod="well" title="Misc" hLevel={4} layout={{ type: LabelsTopLayout, vertical: true }}>
-            <Switch label="Text expression" on={bind("checked")} text={expr("{checked} ? 'ON' : 'OFF'")} />
-            <Switch label="Styled" value={bind("checked")} 
+            <Switch label="Text expression" on={bind("expr")} text={expr("{standard} ? 'ON' : 'OFF'")} />
+            <Switch label="Styled" value={bind("styled")} 
                 handleStyle="background:white"
                 rangeStyle="background:lightsteelblue" 
             >

@@ -65,7 +65,7 @@ export default (
 
             <Section
                 mod="card"
-                title="Vertical Labels"
+                title="Labels on Top"
                 hLevel={4}
                 layout={{type: LabelsTopLayout, vertical: true}}
             >
@@ -128,12 +128,12 @@ export default (
 
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <DateField label="Required" value={bind("validation")} required/>
-                    <DateField label="Visited" value={bind("validation")} required visited/>
-                    <DateField label="Asterisk" value={bind("validation")} required asterisk/>
+                    <DateField label="Required" value={bind("required")} required/>
+                    <DateField label="Visited" value={bind("visited")} required visited/>
+                    <DateField label="Asterisk" value={bind("asterisk")} required asterisk/>
                     <DateField
                         label="Min/Max Value"
-                        value={bind("validation")}
+                        value={bind("minmax")}
                         minValue={range.from}
                         maxValue={range.to}
                     />
