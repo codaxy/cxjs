@@ -28,6 +28,7 @@ export class List extends Widget {
       this.child = Widget.create({
          type: PureContainer,
          layout: this.layout,
+         items: this.items,
          children: this.children,
          styled: true,
          class: this.itemClass,
