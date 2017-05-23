@@ -1,6 +1,7 @@
-import {FlexCol, FlexRow, HtmlElement, Icon} from "cx/widgets";
-import {Widget, PureContainer, VDOM} from "cx/ui";
-import {KeyCode} from 'cx/util';
+import {VDOM} from "../../ui/Widget";
+import {PureContainer} from "../../ui/PureContainer";
+import {KeyCode} from '../../util/KeyCode';
+import {Icon} from '../Icon';
 
 export class Wheel extends PureContainer {
 

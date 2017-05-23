@@ -1,5 +1,6 @@
-import {Widget, PureContainer, VDOM, Culture} from "cx/ui";
-import {KeyCode} from 'cx/util';
+import {Widget, VDOM} from "../../ui/Widget";
+import {Culture} from "../../ui/Culture";
+import {KeyCode} from '../../util/KeyCode';
 import {WheelComponent} from "./Wheel";
 
 export class DateTimePicker extends Widget {
@@ -32,7 +33,7 @@ class DateTimePickerComponent extends WheelComponent {
          date = new Date();
       this.state = {
          date: date
-      }
+      };
 
       this.handleChange = ::this.handleChange;
    }
