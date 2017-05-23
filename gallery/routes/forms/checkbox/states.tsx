@@ -55,11 +55,6 @@ export default <cx>
                     </cx>
                 }/>
         </Section>
-        <Section mod="well" title="Validation" hLevel={4} layout={LabelsLeftLayout}>
-            <Checkbox label="Required" value={bind("required")} text="Checked" required />
-            <Checkbox label="Visited" value={bind("visited")} text="Checked" visited />
-            <Checkbox label="Asterisk" value={bind("asterisk")} text="Checked" asterisk />
-        </Section>
         <Section mod="well" title="Misc" hLevel={4} layout={LabelsLeftLayout} >
             <Checkbox label="Styled" value={bind("checked")} inputStyle="color:red" text="Checkbox" checked />
             <Checkbox label="Three State" value={bind("threeState")} text="Checkbox" indeterminate />
