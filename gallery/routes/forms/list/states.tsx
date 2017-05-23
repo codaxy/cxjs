@@ -1,7 +1,6 @@
 
 import {cx, Section, FlexRow, List, Text} from 'cx/widgets';
 import {bind, Controller, PropertySelection} from 'cx/ui';
-import casual from '../../../util/casual';
 
 class PageController extends Controller {
   init() {

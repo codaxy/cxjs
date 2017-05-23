@@ -63,6 +63,10 @@ let list = [{
       route: '+/list',
       name: 'List',
       content: () => System.import("./forms/list")
+   }, {
+      route: '+/color-field',
+      name: 'ColorField',
+      content: () => System.import("./forms/color-field")
    }]
 }];
 
