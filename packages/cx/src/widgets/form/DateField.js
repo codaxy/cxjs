@@ -4,7 +4,6 @@ import {DateTimeField} from './DateTimeField';
 
 export class DateField extends DateTimeField {}
 
-DateField.prototype.baseClass = "datefield";
 DateField.prototype.picker = "calendar";
 DateField.prototype.segment = "date";
 

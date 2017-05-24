@@ -1,4 +1,4 @@
-import {FlexCol, FlexRow, HtmlElement, Icon, Calendar, Wheel, DateTimePicker, DateTimeField, DateField} from "cx/widgets";
+import {FlexCol, FlexRow, HtmlElement, Icon, Calendar, Wheel, DateTimePicker, DateTimeField, DateField, TimeField} from "cx/widgets";
 
 export default (
    <cx>
@@ -9,7 +9,7 @@ export default (
          <DateTimeField value:bind="date" />
          <DateField value:bind="date" partial />
          <DateTimeField value:bind="date" partial segment="date"/>
-         <DateTimeField value:bind="date" partial segment="time" />
+         <TimeField value:bind="date" partial />
       </div>
       <div style="padding: 10px;" ws>
          <div style="background: white; padding: 10px; display: inline-block" ws>
