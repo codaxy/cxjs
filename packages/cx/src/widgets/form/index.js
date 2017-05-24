@@ -21,4 +21,5 @@ export * from './Switch';
 export * from './HelpText';
 export * from './Wheel';
 export * from './DateTimePicker';
+export * from './DateTimeField';
 

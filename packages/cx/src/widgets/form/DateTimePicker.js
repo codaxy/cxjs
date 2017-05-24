@@ -2,6 +2,7 @@ import {Widget, VDOM} from "../../ui/Widget";
 import {Culture} from "../../ui/Culture";
 import {KeyCode} from '../../util/KeyCode';
 import {WheelComponent} from "./Wheel";
+import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 
 export class DateTimePicker extends Widget {
 
@@ -17,12 +18,17 @@ export class DateTimePicker extends Widget {
             key={key}
             instance={instance}
             data={instance.data}
+            size={this.size}
+            segment={this.segment}
          />
       )
    }
 }
 
 DateTimePicker.prototype.baseClass = "datetimepicker";
+DateTimePicker.prototype.size = 3;
+DateTimePicker.prototype.autoFocus = false;
+DateTimePicker.prototype.segment = "datetime";
 
 class DateTimePickerComponent extends VDOM.Component {
 
@@ -41,12 +47,16 @@ class DateTimePickerComponent extends VDOM.Component {
       this.onBlur = ::this.onBlur;
       this.onKeyDown = ::this.onKeyDown;
 
+      let showDate = props.segment.indexOf("date") !== -1;
+      let showTime = props.segment.indexOf("time") !== -1;
+
       this.wheels = {
-         year: true,
-         month: true,
-         date: true,
-         hours: true,
-         minutes: true
+         year: showDate,
+         month: showDate,
+         date: showDate,
+         hours: showTime,
+         minutes: showTime,
+         seconds: showTime
       };
 
       this.keyDownPipes = {};
@@ -58,6 +68,7 @@ class DateTimePickerComponent extends VDOM.Component {
       if (isNaN(date.getTime()))
          date = new Date();
       this.setState({date});
+      offFocusOut(this);
    }
 
    setDateComponent(date, component, value) {
@@ -82,6 +93,10 @@ class DateTimePickerComponent extends VDOM.Component {
          case 'minutes':
             v.setMinutes(value);
             break;
+
+         case 'seconds':
+            v.setSeconds(value);
+            break;
       }
       return v;
    }
@@ -91,7 +106,7 @@ class DateTimePickerComponent extends VDOM.Component {
    }
 
    render() {
-      let {instance, data} = this.props;
+      let {instance, data, size} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let date = this.state.date;
@@ -124,31 +139,40 @@ class DateTimePickerComponent extends VDOM.Component {
 
       return <div
          tabIndex={0}
+         ref={el => {
+            this.el = el;
+         }}
          className={data.classNames}
          onFocus={this.onFocus}
          onBlur={this.onBlur}
          onKeyDown={this.onKeyDown}
       >
+         { this.wheels.year &&
+            <WheelComponent
+               size={size}
+               CSS={CSS}
+               active={this.state.activeWheel === "year"}
+               baseClass={baseClass + "-wheel"}
+               index={date.getFullYear() - 2000}
+               onChange={(newIndex) => {
+                  this.setState(state => ({
+                     date: this.setDateComponent(this.state.date, 'year', newIndex + 2000)
+                  }), this.handleChange);
+               }}
+               onPipeKeyDown={kd => {
+                  this.keyDownPipes["year"] = kd;
+               }}
+               onMouseDown={() => {
+                  this.setState({activeWheel: 'year'})
+               }}
+            >
+               {years}
+            </WheelComponent>
+         }
+         { this.wheels.year && this.wheels.month && <span>-</span> }
+         { this.wheels.month &&
          <WheelComponent
-            size={3}
-            CSS={CSS}
-            active={this.state.activeWheel === "year"}
-            baseClass={baseClass + "-wheel"}
-            index={date.getFullYear() - 2000}
-            onChange={(newIndex) => {
-               this.setState(state => ({
-                  date: this.setDateComponent(this.state.date, 'year', newIndex + 2000)
-               }), this.handleChange);
-            }}
-            onPipeKeyDown={kd => {
-               this.keyDownPipes["year"] = kd;
-            }}
-         >
-            {years}
-         </WheelComponent>
-         -
-         <WheelComponent
-            size={3}
+            size={size}
             CSS={CSS}
             active={this.state.activeWheel === "month"}
             baseClass={baseClass + "-wheel"}
@@ -161,12 +185,17 @@ class DateTimePickerComponent extends VDOM.Component {
             onPipeKeyDown={kd => {
                this.keyDownPipes["month"] = kd;
             }}
+            onMouseDown={() => {
+               this.setState({activeWheel: 'month'})
+            }}
          >
             {monthNames.map((m, i) => <span key={i}>{m}</span>)}
          </WheelComponent>
-         -
+         }
+         { this.wheels.month && this.wheels.date && <span>-</span> }
+         { this.wheels.date &&
          <WheelComponent
-            size={3}
+            size={size}
             CSS={CSS}
             active={this.state.activeWheel === "date"}
             baseClass={baseClass + "-wheel"}
@@ -179,14 +208,19 @@ class DateTimePickerComponent extends VDOM.Component {
             onPipeKeyDown={kd => {
                this.keyDownPipes["date"] = kd;
             }}
+            onMouseDown={() => {
+               this.setState({activeWheel: 'date'})
+            }}
          >
             {days}
          </WheelComponent>
-
-         <span className={CSS.element(baseClass, "spacer")}/>
-
+         }
+         { this.wheels.hours && this.wheels.year &&
+            <span className={CSS.element(baseClass, "spacer")}/>
+         }
+         { this.wheels.hours &&
          <WheelComponent
-            size={3}
+            size={size}
             CSS={CSS}
             active={this.state.activeWheel === "hours"}
             baseClass={baseClass + "-wheel"}
@@ -199,12 +233,17 @@ class DateTimePickerComponent extends VDOM.Component {
             onPipeKeyDown={kd => {
                this.keyDownPipes["hours"] = kd;
             }}
+            onMouseDown={() => {
+               this.setState({activeWheel: 'hours'})
+            }}
          >
             {hours}
          </WheelComponent>
-         :
+         }
+         { this.wheels.hours && this.wheels.minutes && <span>:</span> }
+         { this.wheels.minutes &&
          <WheelComponent
-            size={3}
+            size={size}
             CSS={CSS}
             baseClass={baseClass + "-wheel"}
             active={this.state.activeWheel === "minutes"}
@@ -217,24 +256,70 @@ class DateTimePickerComponent extends VDOM.Component {
             onPipeKeyDown={kd => {
                this.keyDownPipes["minutes"] = kd;
             }}
+            onMouseDown={() => {
+               this.setState({activeWheel: 'minutes'})
+            }}
          >
             {minutes}
          </WheelComponent>
+         }
+         { this.wheels.minutes && this.wheels.seconds && <span>:</span> }
+         { this.wheels.seconds &&
+         <WheelComponent
+            size={size}
+            CSS={CSS}
+            baseClass={baseClass + "-wheel"}
+            active={this.state.activeWheel === "seconds"}
+            index={date.getSeconds()}
+            onChange={(newIndex) => {
+               this.setState(state => ({
+                  date: this.setDateComponent(this.state.date, 'seconds', newIndex)
+               }), this.handleChange);
+            }}
+            onPipeKeyDown={kd => {
+               this.keyDownPipes["seconds"] = kd;
+            }}
+            onMouseDown={() => {
+               this.setState({activeWheel: 'seconds'})
+            }}
+         >
+            {minutes}
+         </WheelComponent>
+         }
       </div>
    }
 
-   onFocus() {
-      let firstWheel = null;
-      for (let wheel in this.wheels) {
-         if (this.wheels[wheel]) {
-            firstWheel = wheel;
-            break;
-         }
-      }
+   componentDidMount() {
+      if (this.props.instance.widget.autoFocus)
+         this.el.focus();
+   }
 
-      this.setState({
-         activeWheel: firstWheel
-      })
+   componentWillUnmount() {
+      offFocusOut(this);
+   }
+
+   onFocus() {
+      oneFocusOut(this, this.el, ::this.onFocusOut);
+
+      if (!this.state.activeWheel) {
+         let firstWheel = null;
+         for (let wheel in this.wheels) {
+            if (this.wheels[wheel]) {
+               firstWheel = wheel;
+               break;
+            }
+         }
+
+         this.setState({
+            activeWheel: firstWheel
+         })
+      }
+   }
+
+   onFocusOut() {
+      let {widget} = this.props.instance;
+      if (widget.onFocusOut)
+         widget.onFocusOut();
    }
 
    onBlur() {
@@ -245,6 +330,7 @@ class DateTimePickerComponent extends VDOM.Component {
 
    onKeyDown(e) {
       let tmp = null;
+      let {instance} = this.props;
       switch (e.keyCode) {
 
          case KeyCode.right:
@@ -272,6 +358,12 @@ class DateTimePickerComponent extends VDOM.Component {
                   tmp = wheel;
                }
             }
+            break;
+
+         case KeyCode.enter:
+            e.preventDefault();
+            if (instance.widget.onSelect)
+               instance.widget.onSelect(e, instance, this.state.date);
             break;
 
          default:

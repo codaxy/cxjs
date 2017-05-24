@@ -65,7 +65,7 @@ export class WheelComponent extends VDOM.Component {
    }
 
    render() {
-      let {size, children, CSS, baseClass, active, className, style} = this.props;
+      let {size, children, CSS, baseClass, active, className, style, onMouseDown} = this.props;
       let optionClass = CSS.element(baseClass, "option");
       let dummyClass = CSS.element(baseClass, "option", {dummy: true});
 
@@ -102,6 +102,7 @@ export class WheelComponent extends VDOM.Component {
             style={{
                width: this.state.wheelWidth
             }}
+            onMouseDown={onMouseDown}
          >
             <div
                className={CSS.element(baseClass, "wheel")}
