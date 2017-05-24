@@ -43,6 +43,7 @@ export default <cx>
         <Section mod="card" title="Format" hLevel={4} layout={LabelsLeftLayout} >
             <ColorField value={bind("rgba")} label="RGBA" format="rgba" />
             <ColorField value={bind("hsla")} label="HSLA" format="hsla" />
+            <ColorField value={bind("hex")} label="HEX" format="hex" />
         </Section>
         <Section mod="card" title="Validation" hLevel={4} layout={LabelsLeftLayout} >
             <ColorField value={bind("required")} label="Required" required />
