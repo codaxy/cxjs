@@ -13,21 +13,35 @@ class PageController extends Controller {
   }
 }
 
+const listMod = mod => <cx>
+    <List
+        records={bind('records')}
+        selection={PropertySelection} 
+        style={{ width: '200px' }}
+        emptyText="Nothing found."
+        mod={mod}
+    >   
+        <div>
+          <strong>Header <Text expr="{$index}+1" /></strong>
+        </div>
+        Description
+    </List>
+</cx>
+
+
 export default <cx>
-    <FlexRow wrap spacing="large" target="desktop">
-        <Section mod="well" controller={PageController}>
-            <List
-                records={bind("records")}
-                selection={PropertySelection}
-                style={{ width: '200px' }}
-                emptyText="Nothing found."
-                mod="bordered"
-            >   
-                <div>
-                  <strong>Header <Text expr="{$index}+1" /></strong>
-                </div>
-                Description
-            </List>
+    <FlexRow wrap spacing="large" target="desktop" controller={PageController}>
+        <Section mod="well" >
+            <FlexRow wrap spacing="large" >
+            <div>
+                <h6>Bordered</h6>
+                {listMod("bordered")}
+            </div>
+            <div>
+                <h6>Big</h6>
+                {listMod("big")}
+            </div>
+            </FlexRow>
         </Section>
     </FlexRow>
 </cx>
