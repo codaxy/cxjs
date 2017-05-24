@@ -37,6 +37,7 @@ export * from './Toasts';
 export * from './Icons';
 export * from './Switches';
 export * from './IsolatedScope';
+export * from './DateTimeFields';
 
 import { bumpVersion } from '../version';
 

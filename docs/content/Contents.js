@@ -43,6 +43,7 @@ var contents = [{
         {title: 'Checkbox', url: '~/widgets/checkboxes'},
         {title: 'Radio', url: '~/widgets/radios'},
         {title: 'DateField', url: '~/widgets/date-fields'},
+        {title: 'DateTimeField', url: '~/widgets/date-time-fields'},
         {title: 'Calendar', url: '~/widgets/calendars'},
         {title: 'MonthPicker', url: '~/widgets/month-pickers'},
         {title: 'MonthField', url: '~/widgets/month-fields'},

@@ -91,7 +91,7 @@ export class Calendar extends Field {
 
    handleSelect(e, instance, date) {
       
-      var {store, data} = instance;
+      var {store, data, widget} = instance;
 
       e.stopPropagation();
 
@@ -103,6 +103,16 @@ export class Calendar extends Field {
 
       if (this.onBeforeSelect && this.onBeforeSelect(e, instance, date) === false)
          return;
+
+      if (widget.partial) {
+         let mixed = new Date(data.value);
+         if (!isNaN(mixed)) {
+            mixed.setFullYear(date.getFullYear());
+            mixed.setMonth(date.getMonth());
+            mixed.setDate(date.getDate());
+            date = mixed;
+         }
+      }
 
       instance.set('value', date.toISOString());
 
