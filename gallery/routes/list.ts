@@ -75,6 +75,10 @@ let list = [{
       route: '+/slider',
       name: 'Slider',
       content: () => System.import("./forms/slider")
+   }, {
+      route: '+/date-time-field',
+      name: 'DateTimeField',
+      content: () => System.import("./forms/date-time-field")
    }]
 }];
 

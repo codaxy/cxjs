@@ -55,7 +55,13 @@ export interface DateTimeFieldProps extends FieldProps {
    showClear?: boolean,
 
    /** Set to true to hide the clear button. It can be used interchangeably with the showClear property. Default value is false. */
-   hideClear?: boolean
+   hideClear?: boolean,
+
+   /** Determines which segment of date/time is used. Default value is `datetime`. */
+   segment?: 'date' | 'time' | 'datetime',
+
+   /** Set to `true` to indicate that only one segment of the selected date is affected. */
+   partial?: boolean
 
 }
 
