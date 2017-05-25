@@ -68,7 +68,6 @@ class DateTimePickerComponent extends VDOM.Component {
       if (isNaN(date.getTime()))
          date = new Date();
       this.setState({date});
-      offFocusOut(this);
    }
 
    setDateComponent(date, component, value) {
@@ -325,7 +324,7 @@ class DateTimePickerComponent extends VDOM.Component {
    onBlur() {
       this.setState({
          activeWheel: null
-      })
+      });
    }
 
    onKeyDown(e) {

@@ -106,7 +106,7 @@ export class Calendar extends Field {
 
       if (widget.partial) {
          let mixed = new Date(data.value);
-         if (!isNaN(mixed)) {
+         if (data.value && !isNaN(mixed)) {
             mixed.setFullYear(date.getFullYear());
             mixed.setMonth(date.getMonth());
             mixed.setDate(date.getDate());

@@ -422,11 +422,11 @@ class DateTimeInput extends VDOM.Component {
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
       if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
-         this.input.value = data.formatted || '';
-         this.setValue(this.input.value);
+         this.setValue(data.formatted, data.value);
       }
       if (data.visited)
          this.setState({visited: true});
+
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
    }
 
@@ -441,28 +441,28 @@ class DateTimeInput extends VDOM.Component {
    }
 
    onChange(e, eventType) {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
       let {widget} = instance;
 
       if (widget.reactOn.indexOf(eventType) === -1)
          return;
 
-      this.setValue(e.target.value);
+      this.setValue(e.target.value, data.value);
    }
 
-   setValue(value) {
-      let {instance, data} = this.props;
+   setValue(text, baseValue) {
+      let {instance} = this.props;
       let {widget} = instance;
 
-      let date = widget.parseDate(value);
+      let date = widget.parseDate(text);
 
       instance.setState({
          inputError: isNaN(date) && widget.inputErrorText
       });
 
       if (!isNaN(date)) {
-         let mixed = new Date(data.value);
-         if (!isNaN(mixed) && widget.partial) {
+         let mixed = new Date(baseValue);
+         if (date && baseValue && !isNaN(mixed) && widget.partial) {
             switch (widget.segment) {
                case 'date':
                   mixed.setFullYear(date.getFullYear());
@@ -483,7 +483,8 @@ class DateTimeInput extends VDOM.Component {
 
             date = mixed;
          }
-         instance.set('value', date ? date.toISOString() : null);
+         if (!instance.set('value', date ? date.toISOString() : null))
+            this.input.value = text || '';
       }
    }
 }
