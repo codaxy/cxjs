@@ -16,7 +16,7 @@ export default <cx>
                 <br/>
                 <Switch label="Readonly" value={bind("standard")} readOnly text="Switch" labelPlacement="material" />
                 <br/>
-                <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" labelPlacement="material" />
+                <Switch label="View Mode" value={bind("standard")} mode="view" text="Switch" emptyText="N/A" labelPlacement="material" />
                 <br/>
                 <Switch label="Label only" on={bind("label")} labelPlacement="material" />
             </div>
@@ -25,13 +25,13 @@ export default <cx>
             <Switch label="Standard" value={bind("standard")} text="Switch" />
             <Switch label="Disabled" value={bind("standard")} disabled text="Switch" />
             <Switch label="Readonly" value={bind("standard")} readOnly text="Switch" />
-            <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" />
+            <Switch label="View Mode" value={bind("standard")} mode="view" text="Switch" emptyText="N/A" />
             <Switch label="Label only" on={bind("label")} />
         </Section>
         <Section mod="well" title="Label On Top" hLevel={4} layout={{ type: LabelsTopLayout, vertical: true }}>
             <Switch label="Standard" value={bind("standard")} text="Switch" />
             <Switch label="Disabled" value={bind("standard")} disabled text="Switch" />
-            <Switch label="View Mode" value={bind("standard")} mode="view" text="On" emptyText="N/A" />
+            <Switch label="View Mode" value={bind("standard")} mode="view" text="Switch" emptyText="N/A" />
             <Switch label="Label only" on={bind("label")} />
         </Section>
         <Section mod="well" title="Helpers" hLevel={4} layout={LabelsLeftLayout}>

@@ -71,6 +71,7 @@ export class Slider extends Field {
             instance={instance}
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          />
       )
    }
@@ -100,7 +101,7 @@ class SliderComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, data} = this.props;
+      var {instance, data, label} = this.props;
       var {widget} = instance;
       var {CSS, baseClass} = widget;
       var {minValue, maxValue, from, to} = data;
@@ -133,6 +134,7 @@ class SliderComponent extends VDOM.Component {
          style={data.style}
          id={data.id}
          onClick={::this.onClick}>
+         {label}
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
             {
