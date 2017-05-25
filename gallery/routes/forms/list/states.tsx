@@ -1,6 +1,6 @@
 
 import {cx, Section, FlexRow, List, Text} from 'cx/widgets';
-import {bind, tpl, Controller, KeySelection} from 'cx/ui';
+import {bind, tpl, expr, Controller, KeySelection} from 'cx/ui';
 import casual from '../../../util/casual';
 
 class PageController extends Controller {
@@ -24,11 +24,11 @@ const generateList = ({mod, grouping=false, multiple=false}) => <cx>
            type: KeySelection,
            bind: mod,
            keyField: 'id',
-           multiple: multiple
+           multiple
         }}
         grouping={grouping && {
             key: {
-                firstLetter: {expr: '{$record.id} % 2 == 0'}
+                index: {expr: '{$record.id} % 3 + 1'}
             },
             aggregates: {
                 count: {
@@ -37,9 +37,9 @@ const generateList = ({mod, grouping=false, multiple=false}) => <cx>
                 }
             },
             header: <div style={{ paddingTop: '25px' }} >
-                <strong text={bind("$group.firstLetter")} />
+                <strong text={tpl("Group {$group.index}")} />
             </div>,
-            footer: <strong text={tpl("{$group.count} item(s)")} />
+            footer: <strong text={tpl("{$group.count} people")} />
         }}
     >   
         <span text={bind("$record.fullName")}></span>
