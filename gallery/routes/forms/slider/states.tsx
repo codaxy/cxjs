@@ -10,16 +10,20 @@ export default <cx>
             <Slider label="Disabled" value={bind("standard")} labelPlacement="material" disabled />
             <br/>
             <Slider label="Read only" value={bind("standard")} labelPlacement="material" readOnly />
+            <br/>
+            <Slider label="View only" value={bind("standard")} labelPlacement="material" mode="view" emptyText="N/A"  />
         </Section>
         <Section mod="card" title="Horizontal Labels" hLevel={4} layout={LabelsLeftLayout} >
             <Slider label="Standard" value={bind("standard")} />
             <Slider label="Disabled" value={bind("standard")} disabled />
             <Slider label="Read only" value={bind("standard")} readOnly />
+            <Slider label="View only" value={bind("standard")} mode="view" emptyText="N/A"  />
         </Section>
         <Section mod="card" title="Labels on Top" hLevel={4} layout={{type: LabelsTopLayout, vertical: true}} >
             <Slider label="Standard" value={bind("standard")} />
             <Slider label="Disabled" value={bind("standard")} disabled />
             <Slider label="Read only" value={bind("standard")} readOnly />
+            <Slider label="View only" value={bind("standard")} mode="view" emptyText="N/A"  />
         </Section>
         <Section mod="card" title="Helpers" hLevel={4} layout={LabelsLeftLayout} >
             <Slider label="Tooltip" value={bind("tooltip")} tooltip={{
@@ -29,10 +33,16 @@ export default <cx>
             <Slider label="Help" value={bind("inline")} help="Inline" />
             <Slider label="Help" value={bind("block")} help={<cx><HelpText mod="block">Block</HelpText></cx>} />
         </Section>
+        <Section mod="card" title="Validation" hLevel={4} layout={{type: LabelsTopLayout, vertical: true}} >
+            <Slider label="Asterisk" value={bind("asterisk")} required asterisk visited />
+        </Section>
         <Section mod="card" title="Misc" hLevel={4} layout={LabelsLeftLayout} >
-            <Slider label="Range" from={bind("from")} to={bind("to")} />
+            <Slider label="Range" from={bind("range.from")} to={bind("range.to")} tooltip={{
+                text:{tpl: '{range.from:n;2}' },
+                placement: 'up'
+            }}/>
             <Slider label="Stepped" value={bind("stepped")} step={10} />
-            <Slider label="Styled" value={bind("styled")} rangeStyle="background:lightgreen" />
+            <Slider label="Styled" value={bind("styled")} rangeStyle="background:coral" handleStyle="background:coral; border-color:coral" />
             <Slider label="Vertical" value={bind("vertical")} vertical />
         </Section>
     </FlexRow>
