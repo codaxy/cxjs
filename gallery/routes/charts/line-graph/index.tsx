@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "PieChart",
+    title: "LineGraph",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/pie-charts'
+    docsUrl: 'https://cxjs.io/docs/charts/line-graphs'
 });
 
 import Default from './states';

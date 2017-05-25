@@ -15,7 +15,11 @@ let list = [{
       route: '+/pie-chart',
       name: 'PieChart',
       content: () => System.import("./charts/pie-chart")
-   },]
+   }, {
+      route: '+/line-graph',
+      name: 'LineGraph',
+      content: () => System.import("./charts/line-graph")
+   }]
 }, {
    name: 'Forms',
    items: [{

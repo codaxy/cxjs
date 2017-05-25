@@ -1,65 +1,59 @@
-import {cx, Section, FlexRow, Repeater} from 'cx/widgets';
+import {cx, Section, FlexRow, Repeater, Checkbox} from 'cx/widgets';
 import {bind, expr, tpl, Controller, KeySelection} from 'cx/ui';
-import { PieChart, PieSlice, Legend, ColorMap } from 'cx/charts';
+import { Chart, Legend, ColorMap, Gridlines, LineGraph, NumericAxis } from 'cx/charts';
 import {Svg, Line, Rectangle, Text} from 'cx/svg';
 
 class PageController extends Controller {
    init() {
       super.init();
-      var value = 100;
-      this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
-         id: i,
-         name: 'Item ' + (i+1),
-         value: value = (value + (Math.random() - 0.5) * 30),
+      var y1 = 150, y2 = 250;
+      this.store.set('standard.points', Array.from({length: 101}, (_, i) => ({
+         x: i * 4,
+         y: i % 20 == 3 ? null : (y1 = (y1 + (Math.random() - 0.5) * 30)),
+         y2: y2 = (y2 + (Math.random() - 0.5) * 30),
+         y2l: y2 - 50,
+         y2h: y2 + 50
+      })));
+
+      this.store.set('stacked', true);
+      var y1 = 300, y2 = 200, y3 = 100;
+      this.store.set('stack.points', Array.from({length: 101}, (_, i) => ({
+         x: i * 4,
+         y1: y1 = (y1 + (Math.random() - 0.5) * 30),
+         y2: y2 = (y2 + (Math.random() - 0.5) * 30),
+         y3: y3 = (y3 + (Math.random() - 0.5) * 30)
       })));
    }
 }
 
 export default <cx>
-    <FlexRow>
-        <Section mod="well">
-            <FlexRow spacing="large" wrap justify="center">
-                <div class="widgets" controller={PageController}>
-                   <Legend />
-                   <div>
-                      <Svg style="width:600px; height:400px;">
-                         <ColorMap />
-                         <PieChart angle={360}>
-                            <Repeater records={bind("$page.points")}>
-                               <PieSlice value={bind('$record.value')}
-                                         active={bind('$record.active')}
-                                         colorMap="pie"
-                                         r={80}
-                                         r0={20}
-                                         offset={5}
-                                         tooltip={{
-                                             text: {
-                                                 tpl: "Item {$index}: {$record.value:n;2}"
-                                             },
-                                             trackMouse: true
-                                         }}
-                                         innerPointRadius={80}
-                                         outerPointRadius={90}
-                                         name={tpl("Item {$index}")}
-                                         selection={{
-                                            type: KeySelection,
-                                            bind: '$page.selection',
-                                            records: {bind: '$page.points'},
-                                            record: {bind: '$record'},
-                                            index: {bind: '$index'},
-                                            keyField: 'id'
-                                         }}>
-                                     <Line style="stroke:gray" />
-                                     <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
-                                        <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                                     </Rectangle>
-                                  </PieSlice>
-                            </Repeater>
-                         </PieChart>
-                      </Svg>
-                   </div>
-                </div>
-            </FlexRow>
+    <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
+        <Section mod="well" title="Standard" hLevel={4} >
+            <Legend.Scope>
+            <Svg style="width:600px; height:400px;">
+               <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                  <Gridlines/>
+                  <LineGraph data={bind("standard.points")} colorIndex={8} yField="y2h" y0Field="y2l" active={bind("standard.line2")} line={false} area/>
+                  <LineGraph name="Line 1" data={bind("standard.points")} colorIndex={0} area active={bind("standard.line1")} />
+                  <LineGraph name="Line 2" data={bind("standard.points")} colorIndex={8} yField="y2" active={bind("standard.line2")} />
+               </Chart>
+            </Svg>
+            <Legend />
+            </Legend.Scope>
+        </Section>
+        <Section mod="well" title="Stacked" hLevel={4} >
+            <Legend.Scope>
+            <Svg style="width:600px; height:400px;">
+               <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                  <Gridlines/>
+                  <LineGraph name="Line 1" data={bind("stack.points")} colorIndex={0} area={bind("stacked")} yField="y1" active={bind("stack.line1")} stacked={bind("stacked")} />
+                  <LineGraph name="Line 2" data={bind("stack.points")} colorIndex={5} area={bind("stacked")} yField="y2" active={bind("stack.line2")} stacked={bind("stacked")} />
+                  <LineGraph name="Line 3" data={bind("stack.points")} colorIndex={10} area={bind("stacked")} yField="y3" active={bind("stack.line3")} stacked={bind("stacked")} />
+               </Chart>
+            </Svg>
+            <Legend />
+            <Checkbox value={bind("stacked")}>Stack</Checkbox>
+            </Legend.Scope>
         </Section>
     </FlexRow>
 </cx>
