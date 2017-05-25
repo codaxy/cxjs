@@ -10,6 +10,13 @@ let list = [{
       content: () => System.import("./general/grids")
    }]
 }, {
+   name: 'Charts',
+   items: [{
+      route: '+/pie-chart',
+      name: 'PieChart',
+      content: () => System.import("./charts/pie-chart")
+   },]
+}, {
    name: 'Forms',
    items: [{
       route: '+/checkbox',
