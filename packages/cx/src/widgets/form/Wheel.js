@@ -56,6 +56,9 @@ export class WheelComponent extends VDOM.Component {
       this.wheelRef = el => {
          this.wheelEl = el;
       };
+      this.scrollRef = el => {
+         this.scrollEl = el;
+      };
       this.onWheel = ::this.onWheel;
       this.onKeyDown = ::this.onKeyDown
    }
@@ -105,23 +108,28 @@ export class WheelComponent extends VDOM.Component {
             onMouseDown={onMouseDown}
          >
             <div
-               className={CSS.element(baseClass, "wheel")}
-               style={{
-                  height: this.state.wheelHeight
-               }}
-               ref={this.wheelRef}
+               className={CSS.element(baseClass, "vscroll")}
+               ref={this.scrollRef}
                onWheel={this.onWheel}
                onTouchStart={::this.onTouchStart}
                onTouchEnd={::this.onTouchEnd}
             >
-               {
-                  displayedOptions.map(opt => <div
-                     key={opt.key}
-                     className={opt.cls}
-                  >
-                     {opt.child}
-                  </div>)
-               }
+               <div
+                  className={CSS.element(baseClass, "wheel")}
+                  style={{
+                     height: this.state.wheelHeight
+                  }}
+                  ref={this.wheelRef}
+               >
+                  {
+                     displayedOptions.map(opt => <div
+                        key={opt.key}
+                        className={opt.cls}
+                     >
+                        {opt.child}
+                     </div>)
+                  }
+               </div>
             </div>
             <div
                className={CSS.element(baseClass, "mask")}
@@ -167,7 +175,7 @@ export class WheelComponent extends VDOM.Component {
          wheelHeight: this.wheelEl.offsetHeight,
          wheelWidth: this.wheelEl.offsetWidth
       }, () => {
-         this.wheelEl.scrollTop = this.index * this.state.wheelHeight / this.props.size;
+         this.scrollEl.scrollTop = this.index * this.state.wheelHeight / this.props.size;
       });
 
       if (this.props.onPipeKeyDown)
@@ -213,7 +221,7 @@ export class WheelComponent extends VDOM.Component {
 
    onTouchEnd(e) {
       let {size} = this.props;
-      let index = Math.round(this.wheelEl.scrollTop / (this.state.wheelHeight / size));
+      let index = Math.round(this.scrollEl.scrollTop / (this.state.wheelHeight / size));
       console.log(index);
       this.select(index);
    }
@@ -236,7 +244,7 @@ export class WheelComponent extends VDOM.Component {
             return;
 
          let x = this.index * this.state.wheelHeight / size;
-         let delta = Math.round(x - this.wheelEl.scrollTop);
+         let delta = Math.round(x - this.scrollEl.scrollTop);
          if (delta === 0) {
             this.scrolling = false;
             return;
@@ -246,7 +254,7 @@ export class WheelComponent extends VDOM.Component {
          if (delta < 1)
             delta = 1;
 
-         this.wheelEl.scrollTop += sign * delta;
+         this.scrollEl.scrollTop += sign * delta;
          requestAnimationFrame(callback);
       };
 

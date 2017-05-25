@@ -33,19 +33,27 @@
       opacity: 0.6;
    }
 
-   .#{$element}#{$name}-wheel {
-      overflow: auto;
-      touch-action: pan-y;
+   .#{$element}#{$name}-vscroll {
+      width: calc(100% + 20px);
       display: flex;
-      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      touch-action: pan-y;
+   }
 
-      &::-webkit-scrollbar {
-         display: none;
-      }
+   .#{$element}#{$name}-wheel {
+      //display: flex;
+      //flex-direction: column;
+      //align-items: flex-start;
+
+      //&::-webkit-scrollbar {
+      //   display: none;
+      //}
    }
 
    .#{$element}#{$name}-option {
       padding: 5px 15px;
+      flex: 0 0 auto;
 
       &.cxs-dummy {
          visibility: hidden;

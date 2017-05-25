@@ -87,15 +87,6 @@ export class Dropdown extends Overlay {
       var {data} = instance;
       var parentBounds = component.parentBounds = this.relatedElement.getBoundingClientRect();
 
-      if (this.pad && typeof this.elementExplode == 'number') {
-         parentBounds = {
-            left: parentBounds.left - this.elementExplode,
-            right: parentBounds.right + this.elementExplode,
-            top: parentBounds.top - this.elementExplode,
-            bottom: parentBounds.bottom + this.elementExplode,
-         }
-      }
-
       if (this.trackMouse && instance.mousePosition) {
          parentBounds = {
             left: instance.mousePosition.x,
@@ -104,6 +95,16 @@ export class Dropdown extends Overlay {
             bottom: instance.mousePosition.y,
          }
       }
+      else {
+         let explode = this.pad && typeof this.elementExplode === 'number' ? this.elementExplode : 0;
+         parentBounds = {
+            left: Math.round(parentBounds.left - explode),
+            right: Math.round(parentBounds.right + explode),
+            top: Math.round(parentBounds.top - explode),
+            bottom: Math.round(parentBounds.bottom + explode),
+         };
+      }
+
       var style = {};
       if (this.matchWidth)
          style.minWidth = `${parentBounds.right - parentBounds.left}px`;
