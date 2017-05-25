@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Calendar",
+    title: "PieChart",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/Calendar'
+    docsUrl: 'https://cxjs.io/docs/charts/pie-charts'
 });
 
 import Default from './states';
