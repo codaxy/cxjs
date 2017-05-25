@@ -170,6 +170,9 @@ export const LegendPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
+        **Note on `Legend`:** If multiple charts are rendered on the same page, use `Legend.Scope` to prevent Legends from interfering with one another, 
+        as shown in this [example](https://cxjs.io/fiddle/?f=gs69CxgF). 
+
         ## `Legend` Configuration
 
         <ConfigTable props={legendConfigs} />
