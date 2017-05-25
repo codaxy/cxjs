@@ -39,17 +39,13 @@
       overflow-y: auto;
       overflow-x: hidden;
       touch-action: pan-y;
+
+      &::-webkit-scrollbar {
+         display: none;
+      }
    }
 
-   .#{$element}#{$name}-wheel {
-      //display: flex;
-      //flex-direction: column;
-      //align-items: flex-start;
-
-      //&::-webkit-scrollbar {
-      //   display: none;
-      //}
-   }
+   .#{$element}#{$name}-wheel {}
 
    .#{$element}#{$name}-option {
       padding: 5px 15px;
