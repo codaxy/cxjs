@@ -222,7 +222,6 @@ export class WheelComponent extends VDOM.Component {
    onTouchEnd(e) {
       let {size} = this.props;
       let index = Math.round(this.scrollEl.scrollTop / (this.state.wheelHeight / size));
-      console.log(index);
       this.select(index);
    }
 
@@ -260,7 +259,7 @@ export class WheelComponent extends VDOM.Component {
 
       if (!this.scrolling) {
          this.scrolling = true;
-         callback();
+         requestAnimationFrame(callback);
       }
    }
 }
