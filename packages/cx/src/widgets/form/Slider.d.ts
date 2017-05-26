@@ -44,7 +44,13 @@ interface SliderProps extends FieldProps {
 
    /* TODO: Check type */
    showTo?: any,
-   showFrom?: any
+   showFrom?: any,
+
+   /** Range tooltip configuration. */
+   toTooltip?: Cx.StringProp | Cx.StructuredProp,
+
+   /** Range tooltip configuration. */
+   fromTooltip?: Cx.StringProp | Cx.StructuredProp
 
 }
 

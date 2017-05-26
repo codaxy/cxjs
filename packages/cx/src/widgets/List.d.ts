@@ -29,7 +29,7 @@ interface ListProps extends Cx.StyledContainerProps {
    cached?: boolean,
 
    /** Selection configuration. */
-   selection?: typeof PropertySelection | typeof KeySelection,
+   selection?: Cx.Config,
 
    /** Parameters that affect filtering */
    filterParams?: Cx.StructuredProp,

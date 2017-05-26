@@ -35,7 +35,6 @@ export const Lists = <cx>
                     selection={PropertySelection}
                     style="width:200px"
                     emptyText="Nothing results found."
-                    unhidableCursor
                     mod="bordered">
                     <div>
                         <strong>Header <Text expr="{$index}+1"/></strong>

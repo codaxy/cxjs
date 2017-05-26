@@ -25,8 +25,23 @@ export default {
     },
     format: {
         type: 'string',
+        key: true,
         description: <cx><Md>
             Date format used to display the selected date. See [Formatting](~/concepts/formatting) for more details.
+        </Md></cx>
+    },
+    segment: {
+        type: 'string',
+        description: <cx><Md>
+            Defines which segment of the date/time object is affected by this field.
+            Allowed values are `date`, `time` and `datetime`.
+        </Md></cx>
+    },
+    partial: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            Preserves date or time segment set by some other field. Useful in Date/Time combos.
         </Md></cx>
     }
 };

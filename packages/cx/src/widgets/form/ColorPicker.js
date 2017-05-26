@@ -29,11 +29,11 @@ export class ColorPicker extends Field {
          var value;
          switch (this.format) {
             case 'rgba':
-               value = `rgba(${color.r.toFixed(0)}, ${color.g.toFixed(0)}, ${color.b.toFixed(0)}, ${Math.round(color.a * 100) / 100})`;
+               value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${Math.round(color.a * 100) / 100})`;
                break;
 
             case 'hsla':
-               value = `hsla(${color.h.toFixed(0)}, ${color.s.toFixed(0)}%, ${color.l.toFixed(0)}%, ${Math.round(color.a * 100) / 100})`;
+               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)}%,${color.l.toFixed(0)}%,${Math.round(color.a * 100) / 100})`;
                break;
 
             case 'hex':

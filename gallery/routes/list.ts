@@ -1,43 +1,106 @@
-export default [{
+let list = [{
    name: 'General',
    items: [{
       route: '+/button',
       name: 'Button',
-      content: () => System.import("./button")
+      content: () => System.import("./general/button")
    }, {
       route: '+/grid',
       name: 'Grid',
-      content: () => System.import("./grids")
+      content: () => System.import("./general/grids")
+   }]
+}, {
+   name: 'Charts',
+   items: [{
+      route: '+/pie-chart',
+      name: 'PieChart',
+      content: () => System.import("./charts/pie-chart")
+   }, {
+      route: '+/line-graph',
+      name: 'LineGraph',
+      content: () => System.import("./charts/line-graph")
    }]
 }, {
    name: 'Forms',
    items: [{
       route: '+/checkbox',
       name: 'Checkbox',
-      content: () => System.import("./checkbox")
-   }, {
-      route: '+/text-field',
-      name: 'TextField',
-      content: () => System.import("./text-field")
-   }, {
-      route: '+/number-field',
-      name: 'NumberField',
-      content: () => System.import("./number-field")
-   }, {
-      route: '+/date-field',
-      name: 'DateField',
-      content: () => System.import("./date-field")
-   }, {
-      route: '+/calendar',
-      name: 'Calendar',
-      content: () => System.import("./calendar")
-   }, {
-      route: '+/switch',
-      name: 'Switch',
-      content: () => System.import("./switch")
+      content: () => System.import("./forms/checkbox")
    }, {
       route: '+/radio',
       name: 'Radio',
-      content: () => System.import("./radio")
+      content: () => System.import("./forms/radio")
+   }, {
+      route: '+/switch',
+      name: 'Switch',
+      content: () => System.import("./forms/switch")
+   }, {
+      route: '+/text-field',
+      name: 'TextField',
+      content: () => System.import("./forms/text-field")
+   }, {
+      route: '+/number-field',
+      name: 'NumberField',
+      content: () => System.import("./forms/number-field")
+   }, {
+      route: '+/date-field',
+      name: 'DateField',
+      content: () => System.import("./forms/date-field")
+   }, {
+      route: '+/calendar',
+      name: 'Calendar',
+      content: () => System.import("./forms/calendar")
+   }, {
+      route: '+/month-picker',
+      name: 'MonthPicker',
+      content: () => System.import("./forms/month-picker")
+   }, {
+      route: '+/month-field',
+      name: 'MonthField',
+      content: () => System.import("./forms/month-field")
+   }, {
+      route: '+/text-area',
+      name: 'TextArea',
+      content: () => System.import("./forms/text-area")
+   }, {
+      route: '+/select',
+      name: 'Select',
+      content: () => System.import("./forms/select")
+   }, {
+      route: '+/lookup-field',
+      name: 'LookupField',
+      content: () => System.import("./forms/lookup-field")
+   }, {
+      route: '+/list',
+      name: 'List',
+      content: () => System.import("./forms/list")
+   }, {
+      route: '+/color-field',
+      name: 'ColorField',
+      content: () => System.import("./forms/color-field")
+   }, {
+      route: '+/color-picker',
+      name: 'ColorPicker',
+      content: () => System.import("./forms/color-picker")
+   }, {
+      route: '+/slider',
+      name: 'Slider',
+      content: () => System.import("./forms/slider")
+   }, {
+      route: '+/date-time-field',
+      name: 'DateTimeField',
+      content: () => System.import("./forms/date-time-field")
    }]
-}]
+}];
+
+list.map(section => {
+   section.items.sort((a,b) => {
+      if(a.name >= b.name)
+         return 1;
+      else
+         return -1
+   });
+   return section;
+});
+
+export default list;

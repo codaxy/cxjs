@@ -526,14 +526,12 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
-      var empty = data.empty;
-
       var states = {
          visited: data.visited || this.state && this.state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
          icon: !insideButton || data.icon,
-         empty: empty,
-         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
+         empty: !data.placeholder && data.empty,
+         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !data.empty)
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}

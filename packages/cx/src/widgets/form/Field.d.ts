@@ -32,8 +32,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Text to be rendered in view mode when the field is empty. */
    emptyText?: Cx.StringProp,
 
-   /** Validation errors are not shown until the user visits the field. Setting this field to `true` will cause that 
-    * validation error indicators become visible immediately. */
+   /** Set to `true` to make error indicators visible in pristine state. By default, validation errors are not shown until the user visits the field. */
    visited?: Cx.BooleanProp,
 
    /** Set to `true` to automatically focus the field, after it renders for the first time. */

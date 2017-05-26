@@ -129,11 +129,14 @@ class SelectComponent extends VDOM.Component {
          </option>
       }
 
+      let visited = data.visited || this.state && this.state.visited;
+
       return <div
          className={CSS.expand(data.classNames, CSS.state({
-            visited: data.visited || this.state && this.state.visited,
+            visited: visited,
             icon: data.icon,
-            focus: this.state.focus
+            focus: this.state.focus,
+            error: visited && data.required && data.value == null
          }))}
          style={data.style}
          onMouseDown={stopPropagation}

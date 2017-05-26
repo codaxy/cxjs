@@ -1,6 +1,6 @@
 @import "../packages/cx/src/variables";
 
-@import "manifest";
+//@import "manifest";
 
 @import "../packages/cx/src/index";
 
@@ -34,3 +34,5 @@ section {
 }
 
 @import "features/drag-drop/trello/index";
+@import "features/wheel/index";
+@import "features/logo/index";

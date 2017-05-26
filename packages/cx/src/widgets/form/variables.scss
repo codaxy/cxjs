@@ -324,7 +324,9 @@ $cx-input-tag-state-style-map: (
 
 $cx-dependencies: map-merge($cx-dependencies, (
    "cx/widgets/Field": "cx/widgets/Label" "cx/widgets/Tooltip" "cx/widgets/ValidationError" "cx/widgets/HelpText",
-   "cx/widgets/DateField": "cx/widgets/Field" "cx/widgets/Calendar" "cx/widgets/Dropdown",
+   "cx/widgets/DateTimeField": "cx/widgets/Field" "cx/widgets/DateTimePicker" "cx/widgets/Calendar" "cx/widgets/Dropdown",
+   "cx/widgets/DateField": "cx/widgets/DateTimeField",
+   "cx/widgets/TimeField": "cx/widgets/TimeField",
    "cx/widgets/TextField": "cx/widgets/Field",
    "cx/widgets/NumberField": "cx/widgets/Field",
    "cx/widgets/MonthField": "cx/widgets/Field" "cx/widgets/MonthPicker" "cx/widgets/Dropdown",

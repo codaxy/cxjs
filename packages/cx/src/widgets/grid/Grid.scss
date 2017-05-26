@@ -83,8 +83,9 @@
       }
    }
 
-   .#{$element}#{$name}-empty-text {
+   .#{$element}#{$name}-empty-text td {
       color: #aaa;
+      padding: 2rem;
    }
 
    .#{$element}#{$name}-col-header {

@@ -1,0 +1,35 @@
+@mixin cx-datetimepicker(
+   $name: 'datetimepicker',
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      background: white;
+      border: 1px solid lightgray;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 5px;
+      user-select: none;
+      font-size: $cx-default-font-size;
+
+      &:focus {
+         outline: 0;
+      }
+   }
+
+   @include cx-wheel-elements($name+'-wheel', $icon-size, $besm);
+
+   .#{$element}#{$name}-spacer {
+      width: 20px;
+      display: inline-block;
+   }
+}
+
+@if (cx-should-include('cx/widgets/DateTimePicker')) {
+   @include cx-datetimepicker();
+}
