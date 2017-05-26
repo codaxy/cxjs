@@ -103,8 +103,8 @@ export class Radio extends Field {
             : this.renderCheck(context, instance),
          text
             ? <div key="text" className={CSS.element(baseClass, "text")}>
-               {text}
-            </div>
+            {text}
+         </div>
             : <span className={CSS.element(baseClass, "baseline")}>&nbsp;</span>
       ]);
    }
@@ -117,13 +117,13 @@ export class Radio extends Field {
          if (el)
             el.focus();
          e.preventDefault();
-         this.handleChange(e, instance, !instance.data.value)
+         this.handleChange(e, instance)
       }
    }
 
    handleChange(e, instance) {
       var {data} = instance;
-      if (data.disabled || data.readOnly)
+      if (data.disabled || data.readOnly || data.mode !== "edit")
          return;
       instance.set('value', data.option);
    }

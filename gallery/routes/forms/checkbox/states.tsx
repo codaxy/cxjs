@@ -56,7 +56,7 @@ export default <cx>
                 }/>
         </Section>
         <Section mod="well" title="Misc" hLevel={4} layout={LabelsLeftLayout} >
-            <Checkbox label="Styled" value={bind("checked")} inputStyle="color:red" text="Checkbox" checked />
+            <Checkbox label="Styled" value={bind("checked", true)} inputStyle="color:red" text="Checkbox" />
             <Checkbox label="Three State" value={bind("threeState")} text="Checkbox" indeterminate />
         </Section>
     </FlexRow>
