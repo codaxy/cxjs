@@ -70,7 +70,7 @@ export class DateTimeField extends Field {
       super.prepareData(...arguments);
 
       if (data.value) {
-         var date = new Date(data.value);
+         let date = data.date = new Date(data.value);
          data.formatted = Culture.getDateTimeCulture().format(date, data.format);
       }
 
