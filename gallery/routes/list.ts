@@ -19,6 +19,10 @@ let list = [{
       route: '+/line-graph',
       name: 'LineGraph',
       content: () => System.import("./charts/line-graph")
+   }, {
+      route: '+/column-graph',
+      name: 'ColumnGraph',
+      content: () => System.import("./charts/column-graph")
    }]
 }, {
    name: 'Forms',
