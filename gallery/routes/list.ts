@@ -10,6 +10,17 @@ let list = [{
       content: () => System.import("./general/grids")
    }]
 }, {
+   name: 'Charts',
+   items: [{
+      route: '+/pie-chart',
+      name: 'PieChart',
+      content: () => System.import("./charts/pie-chart")
+   }, {
+      route: '+/line-graph',
+      name: 'LineGraph',
+      content: () => System.import("./charts/line-graph")
+   }]
+}, {
    name: 'Forms',
    items: [{
       route: '+/checkbox',
