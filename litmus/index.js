@@ -29,8 +29,9 @@ import './index.scss';
 //import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
-import Demo from './features/wheel';
+//import Demo from './features/wheel';
 //import Demo from './features/logo';
+import Demo from './features/destroy';
 
 //import Demo from './features/grid/header-tool';
 
