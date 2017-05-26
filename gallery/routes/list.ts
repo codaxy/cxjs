@@ -31,6 +31,10 @@ let list = [{
       route: '+/scatter-graph',
       name: 'ScatterGraph',
       content: () => System.import("./charts/scatter-graph")
+   }, {
+      route: '+/range',
+      name: 'Range',
+      content: () => System.import("./charts/range")
    }]
 }, {
    name: 'Forms',
