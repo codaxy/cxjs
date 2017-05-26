@@ -20,6 +20,7 @@ class PageController extends Controller {
 export default <cx>
     <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
         <Section mod="well" >
+            <FlexRow align="center" >
             <Svg style="width:500px; height:400px;">
                <Chart offset="20 -20 -30 150" axes={{
                   x: { type: NumericAxis, snapToTicks: 1 },
@@ -29,6 +30,7 @@ export default <cx>
                   <BarGraph data={bind("$page.points")}
                                colorIndex={0}
                                name="V1"
+                               active={bind("$page.showV1")}
                                size={0.3}
                                offset={-0.15}
                                xField="v1"
@@ -41,6 +43,7 @@ export default <cx>
                   <BarGraph data={bind("$page.points")}
                                colorIndex={6}
                                name="V2"
+                               active={bind("$page.showV2")}
                                size={0.3}
                                offset={+0.15}
                                xField="v2"
@@ -52,6 +55,7 @@ export default <cx>
                </Chart>
             </Svg>
             <Legend vertical />
+            </FlexRow>
         </Section>
     </FlexRow>
 </cx>
