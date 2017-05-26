@@ -1,5 +1,6 @@
-export function bind(path) {
+export function bind(path, defaultValue) {
    return {
-      bind: path
+      bind: path,
+      defaultValue
    }
 }

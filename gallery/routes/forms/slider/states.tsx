@@ -32,15 +32,23 @@ export default <cx>
             }} />
             <Slider label="Help" value={bind("inline")} help="Inline" />
             <Slider label="Help" value={bind("block")} help={<cx><HelpText mod="block">Block</HelpText></cx>} />
-        </Section>
-        <Section mod="card" title="Validation" hLevel={4} layout={{type: LabelsTopLayout, vertical: true}} >
-            <Slider label="Asterisk" value={bind("asterisk")} required asterisk visited />
+            <Slider label="Indicator" value={bind("tooltip")} tooltip={{
+                text:{tpl: '{tooltip:n;2}' },
+                placement: 'down',
+                alwaysVisible: true
+            }} />
         </Section>
         <Section mod="card" title="Misc" hLevel={4} layout={LabelsLeftLayout} >
-            <Slider label="Range" from={bind("range.from")} to={bind("range.to")} tooltip={{
-                text:{tpl: '{range.from:n;2}' },
-                placement: 'up'
-            }}/>
+            <Slider label="Range" from={bind("range.from", 10)} to={bind("range.to", 50)}
+                fromTooltip={{
+                    text:{tpl: '{range.from:n;2}' },
+                    placement: 'up'
+                }}
+                toTooltip={{
+                    text:{tpl: '{range.to:n;2}' },
+                    placement: 'up'
+                }}
+            />
             <Slider label="Stepped" value={bind("stepped")} step={10} />
             <Slider label="Styled" value={bind("styled")} rangeStyle="background:coral" handleStyle="background:coral; border-color:coral" />
             <Slider label="Vertical" value={bind("vertical")} vertical />
