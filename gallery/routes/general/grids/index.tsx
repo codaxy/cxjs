@@ -12,7 +12,8 @@ const header = getHeader({
     title: "Grid",
     tabs: {
         plain: 'Plain',
-        "multi-select": "Multiple Selection"
+        "multi-select": "Multiple Selection",
+        misc: "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
 });
@@ -25,9 +26,8 @@ export default <cx>
         <Route url={{bind: "$root.url"}} route="+/plain">
             {Plain}
         </Route>
-        {
-            asyncRoute("+/multi-select", () => System.import("./multi-select"))
-        }
+        { asyncRoute("+/multi-select", () => System.import("./multi-select")) }
+        { asyncRoute("+/misc", () => System.import("./misc")) }
         <RedirectRoute redirect="+/plain" />
     </PureContainer>
 </cx>

@@ -615,52 +615,57 @@ class GridComponent extends VDOM.Component {
       let content = [];
 
       if (instance.records.length == 0 && data.emptyText) {
-         content.push(
-            <div
+         children.push(
+            <tbody
                key="empty"
                className={CSS.element(baseClass, 'empty-text')}
             >
-               {data.emptyText}
-            </div>
+            <tr>
+               <td colSpan={1000}>
+                  {data.emptyText}
+               </td>
+            </tr>
+            </tbody>
          );
-      } else {
-         content.push(
-            <div
-               key="scroller"
-               ref={el => {
-                  this.dom.scroller = el
-               }}
-               tabIndex={widget.selectable ? 0 : null}
-               onScroll={::this.onScroll}
-               className={CSS.element(baseClass, 'scroll-area')}
-               onKeyDown={::this.handleKeyDown}
-               onMouseLeave={::this.handleMouseLeave}
-               onFocus={::this.onFocus}
-               onBlur={::this.onBlur}
-            >
-               <table
-                  ref={el => {
-                     this.dom.table = el
-                  }}
-               >
-                  {this.props.header}
-                  {children}
-               </table>
-            </div>
-         );
-
-         if (this.props.fixedHeader)
-            content.push(<div key="fh"
-               ref={el => {
-                  this.dom.fixedHeader = el
-               }}
-               className={CSS.element(baseClass, 'fixed-header')}
-               style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
-               <table>
-                  {this.props.fixedHeader}
-               </table>
-            </div>);
       }
+
+      content.push(
+         <div
+            key="scroller"
+            ref={el => {
+               this.dom.scroller = el
+            }}
+            tabIndex={widget.selectable ? 0 : null}
+            onScroll={::this.onScroll}
+            className={CSS.element(baseClass, 'scroll-area')}
+            onKeyDown={::this.handleKeyDown}
+            onMouseLeave={::this.handleMouseLeave}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+         >
+            <table
+               ref={el => {
+                  this.dom.table = el
+               }}
+            >
+               {this.props.header}
+               {children}
+            </table>
+         </div>
+      );
+
+      if (this.props.fixedHeader)
+         content.push(<div key="fh"
+            ref={el => {
+               this.dom.fixedHeader = el
+            }}
+            className={CSS.element(baseClass, 'fixed-header')}
+            style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
+            <table>
+               {this.props.fixedHeader}
+            </table>
+         </div>);
+
 
       return <div className={data.classNames}
          style={data.style}>
@@ -826,7 +831,7 @@ class GridComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      let {headerRefs, fixedHeaderRefs, instance, data}= this.props;
+      let {headerRefs, fixedHeaderRefs, instance, data} = this.props;
       let {widget} = instance;
 
       if (widget.scrollable) {
