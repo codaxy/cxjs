@@ -1,8 +1,6 @@
 CxJS
 ============
 
-[![Join the chat at https://gitter.im/cx-js/Lobby](https://badges.gitter.im/cx-js/Lobby.svg)](https://gitter.im/cx-js/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 CxJS or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends such as BI tools, dashboards and admin apps.
 
 Cx provides:
@@ -56,6 +54,10 @@ yarn run theme:dark
 yarn run theme:frost
 yarn run theme:material
 ```
+
+### Slack
+
+Join us on Slack. Please [enter your email here](https://cxjs.io/support) and we'll send you a Slack invite.
 
 ### License
 
