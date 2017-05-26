@@ -27,6 +27,10 @@ let list = [{
       route: '+/bar-graph',
       name: 'BarGraph',
       content: () => System.import("./charts/bar-graph")
+   }, {
+      route: '+/scatter-graph',
+      name: 'ScatterGraph',
+      content: () => System.import("./charts/scatter-graph")
    }]
 }, {
    name: 'Forms',
