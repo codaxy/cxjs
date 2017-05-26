@@ -23,6 +23,10 @@ let list = [{
       route: '+/column-graph',
       name: 'ColumnGraph',
       content: () => System.import("./charts/column-graph")
+   }, {
+      route: '+/bar-graph',
+      name: 'BarGraph',
+      content: () => System.import("./charts/bar-graph")
    }]
 }, {
    name: 'Forms',
