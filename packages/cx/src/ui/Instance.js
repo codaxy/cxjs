@@ -74,6 +74,8 @@ export class Instance {
       this.visible = this.widget.checkVisible(context, this, data);
 
       if (!this.visible) {
+         if (this.destroyTracked)
+            this.instanceCache.sweep();
          delete this.instanceCache;
          return false;
       }
@@ -89,11 +91,19 @@ export class Instance {
          this.controller = context.controller;
       }
 
+      this.destroyTracked = false;
+
       if (this.controller) {
-         if (this.widget.controller)
+         if (this.widget.controller) {
             this.controller.explore(context);
+            if (this.controller.onDestroy)
+               this.trackDestroy();
+         }
          context.controller = this.controller;
       }
+
+      if (this.widget.onDestroy)
+         this.trackDestroy();
 
       this.pure = this.widget.pure;
       this.rawData = data;
@@ -255,6 +265,27 @@ export class Instance {
          this.instanceCache.sweep();
    }
 
+   trackDestroy() {
+      if (!this.destroyTracked) {
+         this.destroyTracked = true;
+         if (this.parent)
+            this.parent.trackDestroyableChild(this);
+      }
+   }
+
+   trackDestroyableChild(child) {
+      this.instanceCache.trackDestroy(child);
+      this.trackDestroy();
+   }
+
+   destroy() {
+      if (this.widget.onDestroy)
+         this.widget.onDestroy(instance);
+
+      if (this.widget.controller)
+         this.controller.onDestroy();
+   }
+
    setState(state) {
       var skip = this.state;
       if (this.state)
@@ -388,6 +419,7 @@ export class InstanceCache {
       this.children = {};
       this.parent = parent;
       this.marked = {};
+      this.monitored = null;
    }
 
    getChild(widget, store, keyPrefix) {
@@ -398,7 +430,7 @@ export class InstanceCache {
          instance.parent = this.parent;
          this.children[key] = instance;
       }
-      if (instance.store != store)
+      if (instance.store !== store)
          instance.setStore(store);
       this.marked[key] = instance;
       return instance;
@@ -408,7 +440,28 @@ export class InstanceCache {
       this.marked = {};
    }
 
+   trackDestroy(instance) {
+      if (!this.monitored)
+         this.monitored = {};
+      this.monitored[instance.key] = instance;
+   }
+
    sweep() {
       this.children = this.marked;
+      if (this.monitored) {
+         let activeCount = 0;
+         for (let key in this.monitored) {
+            let child = this.monitored[key];
+            if (this.children[key] !== child || !child.visible) {
+               child.destroy();
+               delete this.monitored[key];
+            }
+            else
+               activeCount++;
+         }
+         if (activeCount === 0)
+            this.monitored = null;
+      }
    }
 }
+
