@@ -442,19 +442,26 @@ export class InstanceCache {
 
    trackDestroy(instance) {
       if (!this.monitored)
-         this.monitored = [];
-      this.monitored.push(instance);
+         this.monitored = {};
+      this.monitored[instance.key] = instance;
    }
 
    sweep() {
       this.children = this.marked;
       if (this.monitored) {
-         for (let i = 0; i < this.monitored[i]; i++) {
-            let child = this.monitored[i];
-            if (!this.children[child.key] || !child.visible)
-               this.monitored[i].destroy();
+         let activeCount = 0;
+         for (let key in this.monitored) {
+            let child = this.monitored[key];
+            if (this.children[key] !== child || !child.visible) {
+               child.destroy();
+               delete this.monitored[key];
+            }
+            else
+               activeCount++;
          }
-         this.monitored = null;
+         if (activeCount === 0)
+            this.monitored = null;
       }
    }
 }
+
