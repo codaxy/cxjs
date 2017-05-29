@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "LineGraph",
+    title: "ScatterGraph",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/line-graphs'
+    docsUrl: 'https://cxjs.io/docs/charts/scatter-graphs'
 });
 
 import Default from './states';

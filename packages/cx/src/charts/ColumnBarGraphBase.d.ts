@@ -1,4 +1,5 @@
 import * as Cx from '../core';
+import { KeySelection, PropertySelection } from '../ui/selection';
 
 interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
    
@@ -59,7 +60,10 @@ interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
 
    legendAction?: string,
    legendShape?: string,
-   pure?: boolean
+   pure?: boolean,
+
+   /** Selection configuration. */
+   selection?: { type: typeof PropertySelection | typeof KeySelection, [prop: string]: any }
 
 }
 

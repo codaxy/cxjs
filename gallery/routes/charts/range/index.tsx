@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "LineGraph",
+    title: "Range",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/line-graphs'
+    docsUrl: 'https://cxjs.io/docs/charts/ranges'
 });
 
 import Default from './states';
