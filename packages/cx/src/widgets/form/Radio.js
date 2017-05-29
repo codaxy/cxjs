@@ -131,6 +131,7 @@ export class Radio extends Field {
 
 Radio.prototype.baseClass = "radio";
 Radio.prototype.native = false;
+Radio.prototype.mode = "edit";
 
 Widget.alias('radio', Radio);
 
