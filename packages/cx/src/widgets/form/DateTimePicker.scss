@@ -1,5 +1,11 @@
 @mixin cx-datetimepicker(
    $name: 'datetimepicker',
+   $dtp-font-size: $cx-default-font-size,
+   $dtp-background-color: $cx-default-dtp-background-color,
+   $dtp-border-width: $cx-default-dtp-border-width,
+   $dtp-border-radius: $cx-default-dtp-border-radius,
+   $dtp-border-color: $cx-default-dtp-border-color,
+   $dtp-padding: $cx-default-dtp-padding,
    $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
@@ -9,13 +15,16 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      background: white;
-      border: 1px solid lightgray;
+      background: $dtp-background-color;
+      border-style: solid;
+      border-width: $dtp-border-width;
+      border-radius: $dtp-border-radius;
+      border-color: $dtp-border-color;
       display: inline-block;
       vertical-align: middle;
-      padding: 0 5px;
+      padding: $dtp-padding;
       user-select: none;
-      font-size: $cx-default-font-size;
+      font-size: $dtp-font-size;
 
       &:focus {
          outline: 0;
