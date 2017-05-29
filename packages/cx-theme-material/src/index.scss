@@ -55,7 +55,7 @@ p {
 //FORM
 // standard field
 $form-list: (
-   textfield numberfield lookupfield datefield monthfield colorfield select
+   textfield numberfield lookupfield datetimefield monthfield colorfield select
 );
 
 @each $field in $form-list {
