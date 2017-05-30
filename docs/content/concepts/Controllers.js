@@ -79,7 +79,7 @@ export const Controllers = <cx>
 
             ### `onInit`, `onDestroy`
 
-            `onInit` method is invoked once the controller is created. Similarly, `onDestroy` is called when controller
+            `onInit` method is invoked once the controller is created. Similarly, `onDestroy` is called
             just before the controller is destroyed.
 
             <div class="widgets">
