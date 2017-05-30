@@ -20,6 +20,8 @@ export class Tab extends HtmlElement {
          disabled: data.disabled,
          shape: this.shape
       };
+      if (this.default && data.value === undefined)
+         instance.set('value', data.tab);
       super.prepareData(context, instance);
    }
 
@@ -29,6 +31,7 @@ export class Tab extends HtmlElement {
          case 'tab':
          case 'text':
          case 'disabled':
+         case 'default':
             return false;
 
          default:
@@ -74,5 +77,6 @@ export class Tab extends HtmlElement {
 Tab.prototype.baseClass = "tab";
 Tab.prototype.tag = 'a';
 Tab.prototype.focusOnMouseDown = false;
+Tab.prototype.default = false;
 
 Widget.alias('tab', Tab);

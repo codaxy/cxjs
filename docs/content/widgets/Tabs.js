@@ -10,26 +10,19 @@ import {ImportPath} from '../../components/ImportPath';
 import configs from './configs/Tab';
 
 
-class PageController extends Controller {
-   init() {
-      super.init();
-      this.store.set('$page.tab', 'tab1');
-   }
-}
-
 export const Tabs = <cx>
    <Md>
       # Tabs
 
       <ImportPath path="import {Tab} from 'cx/widgets';" />
 
-      Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
-      to radio buttons. Tabs are selected on click and only one tab may be active at a time.
-
       <CodeSplit>
-         <div class="widgets" controller={PageController}>
+          Tabs are commonly used to organize content into a single container. In Cx, tabs behave similarly
+          to radio buttons. Tabs are selected on click and only one tab may be active at a time.
+
+         <div class="widgets">
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab">Tab 1</Tab>
+               <Tab tab="tab1" value:bind="$page.tab" default>Tab 1</Tab>
                <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
                <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
                <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
@@ -57,15 +50,8 @@ export const Tabs = <cx>
          </div>
 
          <CodeSnippet putInto="code" fiddle="NK72YwmO">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-                  this.store.set('$page.tab', 'tab1');
-               }
-            }
-            ...
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab">Tab 1</Tab>
+               <Tab tab="tab1" value:bind="$page.tab" default>Tab 1</Tab>
                <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
                <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
                <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
