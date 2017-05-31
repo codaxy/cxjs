@@ -73,6 +73,8 @@ export class DateTimeField extends Field {
          let date = data.date = new Date(data.value);
          data.formatted = Culture.getDateTimeCulture().format(date, data.format);
       }
+      else
+         data.formatted = "";
 
       if (data.refDate)
          data.refDate = zeroTime(new Date(data.refDate));
