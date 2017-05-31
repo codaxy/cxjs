@@ -61,7 +61,9 @@ export default <cx>
                     </Menu>
                 </div>
             </header>
-            <ContentPlaceholder name="nav" />
+            <div class="aside-nav">
+                <ContentPlaceholder name="nav" />
+            </div>
         </aside>
         <ContentResolver
             params={bind("$route.theme")}

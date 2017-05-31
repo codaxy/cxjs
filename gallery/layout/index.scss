@@ -78,6 +78,9 @@ $small-device-width: 800px;
    transform: translateX(-300px);
    transition: transform 0.2s linear;
 
+   display: flex;
+   flex-direction: column;
+
    .layout.nav & {
       transform: none;
    }
@@ -93,6 +96,11 @@ $small-device-width: 800px;
       box-shadow: -1px 0 1px rgba(0,0,0,.26);
       text-align: center;
       padding: 0.5rem;
+   }
+
+   .aside-nav {
+      flex: 1;
+      overflow-y: auto;
    }
 
    dt {
