@@ -1,6 +1,6 @@
 import style from "./material.useable.scss";
 import {registerTheme} from './index';
 
-import "cx-theme-material";
+import {applyThemeOverrides} from "cx-theme-material";
 
-registerTheme("material", style);
+registerTheme("material", style, applyThemeOverrides);
