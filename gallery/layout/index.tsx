@@ -3,7 +3,6 @@ import {ContentPlaceholder, bind, tpl, computable} from 'cx/ui';
 import Controller from "./Controller";
 import {loadTheme} from '../themes';
 
-declare let System: any;
 
 export default <cx>
     <div

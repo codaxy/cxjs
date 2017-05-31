@@ -10,4 +10,8 @@ export class Localization {
     static localize(culture: string, key: string, values: Cx.Record): void;
 
     static setCulture(culture: string): void;
+
+    static trackDefaults();
+
+    static restoreDefaults();
 }

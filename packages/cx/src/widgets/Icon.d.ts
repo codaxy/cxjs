@@ -21,4 +21,8 @@ interface IconProps extends Cx.WidgetProps {
 
 }
 
-export class Icon extends Cx.Widget<IconProps> {}
+export class Icon extends Cx.Widget<IconProps> {
+   static restoreDefaultIcons();
+
+   static registerFactory(factory: (name: string) => any)
+}
