@@ -315,7 +315,7 @@ $checkbox-padding-correction: 2px !default;
       &:after {
          visibility: visible;
          transform: scale(1, 1);
-         background-color: rgba($cx-theme-primary-color-dark, 1);
+         background-color: inherit;
       }
    }
    &:focus:after {
@@ -333,7 +333,7 @@ $checkbox-padding-correction: 2px !default;
       background-color: rgba(0, 0, 0, 0.05);
    }
    &:active {
-      background-color: #fff;
+      background-color: inherit;
    }
 }
 
