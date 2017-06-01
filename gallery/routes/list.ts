@@ -30,33 +30,6 @@ let list = [{
       content: () => System.import("./general/toast")
    }]
 }, {
-   name: 'Charts',
-   items: [{
-      route: '+/pie-chart',
-      name: 'PieChart',
-      content: () => System.import("./charts/pie-chart")
-   }, {
-      route: '+/line-graph',
-      name: 'LineGraph',
-      content: () => System.import("./charts/line-graph")
-   }, {
-      route: '+/column-graph',
-      name: 'ColumnGraph',
-      content: () => System.import("./charts/column-graph")
-   }, {
-      route: '+/bar-graph',
-      name: 'BarGraph',
-      content: () => System.import("./charts/bar-graph")
-   }, {
-      route: '+/scatter-graph',
-      name: 'ScatterGraph',
-      content: () => System.import("./charts/scatter-graph")
-   }, {
-      route: '+/range',
-      name: 'Range',
-      content: () => System.import("./charts/range")
-   }]
-}, {
    name: 'Forms',
    items: [{
       route: '+/checkbox',
@@ -122,6 +95,33 @@ let list = [{
       route: '+/date-time-field',
       name: 'DateTimeField',
       content: () => System.import("./forms/date-time-field")
+   }]
+}, {
+   name: 'Charts',
+   items: [{
+      route: '+/pie-chart',
+      name: 'PieChart',
+      content: () => System.import("./charts/pie-chart")
+   }, {
+      route: '+/line-graph',
+      name: 'LineGraph',
+      content: () => System.import("./charts/line-graph")
+   }, {
+      route: '+/column-graph',
+      name: 'ColumnGraph',
+      content: () => System.import("./charts/column-graph")
+   }, {
+      route: '+/bar-graph',
+      name: 'BarGraph',
+      content: () => System.import("./charts/bar-graph")
+   }, {
+      route: '+/scatter-graph',
+      name: 'ScatterGraph',
+      content: () => System.import("./charts/scatter-graph")
+   }, {
+      route: '+/range',
+      name: 'Range',
+      content: () => System.import("./charts/range")
    }]
 }];
 
