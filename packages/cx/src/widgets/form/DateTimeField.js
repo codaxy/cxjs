@@ -425,7 +425,9 @@ class DateTimeInput extends VDOM.Component {
       let {data, state} = props.instance;
       if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
-         this.setValue(data.formatted, data.value);
+         props.instance.setState({
+            inputError: false
+         });
       }
       if (data.visited)
          this.setState({visited: true});
