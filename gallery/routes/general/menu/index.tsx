@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Calendar",
+    title: "Menu",
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/Calendars'
+    docsUrl: 'https://cxjs.io/docs/widgets/Menu'
 });
 
 import Default from './states';

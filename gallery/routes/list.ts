@@ -5,17 +5,21 @@ let list = [{
       name: 'Button',
       content: () => System.import("./general/button")
    }, {
-      route: '+/grid',
-      name: 'Grid',
-      content: () => System.import("./general/grids")
+      route: '+/tab',
+      name: 'Tab',
+      content: () => System.import("./general/tab")
+   }, {
+      route: '+/menu',
+      name: 'Menu',
+      content: () => System.import("./general/menu")
    }, {
       route: '+/list',
       name: 'List',
       content: () => System.import("./general/list")
    }, {
-      route: '+/tab',
-      name: 'Tab',
-      content: () => System.import("./general/tab")
+      route: '+/grid',
+      name: 'Grid',
+      content: () => System.import("./general/grids")
    }]
 }, {
    name: 'Charts',
