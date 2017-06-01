@@ -12,6 +12,10 @@ let list = [{
       route: '+/list',
       name: 'List',
       content: () => System.import("./general/list")
+   }, {
+      route: '+/tab',
+      name: 'Tab',
+      content: () => System.import("./general/tab")
    }]
 }, {
    name: 'Charts',
