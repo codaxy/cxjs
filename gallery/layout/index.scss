@@ -88,8 +88,19 @@ $small-device-width: 800px;
 
    h1 {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 24px;
       padding: .5em;
+      text-align: center;
+
+      a {
+         //display: block;
+      }
+
+      svg {
+         height: 40px;
+         margin-bottom: 5px;
+         vertical-align: middle;
+      }
    }
 
    header {
