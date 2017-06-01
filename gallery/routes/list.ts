@@ -20,6 +20,14 @@ let list = [{
       route: '+/grid',
       name: 'Grid',
       content: () => System.import("./general/grids")
+   }, {
+      route: '+/window',
+      name: 'Window',
+      content: () => System.import("./general/window")
+   }, {
+      route: '+/toast',
+      name: 'Toast',
+      content: () => System.import("./general/toast")
    }]
 }, {
    name: 'Charts',

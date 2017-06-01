@@ -20,15 +20,8 @@ export default <cx>
         <span>Span of text</span>
         &nbsp;
         <Menu horizontal style="display:inline-block">
-            <Submenu>
-                Menu1
-                <Menu putInto="dropdown">
-                    <a href="#">Item1</a>
-                    <a href="#">Item2</a>
-                </Menu>
-            </Submenu>
-            <Submenu>
-                Menu2
+            <Submenu arrow>
+                Dropdown
                 <Menu putInto="dropdown">
                     <a href="#">Item1</a>
                     <a href="#">Item2</a>

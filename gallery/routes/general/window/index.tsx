@@ -5,12 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Menu",
+    title: "Window",
     tabs: {
-        states: 'States',
-        baseline: "Baseline"
+        states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/Menu'
+    docsUrl: 'https://cxjs.io/docs/widgets/windows'
 });
 
 import Default from './states';
@@ -21,7 +20,6 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/states">
             {Default}
         </Route>
-        { asyncRoute("+/baseline", ()=>System.import("../../../examples/baseline")) }
         <RedirectRoute redirect="+/states" />
     </PureContainer>
 </cx>
