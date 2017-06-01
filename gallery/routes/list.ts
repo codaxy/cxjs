@@ -8,6 +8,10 @@ let list = [{
       route: '+/grid',
       name: 'Grid',
       content: () => System.import("./general/grids")
+   }, {
+      route: '+/list',
+      name: 'List',
+      content: () => System.import("./general/list")
    }]
 }, {
    name: 'Charts',
@@ -86,10 +90,6 @@ let list = [{
       route: '+/lookup-field',
       name: 'LookupField',
       content: () => System.import("./forms/lookup-field")
-   }, {
-      route: '+/list',
-      name: 'List',
-      content: () => System.import("./forms/list")
    }, {
       route: '+/color-field',
       name: 'ColorField',

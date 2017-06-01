@@ -7,7 +7,7 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "List",
     tabs: {
-        states: 'states'
+        states: 'States'
     },
     docsUrl: 'https://cxjs.io/docs/widgets/lists'
 });

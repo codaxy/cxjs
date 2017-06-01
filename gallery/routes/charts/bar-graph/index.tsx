@@ -7,7 +7,7 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "BarGraph",
     tabs: {
-        states: 'States'
+        standard: 'Standard'
     },
     docsUrl: 'https://cxjs.io/docs/charts/bar-graphs'
 });
@@ -17,10 +17,10 @@ import Default from './states';
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/states" />
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 

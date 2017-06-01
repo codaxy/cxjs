@@ -20,7 +20,7 @@ module.exports = {
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },
-      extensions: [".js", ".ts", ".tsx"]
+      extensions: [".js", ".ts", ".tsx", ".json"]
    },
 
    module: {
