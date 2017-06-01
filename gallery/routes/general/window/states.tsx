@@ -110,6 +110,7 @@ export default <cx>
                                 MsgBox.alert({
                                     message: <div ws>
                                         Great! Please support CxJS by giving it
+                                        {' '}
                                         <a href="https://github.com/codaxy/cxjs" target="_blank">a star on GitHub!</a>.
                                     </div>
                                 });
