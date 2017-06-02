@@ -539,7 +539,7 @@ div.#{$block}classic-tab-container {
 
 // grid checkbox margin corrected
 .#{$block}grid .#{$block}checkbox {
-  // margin-top: 4 * $checkbox-padding-correction;
+   padding: 0;
 }
 
 // grid shadow mod
