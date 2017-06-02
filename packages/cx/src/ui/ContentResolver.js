@@ -5,7 +5,8 @@ import {isPromise} from '../util/isPromise';
 export class ContentResolver extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
-         params: {structured: true}
+         params: {structured: true},
+         loading: undefined
       })
    }
 
@@ -25,9 +26,11 @@ export class ContentResolver extends PureContainer {
          instance.cachedParams = data.params;
          let content = this.onResolve(data.params, instance);
          if (isPromise(content)) {
+            instance.set('loading', true);
             content.then(cnt => {
                this.setContent(instance, cnt);
                instance.setState({cacheBuster: {}});
+               instance.set('loading', false);
             })
          }
          else
