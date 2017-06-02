@@ -9,7 +9,7 @@ const header = getHeader({
     tabs: {
         states: 'States'
     },
-    docsUrl: 'https://cxjs.io/docs/widgets/Calendar'
+    docsUrl: 'https://cxjs.io/docs/widgets/Calendars'
 });
 
 import Default from './states';

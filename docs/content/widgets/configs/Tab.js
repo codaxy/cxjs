@@ -18,8 +18,16 @@ export default {
             Value of the currently selected tab. If `value` is equal to `tab`, the tab appears active.
         </Md></cx>
     },
+    "default": {
+        type: 'string/number',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to set the default tab.
+        </Md></cx>
+    },
     disabled: {
         type: 'string',
+        key: true,
         description: <cx><Md>
             Set to `true` to disable selection.
         </Md></cx>

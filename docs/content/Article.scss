@@ -85,15 +85,6 @@
         max-width: 46em;
     }
 
-    a {
-        color: rgb(209, 89, 83);
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
     h1 > a, h2 > a, h3 > a, h4 > a {
         color: inherit;
         text-decoration: none;
@@ -101,5 +92,14 @@
         &:hover {
             text-decoration: none;
         }
+    }
+}
+
+a {
+    color: rgb(209, 89, 83);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
     }
 }

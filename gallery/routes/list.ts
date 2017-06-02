@@ -5,36 +5,29 @@ let list = [{
       name: 'Button',
       content: () => System.import("./general/button")
    }, {
+      route: '+/tab',
+      name: 'Tab',
+      content: () => System.import("./general/tab")
+   }, {
+      route: '+/menu',
+      name: 'Menu',
+      content: () => System.import("./general/menu")
+   }, {
+      route: '+/list',
+      name: 'List',
+      content: () => System.import("./general/list")
+   }, {
       route: '+/grid',
       name: 'Grid',
       content: () => System.import("./general/grids")
-   }]
-}, {
-   name: 'Charts',
-   items: [{
-      route: '+/pie-chart',
-      name: 'PieChart',
-      content: () => System.import("./charts/pie-chart")
    }, {
-      route: '+/line-graph',
-      name: 'LineGraph',
-      content: () => System.import("./charts/line-graph")
+      route: '+/window',
+      name: 'Window',
+      content: () => System.import("./general/window")
    }, {
-      route: '+/column-graph',
-      name: 'ColumnGraph',
-      content: () => System.import("./charts/column-graph")
-   }, {
-      route: '+/bar-graph',
-      name: 'BarGraph',
-      content: () => System.import("./charts/bar-graph")
-   }, {
-      route: '+/scatter-graph',
-      name: 'ScatterGraph',
-      content: () => System.import("./charts/scatter-graph")
-   }, {
-      route: '+/range',
-      name: 'Range',
-      content: () => System.import("./charts/range")
+      route: '+/toast',
+      name: 'Toast',
+      content: () => System.import("./general/toast")
    }]
 }, {
    name: 'Forms',
@@ -87,10 +80,6 @@ let list = [{
       name: 'LookupField',
       content: () => System.import("./forms/lookup-field")
    }, {
-      route: '+/list',
-      name: 'List',
-      content: () => System.import("./forms/list")
-   }, {
       route: '+/color-field',
       name: 'ColorField',
       content: () => System.import("./forms/color-field")
@@ -106,6 +95,33 @@ let list = [{
       route: '+/date-time-field',
       name: 'DateTimeField',
       content: () => System.import("./forms/date-time-field")
+   }]
+}, {
+   name: 'Charts',
+   items: [{
+      route: '+/pie-chart',
+      name: 'PieChart',
+      content: () => System.import("./charts/pie-chart")
+   }, {
+      route: '+/line-graph',
+      name: 'LineGraph',
+      content: () => System.import("./charts/line-graph")
+   }, {
+      route: '+/column-graph',
+      name: 'ColumnGraph',
+      content: () => System.import("./charts/column-graph")
+   }, {
+      route: '+/bar-graph',
+      name: 'BarGraph',
+      content: () => System.import("./charts/bar-graph")
+   }, {
+      route: '+/scatter-graph',
+      name: 'ScatterGraph',
+      content: () => System.import("./charts/scatter-graph")
+   }, {
+      route: '+/range',
+      name: 'Range',
+      content: () => System.import("./charts/range")
    }]
 }];
 

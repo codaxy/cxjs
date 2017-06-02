@@ -1,6 +1,6 @@
 var instanceId = 1000;
 import {Controller} from './Controller';
-import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag} from '../util/Debug';
+import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
@@ -73,12 +73,8 @@ export class Instance {
       var data = this.dataSelector(this.store.getData());
       this.visible = this.widget.checkVisible(context, this, data);
 
-      if (!this.visible) {
-         if (this.destroyTracked)
-            this.instanceCache.sweep();
-         delete this.instanceCache;
+      if (!this.visible)
          return false;
-      }
 
       if (this.instanceCache)
          this.instanceCache.mark();
@@ -279,10 +275,17 @@ export class Instance {
    }
 
    destroy() {
+      Debug.log(destroyFlag, this);
+
+      if (this.instanceCache) {
+         this.instanceCache.destroy();
+         delete this.instanceCache;
+      }
+
       if (this.widget.onDestroy)
          this.widget.onDestroy(instance);
 
-      if (this.widget.controller)
+      if (this.widget.controller && this.controller && this.controller.onDestroy)
          this.controller.onDestroy();
    }
 
@@ -382,7 +385,8 @@ export class Instance {
    }
 
    clearChildrenCache() {
-      delete this.instanceCache;
+      if (this.instanceCache)
+         this.instanceCache.destroy();
    }
 
    getChild(context, widget, keyPrefix, store) {
@@ -446,22 +450,39 @@ export class InstanceCache {
       this.monitored[instance.key] = instance;
    }
 
+   destroy() {
+      this.children = {};
+      this.marked = {};
+
+      if (!this.monitored)
+         return;
+
+      for (let key in this.monitored) {
+         this.monitored[key].destroy();
+      }
+
+      this.monitored = null;
+   }
+
    sweep() {
       this.children = this.marked;
-      if (this.monitored) {
-         let activeCount = 0;
-         for (let key in this.monitored) {
-            let child = this.monitored[key];
-            if (this.children[key] !== child || !child.visible) {
-               child.destroy();
-               delete this.monitored[key];
-            }
-            else
-               activeCount++;
+      if (!this.monitored)
+         return;
+      let activeCount = 0;
+      for (let key in this.monitored) {
+         let monitoredChild = this.monitored[key];
+         let child = this.children[key];
+         if (child !== monitoredChild || !monitoredChild.visible) {
+            monitoredChild.destroy();
+            delete this.monitored[key];
+            if (child === monitoredChild)
+               delete this.children[key];
          }
-         if (activeCount === 0)
-            this.monitored = null;
+         else
+            activeCount++;
       }
+      if (activeCount === 0)
+         this.monitored = null;
    }
 }
 

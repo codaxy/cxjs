@@ -36,4 +36,5 @@ export const shouldUpdateFlag = 'should-update';
 export const appDataFlag = 'app-data';
 export const tooltipsFlag = 'tooltips';
 export const deprecatedFlag = 'deprecated';
+export const destroyFlag = 'destroy';
 

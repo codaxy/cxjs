@@ -23,7 +23,10 @@ interface TabProps extends Cx.HtmlElementProps {
    /** Determines if tab should receive focus on `mousedown` event. 
     *  Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
     */
-   focusOnMouseDown?: boolean
+   focusOnMouseDown?: boolean,
+
+   /** Set to true to set the default tab. */
+   default?: boolean
    
 }
 

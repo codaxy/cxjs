@@ -73,6 +73,8 @@ export class DateTimeField extends Field {
          let date = data.date = new Date(data.value);
          data.formatted = Culture.getDateTimeCulture().format(date, data.format);
       }
+      else
+         data.formatted = "";
 
       if (data.refDate)
          data.refDate = zeroTime(new Date(data.refDate));
@@ -423,7 +425,9 @@ class DateTimeInput extends VDOM.Component {
       let {data, state} = props.instance;
       if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
-         this.setValue(data.formatted, data.value);
+         props.instance.setState({
+            inputError: false
+         });
       }
       if (data.visited)
          this.setState({visited: true});

@@ -6,6 +6,8 @@ import "./style";
 import Routes from './routes';
 import {registerStore} from './routes/hmr';
 
+
+
 export default function() {
 
    //store

@@ -1,5 +1,5 @@
 import { Widget, VDOM } from '../ui/Widget';
-import { registerIcon, registerIconFactory, clearIcons, unregisterIcon, renderIcon } from './icons/registry';
+import { registerIcon, registerIconFactory, clearIcons, unregisterIcon, renderIcon, restoreDefaultIcons } from './icons/registry';
 import "./icons/index";
 
 
@@ -40,6 +40,10 @@ export class Icon extends Widget {
 
    static registerFactory(factory) {
       return registerIconFactory(factory);
+   }
+
+   static restoreDefaultIcons() {
+      restoreDefaultIcons();
    }
 }
 

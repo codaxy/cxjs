@@ -1,5 +1,6 @@
 let icons = {};
 let iconFactory = null;
+let defaultIcons = {};
 
 let unregisteredDefaultIcons = {};
 
@@ -9,6 +10,8 @@ export function registerIcon(name, icon, defaultIcon = false) {
 
    if (!defaultIcon)
       unregisteredDefaultIcons[name] = true;
+   else
+      defaultIcons[name] = icon;
 
    return props => renderIcon(name, props);
 }
@@ -40,4 +43,10 @@ export function clearIcons() {
 
 export function registerIconFactory(factory) {
    iconFactory = factory;
+}
+
+export function restoreDefaultIcons() {
+   icons = {
+      ...defaultIcons
+   }
 }

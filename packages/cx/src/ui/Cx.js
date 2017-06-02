@@ -106,6 +106,9 @@ class CxContext extends VDOM.Component {
       let {instance, options} = props;
       let count = 0, visible, context;
 
+      if (this.props.instance !== instance && this.props.instance.destroyTracked)
+         this.props.instance.destroy();
+
       this.props.flags.preparing = true;
 
       do {
@@ -154,7 +157,7 @@ class CxContext extends VDOM.Component {
 
       this.renderCount++;
 
-      let { start, beforeVDOMRender, afterVDOMRender, afterPrepare, afterExplore, afterRender, afterCleanup } = this.timings;
+      let {start, beforeVDOMRender, afterVDOMRender, afterPrepare, afterExplore, afterRender, afterCleanup} = this.timings;
 
       Timing.log(
          vdomRenderFlag,
@@ -174,5 +177,11 @@ class CxContext extends VDOM.Component {
          'vdom', (afterVDOMRender - beforeVDOMRender).toFixed(1),
          'cleanup', (afterCleanup - afterVDOMRender).toFixed(1)
       );
+   }
+
+   componentWillUnmount() {
+      let {instance} = this.props;
+      if (instance.destroyTracked)
+         instance.destroy();
    }
 }

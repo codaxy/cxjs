@@ -29,18 +29,21 @@ DateTimePicker.prototype.baseClass = "datetimepicker";
 DateTimePicker.prototype.size = 3;
 DateTimePicker.prototype.autoFocus = false;
 DateTimePicker.prototype.segment = "datetime";
+DateTimePicker.prototype.showSeconds = false;
 
 class DateTimePickerComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      let date = new Date(props.data.value);
+      let date = props.data.value ? new Date(props.data.value) : new Date();
       if (isNaN(date.getTime()))
          date = new Date();
       this.state = {
          date: date,
          activeWheel: null
       };
+
+      let {widget} = props.instance;
 
       this.handleChange = ::this.handleChange;
       this.onFocus = ::this.onFocus;
@@ -56,7 +59,7 @@ class DateTimePickerComponent extends VDOM.Component {
          date: showDate,
          hours: showTime,
          minutes: showTime,
-         seconds: showTime
+         seconds: showTime && widget.showSeconds
       };
 
       this.keyDownPipes = {};
@@ -64,7 +67,7 @@ class DateTimePickerComponent extends VDOM.Component {
 
 
    componentWillReceiveProps(props) {
-      let date = new Date(props.data.value);
+      let date = props.data.value ? new Date(props.data.value) : new Date();
       if (isNaN(date.getTime()))
          date = new Date();
       this.setState({date});
@@ -114,7 +117,7 @@ class DateTimePickerComponent extends VDOM.Component {
       let monthNames = culture.getMonthNames('short');
 
       let years = [];
-      for (let y = 2000; y <= 2050; y++)
+      for (let y = 1970; y <= 2050; y++)
          years.push(<span key={y}>{y}</span>);
 
       let days = [];
@@ -152,10 +155,10 @@ class DateTimePickerComponent extends VDOM.Component {
                CSS={CSS}
                active={this.state.activeWheel === "year"}
                baseClass={baseClass + "-wheel"}
-               index={date.getFullYear() - 2000}
+               index={date.getFullYear() - 1970}
                onChange={(newIndex) => {
                   this.setState(state => ({
-                     date: this.setDateComponent(this.state.date, 'year', newIndex + 2000)
+                     date: this.setDateComponent(this.state.date, 'year', newIndex + 1970)
                   }), this.handleChange);
                }}
                onPipeKeyDown={kd => {
