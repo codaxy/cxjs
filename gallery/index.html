@@ -8,8 +8,10 @@
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.from,Array.prototype.find,Array.prototype.findIndex,Math.log10,Intl.~locale.en"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.min.js"></script>
+    <%= htmlWebpackPlugin.options.gtmh %>
 </head>
 <body>
+    <%= htmlWebpackPlugin.options.gtmb %>
     <%= htmlWebpackPlugin.files.webpackManifest %>
     <div id="app">
     </div>

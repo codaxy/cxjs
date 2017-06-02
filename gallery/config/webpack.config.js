@@ -5,7 +5,8 @@ const webpack = require('webpack'),
    merge = require('webpack-merge'),
    path = require('path'),
    babelCfg = require("./babel.config"),
-   p = p => path.join(__dirname, '../', p || '')
+   p = p => path.join(__dirname, '../', p || ''),
+   gtm = require('../../misc/tracking/gtm.config.js');
 
 module.exports = {
    resolve: {
@@ -102,7 +103,9 @@ module.exports = {
       //    name: "vendor"
       // }),
       new HtmlWebpackPlugin({
-         template: p('index.html')
+         template: p('index.html'),
+         gtmh: gtm.head,
+         gtmb: gtm.body,
       }),
       new ScriptExtHtmlWebpackPlugin({
          preload: {
