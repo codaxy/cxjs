@@ -6,7 +6,8 @@ const webpack = require('webpack'),
    path = require('path'),
    babelCfg = require("./babel.config"),
    p = p => path.join(__dirname, '../', p || ''),
-   gtm = require('../../misc/tracking/gtm.config.js');
+   gtm = require('../../misc/tracking/gtm.config.js'),
+   reactScripts = require('../../misc/reactScripts');
 
 module.exports = {
    resolve: {
@@ -106,6 +107,7 @@ module.exports = {
          template: p('index.html'),
          gtmh: gtm.head,
          gtmb: gtm.body,
+         reactScripts: reactScripts
       }),
       new ScriptExtHtmlWebpackPlugin({
          preload: {

@@ -3,11 +3,14 @@ const webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
+    WebpackMd5Hash = require('webpack-md5-hash'),
     merge = require('webpack-merge'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
+    ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
     babelConfig = require('./babel.config'),
-    gtm = require('../misc/tracking/gtm.config.js');
+    gtm = require('../misc/tracking/gtm.config.js'),
+    reactScripts = require('../misc/reactScripts');
 
 var specific, production = false;
 
@@ -16,7 +19,7 @@ switch (process.env.npm_lifecycle_event) {
         production = true;
 
         var sass = new ExtractTextPlugin({
-            filename: "app.[hash].css",
+            filename: "app.ltc.[chunkhash].css",
             allChunks: true
         });
 
@@ -32,6 +35,7 @@ switch (process.env.npm_lifecycle_event) {
             },
 
             plugins: [
+                new WebpackMd5Hash(),
                 new webpack.LoaderOptionsPlugin({
                     options: {
                         "if-loader": 'production',
@@ -53,7 +57,7 @@ switch (process.env.npm_lifecycle_event) {
 
             output: {
                 path: path.join(__dirname, 'dist'),
-                filename: "[name].[chunkhash].js",
+                filename: "[name].ltc.[chunkhash].js",
                 hashDigestLength: 5,
                 publicPath: "/docs/"
             }
@@ -182,31 +186,36 @@ var common = {
         }]
     },
     entry: {
-        vendor: ['cx-react', path.join(__dirname, 'polyfill')],
+        vendor: [path.join(__dirname, 'polyfill')],
         app: __dirname + '/index.js',
     },
     output: {
         path: __dirname,
         filename: "[name].js"
     },
-    // externals: {
-    //    "react": "React",
-    //    "react-dom": "ReactDOM"
-    // },
+    externals: {
+       "react": "React",
+       "react-dom": "ReactDOM"
+    },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor", "manifest"],
-            minChunks: Infinity
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     names: ["vendor", "manifest"],
+        //     minChunks: Infinity
+        // }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'app',
             children: true,
             minChunks: Infinity
         }),
+        new ChunkManifestPlugin({
+            manifestVariable: "webpackManifest",
+            inlineManifest: true
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
             gtmh: gtm.head,
             gtmb: gtm.body,
+            reactScripts: reactScripts,
             favicon: path.join(__dirname, 'img/favicon.png'),
             minify: {
                 removeComments: true

@@ -42,7 +42,7 @@ var specific = {
 
    output: {
       path: path.join(__dirname, '../dist'),
-      filename: "[name].[chunkhash].js",
+      filename: "[name].ltc.[chunkhash].js",
       hashDigestLength: 5,
       publicPath: "/gallery/"
    }

@@ -10,20 +10,11 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' rel='stylesheet' type='text/css' />
     <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.from,Array.prototype.find,Array.prototype.findIndex,Math.log10,Intl.~locale.en"></script>-->
 
-    <!--<script src="https://fb.me/react-15.0.0.min.js"></script>-->
-    <!--<script src="https://fb.me/react-dom-15.0.0.min.js"></script>-->
-
-    <!--<script src="https://fb.me/react-15.1.0.js"></script>-->
-    <!--<script src="https://fb.me/react-dom-15.1.0.js"></script>-->
-
-    <!--<script src="https://fb.me/react-15.0.0-rc.2.js"></script>-->
-    <!--<script src="https://fb.me/react-dom-15.0.0-rc.2.js"></script>-->
-
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>-->
+    <%= htmlWebpackPlugin.options.reactScripts %>
 </head>
 <body>
     <%= htmlWebpackPlugin.options.gtmb %>
+    <%= htmlWebpackPlugin.files.webpackManifest %>
     <div id="app"></div>
 </body>
 </html>
