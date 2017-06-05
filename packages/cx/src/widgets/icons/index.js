@@ -7,5 +7,6 @@ import "./folder";
 import "./folder-open";
 import "./loading";
 import "./search";
+import "./cx";
 
 

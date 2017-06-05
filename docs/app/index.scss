@@ -22,9 +22,16 @@
 }
 
 .dxe-layout-aside-header {
-    height: 80px;
+    height: 90px;
     box-sizing: border-box;
     padding: 40px 10px;
+    line-height: 40px;
+
+    .cxb-icon {
+        width: 40px;
+        height: 40px;
+        vertical-align: top;
+    }
 
     h1 {
         margin: 0;
@@ -37,6 +44,11 @@
     a {
         color: rgba(255, 117, 117, 1);
         text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+            color: rgb(168, 177, 255);
+        }
     }
 }
 

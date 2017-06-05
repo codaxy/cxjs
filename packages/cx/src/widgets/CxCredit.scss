@@ -20,18 +20,6 @@
          opacity: 1;
       }
 
-      svg {
-         width: 100%;
-         height: 100%;
-
-         text {
-            fill: black;
-            font-weight: bold;
-            font-size: 20px;
-            text-anchor: middle;
-         }
-      }
-
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -41,6 +29,11 @@
          bottom: auto;
          right: auto;
       }
+   }
+
+   .#{$element}#{$name}-icon {
+      width: 100%;
+      height: 100%;
    }
 }
 
