@@ -2,7 +2,7 @@ const webpack = require('webpack'),
     ExtractTextPlugin = require("extract-text-webpack-plugin"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
-    CleanWebpackPlugin = require('clean-webpack-plugin'),
+    WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
     WebpackMd5Hash = require('webpack-md5-hash'),
     merge = require('webpack-merge'),
     combine = require('webpack-combine-loaders'),
@@ -41,7 +41,7 @@ switch (process.env.npm_lifecycle_event) {
                         "if-loader": 'production',
                     }
                 }),
-                new CleanWebpackPlugin(['dist']),
+                new WebpackCleanupPlugin(),
                 new webpack.optimize.UglifyJsPlugin(),
                 new webpack.DefinePlugin({
                     'process.env.NODE_ENV': JSON.stringify('production')

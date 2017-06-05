@@ -3,6 +3,7 @@ var webpack = require('webpack'),
    CopyWebpackPlugin = require('copy-webpack-plugin'),
    ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
    WebpackMd5Hash = require('webpack-md5-hash'),
+   WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
    merge = require('webpack-merge'),
    common = require('./webpack.config'),
    path = require('path');
@@ -30,6 +31,7 @@ var specific = {
          'process.env.NODE_ENV': JSON.stringify('production')
       }),
       //sass,
+      new WebpackCleanupPlugin(),
       new CopyWebpackPlugin([{
          from: path.join(__dirname, '../assets'),
          to: path.join(__dirname, '../dist/assets'),
