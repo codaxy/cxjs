@@ -104,8 +104,8 @@ export default <cx>
                         <ClipRect>
                             <ColumnGraph data={bind("$page.data")}
                                          colorIndex={4}
-                                         offset={15 * 24 * 60 * 60 * 1000} //15 days
-                                         size={30 * 24 * 60 * 60 * 1000} //30 days
+                                         offset={15 * 24 * 60 * 60 * 1000}
+                                         size={30 * 24 * 60 * 60 * 1000}
                                          xField="date"
                                          yField="value"/>
                         </ClipRect>
@@ -172,5 +172,4 @@ export default <cx>
 </cx>
 
 import { hmr } from '../../hmr.js';
-declare let module: any;
 hmr(module);

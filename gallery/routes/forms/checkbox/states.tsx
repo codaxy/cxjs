@@ -2,6 +2,7 @@ import {cx, Section, FlexRow, Checkbox, HelpText} from 'cx/widgets';
 import {bind, LabelsLeftLayout, LabelsTopLayout} from 'cx/ui';
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/checkbox/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing="large" target="tablet">
         <Section 
             mod="card"
@@ -63,5 +64,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

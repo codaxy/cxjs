@@ -3,6 +3,7 @@ import {cx, Section, FlexRow, MonthPicker} from 'cx/widgets';
 import {bind} from 'cx/ui';
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/month-picker/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow>
         <Section mod="well">
             <FlexRow spacing="large" wrap justify="center" >
@@ -24,5 +25,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

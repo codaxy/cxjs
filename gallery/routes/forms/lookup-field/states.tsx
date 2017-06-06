@@ -43,6 +43,7 @@ class PageController extends Controller {
 }
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/lookup-field/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing="large" target="desktop">
         <Section
             mod="card"
@@ -299,5 +300,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

@@ -3,6 +3,7 @@ import {cx, NumberField, Section, FlexRow, HelpText} from "cx/widgets";
 
 export default (
     <cx>
+        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/number-field/states.tsx" target="_blank" putInto="github">GitHub</a>
         <FlexRow wrap spacing="large" target="desktop">
 
             <Section
@@ -191,5 +192,4 @@ export default (
 
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

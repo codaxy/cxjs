@@ -31,6 +31,7 @@ const showModal = (store) => {
 };
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/window/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing="large" target="tablet" align="start">
 
         <Window title="Contact"
@@ -125,5 +126,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

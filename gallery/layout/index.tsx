@@ -9,7 +9,7 @@ export default <cx>
         controller={Controller}
         class={computable("layout.aside.open", "$route.theme", (nav, theme) => ({
             "layout": true,
-            ["theme-"+ theme]: true,
+            ["theme-" + theme]: true,
             "nav": nav
         }))}
     >
@@ -46,25 +46,33 @@ export default <cx>
         <aside class="aside">
             <header>
                 <h1><a href="https://cxjs.io/">
-                    <Icon name="cx" />
+                    <Icon name="cx"/>
                 </a> Gallery</h1>
                 <div>
                     Theme:
-                    <Menu horizontal styles="display: inline-block; margin-left: 5px; font-weight: 500">
-                        <Submenu arrow>
-                            <a text={{bind: "themeName"}} />
-                            <Menu putInto="dropdown">
-                                <Link href={tpl("~/material{$route.remainder}")}>Material</Link>
-                                <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
-                                <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
-                                <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
+                    <ContentResolver
+                        params={bind("$route.theme")}
+                        onResolve={() => <cx>
+                            <Menu
+                                horizontal
+                                styles="display: inline-block; margin-left: 5px; font-weight: 500"
+                            >
+                                <Submenu arrow>
+                                    <a text={{bind: "themeName"}}/>
+                                    <Menu putInto="dropdown">
+                                        <Link href={tpl("~/material{$route.remainder}")}>Material</Link>
+                                        <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
+                                        <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
+                                        <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
+                                    </Menu>
+                                </Submenu>
                             </Menu>
-                        </Submenu>
-                    </Menu>
+                        </cx>}
+                    />
                 </div>
             </header>
             <div class="aside-nav">
-                <ContentPlaceholder name="nav" />
+                <ContentPlaceholder name="nav"/>
             </div>
         </aside>
         <ContentResolver

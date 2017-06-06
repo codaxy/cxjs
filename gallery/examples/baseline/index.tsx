@@ -36,5 +36,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../routes/hmr.js';
-declare let module: any;
 hmr(module);

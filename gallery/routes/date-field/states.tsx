@@ -180,5 +180,4 @@ export default (
 
 
 import {hmr} from '../hmr.js';
-declare let module: any;
 hmr(module);

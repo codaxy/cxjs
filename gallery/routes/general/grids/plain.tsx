@@ -25,6 +25,7 @@ class PageController extends Controller {
 
 export default (
     <cx>
+        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/plain.tsx" target="_blank" putInto="github">GitHub</a>
         <Section
             mod="well"
             style="height: 100%"
@@ -55,5 +56,4 @@ export default (
 );
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

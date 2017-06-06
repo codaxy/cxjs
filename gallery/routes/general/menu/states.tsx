@@ -2,6 +2,7 @@ import {cx, Section, FlexRow, Menu, Submenu, TextField, Checkbox, DateField, Men
 import {bind, expr} from 'cx/ui';
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/menu/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing="large" target="tablet" align="start">
 
         <Section mod="well" title="Vertical" hLevel={4}>
@@ -139,5 +140,4 @@ export default <cx>
 </cx>
 
 import {hmr} from '../../hmr.js';
-declare let module: any;
 hmr(module);

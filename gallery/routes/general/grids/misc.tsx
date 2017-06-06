@@ -7,6 +7,7 @@ class PageController extends Controller {
 }
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/misc.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow spacing wrap>
     <Section
         mod="well"

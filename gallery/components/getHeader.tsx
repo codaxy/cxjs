@@ -1,4 +1,4 @@
-import {cx, LinkButton} from 'cx/widgets';
+import {cx, LinkButton, ContentPlaceholder} from 'cx/widgets';
 
 interface HeaderConfig {
     title: string;
@@ -36,6 +36,8 @@ export function getHeader(config: HeaderConfig): any {
         </div>
         {config.docsUrl &&
         <div putInto="links">
+            <ContentPlaceholder name="github"/>
+            &nbsp;
             <a href={config.docsUrl} target="_blank">Docs</a>
         </div>
         }
