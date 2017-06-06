@@ -338,12 +338,12 @@ $cx-dependencies: map-merge($cx-dependencies, (
 ));
 
 // DATE TIME PICKER
-$cx-default-dtp-font-size: $cx-default-font-size !default;
-$cx-default-dtp-background-color: #fff !default;
-$cx-default-dtp-border-width: 1px !default;
-$cx-default-dtp-border-radius: 0 !default;
-$cx-default-dtp-border-color: #d3d3d3 !default;
-$cx-default-dtp-padding: 0 5px !default;
+$cx-default-datetimepicker-font-size: $cx-default-font-size !default;
+$cx-default-datetimepicker-background-color: #fff !default;
+$cx-default-datetimepicker-border-width: 1px !default;
+$cx-default-datetimepicker-border-radius: 0 !default;
+$cx-default-datetimepicker-border-color: #d3d3d3 !default;
+$cx-default-datetimepicker-padding: 0 5px !default;
 
 // wheel
 $cx-default-wheel-clip-background-color: #fff !default;

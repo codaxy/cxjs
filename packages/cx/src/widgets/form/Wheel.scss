@@ -1,5 +1,6 @@
 @mixin cx-wheel-elements(
    $name: 'wheel',
+   $tool-size: $cx-default-input-tool-size,
    $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
@@ -78,9 +79,9 @@
    .#{$element}#{$name}-arrow-down {
       position: absolute;
       left: 50%;
-      margin-left: -($icon-size/2);
-      width: $icon-size;
-      height: $icon-size;
+      margin-left: -($tool-size/2);
+      width: $tool-size;
+      height: $tool-size;
       opacity: 0.5;
       cursor: pointer;
 
@@ -102,15 +103,16 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      margin-left: -8px;
-      margin-top: -8px;
-      width: 16px;
-      height: 16px;
+      margin-left: -$icon-size/2;
+      margin-top: -$icon-size/2;
+      width: $icon-size;
+      height: $icon-size;
    }
 }
 
 @mixin cx-wheel(
    $name: 'wheel',
+   $tool-size: $cx-default-input-tool-size,
    $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
@@ -139,7 +141,7 @@
       }
    }
 
-   @include cx-wheel-elements($name, $icon-size, $besm)
+   @include cx-wheel-elements($name, $tool-size, $icon-size, $besm)
 }
 
 @if (cx-should-include('cx/widgets/Wheel')) {

@@ -26,7 +26,7 @@ $mod: map-get($cx-besm, mod);
 }
 
 
-.#{$block}datefield .#{$block}calendar {
+.#{$block}datetimefield .#{$block}calendar {
    border-color: transparent !important;
 }
 
@@ -35,6 +35,10 @@ $mod: map-get($cx-besm, mod);
 }
 
 .#{$block}colorfield .#{$block}colorpicker {
+   border-color: transparent !important;
+}
+
+.#{$block}datetimefield .#{$block}datetimepicker {
    border-color: transparent !important;
 }
 

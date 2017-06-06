@@ -158,14 +158,14 @@ export class WheelComponent extends VDOM.Component {
                e.preventDefault();
                this.select(this.index - 1)
             }}>
-            {Icon.render('drop-down', {className: CSS.element(baseClass, "icon")})}
+            {Icon.render('drop-down', {className: CSS.element(baseClass, "arrow-icon")})}
          </div>
          <div className={CSS.element(baseClass, "arrow-down")}
             onClick={(e) => {
                e.preventDefault();
                this.select(this.index + 1)
             }}>
-            {Icon.render('drop-down', {className: CSS.element(baseClass, "icon")})}
+            {Icon.render('drop-down', {className: CSS.element(baseClass, "arrow-icon")})}
          </div>
       </div>
    }
