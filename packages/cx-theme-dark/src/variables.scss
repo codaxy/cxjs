@@ -8,6 +8,7 @@ $cx-default-background-color-light: lighten($cx-default-background-color, 3) !de
 $cx-default-background-color-dark: darken($cx-default-background-color, 2) !default;
 
 $cx-default-highlight-color: rgb(81, 90, 112) !default;
+$cx-default-highlight-color-light: lighten($cx-default-highlight-color, 15) !default;
 $cx-default-error-color: rgba(220, 0, 9, 0.8) !default;
 
 $cx-default-border-color: rgb(68, 68, 68) !default;
@@ -42,6 +43,14 @@ $cx-default-input-tag-background-color: $cx-default-button-background-color !def
 
 // calendar
 $cx-default-calendar-header-font-size: 14px !default;
+
+// date time picker
+$cx-default-datetimepicker-background-color: $cx-default-background-color-light !default;
+$cx-default-datetimepicker-border-radius: $cx-default-border-radius !default;
+$cx-default-datetimepicker-border-color: $cx-default-border-color !default;
+$cx-default-wheel-clip-background-color: $cx-default-background-color-dark !default;
+$cx-default-wheel-clip-border-color: $cx-default-border-color-dark !default;
+$cx-default-wheel-clip-border-radius: $cx-default-border-radius !default;
 
 // GRID
 $cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
@@ -297,6 +306,18 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
    ),
    outside: (
       color: rgba(204, 204, 204, 0.3)
+   )
+));
+
+//date time picker
+$cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state-style-map, (
+   default: (
+      border-color: transparent,
+      background-color: rgba($cx-default-highlight-color, 0.4)
+   ),
+   active: (
+      border-color: transparent,
+      background-color: rgba($cx-default-highlight-color-light, 0.5)
    )
 ));
 

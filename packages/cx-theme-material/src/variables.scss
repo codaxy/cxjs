@@ -148,6 +148,10 @@ $cx-theme-input-padding: $cx-default-box-padding 0 !default;
 $cx-default-label-font-size: 12px !default;
 $cx-default-label-color: rgba(0, 0, 0, 38) !default;
 
+// date time picker
+$cx-default-datetimepicker-border-color: transparent !default;
+$cx-default-wheel-clip-border-color: transparent !default;
+
 // calendar
 $cx-default-calendar-background-color: rgba(247, 247, 247, 0.5) !default;
 $cx-default-calendar-border-width: 0px !default;
@@ -735,6 +739,19 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
       background-color: $cx-theme-primary-color-dark
    )
 ));
+
+// date time picker
+$cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state-style-map, (
+   default: (
+      border-color: transparent,
+      background-color: rgba($cx-theme-primary-color-light, 0.2)
+   ),
+   active: (
+      border-color: transparent,
+      background-color: rgba($cx-theme-primary-color-light, 0.45)
+   )
+));
+
 
 // checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (

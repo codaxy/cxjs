@@ -2,6 +2,7 @@
 // GLOBAL VARIABLES
 $cx-default-color: #373a3c !default;
 $cx-default-highlight-color: #ddf1f6 !default;
+$cx-default-highlight-color-dark: darken($cx-default-highlight-color, 10) !default;
 
 $cx-default-border-color: #ccc !default;
 $cx-default-border-radius: 5px !default;
@@ -27,6 +28,11 @@ $cx-default-input-tag-background-color: $cx-default-button-background-color !def
 
 $cx-default-calendar-header-font-size: 14px !default;
 $cx-default-calendar-header-font-weight: 600 !default;
+
+$cx-default-datetimepicker-border-radius: $cx-default-border-radius !default;
+$cx-default-wheel-clip-border-width: 2px !default;
+$cx-default-wheel-clip-border-radius: $cx-default-border-radius !default;
+$cx-default-wheel-clip-border-color: lighten($cx-default-border-color, 10) !default;
 
 $cx-default-font-family: 'Open Sans', sans-serif !default;
 
@@ -107,6 +113,17 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
   selected-focus: (
     background-color: darken($cx-default-highlight-color, 8)
   )
+));
+
+$cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state-style-map, (
+   default: (
+      border-color: $cx-default-highlight-color-dark,
+      background-color: rgba($cx-default-highlight-color, 0.4)
+   ),
+   active: (
+      border-color: darken($cx-default-highlight-color-dark, 10),
+      background-color: rgba($cx-default-highlight-color-dark, 0.4)
+   )
 ));
 
 //checkbox

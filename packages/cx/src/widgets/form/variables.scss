@@ -335,4 +335,31 @@ $cx-dependencies: map-merge($cx-dependencies, (
    "cx/widgets/Select": "cx/widgets/Field",
    "cx/widgets/Slider": "cx/widgets/Field",
    "cx/widgets/Switch": "cx/widgets/Field"
-))
+));
+
+// DATE TIME PICKER
+$cx-default-datetimepicker-font-size: $cx-default-font-size !default;
+$cx-default-datetimepicker-background-color: #fff !default;
+$cx-default-datetimepicker-border-width: 1px !default;
+$cx-default-datetimepicker-border-radius: 0 !default;
+$cx-default-datetimepicker-border-color: #d3d3d3 !default;
+$cx-default-datetimepicker-padding: 0 5px !default;
+
+// wheel
+$cx-default-wheel-clip-background-color: #fff !default;
+$cx-default-wheel-clip-border-width: 1px !default;
+$cx-default-wheel-clip-border-radius: 0 !default;
+$cx-default-wheel-clip-border-color: #d3d3d3 !default;
+
+$cx-wheel-selection-state-style-map: (
+   default: (
+      border-width: 2px 0 2px 0,
+      border-style: solid,
+      border-color: #9bc8ff,
+      background-color: rgba(#9bc8ff, 0.1)
+   ),
+   active: (
+      border-color: #3c7eff,
+      background: rgba(#3c7eff, 0.1)
+   )
+) !default;
