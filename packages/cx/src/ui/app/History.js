@@ -1,6 +1,9 @@
 import {Url} from './Url';
 import {batchUpdatesAndNotify} from '../batchUpdates';
 
+let last = 0, next = 1;
+let transitions = {};
+
 export class History {
 
    static connect(store, bind) {
@@ -24,15 +27,29 @@ export class History {
       if (window.history.pushState) {
          url = Url.resolve(url);
          let changed = false;
+         let current = ++last;
          batchUpdatesAndNotify(() => {
             changed = this.updateStore(url);
+            if (changed)
+               transitions[current] = {
+                  url,
+                  state,
+                  title,
+                  replace
+               }
          }, () => {
+            if (changed)
+               transitions[current].completed = true;
+
             //update history once the page is rendered and the title is set (SEO)
-            if (changed) {
-               if (replace)
-                  window.history.replaceState(state, title, url);
+            while (transitions[next] && transitions[next].completed) {
+               let tr = transitions[next];
+               delete transitions[next];
+               if (tr.replace)
+                  window.history.replaceState(tr.state, tr.title, tr.url);
                else
-                  window.history.pushState(state, title, url);
+                  window.history.pushState(tr.state, tr.title, tr.url);
+               next++;
             }
          });
          return changed;
@@ -42,7 +59,7 @@ export class History {
    static updateStore(href) {
       let url = Url.unresolve(href || document.location.href);
       let hashIndex = url.indexOf('#');
-      if (hashIndex != -1)
+      if (hashIndex !== -1)
          url = url.substring(0, hashIndex);
       return this.store.set(this.bind, url);
    }

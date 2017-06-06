@@ -1,5 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {HtmlElement} from './HtmlElement';
+import {Icon} from './Icon';
 
 export class CxCredit extends HtmlElement {
 
@@ -8,10 +9,10 @@ export class CxCredit extends HtmlElement {
          mouseTrap: true,
          title: 'Credits',
          items: <cx>
-            <div preserveWhitespace>
-               User interface of this project is implemented using the Cx framework.
-               For more information about Cx, please visit
-               <a href="https://cxjs.io/">the Cx product page</a>.
+            <div ws>
+               User interface of this project is implemented using the CxJS framework.
+               For more information about CxJS, please visit
+               <a href="https://cxjs.io/" target="_blank">the CxJS homepage</a>.
             </div>
          </cx>
       };
@@ -19,9 +20,9 @@ export class CxCredit extends HtmlElement {
    }
 
    attachProps(context, instance, props) {
-      props.children = <svg>
-         <text x="50%" y="50%" dy="0.4em">Cx</text>
-      </svg>;
+      props.children = Icon.render("cx", {
+         className: this.CSS.element(this.baseClass, "icon")
+      });
    }
 }
 

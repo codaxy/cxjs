@@ -1,4 +1,4 @@
-import { Widget, startAppLoop } from 'cx/ui';
+import { Widget, startAppLoop, History } from 'cx/ui';
 import { HtmlElement } from 'cx/widgets';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
@@ -31,7 +31,8 @@ import './index.scss';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
 //import Demo from './features/logo';
-import Demo from './features/destroy';
+//import Demo from './features/destroy';
+import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
 
@@ -43,6 +44,8 @@ Widget.resetCounter();
 //Timing.enable('vdom-render');
 Timing.enable('app-loop');
 //Debug.enable("app-data");
+
+History.connect(store, "url");
 
 
 if (module.hot) {

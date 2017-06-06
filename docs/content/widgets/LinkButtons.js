@@ -22,7 +22,7 @@ export const LinkButtons = <cx>
                 <LinkButton mod="primary" href="~/widgets/links">See Links</LinkButton>
                 <LinkButton mod="danger" href="~/widgets/buttons">See Buttons</LinkButton>
             </div>
-            <CodeSnippet putInto="code" fiddle="navQfAlj">{`
+            <CodeSnippet putInto="code" fiddle="4WlDkLBS">{`
              <div class="widgets">
                 <LinkButton mod="primary" href="~/widgets/links">See Links</LinkButton>
                 <LinkButton mod="danger" href="~/widgets/buttons">See Buttons</LinkButton>
