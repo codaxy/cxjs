@@ -30,6 +30,8 @@ $small-device-width: 800px;
       margin-top: 1rem;
       display: flex;
       align-items: center;
+      overflow-x: auto;
+      white-space: nowrap;
 
       color: white;
 
@@ -40,7 +42,6 @@ $small-device-width: 800px;
          &.cxs-active {
             border-radius: 0;
             border-bottom: 2px solid white;
-
          }
 
          &:hover {

@@ -118,7 +118,7 @@ $cx-default-window-header-background-color: $cx-theme-primary-color-dark !defaul
 
 //TOAST
 $cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
-$cx-default-toast-padding: $cx-default-box-padding + 5px 4 * $cx-default-box-padding !default;
+$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
 
 //GRID
 $cx-default-grid-border-radius: $cx-default-border-radius !default;

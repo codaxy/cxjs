@@ -6,7 +6,7 @@ const showModal = (store) => {
         title: 'Modal',
         modal: true,
         center: true,
-        style: 'max-width: 500px',
+        style: 'width: 500px; max-width: 90vw',
         bodyStyle: "padding: 20px",
         items: <cx>
             <p>
@@ -37,12 +37,12 @@ export default <cx>
         <Window title="Contact"
             visible={{bind: "contact.visible", defaultValue: false}}
             center
-            style={{width: '500px'}}
+            styles="width:500px;max-width: 90vw"
             modal>
             <div style={{padding: "20px"}} layout={{type: LabelsLeftLayout, mod: 'stretch'}}>
                 <TextField label="Name" value={bind("$page.contact.name")} style={{width: '100%'}}/>
                 <TextField label="Email" value={bind("$page.contact.email")} style={{width: '100%'}}/>
-                <TextArea label="Message" value={bind("$page.contact.message")} rows={10} style={{width: '100%'}}/>
+                <TextArea label="Message" value={bind("$page.contact.message")} rows={5} style={{width: '100%'}}/>
                 <DateField label="Date" value={bind("$page.contact.date")}/>
             </div>
             <FlexRow putInto="footer" spacing justify="end">
@@ -59,6 +59,7 @@ export default <cx>
             title="Backdrop"
             backdrop
             center
+            styles="width:500px;max-width: 90vw"
             visible={{bind: "backdrop.visible"}}
             bodyStyle="padding: 50px"
         >

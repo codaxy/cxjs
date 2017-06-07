@@ -14,6 +14,13 @@ export var urlAttributes = {
 
 export class HtmlElement extends PureContainer {
 
+   constructor(config) {
+      super(config);
+
+      if (this.jsxAttributes === undefined && config)
+         this.jsxAttributes = Object.keys(config);
+   }
+
    init() {
       if (this.innerText)
          this.text = this.innerText;
@@ -143,21 +150,20 @@ export class HtmlElement extends PureContainer {
       //rebind events to pass instance
       if (this.events && !instance.events) {
          instance.events = {};
-         for (var eventName in this.events) {
-            let ev = eventName;
-            instance.events[ev] = e => this.events[ev].call(this, e, instance);
+         for (let eventName in this.events) {
+            instance.events[eventName] = e => instance.invoke(eventName, e, instance);
          }
       }
 
-      var {data, events, shouldUpdate} = instance;
+      let {data, events, shouldUpdate} = instance;
 
-      var props = Object.assign({
+      let props = Object.assign({
          key: key,
          className: data.classNames,
          style: data.style
       }, data.attrs, events);
 
-      var children;
+      let children;
       if (typeof data.text != 'undefined')
          children = data.text;
       else if (typeof data.innerHtml == 'string') {

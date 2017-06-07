@@ -37,7 +37,7 @@ export class Window extends Overlay {
       return super.initComponents(...arguments, {
          header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header'}),
          footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer'}),
-         close: this.closable && Widget.create(Button, {
+         close: this.closable && Button.create({
             mod: 'hollow',
             dismiss: true,
             icon: 'close',

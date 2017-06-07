@@ -407,11 +407,24 @@ export class Instance {
 
       let props = {};
       widget.jsxAttributes.forEach(attr => {
-         let callback = widget[attr];
-         if (attr.indexOf('on') == 0 && attr.length > 2 && typeof callback == 'function')
-            props[attr] = e => callback.call(widget, e, this);
+         if (attr.indexOf('on') == 0 && attr.length > 2)
+            props[attr] = e => this.invoke(attr, e, this);
       });
       return props;
+   }
+
+   invoke(methodName, ...args) {
+      let method = this.widget[method];
+      if (typeof method === 'string') {
+         if (!this.controller)
+            throw new Error(`Cannot invoke controller method ${methodName} as controller is not assigned to the widget.`);
+         method = this.controller[method];
+      }
+
+      if (typeof method !== 'function')
+         throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
+
+      return method.apply(this.widget, args);
    }
 }
 

@@ -14,7 +14,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/toast/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing="large" target="tablet" align="start">
         <Section mod="card">
-            <FlexRow spacing>
+            <FlexRow spacing wrap>
                 <Button onClick={ (e, ins) => createToast(e, ins, 'top')}>Top Toast</Button>
                 <Button onClick={ (e, ins) => createToast(e, ins, 'bottom')}>Bottom Toast</Button>
 

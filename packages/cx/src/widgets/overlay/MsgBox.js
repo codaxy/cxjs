@@ -6,7 +6,7 @@ import {Localization} from '../../ui/Localization';
 import {FlexRow} from '../FlexBox';
 
 export class MsgBox {
-   
+
    static alert(options) {
       if (typeof options == 'string')
          options = {
@@ -14,20 +14,28 @@ export class MsgBox {
          };
 
       return new Promise(function (resolve) {
-         var callback = (e, instance)=> {
+         let callback = (e, instance) => {
             if (options.callback && options.callback() === false)
                return;
             instance.parentOptions.dismiss();
             resolve();
          };
 
-         var w = Widget.create(<cx>
-            <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
-                    resizable={false} closable={false}>
+         let w = Widget.create(<cx>
+            <Window
+               title={options.title}
+               header={options.header}
+               mod="alert"
+               modal
+               center
+               resizable={false}
+               closable={false}
+               style={options.style || "max-width: 90vw"}
+            >
                {options.message}
                <FlexRow putInto="footer"
-                  direction={MsgBox.prototype.footerDirection} 
-                  justify={MsgBox.prototype.footerJustify}  
+                  direction={MsgBox.prototype.footerDirection}
+                  justify={MsgBox.prototype.footerJustify}
                >
                   <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>OK</Button>
                </FlexRow>
@@ -46,7 +54,7 @@ export class MsgBox {
 
       return new Promise(function (resolve, reject) {
 
-         var callback = (option) => (e, instance)=> {
+         let callback = (option) => (e, instance) => {
             if (options.callback && options.callback(option) === false)
                return;
             instance.parentOptions.dismiss();
@@ -55,12 +63,20 @@ export class MsgBox {
             else
                resolve(option);
          };
-         var w = Widget.create(<cx>
-            <Window title={options.title} header={options.header} mod="alert" modal={true} center={true}
-                    resizable={false} closable={false}>
+         let w = Widget.create(<cx>
+            <Window
+               title={options.title}
+               header={options.header}
+               mod="alert"
+               modal
+               center
+               resizable={false}
+               closable={false}
+               style={options.style || "max-width: 90vw"}
+            >
                {options.message}
-               <FlexRow putInto="footer" 
-                  direction={MsgBox.prototype.footerDirection} 
+               <FlexRow putInto="footer"
+                  direction={MsgBox.prototype.footerDirection}
                   justify={MsgBox.prototype.footerJustify}
                   hspacing="small"
                >
