@@ -112,7 +112,6 @@ class Input extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         visited: props.data.visited,
          focus: false
       };
    }
@@ -123,7 +122,7 @@ class Input extends VDOM.Component {
 
    render() {
       let {data, instance, label, help} = this.props;
-      let {widget} = instance;
+      let {widget, state} = instance;
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
@@ -151,11 +150,11 @@ class Input extends VDOM.Component {
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
-            visited: data.visited || this.state && this.state.visited,
+            visited: state.visited,
             focus: this.state.focus,
             icon: !!icon,
             empty: empty && !data.placeholder,
-            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
+            error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -172,8 +171,8 @@ class Input extends VDOM.Component {
             readOnly={data.readOnly}
             placeholder={data.placeholder}
             {...data.inputAttrs}
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
             //onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
             onKeyDown={ e => {
@@ -203,13 +202,11 @@ class Input extends VDOM.Component {
             inputError: false
          });
       }
-      if (data.visited)
-         this.setState({visited: true});
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance, this.state));
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
    }
 
    componentDidMount() {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       if (this.props.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
@@ -271,14 +268,14 @@ class Input extends VDOM.Component {
 
    onChange(e, change) {
 
-      let instance = this.props.instance;
+      let {instance} = this.props;
       let {data, widget} = instance;
 
       if (widget.reactOn.indexOf(change) == -1)
          return;
 
       if (change == 'blur') {
-         this.setState({visited: true});
+         instance.setState({visited: true});
          if (this.state.focus)
             this.setState({
                focus: false

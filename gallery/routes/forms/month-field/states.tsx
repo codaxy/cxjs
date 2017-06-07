@@ -147,10 +147,10 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <MonthField label="Tooltip" value={bind("validationMode")} required />
-                        <MonthField label="Help" value={bind("validationMode")} required validationMode="help" />
-                        <MonthField label="Help Block" value={bind("validationMode")} required validationMode="help-block" />
-                        <MonthField label="Material" value={bind("validationMode")} required
+                        <MonthField label="Tooltip" value={bind("validationMode")} required visited />
+                        <MonthField label="Help" value={bind("validationMode")} required visited validationMode="help" />
+                        <MonthField label="Help Block" value={bind("validationMode")} required visited validationMode="help-block" />
+                        <MonthField label="Material" value={bind("validationMode")} required visited
                             validationMode="help" 
                             helpPlacement="material"
                             minValue={range.from}

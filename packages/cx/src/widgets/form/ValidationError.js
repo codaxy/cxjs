@@ -6,7 +6,7 @@ export class ValidationError extends Widget {
    checkVisible(context, instance, data) {
       if (data.visible && context.lastFieldId && context.validation && context.validation.errors && context.validation.errors.length > 0) {
          var lastError = instance.lastError = context.validation.errors[context.validation.errors.length - 1];
-         return lastError.fieldId == context.lastFieldId;
+         return lastError.fieldId == context.lastFieldId && lastError.visited;
       }
 
       return false;

@@ -99,7 +99,8 @@ export class Field extends PureContainer {
 
    initState(context, instance) {
       instance.state = {
-         inputError: false
+         inputError: false,
+         visited: this.visited === true
       };
    }
 
@@ -126,6 +127,11 @@ export class Field extends PureContainer {
 
       data.empty = this.isEmpty(data);
 
+      if (data.visited && !state.visited) {
+         //feels hacky but it should be ok since we're in the middle of a new render cycle
+         state.visited = true;
+      }
+
       super.prepareData(...arguments);
    }
 
@@ -143,7 +149,7 @@ export class Field extends PureContainer {
    }
 
    explore(context, instance) {
-      let {data} = instance;
+      let {data, state} = instance;
 
       if (context.parentDisabled !== instance.parentDisabled) {
          instance.parentDisabled = context.parentDisabled;
@@ -160,6 +166,7 @@ export class Field extends PureContainer {
          context.validation.errors.push({
             fieldId: data.id,
             message: data.error,
+            visited: state.visited,
             type: 'error'
          });
       }
@@ -309,8 +316,8 @@ Field.prototype.helpPlacement = false;
 
 Localization.registerPrototype('cx/widgets/Field', Field);
 
-export function getFieldTooltip(instance, state) {
-   let {widget, data} = instance;
+export function getFieldTooltip(instance) {
+   let {widget, data, state} = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))
       return [

@@ -118,11 +118,11 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextArea label="Tooltip" value={bind("validationMode")} required minLength={10}/>
-                        <TextArea label="Help" value={bind("validationMode")} required validationMode="help" minLength={10}/>
-                        <TextArea label="Help Block" value={bind("validationMode")} required validationMode="help-block"
+                        <TextArea label="Tooltip" value={bind("validationMode")} required visited minLength={10}/>
+                        <TextArea label="Help" value={bind("validationMode")} required visited validationMode="help" minLength={10}/>
+                        <TextArea label="Help Block" value={bind("validationMode")} required visited validationMode="help-block"
                             minLength={10}/>
-                        <TextArea label="Material" value={bind("validationMode")} required
+                        <TextArea label="Material" value={bind("validationMode")} required visited
                             validationMode="help" 
                             minLength={3}
                             maxLength={10}

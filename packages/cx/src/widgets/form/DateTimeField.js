@@ -174,7 +174,6 @@ class DateTimeInput extends VDOM.Component {
       let {data} = this.props;
       this.state = {
          dropdownOpen: false,
-         visited: data.visited,
          focus: false
       };
    }
@@ -238,7 +237,7 @@ class DateTimeInput extends VDOM.Component {
 
    render() {
       let {instance, label, help} = this.props;
-      let {data, widget} = instance;
+      let {data, widget, state} = instance;
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton, icon;
@@ -280,11 +279,11 @@ class DateTimeInput extends VDOM.Component {
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
-            visited: data.visited || this.state.visited,
+            visited: state.visited,
             focus: this.state.focus || this.state.dropdownOpen,
             icon: !!icon,
             empty: empty && !data.placeholder,
-            error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
+            error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty)
          }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -311,8 +310,8 @@ class DateTimeInput extends VDOM.Component {
             onFocus={ e => {
                this.onFocus(e)
             } }
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
          />
          { icon }
          { insideButton }
@@ -385,7 +384,7 @@ class DateTimeInput extends VDOM.Component {
 
    onBlur(e) {
       if (!this.state.dropdownOpen)
-         this.setState({visited: true});
+         this.props.instance.setState({visited: true});
       if (this.state.focus)
          this.setState({
             focus: false
@@ -400,7 +399,8 @@ class DateTimeInput extends VDOM.Component {
                el.removeEventListener('scroll', this.updateDropdownPosition)
             });
 
-         this.setState({dropdownOpen: false, visited: true}, callback);
+         this.setState({dropdownOpen: false}, callback);
+         this.props.instance.setState({visited: true});
       }
       else if (callback)
          callback();
@@ -429,14 +429,12 @@ class DateTimeInput extends VDOM.Component {
             inputError: false
          });
       }
-      if (data.visited)
-         this.setState({visited: true});
 
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
    }
 
    componentDidMount() {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
@@ -451,6 +449,9 @@ class DateTimeInput extends VDOM.Component {
 
       if (widget.reactOn.indexOf(eventType) === -1)
          return;
+
+      if (eventType == 'enter')
+         instance.setState({ visited: true });
 
       this.setValue(e.target.value, data.value);
    }

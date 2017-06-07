@@ -52,12 +52,13 @@ export default <cx>
             <ColorField value={bind("asterisk")} label="Asterisk" required asterisk />
         </Section>
         <Section mod="card" title="Validation Modes" hLevel={4} layout={LabelsLeftLayout} >
-            <ColorField value={bind("validation.tooltip")} label="Tooltip" required />
-            <ColorField value={bind("validation.help")} label="Help" required validationMode="help" />
-            <ColorField value={bind("validation.block")} label="Help Block" required validationMode="help-block" />
+            <ColorField value={bind("validation.tooltip")} label="Tooltip" required visited />
+            <ColorField value={bind("validation.help")} label="Help" required visited validationMode="help" />
+            <ColorField value={bind("validation.block")} label="Help Block" required visited validationMode="help-block" />
             <ColorField value={bind("validation.material")} 
                 label="Material" 
-                required 
+                required
+                visited
                 validationMode="help"
                 helpPlacement="material"
                 visible={{expr: "{$root.$route.theme} == 'material'"}}

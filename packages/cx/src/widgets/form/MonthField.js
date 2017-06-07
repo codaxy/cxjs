@@ -9,15 +9,21 @@ import {Console} from '../../util/Console';
 import {StringTemplate} from '../../data/StringTemplate';
 import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
+import {
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipParentDidMount
+} from '../overlay/Tooltip';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
-import { KeyCode } from '../../util';
+import {KeyCode} from '../../util';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import { isTouchDevice } from '../../util';
+import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 
 export class MonthField extends Field {
@@ -65,7 +71,7 @@ export class MonthField extends Field {
    init() {
       if (!this.culture)
          this.culture = new DateTimeCulture(Format.culture);
-      
+
       if (typeof this.hideClear != 'undefined')
          this.showClear = !this.hideClear;
 
@@ -114,7 +120,8 @@ export class MonthField extends Field {
          if (!data.from || !data.to)
             return this.requiredText;
       }
-      else super.validateRequired(context, instance);
+      else
+         return super.validateRequired(context, instance);
    }
 
    validate(context, instance) {
@@ -142,24 +149,26 @@ export class MonthField extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <MonthInput key={key}
-                         instance={instance}
-                         monthPicker={{
-                            value: this.value,
-                            from: this.from,
-                            to: this.to,
-                            range: this.range,
-                            minValue: this.minValue,
-                            maxValue: this.maxValue,
-                            minExclusive: this.minExclusive,
-                            maxExclusive: this.maxExclusive,
-                            maxValueErrorText: this.maxValueErrorText,
-                            maxExclusiveErrorText: this.maxExclusiveErrorText,
-                            minValueErrorText: this.minValueErrorText,
-                            minExclusiveErrorText: this.minExclusiveErrorText
-                         }}
-                         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
-                         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+      return <MonthInput
+         key={key}
+         data={instance.data}
+         instance={instance}
+         monthPicker={{
+            value: this.value,
+            from: this.from,
+            to: this.to,
+            range: this.range,
+            minValue: this.minValue,
+            maxValue: this.maxValue,
+            minExclusive: this.minExclusive,
+            maxExclusive: this.maxExclusive,
+            maxValueErrorText: this.maxValueErrorText,
+            maxExclusiveErrorText: this.maxExclusiveErrorText,
+            minValueErrorText: this.minValueErrorText,
+            minExclusiveErrorText: this.minExclusiveErrorText
+         }}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -212,11 +221,8 @@ class MonthInput extends VDOM.Component {
    constructor(props) {
       super(props);
       this.props.instance.component = this;
-      var {data} = this.props.instance;
-      this.data = data;
       this.state = {
          dropdownOpen: false,
-         visited: data.visited,
          focus: false
       };
    }
@@ -256,8 +262,8 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var {instance, label, help} = this.props;
-      var {data, widget} = instance;
+      var {instance, label, help, data} = this.props;
+      var {widget, state} = instance;
       var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton, icon;
@@ -296,14 +302,14 @@ class MonthInput extends VDOM.Component {
       if (this.state.dropdownOpen)
          dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
 
-      let empty = this.input ? !this.input.value  : data.empty;
+      let empty = this.input ? !this.input.value : data.empty;
 
       return <div className={CSS.expand(data.classNames, CSS.state({
-         visited: data.visited || this.state.visited,
+         visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
          icon: !!icon,
          empty: empty && !data.placeholder,
-         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !empty)
+         error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty)
       }))}
          style={data.style}
          onMouseDown={::this.onMouseDown}
@@ -329,8 +335,8 @@ class MonthInput extends VDOM.Component {
             onFocus={ e => {
                this.onFocus(e)
             } }
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
          />
          { icon }
          { insideButton }
@@ -403,7 +409,8 @@ class MonthInput extends VDOM.Component {
 
    onBlur(e) {
       if (!this.state.dropdownOpen)
-         this.setState({visited: true});
+         this.props.instance.setState({visited: true});
+
       if (this.state.focus)
          this.setState({
             focus: false
@@ -418,7 +425,8 @@ class MonthInput extends VDOM.Component {
                el.removeEventListener('scroll', this.updateDropdownPosition)
             });
 
-         this.setState({dropdownOpen: false, visited: true}, callback);
+         this.props.instance.setState({visited: true});
+         this.setState({dropdownOpen: false}, callback);
       }
       else if (callback)
          callback();
@@ -445,22 +453,17 @@ class MonthInput extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       var {data, state} = props.instance;
-      if (data.formatted != this.input.value && (data.formatted != this.data.formatted || !state.inputError)) {
+      if (data.formatted != this.input.value && (data.formatted != this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || '';
          props.instance.setState({
             inputError: false
          });
       }
-      this.data = data;
-      if (data.visited)
-         this.setState({visited: true});
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
    }
 
    componentDidMount() {
-      if (this.props.instance.data.visited)
-         this.setState({visited: true});
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.input.focus();
    }
@@ -488,6 +491,9 @@ class MonthInput extends VDOM.Component {
       else if (eventType == 'blur' || eventType == 'enter') {
          if (date2)
             date2 = new Date(date2.getFullYear(), date2.getMonth() + 1, 1);
+         instance.setState({
+            visited: true
+         });
          widget.onSelect(instance, date1, date2);
       }
    }

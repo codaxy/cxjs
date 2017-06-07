@@ -87,7 +87,7 @@ class SelectComponent extends VDOM.Component {
 
    render() {
       let {multiple, select, instance, label, help} = this.props;
-      let {data, widget} = instance;
+      let {data, widget, state} = instance;
       let {CSS, baseClass} = widget;
 
       let icon = data.icon && (
@@ -129,14 +129,13 @@ class SelectComponent extends VDOM.Component {
          </option>
       }
 
-      let visited = data.visited || this.state && this.state.visited;
-
       return <div
          className={CSS.expand(data.classNames, CSS.state({
-            visited: visited,
+            visited: state.visited,
             icon: data.icon,
             focus: this.state.focus,
-            error: visited && data.required && data.value == null
+            error: state.visited && data.error,
+            empty: data.empty
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
@@ -158,8 +157,8 @@ class SelectComponent extends VDOM.Component {
                e.preventDefault();
                select(e.target.value);
             }}
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance, this.state))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance, this.state))}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
             {placeholder}
             {this.props.children}
@@ -172,7 +171,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    onBlur() {
-      this.setState({visited: true});
+      this.props.instance.setState({visited: true});
       if (this.state.focus)
          this.setState({
             focus: false
@@ -200,13 +199,13 @@ class SelectComponent extends VDOM.Component {
    componentDidMount() {
       var { select } = this.props;
       select(this.select.value);
-      tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
       if (this.props.instance.data.autoFocus)
          this.select.focus();
    }
 
    componentWillReceiveProps(props) {
-      tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance, this.state));
+      tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance));
    }
 }
 

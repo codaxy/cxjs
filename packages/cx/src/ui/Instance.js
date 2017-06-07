@@ -298,19 +298,21 @@ export class Instance {
                break;
             }
          }
-      if (!skip) {
-         this.cached.state = this.state;
-         this.state = Object.assign({}, this.state, state);
-         let parent = this.parent;
-         //notify all parents that child state change to bust up caching
-         while (parent) {
-            parent.childStateDirty = true;
-            parent = parent.parent;
-         }
-         batchUpdates(() => {
-            this.store.notify();
-         });
+
+      if (skip)
+         return;
+
+      this.cached.state = this.state;
+      this.state = Object.assign({}, this.state, state);
+      let parent = this.parent;
+      //notify all parents that child state change to bust up caching
+      while (parent) {
+         parent.childStateDirty = true;
+         parent = parent.parent;
       }
+      batchUpdates(() => {
+         this.store.notify();
+      });
    }
 
    set(prop, value) {

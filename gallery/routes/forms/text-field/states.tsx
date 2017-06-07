@@ -136,11 +136,11 @@ export default (
             >
                 <FlexRow wrap spacing="xlarge">
                     <div layout={LabelsLeftLayout}>
-                        <TextField label="Tooltip" value={bind("validation")} required minLength={10}/>
-                        <TextField label="Help" value={bind("validation")} required validationMode="help" minLength={10}/>
-                        <TextField label="Help Block" value={bind("validation")} required validationMode="help-block"
+                        <TextField label="Tooltip" value={bind("validation")} required visited minLength={10}/>
+                        <TextField label="Help" value={bind("validation")} required validationMode="help" visited minLength={10}/>
+                        <TextField label="Help Block" value={bind("validation")} required visited validationMode="help-block"
                             minLength={10}/>
-                        <TextField label="Material" value={bind("validation")} required
+                        <TextField label="Material" value={bind("validation")} required visited
                             validationMode="help" minLength={10}
                             helpPlacement="material"
                             visible={{expr: "{$root.$route.theme} == 'material'"}}

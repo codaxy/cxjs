@@ -247,21 +247,25 @@ export default <cx>
                 label="Tooltip" 
                 value={bind("validation.tooltip")} 
                 options={bind("options5")}
-                required 
+                required
+                visited
                 placeholder="Please select..." 
             />
             <LookupField 
                 label="Help" 
                 value={bind("validation.help")} 
                 options={bind("options5")}
-                required validationMode="help" 
+                required
+                visited
+                validationMode="help"
                 placeholder="Please select..."
             />
             <LookupField 
                 label="Help Block" 
                 value={bind("validation.block")} 
                 options={bind("options5")}
-                required 
+                required
+                visited
                 validationMode="help-block" 
                 placeholder="Please select..." 
             />
@@ -270,6 +274,7 @@ export default <cx>
                 value={bind("validation.material")} 
                 options={bind("options5")}
                 required
+                visited
                 validationMode="help"
                 helpPlacement="material"
                 visible={{expr: "{$root.$route.theme} == 'material'"}}

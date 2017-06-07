@@ -158,19 +158,23 @@ export default <cx>
                 hLevel={4}
             >
                 
-                <Select label="Tooltip" value={bind("validation.tooltip")} required placeholder="Please select...">
+                <Select label="Tooltip" value={bind("validation.tooltip")} required visited placeholder="Please select...">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Help" value={bind("validation.help")} required validationMode="help" placeholder="Please select...">
+                <Select label="Help" value={bind("validation.help")} required visited validationMode="help" placeholder="Please select...">
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Help Block" value={bind("validation.block")} required validationMode="help-block" placeholder="Please select..." >
+                <Select label="Help Block" value={bind("validation.block")} required visited validationMode="help-block" placeholder="Please select..." >
                     <option value={1}>Option 1</option>
                     <option value={2}>Option 2</option>
                 </Select>
-                <Select label="Material" value={bind("validation.material")} required
+                <Select
+                    label="Material"
+                    value={bind("validation.material")}
+                    required
+                    visited
                     validationMode="help"
                     helpPlacement="material"
                     visible={{expr: "{$root.$route.theme} == 'material'"}}

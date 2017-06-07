@@ -229,7 +229,6 @@ class LookupComponent extends VDOM.Component {
          value: data.formatted,
          dropdownOpen: false,
          cursorKey: null,
-         visited: data.visited,
          focus: false
       };
 
@@ -446,7 +445,7 @@ class LookupComponent extends VDOM.Component {
 
    render() {
       var {instance, label, help} = this.props;
-      var {data, widget} = instance;
+      var {data, widget, state} = instance;
       var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
@@ -527,11 +526,11 @@ class LookupComponent extends VDOM.Component {
       }
 
       var states = {
-         visited: data.visited || this.state && this.state.visited,
+         visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
          icon: !insideButton || data.icon,
          empty: !data.placeholder && data.empty,
-         error: data.error && (this.state.visited || !suppressErrorsUntilVisited || !data.empty)
+         error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty)
       };
 
       return <div className={CSS.expand(data.classNames, CSS.state(states))}
@@ -544,8 +543,8 @@ class LookupComponent extends VDOM.Component {
             ref={el => {
                this.dom.input = el
             }}
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance, this.state))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance, this.state))}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
             onClick={ e => this.onClick(e) }
             onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
@@ -724,7 +723,7 @@ class LookupComponent extends VDOM.Component {
 
    onBlur(e) {
       if (!this.state.dropdownOpen)
-         this.setState({visited: true});
+         this.props.instance.setState({visited: true});
 
       if (this.state.focus)
          this.setState({
@@ -733,12 +732,16 @@ class LookupComponent extends VDOM.Component {
    }
 
    closeDropdown(e) {
-      if (this.state.dropdownOpen)
+      if (this.state.dropdownOpen) {
          this.setState({
             dropdownOpen: false,
-            cursorKey: null,
-            visited: true
+            cursorKey: null
          });
+
+         this.props.instance.setState({
+            visited: true
+         })
+      }
 
       //delete results valid only while dropdown is open
       delete this.tmpCachedResult;
@@ -836,13 +839,11 @@ class LookupComponent extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      if (props.instance.data.visited)
-         this.setState({visited: true});
-      tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance, this.state));
+      tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
    }
 
    componentDidMount() {
-      tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance, this.state));
+      tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
       if (this.props.instance.data.autoFocus && !isTouchDevice())
          this.dom.input.focus();
    }
