@@ -319,9 +319,10 @@ class DateTimePickerComponent extends VDOM.Component {
    }
 
    onFocusOut() {
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.onFocusOut)
-         widget.onFocusOut();
+         instance.invoke("onFocusOut", null, instance);
    }
 
    onBlur() {
@@ -365,7 +366,7 @@ class DateTimePickerComponent extends VDOM.Component {
          case KeyCode.enter:
             e.preventDefault();
             if (instance.widget.onSelect)
-               instance.widget.onSelect(e, instance, this.state.date);
+               instance.invoke("onSelect", e, instance, this.state.date);
             break;
 
          default:

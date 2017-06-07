@@ -30,23 +30,6 @@ export class Widget extends Component {
             }
          })
       }
-
-      if (Array.isArray(this.jsxAttributes))
-         this.jsxAttributes.forEach(attr => {
-            if (attr.indexOf('on') == 0 && attr.length > 2 && typeof this[attr] == 'string') {
-               let actionName = this[attr];
-               this[attr] = (e, instance, ...args) => {
-                  if (typeof instance.controller[actionName] != 'function')
-                     throw new Error(`Method '${actionName}' not found in the parent controller.`);
-                  return instance.controller[actionName](e, instance, ...args);
-               }
-            }
-
-            if (attr.indexOf('pipe') == 0 && attr.length > 6 && typeof this[attr] == 'string') {
-               let actionName = this[attr];
-               this[attr] = (e, instance, ...args) => instance.controller[actionName](e, instance, ...args);
-            }
-         });
    }
 
    init() {

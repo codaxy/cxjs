@@ -285,9 +285,10 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onClick(e) {
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.onClick)
-         widget.onClick(e, this.props.instance, this);
+         instance.invoke("onClick", e, instance, this);
    }
 
    onKeyDown(e) {
@@ -351,7 +352,7 @@ export class OverlayComponent extends VDOM.Component {
       let {widget} = instance;
 
       if (widget.onBackdropClick)
-         widget.onBackdropClick(e, instance);
+         instance.invoke("onBackdropClick", e, instance);
 
       if (widget.backdrop) {
          if (instance.dismiss)

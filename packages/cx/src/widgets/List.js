@@ -364,9 +364,10 @@ class ListComponent extends VDOM.Component {
    handleItemClick(e, itemInstance) {
       e.stopPropagation();
 
-      var {widget} = this.props.instance;
+      let {instance} = this.props;
+      var {widget} = instance;
 
-      if (widget.onItemClick && widget.onItemClick(e, itemInstance) === false)
+      if (widget.onItemClick && instance.invoke("onItemClick", e, itemInstance) === false)
          return;
 
       if (!this.props.selectable)
