@@ -3,9 +3,11 @@ import {registerIcon} from './registry';
 
 export default registerIcon('loading', props => {
    let style = {
-      animation: 'linear infinite 0.5s cx-rotate',
-      ...props.style
+      animation: 'linear infinite 0.5s cx-rotate'
    };
+
+   if (props && props.style)
+      Object.assign(style, props.style);
 
    props = {
       ...props,
