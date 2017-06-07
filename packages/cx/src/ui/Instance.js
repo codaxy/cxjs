@@ -414,7 +414,7 @@ export class Instance {
    }
 
    invoke(methodName, ...args) {
-      let method = this.widget[method];
+      let method = this.widget[methodName];
       if (typeof method === 'string') {
          if (!this.controller)
             throw new Error(`Cannot invoke controller method ${methodName} as controller is not assigned to the widget.`);

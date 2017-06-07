@@ -17,8 +17,8 @@ export class HtmlElement extends PureContainer {
    constructor(config) {
       super(config);
 
-      if (this.jsxAttributes === undefined && config)
-         this.jsxAttributes = Object.keys(config);
+      // if (this.jsxAttributes === undefined && config)
+      //    this.jsxAttributes = Object.keys(config);
    }
 
    init() {
