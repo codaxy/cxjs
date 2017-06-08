@@ -137,6 +137,10 @@ let list: Item[] = [{
       route: '+/range',
       name: 'Range',
       content: () => System.import("./charts/range")
+   }, {
+      route: '+/column-widget',
+      name: 'Column',
+      content: () => System.import("./charts/column")
    }]
 }];
 
