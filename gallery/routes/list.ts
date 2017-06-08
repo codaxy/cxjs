@@ -141,6 +141,10 @@ let list: Item[] = [{
       route: '+/column-widget',
       name: 'Column',
       content: () => System.import("./charts/column")
+   }, {
+      route: '+/bar-widget',
+      name: 'Bar',
+      content: () => System.import("./charts/bar")
    }]
 }];
 
