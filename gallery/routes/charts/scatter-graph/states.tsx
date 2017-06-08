@@ -21,6 +21,7 @@ class PageController extends Controller {
 }
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/scatter-graph/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
         <Section mod="well" >
             <FlexRow align="center">

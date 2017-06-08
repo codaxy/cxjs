@@ -18,6 +18,7 @@ class PageController extends Controller {
 }
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar-graph/states.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
         <FlexRow align="center">
             <Svg style="max-width:100%; width: 500px; height:400px;">

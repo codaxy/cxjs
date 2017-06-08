@@ -63,6 +63,7 @@ var columnSelection = new KeySelection({
 });
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/states.tsx" target="_blank" putInto="github">GitHub</a>
     <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
         
         <Section mod="well" title="Customized" hLevel={4} >
