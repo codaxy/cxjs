@@ -8,6 +8,7 @@ var specific = {
       loaders: []
    },
    plugins: [
+      new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
    ],
    output: {

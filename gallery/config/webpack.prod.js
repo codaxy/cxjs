@@ -1,31 +1,13 @@
 var webpack = require('webpack'),
-   ExtractTextPlugin = require("extract-text-webpack-plugin"),
    CopyWebpackPlugin = require('copy-webpack-plugin'),
    ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
-   WebpackMd5Hash = require('webpack-md5-hash'),
    WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
    merge = require('webpack-merge'),
    common = require('./webpack.config'),
    path = require('path');
 
-// var sass = new ExtractTextPlugin({
-//    filename: "app.css",
-//    allChunks: true
-// });
-
 var specific = {
-   // module: {
-   //    loaders: [{
-   //       test: /\.scss$/,
-   //       loaders: sass.extract(['css-loader', 'sass-loader'])
-   //    }, {
-   //       test: /\.css$/,
-   //       loaders: sass.extract(['css-loader'])
-   //    }]
-   // },
-
    plugins: [
-      new WebpackMd5Hash(),
       new webpack.optimize.UglifyJsPlugin(),
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
