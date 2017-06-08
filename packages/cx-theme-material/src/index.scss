@@ -32,7 +32,7 @@ p {
    color: $cx-theme-primary-color-light;
    font-weight: normal;
    border: none;
-   padding: 1em 1em 0;
+   padding: 1em 1em 0.3em;
    margin: 0;
 
    .cxm-pad > & {
@@ -106,6 +106,12 @@ $form-list: (
 .#{$element}monthfield-input,
 .#{$element}colorfield-input {
    padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
+}
+
+// select 
+.cxb-select option {
+   color: $cx-default-color;
+   background-color: rgba(0, 0, 0, 0.03);
 }
 
 // textarea
