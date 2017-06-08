@@ -7,7 +7,8 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "FlexRow",
     tabs: {
-        options: 'Options'
+        options: 'Options',
+        "sidebar-layout": "Sidebar Layout"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/FlexBox'
 });
@@ -20,7 +21,7 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/options">
             {Default}
         </Route>
-        {/*{ asyncRoute("+/baseline", ()=>System.import("../../../examples/baseline")) }*/}
+        { asyncRoute("+/sidebar-layout", ()=>System.import("./sidebar-layout")) }
         <RedirectRoute redirect="+/options" />
     </PureContainer>
 </cx>
