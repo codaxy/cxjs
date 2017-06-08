@@ -148,7 +148,7 @@ let list: Item[] = [{
    }]
 }];
 
-list.map(section => {
+list.forEach(section => {
    if (section.items) {
       section.items.sort((a, b) => {
          if (a.name >= b.name)
