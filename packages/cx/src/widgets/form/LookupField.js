@@ -142,7 +142,6 @@ export class LookupField extends Field {
          itemConfig={this.itemConfig}
          bindings={this.bindings}
          baseClass={this.baseClass}
-         onQuery={this.onQuery}
          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
@@ -767,7 +766,8 @@ class LookupComponent extends VDOM.Component {
        widget, otherwise cache is invalidated when dropdown closes.
        */
 
-      var {widget, data} = this.props.instance;
+      let {instance} = this.props;
+      var {widget, data} = instance;
 
       if (this.queryTimeoutId)
          clearTimeout(this.queryTimeoutId);
@@ -789,7 +789,7 @@ class LookupComponent extends VDOM.Component {
          });
       }
 
-      if (this.props.onQuery) {
+      if (widget.onQuery) {
 
          let {queryDelay, fetchAll, cacheAll} = widget;
 
@@ -807,7 +807,7 @@ class LookupComponent extends VDOM.Component {
 
             let result = this.tmpCachedResult || this.cachedResult;
             if (!result)
-               result = this.props.onQuery(fetchAll ? '' : q, this.props.instance);
+               result = instance.invoke("onQuery", fetchAll ? '' : q, instance);
 
             Promise.resolve(result)
                .then((results) => {

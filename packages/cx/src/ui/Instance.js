@@ -414,17 +414,21 @@ export class Instance {
    }
 
    invoke(methodName, ...args) {
-      let method = this.widget[methodName];
+      let scope = this.widget;
+      let method = scope[methodName];
+
       if (typeof method === 'string') {
          if (!this.controller)
             throw new Error(`Cannot invoke controller method ${methodName} as controller is not assigned to the widget.`);
-         method = this.controller[method];
+
+         scope = this.controller;
+         method = scope[method];
       }
 
       if (typeof method !== 'function')
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
-      return method.apply(this.widget, args);
+      return method.apply(scope, args);
    }
 }
 
