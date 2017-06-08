@@ -142,13 +142,13 @@ let list: Item[] = [{
       name: 'Column',
       content: () => System.import("./charts/column")
    }, {
-      route: '+/bar-widget',
+      route: '+/bar',
       name: 'Bar',
       content: () => System.import("./charts/bar")
    }]
 }];
 
-list.forEach(section => {
+/*list.forEach(section => {
    if (section.items) {
       section.items.sort((a, b) => {
          if (a.name >= b.name)
@@ -158,6 +158,6 @@ list.forEach(section => {
       });
       return section;
    }
-});
+});*/
 
 export default list;
