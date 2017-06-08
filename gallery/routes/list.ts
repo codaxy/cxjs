@@ -28,6 +28,14 @@ let list = [{
       route: '+/toast',
       name: 'Toast',
       content: () => System.import("./general/toast")
+   }, {
+      route: '+/flex-row',
+      name: 'FlexRow',
+      content: () => System.import("./general/flex-row")
+   }, {
+      route: '+/flex-col',
+      name: 'FlexCol',
+      content: () => System.import("./general/flex-col")
    }]
 }, {
    name: 'Forms',

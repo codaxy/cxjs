@@ -3,7 +3,6 @@ const webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
-    WebpackMd5Hash = require('webpack-md5-hash'),
     merge = require('webpack-merge'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
@@ -35,7 +34,6 @@ switch (process.env.npm_lifecycle_event) {
             },
 
             plugins: [
-                new WebpackMd5Hash(),
                 new webpack.LoaderOptionsPlugin({
                     options: {
                         "if-loader": 'production',
@@ -64,6 +62,7 @@ switch (process.env.npm_lifecycle_event) {
         };
         break;
 
+    //dev
     default:
         specific = {
             module: {

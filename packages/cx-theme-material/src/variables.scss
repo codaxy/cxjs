@@ -585,6 +585,10 @@ $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
 
 // header
 $cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
+   default: (
+      border-top-left-radius: $cx-default-border-radius,
+      border-top-right-radius: $cx-default-border-radius,
+   )
 ));
 
 // body

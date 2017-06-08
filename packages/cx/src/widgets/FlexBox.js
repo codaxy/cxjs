@@ -4,17 +4,26 @@ import {PureContainer} from '../ui/PureContainer';
 export class FlexBox extends PureContainer {
 
    init() {
-      if (this.pad === true)
-         this.pad = 'medium';
+      if (this.padding)
+         this.pad = this.padding;
+      
+      if (this.hpadding)
+         this.hpad = this.hpadding;
+
+      if (this.vpadding)
+         this.vpad = this.vpadding;
+
+      this.hpad = this.hpad === undefined ? this.pad : this.hpad;
+      this.vpad = this.vpad === undefined ? this.pad : this.hpad;
 
       if (this.hpad === true)
          this.hpad = 'medium';
 
       if (this.vpad === true)
          this.vpad = 'medium';
-
-      if (this.spacing === true)
-         this.spacing = 'medium';
+      
+      this.hspacing = this.hspacing === undefined ? this.spacing : this.hspacing;
+      this.vspacing = this.vspacing === undefined ? this.spacing : this.vspacing;
 
       if (this.hspacing === true)
          this.hspacing = 'medium';
@@ -34,7 +43,6 @@ export class FlexBox extends PureContainer {
       let {data} = instance;
       data.stateMods = {
          ...data.stateMods,
-         [this.pad + '-pad']: this.pad,
          [this.hpad + '-hpad']: this.hpad,
          [this.vpad + '-vpad']: this.vpad
       };
@@ -45,7 +53,6 @@ export class FlexBox extends PureContainer {
       let {data, eventHandlers} = instance;
       let {CSS, baseClass} = this;
       let flexboxMods = {
-         [this.spacing + '-spacing']: this.spacing,
          [this.hspacing + '-hspacing']: this.hspacing,
          [this.vspacing + '-vspacing']: this.vspacing,
          ['align-' + this.align]: this.align,
@@ -67,11 +74,11 @@ FlexBox.prototype.baseClass = "flexbox";
 FlexBox.prototype.styled = true;
 FlexBox.prototype.direction = 'row';
 FlexBox.prototype.spacing = false;
-FlexBox.prototype.hspacing = false;
-FlexBox.prototype.vspacing = false;
+FlexBox.prototype.hspacing = undefined;
+FlexBox.prototype.vspacing = undefined;
 FlexBox.prototype.pad = false;
-FlexBox.prototype.hpad = false;
-FlexBox.prototype.vpad = false;
+FlexBox.prototype.hpad = undefined;
+FlexBox.prototype.vpad = undefined;
 FlexBox.prototype.wrap = false;
 FlexBox.prototype.align = false;
 FlexBox.prototype.justify = false;

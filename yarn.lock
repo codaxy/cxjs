@@ -1385,12 +1385,6 @@ clean-css@3.4.x:
     commander "2.8.x"
     source-map "0.4.x"
 
-clean-webpack-plugin@^0.1.16:
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/clean-webpack-plugin/-/clean-webpack-plugin-0.1.16.tgz#422a8e150bf3d5abfd3d14bfacb070e80fb2e23f"
-  dependencies:
-    rimraf "~2.5.1"
-
 cli-cursor@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
@@ -2251,7 +2245,7 @@ extend-shallow@^2.0.1:
   dependencies:
     is-extendable "^0.1.0"
 
-extend@~3.0.0:
+extend@^3.0.0, extend@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4"
 
@@ -5679,6 +5673,12 @@ webpack-dev-server@^2.4.5:
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.10.2"
     yargs "^6.0.0"
+
+webpack-hashed-module-id-plugin@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/webpack-hashed-module-id-plugin/-/webpack-hashed-module-id-plugin-0.1.4.tgz#0cc11df43b1547a07fa405edd76ed8e80988a5f6"
+  dependencies:
+    extend "^3.0.0"
 
 webpack-md5-hash@^0.0.5:
   version "0.0.5"
