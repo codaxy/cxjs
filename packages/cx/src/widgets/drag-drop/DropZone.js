@@ -96,8 +96,9 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDropTest(e) {
-      let {widget} = this.props.instance;
-      return !widget.onDropTest || widget.onDropTest(e);
+      let {instance} = this.props;
+      let {widget} = instance;
+      return !widget.onDropTest || instance.invoke("onDropTest", e, instance);
    }
 
    onDragStart(e) {
@@ -198,9 +199,8 @@ class DropZoneComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
 
-      if (this.state.state == 'over' && typeof widget.onDrop == 'function') {
-         widget.onDrop(e, instance);
-      }
+      if (this.state.state == 'over' && widget.onDrop)
+         instance.invoke("onDrop", e, instance);
    }
 
    onDragEnd(e) {

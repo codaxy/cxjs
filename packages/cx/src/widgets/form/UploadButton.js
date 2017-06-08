@@ -97,9 +97,8 @@ class UploadButtonComponent extends VDOM.Component {
       let formData = new FormData();
       formData.append("file", file);
 
-      if (widget.onUploadStarting && widget.onUploadStarting(xhr, instance, file, formData) === false) {
+      if (widget.onUploadStarting && instance.invoke("onUploadStarting", xhr, instance, file, formData) === false)
          return;
-      }
 
       let key = this.uploadKey++;
       let upload = this.uploads[key] = {
@@ -112,13 +111,13 @@ class UploadButtonComponent extends VDOM.Component {
       xhr.onload = () => {
          delete this.uploads[key];
          if (widget.onUploadComplete)
-            widget.onUploadComplete(xhr, instance, file, formData);
+            instance.invoke("onUploadComplete", xhr, instance, file, formData);
          this.reportProgress();
       };
       xhr.onerror = e => {
          delete this.uploads[key];
          if (widget.onUploadError)
-            widget.onUploadError(e, instance, file, formData);
+            instance.invoke("onUploadError", e, instance, file, formData);
          this.reportProgress();
       };
 

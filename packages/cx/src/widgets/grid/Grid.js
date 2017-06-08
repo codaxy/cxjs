@@ -685,11 +685,12 @@ class GridComponent extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(::this.handleKeyDown, this.props.instance);
+         instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
    }
 
@@ -697,7 +698,7 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.onDragStart)
-         widget.onDragStart(e, instance);
+         instance.invoke("onDragStart", e, instance);
    }
 
    onDrop(e) {
@@ -707,14 +708,15 @@ class GridComponent extends VDOM.Component {
          e.target = {
             insertionIndex: this.state.dragInsertionIndex
          };
-         widget.onDrop(e, instance);
+         instance.invoke("onDrop", e, instance);
       }
    }
 
    onDropTest(e) {
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.onDropTest)
-         return widget.onDropTest(e);
+         return instance.invoke("onDropTest", e, instance);
       return true;
    }
 
@@ -726,7 +728,7 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.onDragEnd)
-         widget.onDragEnd(e, instance);
+         instance.invoke("onDragEnd", e, instance);
    }
 
    onDragMeasure(e) {
@@ -827,7 +829,7 @@ class GridComponent extends VDOM.Component {
          this.unregisterDropZone();
 
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(null, instance);
+         instance.invoke("pipeKeyDown", null, instance);
    }
 
    componentDidUpdate() {

@@ -24,36 +24,38 @@ export class History {
    }
 
    static navigate(state, title, url, replace = false) {
-      if (window.history.pushState) {
-         url = Url.resolve(url);
-         let changed = false;
-         let current = ++last;
-         batchUpdatesAndNotify(() => {
-            changed = this.updateStore(url);
-            if (changed)
-               transitions[current] = {
-                  url,
-                  state,
-                  title,
-                  replace
-               }
-         }, () => {
-            if (changed)
-               transitions[current].completed = true;
+      url = Url.resolve(url);
 
-            //update history once the page is rendered and the title is set (SEO)
-            while (transitions[next] && transitions[next].completed) {
-               let tr = transitions[next];
-               delete transitions[next];
-               if (tr.replace)
-                  window.history.replaceState(tr.state, tr.title, tr.url);
-               else
-                  window.history.pushState(tr.state, tr.title, tr.url);
-               next++;
-            }
-         });
-         return changed;
+      if (!window.history.pushState) {
+         window.location[replace ? "replace" : "assign"](url);
+         return true;
       }
+
+      let transition, changed = false;
+      batchUpdatesAndNotify(() => {
+         changed = this.updateStore(url);
+         if (changed)
+            transitions[++last] = transition = {
+               url,
+               state,
+               title,
+               replace
+            }
+      }, () => {
+         if (transition)
+            transition.completed = true;
+
+         //update history once the page is rendered and the title is set
+         while (transitions[next] && transitions[next].completed) {
+            let tr = transitions[next];
+            delete transitions[next];
+            next++;
+            let op = tr.replace ? "replaceState" : "pushState";
+            window.history[op](tr.state, tr.title, tr.url);
+         }
+      });
+
+      return changed;
    }
 
    static updateStore(href) {

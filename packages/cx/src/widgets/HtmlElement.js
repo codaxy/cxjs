@@ -17,8 +17,8 @@ export class HtmlElement extends PureContainer {
    constructor(config) {
       super(config);
 
-      // if (this.jsxAttributes === undefined && config)
-      //    this.jsxAttributes = Object.keys(config);
+      if (this.jsxAttributes === undefined && config)
+         this.jsxAttributes = Object.keys(config).filter(::this.isValidHtmlAttribute);
    }
 
    init() {
@@ -80,6 +80,10 @@ export class HtmlElement extends PureContainer {
    isValidHtmlAttribute(attrName) {
       switch (attrName) {
          case 'tag':
+         case "type":
+         case "$type":
+         case "$props":
+         case "text":
          case 'layout':
          case 'class':
          case 'className':

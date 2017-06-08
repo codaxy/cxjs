@@ -28,9 +28,11 @@ export class GridRowComponent extends VDOM.Component {
       this.onMouseEnter = ::this.onMouseEnter;
       this.onClick = ::this.onClick;
 
-      if (props.grid.widget.onRowDoubleClick)
+      let {grid, instance} = props;
+
+      if (grid.widget.onRowDoubleClick)
          this.onDoubleClick = e => {
-            this.props.grid.widget.onRowDoubleClick(e, this.props.instance);
+            grid.invoke("onRowDoubleClick", e, instance);
          }
    }
 
@@ -102,7 +104,7 @@ export class GridRowComponent extends VDOM.Component {
       let {store, widget} = grid;
 
       if (grid.widget.onRowClick) {
-         if (grid.widget.onRowClick(e, instance) === false)
+         if (grid.invoke("onRowClick", e, instance) === false)
             return;
       }
 

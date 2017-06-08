@@ -204,7 +204,7 @@ class ColorPickerComponent extends VDOM.Component {
       let {widget} = instance;
 
       if (widget.onColorClick)
-         widget.onColorClick(e, instance);
+         instance.invoke("onColorClick", e, instance);
    }
 
    onHueSelect(e) {

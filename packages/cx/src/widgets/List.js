@@ -226,7 +226,7 @@ class ListComponent extends VDOM.Component {
       var {instance} = this.props;
       var {widget} = instance;
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(::this.handleKeyDown, this.props.instance);
+         instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
    }
 
    componentWillReceiveProps(props) {
@@ -240,7 +240,7 @@ class ListComponent extends VDOM.Component {
       var {widget} = instance;
       offFocusOut(this);
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(null, instance);
+         instance.invoke("pipeKeyDown", null, instance);
    }
 
    render() {
@@ -364,9 +364,10 @@ class ListComponent extends VDOM.Component {
    handleItemClick(e, itemInstance) {
       e.stopPropagation();
 
-      var {widget} = this.props.instance;
+      let {instance} = this.props;
+      var {widget} = instance;
 
-      if (widget.onItemClick && widget.onItemClick(e, itemInstance) === false)
+      if (widget.onItemClick && instance.invoke("onItemClick", e, itemInstance) === false)
          return;
 
       if (!this.props.selectable)

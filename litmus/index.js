@@ -21,7 +21,7 @@ import './index.scss';
 //import Demo from './bugs/search';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 
-//import Demo from './features/flexbox';
+import Demo from './features/flexbox';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
@@ -32,7 +32,7 @@ import './index.scss';
 //import Demo from './features/wheel';
 //import Demo from './features/logo';
 //import Demo from './features/destroy';
-import Demo from './bugs/179';
+//import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
 

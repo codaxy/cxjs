@@ -185,7 +185,7 @@ export class MonthField extends Field {
       return date;
    }
 
-   onSelect(instance, date1, date2) {
+   handleSelect(instance, date1, date2) {
       instance.setState({
          inputError: false
       });
@@ -448,7 +448,7 @@ class MonthInput extends VDOM.Component {
       var {instance} = this.props;
       var {widget} = instance;
 
-      widget.onSelect(instance, null, null);
+      widget.handleSelect(instance, null, null);
    }
 
    componentWillReceiveProps(props) {
@@ -494,7 +494,7 @@ class MonthInput extends VDOM.Component {
          instance.setState({
             visited: true
          });
-         widget.onSelect(instance, date1, date2);
+         widget.handleSelect(instance, date1, date2);
       }
    }
 }

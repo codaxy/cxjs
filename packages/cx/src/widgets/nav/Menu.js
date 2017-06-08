@@ -254,7 +254,7 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = instance;
 
       if (widget.onKeyDown)
-         widget.onKeyDown(e, instance);
+         instance.invoke("onKeyDown", e, instance);
    }
 
    onMouseDown(e) {

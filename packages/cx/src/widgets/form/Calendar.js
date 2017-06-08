@@ -274,9 +274,10 @@ export class CalendarCmp extends VDOM.Component {
             break;
 
          default:
-            let {widget} = this.props.instance;
+            let {instance} = this.props;
+            let {widget} = instance;
             if (widget.onKeyDown)
-               widget.onKeyDown(e, this.props.instance);
+               instance.invoke("onKeyDown", e, instance);
             break;
       }
    }
@@ -299,9 +300,10 @@ export class CalendarCmp extends VDOM.Component {
 
    handleBlur(e) {
       FocusManager.nudge();
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.onBlur)
-         widget.onBlur();
+         instance.invoke("onBlur", e, instance);
       this.setState({
          focus: false
       });
@@ -315,9 +317,10 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleFocusOut() {
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.onFocusOut)
-         widget.onFocusOut();
+         instance.invoke("onFocusOut", null, instance);
    }
 
    handleMouseLeave(e) {
