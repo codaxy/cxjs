@@ -27,6 +27,12 @@ export class Label extends HtmlElement {
       super.explore(context, instance);
    }
 
+   isValidHtmlAttribute(attrName) {
+      if (attrName == 'asterisk')
+         return false;
+      return super.isValidHtmlAttribute(attrName);
+   }
+
    attachProps(context, instance, props) {
       super.attachProps(context, instance, props);
       props.htmlFor = instance.data.htmlFor;
