@@ -20,7 +20,7 @@ interface FlexBoxProps extends Cx.StyledContainerProps {
     * Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`. 
     * Value `true` is equivalent to `medium`. \
     */
-   hspacing?: string,
+   hspacing?: boolean | string,
    
    /**
     * Add vertical spacing between items by applying a margin to children. 
@@ -36,18 +36,21 @@ interface FlexBoxProps extends Cx.StyledContainerProps {
     *  Value `true` is equivalent to `medium`. 
     */
    pad?: boolean | string,
+   padding?: boolean | string,
 
    /** 
     * Add horizontal padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
     *  Value `true` is equivalent to `medium`.
     */
    hpad?: boolean | string,
+   hpadding?: boolean | string,
 
    /** 
     * Add vertical padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
     *  Value `true` is equivalent to `medium`. 
     */
    vpad?: boolean | string,
+   vpadding?: boolean | string,
 
    wrap?: boolean,
    align?: string,

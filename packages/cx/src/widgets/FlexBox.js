@@ -4,6 +4,15 @@ import {PureContainer} from '../ui/PureContainer';
 export class FlexBox extends PureContainer {
 
    init() {
+      if (this.padding)
+         this.pad = this.padding;
+
+      if (this.hpadding)
+         this.hpad = this.hpadding;
+
+      if (this.vpadding)
+         this.vpad = this.vpadding;
+
       if (this.pad === true)
          this.pad = 'medium';
 
