@@ -5,16 +5,6 @@
    $state: map-get($besm, state);
    @each $pad, $size in $cx-pad-size
    {
-
-      &.#{$state}#{$pad}-spacing {
-         margin: -$size / $divider;
-         height: calc(100% + #{2 * $size / $divider});
-
-         & > * {
-            margin: $size / $divider;
-         }
-      }
-
       &.#{$state}#{$pad}-hspacing {
          margin-left: -$size / $divider;
          margin-right: -$size / $divider;
@@ -54,10 +44,6 @@
 
       @each $pad, $size in $cx-pad-size
       {
-         &.#{$state}#{$pad}-pad {
-            padding: $size;
-         }
-
          &.#{$state}#{$pad}-hpad {
             padding-left: $size;
             padding-right: $size;

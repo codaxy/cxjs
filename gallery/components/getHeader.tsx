@@ -38,6 +38,7 @@ export function getHeader(config: HeaderConfig): any {
         <div putInto="links">
             <ContentPlaceholder name="github"/>
             &nbsp;
+            &nbsp;
             <a href={config.docsUrl} target="_blank">Docs</a>
         </div>
         }

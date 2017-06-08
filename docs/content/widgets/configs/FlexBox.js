@@ -5,6 +5,7 @@ export default {
     ...container,
     pad: {
         type: 'string/boolean',
+        alias: 'padding',
         key: true,
         description: <cx><Md>
             Add padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -14,6 +15,7 @@ export default {
 
     hpad: {
         type: 'string/boolean',
+        alias: 'hpadding',
         key: true,
         description: <cx><Md>
             Add horizontal padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.
@@ -23,6 +25,7 @@ export default {
 
     vpad: {
         type: 'string/boolean',
+        alias: 'vpadding',
         key: true,
         description: <cx><Md>
             Add vertical padding to the box. Allowed values are `xsmall`, `small`, `medium`, `large` and `xlarge`.

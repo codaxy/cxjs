@@ -32,6 +32,10 @@ let list = [{
       route: '+/flex-row',
       name: 'FlexRow',
       content: () => System.import("./general/flex-row")
+   }, {
+      route: '+/flex-col',
+      name: 'FlexCol',
+      content: () => System.import("./general/flex-col")
    }]
 }, {
    name: 'Forms',
