@@ -7,20 +7,22 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "Column",
     tabs: {
-        states: 'States'
+        customized: 'Custom columns',
+        normalized: 'Normalized'
     },
     docsUrl: 'https://cxjs.io/docs/charts/columns'
 });
 
-import Default from './states';
+import Default from './customized';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <Route url={{bind: '$root.url'}} route="+/customized">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/states" />
+        { asyncRoute("+/normalized", () => System.import("./normalized")) }
+        <RedirectRoute redirect="+/customized" />
     </PureContainer>
 </cx>
 
