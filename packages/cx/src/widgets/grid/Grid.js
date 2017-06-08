@@ -685,11 +685,12 @@ class GridComponent extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(::this.handleKeyDown, this.props.instance);
+         instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
    }
 
@@ -828,7 +829,7 @@ class GridComponent extends VDOM.Component {
          this.unregisterDropZone();
 
       if (widget.pipeKeyDown)
-         widget.pipeKeyDown(null, instance);
+         instance.invoke("pipeKeyDown", null, instance);
    }
 
    componentDidUpdate() {

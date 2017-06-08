@@ -51,7 +51,7 @@ export class Dropdown extends Overlay {
          this.onDropdownDidMount(instance, component);
 
       if (this.pipeValidateDropdownPosition)
-         this.pipeValidateDropdownPosition(component.updateDropdownPosition);
+         instance.invoke("pipeValidateDropdownPosition", component.updateDropdownPosition, instance);
 
       if (this.parentPositionChangeEvent)
          component.offParentPositionChange = this.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
@@ -74,7 +74,7 @@ export class Dropdown extends Overlay {
          component.offResize();
 
       if (this.pipeValidateDropdownPosition)
-         this.pipeValidateDropdownPosition(null);
+         instance.invoke("pipeValidateDropdownPosition", null, instance);
 
       if (component.offParentPositionChange)
          component.offParentPositionChange();
