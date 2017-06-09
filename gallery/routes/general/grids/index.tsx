@@ -15,6 +15,7 @@ const header = getHeader({
         "multi-select": "Multiple Selection",       
         "grouping": "Grouping",
         "dynamic-grouping": "Dynamic Grouping",
+        "filtering": "Filtering",
         "misc": "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
@@ -31,6 +32,7 @@ export default <cx>
         { asyncRoute("+/multi-select", () => System.import("./multi-select")) }
         { asyncRoute("+/grouping", () => System.import("./grouping")) }
         { asyncRoute("+/dynamic-grouping", () => System.import("./dynamic-grouping")) }
+        { asyncRoute("+/filtering", () => System.import("./filtering")) }
         { asyncRoute("+/misc", () => System.import("./misc")) }
         <RedirectRoute redirect="+/basic" />
     </PureContainer>
