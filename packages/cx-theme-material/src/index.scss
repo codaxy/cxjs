@@ -513,11 +513,12 @@ div.#{$block}classic-tab-container {
 
 // group grid styles
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
+
    td {
       color: $cx-theme-primary-color;
       line-height: $cx-default-grid-data-line-height;
       padding: $cx-default-grid-data-padding;
-      border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
+      border-top: 1px solid $cx-default-grid-data-border-color;
       font-weight: 500;
    }
 }
@@ -527,7 +528,10 @@ div.#{$block}classic-tab-container {
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            border-bottom: 1px solid darken($cx-default-grid-data-border-color, 20);
+            font-size: 1.125rem;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid $cx-default-grid-data-border-color;
+            font-weight: 600;
          }
       }
    }
@@ -537,7 +541,8 @@ div.#{$block}classic-tab-container {
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            border-top: 1px solid darken($cx-default-grid-data-border-color, 20);
+            border-width: 1px 0;
+            border-color: $cx-default-grid-data-border-color;            
          }
       }
    }
