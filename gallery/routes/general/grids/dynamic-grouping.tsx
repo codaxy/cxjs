@@ -69,7 +69,8 @@ export default (
       </p>
       <Grid
         records={bind("$page.records")}
-        style={{ width: "100%" }}        
+        style={{ width: "100%" }}
+        scrollable={}
         columns={
         [
           {

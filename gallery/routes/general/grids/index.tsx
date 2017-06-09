@@ -12,10 +12,10 @@ const header = getHeader({
     title: "Grid",
     tabs: {
         "basic": "Basic",
-        "multi-select": "Multiple Selection",
-        "misc": "Misc",
+        "multi-select": "Multiple Selection",       
         "grouping": "Grouping",
-        "dynamic-grouping": "Dynamic Grouping"
+        "dynamic-grouping": "Dynamic Grouping",
+        "misc": "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
 });

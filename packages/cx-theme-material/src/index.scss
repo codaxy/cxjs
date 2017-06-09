@@ -521,15 +521,25 @@ div.#{$block}classic-tab-container {
       border-top: 1px solid $cx-default-grid-data-border-color;
       font-weight: 500;
    }
+
+   &:not(:first-child) {
+      td {
+         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
+      }
+   }
 }
 
 // default grey border color in group grid changed
 .#{$element}grid-group-caption {
+
+   td {
+      background-color: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid $cx-default-grid-data-border-color;
+   }
+
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            font-size: 1.125rem;
-            background-color: rgba(0, 0, 0, 0.03);
             border-bottom: 1px solid $cx-default-grid-data-border-color;
             font-weight: 600;
          }
