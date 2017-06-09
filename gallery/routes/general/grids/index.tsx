@@ -16,6 +16,7 @@ const header = getHeader({
         "grouping": "Grouping",
         "dynamic-grouping": "Dynamic Grouping",
         "filtering": "Filtering",
+        "inline-editing": "Inline Editing",
         "misc": "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
@@ -33,6 +34,7 @@ export default <cx>
         { asyncRoute("+/grouping", () => System.import("./grouping")) }
         { asyncRoute("+/dynamic-grouping", () => System.import("./dynamic-grouping")) }
         { asyncRoute("+/filtering", () => System.import("./filtering")) }
+        { asyncRoute("+/inline-editing", () => System.import("./inline-editing")) }
         { asyncRoute("+/misc", () => System.import("./misc")) }
         <RedirectRoute redirect="+/basic" />
     </PureContainer>
