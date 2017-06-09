@@ -116,8 +116,20 @@ $small-device-width: 800px;
       overflow-y: auto;
    }
 
+   dl {
+      margin: 0;
+   }
+
+   dl.major {
+      margin: 0;
+
+      dt {
+         padding: 0.5rem 0 0 1.5rem;
+      }
+   }
+
    dt {
-      padding: 0.5rem 0.5rem 0.5rem 2rem;
+      padding: 1rem 0.5rem 0.5rem 2rem;
       font-weight: bold;
    }
 

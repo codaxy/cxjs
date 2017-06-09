@@ -1,29 +1,36 @@
-let list = [{
-   name: 'General',
+interface Item {
+   name: string;
+   route?: string;
+   content?: () => Promise<any>;
+   items?: Item[]
+}
+
+let list: Item[] = [{
+   name: 'Button',
+   route: '+/button',
+   content: () => System.import("./general/button")
+}, {
+   route: '+/grid',
+   name: 'Grid',
+   content: () => System.import("./general/grids")
+}, {
+   route: '+/window',
+   name: 'Window',
+   content: () => System.import("./general/window")
+}, {
+   route: '+/menu',
+   name: 'Menu',
+   content: () => System.import("./general/menu")
+}, {
+   name: 'Misc',
    items: [{
-      route: '+/button',
-      name: 'Button',
-      content: () => System.import("./general/button")
-   }, {
-      route: '+/tab',
-      name: 'Tab',
-      content: () => System.import("./general/tab")
-   }, {
-      route: '+/menu',
-      name: 'Menu',
-      content: () => System.import("./general/menu")
-   }, {
       route: '+/list',
       name: 'List',
       content: () => System.import("./general/list")
    }, {
-      route: '+/grid',
-      name: 'Grid',
-      content: () => System.import("./general/grids")
-   }, {
-      route: '+/window',
-      name: 'Window',
-      content: () => System.import("./general/window")
+      route: '+/tab',
+      name: 'Tab',
+      content: () => System.import("./general/tab")
    }, {
       route: '+/toast',
       name: 'Toast',
@@ -134,13 +141,15 @@ let list = [{
 }];
 
 list.map(section => {
-   section.items.sort((a,b) => {
-      if(a.name >= b.name)
-         return 1;
-      else
-         return -1
-   });
-   return section;
+   if (section.items) {
+      section.items.sort((a, b) => {
+         if (a.name >= b.name)
+            return 1;
+         else
+            return -1
+      });
+      return section;
+   }
 });
 
 export default list;
