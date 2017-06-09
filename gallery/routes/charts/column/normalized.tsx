@@ -59,8 +59,9 @@ var columnSelection = new KeySelection({
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/normalized.tsx" target="_blank" putInto="github">GitHub</a>
-    <Section mod="well" title="Normalized" hLevel={4} controller={PageController}>
+    <Section mod="well" controller={PageController}>
         <Legend.Scope>
+                <div style={{ width: '600px' }}>
             <FlexRow direction="column" align='left'>
             <Svg style="width:600px; height:400px;">
                <Chart offset="20 -20 -40 40" axes={{
@@ -98,6 +99,7 @@ export default <cx>
             </Svg>
             <Legend /> 
             </FlexRow>
+            </div>
         </Legend.Scope>
     </Section>
 </cx>

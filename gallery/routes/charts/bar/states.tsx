@@ -18,7 +18,7 @@ class PageController extends Controller {
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/states.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <FlexRow align="center">
+        <FlexRow direction="column" align="left" style="width: 500px;" >
             <Svg style="width:500px; height:400px;">
                <Chart offset="20 -20 -40 130" axes={{
                   x: { type: NumericAxis, snapToTicks: 0 },
@@ -45,8 +45,8 @@ export default <cx>
                           tooltip={tpl("{$point.v2:n;0}")} />
                   </Repeater>
                </Chart>
-               <Legend />
             </Svg>
+            <Legend />
         </FlexRow>
     </Section>
 </cx>

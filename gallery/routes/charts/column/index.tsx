@@ -8,7 +8,9 @@ const header = getHeader({
     title: "Column",
     tabs: {
         customized: 'Custom columns',
-        normalized: 'Normalized'
+        normalized: 'Normalized',
+        stacked: 'Stacked',
+        "auto-column-width": 'Auto-calculated Column Widths'
     },
     docsUrl: 'https://cxjs.io/docs/charts/columns'
 });
@@ -22,6 +24,8 @@ export default <cx>
             {Default}
         </Route>
         { asyncRoute("+/normalized", () => System.import("./normalized")) }
+        { asyncRoute("+/stacked", () => System.import("./stacked")) }
+        { asyncRoute("+/auto-column-width", () => System.import("./auto-column-width")) }
         <RedirectRoute redirect="+/customized" />
     </PureContainer>
 </cx>
