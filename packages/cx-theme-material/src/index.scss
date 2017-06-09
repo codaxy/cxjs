@@ -542,6 +542,7 @@ div.#{$block}classic-tab-container {
          td {
             border-bottom: 1px solid $cx-default-grid-data-border-color;
             font-weight: 600;
+            background-color: darken(#f7f7f7, $i);
          }
       }
    }
