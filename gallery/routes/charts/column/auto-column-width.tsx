@@ -31,11 +31,11 @@ var columnSelection = new KeySelection({
 });
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/auto-column-width.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <FlexRow direction="column" style="width: 600px;" >
+        <FlexRow direction="column">
             <Legend.Scope>
-                <Svg style="width:600px; height:400px;">
+                <Svg style="height:400px;">
                    <Chart offset="20 -20 -40 40" axes={{
                          x: { type: CategoryAxis, uniform: true, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
                          y: { type: NumericAxis, vertical: true, snapToTicks: 0 }

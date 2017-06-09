@@ -34,11 +34,14 @@ var columnSelection = new KeySelection({
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/stacked.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" >
-        <FlexRow target='desktop' direction="column" style="width: 600px;" controller={PageController} >
+        <FlexRow target='desktop' direction="column" controller={PageController} >
             <Legend.Scope>
                 <Legend />
-                <Svg style="width:600px; height:400px;">
-                   <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
+                <Svg style="height:400px;">
+                   <Chart offset="20 -20 -40 40" axes={{ 
+                        x: {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
+                        y: { type: NumericAxis, vertical: true, snapToTicks: 2 } 
+                   }}>
                       <Gridlines/>
                       <Repeater records={bind("$page.points3")} recordName="$point">
                          <Column name="V1"

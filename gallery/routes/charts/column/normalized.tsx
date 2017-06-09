@@ -11,23 +11,6 @@ class PageController extends Controller {
    init() {
       super.init();
 
-      var v1 = 100;
-      this.store.set('$page.points2', Array.from({length: categories.length}, (_, i) => ({
-         x: categories[i],
-         v1: v1 = (v1 + (Math.random() - 0.5) * 30),
-         v2: v1 + 50 + Math.random() * 100
-      })));
-
-      this.store.set('$page.points3', Array.from({length: categories.length}, (_, i) => ({
-         x: categories[i],
-         v1: Math.random() * 30,
-         v2: Math.random() * 30,
-         v3: Math.random() * 30,
-         a1: Math.random() * 30,
-         a2: Math.random() * 30,
-         a3: Math.random() * 30,
-      })));
-
       var v1 = 500;
       var v2 = 500;
       var v3 = 500;
@@ -38,15 +21,6 @@ class PageController extends Controller {
          v3: v3 = v3 + (Math.random() - 0.5) * 100,
       })));
 
-      this.store.set('$page.points5', Array.from({length: categories.length}, (_, i) => ({
-         x: categories[i],
-         v1: Math.random() * 30,
-         v2: Math.random() * 30,
-         v3: Math.random() * 30,
-         a1: Math.random() * 30,
-         a2: i < 7 ? Math.random() * 30 : null,
-         a3: i < 10 ? Math.random() * 30 : null,
-      })));
    }
 }
 
@@ -60,12 +34,10 @@ var columnSelection = new KeySelection({
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/normalized.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <Legend.Scope>
-                <div style={{ width: '600px' }}>
-            <FlexRow direction="column" align='left'>
-            <Svg style="width:600px; height:400px;">
+        <FlexRow direction="column" >
+            <Svg style="height:400px;">
                <Chart offset="20 -20 -40 40" axes={{
-                     x: CategoryAxis,
+                     x: {type: CategoryAxis, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
                      y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                   }}>
                   <Gridlines/>
@@ -98,9 +70,7 @@ export default <cx>
                </Chart>      
             </Svg>
             <Legend /> 
-            </FlexRow>
-            </div>
-        </Legend.Scope>
+        </FlexRow>
     </Section>
 </cx>
 
