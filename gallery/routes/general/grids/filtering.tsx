@@ -111,6 +111,7 @@ export default (
                     value={bind("$page.filter.name")}
                     reactOn="enter blur"
                     style="width:100%"
+                    placeholder="Filter by Name"
                   />
                 )
               }
@@ -123,6 +124,7 @@ export default (
                     value={bind("$page.filter.phone")}
                     reactOn="enter blur"
                     style="width:100%"
+                    placeholder="Filter by Phone Number"
                   />
                 )
               },
@@ -137,6 +139,7 @@ export default (
                     value={bind("$page.filter.city")}
                     reactOn="enter blur"
                     style="width:100%"
+                    placeholder="Filter by City"                    
                   />
                 )
               },
