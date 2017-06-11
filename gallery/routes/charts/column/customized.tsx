@@ -9,7 +9,9 @@ class PageController extends Controller {
    init() {
       super.init();
 
-      this.store.set('$page.points', Array.from({length: 12}, (_, i) => ({
+      let mw = 768;
+      let length = window.innerWidth >= mw ? 30 : 12;
+      this.store.set('$page.points', Array.from({length}, (_, i) => ({
          x: casual.city,
          y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
       })));

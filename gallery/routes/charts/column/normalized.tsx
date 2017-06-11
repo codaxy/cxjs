@@ -31,13 +31,15 @@ var columnSelection = new KeySelection({
    index: { bind: '$index' }
 });
 
+let mw = 768;
+
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/normalized.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" >
             <Svg style="height:400px;">
                <Chart offset="20 -20 -40 40" axes={{
-                     x: {type: CategoryAxis, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
+                     x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
                      y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                   }}>
                   <Gridlines/>

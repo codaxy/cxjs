@@ -28,13 +28,15 @@ var columnSelection = new KeySelection({
    index: { bind: '$index' }
 });
 
+let mw = 768;
+
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/combination.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController} >
         <FlexRow direction="column">
             <Svg style="height:400px; flex: 1;">
                <Chart offset="20 -20 -40 40" axes={{ 
-                        x: {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
+                        x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                         y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
                   <Gridlines/>
                   <Repeater records={bind("$page.points2")} recordName="$point">
