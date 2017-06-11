@@ -18,7 +18,10 @@ interface BarProps extends ColumnBarBaseProps {
    baseClass?: string,
 
    /** Tooltip configuration. For more info see Tooltips. */
-   tooltip?: Cx.StringProp | Cx.StructuredProp
+   tooltip?: Cx.StringProp | Cx.StructuredProp,
+
+   /** Selection configuration. */
+   selection?: Cx.Config
 
 }
 
