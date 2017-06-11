@@ -7,12 +7,15 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "Bar",
     tabs: {
-        standard: 'Standard'
+        standard: 'Standard',
+        combination: 'Combination',
+        stacked: 'Stacked',
+        bullets: 'Bullet Chart'
     },
     docsUrl: 'https://cxjs.io/docs/charts/bars'
 });
 
-import Default from './states';
+import Default from './standard';
 
 export default <cx>
     {header}
@@ -20,6 +23,9 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
+        { asyncRoute("+/combination", () => System.import("./combination")) }
+        { asyncRoute("+/stacked", () => System.import("./stacked")) }
+        { asyncRoute("+/bullets", () => System.import("./bullets")) }
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
