@@ -145,6 +145,10 @@ let list: Item[] = [{
       route: '+/bar',
       name: 'Bar',
       content: () => System.import("./charts/bar")
+   }, {
+      route: '+/marker',
+      name: 'Marker',
+      content: () => System.import("./charts/marker")
    }]
 }];
 
