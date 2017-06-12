@@ -18,6 +18,7 @@ const header = getHeader({
         "filtering": "Filtering",
         "inline-editing": "Inline Editing",
         "form-editing": "Form Editing",
+        "tree-grid": "Tree Grid",
         "misc": "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
@@ -37,6 +38,7 @@ export default <cx>
         { asyncRoute("+/filtering", () => System.import("./filtering")) }
         { asyncRoute("+/inline-editing", () => System.import("./inline-editing")) }
         { asyncRoute("+/form-editing", () => System.import("./form-editing")) }
+        { asyncRoute("+/tree-grid", () => System.import("./tree-grid")) }
         { asyncRoute("+/misc", () => System.import("./misc")) }
         <RedirectRoute redirect="+/basic" />
     </PureContainer>
