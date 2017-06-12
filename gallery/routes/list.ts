@@ -149,15 +149,20 @@ let list: Item[] = [{
 }];
 
 export let sorted = list.map(section => {
-   return {
-      ...section,
-      items: [...section.items].sort((a,b) => {
+   section = {
+      ...section
+   };
+
+   if (section.items) {
+      section.items =  [...section.items].sort((a,b) => {
           if(a.name >= b.name)
              return 1;
           else
              return -1
-      })
-   };
+      });
+   }
+   
+   return section;
 });
 
 export default list;

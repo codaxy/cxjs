@@ -23,7 +23,7 @@ const catGroup = cat =>
         </dt>
         {cat.items && cat.items.map(item =>
             <dd>
-                <Link href={tpl("~/{$route.theme}" + item.route.substring(1))} url={bind("url")} match="prefix">
+                <Link href={tpl("~/{$route.theme}" + item.route.substring(1) + "/")} url={bind("url")} match="prefix">
                     {item.name}
                 </Link>
             </dd>
