@@ -62,7 +62,10 @@ export default (
       <FlexCol spacing align="start">
         <Grid
           records={bind("$page.records")}
-          style={{ width: "100%" }}
+          style={{
+            "width": "100%",
+            "max-height": "400px"
+          }}
           scrollable
           selection={{ type: KeySelection, bind: "$page.id", keyField: "id" }}
           columns={[
