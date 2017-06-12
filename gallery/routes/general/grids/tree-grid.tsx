@@ -27,7 +27,7 @@ class PageController extends Controller {
 
 export default (
   <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/plain.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/tree-grid.tsx" target="_blank" putInto="github">GitHub</a>
     <Section
       mod="well"      
       controller={PageController}
