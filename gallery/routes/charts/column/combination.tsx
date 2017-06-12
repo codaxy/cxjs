@@ -33,8 +33,8 @@ let mw = 768;
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/combination.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController} >
-        <FlexRow target="desktop">
-            <Svg style="width:100%; height:500px; flex: 1.25;">
+        <FlexRow target="desktop" style="min-width:400px;" spacing="xlarge">
+            <Svg style="width:100%; min-height:400px; align-self:stretch; flex: 1.25;">
                <Chart offset="20 -20 -40 40" axes={{ 
                         x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                         y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
@@ -66,7 +66,7 @@ export default <cx>
                              draggableY>
                         <Rectangle anchors="0 1 0 0"
                                    offset="-30 10 -10 -10"
-                                   style="fill:rgba(255, 255, 255, 0.8);stroke:#ccc">
+                                   mod="cover">
                            <Text tpl="{$point.v1:n;0}" ta="middle" dy="0.4em" />
                         </Rectangle>
                      </Marker>
@@ -79,7 +79,7 @@ export default <cx>
                              draggableY >
                         <Rectangle anchors="0 1 0 0"
                                    offset="-30 10 -10 -10"
-                                   style="fill:rgba(255, 255, 255, 0.8);stroke:#ccc">
+                                   mod="cover">
                            <Text tpl="{$point.v2:n;0}" ta="middle" dy="0.4em" />
                         </Rectangle>
                      </Marker>

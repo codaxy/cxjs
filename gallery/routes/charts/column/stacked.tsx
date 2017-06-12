@@ -36,10 +36,9 @@ let mw = 1000;
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/stacked.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" >
-        <FlexRow target='desktop' direction="column" controller={PageController} >
-            <Legend.Scope>
+        <FlexRow target='desktop' direction="column" controller={PageController} style="min-width:400px;">
                 <Legend />
-                <Svg style="width:100%; height:400px;">
+                <Svg style="width:100%; height:500px;">
                    <Chart offset="20 -20 -40 40" axes={{ 
                         x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                         y: { type: NumericAxis, vertical: true, snapToTicks: 2 } 
@@ -115,7 +114,6 @@ export default <cx>
                       </Repeater>
                    </Chart>
                 </Svg>
-            </Legend.Scope>
         </FlexRow>
     </Section>
 </cx>

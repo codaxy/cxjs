@@ -26,7 +26,7 @@ export default <cx>
     
         <Section mod="well" controller={PageController} style="height: 100%; display: flex;">
             <FlexRow direction="column" align="stretch">
-                <Svg style="min-height: 400px;">
+                <Svg style="min-height: 400px; min-width:400px;">
                     <Chart
                         offset="20 -10 -40 40"
                         axes={

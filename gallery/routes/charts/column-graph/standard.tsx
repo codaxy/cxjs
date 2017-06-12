@@ -35,7 +35,7 @@ export default <cx>
     <Section mod="well">
         <FlexRow direction="column" target='desktop' controller={PageController} >
             <Legend />
-            <Svg style="width:100%; height:400px;">
+            <Svg style="width:100%; height:500px;">
                 <Chart
                     offset="20 -20 -100 40"
                     axes={{

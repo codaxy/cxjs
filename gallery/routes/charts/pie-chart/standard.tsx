@@ -48,7 +48,7 @@ export default <cx>
                                   keyField: 'id'
                                }}>
                            <Line style="stroke:gray" />
-                           <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
+                           <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" mod="cover" >
                               <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
                            </Rectangle>
                         </PieSlice>

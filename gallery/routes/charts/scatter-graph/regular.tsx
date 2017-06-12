@@ -22,36 +22,32 @@ class PageController extends Controller {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/scatter-graph/regular.tsx" target="_blank" putInto="github">GitHub</a>
-    <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
-        <Section mod="well" >
-            <FlexRow align="center">
-            <Svg style="width:500px; height:400px;">
-                <Chart offset="20 -20 -40 130" axes={{
-                    x: { type: NumericAxis, snapToTicks: 1 },
-                    y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
-                }}>
-                    <Gridlines />
-                    <ScatterGraph data={bind("$page.reds")}
-                        name="Reds"
-                        colorIndex={1}
-                        shape="square"
-                        sizeField="size"
-                        active={bind("$page.showReds")}
-                    />
-
-                    <ScatterGraph data={bind("$page.blues")}
-                        name="Blues"
-                        colorIndex={5}
-                        sizeField="size"
-                        active={bind("$page.showBlues")}
-                    />
-
-                </Chart>
-            </Svg>
-            <Legend vertical />
-            </FlexRow>
-        </Section>
-    </FlexRow>
+    <Section mod="well"  controller={PageController} style="height:100%;">
+        <FlexRow direction="column">
+        <Svg style="min-width:400px; min-height:400px;">
+            <Chart offset="20 -20 -40 40" axes={{
+                x: { type: NumericAxis, snapToTicks: 1 },
+                y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
+            }}>
+                <Gridlines />
+                <ScatterGraph data={bind("$page.reds")}
+                    name="Reds"
+                    colorIndex={1}
+                    shape="square"
+                    sizeField="size"
+                    active={bind("$page.showReds")}
+                />
+                <ScatterGraph data={bind("$page.blues")}
+                    name="Blues"
+                    colorIndex={5}
+                    sizeField="size"
+                    active={bind("$page.showBlues")}
+                />
+            </Chart>
+        </Svg>
+        <Legend />
+        </FlexRow>
+    </Section>
 </cx>
 
 import { hmr } from '../../hmr.js';
