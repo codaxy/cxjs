@@ -37,7 +37,7 @@ export default <cx>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column">
             <Legend.Scope>
-                <Svg style="height:400px;">
+                <Svg style="width:100%; height:400px;">
                    <Chart offset="20 -20 -40 40" axes={{
                          x: window.innerWidth >= mw ? CategoryAxis : { type: CategoryAxis, uniform: true, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
                          y: { type: NumericAxis, vertical: true, snapToTicks: 0 }

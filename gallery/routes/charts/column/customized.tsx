@@ -29,7 +29,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/customized.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" >
-            <Svg style="height:500px;">
+            <Svg style="width:100%; height:500px;">
                <Chart offset="20 -20 -140 40" axes={{
                   x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
                   y: { type: NumericAxis, vertical: true } }}>
