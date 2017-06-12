@@ -20,8 +20,8 @@ class PageController extends Controller {
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar-graph/states.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <FlexRow direction="column" style={{ width: '500px' }}>
-            <Svg style="max-width:100%; width: 500px; height:400px;">
+        <FlexRow direction="column" style="max-width: 600px">
+            <Svg style="width:100%; height:400px;">
                 <Chart offset="20 -20 -30 120" axes={{
                     x: {type: NumericAxis, snapToTicks: 1},
                     y: {type: CategoryAxis, vertical: true}
