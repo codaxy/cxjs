@@ -31,7 +31,7 @@ Cx widgets use React to render and update the DOM.
 
 - [Examples](https://cxjs.io/examples)
 - [Documentation](https://cxjs.io/docs)
-- [Themes](https://cxjs.io/themes)
+- [Widgets & Themes](https://cxjs.io/gallery)
 - [Fiddle](https://cxjs.io/fiddle)
 
 ### Install & Start
