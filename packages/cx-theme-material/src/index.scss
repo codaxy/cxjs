@@ -474,9 +474,12 @@ div.#{$block}classic-tab-container {
    }
 }
 
-.#{$element}grid-col-header {
+// form fields in grid are not distinctive enough - this is a temporary solution
+.#{$element}grid-data {
    .#{$element}textfield-input {
-      //background-color: rgba(0, 0, 0, 0.03); use placeholders for textfields in grid headers
+      background-color: rgba(0, 0, 0, 0.03);
+      padding-left: 7px;
+      padding-right: 7px;
    } 
 }
 
