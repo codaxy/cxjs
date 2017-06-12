@@ -42,7 +42,7 @@ export default <cx>
     <Section mod="well" controller={PageController}>
         <FlexRow target="desktop" spacing="xlarge">
             <Svg style="min-width:400px; height:600px; flex:1;">
-               <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
+               <Chart offset="20 -20 -40 120" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
                   <Gridlines/>
                   <Repeater records={bind("$page.points")} recordName="$point" sorters={bind("$page.sorters")}>
                      <Bar colorIndex={0}

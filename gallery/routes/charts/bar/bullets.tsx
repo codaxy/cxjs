@@ -23,7 +23,7 @@ export default <cx>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" style="min-width:400px; max-width:600px;">
             <Svg style="width:100%; height:600px;">
-               <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
+               <Chart offset="20 -20 -40 120" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
                   <Repeater records={bind("$page.points")} recordName="$point" sorters={bind("$page.sorters")}>
                      <Bar colorIndex={10}
                           style="stroke:none;opacity:0.3"
