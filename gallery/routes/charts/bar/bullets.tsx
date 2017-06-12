@@ -21,7 +21,7 @@ class PageController extends Controller {
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/bullets.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <FlexRow direction="column" >
+        <FlexRow direction="column" style="min-width:400px; max-width:600px;">
             <Svg style="width:100%; height:600px;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
                   <Repeater records={bind("$page.points")} recordName="$point" sorters={bind("$page.sorters")}>

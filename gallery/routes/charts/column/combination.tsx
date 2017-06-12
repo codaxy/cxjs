@@ -33,8 +33,8 @@ let mw = 768;
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/combination.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController} >
-        <FlexRow direction="column">
-            <Svg style="width:100%; height:400px;">
+        <FlexRow target="desktop">
+            <Svg style="width:100%; height:500px; flex: 1.25;">
                <Chart offset="20 -20 -40 40" axes={{ 
                         x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                         y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
@@ -86,13 +86,13 @@ export default <cx>
                   </Repeater>
                </Chart>
             </Svg>
-            <Grid style="flex: 1;"
+            <Grid style="flex: 0.75;"
                 records={bind("$page.points2")}
                 columns={[
                    { header: 'Month', field: 'x' },
-                   { header: 'V1', field: 'v1', format: 'n', align: "right" },
-                   { header: 'V2', field: 'v2', format: 'n', align: "right" },
-                   { header: 'Delta', value: { expr: "{$record.v2}-{$record.v1}" }, format: 'n', align: "right" },
+                   { header: 'V1', field: 'v1', format: 'n;2', align: "right" },
+                   { header: 'V2', field: 'v2', format: 'n;2', align: "right" },
+                   { header: 'Delta', value: { expr: "{$record.v2}-{$record.v1}" }, format: 'n;2', align: "right" },
                 ]}
                 selection={{type: KeySelection, keyField: 'x', bind: '$page.selection' }}
                 scrollable

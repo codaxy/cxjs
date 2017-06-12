@@ -40,8 +40,8 @@ var legendStyle = {
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/combination.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
-        <FlexRow direction="column" align="left" >
-            <Svg style="width:100%; height:600px;">
+        <FlexRow target="desktop">
+            <Svg style="min-width:400px; height:600px; flex:1;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
                   <Gridlines/>
                   <Repeater records={bind("$page.points")} recordName="$point" sorters={bind("$page.sorters")}>
@@ -73,6 +73,7 @@ export default <cx>
             </Svg>
             <Grid records={bind("$page.points")}
                   sorters={bind("$page.sorters")}
+                  style="flex: 1;"
                   scrollable
                   columns={[
                      { header: 'City', field: 'city', sortable: true },
