@@ -4,13 +4,16 @@ import { Format } from "cx/util";
 import casual from '../../../util/casual';
 
 class PageController extends Controller {
+  
+  idSeq: number;
+
   init() {
     super.init();
     this.idSeq = 0;
     this.store.set("$page.data", this.generateRecords());
   }
 
-  generateRecords(node) {
+  generateRecords(node?) {
     if (!node || node.$level < 5)
       return Array
         .from({ length: 5 })

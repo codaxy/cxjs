@@ -9,6 +9,8 @@ function plural(word, count) {
 }
 
 class PageController extends Controller {
+  widget: any;
+  
   init() {
     super.init();
 
