@@ -14,14 +14,17 @@
 
       .#{$state}draggable-x > & {
          cursor: ew-resize;
+         touch-action: none;
       }
 
       .#{$state}draggable-y > & {
          cursor: ns-resize;
+         touch-action: none;
       }
 
       .#{$state}draggable-xy > & {
          cursor: move;
+         touch-action: none;
       }
 
       .#{$state}selectable > & {
