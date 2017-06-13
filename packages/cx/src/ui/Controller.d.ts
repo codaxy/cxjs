@@ -15,7 +15,7 @@ export class Controller {
 
    store: View;
 
-   addTrigger(name: string, args: string[], callback: (values: any[]) => void, autoRun?: boolean) : void;
+   addTrigger(name: string, args: string[], callback: (...args) => void, autoRun?: boolean) : void;
 
    addComputable(name: string, args: string[], callback: (...args) => any) : void;
 

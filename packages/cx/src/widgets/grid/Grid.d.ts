@@ -20,6 +20,9 @@ interface GridProps extends Cx.StyledContainerProps {
     */
    sortField?: Cx.StringProp,
 
+   /** Set to `true` to add vertical gridlines. */
+   vlines?: boolean;
+
    /** 
     * A binding used to store the sort direction. 
     * Available only if `sorters` are not used. 
