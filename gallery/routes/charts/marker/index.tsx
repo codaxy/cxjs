@@ -5,7 +5,7 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "PieChart",
+    title: "Marker",
     tabs: {
         regular: 'Regular'
     },
