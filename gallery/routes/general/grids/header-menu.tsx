@@ -26,11 +26,12 @@ function unique(data, field) {
 
 function filter(filter, records) {
   return records.filter(record => {
-      return filter.OSes.find(os => os.name === record.OS).active && 
-            filter.browsers.find(br => br.name === record.browser).active && 
-            filter.continents.find(c => c.name === record.continent).active && 
-            filter.name ? record.fullName.toLowerCase().includes(filter.name.toLowerCase()) : true && 
-            filter.visits ? (record.visits >= filter.visits.from && record.visits <= filter.visits.to) : true;
+      let os = filter.OSes.find(os => os.name === record.OS).active;
+      let br = filter.browsers.find(br => br.name === record.browser).active;
+      let continent = filter.continents.find(c => c.name === record.continent).active;
+      let name = filter.name ? record.fullName.toLowerCase().includes(filter.name.toLowerCase()) : true;
+      let visits = filter.visits ? (record.visits >= filter.visits.from && record.visits <= filter.visits.to) : true;
+      return os && br && continent && name && visits;
   });
 }
 
