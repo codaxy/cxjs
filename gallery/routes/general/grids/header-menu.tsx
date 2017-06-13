@@ -16,13 +16,22 @@ import { Content, Controller, KeySelection, Repeater, Text, bind } from "cx/ui";
 import { Format } from "cx/util";
 import casual from '../../../util/casual';
 
-//Filtering not implemented to keep it short
 function unique(data, field) {
   let values = {};
   data.forEach(item => {
     values[item[field]] = true;
   });
   return Object.keys(values).map(name => ({ name: name, active: true }));
+}
+
+function filter(filter, records) {
+  return records.filter(record => {
+      return filter.OSes.find(os => os.name === record.OS).active && 
+            filter.browsers.find(br => br.name === record.browser).active && 
+            filter.continents.find(c => c.name === record.continent).active && 
+            filter.name ? record.fullName.toLowerCase().includes(filter.name.toLowerCase()) : true && 
+            filter.visits ? (record.visits >= filter.visits.from && record.visits <= filter.visits.to) : true;
+  });
 }
 
 class PageController extends Controller {
@@ -54,6 +63,14 @@ class PageController extends Controller {
     this.store.set("filter.continents", unique(records, "continent"));
     this.store.set("filter.browsers", unique(records, "browser"));
     this.store.set("filter.OSes", unique(records, "OS"));
+    this.store.set('filter.name', '');
+    this.store.set('filter.visits', { from: 0, to: 100 });
+
+    this.store.set("filtered", filter(this.store.get('filter'), records));
+
+    this.addTrigger('filter', ['filter'], (filters) => {
+      this.store.set('filtered', filter(filters, this.store.get('records')));
+    }, true);
   }
 };
 
@@ -96,10 +113,10 @@ const columnMenu = filter => (
   </cx>
 );
 
-const stdColumnMenu = valuesPath => columnMenu(
+const stdColumnMenu = (valuesPath: string) => columnMenu(
   (
     <cx>
-      <Repeater records={bind({ valuesPath })}>
+      <Repeater records={bind(valuesPath)}>
         <Checkbox
           mod="menu"
           value={bind("$record.active")}
@@ -119,7 +136,7 @@ export default (
     >
       <Grid
         scrollable
-        records={bind("records")}
+        records={bind("filtered")}
         columns={[
           {
             header: {
