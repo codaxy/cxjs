@@ -524,7 +524,7 @@ div.#{$block}classic-tab-container {
   > .#{$block}menu > li > div {
     > span {
       padding: 0 $cx-theme-base-size/2 !important;
-      line-height: $cx-default-grid-header-line-height + 2*cx-top($cx-default-grid-header-padding); //temporary solution TODO
+      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
     }
   }
 }

@@ -102,7 +102,7 @@ const columnMenu = filter => (
     <Menu horizontal itemPadding="small">
       <Submenu placement="down-left">
         <span style={{ "padding": "4px" }}>
-          <Icon name="search" />
+          <Icon name={"menu"} />
         </span>
         <Menu putInto="dropdown">
           {filter}
