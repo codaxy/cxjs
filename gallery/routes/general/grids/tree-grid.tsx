@@ -39,7 +39,7 @@ export default (
         scrollable
         records={bind("$page.data")}
         mod="tree"
-        style={{ width: "100%", "max-height": "800px" }}
+        style={{ width: "100%", "max-height": "800px", "min-height": "400px" }}
         dataAdapter={
           {
             type: TreeAdapter,
