@@ -2,7 +2,7 @@ import {cx, Section, FlexRow, Button, TextField, Menu, Submenu, Checkbox, Switch
 import {bind} from 'cx/ui';
 
 export default <cx>
-    <Section mod="well" ws>
+    <Section mod="well" ws style="min-width: 918px;">
         <p>
             All widgets respect the baseline.
         </p>
@@ -17,7 +17,7 @@ export default <cx>
         &nbsp;
         <Button>Regular Button</Button>
         &nbsp;
-        <span>Span of text</span>
+        <span style={{"margin-left": "10px"}}>Span of text</span>
         &nbsp;
         <Menu horizontal style="display:inline-block">
             <Submenu arrow>

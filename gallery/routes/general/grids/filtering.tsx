@@ -88,7 +88,7 @@ export default (
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/filtering.tsx" target="_blank" putInto="github">GitHub</a>
     <Section
       mod="well"
-      style="height: 100%"
+      style="height: 100%; min-width: 640px;"
       bodyStyle="display:flex; flex-direction:column"
       controller={PageController}
     >

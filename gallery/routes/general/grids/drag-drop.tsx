@@ -52,7 +52,7 @@ export default (
       mod="well"
       controller={PageController}
     >
-      <FlexRow>
+      <FlexRow target="desktop" spacing="large">
         <Grid
           records={bind("grid1")}
           scrollable
