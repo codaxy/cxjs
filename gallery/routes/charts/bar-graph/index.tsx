@@ -12,7 +12,7 @@ const header = getHeader({
     docsUrl: 'https://cxjs.io/docs/charts/bar-graphs'
 });
 
-import Default from './states';
+import Default from './standard';
 
 export default <cx>
     {header}

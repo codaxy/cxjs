@@ -136,10 +136,6 @@ export const Markers = <cx>
          `}</CodeSnippet>
       </CodeSplit>
 
-      Examples:
-
-      * [Combination](~/examples/charts/bar/combination)
-
       ## Configuration
 
       <ConfigTable props={configs} />

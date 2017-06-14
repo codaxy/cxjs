@@ -7,20 +7,22 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "PieChart",
     tabs: {
-        states: 'States'
+        standard: 'Standard',
+        multilevel: 'Multi-level'
     },
     docsUrl: 'https://cxjs.io/docs/charts/pie-charts'
 });
 
-import Default from './states';
+import Default from './standard';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/states" />
+        { asyncRoute('+/multilevel', () => System.import('./multilevel')) }
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 

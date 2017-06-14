@@ -138,22 +138,35 @@ let list: Item[] = [{
       name: 'Range',
       content: () => System.import("./charts/range")
    }, {
-      route: '+/column-widget',
+      route: '+/column',
       name: 'Column',
       content: () => System.import("./charts/column")
+   }, {
+      route: '+/bar',
+      name: 'Bar',
+      content: () => System.import("./charts/bar")
+   }, {
+      route: '+/marker',
+      name: 'Marker',
+      content: () => System.import("./charts/marker")
    }]
 }];
 
-list.map(section => {
+export let sorted = list.map(section => {
+   section = {
+      ...section
+   };
+
    if (section.items) {
-      section.items.sort((a, b) => {
-         if (a.name >= b.name)
-            return 1;
-         else
-            return -1
+      section.items =  [...section.items].sort((a,b) => {
+          if(a.name >= b.name)
+             return 1;
+          else
+             return -1
       });
-      return section;
    }
+   
+   return section;
 });
 
 export default list;

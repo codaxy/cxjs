@@ -17,6 +17,12 @@ interface BarProps extends ColumnBarBaseProps {
    /** Base CSS class to be applied to the element. Defaults to `bar`. */
    baseClass?: string,
 
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.StringProp | Cx.StructuredProp,
+
+   /** Selection configuration. */
+   selection?: Cx.Config
+
 }
 
 export class Bar extends Cx.Widget<BarProps> {}

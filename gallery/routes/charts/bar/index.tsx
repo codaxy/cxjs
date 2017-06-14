@@ -5,30 +5,28 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Column",
+    title: "Bar",
     tabs: {
-        customized: 'Custom columns',
-        normalized: 'Normalized',
+        standard: 'Standard',
+        combination: 'Combination',
         stacked: 'Stacked',
-        "auto-column-width": 'Auto-calculated Column Widths',
-        combination: 'Combination'
+        bullets: 'Bullet Chart'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/columns'
+    docsUrl: 'https://cxjs.io/docs/charts/bars'
 });
 
-import Default from './customized';
+import Default from './standard';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/customized">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        { asyncRoute("+/normalized", () => System.import("./normalized")) }
-        { asyncRoute("+/stacked", () => System.import("./stacked")) }
-        { asyncRoute("+/auto-column-width", () => System.import("./auto-column-width")) }
         { asyncRoute("+/combination", () => System.import("./combination")) }
-        <RedirectRoute redirect="+/customized" />
+        { asyncRoute("+/stacked", () => System.import("./stacked")) }
+        { asyncRoute("+/bullets", () => System.import("./bullets")) }
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 
