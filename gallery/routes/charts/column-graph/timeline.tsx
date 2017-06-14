@@ -41,11 +41,10 @@ export default <cx>
                     x: <TimeAxis min={bind("$page.range.from")} max={bind("$page.range.to")} snapToTicks={false}/>,
                     y: <NumericAxis vertical/>,
                 }}>
-                <Rectangle fill="white"/>
                 <Gridlines />
                 <ClipRect>
                     <ColumnGraph data={bind("$page.data")}
-                                 colorIndex={4}
+                                 colorIndex={8}
                                  offset={15 * 24 * 60 * 60 * 1000}
                                  size={30 * 24 * 60 * 60 * 1000}
                                  xField="date"
@@ -59,7 +58,6 @@ export default <cx>
                     x: <TimeAxis />,
                     y: <NumericAxis vertical/>,
                 }}>
-                <Rectangle fill="white"/>
                 <Gridlines />
                 <ColumnGraph
                     data={bind("$page.data")}
@@ -67,6 +65,7 @@ export default <cx>
                     offset={15 * 24 * 60 * 60 * 1000}
                     xField="date"
                     yField="value"
+                    colorIndex={8}
                 />
             
                 <Range x1={bind("$page.range.from")}
@@ -75,14 +74,14 @@ export default <cx>
                     <ClipRect>
                         <ColumnGraph
                             data={bind("$page.data")}
-                            colorIndex={4}
+                            colorIndex={10}
                             size={30 * 24 * 60 * 60 * 1000}
                             offset={15 * 24 * 60 * 60 * 1000}
                             xField="date"
                             yField="value"
                         />
                     </ClipRect>
-                    <Range colorIndex={4}
+                    <Range colorIndex={9}
                            x1={bind("$page.range.from")}
                            x2={bind("$page.range.to")}
                            style="cursor:move"
@@ -91,7 +90,7 @@ export default <cx>
                 </Range>
             
                 <Marker
-                    colorIndex={4}
+                    colorIndex={9}
                     x={bind("$page.range.from")}
                     size={10}
                     draggableX
@@ -99,7 +98,7 @@ export default <cx>
                 />
             
                 <Marker
-                    colorIndex={4}
+                    colorIndex={9}
                     x={bind("$page.range.to")}
                     size={10}
                     draggableX
