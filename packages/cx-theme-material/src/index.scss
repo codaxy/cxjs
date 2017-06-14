@@ -474,7 +474,7 @@ div.#{$block}classic-tab-container {
    }
 }
 
-// form fields in grid are not distinctive enough - this is a temporary solution
+// form fields in grid are not distinctive enough - this is a temporary solution TODO
 .#{$element}grid-data {
    .#{$element}textfield-input {
       background-color: rgba(0, 0, 0, 0.03);
@@ -517,6 +517,16 @@ div.#{$block}classic-tab-container {
    .#{$element}grid-col-header {
       border-width: 0;
    }
+}
+
+//grid header tool icon
+.#{$element}grid-col-header-tool {
+  > .#{$block}menu > li > div {
+    > span {
+      padding: 0 $cx-theme-base-size/2 !important;
+      line-height: $cx-default-grid-header-line-height + 2*cx-top($cx-default-grid-header-padding); //temporary solution TODO
+    }
+  }
 }
 
 // group grid styles
@@ -568,8 +578,16 @@ div.#{$block}classic-tab-container {
 }
 
 // grid checkbox margin corrected
-.#{$block}grid .#{$block}checkbox {
-   padding: 0;
+.#{$block}grid {
+  .#{$block}checkbox {
+    padding: 0;
+  }
+  .#{$element}grid-col-header-tool {
+    .#{$block}checkbox {
+      padding: $cx-default-container-padding + 2px;
+    }
+  }
+
 }
 
 // grid shadow mod
