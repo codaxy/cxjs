@@ -31,7 +31,7 @@ class PageController extends Controller {
 
     this.addTrigger(
       "pagination",
-      [ "$page.pageSize", "$page.page", "$page.sorters", "$page.filter" ],
+      ["$page.pageSize", "$page.page", "$page.sorters", "$page.filter"],
       (size, page, sorters, filter) => {
         //simulate server call
         setTimeout(
@@ -92,7 +92,7 @@ export default (
       bodyStyle="display:flex; flex-direction:column"
       controller={PageController}
     >
-     <Grid
+      <Grid
         records={bind("$page.records")}
         style={{ width: "100%" }}
         mod="bordered"
@@ -109,7 +109,6 @@ export default (
                 items: (
                   <TextField
                     value={bind("$page.filter.name")}
-                    reactOn="enter blur"
                     style="width:100%"
                     placeholder="Filter by Name"
                   />
@@ -122,7 +121,6 @@ export default (
                 items: (
                   <TextField
                     value={bind("$page.filter.phone")}
-                    reactOn="enter blur"
                     style="width:100%"
                     placeholder="Filter by Phone Number"
                   />
@@ -137,9 +135,8 @@ export default (
                 items: (
                   <TextField
                     value={bind("$page.filter.city")}
-                    reactOn="enter blur"
                     style="width:100%"
-                    placeholder="Filter by City"                    
+                    placeholder="Filter by City"
                   />
                 )
               },
