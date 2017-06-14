@@ -23,8 +23,8 @@ class PageController extends Controller {
 }
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/marker/regular.tsx" target="_blank" putInto="github">GitHub</a>
-    <Section mod="well" controller={PageController} style="height: 100%; display: flex;">
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/marker/standard.tsx" target="_blank" putInto="github">GitHub</a>
+    <Section mod="well" controller={PageController}>
         <FlexRow direction="column" >
             <Svg style="width:100%; height:500px;">
                <Chart offset="20 -20 -40 40" axes={{
