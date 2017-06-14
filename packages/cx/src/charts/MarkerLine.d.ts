@@ -28,10 +28,10 @@ interface MarkerLineProps extends BoundedObjectProps {
    legend?: Cx.StringProp,
 
    /** Shared `x1` and `x2` value binding or expression. */
-   x?: number,
+   x?: Cx.NumberProp,
 
    /** Shared `y1` and `y2` value binding or expression. */
-   y?: number,
+   y?: Cx.NumberProp,
 
    /** 
     * Name of the horizontal axis. The value should match one of the horizontal axes set 
