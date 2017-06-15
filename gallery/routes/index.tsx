@@ -3,7 +3,7 @@ import {FirstVisibleChildLayout, bind, tpl} from 'cx/ui'
 import {asyncRoute} from "../components/asyncRoute";
 import AppLayout from '../layout';
 
-import list from './list';
+import list, {sorted} from './list';
 
 const catLink = cat => <cx>
     <dl className="major">
@@ -23,7 +23,7 @@ const catGroup = cat =>
         </dt>
         {cat.items && cat.items.map(item =>
             <dd>
-                <Link href={tpl("~/{$route.theme}" + item.route.substring(1))} url={bind("url")} match="prefix">
+                <Link href={tpl("~/{$route.theme}" + item.route.substring(1) + "/")} url={bind("url")} match="prefix">
                     {item.name}
                 </Link>
             </dd>
@@ -38,7 +38,7 @@ export default
         <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
 
         <div putInto="nav">
-            {list.map(cat => cat.route ? catLink(cat) : catGroup(cat))}
+            {sorted.map(cat => cat.route ? catLink(cat) : catGroup(cat))}
         </div>
 
         <Sandbox

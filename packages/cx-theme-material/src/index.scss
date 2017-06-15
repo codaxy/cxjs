@@ -108,6 +108,12 @@ $form-list: (
    padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
 }
 
+// select 
+.cxb-select option {
+   color: $cx-default-color;
+   background-color: rgba(0, 0, 0, 0.03);
+}
+
 // textarea
 .#{$block}textarea {
    // textarea focus effect
@@ -468,6 +474,15 @@ div.#{$block}classic-tab-container {
    }
 }
 
+// form fields in grid are not distinctive enough - this is a temporary solution TODO
+.#{$element}grid-data {
+   .#{$element}textfield-input {
+      background-color: rgba(0, 0, 0, 0.03);
+      padding-left: 7px;
+      padding-right: 7px;
+   } 
+}
+
 .#{$element}grid-fixed-header {
    // shadow added to fixed header
    box-shadow: $cx-default-grid-header-box-shadow;
@@ -489,7 +504,6 @@ div.#{$block}classic-tab-container {
    tr:not(:first-child) .#{$element}grid-col-header {
       border-top: 1px solid $cx-default-grid-data-border-color;
    }
-
    //// ellipsis added to grid header
    //.#{$element}grid-col-header {
    //   white-space: nowrap;
@@ -505,23 +519,48 @@ div.#{$block}classic-tab-container {
    }
 }
 
+//grid header tool icon
+.#{$element}grid-col-header-tool {
+  > .#{$block}menu > li > div {
+    > span {
+      padding: 0 $cx-theme-base-size/2 !important;
+      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+    }
+  }
+}
+
 // group grid styles
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
+
    td {
       color: $cx-theme-primary-color;
       line-height: $cx-default-grid-data-line-height;
       padding: $cx-default-grid-data-padding;
-      border-top: 1px solid darken($cx-default-grid-data-border-color, 10);
+      border-top: 1px solid $cx-default-grid-data-border-color;
       font-weight: 500;
+   }
+
+   &:not(:first-child) {
+      td {
+         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
+      }
    }
 }
 
 // default grey border color in group grid changed
 .#{$element}grid-group-caption {
+
+   td {
+      background-color: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid $cx-default-grid-data-border-color;
+   }
+
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            border-bottom: 1px solid darken($cx-default-grid-data-border-color, 20);
+            border-bottom: 1px solid $cx-default-grid-data-border-color;
+            font-weight: 600;
+            background-color: darken(#f7f7f7, $i);
          }
       }
    }
@@ -531,15 +570,24 @@ div.#{$block}classic-tab-container {
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            border-top: 1px solid darken($cx-default-grid-data-border-color, 20);
+            border-width: 1px 0;
+            border-color: $cx-default-grid-data-border-color;            
          }
       }
    }
 }
 
 // grid checkbox margin corrected
-.#{$block}grid .#{$block}checkbox {
-   padding: 0;
+.#{$block}grid {
+  .#{$block}checkbox {
+    padding: 0;
+  }
+  .#{$element}grid-col-header-tool {
+    .#{$block}checkbox {
+      padding: $cx-default-container-padding + 2px;
+    }
+  }
+
 }
 
 // grid shadow mod

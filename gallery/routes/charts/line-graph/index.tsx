@@ -7,20 +7,22 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "LineGraph",
     tabs: {
-        states: 'States'
+        standard: 'Standard',
+        stacked: 'Stacked'
     },
     docsUrl: 'https://cxjs.io/docs/charts/line-graphs'
 });
 
-import Default from './states';
+import Default from './standard';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/states" />
+        { asyncRoute("+/stacked", () => System.import("./stacked")) }
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 

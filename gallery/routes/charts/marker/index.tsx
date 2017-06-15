@@ -5,12 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "ColumnGraph",
+    title: "Marker",
     tabs: {
-        standard: 'Standard',
-        timeline: 'Timeline'
+        standard: 'Standard'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/column-graphs'
+    docsUrl: 'https://cxjs.io/docs/charts/markers'
 });
 
 import Default from './standard';
@@ -21,7 +20,6 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        { asyncRoute("+/timeline", () => System.import("./timeline")) }
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

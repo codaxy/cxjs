@@ -22,10 +22,11 @@ class PageController extends Controller {
 }
 
 export default <cx>
-    <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
-        <Section mod="well" >
-            <FlexRow align="center" >
-                <Svg style="width:600px; height:400px;">
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/range/standard.tsx" target="_blank" putInto="github">GitHub</a>
+    
+        <Section mod="well" controller={PageController} style="display: flex;">
+            <FlexRow direction="column" align="stretch">
+                <Svg style="min-height: 566px; min-width:400px;">
                     <Chart
                         offset="20 -10 -40 40"
                         axes={
@@ -63,10 +64,10 @@ export default <cx>
                         <Marker colorIndex={8} y={bind("$page.p2.y")} size={10} draggableY />
                     </Chart>
                 </Svg>
-                <Legend vertical />
+                <Legend/>
             </FlexRow>
         </Section>
-    </FlexRow >
+
 </cx >
 
 import { hmr } from '../../hmr.js';

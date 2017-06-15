@@ -7,20 +7,20 @@ import {asyncRoute} from "../../../components/asyncRoute";
 const header = getHeader({
     title: "Range",
     tabs: {
-        states: 'States'
+        standard: 'Standard',
     },
     docsUrl: 'https://cxjs.io/docs/charts/ranges'
 });
 
-import Default from './states';
+import Default from './standard';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/states" />
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 
