@@ -5,11 +5,11 @@ import {getHeader} from "../../../components/getHeader";
 import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
-    title: "Marker",
+    title: "MarkerLine",
     tabs: {
         standard: 'Standard'
     },
-    docsUrl: 'https://cxjs.io/docs/charts/markers'
+    docsUrl: 'https://cxjs.io/docs/charts/marker-lines'
 });
 
 import Default from './standard';

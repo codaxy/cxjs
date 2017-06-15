@@ -6,18 +6,21 @@ import {asyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "ScatterGraph",
+    tabs: {
+        standard: 'Standard',
+    },
     docsUrl: 'https://cxjs.io/docs/charts/scatter-graphs'
 });
 
-import Default from './regular';
+import Default from './standard';
 
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/regular">
+        <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        <RedirectRoute redirect="+/regular" />
+        <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
 
