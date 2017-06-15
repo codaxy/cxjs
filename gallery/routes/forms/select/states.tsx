@@ -3,7 +3,7 @@ import {cx, Section, FlexRow, Select, HelpText} from 'cx/widgets';
 import {bind, expr, LabelsLeftLayout, LabelsTopLayout} from 'cx/ui';
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/select/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/select/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow wrap spacing="large" target="desktop">
         <Section
             mod="card"

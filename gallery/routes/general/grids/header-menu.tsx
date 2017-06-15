@@ -130,13 +130,14 @@ const stdColumnMenu = (valuesPath: string) => columnMenu(
 
 export default (
   <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/header-menu.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/header-menu.tsx" target="_blank" putInto="github">Source Code</a>
     <Section
       mod="well"      
       controller={PageController}
     >
       <Grid
         scrollable
+        emptyText="No records found matching the given criteria."
         records={bind("filtered")}
         columns={[
           {

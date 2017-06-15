@@ -38,7 +38,7 @@ var legendStyle = {
 };
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/combination.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/combination.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" controller={PageController}>
         <FlexRow target="desktop" spacing="xlarge">
             <Svg style="min-width:400px; height:600px; flex:1;">

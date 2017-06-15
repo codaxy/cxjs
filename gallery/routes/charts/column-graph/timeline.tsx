@@ -31,7 +31,7 @@ class PageController extends Controller {
 }
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column-graph/timeline.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column-graph/timeline.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" controller={PageController}>
         <Svg style="width:100%; min-width:400px; height: 596px;" margin="60 10 60 60">
             <Chart

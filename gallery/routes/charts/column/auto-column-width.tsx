@@ -33,7 +33,7 @@ var columnSelection = new KeySelection({
 let mw = 768;
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/auto-column-width.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/auto-column-width.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" style="min-width:400px;">
             <Svg style="width:100%; height:566px;">

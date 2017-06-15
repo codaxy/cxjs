@@ -2,7 +2,7 @@ import {cx, Section, FlexRow, Tab} from 'cx/widgets';
 import {bind, expr} from 'cx/ui';
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/tab/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/tab/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow wrap spacing="large" target="desktop">
         <Section mod="well" title="Standard" hLevel={4} style="max-width: 400px">
             <p>

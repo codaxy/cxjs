@@ -3,7 +3,7 @@ import {cx, Section, FlexRow, MonthPicker} from 'cx/widgets';
 import {bind} from 'cx/ui';
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/month-picker/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/month-picker/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow>
         <Section mod="well">
             <FlexRow spacing="large" wrap justify="center" >
