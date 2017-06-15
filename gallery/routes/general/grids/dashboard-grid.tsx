@@ -34,7 +34,7 @@ class Dashboard extends Controller {
 
 export default (
   <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/complex-header.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/dashboard-header.tsx" target="_blank" putInto="github">GitHub</a>
     <Section
       mod="well"      
       controller={Dashboard}
