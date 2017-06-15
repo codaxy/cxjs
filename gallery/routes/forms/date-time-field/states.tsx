@@ -16,7 +16,7 @@ const range = (function() {
 
 export default (
     <cx>
-        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/date-time-field/states.tsx" target="_blank" putInto="github">GitHub</a>
+        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/date-time-field/states.tsx" target="_blank" putInto="github">Source Code</a>
         <FlexRow wrap spacing="large" target="desktop">
 
             <Section

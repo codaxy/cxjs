@@ -31,7 +31,7 @@ const showModal = (store) => {
 };
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/window/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/window/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow wrap spacing="large" target="tablet" align="start">
 
         <Window title="Contact"

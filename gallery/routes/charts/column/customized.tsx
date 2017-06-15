@@ -26,7 +26,7 @@ var columnSelection = new KeySelection({
 });
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/customized.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/customized.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" controller={PageController} bodyStyle="display:flex; align-items:stretch;">
         <Svg style="width:100%; height: 600px;">
            <Chart offset="20 -20 -140 40" axes={{

@@ -3,7 +3,7 @@ import {cx, TextArea, Section, FlexRow, HelpText} from "cx/widgets";
 
 export default (
     <cx>
-        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/text-area/states.tsx" target="_blank" putInto="github">GitHub</a>
+        <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/text-area/states.tsx" target="_blank" putInto="github">Source Code</a>
         <FlexRow wrap spacing="large" target="desktop">
 
             <Section

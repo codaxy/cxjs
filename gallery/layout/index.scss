@@ -17,7 +17,8 @@ $small-device-width: 800px;
    box-shadow: 3px 2px 5px rgba(0,0,0,.26);
 
    a {
-      color: white;
+      color: #FFC413;
+      font-weight: 600;
    }
 
    .title {
@@ -34,6 +35,10 @@ $small-device-width: 800px;
       white-space: nowrap;
 
       color: white;
+
+      a {
+          font-weight: normal;
+      }
 
       .cxb-button.cxm-hollow {
 

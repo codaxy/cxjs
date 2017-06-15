@@ -21,7 +21,7 @@ const borderColor = 'rgba(176, 196, 222, 0.5)';
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/flex-row/sidebar-layout.tsx" target="_blank"
-        putInto="github">GitHub</a>
+        putInto="github">Source Code</a>
     <FlexRow style="background: rgba(128, 128, 128, 0.1); height: 100%" padding spacing>
         <FlexCol style="background: rgba(128, 128, 128, 0.1); width: 200px; max-width: 40vw" justify="center" align="center">
             <div>Sidebar</div>

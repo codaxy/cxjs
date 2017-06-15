@@ -34,7 +34,7 @@ var columnSelection = new KeySelection({
 let mw = 1000;
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/stacked.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/stacked.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" >
         <FlexRow target='desktop' direction="column" controller={PageController} style="min-width:400px;">
                 <Legend />

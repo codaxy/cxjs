@@ -12,7 +12,7 @@ const buttons = mod => <cx>
 </cx>
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/button/states.tsx" target="_blank" putInto="github">GitHub</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/button/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow>
         <Section mod="well">
             <br/>

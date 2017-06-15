@@ -2,6 +2,7 @@ import {cx, Section, FlexRow, Button, TextField, Menu, Submenu, Checkbox, Switch
 import {bind} from 'cx/ui';
 
 export default <cx>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/examples/baseline/index.tsx" target="_blank" putInto="github">Source Code</a>
     <Section mod="well" ws style="min-width: 918px;">
         <p>
             All widgets respect the baseline.
