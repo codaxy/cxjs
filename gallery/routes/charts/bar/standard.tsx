@@ -19,7 +19,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/standard.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" style="min-width:400px; max-width:600px;" >
-            <Svg style="width:100%; height:400px;">
+            <Svg style="width:100%; height: 566px;">
                <Chart offset="20 -20 -40 130" axes={{
                   x: { type: NumericAxis, snapToTicks: 0 },
                   y: { type: CategoryAxis, vertical: true, snapToTicks: 1 }

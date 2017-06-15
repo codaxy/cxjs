@@ -22,7 +22,7 @@ export default <cx>
     <Section mod="well" controller={PageController}>
         <Checkbox value={bind("stacked")}>Stack</Checkbox>
         <FlexRow direction="column" >
-            <Svg style="width:100%; height:400px;">
+            <Svg style="width:100%; height:526px;">
                <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
                   <LineGraph name="Line 1" data={bind("stack.points")} colorIndex={0} area={bind("stacked")} yField="y1" active={bind("stack.line1")} stacked={bind("stacked")} />

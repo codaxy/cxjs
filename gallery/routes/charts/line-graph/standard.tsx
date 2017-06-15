@@ -21,7 +21,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/line-graph/standard.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
         <FlexRow direction="column" >
-            <Svg style="width:100%; height:400px;">
+            <Svg style="width:100%; height:566px;">
                <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
                   <LineGraph data={bind("standard.points")} colorIndex={8} yField="y2h" y0Field="y2l" active={bind("standard.line2")} line={false} area/>

@@ -24,7 +24,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/scatter-graph/standard.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well"  controller={PageController} style="display:flex;">
         <FlexRow direction="column" align="stretch">
-        <Svg style="min-width:400px; min-height:400px;">
+        <Svg style="min-width:400px; min-height:566px;">
             <Chart offset="20 -20 -40 40" axes={{
                 x: { type: NumericAxis, snapToTicks: 1 },
                 y: { type: NumericAxis, vertical: true, snapToTicks: 1 }

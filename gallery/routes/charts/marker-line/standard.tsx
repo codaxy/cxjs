@@ -39,7 +39,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/marker-line/standard.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController}>
 
-            <Svg style="width:100%; height:500px;">
+            <Svg style="width:100%; height:596px;">
                <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
                   <MarkerLine y={bind("$page.extremes.min")} colorIndex={6}>

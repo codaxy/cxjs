@@ -37,7 +37,7 @@ export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/normalized.tsx" target="_blank" putInto="github">GitHub</a>
     <Section mod="well" controller={PageController} >
         <FlexRow direction="column">
-            <Svg style="width:100%; height:500px">
+            <Svg style="width:100%; height:566px">
                <Chart offset="20 -20 -40 40" axes={{
                      x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                      y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }

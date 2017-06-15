@@ -20,7 +20,7 @@ export default <cx>
     <Section mod="well">
         <FlexRow direction="column" style="max-width:600px" controller={PageController} >
             <Legend />
-            <Svg style="min-height:320px; height:400px;">
+            <Svg style="min-height:320px; height:566px;">
                <ColorMap />
                <PieChart angle={360} >
                   <Repeater records={bind("standard.points")}>

@@ -27,8 +27,8 @@ var columnSelection = new KeySelection({
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/customized.tsx" target="_blank" putInto="github">GitHub</a>
-    <Section mod="well" controller={PageController} style="height:100%;" bodyStyle="display:flex; align-items:stretch;">
-        <Svg style="width:100%; flex:1; min-height:500px;">
+    <Section mod="well" controller={PageController} bodyStyle="display:flex; align-items:stretch;">
+        <Svg style="width:100%; height: 600px;">
            <Chart offset="20 -20 -140 40" axes={{
               x: { type: CategoryAxis, labelRotation: -45, labelDy: '0.4em', labelAnchor: "end" },
               y: { type: NumericAxis, vertical: true } }}>
