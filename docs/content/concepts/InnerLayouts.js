@@ -42,14 +42,10 @@ var AppLayout = <cx>
 </cx>;
 
 
-export const Layouts = <cx>
+export const InnerLayouts = <cx>
 
     <Md>
-        # Layouts
-
-        The word *layout* is commonly used for different things. `Cx` has concepts of inner and outer layouts.
-
-        ## Inner Layouts
+        # Inner Layouts
 
         Inner layouts define how widget's children are laid out. If no layout is specified,
         children are put in the same way as defined in the widget tree.
