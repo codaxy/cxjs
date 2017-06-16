@@ -35,6 +35,7 @@ var contents = [{
         {title: 'Formatting', url: '~/concepts/formatting'},
         {title: 'Localization', url: '~/concepts/localization'},
         {title: 'Charts', url: '~/concepts/charts'},
+        {title: 'Util', url: '~/concepts/util'},
     ]
 }, {
     topic: 'Forms and Grids',
