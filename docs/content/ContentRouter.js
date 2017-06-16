@@ -94,9 +94,15 @@ class ContentController extends Controller {
                     this.loadChapter(chapter, System.import('docs/content/examples'));
                     break;
 
+                case 'util':
+                    this.loadChapter(chapter, System.import('docs/content/util'));
+                    break;
+
                 case 'meta':
                     this.loadChapter(chapter, System.import('docs/content/meta'));
                     break;
+
+
             }
         }, true);
     }

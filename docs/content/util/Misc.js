@@ -8,9 +8,9 @@ import {MethodTable} from '../../components/MethodTable';
 import {computable, updateArray} from 'cx/data';
 import * as util from 'cx/util';
 
-export const Util = <cx>
+export const Misc = <cx>
     <Md>
-        # Util
+        # Misc
 
         <ImportPath path="import * as util from 'cx/util';"/>
 

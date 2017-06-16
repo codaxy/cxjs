@@ -35,7 +35,6 @@ var contents = [{
         {title: 'Formatting', url: '~/concepts/formatting'},
         {title: 'Localization', url: '~/concepts/localization'},
         {title: 'Charts', url: '~/concepts/charts'},
-        {title: 'Util', url: '~/concepts/util'},
     ]
 }, {
     topic: 'Forms and Grids',
@@ -130,6 +129,16 @@ var contents = [{
         {title: 'ColorMap', url: '~/charts/color-map'},
         {title: 'Legend', url: '~/charts/legend'},
         {title: 'Gridlines', url: '~/charts/gridlines'},
+    ]
+}, {
+    topic: 'Util',
+    expanded: false,
+    articles: [
+        {title: 'Color', url: '~/util/color'},
+        {title: 'Date', url: '~/util/date-util'},
+        {title: 'DOM', url: '~/util/dom-util'},
+        {title: 'Format', url: '~/util/format'},
+        {title: 'Misc', url: '~/util/misc'},
     ]
 }, {
     topic: 'Meta',
