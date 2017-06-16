@@ -92,33 +92,21 @@ export const OuterLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        Alternatively, you can define `putInto` or `contentFor` for any of the Cx widgets to specify the name of the content placeholder which should render it.
+        Alternatively, you can define `putInto` or `contentFor` for any of the Cx widgets or HTML elements to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
-            <div class="widgets">
+            <CodeSnippet>{`
                 <div outerLayout={AppLayout}>
                     <div putInto="sidebar">
                        Nav 3
                     </div>
                     Main 3
                 </div>
-            </div>
-
-            <Content name="code">
-                <CodeSnippet>{`
-                    <div outerLayout={AppLayout}>
-                        <div putInto="sidebar">
-                           Nav 3
-                        </div>
-                        Main 3
-                    </div>
-                `}</CodeSnippet>
-            </Content>
+            `}</CodeSnippet>
+        </CodeSplit>
 
         When using outer layouts, the content is rendered inside out. A layout can contain other layouts, which
         enables better code reuse.
-
-        </CodeSplit>
 
         ## Inner Layouts
 
