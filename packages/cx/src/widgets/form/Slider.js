@@ -148,7 +148,7 @@ class SliderComponent extends VDOM.Component {
                   widget.showFrom &&
                   <div
                      className={CSS.element(baseClass, "handle")}
-                     tabIndex={0}
+                     tabIndex={data.disabled ? null : 0}
                      style={fromHandleStyle}
                      onMouseDown={e => this.onHandleMouseDown(e, 'from')}
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.fromTooltip, {tooltipName: 'fromTooltip'})}
@@ -160,7 +160,7 @@ class SliderComponent extends VDOM.Component {
                   widget.showTo &&
                   <div
                      className={CSS.element(baseClass, "handle")}
-                     tabIndex={0}
+                     tabIndex={data.disabled ? null : 0}
                      style={toHandleStyle}
                      onMouseDown={e => this.onHandleMouseDown(e, 'to')}
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.toTooltip, {tooltipName: 'toTooltip'})}
