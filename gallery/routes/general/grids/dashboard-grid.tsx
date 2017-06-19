@@ -71,7 +71,7 @@ export default (
               sortable: true,
               aggregateField: "maxSales",
               footer: false,
-              style: "width: 100px",
+              style: "min-width: 100px; width: 100px",
               items: (
                 <cx>
                   <div style={{ width: "100%", position: "relative" }}>
