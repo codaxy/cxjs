@@ -1,6 +1,7 @@
 import { Grid, Section, cx, HtmlElement, Select } from "cx/widgets";
 import { Controller, KeySelection, bind } from "cx/ui";
 import casual from '../../../util/casual';
+import "../../../util/plural";
 
 class PageController extends Controller {
   init() {

@@ -14,6 +14,7 @@ export class Controller {
    init?(): void;
 
    store: View;
+   widget: any;
 
    addTrigger(name: string, args: string[], callback: (...args) => void, autoRun?: boolean) : void;
 
