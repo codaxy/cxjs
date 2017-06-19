@@ -58,8 +58,11 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
          content += "\n);\n";
 
          if (dirty) {
-            fs.writeFileSync(this.opts.outputPath, content);
-            console.log('CxJS SCSS manifest update.')
+            let previousContent = fs.readFileSync(this.opts.outputPath, "utf8");
+            if (content != previousContent) {
+               console.log('CxJS SCSS manifest update.')
+               fs.writeFileSync(this.opts.outputPath, content);
+            }
             dirty = false;
          }
       });

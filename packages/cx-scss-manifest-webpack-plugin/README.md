@@ -37,4 +37,4 @@ Finally, import the manifest in main `scss` file.
 @import "~cx/src/index";
 ```
 
-For smaller apps, this will cause a drastic reduction of generated CSS.
+For smaller apps, this will cause a greatly reduce the amount of generated CSS.
