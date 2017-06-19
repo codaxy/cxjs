@@ -17,45 +17,46 @@ class PageController extends Controller {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/pie-chart/states.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well">
-        <FlexRow direction="column" style="max-width:600px" controller={PageController} >
-            <Legend />
-            <Svg style="min-height:320px; height:566px;">
-               <ColorMap />
-               <PieChart angle={360} >
-                  <Repeater records={bind("standard.points")}>
-                     <PieSlice value={bind('$record.value')}
-                               active={bind('$record.active')}
-                               colorMap="pie"
-                               r={80}
-                               r0={20}
-                               offset={5}
-                               tooltip={{
-                                   text: {
-                                       tpl: "Item {$index}: {$record.value:n;2}"
-                                   },
-                                   trackMouse: true
-                               }}
-                               innerPointRadius={80}
-                               outerPointRadius={90}
-                               name={tpl("Item {$index}")}
-                               selection={{
-                                  type: KeySelection,
-                                  bind: 'standard.selection',
-                                  records: {bind: 'standard.points'},
-                                  record: {bind: '$record'},
-                                  index: {bind: '$index'},
-                                  keyField: 'id'
-                               }}>
-                           <Line style="stroke:gray" />
-                           <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" mod="cover" >
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </Rectangle>
-                        </PieSlice>
-                  </Repeater>
-               </PieChart>
-            </Svg>
-        </FlexRow>
+    <Section mod="well" 
+        controller={PageController} 
+        style="height: 100%"
+        bodyStyle="display: flex; flex-direction: column;">
+        <Legend />
+        <Svg style="width: 100%; flex: 1;">
+           <ColorMap />
+           <PieChart angle={360} >
+              <Repeater records={bind("standard.points")}>
+                 <PieSlice value={bind('$record.value')}
+                           active={bind('$record.active')}
+                           colorMap="pie"
+                           r={80}
+                           r0={20}
+                           offset={5}
+                           tooltip={{
+                               text: {
+                                   tpl: "Item {$index}: {$record.value:n;2}"
+                               },
+                               trackMouse: true
+                           }}
+                           innerPointRadius={80}
+                           outerPointRadius={90}
+                           name={tpl("Item {$index}")}
+                           selection={{
+                              type: KeySelection,
+                              bind: 'standard.selection',
+                              records: {bind: 'standard.points'},
+                              record: {bind: '$record'},
+                              index: {bind: '$index'},
+                              keyField: 'id'
+                           }}>
+                       <Line style="stroke:gray" />
+                       <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" mod="cover" >
+                          <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
+                       </Rectangle>
+                    </PieSlice>
+              </Repeater>
+           </PieChart>
+        </Svg>
     </Section>
 </cx>
 

@@ -35,44 +35,46 @@ let mw = 768;
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/normalized.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well" controller={PageController} >
-        <FlexRow direction="column">
-            <Svg style="width:100%; height:566px">
-               <Chart offset="20 -20 -40 40" axes={{
-                     x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
-                     y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
-                  }}>
-                  <Gridlines/>
-                  <Repeater records={bind("$page.points4")} recordName="$point">
-                     <Column name="V1"
-                             active={bind("$page.normalized.v1")}
-                             colorIndex={0}
-                             x={bind("$point.x")}
-                             y={bind("$point.v1")}
-                             tooltip={tpl("V1 {$point.x} {$point.v1:n}")}
-                             stacked />
-                            
-                     <Column name="V2"
-                             active={bind("$page.normalized.v2")}
-                             colorIndex={2}
-                             x={bind("$point.x")}
-                             y={bind("$point.v2")}
-                             tooltip={tpl("V2 {$point.x} {$point.v2:n}")}
-                             stacked />
-                            
-                     <Column name="V3"
-                             active={bind("$page.normalized.v3")}
-                             colorIndex={4}
-                             x={bind("$point.x")}
-                             y={bind("$point.v3")}
-                             tooltip={tpl("V3 {$point.x} {$point.v3:n}")}
-                             stacked />
-                            
-                  </Repeater>
-               </Chart>      
-            </Svg>
-            <Legend /> 
-        </FlexRow>
+    <Section mod="well"
+        controller={PageController}
+        bodyStyle="display:flex; flex-direction: column;"
+        style="height: 100%"
+    >
+        <Svg style="width: 100%; flex: 1;">
+           <Chart offset="20 -20 -40 40" axes={{
+                 x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
+                 y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
+              }}>
+              <Gridlines/>
+              <Repeater records={bind("$page.points4")} recordName="$point">
+                 <Column name="V1"
+                         active={bind("$page.normalized.v1")}
+                         colorIndex={0}
+                         x={bind("$point.x")}
+                         y={bind("$point.v1")}
+                         tooltip={tpl("V1 {$point.x} {$point.v1:n}")}
+                         stacked />
+                        
+                 <Column name="V2"
+                         active={bind("$page.normalized.v2")}
+                         colorIndex={2}
+                         x={bind("$point.x")}
+                         y={bind("$point.v2")}
+                         tooltip={tpl("V2 {$point.x} {$point.v2:n}")}
+                         stacked />
+                        
+                 <Column name="V3"
+                         active={bind("$page.normalized.v3")}
+                         colorIndex={4}
+                         x={bind("$point.x")}
+                         y={bind("$point.v3")}
+                         tooltip={tpl("V3 {$point.x} {$point.v3:n}")}
+                         stacked />
+                        
+              </Repeater>
+           </Chart>      
+        </Svg>
+        <Legend /> 
     </Section>
 </cx>
 

@@ -27,7 +27,7 @@ export default <cx>
         style="height: 100%"
     >
         <Svg style="width:100%;">
-            <Chart offset="20 -20 -140 40" axes={{
+            <Chart offset="20 -20 -120 40" axes={{
                 x: {type: CategoryAxis, labelRotation: -45, labelDy: '0.4em', labelAnchor: "end"},
                 y: {type: NumericAxis, vertical: true}
             }}>

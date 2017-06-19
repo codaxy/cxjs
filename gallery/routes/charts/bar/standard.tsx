@@ -21,7 +21,7 @@ export default <cx>
 
     <FlexRow style="height: 100%;" controller={PageController}>
         <Section mod="well"
-            style="width: 100%; max-width:700px;"
+            style="width: 100%; max-width: 700px;"
             bodyStyle="display: flex; flex-direction: column">
             <Svg style="flex: 1">
                 <Chart offset="20 -20 -40 130" axes={{
