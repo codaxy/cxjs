@@ -22,4 +22,6 @@ export function oneFocusOut(component: any, el: Element, callback: FocusOutCallb
 
 export function offFocusOut(component: any) : void;
 
-export function preventFocus(e: Element) : void;
+export function preventFocus(e: Event) : void;
+
+export function preventFocusOnTouch(e: Event, force?: boolean): void;

@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {Culture} from '../../ui/Culture';
-import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
+import {FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch} from '../../ui/FocusManager';
 import {StringTemplate} from '../../data/StringTemplate';
 import {monthStart} from '../../util/date/monthStart';
 import {dateDiff} from '../../util/date/dateDiff';
@@ -90,9 +90,9 @@ export class MonthPicker extends Field {
 
    validate(context, instance) {
       super.validate(context, instance);
-      var {data} = instance;
+      let {data} = instance;
       if (!data.error && data.date) {
-         var d;
+         let d;
          if (data.maxValue) {
             d = dateDiff(data.date, data.maxValue);
             if (d > 0)
@@ -180,9 +180,9 @@ export class MonthPickerComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      var {data, widget} = props.instance;
+      let {data, widget} = props.instance;
 
-      var cursor = monthStart(data.refDate ? data.refDate : data.date || data.from || new Date());
+      let cursor = monthStart(data.refDate ? data.refDate : data.date || data.from || new Date());
 
       this.dom = {};
 
@@ -236,16 +236,17 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    handleKeyPress(e) {
-      var {widget} = this.props.instance;
-      var {cursorMonth, cursorYear, cursorQuarter, column} = this.state;
+      let {widget} = this.props.instance;
+      let {cursorMonth, cursorYear, cursorQuarter, column} = this.state;
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            if (!widget.range || !e.shiftKey || !this.dragStartDates) {
-               this.handleMouseDown(e, {}, false);
-            } else {
-               this.handleMouseUp(e);
-            }
+            // if (widget.range && e.shiftKey && !this.dragStartDates) {
+            //    this.handleMouseDown(e, {}, false);
+            // } else {
+            //    this.handleMouseUp(e);
+            // }
+            this.handleMouseUp(e);
             e.preventDefault();
             e.stopPropagation();
             break;
@@ -358,7 +359,7 @@ export class MonthPickerComponent extends VDOM.Component {
       let {widget} = instance;
 
       e.stopPropagation();
-      e.preventDefault();
+      preventFocusOnTouch(e);
 
       if (widget.range) {
          this.dragStartDates = this.getCursorDates();
@@ -376,19 +377,27 @@ export class MonthPickerComponent extends VDOM.Component {
 
    handleMouseUp(e) {
       let {instance} = this.props;
-      let {widget} = instance;
+      let {widget, data} = instance;
 
       e.stopPropagation();
       e.preventDefault();
 
       if (widget.range) {
+
+         let [cursorFromDate, cursorToDate] = this.getCursorDates();
+         let originFromDate = cursorFromDate, originToDate = cursorToDate;
          if (this.dragStartDates) {
-            let [originFromDate, originToDate] = this.dragStartDates;
-            let [cursorFromDate, cursorToDate] = this.getCursorDates();
-            widget.handleSelect(instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
+            [originFromDate, originToDate] = this.dragStartDates;
+            delete this.dragStartDates;
+         } else if (e.shiftKey) {
+            if (data.from)
+               originFromDate = data.from;
+            if (data.to)
+               originToDate = data.to;
          }
+         widget.handleSelect(instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
       } else {
-         var date = this.getCursorDates()[0];
+         let date = this.getCursorDates()[0];
          widget.handleSelect(instance, date);
       }
    }
@@ -506,7 +515,7 @@ export class MonthPickerComponent extends VDOM.Component {
          onBlur={::this.handleBlur}
          onScroll={::this.onScroll}
       >
-         {this.state.yearHeight && <div style={{height: `${(start - startYear) * this.state.yearHeight}px`}}></div>}
+         {this.state.yearHeight && <div style={{height: `${(start - startYear) * this.state.yearHeight}px`}}/>}
          <table ref={el => {
             this.dom.table = el
          }}>
@@ -519,7 +528,7 @@ export class MonthPickerComponent extends VDOM.Component {
             }
          </table>
          {this.state.yearHeight &&
-         <div style={{height: `${Math.max(0, endYear - end) * this.state.yearHeight}px`}}></div>}
+         <div style={{height: `${Math.max(0, endYear - end) * this.state.yearHeight}px`}}/>}
       </div>;
    }
 
