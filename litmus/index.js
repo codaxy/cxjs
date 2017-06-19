@@ -18,10 +18,11 @@ import './index.scss';
 
 
 //import Demo from './bugs/80';
+import Demo from './bugs/192';
 //import Demo from './bugs/search';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 
-import Demo from './features/flexbox';
+//import Demo from './features/flexbox';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/ReorderSpace';
