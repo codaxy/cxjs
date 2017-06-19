@@ -23,51 +23,50 @@ class PageController extends Controller {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/range/standard.tsx" target="_blank" putInto="github">Source Code</a>
-    
-        <Section mod="well" controller={PageController} style="display: flex;">
-            <FlexRow direction="column" align="stretch">
-                <Svg style="min-height: 566px; min-width:400px;">
-                    <Chart
-                        offset="20 -10 -40 40"
-                        axes={
-                            {
-                                x: { type: NumericAxis },
-                                y: { type: NumericAxis, vertical: true }
-                            }
-                        }
-                    >
-                        <Gridlines />
-                        <Range
-                            x1={bind("$page.p1.x")}
-                            x2={bind("$page.p2.x")}
-                            colorIndex={11}
-                            name="X Range"
-                            active={bind("$page.yrange")}
-                        >
-                            <Text anchors="0 0.5 0 0.5" offset="5 0 0 0" ta="middle" dy="0.8em">
-                                X Range
-                            </Text>
-                        </Range>
-                        <Range
-                            y1={bind("$page.p1.y")}
-                            y2={bind("$page.p2.y")}
-                            colorIndex={8}
-                            name="Y Range"
-                            active={bind("$page.xrange")}
-                        >
-                            <Text anchors="0.5 0 0.5 0" dy="0.4em" dx={5}>Y Range</Text>
-                        </Range>
-                        <LineGraph data={bind("$page.points")} colorIndex={0} />
-                        <Marker colorIndex={11} x={bind("$page.p1.x")} size={10} draggableX />
-                        <Marker colorIndex={11} x={bind("$page.p2.x")} size={10} draggableX />
-                        <Marker colorIndex={8} y={bind("$page.p1.y")} size={10} draggableY />
-                        <Marker colorIndex={8} y={bind("$page.p2.y")} size={10} draggableY />
-                    </Chart>
-                </Svg>
-                <Legend/>
-            </FlexRow>
-        </Section>
-
+    <Section mod="well" 
+        controller={PageController}
+        style="height: 100%;" 
+        bodyStyle="display: flex; flex-direction: column;">
+        <Svg style="width: 100%; flex: 1;">
+            <Chart
+                offset="20 -10 -40 40"
+                axes={
+                    {
+                        x: { type: NumericAxis },
+                        y: { type: NumericAxis, vertical: true }
+                    }
+                }
+            >
+                <Gridlines />
+                <Range
+                    x1={bind("$page.p1.x")}
+                    x2={bind("$page.p2.x")}
+                    colorIndex={11}
+                    name="X Range"
+                    active={bind("$page.yrange")}
+                >
+                    <Text anchors="0 0.5 0 0.5" offset="5 0 0 0" ta="middle" dy="0.8em">
+                        X Range
+                    </Text>
+                </Range>
+                <Range
+                    y1={bind("$page.p1.y")}
+                    y2={bind("$page.p2.y")}
+                    colorIndex={8}
+                    name="Y Range"
+                    active={bind("$page.xrange")}
+                >
+                    <Text anchors="0.5 0 0.5 0" dy="0.4em" dx={5}>Y Range</Text>
+                </Range>
+                <LineGraph data={bind("$page.points")} colorIndex={0} />
+                <Marker colorIndex={11} x={bind("$page.p1.x")} size={10} draggableX />
+                <Marker colorIndex={11} x={bind("$page.p2.x")} size={10} draggableX />
+                <Marker colorIndex={8} y={bind("$page.p1.y")} size={10} draggableY />
+                <Marker colorIndex={8} y={bind("$page.p2.y")} size={10} draggableY />
+            </Chart>
+        </Svg>
+        <Legend/>
+    </Section>
 </cx >
 
 import { hmr } from '../../hmr.js';

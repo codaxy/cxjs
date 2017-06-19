@@ -32,10 +32,13 @@ class PageController extends Controller {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column-graph/standard.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well">
-        <FlexRow direction="column" target='desktop' controller={PageController} >
+    <Section mod="well"
+        controller={PageController}
+        bodyStyle="display:flex; flex-direction: column;"
+        style="height: 100%"
+    >
             <Legend />
-            <Svg style="height:566px; width:100%; min-width:400px;" >
+            <Svg style="width:100%; flex: 1;" >
                 <Chart
                     offset="20 -20 -100 40"
                     axes={{
@@ -86,7 +89,6 @@ export default <cx>
                         }} />
                 </Chart>
             </Svg>
-        </FlexRow>
     </Section>
 </cx>
 

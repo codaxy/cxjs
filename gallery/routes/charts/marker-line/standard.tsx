@@ -37,21 +37,22 @@ class PageController extends Controller {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/marker-line/standard.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well" controller={PageController}>
-
-            <Svg style="width:100%; height:596px;">
-               <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-                  <Gridlines/>
-                  <MarkerLine y={bind("$page.extremes.min")} colorIndex={6}>
-                     <Text anchors="0 0 0 0" offset="5 0 0 5" dy="0.8em">Min</Text>
-                  </MarkerLine>
-                  <MarkerLine y={bind("$page.extremes.max")} colorIndex={3}>
-                     <Text anchors="0 0 0 0" offset="-5 0 0 5">Max</Text>
-                  </MarkerLine>
-                  <LineGraph data={bind("$page.points")} colorIndex={0} />
-               </Chart>
-            </Svg>
-
+    <Section mod="well" 
+        controller={PageController}
+        style="height: 100%;"
+        bodyStyle="display: flex;">
+        <Svg style="width: 100%; flex: 1;">
+           <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+              <Gridlines/>
+              <MarkerLine y={bind("$page.extremes.min")} colorIndex={6}>
+                 <Text anchors="0 0 0 0" offset="5 0 0 5" dy="0.8em">Min</Text>
+              </MarkerLine>
+              <MarkerLine y={bind("$page.extremes.max")} colorIndex={3}>
+                 <Text anchors="0 0 0 0" offset="-5 0 0 5">Max</Text>
+              </MarkerLine>
+              <LineGraph data={bind("$page.points")} colorIndex={0} />
+           </Chart>
+        </Svg>
     </Section>
 </cx >
 

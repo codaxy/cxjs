@@ -32,9 +32,9 @@ let mw = 768;
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/column/combination.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well" controller={PageController} >
-        <FlexRow target="desktop" style="min-width:400px;" spacing="xlarge">
-            <Svg style="width:100%; height: 600px; align-self:stretch; flex: 1.25;">
+    <Section mod="well" style="width: 100%" controller={PageController}>
+        <FlexRow target="desktop" spacing="xlarge">
+            <Svg style="flex:1.25; min-height: 400px; width: 90%; touch-action: pan-y;">
                <Chart offset="20 -20 -40 40" axes={{ 
                         x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
                         y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>

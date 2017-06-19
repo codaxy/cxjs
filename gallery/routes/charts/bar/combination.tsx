@@ -39,9 +39,9 @@ var legendStyle = {
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/charts/bar/combination.tsx" target="_blank" putInto="github">Source Code</a>
-    <Section mod="well" controller={PageController}>
+    <Section mod="well" style="width: 100%" controller={PageController}>
         <FlexRow target="desktop" spacing="xlarge">
-            <Svg style="min-width:400px; height:600px; flex:1;">
+            <Svg style="flex:1; min-height: 400px; width: 90%;">
                <Chart offset="20 -20 -40 120" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
                   <Gridlines/>
                   <Repeater records={bind("$page.points")} recordName="$point" sorters={bind("$page.sorters")}>
