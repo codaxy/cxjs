@@ -36,8 +36,11 @@ const visibleColumnsMenu = <cx>
    <Submenu arrow>
       Columns
       <Menu putInto="dropdown">
-         <Checkbox value:bind="$page.grid.columns.name.visible" mod="menu">Name</Checkbox>
+         <Checkbox value:bind="$page.grid.columns.name.visible" mod="menu" disabled>Name</Checkbox>
          <Checkbox value:bind="$page.grid.columns.continent.visible" mod="menu">Continent</Checkbox>
+         <Checkbox value:bind="$page.grid.columns.browser.visible" mod="menu">Browser</Checkbox>
+         <Checkbox value:bind="$page.grid.columns.os.visible" mod="menu">OS</Checkbox>
+         <Checkbox value:bind="$page.grid.columns.visits.visible" mod="menu">Visits</Checkbox>
       </Menu>
    </Submenu>
 </cx>;
@@ -47,6 +50,8 @@ export default (
       <div controller={PageController} style="padding: 20px">
          <Grid
             records:bind="$page.records"
+            scrollable
+            style="height: 400px"
             columns={
                [
                   {
@@ -72,13 +77,14 @@ export default (
                      sortable: true
                   },
                   { header: "Continent", field: "continent", sortable: true, visible: bind('$page.grid.columns.continent.visible'), },
-                  { header: "Browser", field: "browser", sortable: true },
-                  { header: "OS", field: "os", sortable: true },
+                  { header: "Browser", field: "browser", sortable: true, visible: bind('$page.grid.columns.browser.visible'),  },
+                  { header: "OS", field: "os", sortable: true, visible: bind('$page.grid.columns.os.visible'),  },
                   {
                      header: "Visits",
                      field: "visits",
                      sortable: true,
-                     align: "right"
+                     align: "right",
+                     visible: bind('$page.grid.columns.visits.visible'),
                   }
                ]
             }

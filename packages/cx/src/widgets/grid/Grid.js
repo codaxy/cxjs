@@ -27,6 +27,7 @@ import {
 import {GridCell} from './GridCell';
 import {GridRow, GridRowComponent} from './GridRow';
 import {Localization} from '../../ui/Localization';
+import {SubscriberList} from '../../util/SubscriberList';
 
 export class Grid extends Widget {
 
@@ -180,12 +181,16 @@ export class Grid extends Widget {
          fixed: {}
       };
 
+      instance.fixedHeaderResizeEvent = new SubscriberList();
+
       super.initInstance(context, instance);
    }
 
    explore(context, instance) {
-      super.explore(context, instance);
 
+      let parentPositionChangeEvent = context.parentPositionChangeEvent;
+      context.parentPositionChangeEvent = instance.fixedHeaderResizeEvent;
+      super.explore(context, instance);
 
       let columns = exploreChildren(context, instance, this.columns, instance.columns);
       if (columns != instance.columns) {
@@ -218,9 +223,10 @@ export class Grid extends Widget {
                }
             }
          }
-
          context.dragHandles = dragHandles;
       }
+
+      context.parentPositionChangeEvent = parentPositionChangeEvent;
    }
 
    prepare(context, instance) {
@@ -844,12 +850,19 @@ class GridComponent extends VDOM.Component {
                c.style.width = c.offsetWidth + 'px';
             }
          }
+
+         let resized = false;
+
          if (this.dom.fixedHeader) {
             for (let k in headerRefs) {
                let c = headerRefs[k];
                let fhe = fixedHeaderRefs[k];
                if (fhe) {
-                  fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = c.offsetWidth + 'px';
+                  let w = c.offsetWidth + 'px';
+                  if (w !== fhe.style.width) {
+                     fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = w;
+                     resized = true;
+                  }
                }
             }
             this.dom.fixedHeader.style.display = 'block';
@@ -859,6 +872,9 @@ class GridComponent extends VDOM.Component {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
             this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
+
+         if (resized)
+            instance.fixedHeaderResizeEvent.notify();
       }
    }
 
