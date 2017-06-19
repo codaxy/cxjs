@@ -6,7 +6,7 @@ export default {
    layout: {
       type: 'string/object',
       description: <cx><Md>
-         Define an [inner layout](~/concepts/layouts).
+         Define an [inner layout](~/concepts/inner-layouts).
       </Md></cx>
    },
    trimWhitespace: {
