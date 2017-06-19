@@ -3,11 +3,6 @@ import {Controller, bind} from "cx/ui";
 import casual from '../../../util/casual';
 import "../../../util/plural";
 
-function plural(word, count) {
-    if (count > 1) return word + "s";
-    return word;
-}
-
 class PageController extends Controller {
 
     onInit() {
