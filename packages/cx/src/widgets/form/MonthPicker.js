@@ -386,9 +386,9 @@ export class MonthPickerComponent extends VDOM.Component {
 
          let [cursorFromDate, cursorToDate] = this.getCursorDates();
          let originFromDate = cursorFromDate, originToDate = cursorToDate;
-         if (this.dragStartDates) {
+         if (this.state.state == 'drag') {
             [originFromDate, originToDate] = this.dragStartDates;
-            delete this.dragStartDates;
+            this.setState({state: 'normal'});
          } else if (e.shiftKey) {
             if (data.from)
                originFromDate = data.from;
