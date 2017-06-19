@@ -3,9 +3,7 @@ import {Controller, PropertySelection} from "cx/ui";
 import casual from '../../../util/casual';
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
+    onInit() {
         this.store.set(
             "$page.records",
             Array
@@ -45,7 +43,10 @@ class PageController extends Controller {
 }
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/multi-select.tsx" target="_blank" putInto="github">Source Code</a>
+    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/grids/multi-select.tsx"
+        target="_blank"
+        putInto="github">Source Code</a>
+
     <Section
         mod="well"
         style="height: 100%"
@@ -76,7 +77,7 @@ export default <cx>
                     )
                 },
                 {header: "Name", field: "fullName", sortable: true},
-                {header: "Phone", field: "phone"},
+                {header: "Phone", field: "phone", style: "white-space: nowrap"},
                 {header: "City", field: "city", sortable: true}
             ]}
             selection={

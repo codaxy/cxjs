@@ -54,7 +54,7 @@ export default (
               header: "Name",
               sortable: true,
               aggregate: "count",
-              footer: { tpl: "{$group.name} countries" }
+              footer: { tpl: "{$group.name} countries" },
             },
             {
               field: "sales",
