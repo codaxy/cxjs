@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
 import {HtmlElement} from '../HtmlElement';
-import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep} from '../../util/DOM';
+import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused} from '../../util/DOM';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
@@ -243,9 +243,11 @@ class MenuItemComponent extends VDOM.Component {
          }
 
          if (e.keyCode == KeyCode.esc) {
-            FocusManager.focus(this.el);
-            e.preventDefault();
-            e.stopPropagation();
+            if (!isFocused(this.el)) {
+               FocusManager.focus(this.el);
+               e.preventDefault();
+               e.stopPropagation();
+            }
             this.closeDropdown();
          }
       }
