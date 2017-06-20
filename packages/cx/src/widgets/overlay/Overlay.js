@@ -105,7 +105,7 @@ export class Overlay extends PureContainer {
 
    handleFocusOut(instance, component) {
       if (this.onFocusOut)
-         this.onFocusOut(instance, component);
+         instance.invoke("onFocusOut", instance, component);
 
       if (this.dismissOnFocusOut && instance.dismiss)
          instance.dismiss();
@@ -113,17 +113,17 @@ export class Overlay extends PureContainer {
 
    handleKeyDown(e, instance, component) {
       if (this.onKeyDown)
-         this.onKeyDown(e, instance, component);
+         instance.invoke("onKeyDown", e, instance, component);
    }
 
    handleMouseLeave(instance, component) {
       if (this.onMouseLeave)
-         this.onMouseLeave(instance, component);
+         instance.invoke("onMouseLeave", instance, component);
    }
 
    handleMouseEnter(instance, component) {
       if (this.onMouseEnter)
-         this.onMouseEnter(instance, component);
+         instance.invoke("onMouseEnter", instance, component);
    }
 
    containerFactory() {

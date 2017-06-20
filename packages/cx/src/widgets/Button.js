@@ -29,7 +29,7 @@ export class Button extends HtmlElement {
       if (!this.focusOnMouseDown) {
          props.onMouseDown = e => {
             if (this.onMouseDown)
-               this.onMouseDown(e, instance);
+               instance.invoke("onMouseDown", e, instance);
             preventFocus(e);
          }
       }

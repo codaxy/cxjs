@@ -101,7 +101,7 @@ export class Calendar extends Field {
       if (!validationCheck(date, data))
          return;
 
-      if (this.onBeforeSelect && this.onBeforeSelect(e, instance, date) === false)
+      if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date) === false)
          return;
 
       if (widget.partial) {
@@ -117,7 +117,7 @@ export class Calendar extends Field {
       instance.set('value', date.toISOString());
 
       if (this.onSelect)
-         this.onSelect(e, instance, date);
+         instance.invoke("onSelect", e, instance, date);
    }
 }
 

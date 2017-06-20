@@ -134,7 +134,7 @@ export class Range extends BoundedObject {
 
    handleClick(e, instance) {
       if (this.onClick)
-         this.onClick(e, instance);
+         instance.invoke("onClick", e, instance);
    }
 
    handleMouseDown(e, instance) {

@@ -48,7 +48,7 @@ export class Repeater extends PureContainer {
 
          let filter = null;
          if (this.onCreateFilter)
-            this.onCreateFilter(data.filterParams, instance);
+            instance.invoke("onCreateFilter", data.filterParams, instance);
          else if (this.filter)
             filter = item => this.filter(item, data.filterParams);
          this.adapter.setFilter(filter);

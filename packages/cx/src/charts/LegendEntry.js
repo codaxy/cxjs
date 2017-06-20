@@ -64,7 +64,7 @@ export class LegendEntry extends HtmlElement {
 
    handleClick(e, instance) {
 
-      if (this.onClick && this.onClick(e, instance) === false)
+      if (this.onClick && instance.invoke("onClick", e, instance) === false)
          return;
 
       e.stopPropagation();

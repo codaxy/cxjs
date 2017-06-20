@@ -523,7 +523,7 @@ export class Grid extends Widget {
 
       let filter = null;
       if (this.onCreateFilter)
-         filter = this.onCreateFilter(data.filterParams, instance);
+         filter = instance.invoke("onCreateFilter", data.filterParams, instance);
 
       this.dataAdapter.setFilter(filter);
       this.dataAdapter.sort(!this.remoteSort && data.sorters);
@@ -937,7 +937,7 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {records, widget} = instance;
 
-      if (this.onKeyDown && this.onKeyDown(e, instance) === false)
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
 
       switch (e.keyCode) {
