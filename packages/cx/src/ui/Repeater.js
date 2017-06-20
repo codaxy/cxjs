@@ -17,7 +17,8 @@ export class Repeater extends PureContainer {
       if (this.indexAlias)
          this.indexName = this.indexAlias;
 
-      this.adapter = ArrayAdapter.create(ArrayAdapter, {
+      this.dataAdapter = ArrayAdapter.create({
+         ...this.dataAdapter,
          recordName: this.recordName,
          indexName: this.indexName,
          keyField: this.keyField,
@@ -44,15 +45,15 @@ export class Repeater extends PureContainer {
 
       if (!instance.repeatable) {
          let {data} = instance;
-         this.adapter.sort(data.sorters);
+         this.dataAdapter.sort(data.sorters);
 
          let filter = null;
          if (this.onCreateFilter)
             instance.invoke("onCreateFilter", data.filterParams, instance);
          else if (this.filter)
             filter = item => this.filter(item, data.filterParams);
-         this.adapter.setFilter(filter);
-         instance.mappedRecords = this.adapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
+         this.dataAdapter.setFilter(filter);
+         instance.mappedRecords = this.dataAdapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
       }
    }
 
