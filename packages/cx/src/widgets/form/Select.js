@@ -135,7 +135,7 @@ class SelectComponent extends VDOM.Component {
             icon: data.icon,
             focus: this.state.focus,
             error: state.visited && data.error,
-            empty: data.empty
+            empty: data.empty && !data.placeholder
          }))}
          style={data.style}
          onMouseDown={stopPropagation}
