@@ -17,7 +17,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 

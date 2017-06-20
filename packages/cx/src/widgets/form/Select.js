@@ -1,7 +1,7 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field, getFieldTooltip} from './Field';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';

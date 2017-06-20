@@ -1,11 +1,9 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Field, getFieldTooltip} from './Field';
 import {
-   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
 import CheckIcon from '../icons/check';

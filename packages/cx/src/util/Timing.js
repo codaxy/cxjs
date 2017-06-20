@@ -1,11 +1,11 @@
-import {Console} from './Console';
+import {Debug} from './Debug';
 
 export const appLoopFlag = 'app-loop';
 export const vdomRenderFlag = 'vdom-render';
 
 
-var counter = {};
-const env = process.env.NODE_ENV;
+let counter = {};
+let activeFlags = {};
 
 export class Timing {
    static now() {
@@ -13,7 +13,9 @@ export class Timing {
    }
 
    static enable(flag) {
-      activeFlags[flag] = true;
+      if (process.env.NODE_ENV !== "production") {
+         activeFlags[flag] = true;
+      }
    }
 
    static disable(flag) {
@@ -21,7 +23,7 @@ export class Timing {
    }
 
    static count(flag) {
-      if (env != "production") {
+      if (process.env.NODE_ENV !== "production") {
          if (!activeFlags[flag])
             return;
          return counter[flag] = (counter[flag] || 0) + 1;
@@ -29,18 +31,16 @@ export class Timing {
    }
 
    static log(flag) {
-      if (env != "production") {
+      if (process.env.NODE_ENV !== "production") {
          if (!activeFlags[flag])
             return;
 
-         Console.log(...arguments);
+         Debug.log(...arguments);
       }
    }
 }
 
-var activeFlags = {};
-
-if (typeof window != 'undefined' && window.performance && window.performance.now) {
+if (process.env.NODE_ENV !== "production" && typeof window != 'undefined' && window.performance && window.performance.now) {
    Timing.now = function () {
       return performance.now();
    };

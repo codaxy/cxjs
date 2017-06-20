@@ -6,7 +6,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
 
 export class Slider extends Field {

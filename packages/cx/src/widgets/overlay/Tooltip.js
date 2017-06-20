@@ -5,6 +5,7 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {shallowEquals} from '../../util/shallowEquals';
 import {isSelector} from '../../data/isSelector';
+import {wireTooltipOps} from './tooltip-ops';
 
 export class Tooltip extends Dropdown {
 
@@ -161,80 +162,87 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    return tooltipInstance;
 }
 
-export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
-   let instance = getTooltipInstance(e, parentInstance, tooltip, options);
-   if (!instance)
-      return;
+wireTooltipOps({
+   tooltipMouseMove: function (e, parentInstance, tooltip, options = {}) {
+      let instance = getTooltipInstance(e, parentInstance, tooltip, options);
+      if (!instance)
+         return;
 
-   if (isTouchEvent() && instance.widget.touchBehavior == 'ignore')
-      return false;
+      if (isTouchEvent() && instance.widget.touchBehavior == 'ignore')
+         return false;
 
-   let dirty = !shallowEquals(options.data, instance.store.data);
+      let dirty = !shallowEquals(options.data, instance.store.data);
 
-   instance.store.setData(options.data);
-   instance.mouseOverTarget = true;
-
-   if (!instance.dismissTooltip) {
-      if (!instance.pending) {
-         instance.pending = true;
-         setTimeout(() => {
-            instance.pending = false;
-            if (instance.mouseOverTarget && document.body.contains(instance.widget.relatedElement)) {
-               instance.dismissTooltip = instance.widget.open(instance, {
-                  onPipeUpdate: cb => {
-                     instance.update = cb;
-                  }
-               });
-            }
-         }, 200);
-      }
-   } else {
-      if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
-         instance.dismissTooltip();
-         instance.dismissTooltip = null;
-      }
-      else if (dirty && instance.update)
-         instance.update();
-   }
-
-   if (instance.trackMouse && e && e.target)
-      instance.trackMouse(e);
-}
-
-export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
-   let instance = getTooltipInstance(e, parentInstance, tooltip, options);
-   if (instance) {
-      instance.mouseOverTarget = false;
-      instance.widget.handleMouseLeavesParent(instance);
-   }
-}
-
-export function tooltipParentDidMount(element, parentInstance, tooltip, options) {
-   if (tooltip && tooltip.alwaysVisible) {
-      let instance = getTooltipInstance(element, parentInstance, tooltip, options);
-      if (instance.data.alwaysVisible)
-         tooltipMouseMove(element, parentInstance, tooltip, options);
-   }
-}
-
-export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options) {
-   let instance = getTooltipInstance(element, parentInstance, tooltip, options);
-   if (instance && options) {
       instance.store.setData(options.data);
-      if (instance.update)
-         instance.update();
-      if (instance.mouseOverTarget || (instance.data && instance.data.alwaysVisible))
-         tooltipMouseMove(element, parentInstance, tooltip, options);
-   }
-}
+      instance.mouseOverTarget = true;
 
-export function tooltipParentWillUnmount(parentInstance) {
-   if (parentInstance.tooltips) {
-      for (let name in parentInstance.tooltips) {
-         let instance = parentInstance.tooltips[name];
+      if (!instance.dismissTooltip) {
+         if (!instance.pending) {
+            instance.pending = true;
+            setTimeout(() => {
+               instance.pending = false;
+               if (instance.mouseOverTarget && document.body.contains(instance.widget.relatedElement)) {
+                  instance.dismissTooltip = instance.widget.open(instance, {
+                     onPipeUpdate: cb => {
+                        instance.update = cb;
+                     }
+                  });
+               }
+            }, 200);
+         }
+      } else {
+         if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
+            instance.dismissTooltip();
+            instance.dismissTooltip = null;
+         }
+         else if (dirty && instance.update)
+            instance.update();
+      }
+
+      if (instance.trackMouse && e && e.target)
+         instance.trackMouse(e);
+   },
+
+   tooltipMouseLeave: function (e, parentInstance, tooltip, options) {
+      let instance = getTooltipInstance(e, parentInstance, tooltip, options);
+      if (instance) {
          instance.mouseOverTarget = false;
-         if (instance.dismissTooltip)
-            parentInstance.tooltips[name].dismissTooltip();
+         instance.widget.handleMouseLeavesParent(instance);
+      }
+   },
+
+   tooltipParentDidMount: function (element, parentInstance, tooltip, options) {
+      if (tooltip && tooltip.alwaysVisible) {
+         let instance = getTooltipInstance(element, parentInstance, tooltip, options);
+         if (instance.data.alwaysVisible)
+            tooltipMouseMove(element, parentInstance, tooltip, options);
+      }
+   },
+
+   tooltipParentWillReceiveProps: function (element, parentInstance, tooltip, options) {
+      let instance = getTooltipInstance(element, parentInstance, tooltip, options);
+      if (instance && options) {
+         instance.store.setData(options.data);
+         if (instance.update)
+            instance.update();
+         if (instance.mouseOverTarget || (instance.data && instance.data.alwaysVisible))
+            tooltipMouseMove(element, parentInstance, tooltip, options);
+      }
+   },
+
+   tooltipParentWillUnmount: function (parentInstance) {
+      if (parentInstance.tooltips) {
+         for (let name in parentInstance.tooltips) {
+            let instance = parentInstance.tooltips[name];
+            instance.mouseOverTarget = false;
+            if (instance.dismissTooltip)
+               parentInstance.tooltips[name].dismissTooltip();
+         }
       }
    }
-}
+});
+
+//dummy method to prevent unused export
+//import {enableTooltips} from 'cx/widgets';
+//enableTooltips()
+export function enableTooltips() {}

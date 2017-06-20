@@ -1,22 +1,25 @@
 import {Console} from './Console';
 
-var activeFlags = {
+let activeFlags = {
    deprecated: true
 };
-const env = process.env.NODE_ENV;
 
 export class Debug {
 
    static enable(flag) {
-      activeFlags[flag] = true;
+      if (process.env.NODE_ENV != "production") {
+         activeFlags[flag] = true;
+      }
    }
 
    static disable(flag) {
-      activeFlags[flag] = false;
+      if (process.env.NODE_ENV != "production") {
+         activeFlags[flag] = false;
+      }
    }
 
    static log(flag) {
-      if (env != "production") {
+      if (process.env.NODE_ENV != "production") {
          if (!activeFlags[flag])
             return;
 

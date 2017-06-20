@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse';
 import {closest} from '../util/DOM';
 import {Selection} from '../ui/selection/Selection';

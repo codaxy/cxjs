@@ -1,6 +1,6 @@
 import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
-import './Format';
+//import './Format';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {Debug, appDataFlag} from '../util/Debug';
@@ -8,8 +8,9 @@ import {parseStyle} from '../util/parseStyle';
 import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {RenderingContext} from './RenderingContext';
 
-import {VDOM as vdom} from 'cx-react';
+import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
+
 
 var widgetId = 100;
 

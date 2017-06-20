@@ -8,6 +8,7 @@ export const VDOM = {
       render,
       findDOMNode,
       unmountComponentAtNode
-   }
+   },
+   allowRenderOutputCaching: false
 };
 

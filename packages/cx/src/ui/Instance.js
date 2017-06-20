@@ -5,6 +5,7 @@ import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
+import {VDOM} from './VDOM';
 
 export class Instance {
    constructor(widget, key) {
@@ -212,7 +213,7 @@ export class Instance {
          ? this.cached.vdom
          : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
-      if (this.widget.memoize)
+      if (this.widget.memoize && VDOM.allowRenderOutputCaching !== false)
          this.cached.vdom = vdom;
 
       if (this.shouldUpdate)

@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {ColumnBarGraphBase} from './ColumnBarGraphBase';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
 
 export class BarGraph extends ColumnBarGraphBase {
 
