@@ -3,8 +3,8 @@ import {Binding} from '../../data/Binding';
 
 export class TreeAdapter extends ArrayAdapter {
 
-   getRecords(context, instance, data, parentStore) {
-      var nodes = this.mapRecords(context, instance, data, parentStore, this.recordsBinding);
+   mapRecords(context, instance, data, parentStore, recordsBinding) {
+      var nodes = super.mapRecords(context, instance, data, parentStore, recordsBinding);
       var result = [];
       this.processList(context, instance, 0, '', nodes, result);
       return result;
@@ -26,7 +26,7 @@ export class TreeAdapter extends ArrayAdapter {
       if (!data[this.leafField]) {
          if (data[this.expandedField]) {
             if (data[this.childrenField]) {
-               var childNodes = this.mapRecords(context, instance, data[this.childrenField], store, Binding.get(`${this.recordName}.${this.childrenField}`));
+               var childNodes = super.mapRecords(context, instance, data[this.childrenField], store, Binding.get(`${this.recordName}.${this.childrenField}`));
                this.processList(context, instance, level + 1, record.key + ':', childNodes, result);
             }
             else if (!data[this.loadedField]) {
