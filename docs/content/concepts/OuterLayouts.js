@@ -39,7 +39,7 @@ export const OuterLayouts = <cx>
         <ImportPath path="import {Content} from 'cx/ui';" />
 
         <CodeSplit>
-            Within the widget, use the `Content` widget to define sections other than body.  
+           The `Content` widget is used to define content that will be plugged into placeholders.  
 
             The following example shows basic usage of layouts implemented using inline styles and flex.
 
@@ -92,7 +92,7 @@ export const OuterLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        Alternatively, you can define `putInto` or `contentFor` for any of the Cx widgets or HTML elements to specify the name of the content placeholder that should render it.
+        Instead of using the Content widget, alternatively, you can define `putInto` or `contentFor` attribute for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
             <CodeSnippet>{`
