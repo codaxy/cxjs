@@ -18,6 +18,7 @@ export class Slider extends Field {
          step: undefined,
          minValue: undefined,
          maxValue: undefined,
+         incrementPercentage: undefined,
          disabled: undefined,
          readOnly: undefined,
          rangeStyle: {
@@ -30,6 +31,9 @@ export class Slider extends Field {
    }
 
    init() {
+      if (typeof this.step != 'undefined')
+         this.increment = this.step;
+
       if (typeof this.min != 'undefined')
          this.minValue = this.min;
 
@@ -83,6 +87,7 @@ Slider.prototype.baseClass = "slider";
 Slider.prototype.minValue = 0;
 Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
+Slider.prototype.incrementPercentage = 0.01;
 
 Widget.alias('slider', Slider);
 
@@ -135,7 +140,8 @@ class SliderComponent extends VDOM.Component {
       return <div className={data.classNames}
          style={data.style}
          id={data.id}
-         onClick={::this.onClick}>
+         onClick={::this.onClick}
+         onWheel={::this.onWheel}>
          {label}
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
@@ -154,7 +160,8 @@ class SliderComponent extends VDOM.Component {
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.fromTooltip, {tooltipName: 'fromTooltip'})}
                      onMouseLeave={e => this.onHandleMouseLeave(e, 'from')}
                      onTouchStart={e => this.onHandleMouseDown(e, 'from')}
-                     ref={c => this.dom.from = c}/>
+                     ref={c => this.dom.from = c}
+                     onWheel={(e) => this.onWheel(e, 'from')}/>
                }
                {
                   widget.showTo &&
@@ -166,7 +173,8 @@ class SliderComponent extends VDOM.Component {
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.toTooltip, {tooltipName: 'toTooltip'})}
                      onMouseLeave={e => this.onHandleMouseLeave(e, 'to')}
                      onTouchStart={e => this.onHandleMouseDown(e, 'to')}
-                     ref={c => this.dom.to = c}/>
+                     ref={c => this.dom.to = c}
+                     onWheel={(e) => this.onWheel(e, 'to')}/>
                }
             </div>
          </div>
@@ -283,5 +291,25 @@ class SliderComponent extends VDOM.Component {
          let {value} = this.getValues(e);
          this.props.instance.set('value', value);
       }
+   }
+
+   onWheel(e, handle) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('--------------------------------- wheeee', handle);
+      let {instance} = this.props;
+      let {data} = instance;
+      let increment = e.deltaY > 0 ? this.getIncrement() : -this.getIncrement();
+      /*if (!data.disabled && !data.readOnly) {
+         let {value} = this.getValues(e);
+         this.props.instance.set('value', value + increment);
+      }*/
+   }
+
+   getIncrement() {
+      let {instance} = this.props;
+      let {data} = instance;
+      let increment = data.increment || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
+      return increment;
    }
 }
