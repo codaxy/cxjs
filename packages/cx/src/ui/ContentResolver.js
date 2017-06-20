@@ -24,7 +24,7 @@ export class ContentResolver extends PureContainer {
 
       if (data.params !== instance.cachedParams && this.onResolve) {
          instance.cachedParams = data.params;
-         let content = this.onResolve(data.params, instance);
+         let content = instance.invoke("onResolve", data.params, instance);
          if (isPromise(content)) {
             instance.set('loading', true);
             content.then(cnt => {

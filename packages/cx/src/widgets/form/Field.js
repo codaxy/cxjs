@@ -203,7 +203,7 @@ export class Field extends PureContainer {
       }
 
       if (!data.error && data.value != null && this.onValidate && !state.validating && data.value != state.lastValidatedValue) {
-         let result = this.onValidate(data.value, instance);
+         let result = instance.invoke("onValidate", data.value, instance);
          if (isPromise(result)) {
             data.error = this.validatingText;
             instance.setState({
@@ -223,7 +223,7 @@ export class Field extends PureContainer {
                      inputError: this.validationExceptionText
                   });
                   if (this.onValidationException)
-                     this.onValidationException(e, instance);
+                     instance.invoke("onValidationException", e, instance);
                   else {
                      Console.warn('Unhandled validation exception:', e);
                   }

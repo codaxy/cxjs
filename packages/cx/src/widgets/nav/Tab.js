@@ -49,7 +49,7 @@ export class Tab extends HtmlElement {
 
          props.onMouseDown = e => {
             if (this.onMouseDown)
-               this.onMouseDown(e, instance);
+               instance.invoke('onMouseDown', e, instance);
             preventFocusOnTouch(e);
          };
 
@@ -60,7 +60,7 @@ export class Tab extends HtmlElement {
    handleClick(e, instance) {
 
       if (this.onClick)
-         this.onClick(e, instance);
+         instance.invoke('onClick', e, instance);
 
       e.preventDefault();
       e.stopPropagation();

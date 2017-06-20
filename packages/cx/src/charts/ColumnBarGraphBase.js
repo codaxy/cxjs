@@ -96,7 +96,7 @@ export class ColumnBarGraphBase extends Widget {
    }
 
    handleClick(e, instance, point, index) {
-      if (this.onClick && this.onClick(e, instance, point, index) === false)
+      if (this.onClick && instance.invoke("onClick", e, instance, point, index) === false)
          return;
 
       if (!this.selection.isDummy)

@@ -48,7 +48,7 @@ export class Dropdown extends Overlay {
       component.offResize = ResizeManager.subscribe(component.updateDropdownPosition);
 
       if (this.onDropdownDidMount)
-         this.onDropdownDidMount(instance, component);
+         instance.invoke("onDropdownDidMount", instance, component);
 
       if (this.pipeValidateDropdownPosition)
          instance.invoke("pipeValidateDropdownPosition", component.updateDropdownPosition, instance);
@@ -135,7 +135,7 @@ export class Dropdown extends Overlay {
       this.setDirectionClass(component, placement);
 
       if (this.onDropdownPositionDidUpdate)
-         this.onDropdownPositionDidUpdate(instance, component);
+         instance.invoke("onDropdownPositionDidUpdate", instance, component);
 
       instance.positionChangeSubcribers.notify();
    }
@@ -393,7 +393,7 @@ export class Dropdown extends Overlay {
       }
 
       if (this.onMeasureDropdownNaturalSize) {
-         var more = this.onMeasureDropdownNaturalSize(instance, component);
+         var more = instance.invoke("onMeasureDropdownNaturalSize", instance, component);
          Object.assign(size, more);
       }
       return size;
@@ -494,7 +494,7 @@ export class Dropdown extends Overlay {
       }
 
       if (this.onKeyDown)
-         this.onKeyDown(e, instance);
+         instance.invoke("onKeyDown", e, instance);
    }
 
    renderContents(context, instance) {

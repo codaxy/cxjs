@@ -132,7 +132,7 @@ export class MonthPicker extends Field {
       if (!validationCheck(date1, data))
          return;
 
-      if (this.onBeforeSelect && this.onBeforeSelect(e, instance, date1, date2) === false)
+      if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date1, date2) === false)
          return;
 
       if (this.range) {
@@ -142,7 +142,7 @@ export class MonthPicker extends Field {
          instance.set('value', date1.toISOString());
 
       if (this.onSelect)
-         this.onSelect(instance, date1, date2);
+         instance.invoke("onSelect", instance, date1, date2);
    }
 }
 

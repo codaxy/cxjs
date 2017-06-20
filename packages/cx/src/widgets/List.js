@@ -81,7 +81,7 @@ export class List extends Widget {
       this.adapter.sort(data.sorters);
       let filter = null;
       if (this.onCreateFilter)
-         filter = this.onCreateFilter(data.filterParams, instance);
+         filter = instance.invoke("onCreateFilter", data.filterParams, instance);
       else if (this.filter)
          filter = item => this.filter(item, data.filterParams);
       this.adapter.setFilter(filter);
@@ -385,7 +385,7 @@ class ListComponent extends VDOM.Component {
 
       var {instance, items} = this.props;
 
-      if (this.onKeyDown && this.onKeyDown(e, instance) === false)
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
 
       switch (e.keyCode) {
