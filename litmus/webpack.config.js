@@ -2,12 +2,15 @@ const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
+   BabiliPlugin = require("babili-webpack-plugin"),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
    merge = require('webpack-merge'),
    path = require('path'),
    babelConfig = require('./babel.config');
 
-var common = {
+let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf('build') == 0;
+
+let common = {
 
    resolve: {
       alias: {
@@ -27,7 +30,7 @@ var common = {
          test: /\.js$/,
          include: /(litmus|cx)/,
          loader: 'babel-loader',
-         query: babelConfig
+         query: babelConfig(production)
       }]
    },
    entry: {
@@ -56,76 +59,77 @@ var common = {
    ]
 };
 
-var specific;
+let specific;
 
-switch(process.env.npm_lifecycle_event) {
-   case 'build:litmus':
-      var sass = new ExtractTextPlugin({
-         filename: "app.css",
-         allChunks: true
-      });
-      specific = {
-         module: {
-           loaders: [{
-              test: /\.scss$/,
-              loaders: sass.extract(['css-loader', 'sass-loader'])
-           }, {
-              test: /\.css$/,
-              loaders: sass.extract(['css-loader'])
-           }]
-         },
+if (production) {
+   let sass = new ExtractTextPlugin({
+      filename: "app.css",
+      allChunks: true
+   });
+   specific = {
+      module: {
+         loaders: [{
+            test: /\.scss$/,
+            loaders: sass.extract(['css-loader', 'sass-loader'])
+         }, {
+            test: /\.css$/,
+            loaders: sass.extract(['css-loader'])
+         }]
+      },
 
-         plugins: [
-            new webpack.optimize.UglifyJsPlugin({
-               //beautify: true
-            }),
-            new webpack.DefinePlugin({
-               'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            //new webpack.optimize.ModuleConcatenationPlugin(),
-            sass,
-            new BundleAnalyzerPlugin()
-         ],
+      plugins: [
+         new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production'),
+         }),
 
-         output: {
-            path: path.join(__dirname, 'dist'),
-            publicPath: '.'
-         }
-      };
-      break;
+         new webpack.optimize.UglifyJsPlugin({
+            compress: true,
+            mangle: true,
+            beautify: false
+         }),
 
-   default:
-      specific = {
-         module: {
-            loaders: [{
-               test: /\.scss$/,
-               loaders: ["style-loader", "css-loader", "sass-loader"]
-            }, {
-               test: /\.css$/,
-               loader: ["style-loader", "css-loader"]
-            }]
-         },
-         plugins: [
-            new webpack.HotModuleReplacementPlugin()
-         ],
-         output: {
-            publicPath: '/'
-         },
-         performance: {
-            hints: false
-         },
-         devtool: 'eval',
-         devServer: {
-            contentBase: '/',
-            hot: true,
-            port: 8086,
-            noInfo: false,
-            inline: true,
-            historyApiFallback: true,
-            //quiet: true
-         }
-      };
-      break;
+         new webpack.optimize.ModuleConcatenationPlugin(),
+         sass,
+         //new BundleAnalyzerPlugin()
+      ],
+
+      output: {
+         path: path.join(__dirname, 'dist'),
+         publicPath: '.'
+      }
+   };
+}
+else {
+   specific = {
+      module: {
+         loaders: [{
+            test: /\.scss$/,
+            loaders: ["style-loader", "css-loader", "sass-loader"]
+         }, {
+            test: /\.css$/,
+            loader: ["style-loader", "css-loader"]
+         }]
+      },
+      plugins: [
+         new webpack.HotModuleReplacementPlugin()
+      ],
+      output: {
+         publicPath: '/'
+      },
+      performance: {
+         hints: false
+      },
+      devtool: 'eval',
+      devServer: {
+         contentBase: '/',
+         hot: true,
+         port: 8086,
+         noInfo: false,
+         inline: true,
+         historyApiFallback: true,
+         //quiet: true
+      }
+   };
 }
 
 module.exports = merge(common, specific);

@@ -7,20 +7,20 @@ import "./error";
 
 import './index.scss';
 
-//import {GridSection as Demo} from './sections/Grid';
-//import {FormSection as Demo} from './sections/Form';
-//import {WindowSection as Demo} from './sections/Window';
-//import {ListSection as Demo} from './sections/List';
-//import Demo from './sections/ComplexGrid';
-//import Demo from './sections/features/TimeSeriesScroll';
-//import {MixedModeForm as Demo} from './components/MixedModeForm';
-//import Demo from './performance/LongList';
-
-
-//import Demo from './bugs/80';
-//import Demo from './bugs/192';
-//import Demo from './bugs/search';
-//import Demo from './bugs/NativeCheckboxesAndRadios';
+// import {GridSection as Demo} from './sections/Grid';
+// import {FormSection as Demo} from './sections/Form';
+// import {WindowSection as Demo} from './sections/Window';
+// import {ListSection as Demo} from './sections/List';
+// import Demo from './sections/ComplexGrid';
+// import Demo from './sections/features/TimeSeriesScroll';
+// import {MixedModeForm as Demo} from './components/MixedModeForm';
+// import Demo from './performance/LongList';
+//
+//
+// import Demo from './bugs/80';
+// import Demo from './bugs/192';
+// import Demo from './bugs/search';
+// import Demo from './bugs/NativeCheckboxesAndRadios';
 
 import Demo from './features/flexbox';
 
@@ -71,3 +71,4 @@ let stop = startAppLoop(document.getElementById('app'), store, <cx>
       <Demo />
    </div>
 </cx>);
+
