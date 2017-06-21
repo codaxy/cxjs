@@ -5,17 +5,9 @@ $cx-include-all: false;
 @include cx-widgets(
 	"cx/data/Binding",
 	"cx/data/computable",
-	"cx/util/Debug",
 	"cx/util/Format",
 	"cx/util/GlobalCacheIdentifier",
-	"cx/util/appDataFlag",
-	"cx/util/cleanupFlag",
-	"cx/util/destroyFlag",
 	"cx/util/expandFatArrows",
 	"cx/util/isDigit",
-	"cx/util/prepareFlag",
-	"cx/util/processDataFlag",
-	"cx/util/quoteStr",
-	"cx/util/renderFlag",
-	"cx/util/shouldUpdateFlag"
+	"cx/util/quoteStr"
 );

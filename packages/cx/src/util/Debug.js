@@ -4,29 +4,31 @@ let activeFlags = {
    deprecated: true
 };
 
-export class Debug {
+export function debug(flag) {
+   if (process.env.NODE_ENV !== "production") {
+      if (!activeFlags[flag])
+         return;
 
-   static enable(flag) {
-      if (process.env.NODE_ENV != "production") {
-         activeFlags[flag] = true;
-      }
-   }
-
-   static disable(flag) {
-      if (process.env.NODE_ENV != "production") {
-         activeFlags[flag] = false;
-      }
-   }
-
-   static log(flag) {
-      if (process.env.NODE_ENV != "production") {
-         if (!activeFlags[flag])
-            return;
-
-         Console.log(...arguments);
-      }
+      Console.log(...arguments);
    }
 }
+
+export const Debug = {
+
+   enable: function(flag) {
+      if (process.env.NODE_ENV !== "production") {
+         activeFlags[flag] = true;
+      }
+   },
+
+   disable: function(flag) {
+      if (process.env.NODE_ENV !== "production") {
+         activeFlags[flag] = false;
+      }
+   },
+
+   log: debug
+};
 
 export const renderFlag = 'render';
 export const prepareFlag = 'prepare';

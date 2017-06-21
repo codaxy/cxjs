@@ -1,7 +1,14 @@
-module.exports = function(production) {
+module.exports = function (production) {
    let config = {
       cacheDirectory: true,
       cacheIdentifier: "v14",
+      "plugins": [
+         // ["transform-runtime", {
+         //    helpers: true,
+         //    polyfill: false,
+         //    regenerator: false
+         // }]
+      ],
       presets: [
          ["cx-env", {
             targets: {
@@ -20,12 +27,13 @@ module.exports = function(production) {
                }
             }
          }]
-      ],
-      "plugins": []
+      ]
    };
 
-   if (production)
-      config.presets.push('babili');
+   // if (production)
+   //    config.presets.push(['babili', {
+   //       mangle: false
+   //    }]);
 
    return config;
 };

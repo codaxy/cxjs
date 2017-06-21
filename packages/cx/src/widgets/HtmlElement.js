@@ -3,7 +3,7 @@ import {PureContainer} from '../ui/PureContainer';
 import {tooltipMouseMove, tooltipParentWillUnmount, tooltipMouseLeave, tooltipParentWillReceiveProps, tooltipParentDidMount} from './overlay/tooltip-ops';
 import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
-import {Debug} from '../util/Debug';
+import {debug} from '../util/Debug';
 
 var isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
 
@@ -248,7 +248,7 @@ Widget.factory = function(type, config, more) {
    var typeType = typeof type;
 
    if (typeType == 'undefined') {
-      Debug.log('Creating a widget of unknown type.', config, more);
+      debug('Creating a widget of unknown type.', config, more);
       return new HtmlElement(Object.assign({}, config, more));
    }
 

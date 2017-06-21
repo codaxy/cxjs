@@ -43,7 +43,7 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-Timing.enable('app-loop');
+//Timing.enable('app-loop');
 //Debug.enable("app-data");
 
 History.connect(store, "url");

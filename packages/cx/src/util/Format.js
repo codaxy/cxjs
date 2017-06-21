@@ -1,4 +1,4 @@
-import {Debug} from "./Debug";
+import {debug} from "./Debug";
 import {GlobalCacheIdentifier} from './GlobalCacheIdentifier';
 
 //Culture dependent formatters are defined in the ui package.
@@ -65,7 +65,7 @@ function buildFormatter(format) {
          var parts = colonSepParts[i].split(';');
          var factory = formatFactory[parts[0]];
          if (!factory)
-            Debug.log('Unknown string format: ' + format);
+            debug('Unknown string format: ' + format);
          else if (i == 0)
             formatter = factory(...parts);
          else {

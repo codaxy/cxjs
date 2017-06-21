@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Dropdown} from './Dropdown';
-import {Debug, tooltipsFlag} from '../../util/Debug';
+import {debug, tooltipsFlag} from '../../util/Debug';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {shallowEquals} from '../../util/shallowEquals';
@@ -120,7 +120,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
    let target = options.target || (e && e.currentTarget) || e;
 
-   Debug.log(tooltipsFlag, 'mouse-move', target, parentInstance);
+   debug(tooltipsFlag, 'mouse-move', target, parentInstance);
 
    let name = options.tooltipName || 'tooltip';
 

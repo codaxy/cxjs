@@ -6,7 +6,7 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Repeater} from '../../ui/Repeater';
 import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
-import {Debug} from '../../util/Debug';
+import {debug} from '../../util/Debug';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../../ui/FocusManager';
 import {isFocused} from '../../util/DOM';
@@ -832,7 +832,7 @@ class LookupComponent extends VDOM.Component {
                })
                .catch(err => {
                   this.setState({status: "error"});
-                  Debug.log("Lookup query error:", err);
+                  debug("Lookup query error:", err);
                })
          }, queryDelay);
       }

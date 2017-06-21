@@ -1,5 +1,5 @@
 import {VDOM} from '../ui/Widget';
-import {Debug} from '../util/Debug';
+import {debug} from '../util/Debug';
 
 var shapes =  {};
 var warnings = {};
@@ -14,7 +14,7 @@ export function getShape(shapeName) {
 
    if (!warnings[shapeName]) {
       warnings[shapeName] = true;
-      Debug.log(`Unknown shape '${shapeName}'. Using square instead.`);
+      debug(`Unknown shape '${shapeName}'. Using square instead.`);
    }
 
    return shapes['square'];

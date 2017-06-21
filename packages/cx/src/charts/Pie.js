@@ -1,8 +1,8 @@
 import {PieChart, PieSlice} from './PieChart';
 
-import {Debug} from '../util/Debug';
+import {debug} from '../util/Debug';
 
-Debug.log('The Pie class is deprecated. Please use PieChart instead.')
+debug('The Pie class is deprecated. Please use PieChart instead.')
 
 export const Pie = PieChart;
 Pie.Slice = PieSlice;
