@@ -21,6 +21,9 @@ import {
 import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 
+import {enableCultureSensitiveFormatting} from "../../ui/Format";
+enableCultureSensitiveFormatting();
+
 
 export class MonthPicker extends Field {
 

@@ -10,6 +10,9 @@ import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 
+import {enableCultureSensitiveFormatting} from "../../ui/Format";
+enableCultureSensitiveFormatting();
+
 export class NumberField extends Field {
 
    declareData() {

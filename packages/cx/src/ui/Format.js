@@ -1,5 +1,5 @@
 import {Culture} from "./Culture";
-import {Format} from "../util/Format";
+import {Format as Fmt} from "../util/Format";
 
 function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
    minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
@@ -22,7 +22,7 @@ function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigit
    }
 }
 
-Format.registerFactory(
+Fmt.registerFactory(
    ['number', 'n'], 
    (format, minimumFractionDigits, maximumFractionDigits) => {
       let culture = Culture.getNumberCulture();
@@ -33,7 +33,7 @@ Format.registerFactory(
    }
 );
 
-Format.registerFactory('currency', 
+Fmt.registerFactory('currency',
    (format, currency, minimumFractionDigits, maximumFractionDigits) => {
       let culture = Culture.getNumberCulture();
       currency = currency || Culture.defaultCurrency;
@@ -50,7 +50,7 @@ Format.registerFactory('currency',
 
 
 
-Format.registerFactory(
+Fmt.registerFactory(
    ['percentage', 'p', '%'], 
    (format, minimumFractionDigits, maximumFractionDigits) => {
       let culture = Culture.getNumberCulture();
@@ -64,7 +64,7 @@ Format.registerFactory(
 
 
 
-Format.registerFactory(
+Fmt.registerFactory(
    ['percentSign', 'ps'], 
    (format, minimumFractionDigits, maximumFractionDigits) => {
       let culture = Culture.getNumberCulture();
@@ -76,7 +76,7 @@ Format.registerFactory(
    }
 );
 
-Format.registerFactory(['date', 'd'], () => {
+Fmt.registerFactory(['date', 'd'], () => {
    let culture = Culture.getDateTimeCulture();
    let formatter = culture.getFormatter();
    return value => formatter.format(new Date(value));
@@ -84,7 +84,7 @@ Format.registerFactory(['date', 'd'], () => {
 
 
 
-Format.registerFactory(['time', 't'], () => {
+Fmt.registerFactory(['time', 't'], () => {
    let culture = Culture.getDateTimeCulture();
    let formatter = culture.getFormatter({
       hour: 'numeric',
@@ -94,7 +94,7 @@ Format.registerFactory(['time', 't'], () => {
    return value => formatter.format(new Date(value));
 });
 
-Format.registerFactory(
+Fmt.registerFactory(
    ['datetime', 'dt'],
    (fmt, format = 'yyyyMd hhmm') => {
       let culture = Culture.getDateTimeCulture();
@@ -103,6 +103,8 @@ Format.registerFactory(
    }
 );
 
-export {
-   Format
-};
+export const Format = Fmt;
+
+export function enableCultureSensitiveFormatting() {
+   //dummy function used to reference this module
+}
