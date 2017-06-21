@@ -4,6 +4,7 @@ import {Window} from './Window';
 import {Button} from '../Button';
 import {Localization} from '../../ui/Localization';
 import {FlexRow} from '../FlexBox';
+import {registerAlertImpl} from './alerts';
 
 export class MsgBox {
 
@@ -95,3 +96,11 @@ MsgBox.prototype.buttonMod = null;
 MsgBox.prototype.footerDirection = "row";
 MsgBox.prototype.footerJustify = "center";
 Localization.registerPrototype('cx/widgets/MsgBox', MsgBox);
+
+
+export function enableMsgBoxAlerts() {
+   registerAlertImpl({
+      yesNo: ::MsgBox.yesNo,
+      alert: ::MsgBox.alert
+   });
+}

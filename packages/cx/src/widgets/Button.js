@@ -1,8 +1,7 @@
 import {Widget, VDOM, getContentArray} from '../ui/Widget';
 import {HtmlElement} from './HtmlElement';
-import {MsgBox} from './overlay/MsgBox';
+import {yesNo} from './overlay/alerts';
 import {Icon} from './Icon';
-import {stopPropagation} from '../util/eventCallbacks';
 import {preventFocus} from '../ui/FocusManager';
 
 export class Button extends HtmlElement {
@@ -56,7 +55,7 @@ export class Button extends HtmlElement {
       if (data.confirm) {
          oldOnClick = props.onClick;
          props.onClick = () => {
-            MsgBox.yesNo(data.confirm)
+            yesNo(data.confirm)
                .then(btn => {
                   if (btn == 'yes')
                      oldOnClick.call(this, null);

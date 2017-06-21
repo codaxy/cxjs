@@ -1,9 +1,10 @@
-import {HtmlElement, TextField, Checkbox, Grid} from 'cx/widgets';
+import {HtmlElement, TextField, Checkbox, Grid, enableTooltips} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from '../../components/ImportPath';
 
 import {casual} from '../examples/data/casual';
 
@@ -23,14 +24,21 @@ class PageController extends Controller {
     }
 }
 
+enableTooltips();
+
 export const Tooltips = <cx>
     <Md>
         <CodeSplit>
 
             # Tooltips
 
+            <ImportPath path="import {enableTooltips} from 'cx/widgets';"/>
+
             Tooltips provide additional information regarding the element under the mouse pointer. In Cx, tooltips are
             used as a default way to display validation errors on form fields.
+
+            > To enable tooltips execute the `enableTooltips` method at startup of your application.
+            Tooltips are not automatically enabled to preserve small bundle sizes for applications where they are not needed.
 
             <div class="widgets" controller={PageController}>
                 <div tooltip="This is a tooltip." style="margin: 50px">
@@ -120,6 +128,9 @@ export const Tooltips = <cx>
             > To make all tooltips ignore touch events by default, set `Tooltip.prototype.touchBehavior = 'ignore';`.
 
             <CodeSnippet putInto="code" fiddle="CGlqeBmC">{`
+            import {enableTooltips} from "cx/widgets";
+            enableTooltips();
+
             <div class="widgets" controller={PageController}>
                <div tooltip="This is a tooltip." style="margin: 50px">
                   Basic
