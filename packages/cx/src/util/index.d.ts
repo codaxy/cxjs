@@ -10,7 +10,6 @@ export * from './isPromise';
 export * from './isTouchDevice';
 export * from './KeyCode';
 export * from './parseStyle';
-export * from './production';
 export * from './quote';
 export * from './scrollElementIntoView';
 export * from './shallowEquals';

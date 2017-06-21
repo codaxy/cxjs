@@ -1,11 +1,13 @@
 import { Store } from 'cx/data';
 import { Url, History, Widget, startAppLoop } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
+import {enableTooltips} from 'cx/widgets';
 //css
 import "./style";
 import Routes from './routes';
 import {registerStore} from './routes/hmr';
 
+enableTooltips();
 
 
 export default function() {
