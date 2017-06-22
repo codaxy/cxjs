@@ -22,10 +22,10 @@ import './index.scss';
 // import Demo from './bugs/search';
 // import Demo from './bugs/NativeCheckboxesAndRadios';
 
-import Demo from './features/flexbox';
+//import Demo from './features/flexbox';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
-//import Demo from './features/drag-drop/ReorderSpace';
+import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
 //import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
@@ -44,7 +44,7 @@ Widget.resetCounter();
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
 //Timing.enable('app-loop');
-//Debug.enable("app-data");
+Debug.enable("app-data");
 
 History.connect(store, "url");
 
