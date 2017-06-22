@@ -24,7 +24,15 @@ function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigit
 
 export const Format = Fmt;
 
+let cultureSensitiveFormatsRegistered = false;
+
 export function enableCultureSensitiveFormatting() {
+
+   if (cultureSensitiveFormatsRegistered)
+      return;
+
+   cultureSensitiveFormatsRegistered = true;
+
    Fmt.registerFactory(
       ['number', 'n'],
       (format, minimumFractionDigits, maximumFractionDigits) => {

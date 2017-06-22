@@ -84,15 +84,15 @@ if (production) {
 
          new webpack.optimize.UglifyJsPlugin({
             compress: true,
-            // mangle: false,
-            // beautify: true
+            mangle: false,
+            beautify: true
          }),
 
          // new BabiliPlugin({ mangle: false }),
 
-         new webpack.optimize.ModuleConcatenationPlugin(),
+         //new webpack.optimize.ModuleConcatenationPlugin(),
          sass,
-         //new BundleAnalyzerPlugin()
+         new BundleAnalyzerPlugin()
       ],
 
       output: {

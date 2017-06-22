@@ -73,17 +73,17 @@ export function stringTemplate(str) {
    return tplCache[str] = expression(expr);
 }
 
-export class StringTemplate {
+export const StringTemplate = {
 
-   static get(str) {
+   get: function (str) {
       return stringTemplate(str);
-   }
+   },
 
-   static compile(str) {
-      return this.get(str).memoize();
-   }
+   compile: function (str) {
+      return stringTemplate(str).memoize();
+   },
 
-   static format(format, ...args) {
-      return this.get(format)(args);
+   format: function (format, ...args) {
+      return stringTemplate(format)(args);
    }
 }

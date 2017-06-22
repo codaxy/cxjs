@@ -13,5 +13,6 @@ export * from './getSelector';
 export * from './isSelector';
 export * from './Grouper';
 export * from './comparer';
+export * from './enableFatArrowExpansion';
 export * from './ops/index';
 export * from './diff/index';

@@ -40,3 +40,5 @@ export * from './nav/index';
 export * from './form/index';
 export * from './grid/index';
 export * from './drag-drop/index';
+
+export * from './enableAllInternalDependencies';
