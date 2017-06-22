@@ -24,7 +24,8 @@ export class Axis extends BoundedObject {
 
    declareData() {
       super.declareData({
-         anchors: '0 1 1 0'
+         anchors: undefined,
+         hideLabels: undefined
       }, ...arguments)
    }
 
@@ -63,7 +64,7 @@ export class Axis extends BoundedObject {
          null
       ];
       var t = [];
-      if (size > 0) {
+      if (size > 0 && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
          ticks.forEach((serie, si)=> {
             serie.forEach((v, i)=> {
@@ -165,6 +166,7 @@ Axis.prototype.vertical = false;
 Axis.prototype.secondary = false;
 Axis.prototype.inverted = false;
 Axis.prototype.hidden = false;
+Axis.prototype.hideLabels = false;
 
 Axis.prototype.tickSize = 3;
 Axis.prototype.minTickDistance = 25;

@@ -94,6 +94,12 @@ export default {
             will make labels to grow towards the top of the screen. `-0.5` will make
             labels vertically centered.
         </Md></cx>
+    },
+    hideLabels: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide axis labels. Default value is `false`.
+        </Md></cx>
     }
-
 };
