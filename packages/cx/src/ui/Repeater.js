@@ -102,7 +102,7 @@ export class Repeater extends PureContainer {
       instance.instances.forEach(inst => {
          if (!this.cached || inst.shouldUpdate) {
             inst.cleanup(context);
-            instance.cached.record = instance.record;
+            inst.cached.record = inst.record;
          }
       });
    }
