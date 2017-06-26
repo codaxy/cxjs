@@ -9,34 +9,34 @@ import {expandFatArrows} from '../util/expandFatArrows';
    Helper usage example
 
    Expression.registerHelper('_', _);
-   var e = Expression.compile('_.min({data})');
+   let e = Expression.compile('_.min({data})');
  */
 
-var expCache = {},
+let expCache = {},
    helpers = {},
    helperNames = [],
    helperValues = [];
 
 
 export function expression(str) {
-   var r = expCache[str];
+   let r = expCache[str];
    if (r)
       return r;
 
-   var quote = false;
+   let quote = false;
 
-   var termStart = -1,
+   let termStart = -1,
       curlyBrackets = 0,
       percentExpression;
 
-   var fb = ['return ('];
+   let fb = ['return ('];
 
-   var args = [];
-   var formats = [];
-   var subExpr = 0;
+   let args = {};
+   let formats = [];
+   let subExpr = 0;
 
-   for (var i = 0; i < str.length; i++) {
-      var c = str[i];
+   for (let i = 0; i < str.length; i++) {
+      let c = str[i];
       switch (c) {
 
          case '{':
@@ -59,7 +59,10 @@ export function expression(str) {
             if (termStart >= 0) {
                if (--curlyBrackets == 0) {
                   let term = str.substring(termStart, i);
-                  let colon = term.indexOf(':');
+                  let formatStart = 0;
+                  if (term[0] == '[')
+                     formatStart = term.indexOf(']');
+                  let colon = term.indexOf(':', formatStart > 0 ? formatStart : 0);
                   let binding = colon == -1 ? term : term.substring(0, colon);
                   let format = colon == -1 ? null : term.substring(colon + 1);
                   let argName = binding.replace(/\./g, '_');
@@ -86,11 +89,13 @@ export function expression(str) {
 
          case '"':
          case "'":
-            if (!quote)
-               quote = c;
-            else if (str[i - 1] != '\\' && quote == c)
-               quote = false;
-            fb.push(c);
+            if (curlyBrackets == 0) {
+               if (!quote)
+                  quote = c;
+               else if (str[i - 1] != '\\' && quote == c)
+                  quote = false;
+               fb.push(c);
+            }
             break;
 
          default:
@@ -102,16 +107,16 @@ export function expression(str) {
 
    fb.push(')');
 
-   var body = fb.join('');
+   let body = fb.join('');
 
    if (Expression.expandFatArrows)
       body = expandFatArrows(body);
 
-   //console.log(fstr.join(''));
-   var keys = Object.keys(args);
+   //console.log(body);
+   let keys = Object.keys(args);
 
-   var compute = new Function(...formats.map((f, i) => 'fmt' + i), ...keys, ...helperNames, body).bind(Format, ...formats, ...helperValues);
-   var selector = computable(...keys.map(k=>args[k]), compute);
+   let compute = new Function(...formats.map((f, i) => 'fmt' + i), ...keys, ...helperNames, body).bind(Format, ...formats, ...helperValues);
+   let selector = computable(...keys.map(k=>args[k]), compute);
    expCache[str] = selector;
    return selector;
 }
