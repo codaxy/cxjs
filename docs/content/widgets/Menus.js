@@ -27,7 +27,7 @@ export const Menus = <cx>
                     <Submenu>
                         File
                         <Menu putInto="dropdown" icons>
-                            <MenuItem icon="search">
+                            <MenuItem icon="search" autoClose>
                                 <a href="#">Link</a>
                             </MenuItem>
                             <hr/>
@@ -90,7 +90,7 @@ export const Menus = <cx>
                     <Submenu>
                         File
                         <Menu putInto="dropdown" icons>
-                            <MenuItem icon="search">
+                            <MenuItem icon="search" autoClose>
                                 <a href="#">Link</a>
                             </MenuItem>
                             <hr/>
