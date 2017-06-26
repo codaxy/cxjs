@@ -70,6 +70,7 @@ export class Menu extends HtmlElement {
 Menu.prototype.horizontal = false;
 Menu.prototype.defaultVerticalItemPadding = "medium";
 Menu.prototype.defaultHorizontalItemPadding = "small";
+Menu.prototype.icons = false;
 Menu.Item = MenuItem;
 
 class MenuComponent extends VDOM.Component {
