@@ -32,7 +32,7 @@
       }
 
       @each $size, $value in $cx-menu-padding-options {
-         &.#{$state}vertical.#{$state}#{$size}-item-padding > .#{$element}#{$name}-item > .#{$mod}#{$name} {
+         &.#{$state}vertical.#{$state}#{$size}-item-padding .#{$mod}#{$name} {
             margin: $value;
             display: block;
          }

@@ -6,6 +6,7 @@ import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {Debug, menuFlag} from '../../util/Debug';
 import DropdownIcon from '../icons/drop-down';
+import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 import {isTouchEvent} from '../../util/isTouchEvent';
@@ -21,12 +22,26 @@ import {isTouchEvent} from '../../util/isTouchEvent';
 
 export class MenuItem extends HtmlElement {
 
+   init() {
+      if (this.hideCursor)
+         this.showCursor = false;
+      super.init();
+   }
+
+   declareData() {
+      super.declareData(...arguments, {
+         icon: undefined,
+         checked: false
+      });
+   }
+
    explore(context, instance) {
       instance.horizontal = this.horizontal;
       let {lastMenu, lastMenuItem} = context;
       if (lastMenu) {
          instance.horizontal = lastMenu.horizontal;
          instance.padding = lastMenu.itemPadding;
+         instance.icons = lastMenu.icons;
       }
 
       instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
@@ -84,6 +99,8 @@ MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
 MenuItem.prototype.placement = null; //default dropdown placement
 MenuItem.prototype.autoClose = false;
+MenuItem.prototype.checkedIcon = 'check';
+MenuItem.prototype.uncheckedIcon = 'dummy';
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -136,13 +153,39 @@ class MenuItemComponent extends VDOM.Component {
 
       let arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
+      let icon = null;
+
+      let checkbox = widget.checked != null;
+
+      if (checkbox) {
+         data.icon = data.checked ? widget.checkedIcon : widget.uncheckedIcon;
+      }
+
+      if (data.icon) {
+         icon = <div
+            className={CSS.element(baseClass, "button")}
+            onClick={e => {
+               e.stopPropagation();
+               e.preventDefault();
+               instance.set('checked', !data.checked);
+            }}
+            onMouseDown={e=>{
+               if (checkbox)
+                  e.stopPropagation();
+            }}
+         >
+            { Icon.render(data.icon, {className: CSS.element(baseClass, "icon")}) }
+         </div>
+      }
+
       let classNames = CSS.expand(data.classNames, CSS.state({
          open: this.state.dropdownOpen,
          horizontal: instance.horizontal,
          vertical: !instance.horizontal,
          arrow: widget.arrow,
          cursor: widget.showCursor,
-         [instance.padding + '-padding']: instance.padding
+         [instance.padding + '-padding']: instance.padding,
+         icon: !!icon || instance.icons
       }));
 
       return <div
@@ -161,6 +204,7 @@ class MenuItemComponent extends VDOM.Component {
          onBlur={::this.onBlur}
       >
          {this.props.children}
+         {icon}
          {arrow}
          {dropdown}
       </div>
@@ -283,9 +327,13 @@ class MenuItemComponent extends VDOM.Component {
    onClick(e) {
       e.stopPropagation();
 
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+
+      let {widget} = instance;
       if (widget.dropdown)
          e.preventDefault(); //prevent navigation
+      else
+         instance.set("checked", !instance.data.checked);
 
       if (widget.autoClose)
          document.activeElement.blur();

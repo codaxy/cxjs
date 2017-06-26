@@ -56,8 +56,16 @@
                padding-right: cx-calc($icon-size);
             }
 
+            &.#{$state}icon {
+               padding-left: cx-calc($icon-size);
+            }
+
             & > .#{$element}#{$name}-arrow {
                right: cx-right($value) / 2;
+            }
+
+            & > .#{$element}#{$name}-button {
+               width: cx-calc(cx-left($value), $icon-size);
             }
          }
       }
@@ -73,6 +81,23 @@
       .#{$state}vertical > & {
          transform: rotate(-90deg);
       }
+   }
+
+   .#{$element}#{$name}-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+   }
+
+   .#{$element}#{$name}-icon {
+      position: absolute;
+      width: $icon-size;
+      height: $icon-size;
+      top: 50%;
+      left: 50%;
+      margin-top: -$icon-size/2;
+      margin-left: -$icon-size/2;
    }
 }
 
