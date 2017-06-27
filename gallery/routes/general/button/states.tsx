@@ -1,4 +1,4 @@
-import {cx, Button, Section, FlexRow} from 'cx/widgets';
+import {cx, react, Button, Section, FlexRow} from 'cx/widgets';
 
 const buttons = mod => <cx>
     <FlexRow spacing>
@@ -9,7 +9,11 @@ const buttons = mod => <cx>
         <Button mod={mod} icon="search">Icon + Text</Button>
     </FlexRow>
     <br/>
-</cx>
+</cx>;
+
+const Comp = cx(({test, children}) => <div>{test}{children}</div>);
+
+const ReactComp = ({test, children}) => react(<div>{test}{children}</div>)
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/button/states.tsx" target="_blank" putInto="github">Source Code</a>
@@ -32,7 +36,17 @@ export default <cx>
             {buttons("hollow")}
         </Section>
     </FlexRow>
+
+    <Comp test="Test">
+        <strong>1232</strong>
+    </Comp>
+
+    <ReactComp test="Test2">
+        <strong>12321232</strong>
+    </ReactComp>
 </cx>
+
+
 
 import {hmr} from '../../hmr.js';
 hmr(module);

@@ -7,9 +7,10 @@ const webpack = require('webpack'),
    babelCfg = require("./babel.config"),
    p = p => path.join(__dirname, '../', p || ''),
    gtm = require('../../misc/tracking/gtm.config.js'),
-   reactScripts = require('../../misc/reactScripts');
+   reactScripts = require('../../misc/reactScripts'),
+   reactScriptsDev = require('../../misc/reactScripts.dev.js');
 
-module.exports = {
+module.exports = (production) => ({
    resolve: {
       alias: {
          app: p("."),
@@ -107,7 +108,7 @@ module.exports = {
          template: p('index.html'),
          gtmh: gtm.head,
          gtmb: gtm.body,
-         reactScripts: reactScripts
+         reactScripts: production ? reactScripts : reactScriptsDev
       }),
       new ScriptExtHtmlWebpackPlugin({
          preload: {
@@ -120,6 +121,6 @@ module.exports = {
          }
       })
    ]
-};
+});
 
 

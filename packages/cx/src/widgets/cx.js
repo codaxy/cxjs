@@ -6,6 +6,18 @@ export function cx(typeName, props, ...children) {
    if (Array.isArray(typeName))
       return typeName;
 
+   if (typeof typeName === "function") {
+      if (props === undefined) {
+         typeName.$cx = true;
+         return typeName;
+      }
+      else if (typeName.$cx && props)
+         return cx(typeName({
+            ...props,
+            children
+         }));
+   }
+
    if (typeName.type || typeName.$type)
       return typeName;
 
@@ -38,11 +50,18 @@ export function cx(typeName, props, ...children) {
 }
 
 export function react(config) {
-   if (config == null)
+   if (!config || typeof config == 'string' || typeof config == 'number')
       return config;
 
    if (Array.isArray(config))
-      return config.map(config);
+      return config.map(react);
 
-   return VDOM.createElement(config.$type, config.$props, react(config.items));
+   let type = config.$type;
+
+   if (type === HtmlElement) {
+      type = config.$props.tag;
+      delete config.$props.tag;
+   }
+
+   return VDOM.createElement(type, config.$props, react(config.items));
 }
