@@ -46,12 +46,12 @@ function processChild(t, child, root) {
          return processChild(t, child.expression, root);
 
       case 'ObjectExpression':
-         for (var i = 0; i < child.properties.length; i++)
+         for (let i = 0; i < child.properties.length; i++)
             child.properties[i].value = processChild(t, child.properties[i].value, root);
          break;
 
       case 'ArrayExpression':
-         for (var i = 0; i < child.elements.length; i++)
+         for (let i = 0; i < child.elements.length; i++)
             child.elements[i] = processChild(t, child.elements[i], root);
          break;
    }
@@ -62,23 +62,23 @@ function processChild(t, child, root) {
 function processElement(t, element, root) {
    if (element.type === "JSXElement") {
       if (element.openingElement) {
-         var tagName = elementName(element.openingElement.name);
+         let tagName = elementName(element.openingElement.name);
          if (tagName != "cx" && tagName != "Cx" && root.root)
             return false;
 
-         var children;
+         let children;
 
          if (root.root || tagName == 'cx' || tagName == 'Cx') {
             root.root = false;
 
             if (element.children != null)
                children = element.children
-                                 .filter(function (c) {
-                                    return c.type == "JSXElement"
-                                 })
-                                 .map(function (c) {
-                                    return processElement(t, c, root)
-                                 });
+                  .filter(function (c) {
+                     return c.type == "JSXElement"
+                  })
+                  .map(function (c) {
+                     return processElement(t, c, root)
+                  });
 
             if (tagName == 'Cx') {
                if (children && children.length > 0)
@@ -96,9 +96,9 @@ function processElement(t, element, root) {
             return t.nullLiteral();
          }
 
-         var attrs = [];
+         let attrs = [];
 
-         var dotIndex = tagName.indexOf('.');
+         let dotIndex = tagName.indexOf('.');
          if (dotIndex != -1)
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.memberExpression(
                t.identifier(tagName.substr(0, dotIndex)), t.identifier(tagName.substring(dotIndex + 1)))));
@@ -108,17 +108,17 @@ function processElement(t, element, root) {
          } else
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier(tagName)));
 
-         var attrNames = [];
+         let attrNames = [];
 
-         var spread = [];
+         let spread = [];
 
          if (element.openingElement.attributes && element.openingElement.attributes.length) {
-            for (var i = 0; i < element.openingElement.attributes.length; i++) {
+            for (let i = 0; i < element.openingElement.attributes.length; i++) {
                if (t.isJSXSpreadAttribute(element.openingElement.attributes[i])) {
                   spread.push(element.openingElement.attributes[i].argument);
                }
                else {
-                  var a = processAttribute(t, element.openingElement.attributes[i]);
+                  let a = processAttribute(t, element.openingElement.attributes[i]);
                   if (a) {
                      attrs.push(a);
                      attrNames.push(a.key.value);
@@ -137,8 +137,8 @@ function processElement(t, element, root) {
 
          if (element.children != null && element.children.length) {
             children = [];
-            for (var i = 0; i < element.children.length; i++) {
-               var c = processChild(t, element.children[i], root);
+            for (let i = 0; i < element.children.length; i++) {
+               let c = processChild(t, element.children[i], root);
                if (c)
                   children.push(c);
             }
@@ -151,29 +151,50 @@ function processElement(t, element, root) {
    }
 }
 
+function addImport(t, path, name, importPath) {
+   let program = path.findParent(n => n.isProgram());
+
+   let identifier = t.identifier(name);
+   let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(importPath));
+
+   program.unshiftContainer("body", importDeclaration);
+}
+
 module.exports = function(options) {
-   var t = options.types;
+   let t = options.types;
 
    return {
       visitor: {
          JSXElement: {
             enter: function(path, scope) {
-               var opts = scope.opts;
-               var node = path.node;
+               let opts = scope.opts;
+               let node = path.node;
 
                if (node.root) {
                   return;
                }
 
-               var root = {
+               let root = {
                   root: true
                };
 
-               var config = processElement(t, node, root, null);
+               let config = processElement(t, node, root, null);
 
                if (config) {
                   path.replaceWith(config);
                   node.root = true;
+               }
+            }
+         },
+
+         ArrowFunctionExpression: {
+            enter: function (path, scope) {
+               let child = path.node;
+               //register cx functional components ({props} => <cx><div /></cx>)
+               if (child.body.type === 'JSXElement' && child.body.openingElement.name.name === 'cx' && !child.markedAsFunctionalComponentType) {
+                  addImport(t, path,"createFunctionalComponent", "cx/ui");
+                  child.markedAsFunctionalComponentType = true;
+                  path.replaceWith(t.callExpression(t.identifier("createFunctionalComponent"), [child]));
                }
             }
          }

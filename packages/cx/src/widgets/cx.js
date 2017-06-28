@@ -1,22 +1,26 @@
 import {HtmlElement} from './HtmlElement';
 import {VDOM} from '../ui/Widget';
+import {createComponentFactory, isComponentFactory} from '../ui/Component';
+import {createFunctionalComponent} from '../ui/createFunctionalComponent'
+
+export const flattenProps = props => props && props.$props !== undefined ? { ...props.$props, jsxAttributes: props.jsxAttributes, children: props.children } : props;
+
+let htmlFactoryCache = {};
+
+function getHtmlElementFactory(tagName) {
+   let factory = htmlFactoryCache[tagName];
+   if (factory)
+      return factory;
+   return htmlFactoryCache[tagName] = createComponentFactory(config => HtmlElement.create(HtmlElement, {tag: tagName}, flattenProps(config)), {tag: tagName});
+}
 
 export function cx(typeName, props, ...children) {
 
    if (Array.isArray(typeName))
       return typeName;
 
-   if (typeof typeName === "function") {
-      if (props === undefined) {
-         typeName.$cx = true;
-         return typeName;
-      }
-      else if (typeName.$cx && props)
-         return cx(typeName({
-            ...props,
-            children
-         }));
-   }
+   if (typeof typeName === "function" && props === undefined)
+      return createFunctionalComponent(config => typeName(flattenProps(config)));
 
    if (typeName.type || typeName.$type)
       return typeName;
@@ -33,24 +37,19 @@ export function cx(typeName, props, ...children) {
    if (typeName == 'react')
       return react(children);
 
-   if (typeof typeName == 'string' && typeName[0] == typeName[0].toLowerCase()) {
-      props = {
-         ...props,
-         tag: typeName
-      };
-      typeName = HtmlElement;
-   }
+   if (typeof typeName == 'string' && typeName[0] == typeName[0].toLowerCase())
+      typeName = getHtmlElementFactory(typeName);
 
    return {
       $type: typeName,
       $props: props,
       jsxAttributes: props && Object.keys(props),
-      items: children
+      children
    }
 }
 
 export function react(config) {
-   if (!config || typeof config == 'string' || typeof config == 'number')
+   if (!config || typeof config == 'string' || typeof config == 'number' || VDOM.isValidElement(config))
       return config;
 
    if (Array.isArray(config))
@@ -58,10 +57,8 @@ export function react(config) {
 
    let type = config.$type;
 
-   if (type === HtmlElement) {
-      type = config.$props.tag;
-      delete config.$props.tag;
-   }
+   if (isComponentFactory(type) && type.$meta && type.$meta.tag)
+      type = type.$meta.tag;
 
-   return VDOM.createElement(type, config.$props, react(config.items));
+   return VDOM.createElement(type, config.$props, react(config.children));
 }

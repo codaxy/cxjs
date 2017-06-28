@@ -30,6 +30,9 @@ export class Component {
       if (typeAlias.isComponent)
          return typeAlias;
 
+      if (isComponentFactory(typeAlias))
+         return this.create(typeAlias(config, more));
+
       if (Array.isArray(typeAlias))
          return typeAlias.map(c=>this.create(c, config, more));
 
@@ -90,3 +93,13 @@ Component.lazyInit = false;
 Component.factory = (alias, config, more) => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
+
+export function createComponentFactory(factory, meta) {
+   factory.$isComponentFactory = true;
+   factory.$meta = meta;
+   return factory;
+}
+
+export function isComponentFactory(factory) {
+   return factory && factory.$isComponentFactory;
+}

@@ -11,10 +11,6 @@ const buttons = mod => <cx>
     <br/>
 </cx>;
 
-const Comp = cx(({test, children}) => <div>{test}{children}</div>);
-
-const ReactComp = ({test, children}) => react(<div>{test}{children}</div>)
-
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/button/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow>
@@ -36,17 +32,7 @@ export default <cx>
             {buttons("hollow")}
         </Section>
     </FlexRow>
-
-    <Comp test="Test">
-        <strong>1232</strong>
-    </Comp>
-
-    <ReactComp test="Test2">
-        <strong>12321232</strong>
-    </ReactComp>
 </cx>
-
-
 
 import {hmr} from '../../hmr.js';
 hmr(module);

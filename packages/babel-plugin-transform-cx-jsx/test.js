@@ -393,4 +393,18 @@ describe('JSCX', function() {
 
       assert.equal(unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '), '<Cx items={[{ "$type": Container, "class": "test", "jsxAttributes": ["class"]}]}></Cx>');
    });
+
+   it("registers functional Cx components", function () {
+
+      var code = `let x = props => <cx><Container /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(
+         unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '),
+         'import { createFunctionalComponent } from "cx/ui";let x = createFunctionalComponent(props => ({ "$type": Container}))');
+   });
 });

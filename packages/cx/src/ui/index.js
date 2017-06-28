@@ -20,6 +20,8 @@ export * from './ContentResolver';
 export * from './batchUpdates';
 export * from './IsolatedScope';
 
+export * from './createFunctionalComponent';
+
 export * from './selection/index';
 export * from './layout/index';
 export * from './app/index';
