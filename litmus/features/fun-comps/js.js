@@ -1,5 +1,5 @@
 import {HtmlElement, cx, TextField} from 'cx/widgets';
-import {VDOM} from 'cx/ui';
+import {VDOM, createFunctionalComponent} from 'cx/ui';
 
 
 const Comp = cx(({value, children}) => <cx>
@@ -11,16 +11,15 @@ const Comp = cx(({value, children}) => <cx>
 </cx>);
 
 //TODO
-//const Comp = ({test, children}) => <cx><div>{test}{children}</div></cx>;
+const Comp2 = ({test, children}) => <cx>
+   <div>{test}{children}</div>
+</cx>;
 
-// const Comp2 = createFunctionalCompoent((x) => {
-//
-//    ewq
-//
-//    return <cx>
-//       ew
-//    </cx>
-// })
+const Comp3 = createFunctionalComponent((x) => {
+   return <cx>
+      <span>This works too...</span>
+   </cx>
+});
 
 const ReactComp = ({test, children}) => <div>{test}{children}</div>;
 
@@ -30,8 +29,15 @@ export default <cx>
       <TextField value:bind="X" />
    </Comp>
 
-   {/*<ReactComp test="Test">*/}
-      {/*<strong>12321232</strong>*/}
-   {/*</ReactComp>*/}
+   <Comp2 test="simple">
+      Children
+      <TextField value={"it works"} />
+   </Comp2>
+
+   <Comp3 />
+
+   <ReactComp test="Test">
+      <strong>12321232</strong>
+   </ReactComp>
 </cx>
 

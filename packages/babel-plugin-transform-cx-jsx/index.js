@@ -59,17 +59,17 @@ function processChild(t, child, root) {
    return child;
 }
 
-function processElement(t, element, root) {
+function processElement(t, element, options) {
    if (element.type === "JSXElement") {
       if (element.openingElement) {
          let tagName = elementName(element.openingElement.name);
-         if (tagName != "cx" && tagName != "Cx" && root.root)
+         if (tagName != "cx" && tagName != "Cx" && options.root)
             return false;
 
          let children;
 
-         if (root.root || tagName == 'cx' || tagName == 'Cx') {
-            root.root = false;
+         if (options.root || tagName == 'cx' || tagName == 'Cx') {
+            options.root = false;
 
             if (element.children != null)
                children = element.children
@@ -77,7 +77,7 @@ function processElement(t, element, root) {
                      return c.type == "JSXElement"
                   })
                   .map(function (c) {
-                     return processElement(t, c, root)
+                     return processElement(t, c, options)
                   });
 
             if (tagName == 'Cx') {
@@ -105,6 +105,8 @@ function processElement(t, element, root) {
          else if (tagName[0].toLowerCase() == tagName[0]) {
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier('HtmlElement')));
             attrs.push(t.objectProperty(t.stringLiteral('tag'), t.stringLiteral(tagName)));
+            if (options.scope.opts.autoImportHtmlElement !== false)
+               options.scope.$cx.addImport("HtmlElement", "cx/widgets");
          } else
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier(tagName)));
 
@@ -138,7 +140,7 @@ function processElement(t, element, root) {
          if (element.children != null && element.children.length) {
             children = [];
             for (let i = 0; i < element.children.length; i++) {
-               let c = processChild(t, element.children[i], root);
+               let c = processChild(t, element.children[i], options);
                if (c)
                   children.push(c);
             }
@@ -151,51 +153,66 @@ function processElement(t, element, root) {
    }
 }
 
-function addImport(t, path, name, importPath) {
-   let program = path.findParent(n => n.isProgram());
-
-   let identifier = t.identifier(name);
-   let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(importPath));
-
-   program.unshiftContainer("body", importDeclaration);
-}
-
 module.exports = function(options) {
    let t = options.types;
 
    return {
       visitor: {
-         JSXElement: {
+         Program: {
             enter: function(path, scope) {
-               let opts = scope.opts;
-               let node = path.node;
-
-               if (node.root) {
-                  return;
+               scope.$cx = {
+                  imports: {},
+                  addImport: function (name, importPath) {
+                     if (scope.$cx.imports[name])
+                        return;
+                     let identifier = t.identifier(name);
+                     let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(importPath));
+                     path.unshiftContainer("body", importDeclaration);
+                     scope.$cx.imports[name] = true;
+                  }
                }
+            },
+            exit: function (path, scope) {
+               delete scope.$cx;
+            }
+         },
 
-               let root = {
-                  root: true
-               };
+         JSXElement: function(path, scope) {
+            let opts = scope.opts;
+            let node = path.node;
 
-               let config = processElement(t, node, root, null);
+            if (node.root) {
+               return;
+            }
 
-               if (config) {
-                  path.replaceWith(config);
-                  node.root = true;
+            let root = {
+               root: true,
+               scope: scope
+            };
+
+            let config = processElement(t, node, root, null);
+
+            if (config) {
+               path.replaceWith(config);
+               node.root = true;
+            }
+         },
+
+         ArrowFunctionExpression: function (path, scope) {
+            let node = path.node;
+            //register cx functional components ({props} => <cx><div /></cx>)
+            if (node.body.type === 'JSXElement' && node.body.openingElement.name.name === 'cx' && !node.markedAsFunctionalComponentType) {
+               if (scope.opts.transformFunctionalComponents !== false) {
+                  scope.$cx.addImport("createFunctionalComponent", "cx/ui");
+                  node.markedAsFunctionalComponentType = true;
+                  path.replaceWith(t.callExpression(t.identifier("createFunctionalComponent"), [node]));
                }
             }
          },
 
-         ArrowFunctionExpression: {
-            enter: function (path, scope) {
-               let child = path.node;
-               //register cx functional components ({props} => <cx><div /></cx>)
-               if (child.body.type === 'JSXElement' && child.body.openingElement.name.name === 'cx' && !child.markedAsFunctionalComponentType) {
-                  addImport(t, path,"createFunctionalComponent", "cx/ui");
-                  child.markedAsFunctionalComponentType = true;
-                  path.replaceWith(t.callExpression(t.identifier("createFunctionalComponent"), [child]));
-               }
+         ImportSpecifier(path, scope) {
+            if (path.node.imported && scope.$cx) {
+               scope.$cx.imports[path.node.imported.name] = true;
             }
          }
       },

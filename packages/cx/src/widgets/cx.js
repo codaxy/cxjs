@@ -60,5 +60,8 @@ export function react(config) {
    if (isComponentFactory(type) && type.$meta && type.$meta.tag)
       type = type.$meta.tag;
 
+   if (Array.isArray(config.children))
+      return VDOM.createElement(type, config.$props, ...config.children.map(react));
+
    return VDOM.createElement(type, config.$props, react(config.children));
 }
