@@ -11,9 +11,9 @@ import {createFunctionalComponent, LabelsTopLayout, LabelsLeftLayout} from 'cx/u
 const LineChart = ({ data, chartStyle, lineStyle, areaStyle }) => <cx>
     <Svg style={chartStyle}>
         <Chart offset="20 -20 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-        <Gridlines/>
-        <LineGraph data={data} lineStyle={lineStyle} areaStyle={areaStyle} area={areaStyle!=null} />
-    </Chart>
+            <Gridlines/>
+            <LineGraph data={data} lineStyle={lineStyle} areaStyle={areaStyle} area={areaStyle!=null} />
+        </Chart>
     </Svg>
 </cx>;
 
@@ -67,9 +67,9 @@ export const FunctionalComponents = <cx>
                 const LineChart = ({ data, chartStyle, lineStyle }) => <cx>
                     <Svg style={chartStyle}>
                         <Chart offset="20 -20 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-                        <Gridlines/>
-                        <LineGraph data={data} lineStyle={lineStyle} />
-                    </Chart>
+                            <Gridlines/>
+                            <LineGraph data={data} lineStyle={lineStyle} />
+                        </Chart>
                     </Svg>
                 </cx>;
 
