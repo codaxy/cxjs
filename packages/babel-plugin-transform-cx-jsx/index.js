@@ -18,41 +18,41 @@ function elementName(name) {
    throw new Error('Could not calculate name.');
 }
 
-function processAttribute(t, attribute) {
+function processAttribute(t, attribute, options) {
    if (attribute.type === 'JSXAttribute') {
 
       if (attribute.value == null)
          return property(t, attribute.name, t.booleanLiteral(true));
 
-      return property(t, attribute.name, processChild(t, attribute.value, { root: false }));
+      return property(t, attribute.name, processChild(t, attribute.value, { root: false, scope: options.scope }));
    }
 
    return false;
 }
 
-function processChild(t, child, root) {
+function processChild(t, child, options) {
 
    if (!child)
       return child;
 
    switch (child.type) {
       case 'JSXElement':
-         return processElement(t, child, root);
+         return processElement(t, child, options);
 
       case 'JSXText':
          return t.stringLiteral(child.value);
 
       case 'JSXExpressionContainer':
-         return processChild(t, child.expression, root);
+         return processChild(t, child.expression, options);
 
       case 'ObjectExpression':
          for (let i = 0; i < child.properties.length; i++)
-            child.properties[i].value = processChild(t, child.properties[i].value, root);
+            child.properties[i].value = processChild(t, child.properties[i].value, options);
          break;
 
       case 'ArrayExpression':
          for (let i = 0; i < child.elements.length; i++)
-            child.elements[i] = processChild(t, child.elements[i], root);
+            child.elements[i] = processChild(t, child.elements[i], options);
          break;
    }
 
@@ -105,7 +105,7 @@ function processElement(t, element, options) {
          else if (tagName[0].toLowerCase() == tagName[0]) {
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier('HtmlElement')));
             attrs.push(t.objectProperty(t.stringLiteral('tag'), t.stringLiteral(tagName)));
-            if (options.scope.opts.autoImportHtmlElement !== false)
+            if (!options.scope.opts || options.scope.opts.autoImportHtmlElement !== false)
                options.scope.$cx.addImport("HtmlElement", "cx/widgets");
          } else
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier(tagName)));
@@ -120,7 +120,7 @@ function processElement(t, element, options) {
                   spread.push(element.openingElement.attributes[i].argument);
                }
                else {
-                  let a = processAttribute(t, element.openingElement.attributes[i]);
+                  let a = processAttribute(t, element.openingElement.attributes[i], options);
                   if (a) {
                      attrs.push(a);
                      attrNames.push(a.key.value);
@@ -185,12 +185,12 @@ module.exports = function(options) {
                return;
             }
 
-            let root = {
+            let options = {
                root: true,
                scope: scope
             };
 
-            let config = processElement(t, node, root, null);
+            let config = processElement(t, node, options, null);
 
             if (config) {
                path.replaceWith(config);
@@ -202,7 +202,7 @@ module.exports = function(options) {
             let node = path.node;
             //register cx functional components ({props} => <cx><div /></cx>)
             if (node.body.type === 'JSXElement' && node.body.openingElement.name.name === 'cx' && !node.markedAsFunctionalComponentType) {
-               if (scope.opts.transformFunctionalComponents !== false) {
+               if (!scope.opts || scope.opts.transformFunctionalComponents !== false) {
                   scope.$cx.addImport("createFunctionalComponent", "cx/ui");
                   node.markedAsFunctionalComponentType = true;
                   path.replaceWith(t.callExpression(t.identifier("createFunctionalComponent"), [node]));
