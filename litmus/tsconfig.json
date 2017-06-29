@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "module": "es2015",
+    "sourceMap": false,
+    "jsxFactory": "cx",
+    "baseUrl": ".",
+    "paths": {
+      "cx": [ "../packages/cx" ],
+      "cx-react": [ "../packages/cx-react" ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

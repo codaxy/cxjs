@@ -25,4 +25,4 @@ var specific = {
    }
 };
 
-module.exports = merge(common, specific);
+module.exports = merge(common(false), specific);

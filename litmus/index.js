@@ -36,7 +36,10 @@ import './index.scss';
 //import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
-import Demo from './features/menu/icons';
+//import Demo from './features/menu/icons';
+
+//import Demo from './features/fun-comps/ts';
+import Demo from './features/fun-comps/js';
 
 let store = new Store();
 

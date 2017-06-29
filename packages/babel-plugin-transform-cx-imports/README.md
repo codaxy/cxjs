@@ -1,6 +1,6 @@
 # babel-plugin-transform-cx-imports
 
-What this is plugin is used for?
+What is this plugin used for?
  
 1. Rewrites Cx imports to use `src` files which may result with smaller builds:
 

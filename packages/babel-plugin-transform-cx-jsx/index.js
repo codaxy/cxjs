@@ -46,12 +46,12 @@ function processChild(t, child, root) {
          return processChild(t, child.expression, root);
 
       case 'ObjectExpression':
-         for (var i = 0; i < child.properties.length; i++)
+         for (let i = 0; i < child.properties.length; i++)
             child.properties[i].value = processChild(t, child.properties[i].value, root);
          break;
 
       case 'ArrayExpression':
-         for (var i = 0; i < child.elements.length; i++)
+         for (let i = 0; i < child.elements.length; i++)
             child.elements[i] = processChild(t, child.elements[i], root);
          break;
    }
@@ -59,26 +59,26 @@ function processChild(t, child, root) {
    return child;
 }
 
-function processElement(t, element, root) {
+function processElement(t, element, options) {
    if (element.type === "JSXElement") {
       if (element.openingElement) {
-         var tagName = elementName(element.openingElement.name);
-         if (tagName != "cx" && tagName != "Cx" && root.root)
+         let tagName = elementName(element.openingElement.name);
+         if (tagName != "cx" && tagName != "Cx" && options.root)
             return false;
 
-         var children;
+         let children;
 
-         if (root.root || tagName == 'cx' || tagName == 'Cx') {
-            root.root = false;
+         if (options.root || tagName == 'cx' || tagName == 'Cx') {
+            options.root = false;
 
             if (element.children != null)
                children = element.children
-                                 .filter(function (c) {
-                                    return c.type == "JSXElement"
-                                 })
-                                 .map(function (c) {
-                                    return processElement(t, c, root)
-                                 });
+                  .filter(function (c) {
+                     return c.type == "JSXElement"
+                  })
+                  .map(function (c) {
+                     return processElement(t, c, options)
+                  });
 
             if (tagName == 'Cx') {
                if (children && children.length > 0)
@@ -96,29 +96,31 @@ function processElement(t, element, root) {
             return t.nullLiteral();
          }
 
-         var attrs = [];
+         let attrs = [];
 
-         var dotIndex = tagName.indexOf('.');
+         let dotIndex = tagName.indexOf('.');
          if (dotIndex != -1)
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.memberExpression(
                t.identifier(tagName.substr(0, dotIndex)), t.identifier(tagName.substring(dotIndex + 1)))));
          else if (tagName[0].toLowerCase() == tagName[0]) {
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier('HtmlElement')));
             attrs.push(t.objectProperty(t.stringLiteral('tag'), t.stringLiteral(tagName)));
+            if (options.scope.opts.autoImportHtmlElement !== false)
+               options.scope.$cx.addImport("HtmlElement", "cx/widgets");
          } else
             attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier(tagName)));
 
-         var attrNames = [];
+         let attrNames = [];
 
-         var spread = [];
+         let spread = [];
 
          if (element.openingElement.attributes && element.openingElement.attributes.length) {
-            for (var i = 0; i < element.openingElement.attributes.length; i++) {
+            for (let i = 0; i < element.openingElement.attributes.length; i++) {
                if (t.isJSXSpreadAttribute(element.openingElement.attributes[i])) {
                   spread.push(element.openingElement.attributes[i].argument);
                }
                else {
-                  var a = processAttribute(t, element.openingElement.attributes[i]);
+                  let a = processAttribute(t, element.openingElement.attributes[i]);
                   if (a) {
                      attrs.push(a);
                      attrNames.push(a.key.value);
@@ -137,8 +139,8 @@ function processElement(t, element, root) {
 
          if (element.children != null && element.children.length) {
             children = [];
-            for (var i = 0; i < element.children.length; i++) {
-               var c = processChild(t, element.children[i], root);
+            for (let i = 0; i < element.children.length; i++) {
+               let c = processChild(t, element.children[i], options);
                if (c)
                   children.push(c);
             }
@@ -152,29 +154,65 @@ function processElement(t, element, root) {
 }
 
 module.exports = function(options) {
-   var t = options.types;
+   let t = options.types;
 
    return {
       visitor: {
-         JSXElement: {
+         Program: {
             enter: function(path, scope) {
-               var opts = scope.opts;
-               var node = path.node;
-
-               if (node.root) {
-                  return;
+               scope.$cx = {
+                  imports: {},
+                  addImport: function (name, importPath) {
+                     if (scope.$cx.imports[name])
+                        return;
+                     let identifier = t.identifier(name);
+                     let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(importPath));
+                     path.unshiftContainer("body", importDeclaration);
+                     scope.$cx.imports[name] = true;
+                  }
                }
+            },
+            exit: function (path, scope) {
+               delete scope.$cx;
+            }
+         },
 
-               var root = {
-                  root: true
-               };
+         JSXElement: function(path, scope) {
+            let opts = scope.opts;
+            let node = path.node;
 
-               var config = processElement(t, node, root, null);
+            if (node.root) {
+               return;
+            }
 
-               if (config) {
-                  path.replaceWith(config);
-                  node.root = true;
+            let root = {
+               root: true,
+               scope: scope
+            };
+
+            let config = processElement(t, node, root, null);
+
+            if (config) {
+               path.replaceWith(config);
+               node.root = true;
+            }
+         },
+
+         ArrowFunctionExpression: function (path, scope) {
+            let node = path.node;
+            //register cx functional components ({props} => <cx><div /></cx>)
+            if (node.body.type === 'JSXElement' && node.body.openingElement.name.name === 'cx' && !node.markedAsFunctionalComponentType) {
+               if (scope.opts.transformFunctionalComponents !== false) {
+                  scope.$cx.addImport("createFunctionalComponent", "cx/ui");
+                  node.markedAsFunctionalComponentType = true;
+                  path.replaceWith(t.callExpression(t.identifier("createFunctionalComponent"), [node]));
                }
+            }
+         },
+
+         ImportSpecifier(path, scope) {
+            if (path.node.imported && scope.$cx) {
+               scope.$cx.imports[path.node.imported.name] = true;
             }
          }
       },
