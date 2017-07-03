@@ -5,39 +5,31 @@ CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex 
 dashboards and admin apps. Modern frameworks such as React and Angular provide an excellent base for building UI components,
 however, components and many other things are left to the developer. CxJS tries to fill that gap. 
 CxJS uses React (or React compatible library) for DOM manipulation and 
-offers many high-level UI related features on top of it, such as:
+offers many high-level UI related features on top of it:
 
 - widgets 
-    - form elements (DateTimeField, LookupField, Switch)
-    - advanced grid control
-    - navigation (Menu, Tab, Link)
-    - overlays (Window, MsgBox, Tooltip, Toast)
-        
+    - form elements ([DateTimeField](https://cxjs.io/docs/widgets/date-time-fields), [LookupField](https://cxjs.io/docs/widgets/lookup-fields), [ColorField](https://cxjs.io/docs/widgets/color-fields))
+    - advanced [grid control](https://cxjs.io/gallery/material/grid)
+    - navigation ([Menu](https://cxjs.io/gallery/material/menu/states), [Tab](https://cxjs.io/docs/widgets/tabs), [Link](https://cxjs.io/docs/widgets/links))
+    - overlays ([Window](https://cxjs.io/docs/widgets/windows), [MsgBox](https://cxjs.io/docs/widgets/msg-boxes), [Tooltip](https://cxjs.io/docs/widgets/tooltips), [Toast](https://cxjs.io/docs/widgets/toasts))
 - charts
-    - various chart types (pie-charts, line-graphs, columns, bars)
-    - axis types (category, numeric, time)
-    - help elements (legend, marker, range)
-
+    - various chart types ([PieChart](https://cxjs.io/docs/charts/pie-charts), [LineGraph](https://cxjs.io/docs/charts/line-graphs), [ColumnGraph](https://cxjs.io/docs/charts/column-graphs), [BarGraph](https://cxjs.io/docs/charts/bar-graphs))
+    - axis types ([CategoryAxis](https://cxjs.io/docs/charts/category-axis), [NumericAxis](https://cxjs.io/docs/charts/numeric-axis), [TimeAxis](https://cxjs.io/docs/charts/time-axis))
+    - help elements ([Legend](https://cxjs.io/docs/charts/legend), [Marker](https://cxjs.io/docs/charts/markers), [Range](https://cxjs.io/docs/charts/ranges))
 - state management
     - two-way data-binding
     - optional Redux integration
     - computable values
     - triggers    
     - controllers
-    - data views (Repeater, Sandbox, Rescope)
-    
+    - data views
 - layout
     - inner (form) layouts
     - outer (page) layouts
-    
 - form validation
-
 - user cultures
-
 - client-side routing
-
 - selection models
-    
 - theming
     - SCSS variables and mixins
     - ready to use themes
@@ -78,7 +70,7 @@ npm run gallery
 
 ## Start a new project
 
-CxJS is available as an NPM package `cx` which includes 
+CxJS is available as an NPM package - `cx`, which includes 
 compiled code, source code and TypeScript definitions.
 
 Besides the `cx` package, you'll need other packages such as `cx-react` (or `cx-preact`) and `babel-plugin-transform-cx-jsx`.
@@ -99,9 +91,9 @@ npm start
 
 Once you create a new project, you may want to try our ready-to-use themes:
 
-- [cx-theme-material](https://www.npmjs.com/package/cx-theme-material)
-- [cx-theme-frost](https://www.npmjs.com/package/cx-theme-frost)
-- [cx-theme-dark](https://www.npmjs.com/package/cx-theme-dark)
+- [cx-theme-material](https://www.npmjs.com/package/cx-theme-material) ([Demo](https://cxjs.io/gallery/material))
+- [cx-theme-frost](https://www.npmjs.com/package/cx-theme-frost) ([Demo](https://cxjs.io/gallery/frost))
+- [cx-theme-dark](https://www.npmjs.com/package/cx-theme-dark) ([Demo](https://cxjs.io/gallery/dark))
 
 Install a theme using `npm` or `yarn`.
  
@@ -109,7 +101,7 @@ Install a theme using `npm` or `yarn`.
 npm install cx-theme-frost
 ```
 
-Open my-app/app/index.scss and replace
+Open `my-app/app/index.scss` and replace
 ```
 @import "~cx/src/variables"; 
 @import "~cx/src/index";
