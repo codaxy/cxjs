@@ -3,9 +3,11 @@ CxJS
 
 CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools, 
 dashboards and admin apps. Modern frameworks such as React and Angular provide an excellent base for building UI components,
-however, components and many other things are left to the developer. CxJS tries to fill that gap. 
-CxJS uses React (or React compatible library) for DOM manipulation and 
-offers many high-level UI related features on top of it:
+however, component implementation and many other aspects are left to the developer. CxJS tries to fill that gap 
+and provide the all necessary ingredients required for modern web applications. 
+
+CxJS uses React (or a React compatible library) for DOM manipulation and 
+offers many high-level, UI related, features on top of it:
 
 - widgets 
     - form elements ([DateTimeField](https://cxjs.io/docs/widgets/date-time-fields), [LookupField](https://cxjs.io/docs/widgets/lookup-fields), [ColorField](https://cxjs.io/docs/widgets/color-fields))
@@ -17,22 +19,22 @@ offers many high-level UI related features on top of it:
     - axis types ([CategoryAxis](https://cxjs.io/docs/charts/category-axis), [NumericAxis](https://cxjs.io/docs/charts/numeric-axis), [TimeAxis](https://cxjs.io/docs/charts/time-axis))
     - help elements ([Legend](https://cxjs.io/docs/charts/legend), [Marker](https://cxjs.io/docs/charts/markers), [Range](https://cxjs.io/docs/charts/ranges))
 - state management
-    - two-way data-binding
-    - optional Redux integration
-    - computable values
-    - triggers    
-    - controllers
-    - data views
+    - [two-way data-binding](https://cxjs.io/docs/concepts/data-binding)
+    - [optional Redux integration](https://www.npmjs.com/package/cx-redux)
+    - [controllers](https://cxjs.io/docs/concepts/controllers)
+    - [computed values](https://cxjs.io/docs/concepts/controllers#computed-values)
+    - [triggers](https://cxjs.io/docs/concepts/controllers#triggers)
+    - [data views](https://cxjs.io/docs/concepts/data-views)
 - layout
-    - inner (form) layouts
-    - outer (page) layouts
-- form validation
-- user cultures
-- client-side routing
-- selection models
+    - [inner (form) layouts](https://cxjs.io/docs/concepts/inner-layouts)
+    - [outer (page) layouts](https://cxjs.io/docs/concepts/outer-layouts)
+- [form validation](https://cxjs.io/docs/widgets/validation-groups)
+- [user cultures](https://cxjs.io/docs/concepts/localization)
+- [client-side routing](https://cxjs.io/docs/concepts/router)
+- [selection models](https://cxjs.io/docs/concepts/selections)
 - theming
-    - SCSS variables and mixins
-    - ready to use themes
+    - [SCSS variables and mixins](https://cxjs.io/docs/concepts/css)
+    - ready to use themes ([Material](https://cxjs.io/gallery/material), [Frost](https://cxjs.io/gallery/frost), [Dark](https://cxjs.io/gallery/dark))
     
 ## Learn CxJS
 
@@ -45,8 +47,8 @@ There are many examples and learning materials available:
 
 If you need help, ask a question at [StackOverflow](https://stackoverflow.com/questions/tagged/cxjs). 
 If you find a bug, please [raise an issue](https://github.com/codaxy/cxjs/issues). 
-There is also a Slack channel. Please [request an invite](https://cxjs.io/support) 
-and become a part of the CxJS community.
+[Request an invite to our Slack channel](https://cxjs.io/support) 
+and become a member of the CxJS community.
 
 ## Install & Start
 
