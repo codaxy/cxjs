@@ -90,7 +90,7 @@ export class Checkbox extends Field {
             ? <div key="text" className={CSS.element(baseClass, "text")}>
                {text}
             </div>
-            : <span className={CSS.element(baseClass, "baseline")}>&nbsp;</span>
+            : <span key="baseline" className={CSS.element(baseClass, "baseline")}>&nbsp;</span>
       ]);
    }
 
