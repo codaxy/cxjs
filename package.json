@@ -9,6 +9,7 @@
     "docs": "webpack-dev-server --config docs/webpack.config.js --open",
     "build": "node packages/cx/build/index.js",
     "build:docs": "webpack --config docs/webpack.config.js",
+    "build:docs:root": "webpack --config docs/webpack.config.js",
     "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
     "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
     "build:litmus": "webpack --config litmus/webpack.config.js",
@@ -25,7 +26,8 @@
     "build:theme:material": "webpack --config themes/material/webpack.config.js",
     "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
     "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
-    "build:gallery": "webpack --config gallery/config/webpack.prod.js"
+    "build:gallery": "webpack --config gallery/config/webpack.prod.js",
+    "build:gallery:root": "webpack --config gallery/config/webpack.prod.js"
   },
   "repository": {
     "type": "git",

@@ -6,6 +6,8 @@ var webpack = require('webpack'),
    common = require('./webpack.config'),
    path = require('path');
 
+let root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
+
 var specific = {
    plugins: [
       new webpack.optimize.UglifyJsPlugin(),
@@ -28,7 +30,7 @@ var specific = {
       path: path.join(__dirname, '../dist'),
       filename: "[name].ltc.[chunkhash].js",
       hashDigestLength: 5,
-      publicPath: "/gallery/"
+      publicPath: root ? "/" : "/gallery/"
    }
 };
 
