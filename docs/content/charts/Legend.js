@@ -84,7 +84,9 @@ export const LegendPage = <cx>
                                                record: {bind: '$record'},
                                                index: {bind: '$index'},
                                                keyField: 'id'
-                                           }}/>
+                                           }}
+                                           size={10}
+                                           shape='circle'/>
                               <Text bind="$record.name" />
                             </cx>},
                           { field: 'value', header: 'Value', format: "n;2", align: "right" }
@@ -137,7 +139,7 @@ export const LegendPage = <cx>
                                               record: {bind: '$record'},
                                               index: {bind: '$index'},
                                               keyField: 'id'
-                                          }} />
+                                          }}/>
                             </Repeater>
                         </PieChart>
                     </Svg>
@@ -157,7 +159,9 @@ export const LegendPage = <cx>
                                                     record: {bind: '$record'},
                                                     index: {bind: '$index'},
                                                     keyField: 'id'
-                                                }}/>
+                                                }}
+                                                size={10}
+                                                shape='circle'/>
                                  </cx>},
                                { field: 'value', header: 'Value', format: "n;2", align: "right" }
                            ]}
