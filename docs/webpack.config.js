@@ -7,6 +7,7 @@ const webpack = require('webpack'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
     ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+    CopyWebpackPlugin = require('copy-webpack-plugin'),
     babelConfig = require('./babel.config'),
     gtm = require('../misc/tracking/gtm.config.js'),
     reactScripts = require('../misc/reactScripts');
@@ -49,7 +50,12 @@ if (production) {
                     safe: true,
                     mergeLonghand: false
                 }
-            })
+            }),
+            new CopyWebpackPlugin([{
+                from: path.resolve(__dirname, '../misc/netlify.redirects'),
+                to: '_redirects',
+                toType: 'file'
+            }]),
         ],
 
         output: {
