@@ -8,6 +8,9 @@ interface LegendEntryProps extends Cx.HtmlElementProps {
    /** Shape of the symbol. `square`, `circle`, `triangle` etc. */
    shape?: Cx.StringProp,
 
+   /** Size of the symbol. Default value is `18`. */
+   size?: Cx.NumberProp,
+
    /** Index of a color from the standard palette of colors. 0-15. */
    colorIndex?: Cx.NumberProp,
 
@@ -23,7 +26,7 @@ interface LegendEntryProps extends Cx.HtmlElementProps {
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string,
    
-   legendAction?: string
+   legendAction?: string,
 
 }
 
