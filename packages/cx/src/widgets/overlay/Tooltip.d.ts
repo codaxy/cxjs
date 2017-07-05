@@ -37,3 +37,5 @@ interface TooltipProps extends DropdownProps {
 }
 
 export class Tooltip extends Cx.Widget<TooltipProps> {}
+
+export function enableTooltips();

@@ -13,3 +13,5 @@ export class MsgBox {
 
    static yesNo(options: string | Cx.Config): Promise<string>;
 }
+
+export function enableMsgBoxAlerts();

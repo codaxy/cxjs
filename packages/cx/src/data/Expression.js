@@ -3,7 +3,6 @@ import {Format} from '../util/Format';
 
 import {quoteStr} from '../util/quote';
 import {isDigit} from '../util/isDigit';
-import {expandFatArrows} from '../util/expandFatArrows';
 
 /*
    Helper usage example
@@ -15,7 +14,8 @@ import {expandFatArrows} from '../util/expandFatArrows';
 let expCache = {},
    helpers = {},
    helperNames = [],
-   helperValues = [];
+   helperValues = [],
+   expFatArrows = null;
 
 
 export function expression(str) {
@@ -109,8 +109,8 @@ export function expression(str) {
 
    let body = fb.join('');
 
-   if (Expression.expandFatArrows)
-      body = expandFatArrows(body);
+   if (expFatArrows)
+      body = expFatArrows(body);
 
    //console.log(body);
    let keys = Object.keys(args);
@@ -121,27 +121,23 @@ export function expression(str) {
    return selector;
 }
 
-export class Expression {
+export const Expression = {
 
-   static get(str) {
+   get: function (str) {
       return expression(str);
-   }
+   },
 
-   static compile(str) {
+   compile: function (str) {
       return this.get(str).memoize();
-   }
+   },
 
-   static registerHelper(name, helper) {
+   registerHelper: function (name, helper) {
       helpers[name] = helper;
       helperNames = Object.keys(helpers);
-      helperValues = helperNames.map(n=>helpers[n]);
+      helperValues = helperNames.map(n => helpers[n]);
    }
-}
+};
 
-Expression.expandFatArrows = true; //IE, Safari
-
-try {
-   if (eval('(() => 5)()') === 5)
-      Expression.expandFatArrows = false;
+export function plugFatArrowExpansion(impl) {
+   expFatArrows = impl;
 }
-catch(e) {}

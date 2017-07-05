@@ -2,7 +2,10 @@ import {Widget, VDOM} from "../../ui/Widget";
 import {Culture} from "../../ui/Culture";
 import {KeyCode} from '../../util/KeyCode';
 import {WheelComponent} from "./Wheel";
-import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
+import {oneFocusOut, offFocusOut} from '../../ui/FocusManager';
+
+import {enableCultureSensitiveFormatting} from "../../ui/Format";
+enableCultureSensitiveFormatting();
 
 export class DateTimePicker extends Widget {
 

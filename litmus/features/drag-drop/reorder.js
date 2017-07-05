@@ -1,4 +1,8 @@
 export function reorder(array, sourceIndex, targetIndex) {
+
+   if (targetIndex < 0)
+      targetIndex+= array.length;
+
    if (targetIndex == sourceIndex)
       return array;
 

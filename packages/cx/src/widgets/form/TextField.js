@@ -6,7 +6,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';

@@ -4,7 +4,7 @@ import {PureContainer} from '../../ui/PureContainer';
 import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant} from '../../util/DOM';
 import {parseStyle} from '../../util/parseStyle';
 import {KeyCode} from '../../util/KeyCode';
-import {Debug, menuFlag} from '../../util/Debug';
+import {debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {MenuItem} from "./MenuItem";
 
@@ -122,7 +122,7 @@ class MenuComponent extends VDOM.Component {
 
    moveCursor(itemKey) {
       if (itemKey != this.state.cursor) {
-         Debug.log(menuFlag, 'Menu', 'moveCursor', itemKey);
+         debug(menuFlag, 'Menu', 'moveCursor', itemKey);
          this.setState({cursor: itemKey});
       }
    }
@@ -132,7 +132,7 @@ class MenuComponent extends VDOM.Component {
       var {widget} = instance;
 
       var keyCode = e.keyCode;
-      Debug.log(menuFlag, 'Menu', 'keyDown', this.el, keyCode);
+      debug(menuFlag, 'Menu', 'keyDown', this.el, keyCode);
       var {horizontal} = widget;
 
       if (keyCode == KeyCode.tab) {
@@ -186,7 +186,7 @@ class MenuComponent extends VDOM.Component {
    }
 
    onFocusOut(elementReceivingFocus) {
-      Debug.log(menuFlag, 'Menu', 'focusout', this.el, elementReceivingFocus);
+      debug(menuFlag, 'Menu', 'focusout', this.el, elementReceivingFocus);
       if (!isSelfOrDescendant(this.el, elementReceivingFocus))
          this.moveCursor(null);
    }
@@ -246,7 +246,7 @@ class MenuItemComponent extends VDOM.Component {
 
    onFocus(e) {
       FocusManager.nudge();
-      Debug.log(menuFlag, 'MenuItem', 'focus', this.el, e.target);
+      debug(menuFlag, 'MenuItem', 'focus', this.el, e.target);
       this.props.moveCursor(this.props.itemKey);
    }
 
@@ -261,14 +261,14 @@ class MenuItemComponent extends VDOM.Component {
    onMouseDown(e) {
       e.stopPropagation();
       e.preventDefault();
-      Debug.log(menuFlag, 'MenuItem', 'mouseDown', this.el);
+      debug(menuFlag, 'MenuItem', 'mouseDown', this.el);
       if (this.state.focusable) {
          let {itemInfo, itemIndex} = this.props;
          let el = itemInfo[itemIndex].el;
          let focusedEl = getFocusedElement();
          let focusedChild = FocusManager.focusFirst(el);
          if (focusedChild !== focusedEl) {
-            Debug.log(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
+            debug(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
          }
       }
    }

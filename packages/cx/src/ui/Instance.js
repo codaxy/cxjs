@@ -1,10 +1,11 @@
 var instanceId = 1000;
 import {Controller} from './Controller';
-import {Debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
+import {debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
+import {VDOM} from './VDOM';
 
 export class Instance {
    constructor(widget, key) {
@@ -114,7 +115,7 @@ export class Instance {
       if (this.shouldUpdate) {
          this.data = {...this.rawData};
          this.widget.prepareData(context, this);
-         Debug.log(processDataFlag, this.widget);
+         debug(processDataFlag, this.widget);
       }
 
       if (this.helpers) {
@@ -184,13 +185,13 @@ export class Instance {
                   this.shouldUpdate = true;
             }
 
-         Debug.log(prepareFlag, this.widget);
+         debug(prepareFlag, this.widget);
          this.widget.prepare(context, this);
       }
 
       if (this.shouldUpdate) {
          this.parent.shouldUpdate = true;
-         Debug.log(shouldUpdateFlag, this.widget, this.shouldUpdate);
+         debug(shouldUpdateFlag, this.widget, this.shouldUpdate);
       }
 
       if (this.outerLayout && this.widget.outerLayout)
@@ -212,11 +213,11 @@ export class Instance {
          ? this.cached.vdom
          : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
-      if (this.widget.memoize)
+      if (this.widget.memoize && VDOM.allowRenderOutputCaching !== false)
          this.cached.vdom = vdom;
 
       if (this.shouldUpdate)
-         Debug.log(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
+         debug(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
 
       return vdom;
    }
@@ -242,7 +243,7 @@ export class Instance {
       if (this.pure && !this.shouldUpdate)
          return;
 
-      Debug.log(cleanupFlag, this.widget);
+      debug(cleanupFlag, this.widget);
 
       if (this.components)
          for (var cmp in this.components)
@@ -275,7 +276,7 @@ export class Instance {
    }
 
    destroy() {
-      Debug.log(destroyFlag, this);
+      debug(destroyFlag, this);
 
       if (this.instanceCache) {
          this.instanceCache.destroy();

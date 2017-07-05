@@ -10,20 +10,23 @@ $cx-dependencies: () !default;
 
 @function cx-should-include($name, $once: true) {
    @return (
-      ($cx-include-all and map-get($cx-excluded, $name) != true)
-      or ($cx-used != null and map-get($cx-used, $name) == true)
+       (map-get($cx-excluded, $name) != true) and
+       ($cx-include-all or
+       ($cx-used != null and map-get($cx-used, $name) == true))
    )
    and ($once != true or cx-call-once($name));
 }
 
 @function cx-widget($name) {
+   @if (map-get($cx-excluded, $name)) {
+      @return 0;
+   }
    $cx-used: map_merge($cx-used, ($name: true)) !global;
    $dummy: 1;
    $deps: map-get($cx-dependencies, $name);
    @if ($deps == null) {
       @return 0;
    }
-
    @each $dep in $deps {
       $dummy: cx-widget($dep);
    }

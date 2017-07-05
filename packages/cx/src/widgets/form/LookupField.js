@@ -6,7 +6,7 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Repeater} from '../../ui/Repeater';
 import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
-import {Console} from '../../util/Console';
+import {debug} from '../../util/Debug';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager} from '../../ui/FocusManager';
 import {isFocused} from '../../util/DOM';
@@ -18,7 +18,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
@@ -832,7 +832,7 @@ class LookupComponent extends VDOM.Component {
                })
                .catch(err => {
                   this.setState({status: "error"});
-                  Console.log("Lookup query error:", err);
+                  debug("Lookup query error:", err);
                })
          }, queryDelay);
       }

@@ -14,11 +14,12 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ForwardIcon from '../icons/forward';
 import DropdownIcon from '../icons/drop-down';
+import "../../ui/Format";
 
 export class Calendar extends Field {
 

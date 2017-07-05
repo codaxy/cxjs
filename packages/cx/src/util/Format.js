@@ -1,4 +1,4 @@
-import {Console} from "./Console";
+import {debug} from "./Debug";
 import {GlobalCacheIdentifier} from './GlobalCacheIdentifier';
 
 //Culture dependent formatters are defined in the ui package.
@@ -49,11 +49,60 @@ var formatFactory = {
 
    urlencode: function() {
       return value => encodeURIComponent(value);
+   },
+   
+   number: function (part0, minFractionDigits, maxFractionDigits) {
+      let {minimumFractionDigits, maximumFractionDigits} = resolveMinMaxFractionDigits(minFractionDigits, maxFractionDigits);
+      let trimmable = maximumFractionDigits - minimumFractionDigits;
+      if (trimmable > 0) {
+         if (minimumFractionDigits == 0)
+            ++trimmable;
+         return value => trimFractionZeros(value.toFixed(maximumFractionDigits), trimmable);
+      }
+      return value => value.toFixed(maximumFractionDigits);
+   },
+
+   percentage: function (part0, minFractionDigits, maxFractionDigits) {
+      let numberFormatter = formatFactory.number(part0, minFractionDigits, maxFractionDigits);
+      return value => numberFormatter(value * 100) + '%';
+   },
+
+   percentageSign: function (part0, minFractionDigits, maxFractionDigits) {
+      let numberFormatter = formatFactory.number(part0, minFractionDigits, maxFractionDigits);
+      return value => numberFormatter(value) + '%';
+   },
+
+   date: function () {
+      return value => {
+         let date = new Date(value);
+         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+      }
+   },
+
+   time: function () {
+      return value => {
+         let date = new Date(value);
+         let h = date.getHours() >= 10 ? date.getHours() : '0' + date.getHours();
+         let m = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes();
+         return `${h}:${m}`;
+      }
+   },
+
+   datetime: function () {
+      let date = formatFactory.date();
+      let time = formatFactory.time();
+      return value => date(value) + ' ' + time(value);
    }
 };
 
 formatFactory.s = formatFactory.str = formatFactory.string;
 formatFactory.f = formatFactory.fixed;
+formatFactory.n = formatFactory.number;
+formatFactory.p = formatFactory.percentage;
+formatFactory.ps = formatFactory.percentageSign;
+formatFactory.d = formatFactory.date;
+formatFactory.t = formatFactory.time;
+formatFactory.dt = formatFactory.datetime;
 
 function buildFormatter(format) {
    var formatter = defaultFormatter;
@@ -65,7 +114,7 @@ function buildFormatter(format) {
          var parts = colonSepParts[i].split(';');
          var factory = formatFactory[parts[0]];
          if (!factory)
-            Console.log('Unknown string format: ' + format);
+            debug('Unknown string format: ' + format);
          else if (i == 0)
             formatter = factory(...parts);
          else {
@@ -124,4 +173,33 @@ export class Format {
       else
          formatFactory[format] = factory;
    }
+}
+
+export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
+   minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
+   maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
+
+   if (typeof minimumFractionDigits == 'number') {
+      if (typeof maximumFractionDigits == 'undefined')
+         maximumFractionDigits = minimumFractionDigits;
+      else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
+         maximumFractionDigits = minimumFractionDigits;
+   }
+   else if (minimumFractionDigits == null && maximumFractionDigits == null) {
+      minimumFractionDigits = 0;
+      maximumFractionDigits = 18;
+   }
+
+   return {
+      minimumFractionDigits,
+      maximumFractionDigits
+   }
+}
+
+export function trimFractionZeros(str, max) {
+   let cnt = 0, l = str.length;
+   while (cnt < max && (str[l - 1 - cnt] === '0' || str[l - 1 - cnt] === '.'))
+      cnt++;
+
+   return cnt > 0 ? str.substring(0, l - cnt) : str;
 }

@@ -1,6 +1,6 @@
 import {VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
 import {Selection} from '../ui/selection/Selection';
 
 export class ColumnBarBase extends PureContainer {

@@ -7,25 +7,25 @@ import "./error";
 
 import './index.scss';
 
-//import {GridSection as Demo} from './sections/Grid';
-//import {FormSection as Demo} from './sections/Form';
-//import {WindowSection as Demo} from './sections/Window';
-//import {ListSection as Demo} from './sections/List';
-//import Demo from './sections/ComplexGrid';
-//import Demo from './sections/features/TimeSeriesScroll';
-//import {MixedModeForm as Demo} from './components/MixedModeForm';
-//import Demo from './performance/LongList';
-
-
-//import Demo from './bugs/80';
-//import Demo from './bugs/192';
-//import Demo from './bugs/search';
-//import Demo from './bugs/NativeCheckboxesAndRadios';
+// import {GridSection as Demo} from './sections/Grid';
+// import {FormSection as Demo} from './sections/Form';
+// import {WindowSection as Demo} from './sections/Window';
+// import {ListSection as Demo} from './sections/List';
+// import Demo from './sections/ComplexGrid';
+// import Demo from './sections/features/TimeSeriesScroll';
+// import {MixedModeForm as Demo} from './components/MixedModeForm';
+// import Demo from './performance/LongList';
+//
+//
+// import Demo from './bugs/80';
+// import Demo from './bugs/192';
+// import Demo from './bugs/search';
+// import Demo from './bugs/NativeCheckboxesAndRadios';
 
 //import Demo from './features/flexbox';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
-//import Demo from './features/drag-drop/ReorderSpace';
+import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
 //import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
@@ -36,6 +36,7 @@ import './index.scss';
 //import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
+
 //import Demo from './features/menu/icons';
 
 //import Demo from './features/fun-comps/ts';
@@ -47,8 +48,8 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-Timing.enable('app-loop');
-//Debug.enable("app-data");
+//Timing.enable('app-loop');
+Debug.enable("app-data");
 
 History.connect(store, "url");
 
@@ -75,3 +76,4 @@ let stop = startAppLoop(document.getElementById('app'), store, <cx>
       <Demo />
    </div>
 </cx>);
+

@@ -1,10 +1,11 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Dropdown} from './Dropdown';
-import {Debug, tooltipsFlag} from '../../util/Debug';
+import {debug, tooltipsFlag} from '../../util/Debug';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {shallowEquals} from '../../util/shallowEquals';
 import {isSelector} from '../../data/isSelector';
+import {wireTooltipOps} from './tooltip-ops';
 
 export class Tooltip extends Dropdown {
 
@@ -119,7 +120,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
    let target = options.target || (e && e.currentTarget) || e;
 
-   Debug.log(tooltipsFlag, 'mouse-move', target, parentInstance);
+   debug(tooltipsFlag, 'mouse-move', target, parentInstance);
 
    let name = options.tooltipName || 'tooltip';
 
@@ -161,7 +162,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    return tooltipInstance;
 }
 
-export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
+function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
    if (!instance)
       return;
@@ -201,7 +202,7 @@ export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       instance.trackMouse(e);
 }
 
-export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
+function tooltipMouseLeave(e, parentInstance, tooltip, options) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
    if (instance) {
       instance.mouseOverTarget = false;
@@ -209,7 +210,7 @@ export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
    }
 }
 
-export function tooltipParentDidMount(element, parentInstance, tooltip, options) {
+function tooltipParentDidMount(element, parentInstance, tooltip, options) {
    if (tooltip && tooltip.alwaysVisible) {
       let instance = getTooltipInstance(element, parentInstance, tooltip, options);
       if (instance.data.alwaysVisible)
@@ -217,7 +218,7 @@ export function tooltipParentDidMount(element, parentInstance, tooltip, options)
    }
 }
 
-export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options) {
+function tooltipParentWillReceiveProps (element, parentInstance, tooltip, options) {
    let instance = getTooltipInstance(element, parentInstance, tooltip, options);
    if (instance && options) {
       instance.store.setData(options.data);
@@ -228,7 +229,7 @@ export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, 
    }
 }
 
-export function tooltipParentWillUnmount(parentInstance) {
+function tooltipParentWillUnmount(parentInstance) {
    if (parentInstance.tooltips) {
       for (let name in parentInstance.tooltips) {
          let instance = parentInstance.tooltips[name];
@@ -237,4 +238,14 @@ export function tooltipParentWillUnmount(parentInstance) {
             parentInstance.tooltips[name].dismissTooltip();
       }
    }
+}
+
+export function enableTooltips() {
+   wireTooltipOps({
+      tooltipMouseMove,
+      tooltipMouseLeave,
+      tooltipParentDidMount,
+      tooltipParentWillReceiveProps,
+      tooltipParentWillUnmount
+   });
 }

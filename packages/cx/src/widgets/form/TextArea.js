@@ -7,7 +7,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount
-} from '../overlay/Tooltip';
+} from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util';
 import {isTouchDevice} from '../../util';

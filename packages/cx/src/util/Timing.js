@@ -3,45 +3,56 @@ import {Console} from './Console';
 export const appLoopFlag = 'app-loop';
 export const vdomRenderFlag = 'vdom-render';
 
+let counter = {};
+let activeFlags = {};
 
-var counter = {};
-const env = process.env.NODE_ENV;
+let nowImpl = () => Date.now();
 
-export class Timing {
-   static now() {
-      return new Date().getTime();
+export function now() {
+   if (process.env.NODE_ENV !== "production") {
+      return nowImpl();
+   } else {
+      return 0;
    }
+}
 
-   static enable(flag) {
+function enable(flag) {
+   if (process.env.NODE_ENV !== "production") {
       activeFlags[flag] = true;
    }
+}
 
-   static disable(flag) {
+function disable(flag) {
+   if (process.env.NODE_ENV !== "production") {
       activeFlags[flag] = false;
    }
+}
 
-   static count(flag) {
-      if (env != "production") {
-         if (!activeFlags[flag])
-            return;
-         return counter[flag] = (counter[flag] || 0) + 1;
-      }
-   }
-
-   static log(flag) {
-      if (env != "production") {
-         if (!activeFlags[flag])
-            return;
-
-         Console.log(...arguments);
-      }
+function count(flag) {
+   if (process.env.NODE_ENV !== "production") {
+      if (!activeFlags[flag])
+         return;
+      return counter[flag] = (counter[flag] || 0) + 1;
    }
 }
 
-var activeFlags = {};
+function log(flag) {
+   if (process.env.NODE_ENV !== "production") {
+      if (!activeFlags[flag])
+         return;
 
-if (typeof window != 'undefined' && window.performance && window.performance.now) {
-   Timing.now = function () {
-      return performance.now();
-   };
+      Console.log(...arguments);
+   }
 }
+
+if (process.env.NODE_ENV !== "production" && typeof window != 'undefined' && window.performance && window.performance.now) {
+   nowImpl = () => performance.now();
+}
+
+export const Timing = {
+   now,
+   enable,
+   disable,
+   count,
+   log
+};

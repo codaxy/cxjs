@@ -1,8 +1,8 @@
 import {Widget, VDOM, getContent} from './Widget';
 import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
-import {Debug, appDataFlag} from '../util/Debug';
-import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
+import {debug, appDataFlag} from '../util/Debug';
+import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted } from './batchUpdates';
 
 export class Cx extends VDOM.Component {
@@ -60,7 +60,7 @@ export class Cx extends VDOM.Component {
 
    update() {
       let data = this.store.getData();
-      Debug.log(appDataFlag, data);
+      debug(appDataFlag, data);
       if (this.flags.preparing)
          this.flags.dirty = true;
       else if (isBatchingUpdates() || this.props.immediate) {
@@ -100,7 +100,7 @@ class CxContext extends VDOM.Component {
    componentWillReceiveProps(props) {
 
       this.timings = {
-         start: Timing.now()
+         start: now()
       };
 
       let {instance, options} = props;
@@ -116,23 +116,23 @@ class CxContext extends VDOM.Component {
          this.props.flags.dirty = false;
          visible = instance.explore(context);
       }
-      while (visible && this.props.flags.dirty && count < 3 && Widget.optimizePrepare);
+      while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
       if (visible) {
-         this.timings.afterExplore = Timing.now();
-         instance.prepare(context)
-         this.timings.afterPrepare = Timing.now();
+         this.timings.afterExplore = now();
+         instance.prepare(context);
+         this.timings.afterPrepare = now();
 
          let result = instance.render(context);
          this.content = getContent(result);
-         this.timings.afterRender = Timing.now();
+         this.timings.afterRender = now();
       }
       else {
          this.content = null;
-         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = Timing.now();
+         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
       }
 
-      this.timings.beforeVDOMRender = Timing.now();
+      this.timings.beforeVDOMRender = now();
       this.props.flags.preparing = false;
       this.props.flags.rendering = true;
       this.renderingContext = context;
@@ -148,35 +148,37 @@ class CxContext extends VDOM.Component {
 
    componentDidUpdate() {
       this.props.flags.rendering = false;
-      this.timings.afterVDOMRender = Timing.now();
+      this.timings.afterVDOMRender = now();
 
       let {instance} = this.props;
       instance.cleanup(this.renderingContext);
 
-      this.timings.afterCleanup = Timing.now();
-
+      this.timings.afterCleanup = now();
       this.renderCount++;
 
-      let {start, beforeVDOMRender, afterVDOMRender, afterPrepare, afterExplore, afterRender, afterCleanup} = this.timings;
+      if (process.env.NODE_ENV !== "production") {
 
-      Timing.log(
-         vdomRenderFlag,
-         this.renderCount,
-         'cx', (beforeVDOMRender - start + afterCleanup - afterVDOMRender).toFixed(2) + 'ms',
-         'vdom', (afterVDOMRender - beforeVDOMRender).toFixed(2) + 'ms'
-      );
+         let {start, beforeVDOMRender, afterVDOMRender, afterPrepare, afterExplore, afterRender, afterCleanup} = this.timings;
 
-      Timing.log(
-         appLoopFlag,
-         this.renderCount,
-         this.renderingContext.options.name || 'main',
-         'total', (afterCleanup - start).toFixed(1) + 'ms',
-         'explore', (afterExplore - start).toFixed(1) + 'ms',
-         'prepare', (afterPrepare - afterExplore).toFixed(1),
-         'render', (afterRender - afterPrepare).toFixed(1),
-         'vdom', (afterVDOMRender - beforeVDOMRender).toFixed(1),
-         'cleanup', (afterCleanup - afterVDOMRender).toFixed(1)
-      );
+         Timing.log(
+            vdomRenderFlag,
+            this.renderCount,
+            'cx', (beforeVDOMRender - start + afterCleanup - afterVDOMRender).toFixed(2) + 'ms',
+            'vdom', (afterVDOMRender - beforeVDOMRender).toFixed(2) + 'ms'
+         );
+
+         Timing.log(
+            appLoopFlag,
+            this.renderCount,
+            this.renderingContext.options.name || 'main',
+            'total', (afterCleanup - start).toFixed(1) + 'ms',
+            'explore', (afterExplore - start).toFixed(1) + 'ms',
+            'prepare', (afterPrepare - afterExplore).toFixed(1),
+            'render', (afterRender - afterPrepare).toFixed(1),
+            'vdom', (afterVDOMRender - beforeVDOMRender).toFixed(1),
+            'cleanup', (afterCleanup - afterVDOMRender).toFixed(1)
+         );
+      }
    }
 
    componentWillUnmount() {

@@ -4,7 +4,7 @@ import {HtmlElement} from '../HtmlElement';
 import {findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused} from '../../util/DOM';
 import {Dropdown} from '../overlay/Dropdown';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
-import {Debug, menuFlag} from '../../util/Debug';
+import {debug, menuFlag} from '../../util/Debug';
 import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
@@ -217,7 +217,7 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    onDropdownKeyDown(e) {
-      Debug.log(menuFlag, 'MenuItem', 'dropdownKeyDown');
+      debug(menuFlag, 'MenuItem', 'dropdownKeyDown');
       let {horizontal} = this.props.instance;
       if (e.keyCode == KeyCode.esc || (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left)) {
          FocusManager.focus(this.el);
@@ -228,14 +228,14 @@ class MenuItemComponent extends VDOM.Component {
 
    clearAutoFocusTimer() {
       if (this.autoFocusTimerId) {
-         Debug.log(menuFlag, 'MenuItem', 'autoFocusCancel');
+         debug(menuFlag, 'MenuItem', 'autoFocusCancel');
          clearTimeout(this.autoFocusTimerId);
          delete this.autoFocusTimerId;
       }
    }
 
    onMouseEnter(e) {
-      Debug.log(menuFlag, 'MenuItem', 'mouseEnter', this.el);
+      debug(menuFlag, 'MenuItem', 'mouseEnter', this.el);
       let {widget} = this.props.instance;
       if (widget.dropdown && !this.state.dropdownOpen) {
          this.clearAutoFocusTimer();
@@ -249,9 +249,9 @@ class MenuItemComponent extends VDOM.Component {
                this.autoFocusTimerId = setTimeout(() => {
                   delete this.autoFocusTimerId;
                   if (!this.state.dropdownOpen) {
-                     Debug.log(menuFlag, 'MenuItem', 'hoverFocusTimeout:before', this.el);
+                     debug(menuFlag, 'MenuItem', 'hoverFocusTimeout:before', this.el);
                      FocusManager.focus(this.el);
-                     Debug.log(menuFlag, 'MenuItem', 'hoverFocusTimeout:after', this.el, document.activeElement);
+                     debug(menuFlag, 'MenuItem', 'hoverFocusTimeout:after', this.el, document.activeElement);
                   }
                }, widget.hoverFocusTimeout);
          }
@@ -264,7 +264,7 @@ class MenuItemComponent extends VDOM.Component {
    onMouseLeave(e) {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
-         Debug.log(menuFlag, 'MenuItem', 'mouseLeave', this.el);
+         debug(menuFlag, 'MenuItem', 'mouseLeave', this.el);
          this.clearAutoFocusTimer();
 
          if (widget.hoverToOpen && document.activeElement == this.el)
@@ -273,7 +273,7 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      Debug.log(menuFlag, 'MenuItem', 'keyDown', this.el);
+      debug(menuFlag, 'MenuItem', 'keyDown', this.el);
       let {horizontal, widget} = this.props.instance;
       if (widget.dropdown) {
          if (e.target == this.el && (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))) {
@@ -343,7 +343,7 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
          oneFocusOut(this, this.el, ::this.onFocusOut);
-         Debug.log(menuFlag, 'MenuItem', 'focus', this.el, document.activeElement);
+         debug(menuFlag, 'MenuItem', 'focus', this.el, document.activeElement);
          this.clearAutoFocusTimer();
          this.openDropdown();
       }
@@ -360,10 +360,10 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    onFocusOut(focusedElement) {
-      Debug.log(menuFlag, 'MenuItem', 'focusout', this.el, focusedElement);
+      debug(menuFlag, 'MenuItem', 'focusout', this.el, focusedElement);
       this.clearAutoFocusTimer();
       if (!isSelfOrDescendant(this.el, focusedElement)) {
-         Debug.log(menuFlag, 'MenuItem', 'closing dropdown', this.el, focusedElement);
+         debug(menuFlag, 'MenuItem', 'closing dropdown', this.el, focusedElement);
          this.closeDropdown();
       }
    }

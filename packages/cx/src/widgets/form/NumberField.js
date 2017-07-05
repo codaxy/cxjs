@@ -3,12 +3,15 @@ import {Field, getFieldTooltip} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/Tooltip';
+import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
+
+import {enableCultureSensitiveFormatting} from "../../ui/Format";
+enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {
 

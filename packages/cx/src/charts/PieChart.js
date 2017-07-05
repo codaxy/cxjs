@@ -3,7 +3,7 @@ import {PureContainer} from '../ui/PureContainer';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
 import {Selection} from '../ui/selection/Selection';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/Tooltip';
+import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
 
 export class PieChart extends BoundedObject {
 

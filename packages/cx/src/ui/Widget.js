@@ -1,15 +1,16 @@
 import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
-import './Format';
+//import './Format';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
-import {Debug, appDataFlag} from '../util/Debug';
+import {debug, appDataFlag} from '../util/Debug';
 import {parseStyle} from '../util/parseStyle';
-import {Timing, appLoopFlag, vdomRenderFlag} from '../util/Timing';
+import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {RenderingContext} from './RenderingContext';
 
-import {VDOM as vdom} from 'cx-react';
+import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
+
 
 var widgetId = 100;
 
@@ -134,12 +135,12 @@ export class Widget extends Component {
    }
 
    // mount(parentDOMElement, store, options, parentInstance) {
-   //    var start = Timing.now();
+   //    var start = now();
    //    var content = this.prepareRenderCleanup(store, options, null, parentInstance);
    //    if (content) {
-   //       var render = Timing.now();
+   //       var render = now();
    //       VDOM.DOM.render(content, parentDOMElement);
-   //       var done = Timing.now();
+   //       var done = now();
    //       var renderCount = Timing.count(vdomRenderFlag);
    //       Timing.log(vdomRenderFlag, renderCount, 'cx', (render - start).toFixed(2)+'ms', 'vdom', (done - render).toFixed(2)+'ms');
    //    }
@@ -154,14 +155,14 @@ export class Widget extends Component {
 
    static renderInstance(instance, options) {
       var context;
-      var start = Timing.now();
+      var start = now();
       var prepareCount = 0, changed;
       var store = instance.store;
 
       /* sometimes store data is changed during the prepare phase
        and in that case instead of double render only the prepare phase is executed multiple times */
       while (++prepareCount < 3) {
-         changed = store.silently(()=> {
+         changed = store.silently(() => {
             context = new RenderingContext(options);
             instance.explore(context);
             instance.prepare(context);
@@ -172,15 +173,18 @@ export class Widget extends Component {
       if (changed)
          store.notify();
 
-      var afterPrepare = Timing.now();
+      var afterPrepare = now();
 
       var content = getContent(instance.render(context));
-      var afterRender = Timing.now();
+      var afterRender = now();
       instance.cleanup(context);
-      var afterCleanup = Timing.now();
-      var renderCount = Timing.count(appLoopFlag);
-      Timing.log(appLoopFlag, renderCount, context.options.name || 'main', (afterCleanup - start).toFixed(1) + 'ms', 'prepare', (afterPrepare - start).toFixed(1), 'render', (afterRender - afterPrepare).toFixed(1), 'cleanup', (afterCleanup - afterRender).toFixed(1));
-      Debug.log(appDataFlag, store.getData());
+
+      if (process.env.NODE_ENV !== "production") {
+         var afterCleanup = now();
+         var renderCount = Timing.count(appLoopFlag);
+         Timing.log(appLoopFlag, renderCount, context.options.name || 'main', (afterCleanup - start).toFixed(1) + 'ms', 'prepare', (afterPrepare - start).toFixed(1), 'render', (afterRender - afterPrepare).toFixed(1), 'cleanup', (afterCleanup - afterRender).toFixed(1));
+         debug(appDataFlag, store.getData());
+      }
       return content;
    }
 

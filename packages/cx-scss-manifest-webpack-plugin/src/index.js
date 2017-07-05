@@ -23,7 +23,7 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
    compiler.plugin('compilation', (compilation) => {
       compilation.plugin('additional-chunk-assets', (chunks) => {
          chunks.forEach(chunk => {
-            chunk.modules.forEach(module => {
+            chunk.forEachModule(module => {
 
                if (!module.resource || module.resource.indexOf('node_modules') !== -1)
                   return;
