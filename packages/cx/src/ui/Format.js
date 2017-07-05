@@ -1,5 +1,6 @@
 import {Culture} from "./Culture";
 import {Format as Fmt, resolveMinMaxFractionDigits} from "../util/Format";
+import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 
 export const Format = Fmt;
 
@@ -87,4 +88,6 @@ export function enableCultureSensitiveFormatting() {
          return value => formatter.format(new Date(value));
       }
    );
+
+   GlobalCacheIdentifier.change();
 }

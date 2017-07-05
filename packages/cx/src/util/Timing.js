@@ -1,4 +1,4 @@
-import {debug} from './Debug';
+import {Console} from './Console';
 
 export const appLoopFlag = 'app-loop';
 export const vdomRenderFlag = 'vdom-render';
@@ -41,7 +41,7 @@ function log(flag) {
       if (!activeFlags[flag])
          return;
 
-      debug(...arguments);
+      Console.log(...arguments);
    }
 }
 
