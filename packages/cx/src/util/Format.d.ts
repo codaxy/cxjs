@@ -10,3 +10,5 @@ export class Format {
 
    static registerFactory(format: string, factory: (...args) => Formatter): void;
 }
+
+export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits);

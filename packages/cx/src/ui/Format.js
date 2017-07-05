@@ -1,26 +1,5 @@
 import {Culture} from "./Culture";
-import {Format as Fmt} from "../util/Format";
-
-function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
-   minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
-   maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
-
-   if (typeof minimumFractionDigits == 'number') {
-      if (typeof maximumFractionDigits == 'undefined')
-         maximumFractionDigits = minimumFractionDigits;
-      else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
-         maximumFractionDigits = minimumFractionDigits;
-   }
-   else if (minimumFractionDigits == null && maximumFractionDigits == null) {
-      minimumFractionDigits = 0;
-      maximumFractionDigits = 18;
-   }
-
-   return {
-      minimumFractionDigits,
-      maximumFractionDigits
-   }
-}
+import {Format as Fmt, resolveMinMaxFractionDigits} from "../util/Format";
 
 export const Format = Fmt;
 
