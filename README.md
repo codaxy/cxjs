@@ -126,15 +126,51 @@ Alternatively, start by forking one of the available boilerplate projects:
 
 ## Demo Applications
 
-<a href="https://cxjs.io/starter">
+### Hacker News Progressive Web App
+
+CxJS Hacker News is a Progressive Web App focused on startup performance. 
+The application is based on Preact and uses webpack plugins to enable preloading, inline CSS and JS, 
+configure service workers and achieve other performance gains.
+
+[Open App](https://hn.cxjs.io/) | [Source Code](https://github.com/codaxy/cxjs-hackernews)
+
+### Worldoscope
+
+Worldoscope uses CxJS to visualize data available from the World Bank website. 
+Google Firebase is used to store report definitions, authentication and hosting.
+
+[Open App](https://worldoscope.cxjs.io/) | [Source Code](https://github.com/codaxy/worldoscope)
+
+### Starter Kit
+
+<a href="https://cxjs.io/starter" style="float: right">
     <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" height="200px" />
 </a>
-<a href="https://codaxy.github.io/state-of-js-2016-explorer/">
+
+Cx Starter Kit is full blown admin and dashboard application with many sample pages. 
+
+[Open App](https://cxjs.io/starter) | [Source Code](https://github.com/codaxy/cx-starter-kit)
+ 
+### State Of JS 2016 Explorer
+
+<a href="https://codaxy.github.io/state-of-js-2016-explorer/" style="float: right">
     <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" height="200px" />
 </a>
-<a href="https://mstijak.github.io/tdo/">
+
+An sample application that illustrates CxJS charting features by visualizing 
+data from [The State of JavaScript 2016](http://stateofjs.com/) survey.  
+
+[Open App](http://codaxy.github.io/state-of-js-2016-explorer) | [Source Code](https://github.com/codaxy/state-of-js-2016-explorer)
+
+### tdo
+
+<a href="https://mstijak.github.io/tdo/" style="float: right">
     <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/tdo/tdo.png" alt="Tdo" height="200px" />
 </a>
+
+CxJS based TODO app featuring a dark theme, keyboard navigation, markdown support, custom CSS and much more.
+
+[Open App](https://mstijak.github.io/tdo/) | [Source Code](https://github.com/mstijak/tdo)
 
 ## License
 
