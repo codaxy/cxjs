@@ -6,7 +6,7 @@ const webpack = require('webpack'),
    path = require('path'),
    babelCfg = require("./babel.config"),
    p = p => path.join(__dirname, '../', p || ''),
-   gtm = require('../../misc/tracking/gtm.config.js'),
+   gtm = require('../../misc/tracking/gtm.js'),
    reactScripts = require('../../misc/reactScripts'),
    reactScriptsDev = require('../../misc/reactScripts.dev.js');
 

@@ -9,7 +9,7 @@ const webpack = require('webpack'),
     ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     babelConfig = require('./babel.config'),
-    gtm = require('../misc/tracking/gtm.config.js'),
+    gtm = require('../misc/tracking/gtm.js'),
     reactScripts = require('../misc/reactScripts');
 
 var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
