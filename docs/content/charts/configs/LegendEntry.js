@@ -15,6 +15,14 @@ export default {
         </Md></cx>
     },
 
+    size: {
+        type: 'number',
+        key: true,
+        description: <cx><Md>
+            Size of the symbol. Default value is `18`.
+        </Md></cx>
+    },
+
     selected: {
         type: 'boolean',
         key: true,

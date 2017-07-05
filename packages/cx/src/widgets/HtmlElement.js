@@ -252,18 +252,10 @@ Widget.factory = function(type, config, more) {
       return new HtmlElement(Object.assign({}, config, more));
    }
 
-   if (typeType == 'function') {
-      var props = Object.assign({}, config, more);
-      var items = props.children;
-      delete props.children;
-      return new HtmlElement({
-         ...props,
-         tag: type,
-         items: items
-      })
-   }
+   if (typeType == 'function')
+      return HtmlElement.create(HtmlElement, {tag: type}, config);
 
    return originalWidgetFactory.call(Widget, type, config, more);
-}
+};
 
 Widget.alias('html-element', HtmlElement);

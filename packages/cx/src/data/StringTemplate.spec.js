@@ -51,7 +51,10 @@ describe('StringTemplate', function() {
          var e = StringTemplate.compile('1 + 2 = {[%{1+2}]}');
          assert.equal(e(), '1 + 2 = 3');
       });
+
+      it('with a conditional operator', function () {
+         var e = StringTemplate.compile('1 + 2 = {[true ? 3 : 2]:s}');
+         assert.equal(e(), '1 + 2 = 3');
+      });
    });
-
-
 });

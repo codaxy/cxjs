@@ -16,6 +16,7 @@ export class LegendEntry extends HtmlElement {
          colorMap: undefined,
          name: undefined,
          active: true,
+         size: undefined
       });
    }
 
@@ -90,7 +91,7 @@ export class LegendEntry extends HtmlElement {
 
       return <svg key="svg" className={this.CSS.element(this.baseClass, "svg")}>
          {
-            shape(10, 10, 18, {
+            shape(10, 10, entry.size, {
                style: entry.style,
                className: className
             })
@@ -102,5 +103,6 @@ export class LegendEntry extends HtmlElement {
 LegendEntry.prototype.baseClass = "legendentry";
 LegendEntry.prototype.shape = "square";
 LegendEntry.prototype.legendAction = "auto";
+LegendEntry.prototype.size = 18;
 
 Widget.alias('legend-entry', LegendEntry);

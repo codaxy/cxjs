@@ -47,7 +47,10 @@ export interface AxisProps extends BoundedObjectProps {
    labelLineCountDyFactor?: number | string,
 
    /** If `labelWrap` is on, this number is used as a measure to split labels into multiple lines. Default value is `10`. */
-   labelMaxLineLength?: number
+   labelMaxLineLength?: number,
+
+   /** Set to true to hide axis labels */
+   hideLabels?: boolean,
 
 }
 

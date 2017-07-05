@@ -35,10 +35,6 @@ export class Calendar extends Field {
       }, ...arguments);
    }
 
-   init() {
-      super.init();
-   }
-
    prepareData(context, {data}) {
       data.stateMods = {
          disabled: data.disabled
@@ -61,9 +57,9 @@ export class Calendar extends Field {
 
    validate(context, instance) {
       super.validate(context, instance);
-      var {data} = instance;
+      let {data} = instance;
       if (!data.error && data.date) {
-         var d;
+         let d;
          if (data.maxValue) {
             d = dateDiff(data.date, data.maxValue);
             if (d > 0)
@@ -92,7 +88,7 @@ export class Calendar extends Field {
 
    handleSelect(e, instance, date) {
       
-      var {store, data, widget} = instance;
+      let {store, data, widget} = instance;
 
       e.stopPropagation();
 
@@ -147,9 +143,9 @@ export class CalendarCmp extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      var {data} = props.instance;
+      let {data} = props.instance;
 
-      var refDate = data.refDate ? data.refDate : data.date || zeroTime(new Date());
+      let refDate = data.refDate ? data.refDate : data.date || zeroTime(new Date());
 
       this.state = Object.assign({
          hover: false,
@@ -163,12 +159,12 @@ export class CalendarCmp extends VDOM.Component {
 
    getPage(refDate) {
       refDate = zeroTime(refDate); //make a copy
-      var monthDate = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
+      let monthDate = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
 
-      var startDate = new Date(monthDate);
+      let startDate = new Date(monthDate);
       startDate.setDate(1 - startDate.getDay());
 
-      var endDate = new Date(monthDate);
+      let endDate = new Date(monthDate);
       endDate.setMonth(monthDate.getMonth() + 1);
       endDate.setDate(endDate.getDate() - 1);
       endDate.setDate(endDate.getDate() + 6 - endDate.getDay());
@@ -188,7 +184,7 @@ export class CalendarCmp extends VDOM.Component {
       if (date.getTime() == this.state.cursor.getTime())
          return;
 
-      var refDate = this.state.refDate;
+      let refDate = this.state.refDate;
 
       if (options.movePage || date < this.state.startDate || date > this.state.endDate)
          refDate = date;
@@ -203,7 +199,7 @@ export class CalendarCmp extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var refDate = this.state.refDate;
+      let refDate = this.state.refDate;
 
       switch (period) {
          case 'y':
@@ -215,7 +211,7 @@ export class CalendarCmp extends VDOM.Component {
             break;
       }
 
-      var page = this.getPage(refDate);
+      let page = this.getPage(refDate);
       if (this.state.cursor < page.startDate)
          page.cursor = page.startDate;
       else if (this.state.cursor > page.endDate)
@@ -226,7 +222,7 @@ export class CalendarCmp extends VDOM.Component {
 
    handleKeyPress(e) {
 
-      var cursor = new Date(this.state.cursor);
+      let cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
          case KeyCode.enter:
@@ -287,7 +283,7 @@ export class CalendarCmp extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var cursor = new Date(this.state.cursor);
+      let cursor = new Date(this.state.cursor);
 
       if (e.deltaY < 0) {
          cursor.setMonth(cursor.getMonth() - 1)
@@ -338,11 +334,11 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleMouseMove(e) {
-      this.moveCursor(e, zeroTime(new Date(e.target.dataset.date)));
+      this.moveCursor(e, readDate(e.target.dataset));
    }
 
    handleMouseDown(e){
-      this.props.handleSelect(e, zeroTime(new Date(e.target.dataset.date)));
+      this.props.handleSelect(e, readDate(e.target.dataset));
    }
 
    componentDidMount() {
@@ -354,7 +350,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {data} = props.instance;
+      let {data} = props.instance;
       if (data.date)
          this.setState({
             ...this.getPage(data.date),
@@ -370,25 +366,24 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    render() {
-      var {data, widget} = this.props.instance;
-      var {CSS, baseClass} = widget;
+      let {data, widget} = this.props.instance;
+      let {CSS, baseClass} = widget;
 
-      var refDate = this.state.refDate;
+      let refDate = this.state.refDate;
 
-      var month = refDate.getMonth();
-      var year = refDate.getFullYear();
+      let month = refDate.getMonth();
+      let year = refDate.getFullYear();
 
-      var startDate = new Date(year, month, 1);
+      let startDate = new Date(year, month, 1);
       startDate.setDate(1 - startDate.getDay());
 
-      var weeks = [];
-      var date = startDate;
+      let weeks = [];
+      let date = startDate;
 
-      var today = zeroTime(new Date());
-      var pad2 = val => val < 10 ? ('0' + val) : val;
+      let today = zeroTime(new Date());
       while (date < refDate || date.getMonth() == month) {
          let days = [];
-         for (var i = 0; i < 7; i++) {
+         for (let i = 0; i < 7; i++) {
             let unselectable = !validationCheck(date, data);
             let classNames = CSS.state({
                outside: month != date.getMonth(),
@@ -400,7 +395,9 @@ export class CalendarCmp extends VDOM.Component {
             let dateInst = new Date(date);
             days.push(<td key={i}
                className={classNames}
-               data-date={`${dateInst.getFullYear()}-${pad2(dateInst.getMonth()+1)}-${pad2(dateInst.getDate())}`}
+               data-year={dateInst.getFullYear()}
+               data-month={dateInst.getMonth()+1}
+               data-date={dateInst.getDate()}
                onMouseMove={ unselectable ? null : this.handleMouseMove }
                onMouseDown={ unselectable ? null : this.handleMouseDown }>
                {date.getDate()}</td>);
@@ -413,9 +410,9 @@ export class CalendarCmp extends VDOM.Component {
          </tr>);
       }
 
-      var culture = Culture.getDateTimeCulture();
-      var monthNames = culture.getMonthNames('long');
-      var dayNames = culture.getWeekdayNames('short').map(x => x.substr(0, 2));
+      let culture = Culture.getDateTimeCulture();
+      let monthNames = culture.getMonthNames('long');
+      let dayNames = culture.getWeekdayNames('short').map(x => x.substr(0, 2));
 
       return <div className={data.classNames}
          tabIndex={data.disabled ? null : 0}
@@ -469,5 +466,7 @@ export class CalendarCmp extends VDOM.Component {
       </div>;
    }
 }
+
+const readDate = (ds) => new Date(Number(ds.year), Number(ds.month)-1, Number(ds.date));
 
 Widget.alias('calendar', Calendar);

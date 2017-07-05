@@ -1,4 +1,4 @@
-import {cx, Button, Section, FlexRow} from 'cx/widgets';
+import {cx, react, Button, Section, FlexRow} from 'cx/widgets';
 
 const buttons = mod => <cx>
     <FlexRow spacing>
@@ -9,7 +9,7 @@ const buttons = mod => <cx>
         <Button mod={mod} icon="search">Icon + Text</Button>
     </FlexRow>
     <br/>
-</cx>
+</cx>;
 
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/button/states.tsx" target="_blank" putInto="github">Source Code</a>

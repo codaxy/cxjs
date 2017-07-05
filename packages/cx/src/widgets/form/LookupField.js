@@ -333,7 +333,7 @@ class LookupComponent extends VDOM.Component {
          type: Dropdown,
          relatedElement: this.dom.input,
          scrollTracking: true,
-         inline: true,
+         inline: !isTouchDevice(),
          renderChildren: ::this.renderDropdownContents,
          onFocusOut: ::this.closeDropdown,
          memoize: false,

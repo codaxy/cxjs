@@ -37,6 +37,11 @@ import Demo from './features/drag-drop/Dashboard';
 
 //import Demo from './features/grid/header-tool';
 
+//import Demo from './features/menu/icons';
+
+//import Demo from './features/fun-comps/ts';
+import Demo from './features/fun-comps/js';
+
 let store = new Store();
 
 Widget.resetCounter();

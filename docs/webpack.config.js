@@ -7,148 +7,108 @@ const webpack = require('webpack'),
     combine = require('webpack-combine-loaders'),
     path = require('path'),
     ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+    CopyWebpackPlugin = require('copy-webpack-plugin'),
     babelConfig = require('./babel.config'),
-    gtm = require('../misc/tracking/gtm.config.js'),
+    gtm = require('../misc/tracking/gtm.js'),
     reactScripts = require('../misc/reactScripts');
 
-var specific, production = false;
+var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
 
-switch (process.env.npm_lifecycle_event) {
-    case 'build:docs':
-        production = true;
+if (production) {
+    var sass = new ExtractTextPlugin({
+        filename: "app.ltc.[chunkhash].css",
+        allChunks: true
+    });
 
-        var sass = new ExtractTextPlugin({
-            filename: "app.ltc.[chunkhash].css",
-            allChunks: true
-        });
+    var root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
-        specific = {
-            module: {
-                loaders: [{
-                    test: /\.scss$/,
-                    loaders: sass.extract(['css-loader', 'sass-loader'])
-                }, {
-                    test: /\.css$/,
-                    loaders: sass.extract(['css-loader'])
-                }]
-            },
+    specific = {
+        module: {
+            loaders: [{
+                test: /\.scss$/,
+                loaders: sass.extract(['css-loader', 'sass-loader'])
+            }, {
+                test: /\.css$/,
+                loaders: sass.extract(['css-loader'])
+            }]
+        },
 
-            plugins: [
-                new webpack.LoaderOptionsPlugin({
-                    options: {
-                        "if-loader": 'production',
-                    }
-                }),
-                new WebpackCleanupPlugin(),
-                new webpack.optimize.UglifyJsPlugin(),
-                new webpack.DefinePlugin({
-                    'process.env.NODE_ENV': JSON.stringify('production')
-                }),
-                sass,
-                new OptimizeCssAssetsPlugin({
-                    cssProcessorOptions: {
-                        safe: true,
-                        mergeLonghand: false
-                    }
-                })
-            ],
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                options: {
+                    "if-loader": 'production',
+                }
+            }),
+            new WebpackCleanupPlugin(),
+            new webpack.optimize.UglifyJsPlugin(),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify('production')
+            }),
+            sass,
+            new OptimizeCssAssetsPlugin({
+                cssProcessorOptions: {
+                    safe: true,
+                    mergeLonghand: false
+                }
+            }),
+            new CopyWebpackPlugin([{
+                from: path.resolve(__dirname, '../misc/netlify.redirects'),
+                to: '_redirects',
+                toType: 'file'
+            }]),
+        ],
 
-            output: {
-                path: path.join(__dirname, 'dist'),
-                filename: "[name].ltc.[chunkhash].js",
-                hashDigestLength: 5,
-                publicPath: "/docs/"
-            }
-        };
-        break;
-
+        output: {
+            path: path.join(__dirname, 'dist'),
+            filename: "[name].ltc.[chunkhash].js",
+            hashDigestLength: 5,
+            publicPath: root ? "/" : "/docs/"
+        }
+    };
+}
+else {
     //dev
-    default:
-        specific = {
-            module: {
-                loaders: [{
-                    test: /\.scss$/,
-                    loaders: ["style-loader", "css-loader", "sass-loader"]
-                }, {
-                    test: /\.css$/,
-                    loader: ["style-loader", "css-loader"]
-                }]
-            },
-            entry: {
-              app: [
-                  'react-dev-utils/webpackHotDevClient',
-                  __dirname + '/index.js'
-              ]
-            },
-            plugins: [
-                new webpack.LoaderOptionsPlugin({
-                    options: {
-                        "if-loader": 'development',
-                    }
-                }),
-                new webpack.NamedModulesPlugin(),
-                new webpack.HotModuleReplacementPlugin()
-            ],
-            output: {
-                publicPath: '/'
-            },
-            devtool: 'eval',
-            performance: {
-                hints: false
-            },
-            devServer: {
-                contentBase: '/docs',
-                hot: true,
-                port: 8065,
-                noInfo: false,
-                inline: true,
-                historyApiFallback: true
-            }
-        };
-        break;
-
-    // case 'measure:docs':
-    //     var sass = new ExtractTextPlugin({
-    //         filename: "app.css",
-    //         allChunks: true
-    //     });
-    //     specific = {
-    //
-    //         module: {
-    //             loaders: [{
-    //                 test: /\.scss$/,
-    //                 loaders: ["style", "css", "sass"]
-    //             }, {
-    //                 test: /\.css$/,
-    //                 loader: ["style", "css"]
-    //             }]
-    //         },
-    //
-    //         "if-loader": 'production',
-    //
-    //         plugins: [
-    //             new webpack.optimize.DedupePlugin(),
-    //             new webpack.optimize.UglifyJsPlugin(),
-    //             new webpack.DefinePlugin({
-    //                 'process.env.NODE_ENV': JSON.stringify('production')
-    //             }),
-    //             sass,
-    //             //new OptimizeCssAssetsPlugin()
-    //         ],
-    //         output: {
-    //             publicPath: '/'
-    //         },
-    //         //devtool: 'eval',
-    //         devServer: {
-    //             contentBase: '/docs',
-    //             hot: true,
-    //             port: 8080,
-    //             noInfo: false,
-    //             inline: true,
-    //             historyApiFallback: true
-    //         }
-    //     };
-    //     break;
+    specific = {
+        module: {
+            loaders: [{
+                test: /\.scss$/,
+                loaders: ["style-loader", "css-loader", "sass-loader"]
+            }, {
+                test: /\.css$/,
+                loader: ["style-loader", "css-loader"]
+            }]
+        },
+        entry: {
+            app: [
+                'react-dev-utils/webpackHotDevClient',
+                __dirname + '/index.js'
+            ]
+        },
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                options: {
+                    "if-loader": 'development',
+                }
+            }),
+            new webpack.NamedModulesPlugin(),
+            new webpack.HotModuleReplacementPlugin()
+        ],
+        output: {
+            publicPath: '/'
+        },
+        devtool: 'eval',
+        performance: {
+            hints: false
+        },
+        devServer: {
+            contentBase: '/docs',
+            hot: true,
+            port: 8065,
+            noInfo: false,
+            inline: true,
+            historyApiFallback: true
+        }
+    };
 }
 
 var common = {

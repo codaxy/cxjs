@@ -7,13 +7,6 @@ module.exports = function (context) {
    var imports = !opts.cx || typeof opts.cx.imports == 'undefined' ? true : opts.cx.imports;
    var plugins = [];
 
-   if (imports !== false) {
-      if (typeof imports == 'object')
-         plugins.push(['transform-cx-imports', imports]);
-      else
-         plugins.push('transform-cx-imports');
-   }
-
    plugins.push(
       'transform-class-properties',
       'transform-object-rest-spread',
@@ -21,6 +14,13 @@ module.exports = function (context) {
       'transform-cx-jsx',
       ["transform-react-jsx", {"pragma": pragma}]
    );
+
+   if (imports !== false) {
+      if (typeof imports == 'object')
+         plugins.push(['transform-cx-imports', imports]);
+      else
+         plugins.push('transform-cx-imports');
+   }
 
    return {
       presets: [['babel-preset-env', opts]],

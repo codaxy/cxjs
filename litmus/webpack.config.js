@@ -19,7 +19,8 @@ let common = {
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          litmus: __dirname
-      }
+      },
+      extensions: [".js", ".ts", ".tsx", ".json"]
    },
 
    module: {
@@ -31,6 +32,16 @@ let common = {
          include: /(litmus|cx)/,
          loader: 'babel-loader',
          query: babelConfig(production)
+      }, {
+         test: /\.tsx?$/,
+         include: /litmus/,
+         loaders: [
+            {
+               loader: 'babel-loader',
+               query: babelConfig(production)
+            },
+            'ts-loader',
+         ]
       }]
    },
    entry: {

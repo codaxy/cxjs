@@ -69,5 +69,10 @@ describe('Expression', function () {
          };
          assert.equal(e(state), '6.00');
       });
+
+      it('with a conditional operator inside', function () {
+         var e = Expression.compile('{[true ? "T" : "F"]}');
+         assert.equal(e(), 'T');
+      });
    });
 });

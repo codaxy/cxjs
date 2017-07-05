@@ -206,7 +206,7 @@ class DateTimeInput extends VDOM.Component {
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,
-         inline: true,
+         inline: !isTouchDevice(),
          matchWidth: false,
          placementOrder: 'down down-right down-left up up-right up-left',
          touchFriendly: true,

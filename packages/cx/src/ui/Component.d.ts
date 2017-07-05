@@ -35,3 +35,6 @@ export class Component {
 }
 
 
+export function createComponentFactory(factory, meta);
+
+export function isComponentFactory(factory: any): boolean;

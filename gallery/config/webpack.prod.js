@@ -6,6 +6,8 @@ var webpack = require('webpack'),
    common = require('./webpack.config'),
    path = require('path');
 
+let root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
+
 var specific = {
    plugins: [
       new webpack.optimize.UglifyJsPlugin(),
@@ -17,6 +19,10 @@ var specific = {
       new CopyWebpackPlugin([{
          from: path.join(__dirname, '../assets'),
          to: path.join(__dirname, '../dist/assets'),
+      }, {
+         from: path.resolve(__dirname, '../../misc/netlify.redirects'),
+         to: '_redirects',
+         toType: 'file'
       }]),
       new ChunkManifestPlugin({
          manifestVariable: "webpackManifest",
@@ -28,8 +34,8 @@ var specific = {
       path: path.join(__dirname, '../dist'),
       filename: "[name].ltc.[chunkhash].js",
       hashDigestLength: 5,
-      publicPath: "/gallery/"
+      publicPath: root ? "/" : "/gallery/"
    }
 };
 
-module.exports = merge(common, specific);
+module.exports = merge(common(true), specific);
