@@ -67,5 +67,12 @@ export default {
         description: <cx><Md>
             Style object to be applied on the selected axis range.
         </Md></cx>
+    },
+    wheel: {
+        type: 'boolean',
+        description: <cx><Md>
+            When set to `true`, slider respondes to mouse wheel events, while hovering it. 
+            It will not work when both `from` and `to` values are used. Default value is `false`. 
+        </Md></cx>
     }
 };

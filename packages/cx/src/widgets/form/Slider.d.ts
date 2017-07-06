@@ -50,8 +50,10 @@ interface SliderProps extends FieldProps {
    toTooltip?: Cx.StringProp | Cx.StructuredProp,
 
    /** Range tooltip configuration. */
-   fromTooltip?: Cx.StringProp | Cx.StructuredProp
+   fromTooltip?: Cx.StringProp | Cx.StructuredProp, 
 
+   /** When set to `true`, slider respondes to mouse wheel events, while hovering it. It will not work if both `from` and `to` values are used. Default value is `false`. */
+   wheel?: boolean
 }
 
 export class Slider extends Cx.Widget<SliderProps> {}

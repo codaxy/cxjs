@@ -23,10 +23,11 @@ export const Sliders = <cx>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     <Slider label="Standard" value:bind="$page.to" tooltip={{
-                        text:{tpl: '{$page.to:n;2}' },
-                        placement: 'up'
-                    }} />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} />
+                            text:{tpl: '{$page.to:n;2}' },
+                            placement: 'up'
+                        }}
+                        wheel />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
                     <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>
@@ -38,10 +39,11 @@ export const Sliders = <cx>
             <CodeSnippet putInto="code" fiddle="NvE9CD9C">{`
                 <div layout={LabelsLeftLayout}>
                     <Slider label="Standard" value:bind="$page.to" tooltip={{
-                        text:{tpl: '{$page.to:n;2}' },
-                        placement: 'up'
-                    }} />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} />
+                            text:{tpl: '{$page.to:n;2}' },
+                            placement: 'up'
+                        }}
+                        wheel />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
                     <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>

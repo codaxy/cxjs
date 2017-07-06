@@ -19,6 +19,7 @@ export class Slider extends Field {
          minValue: undefined,
          maxValue: undefined,
          incrementPercentage: undefined,
+         wheel: undefined,
          disabled: undefined,
          readOnly: undefined,
          rangeStyle: {
@@ -88,6 +89,7 @@ Slider.prototype.minValue = 0;
 Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
 Slider.prototype.incrementPercentage = 0.01;
+Slider.prototype.wheel = false;
 
 Widget.alias('slider', Slider);
 
@@ -160,8 +162,7 @@ class SliderComponent extends VDOM.Component {
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.fromTooltip, {tooltipName: 'fromTooltip'})}
                      onMouseLeave={e => this.onHandleMouseLeave(e, 'from')}
                      onTouchStart={e => this.onHandleMouseDown(e, 'from')}
-                     ref={c => this.dom.from = c}
-                     onWheel={(e) => this.onWheel(e, 'from')}/>
+                     ref={c => this.dom.from = c}/>
                }
                {
                   widget.showTo &&
@@ -173,8 +174,7 @@ class SliderComponent extends VDOM.Component {
                      onMouseMove={e => tooltipMouseMove(e, instance, widget.toTooltip, {tooltipName: 'toTooltip'})}
                      onMouseLeave={e => this.onHandleMouseLeave(e, 'to')}
                      onTouchStart={e => this.onHandleMouseDown(e, 'to')}
-                     ref={c => this.dom.to = c}
-                     onWheel={(e) => this.onWheel(e, 'to')}/>
+                     ref={c => this.dom.to = c}/>
                }
             </div>
          </div>
@@ -293,23 +293,43 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
-   onWheel(e, handle) {
+   onWheel(e) {
+      let {instance} = this.props;
+      let {data, widget} = instance;
+      if(widget.showFrom && widget.showTo || !data.wheel)
+         return;
+      console.log('wheeee ---------------------------------', data, instance)
       e.preventDefault();
       e.stopPropagation();
-      console.log('--------------------------------- wheeee', handle);
-      let {instance} = this.props;
-      let {data} = instance;
+
       let increment = e.deltaY > 0 ? this.getIncrement() : -this.getIncrement();
-      /*if (!data.disabled && !data.readOnly) {
-         let {value} = this.getValues(e);
-         this.props.instance.set('value', value + increment);
-      }*/
+
+      if (!data.disabled && !data.readOnly) {
+         if (widget.showFrom) {
+            let value = this.checkBoundries(data.from + increment);
+            if (instance.set('from', value))
+               this.setState({from: value});      
+         } else if (widget.showTo) {
+            let value = this.checkBoundries(data.to + increment);
+            if (instance.set('to', value))
+               this.setState({to: value});
+         }
+      }
+   }
+
+   checkBoundries(value) {
+      let { data } = this.props.instance;
+      if (value > data.maxValue)
+         value = data.maxValue;
+      if (value < data.minValue)
+         value = data.minValue;
+      return value;
    }
 
    getIncrement() {
       let {instance} = this.props;
       let {data} = instance;
-      let increment = data.increment || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
+      let increment = data.step || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
       return increment;
    }
 }
