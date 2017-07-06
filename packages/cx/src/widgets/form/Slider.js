@@ -298,7 +298,7 @@ class SliderComponent extends VDOM.Component {
       let {data, widget} = instance;
       if(widget.showFrom && widget.showTo || !data.wheel)
          return;
-      console.log('wheeee ---------------------------------', data, instance)
+ 
       e.preventDefault();
       e.stopPropagation();
 
