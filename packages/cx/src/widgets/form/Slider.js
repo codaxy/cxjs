@@ -321,7 +321,7 @@ class SliderComponent extends VDOM.Component {
       let { data } = this.props.instance;
       if (value > data.maxValue)
          value = data.maxValue;
-      if (value < data.minValue)
+      else if (value < data.minValue)
          value = data.minValue;
       return value;
    }
