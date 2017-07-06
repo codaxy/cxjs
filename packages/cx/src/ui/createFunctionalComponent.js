@@ -5,7 +5,7 @@ export function createFunctionalComponent(factory) {
       let props = args[0];
 
       //test if the component is invoked through JSX
-      if (args.length == 1 && props && Array.isArray(props.jsxAttributes)) {
+      if (props && Array.isArray(props.jsxAttributes)) {
          let result = factory(props);
          let isArray = Array.isArray(result);
          if (isArray && result.length < 2) {
