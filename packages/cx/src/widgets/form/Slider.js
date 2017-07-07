@@ -18,6 +18,9 @@ export class Slider extends Field {
          step: undefined,
          minValue: undefined,
          maxValue: undefined,
+         increment: undefined,
+         incrementPercentage: undefined,
+         wheel: undefined,
          disabled: undefined,
          readOnly: undefined,
          rangeStyle: {
@@ -30,6 +33,7 @@ export class Slider extends Field {
    }
 
    init() {
+
       if (typeof this.min != 'undefined')
          this.minValue = this.min;
 
@@ -83,6 +87,8 @@ Slider.prototype.baseClass = "slider";
 Slider.prototype.minValue = 0;
 Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
+Slider.prototype.incrementPercentage = 0.01;
+Slider.prototype.wheel = false;
 
 Widget.alias('slider', Slider);
 
@@ -135,7 +141,8 @@ class SliderComponent extends VDOM.Component {
       return <div className={data.classNames}
          style={data.style}
          id={data.id}
-         onClick={::this.onClick}>
+         onClick={::this.onClick}
+         onWheel={::this.onWheel}>
          {label}
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
@@ -283,5 +290,45 @@ class SliderComponent extends VDOM.Component {
          let {value} = this.getValues(e);
          this.props.instance.set('value', value);
       }
+   }
+
+   onWheel(e) {
+      let {instance} = this.props;
+      let {data, widget} = instance;
+      if(widget.showFrom && widget.showTo || !data.wheel)
+         return;
+ 
+      e.preventDefault();
+      e.stopPropagation();
+
+      let increment = e.deltaY > 0 ? this.getIncrement() : -this.getIncrement();
+
+      if (!data.disabled && !data.readOnly) {
+         if (widget.showFrom) {
+            let value = this.checkBoundries(data.from + increment);
+            if (instance.set('from', value))
+               this.setState({from: value});      
+         } else if (widget.showTo) {
+            let value = this.checkBoundries(data.to + increment);
+            if (instance.set('to', value))
+               this.setState({to: value});
+         }
+      }
+   }
+
+   checkBoundries(value) {
+      let { data } = this.props.instance;
+      if (value > data.maxValue)
+         value = data.maxValue;
+      else if (value < data.minValue)
+         value = data.minValue;
+      return value;
+   }
+
+   getIncrement() {
+      let {instance} = this.props;
+      let {data} = instance;
+      let increment = data.increment || ((data.maxValue - data.minValue) * data.incrementPercentage);
+      return increment;
    }
 }

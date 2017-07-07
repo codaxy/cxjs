@@ -42,16 +42,18 @@ interface SliderProps extends FieldProps {
    /** Set to `true` to orient the slider vertically. */
    vertical?: boolean,
 
-   /* TODO: Check type */
-   showTo?: any,
-   showFrom?: any,
-
    /** Range tooltip configuration. */
    toTooltip?: Cx.StringProp | Cx.StructuredProp,
 
    /** Range tooltip configuration. */
-   fromTooltip?: Cx.StringProp | Cx.StructuredProp
+   fromTooltip?: Cx.StringProp | Cx.StructuredProp, 
 
+   /** When set to `true`, slider respondes to mouse wheel events, while hovering it. It will not work if both `from` and `to` values are used. Default value is `false`. */
+   wheel?: Cx.BooleanProp,
+
+   /** Value increment/decrement, when controlling the slider with mouse wheel. Default value is set to `1%` of range. */
+   increment?: Cx.NumberProp
+   
 }
 
 export class Slider extends Cx.Widget<SliderProps> {}
