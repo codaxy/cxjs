@@ -328,7 +328,7 @@ class SliderComponent extends VDOM.Component {
    getIncrement() {
       let {instance} = this.props;
       let {data} = instance;
-      let increment = data.increment || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
+      let increment = data.increment || ((data.maxValue - data.minValue) * data.incrementPercentage);
       return increment;
    }
 }
