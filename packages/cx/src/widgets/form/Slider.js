@@ -18,6 +18,7 @@ export class Slider extends Field {
          step: undefined,
          minValue: undefined,
          maxValue: undefined,
+         increment: undefined,
          incrementPercentage: undefined,
          wheel: undefined,
          disabled: undefined,
@@ -32,8 +33,6 @@ export class Slider extends Field {
    }
 
    init() {
-      if (typeof this.step != 'undefined')
-         this.increment = this.step;
 
       if (typeof this.min != 'undefined')
          this.minValue = this.min;
@@ -329,7 +328,7 @@ class SliderComponent extends VDOM.Component {
    getIncrement() {
       let {instance} = this.props;
       let {data} = instance;
-      let increment = data.step || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
+      let increment = data.increment || Math.round((data.maxValue - data.minValue) * data.incrementPercentage);
       return increment;
    }
 }

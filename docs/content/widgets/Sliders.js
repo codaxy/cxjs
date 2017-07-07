@@ -26,8 +26,9 @@ export const Sliders = <cx>
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
                         }}
-                        wheel />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel />
+                        wheel
+                        increment={2.5} />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel increment={10} />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
                     <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>
@@ -42,8 +43,9 @@ export const Sliders = <cx>
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
                         }}
-                        wheel />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel />
+                        wheel
+                        increment={2.5} />
+                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel increment={10} />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
                     <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
                 </div>

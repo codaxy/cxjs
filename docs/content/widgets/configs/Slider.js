@@ -69,10 +69,18 @@ export default {
         </Md></cx>
     },
     wheel: {
+        key: true,
         type: 'boolean',
         description: <cx><Md>
             When set to `true`, slider respondes to mouse wheel events, while hovering it. 
             It will not work when both `from` and `to` values are used. Default value is `false`. 
+        </Md></cx>
+    },
+    increment: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Value increment/decrement, when controlling the slider with mouse wheel. Default value is set to `1%` of range.
         </Md></cx>
     }
 };
