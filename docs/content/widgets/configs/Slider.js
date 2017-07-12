@@ -82,5 +82,18 @@ export default {
         description: <cx><Md>
             Value increment/decrement, when controlling the slider with mouse wheel. Default value is set to `1%` of range.
         </Md></cx>
+    },
+    fromTooltip: {
+        type: 'string/object',
+        description: <cx><Md>
+            Configuration of the tooltip shown on the `from` handle. For more info see [Tooltips](~/widgets/tooltips).
+        </Md></cx>
+    },
+    toTooltip: {
+        type: 'string/object',
+        alias: 'valueTooltip',
+        description: <cx><Md>
+            Configuration of the tooltip shown on the `to` handle. For more info see [Tooltips](~/widgets/tooltips).
+        </Md></cx>
     }
 };

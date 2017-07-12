@@ -1,9 +1,11 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {Field} from './Field';
 import {KeyCode} from '../../util/KeyCode';
 import {parseStyle} from '../../util/parseStyle';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
-import {stopPropagation} from '../../util/eventCallbacks';
+import {Field, getFieldTooltip} from './Field';
+import {
+   tooltipMouseMove,
+   tooltipMouseLeave,
+} from '../overlay/tooltip-ops';
 import {preventFocus} from '../../ui/FocusManager';
 
 export class Switch extends Field {
@@ -76,6 +78,8 @@ export class Switch extends Field {
                this.toggle(e, instance);
             }
          }}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+         onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
       >
          {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          &nbsp;

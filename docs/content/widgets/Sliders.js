@@ -22,12 +22,17 @@ export const Sliders = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Slider label="Standard" value:bind="$page.to" tooltip={{
+                    <Slider
+                        label="Standard"
+                        value:bind="$page.to"
+                        valueTooltip={{
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
                         }}
                         wheel
-                        increment={2.5} />
+                        increment={2.5}
+                        tooltip="This is a slider tooltip."
+                    />
                     <Slider label="Stepped" from:bind="$page.from" step={10} wheel increment={10} />
                     <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
                     <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />

@@ -27,13 +27,17 @@ export default <cx>
             <Slider label="View only" value={bind("standard")} mode="view" emptyText="N/A"  />
         </Section>
         <Section mod="card" title="Helpers" hLevel={4} layout={LabelsLeftLayout} >
-            <Slider label="Tooltip" value={bind("tooltip")} tooltip={{
+            <Slider
+                label="Tooltip"
+                value={bind("tooltip")}
+                tooltip="This slider will show a tooltip on the handle too."
+                valueTooltip={{
                 text:{tpl: '{tooltip:n;2}' },
                 placement: 'up'
             }} />
             <Slider label="Help" value={bind("inline")} help="Inline" />
             <Slider label="Help" value={bind("block")} help={<cx><HelpText mod="block">Block</HelpText></cx>} />
-            <Slider label="Indicator" value={bind("tooltip")} tooltip={{
+            <Slider label="Indicator" value={bind("tooltip")} valueTooltip={{
                 text:{tpl: '{tooltip:n;2}' },
                 placement: 'down',
                 alwaysVisible: true

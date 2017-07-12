@@ -153,5 +153,11 @@ export default {
         description: <cx><Md>
             Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages.
         </Md></cx>
+    },
+    tooltip: {
+        type: 'string/object',
+        description: <cx><Md>
+            Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
+        </Md></cx>
     }
 };

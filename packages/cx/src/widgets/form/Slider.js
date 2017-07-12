@@ -53,8 +53,8 @@ export class Slider extends Field {
       else
          this.showTo = true;
 
-      if (this.tooltip)
-         this.toTooltip = this.tooltip;
+      if (this.valueTooltip)
+         this.toTooltip = this.valueTooltip;
 
       super.init();
    }
@@ -142,7 +142,10 @@ class SliderComponent extends VDOM.Component {
          style={data.style}
          id={data.id}
          onClick={::this.onClick}
-         onWheel={::this.onWheel}>
+         onWheel={::this.onWheel}
+         onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+         onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+      >
          {label}
          &nbsp;
          <div className={CSS.element(baseClass, "axis")}>
