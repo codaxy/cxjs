@@ -1,6 +1,6 @@
 {
   "name": "cx-preact",
-  "version": "17.7.0",
+  "version": "17.7.1",
   "description": "Preact based rendering for CxJS applications.",
   "main": "index.js",
   "scripts": {},

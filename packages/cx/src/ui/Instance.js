@@ -213,7 +213,7 @@ export class Instance {
          ? this.cached.vdom
          : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
 
-      if (this.widget.memoize && VDOM.allowRenderOutputCaching !== false)
+      if (this.widget.memoize)
          this.cached.vdom = vdom;
 
       if (this.shouldUpdate)

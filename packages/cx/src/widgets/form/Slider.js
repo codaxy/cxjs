@@ -151,12 +151,13 @@ class SliderComponent extends VDOM.Component {
          <div className={CSS.element(baseClass, "axis")}>
             {
                rangeSize > 0 &&
-               <div className={CSS.element(baseClass, "range")} style={rangeStyle}/>
+               <div key="range" className={CSS.element(baseClass, "range")} style={rangeStyle}/>
             }
-            <div className={CSS.element(baseClass, "space")} ref={c => this.dom.range = c}>
+            <div key="space" className={CSS.element(baseClass, "space")} ref={c => this.dom.range = c}>
                {
                   widget.showFrom &&
                   <div
+                     key="from"
                      className={CSS.element(baseClass, "handle")}
                      tabIndex={data.disabled ? null : 0}
                      style={fromHandleStyle}
@@ -169,6 +170,7 @@ class SliderComponent extends VDOM.Component {
                {
                   widget.showTo &&
                   <div
+                     key="to"
                      className={CSS.element(baseClass, "handle")}
                      tabIndex={data.disabled ? null : 0}
                      style={toHandleStyle}
