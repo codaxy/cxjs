@@ -192,7 +192,9 @@ export class HtmlElement extends PureContainer {
                instance={instance}
                data={data}
                shouldUpdate={shouldUpdate}
-            />
+            >
+               {props.children}
+            </ContainerComponent>
          );
 
       return VDOM.createElement(this.tag, props, props.children);
@@ -209,10 +211,12 @@ class ContainerComponent extends VDOM.Component {
    }
 
    render() {
-      var {tag, props, instance} = this.props;
+      var {tag, props, children, instance} = this.props;
 
       if (instance.widget.tooltip) {
-         props.ref = c => { this.el = c };
+         props.ref = c => {
+            this.el = c
+         };
 
          var {onMouseLeave, onMouseMove} = props;
 
@@ -226,7 +230,7 @@ class ContainerComponent extends VDOM.Component {
          }
       }
 
-      return VDOM.createElement(tag, props, props.children);
+      return VDOM.createElement(tag, props, children);
    }
 
    componentWillUnmount() {
