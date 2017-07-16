@@ -16,7 +16,7 @@ class PageController extends Controller {
       this.store.init(
          "$page.records",
          Array
-            .from({ length: 1000 })
+            .from({ length: 10000 })
             .map((v, i) => ({
                id: i + 1,
                fullName: casual.full_name,

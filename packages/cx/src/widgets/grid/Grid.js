@@ -392,14 +392,14 @@ export class Grid extends Widget {
             cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
 
             result[l].push(<th key={i}
-               ref={c => {
-                  refs[colKey] = c
-               }}
-               colSpan={colSpan}
-               rowSpan={rowSpan}
-               className={cls}
-               style={style}
-               onClick={e => this.onHeaderClick(e, c, instance, l)}
+                               ref={c => {
+                                  refs[colKey] = c
+                               }}
+                               colSpan={colSpan}
+                               rowSpan={rowSpan}
+                               className={cls}
+                               style={style}
+                               onClick={e => this.onHeaderClick(e, c, instance, l)}
             >
                {getContent(content)}
                {sortIcon}
@@ -412,11 +412,11 @@ export class Grid extends Widget {
 
       if (fixed)
          result[0].push(<th key="dummy"
-            rowSpan={result.length}
-            className={CSS.element(baseClass, "col-header")}
-            ref={el => {
-               refs.last = el
-            }}/>);
+                            rowSpan={result.length}
+                            className={CSS.element(baseClass, "col-header")}
+                            ref={el => {
+                               refs.last = el
+                            }}/>);
 
       return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
       {result.map((h, i) => <tr key={i}>{h}</tr>)}
@@ -550,8 +550,8 @@ Grid.prototype.emptyText = false;
 Grid.prototype.showBorder = false; // show border override for material theme
 Grid.prototype.cached = false;
 Grid.prototype.buffered = false;
-Grid.prototype.bufferStep = 10;
-Grid.prototype.bufferSize = 50;
+Grid.prototype.bufferStep = 50;
+Grid.prototype.bufferSize = 10;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -579,7 +579,7 @@ class GridComponent extends VDOM.Component {
 
       let children = [];
 
-      let addRecord = (record, i) => {
+      let addRow = (record, i) => {
          let {store, key, row} = record;
          let isDragged = dragged && (row.selected || record == dragged);
          let mod = {
@@ -615,14 +615,15 @@ class GridComponent extends VDOM.Component {
          records.forEach((r, i) => {
             let record = widget.mapRecord(context, instance, r, start + i);
             let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
-            record.vdom = row.vdom = row.vdom || Widget.renderInstance(row);
-            addRecord(record, start + i);
+            record.vdom = row.vdom = row.vdom && !row.shouldUpdate ? row.vdom : Widget.renderInstance(row);
+            row.shouldUpdate = false;
+            addRow(record, start + i);
          });
       }
       else {
          instance.records.forEach((record, i) => {
             if (record.type == 'data') {
-               addRecord(record, i);
+               addRow(record, i);
             }
             else
                children.push(record.vdom);
@@ -677,24 +678,31 @@ class GridComponent extends VDOM.Component {
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
          >
-            <table
+            <div
+               key="sizer"
                ref={el => {
-                  this.dom.table = el
+                  this.dom.sizer = el
                }}
             >
-               {this.props.header}
-               {children}
-            </table>
+               <table
+                  ref={el => {
+                     this.dom.table = el
+                  }}
+               >
+                  {this.props.header}
+                  {children}
+               </table>
+            </div>
          </div>
       );
 
       if (this.props.fixedHeader)
          content.push(<div key="fh"
-            ref={el => {
-               this.dom.fixedHeader = el
-            }}
-            className={CSS.element(baseClass, 'fixed-header')}
-            style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
+                           ref={el => {
+                              this.dom.fixedHeader = el
+                           }}
+                           className={CSS.element(baseClass, 'fixed-header')}
+                           style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}>
             <table>
                {this.props.fixedHeader}
             </table>
@@ -702,7 +710,7 @@ class GridComponent extends VDOM.Component {
 
 
       return <div className={data.classNames}
-         style={data.style}>
+                  style={data.style}>
          {content}
       </div>
    }
@@ -712,13 +720,24 @@ class GridComponent extends VDOM.Component {
          this.dom.fixedHeader.scrollLeft = e.target.scrollLeft;
       }
 
-      let {widget} = this.props.instance;
+      this.checkBuffer();
+   }
+
+   checkBuffer() {
+      let {widget, data} = this.props.instance;
 
       if (widget.buffered) {
-         if (this.dom.table.offsetHeight - e.target.scrollTop < this.dom.scroller.offsetHeight + 200)
-            this.setState({
-               end: this.state.end + widget.bufferStep
-            });
+         if (this.dom.table.offsetHeight - this.dom.scroller.scrollTop < this.dom.scroller.offsetHeight + 200) {
+            let end = Math.min(data.records.length, this.state.end + widget.bufferStep);
+            let start = end - widget.bufferSize;
+            if (this.state.end != end) {
+               this.setState({start, end}, () => {
+                  this.checkBuffer();
+                  console.log('RENDERED:', end);
+               });
+               console.log("SET: ", end);
+            }
+         }
       }
    }
 
@@ -912,7 +931,11 @@ class GridComponent extends VDOM.Component {
 
          if (widget.buffered) {
             let count = Math.min(data.records.length, this.state.end - this.state.start);
-            this.dom.table.style.marginBottom = `${Math.round((data.records.length - count) * (this.dom.table.offsetHeight - headerHeight) / count)}px`;
+            let rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
+            this.dom.sizer.style.height = `${this.dom.table.offsetHeight - headerHeight + (data.records.length - count) * rowHeight}px`;
+            console.log(this.dom.sizer.style.height);
+
+            this.checkBuffer();
          }
 
          if (resized)
