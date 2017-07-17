@@ -205,7 +205,7 @@ export class Grid extends Widget {
       let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      //do not process rows in cached mode if nothing has changed;
+      //do not process rows in buffered mode or cached mode if nothing has changed;
       if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
          let dragHandles = context.dragHandles,
             record,
@@ -535,7 +535,7 @@ export class Grid extends Widget {
       this.dataAdapter.setFilter(filter);
       this.dataAdapter.sort(sorters);
 
-      //if no filtering and sorting applied, let the component maps only the records being rendered
+      //if no filtering or sorting applied, let the component maps records on demand
       if (this.buffered && !filter && !isNonEmptyArray(sorters))
          return null;
 
@@ -678,9 +678,9 @@ class GridComponent extends VDOM.Component {
          );
       }
 
-      let marginTop = 0, marginBottom = null;
+      let marginTop = -(this.headerHeight || 0), marginBottom = null;
       if (this.rowHeight > 0) {
-         marginTop = this.rowHeight * start;
+         marginTop += this.rowHeight * start;
          marginBottom = (data.records.length - (start + children.length)) * this.rowHeight;
       }
 
@@ -690,6 +690,9 @@ class GridComponent extends VDOM.Component {
             ref={el => {
                this.dom.scroller = el
             }}
+            style={{
+               marginTop: this.headerHeight
+            }}
             tabIndex={widget.selectable ? 0 : null}
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, 'scroll-area', { buffered: !!this.dom.fixedHeader })}
@@ -698,25 +701,18 @@ class GridComponent extends VDOM.Component {
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
          >
-            <div
-               key="sizer"
+            <table
                ref={el => {
-                  this.dom.sizer = el
+                  this.dom.table = el
+               }}
+               style={{
+                  marginTop,
+                  marginBottom
                }}
             >
-               <table
-                  ref={el => {
-                     this.dom.table = el
-                  }}
-                  style={{
-                     marginTop,
-                     marginBottom
-                  }}
-               >
-                  {this.props.header}
-                  {children}
-               </table>
-            </div>
+               {this.props.header}
+               {children}
+            </table>
          </div>
       );
 
@@ -773,6 +769,11 @@ class GridComponent extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
+      if (this.headerHeight) {
+         this.dom.table.style.marginTop = `${-this.headerHeight}px`;
+         this.dom.scroller.style.marginTop = `${this.headerHeight}px`;
+      }
+
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.scrollable)
@@ -951,15 +952,19 @@ class GridComponent extends VDOM.Component {
             fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
 
             headerHeight = this.dom.fixedHeader.offsetHeight;
-            this.dom.sizer.style.marginTop = `${-headerHeight}px`;
-            this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
 
          if (widget.buffered) {
             let count = Math.min(data.records.length, this.state.end - this.state.start);
-            this.rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
-            this.checkBuffer();
+            if (count == 0) {
+               delete this.rowHeight;
+            } else {
+               this.rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
+               this.checkBuffer();
+            }
          }
+
+         this.headerHeight = headerHeight;
 
          if (resized)
             instance.fixedHeaderResizeEvent.notify();
