@@ -8,6 +8,7 @@ const webpack = require('webpack'),
     path = require('path'),
     ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
+    ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     babelConfig = require('./babel.config'),
     gtm = require('../misc/tracking/gtm.js'),
     reactScripts = require('../misc/reactScripts');
@@ -56,6 +57,13 @@ if (production) {
                 to: '_redirects',
                 toType: 'file'
             }]),
+            new ScriptExtHtmlWebpackPlugin({
+                //async: /\!(app|vendor).js$/,
+                prefetch: {
+                    test: /\.js$/,
+                    chunks: 'async'
+                }
+            })
         ],
 
         output: {
