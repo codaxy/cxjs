@@ -15,63 +15,67 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    mapRecords(context, instance, records, parentStore, recordsBinding) {
-      var result = [];
-      var writable = parentStore && recordsBinding;
+      let result = [];
 
       if (Array.isArray(records))
          records.forEach((data, index)=> {
 
             if (this.filterFn && !this.filterFn(data))
                return;
+            
+            let record = this.mapRecord(context, instance, data, parentStore, recordsBinding, index);
 
-            var recordStore = this.map.get(data);
-            if (writable) {
-               if (!recordStore)
-                  recordStore = new ExposedRecordView({
-                     store: parentStore,
-                     collectionBinding: recordsBinding,
-                     itemIndex: index,
-                     recordName: this.recordName,
-                     indexName: this.indexName,
-                     immutable: this.immutable
-                  });
-               else {
-                  recordStore.setStore(parentStore);
-                  recordStore.setIndex(index);
-               }
-            } else {
-               if (!recordStore)
-                  recordStore = new ReadOnlyDataView({
-                     store: parentStore,
-                     data: {
-                        [this.recordName]: data,
-                        [this.indexName]: index
-                     },
-                     immutable: this.immutable
-                  });
-               else {
-                  recordStore.setStore(parentStore);
-               }
-            }
-
-            if (typeof data == 'object')
-               this.map.set(data, recordStore);
-
-            //TODO: filter
-
-            result.push({
-               store: recordStore,
-               index: index,
-               data: data,
-               type: 'data',
-               key: this.keyField ? data[this.keyField] : index
-            });
+            result.push(record);
          });
 
       if (this.sorter)
          result = this.sorter(result);
 
       return result;
+   }
+
+   mapRecord(context, instance, data, parentStore, recordsBinding, index) {
+      let recordStore = this.map.get(data);
+      let writable = parentStore && recordsBinding;
+      if (writable) {
+         if (!recordStore)
+            recordStore = new ExposedRecordView({
+               store: parentStore,
+               collectionBinding: recordsBinding,
+               itemIndex: index,
+               recordName: this.recordName,
+               indexName: this.indexName,
+               immutable: this.immutable
+            });
+         else {
+            recordStore.setStore(parentStore);
+            recordStore.setIndex(index);
+         }
+      } else {
+         if (!recordStore)
+            recordStore = new ReadOnlyDataView({
+               store: parentStore,
+               data: {
+                  [this.recordName]: data,
+                  [this.indexName]: index
+               },
+               immutable: this.immutable
+            });
+         else {
+            recordStore.setStore(parentStore);
+         }
+      }
+
+      if (typeof data == 'object')
+         this.map.set(data, recordStore);
+
+      return {
+         store: recordStore,
+         index: index,
+         data: data,
+         type: 'data',
+         key: this.keyField ? data[this.keyField] : index
+      };
    }
 
    setFilter(filterFn) {

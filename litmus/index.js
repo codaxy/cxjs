@@ -25,7 +25,7 @@ import './index.scss';
 //import Demo from './features/flexbox';
 
 //import Demo from './features/drag-drop/ReorderInsertionLine';
-import Demo from './features/drag-drop/Dashboard';
+//import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
 //import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
@@ -36,11 +36,12 @@ import Demo from './features/drag-drop/Dashboard';
 //import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
+import Demo from './features/grid/GridBuffering';
 
 //import Demo from './features/menu/icons';
 
 //import Demo from './features/fun-comps/ts';
-import Demo from './features/fun-comps/js';
+//import Demo from './features/fun-comps/js';
 
 let store = new Store();
 
@@ -48,7 +49,7 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-//Timing.enable('app-loop');
+Timing.enable('app-loop');
 Debug.enable("app-data");
 
 History.connect(store, "url");

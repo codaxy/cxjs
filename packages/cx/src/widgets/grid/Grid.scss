@@ -61,7 +61,13 @@
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
             flex: 1;
-            -webkit-overflow-scrolling: touch
+            -webkit-overflow-scrolling: touch;
+
+            &.#{$state}buffered {
+               .#{$element}#{$name}-header {
+                  visibility: hidden;
+               }
+            }
          }
 
          & > .#{$element}#{$name}-fixed-header {

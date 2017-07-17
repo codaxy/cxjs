@@ -126,5 +126,28 @@ export default {
             are allowed. If grid rows display any data outside `records`, changes on that
             data will not be caught.
         </Md></cx>
+    },
+
+    buffered: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to render only visible rows on the screen. This greatly improves performance for grids
+            with a lot of data. Works only if the grid is `scrollable`.
+        </Md></cx>
+    },
+
+    bufferSize: {
+        type: 'number',
+        description: <cx><Md>
+            Number of rendered rows in `buffered` grids. Default value is 60.
+        </Md></cx>
+    },
+
+    bufferStep: {
+        type: 'number',
+        description: <cx><Md>
+            Number of rows to be scrolled before buffer adjustment. Default value is 15.
+        </Md></cx>
     }
 };
