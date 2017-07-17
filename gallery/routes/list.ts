@@ -6,10 +6,6 @@ interface Item {
 }
 
 let list: Item[] = [{
-   name: 'Button',
-   route: '+/button',
-   content: () => System.import("./general/button")
-}, {
    route: '+/grid',
    name: 'Grid',
    content: () => System.import("./general/grids")
@@ -24,6 +20,10 @@ let list: Item[] = [{
 }, {
    name: 'Misc',
    items: [{
+      name: 'Button',
+      route: '+/button',
+      content: () => System.import("./general/button")
+   }, {
       route: '+/list',
       name: 'List',
       content: () => System.import("./general/list")

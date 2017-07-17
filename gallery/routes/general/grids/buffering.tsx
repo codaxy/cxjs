@@ -33,7 +33,7 @@ export default (
                records={bind("records")}
                scrollable
                buffered
-               style="height: 800px"
+               style="flex: 1"
                lockColumnWidths
                cached
                columns={

@@ -52,7 +52,7 @@ export default
                 {list.map(cat => cat.route && asyncRoute(cat.route, cat.content, {prefix: true}))}
                 {list.map(cat => cat.items && cat.items.map(item => asyncRoute(item.route, item.content, {prefix: true})))}
 
-                <RedirectRoute route="+" url={bind("$root.url")} redirect="+/button"/>
+                <RedirectRoute route="+" url={bind("$root.url")} redirect="+/grid"/>
                 <Section title="Page Not Found" mod="card">
                     This page doesn't exists. Please check your URL.
                 </Section>
