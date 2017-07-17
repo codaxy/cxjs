@@ -769,12 +769,16 @@ class GridComponent extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
+      let {instance, data} = this.props;
       if (this.headerHeight) {
          this.dom.table.style.marginTop = `${-this.headerHeight}px`;
          this.dom.scroller.style.marginTop = `${this.headerHeight}px`;
+         if (this.buffered) {
+            let remaining = Math.max(0, data.records.length - this.state.end + this.state.start);
+            this.dom.table.style.marginBottom = `${ remaining * this.headerHeight}px`;
+         }
       }
 
-      let {instance} = this.props;
       let {widget} = instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
