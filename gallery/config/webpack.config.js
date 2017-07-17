@@ -111,12 +111,13 @@ module.exports = (production) => ({
          reactScripts: production ? reactScripts : reactScriptsDev
       }),
       new ScriptExtHtmlWebpackPlugin({
+         async: /\.js$/,
          preload: {
             test: /(material)/,
             chunks: 'async'
          },
          prefetch: {
-            test: /(frost|dark|core)/,
+            test: /\.js$/,
             chunks: 'async'
          }
       })
