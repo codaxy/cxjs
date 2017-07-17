@@ -82,6 +82,21 @@ interface GridProps extends Cx.StyledContainerProps {
    
    remoteSort?: boolean,
 
+   /** Set to `true` to enable row caching. This greatly improves grid performance
+    on subsequent render operations, however, only changes on `records`
+    are allowed. If grid rows display any data outside `records`, changes on that
+    data will be ignored. */
+   cached?: boolean,
+
+   /** Render only rows visible on the screen. */
+   buffered?: boolean,
+
+   /** Specifies how many rows should be visible on the screen */
+   bufferSize?: number,
+
+   /** Specifies how many rows needs to be scrolled in order to recalculate buffer */
+   bufferStep?: number,
+
    /** 
     * Set to true to lock column widths after the first render. 
     * This is helpful in pagination scenarios to maintain consistent looks across pages. 

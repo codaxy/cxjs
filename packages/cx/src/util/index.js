@@ -27,3 +27,4 @@ export * from './throttle';
 export * from './SubscriberList';
 export * from './findScrollableParent';
 export * from './getScrollerBoundingClientRect';
+export * from './isNonEmptyArray';

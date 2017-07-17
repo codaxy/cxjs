@@ -105,7 +105,8 @@ export const Grids = <cx>
         - [Inline Editing](~/examples/grid/inline-edit)
         - [Form Editing](~/examples/grid/form-edit)
         - [TreeGrid](~/examples/grid/tree-grid)
-        - [ComplexHeaders](~/examples/grid/complex-headers)
+        - [Complex Header](~/examples/grid/complex-headers)
+        - [Buffering 5000 rows](~/examples/grid/buffering)
 
         ## Configuration
 

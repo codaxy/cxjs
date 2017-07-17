@@ -21,6 +21,7 @@ const header = getHeader({
         "tree-grid": "Tree Grid",       
         "header-menu": "Header Menu",  
         "complex-header": "Complex Header",
+        "buffering": "Buffering",
         "dashboard-grid": "Dashboard Grid",     
         "misc": "Misc"
     },
@@ -45,6 +46,7 @@ export default <cx>
         { asyncRoute("+/complex-header", () => System.import("./complex-header")) }
         { asyncRoute("+/header-menu", () => System.import("./header-menu")) }
         { asyncRoute("+/dashboard-grid", () => System.import("./dashboard-grid")) }
+        { asyncRoute("+/buffering", () => System.import("./buffering")) }
         { asyncRoute("+/misc", () => System.import("./misc")) }
         <RedirectRoute redirect="+/basic" />
     </PureContainer>

@@ -7,13 +7,18 @@ class PageController extends Controller {
    onInit() {
       this.store.init('$page.grid', {
          columns: {
-            name: { visible: true },
-            continent: { visible: true }
+            name: {visible: true},
+            continent: {visible: true}
          }
       });
 
       //init grid data
-      this.store.init(
+      if (!this.store.get('$page.records'))
+         this.shuffle();
+   }
+
+   shuffle() {
+      this.store.set(
          "$page.records",
          Array
             .from({ length: 10000 })
@@ -32,13 +37,19 @@ class PageController extends Controller {
 export default (
    <cx>
       <div controller={PageController} style="padding: 20px">
+         <p>
+            <Button onClick="shuffle">Shuffle</Button>
+         </p>
          <Grid
             records:bind="$page.records"
             scrollable
             buffered
             style="height: 800px"
+            lockColumnWidths
+            cached
             columns={
                [
+                  { header: "#", field: "index", sortable: true, value: {bind: "$index"} },
                   {
                      header: {
                         text: "Name"
