@@ -83,7 +83,7 @@ var all = entries.map(function(e) {
 
    var options = Object.assign({
       treeshake: true,
-      sourceMap:  true,
+      sourceMap: true,
       external: function (id) {
 
          if (id.indexOf('babel') == 0)
@@ -96,8 +96,8 @@ var all = entries.map(function(e) {
                return true;
 
             default:
-              //console.log('ISEXTERNAL', id);
-              return id[0] == '@';
+               //console.log('ISEXTERNAL', id);
+               return id[0] == '@';
          }
       },
       plugins: [
@@ -114,7 +114,7 @@ var all = entries.map(function(e) {
          }),
          importAlias({
             paths: paths,
-            path: src('./'+ e.name + '/')
+            path: src('./' + e.name + '/')
          }),
          //buble(),
       ]
@@ -123,16 +123,15 @@ var all = entries.map(function(e) {
    return rollup
       .rollup(options)
       .then(function (bundle) {
-         var result = bundle.generate(Object.assign({
-            format: 'es'
-         }, e.output));
-
-         if (e.name) {
-            //var code = result.code.replace(/from '@\//g, "from './");
-            var code = result.code.replace(/from '@\//g, "from './");
-            fs.writeFileSync(dist(e.name + '.js'), code);
-            console.log(e.name + '.js', code.length / 1000, 'kB');
-         }
+         bundle.generate(Object.assign({format: 'es'}, e.output))
+            .then(result => {
+               if (e.name) {
+                  //var code = result.code.replace(/from '@\//g, "from './");
+                  let code = result.code.replace(/from '@\//g, "from './");
+                  fs.writeFileSync(dist(e.name + '.js'), code);
+                  console.log(e.name + '.js', code.length / 1000, 'kB');
+               }
+            })
       })
       .catch(e => {
          console.log(e);
