@@ -167,6 +167,7 @@ export class Grid extends Widget {
       data.stateMods = {
          selectable: this.selectable,
          scrollable: data.scrollable,
+         buffered: this.buffered,
          ['header-' + headerMode]: true,
          border: border,
          vlines: this.vlines,
@@ -695,7 +696,7 @@ class GridComponent extends VDOM.Component {
             }}
             tabIndex={widget.selectable ? 0 : null}
             onScroll={::this.onScroll}
-            className={CSS.element(baseClass, 'scroll-area', { buffered: !!this.dom.fixedHeader })}
+            className={CSS.element(baseClass, 'scroll-area', { "fixed-header": !!this.dom.fixedHeader })}
             onKeyDown={::this.handleKeyDown}
             onMouseLeave={::this.handleMouseLeave}
             onFocus={::this.onFocus}
@@ -737,15 +738,11 @@ class GridComponent extends VDOM.Component {
       </div>
    }
 
-   onScroll(e) {
+   onScroll() {
       if (this.dom.fixedHeader) {
-         this.dom.fixedHeader.scrollLeft = e.target.scrollLeft;
+         this.dom.fixedHeader.scrollLeft = this.dom.scroller.scrollLeft;
       }
 
-      this.checkBuffer();
-   }
-
-   checkBuffer() {
       let {widget, data} = this.props.instance;
       if (widget.buffered && this.rowHeight > 0 && !this.pending) {
          let start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
@@ -757,7 +754,7 @@ class GridComponent extends VDOM.Component {
             this.pending = true;
             this.setState({start, end}, () => {
                this.pending = false;
-               setTimeout(::this.checkBuffer, 0);
+               setTimeout(::this.onScroll, 0);
             });
          }
       }
@@ -769,16 +766,7 @@ class GridComponent extends VDOM.Component {
 
    componentDidMount() {
       this.componentDidUpdate();
-      let {instance, data} = this.props;
-      if (this.headerHeight) {
-         this.dom.table.style.marginTop = `${-this.headerHeight}px`;
-         this.dom.scroller.style.marginTop = `${this.headerHeight}px`;
-         if (this.buffered) {
-            let remaining = Math.max(0, data.records.length - this.state.end + this.state.start);
-            this.dom.table.style.marginBottom = `${ remaining * this.headerHeight}px`;
-         }
-      }
-
+      let {instance} = this.props;
       let {widget} = instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
@@ -938,7 +926,7 @@ class GridComponent extends VDOM.Component {
             }
          }
 
-         let resized = false, headerHeight = 0;
+         let resized = false, headerHeight = 0, rowHeight = 0;
 
          if (this.dom.fixedHeader) {
             for (let k in headerRefs) {
@@ -954,21 +942,30 @@ class GridComponent extends VDOM.Component {
             }
             this.dom.fixedHeader.style.display = 'block';
             fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
-
             headerHeight = this.dom.fixedHeader.offsetHeight;
+
+            this.dom.scroller.style.marginTop = `${this.headerHeight}px`;
          }
 
          if (widget.buffered) {
             let count = Math.min(data.records.length, this.state.end - this.state.start);
             if (count == 0) {
                delete this.rowHeight;
+               this.dom.scroller.scrollTop = 0;
             } else {
-               this.rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
-               this.checkBuffer();
+               rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
+               let remaining = Math.max(0, data.records.length - this.state.end);
+               this.dom.table.style.marginTop = `${ -this.headerHeight + this.state.start * rowHeight }px`;
+               this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
             }
+         } else {
+            this.dom.table.style.marginTop = `${-this.headerHeight}px`;
          }
 
          this.headerHeight = headerHeight;
+         this.rowHeight = rowHeight;
+
+         this.onScroll();
 
          if (resized)
             instance.fixedHeaderResizeEvent.notify();

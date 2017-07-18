@@ -63,7 +63,7 @@
             flex: 1;
             -webkit-overflow-scrolling: touch;
 
-            &.#{$state}buffered {
+            &.#{$state}fixed-header {
                .#{$element}#{$name}-header {
                   visibility: hidden;
                }
@@ -393,6 +393,12 @@
 
       .#{$element}#{$name}-data {
          cursor: pointer;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}buffered {
+      .#{$element}#{$name}-data {
+         white-space: nowrap;
       }
    }
 
