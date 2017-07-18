@@ -955,9 +955,9 @@ class GridComponent extends VDOM.Component {
             } else {
                rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
                let remaining = Math.max(0, data.records.length - this.state.end);
-               this.dom.table.style.marginTop = `${ -this.headerHeight + this.state.start * rowHeight }px`;
                this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
             }
+            this.dom.table.style.marginTop = `${ -this.headerHeight + this.state.start * rowHeight }px`;
          } else {
             this.dom.table.style.marginTop = `${-this.headerHeight}px`;
          }
