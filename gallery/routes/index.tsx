@@ -32,9 +32,8 @@ const catGroup = cat =>
 </cx>
 
 
-export default
-<cx>
-    <Route route="~/(:theme)" url={bind("url")} prefix>
+export default <cx>
+    <Route route="~/(:theme)" url={bind("url")} prefix outerLayout={AppLayout}>
         <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
 
         <div putInto="nav">
@@ -44,7 +43,6 @@ export default
         <Sandbox
             accessKey={bind("url")}
             storage={bind("pages")}
-            outerLayout={AppLayout}
             visible={{expr: "!!{$route.theme}"}}
         >
             <Rescope bind="$page" layout={FirstVisibleChildLayout}>
