@@ -11,7 +11,6 @@ export * from './Formatting';
 export * from './Charts';
 export * from './Localization';
 export * from './Store';
-export * from './Util';
 export * from './FunctionalComponents';
 
 
