@@ -3,6 +3,13 @@ import { Widget, VDOM } from 'cx/ui';
 import {CSS} from '../app/CSS';
 
 export class ConfigTable extends PureContainer {
+
+    declareData() {
+       super.declareData({
+          header: undefined,
+       }, ...arguments);
+    }
+
     init() {
         super.init();
         var props = this.props || {};
@@ -41,11 +48,13 @@ export class ConfigTable extends PureContainer {
     }
 
     render(context, instance, key) {
+        let { data } = instance;
+        console.log('data ------------------------------------------', data)
         return <div key={key} className="dxb-configtable">
             <table>
                 <tbody>
                 <tr>
-                    <th>Property</th>
+                    <th>{data.header || 'Property'}</th>
                     <th>Description</th>
                     <th>Type</th>
                 </tr>

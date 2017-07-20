@@ -7,94 +7,16 @@ import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
 import {computable, updateArray} from 'cx/data';
 import * as util from 'cx/util';
-import {ConfigTable} from '../../components/ConfigTable';
 
 export const Color = <cx>
     <Md>
-        # Color Utils
+        # Color
 
-        ## parseColor
-        <ImportPath path="import {parseColor} from 'cx/util';"/>
-        `parseColor: (color: string) -> RGBColor | HSLColor;`
+        <ImportPath path="import * as util from 'cx/util';"/>
 
-        ### Parameters
-        
-        <ConfigTable header="Parameter" props={{
-            color: {
-                key: true,
-                type: 'string',
-                description: <cx><Md>
-                    String representing a valid `rgba`, `hsla` or `hex` color value.
-                </Md></cx>
-            }
-        }} />
+        Cx comes with a number of utility functions that are listed here together with short descriptions and examples, as needed.
 
-        ### Return value
-        For `hex` and `rgba` string input, it returns  `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
-        For `hsla` stiring input, it returns `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values.
-
-        
-        ## parseHexColor
-        <ImportPath path="import {parseHexColor} from 'cx/util';"/>
-        `parseHexColor: (color: string) -> RGBColor;`
-
-        ### Parameters
-        
-        <ConfigTable header="Parameter" props={{
-            color: {
-                key: true,
-                type: 'string',
-                description: <cx><Md>
-                    String representing a valid `hex` color value.
-                </Md></cx>
-            }
-        }} />
-
-        ### Return value
-        `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
-
-        
-        ## parseRgbColor
-        <ImportPath path="import {parseRgbColor} from 'cx/util';"/>
-        `parseRgbColor: (color: string) -> RGBColor;`
-
-        ### Parameters
-        
-        <ConfigTable header="Parameter" props={{
-            color: {
-                key: true,
-                type: 'string',
-                description: <cx><Md>
-                    String representing a valid `rgba` color value.
-                </Md></cx>
-            }
-        }} />
-
-        ### Return value
-        `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
-
-
-        ## parseHslColor
-        <ImportPath path="import {parseHslColor} from 'cx/util';"/>
-        `parseHslColor: (color: string) -> HSLColor;`
-
-        ### Parameters
-        
-        <ConfigTable header="Parameter" props={{
-            color: {
-                key: true,
-                type: 'string',
-                description: <cx><Md>
-                    String representing a valid `hsla` color value.
-                </Md></cx>
-            }
-        }} />
-
-        ### Return value
-        `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values.  
-        
-    
-                
+        ## Color
 
         - parseColor
         - parseHexColor
