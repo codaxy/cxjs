@@ -1,8 +1,10 @@
 import {Url} from './Url';
 import {batchUpdatesAndNotify} from '../batchUpdates';
+import {SubscriberList} from '../../util/SubscriberList';
 
 let last = 0, next = 1;
 let transitions = {};
+let subscribers = null;
 
 export class History {
 
@@ -52,6 +54,8 @@ export class History {
             next++;
             let op = tr.replace ? "replaceState" : "pushState";
             window.history[op](tr.state, tr.title, tr.url);
+            if (subscribers)
+               subscribers.notify(tr.url, op);
          }
       });
 
@@ -64,5 +68,11 @@ export class History {
       if (hashIndex !== -1)
          url = url.substring(0, hashIndex);
       return this.store.set(this.bind, url);
+   }
+
+   static subscribe(callback) {
+      if (!subscribers)
+         subscribers = new SubscriberList();
+      return subscribers.subscribe(callback)
    }
 }

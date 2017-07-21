@@ -154,9 +154,22 @@ export const Router = <cx>
                Performs navigation to a new location pointed by the `url` parameter.
                Current location will not be saved in browser's history.
             </Md></cx>
+         }, {
+             signature: 'History.subscribe(callback)',
+             description: <cx><Md>
+                 Subscribe to location changes (navigation). Useful for setting up page tracking (e.g. Google Analytics)
+                 on CxJS apps. The function returns a function which can be used to unsubscribe.
+             </Md></cx>
          }]}/>
          <CodeSnippet putInto="code">{`
             History.connect(store, 'url');
+
+            History.subscribe((url) => {
+                if (window.ga) {
+                    ga('set', 'page', url);
+                    ga('send', 'pageview');
+                }
+            });
          `}
          </CodeSnippet>
       </CodeSplit>
