@@ -13,8 +13,11 @@ export class ConfigTable extends PureContainer {
     init() {
         super.init();
         var props = this.props || {};
+        let sort = this.sort
 
-        var keys = Object.keys(props).sort((a, b) => {
+        var keys = Object.keys(props);
+        if (sort)
+            keys.sort((a, b) => {
             if (props[a].key && !props[b].key)
                 return -1;
             if (!props[a].key && props[b].key)
@@ -64,3 +67,5 @@ export class ConfigTable extends PureContainer {
         </div>
     }
 }
+
+ConfigTable.prototype.sort = true;
