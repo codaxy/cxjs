@@ -1,12 +1,6 @@
-import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox} from 'cx/widgets';
+import {HtmlElement} from 'cx/widgets';
 import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
-import {MethodTable} from '../../components/MethodTable';
-import {computable, updateArray} from 'cx/data';
-import * as util from 'cx/util';
 import {ConfigTable} from '../../components/ConfigTable';
 
 export const Color = <cx>
