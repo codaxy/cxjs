@@ -1,7 +1,9 @@
-import {HtmlElement} from 'cx/widgets';
+import {HtmlElement, Content} from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {ImportPath} from 'docs/components/ImportPath';
 import {ConfigTable} from '../../components/ConfigTable';
+import {CodeSplit} from 'docs/components/CodeSplit';
+import {CodeSnippet} from 'docs/components/CodeSnippet';
 
 export const Color = <cx>
     <Md>
@@ -21,11 +23,21 @@ export const Color = <cx>
         <ImportPath path="import {parseColor} from 'cx/util';"/>
         `parseColor: (color: string) => RGBColor | HSLColor;`
 
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseColor('#e52c2c');
+                    parseColor('rgba(229,44,44,1)');
+                    parseColor('hsla(0,78%,53%,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
         ### Parameters
         
         <ConfigTable header="Parameter" props={{
             color: {
-                key: true,
                 type: 'string',
                 description: <cx><Md>
                     String representing a valid `rgba`, `hsla` or `hex` color value.
@@ -42,11 +54,19 @@ export const Color = <cx>
         <ImportPath path="import {parseHexColor} from 'cx/util';"/>
         `parseHexColor: (color: string) => RGBColor;`
 
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseHexColor('#e52c2c');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
         ### Parameters
         
         <ConfigTable header="Parameter" props={{
             color: {
-                key: true,
                 type: 'string',
                 description: <cx><Md>
                     String representing a valid `hex` color value.
@@ -62,11 +82,18 @@ export const Color = <cx>
         <ImportPath path="import {parseRgbColor} from 'cx/util';"/>
         `parseRgbColor: (color: string) => RGBColor;`
 
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseRgbColor('rgba(229,44,44,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
         ### Parameters
-        
         <ConfigTable header="Parameter" props={{
             color: {
-                key: true,
                 type: 'string',
                 description: <cx><Md>
                     String representing a valid `rgba` color value.
@@ -82,10 +109,18 @@ export const Color = <cx>
         <ImportPath path="import {parseHslColor} from 'cx/util';"/>
         `parseHslColor: (color: string) => HSLColor;`
 
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseHslColor('hsla(0,78%,53%,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
         ### Parameters
         <ConfigTable header="Parameter" props={{
             color: {
-                key: true,
                 type: 'string',
                 description: <cx><Md>
                     String representing a valid `hsla` color value.
@@ -99,26 +134,32 @@ export const Color = <cx>
         
         ## hslToRgb
         <ImportPath path="import {hslToRgb} from 'cx/util';"/>
-        `hslToRgb: (h: number, s:number, l:number) => [number, number, number];`
+        `hslToRgb: (h: number, s: number, l: number) => [number, number, number];`
+
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    hslToRgb(0, 0, 100);  // [255, 255, 255]
+                `}
+            </CodeSnippet>
+        </CodeSplit>
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
             h: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *hue* value in `hsla` color format.
                 </Md></cx>
             },
             s: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *saturation* value in `hsla` color format.
                 </Md></cx>
             },
             l: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *lightness* value in `hsla` color format.
@@ -134,24 +175,30 @@ export const Color = <cx>
         <ImportPath path="import {rgbToHex} from 'cx/util';"/>
         `rgbToHex: (r: number, g: number, b: number) => string;`
 
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    rgbToHex(255, 255, 255);  // '#ffffff'
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
             r: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *red* value in `rgba` color format.
                 </Md></cx>
             },
             g: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *green* value in `rgba` color format.
                 </Md></cx>
             },
             b: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *blue* value in `rgba` color format.
@@ -164,26 +211,32 @@ export const Color = <cx>
 
         ## rgbToHsl
         <ImportPath path="import {rgbToHsl} from 'cx/util';"/>
-        `rgbToHsl: (r:number, g:number, b:number) => [number, number, number];`
+        `rgbToHsl: (r: number, g: number, b: number) => [number, number, number];`
+        
+        ### Syntax
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    rgbToHsl(255, 255, 255);  // [0, 0, 100]
+                `}
+            </CodeSnippet>
+        </CodeSplit>
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
             r: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *red* value in `rgba` color format.
                 </Md></cx>
             },
             g: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *green* value in `rgba` color format.
                 </Md></cx>
             },
             b: {
-                key: true,
                 type: 'number',
                 description: <cx><Md>
                     Number representing a valid *blue* value in `rgba` color format.
