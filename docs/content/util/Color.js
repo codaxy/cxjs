@@ -27,9 +27,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseColor('#e52c2c');
-                    parseColor('rgba(229,44,44,1)');
-                    parseColor('hsla(0,78%,53%,1)');
+                    parseColor(color);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -46,9 +44,19 @@ export const Color = <cx>
         }} />
 
         ### Return value
-        For `hex` and `rgba` string input, it returns  `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
-        For `hsla` stiring input, it returns `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values.
+        For `hex` and `rgba` string input, it returns  `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values, and `type` property equal to 'rgba'.  
+        For `hsla` stiring input, it returns `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values, and `type` property equal to 'hsla'.
 
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseColor('#e52c2c');
+                    parseColor('rgba(229,44,44,1)');
+                    parseColor('hsla(0,78%,53%,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
         
         ## parseHexColor
         <ImportPath path="import {parseHexColor} from 'cx/util';"/>
@@ -58,7 +66,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseHexColor('#e52c2c');
+                    parseHexColor(color);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -75,8 +83,16 @@ export const Color = <cx>
         }} />
 
         ### Return value
-        `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
+        `RGBColor` object as defined above.  
 
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseHexColor('#e52c2c');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
         
         ## parseRgbColor
         <ImportPath path="import {parseRgbColor} from 'cx/util';"/>
@@ -86,7 +102,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseRgbColor('rgba(229,44,44,1)');
+                    parseRgbColor(color);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -102,7 +118,16 @@ export const Color = <cx>
         }} />
 
         ### Return value
-        `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values.  
+        `RGBColor` object as defined above.
+        
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseRgbColor('rgba(229,44,44,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
 
 
         ## parseHslColor
@@ -113,7 +138,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseHslColor('hsla(0,78%,53%,1)');
+                    parseHslColor(color);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -129,7 +154,16 @@ export const Color = <cx>
         }} />
 
         ### Return value
-        `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values.  
+        `HSLColor` object as defined above.
+        
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    parseHslColor('hsla(0,78%,53%,1)');
+                `}
+            </CodeSnippet>
+        </CodeSplit>
         
         
         ## hslToRgb
@@ -140,7 +174,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    hslToRgb(0, 0, 100);  // [255, 255, 255]
+                    hslToRgb(h, s, l);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -170,6 +204,15 @@ export const Color = <cx>
         ### Return value
         Array containing three numbers representing `r`, `g` and `b` values of the `rgba` color format.
         
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    hslToRgb(0, 0, 100);  // [255, 255, 255]
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
 
         ## rgbToHex
         <ImportPath path="import {rgbToHex} from 'cx/util';"/>
@@ -179,7 +222,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    rgbToHex(255, 255, 255);  // '#ffffff'
+                    rgbToHex(r, g, b);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -209,6 +252,16 @@ export const Color = <cx>
         ### Return value
         String representing a valid `hex` color value.
 
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    rgbToHex(255, 255, 255);  // '#ffffff'
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
         ## rgbToHsl
         <ImportPath path="import {rgbToHsl} from 'cx/util';"/>
         `rgbToHsl: (r: number, g: number, b: number) => [number, number, number];`
@@ -217,7 +270,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    rgbToHsl(255, 255, 255);  // [0, 0, 100]
+                    rgbToHsl(r, g, b);
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -246,6 +299,15 @@ export const Color = <cx>
 
         ### Return value
         Array containing three numbers representing `h`, `s` and `l` values of the `hsla` color format.
+
+        ### Example
+        <CodeSplit>
+            <CodeSnippet>
+                {`
+                    rgbToHsl(255, 255, 255);  // [0, 0, 100]
+                `}
+            </CodeSnippet>
+        </CodeSplit>
 
     </Md>
 </cx>
