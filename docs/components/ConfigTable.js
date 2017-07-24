@@ -52,7 +52,6 @@ export class ConfigTable extends PureContainer {
 
     render(context, instance, key) {
         let { data } = instance;
-        console.log('data ------------------------------------------', data)
         return <div key={key} className="dxb-configtable">
             <table>
                 <tbody>
