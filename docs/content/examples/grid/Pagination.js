@@ -4,8 +4,10 @@ import {getComparer} from 'cx/data';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
+import {ConfigTable} from '../../../components/ConfigTable';
 
 import {casual} from '../data/casual';
+import config from "../../widgets/configs/Pagination";
 
 class PageController extends Controller {
     init() {
@@ -204,6 +206,10 @@ export const PaginationPage = <cx>
 
 
         </CodeSplit>
+
+        ## Pagination Configuration
+
+        <ConfigTable props={config} />
 
     </Md>
 </cx>
