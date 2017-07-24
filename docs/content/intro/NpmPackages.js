@@ -27,12 +27,32 @@ export const NpmPackages = <cx>
                 </td>
             </tr>
 
+            </tbody>
+        </table>
+
+        ### Integration
+
+        <table class="dxb-table">
+            <tbody>
             <tr>
                 <th>
                     <a href="https://www.npmjs.com/package/cx-redux">cx-redux</a>
                 </th>
                 <td ws>
                     Enables use of <a href="http://redux.js.org/">Redux</a> for application state management.
+                    See <a href="https://github.com/codaxy/cxjs/tree/master/packages/cx-redux">Source Code</a>
+                    and <a href="https://github.com/codaxy/cx-redux-examples">Demo Project</a>.
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <a href="https://www.npmjs.com/package/cx-google-maps">cx-google-maps</a>
+                </th>
+                <td ws>
+                    CxJS wrapper for <a href="https://github.com/tomchentw/react-google-maps">react-google-maps</a>.
+                    See the <a href="https://codaxy.github.io/cx-google-maps/">Demo app</a>
+                    and <a href="https://github.com/codaxy/cx-google-maps">Source Code</a>.
                 </td>
             </tr>
 
