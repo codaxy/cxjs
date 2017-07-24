@@ -38,6 +38,7 @@ export * from './Icons';
 export * from './Switches';
 export * from './IsolatedScope';
 export * from './DateTimeFields';
+export * from './ContentResolvers';
 
 import { bumpVersion } from '../version';
 
