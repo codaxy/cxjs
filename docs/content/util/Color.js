@@ -21,16 +21,10 @@ export const Color = <cx>
 
         ## parseColor
         <ImportPath path="import {parseColor} from 'cx/util';"/>
-        `parseColor: (color: string) => RGBColor | HSLColor;`
+        
 
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    parseColor(color);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `parseColor: (color: string) => RGBColor | HSLColor;`
 
         ### Parameters
         
@@ -60,16 +54,10 @@ export const Color = <cx>
         
         ## parseHexColor
         <ImportPath path="import {parseHexColor} from 'cx/util';"/>
-        `parseHexColor: (color: string) => RGBColor;`
+        
 
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    parseHexColor(color);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `parseHexColor: (color: string) => RGBColor;`
 
         ### Parameters
         
@@ -96,16 +84,10 @@ export const Color = <cx>
         
         ## parseRgbColor
         <ImportPath path="import {parseRgbColor} from 'cx/util';"/>
-        `parseRgbColor: (color: string) => RGBColor;`
+        
 
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    parseRgbColor(color);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `parseRgbColor: (color: string) => RGBColor;`
 
         ### Parameters
         <ConfigTable header="Parameter" props={{
@@ -132,16 +114,10 @@ export const Color = <cx>
 
         ## parseHslColor
         <ImportPath path="import {parseHslColor} from 'cx/util';"/>
-        `parseHslColor: (color: string) => HSLColor;`
+        
 
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    parseHslColor(color);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `parseHslColor: (color: string) => HSLColor;`
 
         ### Parameters
         <ConfigTable header="Parameter" props={{
@@ -168,16 +144,9 @@ export const Color = <cx>
         
         ## hslToRgb
         <ImportPath path="import {hslToRgb} from 'cx/util';"/>
-        `hslToRgb: (h: number, s: number, l: number) => [number, number, number];`
 
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    hslToRgb(h, s, l);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `hslToRgb: (h: number, s: number, l: number) => [number, number, number];`
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
@@ -216,16 +185,9 @@ export const Color = <cx>
 
         ## rgbToHex
         <ImportPath path="import {rgbToHex} from 'cx/util';"/>
-        `rgbToHex: (r: number, g: number, b: number) => string;`
-
+        
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    rgbToHex(r, g, b);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `rgbToHex: (r: number, g: number, b: number) => string;`
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
@@ -264,16 +226,9 @@ export const Color = <cx>
 
         ## rgbToHsl
         <ImportPath path="import {rgbToHsl} from 'cx/util';"/>
-        `rgbToHsl: (r: number, g: number, b: number) => [number, number, number];`
         
         ### Syntax
-        <CodeSplit>
-            <CodeSnippet>
-                {`
-                    rgbToHsl(r, g, b);
-                `}
-            </CodeSnippet>
-        </CodeSplit>
+        `rgbToHsl: (r: number, g: number, b: number) => [number, number, number];`
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
