@@ -23,7 +23,7 @@ export const Color = <cx>
         <ImportPath path="import {parseColor} from 'cx/util';"/>
         
 
-        ### Syntax
+        ### Definition
         `parseColor: (color: string) => RGBColor | HSLColor;`
 
         ### Parameters
@@ -38,16 +38,16 @@ export const Color = <cx>
         }} />
 
         ### Return value
-        For `hex` and `rgba` string input, it returns  `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values, and `type` property equal to 'rgba'.  
-        For `hsla` stiring input, it returns `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values, and `type` property equal to 'hsla'.
+        For `hex` and `rgba` string input, it returns  `RGBColor` object with the following properties: `r`, `g`, `b`, `a`, representing the corresponding `rgba` number values, and `type` property equal to `'rgba'`.  
+        For `hsla` stiring input, it returns `HSLColor` object with the following properties: `h`, `s`, `l`, `a`, representing the corresponding `hsla` number values, and `type` property equal to `'hsla'`.
 
         ### Example
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseColor('#e52c2c');
-                    parseColor('rgba(229,44,44,1)');
-                    parseColor('hsla(0,78%,53%,1)');
+                    parseColor('#e52c2c'); // { type: 'rgba', r: 229, g: 44, b: 44, a: 1 }
+                    parseColor('rgba(229,44,44,1)'); // { type: 'rgba', r: 229, g: 44, b: 44, a: 1 }
+                    parseColor('hsla(0,78%,54%,1)'); // { type: 'rgba', r: 229, g: 44, b: 44, a: 1 }
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -56,7 +56,7 @@ export const Color = <cx>
         <ImportPath path="import {parseHexColor} from 'cx/util';"/>
         
 
-        ### Syntax
+        ### Definition
         `parseHexColor: (color: string) => RGBColor;`
 
         ### Parameters
@@ -77,7 +77,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseHexColor('#e52c2c');
+                    parseHexColor('#e52c2c'); // { type: 'rgba', r: 229, g: 44, b: 44, a: 1 }
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -86,7 +86,7 @@ export const Color = <cx>
         <ImportPath path="import {parseRgbColor} from 'cx/util';"/>
         
 
-        ### Syntax
+        ### Definition
         `parseRgbColor: (color: string) => RGBColor;`
 
         ### Parameters
@@ -106,7 +106,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseRgbColor('rgba(229,44,44,1)');
+                    parseRgbColor('rgba(229,44,44,1)'); // { type: 'rgba', r: 229, g: 44, b: 44, a: 1 }
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -116,7 +116,7 @@ export const Color = <cx>
         <ImportPath path="import {parseHslColor} from 'cx/util';"/>
         
 
-        ### Syntax
+        ### Definition
         `parseHslColor: (color: string) => HSLColor;`
 
         ### Parameters
@@ -136,7 +136,7 @@ export const Color = <cx>
         <CodeSplit>
             <CodeSnippet>
                 {`
-                    parseHslColor('hsla(0,78%,53%,1)');
+                    parseHslColor('hsla(0,78%,53%,1)'); // { type: 'hsla', h: 0, s: 78, l: 53, a: 1 }
                 `}
             </CodeSnippet>
         </CodeSplit>
@@ -145,7 +145,7 @@ export const Color = <cx>
         ## hslToRgb
         <ImportPath path="import {hslToRgb} from 'cx/util';"/>
 
-        ### Syntax
+        ### Definition
         `hslToRgb: (h: number, s: number, l: number) => [number, number, number];`
 
         ### Parameters
@@ -186,7 +186,7 @@ export const Color = <cx>
         ## rgbToHex
         <ImportPath path="import {rgbToHex} from 'cx/util';"/>
         
-        ### Syntax
+        ### Definition
         `rgbToHex: (r: number, g: number, b: number) => string;`
 
         ### Parameters
@@ -227,7 +227,7 @@ export const Color = <cx>
         ## rgbToHsl
         <ImportPath path="import {rgbToHsl} from 'cx/util';"/>
         
-        ### Syntax
+        ### Definition
         `rgbToHsl: (r: number, g: number, b: number) => [number, number, number];`
 
         ### Parameters
