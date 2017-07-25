@@ -1,7 +1,6 @@
 export * from './Color';
 export * from './Date';
 export * from './Dom';
-export * from './Format';
 export * from './Misc';
 
 

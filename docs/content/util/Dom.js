@@ -1,177 +1,266 @@
-import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox} from 'cx/widgets';
+import {HtmlElement} from 'cx/widgets';
 import {Md} from 'docs/components/Md';
+import {ImportPath} from 'docs/components/ImportPath';
+import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
-import {ImportPath} from 'docs/components/ImportPath';
-import {MethodTable} from '../../components/MethodTable';
-import {computable, updateArray} from 'cx/data';
-import * as util from 'cx/util';
 
 export const DomUtil = <cx>
     <Md>
-        # DOM
+        # DOM Utils
 
-        <ImportPath path="import * as util from 'cx/util';"/>
+        Cx util contains the following DOM utility functions:
 
-        Cx comes with a number of utility functions that are listed here together with short descriptions and examples, as needed.
-
-        ## Color
-
-        - parseColor
-        - parseHexColor
-        - parseRgbColor
-        - parseHslColor
-        - hslToRgb
-        - rgbToHex
-        - rgbToHsl
-
-
-        ## Date
-
-        - dateDiff
-        - lowerBoundCheck
-        - maxDate
-        - minDate
-        - monthStart
-        - sameDate
-        - upperBoundCheck
-        - zeroTime
-
-        ## DOM
+        - [closest](#closest)
+        - [closestParent](#closestparent)
+        - [findFirst](#findfirs)
+        - [findFirstChild](#findfirstchild)
+        - [getFocusedElement](#getfocusedelement)
+        - [isDescendant](#isdescendant)
+        - [isFocused](#isfocused)
+        - [isFocuesdDeep](#isfocuseddeep)
+        - [isFocusable](#isfocusable)
+        - [isSelfOrDescendant](#isselfordescendant)
         
-        - findFirst
-        - findFirstChild
-        - closest
-        - closestParent
-        - isFocused
-        - isFocuesdDeep
-        - isFocusable
-        - getFocusedElement
-        - isDescendant
-        - isSelfOrDescendant
+        ## closest
+        <ImportPath path="import {closest} from 'cx/util';"/>
 
-        ## Format
+        Find the closest element in DOM tree that sattisfies the `condition`. The function first checks
+        the element itself against the `condition`, and then goes up the tree checking the parent element.
+        
+        ### Definition
+        `closest: (el: Element, condition: (el: Element) => boolean) => Element | null;`
 
-        - value
-        - parse
-        - register
-        - registerFactory
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            },
+            condition: {
+                type: 'function',
+                description: <cx><Md>
+                    Predicate function that accepts a DOM Element as an argument and returns a `boolean`.
+                </Md></cx>
+            }
+        }} />
 
-        ## Console
-        ## Debug
-        ## Format
+        ### Return value
+        Returns the first DOM Element that sattisfies the `condition` or `null` if there was no match.
 
-        ## Misc
 
-        - GlobalCacheIdentifier
-        - KeyCode
-        - SubscriberList
-        - Timing
-        - browserSupportsPassiveEventHandlers
-        - cleanupFlag
-        - closest
-        - closestParent
-        - dateDiff
-        - debounce
+        ## closestParent
+        <ImportPath path="import {closestParent} from 'cx/util';"/>
+
+        Find the closest parent element in DOM tree that sattisfies the `condition`. 
+        The function starts with the parent element and continues up the tree until 
+        the `condition` is sattisfied or the root is reached.
+        
+        ### Definition
+        `closestParent: (el: Element, condition: (el: Element) => boolean) => Element | null;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            },
+            condition: {
+                type: 'function',
+                description: <cx><Md>
+                    Predicate function that accepts a DOM Element as an argument and returns a `boolean`.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns the first parent element that sattisfies the `condition` or `null` if there was no match.
+
+
+        ## findFirst
+        <ImportPath path="import {findFirst} from 'cx/util';"/>
+
+        Find the closest element in DOM tree that sattisfies the `condition`. The function first checks
+        the element itself against the `condition`, and then goes down the tree checking the child element.
+
+        ### Definition
+        `findFirst: (el: Element, condition: (el: Element) => boolean) => Element | null;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            },
+            condition: {
+                type: 'function',
+                description: <cx><Md>
+                    Predicate function that accepts a DOM Element as an argument and returns a `boolean`.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns the first element that sattisfies the `condition` or `null` if there was no match.
+
+
+        ## findFirstChild
+        <ImportPath path="import {findFirstChild} from 'cx/util';"/>
+
+        Find the closest element in DOM tree that sattisfies the `condition`. 
+        The function starts with the child element and continues down the tree until 
+        the `condition` is sattisfied or the last child is reached.
+
+        ### Definition
+        `findFirstChild: (el: Element, condition: (el: Element) => boolean) => Element | null;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            },
+            condition: {
+                type: 'function',
+                description: <cx><Md>
+                    Predicate function that accepts a DOM Element as an argument and returns a `boolean`.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns the first element that sattisfies the `condition` or `null` if there was no match.
+
+
+        ## getFocusedElement
+        <ImportPath path="import {getFocusedElement} from 'cx/util';"/>
+
+        ### Definition
+        `getFocusedElement: () => Element;`
+
+        ### Return value
+        Returns the DOM element that has the focus.
+
+
+        ## isDescendant
+        <ImportPath path="import {isDescendant} from 'cx/util';"/>
+
+        ### Definition
+        `isDescendant: (el: Element, descEl: Element) => boolean;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    Ancestor element.
+                </Md></cx>
+            },
+            descEl: {
+                type: 'Element',
+                description: <cx><Md>
+                    Descendant element.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns `true` if `descEl` is a descendant of `el`.
+
+
+        ## isFocused
+        <ImportPath path="import {isFocused} from 'cx/util';"/>
+        
+        ### Definition
+        `isFocused: (el: Element) => boolean;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns `true` if `el` has focus.
 
         
+        ## isFocuesdDeep
+        <ImportPath path="import {isFocuesdDeep} from 'cx/util';"/>
+        
+        ### Definition
+        `isFocuesdDeep: (el: Element) => boolean;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns `true` if `el` or one of its descendants has focus.
+
+
+        ## isFocusable
+        <ImportPath path="import {isFocusable} from 'cx/util';"/>
+        
+        ### Definition
+        `isFocusable: (el: Element) => boolean;`
+
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    DOM element.
+                </Md></cx>
+            }
+        }} />
+
+        ### Return value
+        Returns `true` if `el` is focusable.
         
 
+        ## isSelfOrDescendant
+        <ImportPath path="import {isSelfOrDescendant} from 'cx/util';"/>
 
-        <MethodTable methods={[{
-            signature: 'Store.init(path, value)',
-            description: <cx><Md>
-                Saves `value` in the Store under the given `path`.
-                If the `path` is already taken, it returns `false` without overwriting the existing value.
-                Otherwise, saves the `value` and returns `true`.
-            </Md></cx>
-        }, {
-            signature: 'Store.set(path, value)',
-            description: <cx><Md>
-                Saves `value` in the Store under the given `path`.
-                Any existing data stored under that `path` gets overwritten.
-            </Md></cx>
-        }, {
-            signature: 'Store.get(path)',
-            description: <cx><Md>
-                The `get` method can take any number of arguments or an array of strings representing paths,
-                and returns the corresponding values.
-            </Md></cx>
-        }, {
-            signature: 'Store.delete(path)',
-            description: <cx><Md>
-                Removes data from the Store, stored under the given `path`.
-            </Md></cx>
-        }, {
-            signature: 'Store.update(path, updateFn, ...args)',
-            description: <cx><Md>
-                Applies the `updateFn` to the data stored under the given `path`. `args` can contain additional
-                parameters used by the `updateFn`.
-            </Md></cx>
-        }, {
-            signature: 'Store.toggle(path)',
-            description: <cx><Md>
-                Toggles the boolean value stored under the given `path`.
-            </Md></cx>
-        }, {
-            signature: 'Store.copy(from, to)',
-            description: <cx><Md>
-                Copies the value stored under the `from` path and saves it under the `to` path.
-            </Md></cx>
-        }, {
-            signature: 'Store.move(from, to)',
-            description: <cx><Md>
-                Copies the value stored under the `from` path and saves it under the `to` path.
-                Afterwards, the `from` entry is deleted from the Store.
-            </Md></cx>
-        }, {
-            signature: 'Store.getData()',
-            description: <cx><Md>
-                Returns a reference to the object representing the application state.
-            </Md></cx>
-        }, {
-            signature: 'Store.notify(path)',
-            description: <cx><Md>
-                Notifies Store subscribers about the change. Usually, notifications cause the application to re-render.
-                This method is automatically called whenever a change is made.
-                Optional `path` argument can be provided to indicate where the change occurred.
-            </Md></cx>
-        }, {
-            signature: 'Store.silently(callback)',
-            description: <cx><Md>
-                `silently` method can be used to perform data changes which do not fire notifications, that is, cause re-render.
-                The Store instance is passed to the `callback` function.
-            </Md></cx>
-        }, {
-            signature: 'Store.batch(callback)',
-            description: <cx><Md>
-                `batch` method can be used to perform multiple Store operations silently and re-render the application
-                only once afterwards.
-                The Store instance is passed to the `callback` function.
-            </Md></cx>
-        }, {
-            signature: 'Store.dispatch(action)',
-            description: <cx><Md>
-                `dispatch` method is useful if the Store is used in combination with Redux. This method is available
-                only if application Store is based on a Redux store (See [cx-redux](https://www.npmjs.com/package/cx-redux) package).
-            </Md></cx>
-        }, {
-            signature: 'Store.load(data)',
-            description: <cx><Md>
-                Loads `data` object into the Store. This method is used to restore the application state when doing Hot
-                Module Replacement.
-            </Md></cx>
-        }]}/>
+        ### Definition
+        `isSelfOrDescendant: (el: Element, descEl: Element) => boolean;`
 
-        ### Examples
+        ### Parameters
+        <ConfigTable header="Parameter" sort={false} props={{
+            el: {
+                type: 'Element',
+                description: <cx><Md>
+                    Ancestor element.
+                </Md></cx>
+            },
+            descEl: {
+                type: 'Element',
+                description: <cx><Md>
+                    Descendant element.
+                </Md></cx>
+            }
+        }} />
 
-        In the examples below we'll explore the most common ways to use the Store in Cx:
-        - inside Controllers (store is available via `this.store`)
-        - through two-way data binding ([explained here](~/concepts/data-binding))
-        - inside event handlers
+        ### Return value
+        Returns `true` if `el` and `descEl` are the same element or `descEl` is a descendant of `el`.
 
-        
     </Md>
 </cx>
 

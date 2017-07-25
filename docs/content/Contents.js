@@ -137,7 +137,6 @@ var contents = [{
         {title: 'Color', url: '~/util/color'},
         {title: 'Date', url: '~/util/date-util'},
         {title: 'DOM', url: '~/util/dom-util'},
-        {title: 'Format', url: '~/util/format'},
         {title: 'Misc', url: '~/util/misc'},
     ]
 }, {
