@@ -46,15 +46,15 @@ export const MsgBoxes = <cx>
       <MethodTable methods={[{
          signature: 'MsgBox.alert(options)',
          description: <cx><Md>
-            Displays an alert window. `options` parameter may be a string or a configuration object with `message` and
-            `title` properties. Result is a `Promise` which is resolved once the user clicks OK.
+            Displays an alert window. `options` parameter may be a string or a configuration object with `message`, `title` and
+            `store` properties. Result is a `Promise` which is resolved once the user clicks OK.
          </Md></cx>
          }, {
             signature: 'MsgBox.yesNo(options)',
             description: <cx><Md>
                Displays a confirmation window with two options (yes and no).
-               `options` parameter may be a string or a configuration object with `message` and
-               `title` properties. Result is a `Promise` which is resolved once the user clicks one of the options.
+               `options` parameter may be a string or a configuration object with `message`, `title` and
+               `store` properties. Result is a `Promise` which is resolved once the user clicks one of the options.
             </Md></cx>
          }]}/>
 
