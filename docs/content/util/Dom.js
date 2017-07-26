@@ -18,7 +18,7 @@ export const DomUtil = <cx>
         - [getFocusedElement](#getfocusedelement)
         - [isDescendant](#isdescendant)
         - [isFocused](#isfocused)
-        - [isFocuesdDeep](#isfocuseddeep)
+        - [isFocusedDeep](#isfocuseddeep)
         - [isFocusable](#isfocusable)
         - [isSelfOrDescendant](#isselfordescendant)
         
@@ -196,11 +196,11 @@ export const DomUtil = <cx>
         Returns `true` if `el` has focus.
 
         
-        ## isFocuesdDeep
-        <ImportPath path="import {isFocuesdDeep} from 'cx/util';"/>
+        ## isFocusedDeep
+        <ImportPath path="import {isFocusedDeep} from 'cx/util';"/>
         
         ### Definition
-        `isFocuesdDeep: (el: Element) => boolean;`
+        `isFocusedDeep: (el: Element) => boolean;`
 
         ### Parameters
         <ConfigTable header="Parameter" sort={false} props={{
