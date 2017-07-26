@@ -7,7 +7,8 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 
 export const DateUtil = <cx>
     <Md>
-        # Date Utils
+        # Date Util
+        <ImportPath path="import * from 'cx/util';" />
 
         Cx util contains the following date utility funcitons:
         - [dateDiff](#datediff)
@@ -19,73 +20,65 @@ export const DateUtil = <cx>
         - [upperBoundCheck](#upperboundcheck)
         - [zeroTime](#zerotime)
 
-
+        Use curly braces to import only certain util functions.
+        
         ## dateDiff
         `dateDiff: (d1: Date, d2: Date) => number;`
-        
-        <ConfigTable header="Parameter" sort={false} props={{
-            d1: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date object representing the start date.
-                </Md></cx>
-            },
-            d2: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date object representing the end date.
-                </Md></cx>
-            }
-        }} />
-
-        Returns the difference between two dates in miliseconds.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            <ConfigTable header="Parameter" sort={false} props={{
+                d1: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date object representing the start date.
+                    </Md></cx>
+                },
+                d2: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date object representing the end date.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns the difference between two dates in miliseconds.
+        
+            <CodeSnippet putInto='code'>
                 {`
                     dateDiff(new Date('2017-07-24'), new Date('2017-07-23'));  // 86400000
                 `}
             </CodeSnippet>
         </CodeSplit>
         
-        ## lowerBoundCheck
-        <ImportPath path="import {lowerBoundCheck} from 'cx/util';"/>
-
-        Checks `date` against the lower bound `minDate`. Set `exclusive` to true to disallow the border value.
-
-        ### Definition
-        `lowerBoundCheck: (date: Date, minDate: Date, exclusive?: boolean) => boolean;`
-
-        ### Parameters
         
-        <ConfigTable header="Parameter" sort={false} props={{
-            date: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date to be checked.
-                </Md></cx>
-            },
-            minDate: {
-                type: 'Date',
-                description: <cx><Md>
-                    Minimum date to check against.
-                </Md></cx>
-            },
-            exclusive: {
-                type: 'boolean',
-                description: <cx><Md>
-                    Optional. Set to `true` to disallow the border value. Defaults to `false`.
-                </Md></cx>
-            }
-        }} />
-
-        ### Return value
-        Returns `true` if the lower bound is satisfied, otherwise returns `false`.
-
-        ### Example
+        ## lowerBoundCheck
+        `lowerBoundCheck: (date: Date, minDate: Date, exclusive?: boolean) => boolean;`
         <CodeSplit>
-            <CodeSnippet>
+            Checks `date` against the lower bound `minDate`. Set `exclusive` to true to disallow the border value.
+
+            <ConfigTable header="Parameter" sort={false} props={{
+                date: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date to be checked.
+                    </Md></cx>
+                },
+                minDate: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Minimum date to check against.
+                    </Md></cx>
+                },
+                exclusive: {
+                    type: 'boolean',
+                    description: <cx><Md>
+                        Optional. Set to `true` to disallow the border value. Defaults to `false`.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns `true` if the lower bound is satisfied, otherwise returns `false`.
+
+            <CodeSnippet putInto='code'>
                 {`
                     lowerBoundCheck(new Date('2017-07-24'), new Date('2017-07-23'));  // true
                     lowerBoundCheck(new Date('2017-07-23'), new Date('2017-07-23'));  // true
@@ -95,18 +88,14 @@ export const DateUtil = <cx>
             </CodeSnippet>
         </CodeSplit>
 
-        ## maxDate
-        <ImportPath path="import {maxDate} from 'cx/util';"/>
-
-        ### Definition
-        `maxDate: (...args: Date[]) => Date;`
-    
-        ### Return value
-        Returns the Date object that would come last on a timeline.
-
-        ### Example
+        
         <CodeSplit>
-            <CodeSnippet>
+            ## maxDate
+            `maxDate: (...args: Date[]) => Date;`
+        
+            Returns the Date object that would come last on a timeline.
+            
+            <CodeSnippet putInto='code'>
                 {`
                     maxDate(
                         new Date('2017-07-24'), 
@@ -118,18 +107,13 @@ export const DateUtil = <cx>
         </CodeSplit>
 
 
-        ## minDate
-        <ImportPath path="import {minDate} from 'cx/util';"/>
-
-        ### Definition
-        `minDate: (...args: Date[]) => Date;`
-    
-        ### Return value
-        Returns the Date object that would come first on a timeline.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            ## minDate
+            `minDate: (...args: Date[]) => Date;`
+    
+            Returns the Date object that would come first on a timeline.
+            
+            <CodeSnippet putInto='code'>
                 {`
                     minDate(
                         new Date('2017-07-24'), 
@@ -142,28 +126,21 @@ export const DateUtil = <cx>
 
 
         ## monthStart
-        <ImportPath path="import {monthStart} from 'cx/util';"/>
-
-        ### Definition
         `monthStart: (d: Date) => Date;`
-
-        ### Parameters
         
-        <ConfigTable header="Parameter" sort={false} props={{
-            d: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date object for any day of the month.
-                </Md></cx>
-            }
-        }} />
-    
-        ### Return value
-        Returns a new Date object representing the first day of the month.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            <ConfigTable header="Parameter" sort={false} props={{
+                d: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date object for any day of the month.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns a new Date object representing the first day of the month.
+
+            <CodeSnippet putInto='code'>
                 {`
                     monthStart(new Date('2017-07-24')); 
                     // Mon Jul 01 2017 02:00:00 GMT+0200 (Central European Daylight Time)
@@ -173,36 +150,27 @@ export const DateUtil = <cx>
 
         
         ## sameDate
-        <ImportPath path="import {sameDate} from 'cx/util';"/>
-
-        Checks if two Date objects represent the same date.
-
-        ### Definition
         `sameDate: (d1: Date, d2: Date) => boolean;`
-
-        ### Parameters
-        
-        <ConfigTable header="Parameter" sort={false} props={{
-            d1: {
-                type: 'Date',
-                description: <cx><Md>
-                    First Date object.
-                </Md></cx>
-            },
-            d2: {
-                type: 'Date',
-                description: <cx><Md>
-                    Second Date object.
-                </Md></cx>
-            }
-        }} />
-    
-        ### Return value
-        Returns `true` if both Date objects represent the same date.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            Checks if two Date objects represent the same date.
+
+            <ConfigTable header="Parameter" sort={false} props={{
+                d1: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        First Date object.
+                    </Md></cx>
+                },
+                d2: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Second Date object.
+                    </Md></cx>
+                }
+            }} />
+        
+            Returns `true` if both Date objects represent the same date.
+            <CodeSnippet putInto='code'>
                 {`
                     sameDate(new Date('2017-07-24 02:00'), new Date('2017-07-24 19:00')); // true
                     sameDate(new Date('2017-07-23'), new Date('2017-07-24')); // false
@@ -212,42 +180,35 @@ export const DateUtil = <cx>
 
 
         ## upperBoundCheck
-        <ImportPath path="import {upperBoundCheck} from 'cx/util';"/>
-
-        Checks `date` against the upper bound `maxDate`. Set `exclusive` to true to disallow the border value.
-
-        ### Definition
         `upperBoundCheck: (date: Date, maxDate: Date, exclusive?: boolean) => boolean;`
 
-        ### Parameters
-        
-        <ConfigTable header="Parameter" sort={false} props={{
-            date: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date to be checked.
-                </Md></cx>
-            },
-            maxDate: {
-                type: 'Date',
-                description: <cx><Md>
-                    Maximum date to check against.
-                </Md></cx>
-            },
-            exclusive: {
-                type: 'boolean',
-                description: <cx><Md>
-                    Optional. Set to `true` to disallow the border value. Defaults to `false`.
-                </Md></cx>
-            }
-        }} />
-    
-        ### Return value
-        Returns `true` if the upper bound is satisfied, otherwise returns `false`.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            Checks `date` against the upper bound `maxDate`. Set `exclusive` to true to disallow the border value.
+
+            <ConfigTable header="Parameter" sort={false} props={{
+                date: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date to be checked.
+                    </Md></cx>
+                },
+                maxDate: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Maximum date to check against.
+                    </Md></cx>
+                },
+                exclusive: {
+                    type: 'boolean',
+                    description: <cx><Md>
+                        Optional. Set to `true` to disallow the border value. Defaults to `false`.
+                    </Md></cx>
+                }
+            }} />
+        
+            Returns `true` if the upper bound is satisfied, otherwise returns `false`.
+
+            <CodeSnippet putInto='code'>
                 {`
                     upperBoundCheck(new Date('2017-07-23'), new Date('2017-07-24'));  // true
                     upperBoundCheck(new Date('2017-07-23'), new Date('2017-07-23'));  // true
@@ -259,30 +220,22 @@ export const DateUtil = <cx>
 
 
         ## zeroTime
-        <ImportPath path="import {zeroTime} from 'cx/util';"/>
-
-        Creates a copy of the Date object with time set to `00:00:00`.
-
-        ### Definition
         `zeroTime: (date: Date) => Date;`
-
-        ### Parameters
-        
-        <ConfigTable header="Parameter" sort={false} props={{
-            date: {
-                type: 'Date',
-                description: <cx><Md>
-                    Date object.
-                </Md></cx>
-            }
-        }} />
-    
-        ### Return value
-        Returns a new Date object with time set to `00:00:00`. All other properties, including the time zone, remain the same.
-
-        ### Example
         <CodeSplit>
-            <CodeSnippet>
+            Creates a copy of the Date object with time set to `00:00:00`.
+            
+            <ConfigTable header="Parameter" sort={false} props={{
+                date: {
+                    type: 'Date',
+                    description: <cx><Md>
+                        Date object.
+                    </Md></cx>
+                }
+            }} />
+        
+            Returns a new Date object with time set to `00:00:00`. All other properties, including the time zone, remain the same.
+
+            <CodeSnippet putInto='code'>
                 {`
                     zeroTime(new Date('2017-07-23 19:43'));  
                     // Sun Jul 23 2017 00:00:00 GMT+0200 (Central European Daylight Time)
