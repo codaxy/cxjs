@@ -1,0 +1,51 @@
+.cxb-hscroll {
+   white-space: nowrap;
+   position: relative;
+   user-select: none;
+
+   &.cxs-scrollable {
+      padding: 0 20px;
+   }
+}
+
+.cxe-hscroll-scroller {
+   overflow-x: auto;
+}
+
+.cxe-hscroll-clip {
+   overflow: hidden;
+}
+
+.cxe-hscroll-left-arrow {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   width: 20px;
+
+   & > .cxe-hscroll-icon {
+      transform: rotate(90deg);
+   }
+}
+
+.cxe-hscroll-right-arrow {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   width: 20px;
+
+   & > .cxe-hscroll-icon {
+      transform: rotate(-90deg);
+   }
+}
+
+.cxe-hscroll-icon {
+   height: 16px;
+   width: 16px;
+   top: 50%;
+   left: 50%;
+   position: absolute;
+   margin-left: -8px;
+   margin-top: -8px;
+}
