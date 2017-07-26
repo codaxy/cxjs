@@ -21,12 +21,8 @@ export const DateUtil = <cx>
 
 
         ## dateDiff
-        <ImportPath path="import {dateDiff} from 'cx/util';"/>
-        
-        ### Definition
         `dateDiff: (d1: Date, d2: Date) => number;`
-
-        ### Parameters
+        
         <ConfigTable header="Parameter" sort={false} props={{
             d1: {
                 type: 'Date',
@@ -42,7 +38,6 @@ export const DateUtil = <cx>
             }
         }} />
 
-        ### Return value
         Returns the difference between two dates in miliseconds.
 
         ### Example
