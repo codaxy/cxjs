@@ -6,3 +6,4 @@ export * from './LinkButton';
 export * from './Menu';
 export * from './MenuItem';
 export * from './Submenu';
+export * from './HScroller';

@@ -2,7 +2,7 @@ import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 
 import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
 import {getHeader} from "../../../components/getHeader";
-import {asyncRoute} from "../../../components/asyncRoute";
+import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "Column",
@@ -21,13 +21,13 @@ import Default from './customized';
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/customized">
+        <SandboxedRoute route="+/customized">
             {Default}
-        </Route>
-        { asyncRoute("+/normalized", () => System.import("./normalized")) }
-        { asyncRoute("+/stacked", () => System.import("./stacked")) }
-        { asyncRoute("+/auto-column-width", () => System.import("./auto-column-width")) }
-        { asyncRoute("+/combination", () => System.import("./combination")) }
+        </SandboxedRoute>
+        <SandboxedAsyncRoute route="+/normalized" content={System.import("./normalized")} />
+        <SandboxedAsyncRoute route="+/stacked" content={System.import("./stacked")} />
+        <SandboxedAsyncRoute route="+/auto-column-width" content={System.import("./auto-column-width")} />
+        <SandboxedAsyncRoute route="+/combination" content={System.import("./combination")} />
         <RedirectRoute redirect="+/customized" />
     </PureContainer>
 </cx>

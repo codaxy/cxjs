@@ -2,7 +2,7 @@ import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 
 import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
 import {getHeader} from "../../../components/getHeader";
-import {asyncRoute} from "../../../components/asyncRoute";
+import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "Switch",
@@ -18,10 +18,10 @@ import Default from './states';
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/states">
+        <SandboxedRoute route="+/states">
             {Default}
-        </Route>
-        { asyncRoute("+/baseline", ()=>System.import("../../../examples/baseline")) }
+        </SandboxedRoute>
+        <SandboxedAsyncRoute route="+/baseline" content={()=>System.import("../../../examples/baseline")} />
         <RedirectRoute redirect="+/states" />
     </PureContainer>
 </cx>

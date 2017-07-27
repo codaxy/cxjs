@@ -36,7 +36,8 @@ import './index.scss';
 //import Demo from './bugs/179';
 
 //import Demo from './features/grid/header-tool';
-import Demo from './features/grid/GridBuffering';
+//import Demo from './features/grid/GridBuffering';
+import Demo from './features/hscroll';
 
 //import Demo from './features/menu/icons';
 

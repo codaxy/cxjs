@@ -21,6 +21,7 @@ export * from './batchUpdates';
 export * from './IsolatedScope';
 
 export * from './createFunctionalComponent';
+export * from './flattenProps';
 
 export * from './selection/index';
 export * from './layout/index';

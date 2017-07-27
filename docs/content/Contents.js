@@ -68,7 +68,8 @@ var contents = [{
     expanded: false,
     articles: [
         {title: 'Menu', url: '~/widgets/menus'},
-        {title: 'Tabs', url: '~/widgets/tabs'},
+        {title: 'Tab', url: '~/widgets/tabs'},
+        {title: 'HScroller', url: '~/widgets/hscrollers'},
         {title: 'Link', url: '~/widgets/links'},
         {title: 'LinkButton', url: '~/widgets/link-buttons'},
     ]

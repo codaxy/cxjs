@@ -1,8 +1,8 @@
-import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 'cx/widgets';
-import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
+import {cx, RedirectRoute, PureContainer} from 'cx/widgets';
+import {FirstVisibleChildLayout} from 'cx/ui';
 
 import {getHeader} from "../../../components/getHeader";
-import {asyncRoute} from "../../../components/asyncRoute";
+import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "Bar",
@@ -20,12 +20,12 @@ import Default from './standard';
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/standard">
+        <SandboxedRoute route="+/standard">
             {Default}
-        </Route>
-        { asyncRoute("+/combination", () => System.import("./combination")) }
-        { asyncRoute("+/stacked", () => System.import("./stacked")) }
-        { asyncRoute("+/bullets", () => System.import("./bullets")) }
+        </SandboxedRoute>
+        <SandboxedAsyncRoute route="+/combination" content={() => System.import("./combination")} />
+        <SandboxedAsyncRoute route="+/stacked" content={() => System.import("./stacked")} />
+        <SandboxedAsyncRoute route="+/bullets" content={() => System.import("./bullets")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

@@ -1,0 +1,83 @@
+@mixin cx-hscroller(
+   $name: 'hscroller',
+   $icon-size: $cx-default-icon-size,
+   $button-width: $cx-default-hscroller-button-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+.#{$block}#{$name} {
+   white-space: nowrap;
+   position: relative;
+   user-select: none;
+
+   &.#{$state}scrollable {
+      padding: 0 $button-width;
+   }
+}
+
+.#{$element}#{$name}-scroller {
+   overflow-x: auto;
+
+   &::-webkit-scrollbar {
+      display: none;
+   }
+}
+
+.#{$element}#{$name}-clip {
+   overflow: hidden;
+}
+
+.#{$element}#{$name}-left-arrow {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   width: $button-width;
+   cursor: pointer;
+   display: none;
+
+   & > .#{$element}#{$name}-icon {
+      transform: rotate(90deg);
+   }
+
+   .#{$state}scrollable > & {
+      display: block;
+   }
+}
+
+.#{$element}#{$name}-right-arrow {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   width: $button-width;
+   cursor: pointer;
+   display: none;
+
+   & > .#{$element}#{$name}-icon {
+      transform: rotate(-90deg);
+   }
+
+   .#{$state}scrollable > & {
+      display: block;
+   }
+}
+
+.#{$element}#{$name}-icon {
+   height: $icon-size;
+   width: $icon-size;
+   top: 50%;
+   left: 50%;
+   position: absolute;
+   margin-left: -$icon-size/2;
+   margin-top: -$icon-size/2;
+}
+
+}
+
+@if (cx-should-include('cx/widgets/HScroller')) {
+   @include cx-hscroller();
+}

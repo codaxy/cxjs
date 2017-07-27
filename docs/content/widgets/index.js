@@ -39,6 +39,7 @@ export * from './Switches';
 export * from './IsolatedScope';
 export * from './DateTimeFields';
 export * from './ContentResolvers';
+export * from './Hscrollers';
 
 import { bumpVersion } from '../version';
 
