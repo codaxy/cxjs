@@ -1,6 +1,7 @@
 @mixin cx-hscroller(
    $name: 'hscroller',
    $icon-size: $cx-default-icon-size,
+   $button-width: $cx-default-hscroller-button-width,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -13,7 +14,7 @@
    user-select: none;
 
    &.#{$state}scrollable {
-      padding: 0 20px;
+      padding: 0 $button-width;
    }
 }
 
@@ -34,7 +35,7 @@
    top: 0;
    bottom: 0;
    left: 0;
-   width: 20px;
+   width: $button-width;
    cursor: pointer;
    display: none;
 
@@ -52,7 +53,7 @@
    top: 0;
    bottom: 0;
    right: 0;
-   width: 20px;
+   width: $button-width;
    cursor: pointer;
    display: none;
 

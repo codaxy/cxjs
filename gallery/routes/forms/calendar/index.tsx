@@ -1,4 +1,4 @@
-import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 'cx/widgets';
+import {cx, RedirectRoute, PureContainer} from 'cx/widgets';
 import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
 import {getHeader} from "../../../components/getHeader";

@@ -50,7 +50,6 @@ export default <cx>
                 This page doesn't exists. Please check your URL.
             </Section>
         </PureContainer>
-
     </Route>
 </cx>
 
