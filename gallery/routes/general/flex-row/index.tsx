@@ -21,7 +21,7 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/options">
             {Default}
         </Route>
-        { asyncRoute("+/sidebar-layout", ()=>System.import("./sidebar-layout")) }
+        <SandboxedAsyncRoute route="+/sidebar-layout" content={()=>System.import("./sidebar-layout")} />
         <RedirectRoute redirect="+/options" />
     </PureContainer>
 </cx>

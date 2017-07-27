@@ -3,7 +3,7 @@ import {VDOM} from '../ui/Widget';
 import {createComponentFactory, isComponentFactory} from '../ui/Component';
 import {createFunctionalComponent} from '../ui/createFunctionalComponent'
 
-export const flattenProps = props => props && props.$props !== undefined ? { ...props.$props, jsxAttributes: props.jsxAttributes, children: props.children } : props;
+import {flattenProps} from '../ui/flattenProps';
 
 let htmlFactoryCache = {};
 

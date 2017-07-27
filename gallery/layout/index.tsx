@@ -1,4 +1,4 @@
-import {cx, Link, ContentResolver, Menu, Submenu, Icon} from 'cx/widgets';
+import {cx, Link, ContentResolver, Menu, Submenu, Icon, HScroller} from 'cx/widgets';
 import {ContentPlaceholder, bind, tpl, computable} from 'cx/ui';
 import Controller from "./Controller";
 import {loadTheme} from '../themes';
@@ -39,7 +39,9 @@ export default <cx>
                 <ContentPlaceholder name="links"/>
             </div>
             <div class="tabs">
-                <ContentPlaceholder name="tabs"/>
+                <HScroller>
+                    <ContentPlaceholder name="tabs"/>
+                </HScroller>
             </div>
         </header>
 

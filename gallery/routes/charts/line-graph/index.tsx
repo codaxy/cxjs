@@ -2,7 +2,7 @@ import {cx, Button, Section, FlexRow, Route, RedirectRoute, PureContainer} from 
 import {bind, expr, FirstVisibleChildLayout} from 'cx/ui';
 
 import {getHeader} from "../../../components/getHeader";
-import {asyncRoute} from "../../../components/asyncRoute";
+import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "LineGraph",
@@ -18,10 +18,10 @@ import Default from './standard';
 export default <cx>
     {header}
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: '$root.url'}} route="+/standard">
+        <SandboxedRoute route="+/standard">
             {Default}
-        </Route>
-        { asyncRoute("+/stacked", () => System.import("./stacked")) }
+        </SandboxedRoute>
+        <SandboxedAsyncRoute route="+/stacked" content={System.import("./stacked")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

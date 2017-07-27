@@ -21,7 +21,7 @@ export default <cx>
         <Route url={{bind: '$root.url'}} route="+/standard">
             {Default}
         </Route>
-        { asyncRoute("+/timeline", () => System.import("./timeline")) }
+        <SandboxedAsyncRoute route="+/timeline" content={System.import("./timeline")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

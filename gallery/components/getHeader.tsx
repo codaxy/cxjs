@@ -23,7 +23,7 @@ export function getHeader(config: HeaderConfig): any {
             <LinkButton
                 mod="hollow"
                 href={"+/" + tab}
-                url={{bind: "$root.url"}}
+                url={{bind: "url"}}
                 text={config.tabs[tab]}
             />
         </cx>)
@@ -31,7 +31,7 @@ export function getHeader(config: HeaderConfig): any {
 
     return <cx>
         <h2 putInto="header" text={config.title}/>
-        <div putInto="tabs">
+        <div putInto="tabs" styles="white-space: nowrap; line-height: 0">
             {tabs}
         </div>
         {config.docsUrl &&

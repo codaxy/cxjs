@@ -5,50 +5,48 @@ import Default from "./basic";
 
 declare let System: any;
 
-import { getHeader } from "../../../components/getHeader";
-import { asyncRoute } from "../../../components/asyncRoute";
+import {getHeader} from "../../../components/getHeader";
+import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRoute";
 
 const header = getHeader({
     title: "Grid",
     tabs: {
         "basic": "Basic",
-        "multi-select": "Multiple Selection",       
+        "multi-select": "Multiple Selection",
         "grouping": "Grouping",
         "dynamic-grouping": "Dynamic Grouping",
         "drag-drop": "Row Drag & Drop",
         "filtering": "Filtering",
         "form-editing": "Form Editing",
-        "tree-grid": "Tree Grid",       
-        "header-menu": "Header Menu",  
+        "tree-grid": "Tree Grid",
+        "header-menu": "Header Menu",
         "complex-header": "Complex Header",
         "buffering": "Buffering",
-        "dashboard-grid": "Dashboard Grid",     
+        "dashboard-grid": "Dashboard Grid",
         "misc": "Misc"
     },
     docsUrl: 'https://cxjs.io/docs/widgets/grids'
 });
 
-
 export default <cx>
     { header }
-
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Route url={{bind: "$root.url"}} route="+/basic">
+        <SandboxedRoute route="+/basic">
             {Default}
-        </Route>
-        { asyncRoute("+/multi-select", () => System.import("./multi-select")) }
-        { asyncRoute("+/grouping", () => System.import("./grouping")) }
-        { asyncRoute("+/dynamic-grouping", () => System.import("./dynamic-grouping")) }
-        { asyncRoute("+/drag-drop", () => System.import("./drag-drop")) }
-        { asyncRoute("+/filtering", () => System.import("./filtering")) }
-        { asyncRoute("+/form-editing", () => System.import("./form-editing")) }
-        { asyncRoute("+/tree-grid", () => System.import("./tree-grid")) }
-        { asyncRoute("+/complex-header", () => System.import("./complex-header")) }
-        { asyncRoute("+/header-menu", () => System.import("./header-menu")) }
-        { asyncRoute("+/dashboard-grid", () => System.import("./dashboard-grid")) }
-        { asyncRoute("+/buffering", () => System.import("./buffering")) }
-        { asyncRoute("+/misc", () => System.import("./misc")) }
-        <RedirectRoute redirect="+/basic" />
+        </SandboxedRoute>
+        <SandboxedAsyncRoute route="+/multi-select" content={() => System.import("./multi-select")}/>
+        <SandboxedAsyncRoute route="+/grouping" content={() => System.import("./grouping")}/>
+        <SandboxedAsyncRoute route="+/dynamic-grouping" content={() => System.import("./dynamic-grouping")}/>
+        <SandboxedAsyncRoute route="+/drag-drop" content={() => System.import("./drag-drop")}/>
+        <SandboxedAsyncRoute route="+/filtering" content={() => System.import("./filtering")}/>
+        <SandboxedAsyncRoute route="+/form-editing" content={() => System.import("./form-editing")}/>
+        <SandboxedAsyncRoute route="+/tree-grid" content={() => System.import("./tree-grid")}/>
+        <SandboxedAsyncRoute route="+/complex-header" content={() => System.import("./complex-header")}/>
+        <SandboxedAsyncRoute route="+/header-menu" content={() => System.import("./header-menu")}/>
+        <SandboxedAsyncRoute route="+/dashboard-grid" content={() => System.import("./dashboard-grid")}/>
+        <SandboxedAsyncRoute route="+/buffering" content={() => System.import("./buffering")}/>
+        <SandboxedAsyncRoute route="+/misc" content={() => System.import("./misc")}/>
+        <RedirectRoute redirect="+/basic"/>
     </PureContainer>
 </cx>
 

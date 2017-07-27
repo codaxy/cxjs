@@ -7,7 +7,7 @@ interface ContentResolverProps extends Cx.PureContainerProps {
 
    onResolve?: (params, Instance) => any,
 
-   loading: Cx.BooleanProp
+   loading?: Cx.BooleanProp
 }
 
 export class ContentResolver extends Cx.Widget<ContentResolverProps> {}
