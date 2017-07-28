@@ -1,3 +1,4 @@
+export * from './Field';
 export * from './TextField';
 export * from './Checkbox';
 export * from './Radio';
