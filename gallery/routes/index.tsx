@@ -34,22 +34,24 @@ const catGroup = cat =>
 
 
 export default <cx>
-    <Route route="~/(:theme)" url={bind("url")} prefix outerLayout={AppLayout}>
+    <PureContainer>
         <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
+        <Route route="~/:theme" url={bind("url")} prefix outerLayout={AppLayout}>
+            <div putInto="nav">
+                {sorted.map(cat => cat.route ? catLink(cat) : catGroup(cat))}
+            </div>
 
-        <div putInto="nav">
-            {sorted.map(cat => cat.route ? catLink(cat) : catGroup(cat))}
-        </div>
+            <PureContainer layout={FirstVisibleChildLayout}>
+                {list.map(cat => cat.route && <AsyncRoute route={cat.route} content={cat.content} prefix/>)}
+                {list.map(cat => cat.items && cat.items.map(item => <AsyncRoute route={item.route}
+                    content={item.content} prefix/>))}
 
-        <PureContainer layout={FirstVisibleChildLayout}>
-            {list.map(cat => cat.route && <AsyncRoute route={cat.route} content={cat.content} prefix />)}
-            {list.map(cat => cat.items && cat.items.map(item => <AsyncRoute route={item.route} content={item.content} prefix />))}
-
-            <RedirectRoute route="+" url={bind("$root.url")} redirect="+/grid"/>
-            <Section title="Page Not Found" mod="card">
-                This page doesn't exists. Please check your URL.
-            </Section>
-        </PureContainer>
-    </Route>
+                <RedirectRoute route="+" url={bind("url")} redirect="+/grid"/>
+                <Section title="Page Not Found" mod="card">
+                    This page doesn't exists. Please check your URL.
+                </Section>
+            </PureContainer>
+        </Route>
+    </PureContainer>
 </cx>
 
