@@ -622,13 +622,12 @@ class GridComponent extends VDOM.Component {
       if (widget.scrollable && widget.buffered) {
          let source = instance.records || data.records;
          let context = new RenderingContext();
-         let isRecordSelected = widget.selection.getIsSelectedDelegate(instance.store);
          source.slice(start, end).forEach((r, i) => {
             let record = source == instance.records ? r : widget.mapRecord(context, instance, r, start + i);
             let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
             let wasSelected = row.selected;
             record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row);
-            row.selected = isRecordSelected(record.data, record.index);
+            row.selected = instance.isSelected(record.data, record.index);
             row.cacheBuster = record.data;
             if (row.selected != wasSelected)
                row.shouldUpdate = true;
@@ -747,8 +746,7 @@ class GridComponent extends VDOM.Component {
       if (widget.buffered && this.rowHeight > 0 && !this.pending) {
          let start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
          start = Math.round(start / widget.bufferStep) * widget.bufferStep;
-         start = Math.max(0, start);
-         start = Math.min(start, data.records.length - widget.bufferSize);
+         start = Math.max(0, Math.min(start, data.records.length - widget.bufferSize));
          let end = start + widget.bufferSize;
          if (this.state.end != end) {
             this.pending = true;
@@ -1064,10 +1062,8 @@ class GridComponent extends VDOM.Component {
    beginDragDrop(e, record) {
 
       let {instance, data} = this.props;
-      let {widget, store} = instance;
+      let {widget, store, isSelected} = instance;
       let {CSS, baseClass} = widget;
-
-      let isSelected = widget.selection.getIsSelectedDelegate(store);
 
       let selected = instance.records.filter(record => isSelected(record.data, record.index));
 
