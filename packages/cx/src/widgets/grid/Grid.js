@@ -723,7 +723,9 @@ class GridComponent extends VDOM.Component {
                this.dom.fixedHeader = el
             }}
             className={CSS.element(baseClass, 'fixed-header')}
-            style={{display: this.scrollWidth > 0 ? 'block' : 'none'}}
+            style={{
+               display: this.scrollWidth > 0 ? 'block' : 'none'
+            }}
          >
             <table>
                {this.props.fixedHeader}
@@ -926,6 +928,13 @@ class GridComponent extends VDOM.Component {
 
          let resized = false, headerHeight = 0, rowHeight = 0;
 
+         if (headerRefs) {
+            for (let k in headerRefs) {
+               headerHeight = headerRefs[k].offsetHeight;
+               break;
+            }
+         }
+
          if (this.dom.fixedHeader) {
             for (let k in headerRefs) {
                let c = headerRefs[k];
@@ -940,9 +949,7 @@ class GridComponent extends VDOM.Component {
             }
             this.dom.fixedHeader.style.display = 'block';
             fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
-            headerHeight = this.dom.fixedHeader.offsetHeight;
-
-            this.dom.scroller.style.marginTop = `${this.headerHeight}px`;
+            this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
 
          if (widget.buffered) {
@@ -955,9 +962,9 @@ class GridComponent extends VDOM.Component {
                let remaining = Math.max(0, data.records.length - this.state.end);
                this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
             }
-            this.dom.table.style.marginTop = `${ -this.headerHeight + this.state.start * rowHeight }px`;
+            this.dom.table.style.marginTop = `${ -headerHeight + this.state.start * rowHeight }px`;
          } else {
-            this.dom.table.style.marginTop = `${-this.headerHeight}px`;
+            this.dom.table.style.marginTop = `${-headerHeight}px`;
          }
 
          this.headerHeight = headerHeight;
