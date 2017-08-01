@@ -161,32 +161,152 @@ export const Misc = <cx>
 
         Returns closest ancestor element that is vertically, i.e. horizontally scrollable.
 
-        ## browserSupportsPassiveEventHandlers
-        `browserSupportsPassiveEventHandlers: () => boolean;`
+
+        ## getScrollerBoundingClientRect
+        `getScrollerBoundingClientRect: (scrollEl: Element) => ClientRect;`
+
         <CodeSplit>
             <ConfigTable header="Parameter" sort={false} props={{
-                d1: {
-                    type: 'Date',
+                scrollEl: {
+                    type: 'Element',
                     description: <cx><Md>
-                        Date object representing the start date.
-                    </Md></cx>
-                },
-                d2: {
-                    type: 'Date',
-                    description: <cx><Md>
-                        Date object representing the end date.
+                        DOM element.
                     </Md></cx>
                 }
             }} />
 
-            Returns the difference between two dates in miliseconds.
-        
-            <CodeSnippet putInto='code'>
+            Returns a `ClientRect` object containing the size of an element and its position relative to the viewport.
+
+             <CodeSnippet putInto='code'>
                 {`
-                    dateDiff(new Date('2017-07-24'), new Date('2017-07-23'));  // 86400000
+                    getScrollerBoundingClientRect(document.documentElement);  
+                    // {left: 0, top: 0, right: 1920, bottom: 950, width: 1920, height: 950}
                 `}
             </CodeSnippet>
         </CodeSplit>
+
+
+        ## getSearchQueryPredicate
+        `getSearchQueryPredicate: (query: string, options?: any) => (text?: string) => boolean;`
+
+        <ConfigTable header="Parameter" sort={false} props={{
+            query: {
+                type: 'string',
+                description: <cx><Md>
+                    String of regular expressions separated by spaces.
+                </Md></cx>
+            },
+            options: {
+                type: 'object',
+                description: <cx><Md>
+                    Optional. Not yet implemented.
+                </Md></cx>
+            }
+        }} />
+
+        Returns a predicate function that takes a `text` parameter and matches it against the `query`.
+
+
+        ## getVendorPrefix
+        `getVendorPrefix: (type: 'dom' | 'lowercase' | 'css' | 'js') => string;`
+        <CodeSplit>
+            <ConfigTable header="Parameter" sort={false} props={{
+                type: {
+                    type: 'string',
+                    description: <cx><Md>
+                        Type of vendor prefix. Can be `dom`, `lowercase`, `css` or `js`.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns a vendor prefix string.
+
+            <CodeSnippet putInto='code'>
+                {`
+                    getVendorPrefix('dom');  // "WebKit"
+                    getVendorPrefix('lowercase');  // "webkit"
+                    getVendorPrefix('css');  // "-webkit-"
+                    getVendorPrefix('js');  // "Webkit"
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
+        ## innerTextTrim
+        `innerTextTrim: (str: string) => string;`
+        <CodeSplit>
+            <ConfigTable header="Parameter" sort={false} props={{
+                str: {
+                    type: 'string',
+                    description: <cx><Md>
+                        Inner text.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns a new string with removed tabs, line breaks and spaces from the beginning and from the end of each line.
+
+            <CodeSnippet putInto='code'>
+                {`
+                    innerTextTrim('			Hello World!		   	 ');
+                    // "Hello World!"
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
+        ## isDigit
+        `isDigit: (x: any) => boolean;`
+        <CodeSplit>
+            <ConfigTable header="Parameter" sort={false} props={{
+                x: {
+                    type: 'any',
+                    description: <cx><Md>
+                        Input to be evaluated.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns `true` if `x` is a single digit number or a string whose first character is a digit.
+
+            <CodeSnippet putInto='code'>
+                {`
+                    isDigit('4'); // true
+                    isDigit(5); // true
+                    isDigit('e') // false
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
+        ## isNonEmptyArray
+        `isNonEmptyArray: (x: any) => boolean;`
+
+        <ConfigTable header="Parameter" sort={false} props={{
+            x: {
+                type: 'any',
+                description: <cx><Md>
+                    Input to be evaluated.
+                </Md></cx>
+            }
+        }} />
+
+        Returns `true` if `x` is a non-empty array.
+
+
+        ## isPromise
+        `isPromise: (x: any) => boolean;`
+
+        <ConfigTable header="Parameter" sort={false} props={{
+            x: {
+                type: 'any',
+                description: <cx><Md>
+                    Input to be evaluated.
+                </Md></cx>
+            }
+        }} />
+
+        Returns `true` if `x` is a `Promise`.
 
     </Md>
 </cx>
