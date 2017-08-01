@@ -16,6 +16,7 @@ export * from './Culture';
 export * from './Localization';
 export * from './Cx';
 export * from './Instance';
+export * from './RenderingContext';
 export * from './ContentResolver';
 export * from './batchUpdates';
 export * from './IsolatedScope';
