@@ -11,31 +11,31 @@ export const Misc = <cx>
         <ImportPath path="import * from 'cx/util';" />
 
         Cx util contains the following miscellaneous utility funcitons:
-        - browserSupportsPassiveEventHandlers
-        - debounce
-        - escapeSpecialRegexCharacters
+        - [browserSupportsPassiveEventHandlers](#browsersupportspassiveeventhandlers)
+        - [debounce](#debounce)
+        - [escapeSpecialRegexCharacters](#escapespecialregexcharacters)
         - Event callback
-            - stopPropagation
-            - preventDefault
-        - expandFatArrows
-        - findScrollableParent
-        - getScrollerBoundingClientRect
-        - getSearchQueryPredicate
-        - getVendorPrefix
-        - innerTextTrim
-        - isDigit
-        - isNonEmptyArray
-        - isPromise
+            - [stopPropagation](#stoppropagation)
+            - [preventDefault](#preventdefault)
+        - [expandFatArrows](#expandfatarrows)
+        - [findScrollableParent](#findscrollableparent)
+        - [getScrollerBoundingClientRect](#getscrollerboundingclientRect)
+        - [getSearchQueryPredicate](#getsearchquerypredicate)
+        - [getVendorPrefix](#getvendorprefix)
+        - [innerTextTrim](#innertexttrim)
+        - [isDigit](#isdigit)
+        - [isNonEmptyArray](#isnonemptyarray)
+        - [isPromise](#ispromise)
         - Touch device
-            - enableTouchEventDetection
-            - isTouchDevice
-            - isTouchEvent
-        - KeyCode
-        - parseStyle
-        - quote
-        - scrollElementIntoView
-        - shallowEquals
-        - throttle
+            - [enableTouchEventDetection](#enabletoucheventdetection)
+            - [isTouchDevice](#istouchdevice)
+            - [isTouchEvent](#istouchevent)
+        - [KeyCode](#keycode)
+        - [parseStyle](#parsestyle)
+        - [quote](#quote)
+        - [scrollElementIntoView](#scrollelementintoview)
+        - [shallowEquals](#shallowequals)
+        - [throttle](#throttle)
 
         Use curly braces to import only certain util functions.
         
@@ -307,6 +307,140 @@ export const Misc = <cx>
         }} />
 
         Returns `true` if `x` is a `Promise`.
+
+
+        ## enableTouchEventDetection
+        `enableTouchEventDetection: () => void;`
+
+        Enables touch event detection. 
+
+
+        ## isTouchDevice
+        `isTouchDevice: () => boolean;`
+
+        Returns `true` if using a touch device.
+
+
+        ## isTouchEvent
+        `isTouchEvent: () => boolean;`
+
+        Returns `true` if a touch event fired within a last second.
+
+        <CodeSplit>
+            ## KeyCode
+
+            `KeyCode` is used as a mapping between keyboard keys and their key codes.
+
+             <CodeSnippet putInto='code'>
+                {`
+                    console.log(KeyCode.enter); // 13
+                    console.log(KeyCode.pageDown); // 34
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
+        ## parseStyle
+        `parseStyle: (str: string) => object;`
+
+        <CodeSplit>
+            <ConfigTable header="Parameter" sort={false} props={{
+                str: {
+                    type: 'string',
+                    description: <cx><Md>
+                        String to be parsed.
+                    </Md></cx>
+                }
+            }} />
+
+            Returns an object whose keys are camelCased version of the CSS property names, and whose values are
+            valid CSS values stored as strings.
+
+            <CodeSnippet putInto='code'>
+                {`
+                    parseStyle("margin-top: 0; display: flex;"); // {marginTop: "0", display: "flex"}
+                `}
+            </CodeSnippet>
+        </CodeSplit>
+
+
+        ## quote
+        `quote: (str: string) => string;`
+
+        <ConfigTable header="Parameter" sort={false} props={{
+                str: {
+                    type: 'string',
+                    description: <cx><Md>
+                        Input string.
+                    </Md></cx>
+                }
+            }} />
+
+        Returns the same string surrounded with single quotes.
+
+
+        ## scrollElementIntoView
+        `scrollElementIntoView: (el: Element) => void;`
+
+        <ConfigTable header="Parameter" sort={false} props={{
+                el: {
+                    type: 'Element',
+                    description: <cx><Md>
+                        DOM element.
+                    </Md></cx>
+                }
+            }} />
+
+        Scrolls `el` into view.
+
+
+        ## shallowEquals
+        `shallowEquals: (v1: any, v2: any) => boolean;`
+
+        Shallowly compares two values. Commonly used to perform shallow comparison of arrays and objects.
+
+        <ConfigTable header="Parameter" sort={false} props={{
+                v1: {
+                    type: 'any',
+                    description: <cx><Md>
+                        First value.
+                    </Md></cx>
+                },
+                v2: {
+                    type: 'any',
+                    description: <cx><Md>
+                        Second value.
+                    </Md></cx>
+                }
+            }} />
+
+        Shallowly compares two values. Commonly used to perform shallow comparison of arrays and objects.
+        Returns `true` if all elements of two arrays or all own properties of two objects are equal.
+
+
+        ## throttle
+        `throttle: (callback: (...args: any[]) => void, delay: number) => (...args: any[]) => void;`
+
+        `throttle` is used to set the minimum amount of time that has to pass before the same funciton can be called again.
+        
+        <ConfigTable header="Parameter" sort={false} props={{
+            callback: {
+                type: 'function',
+                description: <cx><Md>
+                    Function to be throttled.
+                </Md></cx>
+            },
+            delay: {
+                type: 'number',
+                description: <cx><Md>
+                    Delay in milliseconds.
+                </Md></cx>
+            }
+        }} />
+
+        Returns a function, that, after it is invoked, will trigger the `callback` function, 
+        after the `delay` amount of milliseconds has passed. During that time, all subsequent calls are
+        ignored. All arguments are passed to the `callback` function.
 
     </Md>
 </cx>
