@@ -113,9 +113,13 @@ export class Widget extends Component {
    }
 
    explore(context, instance) {
-      if (instance.components)
-         for (var cmp in instance.components)
-            instance.components[cmp].explore(context);
+      if (this.components)
+         instance.components = {};
+      for (let cmp in this.components) {
+         let ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
+         if (ins.explore(context))
+            instance.components[cmp] = ins;
+      }
    }
 
    prepare(context, instance) {

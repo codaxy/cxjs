@@ -39,28 +39,6 @@ export class Instance {
             store: this.store
          });
 
-      if (this.widget.helpers) {
-         this.helpers = {};
-         for (var cmp in this.widget.helpers) {
-            var helper = this.widget.helpers[cmp];
-            if (helper) {
-               var ins = this.getChild(context, helper, "helper-" + cmp);
-               this.helpers[cmp] = ins;
-            }
-         }
-      }
-
-      if (this.widget.components) {
-         this.components = {};
-         for (var cmp in this.widget.components) {
-            var component = this.widget.components[cmp];
-            if (component) {
-               var ins = this.getChild(context, component, "helper-" + cmp);
-               this.components[cmp] = ins;
-            }
-         }
-      }
-
       this.widget.initInstance(context, this);
       this.widget.initState(context, this);
       this.initialized = true;
@@ -118,9 +96,16 @@ export class Instance {
          debug(processDataFlag, this.widget);
       }
 
-      if (this.helpers) {
-         for (var cmp in this.helpers)
-            this.helpers[cmp].explore(context);
+      if (this.widget.helpers) {
+         this.helpers = {};
+         for (let cmp in this.widget.helpers) {
+            let helper = this.widget.helpers[cmp];
+            if (helper) {
+               let ins = this.getChild(context, helper, "helper-" + cmp);
+               if (ins.explore(context))
+                  this.helpers[cmp] = ins;
+            }
+         }
       }
 
       this.widget.explore(context, this, data);

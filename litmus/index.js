@@ -21,6 +21,7 @@ import './index.scss';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
 // import Demo from './bugs/NativeCheckboxesAndRadios';
+import Demo from './bugs/Repeater';
 
 //import Demo from './features/flexbox';
 
@@ -37,7 +38,7 @@ import './index.scss';
 
 //import Demo from './features/grid/header-tool';
 //import Demo from './features/grid/GridBuffering';
-import Demo from './features/hscroll';
+//import Demo from './features/hscroll';
 
 //import Demo from './features/menu/icons';
 
