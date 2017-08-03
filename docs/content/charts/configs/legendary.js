@@ -33,7 +33,15 @@ export default {
       key: true,
       type: 'string',
       description: <cx><Md>
-         Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget.
+         Used to automatically assign a color based on the `colorName` and the contextual `ColorMap` widget.
       </Md></cx>
    },
+    colorName: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            Name used to automatically resolve color based from the contextual `ColorMap` widget. If value is not provided,
+            `name` is used instead.
+        </Md></cx>
+    },
 };

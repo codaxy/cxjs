@@ -20,6 +20,9 @@ interface ScatterGraphProps extends Cx.StyledContainerProps {
    /** Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget. */
    colorMap?: Cx.StringProp,
 
+   /** Name used to resolve the color. If not provided, `name` is used instead. */
+   colorName?: Cx.StringProp,
+
    /** Name of the item as it will appear in the legend. */
    name?: Cx.StringProp,
 

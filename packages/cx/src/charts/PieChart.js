@@ -158,6 +158,7 @@ export class PieSlice extends PureContainer {
          style: {structured: true},
          colorIndex: undefined,
          colorMap: undefined,
+         colorName: undefined,
          offset: undefined,
          value: undefined,
          disabled: undefined,
@@ -167,6 +168,15 @@ export class PieSlice extends PureContainer {
          stack: undefined,
          legend: undefined
       });
+   }
+
+   prepareData(context, instance) {
+      let {data} = instance;
+
+      if (data.name && !data.colorName)
+         data.colorName = data.name;
+
+      super.prepareData(context, instance);
    }
 
    explore(context, instance) {
@@ -179,8 +189,8 @@ export class PieSlice extends PureContainer {
       instance.valid = typeof data.value == 'number' && data.value > 0;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
 
       if (instance.valid && data.active) {
          instance.pie.acknowledge(data.stack, data.value);
@@ -198,8 +208,8 @@ export class PieSlice extends PureContainer {
    prepare(context, instance) {
       let {data, segment, pie, colorMap} = instance;
 
-      if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+      if (colorMap && data.colorName) {
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.colorIndex != data.colorIndex) {
             instance.colorIndex = data.colorIndex;
             instance.shouldUpdate = true;

@@ -34,6 +34,9 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    /** Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget. */
    colorMap?: Cx.StringProp,
 
+   /** Name used to resolve the color. If not provided, `name` is used instead. */
+   colorName?: Cx.StringProp,
+
    /** Value in pixels to be used to explode the pie. */
    offset?: Cx.NumberProp,
                       

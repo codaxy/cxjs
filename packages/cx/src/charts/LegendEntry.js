@@ -5,6 +5,12 @@ import {Selection} from '../ui/selection/Selection';
 import {stopPropagation} from '../util/eventCallbacks';
 
 export class LegendEntry extends HtmlElement {
+
+   init() {
+      this.selection = Selection.create(this.selection);
+      super.init();
+   }
+
    declareData() {
 
       var selection = this.selection.configureWidget(this);
@@ -14,22 +20,27 @@ export class LegendEntry extends HtmlElement {
          shape: undefined,
          colorIndex: undefined,
          colorMap: undefined,
+         colorName: undefined,
          name: undefined,
          active: true,
          size: undefined
       });
    }
 
-   init() {
-      this.selection = Selection.create(this.selection);
-      super.init();
+   prepareData(context, instance) {
+      let {data} = instance;
+
+      if (data.name && !data.colorName)
+         data.colorName = data.name;
+
+      super.prepareData(context, instance);
    }
 
    explore(context, instance) {
       var {data} = instance;
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
       super.explore(context, instance);
    }
 
@@ -37,8 +48,8 @@ export class LegendEntry extends HtmlElement {
 
       var {data, colorMap} = instance;
 
-      if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+      if (colorMap && data.colorName) {
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.colorIndex != data.colorIndex) {
             instance.colorIndex = data.colorIndex;
             instance.shouldUpdate = true;

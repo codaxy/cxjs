@@ -35,7 +35,9 @@ export class Marker extends BoundedObject {
          class: {structured: true},
          className: {structured: true},
          disabled: undefined,
+         colorMap: undefined,
          colorIndex: undefined,
+         colorName: undefined,
          legendColorIndex: undefined,
          name: undefined,
          active: true
@@ -56,6 +58,8 @@ export class Marker extends BoundedObject {
          "draggable-y": this.draggableY && !this.draggableX,
          "draggable-xy": this.draggableY && this.draggableX
       };
+      if (data.name && !data.colorName)
+         data.colorName = data.name;
       super.prepareData(context, instance);
    }
 
@@ -88,8 +92,8 @@ export class Marker extends BoundedObject {
       let {data, xAxis, yAxis} = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
 
       if (data.active) {
          if (xAxis && data.x != null)
@@ -105,8 +109,8 @@ export class Marker extends BoundedObject {
    prepare(context, instance) {
       var {data, xAxis, yAxis, colorMap} = instance;
 
-      if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+      if (colorMap && data.colorName) {
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.cached.colorIndex != data.colorIndex)
             instance.shouldUpdate = true;
       }

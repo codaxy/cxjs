@@ -27,6 +27,7 @@ export class ColumnBarGraphBase extends Widget {
          },
          colorIndex: undefined,
          colorMap: undefined,
+         colorName: undefined,
          name: undefined,
          size: undefined,
          offset: undefined,
@@ -39,6 +40,15 @@ export class ColumnBarGraphBase extends Widget {
       })
    }
 
+   prepareData(context, instance) {
+      let {data} = instance;
+
+      if (data.name && !data.colorName)
+         data.colorName = data.name;
+
+      super.prepareData(context, instance);
+   }
+
    explore(context, instance) {
       var xAxis = instance.xAxis = context.axes[this.xAxis];
       var yAxis = instance.yAxis = context.axes[this.yAxis];
@@ -46,8 +56,8 @@ export class ColumnBarGraphBase extends Widget {
       var {data} = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
 
       super.explore(context, instance);
    }
@@ -58,7 +68,7 @@ export class ColumnBarGraphBase extends Widget {
       let {data, colorMap, xAxis, yAxis} = instance;
 
       if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.colorIndex != data.colorIndex) {
             instance.colorIndex = data.colorIndex;
             instance.shouldUpdate = true;

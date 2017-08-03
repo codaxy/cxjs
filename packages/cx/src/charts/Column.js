@@ -27,8 +27,8 @@ export class Column extends ColumnBarBase {
       let {data, xAxis, yAxis} = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
 
       if (!data.valid)
          return;

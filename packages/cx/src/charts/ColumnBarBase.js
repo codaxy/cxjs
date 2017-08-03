@@ -22,6 +22,7 @@ export class ColumnBarBase extends PureContainer {
          disabled: undefined,
          colorIndex: undefined,
          colorMap: undefined,
+         colorName: undefined,
          name: undefined,
          active: true,
          stacked: undefined,
@@ -36,6 +37,8 @@ export class ColumnBarBase extends PureContainer {
       instance.yAxis = context.axes[this.yAxis];
       var {data} = instance;
       data.valid = this.checkValid(data);
+      if (!data.colorName && data.name)
+         data.colorName = data.name;
       super.prepareData(context, instance);
    }
 
@@ -46,8 +49,8 @@ export class ColumnBarBase extends PureContainer {
    prepare(context, instance) {
       let {data, colorMap} = instance;
 
-      if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+      if (colorMap && data.colorName) {
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.colorIndex != data.colorIndex) {
             instance.colorIndex = data.colorIndex;
             instance.shouldUpdate = true;

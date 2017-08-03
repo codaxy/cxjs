@@ -4,6 +4,14 @@ import {CSS} from '../ui/CSS';
 import {getShape} from './shapes';
 
 export class ScatterGraph extends Widget {
+
+   init() {
+      this.selection = Selection.create(this.selection, {
+         records: this.data
+      });
+      super.init();
+   }
+
    declareData() {
 
       var selection = this.selection.configureWidget(this);
@@ -23,16 +31,19 @@ export class ScatterGraph extends Widget {
          },
          colorIndex: undefined,
          colorMap: undefined,
+         colorName: undefined,
          name: undefined,
          active: true
       }, selection);
    }
-   
-   init() {
-      this.selection = Selection.create(this.selection, {
-         records: this.data
-      });
-      super.init();
+
+   prepareData(context, instance) {
+      let {data} = instance;
+
+      if (data.name && !data.colorName)
+         data.colorName = data.name;
+
+      super.prepareData(context, instance);
    }
 
    explore(context, instance) {
@@ -44,8 +55,8 @@ export class ScatterGraph extends Widget {
       var {data} = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
-      if (instance.colorMap && data.name)
-         instance.colorMap.acknowledge(data.name);
+      if (instance.colorMap && data.colorName)
+         instance.colorMap.acknowledge(data.colorName);
 
       if (data.active && Array.isArray(data.data)) {
          data.data.forEach(p => {
@@ -63,7 +74,7 @@ export class ScatterGraph extends Widget {
          instance.shouldUpdate = true;
 
       if (colorMap && data.name) {
-         data.colorIndex = colorMap.map(data.name);
+         data.colorIndex = colorMap.map(data.colorName);
          if (instance.colorIndex != data.colorIndex) {
             instance.colorIndex = data.colorIndex;
             instance.shouldUpdate = true;
