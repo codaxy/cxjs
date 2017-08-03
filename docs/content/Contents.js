@@ -134,6 +134,15 @@ var contents = [{
         {title: 'Gridlines', url: '~/charts/gridlines'},
     ]
 }, {
+    topic: 'Util',
+    expanded: false,
+    articles: [
+        {title: 'Color', url: '~/util/color'},
+        {title: 'Date', url: '~/util/date'},
+        {title: 'DOM', url: '~/util/dom'},
+        {title: 'Misc', url: '~/util/misc'},
+    ]
+}, {
     topic: 'Meta',
     expanded: false,
     articles: [

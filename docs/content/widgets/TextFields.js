@@ -69,7 +69,7 @@ export const TextFields = <cx>
 
         ## Configuration
 
-        <ConfigTable props={configs}/>
+        <ConfigTable props={configs} />
 
     </Md>
 </cx>

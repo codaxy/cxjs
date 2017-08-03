@@ -3,11 +3,21 @@ import { Widget, VDOM } from 'cx/ui';
 import {CSS} from '../app/CSS';
 
 export class ConfigTable extends PureContainer {
+
+    declareData() {
+       super.declareData({
+          header: undefined,
+       }, ...arguments);
+    }
+
     init() {
         super.init();
         var props = this.props || {};
+        let sort = this.sort
 
-        var keys = Object.keys(props).sort((a, b) => {
+        var keys = Object.keys(props);
+        if (sort)
+            keys.sort((a, b) => {
             if (props[a].key && !props[b].key)
                 return -1;
             if (!props[a].key && props[b].key)
@@ -41,11 +51,12 @@ export class ConfigTable extends PureContainer {
     }
 
     render(context, instance, key) {
+        let { data } = instance;
         return <div key={key} className="dxb-configtable">
             <table>
                 <tbody>
                 <tr>
-                    <th>Property</th>
+                    <th>{data.header || 'Property'}</th>
                     <th>Description</th>
                     <th>Type</th>
                 </tr>
@@ -55,3 +66,5 @@ export class ConfigTable extends PureContainer {
         </div>
     }
 }
+
+ConfigTable.prototype.sort = true;
