@@ -32,7 +32,9 @@ export class ValidationGroup extends PureContainer {
       instance.valid = context.validation.errors.length == validationErrors;
       instance.set('valid', instance.valid);
       instance.set('invalid', !instance.valid);
-      instance.set('errors', context.validation.errors);
+
+      if (this.errors && JSON.stringify(instance.data.errors) != JSON.stringify(context.validation.errors))
+         instance.set('errors', context.validation.errors);
 
       context.parentDisabled = parentDisabled;
    }

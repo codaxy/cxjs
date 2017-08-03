@@ -84,8 +84,9 @@ export interface FieldProps extends Cx.StyledContainerProps {
    help?: string | Cx.Config,
 
    /** Custom validation function. */
-   onValidate?: string | ((value, instance: Instance) => any)
-   
+   onValidate?: string | ((value, instance: Instance) => any),
+
+   onValidationException?: string | ((error: any, instance: Instance) => void)
 }
 
 export class Field extends Cx.Widget<FieldProps> {}

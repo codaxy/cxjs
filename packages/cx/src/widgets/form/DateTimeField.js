@@ -29,7 +29,7 @@ export class DateTimeField extends Field {
 
    declareData() {
       super.declareData({
-         value: undefined,
+         value: null,
          disabled: undefined,
          readOnly: undefined,
          enabled: undefined,

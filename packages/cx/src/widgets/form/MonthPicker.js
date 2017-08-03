@@ -39,13 +39,13 @@ export class MonthPicker extends Field {
 
       if (this.range) {
          values = {
-            from: undefined,
-            to: undefined
+            from: null,
+            to: null
          }
       }
       else {
          values = {
-            value: undefined
+            value: null
          }
       }
 

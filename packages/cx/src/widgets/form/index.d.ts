@@ -23,4 +23,4 @@ export * from './Slider';
 export * from './Switch';
 export * from './HelpText';
 export * from './Label';
-
+export * from './Validator';

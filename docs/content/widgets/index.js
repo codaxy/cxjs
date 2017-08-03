@@ -40,6 +40,7 @@ export * from './IsolatedScope';
 export * from './DateTimeFields';
 export * from './ContentResolvers';
 export * from './Hscrollers';
+export * from './Validators';
 
 import { bumpVersion } from '../version';
 

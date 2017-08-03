@@ -24,6 +24,7 @@
    .#{$element}labelstoplayout-field {
       padding: 0 5px;
       box-sizing: border-box;
+      vertical-align: top;
 
       &:first-child {
          padding-left: 0;

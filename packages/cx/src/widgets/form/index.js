@@ -24,4 +24,6 @@ export * from './DateTimePicker';
 export * from './DateTimeField';
 export * from './DateField';
 export * from './TimeField';
+export * from './Validator';
+
 

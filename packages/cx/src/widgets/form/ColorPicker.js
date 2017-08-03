@@ -15,7 +15,7 @@ export class ColorPicker extends Field {
 
    declareData() {
       super.declareData({
-         value: undefined
+         value: null
       }, ...arguments);
    }
 
