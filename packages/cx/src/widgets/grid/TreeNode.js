@@ -1,12 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
-
-import FolderIcon from '../icons/folder';
-import FolderOpenIcon from '../icons/folder-open';
-import FileIcon from '../icons/file';
-import LoadingIcon from '../icons/loading';
-import DropdownIcon from '../icons/drop-down';
-
 import {Icon} from '../Icon';
+import DropdownIcon from '../icons/drop-down';
 
 export class TreeNode extends Widget {
 
@@ -16,7 +10,9 @@ export class TreeNode extends Widget {
          expanded: undefined,
          leaf: undefined,
          text: undefined,
-         loading: undefined
+         loading: undefined,
+         icon: undefined,
+
       }, ...arguments);
    }
 
@@ -36,24 +32,26 @@ export class TreeNode extends Widget {
       var {data, widget} = instance;
       var {CSS, baseClass} = widget;
 
-      let icon;
+      let icon = data.icon;
 
-      if (data.leaf)
-         icon = FileIcon;
-      else {
-         if (data.loading)
-            icon = LoadingIcon;
-         else if (data.expanded)
-            icon = FolderOpenIcon;
-         else
-            icon = FolderIcon;
+      if (!data.icon) {
+         if (data.leaf)
+            icon = this.itemIcon;
+         else {
+            if (data.loading)
+               icon = this.loadingIcon;
+            else if (data.expanded)
+               icon = this.openFolderIcon || this.folderIcon;
+            else
+               icon = this.folderIcon;
+         }
       }
 
       return <div key={key} className={data.classNames} style={data.style}>
          <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
             { !data.leaf && <DropdownIcon className={CSS.element(baseClass, 'arrow')} /> }
             {
-               icon({
+               Icon.render(icon, {
                   className: CSS.element(baseClass, 'icon')
                })
             }
@@ -74,5 +72,9 @@ export class TreeNode extends Widget {
 }
 
 TreeNode.prototype.baseClass = 'treenode';
+TreeNode.prototype.itemIcon = 'file';
+TreeNode.prototype.loadingIcon = 'loading';
+TreeNode.prototype.folderIcon = 'folder';
+TreeNode.prototype.openFolderIcon = 'folder-open';
 
 Widget.alias('treenode', TreeNode);
