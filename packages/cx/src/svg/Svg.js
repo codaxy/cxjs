@@ -10,22 +10,12 @@ export class Svg extends BoundedObject {
          width: 0,
          height: 0
       };
-      instance.size = size;
       instance.state = {size};
    }
 
-   explore(context, instance) {
-      var {size} = context.options;
-      if (size) {
-         instance.size = size;
-         instance.shouldUpdate = true;
-         instance.setState({size});
-      }
-      super.explore(context, instance);
-   }
 
    prepare(context, instance) {
-      var size = instance.size;
+      var size = instance.state.size;
       var {parentRect, addClipRect} = context;
       context.parentRect = new Rect({
          l: 0,
@@ -46,29 +36,18 @@ export class Svg extends BoundedObject {
    }
 
    render(context, instance, key) {
-      if (context.options.size)
-         return this.renderChildren(context, instance);
-
       return (
          <SvgComponent
             key={key}
             instance={instance}
             data={instance.data}
             options={context.options}
+            size={instance.state.size}
             shouldUpdate={instance.shouldUpdate}
          >
          {this.renderChildren(context, instance)}
          </SvgComponent>
       )
-   }
-
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-
-      if (context.options.size) {
-         //invalidate cache if only inner content was rendered
-         delete instance.cached.vdom;
-      }
    }
 }
 
@@ -88,22 +67,13 @@ function sameSize(a, b) {
 
 class SvgComponent extends VDOM.Component {
 
-   constructor(props) {
-      super(props);
-      this.state = {
-         size: props.instance.size
-      };
+   shouldComponentUpdate(props) {
+      return props.shouldUpdate;
    }
 
    render() {
-      var {instance, data} = this.props;
-      var {size, widget} = instance;
-
-      var children;
-      if (size && sameSize(this.state.size, size))
-         children = this.props.children;
-      else if (this.state.size)
-         children = Widget.renderInstance(instance, {size: this.state.size});
+      var {instance, data, size, children} = this.props;
+      var {widget} = instance;
 
       var defs = [];
       for (var k in instance.clipRects) {
@@ -117,12 +87,12 @@ class SvgComponent extends VDOM.Component {
       if (widget.autoHeight)
          style = {
             ...style,
-            height: `${this.state.size.height}px`
+            height: `${size.height}px`
          };
       if (widget.autoWidth)
          style = {
             ...style,
-            width: `${this.state.size.width}px`
+            width: `${size.width}px`
          };
 
       return <svg ref={el=>{this.svg = el}} className={data.classNames} style={style}>
@@ -133,12 +103,9 @@ class SvgComponent extends VDOM.Component {
       </svg>
    }
 
-   shouldComponentUpdate(props) {
-      return props.shouldUpdate;
-   }
-
    onResize() {
 
+      let { instance } = this.props;
       let { widget } = this.props.instance;
 
       var bounds = this.svg.getBoundingClientRect();
@@ -153,8 +120,8 @@ class SvgComponent extends VDOM.Component {
       if (widget.autoWidth)
          size.width = size.height * widget.aspectRatio;
 
-      if (!sameSize(this.state.size, size))
-         this.setState({
+      if (!sameSize(instance.state.size, size))
+         instance.setState({
             size: size
          });
    }
