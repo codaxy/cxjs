@@ -5,12 +5,12 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-export const DateUtil = <cx>
+export const DatePage = <cx>
     <Md>
-        # Date Util
+        # Date Utils
         <ImportPath path="import * from 'cx/util';" />
 
-        Cx util contains the following date utility funcitons:
+        Cx util contains the following date utility functions:
         - [dateDiff](#datediff)
         - [lowerBoundCheck](#lowerboundcheck)
         - [maxDate](#maxdate)

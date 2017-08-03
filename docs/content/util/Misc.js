@@ -5,12 +5,12 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-export const Misc = <cx>
+export const MiscPage = <cx>
     <Md>
         # Miscellaneous
         <ImportPath path="import * from 'cx/util';" />
 
-        Cx util contains the following miscellaneous utility funcitons:
+        Cx util contains the following miscellaneous utility functions:
         - [browserSupportsPassiveEventHandlers](#browsersupportspassiveeventhandlers)
         - [debounce](#debounce)
         - [escapeSpecialRegexCharacters](#escapespecialregexcharacters)

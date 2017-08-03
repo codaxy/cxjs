@@ -5,7 +5,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-export const DomUtil = <cx>
+export const DomPage = <cx>
     <Md>
         # DOM Util
 
@@ -27,7 +27,7 @@ export const DomUtil = <cx>
         ## closest
         `closest: (el: Element, condition: (el: Element) => boolean) => Element | null;`
     
-        Find the closest element in DOM tree that sattisfies the `condition`. The function first checks
+        Find the closest element in DOM tree that satisfies the `condition`. The function first checks
         the element itself against the `condition`, and then goes up the tree checking the parent element.
         
         <ConfigTable header="Parameter" sort={false} props={{
@@ -45,15 +45,15 @@ export const DomUtil = <cx>
             }
         }} />
 
-        Returns the first DOM Element that sattisfies the `condition` or `null` if there was no match.
+        Returns the first DOM Element that satisfies the `condition` or `null` if there was no match.
 
 
         ## closestParent
         `closestParent: (el: Element, condition: (el: Element) => boolean) => Element | null;`
 
-        Find the closest parent element in DOM tree that sattisfies the `condition`. 
+        Find the closest parent element in DOM tree that satisfies the `condition`.
         The function starts with the parent element and continues up the tree until 
-        the `condition` is sattisfied or the root is reached.
+        the `condition` is satisfied or the root is reached.
         
         <ConfigTable header="Parameter" sort={false} props={{
             el: {
@@ -70,13 +70,13 @@ export const DomUtil = <cx>
             }
         }} />
 
-        Returns the first parent element that sattisfies the `condition` or `null` if there was no match.
+        Returns the first parent element that satisfies the `condition` or `null` if there was no match.
 
 
         ## findFirst
         `findFirst: (el: Element, condition: (el: Element) => boolean) => Element | null;`
 
-        Find the closest element in DOM tree that sattisfies the `condition`. The function first checks
+        Find the closest element in DOM tree that satisfies the `condition`. The function first checks
         the element itself against the `condition`, and then goes down the tree checking the child element.
 
         <ConfigTable header="Parameter" sort={false} props={{
@@ -94,15 +94,15 @@ export const DomUtil = <cx>
             }
         }} />
 
-        Returns the first element that sattisfies the `condition` or `null` if there was no match.
+        Returns the first element that satisfies the `condition` or `null` if there was no match.
 
 
         ## findFirstChild
         `findFirstChild: (el: Element, condition: (el: Element) => boolean) => Element | null;`
 
-        Find the closest element in DOM tree that sattisfies the `condition`. 
+        Find the closest element in DOM tree that satisfies the `condition`.
         The function starts with the child element and continues down the tree until 
-        the `condition` is sattisfied or the last child is reached.
+        the `condition` is satisfied or the last child is reached.
 
         <ConfigTable header="Parameter" sort={false} props={{
             el: {
@@ -119,7 +119,7 @@ export const DomUtil = <cx>
             }
         }} />
 
-        Returns the first element that sattisfies the `condition` or `null` if there was no match.
+        Returns the first element that satisfies the `condition` or `null` if there was no match.
 
 
         ## getFocusedElement

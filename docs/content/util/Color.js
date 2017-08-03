@@ -5,12 +5,12 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 
-export const Color = <cx>
+export const ColorPage = <cx>
     <Md>
         # Color Util
         <ImportPath path="import * from 'cx/util';"/>
 
-        Cx util contains the following color utility funcitons:
+        Cx util contains the following color utility functions:
         - [parseColor](#parsecolor)
         - [parseHexColor](#parsehexcolor)
         - [parseRgbColor](#parsergbcolor)

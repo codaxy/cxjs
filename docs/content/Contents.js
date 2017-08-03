@@ -135,8 +135,8 @@ var contents = [{
     expanded: false,
     articles: [
         {title: 'Color', url: '~/util/color'},
-        {title: 'Date', url: '~/util/date-util'},
-        {title: 'DOM', url: '~/util/dom-util'},
+        {title: 'Date', url: '~/util/date'},
+        {title: 'DOM', url: '~/util/dom'},
         {title: 'Misc', url: '~/util/misc'},
     ]
 }, {
