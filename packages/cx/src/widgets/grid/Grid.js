@@ -414,7 +414,7 @@ export class Grid extends Widget {
 
       result = result.filter((_, i) => !empty[i]);
 
-      if (fixed)
+      if (fixed && result[0])
          result[0].push(<th key="dummy"
             rowSpan={result.length}
             className={CSS.element(baseClass, "col-header")}
@@ -948,7 +948,8 @@ class GridComponent extends VDOM.Component {
                }
             }
             this.dom.fixedHeader.style.display = 'block';
-            fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
+            if (fixedHeaderRefs.last)
+               fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
             this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
 
