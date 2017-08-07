@@ -22,16 +22,16 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
-import { getSearchQueryPredicate } from '../../util/getSearchQueryPredicate';
-import { KeyCode } from '../../util';
-import { Localization } from '../../ui/Localization';
-import { StringTemplate } from '../../data/StringTemplate';
-import { Icon } from '../Icon';
+import {getSearchQueryPredicate} from '../../util/getSearchQueryPredicate';
+import {KeyCode} from '../../util';
+import {Localization} from '../../ui/Localization';
+import {StringTemplate} from '../../data/StringTemplate';
+import {Icon} from '../Icon';
 
 export class LookupField extends Field {
 
    declareData() {
-      var additionalAttributes = this.multiple
+      let additionalAttributes = this.multiple
          ? {values: undefined, records: undefined}
          : {value: undefined, text: undefined};
 
@@ -48,10 +48,10 @@ export class LookupField extends Field {
    init() {
 
       if (typeof this.hideClear != 'undefined')
-            this.showClear = !this.hideClear;
+         this.showClear = !this.hideClear;
 
       if (!this.bindings) {
-         var b = [];
+         let b = [];
          if (this.value && this.value.bind)
             b.push({
                key: true,
@@ -94,7 +94,7 @@ export class LookupField extends Field {
    }
 
    prepareData(context, instance) {
-      var {data, store} = instance;
+      let {data, store} = instance;
 
       data.stateMods = {
          multiple: this.multiple,
@@ -106,17 +106,17 @@ export class LookupField extends Field {
       if (this.multiple) {
          if (Array.isArray(data.values) && Array.isArray(data.options)) {
             data.selectedKeys = data.values.map(v => this.keyBindings.length == 1 ? [v] : v);
-            var map = {};
+            let map = {};
             data.options.filter($option => {
-               var optionKey = getOptionKey(this.keyBindings, {$option});
-               for (var i = 0; i < data.selectedKeys.length; i++)
+               let optionKey = getOptionKey(this.keyBindings, {$option});
+               for (let i = 0; i < data.selectedKeys.length; i++)
                   if (areKeysEqual(optionKey, data.selectedKeys[i])) {
                      map[i] = convertOption(this.bindings, {$option});
                      break;
                   }
             });
             data.records = [];
-            for (var i = 0; i < data.selectedKeys.length; i++)
+            for (let i = 0; i < data.selectedKeys.length; i++)
                if (map[i])
                   data.records.push(map[i]);
          }
@@ -124,10 +124,10 @@ export class LookupField extends Field {
             data.selectedKeys.push(...data.records.map($value => this.keyBindings.map(b => Binding.get(b.local).value({$value}))))
       }
       else {
-         var dataViewData = store.getData();
+         let dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map(b => Binding.get(b.local).value(dataViewData)));
          if (!this.text && Array.isArray(data.options)) {
-            var option = data.options.find($option => areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
+            let option = data.options.find($option => areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
             data.text = option && option[this.optionTextField] || '';
          }
       }
@@ -200,7 +200,7 @@ function areKeysEqual(key1, key2) {
    if (!key1 || !key2 || key1.length != key2.length)
       return false;
 
-   for (var i = 0; i < key1.length; i++)
+   for (let i = 0; i < key1.length; i++)
       if (key1[i] != key2[i])
          return false;
 
@@ -208,9 +208,9 @@ function areKeysEqual(key1, key2) {
 }
 
 function convertOption(bindings, data) {
-   var result = {$value: {}};
+   let result = {$value: {}};
    bindings.forEach(b => {
-      var value = Binding.get(b.remote).value(data);
+      let value = Binding.get(b.remote).value(data);
       result = Binding.get(b.local).set(result, value);
    });
    return result.$value;
@@ -220,7 +220,7 @@ class LookupComponent extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      var {data, store} = this.props.instance;
+      let {data, store} = this.props.instance;
       this.dom = {};
       this.state = {
          options: [],
@@ -252,7 +252,7 @@ class LookupComponent extends VDOM.Component {
       if (!key1 || !key2 || key1.length != key2.length)
          return false;
 
-      for (var i = 0; i < key1.length; i++)
+      for (let i = 0; i < key1.length; i++)
          if (key1[i] != key2[i])
             return false;
 
@@ -262,8 +262,8 @@ class LookupComponent extends VDOM.Component {
    findOption(options, key) {
       if (!key)
          return -1;
-      for (var i = 0; i < options.length; i++) {
-         var optionKey = this.getOptionKey({$option: options[i]});
+      for (let i = 0; i < options.length; i++) {
+         let optionKey = this.getOptionKey({$option: options[i]});
          if (this.areKeysEqual(key, optionKey))
             return i;
       }
@@ -271,21 +271,21 @@ class LookupComponent extends VDOM.Component {
    }
 
    setCursorKey(itemData) {
-      var key = this.getOptionKey(itemData);
+      let key = this.getOptionKey(itemData);
       this.setState({
          cursorKey: key
       });
    }
 
    suggestCursorKey(options) {
-      var index = this.findOption(options, this.state.cursorKey);
+      let index = this.findOption(options, this.state.cursorKey);
       if (index != -1)
          return this.state.cursorKey;
 
-      var {data, store} = this.props.instance;
-      var dataViewData = store.getData();
+      let {data, store} = this.props.instance;
+      let dataViewData = store.getData();
       if (data.value) {
-         var valueKey = this.props.bindings
+         let valueKey = this.props.bindings
             .filter(a => a.key)
             .map(b => Binding.get(b.local).value(dataViewData));
          index = this.findOption(options, valueKey);
@@ -303,11 +303,11 @@ class LookupComponent extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
-      var {widget} = this.props.instance;
-      var {CSS, baseClass} = widget;
+      let {widget} = this.props.instance;
+      let {CSS, baseClass} = widget;
 
       // generate class names for 'selected' and 'cursor' with state prefix
-      let [selected, cursor] = CSS.state({ selected: true, cursor: true }).split(/\s+/);
+      let [selected, cursor] = CSS.state({selected: true, cursor: true}).split(/\s+/);
 
       this.list = Widget.create(<cx>
          <ul class={CSS.element(baseClass, "lookup-options")}>
@@ -329,7 +329,7 @@ class LookupComponent extends VDOM.Component {
          </ul>
       </cx>);
 
-      var dropdown = {
+      let dropdown = {
          type: Dropdown,
          relatedElement: this.dom.input,
          scrollTracking: true,
@@ -354,12 +354,12 @@ class LookupComponent extends VDOM.Component {
    }
 
    renderDropdownContents() {
-      var content;
-      var {instance} = this.props;
-      var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      let content;
+      let {instance} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass} = widget;
 
-      var searchVisible = !widget.hideSearchField && (!Array.isArray(data.options) ||
+      let searchVisible = !widget.hideSearchField && (!Array.isArray(data.options) ||
          (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField))
 
       if (this.state.status == "loading") {
@@ -397,13 +397,15 @@ class LookupComponent extends VDOM.Component {
          )
       }
 
-      return <div ref={el => {
-         this.dom.dropdown = el
-      }}
+      return <div key="dropdown"
+         ref={el => {
+            this.dom.dropdown = el
+         }}
          className={CSS.element(baseClass, 'dropdown')}
          tabIndex={0}
          onFocus={::this.onDropdownFocus}
-         onKeyDown={e => this.onDropdownKeyPress(e)}>
+         onKeyDown={e => this.onDropdownKeyPress(e)}
+      >
          {searchVisible && <input key="query" ref={el => {
             this.dom.query = el
          }} type="text"
@@ -419,7 +421,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    onListWheel(e) {
-      var {list} = this.dom;
+      let {list} = this.dom;
       if ((list.scrollTop + list.offsetHeight == list.scrollHeight && e.deltaY > 0) ||
          (list.scrollTop == 0 && e.deltaY < 0)) {
          e.preventDefault();
@@ -434,7 +436,7 @@ class LookupComponent extends VDOM.Component {
 
    getPlaceholder(text) {
 
-      var {CSS, baseClass} = this.props.instance.widget;
+      let {CSS, baseClass} = this.props.instance.widget;
 
       if (text)
          return <span className={CSS.element(baseClass, "placeholder")}>{text}</span>;
@@ -443,12 +445,12 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, label, help} = this.props;
-      var {data, widget, state} = instance;
-      var {CSS, baseClass, suppressErrorsUntilVisited} = widget;
+      let {instance, label, help} = this.props;
+      let {data, widget, state} = instance;
+      let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
-            <div
+            <div key="icon"
                className={CSS.element(baseClass, 'left-icon')}
                onMouseDown={preventDefault}
                onClick={e => {
@@ -463,7 +465,7 @@ class LookupComponent extends VDOM.Component {
             </div>
          );
 
-      var dropdown;
+      let dropdown;
       if (this.state.dropdownOpen) {
          this.itemStore.setData({
             $options: this.state.options
@@ -471,13 +473,13 @@ class LookupComponent extends VDOM.Component {
          dropdown = <Cx widget={this.getDropdown()} store={this.itemStore} options={{name: 'lookupfield-dropdown'}}/>;
       }
 
-      var readOnly = data.disabled || data.readOnly;
+      let readOnly = data.disabled || data.readOnly;
 
-      var insideButton;
+      let insideButton;
 
       if (widget.showClear && !readOnly && !this.props.multiple && !data.required && data.value != null) {
          insideButton = (
-            <div onMouseDown={preventDefault}
+            <div key="ib" onMouseDown={preventDefault}
                onClick={e => this.onClearClick(e)}
                className={CSS.element(baseClass, 'clear')}>
                <ClearIcon className={CSS.element(baseClass, 'icon')}/>
@@ -486,7 +488,7 @@ class LookupComponent extends VDOM.Component {
       }
       else {
          insideButton = (
-            <div
+            <div key="ib"
                className={CSS.element(baseClass, 'tool')}
                onMouseDown={preventDefault}
                onClick={e => {
@@ -500,11 +502,12 @@ class LookupComponent extends VDOM.Component {
          );
       }
 
-      var text;
+      let text;
 
       if (this.props.multiple) {
          if (Array.isArray(data.records) && data.records.length > 0) {
-            text = data.records.map((v, i) => <div key={i} className={CSS.element(baseClass, 'tag', { "readonly": readOnly })}>
+            text = data.records.map((v, i) => <div key={i}
+               className={CSS.element(baseClass, 'tag', {"readonly": readOnly})}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
                {!readOnly && (
                   <div className={CSS.element(baseClass, 'tag-clear')}
@@ -524,7 +527,7 @@ class LookupComponent extends VDOM.Component {
          text = data.value != null ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
-      var states = {
+      let states = {
          visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
          icon: !insideButton || data.icon,
@@ -574,19 +577,19 @@ class LookupComponent extends VDOM.Component {
    }
 
    onClearClick(e, value) {
-      var {instance} = this.props;
-      var {data, store, widget} = instance;
-      var {keyBindings} = widget;
+      let {instance} = this.props;
+      let {data, store, widget} = instance;
+      let {keyBindings} = widget;
       e.stopPropagation();
       e.preventDefault();
       if (widget.multiple) {
          if (Array.isArray(data.records)) {
-            var itemKey = this.getLocalKey({$value: value});
-            var newRecords = data.records.filter(v => !this.areKeysEqual(this.getLocalKey({$value: v}), itemKey));
+            let itemKey = this.getLocalKey({$value: value});
+            let newRecords = data.records.filter(v => !this.areKeysEqual(this.getLocalKey({$value: v}), itemKey));
 
             instance.set('records', newRecords);
 
-            var newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
+            let newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
                .map(k => keyBindings.length == 1 ? k[0] : k);
 
             instance.set('values', newValues);
@@ -602,17 +605,17 @@ class LookupComponent extends VDOM.Component {
    }
 
    select(e, itemData) {
-      var {instance} = this.props;
-      var {store, data, widget} = instance;
-      var {bindings, keyBindings} = widget;
+      let {instance} = this.props;
+      let {store, data, widget} = instance;
+      let {bindings, keyBindings} = widget;
 
       if (widget.multiple) {
-         var {selectedKeys, records} = data;
+         let {selectedKeys, records} = data;
 
-         var optionKey = this.getOptionKey(itemData);
-         var newRecords = records;
+         let optionKey = this.getOptionKey(itemData);
+         let newRecords = records;
          if (!selectedKeys.find(k => this.areKeysEqual(optionKey, k))) {
-            var valueData = {
+            let valueData = {
                $value: {}
             };
             bindings.forEach(b => {
@@ -625,7 +628,7 @@ class LookupComponent extends VDOM.Component {
 
          instance.set('records', newRecords);
 
-         var newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
+         let newValues = newRecords.map(rec => this.getLocalKey({$value: rec}))
             .map(k => keyBindings.length == 1 ? k[0] : k);
 
          instance.set('values', newValues);
@@ -645,9 +648,9 @@ class LookupComponent extends VDOM.Component {
 
    onDropdownKeyPress(e) {
       if (e.keyCode == KeyCode.enter) {
-         var index = this.findOption(this.state.options, this.state.cursorKey);
+         let index = this.findOption(this.state.options, this.state.cursorKey);
          if (index != -1) {
-            var itemData = {
+            let itemData = {
                $option: this.state.options[index]
             }
             this.select(e, itemData);
@@ -660,7 +663,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (e.keyCode == KeyCode.up) {
-         var index = this.findOption(this.state.options, this.state.cursorKey);
+         let index = this.findOption(this.state.options, this.state.cursorKey);
          if (index > 0) {
             this.setCursorKey({
                $option: this.state.options[index - 1]
@@ -671,7 +674,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (e.keyCode == KeyCode.down) {
-         var index = this.findOption(this.state.options, this.state.cursorKey);
+         let index = this.findOption(this.state.options, this.state.cursorKey);
          if (index + 1 < this.state.options.length) {
             this.setCursorKey({
                $option: this.state.options[index + 1]
@@ -747,13 +750,14 @@ class LookupComponent extends VDOM.Component {
    }
 
    openDropdown(e) {
-      var {data} = this.props.instance;
+      let {data} = this.props.instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
          this.query('');
          this.setState({
             dropdownOpen: true,
          }, () => {
-            this.dom.dropdown.focus();
+            if (this.dom.dropdown)
+               this.dom.dropdown.focus();
          });
       }
    }
@@ -767,7 +771,7 @@ class LookupComponent extends VDOM.Component {
        */
 
       let {instance} = this.props;
-      var {widget, data} = instance;
+      let {widget, data} = instance;
 
       if (this.queryTimeoutId)
          clearTimeout(this.queryTimeoutId);
@@ -781,7 +785,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (Array.isArray(data.options)) {
-         var results = widget.filterOptions(this.props.instance, data.options, q);
+         let results = widget.filterOptions(this.props.instance, data.options, q);
          this.setState({
             options: results,
             cursorKey: this.suggestCursorKey(results),
