@@ -1016,17 +1016,9 @@ babel-preset-babili@^0.1.4:
     babel-plugin-transform-undefined-to-void "^6.8.2"
     lodash.isplainobject "^4.0.6"
 
-babel-preset-cx-env@^17.6.2:
-  version "17.6.2"
-  resolved "https://registry.yarnpkg.com/babel-preset-cx-env/-/babel-preset-cx-env-17.6.2.tgz#e64191c1824b2a63fa2fe868aff79cfcbf263086"
-  dependencies:
-    babel-plugin-transform-class-properties "^6.24.1"
-    babel-plugin-transform-cx-imports "^17.4.2"
-    babel-plugin-transform-cx-jsx "^17.6.3"
-    babel-plugin-transform-function-bind "6.22.0"
-    babel-plugin-transform-object-rest-spread "^6.23.0"
-    babel-plugin-transform-react-jsx "^6.24.1"
-    babel-preset-env "^1.5.2"
+"babel-preset-cx-env@link:./packages/babel-preset-cx-env":
+  version "0.0.0"
+  uid ""
 
 babel-preset-env@^1.5.2:
   version "1.6.0"
@@ -1898,20 +1890,17 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cx-react@^17.4.1:
-  version "17.4.1"
-  resolved "https://registry.yarnpkg.com/cx-react/-/cx-react-17.4.1.tgz#124c7d8606a76b6cfdf0b6a8cf5998a92bc66d20"
+"cx-react@link:./packages/cx-react":
+  version "0.0.0"
+  uid ""
 
-cx-redux@^17.5.0:
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/cx-redux/-/cx-redux-17.5.0.tgz#288f900cf64584259b3d09acdefd003728f4b287"
+"cx-redux@link:./packages/cx-redux":
+  version "0.0.0"
+  uid ""
 
-cx@^17.7.11:
-  version "17.7.11"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-17.7.11.tgz#a41327de45906326b8f080a79c6339b9f2eabfda"
-  dependencies:
-    intl-io "^0.2.5"
-    route-parser "^0.0.5"
+"cx@link:./packages/cx":
+  version "0.0.0"
+  uid ""
 
 d@1:
   version "1.0.0"
