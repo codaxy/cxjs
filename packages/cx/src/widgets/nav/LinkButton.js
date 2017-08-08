@@ -69,7 +69,7 @@ export class LinkButton extends Button {
       if (this.onClick && instance.invoke("onClick", e, instance) === false)
          return;
 
-      if (Url.isLocal(data.href)) {
+      if (data.href && Url.isLocal(data.href)) {
          e.preventDefault();
          History.pushState({}, null, data.href);
       }
