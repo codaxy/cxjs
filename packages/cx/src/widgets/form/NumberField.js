@@ -178,9 +178,7 @@ class Input extends VDOM.Component {
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
             //onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
-            onKeyDown={ e => {
-               if (e.keyCode == 13) this.onChange(e, 'enter')
-            }}
+            onKeyDown={::this.onKeyDown}
             onBlur={ e => {
                this.onChange(e, 'blur')
             }}
@@ -267,6 +265,14 @@ class Input extends VDOM.Component {
    onClearClick(e) {
       this.input.value = '';
       this.props.instance.set('value', null);
+   }
+
+   onKeyDown(e) {
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
+      if (e.keyCode == 13) this.onChange(e, 'enter');
    }
 
    onChange(e, change) {

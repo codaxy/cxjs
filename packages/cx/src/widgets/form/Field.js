@@ -9,6 +9,7 @@ import {Localization} from '../../ui/Localization';
 import {isPromise} from '../../util/isPromise';
 import {Console} from '../../util/Console';
 import {parseStyle} from '../../util/parseStyle';
+import {FocusManager} from '../../ui/FocusManager';
 
 export class Field extends PureContainer {
 
@@ -27,7 +28,8 @@ export class Field extends PureContainer {
          style: {structured: true},
          emptyText: undefined,
          visited: undefined,
-         autoFocus: undefined
+         autoFocus: undefined,
+         tabOnEnterKey: undefined
       }, ...arguments);
    }
 
@@ -113,9 +115,11 @@ export class Field extends PureContainer {
       data._disabled = data.disabled;
       data._readOnly = data.readOnly;
       data._viewMode = data.viewMode || data.mode === 'view';
+      data._tabOnEnterKey = data.tabOnEnterKey;
       instance.parentDisabled = context.parentDisabled;
       instance.parentReadOnly = context.parentReadOnly;
       instance.parentViewMode = context.parentViewMode;
+      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
 
       if (typeof data.enabled !== 'undefined')
          data._disabled = !data.enabled;
@@ -145,8 +149,9 @@ export class Field extends PureContainer {
       data.disabled = data._disabled || instance.parentDisabled;
       data.readOnly = data._readOnly || instance.parentReadOnly;
       data.viewMode = data._viewMode || instance.parentViewMode;
-      if (instance.parentReadOnly)
-      if (!data.error && !data.disabled)
+      data.tabOnEnterKey = data._tabOnEnterKey || instance.parentTabOnEnterKey;
+
+      if (!data.error && !data.disabled && !data.viewMode)
          this.validate(context, instance);
 
       data.stateMods = {
@@ -160,10 +165,12 @@ export class Field extends PureContainer {
    explore(context, instance) {
       let {data, state} = instance;
 
-      if (context.parentDisabled != instance.parentDisabled || context.parentReadOnly != instance.parentReadOnly || context.parentViewMode != instance.parentViewMode) {
+      if (context.parentDisabled != instance.parentDisabled || context.parentReadOnly != instance.parentReadOnly
+         || context.parentViewMode != instance.parentViewMode || context.parentTabOnEnterKey != instance.parentTabOnEnterKey) {
          instance.parentDisabled = context.parentDisabled;
          instance.parentReadOnly = context.parentReadOnly;
          instance.parentViewMode = context.parentViewMode;
+         instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
          instance.shouldUpdate = true;
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
@@ -308,6 +315,19 @@ export class Field extends PureContainer {
          content: content,
          helpSpacer: this.helpSpacer && instance.components.help ? ' ' : null,
          help: !this.helpPlacement && this.renderHelp(context, instance, key)
+      }
+   }
+
+   handleKeyDown(e, instance) {
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
+         return false;
+
+      if (instance.data.tabOnEnterKey && e.keyCode === 13) {
+         let target = e.target;
+         setTimeout(() => {
+            if (!instance.state.inputError)
+               FocusManager.focusNext(target);
+         }, 10);
       }
    }
 }

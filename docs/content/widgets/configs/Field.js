@@ -165,5 +165,11 @@ export default {
         description: <cx><Md>
             Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
         </Md></cx>
+    },
+    tabOnEnterKey: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to move focus to the next field if `Enter` key is pressed.
+        </Md></cx>
     }
 };

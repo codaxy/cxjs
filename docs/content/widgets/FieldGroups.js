@@ -29,24 +29,28 @@ export const FieldGroups = <cx>
                     enabled:bind="$page.enabled"
                     readOnly:bind="$page.readOnly"
                     viewMode:bind="$page.viewMode"
+                    tabOnEnterKey
                 >
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
+                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
                 </FieldGroup>
             </div>
 
             <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
                 <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
-                <Checkbox value:bind="$page.readOnly">Read Only</Checkbox>
-                <Checkbox value:bind="$page.viewMode">View</Checkbox>
+                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
+                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
                 <FieldGroup
                     layout={LabelsLeftLayout}
                     enabled:bind="$page.enabled"
                     readOnly:bind="$page.readOnly"
                     viewMode:bind="$page.viewMode"
+                    tabOnEnterKey
                 >
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
+                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
                 </FieldGroup>
             `}</CodeSnippet>
         </CodeSplit>

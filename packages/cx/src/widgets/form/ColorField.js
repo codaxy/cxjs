@@ -232,6 +232,10 @@ class ColorInput extends VDOM.Component {
 
    onKeyDown(e) {
 
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();

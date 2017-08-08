@@ -51,7 +51,7 @@ export function isFocusable(el) {
    if (!firstPass)
       return false;
 
-   if (focusableWithoutTabIndex.indexOf(el.tagName) != -1)
+   if (focusableWithoutTabIndex.indexOf(el.tagName) != -1 && !el.hasAttribute('disabled'))
       return true;
 
    return el.hasAttribute('tabindex');

@@ -219,6 +219,10 @@ class Input extends VDOM.Component {
 
 
    onKeyDown(e) {
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
       switch (e.keyCode) {
          case KeyCode.enter:
             this.onChange(e, 'enter');

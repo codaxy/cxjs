@@ -687,6 +687,10 @@ class LookupComponent extends VDOM.Component {
 
    onKeyDown(e) {
 
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
       switch (e.keyCode) {
          case KeyCode.delete:
             this.onClearClick(e);

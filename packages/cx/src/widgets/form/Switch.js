@@ -56,7 +56,7 @@ export class Switch extends Field {
    }
 
    renderInput(context, instance, key) {
-      let {data} = instance;
+      let {data, widget} = instance;
       let {rangeStyle, handleStyle} = data;
       let {CSS, baseClass} = this;
 
@@ -66,7 +66,7 @@ export class Switch extends Field {
          className={data.classNames}
          style={data.style}
          id={data.id}
-         tabIndex={data.readOnly || data.disabled ? null : 0}
+         tabIndex={data.disabled ? null : 0}
          onMouseDown={e=>{
             e.stopPropagation();
             if (!this.focusOnMouseDown)
@@ -74,6 +74,8 @@ export class Switch extends Field {
          }}
          onClick={e=>{this.toggle(e, instance)}}
          onKeyDown={e=>{
+            if (widget.handleKeyDown(e, instance) === false)
+               return;
             if (e.keyCode == KeyCode.space) {
                this.toggle(e, instance);
             }

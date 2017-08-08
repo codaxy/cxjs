@@ -45,5 +45,12 @@ export default {
         description: <cx><Md>
             Set to `true` to switch all inner fields into view mode.
         </Md></cx>
+    },
+    tabOnEnterKey: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to move focus to the next field if `Enter` key is pressed.
+        </Md></cx>
     }
 };

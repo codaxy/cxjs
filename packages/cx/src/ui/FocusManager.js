@@ -73,6 +73,26 @@ export class FocusManager {
       return focusable;
    }
 
+   static focusNext(el) {
+      let next = el, skip = true;
+      do {
+         if (!skip) {
+            let focusable = this.focusFirst(next);
+            if (focusable)
+               return focusable;
+         }
+
+         if (next.nextSibling) {
+            next = next.nextSibling;
+            skip = false;
+         }
+         else {
+            next = next.parentNode;
+            skip = true;
+         }
+      } while (next);
+   }
+
    static setInterval(interval) {
       clearInterval(intervalId);
       intervalId = setInterval(::this.nudge, interval);

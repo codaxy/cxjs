@@ -1,7 +1,13 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {Field, getFieldTooltip} from './Field';
-import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
+import {
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+   tooltipMouseMove,
+   tooltipMouseLeave,
+   tooltipParentDidMount
+} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
@@ -29,12 +35,13 @@ export class Select extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <SelectComponent key={key}
-                              instance={instance}
-                              multiple={this.multiple}
-                              select={v => this.select(v, instance)}
-                              label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
-                              help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
+      return <SelectComponent
+         key={key}
+         instance={instance}
+         multiple={this.multiple}
+         select={v => this.select(v, instance)}
+         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
          {this.renderChildren(context, instance)}
       </SelectComponent>
    }
@@ -77,7 +84,7 @@ Localization.registerPrototype("cx/widgets/Select", Select);
 
 class SelectComponent extends VDOM.Component {
 
-   constructor(props){
+   constructor(props) {
       super(props);
       this.state = {
          visited: false,
@@ -152,7 +159,7 @@ class SelectComponent extends VDOM.Component {
             disabled={data.disabled}
             {...data.inputAttrs}
             onBlur={::this.onBlur}
-            onFocus={ e=> this.onFocus() }
+            onFocus={ e => this.onFocus() }
             onChange={e => {
                e.preventDefault();
                select(e.target.value);
@@ -178,7 +185,7 @@ class SelectComponent extends VDOM.Component {
          });
    }
 
-   onFocus(){
+   onFocus() {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.trackFocus) {
@@ -197,7 +204,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      var { select } = this.props;
+      var {select} = this.props;
       select(this.select.value);
       tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
       if (this.props.instance.data.autoFocus)

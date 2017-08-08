@@ -158,7 +158,7 @@ class RadioCmp extends VDOM.Component {
       return (
          <span
             key="check"
-            tabIndex={data.disabled || data.readOnly ? null : 0}
+            tabIndex={data.disabled ? null : 0}
             className={CSS.element(baseClass, "input", {
                checked: this.state.value
             })}
@@ -181,6 +181,10 @@ class RadioCmp extends VDOM.Component {
    }
 
    onKeyDown(e) {
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
       switch (e.keyCode) {
          case KeyCode.space:
             this.onClick(e);

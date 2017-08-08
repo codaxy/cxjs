@@ -92,8 +92,9 @@ export class Checkbox extends Field {
       ]);
    }
 
-   formatValue(context, {data}) {
-      return data.value && data.text;
+   formatValue(context, instance) {
+      let {data} = instance;
+      return data.value && (data.text || this.renderChildren(context, instance));
    }
 
    handleClick(e, instance) {
@@ -160,7 +161,7 @@ class CheckboxCmp extends VDOM.Component {
 
       return <span
          key="check"
-         tabIndex={widget.unfocusable || data.disabled || data.readOnly ? null : 0}
+         tabIndex={widget.unfocusable || data.disabled ? null : 0}
          className={CSS.element(baseClass, "input", {
             checked: check
          })}
@@ -186,6 +187,10 @@ class CheckboxCmp extends VDOM.Component {
    }
 
    onKeyDown(e) {
+      let {instance} = this.props;
+      if (instance.widget.handleKeyDown(e, instance) === false)
+         return;
+
       switch (e.keyCode) {
          case KeyCode.space:
             this.onClick(e);
