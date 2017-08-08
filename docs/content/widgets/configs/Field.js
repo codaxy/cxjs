@@ -55,6 +55,12 @@ export default {
             Either `view` or `edit` (default). In view mode, the field is displayed as plain text.
         </Md></cx>
     },
+    viewMode: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to switch into view mode. Same as `mode="view"`.
+        </Md></cx>
+    },
     id: {
         type: 'string',
         description: <cx><Md>

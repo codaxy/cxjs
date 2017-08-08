@@ -103,7 +103,7 @@ export class Checkbox extends Field {
          var el = document.getElementById(instance.data.id);
          if (el)
             el.focus();
-         if (instance.data.mode != 'view') {
+         if (!instance.data.viewMode) {
             e.preventDefault();
             e.stopPropagation();
             this.handleChange(e, instance, !instance.data.value);
@@ -114,7 +114,7 @@ export class Checkbox extends Field {
    handleChange(e, instance, checked) {
       let {data} = instance;
 
-      if (data.readOnly || data.disabled)
+      if (data.readOnly || data.disabled || data.viewMode)
          return;
 
       instance.set('value', checked != null ? checked : e.target.checked);

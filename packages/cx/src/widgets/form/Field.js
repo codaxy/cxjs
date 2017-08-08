@@ -17,6 +17,7 @@ export class Field extends PureContainer {
          label: undefined,
          labelWidth: undefined,
          mode: undefined,
+         viewMode: undefined,
          id: undefined,
          error: undefined,
          class: {structured: true},
@@ -110,7 +111,11 @@ export class Field extends PureContainer {
          data.id = 'fld-' + instance.id;
 
       data._disabled = data.disabled;
-      instance.parentDisabled = context.parentDisabled || false;
+      data._readOnly = data.readOnly;
+      data._viewMode = data.viewMode || data.mode === 'view';
+      instance.parentDisabled = context.parentDisabled;
+      instance.parentReadOnly = context.parentReadOnly;
+      instance.parentViewMode = context.parentViewMode;
 
       if (typeof data.enabled !== 'undefined')
          data._disabled = !data.enabled;
@@ -138,23 +143,30 @@ export class Field extends PureContainer {
    disableOrValidate(context, instance) {
       let {data} = instance;
       data.disabled = data._disabled || instance.parentDisabled;
+      data.readOnly = data._readOnly || instance.parentReadOnly;
+      data.viewMode = data._viewMode || instance.parentViewMode;
+      if (instance.parentReadOnly)
       if (!data.error && !data.disabled)
          this.validate(context, instance);
 
       data.stateMods = {
          ...data.stateMods,
          disabled: data.disabled,
-         [(data.mode || 'edit') + '-mode']: true
+         "edit-mode": !data.viewMode,
+         "view-mode": data.viewMode
       };
    }
 
    explore(context, instance) {
       let {data, state} = instance;
 
-      if (context.parentDisabled !== instance.parentDisabled) {
+      if (context.parentDisabled != instance.parentDisabled || context.parentReadOnly != instance.parentReadOnly || context.parentViewMode != instance.parentViewMode) {
          instance.parentDisabled = context.parentDisabled;
+         instance.parentReadOnly = context.parentReadOnly;
+         instance.parentViewMode = context.parentViewMode;
          instance.shouldUpdate = true;
          this.disableOrValidate(context, instance);
+         this.prepareCSS(context, instance);
       }
 
       if (!context.validation)
@@ -287,7 +299,7 @@ export class Field extends PureContainer {
 
    render(context, instance, key) {
       var {data} = instance;
-      var content = data.mode !== 'view'
+      var content = !data.viewMode
          ? this.renderInput(context, instance, key + 'input')
          : this.renderContent(context, instance, key + 'content');
 

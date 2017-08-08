@@ -12,8 +12,13 @@ export interface ValidationGroupProps extends Cx.PureContainerProps {
    invalid?: Cx.BooleanProp,
 
    /** Set to `false` to disable all inner elements that support `disabled` property. */
-   enabled?: Cx.BooleanProp
-   
+   enabled?: Cx.BooleanProp,
+
+   /** Set to `true` to disable all inner elements that support `disabled` property. */
+   disabled?: Cx.BooleanProp,
+
+   /** Set to `true` to make read-only all inner elements that support `readOnly` property. */
+   readOnly?: Cx.BooleanProp
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}

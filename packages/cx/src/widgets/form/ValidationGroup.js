@@ -9,18 +9,24 @@ export class ValidationGroup extends PureContainer {
          valid: undefined,
          invalid: undefined,
          disabled: undefined,
-         enabled: undefined
+         enabled: undefined,
+         readOnly: undefined,
+         viewMode: undefined
       })
    }
 
    explore(context, instance) {
 
-      let parentDisabled = context.parentDisabled;
+      let parentDisabled = context.parentDisabled,
+         parentReadOnly = context.parentReadOnly,
+         parentViewMode = context.parentViewMode;
 
-      if (typeof instance.data.enabled !== 'undefined')
+      if (instance.data.enabled !== undefined)
          instance.data.disabled = !instance.data.enabled;
 
       context.parentDisabled = parentDisabled || instance.data.disabled;
+      context.parentReadOnly = parentReadOnly || instance.data.readOnly;
+      context.parentViewMode = parentViewMode || instance.data.viewMode;
 
       if (!context.validation)
          context.validation = {
@@ -37,6 +43,8 @@ export class ValidationGroup extends PureContainer {
          instance.set('errors', context.validation.errors);
 
       context.parentDisabled = parentDisabled;
+      context.parentReadOnly = parentReadOnly;
+      context.parentViewMode = parentViewMode;
    }
 }
 

@@ -14,22 +14,37 @@ export const FieldGroups = <cx>
 
         <ImportPath path="import {FieldGroup} from 'cx/widgets';"/>
 
-        The `FieldGroup` widget is pure container which allows disabling of multiple form elements using
-        a single property. `ValidationGroup` widget may be used for this purpose too, under the hood, `FieldGroup`
-        is just an alias for it.
-
         <CodeSplit>
+
+            The `FieldGroup` widget is pure container which allows disabling of multiple form elements using
+            a single property. `ValidationGroup` widget may be used for this purpose too, under the hood, `FieldGroup`
+            is just an alias for it.
+
             <div class="widgets">
-                <Checkbox value:bind="$page.active">Active</Checkbox>
-                <FieldGroup layout={LabelsLeftLayout} enabled:bind="$page.active">
+                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
+                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
+                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
+                <FieldGroup
+                    layout={LabelsLeftLayout}
+                    enabled:bind="$page.enabled"
+                    readOnly:bind="$page.readOnly"
+                    viewMode:bind="$page.viewMode"
+                >
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
                 </FieldGroup>
             </div>
 
             <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-                <Checkbox value:bind="$page.active">Active</Checkbox>
-                <FieldGroup layout={LabelsLeftLayout} enabled:bind="$page.active">
+                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
+                <Checkbox value:bind="$page.readOnly">Read Only</Checkbox>
+                <Checkbox value:bind="$page.viewMode">View</Checkbox>
+                <FieldGroup
+                    layout={LabelsLeftLayout}
+                    enabled:bind="$page.enabled"
+                    readOnly:bind="$page.readOnly"
+                    viewMode:bind="$page.viewMode"
+                >
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
                 </FieldGroup>

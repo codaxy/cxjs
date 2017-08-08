@@ -120,7 +120,7 @@ export class Radio extends Field {
 
    handleChange(e, instance) {
       var {data} = instance;
-      if (data.disabled || data.readOnly || data.mode !== "edit")
+      if (data.disabled || data.readOnly || data.viewMode)
          return;
       instance.set('value', data.option);
    }
@@ -128,7 +128,6 @@ export class Radio extends Field {
 
 Radio.prototype.baseClass = "radio";
 Radio.prototype.native = false;
-Radio.prototype.mode = "edit";
 
 Widget.alias('radio', Radio);
 

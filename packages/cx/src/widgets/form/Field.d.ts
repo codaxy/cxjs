@@ -18,6 +18,9 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
    mode?: Cx.Prop<'view' | 'edit'>,
 
+   /** Set to `true` to switch to widget view mode. Same as `mode="view". Default is false. */
+   viewMode?: Cx.BooleanProp,
+
    id?: Cx.Prop<string | number>,
    
    /** Used for validation. If error evaluates to non-null, the field is marked in red. */

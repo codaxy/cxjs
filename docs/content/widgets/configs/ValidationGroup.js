@@ -31,5 +31,19 @@ export default {
         description: <cx><Md>
             Set to `false` to disable all inner elements that support `disabled` property.
         </Md></cx>
+    },
+    readOnly: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make read-only all inner elements that support `readOnly` property.
+        </Md></cx>
+    },
+    viewMode: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to switch all inner fields into view mode.
+        </Md></cx>
     }
 };
