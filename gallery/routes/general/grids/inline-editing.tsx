@@ -1,6 +1,5 @@
-import { Grid, HtmlElement, Checkbox, LookupField, TextField, Section, Select, cx } from "cx/widgets";
+import { Grid, Checkbox, TextField, Section, cx } from "cx/widgets";
 import { Controller, bind } from "cx/ui";
-import { getComparer } from "cx/data";
 import casual from '../../../util/casual';
 
 class PageController extends Controller {

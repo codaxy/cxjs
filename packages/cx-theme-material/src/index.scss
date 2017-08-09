@@ -474,15 +474,6 @@ div.#{$block}classic-tab-container {
    }
 }
 
-// form fields in grid are not distinctive enough - this is a temporary solution TODO
-.#{$element}grid-data {
-   .#{$element}textfield-input {
-      background-color: rgba(0, 0, 0, 0.03);
-      padding-left: 7px;
-      padding-right: 7px;
-   } 
-}
-
 .#{$element}grid-fixed-header {
    // shadow added to fixed header
    box-shadow: $cx-default-grid-header-box-shadow;

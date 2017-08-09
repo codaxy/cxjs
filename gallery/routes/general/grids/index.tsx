@@ -17,6 +17,7 @@ const header = getHeader({
         "dynamic-grouping": "Dynamic Grouping",
         "drag-drop": "Row Drag & Drop",
         "filtering": "Filtering",
+        "row-editing": "Row Editing",
         "form-editing": "Form Editing",
         "tree-grid": "Tree Grid",
         "header-menu": "Header Menu",
@@ -39,6 +40,7 @@ export default <cx>
         <SandboxedAsyncRoute route="+/dynamic-grouping" content={() => System.import("./dynamic-grouping")}/>
         <SandboxedAsyncRoute route="+/drag-drop" content={() => System.import("./drag-drop")}/>
         <SandboxedAsyncRoute route="+/filtering" content={() => System.import("./filtering")}/>
+        <SandboxedAsyncRoute route="+/row-editing" content={() => System.import("./row-editing")}/>
         <SandboxedAsyncRoute route="+/form-editing" content={() => System.import("./form-editing")}/>
         <SandboxedAsyncRoute route="+/tree-grid" content={() => System.import("./tree-grid")}/>
         <SandboxedAsyncRoute route="+/complex-header" content={() => System.import("./complex-header")}/>

@@ -2,6 +2,7 @@ export * from './MultipleSelection';
 export * from './DynamicGrouping';
 export * from './Grouping';
 export * from './InlineEdit';
+export * from './RowEditing';
 export * from './FormEdit';
 export * from './TreeGrid';
 export * from './Pagination';

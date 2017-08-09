@@ -578,6 +578,8 @@ class GridComponent extends VDOM.Component {
          start: 0,
          end: widget.bufferSize
       };
+
+      this.scrollerRef = el => { this.dom.scroller = el; }
    }
 
    render() {
@@ -687,9 +689,7 @@ class GridComponent extends VDOM.Component {
       content.push(
          <div
             key="scroller"
-            ref={el => {
-               this.dom.scroller = el
-            }}
+            ref={this.scrollerRef}
             style={{
                marginTop: this.headerHeight
             }}
@@ -917,14 +917,16 @@ class GridComponent extends VDOM.Component {
       let {headerRefs, fixedHeaderRefs, instance, data} = this.props;
       let {widget} = instance;
 
+      if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
+         for (let k in headerRefs) {
+            let c = headerRefs[k];
+            c.style.width = c.offsetWidth + 'px';
+         }
+      }
+
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
-         if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
-            for (let k in headerRefs) {
-               let c = headerRefs[k];
-               c.style.width = c.offsetWidth + 'px';
-            }
-         }
+
 
          let resized = false, headerHeight = 0, rowHeight = 0;
 
@@ -998,8 +1000,8 @@ class GridComponent extends VDOM.Component {
    }
 
    showCursor(focused) {
-      if (this.state.cursor == -1) {
-         let {records, isSelected} = this.props.instance;
+      let {records, isSelected} = this.props.instance;
+      if (this.state.cursor == -1 && records) {
          let cursor = records.findIndex(x => isSelected(x.data, x.index));
          //if there are no selected records, find the first data record (skip group header)
          if (cursor == -1)
