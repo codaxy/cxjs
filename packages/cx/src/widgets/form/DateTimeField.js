@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {DateTimePicker} from './DateTimePicker';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
@@ -19,7 +19,6 @@ import {
 } from '../overlay/tooltip-ops';
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
-import CalendarIcon from '../icons/calendar';
 import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import ClearIcon from '../icons/clear';
@@ -439,8 +438,11 @@ class DateTimeInput extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
-         this.input.focus();
+      autoFocus(this.input, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.input, this);
    }
 
    componentWillUnmount() {

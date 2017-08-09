@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {TextField} from './TextField';
-import {getFieldTooltip} from './Field';
+import {getFieldTooltip, autoFocus} from './Field';
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -105,8 +105,11 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
-         this.input.focus();
+      autoFocus(this.input, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.input, this);
    }
 
    onKeyDown(e) {

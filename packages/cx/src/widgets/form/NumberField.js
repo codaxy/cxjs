@@ -1,12 +1,11 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
 import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
-import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 
@@ -208,8 +207,11 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.data.autoFocus && !isTouchDevice())
-         this.input.focus();
+      autoFocus(this.input, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.input, this);
    }
 
    componentWillUnmount() {

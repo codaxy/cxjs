@@ -81,6 +81,7 @@ export default (
                            value:bind="$record.fullName"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           autoFocus
                         />
                      </cx>
                   },

@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -207,8 +207,11 @@ class SelectComponent extends VDOM.Component {
       var {select} = this.props;
       select(this.select.value);
       tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
-      if (this.props.instance.data.autoFocus)
-         this.select.focus();
+      autoFocus(this.select, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.select, this);
    }
 
    componentWillReceiveProps(props) {

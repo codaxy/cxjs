@@ -228,6 +228,7 @@ export const RowEditing = <cx>
                                     value:bind="$record.fullName"
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
+                                    autoFocus
                                 />
                             </cx>
                         }, {

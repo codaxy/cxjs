@@ -1,5 +1,5 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -202,13 +202,16 @@ class Input extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.data.autoFocus && !isTouchDevice())
-         this.input.focus();
+      autoFocus(this.input, this);
       if (this.props.instance.widget.trackBrowserAutofill)
          this.autoFillTimer = setInterval(() => {
             if (this.props.data.value != this.input.value && document.activeElement !== this.input)
                this.props.instance.set('value', this.input.value || null);
          }, 300);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.input, this);
    }
 
    componentWillUnmount() {

@@ -56,7 +56,9 @@ export const LookupFields = <cx>
                         label="Select"
                         value:bind="$page.s5.id"
                         text:bind="$page.s5.text"
-                        options:bind="$page.options5"/>
+                        options:bind="$page.options5"
+                        autoFocus
+                    />
                     <LookupField
                         label="MultiSelect"
                         records:bind="$page.s10"
@@ -161,7 +163,9 @@ export const LookupFields = <cx>
                         label="Select"
                         value:bind="$page.s5.id"
                         text:bind="$page.s5.text"
-                        options:bind="$page.options5"/>
+                        options:bind="$page.options5"
+                        autoFocus
+                    />
                     <LookupField
                         label="MultiSelect"
                         records:bind="$page.s10"

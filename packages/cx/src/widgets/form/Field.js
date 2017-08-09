@@ -10,6 +10,7 @@ import {isPromise} from '../../util/isPromise';
 import {Console} from '../../util/Console';
 import {parseStyle} from '../../util/parseStyle';
 import {FocusManager} from '../../ui/FocusManager';
+import {isTouchEvent} from '../../util/isTouchEvent';
 
 export class Field extends PureContainer {
 
@@ -362,4 +363,12 @@ export function getFieldTooltip(instance) {
          }
       ];
    return [instance, widget.tooltip];
+}
+
+export function autoFocus(el, component) {
+   let data = component.props.data || component.props.instance.data;
+   if (el && el !== component.autoFocusEl && data.autoFocus && !isTouchEvent())
+      FocusManager.focus(el);
+
+   component.autoFocusEl = el;
 }

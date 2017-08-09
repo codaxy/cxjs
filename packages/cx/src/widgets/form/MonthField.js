@@ -468,8 +468,11 @@ class MonthInput extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
-         this.input.focus();
+      autoFocus(this.input, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.input, this);
    }
 
    componentWillUnmount() {

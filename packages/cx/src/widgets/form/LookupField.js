@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {Text} from '../../ui/Text';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Repeater} from '../../ui/Repeater';
@@ -852,8 +852,11 @@ class LookupComponent extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
-      if (this.props.instance.data.autoFocus && !isTouchDevice())
-         this.dom.input.focus();
+      autoFocus(this.dom.input, this);
+   }
+
+   componentDidUpdate() {
+      autoFocus(this.dom.input, this);
    }
 
    componentWillUnmount() {
