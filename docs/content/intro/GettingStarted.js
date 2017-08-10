@@ -53,7 +53,7 @@ export const GettingStarted = <cx>
 
         ## Widgets
 
-        Cx offers an extensive library of widgets. You should get familiar commonly used widgets, such as:
+        Cx offers an extensive library of widgets. You should get familiar with commonly used widgets, such as:
 
         - [TextField](~/widgets/text-fields)
         - [NumberField](~/widgets/number-fields)
@@ -67,7 +67,7 @@ export const GettingStarted = <cx>
 
         ## Advanced Concepts
 
-        At this point you're probably wondering how all the pieces glue together. Well, you should read more about:
+        At this point you're probably wondering how all pieces are glued together. Well, you should read more about:
 
         - [Controllers](~/concepts/controllers)
         - [Data Views](~/concepts/data-views)
