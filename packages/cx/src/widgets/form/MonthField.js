@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Cx} from '../../ui/Cx';
-import {Field, getFieldTooltip} from './Field';
+import {Field, getFieldTooltip, autoFocus} from './Field';
 import {MonthPicker} from './MonthPicker';
 import {DateTimeCulture} from 'intl-io';
 import {Format} from '../../util/Format';
