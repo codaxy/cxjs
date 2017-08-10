@@ -12,11 +12,11 @@ export const GettingStarted = <cx>
 
         ## Basic Concepts
 
-        The most important steps of getting familiar with Cx is to understand its syntax and the data-binding process.
+        It is very important to understand syntax and how data-binding works.
 
         Cx uses JSX syntax, [introduced by React](https://facebook.github.io/react/docs/introducing-jsx.html),
         which enables HTML/XML-like structures inside JavaScript.
-        On top of JSX syntax, Cx uses custom data binding instructions which connect the widgets with the
+        On top of JSX syntax, Cx uses custom data binding instructions to connect widgets with the
         underlying data store.
 
         <CodeSplit>
@@ -44,11 +44,7 @@ export const GettingStarted = <cx>
 
         If you take a closer look at the source code, you'll see what Cx is about. You can freely combine widgets with plain HTML
         and use special attributes to connect to the data. Whenever data changes, the page is automatically updated.
-
-        > The code containing JSX syntax must be processed through a preprocessor tool before it's served to the browser.
-        The most popular preprocessor tool is [Babel](https://babeljs.io/), which besides JSX processing also
-        transpiles the latest JavaScript features into ES5.
-
+        
         Learn more:
 
         * [Data Binding](~/concepts/data-binding)
@@ -57,8 +53,7 @@ export const GettingStarted = <cx>
 
         ## Widgets
 
-        Now that you're familiar with the basic concepts, you should take a look at some of the widgets from the library
-        that Cx offers:
+        Cx offers an extensive library of widgets. You should get familiar commonly used widgets, such as:
 
         - [TextField](~/widgets/text-fields)
         - [NumberField](~/widgets/number-fields)
@@ -108,7 +103,7 @@ export const GettingStarted = <cx>
 
         ## Starting a new Project
 
-        You should now be ready to start a new project with Cx. Before doing that you should check out:
+        You're now ready to start a new project with Cx.
 
         - [Command Line Interface](~/intro/command-line) - quickly scaffold new applications using Cx CLI
         - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new Cx application and configuring webpack and babel along the way
