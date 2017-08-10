@@ -43,7 +43,7 @@ export const GettingStarted = <cx>
         </CodeSplit>
 
         If you take a closer look at the source code, you'll see what Cx is about. You can freely combine widgets with plain HTML
-        and use special attributes to connect to the data. Whenever data changes, the page is automatically updated.
+        and use special attributes to connect to the data. Whenever data change, the page is automatically updated.
         
         Learn more:
 
