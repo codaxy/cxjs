@@ -3,8 +3,65 @@ CxJS
 
 CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools, 
 dashboards and admin apps. Modern frameworks such as React and Angular provide an excellent base for building UI components,
-however, component implementation and many other topics are left to the developer. CxJS tries to fill that gap 
-and provide the all necessary ingredients required for modern web applications. 
+however, component implementation and many other application aspects are left to the developer to figure out. CxJS tries to fill that gap and provide the all necessary ingredients required for modern web applications. 
+
+## Demo Applications
+
+### Hacker News Progressive Web App
+
+<a href="https://hn.cxjs.io/">
+    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/hn/top.png" alt="Cx Hacker News PWA" />
+</a>
+
+CxJS Hacker News is a Progressive Web App focused on startup performance. 
+The application is based on Preact and uses webpack plugins to enable preloading, inline CSS and JS, 
+configure service workers and achieve other performance gains.
+
+[Open App](https://hn.cxjs.io/) | [Source Code](https://github.com/codaxy/cxjs-hackernews)
+
+### Worldoscope
+
+<a href="https://worldoscope.cxjs.io/">
+    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/worldoscope/report.png" alt="Worldoscope Report" />
+</a>
+
+Worldoscope uses CxJS to visualize data available from the World Bank website. 
+Google Firebase is used to store report definitions, authentication and hosting.
+
+[Open App](https://worldoscope.cxjs.io/) | [Source Code](https://github.com/codaxy/worldoscope)
+
+### Starter Kit
+
+<a href="https://cxjs.io/starter">
+    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" />
+</a>
+
+Cx Starter Kit is full blown admin and dashboard application with many sample pages. 
+
+[Open App](https://cxjs.io/starter) | [Source Code](https://github.com/codaxy/cx-starter-kit)
+ 
+### State Of JS 2016 Explorer
+
+<a href="https://codaxy.github.io/state-of-js-2016-explorer/">
+    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" />
+</a>
+
+An sample application that illustrates CxJS charting features by visualizing 
+data from [The State of JavaScript 2016](http://stateofjs.com/) survey.  
+
+[Open App](http://codaxy.github.io/state-of-js-2016-explorer) | [Source Code](https://github.com/codaxy/state-of-js-2016-explorer)
+
+### tdo
+
+<a href="https://mstijak.github.io/tdo/">
+    <img src="https://github.com/mstijak/tdo/raw/master/assets/screenshot.png" alt="tdo" />
+</a>
+
+CxJS based TODO app featuring a dark theme, keyboard navigation, markdown support, custom CSS and much more.
+
+[Open App](https://mstijak.github.io/tdo/) | [Source Code](https://github.com/mstijak/tdo)
+
+## Features
 
 CxJS uses React (or a React compatible library) for DOM manipulation and 
 offers many high-level, UI related, features on top of it:
@@ -124,61 +181,6 @@ Alternatively, start by forking one of the available boilerplate projects:
 - [cx-redux-examples](https://github.com/codaxy/cx-redux-examples) - CxJS application with Redux based state management
 - [cx-typescript-boilerplate](https://github.com/codaxy/cx-typescript-boilerplate) - CxJS with TypeScript
 
-## Demo Applications
-
-### Hacker News Progressive Web App
-
-<a href="https://hn.cxjs.io/">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/hn/top.png" alt="Cx Hacker News PWA" />
-</a>
-
-CxJS Hacker News is a Progressive Web App focused on startup performance. 
-The application is based on Preact and uses webpack plugins to enable preloading, inline CSS and JS, 
-configure service workers and achieve other performance gains.
-
-[Open App](https://hn.cxjs.io/) | [Source Code](https://github.com/codaxy/cxjs-hackernews)
-
-### Worldoscope
-
-<a href="https://worldoscope.cxjs.io/">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/worldoscope/report.png" alt="Worldoscope Report" />
-</a>
-
-Worldoscope uses CxJS to visualize data available from the World Bank website. 
-Google Firebase is used to store report definitions, authentication and hosting.
-
-[Open App](https://worldoscope.cxjs.io/) | [Source Code](https://github.com/codaxy/worldoscope)
-
-### Starter Kit
-
-<a href="https://cxjs.io/starter">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/starter/analytics.png" alt="Cx Starter Kit" />
-</a>
-
-Cx Starter Kit is full blown admin and dashboard application with many sample pages. 
-
-[Open App](https://cxjs.io/starter) | [Source Code](https://github.com/codaxy/cx-starter-kit)
- 
-### State Of JS 2016 Explorer
-
-<a href="https://codaxy.github.io/state-of-js-2016-explorer/">
-    <img src="https://github.com/codaxy/cx/blob/master/misc/screenshots/sofjs2016/StateOfJs.png" alt="State of JS 2016 Explorer" />
-</a>
-
-An sample application that illustrates CxJS charting features by visualizing 
-data from [The State of JavaScript 2016](http://stateofjs.com/) survey.  
-
-[Open App](http://codaxy.github.io/state-of-js-2016-explorer) | [Source Code](https://github.com/codaxy/state-of-js-2016-explorer)
-
-### tdo
-
-<a href="https://mstijak.github.io/tdo/">
-    <img src="https://github.com/mstijak/tdo/raw/master/assets/screenshot.png" alt="tdo" />
-</a>
-
-CxJS based TODO app featuring a dark theme, keyboard navigation, markdown support, custom CSS and much more.
-
-[Open App](https://mstijak.github.io/tdo/) | [Source Code](https://github.com/mstijak/tdo)
 
 ## License
 
