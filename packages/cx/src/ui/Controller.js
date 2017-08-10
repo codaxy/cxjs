@@ -1,6 +1,9 @@
 import {computable} from '../data/computable';
 import {Component} from './Component';
 
+const computablePrefix = 'computable-';
+const triggerPrefix = 'trigger-';
+
 export class Controller extends Component {
 
    init() {
@@ -10,7 +13,7 @@ export class Controller extends Component {
    }
 
    explore(context) {
-      var {store} = this.instance;
+      let {store} = this.instance;
       this.store = store; //in rare cases instance may change its store
 
       if (!this.initialized) {
@@ -19,14 +22,11 @@ export class Controller extends Component {
       }
 
       if (this.computables) {
-         for (var key in this.computables) {
-            store.set(key, this.computables[key](store.getData()));
-         }
-      }
-
-      if (this.triggers) {
-         for (var key in this.triggers) {
-            this.triggers[key](store.getData());
+         for (let key in this.computables) {
+            let x = this.computables[key];
+            let v = x.selector(store.getData());
+            if (x.type == 'computable')
+               store.set(x.name, v);
          }
       }
 
@@ -50,24 +50,29 @@ export class Controller extends Component {
    addComputable(name, args, callback) {
       if (!Array.isArray(args))
          throw new Error('Second argument to the addComputable method should be an array.');
-      var selector = computable(...args, callback).memoize();
+      let selector = computable(...args, callback).memoize();
       if (!this.computables)
          this.computables = {};
-      this.computables[name] = selector;
+      this.computables[computablePrefix + name] = { name, selector, type: 'computable' };
    }
 
    addTrigger(name, args, callback, autoRun) {
       if (!Array.isArray(args))
          throw new Error('Second argument to the addComputable method should be an array.');
-      var selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
-      if (!this.triggers)
-         this.triggers = {};
-      this.triggers[name] = selector;
+      let selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
+      if (!this.computables)
+         this.computables = {};
+      this.computables[triggerPrefix + name] = { name, selector, type: 'trigger' };
    }
 
    removeTrigger(name) {
-      if (this.triggers)
-         delete this.triggers[name];
+      if (this.computables)
+         delete this.computables[triggerPrefix + name];
+   }
+
+   removeComputable(name) {
+      if (this.computables)
+         delete this.computables[computablePrefix + name];
    }
 }
 

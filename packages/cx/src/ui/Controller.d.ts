@@ -5,11 +5,11 @@ import {View} from '../data/View';
 export class Controller {
    onInit?(): void;
 
-   onExplore?(): void;
+   onExplore?(context?): void;
 
-   onPrepare?(): void;
+   onPrepare?(context?): void;
 
-   onCleanup?(): void;
+   onCleanup?(context?): void;
 
    init?(): void;
 
@@ -20,5 +20,7 @@ export class Controller {
 
    addComputable(name: string, args: string[], callback: (...args) => any) : void;
 
-   removeTrigger(name: string) : void
+   removeTrigger(name: string) : void;
+
+   removeComputable(name: string) : void;
 }

@@ -1,7 +1,7 @@
 import {Format} from './Format';
 import assert from 'assert';
 
-describe.only('Format', function () {
+describe('Format', function () {
    describe('n,number ', function () {
       it('correctly formats numbers with min and max allowed precision', function () {
          assert.equal(Format.value(0.5, 'n;2;4'), '0.50');

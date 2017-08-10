@@ -50,5 +50,40 @@ describe('Controller', () => {
       assert.equal(prepare, 1);
       assert.equal(cleanup, 1);
    });
+
+   it('invokes triggers and computables in order of definition', () => {
+
+      let log = [];
+
+      class TestController extends Controller {
+         onInit() {
+            this.addTrigger('t1', [], () => {
+               log.push('t1');
+            }, true);
+
+            this.addComputable('c1', [], () => {
+               log.push('c1');
+               return null;
+            });
+
+            this.addTrigger('t2', [], () => {
+               log.push('t2');
+            }, true)
+         }
+      }
+
+      let widget = <cx>
+         <div controller={TestController} />
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate />
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(log, ["t1", "c1", "t2"]);
+   });
 });
 
