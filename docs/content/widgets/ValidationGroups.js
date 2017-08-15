@@ -33,7 +33,7 @@ export const ValidationGroups = <cx>
             </div>
 
             <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-                <div class="widgets" style={{
+            <div class="widgets" style={{
                    borderLeftWidth: '3px',
                    borderLeftStyle: 'solid',
                    borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
