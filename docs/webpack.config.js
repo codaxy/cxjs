@@ -46,12 +46,12 @@ if (production) {
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
             sass,
-            new OptimizeCssAssetsPlugin({
-                cssProcessorOptions: {
-                    safe: true,
-                    mergeLonghand: false
-                }
-            }),
+            // new OptimizeCssAssetsPlugin({
+            //     cssProcessorOptions: {
+            //         safe: true,
+            //         mergeLonghand: false
+            //     }
+            // }),
             new CopyWebpackPlugin([{
                 from: path.resolve(__dirname, '../misc/netlify.redirects'),
                 to: '_redirects',
