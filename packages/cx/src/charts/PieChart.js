@@ -107,7 +107,7 @@ function createSvgArc(x, y, r0, r, startAngle, endAngle) {
 
    var largeArc = endAngle - startAngle <= Math.PI ? 0 : 1;
 
-   if (endAngle - startAngle >= 2 * Math.PI)
+   if (endAngle - startAngle >= 2 * Math.PI - 0.0001)
       endAngle = startAngle + 2 * Math.PI - 0.0001;
 
    var result = [];
