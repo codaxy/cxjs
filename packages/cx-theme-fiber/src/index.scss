@@ -596,36 +596,6 @@ div.#{$block}classic-tab-container {
    }
 }
 
-//RIPPLE EFFECT
-.#{$block}button, .#{$block}tab {
-   overflow: hidden;
-
-   &:before {
-      content: '';
-      position: absolute;
-      top: calc(50% - 3px);
-      left: calc(50% - 3px);
-      width: 6px;
-      height: 6px;
-      background-color: rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      border-radius: 100%;
-      transform: scale(18, 18);
-      transition: transform 0.3s, opacity 0.8s;
-      pointer-events: none;
-   }
-
-   &.cxm-float:before {
-      transform: scale(9, 9);
-   }
-
-   &:active:before {
-      transform: scale(0, 0);
-      opacity: 0.2;
-      transition: 0s;
-   }
-}
-
 //SCROLLBAR
 @if ($cx-include-global-rules) {
    @media screen and (min-width: 700px) {

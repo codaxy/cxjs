@@ -255,7 +255,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
       box-shadow: $cx-theme-box-shadow-elevated
    ),
    focus: (
-      background-color: darken($cx-default-button-background-color, 5),
+      background-color: darken($cx-default-button-background-color, 2),
       box-shadow: $cx-default-button-box-shadow
    ),
    active: (
