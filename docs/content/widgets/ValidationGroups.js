@@ -1,5 +1,5 @@
-import { HtmlElement, ValidationGroup, TextField } from 'cx/widgets';
-import { LabelsLeftLayout } from 'cx/ui';
+import {HtmlElement, ValidationGroup, TextField} from 'cx/widgets';
+import {LabelsLeftLayout} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -14,9 +14,9 @@ export const ValidationGroups = <cx>
     <Md>
         # ValidationGroup
 
-      <ImportPath path="import {ValidationGroup} from 'cx/widgets';" />
+        <ImportPath path="import {ValidationGroup} from 'cx/widgets';"/>
 
-      <CodeSplit>
+        <CodeSplit>
 
             The `ValidationGroup` element is pure container element which allows tracking the state of the form.
             If any of the fields inside it reports a validation error, invalid state is reported to the data store.

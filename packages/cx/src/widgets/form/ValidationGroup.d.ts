@@ -18,7 +18,10 @@ export interface ValidationGroupProps extends Cx.PureContainerProps {
    disabled?: Cx.BooleanProp,
 
    /** Set to `true` to make read-only all inner elements that support `readOnly` property. */
-   readOnly?: Cx.BooleanProp
+   readOnly?: Cx.BooleanProp,
+
+   /** Set to `true` to isolate children from participating in outer validation. */
+   isolated?: Cx.BooleanProp
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}
