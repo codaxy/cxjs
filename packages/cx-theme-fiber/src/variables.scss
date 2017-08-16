@@ -1,6 +1,6 @@
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
-$primary-color-blue: #2196F3 !default;
+$primary-color-blue: #0AF !default;
 $primary-color-gray: #607d8b !default;
 $primary-color-brown: #795548 !default;
 $primary-color-pink: #c2185b !default;
@@ -33,8 +33,8 @@ $cx-theme-danger-color: #F44336 !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
 // shadows
-$cx-theme-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !default;
-$cx-theme-box-shadow-elevated: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
+$cx-theme-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.14) !default;
+$cx-theme-box-shadow-elevated: 0 4px 34px rgba(0, 0, 0, 0.2) !default;
 
 // pick theme size
 $normal-base-size: 14px !default;
@@ -44,7 +44,7 @@ $cx-theme-base-size: $normal-base-size !default;
 //GLOBAL VARIABLES
 $cx-default-container-padding: 5px !default;
 
-$cx-default-font-family: Roboto, 'Open Sans', sans-serif !default;
+$cx-default-font-family: 'Montserrat', 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
@@ -54,7 +54,7 @@ $cx-default-background-color: #fff !default;
 $cx-default-border-color: transparent !default;
 $cx-default-border-radius: 2px !default;
 
-$cx-default-box-font-size: 13px !default;
+$cx-default-box-font-size: 14px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
 $cx-default-box-border-width: 1px !default;
 @if $cx-theme-base-size < 14px {
@@ -69,20 +69,21 @@ $cx-default-padding-medium: 10px !default;
 $cx-default-padding-large: 14px !default;
 $cx-default-padding-extra-large: 19px !default;
 
-$cx-default-transition: all 0.2s ease-out !default;
+$cx-default-transition: all 0.2s ease !default;
 
 $cx-default-dropdown-arrow-offset: 26px !default;
 
 $cx-use-box-line-height-fix: false !default;
 
 //BUTTON
-$cx-default-button-color: $cx-theme-primary-color !default;
-$cx-default-button-font-weight: $cx-default-font-weight !default;
-$cx-default-button-background-color: #f6f6f6 !default;
+$cx-default-button-color: $cx-default-color !default;
+$cx-default-button-font-size: $cx-default-box-font-size + 1px !default;
+$cx-default-button-font-weight: 500 !default;
+$cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-box-shadow: $cx-theme-box-shadow !default;
-$cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
+$cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !default;
 
 // float button text color picker
 @function set-text-color($bg-color) {
@@ -106,7 +107,7 @@ $cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-paddi
 $cx-default-hscroller-button-width: 30px !default;
 
 //SECTION
-$cx-default-section-box-shadow: $cx-theme-box-shadow !default;
+$cx-default-section-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.1) !default;
 
 //MENU
 $cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
@@ -245,12 +246,13 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    default: (
       transition: $cx-default-transition,
-      text-transform: uppercase,
-      font-weight: $cx-default-button-font-weight
+      font-weight: $cx-default-button-font-weight,
+      border-radius: 999px
    ),
    hover: (
-      background-color: darken($cx-default-button-background-color, 3),
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+      color: $primary-color-blue,
+      // background-color: darken($cx-default-button-background-color, 3),
+      box-shadow: $cx-theme-box-shadow-elevated
    ),
    focus: (
       background-color: darken($cx-default-button-background-color, 5),
@@ -271,19 +273,18 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    primary: (
       default: (
          background-color: $cx-theme-primary-color,
-         border-color: $cx-default-border-color,
-         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+         box-shadow: 0 2px 16px rgba($cx-theme-primary-color, 0.4)
       ),
       hover: (
-         background-color: darken($cx-theme-primary-color, 3),
-         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6)
+         background-color: lighten($cx-theme-primary-color, 5),
+         box-shadow: 0 4px 24px rgba($cx-theme-primary-color, 0.6)
       ),
       focus: (
          background-color: darken($cx-theme-primary-color, 8)
       ),
       active: (
          background-color: darken($cx-theme-primary-color, 1),
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
+         box-shadow: 0 4px 24px rgba($cx-theme-primary-color, 0.6),
          top: 0
       ),
       disabled: (
@@ -297,18 +298,18 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       default: (
          background-color: $cx-theme-danger-color,
          border-color: $cx-default-border-color,
-         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+         box-shadow: 0 2px 16px rgba($cx-theme-danger-color, 0.4),
       ),
       hover: (
-         background-color: darken($cx-theme-danger-color, 3),
-         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6)
+         background-color: lighten($cx-theme-danger-color, 5),
+         box-shadow: 0 4px 24px rgba($cx-theme-danger-color, 0.6)
       ),
       focus: (
          background-color: darken($cx-theme-danger-color, 15)
       ),
       active: (
          background-color: darken($cx-theme-danger-color, 4),
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
+         box-shadow: 0 4px 24px rgba($cx-theme-danger-color, 0.6),
          top: 0
       ),
       disabled: (
@@ -404,6 +405,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
          border-color: transparent,
          color: rgba(255, 255, 255, 0.45),
          background-color: rgba($cx-theme-primary-color, 0.5)
+      )
+   ),
+   big: (
+      default: (
+         padding: $cx-default-padding-medium 2 * $cx-default-padding-medium
       )
    )
 ));
