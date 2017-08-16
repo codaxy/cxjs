@@ -371,6 +371,13 @@ $checkbox-padding-correction: 2px !default;
 }
 
 //TAB
+.#{$block}tab {
+  &:first-child {
+    border-left-width: 1px;
+    border-left-color: $cx-default-border-color
+  }
+}
+
 div.#{$block}classic-tab-container {
    background-color: $cx-theme-primary-color;
    box-shadow: $cx-theme-box-shadow;

@@ -51,7 +51,7 @@ $cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
-$cx-default-border-color: transparent !default;
+$cx-default-border-color: #d3d8d6 !default;
 $cx-default-border-radius: 2px !default;
 
 $cx-default-box-font-size: 14px !default;
@@ -95,12 +95,12 @@ $cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !d
 }
 
 //TAB
-$cx-default-tab-color: $cx-theme-secondary-text-color !default;
+$cx-default-tab-color: $cx-default-color !default;
 $cx-default-tab-font-weight: 500 !default;
-$cx-default-tab-background-color: transparent !default;
-$cx-default-tab-border-width: 0 !default;
-$cx-default-tab-border-color: transparent !default;
-$cx-default-tab-border-radius: $cx-default-border-radius !default;
+$cx-default-tab-background-color: #f5f5f5 !default;
+$cx-default-tab-border-width: 1px 1px 1px 0 !default;
+$cx-default-tab-border-color: $cx-default-border-color $cx-default-border-color $cx-default-border-color transparent !default;
+$cx-default-tab-border-radius: 0 !default;
 $cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
 
 //HSCROLLER
@@ -108,6 +108,7 @@ $cx-default-hscroller-button-width: 30px !default;
 
 //SECTION
 $cx-default-section-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.1) !default;
+$cx-default-section-border-radius: $cx-default-border-radius + 4px !default;
 
 //MENU
 $cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
@@ -416,13 +417,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
 
 //TAB
 $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
-   default: (
-      text-transform: uppercase,
+   default: (      
       line-height: $cx-default-box-line-height
    ),
    hover: (
-      color: $cx-default-color,
-      background-color: rgba(0, 0, 0, 0.05)
+      color: $cx-theme-primary-color
    ),
    cursor: (
       background-color: rgba(0, 0, 0, 0.1),
@@ -430,17 +429,19 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
       outline: none
    ),
    selected: (
-      color: #fff,
-      background-color: $cx-theme-primary-color,
-      border-color: $cx-theme-accent-color
+      color: $cx-theme-primary-color,
+      background-color: transparent,
+      border-top-width: 2px,
+      border-color: $cx-theme-primary-color $cx-default-border-color transparent
    ),
    selected-cursor: (
-      color: #fff,
-      background-color: $cx-theme-primary-color-dark,
-      border-color: lighten($cx-theme-accent-color, 6)
+      color: $cx-theme-primary-color,
+      background-color: transparent,
+      border-top-width: 2px,
+      border-color: $cx-theme-primary-color $cx-default-border-color transparent
    ),
    active: (
-      color: #fff,
+      color: red,
       background-color: $cx-default-tab-background-color
    ),
    disabled: (
@@ -551,6 +552,7 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
    card: (
       default: (
          background-color: white,
+         border-radius: $cx-default-section-border-radius,
          box-shadow: $cx-default-section-box-shadow
       )
    ),
