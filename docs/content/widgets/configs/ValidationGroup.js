@@ -57,7 +57,7 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to isolate children from participating in outer validation.
+            Set to `true` to isolate children from participating in outer validation scopes.
         </Md></cx>
     }
 };
