@@ -478,7 +478,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
          color: $cx-theme-primary-color,
          background-color: transparent,
          border-top-width: 2px,
-         border-color: $cx-theme-primary-color $cx-default-border-color transparent
+         border-color: rgba($cx-theme-primary-color, 0.8) $cx-default-border-color transparent
       ),
       active: (
          color: red,
@@ -506,11 +506,12 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
          color: $cx-theme-primary-color
       ),
       cursor: (
-         color: lighten($cx-theme-primary-color, 5)
+         color: $cx-default-tab-color,
+         border-color: rgba($cx-theme-primary-color, 0.3)         
       ),
       selected-cursor: (
          color: $cx-theme-primary-color,
-         border-color: rgba($cx-theme-primary-color, 0.5)
+         border-color: rgba($cx-theme-primary-color, 0.8)
       )
    ),
    // If a tab is inside a dark-colored container, use mod="line-accent".
