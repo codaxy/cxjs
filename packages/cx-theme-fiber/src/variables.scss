@@ -45,7 +45,7 @@ $cx-theme-base-size: $normal-base-size !default;
 $cx-default-container-padding: 5px !default;
 
 $cx-default-font-family: 'Montserrat', 'Roboto', 'Open Sans', sans-serif !default;
-$cx-default-color: rgba(0, 0, 0, 0.87) !default;
+$cx-default-color: rgba(0, 0, 0, 0.7) !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
 
@@ -126,23 +126,25 @@ $cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
 $cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
 
 //GRID
+$cx-default-grid-font-size: $cx-default-box-font-size - 2px !default;
 $cx-default-grid-border-radius: $cx-default-border-radius !default;
 $cx-default-grid-border-color: #e0e0e0 !default;
 
 // header
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
-$cx-default-grid-header-line-height: $cx-default-box-line-height + 1px !default;
-$cx-default-grid-header-color: lighten($cx-theme-secondary-text-color, 15) !default;
-$cx-default-grid-header-background-color: $cx-default-background-color !default;
+$cx-default-grid-header-line-height: $cx-default-box-line-height - 9px !default;
+$cx-default-grid-header-color: #fff !default;
+$cx-default-grid-header-background-color: rgba($cx-theme-primary-color, 0.8) !default;
 $cx-default-grid-header-border-color: transparent transparent $cx-default-grid-border-color !default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
 $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
 // data
+$cx-default-grid-data-font-weight: 500 !default;
 $cx-default-grid-data-border-color: #e0e0e0 !default;
-$cx-default-grid-data-background-color: $cx-default-grid-header-background-color !default;
+$cx-default-grid-data-background-color: #fff !default;
 $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 1px !default;
-$cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
+$cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !default;
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
@@ -221,22 +223,29 @@ $cx-default-clear-size: $cx-default-icon-size !default;
 //LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
    default: (
-      color: inherit
+      color: inherit,
+      padding: round(1.5*$cx-default-box-padding) 0,
+      font-size: $cx-default-box-font-size - 1px,
+      font-weight: 500
    ),
    hover: (
-      background-color: rgba(0, 0, 0, 0.03)
+      background-color: rgba(0, 0, 0, 0.02)
    ),
    cursor: (
-      background-color: rgba(0, 0, 0, 0.03)
+      background-color: rgba(0, 0, 0, 0.03),
+      color: $cx-theme-primary-color
    ),
    selected: (
-      background-color: rgba(0, 0, 0, 0.07)
+      background-color: rgba(0, 0, 0, 0.05),
+      color: $cx-theme-primary-color
    ),
    selected-hover: (
-      background-color: rgba(0, 0, 0, 0.1)
+      background-color: rgba(0, 0, 0, 0.07),
+      color: $cx-theme-primary-color
    ),
    selected-cursor: (
-      background-color: rgba(0, 0, 0, 0.1)
+      background-color: rgba(0, 0, 0, 0.07),
+      color: $cx-theme-primary-color
    ),
    disabled: (
       background-color: transparent
@@ -655,18 +664,20 @@ $cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
 
 //GRID  
 $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-map, (
+   default: (
+      text-transform: uppercase
+   ),
    hover: (
-      color: darken($cx-default-grid-header-color, 10),
-      background-color: $cx-default-grid-header-background-color,
+      background-color: lighten($cx-default-grid-header-background-color, 2),
       border-color: $cx-default-grid-data-border-color
    ),
    sorted: (
-      color: $cx-default-color,
-      background-color: darken($cx-default-grid-header-background-color, 2)
+      color: #fff,
+      background-color: lighten($cx-default-grid-header-background-color, 6)
    ),
    sorted-hover: (
-      color: darken($cx-default-grid-header-color, 25),
-      background-color: darken($cx-default-grid-header-background-color, 3)
+      color: #fff,
+      background-color: lighten($cx-default-grid-header-background-color, 8)
    )
 ));
 
