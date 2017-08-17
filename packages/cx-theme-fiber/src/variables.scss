@@ -452,7 +452,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
    classic: (
       default: (      
-         line-height: $cx-default-box-line-height,
+         line-height: $cx-default-box-line-height - 2px,
          border-bottom-width: 0,
          border-left-width: 0,
          border-color: $cx-default-border-color,
@@ -491,7 +491,26 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
    ),
    line: (
       default: (
-         box-shadow: none
+         border-width: 0 0 4px,
+         line-height: $cx-default-box-line-height - 4px,
+         padding: $cx-default-box-padding 0,
+         margin-right: 2*$cx-default-box-padding+5px
+      ),
+      selected: (
+         box-shadow: none,
+         color: $cx-theme-primary-color,
+         border-color: $cx-theme-primary-color         
+      ),
+      hover: (
+         border-color: transparent,
+         color: $cx-theme-primary-color
+      ),
+      cursor: (
+         color: lighten($cx-theme-primary-color, 5)
+      ),
+      selected-cursor: (
+         color: $cx-theme-primary-color,
+         border-color: rgba($cx-theme-primary-color, 0.5)
       )
    ),
    // If a tab is inside a dark-colored container, use mod="line-accent".
