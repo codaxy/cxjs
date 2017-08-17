@@ -77,7 +77,7 @@ $cx-use-box-line-height-fix: false !default;
 
 //BUTTON
 $cx-default-button-color: $cx-default-color !default;
-$cx-default-button-font-size: $cx-default-box-font-size !default;
+$cx-default-button-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-button-font-weight: 500 !default;
 $cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
@@ -133,8 +133,8 @@ $cx-default-grid-border-color: #e0e0e0 !default;
 // header
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height - 9px !default;
-$cx-default-grid-header-color: #fff !default;
-$cx-default-grid-header-background-color: rgba($cx-theme-primary-color, 0.8) !default;
+$cx-default-grid-header-color: $cx-default-color !default;
+$cx-default-grid-header-background-color: darken($cx-default-background-color, 5) !default;
 $cx-default-grid-header-border-color: transparent transparent $cx-default-grid-border-color !default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
 $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
@@ -143,7 +143,7 @@ $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-b
 $cx-default-grid-data-font-weight: 500 !default;
 $cx-default-grid-data-border-color: #e0e0e0 !default;
 $cx-default-grid-data-background-color: #fff !default;
-$cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 1px !default;
+$cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !default;
 
 //FORM
@@ -257,7 +257,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    default: (
       transition: $cx-default-transition,
       font-weight: $cx-default-button-font-weight,
-      border-radius: 999px
+      border-radius: $cx-default-border-radius
    ),
    hover: (
       color: $primary-color-blue,
@@ -302,6 +302,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
          border-color: transparent,
          color: rgba(255, 255, 255, 0.45),
          background-color: rgba($cx-theme-primary-color, 0.5)
+      )
+   ),
+   round: (
+      default: (
+         border-radius: 999px
       )
    ),
    danger: (
@@ -479,18 +484,17 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       selected: (
          color: $cx-theme-primary-color,
          background-color: #fff,
-         border-top-width: 2px,
+         border-top-width: 4px,
          box-shadow: none,
          border-top-color: $cx-theme-primary-color
       ),
       selected-cursor: (
          color: $cx-theme-primary-color,
          background-color: transparent,
-         border-top-width: 2px,
+         border-top-width: 4px,
          border-color: rgba($cx-theme-primary-color, 0.8) $cx-default-border-color transparent
       ),
       active: (
-         color: red,
          background-color: $cx-default-tab-background-color
       ),
       disabled: (
@@ -672,11 +676,9 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
       border-color: $cx-default-grid-data-border-color
    ),
    sorted: (
-      color: #fff,
       background-color: lighten($cx-default-grid-header-background-color, 6)
    ),
    sorted-hover: (
-      color: #fff,
       background-color: lighten($cx-default-grid-header-background-color, 8)
    )
 ));
