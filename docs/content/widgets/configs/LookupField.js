@@ -125,10 +125,16 @@ export default {
         </Md></cx>
     },
     showClear: {
-        type: 'string',
+        type: 'boolean',
         description: <cx><Md>
             Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
             No effect if `multiple` is used. Default value is `true`.
+        </Md></cx>
+    },
+    alwaysShowClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to display the clear button even if `required` is set. Default is `false`.
         </Md></cx>
     },
     hideClear: {

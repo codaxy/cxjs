@@ -182,6 +182,7 @@ LookupField.prototype.suppressErrorsUntilVisited = true;
 LookupField.prototype.fetchAll = false;
 LookupField.prototype.cacheAll = false;
 LookupField.prototype.showClear = true;
+LookupField.prototype.alwaysShowClear = false;
 LookupField.prototype.closeOnSelect = true;
 LookupField.prototype.minQueryLengthMessageText = 'Type in at least {0} character(s).';
 LookupField.prototype.icon = null;
@@ -477,7 +478,7 @@ class LookupComponent extends VDOM.Component {
 
       let insideButton;
 
-      if (widget.showClear && !readOnly && !this.props.multiple && !data.required && data.value != null) {
+      if (widget.showClear && !readOnly && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.value != null) {
          insideButton = (
             <div key="ib" onMouseDown={preventDefault}
                onClick={e => this.onClearClick(e)}

@@ -26,6 +26,11 @@ interface SelectProps extends FieldProps {
     * Note, the `placeholder` needs to be specified for the clear button to render. 
     */
    showClear?: boolean,
+
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
    
    /** Base CSS class to be applied to the element. Defaults to `select`. */
    baseClass?: string,

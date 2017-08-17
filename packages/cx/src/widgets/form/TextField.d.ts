@@ -15,6 +15,11 @@ export interface TextFieldProps extends FieldProps {
     */
    showClear?: boolean,
 
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
+
    /** Textual value of the input. */
    value?: Cx.StringProp,
 

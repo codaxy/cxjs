@@ -47,6 +47,9 @@ export class DateTimeField extends Field {
       if (typeof this.hideClear !== 'undefined')
          this.showClear = !this.hideClear;
 
+      if (this.alwaysShowClear)
+         this.showClear = true;
+
       if (!this.format) {
          switch (this.segment) {
             case 'datetime':
@@ -158,6 +161,7 @@ DateTimeField.prototype.inputErrorText = 'Invalid date entered.';
 DateTimeField.prototype.suppressErrorsUntilVisited = true;
 DateTimeField.prototype.icon = 'calendar';
 DateTimeField.prototype.showClear = true;
+DateTimeField.prototype.alwaysShowClear = false;
 DateTimeField.prototype.reactOn = "enter blur";
 DateTimeField.prototype.segment = "datetime";
 DateTimeField.prototype.picker = "auto";
@@ -242,7 +246,7 @@ class DateTimeInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
+         if (widget.showClear && (((widget.alwaysShowClear || !data.required) && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={e => {

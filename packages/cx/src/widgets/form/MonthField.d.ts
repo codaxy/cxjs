@@ -78,6 +78,11 @@ interface MonthFieldProps extends FieldProps {
     */
    showClear?: boolean,
 
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
+
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

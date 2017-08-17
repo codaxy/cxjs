@@ -104,6 +104,7 @@ NumberField.prototype.incrementPercentage = 0.1;
 NumberField.prototype.snapToIncrement = true;
 NumberField.prototype.icon = null;
 NumberField.prototype.showClear = false;
+NumberField.prototype.alwaysShowClear = false;
 
 Widget.alias('numberfield', NumberField);
 Localization.registerPrototype('cx/widgets/NumberField', NumberField);
@@ -137,7 +138,7 @@ class Input extends VDOM.Component {
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && ((!data.required && data.value != null) || instance.state.inputError))
+         if (widget.showClear && (((widget.alwaysShowClear || !data.required) && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => e.preventDefault() }

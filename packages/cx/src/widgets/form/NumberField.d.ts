@@ -58,6 +58,11 @@ interface NumberFieldProps extends FieldProps {
    /** Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. Default value is `false`. */
    hideClear?: boolean,
 
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
+
    /** Defaults to `input`. Other permitted values are `enter` and `blur`. Multiple values should be separated by space, .e.g. 'enter blur'. */
    reactOn?: string,
    

@@ -75,6 +75,9 @@ export class MonthField extends Field {
       if (typeof this.hideClear != 'undefined')
          this.showClear = !this.hideClear;
 
+      if (this.alwaysShowClear)
+         this.showClear = true;
+
       super.init();
    }
 
@@ -209,6 +212,7 @@ MonthField.prototype.inputErrorText = 'Invalid date entered';
 MonthField.prototype.suppressErrorsUntilVisited = true;
 MonthField.prototype.icon = 'calendar';
 MonthField.prototype.showClear = true;
+MonthField.prototype.alwaysShowClear = false;
 MonthField.prototype.range = false;
 MonthField.prototype.reactOn = "enter blur";
 
@@ -269,7 +273,7 @@ class MonthInput extends VDOM.Component {
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && ((!data.required && !data.empty) || instance.state.inputError))
+         if (widget.showClear && (((widget.alwaysShowClear || !data.required) && !data.empty) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => {

@@ -54,6 +54,11 @@ export interface DateTimeFieldProps extends FieldProps {
    /** Set to false to hide the clear button. It can be used interchangeably with the hideClear property. Default value is true. */
    showClear?: boolean,
 
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
+
    /** Set to true to hide the clear button. It can be used interchangeably with the showClear property. Default value is false. */
    hideClear?: boolean,
 

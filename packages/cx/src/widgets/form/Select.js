@@ -77,6 +77,7 @@ Select.prototype.convertValues = true;
 Select.prototype.nullString = '';
 Select.prototype.suppressErrorsUntilVisited = true;
 Select.prototype.showClear = true;
+Select.prototype.alwaysShowClear = false;
 Select.prototype.icon = null;
 
 Widget.alias('select', Select);
@@ -107,7 +108,7 @@ class SelectComponent extends VDOM.Component {
 
       let insideButton, readOnly = data.disabled || data.readOnly;
 
-      if (widget.showClear && !readOnly && !this.props.multiple && !data.required && data.placeholder && data.value != null) {
+      if (widget.showClear && !readOnly && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.placeholder && data.value != null) {
          insideButton = (
             <div onMouseDown={preventDefault}
                onClick={e => this.onClearClick(e)}
