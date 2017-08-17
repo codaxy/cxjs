@@ -10,6 +10,12 @@ export class DropZone extends PureContainer {
       this.overStyle = parseStyle(this.overStyle);
       this.nearStyle = parseStyle(this.nearStyle);
       this.farStyle = parseStyle(this.farStyle);
+
+      if (typeof this.inflate == 'number') {
+         this.hinflate = this.inflate;
+         this.vinflate = this.inflate;
+      }
+
       super.init();
    }
 
@@ -33,7 +39,8 @@ export class DropZone extends PureContainer {
 
 DropZone.prototype.styled = true;
 DropZone.prototype.nearDistance = 0;
-DropZone.prototype.inflate = 0;
+DropZone.prototype.hinflate = 0;
+DropZone.prototype.vinflate = 0;
 DropZone.prototype.baseClass = 'dropzone';
 
 Widget.alias('dropzone', DropZone);
@@ -145,11 +152,14 @@ class DropZoneComponent extends VDOM.Component {
       let {clientX, clientY} = e.cursor;
       let distance = Math.max(0, rect.left - clientX, clientX - rect.right) + Math.max(0, rect.top - clientY, clientY - rect.bottom);
 
-      if (widget.inflate > 0) {
-         rect.left -= widget.inflate;
-         rect.top -= widget.inflate;
-         rect.bottom += widget.inflate;
-         rect.right += widget.inflate;
+      if (widget.hinflate > 0) {
+         rect.left -= widget.hinflate;
+         rect.right += widget.hinflate;
+      }
+
+      if (widget.vinflate > 0) {
+         rect.top -= widget.vinflate;
+         rect.bottom += widget.vinflate;
       }
 
       let {nearDistance} = widget;

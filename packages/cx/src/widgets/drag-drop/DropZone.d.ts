@@ -29,6 +29,18 @@ interface DropZoneProps extends Cx.StyledContainerProps {
     */
    inflate?: number,
 
+   /**
+    * Inflate the drop zone's bounding box horizontally so it activates on cursor proximity.
+    * Useful for invisible drop-zones that are only a few pixels tall/wide.
+    */
+   hinflate?: number,
+
+   /**
+    * Inflate the drop zone's bounding box vertically so it activates on cursor proximity.
+    * Useful for invisible drop-zones that are only a few pixels tall/wide.
+    */
+   vinflate?: number,
+
    /** Base CSS class to be applied to the element. Defaults to 'dropzone'. */
    baseClass?: string  
    

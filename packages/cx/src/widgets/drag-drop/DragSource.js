@@ -101,6 +101,9 @@ class DragSourceComponent extends VDOM.Component {
       let {instance} = this.props;
       let {data, widget, store} = instance;
 
+      if (widget.onDragStart && instance.invoke('onDragStart', e, instance) === false)
+         return;
+
       initiateDragDrop(e, {
          sourceEl: this.el,
          source: {
@@ -111,10 +114,12 @@ class DragSourceComponent extends VDOM.Component {
             widget,
             store
          }
-      }, () => {
+      }, (e) => {
          this.setState({
             dragged: false
-         })
+         });
+         if (widget.onDragEnd)
+            instance.invoke('onDragEnd', e, instance);
       });
 
       this.setState({
