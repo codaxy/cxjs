@@ -115,11 +115,11 @@ $cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
 $cx-default-menu-separator-color: #e9e9e9 !default;
 
 //WINDOW
-$cx-default-window-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !default;
+$cx-default-window-box-shadow: $cx-theme-box-shadow-elevated !default;
 $cx-default-window-header-padding: 10px 20px !default;
 $cx-default-window-header-font-size: 18px !default;
-$cx-default-window-header-color: #fff !default;
-$cx-default-window-header-background-color: $cx-theme-primary-color-dark !default;
+$cx-default-window-header-color: $cx-theme-primary-color-dark !default;
+$cx-default-window-header-background-color: $cx-default-background-color !default;
 
 //TOAST
 $cx-default-toast-box-shadow: $cx-default-window-box-shadow !default;
