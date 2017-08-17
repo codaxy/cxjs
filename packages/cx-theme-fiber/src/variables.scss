@@ -44,7 +44,7 @@ $cx-theme-base-size: $normal-base-size !default;
 //GLOBAL VARIABLES
 $cx-default-container-padding: 5px !default;
 
-$cx-default-font-family: 'Montserrat', 'Open Sans', sans-serif !default;
+$cx-default-font-family: 'Montserrat', 'Roboto', 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.87) !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
@@ -77,7 +77,7 @@ $cx-use-box-line-height-fix: false !default;
 
 //BUTTON
 $cx-default-button-color: $cx-default-color !default;
-$cx-default-button-font-size: $cx-default-box-font-size + 1px !default;
+$cx-default-button-font-size: $cx-default-box-font-size !default;
 $cx-default-button-font-weight: 500 !default;
 $cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
@@ -97,11 +97,11 @@ $cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !d
 //TAB
 $cx-default-tab-color: $cx-default-color !default;
 $cx-default-tab-font-weight: 500 !default;
-$cx-default-tab-background-color: #f5f5f5 !default;
-$cx-default-tab-border-width: 1px 1px 1px 0 !default;
-$cx-default-tab-border-color: $cx-default-border-color $cx-default-border-color $cx-default-border-color transparent !default;
-$cx-default-tab-border-radius: 0 !default;
-$cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
+$cx-default-tab-background-color: transparent !default;
+$cx-default-tab-border-width: 0 !default;
+$cx-default-tab-border-color: transparent !default;
+$cx-default-tab-border-radius: $cx-default-border-radius+4px !default;
+$cx-default-tab-padding: $cx-default-box-padding 2*$cx-default-box-padding+10px !default;
 
 //HSCROLLER
 $cx-default-hscroller-button-width: 30px !default;
@@ -425,23 +425,21 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
    ),
    cursor: (
       background-color: rgba(0, 0, 0, 0.1),
-      color: $cx-default-color,
+      color:$cx-theme-primary-color,
       outline: none
    ),
    selected: (
-      color: $cx-theme-primary-color,
-      background-color: transparent,
-      border-top-width: 2px,
-      border-color: $cx-theme-primary-color $cx-default-border-color transparent
+      background-color: $cx-theme-primary-color,
+      color: #fff,
+      box-shadow: $cx-theme-box-shadow
    ),
    selected-cursor: (
-      color: $cx-theme-primary-color,
-      background-color: transparent,
-      border-top-width: 2px,
-      border-color: $cx-theme-primary-color $cx-default-border-color transparent
+      color: #fff,
+      background-color: lighten($cx-theme-primary-color, 5),
+      box-shadow: $cx-theme-box-shadow-elevated
    ),
    active: (
-      color: red,
+      color: $cx-theme-primary-color,  
       background-color: $cx-default-tab-background-color
    ),
    disabled: (
@@ -453,60 +451,47 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 // tab mods
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
    classic: (
-      default: (
-         color: rgba(255, 255, 255, 0.7),
-         background-color: $cx-theme-primary-color,
-         border-width: 0 0 2px,
-         border-radius: 0,
-         padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
+      default: (      
+         line-height: $cx-default-box-line-height,
+         border-bottom-width: 0,
+         border-left-width: 0,
+         border-color: $cx-default-border-color,
+         box-shadow: none,
+         border-radius: 0  
       ),
       hover: (
-         color: rgba(255, 255, 255, 0.8),
-         background-color: darken($cx-theme-primary-color, 2)
+         color: $cx-theme-primary-color
       ),
       cursor: (
-         color: rgba(255, 255, 255, 0.85),
-         border-color: rgba($cx-theme-accent-color, 0.7)
+         background-color: rgba(0, 0, 0, 0.1),
+         color: $cx-default-color,
+         outline: none
       ),
       selected: (
-         color: #fff,
-         background-color: $cx-theme-primary-color,
-         border-color: $cx-theme-accent-color
+         color: $cx-theme-primary-color,
+         background-color: #fff,
+         border-top-width: 2px,
+         box-shadow: none,
+         border-top-color: $cx-theme-primary-color
       ),
       selected-cursor: (
-         color: #fff,
-         background-color: $cx-theme-primary-color,
-         border-color: lighten($cx-theme-accent-color, 6)
+         color: $cx-theme-primary-color,
+         background-color: transparent,
+         border-top-width: 2px,
+         border-color: $cx-theme-primary-color $cx-default-border-color transparent
       ),
       active: (
-         color: #fff,
-         background-color: $cx-default-tab-background-color,
-         border-color: $cx-theme-accent-color
+         color: red,
+         background-color: $cx-default-tab-background-color
       ),
       disabled: (
-         color: rgba(255, 255, 255, 0.3)
+         background-color: $cx-default-tab-background-color,
+         color: rgba(0, 0, 0, 0.26)
       )
    ),
    line: (
       default: (
-         color: rgba(0, 0, 0, 0.7),
-         padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
-      ),
-      hover: (
-         border-color: rgba(0, 0, 0, 0.06)
-      ),
-      selected: (
-         color: $cx-theme-primary-color-light,
-         border-color: $cx-theme-primary-color
-      ),
-      selected-cursor: (
-         border-color: lighten($cx-theme-primary-color, 10)
-      ),
-      disabled: (
-         color: rgba(0, 0, 0, 0.26)
-      ),
-      cursor: (
-         border-color: rgba(0, 0, 0, 0.13)
+         box-shadow: none
       )
    ),
    // If a tab is inside a dark-colored container, use mod="line-accent".

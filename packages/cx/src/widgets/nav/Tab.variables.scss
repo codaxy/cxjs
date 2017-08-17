@@ -6,6 +6,7 @@ $cx-default-tab-border-width: $cx-default-box-border-width !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
 $cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-tab-box-shadow: none !default;
 
 $cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
    default: (
@@ -20,7 +21,8 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
       padding: $cx-default-tab-padding,
       border-width: $cx-default-tab-border-width,
       border-color: $cx-default-tab-border-color,
-      border-style: solid
+      border-style: solid,
+      box-shadow: $cx-default-tab-box-shadow
    ),
    hover: (
       text-decoration: none

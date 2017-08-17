@@ -371,7 +371,7 @@ $checkbox-padding-correction: 2px !default;
 }
 
 //TAB
-.#{$block}tab {
+.#{$block}tab.#{$mod}classic {
   &:first-child {
     border-left-width: 1px;
     border-left-color: $cx-default-border-color
