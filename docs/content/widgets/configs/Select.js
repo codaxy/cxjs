@@ -31,5 +31,11 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             Default value is `false`. Note, the `placeholder` needs to be specified for the clear button to render.
         </Md></cx>
-    }
+    },
+    alwaysShowClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to display the clear button even if `required` is set. Default is `false`.
+        </Md></cx>
+    },
 };

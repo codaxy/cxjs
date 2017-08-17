@@ -19,11 +19,24 @@ export default {
             Format of the color representation. Either `rgba`, `hsla` or `hex`.
             </Md></cx>
     },
-    inputError: {
-        type: 'boolean',
-        key: false,
+    showClear: {
+        type: 'string',
         description: <cx><Md>
-            Defaults to 'false'. Used to report an error when selecting a color.
-            </Md></cx>
+            Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+            Default value is `false`.
+        </Md></cx>
+    },
+    alwaysShowClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to display the clear button even if `required` is set. Default value is `false`.
+        </Md></cx>
+    },
+    hideClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+            Default value is `true`.
+        </Md></cx>
     },
 };

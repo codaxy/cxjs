@@ -77,6 +77,12 @@ export default {
             Default value is `false`.
         </Md></cx>
     },
+    alwaysShowClear: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to display the clear button even if `required` is set. Default value is `false`.
+        </Md></cx>
+    },
     hideClear: {
         type: 'boolean',
         description: <cx><Md>

@@ -26,6 +26,11 @@ interface ColorFieldProps extends FieldProps {
     * It can be used interchangeably with the `hideClear` property. Default value is `true`.
     */
    showClear?: boolean,
+
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
    
    /** Base CSS class to be applied to the element. Defaults to `colorfield`. */
    baseClass?: boolean,

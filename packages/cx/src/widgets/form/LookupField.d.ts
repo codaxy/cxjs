@@ -39,6 +39,11 @@ interface LookupFieldProps extends FieldProps {
     */
    showClear?: boolean,
 
+   /**
+    * Set to `true` to display the clear button even if `required` is set. Default is `false`.
+    */
+   alwaysShowClear?: boolean,
+
    /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string,
    

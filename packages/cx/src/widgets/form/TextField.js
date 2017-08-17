@@ -21,6 +21,9 @@ export class TextField extends Field {
       if (typeof this.hideClear !== 'undefined')
          this.showClear = !this.hideClear;
 
+      if (this.alwaysShowClear)
+         this.showClear = true;
+
       super.init();
    }
 
@@ -78,6 +81,7 @@ TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.
 TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
+TextField.prototype.alwaysShowClear = false;
 TextField.prototype.trackBrowserAutofill = false;
 
 Localization.registerPrototype('cx/widgets/TextField', TextField);
@@ -115,12 +119,12 @@ class Input extends VDOM.Component {
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && !data.required && data.value != null)
+         if (widget.showClear && (widget.alwaysShowClear || !data.required) && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => e.preventDefault() }
                   onClick={ e => this.onClearClick(e) }
-                  >
+               >
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );
