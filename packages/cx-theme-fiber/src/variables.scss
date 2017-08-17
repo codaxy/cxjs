@@ -52,7 +52,7 @@ $cx-default-paragraph-line-height: 1.5 !default;
 $cx-default-background-color: #fff !default;
 
 $cx-default-border-color: #d3d8d6 !default;
-$cx-default-border-radius: 2px !default;
+$cx-default-border-radius: 6px !default;
 
 $cx-default-box-font-size: 14px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
@@ -100,7 +100,7 @@ $cx-default-tab-font-weight: 500 !default;
 $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: 0 !default;
 $cx-default-tab-border-color: transparent !default;
-$cx-default-tab-border-radius: $cx-default-border-radius+4px !default;
+$cx-default-tab-border-radius: $cx-default-border-radius !default;
 $cx-default-tab-padding: $cx-default-box-padding 2*$cx-default-box-padding+10px !default;
 
 //HSCROLLER
@@ -108,7 +108,7 @@ $cx-default-hscroller-button-width: 30px !default;
 
 //SECTION
 $cx-default-section-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.1) !default;
-$cx-default-section-border-radius: $cx-default-border-radius + 4px !default;
+$cx-default-section-border-radius: $cx-default-border-radius !default;
 
 //MENU
 $cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
@@ -229,11 +229,11 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
       font-weight: 500
    ),
    hover: (
-      background-color: rgba(0, 0, 0, 0.02)
+      background-color: rgba(0, 0, 0, 0.02),
+      color: $cx-default-color
    ),
    cursor: (
-      background-color: rgba(0, 0, 0, 0.03),
-      color: $cx-theme-primary-color
+      background-color: rgba(0, 0, 0, 0.03)
    ),
    selected: (
       background-color: rgba(0, 0, 0, 0.05),

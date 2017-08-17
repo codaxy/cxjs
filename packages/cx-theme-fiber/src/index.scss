@@ -597,7 +597,7 @@ div.#{$block}classic-tab-container {
 //LIST
 .#{$block}list.#{$state}selectable {
    > .#{$element}list-item {
-      padding: 3 * $cx-default-box-padding;
+      padding: 2*$cx-default-box-padding;
       border-width: 1px;
       border-color: transparent transparent rgba(0, 0, 0, 0.09);
    }
