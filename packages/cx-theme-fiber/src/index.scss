@@ -174,64 +174,13 @@ $form-list: (
 $checkbox-padding-correction: 2px !default;
 
 .#{$element}checkbox-input {
-   &:after {
-      content: '';
-      width: 2 * $cx-default-checkbox-size;
-      height: 2 * $cx-default-checkbox-size;
-      position: absolute;
-      left: calc(50% - #{$cx-default-checkbox-size});
-      bottom: calc(50% - #{$cx-default-checkbox-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.2s ease-in-out;
-   }
-   &.#{$state}checked {
-      &:after {
-         background-color: rgba($cx-theme-primary-color, 0.1);
-      }
-   }
-   &:focus:after {
-      visibility: visible;
-      transform: scale(.9, .9)
-   }
+  
 }
 
 // radio focus effect
 .#{$element}radio-input {
-   border-width: 2px;
-   border-color: darken(#dbdbdb, 10);
-   color: $cx-theme-primary-color;
 
-   &:after {
-      content: '';
-      width: 2 * $cx-default-radio-size;
-      height: 2 * $cx-default-radio-size;
-      position: absolute;
-      left: calc(50% - #{$cx-default-radio-size});
-      bottom: calc(50% - #{$cx-default-radio-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.2s ease-in-out;
-   }
-
-   &:hover {
-      border-color: darken(#dbdbdb, 10);
-   }
-
-   &.#{$state}checked {
-      &:after {
-         background-color: rgba($cx-theme-primary-color, 0.1);
-      }
-   }
-
-   &:focus:after {
-      visibility: visible;
-      transform: scale(.9, .9)
-   }
+     
 }
 
 // colorpicker

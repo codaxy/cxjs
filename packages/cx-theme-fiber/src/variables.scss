@@ -171,7 +171,7 @@ $cx-default-calendar-border-radius: $cx-default-border-radius !default;
 $cx-default-calendar-box-shadow: $cx-theme-box-shadow-elevated !default;
 $cx-default-calendar-padding: 0 0 10px !default;
 
-$cx-default-calendar-header-font-size: 16px !default;
+$cx-default-calendar-header-font-size: $cx-default-box-font-size + 2px !default;
 $cx-default-calendar-header-color: $cx-default-color !default;
 $cx-default-calendar-header-background-color: $cx-default-background-color !default;
 
@@ -181,11 +181,13 @@ $cx-default-calendar-day-border-radius: 50% !default;
 // checkbox
 $cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
 $cx-default-checkbox-border-width: 2px !default;
-$cx-default-checkbox-border-color: darken(#dbdbdb, 10) !default;
+$cx-default-checkbox-border-color: $cx-default-border-color !default;
 
 // radio
 $cx-default-radio-size: $cx-default-box-line-height - 6px !default;
 $cx-default-radio-color: $cx-theme-primary-color-light !default;
+$cx-default-radio-border-width: 2px !default;
+$cx-default-radio-border-color: $cx-default-border-color !default;
 
 // lookupfield tag
 $cx-default-input-tag-font-size: 12px !default;
@@ -800,7 +802,7 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    ),
    focus: (
       box-shadow: none,
-      border-color: #dbdbdb
+      border-color: $cx-theme-primary-color-light
    ),
    checked: (
       background-color: $cx-theme-primary-color-light,
@@ -809,15 +811,16 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
       opacity: 1
    ),
    checked-focus: (
-      border-color: $cx-theme-primary-color-light
+      background-color: $cx-theme-primary-color,
+      border-color: $cx-theme-primary-color
    ),
    disabled: (
       background-color: transparent,
-      border-color: rgba(0, 0, 0, 0.1)
+      border-color: rgba($cx-default-checkbox-border-color, 0.4)
    ),
    disabled-checked: (
-      background-color: rgba(0, 0, 0, 0.26),
-      border-color: rgba(0, 0, 0, 0)
+      background-color: rgba(0, 0, 0, 0.1),
+      border-color: transparent
    )
 ));
 
@@ -828,18 +831,20 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
       border-color: $cx-default-radio-color
    ),
    checked-focus: (
-      // border-color: $cx-default-radio-color
+      color: $cx-theme-primary-color,
+      border-color: $cx-theme-primary-color
    ),
    checked-hover: (
-      border-color: $cx-default-radio-color
+      // color: $cx-theme-primary-color,
+      // border-color: $cx-theme-primary-color
    ),
    focus: (
       box-shadow: none,
-      border-color: #dbdbdb
+      border-color: $cx-theme-primary-color-light
    ),
    disabled: (
       background-color: transparent,
-      border-color: rgba(0, 0, 0, 0.1)
+      border-color: rgba($cx-default-radio-border-color, 0.4)
    ),
    disabled-checked: (
       color: rgba(0, 0, 0, 0.26),
