@@ -71,7 +71,7 @@ $cx-default-padding-medium: 10px !default;
 $cx-default-padding-large: 14px !default;
 $cx-default-padding-extra-large: 19px !default;
 
-$cx-default-transition: all 0.25s ease !default;
+$cx-default-transition: all 0.35s ease !default;
 
 $cx-default-dropdown-arrow-offset: 26px !default;
 
@@ -763,7 +763,8 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
    default: (
       height: 32px,
       line-height: 32px,
-      width: 32px
+      width: 32px,
+      font-weight: normal
    ),
    hover-focus: (
       background-color: rgba($cx-theme-primary-color-light, 0.3)

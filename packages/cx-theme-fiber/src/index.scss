@@ -171,7 +171,19 @@ $form-list: (
    // monthpicker
 	td.#{$state}unselectable {
 		filter: blur(1.5px);
-		border-radius: 0
+		border-radius: 0;
+
+		&.#{$state}selected {
+			border-radius: 50%;
+		}
+	}
+}
+
+// monthpicker
+
+.#{$block}monthpicker {
+	.#{$element}monthpicker-year {
+		font-weight: 500;	
 	}
 }
 
