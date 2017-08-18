@@ -896,7 +896,7 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
 // clear icon
 $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
    default: (
-      right: 0
+      right: $cx-default-box-padding
    ),
    hover: (
       color: darken($cx-default-color, 5),
@@ -916,7 +916,7 @@ $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-sta
    default: (
       color: $cx-theme-secondary-text-color,
       opacity: 1,
-      right: 0
+      right: $cx-default-box-padding
    ),
    focus: (
       color: $cx-theme-primary-color
@@ -930,7 +930,7 @@ $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-sta
 // left icon
 $cx-input-left-icon-state-style-map: cx-deep-map-merge($cx-input-left-icon-state-style-map, (
    default: (
-      left: 0
+      left: $cx-default-box-padding
    ),
    focus: (
       color: $cx-theme-primary-color,
