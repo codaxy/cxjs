@@ -211,12 +211,13 @@ $cx-default-slider-handle-border-color: $cx-default-slider-handle-background-col
 $cx-default-slider-handle-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.44) !default;
 
 // switch
-$cx-default-switch-axis-size: 8px !default;
+$cx-default-switch-axis-size: $cx-default-box-padding*3 - 1px !default;
 $cx-default-switch-axis-background-color: rgba(0, 0, 0, 0.26) !default;
-$cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.8) !default;
+$cx-default-switch-handle-size: 20px !default;
+$cx-default-switch-range-background-color: $cx-theme-primary-color-light !default;
 $cx-default-switch-handle-background-color: #fff !default;
 $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
-$cx-default-switch-handle-box-shadow: $cx-theme-box-shadow !default;
+$cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
 
 // icon
 $cx-default-icon-size: $cx-default-box-line-height !default;
@@ -895,11 +896,11 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
       border-color: transparent
    ),
    on: (
-      background-color: $cx-theme-primary-color,
+      background-color: $cx-default-background-color,
       border-color: transparent
    ),
    on-active: (
-      background-color: $cx-theme-primary-color-dark
+      background-color: darken($cx-default-background-color, 4)
    )
 ));
 

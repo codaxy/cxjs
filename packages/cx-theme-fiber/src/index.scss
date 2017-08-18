@@ -224,29 +224,7 @@ $checkbox-padding-correction: 2px !default;
 
 // switch focus effect
 .#{$element}switch-handle {
-   &:after {
-      content: "";
-      width: 1.5 * $cx-default-slider-handle-size;
-      height: 1.5 * $cx-default-slider-handle-size;
-      position: absolute;
-      left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.15s ease-out, background-color 0.15s ease-out;
-   }
-}
 
-.#{$block}switch:focus {
-   .#{$element}switch-handle {
-      &:after {
-         visibility: visible;
-         transform: scale(1.4, 1.4);
-         background-color: rgba($cx-theme-primary-color, 0.1);
-      }
-   }
 }
 
 //TAB
