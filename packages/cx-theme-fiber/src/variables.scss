@@ -759,21 +759,21 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
       width: 32px
    ),
    hover-focus: (
-      background-color: rgba($cx-theme-primary-color, 0.3)
+      background-color: rgba($cx-theme-primary-color-light, 0.3)
    ),
    hover: (
-      background-color: rgba($cx-theme-primary-color, 0.3)
+      background-color: rgba($cx-theme-primary-color-light, 0.3)
    ),
    today: (
       background-color: rgba($cx-theme-accent-color, 0.2)
    ),
    selected: (
-      background-color: $cx-theme-primary-color-light,
+      background-color: $cx-theme-primary-color,
       color: #fff,
       box-shadow: $cx-theme-box-shadow-elevated
    ),
    selected-focus: (
-      background-color: $cx-theme-primary-color-dark
+      background-color: $cx-theme-primary-color-light
    )
 ));
 
@@ -785,7 +785,7 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state
    ),
    active: (
       border-color: transparent,
-      background-color: rgba($cx-theme-primary-color-light, 0.45)
+      background-color: rgba($cx-theme-primary-color-light, 0.2)
    )
 ));
 
