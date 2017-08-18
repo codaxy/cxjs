@@ -40,10 +40,15 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       ...options.clone,
    };
 
+   let deltaX = cursor.clientX - sourceBounds.left;
+   let deltaY = cursor.clientY - sourceBounds.top;
+
    let source = {
       ...options.source,
       width: sourceBounds.width,
       height: sourceBounds.height,
+      deltaX,
+      deltaY,
       margin: [
          styles.getPropertyValue('margin-top'),
          styles.getPropertyValue('margin-right'),
@@ -53,8 +58,8 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    };
 
    puppet = {
-      deltaX: cursor.clientX - sourceBounds.left,
-      deltaY: cursor.clientY - sourceBounds.top,
+      deltaX,
+      deltaY,
       el: cloneEl,
       clone,
       source,
