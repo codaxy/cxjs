@@ -71,7 +71,7 @@ $cx-default-padding-medium: 10px !default;
 $cx-default-padding-large: 14px !default;
 $cx-default-padding-extra-large: 19px !default;
 
-$cx-default-transition: all 0.2s ease !default;
+$cx-default-transition: all 0.25s ease !default;
 
 $cx-default-dropdown-arrow-offset: 26px !default;
 
@@ -595,11 +595,12 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
-   font-size: $cx-default-box-font-size + 1px,
+   font-size: $cx-default-box-font-size - 1px,
+   font-weight: 500,
    background-color: rgb(251, 251, 251),
    border-width: 0,
    border-style: solid,
-   box-shadow: $cx-theme-box-shadow
+   box-shadow: $cx-theme-box-elevated
 ));
 
 $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
@@ -710,14 +711,16 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
       background-color: transparent,
       border-radius: $cx-default-border-radius,
       border-width: 1px,
-      box-shadow: 0px 2px 0px $cx-default-input-border-color
+      box-shadow: 0px 2px 0px $cx-default-input-border-color,
+      transition: $cx-default-transition
    ),
    hover: (
       
    ),
    focus: (
       // transition: border-color 0.55s ease-in-out,
-      box-shadow: none
+      box-shadow: none,
+      transition: $cx-default-transition
    ),
    disabled: (
       color: rgba($cx-theme-secondary-text-color, 0.5),
