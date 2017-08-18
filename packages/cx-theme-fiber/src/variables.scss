@@ -708,7 +708,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
       background-color: transparent,
       border-radius: $cx-default-border-radius,
       border-width: 1px,
-      box-shadow: $cx-default-input-box-shadow
+      box-shadow: 0px 2px 0px $cx-default-input-border-color
    ),
    hover: (
       
