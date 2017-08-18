@@ -83,6 +83,7 @@ $cx-default-button-font-weight: 500 !default;
 $cx-default-button-background-color: #fff !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
+$cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-box-shadow: $cx-theme-box-shadow !default;
 $cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !default;
 
@@ -257,9 +258,7 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
 //BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    default: (
-      transition: $cx-default-transition,
-      font-weight: $cx-default-button-font-weight,
-      border-radius: $cx-default-border-radius
+      transition: $cx-default-transition
    ),
    hover: (
       color: $primary-color-blue,
@@ -306,7 +305,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
          background-color: rgba($cx-theme-primary-color, 0.5)
       )
    ),
-   round: (
+   rounded: (
       default: (
          border-radius: 999px
       )
