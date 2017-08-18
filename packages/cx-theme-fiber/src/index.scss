@@ -66,33 +66,6 @@ $form-list: (
 
       // disables parent input div height to grow bigger then input in FlexRow
       max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
-
-      // standard field focus effect
-      &:after {
-         display: block;
-         content: '';
-         height: 2px;
-         width: 100%;
-         background-color: $cx-theme-primary-color;
-         transform: scaleX(0);
-         transition: 0s;
-         position: absolute;
-         bottom: 0;
-         left: 0;
-      }
-
-      &.#{$state}focus {
-         &:after {
-            transform: scaleX(1);
-            transition: transform 0.3s ease-out;
-         }
-         &.#{$state}error {
-            &:after {
-               transform: scaleX(1);
-               background-color: $cx-theme-danger-color;
-            }
-         }
-      }
    }
 }
 
@@ -115,35 +88,6 @@ $form-list: (
 }
 
 // textarea
-.#{$block}textarea {
-   // textarea focus effect
-   &:after {
-      display: block;
-      content: '';
-      height: 2px;
-      width: 100%;
-      background-color: $cx-theme-primary-color;
-      transform: scaleX(0);
-      transition: 0s;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-   }
-
-   &.#{$state}focus {
-      &:after {
-         transform: scaleX(1);
-         transition: transform 0.3s ease-out;
-      }
-
-      &.#{$state}error.#{$state}visited {
-         &:after {
-            transform: scaleX(1);
-            background-color: $cx-theme-danger-color;
-         }
-      }
-   }
-}
 
 //ANIMATED LABELS
 .#{$mod}label-placement-material {

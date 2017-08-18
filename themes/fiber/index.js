@@ -1,10 +1,10 @@
 import { Widget, startAppLoop, Url } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
-import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-fiber";
+// import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-fiber";
 
-enableMaterialHelpPlacement();
-enableMaterialLabelPlacement();
+// enableMaterialHelpPlacement();
+// enableMaterialLabelPlacement();
 
 import {setupHashBasedRouting} from '../shared/app/hashRoutes';
 
