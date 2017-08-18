@@ -790,11 +790,12 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
 $cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state-style-map, (
    default: (
       border-color: transparent,
-      background-color: rgba($cx-theme-primary-color-light, 0.2)
+      background-color: rgba($cx-theme-primary-color-light, 0.3),
+      box-shadow: $cx-theme-box-shadow
    ),
    active: (
       border-color: transparent,
-      background-color: rgba($cx-theme-primary-color-light, 0.2)
+      background-color: rgba($cx-theme-primary-color-light, 0.5)
    )
 ));
 
