@@ -201,14 +201,14 @@ $cx-default-colorpicker-border-width: 1px !default;
 $cx-default-colorpicker-box-shadow: none !default;
 
 // slider
-$cx-default-slider-axis-size: 2px !default;
-$cx-default-slider-axis-background-color: rgba(0, 0, 0, 0.26) !default;
-$cx-default-slider-range-background-color: $cx-theme-primary-color-dark !default;
+$cx-default-slider-axis-size: 4px !default;
+$cx-default-slider-axis-background-color: $cx-default-border-color-light !default;
+$cx-default-slider-range-background-color: $cx-theme-primary-color-light !default;
 $cx-default-slider-handle-size: 16px !default;
-$cx-default-slider-handle-background-color: $cx-theme-primary-color-dark !default;
-$cx-default-slider-handle-border-width: 2px !default;
+$cx-default-slider-handle-background-color: $cx-theme-primary-color-light !default;
+$cx-default-slider-handle-border-width: 0 !default;
 $cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
-$cx-default-slider-handle-box-shadow: none !default;
+$cx-default-slider-handle-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.44) !default;
 
 // switch
 $cx-default-switch-axis-size: 8px !default;
@@ -867,18 +867,17 @@ $cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, 
 
 // slider
 $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
-   default: (
-      box-shadow: null
-   ),
    hover: (
-      box-shadow: null
+      box-shadow: $cx-default-slider-handle-box-shadow,
+      background-color: lighten($cx-default-slider-handle-background-color, 5)
    ),
    active: (
-      background-color: $cx-theme-primary-color-dark
+      background-color: $cx-theme-primary-color-dark,
+      border-color: $cx-theme-primary-color-dark
    ),
    focus: (
       box-shadow: none,
-      border-color: $cx-theme-primary-color-dark
+      background-color: $cx-theme-primary-color-dark
    )
 ));
 

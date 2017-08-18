@@ -219,44 +219,7 @@ $checkbox-padding-correction: 2px !default;
 
 // slider focus effect
 .#{$element}slider-handle {
-   &:after {
-      content: "";
-      width: 1.5 * $cx-default-slider-handle-size;
-      height: 1.5 * $cx-default-slider-handle-size;
-      position: absolute;
-      left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.15s ease-out, background-color 0.15s ease-out;
-   }
-
-   &:active, &:active:focus {
-      &:after {
-         visibility: visible;
-         transform: scale(1, 1);
-         background-color: inherit;
-      }
-   }
-   &:focus:after {
-      visibility: visible;
-      transform: scale(1.4, 1.4);
-      background-color: rgba($cx-theme-primary-color-dark, 0.1);
-   }
-}
-
-.#{$element}slider-handle[style*="left: 0%;"] {
-   background-color: #fff;
-   border-color: rgba(0, 0, 0, 0.26);
-
-   &:focus:after {
-      background-color: rgba(0, 0, 0, 0.05);
-   }
-   &:active {
-      background-color: inherit;
-   }
+//   box-shadow: $cx-theme-box-shadow;
 }
 
 // switch focus effect
