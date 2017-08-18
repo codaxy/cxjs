@@ -159,8 +159,14 @@ $form-list: (
 // calendar
 .#{$block}calendar {
    .#{$element}calendar-day-names {
-      background-color: $cx-theme-primary-color;
-      color: #fff;
+      // background-color: $cx-theme-primary-color;
+      color: $cx-default-color-light;
+      
+      th {
+        border-style: solid;
+        border-width: 1px 0;
+        border-color: $cx-default-border-color;
+      }
    }
 }
 

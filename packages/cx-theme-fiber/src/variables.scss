@@ -46,6 +46,7 @@ $cx-default-container-padding: 5px !default;
 
 $cx-default-font-family: 'Montserrat', 'Roboto', 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.7) !default;
+$cx-default-color-light: rgba($cx-default-color, 0.6) !default;
 $cx-default-font-weight: 500 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
 
@@ -163,16 +164,16 @@ $cx-default-datetimepicker-border-color: transparent !default;
 $cx-default-wheel-clip-border-color: transparent !default;
 
 // calendar
-$cx-default-calendar-background-color: rgba(247, 247, 247, 0.5) !default;
+$cx-default-calendar-background-color: #fff !default;
 $cx-default-calendar-border-width: 0px !default;
 $cx-default-calendar-border-color: $cx-default-input-border-color !default;
 $cx-default-calendar-border-radius: $cx-default-border-radius !default;
-$cx-default-calendar-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25) !default;
+$cx-default-calendar-box-shadow: $cx-theme-box-shadow-elevated !default;
 $cx-default-calendar-padding: 0 0 10px !default;
 
 $cx-default-calendar-header-font-size: 16px !default;
-$cx-default-calendar-header-color: #fff !default;
-$cx-default-calendar-header-background-color: $cx-theme-primary-color !default;
+$cx-default-calendar-header-color: $cx-default-color !default;
+$cx-default-calendar-header-background-color: $cx-default-background-color !default;
 
 $cx-default-calendar-day-font-size: 11px !default;
 $cx-default-calendar-day-border-radius: 50% !default;
@@ -746,7 +747,6 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    focus: (
-      background-color: #f7f7f7,
       box-shadow: $cx-default-calendar-box-shadow
    )
 ));
@@ -765,11 +765,12 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
       background-color: rgba($cx-theme-primary-color, 0.3)
    ),
    today: (
-      background-color: rgba($cx-theme-accent-color, 0.6)
+      background-color: rgba($cx-theme-accent-color, 0.2)
    ),
    selected: (
-      background-color: $cx-theme-primary-color,
-      color: #fff
+      background-color: $cx-theme-primary-color-light,
+      color: #fff,
+      box-shadow: $cx-theme-box-shadow-elevated
    ),
    selected-focus: (
       background-color: $cx-theme-primary-color-dark
