@@ -176,7 +176,7 @@ $cx-default-calendar-header-color: $cx-default-color !default;
 $cx-default-calendar-header-background-color: $cx-default-background-color !default;
 
 $cx-default-calendar-day-font-size: 11px !default;
-$cx-default-calendar-day-border-radius: 50% !default;
+$cx-default-calendar-day-border-radius: 999px !default;
 
 // checkbox
 $cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
@@ -739,10 +739,11 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
       border-color: $cx-default-input-border-color
    ),
    focus: (
-      background-color: rgba($cx-default-color, 0.015)
+      box-shadow: none
+   // background-color: rgba($cx-default-color, 0.015)
    ),
    hover: (
-      background-color: rgba($cx-default-color, 0.009)
+      // background-color: rgba($cx-default-color, 0.009)
    )
 ));
 

@@ -168,6 +168,11 @@ $form-list: (
         border-color: $cx-default-border-color;
       }
    }
+   // monthpicker
+	td.#{$state}unselectable {
+		filter: blur(1.5px);
+		border-radius: 0
+	}
 }
 
 // checkbox focus effect
