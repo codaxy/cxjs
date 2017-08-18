@@ -750,7 +750,8 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
    focus: (
-      box-shadow: $cx-default-calendar-box-shadow
+      box-shadow: $cx-default-calendar-box-shadow,
+      border-color: transparent
    )
 ));
 
