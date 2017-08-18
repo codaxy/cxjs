@@ -160,12 +160,12 @@ $form-list: (
 .#{$block}calendar {
    .#{$element}calendar-day-names {
       // background-color: $cx-theme-primary-color;
-      color: $cx-default-color-light;
+      color: $cx-theme-primary-color-dark;
       
       th {
-        border-style: solid;
-        border-width: 1px 0;
-        border-color: $cx-default-border-color;
+        // border-style: solid;
+        // border-width: 1px 0;
+        // border-color: $cx-default-border-color;
       }
    }
    // monthpicker
