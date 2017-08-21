@@ -424,6 +424,17 @@ div.#{$block}classic-tab-container {
    border-width: 0 !important;
 }
 
+// pagination
+.#{$element}pagination-page {
+	&:first-child, &:last-child {
+		border-width: 0;
+		&:hover {
+			background-color: transparent;
+			color: $cx-theme-primary-color-light;
+		}
+	}
+}
+
 //LIST
 .#{$block}list.#{$state}selectable {
    > .#{$element}list-item {
@@ -473,7 +484,7 @@ div.#{$block}classic-tab-container {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   &.cxe-grid-column-sort-icon {
     width: 16px;
   }  

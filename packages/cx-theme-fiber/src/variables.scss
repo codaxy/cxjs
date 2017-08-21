@@ -693,8 +693,20 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
 // pagination
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
    default: (
-      border-radius: $cx-default-border-radius,
+      border-color: transparent,
+      border-radius: 6px,     
       padding: $cx-default-box-padding 2*$cx-default-box-padding
+   ),
+   active: (
+      color: $cx-theme-primary-color-light,
+      // background-color: transparent
+   ),
+   selected-cursor: (
+      background-color: $cx-default-background-color
+   ),
+   selected: (
+      background-color: $cx-default-background-color,
+      box-shadow: $cx-theme-box-shadow
    )
 ));
 

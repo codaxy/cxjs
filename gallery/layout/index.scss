@@ -196,3 +196,17 @@ $small-device-width: 800px;
       background: #93a5bd;
    }
 }
+
+.theme-fiber {
+    .aside {
+    //    background: #f3f5f7;
+ 
+       .cxb-link.cxs-active {
+          color: #29b8ff;
+       }
+    }
+ 
+    .header {
+       background: #0AF;
+    }
+ }
