@@ -845,8 +845,8 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
       opacity: 1
    ),
    checked-focus: (
-      background-color: $cx-theme-primary-color,
-      border-color: $cx-theme-primary-color
+      background-color: $cx-theme-primary-color-dark,
+      border-color: $cx-theme-primary-color-dark
    ),
    disabled: (
       background-color: transparent,
@@ -865,12 +865,12 @@ $cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
       border-color: $cx-default-radio-color
    ),
    checked-focus: (
-      color: $cx-theme-primary-color,
-      border-color: $cx-theme-primary-color
+      color: $cx-theme-primary-color-dark,
+      border-color: $cx-theme-primary-color-dark
    ),
    checked-hover: (
-      // color: $cx-theme-primary-color,
-      // border-color: $cx-theme-primary-color
+      color: $cx-theme-primary-color-dark,
+      border-color: $cx-theme-primary-color-dark
    ),
    focus: (
       box-shadow: none,
