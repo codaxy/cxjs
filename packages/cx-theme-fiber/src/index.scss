@@ -473,5 +473,8 @@ div.#{$block}classic-tab-container {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 16px;
+  
+  &.cxe-grid-column-sort-icon {
+    width: 16px;
+  }  
 }
