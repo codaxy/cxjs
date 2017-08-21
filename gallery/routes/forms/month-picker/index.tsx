@@ -7,7 +7,7 @@ import {SandboxedRoute, SandboxedAsyncRoute} from "../../../components/asyncRout
 const header = getHeader({
     title: "MonthPicker",
     tabs: {
-        states: 'states'
+        states: 'States'
     },
     docsUrl: 'https://cxjs.io/docs/widgets/month-pickers'
 });

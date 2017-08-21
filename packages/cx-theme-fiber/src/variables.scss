@@ -221,7 +221,7 @@ $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-col
 $cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
 
 // icon
-$cx-default-icon-size: 14px !default;
+$cx-default-icon-size: $cx-default-box-line-height !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
 $cx-default-clear-size: $cx-default-icon-size !default;
 
