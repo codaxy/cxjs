@@ -598,8 +598,7 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
    font-size: $cx-default-box-font-size - 1px,
-   font-weight: 500,
-   background-color: rgb(251, 251, 251),
+   font-weight: 500,   
    border-width: 0,
    border-style: solid,
    box-shadow: $cx-theme-box-shadow-elevated
