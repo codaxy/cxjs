@@ -225,6 +225,18 @@ $cx-default-icon-size: $cx-default-box-line-height !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
 $cx-default-clear-size: $cx-default-icon-size !default;
 
+// CHART
+
+$cx-default-palette-fill-whiten: 30% !default;
+$cx-default-palette-fill-hover-whiten: 50% !default;
+$cx-default-palette-fill-selected-whiten: 0% !default;
+$cx-default-palette-fill-disabled-whiten: 90% !default;
+
+$cx-default-palette-fill-blacken: 5% !default;
+$cx-default-palette-fill-hover-blacken: 5% !default;
+$cx-default-palette-fill-selected-blacken: 7% !default;
+$cx-default-palette-fill-disabled-blacken: 0% !default;
+
 @import "~cx/src/variables";
 
 //VARIABLE MAPS
