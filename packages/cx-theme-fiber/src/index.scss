@@ -477,8 +477,8 @@ div.#{$block}classic-tab-container {
 //MATERIAL ICONS
 .fa {
   display: inline-block;
-  font: normal normal normal 16px/1 FontAwesome;
-  font-size: 16px;
+  font: normal normal normal 14px/1 FontAwesome;
+//   font-size: 16px;
   line-height: $cx-default-icon-size;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -487,20 +487,4 @@ div.#{$block}classic-tab-container {
   &.cxe-grid-column-sort-icon {
    //  width: 16px;
   }  
-}
-
-
-.cxs-vertical > .cxe-menuitem-arrow {
-	transform-origin: 8px 12px;
-}
-
-.cxs-sorted-desc > .cxe-grid-column-sort-icon {
-	transform-origin: 8px 12px;
-}
-
-.cxs-aligned-right {
-	&.cxs-sorted-desc > .cxe-grid-column-sort-icon {
-		transform-origin: 16px 12px;
-	}
-	
 }

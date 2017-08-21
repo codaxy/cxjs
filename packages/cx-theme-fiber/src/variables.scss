@@ -153,7 +153,7 @@ $cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !de
 $cx-default-input-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
 $cx-default-input-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.01), 0 2px 0 rgba(0, 0, 0, 0.02), 0 3px 0 rgba(0, 0, 0, 0.02), 0 4px 0 rgba(0, 0, 0, 0.01) !default;
-$cx-theme-input-padding: $cx-default-box-padding !default;
+$cx-theme-input-padding: $cx-default-box-padding - 1px $cx-default-box-padding !default;
 
 // label
 $cx-default-label-font-size: 12px !default;
@@ -221,7 +221,7 @@ $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-col
 $cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
 
 // icon
-$cx-default-icon-size: $cx-default-box-line-height !default;
+$cx-default-icon-size: 14px !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
 $cx-default-clear-size: $cx-default-icon-size !default;
 
@@ -245,15 +245,15 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
    ),
    selected: (
       background-color: rgba(0, 0, 0, 0.05),
-      color: $cx-theme-primary-color
+      color: $cx-theme-primary-color-dark
    ),
    selected-hover: (
       background-color: rgba(0, 0, 0, 0.07),
-      color: $cx-theme-primary-color
+      color: $cx-theme-primary-color-dark
    ),
    selected-cursor: (
       background-color: rgba(0, 0, 0, 0.07),
-      color: $cx-theme-primary-color
+      color: $cx-theme-primary-color-dark
    ),
    disabled: (
       background-color: transparent

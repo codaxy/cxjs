@@ -47,17 +47,15 @@ export function applyThemeOverrides() {
   });
 
    Icon.unregister('close');
-   Icon.unregister('clear');
    Icon.unregister('folder');
    Icon.unregister('forward');
+   Icon.unregister('search');
 
    Icon.register('calendar', props => Icon.render('calendar-o', props));
    Icon.register('drop-down', props => Icon.render('angle-down', props));
-   Icon.register('sort-asc', props => Icon.render('chevron-down', props));
    Icon.register('folder-open', props => Icon.render('folder-open-o', props));
    Icon.register('folder', props => Icon.render('folder-o', props));
    Icon.register('file', props => Icon.render('file-o', props));
-   Icon.register('clear', props => Icon.render('times', props));
    Icon.register('forward', props => Icon.render('angle-double-right', props));
 }
 
