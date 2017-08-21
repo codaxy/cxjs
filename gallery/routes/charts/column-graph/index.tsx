@@ -21,7 +21,7 @@ export default <cx>
         <SandboxedRoute route="+/standard">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/timeline" content={System.import("./timeline")} />
+        <SandboxedAsyncRoute route="+/timeline" content={()=>System.import("./timeline")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>
