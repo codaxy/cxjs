@@ -1,3 +1,5 @@
+import {isNumber} from '../../util/isNumber';
+
 export class Rect {
 
    constructor(config) {
@@ -66,7 +68,7 @@ export class Rect {
       if (m.isRect)
          return m;
 
-      if (typeof m == 'number')
+      if (isNumber(m))
          return new Rect({l: m, t: m, r: -m, b: -m});
 
       var m = Rect.convert(m);

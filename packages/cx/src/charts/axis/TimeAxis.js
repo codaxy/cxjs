@@ -2,6 +2,7 @@ import {Axis} from './Axis';
 import {VDOM} from '../../ui/Widget';
 import {Stack} from './Stack';
 import {Format} from '../../ui/Format';
+import {isNumber} from '../../util/isNumber';
 
 Format.registerFactory('yearOrMonth', (format) => {
    var year = Format.parse('datetime;yyyy');
@@ -272,7 +273,7 @@ class TimeScale {
 
    getScale(tickSizes, measure) {
       var {min, max} = this;
-      if (typeof this.snapToTicks == 'number' && measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
+      if (isNumber(this.snapToTicks) && measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
 
          var size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
 

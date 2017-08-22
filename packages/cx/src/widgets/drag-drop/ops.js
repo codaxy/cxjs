@@ -2,6 +2,7 @@ import {SubscriberList} from '../../util/SubscriberList';
 import {getCursorPos, captureMouseOrTouch} from '../overlay/captureMouse';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {getScrollerBoundingClientRect} from '../../util/getScrollerBoundingClientRect';
+import {isNumber} from '../../util/isNumber';
 
 let dropZones = new SubscriberList(),
    activeZone,
@@ -107,7 +108,7 @@ function notifyDragMove(e, captureData) {
          else
             away.push(zone);
 
-         if (typeof result.over == 'number' && (best == null || result.over < best)) {
+         if (isNumber(result.over) && (best == null || result.over < best)) {
             over = zone;
             best = result.over;
          }
