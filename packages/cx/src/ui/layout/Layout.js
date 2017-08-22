@@ -2,13 +2,13 @@ import {Component} from '../Component';
 import {contentAppend} from '../Widget';
 import {CSSHelper} from '../CSSHelper';
 import {exploreChildren} from './exploreChildren';
-
+import {isString} from '../../util/isString';
 
 export class Layout extends Component {
    
    init() {
       super.init();
-      if (typeof this.CSS == 'string')
+      if (isString(this.CSS))
          this.CSS = CSSHelper.get(this.CSS);
    }
 

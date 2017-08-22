@@ -1,4 +1,5 @@
 var bindingCache = {};
+import {isString} from '../util/isString';
 
 export class Binding {
 
@@ -64,7 +65,7 @@ export class Binding {
    }
 
    static get(path) {
-      if (typeof path == 'string') {
+      if (isString(path)) {
          let b = bindingCache[path];
          if (b)
             return b;

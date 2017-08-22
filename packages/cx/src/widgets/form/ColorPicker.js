@@ -7,6 +7,7 @@ import {rgbToHex} from '../../util/color/rgbToHex';
 import {parseColor} from '../../util/color/parseColor';
 import {getVendorPrefix} from '../../util/getVendorPrefix';
 import {stopPropagation} from '../../util/eventCallbacks';
+import {isString} from '../../util/isString';
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems
@@ -275,7 +276,7 @@ class ColorPickerComponent extends VDOM.Component {
 
    setColorProp(props, value) {
 
-      if (typeof props == 'string') {
+      if (isString(props)) {
          props = {
             [props]: value
          }

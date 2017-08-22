@@ -26,6 +26,7 @@ import {Localization} from '../../ui/Localization';
 import {SubscriberList} from '../../util/SubscriberList';
 import {RenderingContext} from '../../ui/RenderingContext';
 import {isNonEmptyArray} from '../../util/isNonEmptyArray';
+import {isString} from '../../util/isString';
 
 export class Grid extends Widget {
 
@@ -263,13 +264,13 @@ export class Grid extends Widget {
    groupBy(grouping, {autoConfigure} = {}) {
       if (grouping) {
          if (!Array.isArray(grouping)) {
-            if (typeof grouping == 'string' || typeof grouping == 'object')
+            if (isString(grouping) || typeof grouping == 'object')
                return this.groupBy([grouping]);
             throw new Error('DynamicGrouping should be an array or grouping objects');
          }
 
          grouping = grouping.map((g, i) => {
-            if (typeof g == 'string') {
+            if (isString(g)) {
                return {
                   key: {
                      [g]: {
@@ -478,7 +479,7 @@ export class Grid extends Widget {
                   v = c.footer(data);
                else if (c.aggregate && c.aggregateField) {
                   v = group[c.aggregateField];
-                  if (typeof ci.data.format == 'string')
+                  if (isString(ci.data.format))
                      v = Format.value(v, ci.data.format);
                }
 

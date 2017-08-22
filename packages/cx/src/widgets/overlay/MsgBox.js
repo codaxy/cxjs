@@ -5,11 +5,12 @@ import {Button} from '../Button';
 import {Localization} from '../../ui/Localization';
 import {FlexRow} from '../FlexBox';
 import {registerAlertImpl} from './alerts';
+import {isString} from '../../util/isString';
 
 export class MsgBox {
 
    static alert(options) {
-      if (typeof options == 'string')
+      if (isString(options))
          options = {
             message: options
          };
@@ -48,7 +49,7 @@ export class MsgBox {
    }
 
    static yesNo(options) {
-      if (typeof options == 'string')
+      if (isString(options))
          options = {
             message: options
          };

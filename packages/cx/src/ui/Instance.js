@@ -6,6 +6,7 @@ import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
 import {VDOM} from './VDOM';
+import {isString} from '../util/isString';
 
 export class Instance {
    constructor(widget, key) {
@@ -341,7 +342,7 @@ export class Instance {
                   p.set(value, this);
                   return true;
                }
-               else if (typeof p.set == 'string') {
+               else if (isString(p.set)) {
                   this.controller[p.set](value, this);
                   return true;
                }

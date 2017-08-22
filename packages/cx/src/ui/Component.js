@@ -1,3 +1,5 @@
+import {isString} from '../util/isString';
+
 var componentAlias = {};
 
 export class Component {
@@ -51,7 +53,7 @@ export class Component {
             return this.factory(typeAlias, config, more)
          throw new Error(`Unsupported component type ${typeAlias}.`);
       }
-      else if (typeof typeAlias == 'string') {
+      else if (isString(typeAlias)) {
          alias = this.namespace + typeAlias;
          cmpType = componentAlias[alias];
          if (!cmpType) {

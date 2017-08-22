@@ -1,4 +1,5 @@
 import {Binding} from './Binding';
+import {isString} from '../util/isString';
 
 export function computable(...selectorsAndCompute) {
 
@@ -13,7 +14,7 @@ export function computable(...selectorsAndCompute) {
 
    for (var i = 0; i + 1 < selectorsAndCompute.length; i++) {
       a = selectorsAndCompute[i];
-      if (typeof a == 'string')
+      if (isString(a))
          inputs.push(Binding.get(a).value);
       else if (a.createSelector)
          inputs.push(a.createSelector());

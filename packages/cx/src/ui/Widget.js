@@ -1,12 +1,12 @@
 import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
-//import './Format';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {debug, appDataFlag} from '../util/Debug';
 import {parseStyle} from '../util/parseStyle';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {RenderingContext} from './RenderingContext';
+import {isString} from '../util/isString';
 
 import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
@@ -52,7 +52,7 @@ export class Widget extends Component {
       if (this.putInto)
          this.isContent = true;
 
-      if (typeof this.CSS == 'string')
+      if (isString(this.CSS))
          this.CSS = CSSHelper.get(this.CSS);
 
       this.initHelpers();

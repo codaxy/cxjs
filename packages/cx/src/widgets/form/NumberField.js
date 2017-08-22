@@ -8,6 +8,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
+import {isString} from '../../util/isString';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 enableCultureSensitiveFormatting();
@@ -235,7 +236,7 @@ class Input extends VDOM.Component {
    }
 
    updateCursorPosition(preCursorText) {
-      if (typeof preCursorText == 'string') {
+      if (isString(preCursorText)) {
          var cursor = 0;
          var preCursor = 0;
          var text = this.input.value || '';

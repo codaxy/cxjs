@@ -4,6 +4,7 @@ import {Layout} from './layout/Layout';
 import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 import {parseStyle} from '../util/parseStyle';
+import {isString} from '../util/isString';
 
 export class PureContainer extends Widget {
 
@@ -71,7 +72,7 @@ export class PureContainer extends Widget {
             return;
          if (Array.isArray(a))
             a.forEach(c=>this.add(c));
-         else if (typeof a == 'string') {
+         else if (isString(a)) {
             if (this.trimWhitespace)
                a = innerTextTrim(a);
             if (a)
@@ -100,7 +101,7 @@ export class PureContainer extends Widget {
 
       var alias = filter;
 
-      if (typeof filter == 'string')
+      if (isString(filter))
          filter = (w) => w.componentAlias == alias;
 
       if (filter.isComponentType)

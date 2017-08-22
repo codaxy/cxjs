@@ -13,6 +13,7 @@ import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
+import {isString} from '../../util/isString';
 
 export class Select extends Field {
 
@@ -65,7 +66,7 @@ export class Select extends Field {
    }
 
    add(item) {
-      if (typeof item == 'string')
+      if (isString(item))
          return;
       super.add(item);
    }

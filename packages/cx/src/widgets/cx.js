@@ -2,6 +2,7 @@ import {HtmlElement} from './HtmlElement';
 import {VDOM} from '../ui/Widget';
 import {createComponentFactory, isComponentFactory} from '../ui/Component';
 import {createFunctionalComponent} from '../ui/createFunctionalComponent'
+import {isString} from '../util/isString';
 
 import {flattenProps} from '../ui/flattenProps';
 
@@ -37,7 +38,7 @@ export function cx(typeName, props, ...children) {
    if (typeName == 'react')
       return react(children);
 
-   if (typeof typeName == 'string' && typeName[0] == typeName[0].toLowerCase())
+   if (isString(typeName) && typeName[0] == typeName[0].toLowerCase())
       typeName = getHtmlElementFactory(typeName);
 
    return {
@@ -49,7 +50,7 @@ export function cx(typeName, props, ...children) {
 }
 
 export function react(config) {
-   if (!config || typeof config == 'string' || typeof config == 'number' || VDOM.isValidElement(config))
+   if (!config || isString(config) || typeof config == 'number' || VDOM.isValidElement(config))
       return config;
 
    if (Array.isArray(config))

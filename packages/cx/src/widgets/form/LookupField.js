@@ -27,6 +27,7 @@ import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
+import {isString} from '../../util/isString';
 
 export class LookupField extends Field {
 
@@ -151,7 +152,7 @@ export class LookupField extends Field {
       if (!query)
          return options;
       let textPredicate = getSearchQueryPredicate(query);
-      return options.filter(o => typeof o[this.optionTextField] == 'string' && textPredicate(o[this.optionTextField]));
+      return options.filter(o => isString(o[this.optionTextField]) && textPredicate(o[this.optionTextField]));
    }
 
    isEmpty(data) {
