@@ -111,7 +111,10 @@
       }
 
       .#{$state}header-plain & {         
-         @include cx-add-state-rules($header-state-style-map, default);
+         padding: cx-get-state-rule($header-state-style-map, default, padding);
+         color: cx-get-state-rule($header-state-style-map, default, color);
+         line-height: cx-get-state-rule($header-state-style-map, default, line-height);
+         font-weight: bold;
          border-width: 0;
          background-color: transparent;
       }
