@@ -1,6 +1,7 @@
 import {debug} from "./Debug";
 import {GlobalCacheIdentifier} from './GlobalCacheIdentifier';
 import {isNumber} from '../util/isNumber';
+import {isUndefined} from '../util/isUndefined';
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -181,7 +182,7 @@ export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFracti
    maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
 
    if (isNumber(minimumFractionDigits)) {
-      if (maximumFractionDigits === undefined)
+      if (isUndefined(maximumFractionDigits))
          maximumFractionDigits = minimumFractionDigits;
       else if (isNumber(maximumFractionDigits) && maximumFractionDigits < minimumFractionDigits)
          maximumFractionDigits = minimumFractionDigits;

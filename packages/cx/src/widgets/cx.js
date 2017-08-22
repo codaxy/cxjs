@@ -4,6 +4,8 @@ import {createComponentFactory, isComponentFactory} from '../ui/Component';
 import {createFunctionalComponent} from '../ui/createFunctionalComponent'
 import {isString} from '../util/isString';
 import {isNumber} from '../util/isNumber';
+import {isFunction} from '../util/isFunction';
+import {isUndefined} from '../util/isUndefined';
 
 import {flattenProps} from '../ui/flattenProps';
 
@@ -21,7 +23,7 @@ export function cx(typeName, props, ...children) {
    if (Array.isArray(typeName))
       return typeName;
 
-   if (typeof typeName === "function" && props === undefined)
+   if (isFunction(typeName) && isUndefined(props))
       return createFunctionalComponent(config => typeName(flattenProps(config)));
 
    if (typeName.type || typeName.$type)

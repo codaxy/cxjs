@@ -2,6 +2,7 @@ import {Widget, VDOM} from '../ui/Widget';
 import {HtmlElement} from '../widgets/HtmlElement';
 import {PureContainer} from '../ui/PureContainer';
 import {getShape} from './shapes';
+import {isUndefined} from '../util/isUndefined';
 
 export class Legend extends HtmlElement {
 
@@ -71,7 +72,7 @@ export class Legend extends HtmlElement {
       var className = this.CSS.element(this.baseClass, 'shape', {
          disabled: entry.disabled,
          selected: entry.selected,
-         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (entry.active === undefined || entry.active)
+         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active)
       });
       var shape = getShape(entry.shape || 'square');
 

@@ -4,6 +4,7 @@ import {StringTemplate} from './StringTemplate';
 import {createStructuredSelector} from '../data/createStructuredSelector';
 import {getSelector} from '../data/getSelector';
 import {isFunction} from '../util/isFunction';
+import {isUndefined} from '../util/isUndefined';
 
 function defaultValue(pv) {
    if (typeof pv == 'object' && pv && pv.structured)
@@ -23,7 +24,7 @@ function getSelectorConfig(props, values, nameMap) {
       v = values[p];
       pv = props[p];
 
-      if (v === undefined && pv && (pv.bind || pv.tpl || pv.expr))
+      if (isUndefined(v) && pv && (pv.bind || pv.tpl || pv.expr))
          v = pv;
 
       if (v === null) {
@@ -33,7 +34,7 @@ function getSelectorConfig(props, values, nameMap) {
       }
       else if (typeof v == 'object') {
          if (v.bind) {
-            if (v.defaultValue === undefined && v != pv)
+            if (isUndefined(v.defaultValue) && v != pv)
                v.defaultValue = defaultValue(pv);
             if (v.defaultValue !== undefined)
                defaultValues[v.bind] = v.defaultValue;
@@ -59,13 +60,13 @@ function getSelectorConfig(props, values, nameMap) {
          functions[p] = v;
       }
       else {
-         if (v === undefined) {
-            if (pv === undefined)
+         if (isUndefined(v)) {
+            if (isUndefined(pv))
                continue;
             v = defaultValue(pv);
          }
 
-         if (v === undefined)
+         if (isUndefined(v))
             continue;
 
          if (!constants)

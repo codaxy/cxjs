@@ -5,6 +5,7 @@ import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {debug} from '../util/Debug';
 import {isString} from '../util/isString';
+import {isUndefined} from '../util/isUndefined';
 
 var isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
 
@@ -18,7 +19,7 @@ export class HtmlElement extends PureContainer {
    constructor(config) {
       super(config);
 
-      if (this.jsxAttributes === undefined && config)
+      if (isUndefined(this.jsxAttributes) && config)
          this.jsxAttributes = Object.keys(config).filter(::this.isValidHtmlAttribute);
    }
 

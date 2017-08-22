@@ -8,6 +8,7 @@ import {
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
+import {isUndefined} from '../../util/isUndefined';
 
 export class Slider extends Field {
 
@@ -43,12 +44,12 @@ export class Slider extends Field {
       if (this.value != null)
          this.to = this.value;
 
-      if (this.from === undefined)
+      if (isUndefined(this.from))
          this.from = this.minValue;
       else
          this.showFrom = true;
 
-      if (this.to === undefined)
+      if (isUndefined(this.to))
          this.to = this.maxValue;
       else
          this.showTo = true;

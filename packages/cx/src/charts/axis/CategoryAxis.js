@@ -1,5 +1,6 @@
 import {Axis} from './Axis';
 import {VDOM} from '../../ui/Widget';
+import {isUndefined} from '../../util/isUndefined';
 
 export class CategoryAxis extends Axis {
 
@@ -153,7 +154,7 @@ class CategoryScale {
    acknowledge(value, width = 0, offset = 0) {
 
       var index = this.valuesMap[value];
-      if (index === undefined) {
+      if (isUndefined(index)) {
          index = this.valueList.length;
          this.valueList.push(value);
          this.valuesMap[value] = index;
