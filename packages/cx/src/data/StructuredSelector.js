@@ -3,6 +3,7 @@ import {Expression} from './Expression';
 import {StringTemplate} from './StringTemplate';
 import {createStructuredSelector} from '../data/createStructuredSelector';
 import {getSelector} from '../data/getSelector';
+import {isFunction} from '../util/isFunction';
 
 function defaultValue(pv) {
    if (typeof pv == 'object' && pv && pv.structured)
@@ -54,7 +55,7 @@ function getSelectorConfig(props, values, nameMap) {
             constants[p] = v;
          }
       }
-      else if (typeof v == 'function') {
+      else if (isFunction(v)) {
          functions[p] = v;
       }
       else {

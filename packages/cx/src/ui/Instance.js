@@ -7,6 +7,7 @@ import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
 import {VDOM} from './VDOM';
 import {isString} from '../util/isString';
+import {isFunction} from '../util/isFunction';
 
 export class Instance {
    constructor(widget, key) {
@@ -338,7 +339,7 @@ export class Instance {
          let p = this.widget[prop];
          if (p && typeof p == 'object') {
             if (p.set) {
-               if (typeof p.set == 'function') {
+               if (isFunction(p.set)) {
                   p.set(value, this);
                   return true;
                }

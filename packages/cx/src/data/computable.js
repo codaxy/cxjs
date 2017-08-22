@@ -1,5 +1,6 @@
 import {Binding} from './Binding';
 import {isString} from '../util/isString';
+import {isFunction} from '../util/isFunction';
 
 export function computable(...selectorsAndCompute) {
 
@@ -18,7 +19,7 @@ export function computable(...selectorsAndCompute) {
          inputs.push(Binding.get(a).value);
       else if (a.createSelector)
          inputs.push(a.createSelector());
-      else if (typeof a == 'function')
+      else if (isFunction(a))
          inputs.push(a);
       else
          throw new Error(`Invalid selector type '${typeof(a)}' received.`);

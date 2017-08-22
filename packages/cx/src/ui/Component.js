@@ -1,4 +1,5 @@
 import {isString} from '../util/isString';
+import {isFunction} from '../util/isFunction';
 
 var componentAlias = {};
 
@@ -48,7 +49,7 @@ export class Component {
 
       if (typeAlias.isComponentType)
          cmpType = typeAlias;
-      else if (typeof typeAlias == 'function') {
+      else if (isFunction(typeAlias)) {
          if (this.factory)
             return this.factory(typeAlias, config, more)
          throw new Error(`Unsupported component type ${typeAlias}.`);
