@@ -10,17 +10,17 @@ export function createFunctionalComponent(factory) {
       //test if the component is invoked through JSX
       if (props && isArray(props.jsxAttributes)) {
          let result = factory(flattenProps(props));
-         let isArray = isArray(result);
-         if (isArray && result.length < 2) {
+         let isArr = isArray(result);
+         if (isArr && result.length < 2) {
             result = result[0];
-            isArray = false;
+            isArr = false;
          }
          let {visible, controller, layout, outerLayout} = props;
          if (props["if"] !== undefined)
             visible = props["if"];
 
          if (result) {
-            if (isArray) {
+            if (isArr) {
                if (isDefined(visible))
                   result.forEach(r => {
                      if (isDefined(r.visible))
