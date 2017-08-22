@@ -110,6 +110,12 @@
          @include cx-add-state-rules($header-state-style-map, default);
       }
 
+      .#{$state}header-plain & {         
+         @include cx-add-state-rules($header-state-style-map, default);
+         border-width: 0;
+         background-color: transparent;
+      }
+
       &.#{$state}sortable {
          cursor: pointer;
          user-select: none;
