@@ -1,11 +1,12 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
 import { ddHandle } from '../drag-drop/ops';
+import {isArray} from '../../util/isArray';
 
 export class DragHandle extends PureContainer {
 
    explore(context, instance) {
-      if (Array.isArray(context.dragHandles))
+      if (isArray(context.dragHandles))
          context.dragHandles.push(instance);
       super.explore(context, instance);
    }

@@ -28,6 +28,8 @@ import {Localization} from '../../ui/Localization';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
 import {isString} from '../../util/isString';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 export class LookupField extends Field {
 
@@ -48,7 +50,7 @@ export class LookupField extends Field {
 
    init() {
 
-      if (this.hideClear !== undefined)
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       if (!this.bindings) {
@@ -105,7 +107,7 @@ export class LookupField extends Field {
       data.selectedKeys = [];
 
       if (this.multiple) {
-         if (Array.isArray(data.values) && Array.isArray(data.options)) {
+         if (isArray(data.values) && isArray(data.options)) {
             data.selectedKeys = data.values.map(v => this.keyBindings.length == 1 ? [v] : v);
             let map = {};
             data.options.filter($option => {
@@ -121,13 +123,13 @@ export class LookupField extends Field {
                if (map[i])
                   data.records.push(map[i]);
          }
-         else if (Array.isArray(data.records))
+         else if (isArray(data.records))
             data.selectedKeys.push(...data.records.map($value => this.keyBindings.map(b => Binding.get(b.local).value({$value}))))
       }
       else {
          let dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map(b => Binding.get(b.local).value(dataViewData)));
-         if (!this.text && Array.isArray(data.options)) {
+         if (!this.text && isArray(data.options)) {
             let option = data.options.find($option => areKeysEqual(getOptionKey(this.keyBindings, {$option}), data.selectedKeys[0]));
             data.text = option && option[this.optionTextField] || '';
          }
@@ -157,7 +159,7 @@ export class LookupField extends Field {
 
    isEmpty(data) {
       if (this.multiple) {
-         if ((Array.isArray(data.values) && data.values.length > 0) || (Array.isArray(data.records) && data.records.length > 0))
+         if ((isArray(data.values) && data.values.length > 0) || (isArray(data.records) && data.records.length > 0))
             return false;
       }
 
@@ -361,7 +363,7 @@ class LookupComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS, baseClass} = widget;
 
-      let searchVisible = !widget.hideSearchField && (!Array.isArray(data.options) ||
+      let searchVisible = !widget.hideSearchField && (!isArray(data.options) ||
          (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField))
 
       if (this.state.status == "loading") {
@@ -507,7 +509,7 @@ class LookupComponent extends VDOM.Component {
       let text;
 
       if (this.props.multiple) {
-         if (Array.isArray(data.records) && data.records.length > 0) {
+         if (isArray(data.records) && data.records.length > 0) {
             text = data.records.map((v, i) => <div key={i}
                className={CSS.element(baseClass, 'tag', {"readonly": readOnly})}>
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
@@ -585,7 +587,7 @@ class LookupComponent extends VDOM.Component {
       e.stopPropagation();
       e.preventDefault();
       if (widget.multiple) {
-         if (Array.isArray(data.records)) {
+         if (isArray(data.records)) {
             let itemKey = this.getLocalKey({$value: value});
             let newRecords = data.records.filter(v => !this.areKeysEqual(this.getLocalKey({$value: v}), itemKey));
 
@@ -790,7 +792,7 @@ class LookupComponent extends VDOM.Component {
          return;
       }
 
-      if (Array.isArray(data.options)) {
+      if (isArray(data.options)) {
          let results = widget.filterOptions(this.props.instance, data.options, q);
          this.setState({
             options: results,
@@ -822,7 +824,7 @@ class LookupComponent extends VDOM.Component {
             Promise.resolve(result)
                .then((results) => {
 
-                  if (!Array.isArray(results))
+                  if (!isArray(results))
                      results = [];
 
                   if (fetchAll) {

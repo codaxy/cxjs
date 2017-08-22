@@ -6,6 +6,7 @@ import {isString} from '../util/isString';
 import {isNumber} from '../util/isNumber';
 import {isFunction} from '../util/isFunction';
 import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 import {flattenProps} from '../ui/flattenProps';
 
@@ -20,7 +21,7 @@ function getHtmlElementFactory(tagName) {
 
 export function cx(typeName, props, ...children) {
 
-   if (Array.isArray(typeName))
+   if (isArray(typeName))
       return typeName;
 
    if (isFunction(typeName) && isUndefined(props))
@@ -56,7 +57,7 @@ export function react(config) {
    if (!config || isString(config) || isNumber(config) || VDOM.isValidElement(config))
       return config;
 
-   if (Array.isArray(config))
+   if (isArray(config))
       return config.map(react);
 
    let type = config.$type;
@@ -64,7 +65,7 @@ export function react(config) {
    if (isComponentFactory(type) && type.$meta && type.$meta.tag)
       type = type.$meta.tag;
 
-   if (Array.isArray(config.children))
+   if (isArray(config.children))
       return VDOM.createElement(type, config.$props, ...config.children.map(react));
 
    return VDOM.createElement(type, config.$props, react(config.children));

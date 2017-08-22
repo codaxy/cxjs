@@ -1,5 +1,6 @@
 import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
+import {isArray} from '../util/isArray';
 
 var componentAlias = {};
 
@@ -36,7 +37,7 @@ export class Component {
       if (isComponentFactory(typeAlias))
          return this.create(typeAlias(config, more));
 
-      if (Array.isArray(typeAlias))
+      if (isArray(typeAlias))
          return typeAlias.map(c=>this.create(c, config, more));
 
       if (typeAlias.$type)
@@ -72,7 +73,7 @@ export class Component {
          }
       }
 
-      if (Array.isArray(config))
+      if (isArray(config))
          return config.map(cfg=>this.create(cmpType, cfg, more));
 
       let cfg = config;

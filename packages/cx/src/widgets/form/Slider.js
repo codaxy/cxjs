@@ -9,6 +9,8 @@ import {
 } from '../overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
 import {isUndefined} from '../../util/isUndefined';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 export class Slider extends Field {
 
@@ -35,10 +37,10 @@ export class Slider extends Field {
 
    init() {
 
-      if (this.min !== undefined)
+      if (isDefined(this.min))
          this.minValue = this.min;
 
-      if (this.max !== undefined)
+      if (isDefined(this.max))
          this.maxValue = this.max;
 
       if (this.value != null)

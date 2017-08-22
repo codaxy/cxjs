@@ -1,3 +1,3 @@
-function isArray(a) {
+export function isArray(a) {
    return Array.isArray(a);
 }

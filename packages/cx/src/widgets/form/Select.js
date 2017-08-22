@@ -14,6 +14,7 @@ import ClearIcon from '../icons/clear';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {isString} from '../../util/isString';
+import {isDefined} from '../../util/isDefined';
 
 export class Select extends Field {
 
@@ -29,7 +30,7 @@ export class Select extends Field {
    }
 
    init() {
-      if (this.hideClear !== undefined)
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       super.init();

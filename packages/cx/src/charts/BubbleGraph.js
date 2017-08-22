@@ -1,6 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {Selection} from '../ui/selection/Selection';
 import {CSS} from '../ui/CSS';
+import {isArray} from '../util/isArray';
 
 export class BubbleGraph extends Widget {
    declareData() {
@@ -27,7 +28,7 @@ export class BubbleGraph extends Widget {
       instance.axes = context.axes;
       super.explore(context, instance);
       var {data} = instance;
-      if (Array.isArray(data.data)) {
+      if (isArray(data.data)) {
          data.data.forEach(p => {
             instance.axes[this.xAxis].acknowledge(p[this.xField]);
             instance.axes[this.yAxis].acknowledge(p[this.yField]);
@@ -54,7 +55,7 @@ export class BubbleGraph extends Widget {
       var xAxis = axes[this.xAxis];
       var yAxis = axes[this.yAxis];
 
-      return Array.isArray(data.data)
+      return isArray(data.data)
          && data.data.map((p, i) => {
             var selected = this.selection && this.selection.isSelected(store, p, i);
             var classes = CSS.element(this.baseClass, 'bubble', {

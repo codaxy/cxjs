@@ -2,6 +2,7 @@ import {debug} from "./Debug";
 import {GlobalCacheIdentifier} from './GlobalCacheIdentifier';
 import {isNumber} from '../util/isNumber';
 import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -170,7 +171,7 @@ export class Format {
    }
 
    static registerFactory(format, factory) {
-      if (Array.isArray(format))
+      if (isArray(format))
          format.forEach(f => this.registerFactory(f, factory));
       else
          formatFactory[format] = factory;

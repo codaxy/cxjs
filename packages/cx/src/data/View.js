@@ -1,4 +1,5 @@
 import {Binding} from './Binding';
+import {isArray} from '../util/isArray';
 
 export class View {
 
@@ -71,7 +72,7 @@ export class View {
       else if (arguments.length > 1)
          path = Array.from(arguments);
 
-      if (Array.isArray(path))
+      if (isArray(path))
          return path.map(arg => this.deleteItem(arg)).some(Boolean);
 
       return this.deleteItem(path);
@@ -98,7 +99,7 @@ export class View {
       if (arguments.length > 1)
          path = Array.from(arguments);
 
-      if (Array.isArray(path))
+      if (isArray(path))
          return path.map(arg => Binding.get(arg).value(storeData));
 
       return Binding.get(path).value(storeData);

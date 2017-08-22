@@ -7,6 +7,7 @@ import {KeyCode} from '../util/KeyCode';
 import {scrollElementIntoView} from '../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch} from '../ui/FocusManager';
 import {isString} from '../util/isString';
+import {isArray} from '../util/isArray';
 
 /*
  - renders list of items
@@ -166,7 +167,7 @@ export class List extends Widget {
 
    groupBy(grouping) {
       if (grouping) {
-         if (!Array.isArray(grouping)) {
+         if (!isArray(grouping)) {
             if (isString(grouping) || typeof grouping == 'object')
                return this.groupBy([grouping]);
             throw new Error('DynamicGrouping should be an array of grouping objects');

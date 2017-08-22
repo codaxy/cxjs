@@ -6,6 +6,8 @@ import {parseStyle} from '../util/parseStyle';
 import {debug} from '../util/Debug';
 import {isString} from '../util/isString';
 import {isUndefined} from '../util/isUndefined';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 var isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
 
@@ -170,14 +172,14 @@ export class HtmlElement extends PureContainer {
       }, data.attrs, events);
 
       let children;
-      if (data.text !== undefined)
+      if (isDefined(data.text))
          children = data.text;
       else if (isString(data.innerHtml)) {
          props.dangerouslySetInnerHTML = {__html: data.innerHtml};
       }
       else {
          children = this.renderChildren(context, instance);
-         if (children && Array.isArray(children) && children.length == 0)
+         if (children && isArray(children) && children.length == 0)
             children = undefined;
       }
 

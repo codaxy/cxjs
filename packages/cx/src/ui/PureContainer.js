@@ -5,6 +5,7 @@ import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 import {parseStyle} from '../util/parseStyle';
 import {isString} from '../util/isString';
+import {isArray} from '../util/isArray';
 
 export class PureContainer extends Widget {
 
@@ -70,7 +71,7 @@ export class PureContainer extends Widget {
       args.forEach(a => {
          if (!a)
             return;
-         if (Array.isArray(a))
+         if (isArray(a))
             a.forEach(c=>this.add(c));
          else if (isString(a)) {
             if (this.trimWhitespace)

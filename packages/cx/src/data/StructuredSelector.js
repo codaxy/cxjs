@@ -5,6 +5,8 @@ import {createStructuredSelector} from '../data/createStructuredSelector';
 import {getSelector} from '../data/getSelector';
 import {isFunction} from '../util/isFunction';
 import {isUndefined} from '../util/isUndefined';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 function defaultValue(pv) {
    if (typeof pv == 'object' && pv && pv.structured)
@@ -36,7 +38,7 @@ function getSelectorConfig(props, values, nameMap) {
          if (v.bind) {
             if (isUndefined(v.defaultValue) && v != pv)
                v.defaultValue = defaultValue(pv);
-            if (v.defaultValue !== undefined)
+            if (isDefined(v.defaultValue))
                defaultValues[v.bind] = v.defaultValue;
             nameMap[p] = v.bind;
             functions[p] = Binding.get(v.bind).value;
@@ -46,7 +48,7 @@ function getSelectorConfig(props, values, nameMap) {
          else if (v.tpl)
             functions[p] = StringTemplate.get(v.tpl);
          else if (pv && typeof pv == 'object' && pv.structured) {
-            if (Array.isArray(v))
+            if (isArray(v))
                functions[p] = getSelector(v);
             else
                structures[p] = getSelectorConfig(v, v, {});

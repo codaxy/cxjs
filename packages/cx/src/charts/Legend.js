@@ -3,6 +3,7 @@ import {HtmlElement} from '../widgets/HtmlElement';
 import {PureContainer} from '../ui/PureContainer';
 import {getShape} from './shapes';
 import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 export class Legend extends HtmlElement {
 
@@ -49,7 +50,7 @@ export class Legend extends HtmlElement {
       var entries = instance.legends[this.name] && instance.legends[this.name].entries,
          list;
 
-      if (Array.isArray(entries) && entries.length > 0) {
+      if (isArray(entries) && entries.length > 0) {
          list = <div key="wrap" className={CSS.element(this.baseClass, "wrap")}>
             { entries.map((e, i) => {
                return <div key={i}

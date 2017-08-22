@@ -1,6 +1,6 @@
 import {VDOM, getContent, contentAppend} from '../Widget';
 import {Layout} from './Layout';
-
+import {isArray} from '../../util/isArray';
 
 function validContent(r) {
    let content = [];
@@ -21,7 +21,7 @@ export class LabelsTopLayout extends Layout {
 
          children.forEach((c, i) => {
             let r = c.render(context);
-            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+            if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
                r.content.forEach((r, j) => {
                   rows.push(<tr key={`${i}-${j}-label`}>
                      <td className={CSS.element(baseClass, "label")}>
@@ -60,7 +60,7 @@ export class LabelsTopLayout extends Layout {
          let inputs = [];
          children.forEach((c, i) => {
             let r = c.render(context);
-            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+            if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
                r.content.forEach((r, j) => {
                   labels.push(<td key={`${i}-${j}`}
                      className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>);

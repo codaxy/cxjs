@@ -1,6 +1,7 @@
 import {Axis} from './Axis';
 import {VDOM} from '../../ui/Widget';
 import {isUndefined} from '../../util/isUndefined';
+import {isArray} from '../../util/isArray';
 
 export class CategoryAxis extends Axis {
 
@@ -71,7 +72,7 @@ class CategoryScale {
       this.names = {};
 
       if (values) {
-         if (Array.isArray(values))
+         if (isArray(values))
             values.forEach(v=>this.acknowledge(v));
          else if (typeof values == 'object')
             for (var k in values) {
@@ -81,7 +82,7 @@ class CategoryScale {
       }
 
       if (names) {
-         if (Array.isArray(names)) {
+         if (isArray(names)) {
             values = values || [];
             names.forEach((name, index) => {
                var value = values[index];

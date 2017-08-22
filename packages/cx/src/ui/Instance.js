@@ -8,6 +8,8 @@ import {batchUpdates} from './batchUpdates';
 import {VDOM} from './VDOM';
 import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 export class Instance {
    constructor(widget, key) {
@@ -390,7 +392,7 @@ export class Instance {
    getJsxEventProps() {
       let {widget} = this;
 
-      if (!Array.isArray(widget.jsxAttributes))
+      if (!isArray(widget.jsxAttributes))
          return null;
 
       let props = {};
@@ -421,7 +423,7 @@ export class Instance {
 }
 
 function renderResultFix(res) {
-   return res != null && res.content !== undefined ? res : { content: res };
+   return res != null && isDefined(res.content) ? res : { content: res };
 }
 
 export class InstanceCache {

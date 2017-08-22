@@ -1,3 +1,5 @@
+import {isArray} from './isArray';
+
 export function shallowEquals(v1, v2) {
 
    if (v1 === v2)
@@ -15,8 +17,8 @@ export function shallowEquals(v1, v2) {
 
    if (t1 == 'object') {
 
-      if (Array.isArray(v1)) {
-         if (!Array.isArray(v2) || v1.length != v2.length)
+      if (isArray(v1)) {
+         if (!isArray(v2) || v1.length != v2.length)
             return false;
 
          for (i = 0; i < v1.length; i++)

@@ -1,4 +1,5 @@
 import {isNumber} from '../../util/isNumber';
+import {isArray} from '../../util/isArray';
 
 export class Rect {
 
@@ -87,7 +88,7 @@ export class Rect {
       if (typeof r === 'string')
          r = r.split(' ');
 
-      if (Array.isArray(r)) {
+      if (isArray(r)) {
          return new Rect({
             t: parseFloat(r[0]),
             r: parseFloat(r[1]),

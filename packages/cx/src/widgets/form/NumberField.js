@@ -10,6 +10,8 @@ import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 import {isString} from '../../util/isString';
 import {isNumber} from '../../util/isNumber';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 enableCultureSensitiveFormatting();
@@ -36,10 +38,10 @@ export class NumberField extends Field {
    }
 
    init() {
-      if (this.step !== undefined)
+      if (isDefined(this.step))
          this.increment = this.step;
          
-      if (this.hideClear !== undefined)
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       super.init();
