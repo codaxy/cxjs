@@ -1,13 +1,14 @@
 import {BoundedObject} from '../svg/BoundedObject';
 import {VDOM} from '../ui/Widget';
+import {isDefined} from '../util/isDefined';
 
 export class MarkerLine extends BoundedObject {
 
    init() {
-      if (typeof this.x != 'undefined')
+      if (isDefined(this.x))
          this.x1 = this.x2 = this.x;
 
-      if (typeof this.y != 'undefined')
+      if (isDefined(this.y))
          this.y1 = this.y2 = this.y;
 
       super.init()

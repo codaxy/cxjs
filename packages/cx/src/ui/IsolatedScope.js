@@ -1,11 +1,12 @@
 import {PureContainer} from "./PureContainer";
+import {isArray} from '../util/isArray';
 
 export class IsolatedScope extends PureContainer {
 
    init() {
       if (typeof this.bind === 'string')
          this.data = {bind: this.bind};
-      else if (Array.isArray(this.bind)) {
+      else if (isArray(this.bind)) {
          this.data = {};
          this.bind.forEach((x, i) => {
             this.data[String(i)] = {bind: x}

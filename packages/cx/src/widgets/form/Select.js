@@ -13,6 +13,8 @@ import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
+import {isString} from '../../util/isString';
+import {isDefined} from '../../util/isDefined';
 
 export class Select extends Field {
 
@@ -28,7 +30,7 @@ export class Select extends Field {
    }
 
    init() {
-      if (typeof this.hideClear != 'undefined')
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       super.init();
@@ -65,7 +67,7 @@ export class Select extends Field {
    }
 
    add(item) {
-      if (typeof item == 'string')
+      if (isString(item))
          return;
       super.add(item);
    }

@@ -3,6 +3,7 @@ import {HtmlElement} from './HtmlElement';
 import {yesNo} from './overlay/alerts';
 import {Icon} from './Icon';
 import {preventFocus} from '../ui/FocusManager';
+import {isFunction} from '../util/isFunction';
 
 export class Button extends HtmlElement {
    declareData() {
@@ -35,7 +36,7 @@ export class Button extends HtmlElement {
 
       if (this.dismiss) {
          props.onClick = () => {
-            if (instance.parentOptions && typeof instance.parentOptions.dismiss == 'function')
+            if (instance.parentOptions && isFunction(instance.parentOptions.dismiss))
                instance.parentOptions.dismiss();
          }
       }

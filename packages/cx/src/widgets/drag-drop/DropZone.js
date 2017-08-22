@@ -3,6 +3,7 @@ import {PureContainer} from '../../ui/PureContainer';
 import {parseStyle} from '../../util/parseStyle';
 import {registerDropZone} from './ops';
 import {findScrollableParent} from '../../util/findScrollableParent'
+import {isNumber} from '../../util/isNumber';
 
 export class DropZone extends PureContainer {
 
@@ -11,7 +12,7 @@ export class DropZone extends PureContainer {
       this.nearStyle = parseStyle(this.nearStyle);
       this.farStyle = parseStyle(this.farStyle);
 
-      if (typeof this.inflate == 'number') {
+      if (isNumber(this.inflate)) {
          this.hinflate = this.inflate;
          this.vinflate = this.inflate;
       }

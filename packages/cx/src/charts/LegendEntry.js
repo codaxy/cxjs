@@ -3,6 +3,7 @@ import {HtmlElement} from '../widgets/HtmlElement';
 import {getShape} from './shapes';
 import {Selection} from '../ui/selection/Selection';
 import {stopPropagation} from '../util/eventCallbacks';
+import {isUndefined} from '../util/isUndefined';
 
 export class LegendEntry extends HtmlElement {
 
@@ -96,7 +97,7 @@ export class LegendEntry extends HtmlElement {
       var className = this.CSS.element(this.baseClass, 'shape', {
          disabled: entry.disabled,
          selected: entry.selected || this.selection.isInstanceSelected(instance),
-         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (typeof entry.active == 'undefined' || entry.active)
+         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active)
       });
       var shape = getShape(entry.shape || 'square');
 

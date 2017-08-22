@@ -2,6 +2,11 @@ import {HtmlElement} from './HtmlElement';
 import {VDOM} from '../ui/Widget';
 import {createComponentFactory, isComponentFactory} from '../ui/Component';
 import {createFunctionalComponent} from '../ui/createFunctionalComponent'
+import {isString} from '../util/isString';
+import {isNumber} from '../util/isNumber';
+import {isFunction} from '../util/isFunction';
+import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 import {flattenProps} from '../ui/flattenProps';
 
@@ -16,10 +21,10 @@ function getHtmlElementFactory(tagName) {
 
 export function cx(typeName, props, ...children) {
 
-   if (Array.isArray(typeName))
+   if (isArray(typeName))
       return typeName;
 
-   if (typeof typeName === "function" && props === undefined)
+   if (isFunction(typeName) && isUndefined(props))
       return createFunctionalComponent(config => typeName(flattenProps(config)));
 
    if (typeName.type || typeName.$type)
@@ -37,7 +42,7 @@ export function cx(typeName, props, ...children) {
    if (typeName == 'react')
       return react(children);
 
-   if (typeof typeName == 'string' && typeName[0] == typeName[0].toLowerCase())
+   if (isString(typeName) && typeName[0] == typeName[0].toLowerCase())
       typeName = getHtmlElementFactory(typeName);
 
    return {
@@ -49,10 +54,10 @@ export function cx(typeName, props, ...children) {
 }
 
 export function react(config) {
-   if (!config || typeof config == 'string' || typeof config == 'number' || VDOM.isValidElement(config))
+   if (!config || isString(config) || isNumber(config) || VDOM.isValidElement(config))
       return config;
 
-   if (Array.isArray(config))
+   if (isArray(config))
       return config.map(react);
 
    let type = config.$type;
@@ -60,7 +65,7 @@ export function react(config) {
    if (isComponentFactory(type) && type.$meta && type.$meta.tag)
       type = type.$meta.tag;
 
-   if (Array.isArray(config.children))
+   if (isArray(config.children))
       return VDOM.createElement(type, config.$props, ...config.children.map(react));
 
    return VDOM.createElement(type, config.$props, react(config.children));

@@ -1,6 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
+import {isUndefined} from '../../util/isUndefined';
 
 export class Tab extends HtmlElement {
 
@@ -20,7 +21,7 @@ export class Tab extends HtmlElement {
          disabled: data.disabled,
          shape: this.shape
       };
-      if (this.default && data.value === undefined)
+      if (this.default && isUndefined(data.value))
          instance.set('value', data.tab);
       super.prepareData(context, instance);
    }

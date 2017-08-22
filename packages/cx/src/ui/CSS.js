@@ -1,5 +1,6 @@
 import {CSSHelper} from './CSSHelper';
 import {parseStyle} from '../util/parseStyle';
+import {isArray} from '../util/isArray';
 
 function push(list, item) {
    if (!item)
@@ -39,7 +40,7 @@ export class CSS {
             if (type == 'string')
                list = push(list, arg);
             else if (type == 'object') {
-               if (Array.isArray(arg))
+               if (isArray(arg))
                   list = pushMore(list, this.resolve(...arg));
                else
                   for (key in arg)

@@ -1,12 +1,11 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {PureContainer} from '../../ui/PureContainer';
 import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant} from '../../util/DOM';
-import {parseStyle} from '../../util/parseStyle';
 import {KeyCode} from '../../util/KeyCode';
 import {debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {MenuItem} from "./MenuItem";
+import {isUndefined} from '../../util/isUndefined';
 
 /*
  Functionality:
@@ -21,10 +20,10 @@ export class Menu extends HtmlElement {
       if (this.itemPadding === true)
          this.itemPadding = 'medium';
 
-      if (this.horizontal && typeof this.itemPadding == 'undefined')
+      if (this.horizontal && isUndefined(this.itemPadding))
          this.itemPadding = this.defaultHorizontalItemPadding;
 
-      if (!this.horizontal && typeof this.itemPadding == 'undefined')
+      if (!this.horizontal && isUndefined(this.itemPadding))
          this.itemPadding = this.defaultVerticalItemPadding;
 
       super.init();

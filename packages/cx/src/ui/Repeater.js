@@ -1,7 +1,7 @@
 import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
-
+import {isString} from '../util/isString';
 import {Binding} from '../data/Binding';
 
 export class Repeater extends PureContainer {
@@ -108,7 +108,7 @@ export class Repeater extends PureContainer {
    }
 
    add(item) {
-      if (typeof item == 'string')
+      if (isString(item))
          return;
       super.add(item);
    }

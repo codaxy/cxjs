@@ -1,5 +1,6 @@
 import {Widget} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
+import {isDefined} from '../../util/isDefined';
 
 export class ValidationGroup extends PureContainer {
 
@@ -24,7 +25,7 @@ export class ValidationGroup extends PureContainer {
          parentViewMode = context.parentViewMode,
          parentTabOnEnterKey = context.tabOnEnterKey;
 
-      if (instance.data.enabled !== undefined)
+      if (isDefined(instance.data.enabled))
          instance.data.disabled = !instance.data.enabled;
 
       context.parentDisabled = parentDisabled || instance.data.disabled;

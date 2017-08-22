@@ -1,12 +1,14 @@
 import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
-//import './Format';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
 import {debug, appDataFlag} from '../util/Debug';
 import {parseStyle} from '../util/parseStyle';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {RenderingContext} from './RenderingContext';
+import {isString} from '../util/isString';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
@@ -20,7 +22,7 @@ export class Widget extends Component {
       super(config);
       this.widgetId = widgetId++;
 
-      if (Array.isArray(this.jsxSpread)) {
+      if (isArray(this.jsxSpread)) {
          if (!this.jsxAttributes)
             this.jsxAttributes = [];
 
@@ -40,7 +42,7 @@ export class Widget extends Component {
       this.declareData();
 
       if (this.outerLayout) {
-         if (Array.isArray(this.outerLayout))
+         if (isArray(this.outerLayout))
             throw new Error('Only single element outer layout is supported.');
          //TODO: better handle the case when outer layout is an array. How to get around circular dependency to PureContainer
          this.outerLayout = Widget.create(this.outerLayout);
@@ -52,7 +54,7 @@ export class Widget extends Component {
       if (this.putInto)
          this.isContent = true;
 
-      if (typeof this.CSS == 'string')
+      if (isString(this.CSS))
          this.CSS = CSSHelper.get(this.CSS);
 
       this.initHelpers();
@@ -214,9 +216,9 @@ Widget.factory = (type, config, more) =>
 export function contentAppend(result, w, prependSpace) {
    if (w == null || w === false)
       return false;
-   if (Array.isArray(w))
+   if (isArray(w))
       w.forEach(c => contentAppend(result, c));
-   else if (typeof w.content != "undefined" && !w.atomic)
+   else if (isDefined(w.content) && !w.atomic)
       return contentAppend(result, w.content);
    else {
       if (prependSpace)

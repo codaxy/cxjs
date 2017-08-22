@@ -20,6 +20,8 @@ import {KeyCode} from '../../util';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Localization} from '../../ui/Localization';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 export class ColorField extends Field {
 
@@ -35,7 +37,7 @@ export class ColorField extends Field {
    }
 
    init() {
-      if (typeof this.hideClear != 'undefined')
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear)

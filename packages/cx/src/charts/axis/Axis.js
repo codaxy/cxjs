@@ -1,5 +1,6 @@
 import {BoundedObject} from '../../svg/BoundedObject'
 import {VDOM} from '../../ui/Widget';
+import {isUndefined} from '../../util/isUndefined';
 
 export class Axis extends BoundedObject {
 
@@ -13,7 +14,7 @@ export class Axis extends BoundedObject {
       if (this.labelDy == 'auto')
          this.labelDy = this.vertical ? '0.4em' : this.secondary ? 0 : '0.8em';
 
-      if (typeof this.minLabelDistance == "undefined")
+      if (isUndefined(this.minLabelDistance))
          this.minLabelDistance = this.vertical ? this.minLabelDistanceVertical : this.minLabelDistanceHorizontal;
 
       if (this.labelLineCountDyFactor == 'auto')

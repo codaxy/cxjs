@@ -25,6 +25,7 @@ import {KeyCode} from '../../util';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {isTouchDevice} from '../../util';
 import {Localization} from '../../ui/Localization';
+import {isDefined} from '../../util/isDefined';
 
 export class MonthField extends Field {
 
@@ -72,7 +73,7 @@ export class MonthField extends Field {
       if (!this.culture)
          this.culture = new DateTimeCulture(Format.culture);
 
-      if (typeof this.hideClear != 'undefined')
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear)

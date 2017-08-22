@@ -1,4 +1,5 @@
 import {Widget, VDOM} from '../ui/Widget'
+import {isArray} from '../util/isArray';
 
 export class LineGraph extends Widget {
    declareData() {
@@ -49,7 +50,7 @@ export class LineGraph extends Widget {
          instance.xAxis = instance.axes[this.xAxis];
          instance.yAxis = instance.axes[this.yAxis];
          super.explore(context, instance);
-         if (Array.isArray(data.data)) {
+         if (isArray(data.data)) {
             data.data.forEach(p => {
                var x = p[this.xField];
                instance.xAxis.acknowledge(x);
@@ -112,7 +113,7 @@ export class LineGraph extends Widget {
       var spans = [];
       var span = [];
 
-      Array.isArray(data.data) && data.data.forEach(p => {
+      isArray(data.data) && data.data.forEach(p => {
 
          var ax = p[this.xField],
             ay = p[this.yField],

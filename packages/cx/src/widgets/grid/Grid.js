@@ -26,6 +26,9 @@ import {Localization} from '../../ui/Localization';
 import {SubscriberList} from '../../util/SubscriberList';
 import {RenderingContext} from '../../ui/RenderingContext';
 import {isNonEmptyArray} from '../../util/isNonEmptyArray';
+import {isString} from '../../util/isString';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 export class Grid extends Widget {
 
@@ -121,7 +124,7 @@ export class Grid extends Widget {
 
       let {data, state} = instance;
 
-      if (!Array.isArray(data.records))
+      if (!isArray(data.records))
          data.records = [];
 
       if (state.sorters && !data.sorters)
@@ -262,14 +265,14 @@ export class Grid extends Widget {
 
    groupBy(grouping, {autoConfigure} = {}) {
       if (grouping) {
-         if (!Array.isArray(grouping)) {
-            if (typeof grouping == 'string' || typeof grouping == 'object')
+         if (!isArray(grouping)) {
+            if (isString(grouping) || typeof grouping == 'object')
                return this.groupBy([grouping]);
             throw new Error('DynamicGrouping should be an array or grouping objects');
          }
 
          grouping = grouping.map((g, i) => {
-            if (typeof g == 'string') {
+            if (isString(g)) {
                return {
                   key: {
                      [g]: {
@@ -289,7 +292,7 @@ export class Grid extends Widget {
       }
 
       if (autoConfigure)
-         this.showHeader = !Array.isArray(grouping) || !grouping.some(g => g.showHeader);
+         this.showHeader = !isArray(grouping) || !grouping.some(g => g.showHeader);
 
       this.dataAdapter.groupBy(grouping);
       this.update();
@@ -478,7 +481,7 @@ export class Grid extends Widget {
                   v = c.footer(data);
                else if (c.aggregate && c.aggregateField) {
                   v = group[c.aggregateField];
-                  if (typeof ci.data.format == 'string')
+                  if (isString(ci.data.format))
                      v = Format.value(v, ci.data.format);
                }
 
@@ -496,7 +499,7 @@ export class Grid extends Widget {
 
       let {records} = instance;
 
-      if (!Array.isArray(records))
+      if (!isArray(records))
          return null;
 
       let record, g;
@@ -917,7 +920,7 @@ class GridComponent extends VDOM.Component {
       let {headerRefs, fixedHeaderRefs, instance, data} = this.props;
       let {widget} = instance;
 
-      if (widget.lockColumnWidths && headerRefs && Array.isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
+      if (widget.lockColumnWidths && headerRefs && isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
          for (let k in headerRefs) {
             let c = headerRefs[k];
             c.style.width = c.offsetWidth + 'px';
@@ -1132,7 +1135,7 @@ class GridColumn extends PureContainer {
 
    init() {
 
-      if (typeof this.header != 'undefined')
+      if (isDefined(this.header))
          this.header1 = this.header;
 
       if (this.header1 && isSelector(this.header1))

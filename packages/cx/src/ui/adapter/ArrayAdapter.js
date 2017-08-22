@@ -2,6 +2,7 @@ import {DataAdapter} from './DataAdapter';
 import {ExposedRecordView} from '../../data/ExposedRecordView';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {sorter} from '../../data/comparer';
+import {isArray} from '../../util/isArray';
 
 
 export class ArrayAdapter extends DataAdapter {
@@ -17,7 +18,7 @@ export class ArrayAdapter extends DataAdapter {
    mapRecords(context, instance, records, parentStore, recordsBinding) {
       let result = [];
 
-      if (Array.isArray(records))
+      if (isArray(records))
          records.forEach((data, index)=> {
 
             if (this.filterFn && !this.filterFn(data))
@@ -83,7 +84,7 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    buildSorter(sorters) {
-      if (Array.isArray(sorters) && sorters.length > 0) {
+      if (isArray(sorters) && sorters.length > 0) {
          if (sorters.every(x=>x.field && x.value == null)) {
             //if all sorters are based on record fields access data directly (faster)
             this.sorter = sorter(sorters.map(x=> {

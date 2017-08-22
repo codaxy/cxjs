@@ -8,6 +8,10 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
+import {isString} from '../../util/isString';
+import {isNumber} from '../../util/isNumber';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 enableCultureSensitiveFormatting();
@@ -34,10 +38,10 @@ export class NumberField extends Field {
    }
 
    init() {
-      if (typeof this.step != 'undefined')
+      if (isDefined(this.step))
          this.increment = this.step;
          
-      if (typeof this.hideClear != 'undefined')
+      if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
       super.init();
@@ -57,15 +61,15 @@ export class NumberField extends Field {
       super.validate(context, instance);
 
       let {data} = instance;
-      if (typeof data.value == 'number' && !data.error) {
-         if (typeof data.minValue == 'number') {
+      if (isNumber(data.value) && !data.error) {
+         if (isNumber(data.minValue)) {
             if (data.value < data.minValue)
                data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
             else if (data.value == data.minValue && data.minExclusive)
                data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
          }
 
-         if (typeof data.maxValue == 'number') {
+         if (isNumber(data.maxValue)) {
             if (data.value > data.maxValue)
                data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
             else if (data.value == data.maxValue && data.maxExclusive)
@@ -235,7 +239,7 @@ class Input extends VDOM.Component {
    }
 
    updateCursorPosition(preCursorText) {
-      if (typeof preCursorText == 'string') {
+      if (isString(preCursorText)) {
          var cursor = 0;
          var preCursor = 0;
          var text = this.input.value || '';

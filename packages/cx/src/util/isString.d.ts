@@ -1,0 +1,1 @@
+export function isString(x: any): boolean;

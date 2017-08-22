@@ -3,6 +3,10 @@ import {Expression} from './Expression';
 import {StringTemplate} from './StringTemplate';
 import {createStructuredSelector} from '../data/createStructuredSelector';
 import {getSelector} from '../data/getSelector';
+import {isFunction} from '../util/isFunction';
+import {isUndefined} from '../util/isUndefined';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 function defaultValue(pv) {
    if (typeof pv == 'object' && pv && pv.structured)
@@ -22,7 +26,7 @@ function getSelectorConfig(props, values, nameMap) {
       v = values[p];
       pv = props[p];
 
-      if (typeof v == 'undefined' && pv && (pv.bind || pv.tpl || pv.expr))
+      if (isUndefined(v) && pv && (pv.bind || pv.tpl || pv.expr))
          v = pv;
 
       if (v === null) {
@@ -32,9 +36,9 @@ function getSelectorConfig(props, values, nameMap) {
       }
       else if (typeof v == 'object') {
          if (v.bind) {
-            if (typeof v.defaultValue == 'undefined' && v != pv)
+            if (isUndefined(v.defaultValue) && v != pv)
                v.defaultValue = defaultValue(pv);
-            if (typeof v.defaultValue != 'undefined')
+            if (isDefined(v.defaultValue))
                defaultValues[v.bind] = v.defaultValue;
             nameMap[p] = v.bind;
             functions[p] = Binding.get(v.bind).value;
@@ -44,7 +48,7 @@ function getSelectorConfig(props, values, nameMap) {
          else if (v.tpl)
             functions[p] = StringTemplate.get(v.tpl);
          else if (pv && typeof pv == 'object' && pv.structured) {
-            if (Array.isArray(v))
+            if (isArray(v))
                functions[p] = getSelector(v);
             else
                structures[p] = getSelectorConfig(v, v, {});
@@ -54,17 +58,17 @@ function getSelectorConfig(props, values, nameMap) {
             constants[p] = v;
          }
       }
-      else if (typeof v == 'function') {
+      else if (isFunction(v)) {
          functions[p] = v;
       }
       else {
-         if (typeof v == "undefined") {
-            if (typeof pv == 'undefined')
+         if (isUndefined(v)) {
+            if (isUndefined(pv))
                continue;
             v = defaultValue(pv);
          }
 
-         if (typeof v == 'undefined')
+         if (isUndefined(v))
             continue;
 
          if (!constants)

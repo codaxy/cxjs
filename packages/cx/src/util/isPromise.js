@@ -1,3 +1,6 @@
+import {isFunction} from './isFunction';
+import {isObject} from './isObject';
+
 export function isPromise(x) {
-   return typeof x == 'object' && x && typeof x.then == 'function';
+   return isObject(x) && isFunction(x.then);
 }

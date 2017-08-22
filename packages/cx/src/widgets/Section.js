@@ -1,19 +1,19 @@
 import {Widget, VDOM, getContent} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
 import {Heading} from './Heading';
-
+import {isString} from '../util/isString';
 import {parseStyle} from '../util/parseStyle';
 
 export class Section extends PureContainer {
 
    init() {
-      if (typeof this.headerStyle == 'string')
+      if (isString(this.headerStyle))
          this.headerStyle = parseStyle(this.headerStyle);
 
-      if (typeof this.footerStyle == 'string')
+      if (isString(this.footerStyle))
          this.footerStyle = parseStyle(this.footerStyle);
 
-      if (typeof this.bodyStyle == 'string')
+      if (isString(this.bodyStyle))
          this.bodyStyle = parseStyle(this.bodyStyle);
 
       super.init();
