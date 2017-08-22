@@ -5,7 +5,7 @@ import {Rect} from '../svg/util/Rect';
 export class Column extends ColumnBarBase {
 
    init() {
-      if (typeof this.width != 'undefined')
+      if (this.width !== undefined)
          this.size = this.width;
 
       super.init();

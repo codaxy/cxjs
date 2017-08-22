@@ -168,7 +168,7 @@ export class HtmlElement extends PureContainer {
       }, data.attrs, events);
 
       let children;
-      if (typeof data.text != 'undefined')
+      if (data.text !== undefined)
          children = data.text;
       else if (typeof data.innerHtml == 'string') {
          props.dangerouslySetInnerHTML = {__html: data.innerHtml};

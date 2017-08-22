@@ -4,10 +4,10 @@ import {VDOM} from '../ui/Widget';
 export class MarkerLine extends BoundedObject {
 
    init() {
-      if (typeof this.x != 'undefined')
+      if (this.x !== undefined)
          this.x1 = this.x2 = this.x;
 
-      if (typeof this.y != 'undefined')
+      if (this.y !== undefined)
          this.y1 = this.y2 = this.y;
 
       super.init()

@@ -1132,7 +1132,7 @@ class GridColumn extends PureContainer {
 
    init() {
 
-      if (typeof this.header != 'undefined')
+      if (this.header !== undefined)
          this.header1 = this.header;
 
       if (this.header1 && isSelector(this.header1))

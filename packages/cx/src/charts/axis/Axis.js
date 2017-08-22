@@ -13,7 +13,7 @@ export class Axis extends BoundedObject {
       if (this.labelDy == 'auto')
          this.labelDy = this.vertical ? '0.4em' : this.secondary ? 0 : '0.8em';
 
-      if (typeof this.minLabelDistance == "undefined")
+      if (this.minLabelDistance === undefined)
          this.minLabelDistance = this.vertical ? this.minLabelDistanceVertical : this.minLabelDistanceHorizontal;
 
       if (this.labelLineCountDyFactor == 'auto')

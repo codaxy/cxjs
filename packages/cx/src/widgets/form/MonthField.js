@@ -72,7 +72,7 @@ export class MonthField extends Field {
       if (!this.culture)
          this.culture = new DateTimeCulture(Format.culture);
 
-      if (typeof this.hideClear != 'undefined')
+      if (this.hideClear !== undefined)
          this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear)

@@ -180,7 +180,7 @@ export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFracti
    maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
 
    if (typeof minimumFractionDigits == 'number') {
-      if (typeof maximumFractionDigits == 'undefined')
+      if (maximumFractionDigits === undefined)
          maximumFractionDigits = minimumFractionDigits;
       else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
          maximumFractionDigits = minimumFractionDigits;

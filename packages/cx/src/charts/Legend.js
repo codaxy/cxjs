@@ -71,7 +71,7 @@ export class Legend extends HtmlElement {
       var className = this.CSS.element(this.baseClass, 'shape', {
          disabled: entry.disabled,
          selected: entry.selected,
-         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (typeof entry.active == 'undefined' || entry.active)
+         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (entry.active === undefined || entry.active)
       });
       var shape = getShape(entry.shape || 'square');
 

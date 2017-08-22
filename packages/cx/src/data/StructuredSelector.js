@@ -22,7 +22,7 @@ function getSelectorConfig(props, values, nameMap) {
       v = values[p];
       pv = props[p];
 
-      if (typeof v == 'undefined' && pv && (pv.bind || pv.tpl || pv.expr))
+      if (v === undefined && pv && (pv.bind || pv.tpl || pv.expr))
          v = pv;
 
       if (v === null) {
@@ -32,9 +32,9 @@ function getSelectorConfig(props, values, nameMap) {
       }
       else if (typeof v == 'object') {
          if (v.bind) {
-            if (typeof v.defaultValue == 'undefined' && v != pv)
+            if (v.defaultValue === undefined && v != pv)
                v.defaultValue = defaultValue(pv);
-            if (typeof v.defaultValue != 'undefined')
+            if (v.defaultValue !== undefined)
                defaultValues[v.bind] = v.defaultValue;
             nameMap[p] = v.bind;
             functions[p] = Binding.get(v.bind).value;
@@ -58,13 +58,13 @@ function getSelectorConfig(props, values, nameMap) {
          functions[p] = v;
       }
       else {
-         if (typeof v == "undefined") {
-            if (typeof pv == 'undefined')
+         if (v === undefined) {
+            if (pv === undefined)
                continue;
             v = defaultValue(pv);
          }
 
-         if (typeof v == 'undefined')
+         if (v === undefined)
             continue;
 
          if (!constants)

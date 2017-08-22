@@ -216,7 +216,7 @@ export function contentAppend(result, w, prependSpace) {
       return false;
    if (Array.isArray(w))
       w.forEach(c => contentAppend(result, c));
-   else if (typeof w.content != "undefined" && !w.atomic)
+   else if (w.content !== undefined && !w.atomic)
       return contentAppend(result, w.content);
    else {
       if (prependSpace)

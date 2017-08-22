@@ -34,21 +34,21 @@ export class Slider extends Field {
 
    init() {
 
-      if (typeof this.min != 'undefined')
+      if (this.min !== undefined)
          this.minValue = this.min;
 
-      if (typeof this.max != 'undefined')
+      if (this.max !== undefined)
          this.maxValue = this.max;
 
       if (this.value != null)
          this.to = this.value;
 
-      if (typeof this.from == 'undefined')
+      if (this.from === undefined)
          this.from = this.minValue;
       else
          this.showFrom = true;
 
-      if (typeof this.to == 'undefined')
+      if (this.to === undefined)
          this.to = this.maxValue;
       else
          this.showTo = true;

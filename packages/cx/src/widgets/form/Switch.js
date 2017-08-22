@@ -32,7 +32,7 @@ export class Switch extends Field {
    }
 
    init() {
-      if (typeof this.value != 'undefined')
+      if (this.value !== undefined)
          this.on = this.value;
 
       this.rangeStyle = parseStyle(this.rangeStyle);
@@ -44,7 +44,7 @@ export class Switch extends Field {
    prepareData(context, instance) {
       let {data} = instance;
 
-      if (typeof this.off != 'undefined')
+      if (this.off !== undefined)
          data.on = !data.off;
 
       data.stateMods = {

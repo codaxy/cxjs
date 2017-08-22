@@ -419,7 +419,7 @@ export class Instance {
 }
 
 function renderResultFix(res) {
-   return res != null && typeof res.content != 'undefined' ? res : { content: res };
+   return res != null && res.content !== undefined ? res : { content: res };
 }
 
 export class InstanceCache {

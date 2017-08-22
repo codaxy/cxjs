@@ -34,10 +34,10 @@ export class NumberField extends Field {
    }
 
    init() {
-      if (typeof this.step != 'undefined')
+      if (this.step !== undefined)
          this.increment = this.step;
          
-      if (typeof this.hideClear != 'undefined')
+      if (this.hideClear !== undefined)
          this.showClear = !this.hideClear;
 
       super.init();

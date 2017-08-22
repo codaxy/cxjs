@@ -21,10 +21,10 @@ export class Menu extends HtmlElement {
       if (this.itemPadding === true)
          this.itemPadding = 'medium';
 
-      if (this.horizontal && typeof this.itemPadding == 'undefined')
+      if (this.horizontal && this.itemPadding === undefined)
          this.itemPadding = this.defaultHorizontalItemPadding;
 
-      if (!this.horizontal && typeof this.itemPadding == 'undefined')
+      if (!this.horizontal && this.itemPadding === undefined)
          this.itemPadding = this.defaultVerticalItemPadding;
 
       super.init();

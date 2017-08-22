@@ -153,7 +153,7 @@ class CategoryScale {
    acknowledge(value, width = 0, offset = 0) {
 
       var index = this.valuesMap[value];
-      if (typeof index == 'undefined') {
+      if (index === undefined) {
          index = this.valueList.length;
          this.valueList.push(value);
          this.valuesMap[value] = index;
