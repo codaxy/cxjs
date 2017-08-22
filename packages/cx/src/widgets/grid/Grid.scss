@@ -115,6 +115,7 @@
          color: cx-get-state-rule($header-state-style-map, default, color);
          line-height: cx-get-state-rule($header-state-style-map, default, line-height);
          font-weight: bold;
+         text-transform: cx-get-state-rule($header-state-style-map, default, text-trasnform);
          border-width: 0;
          background-color: transparent;
       }

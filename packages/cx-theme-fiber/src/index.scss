@@ -483,3 +483,7 @@ div.#{$block}classic-tab-container {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.cxs-vertical > .cxe-menuitem-arrow {
+  transform-origin: 6px; //TODO
+}
