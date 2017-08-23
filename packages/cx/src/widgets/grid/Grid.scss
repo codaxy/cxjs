@@ -110,6 +110,17 @@
          @include cx-add-state-rules($header-state-style-map, default);
       }
 
+      .#{$state}header-plain & {         
+         padding: cx-get-state-rule($header-state-style-map, default, padding);
+         color: cx-get-state-rule($header-state-style-map, default, color);
+         line-height: cx-get-state-rule($header-state-style-map, default, line-height);
+         font-weight: 500;
+         text-transform: cx-get-state-rule($header-state-style-map, default, text-trasnform);
+         border-width: 0;
+         background-color: transparent;
+      }
+
+
       &.#{$state}sortable {
          cursor: pointer;
          user-select: none;
