@@ -8,7 +8,8 @@ var rollup = require('rollup'),
    scss = require('rollup-plugin-scss'),
    manifestRecorder = require('./manifestRecorder'),
    buble = require('rollup-plugin-buble'),
-   pathResolve = require('./pathResolve');
+   pathResolve = require('./pathResolve'),
+   prettier = require('rollup-plugin-prettier');
 
 
 function getPath(basePath) {
@@ -83,7 +84,7 @@ var all = entries.map(function(e) {
 
    var options = Object.assign({
       treeshake: true,
-      sourceMap: true,
+      sourceMap: false,
       external: function (id) {
 
          if (id.indexOf('babel') == 0)
@@ -116,6 +117,11 @@ var all = entries.map(function(e) {
             paths: paths,
             path: src('./' + e.name + '/')
          }),
+         prettier({
+            tabWidth: 2,
+            printWidth: 120,
+            useTabs: true
+         })
          //buble(),
       ]
    }, e.options);
@@ -143,6 +149,6 @@ Promise
    .then(()=> {
       fs.writeFileSync(dist('manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
       //console.log(node_modules('cx/dist/manifest.js'));
-      fs.writeFileSync(node_modules('cx/dist/manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
+      //fs.writeFileSync(node_modules('cx/dist/manifest.js'), 'module.exports = ' + JSON.stringify(manifest, null, 2));
       //console.log(manifest);
    });

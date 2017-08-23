@@ -87,6 +87,7 @@ else {
             }]
         },
         entry: {
+            vendor: path.join(__dirname, 'polyfill'),
             app: [
                 'react-dev-utils/webpackHotDevClient',
                 __dirname + '/index.js'
@@ -138,6 +139,7 @@ var common = {
         loaders: [{
             test: /\.js$/,
             include: /(docs|cx|cx-react)/,
+            exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',
                 query: babelConfig({production: production})
@@ -161,8 +163,8 @@ var common = {
         filename: "[name].js"
     },
     externals: {
-       "react": "React",
-       "react-dom": "ReactDOM"
+        "react": "React",
+        "react-dom": "ReactDOM"
     },
     plugins: [
         // new webpack.optimize.CommonsChunkPlugin({
