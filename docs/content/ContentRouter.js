@@ -71,35 +71,35 @@ class ContentController extends Controller {
             switch (chapter) {
 
                 case 'intro':
-                    this.loadChapter(chapter, System.import('docs/content/intro'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'intro' */ 'docs/content/intro'));
                     break;
 
                 case 'concepts':
-                    this.loadChapter(chapter, System.import('docs/content/concepts'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'concepts' */'docs/content/concepts'));
                     break;
 
                 case 'widgets':
-                    this.loadChapter(chapter, System.import('docs/content/widgets'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'widgets' */ 'docs/content/widgets'));
                     break;
 
                 case 'svg':
-                    this.loadChapter(chapter, System.import('docs/content/svg'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'svg' */ 'docs/content/svg'));
                     break;
 
                 case 'charts':
-                    this.loadChapter(chapter, System.import('docs/content/charts'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'charts' */ 'docs/content/charts'));
                     break;
 
                 case 'examples':
-                    this.loadChapter(chapter, System.import('docs/content/examples'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'examples' */ 'docs/content/examples'));
                     break;
 
                 case 'util':
-                    this.loadChapter(chapter, System.import('docs/content/util'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'util' */ 'docs/content/util'));
                     break;
 
                 case 'meta':
-                    this.loadChapter(chapter, System.import('docs/content/meta'));
+                    this.loadChapter(chapter, System.import(/* webpackChunkName: 'meta' */ 'docs/content/meta'));
                     break;
 
 

@@ -69,6 +69,7 @@ if (production) {
         output: {
             path: path.join(__dirname, 'dist'),
             filename: "[name].ltc.[chunkhash].js",
+            chunkFilename: "[name].ltc.[chunkhash].js",
             hashDigestLength: 5,
             publicPath: root ? "/" : "/docs/"
         }
