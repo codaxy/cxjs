@@ -102,13 +102,18 @@
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       -webkit-user-select: none;
 
+      @include cx-add-state-rules($header-state-style-map, default);
+
       .#{$state}header-default & {
          border-width: 1px;
          border-style: solid;
          position: relative;
-
-         @include cx-add-state-rules($header-state-style-map, default);
       }
+
+      .#{$state}header-plain & {         
+         background-color: transparent;
+      }
+
 
       &.#{$state}sortable {
          cursor: pointer;

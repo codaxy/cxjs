@@ -495,12 +495,6 @@ div.#{$block}classic-tab-container {
    tr:not(:first-child) .#{$element}grid-col-header {
       border-top: 1px solid $cx-default-grid-data-border-color;
    }
-   //// ellipsis added to grid header
-   //.#{$element}grid-col-header {
-   //   white-space: nowrap;
-   //   overflow: hidden;
-   //   text-overflow: ellipsis;
-   //}
 }
 
 // grid header border removed
@@ -508,6 +502,14 @@ div.#{$block}classic-tab-container {
    .#{$element}grid-col-header {
       border-width: 0;
    }
+}
+
+.#{$state}header-plain.#{$state}border {
+  .#{$element}grid-col-header:last-child {
+    border-width: 0 1px 0 0;
+    border-style: solid;
+    border-color: $cx-default-grid-border-color;
+  }
 }
 
 //grid header tool icon
