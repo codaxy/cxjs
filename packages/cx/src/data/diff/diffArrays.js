@@ -15,7 +15,7 @@ export function diffArrays(oldArray, newArray, keyFn) {
       let el = newArray[i];
       let k = keyFn(el);
       let old = map.get(k);
-      if (typeof old == 'undefined')
+      if (isUndefined(old))
          added.push(el);
       else {
          map.delete(k);

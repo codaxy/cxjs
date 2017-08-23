@@ -7,6 +7,8 @@ import {
    tooltipMouseLeave,
 } from '../overlay/tooltip-ops';
 import {preventFocus} from '../../ui/FocusManager';
+import {isDefined} from '../../util/isDefined';
+import {isArray} from '../../util/isArray';
 
 export class Switch extends Field {
 
@@ -32,7 +34,7 @@ export class Switch extends Field {
    }
 
    init() {
-      if (typeof this.value != 'undefined')
+      if (isDefined(this.value))
          this.on = this.value;
 
       this.rangeStyle = parseStyle(this.rangeStyle);
@@ -44,7 +46,7 @@ export class Switch extends Field {
    prepareData(context, instance) {
       let {data} = instance;
 
-      if (typeof this.off != 'undefined')
+      if (isDefined(this.off))
          data.on = !data.off;
 
       data.stateMods = {

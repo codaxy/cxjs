@@ -1,4 +1,5 @@
 import {Layout} from './Layout';
+import {isArray} from '../../util/isArray';
 
 export class FirstVisibleChildLayout extends Layout {
 
@@ -7,7 +8,7 @@ export class FirstVisibleChildLayout extends Layout {
          return false;
 
       if (instance.widget.layout && instance.widget.layout.useParentLayout)
-         return Array.isArray(instance.children) && instance.children.some(c => this.checkVisible(c));
+         return isArray(instance.children) && instance.children.some(c => this.checkVisible(c));
 
       return true;
    }

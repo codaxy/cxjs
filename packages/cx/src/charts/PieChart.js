@@ -4,6 +4,7 @@ import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
 import {Selection} from '../ui/selection/Selection';
 import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
+import {isNumber} from '../util/isNumber';
 
 export class PieChart extends BoundedObject {
 
@@ -186,7 +187,7 @@ export class PieSlice extends PureContainer {
 
       let {data} = instance;
 
-      instance.valid = typeof data.value == 'number' && data.value > 0;
+      instance.valid = isNumber(data.value) && data.value > 0;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
       if (instance.colorMap && data.colorName)

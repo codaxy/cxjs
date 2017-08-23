@@ -1,6 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {ColumnBarGraphBase} from './ColumnBarGraphBase';
 import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
+import {isArray} from '../util/isArray';
 
 export class ColumnGraph extends ColumnBarGraphBase {
 
@@ -9,7 +10,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
 
       let {data, xAxis, yAxis} = instance;
 
-      if (Array.isArray(data.data)) {
+      if (isArray(data.data)) {
          data.data.forEach(p => {
             var y0 = this.y0Field ? p[this.y0Field] : data.y0;
             var x = p[this.xField];
@@ -35,7 +36,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
    renderGraph(context, instance) {
       var {data, xAxis, yAxis, store} = instance;
 
-      if (!Array.isArray(data.data))
+      if (!isArray(data.data))
          return false;
 
       var isSelected = this.selection.getIsSelectedDelegate(store);

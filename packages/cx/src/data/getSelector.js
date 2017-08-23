@@ -1,6 +1,7 @@
 import {Binding} from './Binding';
 import {Expression} from './Expression';
 import {StringTemplate} from './StringTemplate';
+import {isArray} from '../util/isArray';
 
 var nullF = () => null;
 
@@ -12,7 +13,7 @@ export function getSelector(config) {
    switch (typeof config) {
       case 'object':
 
-         if (Array.isArray(config)) {
+         if (isArray(config)) {
             let selectors = config.map(x => getSelector(x));
             return (data) => selectors.map(elementSelector => elementSelector(data));
          }

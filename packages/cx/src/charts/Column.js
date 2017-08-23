@@ -1,11 +1,12 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {ColumnBarBase} from './ColumnBarBase';
 import {Rect} from '../svg/util/Rect';
+import {isDefined} from '../util/isDefined';
 
 export class Column extends ColumnBarBase {
 
    init() {
-      if (typeof this.width != 'undefined')
+      if (isDefined(this.width))
          this.size = this.width;
 
       super.init();

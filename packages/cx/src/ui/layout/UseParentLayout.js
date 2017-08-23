@@ -1,11 +1,12 @@
 import {Layout} from './Layout';
+import {isArray} from '../../util/isArray';
 
 export class UseParentLayout extends Layout {
    render(context, instance, keyPrefix) {
       var result = [];
       instance.children.forEach(c => {
          var r = c.render(context);
-         if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+         if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
             r.content.forEach(r=> {
                result.push(r);
             })

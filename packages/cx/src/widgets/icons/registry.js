@@ -1,3 +1,5 @@
+import {isFunction} from '../../util/isFunction';
+
 let icons = {};
 let iconFactory = null;
 let defaultIcons = {};
@@ -25,7 +27,7 @@ export function unregisterIcon(...args) {
 
 export function renderIcon(name, props) {
 
-   if (typeof name == 'function')
+   if (isFunction(name))
       return name(props);
 
    if (icons[name])

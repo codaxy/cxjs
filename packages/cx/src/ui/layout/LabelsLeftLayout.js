@@ -1,5 +1,6 @@
 import {VDOM, getContent, contentAppend} from '../Widget';
 import {Layout} from './Layout';
+import {isArray} from '../../util/isArray';
 
 
 function validContent(r) {
@@ -18,7 +19,7 @@ export class LabelsLeftLayout extends Layout {
       children.forEach((c, i)=> {
          var r = c.render(context);
          if (r) {
-            if (c.widget.layout && c.widget.layout.useParentLayout && Array.isArray(r.content)) {
+            if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
                r.content.forEach((r, j)=> {
                   result.push(<tr key={`${i}-${j}`}>
                      <td className={CSS.element(baseClass, "label")}>{getContent(r.label)}</td>

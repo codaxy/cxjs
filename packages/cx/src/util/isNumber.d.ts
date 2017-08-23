@@ -1,0 +1,1 @@
+export function isNumber(x: any): boolean;

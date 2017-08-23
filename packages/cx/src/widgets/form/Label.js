@@ -1,6 +1,7 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
 import {FocusManager} from '../../ui/FocusManager';
+import {isArray} from '../../util/isArray';
 
 export class Label extends HtmlElement {
 
@@ -47,7 +48,7 @@ export class Label extends HtmlElement {
 
       let {data} = instance;
       if (this.asterisk && data.required) {
-         if (!Array.isArray(props.children))
+         if (!isArray(props.children))
             props.children = [props.children];
          props.children.push(' ');
          props.children.push(<span key="asterisk" className={this.CSS.element(this.baseClass, 'asterisk')}>*</span>)

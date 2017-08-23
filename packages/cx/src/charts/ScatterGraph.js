@@ -2,6 +2,7 @@ import {Widget, VDOM} from '../ui/Widget';
 import {Selection} from '../ui/selection/Selection';
 import {CSS} from '../ui/CSS';
 import {getShape} from './shapes';
+import {isArray} from '../util/isArray';
 
 export class ScatterGraph extends Widget {
 
@@ -58,7 +59,7 @@ export class ScatterGraph extends Widget {
       if (instance.colorMap && data.colorName)
          instance.colorMap.acknowledge(data.colorName);
 
-      if (data.active && Array.isArray(data.data)) {
+      if (data.active && isArray(data.data)) {
          data.data.forEach(p => {
             xAxis.acknowledge(p[this.xField]);
             yAxis.acknowledge(p[this.yField]);
@@ -117,7 +118,7 @@ export class ScatterGraph extends Widget {
 
       var isSelected = this.selection.getIsSelectedDelegate(store);
 
-      return Array.isArray(data.data)
+      return isArray(data.data)
          && data.data.map((p, i) => {
 
             var classes = CSS.element(this.baseClass, 'shape', {

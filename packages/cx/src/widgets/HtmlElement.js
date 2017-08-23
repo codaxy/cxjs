@@ -4,6 +4,10 @@ import {tooltipMouseMove, tooltipParentWillUnmount, tooltipMouseLeave, tooltipPa
 import {Url} from '../ui/app/Url';
 import {parseStyle} from '../util/parseStyle';
 import {debug} from '../util/Debug';
+import {isString} from '../util/isString';
+import {isUndefined} from '../util/isUndefined';
+import {isDefined} from '../util/isDefined';
+import {isArray} from '../util/isArray';
 
 var isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
 
@@ -17,7 +21,7 @@ export class HtmlElement extends PureContainer {
    constructor(config) {
       super(config);
 
-      if (this.jsxAttributes === undefined && config)
+      if (isUndefined(this.jsxAttributes) && config)
          this.jsxAttributes = Object.keys(config).filter(::this.isValidHtmlAttribute);
    }
 
@@ -139,7 +143,7 @@ export class HtmlElement extends PureContainer {
       var {data} = instance;
       if (this.urlAttributes && data.attrs)
          this.urlAttributes.forEach(attr=> {
-            if (typeof data.attrs[attr] == 'string')
+            if (isString(data.attrs[attr]))
                data.attrs[attr] = Url.resolve(data.attrs[attr]);
          });
       super.prepareData(context, instance);
@@ -168,14 +172,14 @@ export class HtmlElement extends PureContainer {
       }, data.attrs, events);
 
       let children;
-      if (typeof data.text != 'undefined')
+      if (isDefined(data.text))
          children = data.text;
-      else if (typeof data.innerHtml == 'string') {
+      else if (isString(data.innerHtml)) {
          props.dangerouslySetInnerHTML = {__html: data.innerHtml};
       }
       else {
          children = this.renderChildren(context, instance);
-         if (children && Array.isArray(children) && children.length == 0)
+         if (children && isArray(children) && children.length == 0)
             children = undefined;
       }
 

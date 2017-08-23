@@ -28,3 +28,8 @@ export * from './SubscriberList';
 export * from './findScrollableParent';
 export * from './getScrollerBoundingClientRect';
 export * from './isNonEmptyArray';
+export * from './isArray';
+export * from './isObject';
+export * from './isNumber';
+export * from './isFunction';
+export * from './isString';

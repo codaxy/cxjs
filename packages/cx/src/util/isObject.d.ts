@@ -1,0 +1,1 @@
+export function isObject(x: any): boolean;

@@ -1,3 +1,7 @@
+import {isString} from '../util/isString';
+import {isFunction} from '../util/isFunction';
+import {isArray} from '../util/isArray';
+
 var componentAlias = {};
 
 export class Component {
@@ -33,7 +37,7 @@ export class Component {
       if (isComponentFactory(typeAlias))
          return this.create(typeAlias(config, more));
 
-      if (Array.isArray(typeAlias))
+      if (isArray(typeAlias))
          return typeAlias.map(c=>this.create(c, config, more));
 
       if (typeAlias.$type)
@@ -46,12 +50,12 @@ export class Component {
 
       if (typeAlias.isComponentType)
          cmpType = typeAlias;
-      else if (typeof typeAlias == 'function') {
+      else if (isFunction(typeAlias)) {
          if (this.factory)
             return this.factory(typeAlias, config, more)
          throw new Error(`Unsupported component type ${typeAlias}.`);
       }
-      else if (typeof typeAlias == 'string') {
+      else if (isString(typeAlias)) {
          alias = this.namespace + typeAlias;
          cmpType = componentAlias[alias];
          if (!cmpType) {
@@ -69,7 +73,7 @@ export class Component {
          }
       }
 
-      if (Array.isArray(config))
+      if (isArray(config))
          return config.map(cfg=>this.create(cmpType, cfg, more));
 
       let cfg = config;

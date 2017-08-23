@@ -1,4 +1,5 @@
 import {Selection} from './Selection';
+import {isArray} from '../../util/isArray';
 
 export class KeySelection extends Selection {
    init() {
@@ -12,7 +13,7 @@ export class KeySelection extends Selection {
       if (!this.selection)
          this.selection = {};
 
-      if (Array.isArray(this.keyFields))
+      if (isArray(this.keyFields))
          this.keyField = false;
 
       this.initialized = true;
@@ -81,7 +82,7 @@ export class KeySelection extends Selection {
             store.delete(this.selection.bind);
       } else {
          if (this.storage == 'array') {
-            var exists = Array.isArray(selection) && selection.some(x=>this.areKeysEqual(x, key));
+            var exists = isArray(selection) && selection.some(x=>this.areKeysEqual(x, key));
             if (!toggle)
                store.set(this.selection.bind, [key]);
             else if (!exists)

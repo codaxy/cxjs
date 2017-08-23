@@ -1,0 +1,1 @@
+export function isDefined(x: any): boolean;

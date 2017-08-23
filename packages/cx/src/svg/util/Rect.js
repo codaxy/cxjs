@@ -1,3 +1,6 @@
+import {isNumber} from '../../util/isNumber';
+import {isArray} from '../../util/isArray';
+
 export class Rect {
 
    constructor(config) {
@@ -66,7 +69,7 @@ export class Rect {
       if (m.isRect)
          return m;
 
-      if (typeof m == 'number')
+      if (isNumber(m))
          return new Rect({l: m, t: m, r: -m, b: -m});
 
       var m = Rect.convert(m);
@@ -85,7 +88,7 @@ export class Rect {
       if (typeof r === 'string')
          r = r.split(' ');
 
-      if (Array.isArray(r)) {
+      if (isArray(r)) {
          return new Rect({
             t: parseFloat(r[0]),
             r: parseFloat(r[1]),

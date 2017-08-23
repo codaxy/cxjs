@@ -1,5 +1,6 @@
 import {computable} from '../data/computable';
 import {Component} from './Component';
+import {isArray} from '../util/isArray';
 
 const computablePrefix = 'computable-';
 const triggerPrefix = 'trigger-';
@@ -48,7 +49,7 @@ export class Controller extends Component {
    }
 
    addComputable(name, args, callback) {
-      if (!Array.isArray(args))
+      if (!isArray(args))
          throw new Error('Second argument to the addComputable method should be an array.');
       let selector = computable(...args, callback).memoize();
       if (!this.computables)
@@ -57,7 +58,7 @@ export class Controller extends Component {
    }
 
    addTrigger(name, args, callback, autoRun) {
-      if (!Array.isArray(args))
+      if (!isArray(args))
          throw new Error('Second argument to the addComputable method should be an array.');
       let selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
       if (!this.computables)

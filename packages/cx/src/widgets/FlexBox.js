@@ -1,5 +1,6 @@
 import {VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
+import {isUndefined} from '../util/isUndefined';
 
 export class FlexBox extends PureContainer {
 
@@ -13,8 +14,8 @@ export class FlexBox extends PureContainer {
       if (this.vpadding)
          this.vpad = this.vpadding;
 
-      this.hpad = this.hpad === undefined ? this.pad : this.hpad;
-      this.vpad = this.vpad === undefined ? this.pad : this.hpad;
+      this.hpad = isUndefined(this.hpad) ? this.pad : this.hpad;
+      this.vpad = isUndefined(this.vpad) ? this.pad : this.hpad;
 
       if (this.hpad === true)
          this.hpad = 'medium';
@@ -22,8 +23,8 @@ export class FlexBox extends PureContainer {
       if (this.vpad === true)
          this.vpad = 'medium';
       
-      this.hspacing = this.hspacing === undefined ? this.spacing : this.hspacing;
-      this.vspacing = this.vspacing === undefined ? this.spacing : this.vspacing;
+      this.hspacing = isUndefined(this.hspacing) ? this.spacing : this.hspacing;
+      this.vspacing = isUndefined(this.vspacing) ? this.spacing : this.vspacing;
 
       if (this.hspacing === true)
          this.hspacing = 'medium';

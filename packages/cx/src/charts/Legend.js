@@ -2,6 +2,8 @@ import {Widget, VDOM} from '../ui/Widget';
 import {HtmlElement} from '../widgets/HtmlElement';
 import {PureContainer} from '../ui/PureContainer';
 import {getShape} from './shapes';
+import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 export class Legend extends HtmlElement {
 
@@ -48,7 +50,7 @@ export class Legend extends HtmlElement {
       var entries = instance.legends[this.name] && instance.legends[this.name].entries,
          list;
 
-      if (Array.isArray(entries) && entries.length > 0) {
+      if (isArray(entries) && entries.length > 0) {
          list = <div key="wrap" className={CSS.element(this.baseClass, "wrap")}>
             { entries.map((e, i) => {
                return <div key={i}
@@ -71,7 +73,7 @@ export class Legend extends HtmlElement {
       var className = this.CSS.element(this.baseClass, 'shape', {
          disabled: entry.disabled,
          selected: entry.selected,
-         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (typeof entry.active == 'undefined' || entry.active)
+         [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active)
       });
       var shape = getShape(entry.shape || 'square');
 

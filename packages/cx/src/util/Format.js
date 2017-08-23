@@ -1,5 +1,8 @@
 import {debug} from "./Debug";
 import {GlobalCacheIdentifier} from './GlobalCacheIdentifier';
+import {isNumber} from '../util/isNumber';
+import {isUndefined} from '../util/isUndefined';
+import {isArray} from '../util/isArray';
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -168,7 +171,7 @@ export class Format {
    }
 
    static registerFactory(format, factory) {
-      if (Array.isArray(format))
+      if (isArray(format))
          format.forEach(f => this.registerFactory(f, factory));
       else
          formatFactory[format] = factory;
@@ -179,10 +182,10 @@ export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFracti
    minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
    maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
 
-   if (typeof minimumFractionDigits == 'number') {
-      if (typeof maximumFractionDigits == 'undefined')
+   if (isNumber(minimumFractionDigits)) {
+      if (isUndefined(maximumFractionDigits))
          maximumFractionDigits = minimumFractionDigits;
-      else if (typeof maximumFractionDigits == 'number' && maximumFractionDigits < minimumFractionDigits)
+      else if (isNumber(maximumFractionDigits) && maximumFractionDigits < minimumFractionDigits)
          maximumFractionDigits = minimumFractionDigits;
    }
    else if (minimumFractionDigits == null && maximumFractionDigits == null) {

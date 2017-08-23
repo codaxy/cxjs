@@ -1,10 +1,11 @@
 import {debug, deprecatedFlag} from '../../util/Debug';
+import {isString} from '../../util/isString';
 
 function getMessage(options) {
    debug(deprecatedFlag, "Call enableMsgBoxes() on startup to use Cx based message boxes. Message boxes are not auto enabled anymore to reduce the bundle size for apps that do not use them. ");
    if (!options)
       return null;
-   if (typeof options == 'string')
+   if (isString(options))
       return options;
    if (options && options.message)
       return options.message;

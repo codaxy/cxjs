@@ -1,6 +1,7 @@
 import {ArrayAdapter} from './ArrayAdapter';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Grouper} from '../../data/Grouper';
+import {isArray} from '../../util/isArray';
 
 export class GroupAdapter extends ArrayAdapter {
 
@@ -88,7 +89,7 @@ export class GroupAdapter extends ArrayAdapter {
    groupBy(groupings) {
       if (!groupings)
          this.groupings = null;
-      else if (Array.isArray(groupings)) {
+      else if (isArray(groupings)) {
          this.groupings = groupings;
          this.groupings.forEach(g=> {
             g.grouper = new Grouper(g.key, {...this.aggregates, ...g.aggregates}, r=>r.store.getData(), g.text);

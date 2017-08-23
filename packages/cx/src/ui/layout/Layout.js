@@ -2,13 +2,14 @@ import {Component} from '../Component';
 import {contentAppend} from '../Widget';
 import {CSSHelper} from '../CSSHelper';
 import {exploreChildren} from './exploreChildren';
-
+import {isString} from '../../util/isString';
+import {isArray} from '../../util/isArray';
 
 export class Layout extends Component {
    
    init() {
       super.init();
-      if (typeof this.CSS == 'string')
+      if (isString(this.CSS))
          this.CSS = CSSHelper.get(this.CSS);
    }
 
@@ -49,7 +50,7 @@ export class Layout extends Component {
       for (var i = 0; i < instance.children.length; i++) {
          child = instance.children[i];
          r = child.render(context, keyPrefix);
-         if (child.widget.layout && child.widget.layout.useParentLayout && Array.isArray(r.content)) {
+         if (child.widget.layout && child.widget.layout.useParentLayout && isArray(r.content)) {
             r.content.forEach(r=>this.append(result, r));
          }
          else

@@ -1,3 +1,5 @@
+import {isNumber} from '../util/isNumber';
+
 export function findFirst(el, condition) {
    if (condition(el))
       return el;
@@ -47,7 +49,7 @@ export function isFocusedDeep(el) {
 const focusableWithoutTabIndex = ['INPUT', 'SELECT', 'TEXTAREA', 'A', 'BUTTON'];
 
 export function isFocusable(el) {
-   var firstPass = el && typeof el.tabIndex == 'number' && el.tabIndex >= 0;
+   var firstPass = el && isNumber(el.tabIndex) && el.tabIndex >= 0;
    if (!firstPass)
       return false;
 

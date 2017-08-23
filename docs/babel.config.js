@@ -5,7 +5,7 @@ module.exports = function (options) {
 
     return {
         "cacheDirectory": true,
-        "cacheIdentifier": "v11",
+        "cacheIdentifier": "v12",
         "presets": [
             ["env", {
                 loose: true,
