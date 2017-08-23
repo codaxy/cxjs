@@ -21,6 +21,7 @@ module.exports = function (options) {
             }]
         ],
         "plugins": [
+            'external-helpers',
             'transform-object-rest-spread',
             "transform-function-bind",
             'transform-export-extensions',
