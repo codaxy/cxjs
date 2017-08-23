@@ -1,4 +1,4 @@
-let babelHelpers = {};
+var babelHelpers = {};
 
 babelHelpers.typeof =
     typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
