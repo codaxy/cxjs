@@ -42,6 +42,7 @@ export class LineGraph extends Widget {
       var {data} = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
+
       if (instance.colorMap && data.colorName)
          instance.colorMap.acknowledge(data.colorName);
 
@@ -52,16 +53,19 @@ export class LineGraph extends Widget {
          super.explore(context, instance);
          if (isArray(data.data)) {
             data.data.forEach(p => {
-               var x = p[this.xField];
+               let x = p[this.xField];
                instance.xAxis.acknowledge(x);
                if (data.stacked) {
                   instance.yAxis.stacknowledge(data.stack, x, this.y0Field ? p[this.y0Field] : data.y0);
                   instance.yAxis.stacknowledge(data.stack, x, p[this.yField]);
                } else {
                   instance.yAxis.acknowledge(p[this.yField]);
+                  if (context.lineTracker)
+                     context.lineTracker(x, p[this.yField], data.name);
                   if (data.area)
                      instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
                }
+
             });
          }
       }

@@ -403,7 +403,7 @@ export class Instance {
       return props;
    }
 
-   invoke(methodName, ...args) {
+   getCallback(methodName) {
       let scope = this.widget;
       let method = scope[methodName];
 
@@ -418,7 +418,11 @@ export class Instance {
       if (typeof method !== 'function')
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
-      return method.apply(scope, args);
+      return method.bind(scope);
+   }
+
+   invoke(methodName, ...args) {
+      return this.getCallback(methodName).apply(null, args);
    }
 }
 
