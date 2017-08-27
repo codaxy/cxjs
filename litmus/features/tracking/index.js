@@ -2,15 +2,18 @@ import {
    Chart,
    Gridlines,
    Legend,
+   LegendEntry,
    LineGraph,
    NumericAxis,
-   MarkerLine
+   MarkerLine,
+   Marker
 } from "cx/charts";
 import {Line, Rectangle, Svg, Text} from "cx/svg";
 import {Controller, KeySelection, Repeater} from "cx/ui";
 import {HtmlElement, enableTooltips} from "cx/widgets";
 import {XYTracker} from "./XYTracker";
 import {LineTracker} from "./LineTracker";
+import {ValueAtTracker} from "./ValueAtTracker";
 
 enableTooltips();
 
@@ -48,8 +51,27 @@ export default (
                   x:bind="tracker.x"
                   y:bind="tracker.y"
                   tooltip={{
-                     text: {tpl: '{tracker.x:n;2}, {tracker.y:n;2}'},
-                     trackMouse: true
+                     trackMouse: true,
+                     items: <cx>
+                        <table>
+                           <tbody>
+                           <tr>
+                              <td>
+                                 <LegendEntry name="Line 1" text="Line 1" colorIndex={0} />
+                              </td>
+                              <td text:tpl="{tracker.line1y:n;2}" />
+
+
+                           </tr>
+                           <tr>
+                              <td>
+                                 <LegendEntry name="Line 2" text="Line 2" colorIndex={8} />
+                              </td>
+                              <td text:tpl="{tracker.line2y:n;2}" />
+                           </tr>
+                           </tbody>
+                        </table>
+                     </cx>
                   }}
                >
                   <LineTracker
@@ -58,18 +80,18 @@ export default (
                      }}
                      onCollect={(acc, x, y, name) => {
                         acc.x.push(x);
-                        if (y != null && acc.max == null || acc.max < y)
+                        if (y != null && (acc.max == null || acc.max < y))
                            acc.max = y;
-                        if (y != null && acc.min == null || acc.min > y)
+                        if (y != null && (acc.min == null || acc.min > y))
                            acc.min = y;
                      }}
                      onWrite={(acc, {store}) => {
-                        console.log(acc);
                         store.set('max', acc.max);
                         store.set('min', acc.min);
                      }}
                   >
                      <Gridlines/>
+
                      <LineGraph
                         data:bind="$page.points"
                         colorIndex={8}
@@ -79,20 +101,25 @@ export default (
                         line={false}
                         area
                      />
-                     <LineGraph
-                        name="Line 1"
-                        data:bind="$page.points"
-                        colorIndex={0}
-                        area
-                        active:bind="$page.line1"
-                     />
-                     <LineGraph
-                        name="Line 2"
-                        data:bind="$page.points"
-                        colorIndex={8}
-                        yField="y2"
-                        active:bind="$page.line2"
-                     />
+
+                     <ValueAtTracker x:bind="tracker.x" y:bind="tracker.line1y">
+                        <LineGraph
+                           name="Line 1"
+                           data:bind="$page.points"
+                           colorIndex={0}
+                           area
+                           active:bind="$page.line1"
+                        />
+                     </ValueAtTracker>
+                     <ValueAtTracker x:bind="tracker.x" y:bind="tracker.line2y">
+                        <LineGraph
+                           name="Line 2"
+                           data:bind="$page.points"
+                           colorIndex={8}
+                           yField="y2"
+                           active:bind="$page.line2"
+                        />
+                     </ValueAtTracker>
                      <MarkerLine x:bind="tracker.x"/>
                      <MarkerLine
                         y:bind="tracker.y"
@@ -103,6 +130,8 @@ export default (
                      <MarkerLine
                         y:bind="min"
                      />
+                     <Marker x:bind="tracker.x" y:bind="tracker.line1y" colorIndex={0} size={10} />
+                     <Marker x:bind="tracker.x" y:bind="tracker.line2y" colorIndex={8} size={10} />
                   </LineTracker>
                </XYTracker>
 
