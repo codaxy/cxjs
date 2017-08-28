@@ -78,6 +78,8 @@ export class MarkerLine extends BoundedObject {
 
       let x1 = bounds.l, x2 = bounds.r, y1 = bounds.t, y2 = bounds.b;
 
+
+
       if (data.x1 != null)
          x1 = xAxis.map(data.x1);
 

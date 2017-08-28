@@ -24,7 +24,7 @@ export class LineTracker extends PureContainer {
          instance.lineTracker = (x, y, name) => {
             onCollect(accumulator, x, y, name);
             if (lineTracker)
-               lineTracker(accumulator, x, y, name);
+               lineTracker(x, y, name);
          };
 
          instance.write = () => {
@@ -38,12 +38,13 @@ export class LineTracker extends PureContainer {
 
       super.explore(context, instance);
       context.lineTracker = lineTracker;
+      instance.write();
    }
 
-   prepare(context, instance) {
-      let lineTracker = context.lineTracker;
-      super.prepare(context, instance);
-      instance.write();
-      context.lineTracker = lineTracker;
-   }
+   // prepare(context, instance) {
+   //    let lineTracker = context.lineTracker;
+   //    super.prepare(context, instance);
+   //
+   //    context.lineTracker = lineTracker;
+   // }
 }
