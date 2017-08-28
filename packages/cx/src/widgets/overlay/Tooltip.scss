@@ -29,7 +29,7 @@
 
       &.#{$state}animated {
          opacity: 1;
-         transition-delay: 0.3s;
+         //transition-delay: 0.3s;
       }
 
       &.#{$state}mouse-trap {

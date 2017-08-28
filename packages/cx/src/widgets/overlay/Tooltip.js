@@ -109,6 +109,7 @@ Tooltip.prototype.offset = 8;
 Tooltip.prototype.placementOrder = 'right up down left';
 Tooltip.prototype.animate = true;
 Tooltip.prototype.destroyDelay = 300;
+Tooltip.prototype.createDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
 Tooltip.prototype.touchFriendly = false; //rename to positioningMode
@@ -187,7 +188,7 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
                   }
                });
             }
-         }, 200);
+         }, instance.widget.createDelay);
       }
    } else {
       if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {
