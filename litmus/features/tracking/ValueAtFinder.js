@@ -1,19 +1,19 @@
-import {LineTracker} from "./LineTracker";
+import {PointReducer} from "./PointReducer";
 
-export class ValueAtTracker extends LineTracker {
+export class ValueAtFinder extends PointReducer {
    declareData() {
       return super.declareData(...arguments, {
-         x: undefined,
-         y: undefined
+         at: undefined,
+         value: undefined
       })
    }
 
-   onPrepareAccumulator(acc, {data}) {
-      acc.x = data.x;
+   onInitAccumulator(acc, {data}) {
+      acc.at = data.at;
    }
 
-   onCollect(acc, x, y, name) {
-      let d = x - acc.x;
+   onMap(acc, x, y, name) {
+      let d = x - acc.at;
       if (d<=0 && (!acc.left || acc.left.d < d)) {
          acc.left = {
             x, y, d
@@ -26,7 +26,7 @@ export class ValueAtTracker extends LineTracker {
       }
    }
 
-   onWrite(acc, instance) {
+   onReduce(acc, instance) {
       if (!acc.left || !acc.right)
          return;
 
@@ -34,9 +34,9 @@ export class ValueAtTracker extends LineTracker {
       if (acc.left.x == acc.right.x)
          y = acc.left.y;
       else if (acc.left.y != null && acc.right.y != null) {
-         y = acc.left.y + (acc.right.y - acc.left.y) * (acc.x - acc.left.x) / (acc.right.x - acc.left.x);
+         y = acc.left.y + (acc.right.y - acc.left.y) * (acc.at - acc.left.x) / (acc.right.x - acc.left.x);
       }
 
-      instance.set('y', y);
+      instance.set('value', y);
    }
 }

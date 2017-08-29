@@ -2,7 +2,7 @@ import {BoundedObject} from "cx/svg";
 import {VDOM} from 'cx/ui';
 import {tooltipMouseMove, tooltipMouseLeave} from 'cx/widgets';
 
-export class XYTracker extends BoundedObject {
+export class MouseTracker extends BoundedObject {
    declareData() {
       return super.declareData(...arguments, {
          x: undefined,
@@ -17,20 +17,21 @@ export class XYTracker extends BoundedObject {
    }
 
    render(context, instance, key) {
-      return <XYTrackerComponent
+      return <MouseTrackerComponent
          key={key}
          instance={instance}
       >
          {this.renderChildren(context, instance)}
-      </XYTrackerComponent>
+      </MouseTrackerComponent>
    }
 }
 
-XYTracker.prototype.xAxis = 'x';
-XYTracker.prototype.yAxis = 'y';
-XYTracker.prototype.anchors = '0 1 1 0';
+MouseTracker.prototype.xAxis = 'x';
+MouseTracker.prototype.yAxis = 'y';
+MouseTracker.prototype.anchors = '0 1 1 0';
+MouseTracker.prototype.baseClass = "mousetracker"
 
-class XYTrackerComponent extends VDOM.Component {
+class MouseTrackerComponent extends VDOM.Component {
    render() {
       let {bounds} = this.props.instance.data;
       if (!bounds.valid())
@@ -41,7 +42,7 @@ class XYTrackerComponent extends VDOM.Component {
             onMouseMove={::this.onMouseMove}
             onMouseLeave={::this.onMouseLeave}
          >
-            <rect x={bounds.l} y={bounds.t} width={bounds.width()} height={bounds.height()} fill="transparent" />
+            <rect x={bounds.l} y={bounds.t} width={bounds.width()} height={bounds.height()} fill="transparent" strokeWidth="0" />
             {this.props.children}
          </g>
       )
