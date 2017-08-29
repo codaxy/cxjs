@@ -6,16 +6,16 @@ import {
    LineGraph,
    NumericAxis,
    MarkerLine,
-   Marker
+   Marker,
+   MouseTracker,
+   PointReducer,
+   MinMaxFinder,
+   SnapPointFinder,
+   ValueAtFinder
 } from "cx/charts";
 import {Line, Rectangle, Svg, Text} from "cx/svg";
 import {Controller, KeySelection, Repeater} from "cx/ui";
 import {HtmlElement, enableTooltips} from "cx/widgets";
-import {MouseTracker} from "./MouseTracker";
-import {PointReducer} from "./PointReducer";
-import {ValueAtFinder} from "./ValueAtFinder";
-import {SnapPointFinder} from "./SnapPointFinder";
-import {MinMaxFinder} from "./MinMaxFinder";
 
 enableTooltips();
 
@@ -78,7 +78,7 @@ export default (
                      </cx>
                   }}
                >
-                  <SnapPointFinder targetX:bind="tracker.x" snapX:bind="tracker.snapX">
+                  <SnapPointFinder cursorX:bind="tracker.x" snapX:bind="tracker.snapX">
                      <MinMaxFinder
                         minY:bind="min"
                         maxY:bind="max"
