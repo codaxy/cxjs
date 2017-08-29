@@ -55,11 +55,11 @@ export class MarkerLine extends BoundedObject {
    prepare(context, instance) {
       let {data, xAxis, yAxis} = instance;
 
-      if (data.active)
-         super.prepare(context, instance);
-
       if (xAxis.shouldUpdate || yAxis.shouldUpdate)
          instance.shouldUpdate = true;
+
+      if (data.active)
+         super.prepare(context, instance);
 
       if (data.name && data.legend && context.addLegendEntry)
          context.addLegendEntry(data.legend, {
@@ -77,8 +77,6 @@ export class MarkerLine extends BoundedObject {
       let bounds = super.calculateBounds(context, instance);
 
       let x1 = bounds.l, x2 = bounds.r, y1 = bounds.t, y2 = bounds.b;
-
-
 
       if (data.x1 != null)
          x1 = xAxis.map(data.x1);

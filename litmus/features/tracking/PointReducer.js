@@ -1,6 +1,6 @@
 import {PureContainer} from 'cx/ui';
 
-export class LineTracker extends PureContainer {
+export class PointReducer extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          x: undefined,
@@ -13,23 +13,23 @@ export class LineTracker extends PureContainer {
       instance.parentLineTracker = lineTracker;
 
       if (!instance.lineTracker) {
-         let onCollect = this.onCollect && instance.getCallback("onCollect");
+         let onMap = this.onMap && instance.getCallback("onMap");
          let accumulator = {};
          instance.resetAccumulator = () => {
             accumulator = {};
-            if (this.onPrepareAccumulator)
-               instance.invoke('onPrepareAccumulator', accumulator, instance);
+            if (this.onInitAccumulator)
+               instance.invoke('onInitAccumulator', accumulator, instance);
          };
 
          instance.lineTracker = (x, y, name) => {
-            onCollect(accumulator, x, y, name);
+            onMap(accumulator, x, y, name);
             if (lineTracker)
                lineTracker(x, y, name);
          };
 
          instance.write = () => {
-            if (this.onWrite)
-               instance.invoke('onWrite', accumulator, instance);
+            if (this.onReduce)
+               instance.invoke('onReduce', accumulator, instance);
          }
       }
 

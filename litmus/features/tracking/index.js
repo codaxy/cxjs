@@ -11,10 +11,11 @@ import {
 import {Line, Rectangle, Svg, Text} from "cx/svg";
 import {Controller, KeySelection, Repeater} from "cx/ui";
 import {HtmlElement, enableTooltips} from "cx/widgets";
-import {XYTracker} from "./XYTracker";
-import {LineTracker} from "./LineTracker";
-import {ValueAtTracker} from "./ValueAtTracker";
-import {PointSnapTracker} from "./PointSnapTracker";
+import {MouseTracker} from "./MouseTracker";
+import {PointReducer} from "./PointReducer";
+import {ValueAtFinder} from "./ValueAtFinder";
+import {SnapPointFinder} from "./SnapPointFinder";
+import {MinMaxFinder} from "./MinMaxFinder";
 
 enableTooltips();
 
@@ -48,7 +49,7 @@ export default (
                   }
                }
             >
-               <XYTracker
+               <MouseTracker
                   x:bind="tracker.x"
                   y:bind="tracker.y"
                   tooltip={{
@@ -77,24 +78,10 @@ export default (
                      </cx>
                   }}
                >
-                  <PointSnapTracker targetX:bind="tracker.x" x:bind="tracker.snapX">
-                     <LineTracker
-                        onPrepareAccumulator={(acc) => {
-                           acc.x = [];
-                           acc.max = null;
-                           acc.min = null;
-                        }}
-                        onCollect={(acc, x, y, name) => {
-                           acc.x.push(x);
-                           if (y != null && (acc.max == null || acc.max < y))
-                              acc.max = y;
-                           if (y != null && (acc.min == null || acc.min > y))
-                              acc.min = y;
-                        }}
-                        onWrite={(acc, {store}) => {
-                           store.set('max', acc.max);
-                           store.set('min', acc.min);
-                        }}
+                  <SnapPointFinder targetX:bind="tracker.x" snapX:bind="tracker.snapX">
+                     <MinMaxFinder
+                        minY:bind="min"
+                        maxY:bind="max"
                      >
                         <Gridlines/>
 
@@ -108,7 +95,7 @@ export default (
                            area
                         />
 
-                        <ValueAtTracker x:bind="tracker.snapX" y:bind="tracker.line1y">
+                        <ValueAtFinder at:bind="tracker.snapX" value:bind="tracker.line1y">
                            <LineGraph
                               name="Line 1"
                               data:bind="$page.points"
@@ -116,8 +103,8 @@ export default (
                               area
                               active:bind="$page.line1"
                            />
-                        </ValueAtTracker>
-                        <ValueAtTracker x:bind="tracker.snapX" y:bind="tracker.line2y">
+                        </ValueAtFinder>
+                        <ValueAtFinder at:bind="tracker.snapX" value:bind="tracker.line2y">
                            <LineGraph
                               name="Line 2"
                               data:bind="$page.points"
@@ -125,7 +112,7 @@ export default (
                               yField="y2"
                               active:bind="$page.line2"
                            />
-                        </ValueAtTracker>
+                        </ValueAtFinder>
                         {/*<MarkerLine x:bind="tracker.x"/>*/}
                         <MarkerLine x:bind="tracker.snapX"/>
                         <MarkerLine
@@ -139,9 +126,9 @@ export default (
                         />
                         <Marker x:bind="tracker.snapX" y:bind="tracker.line1y" colorIndex={0} size={10}/>
                         <Marker x:bind="tracker.snapX" y:bind="tracker.line2y" colorIndex={8} size={10}/>
-                     </LineTracker>
-                  </PointSnapTracker>
-               </XYTracker>
+                     </MinMaxFinder>
+                  </SnapPointFinder>
+               </MouseTracker>
 
             </Chart>
          </Svg>

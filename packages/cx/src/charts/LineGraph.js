@@ -62,10 +62,12 @@ export class LineGraph extends Widget {
                   instance.yAxis.acknowledge(p[this.yField]);
                   if (context.lineTracker)
                      context.lineTracker(x, p[this.yField], data.name);
-                  if (data.area)
+                  if (data.area) {
                      instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
+                     if (context.lineTracker && this.y0Field)
+                        context.lineTracker(x, p[this.y0Field], data.name);
+                  }
                }
-
             });
          }
       }
