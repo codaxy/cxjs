@@ -383,7 +383,8 @@ export class Grid extends Widget {
                }
 
                if (fixed && originalRefs[colKey]) {
-                  style = {...style, width: originalRefs[colKey].offsetWidth + 'px'}
+                  let width = originalRefs[colKey].offsetWidth + 'px';
+                  style = {...style, width, minWidth: width, maxWidth: width}
                }
 
                if (header.data.colSpan > 1 || header.data.rowSpan > 1) {
