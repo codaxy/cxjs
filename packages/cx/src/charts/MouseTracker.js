@@ -1,6 +1,7 @@
 import {BoundedObject} from "../svg/BoundedObject";
 import {VDOM} from '../ui/VDOM';
 import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
+import {closest} from '../util/DOM';
 
 export class MouseTracker extends BoundedObject {
    declareData() {
@@ -48,12 +49,14 @@ export class MouseTracker extends BoundedObject {
 
    handleMouseMove(e, instance) {
       let {xAxis, yAxis} = instance;
+      let svgEl = closest(e.target, el => el.tagName == 'svg');
+      let bounds = svgEl.getBoundingClientRect();
 
       if (xAxis)
-         instance.set('x', xAxis.trackValue(e.clientX));
+         instance.set('x', xAxis.trackValue(e.clientX - bounds.left));
 
       if (yAxis)
-         instance.set('y', yAxis.trackValue(e.clientY));
+         instance.set('y', yAxis.trackValue(e.clientY - bounds.top));
 
       tooltipMouseMove(e, instance, instance.widget.tooltip);
    }

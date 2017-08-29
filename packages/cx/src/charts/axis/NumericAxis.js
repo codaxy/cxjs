@@ -139,13 +139,13 @@ class NumericScale {
          this.stacks[s].info = info;
       }
 
-      if (this.minValue != null && (this.min == null || this.minValue < this.min))
+      if (this.minValue != null && this.min == null) // || this.minValue < this.min))
          this.min = this.minValue;
 
       if (this.min == null)
          this.min = 0;
 
-      if (this.maxValue != null && (this.max == null || this.maxValue > this.max))
+      if (this.maxValue != null && this.max == null) // || this.maxValue > this.max))
          this.max = this.maxValue;
 
       if (this.max == null)

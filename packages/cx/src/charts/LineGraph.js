@@ -52,7 +52,7 @@ export class LineGraph extends Widget {
          instance.yAxis = instance.axes[this.yAxis];
          super.explore(context, instance);
          if (isArray(data.data)) {
-            data.data.forEach(p => {
+            data.data.forEach((p, index) => {
                let x = p[this.xField];
                instance.xAxis.acknowledge(x);
                if (data.stacked) {
@@ -60,12 +60,12 @@ export class LineGraph extends Widget {
                   instance.yAxis.stacknowledge(data.stack, x, p[this.yField]);
                } else {
                   instance.yAxis.acknowledge(p[this.yField]);
-                  if (context.lineTracker)
-                     context.lineTracker(x, p[this.yField], data.name);
+                  if (context.pointReducer)
+                     context.pointReducer(x, p[this.yField], data.name, p, data, index);
                   if (data.area) {
                      instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
-                     if (context.lineTracker && this.y0Field)
-                        context.lineTracker(x, p[this.y0Field], data.name);
+                     if (context.pointReducer && this.y0Field)
+                        context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
                }
             });

@@ -132,6 +132,8 @@ var contents = [{
         {title: 'ColorMap', url: '~/charts/color-map'},
         {title: 'Legend', url: '~/charts/legend'},
         {title: 'Gridlines', url: '~/charts/gridlines'},
+        {title: 'MouseTracker', url: '~/charts/mouse-tracker'},
+        {title: 'PointReducer', url: '~/charts/point-reducers'},
     ]
 }, {
     topic: 'Util',

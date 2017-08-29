@@ -102,6 +102,9 @@ export class Marker extends BoundedObject {
          if (yAxis && data.y != null)
             yAxis.acknowledge(data.y, 0, this.yOffset);
 
+         if (context.pointReducer)
+            context.pointReducer(data.x, data.y, data.name, data);
+
          super.explore(context, instance);
       }
    }
