@@ -66,8 +66,11 @@ export class Instance {
       var contextController = context.controller;
       this.parentOptions = context.parentOptions;
 
-      if (!this.controller && context.controller) {
-         this.controller = context.controller;
+      if (!this.controller) {
+         if (context.controller)
+            this.controller = context.controller;
+         else if (this.parent.controller)
+            this.controller = this.parent.controller;
       }
 
       this.destroyTracked = false;
@@ -403,7 +406,7 @@ export class Instance {
       return props;
    }
 
-   invoke(methodName, ...args) {
+   getCallback(methodName) {
       let scope = this.widget;
       let method = scope[methodName];
 
@@ -418,7 +421,11 @@ export class Instance {
       if (typeof method !== 'function')
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
-      return method.apply(scope, args);
+      return method.bind(scope);
+   }
+
+   invoke(methodName, ...args) {
+      return this.getCallback(methodName).apply(null, args);
    }
 }
 

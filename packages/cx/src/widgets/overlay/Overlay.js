@@ -494,6 +494,7 @@ export class OverlayComponent extends VDOM.Component {
          //this.el.className = this.getOverlayCssClass();
       }
 
+      this.dismissed = true;
       return true;
    }
 
@@ -613,7 +614,7 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    overlayDidUpdate() {
-      if (this.el) {
+      if (this.el && !this.dismissed) {
          let {widget} = this.props.instance;
          widget.overlayDidUpdate(this.props.instance, this);
          this.el.className = this.getOverlayCssClass();

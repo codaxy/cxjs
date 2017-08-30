@@ -83,11 +83,7 @@ export class Tooltip extends Dropdown {
    }
 
    handleMouseLeavesParent(instance) {
-      if (instance.data && instance.data.alwaysVisible)
-         return;
-
-      let timeout = this.mouseTrap ? 200 : 10;
-
+      let timeout = this.mouseTrap ? 200 : 0;
       setTimeout(() => {
          if (!instance.mouseOverTarget && !(this.mouseTrap && instance.mouseOverTooltip))
             this.dismissTooltip(instance);
@@ -95,7 +91,9 @@ export class Tooltip extends Dropdown {
    }
 
    dismissTooltip(instance) {
-      if (instance && instance.dismissTooltip && (!instance.data || !instance.data.alwaysVisible)) {
+      if (instance && instance.dismissTooltip) {
+         if (instance.data && instance.data.alwaysVisible && document.body.contains(this.relatedElement))
+            return;
          instance.dismissTooltip();
          instance.dismissTooltip = null;
       }
@@ -109,6 +107,7 @@ Tooltip.prototype.offset = 8;
 Tooltip.prototype.placementOrder = 'right up down left';
 Tooltip.prototype.animate = true;
 Tooltip.prototype.destroyDelay = 300;
+Tooltip.prototype.createDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
 Tooltip.prototype.touchFriendly = false; //rename to positioningMode
@@ -187,7 +186,7 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
                   }
                });
             }
-         }, 200);
+         }, instance.widget.createDelay);
       }
    } else {
       if (isTouchEvent() && instance.widget.touchBehavior == 'toggle') {

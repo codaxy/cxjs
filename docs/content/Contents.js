@@ -132,6 +132,11 @@ var contents = [{
         {title: 'ColorMap', url: '~/charts/color-map'},
         {title: 'Legend', url: '~/charts/legend'},
         {title: 'Gridlines', url: '~/charts/gridlines'},
+        {title: 'MouseTracker', url: '~/charts/mouse-tracker'},
+        {title: 'PointReducer', url: '~/charts/point-reducers'},
+        {title: 'ValueAtFinder', url: '~/charts/value-at-finder'},
+        {title: 'SnapPointFinder', url: '~/charts/snap-point-finder'},
+        {title: 'MinMaxFinder', url: '~/charts/min-max-finder'},
     ]
 }, {
     topic: 'Util',

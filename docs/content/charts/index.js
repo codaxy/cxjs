@@ -19,6 +19,12 @@ export * from './NumericAxis';
 export * from './CategoryAxis';
 export * from './TimeAxis';
 
+export * from './MouseTracker';
+export * from './PointReducers';
+export * from './ValueAtFinder';
+export * from './MinMaxFinder';
+export * from './SnapPointFinder';
+
 
 
 import { bumpVersion } from '../version';

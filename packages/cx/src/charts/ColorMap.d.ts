@@ -7,6 +7,7 @@ export class ColorMap extends Cx.Widget<ColorMapProps> {
 
    static Scope: ColorMapScope;
 
+   onGetCache?: string | (() => Cx.Record)
 }
 
 
