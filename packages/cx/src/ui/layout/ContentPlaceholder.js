@@ -42,6 +42,9 @@ export class ContentPlaceholder extends PureContainer {
    }
 
    setContent(context, instance, content) {
+      if (content != instance.cached.content)
+         instance.shouldUpdate = true;
+
       instance.content = content;
       if (!content.pure)
          instance.pure = false;
