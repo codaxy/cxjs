@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
+import {tooltipMouseMove, tooltipMouseLeave, tooltipParentWillUnmount} from '../widgets/overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse';
 import {closest} from '../util/DOM';
 import {Selection} from '../ui/selection/Selection';
@@ -276,5 +276,9 @@ class MarkerComponent extends VDOM.Component {
          {shapeRenderer((bounds.l + bounds.r) / 2, (bounds.t + bounds.b) / 2, data.size, shapeProps)}
          {children}
       </g>;
+   }
+
+   componentWillUnmount() {
+      tooltipParentWillUnmount(this.props.instance);
    }
 }

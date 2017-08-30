@@ -27,16 +27,14 @@ export class ValueAtFinder extends PointReducer {
    }
 
    onReduce(acc, instance) {
-      if (!acc.left || !acc.right)
-         return;
-
       let y = null;
-      if (acc.left.x == acc.right.x)
-         y = acc.left.y;
-      else if (acc.left.y != null && acc.right.y != null) {
-         y = acc.left.y + (acc.right.y - acc.left.y) * (acc.at - acc.left.x) / (acc.right.x - acc.left.x);
+      if (acc.left && acc.right) {
+         if (acc.left.x == acc.right.x)
+            y = acc.left.y;
+         else if (acc.left.y != null && acc.right.y != null) {
+            y = acc.left.y + (acc.right.y - acc.left.y) * (acc.at - acc.left.x) / (acc.right.x - acc.left.x);
+         }
       }
-
       instance.set('value', y);
    }
 }

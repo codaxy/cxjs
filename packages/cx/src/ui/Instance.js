@@ -66,8 +66,11 @@ export class Instance {
       var contextController = context.controller;
       this.parentOptions = context.parentOptions;
 
-      if (!this.controller && context.controller) {
-         this.controller = context.controller;
+      if (!this.controller) {
+         if (context.controller)
+            this.controller = context.controller;
+         else if (this.parent.controller)
+            this.controller = this.parent.controller;
       }
 
       this.destroyTracked = false;

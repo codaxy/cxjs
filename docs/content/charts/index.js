@@ -21,6 +21,9 @@ export * from './TimeAxis';
 
 export * from './MouseTracker';
 export * from './PointReducers';
+export * from './ValueAtFinder';
+export * from './MinMaxFinder';
+export * from './SnapPointFinder';
 
 
 
