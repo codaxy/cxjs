@@ -7,6 +7,7 @@ export class SnapPointFinder extends PointReducer {
          cursorY: undefined,
          snapX: undefined,
          snapY: undefined,
+         snapRecord: undefined,
          maxDistance: undefined
       })
    }
@@ -19,10 +20,8 @@ export class SnapPointFinder extends PointReducer {
       acc.snapY = null;
    }
 
-   onMap(acc, x, y, name) {
+   onMap(acc, x, y, name, p) {
       let d = null;
-
-      //console.log(acc, x, y);
 
       if (acc.cursorX != null && x != null)
          d = (d || 0) + Math.pow(Math.abs(x - acc.cursorX), 2);
@@ -34,13 +33,14 @@ export class SnapPointFinder extends PointReducer {
          acc.dist = d;
          acc.snapX = x;
          acc.snapY = y;
+         acc.snapRecord = p;
       }
    }
 
    onReduce(acc, instance) {
       instance.set('snapX', acc.snapX);
       instance.set('snapY', acc.snapY);
-      //console.log(acc);
+      instance.set('snapRecord', acc.snapRecord);
    }
 }
 

@@ -40,7 +40,7 @@ export const ValueAtFinderPage = <cx>
 
         <CodeSplit>
 
-            The `ValueAtFinder` widget is a helper widget used to read values from the graph at the given position.
+            The `ValueAtFinder` helper widget is used to read values from the graph at the given position.
             This widget is commonly used with `MouseTracker` and tooltips to enable value tooltips for line graphs.
 
             <div class="widgets" controller={ChartController}>
