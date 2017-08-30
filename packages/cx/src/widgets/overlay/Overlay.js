@@ -5,6 +5,7 @@ import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
 import {parseStyle} from '../../util/parseStyle';
 import {captureMouseOrTouch} from './captureMouse';
+import {ZIndexManager} from "../../ui/ZIndexManager";
 
 /*
  Features:
@@ -129,6 +130,8 @@ export class Overlay extends PureContainer {
    containerFactory() {
       let el = document.createElement('div');
       document.body.appendChild(el);
+      el.style.zIndex = ZIndexManager.next();
+      el.style.position = "fixed";
       if (this.containerStyle)
          Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -182,6 +185,35 @@ Overlay.prototype.containerStyle = null;
 
 Widget.alias('overlay', Overlay);
 
+class OverlayContent extends VDOM.Component {
+   render() {
+      return (
+         <div
+            ref={this.props.onRef}
+            className={this.props.className}
+            style={this.props.style}
+            tabIndex={this.props.tabIndex}
+            onFocus={this.props.onFocus}
+            onBlur={this.props.onBlur}
+            onKeyDown={this.props.onKeyDown}
+            onMouseMove={this.props.onMouseMove}
+            onMouseUp={this.props.onMouseUp}
+            onMouseDown={this.props.onMouseDown}
+            onTouchStart={this.props.onTouchStart}
+            onMouseEnter={this.props.onMouseEnter}
+            onMouseLeave={this.props.onMouseLeave}
+            onClick={this.props.onClick}
+         >
+            {this.props.children}
+         </div>
+      )
+   }
+
+   componentDidUpdate() {
+      this.props.onDidUpdate();
+   }
+}
+
 export class OverlayComponent extends VDOM.Component {
 
    constructor(props) {
@@ -205,11 +237,14 @@ export class OverlayComponent extends VDOM.Component {
       let {widget, data} = this.props.instance;
       let {CSS, baseClass} = widget;
 
+      if (!this.onOverlayRef)
+         this.onOverlayRef = el => {
+            this.el = el
+         };
+
       let content = (
-         <div
-            ref={el => {
-               this.el = el
-            }}
+         <OverlayContent
+            onRef={this.onOverlayRef}
             className={data.classNames}
             style={data.style}
             tabIndex={widget.focusable ? 0 : null}
@@ -223,12 +258,13 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={::this.onMouseEnter}
             onMouseLeave={::this.onMouseLeave}
             onClick={::this.onClick}
+            onDidUpdate={::this.overlayDidUpdate}
          >
             { widget.modal || widget.backdrop &&
             <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')}
                onClick={::this.onBackdropClick}/> }
             {this.renderOverlayBody()}
-         </div>
+         </OverlayContent>
       );
 
       let result = content;
@@ -576,13 +612,19 @@ export class OverlayComponent extends VDOM.Component {
       }));
    }
 
+   overlayDidUpdate() {
+      if (this.el) {
+         let {widget} = this.props.instance;
+         widget.overlayDidUpdate(this.props.instance, this);
+         this.el.className = this.getOverlayCssClass();
+         Object.assign(this.el.style, this.getOverlayStyle());
+      }
+   }
+
    componentDidUpdate() {
       if (this.containerEl) {
          VDOM.DOM.render(this.renderOverlay(), this.containerEl);
       }
-      let {widget} = this.props.instance;
-      widget.overlayDidUpdate(this.props.instance, this);
-      this.el.className = this.getOverlayCssClass();
-      Object.assign(this.el.style, this.getOverlayStyle());
+      this.overlayDidUpdate();
    }
 }
