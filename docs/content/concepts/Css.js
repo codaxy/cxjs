@@ -173,7 +173,7 @@ export const CssPage = <cx>
 
         ## Themes
 
-        Cx offers a couple of [themes](https://cxjs.io/themes) out of the box.
+        Cx offers a couple of [themes](https://gallery.cxjs.io) out of the box.
         In order to use a theme, install its npm package, e.g.
 
         ```
@@ -200,6 +200,8 @@ export const CssPage = <cx>
                 import "cx-theme-frost/src";
             `}</CodeSnippet>
         </CodeSplit>
+
+        For more details, check the `README.md` file that comes with every theme package.
 
 
         ## Components

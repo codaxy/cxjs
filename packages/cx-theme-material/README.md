@@ -38,5 +38,18 @@ Then, import theme styles from the package by adding the following snippet to on
 
 // add custom CSS here
 ```
+
+If you are using `cx-scaffold` to start, be sure to replace the line under the comment inside `config/webpack.config.js`:
+```
+//add here any ES6 based library
+include: /[\\\/](app|cx|cx-react)[\\\/]/,
+```
+with the following:
+```
+//add here any ES6 based library
+include: /[\\\/](app|cx|cx-react|cx-theme-material)[\\\/]/,
+```
+Finally, don't forget to add `material icons` to your project, as described [here](https://google.github.io/material-design-icons/#icon-font-for-the-web).
+
 To learn more about Cx styling and how to customize it, 
 [click here](https://cxjs.io/v/master/docs/concepts/css).
