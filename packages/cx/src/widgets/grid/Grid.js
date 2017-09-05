@@ -473,13 +473,22 @@ export class Grid extends Widget {
    renderGroupFooter(context, instance, g, level, group, i, store) {
       let {CSS, baseClass} = this;
       let data = store.getData();
+      let skip = 0;
       return <tbody key={'f' + i} className={CSS.element(baseClass, 'group-footer', ['level-' + level])}>
       <tr>
          {
             instance.columns.map((ci, i) => {
-               let v, c = ci.widget;
-               if (c.footer)
-                  v = c.footer(data);
+               if (--skip >= 0)
+                  return null;
+
+               let v, c = ci.widget, colSpan, pad;
+               if (c.footer) {
+                  v = c.footer.value(data);
+                  pad = c.footer.pad;
+                  colSpan = c.footer.colSpan;
+                  if (colSpan > 1)
+                     skip = colSpan - 1;
+               }
                else if (c.aggregate && c.aggregateField) {
                   v = group[c.aggregateField];
                   if (isString(ci.data.format))
@@ -489,7 +498,17 @@ export class Grid extends Widget {
                let cls = '';
                if (c.align)
                   cls += CSS.state('aligned-' + c.align);
-               return <td key={i} className={cls}>{v}</td>;
+
+               if (pad !== false)
+                  cls += ' ' + CSS.state('pad');
+
+               return <td
+                  key={i}
+                  className={cls}
+                  colSpan={colSpan}
+               >
+                  {v}
+               </td>;
             })
          }
       </tr>
@@ -1169,8 +1188,15 @@ class GridColumn extends PureContainer {
       if (!this.aggregateField && this.field)
          this.aggregateField = this.field;
 
-      if (this.footer != null)
-         this.footer = getSelector(this.footer);
+      if (this.footer && isSelector(this.footer))
+         this.footer = {
+            value: this.footer,
+            pad: this.pad,
+            format: this.format
+         };
+
+      if (this.footer)
+         this.footer.value = getSelector(this.footer.value);
 
       super.init();
    }

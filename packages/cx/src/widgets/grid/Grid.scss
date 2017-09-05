@@ -321,7 +321,10 @@
 
       td {
          border-top: 1px solid $cx-default-grid-border-color;
-         padding: 5px;
+
+         &.#{$state}pad {
+            padding: cx-get-state-rule($data-state-style-map, default, padding);
+         }
       }
 
       &.#{$state}level-2 {
