@@ -96,13 +96,14 @@
 
    .#{$element}#{$name}-col-header {
       text-align: left;
-      padding: 5px;
+      padding: cx-get-state-rule($data-state-style-map, default, padding);
       box-sizing: border-box;
       position: relative;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       -webkit-user-select: none;
 
       @include cx-add-state-rules($header-state-style-map, default);
+
 
       .#{$state}header-default & {
          border-width: 1px;
@@ -282,7 +283,7 @@
       font-size: 115%;
 
       td {
-         padding: 5px;
+         padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
       &:not(:first-child) {
@@ -356,22 +357,9 @@
    }
 
    &.#{$state}border {
-
       table {
          border: 1px solid $cx-default-grid-border-color;
       }
-      //th, td {
-      //   //border: 1px solid $cx-default-grid-border-color;
-      //}
-      //
-      //th {
-      //   border: 1px solid $cx-default-grid-border-color;
-      //   background: $cx-default-grid-header-background-color;
-      //}
-      //
-      //.#{$element}#{$name}-group-footer td, & .#{$element}#{$name}-group-caption td {
-      //   border: none;
-      //}
    }
 
    &.#{$state}vlines {
