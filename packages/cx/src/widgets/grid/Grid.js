@@ -486,6 +486,13 @@ export class Grid extends Widget {
                   v = c.footer.value(data);
                   pad = c.footer.pad;
                   colSpan = c.footer.colSpan;
+
+                  if (c.footer.expand) {
+                     colSpan = 1;
+                     for (let ind = i + 1; ind < instance.columns.length && !instance.columns[ind].widget.footer && !instance.columns[ind].widget.aggregate; ind++)
+                        colSpan++;
+                  }
+
                   if (colSpan > 1)
                      skip = colSpan - 1;
                }
@@ -500,7 +507,7 @@ export class Grid extends Widget {
                   cls += CSS.state('aligned-' + c.align);
 
                if (pad !== false)
-                  cls += ' ' + CSS.state('pad');
+                  cls += (cls ? ' ' : '') + CSS.state('pad');
 
                return <td
                   key={i}
