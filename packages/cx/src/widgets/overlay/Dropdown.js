@@ -149,7 +149,7 @@ export class Dropdown extends Overlay {
       switch (placement) {
          case 'down':
          case 'down-center':
-            style.top = `${rel.bottom + this.offset}px`;
+            style.top = this.cover ? `${rel.top - this.offset}px` : `${rel.bottom + this.offset}px`;
             style.right = 'auto';
             style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
                ? pad
@@ -158,7 +158,7 @@ export class Dropdown extends Overlay {
             break;
 
          case 'down-right':
-            style.top = `${rel.bottom + this.offset}px`;
+            style.top = this.cover ? `${rel.top - this.offset}px` : `${rel.bottom + this.offset}px`;
             style.right = 'auto';
             style.left = `${rel.left}px`;
             style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
@@ -167,7 +167,7 @@ export class Dropdown extends Overlay {
             break;
 
          case 'down-left':
-            style.top = `${rel.bottom + this.offset}px`;
+            style.top = this.cover ? `${rel.top - this.offset}px` : `${rel.bottom + this.offset}px`;
             style.right = `${document.documentElement.offsetWidth - rel.right}px`;
             style.bottom = this.constrain && (rel.bottom + this.offset + contentSize.height > viewport.bottom)
                ? pad
@@ -525,6 +525,7 @@ Dropdown.prototype.elementExplode = 0;
 Dropdown.prototype.screenPadding = 5;
 Dropdown.prototype.firstChildDefinesHeight = false;
 Dropdown.prototype.firstChildDefinesWidth = false;
+Dropdown.prototype.cover = false;
 
 Widget.alias('dropdown', Dropdown);
 Localization.registerPrototype('cx/widgets/Dropdown', Dropdown);

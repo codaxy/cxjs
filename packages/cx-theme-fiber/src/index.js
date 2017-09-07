@@ -38,6 +38,32 @@ export function applyThemeOverrides() {
       showBorder: true
    });
 
+   Localization.override('cx/widgets/LookupField', {
+      dropdownOptions: {
+         cover: true
+      }
+   });
+
+   Localization.override('cx/widgets/DateTimeField', {
+      dropdownOptions: {
+         cover: true
+      }
+   });
+
+
+
+   Localization.override('cx/widgets/ColorField', {
+      dropdownOptions: {
+         cover: true
+      }
+   });
+
+   Localization.override('cx/widgets/MonthField', {
+      dropdownOptions: {
+         cover: true
+      }
+   });
+
 
    // material icons added
    Icon.registerFactory((name, props) => {

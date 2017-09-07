@@ -33,8 +33,8 @@ $cx-theme-danger-color: #F44336 !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
 // shadows
-$cx-theme-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.14) !default;
-$cx-theme-box-shadow-elevated: 0 4px 34px rgba(0, 0, 0, 0.2) !default;
+$cx-theme-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) !default;
+$cx-theme-box-shadow-elevated: 0 2px 20px rgba(0, 0, 0, 0.2) !default;
 
 // pick theme size
 $normal-base-size: 14px !default;
@@ -44,17 +44,17 @@ $cx-theme-base-size: $normal-base-size !default;
 //GLOBAL VARIABLES
 $cx-default-container-padding: 5px !default;
 
-$cx-default-font-family: 'Montserrat', 'Roboto', 'Open Sans', sans-serif !default;
+$cx-default-font-family: 'Open Sans', 'Roboto', 'Open Sans', sans-serif !default;
 $cx-default-color: rgba(0, 0, 0, 0.7) !default;
 $cx-default-color-light: rgba($cx-default-color, 0.6) !default;
-$cx-default-font-weight: 500 !default;
+$cx-default-font-weight: 400 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
 
 $cx-default-background-color: #fff !default;
 
 $cx-default-border-color: #d3d8d6 !default;
 $cx-default-border-color-light: lighten($cx-default-border-color, 10) !default;
-$cx-default-border-radius: 6px !default;
+$cx-default-border-radius: 4px !default;
 
 $cx-default-box-font-size: 14px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
@@ -152,7 +152,7 @@ $cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !de
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
-$cx-default-input-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.01), 0 2px 0 rgba(0, 0, 0, 0.02), 0 3px 0 rgba(0, 0, 0, 0.02), 0 4px 0 rgba(0, 0, 0, 0.01) !default;
+$cx-default-input-box-shadow: 0px 1px 2px $cx-default-input-border-color !default;
 $cx-theme-input-padding: $cx-default-box-padding - 1px $cx-default-box-padding !default;
 
 // label
@@ -177,7 +177,7 @@ $cx-default-calendar-header-color: $cx-default-color !default;
 $cx-default-calendar-header-background-color: $cx-default-background-color !default;
 
 $cx-default-calendar-day-font-size: 11px !default;
-$cx-default-calendar-day-border-radius: 999px !default;
+$cx-default-calendar-day-border-radius: $cx-default-border-radius !default;
 
 // checkbox
 $cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
@@ -192,7 +192,7 @@ $cx-default-radio-border-color: $cx-default-border-color !default;
 
 // lookupfield tag
 $cx-default-input-tag-font-size: 12px !default;
-$cx-default-input-tag-border-radius: 20px !default;
+$cx-default-input-tag-border-radius: $cx-default-border-radius !default;
 $cx-default-input-tag-spacing: 4px !default;
 
 // colorpicker
@@ -209,12 +209,13 @@ $cx-default-slider-handle-size: 16px !default;
 $cx-default-slider-handle-background-color: $cx-theme-primary-color-light !default;
 $cx-default-slider-handle-border-width: 0 !default;
 $cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
-$cx-default-slider-handle-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.34) !default;
+$cx-default-slider-handle-box-shadow: $cx-theme-box-shadow !default;
 
 // switch
-$cx-default-switch-axis-size: $cx-default-box-padding*3 - 1px !default;
+$cx-default-switch-axis-size: 24px !default;
 $cx-default-switch-axis-background-color: $cx-default-border-color-light !default;
 $cx-default-switch-handle-size: 20px !default;
+$cx-default-switch-width: 40px !default;
 $cx-default-switch-range-background-color: $cx-theme-primary-color-light !default;
 $cx-default-switch-handle-background-color: #fff !default;
 $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
@@ -737,7 +738,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
       background-color: #fff,
       border-radius: $cx-default-border-radius,
       border-width: 1px,
-      box-shadow: 0px 2px 0px $cx-default-input-border-color,
+      box-shadow: $cx-default-input-box-shadow,
       transition: $cx-default-transition
    ),
    hover: (
@@ -778,6 +779,9 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
 
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+   default: (
+      padding: 5px
+   ),
    focus: (
       box-shadow: $cx-default-calendar-box-shadow,
       border-color: transparent
@@ -804,10 +808,12 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
    selected: (
       background-color: $cx-theme-primary-color,
       color: #fff,
-      box-shadow: $cx-theme-box-shadow-elevated
+      box-shadow: $cx-theme-box-shadow
    ),
    selected-focus: (
-      background-color: $cx-theme-primary-color-light
+      background-color: $cx-theme-primary-color-light,
+      box-shadow: $cx-theme-box-shadow-elevated
+
    )
 ));
 
@@ -816,7 +822,7 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state
    default: (
       border-color: transparent,
       background-color: rgba($cx-theme-primary-color-light, 0.3),
-      box-shadow: $cx-theme-box-shadow,
+      box-shadow: $cx-default-input-box-shadow,
       border-radius: $cx-default-border-radius
    ),
    active: (
@@ -904,13 +910,16 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
       border-color: $cx-theme-primary-color-dark
    ),
    focus: (
-      box-shadow: none,
+      box-shadow: $cx-theme-box-shadow-elevated,
       background-color: $cx-theme-primary-color-dark
    )
 ));
 
 // switch
 $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
+   default: (
+      box-shadow: none
+   ),
    hover: (
       box-shadow: $cx-theme-box-shadow
    ),
@@ -919,7 +928,7 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
       border-color: transparent
    ),
    focus: (
-      box-shadow: $cx-theme-box-shadow,
+      box-shadow: $cx-theme-box-shadow-elevated,
       border-color: transparent
    ),
    on: (

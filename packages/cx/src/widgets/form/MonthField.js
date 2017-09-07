@@ -237,6 +237,7 @@ class MonthInput extends VDOM.Component {
          return this.dropdown;
 
       var dropdown = {
+         ...this.props.instance.widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,

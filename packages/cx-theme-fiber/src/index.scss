@@ -158,11 +158,21 @@ $form-list: (
 
 // calendar
 .#{$block}calendar {
+
+   td {
+      border-radius: $cx-default-border-radius;
+   }
+
    .#{$element}calendar-day-names {
       // background-color: $cx-theme-primary-color;
       color: $cx-theme-primary-color-dark;
       
       th {
+         font-size: 11px;
+         text-transform: uppercase;
+         font-weight: bold;
+
+
         // border-style: solid;
         // border-width: 1px 0;
         // border-color: $cx-default-border-color;
@@ -173,9 +183,9 @@ $form-list: (
 		filter: blur(1.5px);
 		border-radius: 0;
 
-		&.#{$state}selected {
-			border-radius: 50%;
-		}
+		//&.#{$state}selected {
+		//	border-radius: $cx-default-border-radius;
+		//}
 	}
 }
 
@@ -221,6 +231,12 @@ $checkbox-padding-correction: 2px !default;
 .#{$element}slider-handle {
 //   box-shadow: $cx-theme-box-shadow;
 }
+
+// switch focus effect
+.#{$element}switch-axis {
+   border: 1px solid $cx-default-input-border-color;
+}
+
 
 // switch focus effect
 .#{$element}switch-handle {
