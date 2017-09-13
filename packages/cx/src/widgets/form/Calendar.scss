@@ -50,7 +50,7 @@
         font-weight: cx-get-state-rule($state-style-map, header, font-weight);
       }
 
-      td {
+      tbody td {
         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
         user-select: none;
       }
