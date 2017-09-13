@@ -151,6 +151,7 @@ $cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !de
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size - 1px !default;
+$cx-default-input-width: 200px;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
 $cx-default-input-box-shadow: 0px 1px 2px $cx-default-input-border-color !default;
 $cx-theme-input-padding: $cx-default-box-padding - 1px $cx-default-box-padding !default;

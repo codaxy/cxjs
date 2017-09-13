@@ -179,21 +179,21 @@ export class Dropdown extends Overlay {
          case 'up-center':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - (this.cover ? rel.bottom - this.offset : rel.top + this.offset)}px`;
             style.left = `${Math.round((rel.left + rel.right - el.offsetWidth) / 2)}px`;
             break;
 
          case 'up-right':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = 'auto';
-            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - (this.cover ? rel.bottom - this.offset : rel.top + this.offset)}px`;
             style.left = `${rel.left}px`;
             break;
 
          case 'up-left':
             style.top = this.constrain && (rel.top - this.offset - contentSize.height < viewport.top) ? pad : 'auto';
             style.right = `${document.documentElement.offsetWidth - rel.right}px`;
-            style.bottom = `${document.documentElement.offsetHeight - rel.top + this.offset}px`;
+            style.bottom = `${document.documentElement.offsetHeight - (this.cover ? rel.bottom - this.offset : rel.top + this.offset)}px`;
             style.left = 'auto';
             break;
 

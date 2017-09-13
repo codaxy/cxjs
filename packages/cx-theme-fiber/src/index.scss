@@ -503,3 +503,19 @@ div.#{$block}classic-tab-container {
 .cxs-vertical > .cxe-menuitem-arrow {
   transform-origin: 6px; //TODO
 }
+
+.cxb-dropdown {
+   animation: drop-appear 0.1s;
+}
+
+@keyframes drop-appear {
+   from {
+      transform: translateY(-30px);
+      opacity: 0;
+   }
+
+   to {
+      transform: none;
+      opacity: 1;
+   }
+}
