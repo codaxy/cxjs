@@ -10,7 +10,10 @@ export function createStructuredSelector(selector, constants) {
       for (i = 0; i < keys.length; i++) {
          k = keys[i];
          v = selector[k](data);
-         if (result == lastResult && v !== lastResult[k]) {
+         if (result === lastResult) {
+            if (v === lastResult[k])
+               continue;
+
             result = Object.assign({}, constants);
             for (j = 0; j < i; j++)
                result[keys[j]] = lastResult[keys[j]];
