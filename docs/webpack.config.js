@@ -163,10 +163,10 @@ var common = {
         path: __dirname,
         filename: "[name].js"
     },
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    },
+    // externals: {
+    //     "react": "React",
+    //     "react-dom": "ReactDOM"
+    // },
     plugins: [
         // new webpack.optimize.CommonsChunkPlugin({
         //     names: ["vendor", "manifest"],
