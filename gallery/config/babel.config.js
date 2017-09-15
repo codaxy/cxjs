@@ -2,7 +2,9 @@ module.exports = {
    cacheDirectory: true,
    cacheIdentifier: "v1",
    presets: [
-      ["cx-env", {
+      //"typescript",
+      [
+         "cx-env", {
          targets: {
             chrome: 50,
             ie: 11,
@@ -12,7 +14,7 @@ module.exports = {
          },
          modules: false,
          loose: true,
-         useBuiltIns: true,
+         useBuiltIns: "entry",
          cx: {
             imports: {
                useSrc: true
