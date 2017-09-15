@@ -10,7 +10,7 @@ module.exports = function (options) {
             ["env", {
                 loose: true,
                 modules: false,
-                useBuiltIns: true,
+                useBuiltIns: "entry",
                 targets: {
                     chrome: 45,
                     ie: 11,

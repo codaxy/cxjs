@@ -3,13 +3,13 @@ var babelHelpers = {};
 babelHelpers.typeof =
     typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
         ? function (obj) {
-        return typeof obj;
-    }
+            return typeof obj;
+        }
         : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype
-            ? "symbol"
-            : typeof obj;
-    };
+            return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype
+                ? "symbol"
+                : typeof obj;
+        };
 
 babelHelpers.classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -32,6 +32,12 @@ babelHelpers.extends =
 
         return target;
     };
+
+babelHelpers.inheritsLoose = function (subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    subClass.__proto__ = superClass;
+}
 
 babelHelpers.inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -58,7 +64,7 @@ babelHelpers.possibleConstructorReturn = function (self, call) {
     return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-babelHelpers.createClass = (function() {
+babelHelpers.createClass = (function () {
     function defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
@@ -69,7 +75,7 @@ babelHelpers.createClass = (function() {
         }
     }
 
-    return function(Constructor, protoProps, staticProps) {
+    return function (Constructor, protoProps, staticProps) {
         if (protoProps) defineProperties(Constructor.prototype, protoProps);
         if (staticProps) defineProperties(Constructor, staticProps);
         return Constructor;
