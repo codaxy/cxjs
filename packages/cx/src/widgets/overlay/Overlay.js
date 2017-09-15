@@ -185,6 +185,8 @@ Overlay.prototype.containerStyle = null;
 
 Widget.alias('overlay', Overlay);
 
+
+//TODO: all el related logic should be moved here
 class OverlayContent extends VDOM.Component {
    render() {
       return (
@@ -214,6 +216,7 @@ class OverlayContent extends VDOM.Component {
    }
 }
 
+//TODO: This should be called OverlayPortal
 export class OverlayComponent extends VDOM.Component {
 
    constructor(props) {
@@ -229,7 +232,16 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.inline || parentEl)
          return this.renderOverlay();
 
-      return null;
+      if (!this.containerEl) {
+         this.ownedEl = widget.containerFactory();
+         this.ownedEl.style.display = 'hidden';
+         this.containerEl = this.ownedEl;
+      }
+
+      if (VDOM.DOM.createPortal)
+         return VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl);
+
+      VDOM.DOM.render(this.renderOverlay(), this.containerEl);
    }
 
    renderOverlay() {
@@ -501,14 +513,8 @@ export class OverlayComponent extends VDOM.Component {
    componentDidMount() {
       let {instance, subscribeToBeforeDismiss, parentEl} = this.props;
       let {widget} = instance;
-      if (!parentEl && !widget.inline) {
-         this.ownedEl = widget.containerFactory();
-         this.ownedEl.style.display = 'hidden';
-         this.containerEl = this.ownedEl;
-      }
 
       this.componentDidUpdate();
-
       widget.overlayDidMount(instance, this);
 
       if (this.containerEl)
@@ -623,9 +629,6 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      if (this.containerEl) {
-         VDOM.DOM.render(this.renderOverlay(), this.containerEl);
-      }
       this.overlayDidUpdate();
    }
 }
