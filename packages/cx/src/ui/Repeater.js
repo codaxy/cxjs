@@ -69,7 +69,7 @@ export class Repeater extends PureContainer {
          if (this.cached && subInstance.cached && subInstance.cached.record && subInstance.cached.record.data == record.data && !subInstance.childStateDirty) {
             instances.push(subInstance);
             subInstance.shouldUpdate = false;
-         } else if (subInstance.explore(context))
+         } else if (subInstance.checkVisible(context))
             instances.push(subInstance);
       });
       instance.instances = instances;

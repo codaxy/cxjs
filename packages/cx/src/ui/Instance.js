@@ -48,20 +48,26 @@ export class Instance {
       this.initialized = true;
    }
 
-   explore(context) {
-
+   checkVisible(context) {
       if (!this.initialized)
          this.init(context);
 
-      var data = this.dataSelector(this.store.getData());
-      var wasVisible = this.visible;
-      this.visible = this.widget.checkVisible(context, this, data);
+      let wasVisible = this.visible;
+      this.rawData = this.dataSelector(this.store.getData());
+      this.visible = this.widget.checkVisible(context, this, this.rawData);
 
-      if (!this.visible) {
-         if (wasVisible)
-            this.destroy();
-         return false;
-      }
+      if (this.visible)
+         context.exploreStack.push(this);
+      else if (wasVisible)
+         this.destroy();
+
+      return this.visible;
+   }
+
+   explore(context) {
+
+      if (!this.visible)
+         return;
 
       if (this.instanceCache)
          this.instanceCache.mark();
@@ -92,7 +98,6 @@ export class Instance {
          this.trackDestroy();
 
       this.pure = this.widget.pure;
-      this.rawData = data;
 
       this.shouldUpdate = this.rawData !== this.cached.rawData
          || this.cached.state !== this.state
@@ -119,7 +124,7 @@ export class Instance {
          }
       }
 
-      this.widget.explore(context, this, data);
+      this.widget.explore(context, this, this.data);
 
       if (this.widget.onExplore)
          this.widget.onExplore(context, this);
@@ -143,7 +148,7 @@ export class Instance {
             context.content = {};
          var body = context.content['body'];
          context.content['body'] = this;
-         this.outerLayout.explore(context);
+         this.outerLayout.checkVisible(context);
          if (this.outerLayout.shouldUpdate)
             this.shouldUpdate = true;
          context.content['body'] = body;
@@ -156,8 +161,6 @@ export class Instance {
 
       if (!this.pure)
          this.parent.pure = false;
-
-      return true;
    }
 
    prepare(context) {

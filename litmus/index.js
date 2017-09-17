@@ -14,7 +14,7 @@ import './index.scss';
 // import Demo from './sections/ComplexGrid';
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
-// import Demo from './performance/LongList';
+import Demo from './performance/LongList';
 //
 //
 //import Demo from './bugs/236';

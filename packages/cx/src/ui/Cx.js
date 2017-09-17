@@ -114,7 +114,11 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
-         visible = instance.explore(context);
+         visible = instance.checkVisible(context);
+         while (context.exploreStack.length > 0) {
+            let inst = context.exploreStack.pop();
+            inst.explore(context);
+         }
       }
       while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 

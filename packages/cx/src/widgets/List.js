@@ -99,7 +99,7 @@ export class List extends Widget {
             if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
-            } else if (itemInstance.explore(context))
+            } else if (itemInstance.checkVisible(context))
                instances.push(itemInstance);
 
             var selected = isSelected(record.data, record.index);
@@ -111,13 +111,13 @@ export class List extends Widget {
          else if (record.type == 'group-header' && record.grouping.header) {
             var itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.explore(context))
+            if (itemInstance.checkVisible(context))
                instances.push(itemInstance);
          }
          else if (record.type == 'group-footer' && record.grouping.footer) {
             var itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.explore(context))
+            if (itemInstance.checkVisible(context))
                instances.push(itemInstance);
          }
       });

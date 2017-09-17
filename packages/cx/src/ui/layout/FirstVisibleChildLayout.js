@@ -18,7 +18,8 @@ export class FirstVisibleChildLayout extends Layout {
       let identical = !instance.shouldUpdate && instance.cached.children != null;
       for (let i = 0; i < items.length; i++) {
          let x = instance.getChild(context, items[i]);
-         x.explore(context);
+         if (!x.checkVisible(context))
+            continue;
          if (this.checkVisible(x)) {
             if (identical && instance.cached.children[instance.children.length] !== x)
                identical = false;

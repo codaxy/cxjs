@@ -7,7 +7,7 @@ export function exploreChildren(context, instance, children, previousResult, key
       let cell = instance.getChild(context, children[c], key, store);
       if (beforeCallback)
          beforeCallback(cell);
-      if (cell.explore(context)) {
+      if (cell.checkVisible(context)) {
          if (identical >= 0) {
             if (cell == oldChildren[identical])
                identical++;
