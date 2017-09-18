@@ -64,7 +64,7 @@ export class View {
 
    silently(callback: () => void): boolean;
 
-   notify(path: string);
+   notify(path?: string);
 
    subscribe(callback: (changes?) => void);
 

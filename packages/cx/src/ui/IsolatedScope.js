@@ -1,5 +1,8 @@
 import {PureContainer} from "./PureContainer";
 import {isArray} from '../util/isArray';
+import {SubscribableView} from '../data/SubscribableView';
+
+class ContainmentStore extends SubscribableView {}
 
 export class IsolatedScope extends PureContainer {
 
@@ -39,3 +42,5 @@ export class IsolatedScope extends PureContainer {
       }
    }
 }
+
+IsolatedScope.prototype.sealed = false;
