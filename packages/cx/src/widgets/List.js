@@ -105,7 +105,7 @@ export class List extends Widget {
             var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
             itemInstance.record = record;
 
-            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data) {
+            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
             } else if (itemInstance.explore(context))

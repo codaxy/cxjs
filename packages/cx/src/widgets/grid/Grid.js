@@ -221,7 +221,7 @@ export class Grid extends Widget {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
                wasSelected = row.selected;
                row.selected = instance.isSelected(record.data, record.index);
-               if (this.cached && row.cached && row.cached.record && row.cached.record.data == record.data) {
+               if (this.cached && row.cached && row.cached.record && row.cached.record.data == record.data && !row.childStateDirty) {
                   row.shouldUpdate = false;
                } else {
                   context.dragHandles = [];
