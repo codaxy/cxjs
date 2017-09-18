@@ -166,10 +166,14 @@ export class HtmlElement extends PureContainer {
       let {data, events, shouldUpdate} = instance;
 
       let props = Object.assign({
-         key: key,
-         className: data.classNames,
-         style: data.style
+         key: key
       }, data.attrs, events);
+
+      if (data.classNames)
+         props.className = data.classNames;
+
+      if (data.style)
+         props.style = data.style;
 
       let children;
       if (isDefined(data.text))
