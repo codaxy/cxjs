@@ -24,31 +24,31 @@ export const DetachedScopePage = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <IsolatedScope bind="$page.scope1">
+                <DetachedScope bind="$page.scope1">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 1
                     </div>
-                </IsolatedScope>
+                </DetachedScope>
 
-                <IsolatedScope bind="$page.scope2">
+                <DetachedScope bind="$page.scope2">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 2
                     </div>
-                </IsolatedScope>
+                </DetachedScope>
             </div>
 
             <CodeSnippet putInto="code">{`
-                <IsolatedScope bind="$page.scope1">
+                <DetachedScope bind="$page.scope1">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 1
                     </div>
-                </IsolatedScope>
+                </DetachedScope>
 
-                <IsolatedScope bind="$page.scope2">
+                <DetachedScope bind="$page.scope2">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 2
                     </div>
-                </IsolatedScope>
+                </DetachedScope>
             `}</CodeSnippet>
         </CodeSplit>
 
