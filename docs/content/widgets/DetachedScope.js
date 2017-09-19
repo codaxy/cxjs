@@ -15,8 +15,8 @@ export const DetachedScopePage = <cx>
 
         <ImportPath path="import {DetachedScope} from 'cx/widgets';"/>
 
-        The `DetachedScope` is a component used exclusively to improve performance by detaching
-        certain areas from the rest of the page. Detached content render in their own render cycles and use
+        `DetachedScope` is a component used exclusively to improve performance by detaching
+        certain areas from the rest of the page. Detached contents render in their own render loop and use
         a data declaration which explains which changes can go in or out. This is commonly used to ensure optimal performance
         with rich popups, grids, charts and other interactive structures that might be negatively affected by
         other "heavy" elements visible on the page.
