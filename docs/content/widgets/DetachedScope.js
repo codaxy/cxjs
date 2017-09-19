@@ -1,5 +1,4 @@
-import {HtmlElement, IsolatedScope, TextField} from 'cx/widgets';
-import {LabelsLeftLayout} from 'cx/ui';
+import {HtmlElement, DetachedScope} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
