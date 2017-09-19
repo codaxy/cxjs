@@ -2,6 +2,8 @@ import {Binding} from './Binding';
 import {Expression} from './Expression';
 import {StringTemplate} from './StringTemplate';
 import {isArray} from '../util/isArray';
+import {createStructuredSelector} from './createStructuredSelector';
+import {isSelector} from './isSelector';
 
 var nullF = () => null;
 
@@ -27,7 +29,16 @@ export function getSelector(config) {
          if (config.expr)
             return Expression.get(config.expr);
 
-         break;
+         let selectors = {};
+         let constants = {};
+
+         for (let key in config) {
+            if (isSelector(config[key]))
+               selectors[key] = getSelector(config[key]);
+            else
+               constants[key] = config[key];
+         }
+         return createStructuredSelector(selectors, constants);
 
       case 'function':
          return config;

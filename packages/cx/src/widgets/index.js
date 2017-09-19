@@ -3,6 +3,7 @@ import {Text} from '../ui/Text';
 import {StaticText} from '../ui/StaticText';
 import {PureContainer} from '../ui/PureContainer';
 import {IsolatedScope} from '../ui/IsolatedScope';
+import {DetachedScope} from '../ui/DetachedScope';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
@@ -20,7 +21,8 @@ export {
    ContentResolver,
    Rescope,
    Repeater,
-   IsolatedScope
+   IsolatedScope,
+   DetachedScope
 };
 
 export * from './cx';

@@ -37,6 +37,7 @@ export * from './Toasts';
 export * from './Icons';
 export * from './Switches';
 export * from './IsolatedScope';
+export * from './DetachedScope';
 export * from './DateTimeFields';
 export * from './ContentResolvers';
 export * from './Hscrollers';

@@ -87,6 +87,7 @@ var contents = [{
         {title: 'Icon', url: '~/widgets/icons'},
         {title: 'PureContainer', url: '~/widgets/pure-container'},
         {title: 'IsolatedScope', url: '~/widgets/isolated-scope'},
+        {title: 'DetachedScope', url: '~/widgets/detached-scope'},
         {title: 'ContentResolver', url: '~/widgets/content-resolvers'},
 
     ]

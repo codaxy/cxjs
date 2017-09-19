@@ -3,6 +3,12 @@ import {isArray} from '../util/isArray';
 
 export class IsolatedScope extends PureContainer {
 
+   declareData() {
+      return super.declareData(...arguments, {
+         data: {structured: true}
+      })
+   }
+
    init() {
       if (typeof this.bind === 'string')
          this.data = {bind: this.bind};
@@ -15,11 +21,6 @@ export class IsolatedScope extends PureContainer {
       super.init();
    }
 
-   declareData() {
-      return super.declareData({
-         data: {structured: true}
-      })
-   }
 
    explore(context, instance) {
       if (instance.shouldUpdate) {
