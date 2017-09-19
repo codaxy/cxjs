@@ -8,6 +8,7 @@ import {ContentResolver} from '../ui/ContentResolver';
 import {Rescope} from '../ui/Rescope';
 import {Repeater} from '../ui/Repeater';
 import {IsolatedScope} from '../ui/IsolatedScope';
+import {DetachedScope} from '../ui/DetachedScope';
 
 //re-export widgets defined in ui namespace
 export {
@@ -20,7 +21,8 @@ export {
    ContentResolver,
    Rescope,
    Repeater,
-   IsolatedScope
+   IsolatedScope,
+   DetachedScope
 };
 
 export * from './cx';

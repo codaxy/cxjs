@@ -1,10 +1,13 @@
 import {PureContainer} from "./PureContainer";
 import {isArray} from '../util/isArray';
-import {SubscribableView} from '../data/SubscribableView';
-
-class ContainmentStore extends SubscribableView {}
 
 export class IsolatedScope extends PureContainer {
+
+   declareData() {
+      return super.declareData(...arguments, {
+         data: {structured: true}
+      })
+   }
 
    init() {
       if (typeof this.bind === 'string')
@@ -18,11 +21,6 @@ export class IsolatedScope extends PureContainer {
       super.init();
    }
 
-   declareData() {
-      return super.declareData({
-         data: {structured: true}
-      })
-   }
 
    explore(context, instance) {
       if (instance.shouldUpdate) {
@@ -42,5 +40,3 @@ export class IsolatedScope extends PureContainer {
       }
    }
 }
-
-IsolatedScope.prototype.sealed = false;
