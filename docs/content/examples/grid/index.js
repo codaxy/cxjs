@@ -8,3 +8,4 @@ export * from './TreeGrid';
 export * from './Pagination';
 export * from './ComplexHeaders';
 export * from './Buffering';
+export * from './InfiniteScrolling';
