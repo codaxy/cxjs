@@ -628,6 +628,11 @@ class GridComponent extends VDOM.Component {
          end: widget.bufferSize
       };
 
+      if (widget.bufferedLoading) {
+         this.start = 0;
+         this.end = widget.bufferSize;
+      }
+
       this.scrollerRef = el => { this.dom.scroller = el; }
    }
 
@@ -637,6 +642,11 @@ class GridComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
       let {dragged, start, end, cursor} = this.state;
+
+      if (widget.bufferedLoading) {
+         start = this.start;
+         end = this.end;
+      }
 
       let children = [];
 
@@ -674,13 +684,13 @@ class GridComponent extends VDOM.Component {
          let context = new RenderingContext();
          this.getRecordsSlice(start, end).forEach((r, i) => {
             if (r == null) {
-               addRow({row: {data: {}, shouldUpdate: true},
+               addRow({row: {data: {}},
                   vdom: <tr>
-                     <td colSpan={1000}>&nbsp;</td>
+                     <td colSpan={1000} style={{ height: this.rowHeight }}>&nbsp;</td>
                   </tr>
                }, start + i)
             } else {
-               let record = instance.records ? r : widget.mapRecord(context, instance, r, start + i);
+               let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.bufferedLoading ? i : start + i);
                let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
                let wasSelected = row.selected;
                record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row, { name: 'grid-row'});
@@ -803,8 +813,6 @@ class GridComponent extends VDOM.Component {
          return source.slice(start, end);
       }
 
-      instance.set('loadingOffset', start);
-
       let {offset, records} = data;
       let result = [];
       for (let i = start; i < end; i++) {
@@ -813,6 +821,7 @@ class GridComponent extends VDOM.Component {
          else
             result.push(null);
       }
+
       return result;
    }
 
@@ -821,18 +830,27 @@ class GridComponent extends VDOM.Component {
          this.dom.fixedHeader.scrollLeft = this.dom.scroller.scrollLeft;
       }
 
-      let {widget, data} = this.props.instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
       if (widget.buffered && this.rowHeight > 0 && !this.pending) {
          let start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
          start = Math.round(start / widget.bufferStep) * widget.bufferStep;
          start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          let end = start + widget.bufferSize;
-         if (this.state.end != end) {
-            this.pending = true;
-            this.setState({start, end}, () => {
-               this.pending = false;
-               setTimeout(::this.onScroll, 0);
-            });
+         console.log("SCROLL", start, end);
+
+         if (widget.bufferedLoading) {
+            instance.set('loadingOffset', start);
+            this.start = start;
+            this.end = end;
+         } else {
+            if (this.state.end != end) {
+               this.pending = true;
+               this.setState({start, end}, () => {
+                  this.pending = false;
+                  setTimeout(::this.onScroll, 0);
+               });
+            }
          }
       }
    }
@@ -1039,6 +1057,10 @@ class GridComponent extends VDOM.Component {
                this.dom.scroller.scrollTop = 0;
             } else {
                rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
+               if (this.rowHeight && this.rowHeight != rowHeight) {
+                  console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
+                  rowHeight = this.rowHeight;
+               }
                let remaining = Math.max(0, data.totalRecordCount - this.state.end);
                this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
             }
