@@ -97,7 +97,7 @@ $form-list: (
       position: absolute;
       top: 0;
       left: 0;
-      transition: margin-left 0.2s linear, margin-top 0.2s linear, font-size 0.2s linear;
+      transition: margin-left 0.2s linear, margin-top 0.2s linear,  font-size 0.2s linear;
       color: $cx-default-input-placeholder-color;
       font-size: $cx-default-input-font-size;
       pointer-events: none;
