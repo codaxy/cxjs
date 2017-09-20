@@ -174,7 +174,7 @@ declare global {
 }
 
 declare module "react" {
-   interface HTMLProps<T> extends Cx.PureContainerProps {
+   interface ClassAttributes<T> extends Cx.PureContainerProps {
       class?: Cx.ClassProp,
       styles?: Cx.StyleProp,
       text?: Cx.StringProp,
@@ -184,7 +184,7 @@ declare module "react" {
    }
 
    //this doesn't work, however, it would be nice if it does
-   interface EventHandler<E extends React.SyntheticEvent<any>> {
-      (event: E, instance?: any): void;
-   }
+   // interface EventHandler<E extends React.SyntheticEvent<any>> {
+   //    (event: E, instance?: any): void;
+   // }
 }
