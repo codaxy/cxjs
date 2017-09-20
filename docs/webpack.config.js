@@ -40,6 +40,10 @@ if (production) {
                     "if-loader": 'production',
                 }
             }),
+            new ChunkManifestPlugin({
+                manifestVariable: "webpackManifest",
+                inlineManifest: true
+            }),
             new WebpackCleanupPlugin(),
             new webpack.optimize.UglifyJsPlugin(),
             new webpack.DefinePlugin({
@@ -176,10 +180,6 @@ var common = {
             name: 'app',
             children: true,
             minChunks: Infinity
-        }),
-        new ChunkManifestPlugin({
-            manifestVariable: "webpackManifest",
-            inlineManifest: true
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
