@@ -6,6 +6,7 @@ $cx-default-grid-box-shadow: null !default;
 
 // header
 $cx-default-grid-header-font-size: $cx-default-box-font-size !default;
+$cx-default-grid-header-font-weight: normal !default;
 $cx-default-grid-header-line-height: null !default;
 $cx-default-grid-header-color: $cx-default-color !default;
 $cx-default-grid-header-background-color: #eee !default;
@@ -16,6 +17,7 @@ $cx-default-grid-header-padding: null !default;
 $cx-grid-header-state-style-map: (
   default: (
     font-size: $cx-default-grid-header-font-size,
+    font-weight: $cx-default-grid-header-font-weight,
     line-height: $cx-default-grid-header-line-height,
     color: $cx-default-grid-header-color,
     background-color: $cx-default-grid-header-background-color,

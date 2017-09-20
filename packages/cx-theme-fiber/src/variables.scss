@@ -135,6 +135,7 @@ $cx-default-grid-border-color: #e0e0e0 !default;
 
 // header
 $cx-default-grid-header-font-size: $cx-default-box-font-size - 1px !default;
+$cx-default-grid-header-font-weight: 600 !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height - 9px !default;
 $cx-default-grid-header-color: $cx-default-color !default;
 $cx-default-grid-header-background-color: darken($cx-default-background-color, 5) !default;
