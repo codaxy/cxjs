@@ -80,12 +80,12 @@ $cx-use-box-line-height-fix: false !default;
 //BUTTON
 $cx-default-button-color: $cx-default-color !default;
 $cx-default-button-font-size: $cx-default-box-font-size - 1px !default;
-$cx-default-button-font-weight: 500 !default;
+$cx-default-button-font-weight: 600 !default;
 $cx-default-button-background-color: #f3f3f3; //#fff !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-color: transparent !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
-$cx-default-button-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25); //$cx-theme-box-shadow !default; //
+$cx-default-button-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25); //$cx-theme-box-shadow !default; //
 $cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !default;
 
 // float button text color picker
@@ -259,7 +259,8 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
    ),
    selected: (
       background-color: rgba(0, 0, 0, 0.05),
-      color: $cx-theme-primary-color-dark
+      color: $cx-theme-primary-color-dark,
+      font-weight: 600
    ),
    selected-hover: (
       background-color: rgba(0, 0, 0, 0.07),
@@ -281,7 +282,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    ),
    hover: (
       color: $primary-color-blue,
-      // background-color: darken($cx-default-button-background-color, 3),
+      background-color: darken($cx-default-button-background-color, 0.5),
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
    ),
    focus: (
@@ -304,7 +305,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       default: (
          transition: all 0.1s,
          background-color: $cx-theme-primary-color,
-         box-shadow: 0 4px 24px rgba($cx-theme-primary-color, 0.6)         
+         box-shadow: 0 4px 16px rgba($cx-theme-primary-color, 0.6)         
       ),
       hover: (
          background-color: darken($cx-theme-primary-color, 7),
@@ -332,20 +333,20 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    ),
    danger: (
       default: (
+         transition: all 0.1s,
          background-color: $cx-theme-danger-color,
-         border-color: $cx-default-border-color,
-         box-shadow: 0 2px 16px rgba($cx-theme-danger-color, 0.4),
+         box-shadow: 0 4px 16px rgba($cx-theme-danger-color, 0.6)         
       ),
       hover: (
-         background-color: lighten($cx-theme-danger-color, 5),
-         box-shadow: 0 4px 24px rgba($cx-theme-danger-color, 0.6)
+         background-color: darken($cx-theme-danger-color, 7),
+         box-shadow: 0 1px 4px rgba($cx-theme-danger-color, 0.6)         
       ),
       focus: (
-         background-color: darken($cx-theme-danger-color, 15)
+         background-color: darken($cx-theme-danger-color, 10)
       ),
       active: (
-         background-color: darken($cx-theme-danger-color, 4),
-         box-shadow: 0 4px 24px rgba($cx-theme-danger-color, 0.6),
+         background-color: darken($cx-theme-danger-color, 9),
+         box-shadow: none,   
          top: 0
       ),
       disabled: (
@@ -409,7 +410,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
          box-shadow: none
       ),
       active: (
-         background-color: rgba(153, 153, 153, 0.4)
+         background-color: darken($cx-default-button-background-color, 4)
       ),
       disabled: (
          color: rgba(0, 0, 0, 0.26)
