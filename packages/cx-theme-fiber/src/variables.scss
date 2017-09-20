@@ -358,7 +358,6 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    ),
    flat-primary: (
       default: (
-         font-size: 14px,
          color: $cx-theme-primary-color-dark,
          background-color: transparent,
          border-color: transparent,
@@ -468,12 +467,13 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
    selected: (
       background-color: $cx-theme-primary-color,
       color: #fff,
-      box-shadow: $cx-theme-box-shadow
+      box-shadow: $cx-theme-box-shadow-elevated,
+      font-weight: 600
    ),
    selected-cursor: (
       color: #fff,
-      background-color: lighten($cx-theme-primary-color, 5),
-      box-shadow: $cx-theme-box-shadow-elevated
+      background-color: darken($cx-theme-primary-color, 5),
+      box-shadow: $cx-theme-box-shadow
    ),
    active: (
       color: $cx-theme-primary-color,  

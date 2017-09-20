@@ -52,6 +52,13 @@ p {
    }
 }
 
+//button in modal
+.#{$mod}alert.#{$state}modal {
+   .#{$block}button.#{$mod}flat-primary {
+      font-size: 14px;
+   }
+}
+
 //FORM
 // standard field
 $form-list: (

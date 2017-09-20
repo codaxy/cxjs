@@ -135,7 +135,7 @@ export default (
                   items: <cx>
                      <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                      <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                     <Button mod="primary" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
+                     <Button mod:expr="{$root.$route.theme} == 'fiber' ? 'flat-primary' : 'primary'" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
                      <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
                   </cx>
                }
