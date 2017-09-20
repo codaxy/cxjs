@@ -1,6 +1,6 @@
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
-$primary-color-blue: lighten(#0587DD, 12) !default;
+$primary-color-blue: deepskyblue !default; //#00BFFF !default;//lighten(#0587DD, 12) !default;//
 $primary-color-gray: #607d8b !default;
 $primary-color-brown: #795548 !default;
 $primary-color-pink: #c2185b !default;
@@ -282,7 +282,7 @@ $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
       transition: all 0.1s
    ),
    hover: (
-      color: $primary-color-blue,
+      color: $cx-theme-primary-color-dark,
       background-color: darken($cx-default-button-background-color, 0.5),
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
    ),
@@ -306,11 +306,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       default: (
          transition: all 0.1s,
          background-color: $cx-theme-primary-color,
-         box-shadow: 0 4px 16px rgba($cx-theme-primary-color, 0.6)         
+         box-shadow: 0 4px 16px rgba($cx-theme-primary-color, 0.4)         
       ),
       hover: (
-         background-color: darken($cx-theme-primary-color, 7),
-         box-shadow: 0 1px 4px rgba($cx-theme-primary-color, 0.6)         
+         background-color: darken($cx-theme-primary-color, 5),
+         box-shadow: 0 1px 2px rgba($cx-theme-primary-color, 0.4)         
       ),
       focus: (
          background-color: darken($cx-theme-primary-color, 10)
@@ -336,11 +336,11 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       default: (
          transition: all 0.1s,
          background-color: $cx-theme-danger-color,
-         box-shadow: 0 4px 16px rgba($cx-theme-danger-color, 0.6)         
+         box-shadow: 0 4px 16px rgba($cx-theme-danger-color, 0.4)         
       ),
       hover: (
-         background-color: darken($cx-theme-danger-color, 7),
-         box-shadow: 0 1px 4px rgba($cx-theme-danger-color, 0.6)         
+         background-color: darken($cx-theme-danger-color, 5),
+         box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4)         
       ),
       focus: (
          background-color: darken($cx-theme-danger-color, 10)
