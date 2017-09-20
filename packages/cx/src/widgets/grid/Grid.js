@@ -29,6 +29,7 @@ import {isNonEmptyArray} from '../../util/isNonEmptyArray';
 import {isString} from '../../util/isString';
 import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
+import {isNumber} from '../../util/isNumber';
 
 export class Grid extends Widget {
 
@@ -48,11 +49,19 @@ export class Grid extends Widget {
          emptyText: undefined,
          dragSource: {structured: true},
          dropZone: {structured: true},
-         filterParams: {structured: true}
+         filterParams: {structured: true},
+         offset: undefined,
+         leadingOffset: undefined,
+         totalRecordCount: undefined,
       }, selection, ...arguments);
    }
 
    init() {
+
+      if (this.bufferedLoading) {
+         this.buffered = true;
+         this.remoteSort = true;
+      }
 
       if (this.buffered)
          this.scrollable = true;
@@ -126,6 +135,15 @@ export class Grid extends Widget {
 
       if (!isArray(data.records))
          data.records = [];
+
+      if (!this.bufferedLoading)
+         data.totalRecordCount = data.records.length;
+      else {
+         if (!(data.totalRecordCount >= 0))
+            data.totalRecordCount = 0;
+         if (!isNumber(data.offset) || data.offset < 0)
+            data.offset = 0;
+      }
 
       if (state.sorters && !data.sorters)
          data.sorters = state.sorters;
@@ -592,6 +610,7 @@ Grid.prototype.cached = false;
 Grid.prototype.buffered = false;
 Grid.prototype.bufferStep = 15;
 Grid.prototype.bufferSize = 60;
+Grid.prototype.bufferedLoading = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -651,19 +670,26 @@ class GridComponent extends VDOM.Component {
             </GridRowComponent>
          );
       };
-      if (widget.scrollable && widget.buffered) {
-         let source = instance.records || data.records;
+      if (widget.buffered) {
          let context = new RenderingContext();
-         source.slice(start, end).forEach((r, i) => {
-            let record = source == instance.records ? r : widget.mapRecord(context, instance, r, start + i);
-            let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
-            let wasSelected = row.selected;
-            record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row);
-            row.selected = instance.isSelected(record.data, record.index);
-            row.cacheBuster = record.data;
-            if (row.selected != wasSelected)
-               row.shouldUpdate = true;
-            addRow(record, start + i);
+         this.getRecordsSlice(start, end).forEach((r, i) => {
+            if (r == null) {
+               addRow({row: {data: {}, shouldUpdate: true},
+                  vdom: <tr>
+                     <td colSpan={1000}>&nbsp;</td>
+                  </tr>
+               }, start + i)
+            } else {
+               let record = instance.records ? r : widget.mapRecord(context, instance, r, start + i);
+               let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
+               let wasSelected = row.selected;
+               record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row, { name: 'grid-row'});
+               row.selected = instance.isSelected(record.data, record.index);
+               row.cacheBuster = record.data;
+               if (row.selected != wasSelected)
+                  row.shouldUpdate = true;
+               addRow(record, start + i);
+            }
          });
       }
       else {
@@ -713,7 +739,7 @@ class GridComponent extends VDOM.Component {
       let marginTop = -(this.headerHeight || 0), marginBottom = null;
       if (this.rowHeight > 0) {
          marginTop += this.rowHeight * start;
-         marginBottom = (data.records.length - (start + children.length)) * this.rowHeight;
+         marginBottom = (data.totalRecordCount - (start + children.length)) * this.rowHeight;
       }
 
       content.push(
@@ -769,6 +795,27 @@ class GridComponent extends VDOM.Component {
       </div>
    }
 
+   getRecordsSlice(start, end) {
+      let {data, instance} = this.props;
+      let {widget} = instance;
+      if (!widget.bufferedLoading) {
+         let source = instance.records || data.records;
+         return source.slice(start, end);
+      }
+
+      instance.set('loadingOffset', start);
+
+      let {offset, records} = data;
+      let result = [];
+      for (let i = start; i < end; i++) {
+         if (i >= offset && i < offset + records.length)
+            result.push(records[i - offset]);
+         else
+            result.push(null);
+      }
+      return result;
+   }
+
    onScroll() {
       if (this.dom.fixedHeader) {
          this.dom.fixedHeader.scrollLeft = this.dom.scroller.scrollLeft;
@@ -778,7 +825,7 @@ class GridComponent extends VDOM.Component {
       if (widget.buffered && this.rowHeight > 0 && !this.pending) {
          let start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
          start = Math.round(start / widget.bufferStep) * widget.bufferStep;
-         start = Math.max(0, Math.min(start, data.records.length - widget.bufferSize));
+         start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          let end = start + widget.bufferSize;
          if (this.state.end != end) {
             this.pending = true;
@@ -924,7 +971,7 @@ class GridComponent extends VDOM.Component {
    componentWillReceiveProps(props) {
       let {data, widget} = props.instance;
       this.setState({
-         cursor: Math.max(Math.min(this.state.cursor, data.records.length - 1), widget.selectable && this.state.focused ? 0 : -1)
+         cursor: Math.max(Math.min(this.state.cursor, data.totalRecordCount - 1), widget.selectable && this.state.focused ? 0 : -1)
       });
    }
 
@@ -986,13 +1033,13 @@ class GridComponent extends VDOM.Component {
          }
 
          if (widget.buffered) {
-            let count = Math.min(data.records.length, this.state.end - this.state.start);
+            let count = Math.min(data.totalRecordCount, this.state.end - this.state.start);
             if (count == 0) {
                delete this.rowHeight;
                this.dom.scroller.scrollTop = 0;
             } else {
                rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
-               let remaining = Math.max(0, data.records.length - this.state.end);
+               let remaining = Math.max(0, data.totalRecordCount - this.state.end);
                this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
             }
             this.dom.table.style.marginTop = `${ -headerHeight + this.state.start * rowHeight }px`;
@@ -1066,7 +1113,7 @@ class GridComponent extends VDOM.Component {
 
    handleKeyDown(e) {
 
-      let {instance} = this.props;
+      let {instance, data} = this.props;
       let {records, widget} = instance;
 
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
@@ -1082,7 +1129,7 @@ class GridComponent extends VDOM.Component {
             break;
 
          case KeyCode.down:
-            if (this.state.cursor + 1 < records.length) {
+            if (this.state.cursor + 1 < data.totalRecordCount) {
                this.moveCursor(this.state.cursor + 1, true, true);
                e.stopPropagation();
                e.preventDefault();
