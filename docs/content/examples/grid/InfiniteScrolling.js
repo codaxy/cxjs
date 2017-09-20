@@ -20,15 +20,17 @@ class PageController extends Controller {
         if (this.loading)
             return false;
         let offset = this.store.get('$page.nextOffset');
+        console.log("LOAD", offset);
         this.loading = true;
         setTimeout(() => {
             let records = Array
                 .from({length: 100})
-                .map((v, i) => this.getRow(i));
+                .map((v, i) => this.getRow(offset + i));
 
             this.store.set('$page.records', records);
             this.store.set('$page.offset', offset);
             this.loading = false;
+            console.log("DONE", offset, records);
             if (offset != this.store.get('$page.nextOffset'))
                 this.loadPage();
         }, 100);
@@ -71,7 +73,8 @@ export const InfiniteScrolling = <cx>
                 offset:bind="$page.offset"
                 loadingOffset:bind="$page.nextOffset"
                 bufferedLoading
-                cached
+                cached={false}
+                keyField="id"
                 columns={[
                     { header: "#", field: "index", sortable: true, value: { expr: "{$index}+1"} },
                     { header: "Name", field: "fullName", sortable: true },
