@@ -760,7 +760,8 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    ),
    focus: (
       // transition: border-color 0.55s ease-in-out,
-      box-shadow: none,
+      
+      box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5),
       transition: $cx-default-transition
    ),
    disabled: (
@@ -770,10 +771,12 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
       border-color: rgba($cx-default-input-border-color, 0.7)
    ),
    error: (
-      border-color: $cx-theme-danger-color
+      border-color: $cx-theme-danger-color,
+      box-shadow: 0px 1px 2px rgba($cx-theme-danger-color, 0.5)
    ),
    error-focus: (
-      box-shadow: none
+      border-color: $cx-theme-danger-color-dark,
+      box-shadow: 0px 1px 2px rgba($cx-theme-danger-color-dark, 0.7)
    )
 ));
 
