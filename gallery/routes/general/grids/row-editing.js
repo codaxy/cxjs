@@ -65,6 +65,7 @@ export default (
             records:bind="$page.records"
             lockColumnWidths
             cached
+            scrollable
             rowStyle={{
                background: {expr: "!!{$record.$editing} ? 'rgba(128, 128, 128, 0.1)' : null"}
             }}

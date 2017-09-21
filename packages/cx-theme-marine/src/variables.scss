@@ -143,7 +143,7 @@ $cx-default-grid-header-font-weight: 700 !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height - 9px !default;
 $cx-default-grid-header-color: $cx-default-color !default;
 $cx-default-grid-header-background-color: #fff !default;//darken($cx-default-background-color, 5) !default;
-$cx-default-grid-header-border-color: transparent transparent $cx-default-grid-border-color !default;
+$cx-default-grid-header-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0, 0, 0, 0.075), 0 3px 0 rgba(0, 0, 0, 0.05), 0 4px 0 rgba(0, 0, 0, 0.015) !default;
 $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
@@ -654,6 +654,9 @@ $cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-sty
    default: (
       border-top-left-radius: $cx-default-border-radius,
       border-top-right-radius: $cx-default-border-radius,
+   ),
+   hover: (
+      border-color: $cx-default-grid-header-border-color
    )
 ));
 
@@ -718,7 +721,8 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    ),
    sorted-hover: (
       color: $cx-theme-primary-color,
-      background-color: darken($cx-default-grid-header-background-color, 2)
+      background-color: darken($cx-default-grid-header-background-color, 2),
+      border-color: $cx-default-grid-header-border-color
    )     
 ));
 

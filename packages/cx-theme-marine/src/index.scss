@@ -328,7 +328,7 @@ div.#{$block}classic-tab-container {
    .#{$element}grid-header {
       + .#{$element}grid-data, + .#{$element}grid-group-caption {
          td {
-            border-top-color: transparent;
+            // border-top-color: transparent;
          }
       }
    }
@@ -339,13 +339,13 @@ div.#{$block}classic-tab-container {
    box-shadow: $cx-default-grid-header-box-shadow;
 
    .#{$element}grid-col-header {
-      border-color: #fff;
+      // border-color: #fff;
    }
 
    .#{$state}sorted-asc, .#{$state}sorted-desc {
-      border-color: darken($cx-default-grid-header-background-color, 2);
+      // border-color: darken($cx-default-grid-header-background-color, 2);
       &:hover {
-         border-color: darken($cx-default-grid-header-background-color, 3);
+         // border-color: darken($cx-default-grid-header-background-color, 3);
       }
    }
 }
@@ -353,7 +353,7 @@ div.#{$block}classic-tab-container {
 .#{$element}grid-header {
    // if a grid header has two or more rows
    tr:not(:first-child) .#{$element}grid-col-header {
-      border-top: 1px solid $cx-default-grid-data-border-color;
+      border-top: 1px solid $cx-default-grid-header-border-color;
    }
    //// ellipsis added to grid header
    //.#{$element}grid-col-header {
