@@ -10,7 +10,8 @@ class PageController extends Controller {
     onInit() {
         this.store.init('$page', {
             recordCount: 10000,
-            offset: 0
+            offset: 0,
+            nextOffset: 0
         });
 
         this.addTrigger('load', ['$page.nextOffset'], ::this.loadPage, true);
@@ -19,7 +20,7 @@ class PageController extends Controller {
     loadPage() {
         if (this.loading)
             return false;
-        let offset = this.store.get('$page.nextOffset');
+        let offset = this.store.get('$page.nextOffset') || 0;
         console.log("LOAD", offset);
         this.loading = true;
         setTimeout(() => {
@@ -33,7 +34,7 @@ class PageController extends Controller {
             console.log("DONE", offset, records);
             if (offset != this.store.get('$page.nextOffset'))
                 this.loadPage();
-        }, 100);
+        }, 50);
     }
 
     getRow(i) {
@@ -73,10 +74,10 @@ export const InfiniteScrolling = <cx>
                 offset:bind="$page.offset"
                 loadingOffset:bind="$page.nextOffset"
                 bufferedLoading
-                cached={false}
+                cached
                 keyField="id"
                 columns={[
-                    { header: "#", field: "index", sortable: true, value: { expr: "{$index}+1"} },
+                    { header: "#", field: "id", sortable: true },
                     { header: "Name", field: "fullName", sortable: true },
                     { header: "Continent", field: "continent", sortable: true },
                     { header: "Browser", field: "browser", sortable: true },

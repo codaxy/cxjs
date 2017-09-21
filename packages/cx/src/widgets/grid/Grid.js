@@ -51,7 +51,6 @@ export class Grid extends Widget {
          dropZone: {structured: true},
          filterParams: {structured: true},
          offset: undefined,
-         leadingOffset: undefined,
          totalRecordCount: undefined,
       }, selection, ...arguments);
    }
@@ -92,7 +91,6 @@ export class Grid extends Widget {
             key: {},
             showFooter: true
          }];
-
 
       this.dataAdapter = DataAdapter.create({
          type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
@@ -682,15 +680,16 @@ class GridComponent extends VDOM.Component {
       };
       if (widget.buffered) {
          let context = new RenderingContext();
+         let dataCls = CSS.element(baseClass, "data");
          this.getRecordsSlice(start, end).forEach((r, i) => {
             if (r == null) {
-               addRow({row: {data: {}},
+               addRow({row: {data: { classNames: dataCls }},
                   vdom: <tr>
-                     <td colSpan={1000} style={{ height: this.rowHeight }}>&nbsp;</td>
+                     <td className="cxs-pad" colSpan={1000}>&nbsp;</td>
                   </tr>
                }, start + i)
             } else {
-               let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.bufferedLoading ? i : start + i);
+               let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.bufferedLoading ? start + i - data.offset : start + i);
                let row = record.row = instance.getChild(context, widget.row, record.key, record.store);
                let wasSelected = row.selected;
                record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row, { name: 'grid-row'});
@@ -751,6 +750,8 @@ class GridComponent extends VDOM.Component {
          marginTop += this.rowHeight * start;
          marginBottom = (data.totalRecordCount - (start + children.length)) * this.rowHeight;
       }
+
+      console.log('RENDER', start, end, marginTop, marginBottom);
 
       content.push(
          <div
@@ -837,10 +838,11 @@ class GridComponent extends VDOM.Component {
          start = Math.round(start / widget.bufferStep) * widget.bufferStep;
          start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          let end = start + widget.bufferSize;
-         console.log("SCROLL", start, end);
 
          if (widget.bufferedLoading) {
-            instance.set('loadingOffset', start);
+            if (instance.set('loadingOffset', start))
+               console.log("SCROLL", start, end);
+
             this.start = start;
             this.end = end;
          } else {
@@ -1051,7 +1053,13 @@ class GridComponent extends VDOM.Component {
          }
 
          if (widget.buffered) {
-            let count = Math.min(data.totalRecordCount, this.state.end - this.state.start);
+            let {start, end} = this.state;
+            if (widget.bufferedLoading) {
+               start = this.start;
+               end = this.end;
+            }
+            let remaining = 0,
+               count = Math.min(data.totalRecordCount, end - start);
             if (count == 0) {
                delete this.rowHeight;
                this.dom.scroller.scrollTop = 0;
@@ -1059,12 +1067,14 @@ class GridComponent extends VDOM.Component {
                rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
                if (this.rowHeight && this.rowHeight != rowHeight) {
                   console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
-                  rowHeight = this.rowHeight;
+                  // if (rowHeight < this.rowHeight)
+                  //    rowHeight = this.rowHeight;
+                  // rowHeight = 35;
                }
-               let remaining = Math.max(0, data.totalRecordCount - this.state.end);
-               this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
+               remaining = Math.max(0, data.totalRecordCount - end);
             }
-            this.dom.table.style.marginTop = `${ -headerHeight + this.state.start * rowHeight }px`;
+            this.dom.table.style.marginTop = `${ -headerHeight + start * rowHeight }px`;
+            this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
          }
