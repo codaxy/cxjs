@@ -843,7 +843,7 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
       background-color: rgba($cx-theme-primary-color-light, 0.3)
    ),
    today: (
-      background-color: rgba($cx-theme-accent-color, 0.2)
+      background-color: rgba($cx-theme-accent-color, 0.6)
    ),
    selected: (
       background-color: $cx-theme-primary-color,

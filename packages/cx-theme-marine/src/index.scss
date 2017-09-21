@@ -395,14 +395,24 @@ div.#{$block}classic-tab-container {
 //       }
 //    }
 // }
-.#{$element}grid-data:nth-child(odd) {
-   background-color: darken($cx-default-background-color, 2);
+.#{$block}grid {
+   .#{$element}grid-data:nth-child(even) {
+      background-color: darken($cx-default-background-color, 2);
 
-   &.#{$state}selected {
-      background-color: rgba($cx-theme-primary-color, 0.2)
+      &.#{$state}selected {
+         background-color: rgba($cx-theme-primary-color, 0.2)
+      }
+     
    }
-   &:hover {
-      background-color: rgba($cx-theme-accent-color, 0.4);
+   &.#{$state}selectable {
+      .#{$element}grid-data:nth-child(even) {
+         &:hover {
+            background-color: rgba($cx-theme-accent-color, 0.4);            
+         }
+         &.#{$state}selected:hover {
+            background-color: rgba($cx-theme-primary-color, 0.25);
+         }
+      }
    }
 }
 
