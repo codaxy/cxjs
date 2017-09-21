@@ -45,7 +45,7 @@ if (production) {
                 inlineManifest: true
             }),
             new WebpackCleanupPlugin(),
-            new webpack.optimize.UglifyJsPlugin(),
+            //new webpack.optimize.UglifyJsPlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
