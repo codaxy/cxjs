@@ -201,31 +201,31 @@
       }
 
       &.#{$state}cursor {
-         @include cx-add-state-rules($cx-grid-data-state-style-map, hover);
+         @include cx-add-state-rules($cx-list-item, hover);
       }
 
       &.#{$state}selected {
-         @include cx-add-state-rules($cx-grid-data-state-style-map, selected);
+         @include cx-add-state-rules($cx-list-item, selected);
 
          &.#{$state}cursor {
-            @include cx-add-state-rules($cx-grid-data-state-style-map, selected-cursor);
+            @include cx-add-state-rules($cx-list-item, selected-cursor);
          }
       }
 
       .#{$state}focused &, :focus & {
 
          &.#{$state}cursor {
-            @include cx-add-state-rules($cx-grid-data-state-style-map, cursor);
+            @include cx-add-state-rules($cx-list-item, cursor);
          }
 
          &.#{$state}selected {
             &.#{$state}cursor {
-               @include cx-add-state-rules($cx-grid-data-state-style-map, selected-cursor);
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
             }
          }
 
          &:active {
-            @include cx-add-state-rules($cx-grid-data-state-style-map, active);
+            @include cx-add-state-rules($cx-list-item, active);
          }
       }
 

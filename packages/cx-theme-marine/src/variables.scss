@@ -148,6 +148,7 @@ $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 0 rgba(0,
 $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
 // data
+$cx-default-grid-data-font-size: 25px !default;
 $cx-default-grid-data-font-weight: 500 !default;
 $cx-default-grid-data-border-color: transparent !default;//lighten($cx-default-border-color, 5) !default;
 $cx-default-grid-data-background-color: #fff !default;
@@ -713,7 +714,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    hover: (
       color: rgba($cx-default-grid-header-color, 0.45),
       background-color: $cx-default-grid-header-background-color,    
-      border-color: $cx-default-grid-data-border-color
+      border-color: $cx-default-grid-header-border-color
    ),
    sorted: (
       color: $cx-theme-primary-color-dark,
@@ -721,8 +722,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    ),
    sorted-hover: (
       color: $cx-theme-primary-color,
-      background-color: darken($cx-default-grid-header-background-color, 2),
-      border-color: $cx-default-grid-header-border-color
+      background-color: darken($cx-default-grid-header-background-color, 2)
    )     
 ));
 
