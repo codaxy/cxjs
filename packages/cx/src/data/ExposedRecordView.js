@@ -34,14 +34,13 @@ export class ExposedRecordView extends View {
          var collection = this.collectionBinding.value(storeData);
          var data = this.embed(storeData);
          var d = Binding.get(path).set(data, value);
-         if (d != data) {
-            var record = d[this.recordName];
-            var newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
-            this.store.setItem(this.collectionBinding.path, newCollection);
-         }
-      } else {
-         this.store.setItem(path, value);
+         if (d === data)
+            return false;
+         var record = d[this.recordName];
+         var newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
+         return this.store.setItem(this.collectionBinding.path, newCollection);
       }
+      return this.store.setItem(path, value);
    }
 
    deleteItem(path) {
@@ -51,21 +50,21 @@ export class ExposedRecordView extends View {
          storeData = this.store.getData();
          collection = this.collectionBinding.value(storeData);
          newCollection = [...collection.slice(0, this.itemIndex), ...collection.slice(this.itemIndex + 1)];
-         this.store.setItem(this.collectionBinding.path, newCollection);
+         return this.store.setItem(this.collectionBinding.path, newCollection);
       }
       else if (path.indexOf(this.recordName + '.') == 0) {
          storeData = this.store.getData();
          collection = this.collectionBinding.value(storeData);
          var data = this.embed(storeData);
          var d = Binding.get(path).delete(data);
-         if (d != data) {
-            var record = d[this.recordName];
-            newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
-            this.store.setItem(this.collectionBinding.path, newCollection);
-         }
-      } else {
-         this.store.deleteItem(path);
+         if (d === data)
+            return false;
+         var record = d[this.recordName];
+         newCollection = [...collection.slice(0, this.itemIndex), record, ...collection.slice(this.itemIndex + 1)]
+         return this.store.setItem(this.collectionBinding.path, newCollection);
       }
+
+      return this.store.deleteItem(path);
    }
 }
 

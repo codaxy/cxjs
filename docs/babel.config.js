@@ -12,11 +12,11 @@ module.exports = function (options) {
                 modules: false,
                 useBuiltIns: true,
                 targets: {
-                    chrome: 45,
-                    ie: 11,
-                    ff: 30,
-                    edge: 12,
-                    safari: 9
+                    chrome: 55,
+                    // ie: 11,
+                    // ff: 30,
+                    // edge: 12,
+                    // safari: 9
                 }
             }]
         ],
