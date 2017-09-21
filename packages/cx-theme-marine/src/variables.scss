@@ -28,12 +28,12 @@ $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 7) !default;
    @return $accent-color;
 }
 
-$cx-theme-accent-color: get-accent-color($cx-theme-primary-color) !default;
-$cx-theme-danger-color: #F44336 !default;
+$cx-theme-accent-color: #ffffb0 !default;
+$cx-theme-danger-color: #ec695f !default;
 $cx-theme-danger-color-dark: darken($cx-theme-danger-color, 15) !default;
 $cx-theme-secondary-text-color: #757575 !default;
 
-$cx-theme-background-gradient: linear-gradient(90deg, $cx-theme-primary-color, $cx-theme-primary-color-dark) !default;
+$cx-theme-background-gradient:  linear-gradient(to top right, $cx-theme-primary-color-dark, $cx-theme-primary-color) !default;//linear-gradient(to top right, $cx-theme-primary-color, #00cde1) !default;
 
 // shadows
 $cx-theme-box-shadow: 0 1px 10px rgba(197, 176, 176, 0.1) !default;
@@ -148,7 +148,7 @@ $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-b
 
 // data
 $cx-default-grid-data-font-weight: 500 !default;
-$cx-default-grid-data-border-color: lighten($cx-default-border-color, 5) !default;
+$cx-default-grid-data-border-color: transparent !default;//lighten($cx-default-border-color, 5) !default;
 $cx-default-grid-data-background-color: #fff !default;
 $cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height + 5px !default;
@@ -314,7 +314,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       hover: (
          // background-color: darken($cx-theme-primary-color, 5),
          box-shadow: 0 1px 2px rgba($cx-theme-primary-color, 0.4) ,
-         background: linear-gradient(90deg, darken($cx-theme-primary-color, 4) 30%, darken($cx-theme-primary-color-dark, 4))
+         background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 4), darken($cx-theme-primary-color, 4))
       ),
       focus: (
          background-color: darken($cx-theme-primary-color, 10)
@@ -322,7 +322,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       active: (
          background-color: darken($cx-theme-primary-color, 9),
          box-shadow: none,   
-         background: linear-gradient(90deg, darken($cx-theme-primary-color, 8) 30%, darken($cx-theme-primary-color-dark, 8)),
+         background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 8), darken($cx-theme-primary-color, 8)),
          top: 0
       ),
       disabled: (
@@ -340,12 +340,12 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
    danger: (
       default: (
          transition: all 0.1s,
-         background: linear-gradient(90deg, $cx-theme-danger-color, $cx-theme-danger-color-dark),
+         background: linear-gradient(to top right, $cx-theme-danger-color-dark, $cx-theme-danger-color),
          box-shadow: 0 4px 16px rgba($cx-theme-danger-color, 0.4)         
       ),
       hover: (
          background-color: darken($cx-theme-danger-color, 5),
-         background: linear-gradient(90deg, darken($cx-theme-danger-color, 6), darken($cx-theme-danger-color-dark, 6)),
+         background: linear-gradient(to top right, darken($cx-theme-danger-color-dark, 6), darken($cx-theme-danger-color, 6)),
          box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4)         
       ),
       focus: (
@@ -353,7 +353,7 @@ $cx-button-mods: cx-deep-map-merge($cx-button-mods, (
       ),
       active: (
          background-color: darken($cx-theme-danger-color, 9),
-         background: linear-gradient(90deg, darken($cx-theme-danger-color, 10), darken($cx-theme-danger-color-dark, 10)),
+         background: linear-gradient(to top right, darken($cx-theme-danger-color-dark, 10), darken($cx-theme-danger-color, 10)),
          box-shadow: none,   
          top: 0
       ),
@@ -713,6 +713,29 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    sorted-hover: (
       color: $cx-theme-primary-color,
       background-color: lighten($cx-default-grid-header-background-color, 8)
+   )
+));
+
+$cx-grid-data-state-style-map: cx-deep-map-merge($cx-grid-data-state-style-map,(
+   hover: (
+      background-color: rgba($cx-theme-accent-color, 0.4),
+      color: $cx-default-color
+   ),
+   cursor: (
+      background-color: rgba($cx-theme-accent-color, 0.5)
+   ),
+   selected: (
+      background-color: rgba($cx-theme-primary-color, 0.2)
+   ),
+   selected-hover: (
+      background-color: rgba(0, 0, 0, 0.05),
+      color: $cx-theme-primary-color-dark
+   ),
+   selected-cursor: (
+      background-color: rgba($cx-theme-primary-color, 0.25)
+   ),
+   disabled: (
+      background-color: transparent
    )
 ));
 

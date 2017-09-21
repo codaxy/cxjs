@@ -202,11 +202,15 @@ $small-device-width: 800px;
     //    background: #f3f5f7;
  
        .cxb-link.cxs-active {
-          color: #29b8ff;
+          color: darken(deepskyblue, 15);
        }
     }
  
     .header {
-       background: #0AF;
+       background: linear-gradient(to top right, darken(deepskyblue, 15), deepskyblue);
+
+      .title a {
+          color: #ffffb0;
+       }
     }
  }

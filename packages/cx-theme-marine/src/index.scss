@@ -381,15 +381,30 @@ div.#{$block}classic-tab-container {
 }
 
 //alteration
-// .#{$element}grid-data:nth-child(odd) {
-//    background-color: darken($cx-default-background-color, 2);
+// .#{$element}grid-data {
 //    &:hover {
-//       background-color: darken($cx-default-background-color, 3)
+//       background-color: rgba($cx-theme-accent-color, 0.4);
 //    }
 //    &.#{$state}selected {
-//       background-color: rgba(0, 0, 0, 0.05)
+//       background-color: rgba($cx-theme-primary-color, 0.2);
+      
+//       &.#{$state}cursor {
+//          &:hover {
+//             background-color: rgba($cx-theme-accent-color, 0.5);
+//          }
+//       }
 //    }
 // }
+.#{$element}grid-data:nth-child(odd) {
+   background-color: darken($cx-default-background-color, 2);
+
+   &.#{$state}selected {
+      background-color: rgba($cx-theme-primary-color, 0.2)
+   }
+   &:hover {
+      background-color: rgba($cx-theme-accent-color, 0.4);
+   }
+}
 
 // group grid styles
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
