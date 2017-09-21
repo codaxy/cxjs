@@ -380,6 +380,17 @@ div.#{$block}classic-tab-container {
   }
 }
 
+//alteration
+// .#{$element}grid-data:nth-child(odd) {
+//    background-color: darken($cx-default-background-color, 2);
+//    &:hover {
+//       background-color: darken($cx-default-background-color, 3)
+//    }
+//    &.#{$state}selected {
+//       background-color: rgba(0, 0, 0, 0.05)
+//    }
+// }
+
 // group grid styles
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
 
