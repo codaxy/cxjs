@@ -86,13 +86,27 @@ class UploadButtonComponent extends VDOM.Component {
 
    uploadFile(file) {
       let {instance} = this.props;
-      let {widget, data} = instance;
+      let {data, widget} = instance;
 
-      if (!data.url)
-         throw new Error('Upload url not set.');
+      if (widget.onResolveUrl) {
+         Promise.resolve(instance.invoke("onResolveUrl", file, instance))
+            .then(url => {
+               this.doUpload(file, url);
+            })
+      } else {
+         this.doUpload(file, data.url);
+      }
+   }
+
+   doUpload(file, url) {
+      let {instance} = this.props;
+      let {widget} = instance;
+
+      if (!url)
+         throw new Error('Upload URL not set.');
 
       let xhr = new XMLHttpRequest();
-      xhr.open(widget.method, Url.resolve(data.url));
+      xhr.open(widget.method, Url.resolve(url));
 
       let formData = new FormData();
       formData.append("file", file);

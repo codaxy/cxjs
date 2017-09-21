@@ -50,6 +50,18 @@ export default {
             - `instance` - widget instance
         </Md></cx>
     },
+    onResolveUrl: {
+        type: 'function',
+        key: true,
+        description: <cx><Md>
+            A callback function used to resolve dynamic upload URLs which are sometimes necessary for cloud uploads.
+            Arguments:
+            - `file` - instance of the File being uploaded
+            - `instance` - widget instance
+
+            Return value should be a string or a promise that resolves to a string.
+        </Md></cx>
+    },
     text: {
         type: 'string',
         description: <cx><Md>
