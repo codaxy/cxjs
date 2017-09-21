@@ -786,7 +786,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
       border-color: $cx-default-input-border-color
    ),
    focus: (
-      box-shadow: none
+      box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5)
    // background-color: rgba($cx-default-color, 0.015)
    ),
    hover: (
