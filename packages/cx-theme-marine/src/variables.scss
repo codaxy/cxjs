@@ -514,15 +514,14 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
       selected: (
          color: $cx-theme-primary-color,
          background-color: #fff,
-         border-top-width: 4px,
-         box-shadow: none,
-         border-top-color: $cx-theme-primary-color
+         border-top-color: $cx-theme-primary-color,
+         box-shadow: inset 0 2px deepskyblue
       ),
       selected-cursor: (
          color: $cx-theme-primary-color,
          background-color: transparent,
-         border-top-width: 4px,
-         border-color: rgba($cx-theme-primary-color, 0.8) $cx-default-border-color transparent
+         border-color: rgba($cx-theme-primary-color, 0.8) $cx-default-border-color transparent,
+         box-shadow: inset 0 2px deepskyblue
       ),
       active: (
          background-color: $cx-default-tab-background-color
