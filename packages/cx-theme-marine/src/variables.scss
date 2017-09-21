@@ -702,18 +702,18 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
       text-transform: uppercase
    ),
    hover: (
-      color: lighten($cx-default-grid-header-color, 20),
-      background-color: lighten($cx-default-grid-header-background-color, 2),
+      color: rgba($cx-default-grid-header-color, 0.45),
+      background-color: $cx-default-grid-header-background-color,    
       border-color: $cx-default-grid-data-border-color
    ),
    sorted: (
       color: $cx-theme-primary-color-dark,
-      background-color: lighten($cx-default-grid-header-background-color, 6)
+      background-color: darken($cx-default-grid-header-background-color, 2)
    ),
    sorted-hover: (
       color: $cx-theme-primary-color,
-      background-color: lighten($cx-default-grid-header-background-color, 8)
-   )
+      background-color: darken($cx-default-grid-header-background-color, 2)
+   )     
 ));
 
 $cx-grid-data-state-style-map: cx-deep-map-merge($cx-grid-data-state-style-map,(
