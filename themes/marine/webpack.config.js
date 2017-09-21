@@ -1,3 +1,3 @@
 let getWebpackThemeConfig = require('../shared/webpack.config');
 
-module.exports = getWebpackThemeConfig('fiber', __dirname, 8094);
+module.exports = getWebpackThemeConfig('marine', __dirname, 8094);

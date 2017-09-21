@@ -66,7 +66,7 @@ export default <cx>
                                         <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
                                         <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
                                         <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
-                                        <Link href={tpl("~/fiber{$route.remainder}")}>Fiber</Link>
+                                        <Link href={tpl("~/marine{$route.remainder}")}>Marine</Link>
                                     </Menu>
                                 </Submenu>
                             </Menu>
@@ -98,8 +98,8 @@ export default <cx>
                         System.import("../themes/core").then(() => loadTheme("core"));
                         return null;
 
-                    case "fiber":
-                        System.import("../themes/fiber").then(() => loadTheme("fiber"));
+                    case "marine":
+                        System.import("../themes/marine").then(() => loadTheme("marine"));
                         return null;
                 }
             }}

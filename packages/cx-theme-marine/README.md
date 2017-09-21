@@ -8,13 +8,13 @@ Take a look at the theme preview and compare it to the other themes [here](https
 In order to use the theme, install its npm package:
 
 ```
-npm install cx-theme-fiber
+npm install cx-theme-marine
 ```
 
-Import theme's JavaScript. If you want fiber design label and validation behavior, do the following:
+Import theme's JavaScript. If you want material design label and validation behavior, do the following:
 
 ```
-import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-fiber";
+import { enableMaterialLabelPlacement, enableMaterialHelpPlacement } from "cx-theme-material";
 
 enableMaterialLabelPlacement();
 enableMaterialHelpPlacement();
@@ -23,7 +23,7 @@ enableMaterialHelpPlacement();
 otherwise, just import the theme:
 
 ```
-import "cx-theme-fiber";
+import "cx-theme-marine";
 ```
 
 Then, import theme styles from the package by adding the following snippet to one of your SCSS files:

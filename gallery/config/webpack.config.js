@@ -20,7 +20,7 @@ module.exports = (production) => ({
          "cx-theme-material": p("../packages/cx-theme-material"),
          "cx-theme-frost": p("../packages/cx-theme-frost"),
          "cx-theme-dark": p("../packages/cx-theme-dark"),
-         "cx-theme-fiber": p("../packages/cx-theme-fiber")
+         "cx-theme-marine": p("../packages/cx-theme-marine")
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },
@@ -97,8 +97,8 @@ module.exports = (production) => ({
          if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
             return 'dark';
 
-         if (chunk.modules.some(m => m.resource.match(/themes.fiber\.js$/)))
-            return 'fiber';
+         if (chunk.modules.some(m => m.resource.match(/themes.marine\.js$/)))
+            return 'marine';
 
          if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
             return 'polyfill';
