@@ -1,5 +1,6 @@
 import {HtmlElement, DetachedScope, Grid} from 'cx/widgets';
 import {Controller, KeySelection} from 'cx/ui';
+import {debounce} from 'cx/util';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
@@ -9,7 +10,7 @@ import {casual} from '../data/casual';
 class PageController extends Controller {
     onInit() {
         this.store.init('$page', {
-            recordCount: 10000,
+            recordCount: 100000,
             offset: 0,
             nextOffset: 0
         });
@@ -20,7 +21,7 @@ class PageController extends Controller {
     loadPage() {
         if (this.loading)
             return false;
-        let offset = this.store.get('$page.nextOffset') || 0;
+        let offset = this.store.get('$page.nextOffset');
         console.log("LOAD", offset);
         this.loading = true;
         setTimeout(() => {
@@ -28,11 +29,16 @@ class PageController extends Controller {
                 .from({length: 100})
                 .map((v, i) => this.getRow(offset + i));
 
-            this.store.set('$page.records', records);
-            this.store.set('$page.offset', offset);
             this.loading = false;
-            console.log("DONE", offset, records);
-            if (offset != this.store.get('$page.nextOffset'))
+            let nextOffset = this.store.get('$page.nextOffset');
+
+            if (Math.abs(offset - nextOffset) < 50) {
+                this.store.set('$page.records', records);
+                this.store.set('$page.offset', offset);
+                console.log("DONE", offset, records);
+            }
+
+            if (offset != nextOffset)
                 this.loadPage();
         }, 50);
     }
@@ -87,7 +93,7 @@ export const InfiniteScrolling = <cx>
                             {header: "OS", field: "os", sortable: true},
                             {header: "Visits", field: "visits", sortable: true, align: "right"}
                         ]}
-                        selection={{type: KeySelection, bind: "$page.selection"}}
+                        //selection={{type: KeySelection, bind: "$page.selection"}}
                     />
                 </div>
             </DetachedScope>
