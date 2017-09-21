@@ -57,7 +57,7 @@
     "babili-webpack-plugin": "^0.1.1",
     "buble": "^0.15.2",
     "bundle-loader": "^0.5.5",
-    "chunk-manifest-webpack-plugin": "^1.1.2",
+    "chunk-manifest-webpack-plugin": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.7",
     "env-test": "^1.0.0",
