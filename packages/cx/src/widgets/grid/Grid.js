@@ -615,6 +615,7 @@ class GridComponent extends VDOM.Component {
       super(props);
       this.dom = {};
       let {widget} = props.instance;
+
       this.state = {
          cursor: widget.focused && widget.selectable ? 0 : -1,
          focused: widget.focused,
@@ -623,12 +624,17 @@ class GridComponent extends VDOM.Component {
          end: widget.bufferSize
       };
 
+      this.syncBuffering = false;
+
       if (widget.bufferedLoading) {
          this.start = 0;
          this.end = widget.bufferSize;
+         this.syncBuffering = false; //control with a flag
       }
 
-      this.scrollerRef = el => { this.dom.scroller = el; }
+      this.scrollerRef = el => {
+         this.dom.scroller = el;
+      }
    }
 
    render() {
@@ -638,7 +644,7 @@ class GridComponent extends VDOM.Component {
       let {dragSource} = data;
       let {dragged, start, end, cursor} = this.state;
 
-      if (widget.bufferedLoading) {
+      if (this.syncBuffering) {
          start = this.start;
          end = this.end;
       }
@@ -840,17 +846,18 @@ class GridComponent extends VDOM.Component {
             if (instance.set('loadingOffset', start)) {
                //console.log("SCROLL", start, end);
             }
+         }
 
+         if (this.syncBuffering) {
             this.start = start;
             this.end = end;
-         } else {
-            if (this.state.end != end) {
-               this.pending = true;
-               this.setState({start, end}, () => {
-                  this.pending = false;
-                  setTimeout(::this.onScroll, 0);
-               });
-            }
+         }
+         else if (this.state.end != end) {
+            this.pending = true;
+            this.setState({start, end}, () => {
+               this.pending = false;
+               setTimeout(::this.onScroll, 0);
+            });
          }
       }
    }
@@ -1052,7 +1059,7 @@ class GridComponent extends VDOM.Component {
 
          if (widget.buffered) {
             let {start, end} = this.state;
-            if (widget.bufferedLoading) {
+            if (this.syncBuffering) {
                start = this.start;
                end = this.end;
             }
@@ -1101,7 +1108,7 @@ class GridComponent extends VDOM.Component {
          cursor: index
       }, () => {
          if (scrollIntoView) {
-            let start = !widget.buffered ? 0 : widget.bufferedLoading ? this.start : this.state.start;
+            let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
             let item = this.dom.scroller.firstChild.children[index + 1 - start];
             if (item)
                scrollElementIntoView(item);
