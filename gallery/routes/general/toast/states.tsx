@@ -23,10 +23,43 @@ export default <cx>
 
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Closable Toast</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.info.message.visible')}>Info Message</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.success.message.visible')}>Success Message</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.warning.message.visible')}>Warning Message</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.error.message.visible')}>Error Message</Button>
+                <Button 
+                    visible={{expr: "{$root.$route.theme} == 'material'"}} 
+                    onClick={ (e, {store}) => store.toggle('$page.dark.toast.visible')}>
+                        Dark Toast
+                </Button>
             </FlexRow>
 
             <Toast visible={bind("$page.toast.visible")} preserveWhitespace>
                 This toast is visible only on this page.
+            </Toast>
+
+            <Toast visible={bind("$page.info.message.visible")} mod='info' preserveWhitespace>
+                This toast has mod='success' set.
+                <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
+            </Toast>
+
+            <Toast visible={bind("$page.success.message.visible")} mod='success' preserveWhitespace>
+                This toast has mod='success' set.
+                <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
+            </Toast>
+
+            <Toast visible={bind("$page.error.message.visible")} mod='error' preserveWhitespace>
+                This toast has mod='error' set.
+                <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
+            </Toast>
+
+            <Toast visible={bind("$page.warning.message.visible")} mod='warning' preserveWhitespace>
+                This toast has mod='error' set.
+                <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
+            </Toast>
+
+            <Toast visible={bind("$page.dark.toast.visible")} mod='dark' preserveWhitespace>
+                This toast has mod='dark' set.                
             </Toast>
 
             <Toast visible={bind("$page.complex.visible")} ws>
