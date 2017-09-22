@@ -39,7 +39,7 @@ export default <cx>
             </Toast>
 
             <Toast visible={bind("$page.info.message.visible")} mod='info' preserveWhitespace>
-                This toast has mod='success' set.
+                This toast has mod='info' set.
                 <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
             </Toast>
 
@@ -54,7 +54,7 @@ export default <cx>
             </Toast>
 
             <Toast visible={bind("$page.warning.message.visible")} mod='warning' preserveWhitespace>
-                This toast has mod='error' set.
+                This toast has mod='warning' set.
                 <Button mod="hollow" icon="close" style="margin-left: 15px;" dismiss/>
             </Toast>
 
