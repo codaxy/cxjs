@@ -34,7 +34,7 @@ export class MsgBox {
                closable={false}
                style={options.style || "max-width: 90vw"}
             >
-               {options.message}
+               {options.message || options.items || options.children}
                <FlexRow putInto="footer"
                   direction={MsgBox.prototype.footerDirection}
                   justify={MsgBox.prototype.footerJustify}
@@ -76,7 +76,7 @@ export class MsgBox {
                closable={false}
                style={options.style || "max-width: 90vw"}
             >
-               {options.message}
+               {options.message || options.items || options.children}
                <FlexRow putInto="footer"
                   direction={MsgBox.prototype.footerDirection}
                   justify={MsgBox.prototype.footerJustify}
