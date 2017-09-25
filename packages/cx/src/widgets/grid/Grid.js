@@ -399,6 +399,11 @@ export class Grid extends Widget {
 
             cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
 
+            let onContextMenu;
+
+            if (this.onColumnContextMenu)
+               onContextMenu = e => instance.invoke('onColumnContextMenu', e, columnInstance);
+
             result[l].push(<th key={i}
                ref={c => {
                   refs[colKey] = c
@@ -408,6 +413,7 @@ export class Grid extends Widget {
                className={cls}
                style={style}
                onClick={e => this.onHeaderClick(e, c, instance, l)}
+               onContextMenu={onContextMenu}
             >
                {getContent(content)}
                {sortIcon}

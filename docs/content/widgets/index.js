@@ -42,6 +42,7 @@ export * from './DateTimeFields';
 export * from './ContentResolvers';
 export * from './Hscrollers';
 export * from './Validators';
+export * from './ContextMenus';
 
 import { bumpVersion } from '../version';
 
