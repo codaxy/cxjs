@@ -30,6 +30,7 @@ import {isString} from '../../util/isString';
 import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
 import {isNumber} from '../../util/isNumber';
+import {debounce} from '../../util/debounce';
 
 export class Grid extends Widget {
 
@@ -605,6 +606,7 @@ Grid.prototype.cached = false;
 Grid.prototype.buffered = false;
 Grid.prototype.bufferStep = 15;
 Grid.prototype.bufferSize = 60;
+Grid.prototype.pageSize = 120;
 Grid.prototype.bufferedLoading = false;
 
 Widget.alias('grid', Grid);
@@ -829,6 +831,78 @@ class GridComponent extends VDOM.Component {
       return result;
    }
 
+   ensureData(offset) {
+      this.lastOffset = offset;
+
+      if (this.loading)
+         return;
+
+      let {instance, data} = this.props;
+      let {widget} = instance;
+      let {pageSize} = widget;
+
+      let startPage = Math.trunc(offset / pageSize),
+         endPage = Math.trunc((offset + pageSize - 1) / pageSize);
+
+      //debouncing restricts excessive page loading on fast scrolling when rendering data is
+      //useless because visible region is scrolled away before data appears
+      //the user should spent some time on the page before loading it
+
+      if (!this.loadPageRange)
+         this.loadPageRange = debounce((startPage, endPage) => {
+            let {records, offset} = data;
+            let promises = [];
+
+            for (let page = startPage; page <= endPage; page++) {
+               let s = page * pageSize, e = s + pageSize;
+               if (s >= offset && e <= offset + records.length) {
+                  promises.push(Promise.resolve(records.slice(s - offset, e - offset)));
+               } else {
+                  let data = instance.invoke("onLoadRecordsPage", {
+                     page: page + 1,
+                     pageSize: pageSize
+                  }, instance);
+                  promises.push(Promise.resolve(data));
+               }
+            }
+
+            this.loading = true;
+
+            Promise.all(promises)
+               .then(pageRecords => {
+                  this.loading = false;
+                  let records = [];
+                  pageRecords.forEach(list => {
+                     records.push(...list)
+                  });
+                  instance.store.silently(() => {
+                     instance.set('records', records);
+                     instance.set('offset', startPage * pageSize);
+                     data.records = records;
+                     data.offset = startPage * pageSize;
+                  });
+                  this.setState({
+                     startPage, endPage
+                  }, () => {
+                     this.loadingStartPage = startPage;
+                     this.loadingEndPage = endPage;
+                     this.ensureData(this.lastOffset);
+                  });
+               })
+               .catch(error => {
+                  this.loading = false;
+                  if (widget.onLoadingError)
+                     instance.invoke(error, "onLoadingError", instance);
+               })
+         }, 30);
+
+      if (startPage != this.loadingStartPage || endPage != this.loadingEndPage) {
+         this.loadingStartPage = startPage;
+         this.loadingEndPage = endPage;
+         this.loadPageRange(startPage, endPage);
+      }
+   }
+
    onScroll() {
       if (this.dom.fixedHeader) {
          this.dom.fixedHeader.scrollLeft = this.dom.scroller.scrollLeft;
@@ -843,9 +917,10 @@ class GridComponent extends VDOM.Component {
          let end = start + widget.bufferSize;
 
          if (widget.bufferedLoading) {
-            if (instance.set('loadingOffset', start)) {
-               //console.log("SCROLL", start, end);
-            }
+            this.ensureData(start);
+            // if (instance.set('loadingOffset', start)) {
+            //    //console.log("SCROLL", start, end);
+            // }
          }
 
          if (this.syncBuffering) {
@@ -1236,82 +1311,6 @@ class GridComponent extends VDOM.Component {
       })
    }
 }
-
-// class GridDataCell extends PureContainer {
-//    declareData() {
-//       return super.declareData(...arguments, {
-//          value: undefined,
-//          weight: undefined,
-//          pad: undefined,
-//          format: undefined
-//       })
-//    }
-//
-//    init() {
-//       if (!this.value && this.field)
-//          this.value = {bind: this.recordName + '.' + this.field};
-//
-//       if (!this.aggregateField && this.field)
-//          this.aggregateField = this.field;
-//
-//       if (this.footer && isSelector(this.footer))
-//          this.footer = {
-//             value: this.footer,
-//             pad: this.pad,
-//             format: this.format
-//          };
-//
-//       if (this.footer)
-//          this.footer.value = getSelector(this.footer.value);
-//
-//       super.init();
-//    }
-//
-//    initInstance(context, instance) {
-//       instance.header1 = this.header1 && instance.getChild(context, this.header1);
-//       instance.header2 = this.header2 && instance.getChild(context, this.header2);
-//       instance.header3 = this.header3 && instance.getChild(context, this.header3);
-//    }
-//
-//    explore(context, instance) {
-//       if (instance.repeatable)
-//          super.explore(context, instance);
-//       else {
-//          if (instance.header1)
-//             instance.header1.explore(context);
-//          if (instance.header2)
-//             instance.header2.explore(context);
-//          if (instance.header3)
-//             instance.header3.explore(context);
-//       }
-//    }
-//
-//    prepare(context, instance) {
-//       if (instance.repeatable)
-//          super.prepare(context, instance);
-//       else {
-//          if (instance.header1)
-//             instance.header1.prepare(context);
-//          if (instance.header2)
-//             instance.header2.prepare(context);
-//          if (instance.header3)
-//             instance.header3.prepare(context);
-//       }
-//    }
-//
-//    cleanup(context, instance) {
-//       if (instance.repeatable)
-//          super.cleanup(context, instance);
-//       else {
-//          if (instance.header1)
-//             instance.header1.cleanup(context);
-//          if (instance.header2)
-//             instance.header2.cleanup(context);
-//          if (instance.header3)
-//             instance.header3.cleanup(context);
-//       }
-//    }
-// }
 
 class GridColumnHeader extends PureContainer {
    initComponents() {
