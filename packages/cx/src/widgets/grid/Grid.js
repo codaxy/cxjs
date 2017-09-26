@@ -51,7 +51,7 @@ export class Grid extends Widget {
          dragSource: {structured: true},
          dropZone: {structured: true},
          filterParams: {structured: true},
-         offset: undefined,
+         page: undefined,
          totalRecordCount: undefined,
       }, selection, ...arguments);
    }
@@ -123,23 +123,41 @@ export class Grid extends Widget {
 
    initState(context, instance) {
       instance.state = {};
+      if (this.bufferedLoading)
+         instance.buffer = {
+            records: [],
+            totalRecordCount: 0,
+            page: 1
+         }
    }
 
    prepareData(context, instance) {
 
       let {data, state} = instance;
 
+      if (!this.bufferedLoading)
+         data.totalRecordCount = isArray(data.records) ? data.records.length : 0;
+      else {
+         if (isNumber(data.totalRecordCount))
+            instance.buffer.totalRecordCount = data.totalRecordCount;
+         else
+            data.totalRecordCount = instance.buffer.totalRecordCount;
+
+         if (isDefined(data.records))
+            instance.buffer.records = data.records;
+         else
+            data.records = instance.buffer.records;
+
+         if (isNumber(data.page))
+            instance.buffer.page = data.page;
+         else
+            data.page = instance.buffer.page;
+
+         data.offset = (data.page - 1) * this.pageSize;
+      }
+
       if (!isArray(data.records))
          data.records = [];
-
-      if (!this.bufferedLoading)
-         data.totalRecordCount = data.records.length;
-      else {
-         if (!(data.totalRecordCount >= 0))
-            data.totalRecordCount = 0;
-         if (!isNumber(data.offset) || data.offset < 0)
-            data.offset = 0;
-      }
 
       if (state.sorters && !data.sorters)
          data.sorters = state.sorters;
@@ -841,8 +859,8 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       let {pageSize} = widget;
 
-      let startPage = Math.trunc(offset / pageSize),
-         endPage = Math.trunc((offset + pageSize - 1) / pageSize);
+      let startPage = Math.trunc(offset / pageSize) + 1,
+         endPage = Math.trunc((offset + pageSize - 1) / pageSize) + 1;
 
       //debouncing restricts excessive page loading on fast scrolling when rendering data is
       //useless because visible region is scrolled away before data appears
@@ -854,12 +872,12 @@ class GridComponent extends VDOM.Component {
             let promises = [];
 
             for (let page = startPage; page <= endPage; page++) {
-               let s = page * pageSize, e = s + pageSize;
+               let s = (page - 1) * pageSize, e = s + pageSize;
                if (s >= offset && e <= offset + records.length) {
                   promises.push(Promise.resolve(records.slice(s - offset, e - offset)));
                } else {
                   let data = instance.invoke("onLoadRecordsPage", {
-                     page: page + 1,
+                     page: page,
                      pageSize: pageSize
                   }, instance);
                   promises.push(Promise.resolve(data));
@@ -872,14 +890,19 @@ class GridComponent extends VDOM.Component {
                .then(pageRecords => {
                   this.loading = false;
                   let records = [];
-                  pageRecords.forEach(list => {
-                     records.push(...list)
+                  pageRecords.forEach(page => {
+                     let list = page;
+                     records.push(...list);
                   });
+                  let totalRecordCount = (startPage - 1) * pageSize + records.length;
                   instance.store.silently(() => {
                      instance.set('records', records);
-                     instance.set('offset', startPage * pageSize);
-                     data.records = records;
-                     data.offset = startPage * pageSize;
+                     instance.set('page', startPage);
+                     instance.set('totalRecordCount', totalRecordCount);
+                     instance.buffer.totalRecordCount = data.totalRecordCount = Math.max(data.totalRecordCount, totalRecordCount);
+                     instance.buffer.records = data.records = records;
+                     instance.buffer.page = data.page = startPage;
+                     data.offset = (startPage - 1) * pageSize;
                   });
                   this.setState({
                      startPage, endPage
@@ -918,9 +941,6 @@ class GridComponent extends VDOM.Component {
 
          if (widget.bufferedLoading) {
             this.ensureData(start);
-            // if (instance.set('loadingOffset', start)) {
-            //    //console.log("SCROLL", start, end);
-            // }
          }
 
          if (this.syncBuffering) {
@@ -950,6 +970,8 @@ class GridComponent extends VDOM.Component {
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
+      if (widget.bufferedLoading)
+         this.ensureData(0);
    }
 
    onDragStart(e) {

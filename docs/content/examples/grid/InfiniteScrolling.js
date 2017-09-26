@@ -61,13 +61,11 @@ export const InfiniteScrolling = <cx>
             <DetachedScope bind="$page">
                 <div controller={PageController}>
                     <Grid
-                        records:bind="$page.records"
+                        //records:bind="$page.records"
                         buffered
                         style="height: 800px"
                         lockColumnWidths
-                        totalRecordCount:bind="$page.recordCount"
-                        offset:bind="$page.offset"
-                        loadingOffset:bind="$page.nextOffset"
+                        //totalRecordCount:bind="$page.recordCount"
                         bufferedLoading
                         cached
                         keyField="id"
