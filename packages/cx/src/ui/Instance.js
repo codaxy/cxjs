@@ -54,10 +54,14 @@ export class Instance {
          this.init(context);
 
       var data = this.dataSelector(this.store.getData());
+      var wasVisible = this.visible;
       this.visible = this.widget.checkVisible(context, this, data);
 
-      if (!this.visible)
+      if (!this.visible) {
+         if (wasVisible)
+            this.destroy();
          return false;
+      }
 
       if (this.instanceCache)
          this.instanceCache.mark();
@@ -268,18 +272,22 @@ export class Instance {
    }
 
    destroy() {
-      debug(destroyFlag, this);
-
       if (this.instanceCache) {
          this.instanceCache.destroy();
          delete this.instanceCache;
       }
 
-      if (this.widget.onDestroy)
-         this.widget.onDestroy(instance);
+      if (this.destroyTracked) {
+         debug(destroyFlag, this);
 
-      if (this.widget.controller && this.controller && this.controller.onDestroy)
-         this.controller.onDestroy();
+         if (this.widget.onDestroy)
+            this.widget.onDestroy(instance);
+
+         if (this.widget.controller && this.controller && this.controller.onDestroy)
+            this.controller.onDestroy();
+
+         this.destroyTracked = false;
+      }
    }
 
    setState(state) {

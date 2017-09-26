@@ -2,6 +2,7 @@ export * from './Binding';
 export * from './Expression';
 export * from './StringTemplate';
 export * from './View';
+export * from './SubscribableView';
 export * from './Store';
 export * from './ExposedRecordView';
 export * from './ExposedValueView';

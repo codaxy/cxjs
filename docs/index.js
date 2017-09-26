@@ -28,8 +28,8 @@ if (module.hot) {
 Url.setBaseFromScript('~/app*.js');
 History.connect(store, 'url');
 Widget.resetCounter();
-//Timing.enable('app-loop');
-Timing.enable('vdom-render');
+Timing.enable('app-loop');
+//Timing.enable('vdom-render');
 Debug.enable('app-data');
 //Widget.lazyInit = false;
 //Widget.optimizePrepare = false;

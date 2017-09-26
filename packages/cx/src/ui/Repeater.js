@@ -66,7 +66,7 @@ export class Repeater extends PureContainer {
          var subInstance = instance.getChild(context, this, record.key + ':', record.store);
          subInstance.repeatable = true;
          subInstance.record = record;
-         if (this.cached && subInstance.cached && subInstance.cached.record && subInstance.cached.record.data == record.data) {
+         if (this.cached && subInstance.cached && subInstance.cached.record && subInstance.cached.record.data == record.data && !subInstance.childStateDirty) {
             instances.push(subInstance);
             subInstance.shouldUpdate = false;
          } else if (subInstance.explore(context))

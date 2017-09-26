@@ -87,6 +87,7 @@ var contents = [{
         {title: 'Icon', url: '~/widgets/icons'},
         {title: 'PureContainer', url: '~/widgets/pure-container'},
         {title: 'IsolatedScope', url: '~/widgets/isolated-scope'},
+        {title: 'DetachedScope', url: '~/widgets/detached-scope'},
         {title: 'ContentResolver', url: '~/widgets/content-resolvers'},
 
     ]
@@ -99,6 +100,7 @@ var contents = [{
         {title: 'MsgBox', url: '~/widgets/msg-boxes'},
         {title: 'Toast', url: '~/widgets/toasts'},
         {title: 'Tooltips', url: '~/widgets/tooltips'},
+        {title: 'ContextMenu', url: '~/widgets/context-menus'},
     ]
 }, {
     topic: 'Svg',

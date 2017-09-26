@@ -1,4 +1,4 @@
-import { HtmlElement, UploadButton, MsgBox } from 'cx/widgets';
+import {HtmlElement, UploadButton, MsgBox} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -35,17 +35,19 @@ export const UploadButtonPage = <cx>
     <Md>
         # Upload Button
 
-        <ImportPath path="import {UploadButton} from 'cx/widgets';" />
+        <ImportPath path="import {UploadButton} from 'cx/widgets';"/>
 
         <CodeSplit>
 
             Upload buttons are used for selecting files and uploading them to the server.
 
             <div class="widgets">
-                <UploadButton url="https://api.cxjs.io/uploads"
-                              onUploadStarting={onUploadStarting}
-                              onUploadComplete={onUploadComplete}
-                              onUploadError={onUploadError}>
+                <UploadButton
+                    url="https://api.cxjs.io/uploads"
+                    onUploadStarting={onUploadStarting}
+                    onUploadComplete={onUploadComplete}
+                    onUploadError={onUploadError}
+                >
                     Upload
                 </UploadButton>
             </div>
@@ -74,10 +76,12 @@ export const UploadButtonPage = <cx>
             }
             ...
             <div class="widgets">
-                <UploadButton url="https://cxjs.io/fiddle/api/uploads"
-                              onUploadStarting={onUploadStarting}
-                              onUploadComplete={onUploadComplete}
-                              onUploadError={onUploadError}>
+                <UploadButton
+                    url="https://api.cxjs.io/uploads"
+                    onUploadStarting={onUploadStarting}
+                    onUploadComplete={onUploadComplete}
+                    onUploadError={onUploadError}
+                >
                     Upload
                 </UploadButton>
             </div>
