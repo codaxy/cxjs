@@ -10,7 +10,6 @@ import {casual} from '../data/casual';
 class PageController extends Controller {
     onInit() {
         this.store.init('$page', {
-            recordCount: 100000,
             pageSize: 120,
             offset: 0,
             nextOffset: 0
@@ -24,9 +23,9 @@ class PageController extends Controller {
             setTimeout(() => {
                 console.log("LOAD", page, pageSize)
                 let records = [];
-                for (let i = 0; i<pageSize; i++)
+                for (let i = 0; i < pageSize; i++)
                     records.push({
-                        id: page * pageSize + i + 1,
+                        question_id: page * pageSize + i + 1,
                         fullName: casual.full_name,
                         continent: casual.continent,
                         browser: casual.browser,
@@ -34,16 +33,19 @@ class PageController extends Controller {
                         answer_count: casual.integer(1, 100),
                         view_count: casual.integer(1, 100),
                     });
-                resolve(records);
+                resolve({
+                    records,
+                    lastPage: page == 5
+                });
             }, 100);
         });
 
-        return fetch(`https://api.stackexchange.com/2.2/questions?order=desc&sort=activity&site=stackoverflow&page=${page + 1}&pageSize=${pageSize}`)
+        return fetch(`https://api.stackexchange.com/2.2/questions?order=desc&sort=activity&site=stackoverflow&page=${page}&pagesize=${pageSize}`)
             .then(x => x.json())
-            .then(x => {
-                this.cache[page] = x.items;
-                return x.items;
-            })
+            .then(x => ({
+                records: x.items,
+                lastPage: !x.has_more
+            }));
     }
 }
 
@@ -68,13 +70,13 @@ export const InfiniteScrolling = <cx>
                         //totalRecordCount:bind="$page.recordCount"
                         bufferedLoading
                         cached
-                        keyField="id"
+                        keyField="question_id"
                         columns={[
                             {header: "Answers", field: "answer_count", sortable: true},
                             {header: "Question", field: "title", sortable: true},
                             {header: "Views", field: "view_count", sortable: true, align: "right"}
                         ]}
-                        selection={{type: KeySelection, bind: "$page.selection"}}
+                        selection={{type: KeySelection, bind: "$page.selection", keyField: "question_id"}}
                         onLoadRecordsPage="loadPage"
                     />
                 </div>
