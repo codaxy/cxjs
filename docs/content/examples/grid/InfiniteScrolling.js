@@ -36,7 +36,7 @@ class PageController extends Controller {
                     });
                 resolve({
                     records,
-                    totalRecordCount: 1000000
+                    totalRecordCount: 100000
                 });
             }, 100);
         });
