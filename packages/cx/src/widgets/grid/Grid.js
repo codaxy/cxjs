@@ -780,7 +780,7 @@ class GridComponent extends VDOM.Component {
          );
       }
 
-      let marginTop = -(this.headerHeight || 0), marginBottom = null;
+      let marginTop = -(this.headerHeight || 0), marginBottom = 0;
       if (this.rowHeight > 0) {
          marginTop += this.rowHeight * start;
          marginBottom = (data.totalRecordCount - (start + children.length)) * this.rowHeight;
@@ -806,8 +806,8 @@ class GridComponent extends VDOM.Component {
                   this.dom.table = el
                }}
                style={{
-                  marginTop,
-                  marginBottom
+                  marginTop: `${marginTop.toFixed(0)}px`,
+                  marginBottom: `${marginBottom.toFixed(0)}px`,
                }}
             >
                {this.props.header}
@@ -1209,8 +1209,8 @@ class GridComponent extends VDOM.Component {
                }
                remaining = Math.max(0, data.totalRecordCount - end);
             }
-            this.dom.table.style.marginTop = `${ -headerHeight + start * rowHeight }px`;
-            this.dom.table.style.marginBottom = `${ remaining * this.headerHeight }px`;
+            this.dom.table.style.marginTop = `${ (-headerHeight + start * rowHeight).toFixed(0) }px`;
+            this.dom.table.style.marginBottom = `${ (remaining * this.headerHeight).toFixed(0) }px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
          }

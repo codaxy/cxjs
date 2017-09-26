@@ -25,6 +25,7 @@ class PageController extends Controller {
                 let records = [];
                 for (let i = 0; i < pageSize; i++)
                     records.push({
+                        index: page * pageSize + i + 1,
                         question_id: page * pageSize + i + 1,
                         fullName: casual.full_name,
                         continent: casual.continent,
@@ -35,7 +36,7 @@ class PageController extends Controller {
                     });
                 resolve({
                     records,
-                    lastPage: page == 5
+                    totalRecordCount: 1000000
                 });
             }, 100);
         });
@@ -72,8 +73,9 @@ export const InfiniteScrolling = <cx>
                         cached
                         keyField="question_id"
                         columns={[
+                            {header: "#", field: "index"},
                             {header: "Answers", field: "answer_count", sortable: true},
-                            {header: "Question", field: "title", sortable: true},
+                            {header: "Question", field: "title"},
                             {header: "Views", field: "view_count", sortable: true, align: "right"}
                         ]}
                         selection={{type: KeySelection, bind: "$page.selection", keyField: "question_id"}}
