@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-cx-env",
-  "version": "17.6.2",
+  "version": "17.9.0",
   "description": "Babel preset for Cx apps",
   "main": "./index.js",
   "author": "Codaxy",
@@ -11,7 +11,9 @@
     "babel-plugin-transform-cx-jsx": "^17.6.3",
     "babel-plugin-transform-function-bind": "6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.5.2"
+    "babel-plugin-transform-react-jsx": "^6.24.1"
+  },
+  "peerDependencies": {
+    "babel-preset-env": "2.0.0-alpha.16"
   }
 }
