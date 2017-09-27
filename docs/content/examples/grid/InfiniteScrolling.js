@@ -8,24 +8,14 @@ import {CodeSnippet} from '../../../components/CodeSnippet';
 import {casual} from '../data/casual';
 
 class PageController extends Controller {
-    onInit() {
-        this.store.init('$page', {
-            pageSize: 120,
-            offset: 0,
-            nextOffset: 0
-        });
-
-        //TODO: Support total to be loaded with the page, make records and offset to be optional bindings
-    }
-
     loadPage({page, pageSize}) {
         return new Promise(resolve => {
             setTimeout(() => {
-                console.log("LOAD", page, pageSize)
+                //console.log("LOAD", page, pageSize)
                 let records = [];
                 for (let i = 0; i < pageSize; i++)
                     records.push({
-                        index: page * pageSize + i + 1,
+                        index: (page-1) * pageSize + i + 1,
                         question_id: page * pageSize + i + 1,
                         fullName: casual.full_name,
                         continent: casual.continent,
@@ -57,19 +47,17 @@ export const InfiniteScrolling = <cx>
 
         <CodeSplit>
 
-            The `Grid` widgets supports buffered rendering which dramatically improves performance with many rows.
-            Set grid to `buffered` mode and tweak `bufferSize` and `bufferStep` parameters for the best scrolling
-            experience.
+            Infinite scrolling is a technique of dynamically loading more data based on the scroll position. Grids
+            support infinite by setting the `infinite` flag and implementing the `onFetchRecords` callback which
+            is responsible for fetching data based on current sorting and filtering parameters.
 
             <DetachedScope bind="$page">
                 <div controller={PageController}>
                     <Grid
-                        //records:bind="$page.records"
-                        buffered
+                        infinite
+                        onFetchRecords="loadPage"
                         style="height: 800px"
                         lockColumnWidths
-                        //totalRecordCount:bind="$page.recordCount"
-                        bufferedLoading
                         cached
                         keyField="question_id"
                         columns={[
@@ -79,12 +67,11 @@ export const InfiniteScrolling = <cx>
                             {header: "Views", field: "view_count", sortable: true, align: "right"}
                         ]}
                         selection={{type: KeySelection, bind: "$page.selection", keyField: "question_id"}}
-                        onLoadRecordsPage="loadPage"
                     />
                 </div>
             </DetachedScope>
 
-            <CodeSnippet putInto="code" fiddle="Qq5LHNJc">{}</CodeSnippet>
+            <CodeSnippet putInto="code">{}</CodeSnippet>
         </CodeSplit>
 
     </Md>

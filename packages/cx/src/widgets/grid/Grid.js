@@ -59,7 +59,7 @@ export class Grid extends Widget {
 
    init() {
 
-      if (this.bufferedLoading) {
+      if (this.infinite) {
          this.buffered = true;
          this.remoteSort = true;
       }
@@ -125,7 +125,7 @@ export class Grid extends Widget {
    initState(context, instance) {
       instance.state = {};
       instance.v = 0;
-      if (this.bufferedLoading)
+      if (this.infinite)
          instance.buffer = {
             records: [],
             totalRecordCount: 0,
@@ -139,7 +139,7 @@ export class Grid extends Widget {
 
       data.version = ++instance.v;
 
-      if (!this.bufferedLoading)
+      if (!this.infinite)
          data.totalRecordCount = isArray(data.records) ? data.records.length : 0;
       else {
          if (isNumber(data.totalRecordCount))
@@ -629,7 +629,7 @@ Grid.prototype.buffered = false;
 Grid.prototype.bufferStep = 15;
 Grid.prototype.bufferSize = 60;
 Grid.prototype.pageSize = 100;
-Grid.prototype.bufferedLoading = false;
+Grid.prototype.infinite = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -652,7 +652,7 @@ class GridComponent extends VDOM.Component {
 
       this.syncBuffering = false;
 
-      if (widget.bufferedLoading) {
+      if (widget.infinite) {
          this.start = 0;
          this.end = end;
          this.syncBuffering = false; //control with a flag
@@ -723,7 +723,7 @@ class GridComponent extends VDOM.Component {
                   </tr>
                }, start + i)
             } else {
-               let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.bufferedLoading ? start + i - data.offset : start + i);
+               let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
                let wasSelected = row.selected;
                record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row, { name: 'grid-row'});
@@ -842,7 +842,7 @@ class GridComponent extends VDOM.Component {
    getRecordsSlice(start, end) {
       let {data, instance} = this.props;
       let {widget} = instance;
-      if (!widget.bufferedLoading) {
+      if (!widget.infinite) {
          let source = instance.records || data.records;
          return source.slice(start, end);
       }
@@ -879,7 +879,8 @@ class GridComponent extends VDOM.Component {
 
       if (!this.loadPageRange)
          this.loadPageRange = debounce((startPage, endPage) => {
-            let {records, offset} = this.props.data;
+            let {data} = this.props;
+            let {records, offset} = data;
             let promises = [];
 
             for (let page = startPage; page <= endPage; page++) {
@@ -887,9 +888,13 @@ class GridComponent extends VDOM.Component {
                if (s >= offset && e <= offset + records.length) {
                   promises.push(Promise.resolve(records.slice(s - offset, e - offset)));
                } else {
-                  let result = instance.invoke("onLoadRecordsPage", {
-                     page: page,
-                     pageSize: pageSize
+                  let result = instance.invoke("onFetchRecords", {
+                     page,
+                     pageSize,
+                     sorters: data.sorters,
+                     sortField: data.sortField,
+                     sortDirection: data.sortDirection,
+                     filterParams: data.filterParams
                   }, instance);
                   promises.push(Promise.resolve(result));
                }
@@ -909,7 +914,7 @@ class GridComponent extends VDOM.Component {
                         records.push(...page);
                      } else {
                         if (!Array.isArray(page.records))
-                           throw new Error('onLoadRecordsPage should return an array of records or an object with results inside records property.');
+                           throw new Error('onFetchRecords should return an array of records or an object with results inside records property.');
                         totalRecordCount = page.totalRecordCount;
                         lastPage = page.lastPage;
                         records.push(...page.records);
@@ -974,7 +979,7 @@ class GridComponent extends VDOM.Component {
          start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          let end = Math.min(data.totalRecordCount, start + widget.bufferSize);
 
-         if (widget.bufferedLoading) {
+         if (widget.infinite) {
             this.ensureData(start, end);
          }
 
@@ -1005,7 +1010,7 @@ class GridComponent extends VDOM.Component {
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
-      if (widget.bufferedLoading)
+      if (widget.infinite)
          this.ensureData(0, 0);
    }
 

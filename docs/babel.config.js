@@ -13,10 +13,10 @@ module.exports = function (options) {
                 useBuiltIns: true,
                 targets: {
                     chrome: 55,
-                    // ie: 11,
-                    // ff: 30,
-                    // edge: 12,
-                    // safari: 9
+                    ie: 11,
+                    ff: 30,
+                    edge: 12,
+                    safari: 9
                 }
             }]
         ],
