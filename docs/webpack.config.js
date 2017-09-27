@@ -11,7 +11,9 @@ const webpack = require('webpack'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     babelConfig = require('./babel.config'),
     gtm = require('../misc/tracking/gtm.js'),
-    reactScripts = require('../misc/reactScripts');
+    reactScriptsProd = require('../misc/reactScripts'),
+    reactScriptsDev = require('../misc/reactScripts.dev');
+
 
 var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
 
@@ -92,7 +94,6 @@ else {
             }]
         },
         entry: {
-            vendor: path.join(__dirname, 'polyfill'),
             app: [
                 'react-dev-utils/webpackHotDevClient',
                 __dirname + '/index.js'
@@ -160,9 +161,9 @@ var common = {
         }]
     },
     entry: {
-        vendor: [path.join(__dirname, 'polyfill')],
         app: [
             path.resolve(__dirname, "../misc/babelHelpers"),
+            path.join(__dirname, 'polyfill'),
             path.join(__dirname, '/index')
         ]
     },
@@ -188,7 +189,7 @@ var common = {
             template: path.join(__dirname, 'index.html'),
             gtmh: gtm.head,
             gtmb: gtm.body,
-            reactScripts: reactScripts,
+            reactScripts: production ? reactScriptsProd : reactScriptsDev,
             favicon: path.join(__dirname, 'img/favicon.png'),
             minify: {
                 removeComments: true

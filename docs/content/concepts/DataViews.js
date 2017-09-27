@@ -7,6 +7,9 @@ import {ImportPath} from '../../components/ImportPath';
 
 import {store} from '../../app/store';
 
+import {enableFatArrowExpansion} from "cx/data";
+enableFatArrowExpansion();
+
 store.set('intro.core.items', [
     {text: 'A', checked: false},
     {text: 'B', checked: false},
