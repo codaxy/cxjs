@@ -34,6 +34,11 @@ export class GridRowComponent extends VDOM.Component {
          this.onDoubleClick = e => {
             grid.invoke("onRowDoubleClick", e, instance);
          }
+
+      if (grid.widget.onRowContextMenu)
+         this.onRowContextMenu = e => {
+            grid.invoke("onRowContextMenu", e, instance);
+         }
    }
 
    render() {
@@ -60,6 +65,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseMove={move}
             onTouchEnd={up}
             onMouseUp={up}
+            onContextMenu={this.onRowContextMenu}
          >
             {this.props.children}
          </tbody>

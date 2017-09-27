@@ -12,6 +12,8 @@ module.exports = function (context) {
       'transform-object-rest-spread',
       'transform-function-bind',
       'transform-cx-jsx',
+      'transform-es2015-parameters',
+      'transform-export-extensions',
       ["transform-react-jsx", {"pragma": pragma}]
    );
 

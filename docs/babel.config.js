@@ -5,12 +5,12 @@ module.exports = function (options) {
 
     return {
         "cacheDirectory": true,
-        "cacheIdentifier": "v12",
+        "cacheIdentifier": "v13",
         "presets": [
             ["env", {
                 loose: true,
                 modules: false,
-                useBuiltIns: true,
+                useBuiltIns: "entry",
                 targets: {
                     chrome: 55,
                     ie: 11,
@@ -21,14 +21,14 @@ module.exports = function (options) {
             }]
         ],
         "plugins": [
+            'transform-cx-jsx',
+            ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
             'external-helpers',
             'transform-object-rest-spread',
             "transform-function-bind",
             'transform-export-extensions',
+            'transform-es2015-parameters',
             isProduction && ["transform-cx-imports", {useSrc: true}],
-            'transform-cx-jsx',
-            ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
-            //["babel-plugin-inferno", {"pragma": "VDOM"}]
         ].filter(Boolean)
     }
 };

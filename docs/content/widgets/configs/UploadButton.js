@@ -1,18 +1,32 @@
 import {Md} from '../../../components/Md';
 
 export default {
-   disabled: {
-      type: 'boolean',
-      description: <cx><Md>
-         Set to `true` to disable the button.
-      </Md></cx>
-   },
-   baseClass: {
-      type: 'string',
-      description: <cx><Md>
-         Base CSS class to be applied to the element. Default is 'uploadbutton'.
-      </Md></cx>
-   },
+    disabled: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to disable the button.
+        </Md></cx>
+    },
+    baseClass: {
+        type: 'string',
+        description: <cx><Md>
+            Base CSS class to be applied to the element. Default is 'uploadbutton'.
+        </Md></cx>
+    },
+    method: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            HTTP request method. Default value is `POST`.
+        </Md></cx>
+    },
+    multiple: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to enable multiple files to be selected for upload.
+        </Md></cx>
+    },
     onUploadStarting: {
         type: 'function',
         key: true,
@@ -48,6 +62,18 @@ export default {
             Arguments:
             - `error` - error
             - `instance` - widget instance
+        </Md></cx>
+    },
+    onResolveUrl: {
+        type: 'function',
+        key: true,
+        description: <cx><Md>
+            A callback function used to resolve dynamic upload URLs which are sometimes necessary for cloud uploads.
+            Arguments:
+            - `file` - instance of the File being uploaded
+            - `instance` - widget instance
+
+            Return value should be a string or a promise that resolves to a string.
         </Md></cx>
     },
     text: {

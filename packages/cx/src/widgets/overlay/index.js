@@ -6,3 +6,4 @@ export * from './Window';
 export * from './MsgBox';
 export * from './Toast';
 export * from './captureMouse';
+export * from './ContextMenu';

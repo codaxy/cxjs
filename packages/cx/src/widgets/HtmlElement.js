@@ -115,6 +115,7 @@ export class HtmlElement extends PureContainer {
          case "CSS":
          case "tooltip":
          case "styles":
+         case "jsxAttributes":
             return false;
 
          default:

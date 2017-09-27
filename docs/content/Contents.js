@@ -100,6 +100,7 @@ var contents = [{
         {title: 'MsgBox', url: '~/widgets/msg-boxes'},
         {title: 'Toast', url: '~/widgets/toasts'},
         {title: 'Tooltips', url: '~/widgets/tooltips'},
+        {title: 'ContextMenu', url: '~/widgets/context-menus'},
     ]
 }, {
     topic: 'Svg',

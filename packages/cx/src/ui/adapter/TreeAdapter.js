@@ -12,7 +12,7 @@ export class TreeAdapter extends ArrayAdapter {
 
    processList(context, instance, level, parentKey, nodes, result) {
       var nonLeafs = [], leafs = [];
-      nodes.forEach(record=> {
+      nodes.forEach(record => {
          record.key = parentKey + record.key;
          this.processNode(context, instance, level, record.data.$leaf ? leafs : nonLeafs, record)
       });
@@ -31,13 +31,13 @@ export class TreeAdapter extends ArrayAdapter {
             }
             else if (!data[this.loadedField]) {
                if (this.load) {
-                  store.set('$record.$loading', true);
+                  store.set(`${this.recordName}.${this.loadedField}`, true);
                   var response = this.load(context, instance, data);
                   Promise.resolve(response)
-                     .then(children=> {
-                        store.set('$record.$children', children);
-                        store.set('$record.$loaded', true);
-                        store.set('$record.$loading', false);
+                     .then(children => {
+                        store.set(`${this.recordName}.${this.childrenField}`, children);
+                        store.set(`${this.recordName}.${this.loadedField}`, true);
+                        store.set(`${this.recordName}.${this.loadingField}`, false);
                      })
                      .catch(response => {
                         if (this.onLoadError)
@@ -46,7 +46,7 @@ export class TreeAdapter extends ArrayAdapter {
                }
             }
          } else
-            data.$expanded = false;
+            data[this.expandedField] = false;
       }
    }
 }
