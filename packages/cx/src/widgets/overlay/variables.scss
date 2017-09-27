@@ -39,7 +39,32 @@ $cx-default-toast-border-color: rgba(255, 255, 255, 0) !default;
 $cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
 $cx-default-toast-padding: 10px !default;
 
-$cx-toast-mods: () !default;
+$cx-toast-mods: (
+   warning: (
+      default: (
+         color: #fff,
+         background-color: #f09037
+      )   
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: #1f99f8
+      )
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #5cb85c
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #d9534f
+      )
+   )  
+) !default;
 
 // WINDOW
 @import "Window.variables";

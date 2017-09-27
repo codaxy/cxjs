@@ -637,7 +637,31 @@ $cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
          color: #fff,
          background-color: rgb(51, 51, 51)
       )
-   )
+   ), 
+   warning: (
+      default: (
+         color: $cx-default-color,
+         background-color: #FFC107
+      )   
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: $cx-theme-primary-color
+      )
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #4CAF50
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #F4511E       
+      )
+   )     
 ));
 
 //GRID  
