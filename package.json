@@ -50,6 +50,7 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-inferno": "^3.2.0",
+    "babel-plugin-transform-es2015-parameters": "^7.0.0-beta.2",
     "babel-plugin-transform-export-extensions": "^7.0.0-alpha.19",
     "babel-preset-cx-env": "^17.6.2",
     "babel-preset-env": "2.0.0-alpha.20",

@@ -161,7 +161,10 @@ var common = {
     },
     entry: {
         vendor: [path.join(__dirname, 'polyfill')],
-        app: __dirname + '/index.js',
+        app: [
+            path.resolve(__dirname, "../misc/babelHelpers"),
+            path.join(__dirname, '/index')
+        ]
     },
     output: {
         path: __dirname,

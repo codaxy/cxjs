@@ -22,6 +22,10 @@ module.exports = {
          }
       }]
    ],
-   "plugins": []
+   "plugins": [
+      'external-helpers',
+      'transform-export-extensions',
+      'transform-es2015-parameters',
+   ]
 };
 

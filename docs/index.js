@@ -1,5 +1,3 @@
-import "./babelHelpers";
-
 import { startAppLoop, Url, History } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import { Widget } from 'cx/ui';

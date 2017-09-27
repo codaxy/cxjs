@@ -25,6 +25,7 @@ module.exports = function (options) {
             'transform-object-rest-spread',
             "transform-function-bind",
             'transform-export-extensions',
+            'transform-es2015-parameters',
             isProduction && ["transform-cx-imports", {useSrc: true}],
             'transform-cx-jsx',
             ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
