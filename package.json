@@ -50,8 +50,6 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-inferno": "^3.2.0",
-    "babel-plugin-transform-es2015-parameters": "^6.22.0",
-    "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-cx-env": "link:./packages/babel-preset-cx-env",
     "babel-preset-env": "1.6.0",
     "babili-webpack-plugin": "^0.1.1",
