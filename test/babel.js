@@ -1,4 +1,4 @@
-require("babel-register")({
+require("babel-core/register")({
    retainLines: true,
    "presets": [
       ["env", {loose: true}]

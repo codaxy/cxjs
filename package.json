@@ -1,7 +1,7 @@
 {
   "name": "cx",
   "version": "1.0.2",
-  "description": "Complex UI made simple.",
+  "description": "Framework for enterprise JavaScript applications",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --config docs/webpack.config.js --open",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:codaxy/cx.git"
+    "url": "git@github.com:codaxy/cxjs.git"
   },
   "keywords": [
     "UI"
@@ -39,23 +39,21 @@
   "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://gitlab.com/mstijak/cx/issues"
+    "url": "https://gitlab.com/codaxy/cxjs/issues"
   },
   "homepage": "https://cxjs.io",
   "private": true,
   "devDependencies": {
     "@types/react": "^16.0.7",
-    "babel-core": "^7.0.0-beta.0",
+    "babel-core": "^6.22.0",
     "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-inferno": "^3.2.0",
-    "babel-plugin-transform-es2015-parameters": "^7.0.0-beta.2",
-    "babel-plugin-transform-export-extensions": "^7.0.0-alpha.19",
-    "babel-preset-cx-env": "^17.6.2",
-    "babel-preset-env": "2.0.0-alpha.20",
-    "babel-preset-typescript": "^7.0.0-alpha.19",
-    "babel-register": "^7.0.0-beta.2",
+    "babel-plugin-transform-es2015-parameters": "^6.22.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-preset-cx-env": "link:./packages/babel-preset-cx-env",
+    "babel-preset-env": "1.6.0",
     "babili-webpack-plugin": "^0.1.1",
     "buble": "^0.15.2",
     "bundle-loader": "^0.5.5",
@@ -97,9 +95,9 @@
     "babel-polyfill": "^7.0.0-beta.0",
     "base-64": "^0.1.0",
     "casual": "^1.5.17",
-    "cx": "^17.9.7",
-    "cx-react": "^17.4.1",
-    "cx-redux": "^17.5.0",
+    "cx": "link:./packages/cx",
+    "cx-react": "link:./packages/cx-react",
+    "cx-redux": "link:./packages/cx-redux",
     "illuminate-js": "^0.3.0",
     "inferno": "^3.9.0",
     "inferno-compat": "^3.9.0",
