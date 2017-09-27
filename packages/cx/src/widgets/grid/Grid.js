@@ -478,7 +478,7 @@ export class Grid extends Widget {
       e.stopPropagation();
 
       let {data} = instance;
-      let header = column[`header${headerLine + 1}`];
+      let header = column.components[`header${headerLine + 1}`];
 
       if (header.allowSorting && column.sortable && (column.field || column.sortField || column.value)) {
          let sortField = column.sortField || column.field;
@@ -1380,7 +1380,7 @@ class GridComponent extends VDOM.Component {
 }
 
 class GridColumnHeader extends PureContainer {
-   initComponents() {
+   init() {
       if (this.header)
          this.header1 = this.header;
 
@@ -1399,6 +1399,23 @@ class GridColumnHeader extends PureContainer {
             text: this.header3 || ''
          };
 
+      if (!this.aggregateField && this.field)
+         this.aggregateField = this.field;
+
+      if (this.footer && isSelector(this.footer))
+         this.footer = {
+            value: this.footer,
+            pad: this.pad,
+            format: this.format
+         };
+
+      if (this.footer)
+         this.footer.value = getSelector(this.footer.value);
+
+      super.init();
+   }
+
+   initComponents() {
       return super.initComponents({
          header1: this.header1 && GridHeaderCell.create(this.header1),
          header2: this.header2 && GridHeaderCell.create(this.header2),
