@@ -12,7 +12,7 @@ module.exports = function (options) {
                 modules: false,
                 useBuiltIns: "entry",
                 targets: {
-                    chrome: 45,
+                    chrome: 55,
                     ie: 11,
                     ff: 30,
                     edge: 12,

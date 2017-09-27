@@ -3,9 +3,11 @@ import * as React from 'react';
 import {Instance} from "../../ui/Instance";
 import {DragEvent} from '../drag-drop/ops';
 
+type FetchRecordsResult = Cx.Record[] | { records: Cx.Record[], lastPage?: boolean, totalRecordCount?: number }
+
 interface GridProps extends Cx.StyledContainerProps {
 
-   /** An array of records to be displayed in the grid. */ 
+   /** An array of records to be displayed in the grid. */
    records?: Cx.Prop<Cx.Record[]>,
 
    /** A binding used to store the sorting order list. Commonly used for server-side sorting */
@@ -14,9 +16,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
    scrollable?: Cx.BooleanProp,
 
-   /** 
-    * A binding used to store the name of the field used for sorting grids. 
-    * Available only if `sorters` are not used. 
+   /**
+    * A binding used to store the name of the field used for sorting grids.
+    * Available only if `sorters` are not used.
     */
    sortField?: Cx.StringProp,
 
@@ -29,9 +31,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Set to `true` to add vertical gridlines. */
    vlines?: boolean;
 
-   /** 
-    * A binding used to store the sort direction. 
-    * Available only if `sorters` are not used. 
+   /**
+    * A binding used to store the sort direction.
+    * Available only if `sorters` are not used.
     */
    sortDirection?: Cx.StringProp,
 
@@ -53,33 +55,33 @@ interface GridProps extends Cx.StyledContainerProps {
    /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
    grouping?: Cx.Record[],
 
-   /** 
-    * Determines header appearance. Supported values are `plain` and `default`. Default mode is used if some of the columns are sortable. 
-    * Plain mode better suits reports and other scenarios in which users do not interact with the grid. 
+   /**
+    * Determines header appearance. Supported values are `plain` and `default`. Default mode is used if some of the columns are sortable.
+    * Plain mode better suits reports and other scenarios in which users do not interact with the grid.
     */
    headerMode?: Cx.StringProp,
 
    /** Set to `true` to add default border around the table. Automatically set if grid is `scrollable`. */
    border?: Cx.BooleanProp,
-   
+
    /** Base CSS class to be applied to the element. Default is 'grid'. */
    baseClass?: string,
 
    /** A field used to get the unique identifier of the record. Setting `keyField` improves grid performance on sort operations as the widget is able to identify row movement inside the grid.  */
    keyField?: string;
-   
+
    /** Show grid header within the group. Useful for long report-like (printable) grids. Defaults to `false`. */
    showHeader?: boolean,
 
    /** Show grid footer. Defaults to `false`. */
    showFooter?: boolean,
-   
+
    /** Record alias. Default is `$record`. */
    recordName?: string,
 
    /** Record alias. Default is `$record`. */
    recordAlias?: string,
-   
+
    remoteSort?: boolean,
 
    /** Set to `true` to enable row caching. This greatly improves grid performance
@@ -97,9 +99,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Specifies how many rows needs to be scrolled in order to recalculate buffer */
    bufferStep?: number,
 
-   /** 
-    * Set to true to lock column widths after the first render. 
-    * This is helpful in pagination scenarios to maintain consistent looks across pages. 
+   /**
+    * Set to true to lock column widths after the first render.
+    * This is helpful in pagination scenarios to maintain consistent looks across pages.
     */
    lockColumnWidths?: boolean,
 
@@ -126,7 +128,13 @@ interface GridProps extends Cx.StyledContainerProps {
    filterParams?: Cx.StructuredProp,
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance: Instance) => (record: Cx.Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: Cx.Record) => boolean;
+
+   /** Enable infinite scrolling */
+   infinite?: boolean,
+
+   /** A callback to fetch records during infinite loading */
+   onFetchRecords?: (pageInfo: { page: number, pageSize: number, sorters?: Cx.Record[], sortField?: string, sortDirection?: string }, instance?: Instance) => FetchRecordsResult | Promise<FetchRecordsResult>;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

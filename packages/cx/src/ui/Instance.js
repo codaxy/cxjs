@@ -348,31 +348,31 @@ export class Instance {
    }
 
    doSet(prop, value) {
+      let changed = false;
       batchUpdates(() => {
          let p = this.widget[prop];
          if (p && typeof p == 'object') {
             if (p.set) {
                if (isFunction(p.set)) {
                   p.set(value, this);
-                  return true;
+                  changed = true;
                }
                else if (isString(p.set)) {
                   this.controller[p.set](value, this);
-                  return true;
+                  changed = true;
                }
             }
             else if (p.action) {
                let action = p.action(value, this);
                this.store.dispatch(action);
-               return true;
+               changed = true;
             }
             else if (p.bind) {
-               this.store.set(p.bind, value);
-               return true;
+               changed = this.store.set(p.bind, value);
             }
          }
-         return false;
       });
+      return changed;
    }
 
    replaceState(state) {

@@ -31,16 +31,15 @@ export class ExposedValueView extends View {
       if (path == this.recordName || path.indexOf(this.recordName + '.') == 0) {
          var data = this.getData();
          var d = Binding.get(path).set(data, value);
-         if (d != data) {
-            var container = this.containerBinding.value(d);
-            var record = d[this.recordName];
-            var newContainer = Object.assign({}, container);
-            newContainer[this.key] = record;
-            this.store.setItem(this.containerBinding.path, newContainer);
-         }
-      } else {
-         this.store.setItem(path, value);
+         if (d === data)
+            return false;
+         var container = this.containerBinding.value(d);
+         var record = d[this.recordName];
+         var newContainer = Object.assign({}, container);
+         newContainer[this.key] = record;
+         return this.store.setItem(this.containerBinding.path, newContainer);
       }
+      return this.store.setItem(path, value);
    }
 
    deleteItem(path) {
@@ -58,16 +57,16 @@ export class ExposedValueView extends View {
       else if (path.indexOf(this.recordName + '.') == 0) {
          data = this.getData();
          var d = Binding.get(path).delete(data);
-         if (d != data) {
-            container = this.containerBinding.value(d);
-            var record = d[this.recordName];
-            newContainer = Object.assign({}, container);
-            newContainer[this.key] = record;
-            this.store.setItem(this.containerBinding.path, newContainer);
-         }
-      } else {
-         this.store.deleteItem(path);
+         if (d === data)
+            return false;
+         container = this.containerBinding.value(d);
+         var record = d[this.recordName];
+         newContainer = Object.assign({}, container);
+         newContainer[this.key] = record;
+         return this.store.setItem(this.containerBinding.path, newContainer);
       }
+
+      return this.store.deleteItem(path);
    }
 }
 
