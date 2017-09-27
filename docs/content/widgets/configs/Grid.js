@@ -137,6 +137,22 @@ export default {
         </Md></cx>
     },
 
+    infinite: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to enable infinite scrolling. When this is set it's required to also define the `onFetchRecords` callback
+            used to fetch data. The signature of the method looks like this `onFetchRecords(pageInfo, instance)`.
+
+            - The `pageInfo` parameter is an object containing the following properties: `page`, `pageSize`, `sorters`, `filterParams`,
+            `sortField` and `sortDirection`.
+
+            - Return value should be an object containing the `records` field containing the data for the requested page.
+            Additionally, the result can indicate the total number of records using `totalRecordCount` or end of available data
+            using the `lastPage` flag.
+        </Md></cx>
+    },
+
     bufferSize: {
         type: 'number',
         description: <cx><Md>
