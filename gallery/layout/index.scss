@@ -202,12 +202,12 @@ $small-device-width: 800px;
     //    background: #f3f5f7;
  
        .cxb-link.cxs-active {
-          color: darken(deepskyblue, 15);
+          color: darken(#49d2e4, 10);
        }
     }
  
     .header {
-       background: linear-gradient(to top right, darken(deepskyblue, 15), deepskyblue);
+       background: linear-gradient(to top right, darken(#49d2e4, 15), #49d2e4);
 
       .title a {
           color: #ffffb0;

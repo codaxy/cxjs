@@ -20,7 +20,7 @@ p {
 @for $i from 1 through 6 {
    .#{$element}section-header h#{$i} {
       .cxm-card & {
-         color: $cx-theme-primary-color-light;
+         color: $cx-theme-primary-text-color;
       }
       .cxm-card-accent & {
          color: #fff;
@@ -172,7 +172,7 @@ $form-list: (
 
    .#{$element}calendar-day-names {
       // background-color: $cx-theme-primary-color;
-      color: $cx-theme-primary-color-dark;
+      color: $cx-theme-primary-text-color;
       
       th {
          font-size: 11px;
