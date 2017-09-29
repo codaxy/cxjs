@@ -62,11 +62,11 @@ export default <cx>
                                 <Submenu arrow>
                                     <a text={{bind: "themeName"}}/>
                                     <Menu putInto="dropdown">
+                                        <Link href={tpl("~/aquamarine{$route.remainder}")}>Aquamarine</Link>
                                         <Link href={tpl("~/material{$route.remainder}")}>Material</Link>
                                         <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
                                         <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
                                         <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
-                                        <Link href={tpl("~/marine{$route.remainder}")}>Marine</Link>
                                     </Menu>
                                 </Submenu>
                             </Menu>
@@ -98,8 +98,8 @@ export default <cx>
                         System.import("../themes/core").then(() => loadTheme("core"));
                         return null;
 
-                    case "marine":
-                        System.import("../themes/marine").then(() => loadTheme("marine"));
+                    case "aquamarine":
+                        System.import("../themes/aquamarine").then(() => loadTheme("aquamarine"));
                         return null;
                 }
             }}

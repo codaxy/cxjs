@@ -32,7 +32,7 @@ export default <cx>
             {buttons("hollow")}
 
             <br />
-            <div visible={{expr: "{$root.$route.theme} == 'marine'"}}>
+            <div visible={{expr: "{$root.$route.theme} == 'aquamarine'"}}>
 					<h6>Rounded</h6>
 					{buttons("rounded")}
             </div>

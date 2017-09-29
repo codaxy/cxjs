@@ -1,7 +1,7 @@
 {
-  "name": "cx-theme-marine",
-  "version": "17.8.0",
-  "description": "Marine theme CSS styles for Cx applications",
+  "name": "cx-theme-aquamarine",
+  "version": "17.9.0",
+  "description": "Aquamarine theme CSS styles for Cx applications",
   "main": "./src/index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
