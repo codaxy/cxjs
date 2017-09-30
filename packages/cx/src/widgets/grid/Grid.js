@@ -1380,6 +1380,13 @@ class GridComponent extends VDOM.Component {
 }
 
 class GridColumnHeader extends PureContainer {
+
+   declareData() {
+      return super.declareData(...arguments, {
+         format: undefined
+      })
+   }
+
    init() {
       if (this.header)
          this.header1 = this.header;
