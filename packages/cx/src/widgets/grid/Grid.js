@@ -538,7 +538,7 @@ export class Grid extends Widget {
                   if (colSpan > 1)
                      skip = colSpan - 1;
                }
-               else if (c.aggregate && c.aggregateField) {
+               else if (c.aggregate && c.aggregateField && c.footer !== false) {
                   v = group[c.aggregateField];
                   if (isString(ci.data.format))
                      v = Format.value(v, ci.data.format);
