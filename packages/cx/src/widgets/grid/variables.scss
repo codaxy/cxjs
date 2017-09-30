@@ -59,7 +59,7 @@ $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
 $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
-$cx-grid-pagination-default-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
 
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
 

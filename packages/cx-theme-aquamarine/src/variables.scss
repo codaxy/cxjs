@@ -64,14 +64,12 @@ $cx-default-border-color: #d3d8d6 !default;
 $cx-default-border-color-light: lighten($cx-default-border-color, 10) !default;
 $cx-default-border-radius: 4px !default;
 
+$cx-default-icon-size: 16px !default;
+
 $cx-default-box-font-size: 14px !default;
-$cx-default-box-line-height: $cx-theme-base-size + 10px !default;
+$cx-default-box-line-height: 24px !default;
 $cx-default-box-border-width: 1px !default;
-@if $cx-theme-base-size < 14px {
-   $cx-default-box-padding: 4px !global;
-} @else {
-   $cx-default-box-padding: 5px !global;
-}
+$cx-default-box-padding: 5px !global;
 
 $cx-default-padding-extra-small: 5px !default;
 $cx-default-padding-small: $cx-default-box-padding !default;
@@ -94,7 +92,7 @@ $cx-default-button-border-width: 1px !default;
 $cx-default-button-border-color: lightgray !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); //$cx-theme-box-shadow !default; //
-$cx-default-button-padding: $cx-default-box-padding 2*$cx-default-box-padding !default;
+$cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding + $cx-default-box-line-height - $cx-default-icon-size !default;
 
 // float button text color picker
 @function set-text-color($bg-color) {
@@ -128,7 +126,7 @@ $cx-default-menu-separator-color: #e9e9e9 !default;
 
 //WINDOW
 $cx-default-window-box-shadow: $cx-theme-box-shadow-elevated !default;
-$cx-default-window-header-padding: 10px 20px !default;
+$cx-default-window-header-padding: 10px 10px 10px 20px !default;
 $cx-default-window-header-font-size: 18px !default;
 $cx-default-window-header-color: $cx-theme-primary-text-color !default;
 $cx-default-window-header-background-color: $cx-default-background-color !default;
@@ -166,7 +164,7 @@ $cx-default-input-width: 200px;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
 $cx-default-input-box-shadow: none; //0 0 1px darken($cx-default-input-border-color, 20) !default;
 $cx-default-input-background-color: #f8f9fb !default;
-$cx-theme-input-padding: $cx-default-box-padding - 2px $cx-default-box-padding !default;
+$cx-theme-input-padding: $cx-default-box-padding  1.5 * $cx-default-box-padding !default;
 
 // label
 $cx-default-label-font-size: 12px !default;
@@ -227,7 +225,7 @@ $cx-default-slider-handle-box-shadow: $cx-theme-box-shadow !default;
 // switch
 $cx-default-switch-axis-size: 24px !default;
 $cx-default-switch-axis-background-color: $cx-default-border-color-light !default;
-$cx-default-switch-handle-size: 20px !default;
+$cx-default-switch-handle-size: 18px !default;
 $cx-default-switch-width: 40px !default;
 $cx-default-switch-range-background-color: $cx-theme-primary-color-light !default;
 $cx-default-switch-handle-background-color: #fff !default;
@@ -235,9 +233,8 @@ $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-col
 $cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
 
 // icon
-$cx-default-icon-size: $cx-default-box-line-height !default;
-$cx-default-input-tool-size: $cx-default-icon-size !default;
-$cx-default-clear-size: $cx-default-icon-size !default;
+$cx-default-input-tool-size: $cx-default-box-line-height !default;
+$cx-default-clear-size: $cx-default-box-line-height !default;
 
 // CHART
 
@@ -789,7 +786,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // standard form field - textfield, numberfield, lookupfield,...
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
-      //padding: $cx-theme-input-padding,
+      padding: $cx-theme-input-padding,
       //background-color: #fff,
       //border-radius: $cx-default-border-radius,
       //border-width: 1px,

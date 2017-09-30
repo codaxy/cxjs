@@ -304,7 +304,7 @@ $cx-default-input-tag-spacing: 3px !default;
 $cx-default-input-tag-font-size: null !default;
 $cx-default-input-tag-background-color: #eee !default;
 $cx-default-input-tag-border-radius: $cx-default-border-radius !default;
-$cx-default-input-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
+$cx-default-input-tag-padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) !default;
 
 $cx-input-tag-state-style-map: (
   default: (
