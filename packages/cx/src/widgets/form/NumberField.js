@@ -287,7 +287,7 @@ class Input extends VDOM.Component {
       let {instance} = this.props;
       let {data, widget} = instance;
 
-      if (widget.reactOn.indexOf(change) == -1)
+      if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly)
          return;
 
       if (change == 'blur') {
