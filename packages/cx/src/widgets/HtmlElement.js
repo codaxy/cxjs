@@ -142,11 +142,13 @@ export class HtmlElement extends PureContainer {
 
    prepareData(context, instance) {
       var {data} = instance;
-      if (this.urlAttributes && data.attrs)
-         this.urlAttributes.forEach(attr=> {
+      if (this.urlAttributes && data.attrs) {
+         data.attrs = {...data.attrs};
+         this.urlAttributes.forEach(attr => {
             if (isString(data.attrs[attr]))
                data.attrs[attr] = Url.resolve(data.attrs[attr]);
          });
+      }
       super.prepareData(context, instance);
    }
 
