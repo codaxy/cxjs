@@ -4,6 +4,7 @@ import {yesNo} from './overlay/alerts';
 import {Icon} from './Icon';
 import {preventFocus} from '../ui/FocusManager';
 import {isFunction} from '../util/isFunction';
+import {isDefined} from '../util/isDefined';
 
 export class Button extends HtmlElement {
    declareData() {
@@ -20,7 +21,18 @@ export class Button extends HtmlElement {
          ...data.stateMods,
          pressed: data.pressed
       };
+      if (isDefined(data.enabled))
+         data.disabled = !data.enabled;
+
       super.prepareData(context, instance);
+   }
+
+   explore(context, instance) {
+      if (context.parentDisabled != instance.data.parentDisabled) {
+         instance.data.parentDisabled = context.parentDisabled;
+         instance.shouldUpdate = true;
+      }
+      super.explore(context, instance);
    }
 
    attachProps(context, instance, props) {
@@ -50,8 +62,11 @@ export class Button extends HtmlElement {
       delete props.submit;
       delete props.focusOnMouseDown;
       delete props.icon;
+      delete props.enabled;
 
       let oldOnClick, {data} = instance;
+
+      props.disabled = data.disabled || data.parentDisabled;
 
       if (data.confirm) {
          oldOnClick = props.onClick;

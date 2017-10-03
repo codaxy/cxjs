@@ -1,4 +1,4 @@
-import {HtmlElement, FieldGroup, TextField, Checkbox} from 'cx/widgets';
+import {HtmlElement, FieldGroup, TextField, Checkbox, Button} from 'cx/widgets';
 import {LabelsLeftLayout} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -34,6 +34,7 @@ export const FieldGroups = <cx>
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
                     <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
+                    <Button text="Button" />
                 </FieldGroup>
             </div>
 
@@ -51,6 +52,7 @@ export const FieldGroups = <cx>
                     <TextField label="First Name" value:bind="$page.firstName" required/>
                     <TextField label="Last Name" value:bind="$page.lastName" required/>
                     <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
+                    <Button text="Button" />
                 </FieldGroup>
             `}</CodeSnippet>
         </CodeSplit>
