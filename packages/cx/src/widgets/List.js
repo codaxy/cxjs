@@ -258,19 +258,26 @@ class ListComponent extends VDOM.Component {
             let className;
 
             if (x.type == 'data') {
-               let ind = cursorIndex++;
+               let ind = cursorIndex++,
+                  onDblClick;
+
                this.cursorChildIndex.push(i);
                className = CSS.element(baseClass, 'item', {
                   selected: selected,
                   cursor: ind == this.state.cursor,
                   pad: widget.itemPad
                });
+
+               if (widget.onItemDoubleClick)
+                  onDblClick = e => { instance.invoke("onItemDoubleClick", e, x.instance)};
+
                return (
                   <li
                      key={x.key}
                      className={CSS.expand(className, data.classNames)}
                      style={itemStyle}
                      onClick={e => this.handleItemClick(e, x.instance)}
+                     onDoubleClick={onDblClick}
                      onMouseEnter={e => {
                         this.moveCursor(ind)
                      }}>
