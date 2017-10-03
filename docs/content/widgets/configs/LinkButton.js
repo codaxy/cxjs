@@ -16,7 +16,8 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation.
+            Url to the link's target location. The link should start with `~/` or `#/` for pushState/hash based navigation.
+            The `+/` prefix can be used to build a URL relative to the parent route.
         </Md></cx>
     },
 
