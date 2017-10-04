@@ -1,4 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
+import {Icon} from '../Icon';
 import {Field} from './Field';
 import {Url} from '../../ui/app/Url';
 import {Localization} from '../../ui/Localization';
@@ -10,7 +11,8 @@ export class UploadButton extends Field {
       super.declareData({
          disabled: undefined,
          text: undefined,
-         url: undefined
+         url: undefined,
+         icon: undefined
       }, ...arguments);
    }
 
@@ -42,19 +44,36 @@ class UploadButtonComponent extends VDOM.Component {
    }
 
    render() {
-      let {instance} = this.props;
+      let {instance, children} = this.props;
       let {widget, data} = instance;
       let {CSS, baseClass} = widget;
 
-      return <div ref={el => {
-         this.el = el
-      }} className={data.classNames} style={data.style}>
+      let icon;
+
+      let className = data.classNames;
+
+      if (data.icon) {
+         icon = Icon.render(data.icon, {
+            className: CSS.element(baseClass, "icon")
+         });
+
+         className = CSS.expand(className, CSS.state('icon'), children.length == 0 && CSS.state('empty'));
+      }
+
+      return <div
+         ref={el => {
+            this.el = el
+         }}
+         className={className}
+         style={data.style}
+      >
          <div
             key="progress"
             className={CSS.element(baseClass, "progress", {done: this.state.progress == 100})}
             style={{width: `${this.state.progress}%`}}
          />
-         {this.props.children}
+         {icon}
+         {children}
          {
             !data.disabled && <input
                key={this.uploadKey}

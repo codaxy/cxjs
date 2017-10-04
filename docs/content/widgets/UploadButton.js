@@ -43,6 +43,7 @@ export const UploadButtonPage = <cx>
 
             <div class="widgets">
                 <UploadButton
+                    icon="upload"
                     url="https://api.cxjs.io/uploads"
                     onUploadStarting={onUploadStarting}
                     onUploadComplete={onUploadComplete}
@@ -77,6 +78,7 @@ export const UploadButtonPage = <cx>
             ...
             <div class="widgets">
                 <UploadButton
+                    icon="upload"
                     url="https://api.cxjs.io/uploads"
                     onUploadStarting={onUploadStarting}
                     onUploadComplete={onUploadComplete}
