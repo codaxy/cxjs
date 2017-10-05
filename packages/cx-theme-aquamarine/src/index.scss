@@ -322,125 +322,129 @@ div.#{$block}classic-tab-container {
    margin: $cx-default-padding-medium 0;
 }
 
-//GRID
-.#{$block}grid.#{$state}scrollable {
-   // border removed from a first row of grid with fixed header
-   .#{$element}grid-header {
-      + .#{$element}grid-data, + .#{$element}grid-group-caption {
-         td {
-            // border-top-color: transparent;
-         }
-      }
-   }
-}
+////GRID
+//.#{$block}grid.#{$state}scrollable {
+//   // border removed from a first row of grid with fixed header
+//   .#{$element}grid-header {
+//      + .#{$element}grid-data, + .#{$element}grid-group-caption {
+//         td {
+//            // border-top-color: transparent;
+//         }
+//      }
+//   }
+//}
 
 .#{$element}grid-fixed-header {
    // shadow added to fixed header
    box-shadow: $cx-default-grid-header-box-shadow;
 
-   .#{$element}grid-col-header {
-      // border-color: #fff;
-   }
-
-   .#{$state}sorted-asc, .#{$state}sorted-desc {
-      // border-color: darken($cx-default-grid-header-background-color, 2);
-      &:hover {
-         // border-color: darken($cx-default-grid-header-background-color, 3);
-      }
-   }
-}
-
-.#{$element}grid-header {
-   // if a grid header has two or more rows
-   tr:not(:first-child) .#{$element}grid-col-header {
-      border-top: 1px solid $cx-default-grid-header-border-color;
-   }
-   //// ellipsis added to grid header
    //.#{$element}grid-col-header {
-   //   white-space: nowrap;
-   //   overflow: hidden;
-   //   text-overflow: ellipsis;
+   //   // border-color: #fff;
+   //}
+   //
+   //.#{$state}sorted-asc, .#{$state}sorted-desc {
+   //   // border-color: darken($cx-default-grid-header-background-color, 2);
+   //   &:hover {
+   //      // border-color: darken($cx-default-grid-header-background-color, 3);
+   //   }
    //}
 }
 
+//.#{$element}grid-header {
+//   // if a grid header has two or more rows
+//   tr:not(:first-child) .#{$element}grid-col-header {
+//      border-top: 1px solid $cx-default-grid-header-border-color;
+//   }
+//   //// ellipsis added to grid header
+//   //.#{$element}grid-col-header {
+//   //   white-space: nowrap;
+//   //   overflow: hidden;
+//   //   text-overflow: ellipsis;
+//   //}
+//}
+
 // grid header border removed
-.#{$state}border {
-   .#{$element}grid-col-header {
-      border-width: 0;
-   }
+.#{$state}header-default .#{$element}grid-col-header {
+   border-right-width: 0;
 }
+
+//.#{$state}border {
+//   .#{$element}grid-col-header {
+//      border-width: 0;
+//   }
+//}
 
 //grid header tool icon
-.#{$element}grid-col-header-tool {
-  > .#{$block}menu > li > div {
-    > span {
-      padding: 0 $cx-theme-base-size/2 !important;
-      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
-    }
-  }
-}
+//.#{$element}grid-col-header-tool {
+//  > .#{$block}menu > li > div {
+//    > span {
+//      padding: 0 $cx-theme-base-size/2 !important;
+//      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+//    }
+//  }
+//}
 
-//alteration
-.#{$element}grid-data {
-   &:hover {
-      background-color: rgba($cx-theme-accent-color, 0.4);
-   }
+////alteration
+//.#{$element}grid-data {
+//   &:hover {
+//      background-color: rgba($cx-theme-accent-color, 0.4);
+//   }
+//
+//   &.#{$state}cursor:hover {
+//      background-color: rgba($cx-theme-accent-color, 0.4);
+//      color: $cx-default-color;
+//   }
+//   &.#{$state}selected {
+//      background-color: rgba($cx-theme-primary-color, 0.2);
+//      color: $cx-default-color;
+//
+//      &.#{$state}cursor {
+//         &:hover {
+//            background-color: rgba($cx-theme-primary-color, 0.25);
+//            color: $cx-default-color;
+//         }
+//      }
+//   }
+//}
+//.#{$block}grid {
+//   .#{$element}grid-data:nth-child(even) {
+//      background-color: darken($cx-default-background-color, 2);
+//
+//      &.#{$state}selected {
+//         background-color: rgba($cx-theme-primary-color, 0.2);
+//         color: $cx-default-color;
+//      }
+//
+//   }
+//   &.#{$state}selectable {
+//      .#{$element}grid-data:nth-child(even) {
+//         &:hover {
+//            background-color: rgba($cx-theme-accent-color, 0.4);
+//         }
+//         &.#{$state}selected:hover {
+//            background-color: rgba($cx-theme-primary-color, 0.25);
+//         }
+//      }
+//   }
+//}
 
-   &.#{$state}cursor:hover {
-      background-color: rgba($cx-theme-accent-color, 0.4);
-      color: $cx-default-color;
-   }
-   &.#{$state}selected {
-      background-color: rgba($cx-theme-primary-color, 0.2);
-      color: $cx-default-color;
-      
-      &.#{$state}cursor {
-         &:hover {
-            background-color: rgba($cx-theme-primary-color, 0.25);
-            color: $cx-default-color;
-         }
-      }
-   }
-}
-.#{$block}grid {
-   .#{$element}grid-data:nth-child(even) {
-      background-color: darken($cx-default-background-color, 2);
-
-      &.#{$state}selected {
-         background-color: rgba($cx-theme-primary-color, 0.2);
-         color: $cx-default-color;
-      }
-     
-   }
-   &.#{$state}selectable {
-      .#{$element}grid-data:nth-child(even) {
-         &:hover {
-            background-color: rgba($cx-theme-accent-color, 0.4);            
-         }
-         &.#{$state}selected:hover {
-            background-color: rgba($cx-theme-primary-color, 0.25);
-         }
-      }
-   }
-}
-
-// group grid styles
-.#{$element}grid-group-footer, .#{$element}grid-group-caption {
-
-   td {
-      color: $cx-theme-primary-color;
-      line-height: $cx-default-grid-data-line-height;
-      padding: $cx-default-grid-data-padding;
-      border-top: 1px solid $cx-default-grid-data-border-color;
-      font-weight: 500;
-   }
-
-   &:not(:first-child) {
-      td {
-         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
-      }
-   }
-}
+//// group grid styles
+//.#{$element}grid-group-footer, .#{$element}grid-group-caption {
+//
+//   td {
+//      color: $cx-theme-primary-color;
+//      line-height: $cx-default-grid-data-line-height;
+//      padding: $cx-default-grid-data-padding;
+//      border-top: 1px solid $cx-default-grid-data-border-color;
+//      font-weight: 500;
+//   }
+//
+//   &:not(:first-child) {
+//      td {
+//         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
+//      }
+//   }
+//}
 
 // default grey border color in group grid changed
 .#{$element}grid-group-caption {
