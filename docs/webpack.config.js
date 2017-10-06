@@ -144,7 +144,7 @@ var common = {
     module: {
         loaders: [{
             test: /\.js$/,
-            include: /(docs|cx|cx-react)/,
+            include: /[\\\/](docs|cx|cx-react)[\\\/]/,
             exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',

@@ -40,7 +40,7 @@ module.exports = (production) => ({
       }, {
          test: /\.js$/,
          //add here any ES6 based library
-         include: /(cx|gallery)/,
+         include: /[\\\/](cx|cx-react|gallery|cx-theme-material|cx-theme-frost|cx-theme-dark)[\\\/]/,
          loader: 'babel-loader',
          query: babelCfg
       }, {
