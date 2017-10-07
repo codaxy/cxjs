@@ -48,7 +48,7 @@ export const About = <cx>
                 quirks,
                 making the development efforts more predictable.
 
-                You might already be familiar with core Cx concepts, as it is inspired by the known front-end
+                You might already be familiar with core Cx concepts, as it is inspired by the well known front-end
                 products, such as React, Redux, Ext JS, Angular and D3.
 
                 Please visit our [Getting Started](~/intro/getting-started)
