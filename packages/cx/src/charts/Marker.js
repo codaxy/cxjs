@@ -26,7 +26,9 @@ export class Marker extends BoundedObject {
    }
 
    declareData() {
-      return super.declareData(...arguments, {
+      var selection = this.selection.configureWidget(this);
+
+      return super.declareData(...arguments, selection, {
          x: undefined,
          y: undefined,
          size: undefined,
@@ -250,7 +252,10 @@ class MarkerComponent extends VDOM.Component {
       let {bounds, shape} = data;
       let shapeRenderer = getShape(shape);
       let shapeProps = {
-         className: CSS.element(baseClass, 'shape', data.colorIndex != null && 'color-' + data.colorIndex),
+         className: CSS.element(baseClass, 'shape', {
+            ['color-' + data.colorIndex]: data.colorIndex != null,
+            selected: data.selected
+         }),
          style: data.style,
          cx: (bounds.l + bounds.r) / 2,
          cy: (bounds.t + bounds.b) / 2,

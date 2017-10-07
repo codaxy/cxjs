@@ -12,33 +12,39 @@ export const GettingStarted = <cx>
 
         ## Basic Concepts
 
-        It is very important to understand syntax and how data-binding works.
+        It is very important to understand the concept of store, JSX syntax, and how data-binding works.
+
+        The easiest way to understand CxJS is to think about spreadsheets.
+
+        The store holds the whole application state and offers methods to access and
+        modify the data. The store is available to all widgets which can access data
+        directly using bindings or calculate required values using expressions (formulas).
 
         Cx uses JSX syntax, [introduced by React](https://facebook.github.io/react/docs/introducing-jsx.html),
-        which enables HTML/XML-like structures inside JavaScript.
-        On top of JSX syntax, Cx uses custom data binding instructions to connect widgets with the
-        underlying data store.
+        which enables HTML/XML-like structures inside JavaScript. On top of JSX syntax, Cx uses custom data binding instructions
+        to specify how widgets connect to the underlying data store.
+
+        Similar to spreadsheets where stored data can be accessed using cell references, in CxJS, data is accessed using
+        binding paths. The difference is that cell references are predefined, while in CxJS you need to give names.
+        Component properties can be tied (bound) to store data and automatically update whenever the data change,
+        again just like spreadsheets.
+
+        Check out the following example:
 
         <CodeSplit>
-
-            Check out the following example:
-
-            <TextField value:bind="name" placeholder="What's your name?" />
-
-            <p visible:expr="{name}!=null" preserveWhitespace>
-                Hi <strong text:bind="name" />!
-                Did you know that your name contains exactly <Text expr="{name}.length" /> letters?
-            </p>
-
-            <CodeSnippet putInto="code" fiddle="5sKUUw0A">{`
-
-            <TextField value:bind="name" placeholder="What's your name?" />
-
-            <p visible:expr="{name}!=null" preserveWhitespace>
-                Hi <strong text:bind="name" />!
-                Did you know that your name contains exactly <Text expr="{name}.length" /> letters?
-            </p>
-
+            <div class="widgets">
+                <div>
+                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <br/>
+                    <TextField value:bind="text" disabled:expr="!{enabled}"/>
+                </div>
+            </div>
+            <CodeSnippet putInto="code" fiddle="HkcFZwXT">{`
+                <div>
+                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <br/>
+                    <TextField value:bind="text" disabled:expr="!{enabled}"/>
+                </div>
             `}</CodeSnippet>
         </CodeSplit>
 
@@ -47,8 +53,9 @@ export const GettingStarted = <cx>
         
         Learn more:
 
-        * [Data Binding](~/concepts/data-binding)
+        * [Store](~/concepts/store)
         * [JSX](~/intro/jsx)
+        * [Data Binding](~/concepts/data-binding)
         * [NPM Packages](~/intro/npm-packages)
 
         ## Widgets
