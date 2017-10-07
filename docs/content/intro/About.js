@@ -34,7 +34,7 @@ export const About = <cx>
 
                 The main goal of Cx is to streamline development of complex user interfaces which traditionally required
                 components from many different vendors.
-                Unlike many other frameworks which solve just one problem, Cx tries to solve the UI problems
+                Unlike many other frameworks which solve just one problem, Cx tries to solve UI problems
                 holistically.
                 Out of the box, Cx includes form elements, form validation, advanced grid control,
                 navigational elements, tooltips, overlays, charts, routing, layout support, theming support, culture
