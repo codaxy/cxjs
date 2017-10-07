@@ -24,9 +24,9 @@ export const GettingStarted = <cx>
         which enables HTML/XML-like structures inside JavaScript. On top of JSX syntax, Cx uses custom data binding instructions
         to specify how widgets connect to the underlying data store.
 
-        Similar to spreadsheets where stored data can be accessed using cell references, in CxJS, data is accessed using
-        binding paths. The difference is that cell references are predefined, while in CxJS you need to give names.
-        Component properties can be tied (bound) to store data and automatically update whenever the data change,
+        Similar to spreadsheets, data can be accessed using references, called bindings in CxJS. While cell references have predefined format
+        (A1, B2), in CxJS you give names that you find appropriate. Nested data can be accessed using the `.` operator, e.g. `person.name`.
+        Component properties can be connected (bound) to values from the store and automatically update whenever the referenced data change,
         again just like spreadsheets.
 
         Check out the following example:
@@ -49,7 +49,8 @@ export const GettingStarted = <cx>
         </CodeSplit>
 
         If you take a closer look at the source code, you'll see what Cx is about. You can freely combine widgets with plain HTML
-        and use special attributes to connect to the data. Whenever data change, the page is automatically updated.
+        and use special attributes to connect to the data. On every data change the page is updated without any 
+        code required for propagating data changes.
         
         Learn more:
 
