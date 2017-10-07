@@ -44,7 +44,8 @@ var columnSelection = new KeySelection({
 export default (
     <cx>
         <div controller={PageController}>
-            <Svg style="width:100%; height:400px;">
+            <div style="overflow-x: auto">
+            <Svg style="width:100%; min-width: 600px; height:400px;">
                 <Chart
                     offset="40 -20 -40 40"
                     axes={
@@ -116,8 +117,10 @@ export default (
                     </Repeater>
                 </Chart>
             </Svg>
+            </div>
             <Grid
                 records:bind="points"
+                cached
                 columns={
                     [
                         { header: "Month", field: "x" },
@@ -126,7 +129,7 @@ export default (
                             items: <NumberField
                                 value:bind="$record.v1"
                                 format="n;2"
-                                style="width: 80px"
+                                style="width: 65px"
                                 inputStyle="text-align: right"
                             />
                         },
@@ -135,7 +138,7 @@ export default (
                             items: <NumberField
                                 value:bind="$record.v2"
                                 format="n;2"
-                                style="width: 80px"
+                                style="width: 65px"
                                 inputStyle="text-align: right"
                             />
                         },
