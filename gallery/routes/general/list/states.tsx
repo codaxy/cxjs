@@ -107,6 +107,21 @@ export default <cx>
                 <span text={tpl("{$record.lastName}, {$record.firstName}")}/>
             </List>
         </Section>
+
+        <Section mod="well" title="Empty Text" hLevel={4}>
+            <List
+                records={[]}
+                style={{minWidth: '200px'}}
+                emptyText="Nothing found."
+                selection={{
+                    type: KeySelection,
+                    bind: "s4",
+                    keyField: 'id'
+                }}
+            >
+                <span text={tpl("{$record.lastName}, {$record.firstName}")}/>
+            </List>
+        </Section>
     </FlexRow>
 </cx>
 
