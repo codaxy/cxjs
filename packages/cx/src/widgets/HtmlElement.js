@@ -116,6 +116,7 @@ export class HtmlElement extends PureContainer {
          case "tooltip":
          case "styles":
          case "jsxAttributes":
+         case "instance":
             return false;
 
          default:
@@ -154,6 +155,9 @@ export class HtmlElement extends PureContainer {
 
    attachProps(context, instance, props) {
       Object.assign(props, this.extraProps);
+
+      if (!isString(this.tag))
+         props.instance = instance;
    }
 
    render(context, instance, key) {

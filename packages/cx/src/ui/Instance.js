@@ -420,9 +420,16 @@ export class Instance {
 
       if (typeof method === 'string') {
          if (!this.controller)
-            throw new Error(`Cannot invoke controller method ${methodName} as controller is not assigned to the widget.`);
+            throw new Error(`Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`);
 
-         scope = this.controller;
+         let at = this;
+         while (at != null && at.controller && !at.controller[method])
+            at = at.parent;
+
+         if (!at || !at.controller || !at.controller[method])
+            throw new Error(`Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`);
+
+         scope = at.controller;
          method = scope[method];
       }
 

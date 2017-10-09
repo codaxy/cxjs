@@ -278,6 +278,8 @@ export const Controllers = <cx>
          `}</CodeSnippet>
         </CodeSplit>
 
+        When using names of callbacks, it's possible to invoke methods defined higher in the ancestor controller tree.
+
     </Md>
 
 </cx>;

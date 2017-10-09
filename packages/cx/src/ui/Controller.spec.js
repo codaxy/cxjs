@@ -51,6 +51,80 @@ describe('Controller', () => {
       assert.equal(cleanup, 1);
    });
 
+   it('widgets invoke controller methods specified as strings', () => {
+
+      let callback = 0;
+
+      class TestController extends Controller {
+         callback() {
+            ++callback;
+         }
+      }
+
+      class Cmp extends VDOM.Component {
+         render() {
+            return <div/>
+         }
+
+         componentDidMount() {
+            this.props.instance.invoke("onTest");
+         }
+      }
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <Cmp controller={TestController} onTest="callback" />
+         </Cx>
+      );
+
+      let tree = component.toJSON();
+      assert.equal(callback, 1);
+   });
+
+   it('widgets can access controller methods specified in ancestor controllers', () => {
+
+      let callback1 = 0;
+      let callback2 = 0;
+
+      class TestController1 extends Controller {
+         callback1() {
+            ++callback1;
+         }
+      }
+
+      class TestController2 extends Controller {
+         callback2() {
+            ++callback2;
+         }
+      }
+
+      class Cmp extends VDOM.Component {
+         render() {
+            return <div/>
+         }
+
+         componentDidMount() {
+            this.props.instance.invoke("onTest");
+         }
+      }
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div controller={TestController1}>
+               <Cmp controller={TestController2} onTest="callback1" />
+            </div>
+         </Cx>
+      );
+
+      let tree = component.toJSON();
+      assert.equal(callback1, 1);
+      assert.equal(callback2, 0);
+   });
+
    it('invokes triggers and computables in order of definition', () => {
 
       let log = [];
