@@ -474,15 +474,17 @@ export class MonthPickerComponent extends VDOM.Component {
 
             for (let i = 0; i < 3; i++) {
                let m = q * 3 + i + 1;
+               let unselectable = !validationCheck(new Date(y, m-1, 1), data);
                row.push(<td key={`M${m}`}
                   className={CSS.state({
                      cursor: showCursor && this.state.column == 'M' && y == this.state.cursorYear && m == this.state.cursorMonth,
-                     selected: y * 100 + m >= from && y * 100 + m < to
+                     selected: y * 100 + m >= from && y * 100 + m < to,
+                     unselectable
                   })}
                   data-point={`Y-${y}-M-${m}`}
-                  onMouseEnter={onMouseEnter}
-                  onMouseDown={onMouseDown}
-                  onMouseUp={onMouseUp}
+                  onMouseEnter={ unselectable ? null : onMouseEnter }
+                  onMouseDown={ unselectable ? null : onMouseDown }
+                  onMouseUp={ unselectable ? null : onMouseUp }
                >
                   {monthNames[m - 1].substr(0, 3)}
                </td>)
