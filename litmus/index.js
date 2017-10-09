@@ -36,12 +36,12 @@ import './index.scss';
 //import Demo from './features/destroy';
 //import Demo from './features/tracking';
 //import Demo from './features/caching/IsolatedBoxes';
-import Demo from './features/context-menu';
+//import Demo from './features/context-menu';
 
 
 //import Demo from './features/grid/header-tool';
 //import Demo from './features/grid/GridBuffering';
-//import Demo from './features/grid/RowEditing';
+import Demo from './features/grid/RowEditing';
 //import Demo from './features/hscroll';
 
 //import Demo from './features/menu/icons';

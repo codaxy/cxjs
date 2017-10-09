@@ -11,7 +11,8 @@ export class Button extends HtmlElement {
       super.declareData(...arguments, {
          confirm: {structured: true},
          pressed: undefined,
-         icon: undefined
+         icon: undefined,
+         disabled: undefined
       })
    }
 
