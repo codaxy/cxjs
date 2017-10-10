@@ -965,5 +965,8 @@ $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    h6: (
       font-weight: 400,
       color: $cx-default-color
+   ),
+   p: (
+      line-height: $cx-default-paragraph-line-height
    )
 ));

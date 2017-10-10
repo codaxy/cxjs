@@ -5,69 +5,125 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
-// sets the line height for all paragrphs
-p {
-   line-height: $cx-default-paragraph-line-height;
-}
-
 //SECTION
-.#{$block}section.cxm-card.cxm-card {
-   > .#{$element}section-body {
-      padding: 1em;
-   }
-}
-
-@for $i from 1 through 6 {
-   .#{$element}section-header h#{$i} {
-      .cxm-card & {
-         color: $cx-theme-primary-color-light;
-      }
-      .cxm-card-accent & {
-         color: #fff;
+@if (cx-included('cx/widgets/Section')) {
+   .#{$block}section.cxm-card.cxm-card {
+      > .#{$element}section-body {
+         padding: 1em;
       }
    }
-}
 
-.#{$element}section-header.#{$element}section-header {
-   color: $cx-theme-primary-color-light;
-   font-weight: normal;
-   border: none;
-   padding: 1em 1em 0;
-   margin: 0;
+   @for $i from 1 through 6 {
+      .#{$element}section-header h#{$i} {
+         .cxm-card & {
+            color: $cx-theme-primary-color-light;
+         }
+         .cxm-card-accent & {
+            color: #fff;
+         }
+      }
+   }
 
-   .cxm-pad > & {
+   .#{$element}section-header.#{$element}section-header {
+      color: $cx-theme-primary-color-light;
+      font-weight: normal;
       border: none;
+      padding: 1em 1em 0;
+      margin: 0;
+
+      .cxm-pad > & {
+         border: none;
+      }
    }
 }
 
 //BUTTON
+@if (cx-included('cx/widgets/Button')) {
 
-.#{$block}button {
-   // overrides tap color effect for mobile devices
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+   .#{$block}button {
+      // overrides tap color effect for mobile devices
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-   // aligns float button icon in the center
-   &.cxm-float .#{$element}button-icon {
-      left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+      // aligns float button icon in the center
+      &.cxm-float .#{$element}button-icon {
+         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+      }
    }
 }
 
 //FORM
 // standard field
 $form-list: (
-   textfield numberfield lookupfield datetimefield monthfield colorfield select
+   TextField NumberField LookupField DateTimeField MonthField ColorField Select
 );
 
 @each $field in $form-list {
-   .#{$block}#{$field} {
-      position: relative;
+   @if (cx-included('cx/widgets/#{$field}')) {
 
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      .#{$block}#{to-lower-case($field)} {
+         position: relative;
 
-      // disables parent input div height to grow bigger then input in FlexRow
-      max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-      // standard field focus effect
+         // disables parent input div height to grow bigger then input in FlexRow
+         max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+
+         // standard field focus effect
+         &:after {
+            display: block;
+            content: '';
+            height: 2px;
+            width: 100%;
+            background-color: $cx-theme-primary-color;
+            transform: scaleX(0);
+            transition: 0s;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+         }
+
+         &.#{$state}focus {
+            &:after {
+               transform: scaleX(1);
+               transition: transform 0.3s ease-out;
+            }
+            &.#{$state}error {
+               &:after {
+                  transform: scaleX(1);
+                  background-color: $cx-theme-danger-color;
+               }
+            }
+         }
+      }
+   }
+}
+
+// lookupfield
+@if (cx-included('cx/widgets/LookupField')) {
+   .#{$block}lookupfield {
+      max-height: none;
+   }
+}
+
+// padding in fields with icon
+.#{$element}datefield-input,
+.#{$element}monthfield-input,
+.#{$element}colorfield-input {
+   padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
+}
+
+@if (cx-included('cx/widgets/Select')) {
+   // select
+   .cxb-select option {
+      color: $cx-default-color;
+      background-color: rgba(0, 0, 0, 0.03);
+   }
+}
+
+@if (cx-included('cx/widgets/TextArea')) {
+   // textarea
+   .#{$block}textarea {
+      // textarea focus effect
       &:after {
          display: block;
          content: '';
@@ -86,60 +142,12 @@ $form-list: (
             transform: scaleX(1);
             transition: transform 0.3s ease-out;
          }
-         &.#{$state}error {
+
+         &.#{$state}error.#{$state}visited {
             &:after {
                transform: scaleX(1);
                background-color: $cx-theme-danger-color;
             }
-         }
-      }
-   }
-}
-
-// lookupfield
-.#{$block}lookupfield {
-   max-height: none;
-}
-
-// padding in fields with icon
-.#{$element}datefield-input,
-.#{$element}monthfield-input,
-.#{$element}colorfield-input {
-   padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
-}
-
-// select 
-.cxb-select option {
-   color: $cx-default-color;
-   background-color: rgba(0, 0, 0, 0.03);
-}
-
-// textarea
-.#{$block}textarea {
-   // textarea focus effect
-   &:after {
-      display: block;
-      content: '';
-      height: 2px;
-      width: 100%;
-      background-color: $cx-theme-primary-color;
-      transform: scaleX(0);
-      transition: 0s;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-   }
-
-   &.#{$state}focus {
-      &:after {
-         transform: scaleX(1);
-         transition: transform 0.3s ease-out;
-      }
-
-      &.#{$state}error.#{$state}visited {
-         &:after {
-            transform: scaleX(1);
-            background-color: $cx-theme-danger-color;
          }
       }
    }
@@ -157,7 +165,7 @@ $form-list: (
       color: $cx-default-input-placeholder-color;
       font-size: $cx-default-input-font-size;
       pointer-events: none;
-      white-space: nowrap; 
+      white-space: nowrap;
    }
 
    &.#{$state}focus,
@@ -212,224 +220,237 @@ $form-list: (
    }
 }
 
-// calendar
-.#{$block}calendar {
-   .#{$element}calendar-day-names {
-      background-color: $cx-theme-primary-color;
-      color: #fff;
-   }
-}
-
-// checkbox focus effect
-$checkbox-padding-correction: 2px !default;
-
-.#{$element}checkbox-input {
-   &:after {
-      content: '';
-      width: 2 * $cx-default-checkbox-size;
-      height: 2 * $cx-default-checkbox-size;
-      position: absolute;
-      left: calc(50% - #{$cx-default-checkbox-size});
-      bottom: calc(50% - #{$cx-default-checkbox-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.2s ease-in-out;
-   }
-   &.#{$state}checked {
-      &:after {
-         background-color: rgba($cx-theme-primary-color, 0.1);
-      }
-   }
-   &:focus:after {
-      visibility: visible;
-      transform: scale(.9, .9)
-   }
-}
-
-// radio focus effect
-.#{$element}radio-input {
-   border-width: 2px;
-   border-color: darken(#dbdbdb, 10);
-   color: $cx-theme-primary-color;
-
-   &:after {
-      content: '';
-      width: 2 * $cx-default-radio-size;
-      height: 2 * $cx-default-radio-size;
-      position: absolute;
-      left: calc(50% - #{$cx-default-radio-size});
-      bottom: calc(50% - #{$cx-default-radio-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.2s ease-in-out;
-   }
-
-   &:hover {
-      border-color: darken(#dbdbdb, 10);
-   }
-
-   &.#{$state}checked {
-      &:after {
-         background-color: rgba($cx-theme-primary-color, 0.1);
-      }
-   }
-
-   &:focus:after {
-      visibility: visible;
-      transform: scale(.9, .9)
-   }
-}
-
-// colorpicker
-.#{$block}colorpicker {
-   input {
-      line-height: $cx-default-box-line-height - 8px;
-      box-shadow: none;
-      background-color: #fff;
-      border-width: 0 0 1px;
-      border-color: darken($cx-default-input-border-color, 5);
-      border-radius: 0;
-      padding: 2px 6px;
-
-      &:focus {
-         box-shadow: none;
+@if (cx-included('cx/widgets/Calendar')) {
+   // calendar
+   .#{$block}calendar {
+      .#{$element}calendar-day-names {
+         background-color: $cx-theme-primary-color;
+         color: #fff;
       }
    }
 }
 
-// slider focus effect
-.#{$element}slider-handle {
-   &:after {
-      content: "";
-      width: 1.5 * $cx-default-slider-handle-size;
-      height: 1.5 * $cx-default-slider-handle-size;
-      position: absolute;
-      left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.15s ease-out, background-color 0.15s ease-out;
-   }
-
-   &:active, &:active:focus {
+@if (cx-included('cx/widgets/Checkbox')) {
+   .#{$element}checkbox-input {
       &:after {
+         content: '';
+         width: 2 * $cx-default-checkbox-size;
+         height: 2 * $cx-default-checkbox-size;
+         position: absolute;
+         left: calc(50% - #{$cx-default-checkbox-size});
+         bottom: calc(50% - #{$cx-default-checkbox-size});
+         background-color: rgba(black, 0.05);
+         border-radius: 50%;
+         visibility: hidden;
+         transform: scale(0.6, 0.6);
+         transition: transform 0.2s ease-in-out;
+      }
+      &.#{$state}checked {
+         &:after {
+            background-color: rgba($cx-theme-primary-color, 0.1);
+         }
+      }
+      &:focus:after {
          visibility: visible;
-         transform: scale(1, 1);
+         transform: scale(.9, .9)
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/Radio')) {
+   // radio focus effect
+   .#{$element}radio-input {
+      border-width: 2px;
+      border-color: darken(#dbdbdb, 10);
+      color: $cx-theme-primary-color;
+
+      &:after {
+         content: '';
+         width: 2 * $cx-default-radio-size;
+         height: 2 * $cx-default-radio-size;
+         position: absolute;
+         left: calc(50% - #{$cx-default-radio-size});
+         bottom: calc(50% - #{$cx-default-radio-size});
+         background-color: rgba(black, 0.05);
+         border-radius: 50%;
+         visibility: hidden;
+         transform: scale(0.6, 0.6);
+         transition: transform 0.2s ease-in-out;
+      }
+
+      &:hover {
+         border-color: darken(#dbdbdb, 10);
+      }
+
+      &.#{$state}checked {
+         &:after {
+            background-color: rgba($cx-theme-primary-color, 0.1);
+         }
+      }
+
+      &:focus:after {
+         visibility: visible;
+         transform: scale(.9, .9)
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/ColorPicker')) {
+   // colorpicker
+   .#{$block}colorpicker {
+      input {
+         line-height: $cx-default-box-line-height - 8px;
+         box-shadow: none;
+         background-color: #fff;
+         border-width: 0 0 1px;
+         border-color: darken($cx-default-input-border-color, 5);
+         border-radius: 0;
+         padding: 2px 6px;
+
+         &:focus {
+            box-shadow: none;
+         }
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/Slider')) {
+   // slider focus effect
+   .#{$element}slider-handle {
+      &:after {
+         content: "";
+         width: 1.5 * $cx-default-slider-handle-size;
+         height: 1.5 * $cx-default-slider-handle-size;
+         position: absolute;
+         left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+         bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+         background-color: rgba(black, 0.05);
+         border-radius: 50%;
+         visibility: hidden;
+         transform: scale(0.6, 0.6);
+         transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+      }
+
+      &:active, &:active:focus {
+         &:after {
+            visibility: visible;
+            transform: scale(1, 1);
+            background-color: inherit;
+         }
+      }
+      &:focus:after {
+         visibility: visible;
+         transform: scale(1.4, 1.4);
+         background-color: rgba($cx-theme-primary-color-dark, 0.1);
+      }
+   }
+
+   .#{$element}slider-handle[style*="left: 0%;"] {
+      background-color: #fff;
+      border-color: rgba(0, 0, 0, 0.26);
+
+      &:focus:after {
+         background-color: rgba(0, 0, 0, 0.05);
+      }
+      &:active {
          background-color: inherit;
       }
    }
-   &:focus:after {
-      visibility: visible;
-      transform: scale(1.4, 1.4);
-      background-color: rgba($cx-theme-primary-color-dark, 0.1);
-   }
 }
 
-.#{$element}slider-handle[style*="left: 0%;"] {
-   background-color: #fff;
-   border-color: rgba(0, 0, 0, 0.26);
-
-   &:focus:after {
-      background-color: rgba(0, 0, 0, 0.05);
-   }
-   &:active {
-      background-color: inherit;
-   }
-}
-
-// switch focus effect
-.#{$element}switch-handle {
-   &:after {
-      content: "";
-      width: 1.5 * $cx-default-slider-handle-size;
-      height: 1.5 * $cx-default-slider-handle-size;
-      position: absolute;
-      left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-      background-color: rgba(black, 0.05);
-      border-radius: 50%;
-      visibility: hidden;
-      transform: scale(0.6, 0.6);
-      transition: transform 0.15s ease-out, background-color 0.15s ease-out;
-   }
-}
-
-.#{$block}switch:focus {
+@if (cx-included('cx/widgets/Switch')) {
+   // switch focus effect
    .#{$element}switch-handle {
       &:after {
-         visibility: visible;
-         transform: scale(1.4, 1.4);
-         background-color: rgba($cx-theme-primary-color, 0.1);
+         content: "";
+         width: 1.5 * $cx-default-slider-handle-size;
+         height: 1.5 * $cx-default-slider-handle-size;
+         position: absolute;
+         left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+         bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
+         background-color: rgba(black, 0.05);
+         border-radius: 50%;
+         visibility: hidden;
+         transform: scale(0.6, 0.6);
+         transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+      }
+   }
+
+   .#{$block}switch:focus {
+      .#{$element}switch-handle {
+         &:after {
+            visibility: visible;
+            transform: scale(1.4, 1.4);
+            background-color: rgba($cx-theme-primary-color, 0.1);
+         }
       }
    }
 }
 
-//TAB
-div.#{$block}classic-tab-container {
-   background-color: $cx-theme-primary-color;
-   box-shadow: $cx-theme-box-shadow;
-   height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
-   padding: 0;
-   margin-bottom: 3px;
-   white-space: nowrap;
-   flex-shrink: 0;
-}
-
-.#{$block}tab.cxm-classic {
-   height: 100%;
-
-   &:first-child {
-      border-radius: 2px 0 0 2px;
-   }
-   &:last-child {
-      border-radius: 0 2px 2px 0;
-   }
-}
-
-.#{$block}tab {
-   position: relative;
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
-
-@keyframes cx-theme-window-appear-animation {
-   from {
-      opacity: 0;
-      transform: scale(0.3);
+@if (cx-included('cx/widgets/Tab')) {
+   //TAB
+   div.#{$block}classic-tab-container {
+      background-color: $cx-theme-primary-color;
+      box-shadow: $cx-theme-box-shadow;
+      height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
+      padding: 0;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
    }
 
-   to {
-      opacity: 1;
-      transform: none;
+   .#{$block}tab.cxm-classic {
+      height: 100%;
+
+      &:first-child {
+         border-radius: 2px 0 0 2px;
+      }
+      &:last-child {
+         border-radius: 0 2px 2px 0;
+      }
+   }
+
+   .#{$block}tab {
+      position: relative;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
    }
 }
 
-//WINDOW
-// window animation
-.#{$block}window {
+@if (cx-included('cx/widgets/Window')) {
+   @keyframes cx-theme-window-appear-animation {
+      from {
+         opacity: 0;
+         transform: scale(0.3);
+      }
 
-   //transition: opacity .2s, transform .2s;
-
-   &.#{$state}animate {
-      animation: cx-theme-window-appear-animation 0.2s;
-      //transition: opacity .3s, transform .3s;
-   }
-}
-
-.#{$element}window-shadow {
-
-   &.#{$state}animate {
-      opacity: 0;
-      transition: opacity .2s;
+      to {
+         opacity: 1;
+         transform: none;
+      }
    }
 
-   &.#{$state}animate-enter {
-      opacity: 1;
+   //WINDOW
+   // window animation
+   .#{$block}window {
+
+      //transition: opacity .2s, transform .2s;
+
+      &.#{$state}animate {
+         animation: cx-theme-window-appear-animation 0.2s;
+         //transition: opacity .3s, transform .3s;
+      }
+   }
+
+   .#{$element}window-shadow {
+
+      &.#{$state}animate {
+         opacity: 0;
+         transition: opacity .2s;
+      }
+
+      &.#{$state}animate-enter {
+         opacity: 1;
+      }
    }
 }
 
@@ -468,7 +489,7 @@ div.#{$block}classic-tab-container {
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
    // there wasn't any effect on menu hover with bg set to transparent
-  //background-color: transparent;
+   //background-color: transparent;
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
@@ -518,21 +539,21 @@ div.#{$block}classic-tab-container {
 }
 
 .#{$state}header-plain.#{$state}border {
-  .#{$element}grid-col-header:last-child {
-    border-width: 0 1px 0 0;
-    border-style: solid;
-    border-color: $cx-default-grid-border-color;
-  }
+   .#{$element}grid-col-header:last-child {
+      border-width: 0 1px 0 0;
+      border-style: solid;
+      border-color: $cx-default-grid-border-color;
+   }
 }
 
 //grid header tool icon
 .#{$element}grid-col-header-tool {
-  > .#{$block}menu > li > div {
-    > span {
-      padding: 0 $cx-theme-base-size/2 !important;
-      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
-    }
-  }
+   > .#{$block}menu > li > div {
+      > span {
+         padding: 0 $cx-theme-base-size/2 !important;
+         line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+      }
+   }
 }
 
 // group grid styles
@@ -576,7 +597,7 @@ div.#{$block}classic-tab-container {
       &.#{$state}level-#{$i} {
          td {
             border-width: 1px 0;
-            border-color: $cx-default-grid-data-border-color;            
+            border-color: $cx-default-grid-data-border-color;
          }
       }
    }
@@ -584,14 +605,14 @@ div.#{$block}classic-tab-container {
 
 // grid checkbox margin corrected
 .#{$block}grid {
-  .#{$block}checkbox {
-    padding: 0;
-  }
-  .#{$element}grid-col-header-tool {
-    .#{$block}checkbox {
-      padding: $cx-default-container-padding + 2px;
-    }
-  }
+   .#{$block}checkbox {
+      padding: 0;
+   }
+   .#{$element}grid-col-header-tool {
+      .#{$block}checkbox {
+         padding: $cx-default-container-padding + 2px;
+      }
+   }
 
 }
 
