@@ -1,4 +1,4 @@
-export function updateArray(array, updateCallback, itemFilter) {
+export function updateArray(array, updateCallback, itemFilter, removeFilter) {
    
    if (!array)
       return array;
@@ -6,7 +6,12 @@ export function updateArray(array, updateCallback, itemFilter) {
    let newArray = [];
    let dirty = false;
    
-   array.forEach((item, index) => {
+   for (let index = 0; index < array.length; index++) {
+      let item = array[index];
+      if (removeFilter && removeFilter(item, index)) {
+         dirty = true;
+         continue;
+      }
       if (!itemFilter || itemFilter(item, index)) {
          let newItem = updateCallback(item, index);
          newArray.push(newItem);
@@ -14,7 +19,6 @@ export function updateArray(array, updateCallback, itemFilter) {
             dirty = true;
       } else
          newArray.push(item);
-   });
-
+   }
    return dirty ? newArray : array;
 }
