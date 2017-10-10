@@ -397,25 +397,38 @@ div.#{$block}classic-tab-container {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
+@keyframes cx-theme-window-appear-animation {
+   from {
+      opacity: 0;
+      transform: scale(0.3);
+   }
+
+   to {
+      opacity: 1;
+      transform: none;
+   }
+}
+
 //WINDOW
 // window animation
 .#{$block}window {
-   opacity: 0;
-   transform: scale(0.3);
-   transition: opacity .2s, transform .2s;
 
-   &.#{$state}animated {
-      opacity: 1;
-      transform: none;
-      transition: opacity .3s, transform .3s;
+   //transition: opacity .2s, transform .2s;
+
+   &.#{$state}animate {
+      animation: cx-theme-window-appear-animation 0.2s;
+      //transition: opacity .3s, transform .3s;
    }
 }
 
 .#{$element}window-shadow {
-   opacity: 0;
-   transition: opacity .2s;
 
-   &.#{$state}animated {
+   &.#{$state}animate {
+      opacity: 0;
+      transition: opacity .2s;
+   }
+
+   &.#{$state}animate-enter {
       opacity: 1;
    }
 }

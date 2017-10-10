@@ -35,7 +35,8 @@ export class Overlay extends PureContainer {
          modal: this.modal,
          pad: this.pad,
          resizable: data.resizable,
-         draggable: data.draggable
+         draggable: data.draggable,
+         animate: this.animate
       };
 
       super.prepareData(context, instance);
@@ -288,7 +289,11 @@ export class OverlayComponent extends VDOM.Component {
                ref={el => {
                   this.shadowEl = el
                }}
-               className={CSS.element(baseClass, 'shadow', {animated: this.state.animated})}
+               className={CSS.element(baseClass, 'shadow', {
+                  animated: this.state.animated,
+                  "animate-enter": this.state.animated && !this.dismissed,
+                  animate: widget.animate
+               })}
                style={parseStyle(data.shadowStyle)}
             >
                {content}
@@ -495,18 +500,17 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false)
          return false;
 
+      this.dismissed = true;
+
       //this.el might be null if visible is set to false
       if (this.el) {
-         if (widget.animate)
-            this.setState({
-               animated: false
-            });
+         this.el.className = this.getOverlayCssClass();
 
-         //verify this is really needed
-         //this.el.className = this.getOverlayCssClass();
+         // if (widget.animate)
+         //    this.setState({
+         //       animated: false
+         //    });
       }
-
-      this.dismissed = true;
       return true;
    }
 
@@ -548,16 +552,21 @@ export class OverlayComponent extends VDOM.Component {
       offFocusOut(this);
       this.unmounting = true;
 
-      let {baseClass, CSS} = this.props.instance.widget;
+      let {widget} = this.props.instance;
+      let {baseClass, CSS} = widget;
+
 
       // //we didn't have a chance to call onBeforeDismiss
       if (this.state.animated && this.el) {
          this.el.className = this.getOverlayCssClass();
          if (this.shadowEl)
-            this.shadowEl.className = CSS.element(baseClass, 'shadow');
+            this.shadowEl.className = CSS.element(baseClass, 'shadow', {
+               animate: widget.animate,
+               "animate-leave": true
+            });
       }
 
-      let {widget} = this.props.instance;
+
 
       widget.overlayWillUnmount(this.props.instance, this);
 
@@ -615,7 +624,9 @@ export class OverlayComponent extends VDOM.Component {
 
       return CSS.expand(data.classNames, CSS.state({
          ...this.state.mods,
-         animated: this.state.animated && !this.unmounting
+         animated: this.state.animated && !this.unmounting && !this.dismissed,
+         "animate-enter": this.state.animated && !this.dismissed,
+         "animate-leave": widget.animate && this.dismissed,
       }));
    }
 
