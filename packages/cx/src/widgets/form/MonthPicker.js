@@ -379,17 +379,12 @@ export class MonthPickerComponent extends VDOM.Component {
       e.stopPropagation();
       preventFocusOnTouch(e);
 
-      if (widget.range) {
-         this.dragStartDates = this.getCursorDates();
-         if (drag) {
-            this.setState({
-               state: 'drag',
-               ...cursor
-            });
-         } else {
-            widget.handleSelect(e, instance, ...this.dragStartDates);
-            this.moveCursor(e, cursor);
-         }
+      this.dragStartDates = this.getCursorDates();
+      if (drag) {
+         this.setState({
+            state: 'drag',
+            ...cursor
+         });
       }
    }
 
@@ -400,29 +395,26 @@ export class MonthPickerComponent extends VDOM.Component {
       e.stopPropagation();
       e.preventDefault();
 
-      if (widget.range) {
-         let [cursorFromDate, cursorToDate] = this.getCursorDates();
-         let originFromDate = cursorFromDate, originToDate = cursorToDate;
-         if (e.shiftKey) {
-            if (data.from)
-               originFromDate = data.from;
-            if (data.to)
-               originToDate = data.to;
-         }
-         else if (this.state.state == 'drag') {
-            [originFromDate, originToDate] = this.dragStartDates;
-            this.setState({state: 'normal'});
-         }
-         else {
-            //skip mouse events originated somewhere else
-            if (e.type != "keydown")
-               return;
-         }
-         widget.handleSelect(e, instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
-      } else {
-         let date = this.getCursorDates()[0];
-         widget.handleSelect(e, instance, date);
+      let [cursorFromDate, cursorToDate] = this.getCursorDates();
+      let originFromDate = cursorFromDate, originToDate = cursorToDate;
+      if (widget.range && e.shiftKey) {
+         if (data.from)
+            originFromDate = data.from;
+         if (data.to)
+            originToDate = data.to;
       }
+      else if (this.state.state == 'drag') {
+         if (widget.range) {
+            [originFromDate, originToDate] = this.dragStartDates;
+         }
+         this.setState({state: 'normal'});
+      }
+      else {
+         //skip mouse events originated somewhere else
+         if (e.type != "keydown")
+            return;
+      }
+      widget.handleSelect(e, instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
    }
 
    render() {
