@@ -24,6 +24,8 @@ import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 enableCultureSensitiveFormatting();
 
+import {stopPropagation} from "../../util/eventCallbacks";
+
 
 export class MonthPicker extends Field {
 
@@ -117,7 +119,6 @@ export class MonthPicker extends Field {
    renderInput(context, instance, key) {
       return <MonthPickerComponent key={key}
          instance={instance}
-         handleSelect={(e, date) => this.handleSelect(e, instance, date)}
          onBlur={this.onBlur}
          onFocusOut={this.onFocusOut}
          onKeyDown={this.onKeyDown}
@@ -125,7 +126,7 @@ export class MonthPicker extends Field {
       />
    }
 
-   handleSelect(instance, date1, date2) {
+   handleSelect(e, instance, date1, date2) {
 
       let {data} = instance;
 
@@ -197,6 +198,11 @@ export class MonthPickerComponent extends VDOM.Component {
          start: widget.startYear,
          end: widget.startYear + widget.bufferSize
       };
+
+      this.handleMouseDown = ::this.handleMouseDown;
+      this.handleMouseUp = ::this.handleMouseUp;
+      this.handleMouseEnter = ::this.handleMouseEnter;
+      this.handleKeyPress = ::this.handleKeyPress;
    }
 
    extractCursorInfo(el) {
@@ -357,9 +363,18 @@ export class MonthPickerComponent extends VDOM.Component {
       }
    }
 
+   handleMouseEnter(e) {
+      let cursor = this.extractCursorInfo(e.target);
+      cursor.hover = true;
+      this.moveCursor(e, cursor);
+   }
+
    handleMouseDown(e, cursor, drag = true) {
       let {instance} = this.props;
       let {widget} = instance;
+
+      if (!cursor)
+         cursor = this.extractCursorInfo(e.currentTarget);
 
       e.stopPropagation();
       preventFocusOnTouch(e);
@@ -372,7 +387,7 @@ export class MonthPickerComponent extends VDOM.Component {
                ...cursor
             });
          } else {
-            widget.handleSelect(instance, ...this.dragStartDates);
+            widget.handleSelect(e, instance, ...this.dragStartDates);
             this.moveCursor(e, cursor);
          }
       }
@@ -386,22 +401,27 @@ export class MonthPickerComponent extends VDOM.Component {
       e.preventDefault();
 
       if (widget.range) {
-
          let [cursorFromDate, cursorToDate] = this.getCursorDates();
          let originFromDate = cursorFromDate, originToDate = cursorToDate;
-         if (this.state.state == 'drag') {
-            [originFromDate, originToDate] = this.dragStartDates;
-            this.setState({state: 'normal'});
-         } else if (e.shiftKey) {
+         if (e.shiftKey) {
             if (data.from)
                originFromDate = data.from;
             if (data.to)
                originToDate = data.to;
          }
-         widget.handleSelect(instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
+         else if (this.state.state == 'drag') {
+            [originFromDate, originToDate] = this.dragStartDates;
+            this.setState({state: 'normal'});
+         }
+         else {
+            //skip mouse events originated somewhere else
+            if (e.type != "keydown")
+               return;
+         }
+         widget.handleSelect(e, instance, minDate(originFromDate, cursorFromDate), maxDate(originToDate, cursorToDate));
       } else {
          let date = this.getCursorDates()[0];
-         widget.handleSelect(instance, date);
+         widget.handleSelect(e, instance, date);
       }
    }
 
@@ -436,22 +456,6 @@ export class MonthPickerComponent extends VDOM.Component {
       }
 
       let monthNames = Culture.getDateTimeCulture().getMonthNames('short');
-
-      let onMouseEnter = e => {
-         let cursor = this.extractCursorInfo(e.target);
-         cursor.hover = true;
-         this.moveCursor(e, cursor);
-      };
-
-      let onMouseDown = e => {
-         let cursor = this.extractCursorInfo(e.target);
-         this.handleMouseDown(e, cursor);
-      };
-
-      let onMouseUp = e => {
-         this.handleMouseUp(e);
-      };
-
       let showCursor = this.state.hover || this.state.focused;
 
       for (let y = start; y <= end; y++) {
@@ -465,9 +469,9 @@ export class MonthPickerComponent extends VDOM.Component {
                   className={CSS.element(baseClass, 'year', {
                      cursor: showCursor && this.state.column == 'Y' && y == this.state.cursorYear
                   })}
-                  onMouseEnter={onMouseEnter}
-                  onMouseDown={onMouseDown}
-                  onMouseUp={onMouseUp}
+                  onMouseEnter={this.handleMouseEnter}
+                  onMouseDown={this.handleMouseDown}
+                  onMouseUp={this.handleMouseUp}
                >
                   {y}
                </th>);
@@ -482,9 +486,9 @@ export class MonthPickerComponent extends VDOM.Component {
                      unselectable
                   })}
                   data-point={`Y-${y}-M-${m}`}
-                  onMouseEnter={ unselectable ? null : onMouseEnter }
-                  onMouseDown={ unselectable ? null : onMouseDown }
-                  onMouseUp={ unselectable ? null : onMouseUp }
+                  onMouseEnter={ unselectable ? null : this.handleMouseEnter }
+                  onMouseDown={ unselectable ? null : this.handleMouseDown }
+                  onMouseUp={ unselectable ? null : this.handleMouseUp }
                >
                   {monthNames[m - 1].substr(0, 3)}
                </td>)
@@ -494,9 +498,9 @@ export class MonthPickerComponent extends VDOM.Component {
                   cursor: showCursor && this.state.column == 'Q' && y == this.state.cursorYear && q == this.state.cursorQuarter
                })}
                data-point={`Y-${y}-Q-${q}`}
-               onMouseEnter={onMouseEnter}
-               onMouseDown={onMouseDown}
-               onMouseUp={onMouseUp}
+               onMouseEnter={this.handleMouseEnter}
+               onMouseDown={this.handleMouseDown}
+               onMouseUp={this.handleMouseUp}
             >
                {`Q${q + 1}`}
             </th>);
@@ -512,10 +516,10 @@ export class MonthPickerComponent extends VDOM.Component {
          className={data.classNames}
          style={data.style}
          tabIndex={data.disabled ? null : 0}
-         onKeyDown={e => this.handleKeyPress(e)}
-         onMouseDown={e => e.stopPropagation()}
+         onKeyDown={this.handleKeyPress}
+         onMouseDown={stopPropagation}
          onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
-         onMouseLeave={::this.onMouseLeave}
+         onMouseLeave={::this.handleMouseLeave}
          onFocus={e => this.handleFocus(e)}
          onBlur={::this.handleBlur}
          onScroll={::this.onScroll}
@@ -549,7 +553,7 @@ export class MonthPickerComponent extends VDOM.Component {
       }
    }
 
-   onMouseLeave(e) {
+   handleMouseLeave(e) {
       tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
       this.moveCursor(e, {
          hover: false
