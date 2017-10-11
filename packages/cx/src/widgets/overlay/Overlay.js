@@ -567,8 +567,6 @@ export class OverlayComponent extends VDOM.Component {
             });
       }
 
-
-
       widget.overlayWillUnmount(this.props.instance, this);
 
       if (this.ownedEl) {
@@ -641,7 +639,7 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      if (this.containerEl && !VDOM.createPortal) {
+      if (this.containerEl && !VDOM.DOM.createPortal) {
          VDOM.DOM.render(this.renderOverlay(), this.containerEl);
       }
       this.overlayDidUpdate();
