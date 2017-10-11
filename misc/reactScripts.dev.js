@@ -1,4 +1,4 @@
 module.exports = `
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js"></script>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 `;

@@ -1,6 +1,7 @@
 import {BoundedObject} from '../svg/BoundedObject';
 import {VDOM} from '../ui/Widget';
 import {isDefined} from '../util/isDefined';
+import {Rect} from '../svg/util/Rect';
 
 export class MarkerLine extends BoundedObject {
 
@@ -54,11 +55,11 @@ export class MarkerLine extends BoundedObject {
    prepare(context, instance) {
       let {data, xAxis, yAxis} = instance;
 
-      if (data.active)
-         super.prepare(context, instance);
-
       if (xAxis.shouldUpdate || yAxis.shouldUpdate)
          instance.shouldUpdate = true;
+
+      if (data.active)
+         super.prepare(context, instance);
 
       if (data.name && data.legend && context.addLegendEntry)
          context.addLegendEntry(data.legend, {
@@ -105,7 +106,7 @@ export class MarkerLine extends BoundedObject {
    render(context, instance, key) {
       let {data, x1, x2, y1, y2} = instance;
 
-      if (!data.active)
+      if (!data.active || data.x1 === null || data.x2 === null || data.y1 === null || data.y2 === null)
          return null;
 
       let stateMods = {

@@ -41,7 +41,7 @@ export const Grouping = <cx>
                   { header: 'Continent', field: 'continent', visible: true, sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.continent} {$group.continent:plural;continent}' } },
                   { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.browser} {$group.browser:plural;browser}' }  },
                   { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.os} {$group.os:plural;OS}' } },
-                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
+                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right", format: 'n;0' }
                ]}
                grouping={[
                {
@@ -81,7 +81,7 @@ export const Grouping = <cx>
                   { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.continent} {$group.continent:plural;continent}' } },
                   { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.browser} {$group.browser:plural;browser}' }  },
                   { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', footer: { tpl: '{$group.os} {$group.os:plural;OS}' } },
-                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
+                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right", format: 'n;0' }
                ]}
                grouping={[
                {

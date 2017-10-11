@@ -22,6 +22,7 @@ export class Dropdown extends Overlay {
 
    initInstance(context, instance) {
       instance.positionChangeSubcribers = new SubscriberList();
+      instance.mousePosition = this.mousePosition;
       super.initInstance(context, instance);
    }
 

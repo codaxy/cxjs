@@ -41,7 +41,7 @@ module.exports = (production) => ({
       }, {
          test: /\.js$/,
          //add here any ES6 based library
-         include: /(cx|gallery)/,
+         include: /[\\\/](cx|cx-react|gallery|cx-theme-material|cx-theme-frost|cx-theme-dark)[\\\/]/,
          loader: 'babel-loader',
          query: babelCfg
       }, {
@@ -64,6 +64,7 @@ module.exports = (production) => ({
    entry: {
       //vendor: ['cx-react', p('polyfill.js')],
       app: [
+         p('../misc/babelHelpers'),
          p('entry')
       ]
    },
@@ -112,7 +113,8 @@ module.exports = (production) => ({
          template: p('index.html'),
          gtmh: gtm.head,
          gtmb: gtm.body,
-         reactScripts: production ? reactScripts : reactScriptsDev
+         reactScripts: production ? reactScripts : reactScriptsDev,
+         favicon: p('assets/favicon.png'),
       }),
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,

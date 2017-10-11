@@ -42,5 +42,19 @@ describe('comparer', function() {
          assert.equal(sorted[3].value, null);
          assert.equal(sorted[4].value, null);
       });
+
+      it('supports field', function () {
+         let records = [
+            {value: 3, id: 1},
+            {value: 1, id: 2},
+            {value: 2, id: 3}
+         ];
+
+         let sort = sorter([{field: 'value', direction: 'ASC'}]);
+         let sorted = sort(records);
+         assert.equal(sorted[0].value, 1);
+         assert.equal(sorted[1].value, 2);
+         assert.equal(sorted[2].value, 3);
+      });
    });
 });

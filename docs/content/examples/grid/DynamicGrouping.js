@@ -64,7 +64,7 @@ export const DynamicGrouping = <cx>
                           field: 'fullName',
                           sortable: true,
                           aggregate: 'count',
-                          footer: {expr: '({$group.$level} > 1 ? {$group.$name:s:TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}'}
+                          footer: {expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}'}
                       }, {
                           header: 'Continent',
                           field: 'continent',
@@ -147,7 +147,7 @@ export const DynamicGrouping = <cx>
                               field: 'fullName',
                               sortable: true,
                               aggregate: 'count',
-                              footer: {expr: '({$group.$level} > 1 ? {$group.$name:s:TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}'}
+                              footer: {expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}'}
                           }, {
                               header: 'Continent',
                               field: 'continent',

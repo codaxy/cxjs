@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
+import {tooltipMouseMove, tooltipMouseLeave, tooltipParentWillUnmount} from '../widgets/overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse';
 import {closest} from '../util/DOM';
 import {Selection} from '../ui/selection/Selection';
@@ -26,7 +26,9 @@ export class Marker extends BoundedObject {
    }
 
    declareData() {
-      return super.declareData(...arguments, {
+      var selection = this.selection.configureWidget(this);
+
+      return super.declareData(...arguments, selection, {
          x: undefined,
          y: undefined,
          size: undefined,
@@ -48,7 +50,7 @@ export class Marker extends BoundedObject {
       instance.axes = context.axes;
       instance.xAxis = context.axes[this.xAxis];
       instance.yAxis = context.axes[this.yAxis];
-      var {data} = instance;
+      let {data} = instance;
       data.selected = this.selection.isInstanceSelected(instance);
       data.stateMods = {
          selected: data.selected,
@@ -64,12 +66,12 @@ export class Marker extends BoundedObject {
    }
 
    calculateBounds(context, instance) {
-      var {data, xAxis, yAxis} = instance;
+      let {data, xAxis, yAxis} = instance;
 
-      var x, y;
+      let x, y;
 
       if (data.x == null || data.y == null) {
-         var bounds = super.calculateBounds(context, instance);
+         let bounds = super.calculateBounds(context, instance);
          x = (bounds.l + bounds.r) / 2;
          y = (bounds.t + bounds.b) / 2;
       }
@@ -102,12 +104,15 @@ export class Marker extends BoundedObject {
          if (yAxis && data.y != null)
             yAxis.acknowledge(data.y, 0, this.yOffset);
 
+         if (context.pointReducer)
+            context.pointReducer(data.x, data.y, data.name, data);
+
          super.explore(context, instance);
       }
    }
 
    prepare(context, instance) {
-      var {data, xAxis, yAxis, colorMap} = instance;
+      let {data, xAxis, yAxis, colorMap} = instance;
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
@@ -147,8 +152,8 @@ export class Marker extends BoundedObject {
    }
 
    onLegendClick(e, instance) {
-      var allActions = this.legendAction == 'auto';
-      var {data} = instance;
+      let allActions = this.legendAction == 'auto';
+      let {data} = instance;
       if (allActions || this.legendAction == 'toggle')
          if (instance.set('active', !data.active))
             return;
@@ -158,6 +163,11 @@ export class Marker extends BoundedObject {
    }
 
    render(context, instance, key) {
+      let {data} = instance;
+
+      if (!data.active || data.x === null || data.y === null)
+         return null;
+
       return (
          <MarkerComponent
             key={key}
@@ -172,7 +182,7 @@ export class Marker extends BoundedObject {
 
    handleMouseDown(e, instance) {
       if (this.draggableX || this.draggableY) {
-         var svgEl = closest(e.target, el => el.tagName == 'svg');
+         let svgEl = closest(e.target, el => el.tagName == 'svg');
          if (svgEl)
             captureMouseOrTouch(e, (e, captureData) => {
                this.handleDragMove(e, instance, captureData);
@@ -189,17 +199,17 @@ export class Marker extends BoundedObject {
    }
 
    handleDragMove(e, instance, captureData) {
-      var cursor = getCursorPos(e);
-      var svgBounds = captureData.svgEl.getBoundingClientRect();
-      var {xAxis, yAxis} = instance;
+      let cursor = getCursorPos(e);
+      let svgBounds = captureData.svgEl.getBoundingClientRect();
+      let {xAxis, yAxis} = instance;
       if (this.draggableX && xAxis) {
-         var x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset);
+         let x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset);
          if (this.constrainX)
             x = xAxis.constrainValue(x);
          instance.set('x', xAxis.encodeValue(x));
       }
       if (this.draggableY && yAxis) {
-         var y = yAxis.trackValue(cursor.clientY - svgBounds.top, this.yOffset);
+         let y = yAxis.trackValue(cursor.clientY - svgBounds.top, this.yOffset);
          if (this.constrainY)
             y = yAxis.constrainValue(y);
          instance.set('y', yAxis.encodeValue(y));
@@ -236,18 +246,16 @@ class MarkerComponent extends VDOM.Component {
    }
 
    render() {
-      var {instance, children, data} = this.props;
+      let {instance, children, data} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
-
-      if (!data.active)
-         return null;
-
-      var {bounds, shape} = data;
-
-      var shapeRenderer = getShape(shape);
-      var shapeProps = {
-         className: CSS.element(baseClass, 'shape', data.colorIndex != null && 'color-' + data.colorIndex),
+      let {bounds, shape} = data;
+      let shapeRenderer = getShape(shape);
+      let shapeProps = {
+         className: CSS.element(baseClass, 'shape', {
+            ['color-' + data.colorIndex]: data.colorIndex != null,
+            selected: data.selected
+         }),
          style: data.style,
          cx: (bounds.l + bounds.r) / 2,
          cy: (bounds.t + bounds.b) / 2,
@@ -265,7 +273,7 @@ class MarkerComponent extends VDOM.Component {
             widget.handleMouseDown(e, instance)
          },
          onClick: e=>{
-            widget.handleItemClick(e, instance);
+            widget.handleClick(e, instance);
          }
       };
 
@@ -273,5 +281,9 @@ class MarkerComponent extends VDOM.Component {
          {shapeRenderer((bounds.l + bounds.r) / 2, (bounds.t + bounds.b) / 2, data.size, shapeProps)}
          {children}
       </g>;
+   }
+
+   componentWillUnmount() {
+      tooltipParentWillUnmount(this.props.instance);
    }
 }

@@ -6,7 +6,8 @@ export default {
         key: true,
         alias: 'path',
         description: <cx><Md>
-            Target route, e.g. `~/user/:userId`. All routes should start with `~/`.
+            Target route, e.g. `~/user/:userId`. Use `~/` to denote the application root path and `+/` in nested routes to append to the
+            parent route.
         </Md></cx>
     },
     url: {

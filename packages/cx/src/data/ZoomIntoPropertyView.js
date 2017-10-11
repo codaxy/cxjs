@@ -11,7 +11,7 @@ export class ZoomIntoPropertyView extends View {
             throw new Error('Zoomed value must be an object.');
          this.cache.result = {
             ...x,
-            [this.rootName]: data
+            [this.rootName]: !this.store.sealed ? {...data} : data
          };
          this.cache.version = this.meta.version;
       }

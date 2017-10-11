@@ -17,11 +17,11 @@ function randomColor() {
     return `rgb(${r},${g},${b})`;
 }
 
-function createToast(e, {store}, placement) {
+function createToast(e, {store}, {placement, mod}) {
     let toast = Toast.create({
-        message: 'This is a random toast.',
-        style: `background: ${randomColor()}; border-radius: 5px`,
+        message: 'This is a toast.',
         placement: placement,
+        mod: mod,
         timeout: 2000
     });
     toast.open(store);
@@ -40,13 +40,18 @@ export const Toasts = <cx>
 
 
             <div class="widgets">
-                <Button onClick={ (e, ins) => createToast(e, ins, 'left')}>Left Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'right')}>Right Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'top')}>Top Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'bottom')}>Bottom Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'left'})}>Left Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'right'})}>Right Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'top'})}>Top Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'bottom'})}>Bottom Toast</Button>
 
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Complex Toast</Button>
+
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'primary'})}>Primary Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'warning'})}>Warning Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'error'})}>Error Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'success'})}>Success Mod</Button>
 
                 <Toast visible={{bind:"$page.toast.visible", defaultValue: false}}>
                     This toast is visible only on this page.
@@ -64,18 +69,11 @@ export const Toasts = <cx>
 
             <CodeSnippet putInto="code" fiddle="L5H66mn8">{`
 
-                function randomColor() {
-                    let r = (Math.random() * 100 + 155).toFixed(0);
-                    let g = (Math.random() * 100 + 155).toFixed(0);
-                    let b = (Math.random() * 100 + 155).toFixed(0);
-                    return \`rgb(\${r},\${g},\${b})\`;
-                }
-
-                function createToast(e, {store}, placement) {
+                function createToast(e, {store}, {placement, mod}) {
                     let toast = Toast.create({
-                        message: 'This is a random toast.',
-                        style: \`background: \${randomColor()}; border-radius: 5px\`,
+                        message: 'This is a toast.',
                         placement: placement,
+                        mod: mod,
                         timeout: 2000
                     });
                     toast.open(store);
@@ -83,13 +81,18 @@ export const Toasts = <cx>
 
                 ...
 
-                <Button onClick={ (e, ins) => createToast(e, ins, 'left')}>Left Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'right')}>Right Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'top')}>Top Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, 'bottom')}>Bottom Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'left'})}>Left Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'right'})}>Right Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'top'})}>Top Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {placement: 'bottom'})}>Bottom Toast</Button>
 
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Complex Toast</Button>
+
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'primary'})}>Primary Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'warning'})}>Warning Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'error'})}>Error Mod</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, {mod: 'success'})}>Success Mod</Button>
 
                 <Toast visible:bind="$page.toast.visible" preserveWhitespace>
                     This toast is visible only on this page.

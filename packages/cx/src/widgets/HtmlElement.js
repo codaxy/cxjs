@@ -115,6 +115,8 @@ export class HtmlElement extends PureContainer {
          case "CSS":
          case "tooltip":
          case "styles":
+         case "jsxAttributes":
+         case "instance":
             return false;
 
          default:
@@ -141,16 +143,21 @@ export class HtmlElement extends PureContainer {
 
    prepareData(context, instance) {
       var {data} = instance;
-      if (this.urlAttributes && data.attrs)
-         this.urlAttributes.forEach(attr=> {
+      if (this.urlAttributes && data.attrs) {
+         data.attrs = {...data.attrs};
+         this.urlAttributes.forEach(attr => {
             if (isString(data.attrs[attr]))
                data.attrs[attr] = Url.resolve(data.attrs[attr]);
          });
+      }
       super.prepareData(context, instance);
    }
 
    attachProps(context, instance, props) {
       Object.assign(props, this.extraProps);
+
+      if (!isString(this.tag))
+         props.instance = instance;
    }
 
    render(context, instance, key) {
@@ -166,10 +173,14 @@ export class HtmlElement extends PureContainer {
       let {data, events, shouldUpdate} = instance;
 
       let props = Object.assign({
-         key: key,
-         className: data.classNames,
-         style: data.style
+         key: key
       }, data.attrs, events);
+
+      if (data.classNames)
+         props.className = data.classNames;
+
+      if (data.style)
+         props.style = data.style;
 
       let children;
       if (isDefined(data.text))

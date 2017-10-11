@@ -108,6 +108,7 @@ export const Grids = <cx>
         - [TreeGrid](~/examples/grid/tree-grid)
         - [Complex Header](~/examples/grid/complex-headers)
         - [Buffering 5000 rows](~/examples/grid/buffering)
+        - [Infinite scrolling](~/examples/grid/infinite-scrolling)
 
         ## Configuration
 

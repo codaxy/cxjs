@@ -1,4 +1,3 @@
-
 @import "~cx/src/index";
 
 $block: map-get($cx-besm, block);
@@ -6,43 +5,50 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
-.#{$block}section.#{$mod}card.#{$mod}card {
-   background-color: white;
-   box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
-   color: #66686e;
-}
-// can be used interchangeably with mod='card'
-.#{$mod}well {
-  @extend .#{$mod}card;
-}
+@if (cx-included('cx/widgets/Section')) {
+   .#{$block}section.#{$mod}card.#{$mod}card {
+      background-color: white;
+      box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
+      color: #66686e;
+   }
+   // can be used interchangeably with mod='card'
+   .#{$mod}well {
+      @extend .#{$mod}card;
+   }
 
-.#{$element}section-header.#{$element}section-header  {
-   color: #24b5d6;
-   font-weight: normal;
+   .#{$element}section-header.#{$element}section-header {
+      color: #24b5d6;
+      font-weight: normal;
 
-   .#{$mod}pad > & {
-      border: none;
+      .#{$mod}pad > & {
+         border: none;
+      }
    }
 }
 
+@if (cx-included('cx/widgets/DateTimeField')) {
+   .#{$block}datetimefield .#{$block}calendar {
+      border-color: transparent !important;
+   }
 
-.#{$block}datetimefield .#{$block}calendar {
-   border-color: transparent !important;
+   .#{$block}datetimefield .#{$block}datetimepicker {
+      border-color: transparent !important;
+   }
 }
 
-.#{$block}monthfield .#{$block}monthpicker {
-   border-color: transparent !important;
+@if (cx-included('cx/widgets/MonthField')) {
+   .#{$block}monthfield .#{$block}monthpicker {
+      border-color: transparent !important;
+   }
 }
 
-.#{$block}colorfield .#{$block}colorpicker {
-   border-color: transparent !important;
-}
-
-.#{$block}datetimefield .#{$block}datetimepicker {
-   border-color: transparent !important;
+@if (cx-included('cx/widgets/ColorPicker')) {
+   .#{$block}colorfield .#{$block}colorpicker {
+      border-color: transparent !important;
+   }
 }
 
 //override for chrome mobile default press effect
-.#{$block}button, .#{$block}tab, .#{$block}menu {  
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+.#{$block}button, .#{$block}tab, .#{$block}menu {
+   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }

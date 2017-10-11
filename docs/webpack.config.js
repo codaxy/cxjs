@@ -11,7 +11,9 @@ const webpack = require('webpack'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     babelConfig = require('./babel.config'),
     gtm = require('../misc/tracking/gtm.js'),
-    reactScripts = require('../misc/reactScripts');
+    reactScriptsProd = require('../misc/reactScripts'),
+    reactScriptsDev = require('../misc/reactScripts.dev');
+
 
 var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
 
@@ -39,6 +41,10 @@ if (production) {
                 options: {
                     "if-loader": 'production',
                 }
+            }),
+            new ChunkManifestPlugin({
+                manifestVariable: "webpackManifest",
+                inlineManifest: true
             }),
             new WebpackCleanupPlugin(),
             new webpack.optimize.UglifyJsPlugin(),
@@ -69,6 +75,7 @@ if (production) {
         output: {
             path: path.join(__dirname, 'dist'),
             filename: "[name].ltc.[chunkhash].js",
+            chunkFilename: "[name].ltc.[chunkhash].js",
             hashDigestLength: 5,
             publicPath: root ? "/" : "/docs/"
         }
@@ -137,7 +144,8 @@ var common = {
     module: {
         loaders: [{
             test: /\.js$/,
-            include: /(docs|cx|cx-react)/,
+            include: /[\\\/](docs|cx|cx-react)[\\\/]/,
+            exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',
                 query: babelConfig({production: production})
@@ -153,16 +161,19 @@ var common = {
         }]
     },
     entry: {
-        vendor: [path.join(__dirname, 'polyfill')],
-        app: __dirname + '/index.js',
+        app: [
+            path.resolve(__dirname, "../misc/babelHelpers"),
+            path.join(__dirname, 'polyfill'),
+            path.join(__dirname, '/index')
+        ]
     },
     output: {
         path: __dirname,
         filename: "[name].js"
     },
     externals: {
-       "react": "React",
-       "react-dom": "ReactDOM"
+        "react": "React",
+        "react-dom": "ReactDOM"
     },
     plugins: [
         // new webpack.optimize.CommonsChunkPlugin({
@@ -174,15 +185,11 @@ var common = {
             children: true,
             minChunks: Infinity
         }),
-        new ChunkManifestPlugin({
-            manifestVariable: "webpackManifest",
-            inlineManifest: true
-        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
             gtmh: gtm.head,
             gtmb: gtm.body,
-            reactScripts: reactScripts,
+            reactScripts: production ? reactScriptsProd : reactScriptsDev,
             favicon: path.join(__dirname, 'img/favicon.png'),
             minify: {
                 removeComments: true

@@ -5,6 +5,7 @@ import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
 import {parseStyle} from '../../util/parseStyle';
 import {captureMouseOrTouch} from './captureMouse';
+import {ZIndexManager} from "../../ui/ZIndexManager";
 
 /*
  Features:
@@ -34,7 +35,8 @@ export class Overlay extends PureContainer {
          modal: this.modal,
          pad: this.pad,
          resizable: data.resizable,
-         draggable: data.draggable
+         draggable: data.draggable,
+         animate: this.animate
       };
 
       super.prepareData(context, instance);
@@ -129,6 +131,8 @@ export class Overlay extends PureContainer {
    containerFactory() {
       let el = document.createElement('div');
       document.body.appendChild(el);
+      el.style.zIndex = ZIndexManager.next();
+      el.style.position = "fixed";
       if (this.containerStyle)
          Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -182,6 +186,38 @@ Overlay.prototype.containerStyle = null;
 
 Widget.alias('overlay', Overlay);
 
+
+//TODO: all el related logic should be moved here
+class OverlayContent extends VDOM.Component {
+   render() {
+      return (
+         <div
+            ref={this.props.onRef}
+            className={this.props.className}
+            style={this.props.style}
+            tabIndex={this.props.tabIndex}
+            onFocus={this.props.onFocus}
+            onBlur={this.props.onBlur}
+            onKeyDown={this.props.onKeyDown}
+            onMouseMove={this.props.onMouseMove}
+            onMouseUp={this.props.onMouseUp}
+            onMouseDown={this.props.onMouseDown}
+            onTouchStart={this.props.onTouchStart}
+            onMouseEnter={this.props.onMouseEnter}
+            onMouseLeave={this.props.onMouseLeave}
+            onClick={this.props.onClick}
+         >
+            {this.props.children}
+         </div>
+      )
+   }
+
+   componentDidUpdate() {
+      this.props.onDidUpdate();
+   }
+}
+
+//TODO: This should be called OverlayPortal
 export class OverlayComponent extends VDOM.Component {
 
    constructor(props) {
@@ -197,6 +233,16 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.inline || parentEl)
          return this.renderOverlay();
 
+      if (!this.containerEl) {
+         this.ownedEl = widget.containerFactory();
+         this.ownedEl.style.display = 'hidden';
+         this.containerEl = this.ownedEl;
+      }
+
+      if (VDOM.DOM.createPortal)
+         return VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl);
+
+      //rendered in componentDidUpdate if portals are not supported
       return null;
    }
 
@@ -205,11 +251,14 @@ export class OverlayComponent extends VDOM.Component {
       let {widget, data} = this.props.instance;
       let {CSS, baseClass} = widget;
 
+      if (!this.onOverlayRef)
+         this.onOverlayRef = el => {
+            this.el = el
+         };
+
       let content = (
-         <div
-            ref={el => {
-               this.el = el
-            }}
+         <OverlayContent
+            onRef={this.onOverlayRef}
             className={data.classNames}
             style={data.style}
             tabIndex={widget.focusable ? 0 : null}
@@ -223,12 +272,13 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={::this.onMouseEnter}
             onMouseLeave={::this.onMouseLeave}
             onClick={::this.onClick}
+            onDidUpdate={::this.overlayDidUpdate}
          >
             { widget.modal || widget.backdrop &&
             <div key="backdrop" className={CSS.element(baseClass, 'modal-backdrop')}
                onClick={::this.onBackdropClick}/> }
             {this.renderOverlayBody()}
-         </div>
+         </OverlayContent>
       );
 
       let result = content;
@@ -240,7 +290,11 @@ export class OverlayComponent extends VDOM.Component {
                ref={el => {
                   this.shadowEl = el
                }}
-               className={CSS.element(baseClass, 'shadow', {animated: this.state.animated})}
+               className={CSS.element(baseClass, 'shadow', {
+                  animated: this.state.animated,
+                  "animate-enter": this.state.animated && !this.dismissed,
+                  animate: widget.animate
+               })}
                style={parseStyle(data.shadowStyle)}
             >
                {content}
@@ -447,31 +501,25 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false)
          return false;
 
+      this.dismissed = true;
+
       //this.el might be null if visible is set to false
       if (this.el) {
-         if (widget.animate)
-            this.setState({
-               animated: false
-            });
+         this.el.className = this.getOverlayCssClass();
 
-         //verify this is really needed
-         //this.el.className = this.getOverlayCssClass();
+         // if (widget.animate)
+         //    this.setState({
+         //       animated: false
+         //    });
       }
-
       return true;
    }
 
    componentDidMount() {
       let {instance, subscribeToBeforeDismiss, parentEl} = this.props;
       let {widget} = instance;
-      if (!parentEl && !widget.inline) {
-         this.ownedEl = widget.containerFactory();
-         this.ownedEl.style.display = 'hidden';
-         this.containerEl = this.ownedEl;
-      }
 
       this.componentDidUpdate();
-
       widget.overlayDidMount(instance, this);
 
       if (this.containerEl)
@@ -505,16 +553,19 @@ export class OverlayComponent extends VDOM.Component {
       offFocusOut(this);
       this.unmounting = true;
 
-      let {baseClass, CSS} = this.props.instance.widget;
+      let {widget} = this.props.instance;
+      let {baseClass, CSS} = widget;
+
 
       // //we didn't have a chance to call onBeforeDismiss
       if (this.state.animated && this.el) {
          this.el.className = this.getOverlayCssClass();
          if (this.shadowEl)
-            this.shadowEl.className = CSS.element(baseClass, 'shadow');
+            this.shadowEl.className = CSS.element(baseClass, 'shadow', {
+               animate: widget.animate,
+               "animate-leave": true
+            });
       }
-
-      let {widget} = this.props.instance;
 
       widget.overlayWillUnmount(this.props.instance, this);
 
@@ -572,17 +623,25 @@ export class OverlayComponent extends VDOM.Component {
 
       return CSS.expand(data.classNames, CSS.state({
          ...this.state.mods,
-         animated: this.state.animated && !this.unmounting
+         animated: this.state.animated && !this.unmounting && !this.dismissed,
+         "animate-enter": this.state.animated && !this.dismissed,
+         "animate-leave": widget.animate && this.dismissed,
       }));
    }
 
+   overlayDidUpdate() {
+      if (this.el && !this.dismissed) {
+         let {widget} = this.props.instance;
+         widget.overlayDidUpdate(this.props.instance, this);
+         this.el.className = this.getOverlayCssClass();
+         Object.assign(this.el.style, this.getOverlayStyle());
+      }
+   }
+
    componentDidUpdate() {
-      if (this.containerEl) {
+      if (this.containerEl && !VDOM.DOM.createPortal) {
          VDOM.DOM.render(this.renderOverlay(), this.containerEl);
       }
-      let {widget} = this.props.instance;
-      widget.overlayDidUpdate(this.props.instance, this);
-      this.el.className = this.getOverlayCssClass();
-      Object.assign(this.el.style, this.getOverlayStyle());
+      this.overlayDidUpdate();
    }
 }

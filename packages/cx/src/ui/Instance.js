@@ -54,10 +54,14 @@ export class Instance {
          this.init(context);
 
       var data = this.dataSelector(this.store.getData());
+      var wasVisible = this.visible;
       this.visible = this.widget.checkVisible(context, this, data);
 
-      if (!this.visible)
+      if (!this.visible) {
+         if (wasVisible)
+            this.destroy();
          return false;
+      }
 
       if (this.instanceCache)
          this.instanceCache.mark();
@@ -66,8 +70,11 @@ export class Instance {
       var contextController = context.controller;
       this.parentOptions = context.parentOptions;
 
-      if (!this.controller && context.controller) {
-         this.controller = context.controller;
+      if (!this.controller) {
+         if (context.controller)
+            this.controller = context.controller;
+         else if (this.parent.controller)
+            this.controller = this.parent.controller;
       }
 
       this.destroyTracked = false;
@@ -265,18 +272,22 @@ export class Instance {
    }
 
    destroy() {
-      debug(destroyFlag, this);
-
       if (this.instanceCache) {
          this.instanceCache.destroy();
          delete this.instanceCache;
       }
 
-      if (this.widget.onDestroy)
-         this.widget.onDestroy(instance);
+      if (this.destroyTracked) {
+         debug(destroyFlag, this);
 
-      if (this.widget.controller && this.controller && this.controller.onDestroy)
-         this.controller.onDestroy();
+         if (this.widget.onDestroy)
+            this.widget.onDestroy(this);
+
+         if (this.widget.controller && this.controller && this.controller.onDestroy)
+            this.controller.onDestroy();
+
+         this.destroyTracked = false;
+      }
    }
 
    setState(state) {
@@ -337,31 +348,31 @@ export class Instance {
    }
 
    doSet(prop, value) {
+      let changed = false;
       batchUpdates(() => {
          let p = this.widget[prop];
          if (p && typeof p == 'object') {
             if (p.set) {
                if (isFunction(p.set)) {
                   p.set(value, this);
-                  return true;
+                  changed = true;
                }
                else if (isString(p.set)) {
                   this.controller[p.set](value, this);
-                  return true;
+                  changed = true;
                }
             }
             else if (p.action) {
                let action = p.action(value, this);
                this.store.dispatch(action);
-               return true;
+               changed = true;
             }
             else if (p.bind) {
-               this.store.set(p.bind, value);
-               return true;
+               changed = this.store.set(p.bind, value);
             }
          }
-         return false;
       });
+      return changed;
    }
 
    replaceState(state) {
@@ -403,22 +414,33 @@ export class Instance {
       return props;
    }
 
-   invoke(methodName, ...args) {
+   getCallback(methodName) {
       let scope = this.widget;
       let method = scope[methodName];
 
       if (typeof method === 'string') {
          if (!this.controller)
-            throw new Error(`Cannot invoke controller method ${methodName} as controller is not assigned to the widget.`);
+            throw new Error(`Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`);
 
-         scope = this.controller;
+         let at = this;
+         while (at != null && at.controller && !at.controller[method])
+            at = at.parent;
+
+         if (!at || !at.controller || !at.controller[method])
+            throw new Error(`Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`);
+
+         scope = at.controller;
          method = scope[method];
       }
 
       if (typeof method !== 'function')
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
-      return method.apply(scope, args);
+      return method.bind(scope);
+   }
+
+   invoke(methodName, ...args) {
+      return this.getCallback(methodName).apply(null, args);
    }
 }
 

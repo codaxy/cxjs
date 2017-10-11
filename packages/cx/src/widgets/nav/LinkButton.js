@@ -22,8 +22,6 @@ export class LinkButton extends Button {
             data.unresolvedHref = context.lastRoute.reverse() + data.href.substring(1);
 
          data.href = Url.resolve(data.unresolvedHref);
-         if (data.attrs)
-            data.attrs.href = data.href;
       }
 
       data.stateMods = {
@@ -50,6 +48,7 @@ export class LinkButton extends Button {
          this.handleClick(ev, instance)
       };
       super.attachProps(context, instance, props);
+      props.href = instance.data.href;
    }
 
    isValidHtmlAttribute(attr) {

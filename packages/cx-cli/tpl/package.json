@@ -22,6 +22,7 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-syntax-jsx": "^6.8.0",
     "babel-preset-cx-env": "^17.6.2",
+    "babel-preset-env": "^1.6.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",

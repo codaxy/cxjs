@@ -117,6 +117,11 @@ First, install the packages using `npm` or `yarn`.
 $ npm install
 ```
 
+Build CxJS:
+```bash
+npm run build
+```
+
 Run docs:
 ```bash
 npm start

@@ -13,8 +13,12 @@ export class ColorMap extends Widget {
 
       context.getColorMap = (colorMap) => {
          var map = context.colorMaps[colorMap];
-         if (!map)
-            map = context.colorMaps[colorMap] = new ColorIndex();
+         if (!map) {
+            let cache = this.onGetCache ? instance.invoke("onGetCache") : {};
+            map = cache[colorMap];
+            if (!map)
+               map = context.colorMaps[colorMap] = cache[colorMap] = new ColorIndex();
+         }
          return map;
       }
    }

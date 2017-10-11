@@ -1,4 +1,4 @@
-import {PureContainer} from '../../ui/PureContainer';
+import {ValidationGroup} from '../../widgets/form/ValidationGroup';
 import {VDOM} from '../../ui/Widget';
 import {
    ddMouseDown,
@@ -9,7 +9,7 @@ import {
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 
-export class GridRow extends PureContainer {
+export class GridRow extends ValidationGroup {
    render(context, instance, key) {
       return <tr key={key}>
          {this.renderChildren(context, instance)}
@@ -33,6 +33,11 @@ export class GridRowComponent extends VDOM.Component {
       if (grid.widget.onRowDoubleClick)
          this.onDoubleClick = e => {
             grid.invoke("onRowDoubleClick", e, instance);
+         }
+
+      if (grid.widget.onRowContextMenu)
+         this.onRowContextMenu = e => {
+            grid.invoke("onRowContextMenu", e, instance);
          }
    }
 
@@ -60,6 +65,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseMove={move}
             onTouchEnd={up}
             onMouseUp={up}
+            onContextMenu={this.onRowContextMenu}
          >
             {this.props.children}
          </tbody>

@@ -90,6 +90,10 @@ export const Router = <cx>
             </Route>
             <Route url:bind="url" route="~/intro">
                Intro
+
+               <Route url:bind="url" route="+/nested">
+                    Nested (~/intro/nested)
+               </Route>
             </Route>
          `}
          </CodeSnippet>

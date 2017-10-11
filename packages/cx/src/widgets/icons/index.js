@@ -9,5 +9,6 @@ import "./menu";
 import "./loading";
 import "./search";
 import "./cx";
+import "./file";
 
 

@@ -20,6 +20,9 @@ export * from './BarGraph';
 export * from './ScatterGraph';
 export * from './BubbleGraph';
 
+export * from './MouseTracker';
+
 export * from './shapes';
 
 export * from './axis/index';
+export * from './helpers/index';

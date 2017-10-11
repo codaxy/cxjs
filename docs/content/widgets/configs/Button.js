@@ -10,6 +10,13 @@ export default {
             Set to `true` to disable the button.
         </Md></cx>
     },
+    enabled: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `false` to disable the button. Do not use both enabled and disabled on the same widget.
+        </Md></cx>
+    },
     tag: {
         type: 'string',
         description: <cx><Md>

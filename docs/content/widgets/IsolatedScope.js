@@ -15,10 +15,10 @@ export const IsolatedScopePage = <cx>
 
         <ImportPath path="import {IsolatedScope} from 'cx/widgets';"/>
 
-        The `IsolatedScope` is a component used exclusively to improve performance by isolating
+        `IsolatedScope` is a component used exclusively to improve performance by isolating
         certain areas from unnecessary recomputations. Contents of an isolated scope will change
         only if specified data change. Imagine a data declaration used to determine
-        if underlying contents should update. This is commonly used with grids, charts and any
+        if underlying contents should update. This is commonly used with grids, charts or any
         other rich content that might cause performance issues for the rest of the page.
 
         <CodeSplit>

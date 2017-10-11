@@ -1,5 +1,6 @@
 import {Overlay} from './Overlay';
 import {Text} from '../../ui/Text';
+import {ZIndexManager} from "../../ui/ZIndexManager";
 
 export class Toast extends Overlay {
 
@@ -61,6 +62,7 @@ export class Toast extends Overlay {
    containerFactory() {
       let el = document.createElement('div');
       el.className = this.CSS.element('toaster', 'item');
+      el.style.zIndex = ZIndexManager.next();
       let toaster = getToaster(this.placement);
       toaster.el.className = this.CSS.block('toaster', null, {
          [`placement-${this.placement}`]: true

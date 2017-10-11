@@ -105,7 +105,7 @@ export class List extends Widget {
             var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
             itemInstance.record = record;
 
-            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data) {
+            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
             } else if (itemInstance.explore(context))
@@ -258,19 +258,26 @@ class ListComponent extends VDOM.Component {
             let className;
 
             if (x.type == 'data') {
-               let ind = cursorIndex++;
+               let ind = cursorIndex++,
+                  onDblClick;
+
                this.cursorChildIndex.push(i);
                className = CSS.element(baseClass, 'item', {
                   selected: selected,
                   cursor: ind == this.state.cursor,
                   pad: widget.itemPad
                });
+
+               if (widget.onItemDoubleClick)
+                  onDblClick = e => { instance.invoke("onItemDoubleClick", e, x.instance)};
+
                return (
                   <li
                      key={x.key}
                      className={CSS.expand(className, data.classNames)}
                      style={itemStyle}
                      onClick={e => this.handleItemClick(e, x.instance)}
+                     onDoubleClick={onDblClick}
                      onMouseEnter={e => {
                         this.moveCursor(ind)
                      }}>

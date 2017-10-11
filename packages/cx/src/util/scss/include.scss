@@ -17,6 +17,10 @@ $cx-dependencies: () !default;
    and ($once != true or cx-call-once($name));
 }
 
+@function cx-included($name) {
+   @return cx-called-once($name);
+}
+
 @function cx-widget($name) {
    @if (map-get($cx-excluded, $name)) {
       @return 0;

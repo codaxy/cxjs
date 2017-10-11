@@ -149,5 +149,13 @@ export default {
         description: <cx><Md>
             Number of rows to be scrolled before buffer adjustment. Default value is 15.
         </Md></cx>
+    },
+
+    pageSize: {
+        type: 'number',
+        key: true,
+        description: <cx><Md>
+            Page size used to fetch records during infinite scrolling. Default value is `100`.
+        </Md></cx>
     }
 };

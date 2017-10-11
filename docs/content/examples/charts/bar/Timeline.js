@@ -1,4 +1,4 @@
-import { HtmlElement, TextField } from 'cx/widgets';
+import { HtmlElement, DetachedScope } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg, Rectangle, ClipRect } from 'cx/svg';
 import { Chart, TimeAxis, NumericAxis, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
@@ -32,7 +32,7 @@ export const Timeline = <cx>
 
             This example illustrates how to use Range and ClipRect to create a chart with dynamic range.
 
-            <div controller={PageController}>
+            <DetachedScope bind="$page" controller={PageController} name="timeline">
                 <Svg style="width:100%;height:600px;" margin="60 10 60 60">
                     <Chart
                         anchors="0 1 0.8 0"
@@ -108,7 +108,7 @@ export const Timeline = <cx>
 
                     </Chart>
                 </Svg>
-            </div>
+            </DetachedScope>
 
             <CodeSnippet putInto="code" fiddle="XzIyI8pv">{`
             class PageController extends Controller {

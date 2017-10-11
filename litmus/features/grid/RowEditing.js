@@ -63,6 +63,9 @@ export default (
             rowStyle={{
                background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
             }}
+            row={{
+               valid: { bind: "$record.valid" }
+            }}
             columns={
                [
                   {
@@ -77,6 +80,7 @@ export default (
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
                            autoFocus
+                           required
                         />
                      </cx>
                   },
@@ -87,6 +91,7 @@ export default (
                            value:bind="$record.continent"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -97,6 +102,7 @@ export default (
                            value:bind="$record.browser"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -107,6 +113,7 @@ export default (
                            value:bind="$record.os"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -121,6 +128,7 @@ export default (
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
                            inputStyle="text-align: right"
+                           required
                         />
                      </cx>
                   }, {
@@ -130,7 +138,7 @@ export default (
                   items: <cx>
                      <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                      <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                     <Button mod="primary" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
+                     <Button mod="primary" disabled:expr="!{$record.valid}" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
                      <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
                   </cx>
                }
