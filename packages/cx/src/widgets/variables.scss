@@ -64,25 +64,29 @@ $cx-section-mods: (
   warning: (
       default: (
          color: #fff,
-         background-color: #f09037
+         background-color: #f09037,
+         border-radius: 3px
       )   
    ),
    primary: (
       default: (
          color: #fff,
-         background-color: #1f99f8
+         background-color: #1f99f8,
+         border-radius: 3px
       )
    ),
    success: (
       default: (
          color: #fff,
-         background-color: #5cb85c
+         background-color: #5cb85c,
+         border-radius: 3px
       )
    ),
    error: (
       default: (
          color: #fff,
-         background-color: #d9534f
+         background-color: #d9534f,
+         border-radius: 3px
       )
    )  
 ) !default;

@@ -34,6 +34,8 @@ $cx-default-wheel-clip-border-width: 2px !default;
 $cx-default-wheel-clip-border-radius: $cx-default-border-radius !default;
 $cx-default-wheel-clip-border-color: lighten($cx-default-border-color, 10) !default;
 
+$cx-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
+
 $cx-default-font-family: 'Open Sans', sans-serif !default;
 
 $cx-default-dropdown-arrow-offset: 26px !default;
@@ -201,7 +203,34 @@ $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
    )
 ));
 
-
+// SECTION
+$cx-section-mods: cx-deep-map-merge($cx-section-mods, (
+   warning: (
+      default: (
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )   
+   ),
+   primary: (
+      default: (
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   success: (
+      default: (
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   error: (
+      default: (
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   )  
+ 
+));
 
 //globals
 
