@@ -242,7 +242,8 @@ export class OverlayComponent extends VDOM.Component {
       if (VDOM.DOM.createPortal)
          return VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl);
 
-      VDOM.DOM.render(this.renderOverlay(), this.containerEl);
+      //rendered in componentDidUpdate if portals are not supported
+      return null;
    }
 
    renderOverlay() {
@@ -640,6 +641,9 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
+      if (this.containerEl && !VDOM.createPortal) {
+         VDOM.DOM.render(this.renderOverlay(), this.containerEl);
+      }
       this.overlayDidUpdate();
    }
 }
