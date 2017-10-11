@@ -510,24 +510,18 @@ export const Store = <cx>
         </CodeSplit>
 
         <MethodTable methods={[{
-            signature: 'updateArray(array, updateCallback, itemFilter)',
-            description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and
-                `itemFilter` functions. `itemFilter` is optional. 
-                It returns the original array if no changes were made. Otherwise, a new array is returned.
-            </Md></cx>
-        }, {
             signature: 'merge(item, data)',
             description: <cx><Md>
                 `merge` function takes two arguments, `item` and `data`, and attempts to merge `data` with the `item`
                 object. It returns the original object if no changes were made. Otherwise, a new object is returned.
             </Md></cx>
         }, {
-            signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty)',
+            signature: 'updateArray(array, updateCallback, itemFilter, removeFilter)',
             description: <cx><Md>
-                `updateTree` is similar to `updateArray`, with the difference that it can be applied to array tree
-                structures multiple levels deep. It basically applies `updateArray` function to each item's children.
-                If no changes were made, it returns the original array. Otherwise, a new array is returned.
+                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and
+                `itemFilter` functions. `itemFilter` is optional and it can be used to select elements that
+                to be updated. `removeFilter` is also optional and it can be used to filter out elements from the list.
+                It returns the original array if no changes were made. Otherwise, a new array is returned.
             </Md></cx>
         }, {
             signature: 'append(array, ...items)',
@@ -541,6 +535,27 @@ export const Store = <cx>
             description: <cx><Md>
                 `filter` function works just like the `Array.prototype.filter` function with the difference that it
                 returns the original array if none of the items were filtered out.
+            </Md></cx>
+        }, {
+            signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty, removeFilter)',
+            description: <cx><Md>
+                `updateTree` is similar to `updateArray`, with the difference that it can be applied to array tree
+                structures multiple levels deep. It basically applies `updateArray` function to each item's children.
+                If no changes were made, it returns the original array. Otherwise, a new array is returned.
+                `childrenProperty` specifies where child nodes are stored. Default value is `$children`.
+            </Md></cx>
+        }, {
+            signature: 'removeTreeNodes(array, criteria, childrenProperty)',
+            description: <cx><Md>
+                `removeTreeNodes` removes all tree nodes that satisfy the given criteria.
+                `childrenProperty` specifies where child nodes are stored. Default value is `$children`.
+            </Md></cx>
+        }, {
+            signature: 'findTreeNode(array, criteria, childrenProperty)',
+            description: <cx><Md>
+                `findTreeNode` scans the tree using the depth-first search algorithm until it finds
+                a node that satisfies the given search criteria.
+                `childrenProperty` specifies where child nodes are stored. Default value is `$children`.
             </Md></cx>
         }]}/>
     </Md>

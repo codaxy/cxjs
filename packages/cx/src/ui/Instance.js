@@ -281,7 +281,7 @@ export class Instance {
          debug(destroyFlag, this);
 
          if (this.widget.onDestroy)
-            this.widget.onDestroy(instance);
+            this.widget.onDestroy(this);
 
          if (this.widget.controller && this.controller && this.controller.onDestroy)
             this.controller.onDestroy();

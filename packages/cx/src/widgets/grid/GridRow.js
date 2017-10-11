@@ -1,4 +1,4 @@
-import {PureContainer} from '../../ui/PureContainer';
+import {ValidationGroup} from '../../widgets/form/ValidationGroup';
 import {VDOM} from '../../ui/Widget';
 import {
    ddMouseDown,
@@ -9,7 +9,7 @@ import {
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 
-export class GridRow extends PureContainer {
+export class GridRow extends ValidationGroup {
    render(context, instance, key) {
       return <tr key={key}>
          {this.renderChildren(context, instance)}

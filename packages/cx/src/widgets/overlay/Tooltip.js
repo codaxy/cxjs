@@ -57,9 +57,14 @@ export class Tooltip extends Dropdown {
       super.overlayDidMount(instance, component);
 
       instance.parentValidityCheckTimer = setInterval(() => {
-         if (!document.body.contains(this.relatedElement) && instance.dismissTooltip) {
-            instance.dismissTooltip();
-            instance.dismissTooltip = null;
+         if (!document.body.contains(this.relatedElement)) {
+            if (instance.dismissTooltip) {
+               instance.dismissTooltip();
+               instance.dismissTooltip = null;
+            }
+         } else {
+            if (instance.tooltipComponent)
+               this.updateDropdownPosition(instance, instance.tooltipComponent);
          }
       }, 500);
    }

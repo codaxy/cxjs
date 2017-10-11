@@ -67,8 +67,11 @@ export const RowEditing = <cx>
                 records:bind="$page.records"
                 lockColumnWidths
                 cached
-                rowStyle={{
-                    background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
+                row={{
+                    style: {
+                        background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
+                    },
+                    valid: { bind: '$record.valid' }
                 }}
                 columns={[
                     {
@@ -81,6 +84,7 @@ export const RowEditing = <cx>
                                 viewMode:expr="!{$record.$editing}"
                                 style="width: 100%"
                                 autoFocus
+                                required
                             />
                         </cx>
                     },
@@ -93,6 +97,7 @@ export const RowEditing = <cx>
                                 value:bind="$record.continent"
                                 viewMode:expr="!{$record.$editing}"
                                 style="width: 100%"
+                                required
                             />
                         </cx>
                     },
@@ -105,6 +110,7 @@ export const RowEditing = <cx>
                                 value:bind="$record.browser"
                                 viewMode:expr="!{$record.$editing}"
                                 style="width: 100%"
+                                required
                             />
                         </cx>
                     },
@@ -117,6 +123,7 @@ export const RowEditing = <cx>
                                 value:bind="$record.os"
                                 viewMode:expr="!{$record.$editing}"
                                 style="width: 100%"
+                                required
                             />
                         </cx>
                     },
@@ -131,6 +138,7 @@ export const RowEditing = <cx>
                                 viewMode:expr="!{$record.$editing}"
                                 style="width: 100%"
                                 inputStyle="text-align: right"
+                                required
                             />
                         </cx>
                     }, {
@@ -140,7 +148,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                             <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                            <Button mod="primary" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
+                            <Button mod="primary" onClick="saveRow" disabled:expr="!{$record.valid}" visible:expr="!!{$record.$editing}">Save</Button>
                             <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
                         </cx>
                     }
@@ -217,10 +225,14 @@ export const RowEditing = <cx>
                     records:bind="$page.records"
                     lockColumnWidths
                     cached
-                    rowStyle={{
-                        background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
+                    row={{
+                        style: {
+                            background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
+                        },
+                        valid: { bind: '$record.valid' }
                     }}
-                    columns={[{
+                    columns={[
+                        {
                             header: "Name",
                             field: "fullName",
                             sortable: true,
@@ -230,9 +242,11 @@ export const RowEditing = <cx>
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
                                     autoFocus
+                                    required
                                 />
                             </cx>
-                        }, {
+                        },
+                        {
                             header: "Continent",
                             field: "continent",
                             sortable: true,
@@ -241,9 +255,11 @@ export const RowEditing = <cx>
                                     value:bind="$record.continent"
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
+                                    required
                                 />
                             </cx>
-                        }, {
+                        },
+                        {
                             header: "Browser",
                             field: "browser",
                             sortable: true,
@@ -252,9 +268,11 @@ export const RowEditing = <cx>
                                     value:bind="$record.browser"
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
+                                    required
                                 />
                             </cx>
-                        }, {
+                        },
+                        {
                             header: "OS",
                             field: "os",
                             sortable: true,
@@ -263,9 +281,11 @@ export const RowEditing = <cx>
                                     value:bind="$record.os"
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
+                                    required
                                 />
                             </cx>
-                        }, {
+                        },
+                        {
                             header: "Visits",
                             field: "visits",
                             sortable: true,
@@ -276,6 +296,7 @@ export const RowEditing = <cx>
                                     viewMode:expr="!{$record.$editing}"
                                     style="width: 100%"
                                     inputStyle="text-align: right"
+                                    required
                                 />
                             </cx>
                         }, {
@@ -285,7 +306,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                                 <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                                <Button mod="primary" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
+                                <Button mod="primary" onClick="saveRow" disabled:expr="!{$record.valid}" visible:expr="!!{$record.$editing}">Save</Button>
                                 <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
                             </cx>
                         }

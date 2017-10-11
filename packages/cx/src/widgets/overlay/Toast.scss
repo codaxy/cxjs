@@ -18,14 +18,11 @@
       z-index: 1000;
       pointer-events: all;
       transition: all 0.2s ease-in-out;
-      overflow: hidden;
       box-shadow: $cx-default-toast-box-shadow;
       border-style: solid;
       border-width: $cx-default-toast-border-width;
       border-color: $cx-default-toast-border-color;
       border-radius: $cx-default-border-radius;
-      transform: scale(0);
-      opacity: 0;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -34,10 +31,17 @@
          padding: $cx-default-toast-padding;
       }
 
-      &.#{$state}animated {
-         transform: scale(1);
-         opacity: 1;      
-         transition: all 0.2s ease-in-out;
+      &.#{$state}animate {
+         animation: cx-toast-enter-animation 0.2s;
+      }
+
+      &.#{$state}animate-enter {
+         //animation-fill-mode: forwards;
+      }
+
+      &.#{$state}animate-leave {
+         animation: cx-toast-leave-animation 0.2s;
+         animation-fill-mode: forwards;
       }
 
       @each $modname, $config in $mods {
@@ -61,6 +65,30 @@
           }
         }
       }
+   }
+}
+
+@keyframes cx-toast-enter-animation {
+   from {
+      transform: scale(0);
+      opacity: 0;
+   }
+
+   to {
+      transform: scale(1);
+      opacity: 1;
+   }
+}
+
+@keyframes cx-toast-leave-animation {
+   to {
+      transform: scale(0);
+      opacity: 0;
+   }
+
+   from {
+      transform: scale(1);
+      opacity: 1;
    }
 }
 

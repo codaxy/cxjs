@@ -1,3 +1,26 @@
+@keyframes cx-tooltip-enter-animation {
+   from {
+      transform: scale(0.9);
+      opacity: 0;
+   }
+
+   to {
+      transform: scale(1);
+      opacity: 1;
+   }
+}
+
+@keyframes cx-tooltip-leave-animation {
+   from {
+      transform: scale(1);
+      opacity: 1;
+   }
+
+   to {
+      transform: scale(0.9);
+      opacity: 0;
+   }
+}
 
 @mixin cx-tooltip(
    $name: 'tooltip',
@@ -20,16 +43,18 @@
       padding: $cx-tooltip-padding;
       border-radius: $cx-tooltip-border-radius;
       font-size: smaller;
-      overflow: visible;
-      opacity: 0;
       transition: opacity 0.2s ease-in;
       max-width: 400px;
       pointer-events: none;
       z-index: 20000;
 
-      &.#{$state}animated {
-         opacity: 1;
-         //transition-delay: 0.3s;
+      &.#{$state}animate {
+         animation: cx-tooltip-enter-animation 0.2s;
+      }
+
+      &.#{$state}animate-leave {
+         animation: cx-tooltip-leave-animation 0.2s;
+         animation-fill-mode: forwards;
       }
 
       &.#{$state}mouse-trap {

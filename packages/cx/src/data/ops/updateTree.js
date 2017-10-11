@@ -1,6 +1,6 @@
 import {updateArray} from './updateArray';
 
-export function updateTree(array, updateCallback, itemFilter, childrenField) {
+export function updateTree(array, updateCallback, itemFilter, childrenField, removeFilter) {
    return updateArray(array, item => {
       if (itemFilter(item))
          return updateCallback(item);
@@ -13,12 +13,13 @@ export function updateTree(array, updateCallback, itemFilter, childrenField) {
          children,
          updateCallback,
          itemFilter,
-         childrenField
+         childrenField,
+         removeFilter
       );
 
       if (updatedChildren != children)
          return { ...item, [childrenField]: updatedChildren };
 
       return item;
-   });
+   }, null, removeFilter);
 }

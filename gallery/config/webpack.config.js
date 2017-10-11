@@ -109,7 +109,8 @@ module.exports = (production) => ({
          template: p('index.html'),
          gtmh: gtm.head,
          gtmb: gtm.body,
-         reactScripts: production ? reactScripts : reactScriptsDev
+         reactScripts: production ? reactScripts : reactScriptsDev,
+         favicon: p('assets/favicon.png'),
       }),
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,

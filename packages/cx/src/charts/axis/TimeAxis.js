@@ -5,10 +5,10 @@ import {Format} from '../../ui/Format';
 import {isNumber} from '../../util/isNumber';
 
 Format.registerFactory('yearOrMonth', (format) => {
-   var year = Format.parse('datetime;yyyy');
-   var month = Format.parse('datetime;MMM');
+   let year = Format.parse('datetime;yyyy');
+   let month = Format.parse('datetime;MMM');
    return function (date) {
-      var d = new Date(date);
+      let d = new Date(date);
       if (d.getMonth() == 0)
          return year(d);
       else
@@ -17,10 +17,10 @@ Format.registerFactory('yearOrMonth', (format) => {
 });
 
 Format.registerFactory('monthOrDay', (format) => {
-   var month = Format.parse('datetime;MMM');
-   var day = Format.parse('datetime;dd');
+   let month = Format.parse('datetime;MMM');
+   let day = Format.parse('datetime;dd');
    return function (date) {
-      var d = new Date(date);
+      let d = new Date(date);
       if (d.getDate() == 1)
          return month(d);
       else
@@ -51,15 +51,15 @@ export class TimeAxis extends Axis {
    }
 
    render(context, instance, key) {
-      var {data, cached, calculator} = instance;
+      let {data, cached, calculator} = instance;
 
       cached.axis = calculator.hash();
 
       if (!data.bounds.valid())
          return null;
 
-      var format = this.format || calculator.getFormat();
-      var formatter = Format.parse(format);
+      let format = this.format || calculator.getFormat();
+      let formatter = Format.parse(format);
 
       return <g key={key} className={data.classNames} style={data.style}>
          {this.renderTicksAndLabels(context, instance, formatter)}
@@ -68,7 +68,7 @@ export class TimeAxis extends Axis {
 
    explore(context, instance) {
       super.explore(context, instance);
-      var {min, max, normalized, inverted} = instance.data;
+      let {min, max, normalized, inverted} = instance.data;
       if (!instance.calculator)
          instance.calculator = new TimeScale();
       instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, this.minTickUnit);
@@ -148,7 +148,7 @@ class TimeScale {
 
       switch (typeof date) {
          case 'string':
-            var v = this.dateCache[date];
+            let v = this.dateCache[date];
             if (!v)
                v = this.dateCache[date] = Date.parse(date);
             return v;
@@ -183,16 +183,16 @@ class TimeScale {
             return 'datetime;yyyy MMM dd';
 
          case 'hour':
-            return 'datetime;HH:mm';
+            return 'datetime;HH mm n';
 
          case 'minute':
-            return 'datetime;HH:mm:ss';
+            return 'datetime;HH mm n';
 
          case 'second':
-            return 'datetime;mm:ss';
+            return 'datetime;mm ss';
 
          default:
-            return 'datetime;yyyy MMM dd HH:mm:ss';
+            return 'datetime;yyyy MMM dd HH mm ss n';
       }
    }
 
@@ -205,14 +205,14 @@ class TimeScale {
    }
 
    trackValue(v, offset = 0, constrain = false) {
-      var value = (this.decodeValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
+      let value = (this.decodeValue(v) - this.origin) / this.scale.factor - offset + this.scale.minPad;
       if (constrain)
          value = this.constrainValue(value);
       return value;
    }
 
    hash() {
-      var r = {
+      let r = {
          origin: this.origin,
          factor: this.scale.factor,
          min: this.scale.min,
@@ -225,8 +225,8 @@ class TimeScale {
    }
 
    isSame(x) {
-      var hash = this.hash();
-      var same = x && !Object.keys(hash).some(k=>x[k] !== hash[k]);
+      let hash = this.hash();
+      let same = x && !Object.keys(hash).some(k=>x[k] !== hash[k]);
       this.shouldUpdate = !same;
       return same;
    }
@@ -236,9 +236,9 @@ class TimeScale {
       this.a = a;
       this.b = b;
 
-      for (var s in this.stacks) {
-         var info = this.stacks[s].measure(this.normalized);
-         var [min, max, invalid] = info;
+      for (let s in this.stacks) {
+         let info = this.stacks[s].measure(this.normalized);
+         let [min, max, invalid] = info;
          if (this.minValue == null || min < this.minValue)
             this.minValue = min;
          if (this.max == null || max > this.maxValue)
@@ -271,11 +271,19 @@ class TimeScale {
       this.calculateTicks();
    }
 
+   getTimezoneOffset(date) {
+      return date.getTimezoneOffset() * 60 * 1000;
+   }
+
    getScale(tickSizes, measure) {
-      var {min, max} = this;
+      let {min, max} = this;
       if (isNumber(this.snapToTicks) && measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
 
-         var size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
+         let size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
+
+         let minDate = new Date(min);
+         let maxDate = new Date(max);
+
 
          switch (measure) {
             case 'second':
@@ -283,26 +291,26 @@ class TimeScale {
             case 'hours':
             case 'day':
             default:
-               min = Math.floor(min / size) * size;
-               max = Math.ceil(max / size) * size;
+               let minOffset = this.getTimezoneOffset(minDate);
+               let maxOffset = this.getTimezoneOffset(maxDate);
+               min = Math.floor((min + minOffset) / size) * size - minOffset;
+               max = Math.ceil((max + maxOffset) / size) * size - maxOffset;
                break;
 
             case 'month':
                size /= miliSeconds.month;
-               var minDate = new Date(min);
-               var maxDate = new Date(max);
-               var minMonth = monthNumber(minDate);
-               var maxMonth = monthNumber(maxDate);
-               minMonth = Math.floor(minMonth / size) * size;
-               maxMonth = Math.ceil(maxMonth / size) * size;
+               let minMonth = monthNumber(minDate);
+               let maxMonth = monthNumber(maxDate);
+               minMonth = Math.floor(minMonth / size) * size - minOffset;
+               maxMonth = Math.ceil(maxMonth / size) * size - maxOffset;
                min = new Date(Math.floor(minMonth / 12), minMonth % 12, 1).getTime();
                max = new Date(Math.floor(maxMonth / 12), maxMonth % 12 + 1, 1).getTime();
                break;
 
             case 'year':
                size /= miliSeconds.year;
-               var minYear = yearNumber(new Date(min));
-               var maxYear = yearNumber(new Date(max));
+               let minYear = yearNumber(minDate);
+               let maxYear = yearNumber(maxDate);
                minYear = Math.floor(minYear / size) * size;
                maxYear = Math.ceil(maxYear / size) * size;
                min = new Date(minYear, 0, 1).getTime();
@@ -311,9 +319,12 @@ class TimeScale {
          }
       }
 
-      var minPad = this.minValuePad != null ? Math.min(min, this.minValuePad) : min;
-      var maxPad = this.maxValuePad != null ? Math.max(max, this.maxValuePad) : max;
-      var factor = minPad < maxPad ? (this.b - this.a) / (maxPad - minPad) : 0;
+      let minPad = this.minValuePad != null ? Math.min(min, this.minValuePad) : min;
+      let maxPad = this.maxValuePad != null ? Math.max(max, this.maxValuePad) : max;
+      let factor = minPad < maxPad ? (this.b - this.a) / (maxPad - minPad) : 0;
+
+      console.log(new Date(min), new Date(max));
+
       return {
          factor: this.inverted ? -factor : factor,
          min,
@@ -336,7 +347,7 @@ class TimeScale {
    }
 
    getStack(name) {
-      var s = this.stacks[name];
+      let s = this.stacks[name];
       if (!s)
          s = this.stacks[name] = new Stack();
       return s;
@@ -347,7 +358,7 @@ class TimeScale {
    }
 
    stack(name, ordinal, value) {
-      var v = this.getStack(name).stack(ordinal, this.decodeValue(value));
+      let v = this.getStack(name).stack(ordinal, this.decodeValue(value));
       return v != null ? this.map(v) : null;
    }
 
@@ -361,9 +372,9 @@ class TimeScale {
 
    calculateTicks() {
 
-      var minReached = false;
+      let minReached = false;
 
-      for (var unit in miliSeconds) {
+      for (let unit in miliSeconds) {
 
          if (!minReached) {
             if (unit == this.minTickUnit)
@@ -372,19 +383,28 @@ class TimeScale {
                continue;
          }
 
-         var bestLevel = 100;
-         var bestTicks = [];
-         var bestScale = this.scale;
+         let unitSize = miliSeconds[unit];
+         let divisions = this.tickDivisions[unit];
 
-         var unitSize = miliSeconds[unit];
+         if (this.tickSizes.length > 0) {
+            //add ticks from higher levels
+            this.tickSizes.push(...divisions[0].map(s => s * unitSize));
+            continue;
+         }
+
+         let bestLevel = 100;
+         let bestTicks = [];
+         let bestScale = this.scale;
+
+
          this.tickMeasure = unit;
 
-         for (var i = 0; i < this.tickDivisions[unit].length && bestLevel > 0; i++) {
-            var divs = this.tickDivisions[unit][i];
-            var tickSizes = divs.map(s=>s * unitSize);
-            var scale = this.getScale(tickSizes, unit);
+         for (let i = 0; i < divisions.length && bestLevel > 0; i++) {
+            let divs = divisions[i];
+            let tickSizes = divs.map(s=>s * unitSize);
+            let scale = this.getScale(tickSizes, unit);
             tickSizes.forEach((size, level)=> {
-               var tickDistance = size * Math.abs(scale.factor);
+               let tickDistance = size * Math.abs(scale.factor);
                if (tickDistance >= this.minTickDistance && level < bestLevel) {
                   bestScale = scale;
                   bestTicks = tickSizes;
@@ -394,21 +414,19 @@ class TimeScale {
          }
          this.scale = bestScale;
          this.tickSizes = bestTicks.filter(ts=>ts * Math.abs(bestScale.factor) >= this.minTickDistance);
-         if (this.tickSizes.length > 0)
-            break;
       }
    }
 
    getTicks(tickSizes) {
       return tickSizes.map(size => {
-         var result = [], start, end, minDate, maxDate;
+         let result = [], start, end, minDate, maxDate;
          if (this.tickMeasure == 'year') {
             size /= miliSeconds.year;
             minDate = new Date(this.scale.min);
             maxDate = new Date(this.scale.max);
             start = Math.ceil(yearNumber(minDate) / size) * size;
-            end = Math.floor((yearNumber(maxDate) - 0.01) / size) * size;
-            for (var i = start; i <= end; i += size)
+            end = Math.floor(yearNumber(maxDate) / size) * size;
+            for (let i = start; i <= end; i += size)
                result.push(new Date(i, 0, 1).getTime());
          }
          else if (this.tickMeasure == 'month') {
@@ -416,15 +434,19 @@ class TimeScale {
             minDate = new Date(this.scale.min);
             maxDate = new Date(this.scale.max);
             start = Math.ceil(monthNumber(minDate) / size) * size;
-            end = Math.floor((monthNumber(maxDate) - 0.01) / size) * size;
-            for (var i = start; i <= end; i += size)
+            end = Math.floor(monthNumber(maxDate) / size) * size;
+            for (let i = start; i <= end; i += size)
                result.push(new Date(Math.floor(i / 12), i % 12, 1).getTime());
          }
          else {
-            start = Math.ceil(this.scale.min / size);
-            end = Math.floor((this.scale.max - 0.01) / size);
-            for (var i = start; i <= end; i++)
-               result.push(i * size);
+            let minOffset = this.getTimezoneOffset(new Date(this.scale.min));
+            console.log("OFFSET", minOffset);
+            let date = Math.ceil((this.scale.min - minOffset) / size) * size + minOffset;
+            console.log('TICKS-START', new Date(this.scale.min), new Date(date), size);
+            while (date <= this.scale.max) {
+               result.push(date);
+               date += size;
+            }
          }
          return result;
       })

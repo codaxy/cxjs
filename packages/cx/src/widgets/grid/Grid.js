@@ -112,6 +112,7 @@ export class Grid extends Widget {
          class: this.CSS.element(this.baseClass, 'data'),
          className: this.rowClass,
          style: this.rowStyle,
+         ...this.row,
          items: Widget.create(GridCell, columns || [], {
             recordName: this.recordName
          })
