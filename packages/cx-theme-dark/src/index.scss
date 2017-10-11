@@ -86,8 +86,7 @@ $mod: map-get($cx-besm, mod);
 }
 
 //close button in toasts with mod set
-
-@function map-deep-get($map, $keys...){
+@function cx-map-deep-get($map, $keys...){
    @each $key in $keys {
       $map: map-get($map, $key)
    }
@@ -100,7 +99,7 @@ $mod: map-get($cx-besm, mod);
       &.#{$mod}#{$i} {
          .#{$block}button.#{$state}icon {
             &:hover {
-               background-color: darken(map-deep-get($cx-toast-mods, #{$i}, default, background-color), 10);
+               background-color: darken(cx-map-deep-get($cx-toast-mods, #{$i}, default, background-color), 10);
                border-color: transparent;
             }
          }
