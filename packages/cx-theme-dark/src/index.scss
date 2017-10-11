@@ -7,6 +7,16 @@ $mod: map-get($cx-besm, mod);
 
 @if (cx-included('cx/widgets/Grid')) {
 
+   $section-mods: primary success warning error;
+   
+   @each $i in $section-mods {
+      .#{$block}section.#{$mod}#{$i} {
+         .#{$element}section-header {
+            border-bottom-color: rgba(#fff, 0.5);
+         }
+      }
+   }
+
    .#{$block}grid.#{$state}scrollable.#{$state}border {
       border-color: $cx-default-grid-header-border-color;
    }

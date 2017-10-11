@@ -43,6 +43,10 @@ let list: Item[] = [{
       route: '+/flex-col',
       name: 'FlexCol',
       content: () => System.import("./general/flex-col")
+   }, {
+      route: '+/section',
+      name: 'Section',
+      content: () => System.import("./general/section")
    }]
 }, {
    name: 'Forms',
