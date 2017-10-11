@@ -17,13 +17,13 @@ export class NumericAxis extends Axis {
    }
 
    render(context, instance, key) {
-      var {data} = instance;
+      let {data} = instance;
 
       if (!data.bounds.valid())
          return null;
 
-      var baseFormatter = Format.parse(data.format);
-      var formatter = data.labelDivisor != 1
+      let baseFormatter = Format.parse(data.format);
+      let formatter = data.labelDivisor != 1
          ?  v => baseFormatter(v / data.labelDivisor)
          : baseFormatter;
 
@@ -34,7 +34,7 @@ export class NumericAxis extends Axis {
 
    explore(context, instance) {
       super.explore(context, instance);
-      var {min, max, normalized, inverted} = instance.data;
+      let {min, max, normalized, inverted} = instance.data;
       if (!instance.calculator)
          instance.calculator = new NumericScale();
       instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted);
@@ -99,14 +99,14 @@ class NumericScale {
    }
 
    trackValue(v, offset = 0, constrain = false) {
-      var value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
+      let value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
       if (constrain)
          value = this.constrainValue(v);
       return value;
    }
 
    hash() {
-      var r = {
+      let r = {
          origin: this.origin,
          factor: this.scale.factor,
          min: this.scale.min,
@@ -118,8 +118,8 @@ class NumericScale {
    }
 
    isSame(x) {
-      var hash = this.hash();
-      var same = x && !Object.keys(hash).some(k=>x[k] !== hash[k]);
+      let hash = this.hash();
+      let same = x && !Object.keys(hash).some(k=>x[k] !== hash[k]);
       this.shouldUpdate = !same;
       return same;
    }
@@ -129,9 +129,9 @@ class NumericScale {
       this.a = a;
       this.b = b;
 
-      for (var s in this.stacks) {
-         var info = this.stacks[s].measure(this.normalized);
-         var [min, max, invalid] = info;
+      for (let s in this.stacks) {
+         let info = this.stacks[s].measure(this.normalized);
+         let [min, max, invalid] = info;
          if (this.min == null || min < this.min)
             this.min = min;
          if (this.max == null || max > this.max)
@@ -159,14 +159,14 @@ class NumericScale {
    }
 
    getScale(tickSizes) {
-      var {min, max} = this;
+      let {min, max} = this;
       if (tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
-         var size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
+         let size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
          min = Math.floor(min / size) * size;
          max = Math.ceil(max / size) * size;
       }
 
-      var factor = min < max ? (this.b - this.a) / (max - min + 2 * this.padding) : 0;
+      let factor = min < max ? (this.b - this.a) / (max - min + 2 * this.padding) : 0;
       return {
          factor: this.inverted ? -factor : factor,
          min: min,
@@ -186,7 +186,7 @@ class NumericScale {
    }
 
    getStack(name) {
-      var s = this.stacks[name];
+      let s = this.stacks[name];
       if (!s)
          s = this.stacks[name] = new Stack();
       return s;
@@ -197,7 +197,7 @@ class NumericScale {
    }
 
    stack(name, ordinal, value) {
-      var v = this.getStack(name).stack(ordinal, value);
+      let v = this.getStack(name).stack(ordinal, value);
       return v != null ? this.map(v) : null;
    }
 
@@ -210,18 +210,18 @@ class NumericScale {
    }
 
    calculateTicks() {
-      var dist = this.minLabelDistance / Math.abs(this.scale.factor);
-      var unit = Math.pow(10, Math.floor(Math.log10(dist)));
+      let dist = this.minLabelDistance / Math.abs(this.scale.factor);
+      let unit = Math.pow(10, Math.floor(Math.log10(dist)));
 
-      var bestLevel = 100;
-      var bestTicks = [];
-      var bestScale = this.scale;
+      let bestLevel = 100;
+      let bestTicks = [];
+      let bestScale = this.scale;
 
-      for (var i = 0; i < this.tickDivisions.length && bestLevel > 0; i++) {
-         var divs = this.tickDivisions[i];
-         var tickSizes = divs.map(s => s * unit);
-         var scale = this.getScale(tickSizes);
-         tickSizes.forEach((size, level)=> {
+      for (let i = 0; i < this.tickDivisions.length && bestLevel > 0; i++) {
+         let divs = this.tickDivisions[i];
+         let tickSizes = divs.map(s => s * unit);
+         let scale = this.getScale(tickSizes);
+         tickSizes.forEach((size, level) => {
             if (size * Math.abs(scale.factor) >= this.minTickDistance && level < bestLevel) {
                bestScale = scale;
                bestTicks = tickSizes;
@@ -230,26 +230,32 @@ class NumericScale {
          });
       }
       this.scale = bestScale;
-      this.tickSizes = bestTicks.filter(ts=>ts * Math.abs(bestScale.factor) >= this.minTickDistance);
+      this.tickSizes = bestTicks.filter(ts => ts * Math.abs(bestScale.factor) >= this.minTickDistance);
+      if (this.tickSizes.length > 0) {
+         let max = this.tickSizes[this.tickSizes.length - 1];
+         this.tickSizes.push(2 * max);
+         this.tickSizes.push(5 * max);
+         this.tickSizes.push(10 * max);
+      }
    }
 
    getTicks(tickSizes) {
       return tickSizes.map(size => {
-         var start = Math.ceil(this.scale.min / size);
-         var end = Math.floor(this.scale.max / size);
-         var result = [];
-         for (var i = start; i <= end; i++)
+         let start = Math.ceil(this.scale.min / size);
+         let end = Math.floor(this.scale.max / size);
+         let result = [];
+         for (let i = start; i <= end; i++)
             result.push(i * size);
          return result;
       })
    }
 
    mapGridlines() {
-      var size = this.tickSizes[0];
-      var start = Math.ceil(this.scale.min / size);
-      var end = Math.floor(this.scale.max / size);
-      var result = [];
-      for (var i = start; i <= end; i++)
+      let size = this.tickSizes[0];
+      let start = Math.ceil(this.scale.min / size);
+      let end = Math.floor(this.scale.max / size);
+      let result = [];
+      for (let i = start; i <= end; i++)
          result.push(this.map(i * size));
       return result;
    }
