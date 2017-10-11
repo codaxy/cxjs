@@ -119,7 +119,7 @@ module.exports = (production) => ({
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,
          preload: {
-            test: /(material)/,
+            test: /(aquamarine)/,
             chunks: 'async'
          },
          prefetch: {
