@@ -548,14 +548,38 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
          box-shadow: $cx-default-section-box-shadow
       )
    ),
-   card-accent: (
+   primary: (
       default: (
          color: #fff,
          background-color: $cx-theme-primary-color,
          border-radius: $cx-default-border-radius,
          box-shadow: $cx-default-section-box-shadow
       )
-   )
+   ),
+   warning: (
+      default: (
+         color: $cx-default-color,
+         background-color: #FFC107,
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )   
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #4CAF50,
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #F4511E,    
+         border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   )  
 ));
 
 // can be used interchangeably with mod='card'

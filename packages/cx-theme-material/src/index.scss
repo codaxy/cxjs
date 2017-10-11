@@ -15,10 +15,12 @@ $mod: map-get($cx-besm, mod);
 
    @for $i from 1 through 6 {
       .#{$element}section-header h#{$i} {
-         .cxm-card & {
+         .#{$mod}card & {
             color: $cx-theme-primary-color-light;
          }
-         .cxm-card-accent & {
+         .#{$mod}primary &,
+         .#{$mod}error &,
+         .#{$mod}success & {
             color: #fff;
          }
       }
