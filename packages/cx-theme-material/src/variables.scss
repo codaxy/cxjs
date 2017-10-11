@@ -681,6 +681,8 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
    )
 ));
 
+
+
 // pagination
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
    default: (

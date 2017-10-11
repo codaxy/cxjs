@@ -58,7 +58,7 @@
       user-select: none;
       position: absolute;
       background-color: $axis-background-color;
-      border-radius: $handle-size / 2;
+      border-radius: $axis-size / 2;
       box-sizing: border-box;
       width: $width;
 
@@ -84,12 +84,14 @@
       left: 0;
       width: 0;
       opacity: 0;
+      transform: scale(0);
 
       transition: all 200ms;
 
       .#{$state}on & {
          width: 100%;
          opacity: 1;
+         transform: none;
       }
    }
 

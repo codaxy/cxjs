@@ -73,18 +73,20 @@ $cx-default-input-icon-size: $cx-default-icon-size !default;
 
 // Tool
 $cx-default-input-tool-size: 20px !default;
+$cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
 
 // Left Icon
+@debug ($cx-default-box-padding, $cx-default-box-line-height, $cx-default-input-left-tool-size);
 
 $cx-input-left-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
-      left: $cx-default-box-padding,
+      left: $cx-default-box-padding + ($cx-default-box-line-height - $cx-default-input-left-tool-size) / 2,
       top: 50%,
-      margin-top: -$cx-default-input-tool-size / 2,
-      height: $cx-default-input-tool-size,
-      width: $cx-default-input-tool-size,
-      line-height: $cx-default-input-tool-size,
+      margin-top: -$cx-default-input-left-tool-size / 2,
+      height: $cx-default-input-left-tool-size,
+      width: $cx-default-input-left-tool-size,
+      line-height: $cx-default-input-left-tool-size,
       opacity: 0.6,
       text-align: center
    ),
@@ -206,6 +208,7 @@ $cx-default-colorfield-font-family: 'Consolas', monospace !default;
 
 // MONTHPICKER
 $cx-default-monthpicker-font-size: smaller !default;
+$cx-default-monthpicker-font-weight: normal !default;
 
 // SLIDER
 $cx-default-slider-axis-size: 8px !default;
@@ -303,7 +306,7 @@ $cx-default-input-tag-spacing: 3px !default;
 $cx-default-input-tag-font-size: null !default;
 $cx-default-input-tag-background-color: #eee !default;
 $cx-default-input-tag-border-radius: $cx-default-border-radius !default;
-$cx-default-input-tag-padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing) !default;
+$cx-default-input-tag-padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) !default;
 
 $cx-input-tag-state-style-map: (
   default: (

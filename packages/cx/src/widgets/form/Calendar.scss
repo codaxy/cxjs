@@ -50,17 +50,13 @@
         font-weight: cx-get-state-rule($state-style-map, header, font-weight);
       }
 
-      td {
+      tbody td {
         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
         user-select: none;
       }
 
       .#{$element}#{$name}-header {
          @include cx-add-state-rules($state-style-map, header);
-
-         td {
-           border-radius: inherit;
-         }
       }
 
       td.#{$state}today {

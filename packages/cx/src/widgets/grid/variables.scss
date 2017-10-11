@@ -6,6 +6,7 @@ $cx-default-grid-box-shadow: null !default;
 
 // header
 $cx-default-grid-header-font-size: $cx-default-box-font-size !default;
+$cx-default-grid-header-font-weight: normal !default;
 $cx-default-grid-header-line-height: null !default;
 $cx-default-grid-header-color: $cx-default-color !default;
 $cx-default-grid-header-background-color: #eee !default;
@@ -16,6 +17,7 @@ $cx-default-grid-header-padding: null !default;
 $cx-grid-header-state-style-map: (
   default: (
     font-size: $cx-default-grid-header-font-size,
+    font-weight: $cx-default-grid-header-font-weight,
     line-height: $cx-default-grid-header-line-height,
     color: $cx-default-grid-header-color,
     background-color: $cx-default-grid-header-background-color,
@@ -35,6 +37,8 @@ $cx-grid-header-state-style-map: (
 ) !default;
 
 // data
+$cx-default-grid-data-font-size: null !default;
+$cx-default-grid-data-font-weight: null !default;
 $cx-default-grid-data-line-height: null !default;
 $cx-default-grid-data-background-color: transparent !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
@@ -42,7 +46,9 @@ $cx-default-grid-data-padding: 5px !default;
 
 $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
   default: (
+    font-size: $cx-default-grid-data-font-size,
     line-height: $cx-default-grid-data-line-height,
+    font-weight: $cx-default-grid-data-font-weight,
     background-color: $cx-default-grid-data-background-color,
     border-color: $cx-default-grid-data-border-color,
     padding: $cx-default-grid-data-padding
@@ -53,7 +59,7 @@ $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
 $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
-$cx-grid-pagination-default-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
 
 $cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
 

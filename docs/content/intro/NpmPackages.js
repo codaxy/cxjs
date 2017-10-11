@@ -99,6 +99,10 @@ export const NpmPackages = <cx>
                 <th><a href="https://www.npmjs.com/package/cx-theme-material">cx-theme-material</a></th>
                 <td>Material theme.</td>
             </tr>
+            <tr>
+                <th><a href="https://www.npmjs.com/package/cx-theme-marine">cx-theme-marine</a></th>
+                <td>Material theme.</td>
+            </tr>
             </tbody>
         </table>
 
