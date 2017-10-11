@@ -1083,5 +1083,11 @@ $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    h6: (
       font-weight: 400,
       color: $cx-default-color
+   ),
+   a: (
+      color: $cx-theme-primary-color-dark
+   ),
+   p: (
+      line-height: $cx-default-paragraph-line-height
    )
 ));

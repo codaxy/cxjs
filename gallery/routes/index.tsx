@@ -35,7 +35,7 @@ const catGroup = cat =>
 
 export default <cx>
     <PureContainer>
-        <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
+        <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine"/>
         <Route route="~/:theme" url={bind("url")} prefix outerLayout={AppLayout}>
             <div putInto="nav">
                 {sorted.map(cat => cat.route ? catLink(cat) : catGroup(cat))}

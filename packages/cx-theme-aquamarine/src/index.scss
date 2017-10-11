@@ -5,81 +5,72 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
-// sets the line height for all paragrphs
-p {
-   line-height: $cx-default-paragraph-line-height;
-}
-
-//SECTION
-.#{$block}section.cxm-card.cxm-card {
-   > .#{$element}section-body {
-      padding: 1em;
-   }
-}
-
-@for $i from 1 through 6 {
-   .#{$element}section-header h#{$i} {
-      .cxm-card & {
-         color: $cx-theme-primary-text-color;
-      }
-      .cxm-card-accent & {
-         color: #fff;
+@if (cx-included('cx/widgets/Section')) {
+   //SECTION
+   .#{$block}section.cxm-card.cxm-card {
+      > .#{$element}section-body {
+         padding: 1em;
       }
    }
-}
 
-.#{$element}section-header.#{$element}section-header {
-   color: $cx-theme-primary-color-light;
-   font-weight: normal;
-   border: none;
-   padding: 1em 1em 0;
-   margin: 0;
+   @for $i from 1 through 6 {
+      .#{$element}section-header h#{$i} {
+         .cxm-card & {
+            color: $cx-theme-primary-text-color;
+         }
+         .cxm-card-accent & {
+            color: #fff;
+         }
+      }
+   }
 
-   .cxm-pad > & {
+   .#{$element}section-header.#{$element}section-header {
+      color: $cx-theme-primary-color-light;
+      font-weight: normal;
       border: none;
+      padding: 1em 1em 0;
+      margin: 0;
+
+      .cxm-pad > & {
+         border: none;
+      }
    }
 }
 
-//BUTTON
-
-.#{$block}button {
-   // overrides tap color effect for mobile devices
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-
-   // aligns float button icon in the center
-   &.cxm-float .#{$element}button-icon {
-      left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
-   }
-}
-
-//button in modal
-.#{$mod}alert.#{$state}modal {
-   .#{$block}button.#{$mod}flat-primary {
-      font-size: 14px;
-   }
-}
-
-//FORM
-// standard field
-$form-list: (
-   textfield numberfield lookupfield datetimefield monthfield colorfield select
-);
-
-@each $field in $form-list {
-   .#{$block}#{$field} {
-      position: relative;
-
+@if (cx-included('cx/widgets/Button')) {
+   //BUTTON
+   .#{$block}button {
+      // overrides tap color effect for mobile devices
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-      // disables parent input div height to grow bigger then input in FlexRow
-      max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+      // aligns float button icon in the center
+      &.cxm-float .#{$element}button-icon {
+         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+      }
    }
 }
 
-// lookupfield
-.#{$block}lookupfield {
-   max-height: none;
-}
+////FORM
+//// standard field
+//$form-list: (
+//   textfield numberfield lookupfield datetimefield monthfield colorfield select
+//);
+//
+//@each $field in $form-list {
+//   .#{$block}#{$field} {
+//      position: relative;
+//
+//      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+//
+//      // disables parent input div height to grow bigger then input in FlexRow
+//      max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+//   }
+//}
+//
+//// lookupfield
+//.#{$block}lookupfield {
+//   max-height: none;
+//}
 
 // padding in fields with icon
 .#{$element}datefield-input,
@@ -88,429 +79,253 @@ $form-list: (
    padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
 }
 
-// select 
-.cxb-select option {
-   color: $cx-default-color;
-   background-color: rgba(0, 0, 0, 0.03);
-}
-
-// textarea
-
-//ANIMATED LABELS
-.#{$mod}label-placement-material {
-   margin-top: round(1.5 * $cx-default-box-line-height);
-
-   & > .#{$block}label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: margin-left 0.2s linear, margin-top 0.2s linear,  font-size 0.2s linear;
-      color: $cx-default-input-placeholder-color;
-      font-size: $cx-default-input-font-size;
-      pointer-events: none;
-      white-space: nowrap; 
-   }
-
-   &.#{$state}focus,
-   &.#{$state}error,
-   &:not(.#{$state}empty) {
-      & > .#{$block}label {
-         pointer-events: auto;
-         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
-         color: rgba($cx-default-label-color, 0.6);
-         font-size: $cx-default-label-font-size;
-         padding-bottom: 0;
-         border-bottom-width: 0;
-      }
-
-      &.#{$state}icon > .#{$block}label {
-         margin-left: cx-calc(-$cx-default-icon-size, -$cx-default-box-padding);
-      }
-   }
-
-   &.#{$state}focus {
-      & > .#{$block}label {
-         color: $cx-theme-primary-color;
-      }
-   }
-
-   &.#{$state}error > .#{$block}label {
-      color: $cx-theme-danger-color
-   }
-
-   &.#{$state}icon {
-      & > .#{$block}label {
-         left: cx-calc($cx-default-icon-size, $cx-default-box-padding);
-      }
-   }
-}
-
-// validation error
-.#{$mod}help-placement-material {
-   .#{$block}validationerror {
-      position: absolute;
-      left: 0;
-      top: 105%;
-      line-height: normal;
-      display: none;
-      color: $cx-theme-danger-color;
-      font-size: 10px;
-   }
-
-   &.#{$state}focus:not(.#{$state}empty) > .#{$block}validationerror,
-   &.#{$state}visited > .#{$block}validationerror {
-      display: inline-block;
-   }
-}
-
-// calendar
-.#{$block}calendar {
-
-   td {
-      border-radius: $cx-default-border-radius;
-   }
-
-   .#{$element}calendar-day-names {
-      // background-color: $cx-theme-primary-color;
-      color: $cx-theme-primary-text-color;
-      
-      th {
-         font-size: 11px;
-         text-transform: uppercase;
-         font-weight: bold;
-
-
-        // border-style: solid;
-        // border-width: 1px 0;
-        // border-color: $cx-default-border-color;
-      }
-   }
-   // monthpicker
-	td.#{$state}unselectable {
-		filter: blur(1.5px);
-		border-radius: 0;
-
-		//&.#{$state}selected {
-		//	border-radius: $cx-default-border-radius;
-		//}
-	}
-}
-
-// monthpicker
-
-.#{$block}monthpicker {
-	.#{$element}monthpicker-year {
-		font-weight: 500;	
-	}
-}
-
-// checkbox focus effect
-$checkbox-padding-correction: 2px !default;
-
-.#{$element}checkbox-input {
-  
-}
-
-// radio focus effect
-.#{$element}radio-input {
-
-     
-}
-
-// colorpicker
-.#{$block}colorpicker {
-   input {
-      line-height: $cx-default-box-line-height - 8px;
-      box-shadow: none;
-      background-color: #fff;
-      border-width: 0 0 1px;
-      border-color: darken($cx-default-input-border-color, 5);
-      border-radius: 0;
-      padding: 2px 6px;
-
-      &:focus {
-         box-shadow: none;
-      }
-   }
-}
-
-// slider focus effect
-.#{$element}slider-handle {
-//   box-shadow: $cx-theme-box-shadow;
-}
-
-// switch focus effect
-.#{$element}switch-axis {
-   border: 1px solid $cx-default-input-border-color;
-}
-
-
-// switch focus effect
-.#{$element}switch-handle {
-
-}
-
-//TAB
-.#{$block}tab.#{$mod}classic {
-  &:first-child {
-    border-left-width: 1px;
-    border-left-color: $cx-default-border-color
-  }
-}
-
-div.#{$block}classic-tab-container {
-   background-color: $cx-theme-primary-color;
-   box-shadow: $cx-theme-box-shadow;
-   height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
-   padding: 0;
-   margin-bottom: 3px;
-   white-space: nowrap;
-   flex-shrink: 0;
-}
-
-.#{$block}tab.cxm-classic {
-   height: 100%;
-
-   &:first-child {
-      border-radius: 2px 0 0 2px;
-   }
-   &:last-child {
-      border-radius: 0 2px 2px 0;
-   }
-}
-
-.#{$block}tab {
-   position: relative;
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
-
-//WINDOW
-// window animation
-.#{$block}window {
-   opacity: 0;
-   transform: scale(0.3);
-   transition: opacity .2s, transform .2s;
-
-   &.#{$state}animated {
-      opacity: 1;
-      transform: none;
-      transition: opacity .3s, transform .3s;
-   }
-}
-
-.#{$element}window-shadow {
-   opacity: 0;
-   transition: opacity .2s;
-
-   &.#{$state}animated {
-      opacity: 1;
-   }
-}
-
-//MENU
-.#{$block}menu {
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-	
-	// menu focus animation
-	.#{$state}focusable > .#{$block}menuitem {
-		padding-top: 0;
-		padding-bottom: 0;
-	}
-}
-
-.#{$block}menu .#{$element}menu-item > hr {
-   margin: $cx-default-padding-medium 0;
-}
-
-////GRID
-//.#{$block}grid.#{$state}scrollable {
-//   // border removed from a first row of grid with fixed header
-//   .#{$element}grid-header {
-//      + .#{$element}grid-data, + .#{$element}grid-group-caption {
-//         td {
-//            // border-top-color: transparent;
-//         }
-//      }
-//   }
-//}
-
-.#{$element}grid-fixed-header {
-   // shadow added to fixed header
-   box-shadow: $cx-default-grid-header-box-shadow;
-
-   //.#{$element}grid-col-header {
-   //   // border-color: #fff;
-   //}
-   //
-   //.#{$state}sorted-asc, .#{$state}sorted-desc {
-   //   // border-color: darken($cx-default-grid-header-background-color, 2);
-   //   &:hover {
-   //      // border-color: darken($cx-default-grid-header-background-color, 3);
-   //   }
-   //}
-}
-
-//.#{$element}grid-header {
-//   // if a grid header has two or more rows
-//   tr:not(:first-child) .#{$element}grid-col-header {
-//      border-top: 1px solid $cx-default-grid-header-border-color;
-//   }
-//   //// ellipsis added to grid header
-//   //.#{$element}grid-col-header {
-//   //   white-space: nowrap;
-//   //   overflow: hidden;
-//   //   text-overflow: ellipsis;
-//   //}
-//}
-
-// grid header border removed
-.#{$state}header-default .#{$element}grid-col-header {
-   border-right-width: 0;
-}
-
-//.#{$state}border {
-//   .#{$element}grid-col-header {
-//      border-width: 0;
-//   }
-//}
-
-//grid header tool icon
-//.#{$element}grid-col-header-tool {
-//  > .#{$block}menu > li > div {
-//    > span {
-//      padding: 0 $cx-theme-base-size/2 !important;
-//      line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
-//    }
-//  }
-//}
-
-////alteration
-//.#{$element}grid-data {
-//   &:hover {
-//      background-color: rgba($cx-theme-accent-color, 0.4);
-//   }
-//
-//   &.#{$state}cursor:hover {
-//      background-color: rgba($cx-theme-accent-color, 0.4);
-//      color: $cx-default-color;
-//   }
-//   &.#{$state}selected {
-//      background-color: rgba($cx-theme-primary-color, 0.2);
-//      color: $cx-default-color;
-//
-//      &.#{$state}cursor {
-//         &:hover {
-//            background-color: rgba($cx-theme-primary-color, 0.25);
-//            color: $cx-default-color;
-//         }
-//      }
-//   }
-//}
-//.#{$block}grid {
-//   .#{$element}grid-data:nth-child(even) {
-//      background-color: darken($cx-default-background-color, 2);
-//
-//      &.#{$state}selected {
-//         background-color: rgba($cx-theme-primary-color, 0.2);
-//         color: $cx-default-color;
-//      }
-//
-//   }
-//   &.#{$state}selectable {
-//      .#{$element}grid-data:nth-child(even) {
-//         &:hover {
-//            background-color: rgba($cx-theme-accent-color, 0.4);
-//         }
-//         &.#{$state}selected:hover {
-//            background-color: rgba($cx-theme-primary-color, 0.25);
-//         }
-//      }
-//   }
-//}
-
-//// group grid styles
-//.#{$element}grid-group-footer, .#{$element}grid-group-caption {
-//
-//   td {
-//      color: $cx-theme-primary-color;
-//      line-height: $cx-default-grid-data-line-height;
-//      padding: $cx-default-grid-data-padding;
-//      border-top: 1px solid $cx-default-grid-data-border-color;
-//      font-weight: 500;
-//   }
-//
-//   &:not(:first-child) {
-//      td {
-//         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
-//      }
-//   }
-//}
-
-// default grey border color in group grid changed
-.#{$element}grid-group-caption {
-
-   td {
+@if (cx-included('cx/widgets/Select')) {
+   // select
+   .cxb-select option {
+      color: $cx-default-color;
       background-color: rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid $cx-default-grid-data-border-color;
    }
+}
 
-   @for $i from 2 through 4 {
-      &.#{$state}level-#{$i} {
-         td {
-            border-bottom: 1px solid $cx-default-grid-data-border-color;
-            font-weight: 600;
-            background-color: darken(#f7f7f7, $i);
+@if (cx-included('cx/widgets/Calendar')) {
+
+   .#{$block}calendar {
+
+      td {
+         border-radius: $cx-default-border-radius;
+      }
+
+      .#{$element}calendar-day-names {
+         // background-color: $cx-theme-primary-color;
+         color: $cx-theme-primary-text-color;
+
+         th {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+
+            // border-style: solid;
+            // border-width: 1px 0;
+            // border-color: $cx-default-border-color;
+         }
+      }
+      // monthpicker
+      td.#{$state}unselectable {
+         filter: blur(1.5px);
+         border-radius: 0;
+
+         //&.#{$state}selected {
+         //	border-radius: $cx-default-border-radius;
+         //}
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/MonthPicker')) {
+   // monthpicker
+   .#{$block}monthpicker {
+      background: white;
+
+      .#{$element}monthpicker-year {
+         font-weight: 500;
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/ColorPicker')) {
+   // colorpicker
+   .#{$block}colorpicker {
+      input {
+         line-height: $cx-default-box-line-height - 8px;
+         box-shadow: none;
+         background-color: #fff;
+         border-width: 0 0 1px;
+         border-color: darken($cx-default-input-border-color, 5);
+         border-radius: 0;
+         padding: 2px 6px;
+
+         &:focus {
+            box-shadow: none;
          }
       }
    }
 }
 
-.#{$element}grid-group-footer {
-   @for $i from 2 through 4 {
-      &.#{$state}level-#{$i} {
-         td {
-            border-width: 1px 0;
-            border-color: $cx-default-grid-data-border-color;            
+@if (cx-included('cx/widgets/Switch')) {
+
+   // switch focus effect
+   .#{$element}switch-axis {
+      border: 1px solid $cx-default-input-border-color;
+   }
+
+   // switch focus effect
+   .#{$element}switch-handle {
+
+   }
+}
+
+@if (cx-included('cx/widgets/Tab')) {
+   //TAB
+   .#{$block}tab.#{$mod}classic {
+      &:first-child {
+         border-left-width: 1px;
+         border-left-color: $cx-default-border-color
+      }
+   }
+
+   .#{$block}classic-tab-container {
+      background-color: $cx-theme-primary-color;
+      box-shadow: $cx-theme-box-shadow;
+      height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
+      padding: 0;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+   }
+
+   .#{$block}tab.cxm-classic {
+      height: 100%;
+
+      &:first-child {
+         border-radius: 2px 0 0 2px;
+      }
+      &:last-child {
+         border-radius: 0 2px 2px 0;
+      }
+   }
+
+   .#{$block}tab {
+      position: relative;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+   }
+}
+
+@if (cx-included('cx/widgets/Window')) {
+   .#{$block}window {
+      &.#{$state}animate {
+         opacity: 0;
+         transform: scale(0.3);
+         transition: opacity .2s, transform .2s;
+      }
+
+      &.#{$state}animated {
+         opacity: 1;
+         transform: none;
+         transition: opacity .3s, transform .3s;
+      }
+   }
+
+   .#{$element}window-shadow {
+      &.#{$state}animate {
+         opacity: 0;
+         transition: opacity .2s;
+      }
+
+      &.#{$state}animated {
+         opacity: 1;
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/Menu')) {
+   .#{$block}menu {
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+      // menu focus animation
+      .#{$state}focusable > .#{$block}menuitem {
+         padding-top: 0;
+         padding-bottom: 0;
+      }
+   }
+
+   .#{$block}menu .#{$element}menu-item > hr {
+      margin: $cx-default-padding-medium 0;
+   }
+
+   .cxs-vertical > .cxe-menuitem-arrow {
+      transform-origin: 6px; //TODO
+   }
+}
+
+@if (cx-included('cx/widgets/Grid')) {
+   .#{$element}grid-fixed-header {
+      // shadow added to fixed header
+      box-shadow: $cx-default-grid-header-box-shadow;
+   }
+
+   // grid header border removed
+   .#{$state}header-default .#{$element}grid-col-header {
+      border-right-width: 0;
+   }
+
+   // default grey border color in group grid changed
+   .#{$element}grid-group-caption {
+
+      td {
+         background-color: rgba(0, 0, 0, 0.03);
+         border-bottom: 1px solid $cx-default-grid-data-border-color;
+      }
+
+      @for $i from 2 through 4 {
+         &.#{$state}level-#{$i} {
+            td {
+               border-bottom: 1px solid $cx-default-grid-data-border-color;
+               font-weight: 600;
+               background-color: darken(#f7f7f7, $i);
+            }
+         }
+      }
+   }
+
+   .#{$element}grid-group-footer {
+      @for $i from 2 through 4 {
+         &.#{$state}level-#{$i} {
+            td {
+               border-width: 1px 0;
+               border-color: $cx-default-grid-data-border-color;
+            }
+         }
+      }
+   }
+
+   // grid checkbox margin corrected
+   .#{$block}grid {
+      .#{$block}checkbox {
+         padding: 0;
+      }
+      .#{$element}grid-col-header-tool {
+         .#{$block}checkbox {
+            padding: $cx-default-container-padding + 2px;
+         }
+      }
+   }
+
+   // grid shadow mod
+   .#{$block}grid.#{$mod}shadow {
+      box-shadow: $cx-theme-box-shadow;
+      border-width: 0 !important;
+   }
+}
+
+@if (cx-included('cx/widgets/Pagination')) {
+   // pagination
+   .#{$element}pagination-page {
+      &:first-child, &:last-child {
+         &:hover {
+            background-color: transparent;
+            color: $cx-theme-primary-color-light;
          }
       }
    }
 }
 
-// grid checkbox margin corrected
-.#{$block}grid {
-  .#{$block}checkbox {
-    padding: 0;
-  }
-  .#{$element}grid-col-header-tool {
-    .#{$block}checkbox {
-      padding: $cx-default-container-padding + 2px;
-    }
-  }
-
-}
-
-// grid shadow mod
-.#{$block}grid.#{$mod}shadow {
-   box-shadow: $cx-theme-box-shadow;
-   border-width: 0 !important;
-}
-
-// pagination
-.#{$element}pagination-page {
-	&:first-child, &:last-child {
-		&:hover {
-			background-color: transparent;
-			color: $cx-theme-primary-color-light;
-		}
-	}
-}
-
-//LIST
-.#{$block}list.#{$state}selectable {
-   > .#{$element}list-item {
-      padding: 2*$cx-default-box-padding;
-      border-width: 1px;
-      border-color: transparent transparent rgba(0, 0, 0, 0.09);
+@if (cx-included('cx/widgets/List')) {
+   //LIST
+   .#{$block}list.#{$state}selectable {
+      > .#{$element}list-item {
+         border-width: 1px;
+         border-color: transparent transparent rgba(0, 0, 0, 0.09);
+      }
    }
 }
 
@@ -545,32 +360,21 @@ div.#{$block}classic-tab-container {
    }
 }
 
-//MATERIAL ICONS
-.fa {
-  display: inline-block;
-  font: normal normal normal 16px/1 FontAwesome;
-  line-height: $cx-default-icon-size;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@if (cx-included('cx/widgets/Dropdown')) {
 
-.cxs-vertical > .cxe-menuitem-arrow {
-  transform-origin: 6px; //TODO
-}
-
-.cxb-dropdown {
-   animation: drop-appear 0.1s;
-}
-
-@keyframes drop-appear {
-   from {
-      transform: translateY(-30px);
-      opacity: 0;
+   .cxb-dropdown {
+      animation: drop-appear 0.1s;
    }
 
-   to {
-      transform: none;
-      opacity: 1;
+   @keyframes drop-appear {
+      from {
+         transform: translateY(-30px);
+         opacity: 0;
+      }
+
+      to {
+         transform: none;
+         opacity: 1;
+      }
    }
 }

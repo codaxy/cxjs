@@ -20,7 +20,45 @@ export default <cx>
                 controller.onMainClick(...args)
             }}
         >
-            <ContentPlaceholder />
+            <ContentResolver
+                params={bind("$route.theme")}
+                onResolve={theme => {
+                    switch (theme) {
+                        case "material":
+                            return System.import("../themes/material")
+                                .then(() => {
+                                    loadTheme("material");
+                                    return <cx><ContentPlaceholder/></cx>;
+                                });
+
+                        case "frost":
+                            return System.import("../themes/frost")
+                                .then(() => {
+                                    loadTheme("frost");
+                                    return <cx><ContentPlaceholder/></cx>;
+                                });
+
+                        case "dark":
+                            return System.import("../themes/dark")
+                                .then(() => {
+                                    loadTheme("dark");
+                                    return <cx><ContentPlaceholder/></cx>;
+                                });
+
+                        case "core":
+                            return System.import("../themes/core").then(() => {
+                                loadTheme("core");
+                                return <cx><ContentPlaceholder/></cx>;
+                            });
+
+                        case "aquamarine":
+                            return System.import("../themes/aquamarine").then(() => {
+                                loadTheme("aquamarine");
+                                return <cx><ContentPlaceholder/></cx>;
+                            });
+                    }
+                }}
+            />
         </main>
         <header class="header">
             <div class="title">
@@ -78,31 +116,5 @@ export default <cx>
                 <ContentPlaceholder name="nav"/>
             </div>
         </aside>
-        <ContentResolver
-            params={bind("$route.theme")}
-            onResolve={theme => {
-                switch (theme) {
-                    case "material":
-                        System.import("../themes/material").then(() => loadTheme("material"));
-                        return null;
-
-                    case "frost":
-                        System.import("../themes/frost").then(() => loadTheme("frost"));
-                        return null;
-
-                    case "dark":
-                        System.import("../themes/dark").then(() => loadTheme("dark"));
-                        return null;
-
-                    case "core":
-                        System.import("../themes/core").then(() => loadTheme("core"));
-                        return null;
-
-                    case "aquamarine":
-                        System.import("../themes/aquamarine").then(() => loadTheme("aquamarine"));
-                        return null;
-                }
-            }}
-        />
     </div>
 </cx>

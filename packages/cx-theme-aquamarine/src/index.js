@@ -1,6 +1,4 @@
 import {Localization} from 'cx/ui';
-import {Icon} from 'cx/widgets';
-import {VDOM} from 'cx/ui';
 
 export function applyThemeOverrides() {
 
@@ -63,42 +61,6 @@ export function applyThemeOverrides() {
          cover: true
       }
    });
-
-
-  //  // material icons added
-  //  Icon.registerFactory((name, props) => {
-  //     props = { ...props };
-  //     props.className = `fa fa-${name} ${props.className || ''}`;
-  //     return <i {...props} />
-  // });
-  //
-  //  Icon.unregister('close');
-  //  Icon.unregister('folder');
-  //  Icon.unregister('forward');
-  //  Icon.unregister('search');
-  //
-  //  Icon.register('calendar', props => Icon.render('calendar-o', props));
-  //  Icon.register('drop-down', props => Icon.render('angle-down', props));
-  //  Icon.register('folder-open', props => Icon.render('folder-open-o', props));
-  //  Icon.register('folder', props => Icon.render('folder-o', props));
-  //  Icon.register('file', props => Icon.render('file-o', props));
-  //  Icon.register('forward', props => Icon.render('angle-double-right', props));
 }
 
 applyThemeOverrides();
-
-// export function enableMaterialLabelPlacement() {
-//    Localization.override('cx/widgets/Field', {
-//       labelPlacement: "material"
-//    });
-//    Localization.override('cx/widgets/LabeledContainer', {
-//       labelPlacement: "material"
-//    });
-// }
-//
-// export function enableMaterialHelpPlacement() {
-//    Localization.override('cx/widgets/Field', {
-//       helpPlacement: "material",
-//       validationMode: "help"
-//    });
-// }
