@@ -85,7 +85,7 @@ $cx-use-box-line-height-fix: false !default;
 
 //BUTTON
 $cx-default-button-color: $cx-default-color !default;
-$cx-default-button-font-size: $cx-default-box-font-size - 1px !default;
+$cx-default-button-font-size: 11px !default;
 $cx-default-button-font-weight: 600 !default;
 $cx-default-button-background-color: #f3f3f3; //#fff !default;
 $cx-default-button-border-width: 1px !default;
@@ -285,7 +285,8 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
 //BUTTON
 $cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
    default: (
-      transition: all 0.1s
+      transition: all 0.1s,
+      text-transform: uppercase
    ),
    hover: (
       //color: $cx-theme-primary-color-dark,
@@ -541,10 +542,10 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
    ),
    line: (
       default: (
-         border-width: 0 0 4px,
+         border-bottom-width: 3px,
          line-height: $cx-default-box-line-height - 4px,
          padding: $cx-default-box-padding 0,
-         margin-right: 2*$cx-default-box-padding+5px
+         margin: 0 15px
       ),
       selected: (
          box-shadow: none,

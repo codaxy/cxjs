@@ -40,17 +40,16 @@ $small-device-width: 800px;
           font-weight: normal;
       }
 
-      .cxb-button.cxm-hollow {
-
-         border: 0;
-
-         &.cxs-active {
-            border-radius: 0;
-            border-bottom: 2px solid white;
-         }
+      .cxb-tab.cxm-line {
+         color: rgba(white, 0.8);
 
          &:hover {
-            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(white, 0.5);
+         }
+
+         &.cxs-active {
+            border-color: white;
+            color: white;
          }
       }
    }

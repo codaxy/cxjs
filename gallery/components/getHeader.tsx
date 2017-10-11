@@ -21,7 +21,8 @@ export function getHeader(config: HeaderConfig): any {
             defaultValue = tab;
         tabs.push(<cx>
             <LinkButton
-                mod="hollow"
+                baseClass="tab"
+                mod="line"
                 href={"+/" + tab}
                 url={{bind: "url"}}
                 text={config.tabs[tab]}
