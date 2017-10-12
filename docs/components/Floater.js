@@ -15,7 +15,7 @@ class FloaterComponent extends VDOM.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: true
         };
     }
 
