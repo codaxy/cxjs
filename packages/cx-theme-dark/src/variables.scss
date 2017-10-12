@@ -192,7 +192,27 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
          background-color: $cx-default-background-color,
          border-radius: $cx-default-border-radius + 1px
       )
-   )
+   ),
+   warning: (
+      default: (
+         border-radius: $cx-default-border-radius + 1px
+      )   
+   ),
+   primary: (
+      default: (
+         border-radius: $cx-default-border-radius + 1px
+      )
+   ),
+   success: (
+      default: (
+         border-radius: $cx-default-border-radius + 1px
+      )
+   ),
+   error: (
+      default: (
+         border-radius: $cx-default-border-radius + 1px
+      )
+   )   
 ));
 // can be used interchangeably with mod='card'
 .cxm-well {

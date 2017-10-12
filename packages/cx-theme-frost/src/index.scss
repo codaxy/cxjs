@@ -6,10 +6,18 @@ $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
 @if (cx-included('cx/widgets/Section')) {
+   $section-mods: primary success warning error;
+   
+   @each $i in $section-mods {
+      .#{$block}section.#{$mod}#{$i} {
+         .#{$element}section-header {
+            border-bottom-color: rgba(#fff, 0.4);
+         }
+      }
+   }
+   
    .#{$block}section.#{$mod}card.#{$mod}card {
-      background-color: white;
-      box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px;
-      color: #66686e;
+      box-shadow: $cx-default-section-box-shadow;
    }
    // can be used interchangeably with mod='card'
    .#{$mod}well {
@@ -17,11 +25,20 @@ $mod: map-get($cx-besm, mod);
    }
 
    .#{$element}section-header.#{$element}section-header {
-      color: #24b5d6;
       font-weight: normal;
 
       .#{$mod}pad > & {
          border: none;
+      }
+   }
+   @for $i from 1 through 6 {
+      .#{$element}section-header h#{$i} {
+         .#{$mod}primary &,
+         .#{$mod}error &,
+         .#{$mod}success &,
+         .#{$mod}warning & {
+            color: #fff;
+         }
       }
    }
 }

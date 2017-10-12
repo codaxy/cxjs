@@ -615,11 +615,26 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
          box-shadow: $cx-default-section-box-shadow
       )
    ),
-   card-accent: (
+   primary: (
       default: (
          color: #fff,
          background-color: $cx-theme-primary-color,
          border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   success: (
+      default: (
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   warning: (
+      default: (
+         box-shadow: $cx-default-section-box-shadow
+      )
+   ),
+   error: (
+      default: (
          box-shadow: $cx-default-section-box-shadow
       )
    )

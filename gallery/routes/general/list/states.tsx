@@ -32,7 +32,7 @@ class PageController extends Controller {
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/list/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow wrap spacing="large" target="tablet" align="start" controller={PageController}>
-        <Section mod="well" title="Standard" hLevel={4}>
+        <Section mod="card" title="Standard" hLevel={4}>
             <List
                 records={bind('records')}
                 style={{minWidth: '200px'}}

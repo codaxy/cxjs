@@ -60,7 +60,35 @@ $cx-section-mods: (
       background-color: rgba(255, 255, 255, 0.9),
       border-radius: 3px
     )
-  )
+  ),
+  warning: (
+      default: (
+         color: #fff,
+         background-color: #f09037,
+         border-radius: 3px
+      )   
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: #1f99f8,
+         border-radius: 3px
+      )
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #5cb85c,
+         border-radius: 3px
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #d9534f,
+         border-radius: 3px
+      )
+   )  
 ) !default;
 
 // for backward compatibility

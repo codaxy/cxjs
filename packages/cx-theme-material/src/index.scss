@@ -7,18 +7,23 @@ $mod: map-get($cx-besm, mod);
 
 //SECTION
 @if (cx-included('cx/widgets/Section')) {
-   .#{$block}section.cxm-card.cxm-card {
-      > .#{$element}section-body {
-         padding: 1em;
+   $section-mods: card primary success warning error;
+   @each $i in $section-mods {
+      .#{$block}section.cxm-#{$i}.cxm-#{$i} {
+         > .#{$element}section-body {
+            padding: 1em;
+         }
       }
    }
 
    @for $i from 1 through 6 {
       .#{$element}section-header h#{$i} {
-         .cxm-card & {
+         .#{$mod}card & {
             color: $cx-theme-primary-color-light;
          }
-         .cxm-card-accent & {
+         .#{$mod}primary &,
+         .#{$mod}error &,
+         .#{$mod}success & {
             color: #fff;
          }
       }
