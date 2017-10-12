@@ -76,6 +76,7 @@
 
    .#{$element}#{$name}-empty-text {
       padding: $cx-default-list-item-padding;
+      color: $cx-default-empty-text-color;
    }
 }
 
