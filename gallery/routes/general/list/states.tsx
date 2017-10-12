@@ -111,8 +111,8 @@ export default <cx>
         <Section mod="well" title="Empty Text" hLevel={4}>
             <List
                 records={[]}
-                style={{minWidth: '200px', height: '427px'}}
-                emptyText="Nothing found."
+                style={{minWidth: '200px'}}
+                emptyText="No records found."
                 selection={{
                     type: KeySelection,
                     bind: "s4",
