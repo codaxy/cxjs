@@ -12,6 +12,7 @@ export * from './Charts';
 export * from './Localization';
 export * from './Store';
 export * from './FunctionalComponents';
+export * from './DragAndDrop';
 
 
 import { bumpVersion } from '../version';
