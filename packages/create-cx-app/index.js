@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-var spawn = require('cross-spawn');
+var execSync = require('child_process').execSync;
+var exec = require('child_process').exec;
 
 var useYarn = shouldUseYarn();
 var projectName = process.argv[2];
 
-var commands = ['run', 'execute', '--', 'create'];
-if (projectName) commands.push(projectName);
-if (useYarn) commands.push('--yarn');
-spawn.sync('npm', commands, {stdio: 'inherit'});
+var args = ['create'];
+if (projectName) args.push(projectName);
+if (useYarn) args.push('--yarn');
+exec('cx ' + args.join(' '), {stdio: 'inherit'});
+
 
 function shouldUseYarn() {
    try {
