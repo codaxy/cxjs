@@ -15,7 +15,7 @@ program
    .option('scaffold', 'Scaffold application structure')
    .option('-s, start', 'Start the development server')
    .option('-b, build', 'Make a new production build')
-   .option('create-app', 'Create a new project directory with the basic app structure')
+   .option('create', 'Create a new project directory with the basic app structure')
    .option('--yarn', 'Use yarn instead of npm')
    .option('add, route', 'Add new route folder')
    .parse(process.argv);
@@ -28,6 +28,42 @@ var appPath = process.cwd(),
    appPackagePath = path.join(appPath, 'package.json'),
    tplPath = path.join(__dirname, '../tpl/'),
    tplPackagePath = path.join(tplPath, 'package.json');
+
+if (program.create || true) {
+   var projectName = program.args[0];
+   var useYarn = !!program.yarn;
+
+   if (!projectName) {
+      console.error('Please specify the project directory:');
+      console.log(
+         `  ${chalk.cyan(useYarn ? 'yarn create cx-app' : 'create-cx-app')} ${chalk.green('<project-directory>')}`
+      );
+      console.log();
+      return;
+   }
+
+   var root = path.resolve(projectName);
+   
+   // check if project directory already exists
+   if (fs.existsSync(root)) {
+      console.error("Folder '" + chalk.green(root) + "' already exists. Aborting to prevent overwrites...");
+      console.log();
+      return;
+   }
+   
+   fs.mkdirSync(projectName);
+   process.chdir(root);
+   
+   // init package.json
+   spawn.sync('npm', ['init', '-y'], {stdio: 'inherit'});
+
+   // invoke cx scaffold
+   var commands = ['scaffold', projectName];
+   if (useYarn) commands.push('--yarn');
+   spawn.sync('cx', commands, {stdio: 'inherit'});
+
+   return;
+}
 
 if (!fs.existsSync(appPackagePath)) {
    console.warn('package.json could not be found in the current directory.');
@@ -159,36 +195,6 @@ if (program.route) {
       }
       return newRouteDir;
    }, parentDir);
-}
 
-if (program.createApp) {
-   var projectName = program.args[0];
-   var useYarn = !!program.yarn;
-
-   if (!projectName) {
-      console.error('Please specify the project directory:');
-      console.log(
-         `  ${chalk.cyan(useYarn ? 'yarn create cx-app' : 'create-cx-app')} ${chalk.green('<project-directory>')}`
-      );
-      console.log();
-      return;
-   }
-
-   var root = path.resolve(projectName);
-   
-   // check if project directory already exists
-   if (fs.existsSync(root)) {
-      console.error("Folder '" + chalk.green(root) + "' already exists. Aborting to prevent overwrites...");
-      console.log();
-      return;
-   }
-   
-   fs.mkdirSync(projectName);
-   process.chdir(root);
-   
-   // init package.json
-   spawn.sync('npm', ['init', '-y'], {stdio: 'inherit'});
-   var commands = ['scaffold', projectName];
-   if (useYarn) commands.push('--yarn');
-   spawn.sync('cx', commands, {stdio: 'inherit'});
+   return;
 }

@@ -1,6 +1,6 @@
 {
   "name": "cx-cli",
-  "version": "17.6.2",
+  "version": "0.0.1",
   "description": "Command Line Interface tools for Cx applications",
   "main": "./bin/index.js",
   "author": "Codaxy",
@@ -12,7 +12,7 @@
     "cross-spawn": "^5.0.0"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=4.0.0"
   },
   "bin": {
     "cx": "bin/index.js"
