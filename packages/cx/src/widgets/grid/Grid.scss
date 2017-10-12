@@ -60,7 +60,7 @@
 
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
-            flex: 1;
+            flex: 1 1 0%;
             -webkit-overflow-scrolling: touch;
 
             &.#{$state}fixed-header {
@@ -101,6 +101,7 @@
       position: relative;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       -webkit-user-select: none;
+      @include cx-add-state-rules($header-state-style-map, default);
 
       @include cx-add-state-rules($header-state-style-map, default);
 
@@ -196,6 +197,7 @@
          padding: 0;
          border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
          line-height: cx-get-state-rule($data-state-style-map, default, line-height);
+         font-weight: cx-get-state-rule($data-state-style-map, default, font-weight);
       }
 
       td.#{$state}pad {

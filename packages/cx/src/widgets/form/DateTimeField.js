@@ -206,6 +206,7 @@ class DateTimeInput extends VDOM.Component {
       }
 
       let dropdown = {
+         ...widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,

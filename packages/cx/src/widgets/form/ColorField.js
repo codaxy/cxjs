@@ -92,6 +92,7 @@ class ColorInput extends VDOM.Component {
          return this.dropdown;
 
       let dropdown = {
+         ...this.props.instance.widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          scrollTracking: true,

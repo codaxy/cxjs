@@ -19,7 +19,8 @@ module.exports = (production) => ({
          "cx-react": p("../packages/cx-react"),
          "cx-theme-material": p("../packages/cx-theme-material"),
          "cx-theme-frost": p("../packages/cx-theme-frost"),
-         "cx-theme-dark": p("../packages/cx-theme-dark")
+         "cx-theme-dark": p("../packages/cx-theme-dark"),
+         "cx-theme-aquamarine": p("../packages/cx-theme-aquamarine")
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },
@@ -97,6 +98,9 @@ module.exports = (production) => ({
          if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
             return 'dark';
 
+         if (chunk.modules.some(m => m.resource.match(/themes.aquamarine\.js$/)))
+            return 'aquamarine';
+
          if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
             return 'polyfill';
 
@@ -115,7 +119,7 @@ module.exports = (production) => ({
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,
          preload: {
-            test: /(material)/,
+            test: /(aquamarine)/,
             chunks: 'async'
          },
          prefetch: {

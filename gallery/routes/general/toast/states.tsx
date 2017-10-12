@@ -24,6 +24,7 @@ export default <cx>
 
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Closable Toast</Button>
+                <Button visible={{expr: "{$root.$route.theme} == 'material'"}} onClick={(e, {store}) => store.toggle('$page.dark.visible')} ws>Dark Toggle Toast</Button> 
             </FlexRow>
             <br/>
             <FlexRow spacing wrap>
@@ -73,6 +74,9 @@ export default <cx>
                     <Button mod="hollow" icon="close" dismiss/>
                 </FlexRow>
             </Toast>
+            <Toast visible={bind("$page.dark.visible")} mod="dark" ws>
+                This is a dark toggle toast.
+            </Toast>                                
         </Section>
     </FlexRow>
 </cx>

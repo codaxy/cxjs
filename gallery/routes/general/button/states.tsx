@@ -30,6 +30,12 @@ export default <cx>
             <br/>
             <h6>Hollow</h6>
             {buttons("hollow")}
+
+            <br />
+            <div visible={{expr: "{$root.$route.theme} == 'aquamarine'"}}>
+					<h6>Rounded</h6>
+					{buttons("rounded")}
+            </div>
         </Section>
     </FlexRow>
 </cx>
