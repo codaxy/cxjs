@@ -1,4 +1,4 @@
-import {HtmlElement, enableTooltips} from 'cx/widgets';
+import {HtmlElement} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine} from 'cx/charts';
@@ -7,8 +7,6 @@ import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from 'docs/components/ImportPath';
-
-enableTooltips();
 
 import configs from './configs/MouseTracker';
 

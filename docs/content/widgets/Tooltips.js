@@ -1,4 +1,4 @@
-import {HtmlElement, TextField, Checkbox, Grid, enableTooltips} from 'cx/widgets';
+import {HtmlElement, TextField, Checkbox, Grid} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -23,8 +23,6 @@ class PageController extends Controller {
         })));
     }
 }
-
-enableTooltips();
 
 export const Tooltips = <cx>
     <Md>

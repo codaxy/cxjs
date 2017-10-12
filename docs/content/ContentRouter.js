@@ -1,6 +1,6 @@
-import { Route, RedirectRoute, Sandbox } from 'cx/widgets';
-import { FirstVisibleChildLayout, Controller, Url, ContentResolver } from 'cx/ui';
-import { HtmlElement } from 'cx/widgets';
+import {Route, RedirectRoute, Sandbox} from 'cx/widgets';
+import {FirstVisibleChildLayout, Controller, Url, ContentResolver} from 'cx/ui';
+import {HtmlElement} from 'cx/widgets';
 import {PageNotFound} from './PageNotFound';
 import {Loading} from './Loading';
 import {CSS} from '../app/CSS';
@@ -9,7 +9,7 @@ import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
 import {HashRestore} from '../components/HashRestore';
 
-import { getVersion } from './version';
+import {getVersion} from './version';
 
 function getPageName(name) {
 
@@ -17,23 +17,26 @@ function getPageName(name) {
         name = name.substring(0, name.length - 4);
 
     return name.replace(/([A-Z])/g, "-$1")
-               .toLowerCase()
-               .substring(1);
+        .toLowerCase()
+        .substring(1);
 }
 
 let addRoutes = (path, pages, routes) => {
-    Object.keys(pages).forEach(name=> {
+    Object.keys(pages).forEach(name => {
         if (name[0] == '_' || !pages.hasOwnProperty(name))
             return;
 
         if (name[0] == name[0].toUpperCase()) {
             routes.push(<cx>
                 <Route url:bind="url"
-                       route={path + getPageName(name)}>
-                    <HashRestore />
-                    <EditOnGitX url={path + name}/>
+                    route={path + getPageName(name)}>
+                    <HashRestore/>
+                    <div class="dxe-article-tools">
+                        <a href="https://github.com/codaxy/cxjs/issues/new">Report</a>
+                        <EditOnGitX url={path + name}/>
+                    </div>
                     {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
-                        {pages[name]}
+                    {pages[name]}
                     {/*</CSSTransitionGroup>*/}
                 </Route>
             </cx>);
@@ -139,11 +142,11 @@ export const ContentRouter = <cx>
             <Sandbox storage:bind="pages" key:bind="url" controller={ContentController}>
                 <ContentResolver
                     params={{
-                        chapter: { bind: "chapter" },
-                        version: { bind: "activeVersion" }
+                        chapter: {bind: "chapter"},
+                        version: {bind: "activeVersion"}
                     }}
                     layout={FirstVisibleChildLayout}
-                    onResolve={p=>getChapterRoutes(p.chapter)}
+                    onResolve={p => getChapterRoutes(p.chapter)}
                     mode="prepend"
                 >
                     <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>

@@ -16,8 +16,11 @@ export class EditOnGitX extends Widget {
       url = url.replace('~/', '');
       url = url.replace(/Page$/, '');
 
-      return <div key={key} className="cxb-editongitx">
-          <a href={`https://github.com/codaxy/cx/edit/master/docs/content/${url}.js`}>Edit</a>
-      </div>
+      return <a
+          key={key}
+          href={`https://github.com/codaxy/cxjs/edit/master/docs/content/${url}.js`}
+      >
+          Edit
+      </a>;
    }
 }

@@ -95,6 +95,25 @@
     }
 }
 
+.dxe-article-tools {
+    position: relative;
+    max-width: calc(50em);
+    text-align: right;
+    height: 0;
+
+    a {
+        color: lightgray;
+        text-decoration: none;
+        margin-left: 1em;
+        position: relative;
+        top: -20px;
+
+        &:hover {
+            color: gray;
+        }
+    }
+}
+
 a {
     color: rgb(209, 89, 83);
     text-decoration: none;

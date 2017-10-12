@@ -1,10 +1,14 @@
-import { startAppLoop, Url, History } from 'cx/ui';
+import { startAppLoop, Url, History, enableCultureSensitiveFormatting } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import { Widget } from 'cx/ui';
+import { enableTooltips } from 'cx/widgets';
 import {Main} from './app/Main';
 import {store} from './app/store';
 import './app/icons';
 import "./index.scss";
+
+enableTooltips();
+enableCultureSensitiveFormatting();
 
 let stop, start = () => {
 
