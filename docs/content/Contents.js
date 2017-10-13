@@ -35,6 +35,7 @@ var contents = [{
         {title: 'Formatting', url: '~/concepts/formatting'},
         {title: 'Localization', url: '~/concepts/localization'},
         {title: 'Charts', url: '~/concepts/charts'},
+        {title: 'Drag & Drop', url: '~/concepts/drag-and-drop'},
     ]
 }, {
     topic: 'Forms and Grids',

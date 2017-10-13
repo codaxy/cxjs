@@ -57,7 +57,7 @@ export class Md extends HtmlElement {
         if (!this.preserveDocumentTitle && lastH1Text)
             super.add({
                 type: DocumentTitle,
-                value: lastH1Text,
+                value: lastH1Text.replace('&amp;', '&'),
                 action: "prepend",
                 separator: " - "
             });
