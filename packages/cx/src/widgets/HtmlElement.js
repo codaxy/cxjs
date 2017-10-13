@@ -25,14 +25,6 @@ export class HtmlElement extends PureContainer {
          this.jsxAttributes = Object.keys(config).filter(::this.isValidHtmlAttribute);
    }
 
-   init() {
-      if (this.innerText)
-         this.text = this.innerText;
-
-      if (this.html)
-         this.innerHtml = this.html;
-   }
-
    declareData() {
 
       var data = {
@@ -130,14 +122,12 @@ export class HtmlElement extends PureContainer {
    }
    
    init() {
-
       if (this.html)
          this.innerHtml = this.html;
-         
-      if (this.innerText)
-         this.text = this.innerText;         
 
-      this.style = parseStyle(this.style);
+      if (this.innerText)
+         this.text = this.innerText;
+
       super.init();
    }
 

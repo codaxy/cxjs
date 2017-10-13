@@ -31,6 +31,7 @@ export class MenuItem extends HtmlElement {
    declareData() {
       super.declareData(...arguments, {
          icon: undefined,
+         disabled: undefined,
          checked: false
       });
    }
@@ -65,7 +66,9 @@ export class MenuItem extends HtmlElement {
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
          >
-            {this.renderChildren(context, instance)}
+            {instance.data.text
+               ? <span>{instance.data.text}</span>
+               : this.renderChildren(context, instance)}
          </MenuItemComponent>
       )
    }
@@ -165,9 +168,9 @@ class MenuItemComponent extends VDOM.Component {
          icon = <div
             className={CSS.element(baseClass, "button")}
             onClick={e => {
-               e.stopPropagation();
                e.preventDefault();
-               instance.set('checked', !data.checked);
+               if (!instance.set('checked', !data.checked))
+                  this.onClick(e);
             }}
             onMouseDown={e=>{
                if (checkbox)
@@ -185,13 +188,14 @@ class MenuItemComponent extends VDOM.Component {
          arrow: widget.arrow,
          cursor: widget.showCursor,
          [instance.padding + '-padding']: instance.padding,
-         icon: !!icon || instance.icons
+         icon: !!icon || instance.icons,
+         disabled: data.disabled
       }));
 
       return <div
          className={classNames}
          style={data.style}
-         tabIndex={widget.dropdown ? 0 : null}
+         tabIndex={!data.disabled && (widget.dropdown || widget.onClick || widget.checked) ? 0 : null}
          ref={el => {
             this.el = el
          }}
@@ -328,12 +332,20 @@ class MenuItemComponent extends VDOM.Component {
       e.stopPropagation();
 
       let {instance} = this.props;
+      if (instance.data.disabled) {
+         e.preventDefault();
+         return;
+      }
 
       let {widget} = instance;
       if (widget.dropdown)
          e.preventDefault(); //prevent navigation
-      else
+      else {
          instance.set("checked", !instance.data.checked);
+
+         if (widget.onClick)
+            instance.invoke('onClick', e, instance);
+      }
 
       if (widget.autoClose)
          document.activeElement.blur();

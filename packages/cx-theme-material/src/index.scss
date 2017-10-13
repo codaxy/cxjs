@@ -629,8 +629,7 @@ $form-list: (
 
 //LIST
 .#{$block}list.#{$state}selectable {
-   > .#{$element}list-item {
-      padding: 3 * $cx-default-box-padding;
+   > .#{$element}list-item {      
       border-width: 1px;
       border-color: transparent transparent rgba(0, 0, 0, 0.09);
    }

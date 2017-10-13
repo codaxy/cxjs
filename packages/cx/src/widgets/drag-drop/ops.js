@@ -221,7 +221,7 @@ function notifyDragDrop(e) {
       puppet.stop();
 
    if (activeZone && activeZone.onDrop)
-      activeZone.onDrop(event);
+      event.result = activeZone.onDrop(event);
 
    dropZones.execute(zone => {
 
@@ -247,7 +247,7 @@ function notifyDragDrop(e) {
 function getDragEvent(e, type) {
 
    return {
-      eventType: type,
+      type: type,
       event: e,
       cursor: getCursorPos(e),
       source: puppet.source

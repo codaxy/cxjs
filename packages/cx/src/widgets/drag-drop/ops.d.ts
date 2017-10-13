@@ -1,17 +1,21 @@
 import * as Cx from '../../core';
 import * as React from 'react';
 import { CursorPosition } from '../overlay/captureMouse';
+import { View } from '../../data/View';
 
 export interface DragEvent {
-   eventType: 'dragstart' | 'dragmove' | 'dragdrop',
+   type: 'dragstart' | 'dragmove' | 'dragdrop',
    event: React.SyntheticEvent<any>,
    cursor: CursorPosition,
    source: {
       width: number,
       height: number,
       margin: string[],
-      [other: string]: any
-   }
+      data?: any,
+      store: View,
+      [other: string]: any,
+   },
+   result?: any
 }
 
 interface DragDropOptions {

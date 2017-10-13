@@ -87,6 +87,9 @@ $cx-default-icon-size: 16px !default;
 $cx-selection-background-color: rgba(135, 206, 250, 0.6);
 
 
+//List
+$cx-default-list-item-padding: 5px 10px !default;
+
 //Lists
 $cx-list: (
    default: (
@@ -99,7 +102,9 @@ $cx-list: (
 );
 
 $cx-list-item: (
-   default: (),
+   default: (
+     
+   ),
    hover: (
       background-color: rgba(128, 128, 128, 0.1),
       outline: none
