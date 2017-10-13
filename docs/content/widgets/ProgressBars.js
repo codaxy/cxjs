@@ -1,5 +1,5 @@
 import { HtmlElement, ProgressBar, Slider } from 'cx/widgets';
-import { LabelsLeftLayout } from 'cx/ui';
+import { LabelsLeftLayout, bind } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -15,34 +15,19 @@ export const ProgressBars = <cx>
 
       <ImportPath path="import {ProgressBar} from 'cx/widgets';" />
 
-      The `PureContainer` component provides a place to control layout or visibility for all of its children.
-       The component itself doesn't render any markup and therefore doesn't have any visual
-      attributes.
-
-      The `PureContainer` class is commonly used as a base class for other widgets such as:
-
-      * `ValidationGroup` - form validation
-      * `Repeater` - repeatable content
-      * `Route` - visible only if current URL matches the specified route (template)
+      The `ProgressBar` accepts values between `0` and `1` to indicate the state of progress.
 
       <CodeSplit>
-
          <div class="widgets">
-            <ProgressBar disabled text="Loading..." icon="edit" value:bind='$page.value' />
+            <ProgressBar text:tpl="{$page.value:p;0}" icon="edit" value:bind='$page.value' />
             <Slider value:bind='$page.value' maxValue={1} />
          </div>
 
-         <CodeSnippet putInto="code" fiddle="IsLloM4H">{`
-            <ValidationGroup layout={LabelsLeftLayout} invalid:bind="$page.invalid">
-               <TextField label="Text" value:bind="$page.text" required />
-               <NumberField label="Number" value:bind="$page.number" required minValue={10} />
-               <Text value="Please correct the errors." visible:bind="$page.invalid" />
-            </ValidationGroup>
+         <CodeSnippet putInto="code" >{`
+            <ProgressBar text:tpl="{$page.value:p;0}" icon="edit" value:bind='$page.value' />
+            <Slider value:bind='$page.value' maxValue={1} />
          `}</CodeSnippet>
       </CodeSplit>
-
-      In the example above, the `ValidationGroup` widget is used to arrange elements into a horizontal form layout and to
-      track if all fields are in a valid state.
 
       ## Configuration
 

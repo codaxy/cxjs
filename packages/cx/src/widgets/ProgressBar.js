@@ -1,4 +1,6 @@
 import {Widget, VDOM} from '../ui/Widget';
+import {parseStyle} from '../util/parseStyle';
+import {isNumber} from '../util/isNumber';
 
 export class ProgressBar extends Widget {
 
@@ -6,7 +8,7 @@ export class ProgressBar extends Widget {
       return super.declareData({
          disabled: undefined,
          text: undefined,
-         value: undefined       
+         value: undefined
       }, ...arguments)
    }
 
@@ -15,24 +17,24 @@ export class ProgressBar extends Widget {
       let { text, value, disabled } = data;
       let {CSS, baseClass} = widget;
 
+      if (!isNumber(value)) console.warn("ProgressBar value is not a number.");
+
       return (
          <div
             key={key}
             className= {CSS.expand(data.classNames, CSS.state({
                disabled               
             }))}
-           
             style={data.style}
          >           
             <div 
                className={CSS.element(this.baseClass, 'indicator')} 
                style={{
-                  width: `${value*100}%`,
-                  ...data.indicatorStyle
+                  width: `${(value > 1 ? 1 : value < 0 ? 0 : value)*100}%`
                }} 
             />
             <div className={CSS.element(this.baseClass, 'label')}>            
-               { text }
+               { !disabled && text }
             </div>
          </div>
       )
@@ -42,4 +44,3 @@ export class ProgressBar extends Widget {
 ProgressBar.prototype.styled = true;
 ProgressBar.prototype.disabled = false;
 ProgressBar.prototype.baseClass = 'progressbar';
-ProgressBar.prototype.progress = 0;

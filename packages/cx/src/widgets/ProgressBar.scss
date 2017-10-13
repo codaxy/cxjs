@@ -15,8 +15,8 @@
       box-sizing: border-box;
 
       @include cx-add-state-rules($state-style-map, default);
-
-      &[disabled], &.#{$state}-disabled {
+        
+      &[disabled], &.#{$state}disabled {
          @include cx-add-state-rules($state-style-map, disabled);
       }
 
