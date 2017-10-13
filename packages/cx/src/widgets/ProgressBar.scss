@@ -1,7 +1,8 @@
 
-@mixin cx-section(
-   $name: 'section',
-   $mods: $cx-section-mods,
+@mixin cx-progressbar(
+   $name: 'progressbar',
+   $state-style-map: $cx-progressbar-state-style-map,
+   $mods: $cx-progressbar-mods,
    $besm: $cx-besm
 ) {
 
@@ -11,45 +12,39 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      flex-direction: column;
-      display: flex;
       box-sizing: border-box;
 
-      @include cx-add-rules($cx-section-styles);
+      @include cx-add-state-rules($state-style-map, default);
+
+      &[disabled], &.#{$state}-disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
+      }
 
       @each $modname, $config in $mods {
         &.#{$mod}#{$modname} {
           @include cx-add-state-rules($config, default);
         }
-      }
-      
+      }      
    }
 
-   .#{$element}#{$name}-header {
-      margin: 0 1.5rem;
-      padding: 1rem 0;
-      box-sizing: border-box;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+   .#{$element}#{$name}-indicator {
+      background-color: $cx-progressbar-indicator-backgrund-color;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
    }
 
-   .#{$element}#{$name}-body {
-      flex: 1 1 auto;
-      box-sizing: border-box;
-      overflow: auto;
-
-      .#{$state}pad > & {
-         padding: 1rem 1.5rem;
-      }
-   }
-
-   .#{$element}#{$name}-footer {
-      margin: 0 1.5rem;
-      padding: 1rem 0;
-      box-sizing: border-box;
-      border-top: 1px solid rgba(128, 128, 128, 0.3);
+   .#{$element}#{$name}-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      text-align: center;
    }
 }
 
-@if (cx-should-include('cx/widgets/Section')) {
-   @include cx-section();
+@if (cx-should-include('cx/widgets/ProgressBar')) {
+   @include cx-progressbar();
 }
