@@ -213,6 +213,18 @@ $cx-default-icon-size: $cx-default-box-line-height !default;
 $cx-default-input-tool-size: $cx-default-icon-size !default;
 $cx-default-clear-size: $cx-default-icon-size !default;
 
+// PROGRESSBAR
+$cx-default-progressbar-width: 180px !default;
+$cx-default-progressbar-height: 24px !default;
+$cx-default-progressbar-font-size: smaller !default;
+$cx-default-progressbar-color: $cx-default-color !default;
+$cx-default-progressbar-background-color: rgba(#fff, 0.5) !default;
+$cx-default-progressbar-border-width: 1px !default;
+$cx-default-progressbar-border-color: #98d4ff !default;
+
+$cx-progressbar-indicator-backgrund-color: rgba(#98d4ff, 0.8) !default;
+
+
 @import "~cx/src/variables";
 
 //VARIABLE MAPS
