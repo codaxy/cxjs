@@ -35,6 +35,11 @@
          @include cx-add-state-rules($state-style-map, selected-cursor);
       }
 
+      .#{$state}disabled {
+         opacity: 0.5;
+         pointer-events: none;
+      }
+
       & > a {
          text-decoration: none;
          color: inherit;
