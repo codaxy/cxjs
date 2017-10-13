@@ -46,7 +46,7 @@ export default <cx>
             </List>
         </Section>
 
-        <Section mod="well" title="Bordered" hLevel={4}>
+        <Section mod="well" title="Bordered" hLevel={4} visible={{expr: "{$root.$route.theme} !== 'material'"}}>
             <List
                 records={bind('records')}
                 mod="bordered"
@@ -79,7 +79,7 @@ export default <cx>
         <Section mod="well" title="Grouped" hLevel={4}>
             <List
                 records={bind('records2')}
-                style={{minWidth: '200px', height: '400px'}}
+                style={{minWidth: '200px', height: '427px'}}
                 emptyText="Nothing found."
                 selection={{
                     type: KeySelection,
@@ -102,6 +102,21 @@ export default <cx>
                     footer: <div style={{marginBottom: '15px'}}>
                         <i text={tpl("{$group.count} {$group.count:plural;person}")}/>
                     </div>
+                }}
+            >
+                <span text={tpl("{$record.lastName}, {$record.firstName}")}/>
+            </List>
+        </Section>
+
+        <Section mod="well" title="Empty Text" hLevel={4}>
+            <List
+                records={[]}
+                style={{minWidth: '200px'}}
+                emptyText="No records found."
+                selection={{
+                    type: KeySelection,
+                    bind: "s4",
+                    keyField: 'id'
                 }}
             >
                 <span text={tpl("{$record.lastName}, {$record.firstName}")}/>

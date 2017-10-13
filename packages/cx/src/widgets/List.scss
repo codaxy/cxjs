@@ -40,7 +40,7 @@
       border: 0 solid $cx-default-border-color;
 
       &.#{$state}pad {
-         padding: 5px 10px;
+         padding: $cx-default-list-item-padding;
       }
 
       @include cx-add-state-rules($cx-list-item, default);
@@ -75,11 +75,8 @@
    }
 
    .#{$element}#{$name}-empty-text {
-      margin: 0;
-      padding: 5px 10px;
-
-      color: gray;
-      font-size: smaller;
+      padding: $cx-default-list-item-padding;
+      color: $cx-default-empty-text-color;
    }
 }
 
