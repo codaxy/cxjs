@@ -12,10 +12,10 @@ var contents = [{
         {title: 'Getting Started', url: '~/intro/getting-started'},
         {title: 'JSX', url: '~/intro/jsx'},
         {title: 'CLI', url: '~/intro/command-line'},
-        {title: 'Step by Step', url: '~/intro/step-by-step'},
         {title: 'NPM Packages', url: '~/intro/npm-packages'},
-        {title: 'Feature List', url: '~/intro/feature-list'},
         {title: 'Breaking Changes', url: '~/intro/breaking-changes'},
+        {title: 'Step by Step', url: '~/intro/step-by-step'},
+        {title: 'Feature List', url: '~/intro/feature-list'},
     ]
 }, {
     topic: 'Concepts',
