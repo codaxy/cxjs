@@ -4,6 +4,8 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
+import {ImportPath} from "../../components/ImportPath";
+import {MethodTable} from "../../components/MethodTable";
 
 function loadCulture(culture) {
     //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
@@ -101,9 +103,65 @@ export const LocalizationPage = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        TODO
+        ## Culture
+        <ImportPath path="import {Culture} from 'cx/ui';"/>
 
-        - Explain widget localization
+        The `Culture` object provides methods for selecting an UI culture used for formatting and localizing messages.
+
+        <CodeSplit>
+            <MethodTable methods={[{
+                signature: 'Culture.setCulture(cultureCode)',
+                description: <cx><Md>
+                    Sets the current culture. Read more about available culture
+                    codes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
+                </Md></cx>
+            }, {
+                signature: 'Culture.setDefaultCurrency(currencyCode)',
+                description: <cx><Md>
+                    Sets default currency, which is otherwise `USD`.
+                    https://en.wikipedia.org/wiki/ISO_4217
+                </Md></cx>
+            }]}/>
+        </CodeSplit>
+
+        ## Localization
+        <ImportPath path="import {Localization} from 'cx/ui';"/>
+
+        The `Localization` object offers methods for providing errors messages and other texts that appear in widgets
+        in different languages.
+
+        <CodeSplit>
+            <MethodTable methods={[{
+                signature: 'Localization.registerPrototype(name, componentType)',
+                description: <cx><Md>
+                    Registers component type for localization.
+                </Md></cx>
+            }, {
+                signature: 'Localization.localize(cultureCode, name, values)',
+                description: <cx><Md>
+                    Override prototype properties for a given culture and component name.
+                </Md></cx>
+            }, {
+                signature: 'Localization.override(name, values)',
+                description: <cx><Md>
+                    Override prototype properties for a given component name. Used for changing defaults and
+                    theme adjustments.
+                </Md></cx>
+            }]}/>
+
+
+            <CodeSnippet putInto="code">{`
+                //register widget for localization
+                Localization.registerPrototype('cx/widgets/TextField', TextField);
+
+                //localize widget
+                Localization.localize('de', 'cx/widgets/TextField', {
+                   validationErrorText: 'Ungültige Eingabe.',
+                   minLengthValidationErrorText: 'Bitte tragen Sie noch {[{0}-{1}]} Zeichen ein.',
+                   maxLengthValidationErrorText: 'Benutzen Sie {0} oder weniger Zeichen.'
+                });
+            `}</CodeSnippet>
+        </CodeSplit>
     </Md>
 </cx>
 
