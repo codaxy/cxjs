@@ -1,5 +1,8 @@
 import * as Cx from '../../core';
 
+import {Instance} from '../../ui/Instance';
+import {DragEvent} from "./ops";
+
 interface DropZoneProps extends Cx.StyledContainerProps {
    
    /** CSS styles to be applied when drag cursor is over the drop zone. */
@@ -42,8 +45,43 @@ interface DropZoneProps extends Cx.StyledContainerProps {
    vinflate?: number,
 
    /** Base CSS class to be applied to the element. Defaults to 'dropzone'. */
-   baseClass?: string  
-   
+   baseClass?: string,
+
+   /** A callback method invoked when dragged item is finally dropped.
+    The callback takes two arguments:
+    * dragDropEvent - An object containing information related to the source
+    * instance
+    Return value is written into dragDropEvent.result and can be passed
+    to the source's onDragEnd callback. */
+   onDrop?: (event?: DragEvent, instance?: Instance) => any,
+
+   /** A callback method used to test if dragged item (source) is compatible
+    with the drop zone. */
+   onDropTest?: (event?: DragEvent, instance?: Instance) => boolean,
+
+   /** A callback method invoked when the dragged item gets close to the drop zone.
+    See also `nearDistance`. */
+   onDragNear?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when the dragged item is dragged away. */
+   onDragAway?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when the dragged item is dragged over the drop zone.
+    The callback is called for each `mousemove` or `touchmove` event. */
+   onDragOver?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when the dragged item is dragged over the drop zone
+    for the first time. */
+   onDragEnter?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when the dragged item leaves the drop zone area. */
+   onDragLeave?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when at the beginning of the drag & drop operation. */
+   onDragStart?: (event?: DragEvent, instance?: Instance) => void,
+
+   /** A callback method invoked when at the end of the drag & drop operation. */
+   onDragEnd?: (event?: DragEvent, instance?: Instance) => void,
 }
 
 export class DropZone extends Cx.Widget<DropZoneProps> {}

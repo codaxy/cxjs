@@ -1,4 +1,4 @@
-import {HtmlElement, Tab, DragSource, DropZone, MsgBox, Repeater} from 'cx/widgets';
+import {HtmlElement, Tab, DragSource, DropZone, DragHandle, MsgBox, Repeater} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
@@ -44,36 +44,37 @@ export const DragAndDrop = <cx>
             while `Grid` supports dropping and its rows behave like drag sources.
 
             Drag & drop can be used in many different ways. Let's go through a few common scenarios.
+            Links to advanced examples are provided at the end.
 
             ### Fixed Positions
 
             The simplest case is when drag sources and drop zones are completely independent.
 
-            In the following example, there are two drag sources (S1 and S2) and one drop zone (Z1).
+            In the following example, there are two drag sources (B1 and B2) and one drop zone (Z1).
             Sources can be dragged around and dropped on drop zones. Each source should define its
             `data` that drop zones use to test if drop should be allowed and, when the drop
             occurs, to execute appropriate actions.
 
             <div class="widgets">
                 <DragSource
-                    style="width: 50px;height:50px;background:white;cursor:move"
-                    data={{id: 'S1'}}
+                    style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
+                    data={{text: 'B1', type: 'b1'}}
                 >
-                    S1
+                    B1
                 </DragSource>
                 <DragSource
-                    style="width: 50px;height:50px;background:white;cursor:move"
-                    data={{id: 'S2'}}
+                    style="width:80px;height:80px;background:Coral;cursor:move"
+                    data={{text: 'B2', type: 'b2'}}
                 >
-                    S2
+                    B2
                 </DragSource>
                 <DropZone
-                    style="width: 50px;height:50px;background:yellow;opacity:0.3;transition: all 0.2s"
+                    style="width:80px;height:80px;background:gold;opacity:0.3;transition: all 0.2s"
                     overStyle="background:lightgreen;opacity:1"
                     farStyle="opacity:1"
-                    onDropTest={({source}) => source.data.id == 'S1'}
+                    onDropTest={({source}) => source.data.type == 'b1'}
                     onDrop={({source}) => {
-                        MsgBox.alert(`Dropped ${source.data.id}.`);
+                        MsgBox.alert(`Dropped: ${source.data.text}.`);
                     }}
                     inflate={20}
                 >
@@ -83,24 +84,24 @@ export const DragAndDrop = <cx>
 
             <CodeSnippet putInto="code">{`
                 <DragSource
-                    style="width: 50px;height:50px;background:white;cursor:move"
-                    data={{ id: 'S1' }}
+                    style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
+                    data={{text: 'B1', type: 'b1'}}
                 >
-                    S1
+                    B1
                 </DragSource>
                 <DragSource
-                    style="width: 50px;height:50px;background:white;cursor:move"
-                    data={{ id: 'S2' }}
+                    style="width:80px;height:80px;background:Coral;cursor:move"
+                    data={{text: 'B2', type: 'b2'}}
                 >
-                    S2
+                    B2
                 </DragSource>
                 <DropZone
-                    style="width: 50px;height:50px;background:yellow;opacity:0.3;transition: all 0.2s"
+                    style="width:80px;height:80px;background:gold;opacity:0.3;transition: all 0.2s"
                     overStyle="background:lightgreen;opacity:1"
                     farStyle="opacity:1"
-                    onDropTest={({ source }) => source.data.id == 'S1'}
-                    onDrop={({ source }) => {
-                        MsgBox.alert(\`Dropped \${source.data.id}.\`);
+                    onDropTest={({source}) => source.data.type == 'b1'}
+                    onDrop={({source}) => {
+                        MsgBox.alert(\`Dropped: \${source.data.text}.\`);
                     }}
                     inflate={20}
                 >
@@ -112,6 +113,38 @@ export const DragAndDrop = <cx>
 
         During drag & drop operations drop zones should make visual changes to indicate
         to the user that drop is allowed.
+
+        ### Drag Handles
+
+        Drag handles are useful for dragging larger chunks of UI.
+
+        <CodeSplit>
+
+            <div class="widgets">
+                <DragSource
+                    style="width: 180px;height:180px;background:moccasin;padding:15px"
+                    data={{type: 'b1', text: 'Box with a drag handle'}}
+                    handled
+                >
+                    <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
+                        DRAG USING THIS HANDLE
+                    </DragHandle>
+                </DragSource>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <DragSource
+                    style="width: 180px;height:180px;background:moccasin;padding:15px"
+                    data={{type: 'b1', text: 'Box with a drag handle'}}
+                    handled
+                >
+                    <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
+                        DRAG USING THIS HANDLE
+                    </DragHandle>
+                </DragSource>
+            `}</CodeSnippet>
+
+        </CodeSplit>
 
         ### Reordering
 
@@ -223,6 +256,7 @@ export const DragAndDrop = <cx>
         * [Trello Clone](https://fiddle.cxjs.io/?f=H9Bb4Kf2)
         * [Dashboards](https://github.com/codaxy/dashboards)
         * [Grid to Grid D&D](https://fiddle.cxjs.io/?f=IF2N9ClH)
+        * [Worldoscope](https://worldoscope.cxjs.io/new)
 
         ## Configuration
 

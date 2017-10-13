@@ -1,34 +1,41 @@
 import {Md} from '../../../components/Md';
-import classAndStyle from './classAndStyle';
-import pureContainer from './PureContainer';
 
 export default {
-    ...classAndStyle,
-    ...pureContainer,
-    baseClass: {
+    type: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied to the element. Default value is 'dragsource'.
+            Type of the event.
         </Md></cx>
     },
-    innerHtml: {
-        type: 'string',
-        alias: 'html',
+    event: {
+        type: 'Event',
         description: <cx><Md>
-            HTML to be injected into the element.
+            Mouse or touch event associated with the operation.
         </Md></cx>
     },
-    text: {
-        type: 'string',
-        alias: 'innerText',
+    source: {
+        type: 'object',
         description: <cx><Md>
-            Inner text contents.
+            Information about the source.
+
+            * width - source width
+            * height - source height
+            * margin - an array of strings containing top, right, bottom and left margin
+            * data - source data
+            * store - source data store
         </Md></cx>
     },
-    tooltip: {
-        type: 'string/object',
+    cursor: {
+        type: 'object',
         description: <cx><Md>
-            Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
+            Cursor position containing `clientX` and `clientY` coordinates.
+        </Md></cx>
+    },
+    result: {
+        type: 'any',
+        description: <cx><Md>
+            Result returned from the onDrop method. This is available only
+            in onDragEnd events. If no drop occurred, the value will be `false`.
         </Md></cx>
     }
 };
