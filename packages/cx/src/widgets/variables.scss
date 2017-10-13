@@ -112,7 +112,8 @@ $cx-progressbar-state-style-map: (
       border-color: $cx-default-progressbar-border-color,
       border-width: $cx-default-progressbar-border-width,
       font-size: $cx-default-progressbar-font-size,
-      text-align: center
+      text-align: center,
+      line-height: $cx-default-progressbar-height
    ),
    disabled: (
       opacity: 0.4

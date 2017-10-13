@@ -39,7 +39,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%;
+      line-height: $cx-default-progressbar-height - cx-top($cx-default-progressbar-border-width) - cx-bottom($cx-default-progressbar-border-width);
       width: 100%;
       text-align: center;
    }

@@ -19,12 +19,12 @@ export const ProgressBars = <cx>
 
       <CodeSplit>
          <div class="widgets">
-            <ProgressBar text:tpl="{$page.value:p;0}" icon="edit" value:bind='$page.value' />
+            <ProgressBar text:tpl="{$page.value:p;0}" value:bind='$page.value' />
             <Slider value:bind='$page.value' maxValue={1} />
          </div>
 
          <CodeSnippet putInto="code" >{`
-            <ProgressBar text:tpl="{$page.value:p;0}" icon="edit" value:bind='$page.value' />
+            <ProgressBar text:tpl="{$page.value:p;0}" value:bind='$page.value' />
             <Slider value:bind='$page.value' maxValue={1} />
          `}</CodeSnippet>
       </CodeSplit>
