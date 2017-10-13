@@ -1,5 +1,5 @@
-import { Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text } from 'cx/widgets';
-import { Controller } from 'cx/ui';
+import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text} from 'cx/widgets';
+import {Controller} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -38,7 +38,8 @@ const formats = [{
     </Md></cx>,
     description: <cx><Md>
         Currency formatting. Formatting is done using the
-        [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) class provided
+        [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat)
+        class provided
         by the browser. It's required to use a polyfill if your browser doesn't support `Intl` (Safari).
     </Md></cx>
 }, {
@@ -136,7 +137,7 @@ export const Formatting = <cx>
     <Md>
         # Formatting
 
-        <ImportPath path="import { Format } from 'cx/util';" />
+        <ImportPath path="import { Format } from 'cx/util';"/>
 
         Cx offers rich support for value formatting.
 
@@ -173,7 +174,20 @@ export const Formatting = <cx>
 
             ### Format Specifiers
 
-            <MethodTable methods={formats} sort={false} />
+            <MethodTable methods={formats} sort={false}/>
+        </CodeSplit>
+
+        ### Culture Sensitive Formatting
+        <ImportPath path="import { enableCultureSensitiveFormatting() } from 'cx/ui';"/>
+
+        Date, currency and number formats are dependent on an external library and must be enabled
+        before use. This is slight inconvenient but ensures small bundle sizes for applications that do
+        not use this feature.
+
+        <CodeSplit>
+            <CodeSnippet>
+                enableCultureSensitiveFormatting();
+            </CodeSnippet>
         </CodeSplit>
 
         ### Custom Formats
