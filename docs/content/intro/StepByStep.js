@@ -64,7 +64,7 @@ export const StepByStep = <cx>
             follow the recommended Cx source layout) and it will create an initial `project.json`
             file for our application.
 
-            Next, we need to install prerequisite packages, by running `npm install` commands. 
+            Next, we need to install prerequisite packages, by running `npm install` command.
             Alternatevly, if you already cloned the project from github, just run the `npm install` command
             without any other parameters.
             <Content name="code">
@@ -75,10 +75,7 @@ export const StepByStep = <cx>
 
                     npm install cx cx-react --save
 
-                    npm install webpack@beta webpack-dev-server@beta babel-core babel-loader 
-                    babel-plugin-syntax-jsx babel-preset-cx-env css-loader 
-                    extract-text-webpack-plugin@beta file-loader html-webpack-plugin 
-                    json-loader node-sass sass-loader style-loader --save-dev
+                    npm install webpack webpack-dev-server babel-core babel-loader babel-plugin-syntax-jsx babel-preset-cx-env css-loader extract-text-webpack-plugin file-loader html-webpack-plugin json-loader node-sass sass-loader style-loader --save-dev
                 `}</CodeSnippet>
             </Content>
 
