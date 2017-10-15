@@ -548,7 +548,7 @@ export const StepByStep = <cx>
 
             <Content name="code">
                 <CodeSnippet>{`
-                    https://github.com/codaxy/cx-starter-kit
+                    git clone https://github.com/codaxy/cx-starter-kit
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
