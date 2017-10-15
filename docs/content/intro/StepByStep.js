@@ -544,14 +544,14 @@ export const StepByStep = <cx>
 
         <CodeSplit>
             For new projects, however, it is much more convenient to use our
-            [Cx Starter Kit boilerplate application](https://gitlab.com/codaxy/cx-starter-kit)
+            [Cx Starter Kit boilerplate application](https://github.com/codaxy/cx-starter-kit)
             which has all of the elements described here (plus many other features
             needed for building large client-side applications, such as routing, application layout,
             ready-to-use design, consistent folder structure, etc.) already set up.
 
             <Content name="code">
                 <CodeSnippet>{`
-                    git clone https://gitlab.com/codaxy/cx-starter-kit
+                    https://github.com/codaxy/cx-starter-kit
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
