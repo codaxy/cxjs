@@ -459,6 +459,18 @@ $form-list: (
    }
 }
 
+//PROGRESSBAR
+@if (cx-included('cx/widgets/ProgressBar')) {
+   .#{$block}progressbar {
+      margin: 12px 0 0;
+
+      .#{$element}progressbar-label {
+         top: -12px;     
+         text-align: left;
+      }
+   }
+}
+
 //MENU
 .#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);

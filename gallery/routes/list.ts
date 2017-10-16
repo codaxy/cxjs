@@ -47,6 +47,10 @@ let list: Item[] = [{
       route: '+/section',
       name: 'Section',
       content: () => System.import("./general/section")
+   }, {
+      route: '+/progressbar',
+      name: 'ProgressBar',
+      content: () => System.import("./general/progressbar")
    }]
 }, {
    name: 'Forms',

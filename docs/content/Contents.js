@@ -90,7 +90,7 @@ var contents = [{
         {title: 'IsolatedScope', url: '~/widgets/isolated-scope'},
         {title: 'DetachedScope', url: '~/widgets/detached-scope'},
         {title: 'ContentResolver', url: '~/widgets/content-resolvers'},
-
+        {title: 'ProgressBar', url: '~/widgets/progress-bars'},
     ]
 }, {
     topic: 'Overlays',

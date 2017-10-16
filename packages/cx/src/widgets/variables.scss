@@ -91,6 +91,39 @@ $cx-section-mods: (
    )  
 ) !default;
 
+// ProgressBar
+$cx-default-progressbar-width: 180px !default;
+$cx-default-progressbar-height: 24px !default;
+$cx-default-progressbar-font-size: smaller !default;
+$cx-default-progressbar-color: $cx-default-color !default;
+$cx-default-progressbar-background-color: rgba(#fff, 0.5) !default;
+$cx-default-progressbar-border-width: 1px !default;
+$cx-default-progressbar-border-color: #98d4ff !default;
+$cx-default-progressbar-border-radius: 0 !default;
+
+$cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
+
+$cx-progressbar-state-style-map: (
+   default: (
+      position: relative,
+      width: $cx-default-progressbar-width,
+      min-height: $cx-default-progressbar-height,
+      background-color: $cx-default-progressbar-background-color,
+      border-style: solid,
+      border-color: $cx-default-progressbar-border-color,
+      border-width: $cx-default-progressbar-border-width,
+      border-radius: $cx-default-progressbar-border-radius,
+      font-size: $cx-default-progressbar-font-size,
+      text-align: center,
+      line-height: $cx-default-progressbar-height
+   ),
+   disabled: (
+      opacity: 0.2
+   )
+);
+
+$cx-progressbar-mods: ();
+
 // for backward compatibility
 .cxm-well {
    @extend .cxm-card !optional;

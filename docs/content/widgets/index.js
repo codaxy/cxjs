@@ -43,6 +43,7 @@ export * from './ContentResolvers';
 export * from './Hscrollers';
 export * from './Validators';
 export * from './ContextMenus';
+export * from './ProgressBars';
 
 import { bumpVersion } from '../version';
 

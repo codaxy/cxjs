@@ -78,6 +78,13 @@ $cx-default-monthpicker-font-size: 11px !default;
 $cx-default-cover-background-color: lighten($cx-default-background-color-light, 2) !default;
 $cx-default-cover-border-color: $cx-default-cover-background-color !default;
 
+// PROGRESSBAR
+// PROGRESSBAR
+$cx-default-progressbar-background-color: rgba(0, 0, 0, 0.18) !default;
+$cx-default-progressbar-border-width: 0 !default;
+$cx-default-progressbar-border-radius: $cx-default-border-radius !default;
+$cx-default-progressbar-indicator-background-color: $cx-default-highlight-color !default;
+
 // CHART
 $cx-default-palette-fill-whiten: 0% !default;
 $cx-default-palette-fill-blacken: 20% !default;

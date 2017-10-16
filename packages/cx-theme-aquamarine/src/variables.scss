@@ -249,6 +249,16 @@ $cx-default-palette-fill-hover-blacken: 5% !default;
 $cx-default-palette-fill-selected-blacken: 7% !default;
 $cx-default-palette-fill-disabled-blacken: 0% !default;
 
+//PROGRESSBAR
+$cx-default-progressbar-width: 200px !default;
+$cx-default-progressbar-height: 16px !default;
+$cx-default-progressbar-font-size: 10px !default;
+$cx-default-progressbar-color: $cx-default-color !default;
+$cx-default-progressbar-background-color: $cx-default-border-color-light !default;
+$cx-default-progressbar-border-width: 0 !default;
+
+$cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color, 0.6) !default;
+
 @import "~cx/src/variables";
 
 //VARIABLE MAPS
