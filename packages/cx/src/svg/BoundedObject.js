@@ -9,10 +9,7 @@ export class BoundedObject extends PureContainer {
          anchors: undefined,
          offset: undefined,
          margin: undefined,
-         padding: undefined,
-         style: {structured: true},
-         class: {structured: true},
-         className: {structured: true}
+         padding: undefined
       }, ...arguments)
    }
 
@@ -83,4 +80,5 @@ BoundedObject.prototype.margin = 0;
 BoundedObject.prototype.offset = 0;
 BoundedObject.prototype.padding = 0;
 BoundedObject.prototype.pure = false;
+BoundedObject.prototype.styled = true;
 

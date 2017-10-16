@@ -8,14 +8,6 @@ export class CodeSplit extends Md {
         })
     }
 
-    declareData() {
-        super.declareData(...arguments, {
-            style: {
-                structured: true
-            }
-        })
-    }
-
     explore(context, instance) {
         contentSandbox(context, "code", () => {
             super.explore(context, instance);
@@ -46,4 +38,4 @@ export class CodeSplit extends Md {
 
 CodeSplit.prototype.CSS = 'dx';
 CodeSplit.prototype.baseClass = 'codesplit';
-
+CodeSplit.prototype.styled = true;

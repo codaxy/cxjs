@@ -16,12 +16,6 @@ export class PureContainer extends Widget {
       if (this.preserveWhitespace)
          this.trimWhitespace = false;
 
-      if (this.styles)
-         this.style = this.styles;
-
-      if (this.styled)
-         this.style = parseStyle(this.style);
-
       let items = this.items || this.children || [];
       this.items = [];
       this.add(items);
@@ -29,15 +23,6 @@ export class PureContainer extends Widget {
       super.init();
 
       this.layout = Layout.create(this.layout || 'default');
-   }
-
-   declareData() {
-      let options = {};
-
-      if (this.styled)
-         options.class = options.className = options.style = {structured: true};
-
-      super.declareData(...arguments, options);
    }
 
    explore(context, instance) {

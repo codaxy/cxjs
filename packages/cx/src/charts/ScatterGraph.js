@@ -21,15 +21,6 @@ export class ScatterGraph extends Widget {
          data: undefined,
          size: undefined,
          shape: undefined,
-         style: {
-            structured: true
-         },
-         class: {
-            structured: true
-         },
-         className: {
-            structured: true
-         },
          colorIndex: undefined,
          colorMap: undefined,
          colorName: undefined,
@@ -163,5 +154,6 @@ ScatterGraph.prototype.size = 10;
 ScatterGraph.prototype.pure = false;
 ScatterGraph.prototype.legend = 'legend';
 ScatterGraph.prototype.legendAction = 'auto';
+ScatterGraph.prototype.styled = true;
 
 Widget.alias('scatter-graph', ScatterGraph);

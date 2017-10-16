@@ -41,9 +41,6 @@ export class Grid extends Widget {
 
       super.declareData({
          records: undefined,
-         class: {structured: true},
-         className: {structured: true},
-         style: {structured: true},
          sorters: undefined,
          scrollable: undefined,
          sortField: undefined,
@@ -637,6 +634,7 @@ Grid.prototype.bufferStep = 15;
 Grid.prototype.bufferSize = 60;
 Grid.prototype.pageSize = 100;
 Grid.prototype.infinite = false;
+Grid.prototype.styled = true;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -1436,9 +1434,6 @@ class GridHeaderCell extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          text: undefined,
-         style: {structured: true},
-         class: {structured: true},
-         className: {structured: true},
          colSpan: undefined,
          rowSpan: undefined
       })
@@ -1459,6 +1454,7 @@ class GridHeaderCell extends PureContainer {
 GridHeaderCell.prototype.colSpan = 1;
 GridHeaderCell.prototype.rowSpan = 1;
 GridHeaderCell.prototype.allowSorting = true;
+GridHeaderCell.prototype.styled = true;
 
 function initGrouping(grouping) {
    grouping.forEach(g => {
