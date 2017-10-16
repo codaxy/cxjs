@@ -111,7 +111,7 @@ and become a member of the CxJS community.
 
 This repository is used to develop main npm packages, documentation and gallery.
  
-First, install the packages using `npm` or `yarn`.
+First, install the packages using `npm` or `yarn`. (Currently [yarn](https://yarnpkg.com/en/) is the preferred tool as npm is having issues around :link for symlinks - [npm/npm#15900](https://github.com/npm/npm/pull/15900))
 
 ```bash
 $ npm install
