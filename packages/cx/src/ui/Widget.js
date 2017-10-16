@@ -36,6 +36,12 @@ export class Widget extends Component {
    }
 
    init() {
+      if (this.styles)
+      this.style = this.styles;
+
+      if (this.styled)
+         this.style = parseStyle(this.style);
+
       if (typeof this.if !== 'undefined')
          this.visible = this.if;
 
@@ -79,11 +85,17 @@ export class Widget extends Component {
    }
 
    declareData() {
+      let options = {};
+
+      if (this.styled)
+         options.class = options.className = options.style = {structured: true};
+
       var props = {
          visible: undefined,
          mod: {
             structured: true
-         }
+         },
+         ...options
       };
       Object.assign(props, ...arguments);
       this.selector = new StructuredSelector({props: props, values: this});
@@ -203,6 +215,7 @@ Widget.prototype.visible = true;
 Widget.prototype.memoize = true; //cache rendered content and use it if possible
 Widget.prototype.pure = true; //widget does not rely on contextual data
 Widget.prototype.CSS = 'cx';
+Widget.prototype.styled = false;
 
 Widget.namespace = 'ui.';
 Widget.lazyInit = true;
