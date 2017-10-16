@@ -99,8 +99,9 @@ $cx-default-progressbar-color: $cx-default-color !default;
 $cx-default-progressbar-background-color: rgba(#fff, 0.5) !default;
 $cx-default-progressbar-border-width: 1px !default;
 $cx-default-progressbar-border-color: #98d4ff !default;
+$cx-default-progressbar-border-radius: 0 !default;
 
-$cx-progressbar-indicator-backgrund-color: rgba(#98d4ff, 0.8) !default;
+$cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 
 $cx-progressbar-state-style-map: (
    default: (
@@ -111,12 +112,13 @@ $cx-progressbar-state-style-map: (
       border-style: solid,
       border-color: $cx-default-progressbar-border-color,
       border-width: $cx-default-progressbar-border-width,
+      border-radius: $cx-default-progressbar-border-radius,
       font-size: $cx-default-progressbar-font-size,
       text-align: center,
       line-height: $cx-default-progressbar-height
    ),
    disabled: (
-      opacity: 0.4
+      opacity: 0.2
    )
 );
 

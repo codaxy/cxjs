@@ -28,7 +28,7 @@
    }
 
    .#{$element}#{$name}-indicator {
-      background-color: $cx-progressbar-indicator-backgrund-color;
+      background-color: $cx-default-progressbar-indicator-background-color;
       position: absolute;
       top: 0;
       left: 0;

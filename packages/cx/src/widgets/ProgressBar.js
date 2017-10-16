@@ -34,7 +34,7 @@ export class ProgressBar extends Widget {
                }} 
             />
             <div className={CSS.element(this.baseClass, 'label')}>            
-               { !disabled && text }
+               { text }
             </div>
          </div>
       )
