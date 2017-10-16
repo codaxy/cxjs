@@ -94,3 +94,10 @@ $mod: map-get($cx-besm, mod);
 .#{$block}button, .#{$block}tab, .#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
+
+//progressbar
+@if (cx-included('cx/widgets/ProgressBar')) {
+   .#{$block}progressbar {
+      overflow: hidden;
+   }
+}

@@ -42,6 +42,16 @@ $cx-default-dropdown-arrow-offset: 26px !default;
 
 $cx-use-box-line-height-fix: false !default;
 
+// PROGRESSBAR
+$cx-default-progressbar-background-color: rgba(0, 0, 0, 0.08) !default;
+$cx-default-progressbar-border-width: 0 !default;
+$cx-default-progressbar-border-radius: $cx-default-border-radius !default;
+$cx-default-progressbar-indicator-background-color: $cx-default-highlight-color-dark !default;
+
+// SLIDER
+$cx-default-slider-range-background-color: $cx-default-highlight-color-dark !default;
+
+
 @import "~cx/src/variables";
 
 $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
