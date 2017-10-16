@@ -61,16 +61,7 @@ export class List extends Widget {
          filterParams: {
             structured: true
          },
-         style: {
-            structured: true
-         },
          itemStyle: {
-            structured: true
-         },
-         class: {
-            structured: true
-         },
-         className: {
             structured: true
          },
          emptyText: undefined
@@ -207,6 +198,7 @@ List.prototype.focusable = true;
 List.prototype.focused = false;
 List.prototype.itemPad = true;
 List.prototype.cached = false;
+List.prototype.styled = true;
 
 Widget.alias('list', List);
 

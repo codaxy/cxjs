@@ -106,10 +106,7 @@ export const Widgets = <cx>
                          anchors: undefined,
                          offset: undefined,
                          margin: undefined,
-                         padding: undefined,
-                         style: {structured: true},
-                         class: {structured: true},
-                         className: {structured: true}
+                         padding: undefined
                       }, ...arguments)
                    }
 
@@ -132,6 +129,9 @@ export const Widgets = <cx>
 
                   ...
                }
+
+               // This enables the use of styling properties (style, class/className)
+               Rectangle.prototype.styled = true;
             `}
                 </CodeSnippet>
             </Content>

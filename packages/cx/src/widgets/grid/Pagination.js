@@ -9,16 +9,7 @@ export class Pagination extends Widget {
       super.declareData({
          page: undefined,
          length: undefined,
-         pageCount: undefined,
-         class: {
-            structured: true
-         },
-         className: {
-            structured: true
-         },
-         style: {
-            structured: true
-         }
+         pageCount: undefined
       }, ...arguments);
    }
 
@@ -99,5 +90,6 @@ export class Pagination extends Widget {
 
 Pagination.prototype.baseClass = "pagination";
 Pagination.prototype.length = 5;
+Pagination.prototype.styled = true;
 
 Widget.alias('pagination', Pagination);

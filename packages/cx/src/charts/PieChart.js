@@ -154,9 +154,6 @@ export class PieSlice extends PureContainer {
          active: true,
          r0: undefined,
          r: undefined,
-         class: {structured: true},
-         className: {structured: true},
-         style: {structured: true},
          colorIndex: undefined,
          colorMap: undefined,
          colorName: undefined,
@@ -326,5 +323,6 @@ PieSlice.prototype.active = true;
 PieSlice.prototype.pure = false;
 PieSlice.prototype.stack = 'stack';
 PieSlice.prototype.legendAction = 'auto';
+PieSlice.prototype.styled = true;
 
 Widget.alias('pie-chart', PieChart);

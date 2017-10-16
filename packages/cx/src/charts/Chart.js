@@ -58,14 +58,6 @@ export class Chart extends BoundedObject {
       }
    }
 
-   declareData() {
-      return super.declareData(...arguments, {
-         class: undefined,
-         className: undefined,
-         style: undefined
-      })
-   }
-
    render(context, instance, key) {
       var axes = [];
       for (var k in instance.axes) {
@@ -80,6 +72,7 @@ export class Chart extends BoundedObject {
 }
 
 Chart.prototype.anchors = '0 1 1 0';
+Chart.prototype.styled = true;
 
 Widget.alias('chart', Chart);
 

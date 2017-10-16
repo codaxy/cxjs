@@ -33,9 +33,6 @@ export class Marker extends BoundedObject {
          y: undefined,
          size: undefined,
          shape: undefined,
-         style: {structured: true},
-         class: {structured: true},
-         className: {structured: true},
          disabled: undefined,
          colorMap: undefined,
          colorIndex: undefined,
@@ -237,6 +234,7 @@ Marker.prototype.pure = false;
 Marker.prototype.legend = 'legend';
 Marker.prototype.legendAction = 'auto';
 Marker.prototype.shape = 'circle';
+Marker.prototype.styled = true;
 
 BoundedObject.alias('marker', Marker);
 

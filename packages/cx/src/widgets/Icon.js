@@ -6,10 +6,7 @@ import "./icons/index";
 export class Icon extends Widget {
    declareData() {
       super.declareData(...arguments, {
-         name: undefined,
-         className: {structured: true},
-         class: {structured: true},
-         style: {structured: true},
+         name: undefined
       })
    }
 
@@ -48,5 +45,6 @@ export class Icon extends Widget {
 }
 
 Icon.prototype.baseClass = "icon";
+Icon.prototype.styled = true;
 
 Widget.alias('icon', Icon);

@@ -22,11 +22,8 @@ export class Field extends PureContainer {
          viewMode: undefined,
          id: undefined,
          error: undefined,
-         class: {structured: true},
-         className: {structured: true},
          inputStyle: {structured: true},
          inputAttrs: {structured: true},
-         style: {structured: true},
          emptyText: undefined,
          visited: undefined,
          autoFocus: undefined,
@@ -345,6 +342,7 @@ Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
 Field.prototype.labelPlacement = false;
 Field.prototype.helpPlacement = false;
+Field.prototype.styled = true;
 //Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);

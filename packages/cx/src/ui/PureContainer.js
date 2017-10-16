@@ -25,10 +25,6 @@ export class PureContainer extends Widget {
       this.layout = Layout.create(this.layout || 'default');
    }
 
-   declareData() {
-      super.declareData(...arguments);
-   }
-
    explore(context, instance) {
       this.layout.explore(context, instance, this.items);
       super.explore(context, instance);
