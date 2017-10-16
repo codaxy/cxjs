@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var execSync = require('child_process').execSync;
-var exec = require('child_process').exec;
+const spawn = require('cross-spawn');
 
 var useYarn = shouldUseYarn();
 var projectName = process.argv[2];
@@ -9,7 +9,9 @@ var projectName = process.argv[2];
 var args = ['create'];
 if (projectName) args.push(projectName);
 if (useYarn) args.push('--yarn');
-exec('cx ' + args.join(' '), {stdio: 'inherit'});
+// first try, should switch to spawn
+execSync(useYarn ? 'yarn global add cx-cli' : 'npm install cx-cli --global', {stdio: 'inherit'});
+execSync('cx ' + args.join(' '), {stdio: 'inherit'});
 
 
 function shouldUseYarn() {
