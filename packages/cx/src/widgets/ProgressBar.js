@@ -17,7 +17,7 @@ export class ProgressBar extends Widget {
       let { text, value, disabled } = data;
       let {CSS, baseClass} = widget;
 
-      if (!isNumber(value)) console.warn("ProgressBar value is not a number.");
+      if (!isNumber(value)) value = 0;
 
       return (
          <div
