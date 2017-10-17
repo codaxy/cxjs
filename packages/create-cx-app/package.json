@@ -28,6 +28,6 @@
   "license": "MIT",
   "dependencies": {
     "cross-spawn": "^5.0.0",
-    "cx-cli": "0.0.1"
+    "cx-cli": "0.0.2"
   }
 }

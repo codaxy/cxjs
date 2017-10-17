@@ -29,7 +29,7 @@ var appPath = process.cwd(),
    tplPath = path.join(__dirname, '../tpl/'),
    tplPackagePath = path.join(tplPath, 'package.json');
 
-if (program.create || true) {
+if (program.create) {
    var projectName = program.args[0];
    var useYarn = !!program.yarn;
 
