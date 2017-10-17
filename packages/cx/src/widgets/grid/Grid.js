@@ -69,7 +69,10 @@ export class Grid extends Widget {
 
       let columns = this.columns;
 
-      this.columns = Widget.create(GridColumnHeader, this.columns || []);
+      this.columns = Widget.create(GridColumnHeader, this.columns || [], {
+         children: null,
+         items: null
+      });
       this.columns.forEach(c => c.init());
 
       let aggregates = {};
