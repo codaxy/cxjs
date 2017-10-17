@@ -76,8 +76,6 @@ $cx-default-input-tool-size: 20px !default;
 $cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
 
 // Left Icon
-@debug ($cx-default-box-padding, $cx-default-box-line-height, $cx-default-input-left-tool-size);
-
 $cx-input-left-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
