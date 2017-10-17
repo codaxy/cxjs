@@ -1,6 +1,6 @@
 {
   "name": "create-cx-app",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Utility app to support `yarn create` command",
   "main": "./index.js",
   "scripts": {
@@ -25,9 +25,5 @@
   },
   "preferGlobal": true,
   "author": "Codaxy",
-  "license": "MIT",
-  "dependencies": {
-    "cross-spawn": "^5.0.0",
-    "cx-cli": "0.0.2"
-  }
+  "license": "MIT"
 }
