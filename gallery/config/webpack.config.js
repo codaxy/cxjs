@@ -51,10 +51,23 @@ module.exports = (production) => ({
          test: /\.scss$/,
          use: [
             {
-               loader: "style-loader/useable"
+               loader: "style-loader/useable",
+               options: {
+                  sourceMap: !production
+               }
             },
-            "css-loader",
-            "sass-loader"
+            {
+               loader: "css-loader",
+               options: {
+                  sourceMap: !production
+               }
+            },
+            {
+               loader: "sass-loader",
+               options: {
+                  sourceMap: !production
+               }
+            }
          ]
       }, {
          test: /\.css$/,

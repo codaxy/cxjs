@@ -163,7 +163,7 @@ $cx-default-input-font-size: $cx-default-box-font-size - 1px !default;
 $cx-default-input-width: 200px;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
 $cx-default-input-box-shadow: null !default; //none; //0 0 1px darken($cx-default-input-border-color, 20) !default;
-$cx-default-input-background-color: #f8f9fb !default;
+$cx-default-input-background-color: #fffefa !default; //#f8f9fb !default;
 $cx-theme-input-padding: $cx-default-box-padding  1.5 * $cx-default-box-padding !default;
 
 // label
@@ -742,17 +742,17 @@ $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-m
       background-color: darken($cx-default-grid-header-background-color, 1)
    ),
    hover: (
-      color: rgba($cx-default-grid-header-color, 0.45),
-      background-color: $cx-default-grid-header-background-color,    
-      border-color: $cx-default-grid-header-border-color
+      //color: rgba($cx-default-grid-header-color, 0.45),
+      background-color: darken($cx-default-grid-header-background-color, 3)
+      //border-color: $cx-default-grid-header-border-color
    ),
    sorted: (
       color: $cx-theme-primary-text-color,
-      background-color: darken($cx-default-grid-header-background-color, 2)
+      background-color: darken($cx-default-grid-header-background-color, 5)
    ),
    sorted-hover: (
-      color: $cx-theme-primary-color,
-      background-color: darken($cx-default-grid-header-background-color, 2)
+      //color: $cx-theme-primary-color,
+      background-color: darken($cx-default-grid-header-background-color, 5)
    )     
 ));
 
