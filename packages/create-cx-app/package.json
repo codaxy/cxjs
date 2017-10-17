@@ -1,6 +1,6 @@
 {
   "name": "create-cx-app",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Utility app to support `yarn create` command",
   "main": "./index.js",
   "scripts": {
