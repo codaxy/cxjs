@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var execSync = require('child_process').execSync;
-const spawn = require('cross-spawn');
+//const spawn = require('cross-spawn');
 
 var useYarn = shouldUseYarn();
 var projectName = process.argv[2];
