@@ -527,9 +527,10 @@ export class OverlayComponent extends VDOM.Component {
       else if (parentEl)
          parentEl.style.display = null;
 
-      if (widget.autoFocus)
-         FocusManager.focusFirst(this.el);
-      else if (isSelfOrDescendant(this.el, document.activeElement))
+      if (widget.autoFocus) {
+         if (!FocusManager.focusFirstChild(this.el) && widget.focusable)
+            FocusManager.focus(this.el);
+      } else if (isSelfOrDescendant(this.el, document.activeElement))
          oneFocusOut(this, this.el, ::this.onFocusOut);
 
       instance.onBeforeDismiss = ::this.onBeforeDismiss;

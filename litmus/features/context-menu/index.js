@@ -1,27 +1,4 @@
-import {FlexCol, FlexRow, HtmlElement, Menu, Submenu, Dropdown} from "cx/widgets";
-
-class ContextMenu extends Dropdown {}
-ContextMenu.prototype.trackMouse = true;
-ContextMenu.prototype.dismissOnFocusOut = true;
-ContextMenu.prototype.firstChildDefinesWidth = true;
-ContextMenu.prototype.matchWidth = false;
-ContextMenu.prototype.placementOrder = 'down-right right up-right down-left left up-left';
-ContextMenu.prototype.offset = 0;
-ContextMenu.prototype.autoFocus = true;
-
-export const openContextMenu = (e, content, store, options) => {
-   e.preventDefault();
-   e.stopPropagation();
-   let menu = ContextMenu.create({
-      relatedElement: e.currentTarget,
-      mousePosition: {
-         x: e.clientX,
-         y: e.clientY
-      },
-      items: content
-   });
-   menu.open(store, options);
-};
+import {openContextMenu, Menu} from "cx/widgets";
 
 export default (
    <cx>
@@ -41,6 +18,17 @@ export default (
          style="padding: 5px; border: 1px solid lightgray"
       >
          Right Click Here
+      </div>
+
+      <div
+         onContextMenu={(e, {store}) => openContextMenu(e, (
+            <cx>
+               <div>This menu doesn't contain any focusable content.</div>
+            </cx>
+         ), store)}
+         style="padding: 5px; border: 1px solid lightgray"
+      >
+         Non-Focusable
       </div>
    </cx>
 );

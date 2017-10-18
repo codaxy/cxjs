@@ -1,4 +1,4 @@
-import { isSelfOrDescendant, findFirst, isFocusable, closestParent } from '../util/DOM';
+import { isSelfOrDescendant, findFirst, findFirstChild, isFocusable, closestParent } from '../util/DOM';
 import { batchUpdates } from './batchUpdates';
 import { SubscriberList } from '../util/SubscriberList';
 import {isTouchEvent} from '../util/isTouchEvent';
@@ -68,6 +68,13 @@ export class FocusManager {
 
    static focusFirst(el) {
       let focusable = findFirst(el, isFocusable);
+      if (focusable)
+         this.focus(focusable);
+      return focusable;
+   }
+
+   static focusFirstChild(el) {
+      let focusable = findFirstChild(el, isFocusable);
       if (focusable)
          this.focus(focusable);
       return focusable;
