@@ -144,10 +144,10 @@ export class Field extends PureContainer {
 
    disableOrValidate(context, instance) {
       let {data} = instance;
-      data.disabled = data._disabled || instance.parentDisabled;
-      data.readOnly = data._readOnly || instance.parentReadOnly;
-      data.viewMode = data._viewMode || instance.parentViewMode;
-      data.tabOnEnterKey = data._tabOnEnterKey || instance.parentTabOnEnterKey;
+      data.disabled = data._disabled || context.parentDisabled;
+      data.readOnly = data._readOnly || context.parentReadOnly;
+      data.viewMode = data._viewMode || context.parentViewMode;
+      data.tabOnEnterKey = data._tabOnEnterKey || context.parentTabOnEnterKey;
 
       if (!data.error && !data.disabled && !data.viewMode)
          this.validate(context, instance);
@@ -163,8 +163,8 @@ export class Field extends PureContainer {
    explore(context, instance) {
       let {data, state} = instance;
 
-      if (context.parentDisabled != instance.parentDisabled || context.parentReadOnly != instance.parentReadOnly
-         || context.parentViewMode != instance.parentViewMode || context.parentTabOnEnterKey != instance.parentTabOnEnterKey) {
+      if (context.parentDisabled != instance.cached.parentDisabled || context.parentReadOnly != instance.cached.parentReadOnly
+         || context.parentViewMode != instance.cached.parentViewMode || context.parentTabOnEnterKey != instance.cached.parentTabOnEnterKey) {
          instance.parentDisabled = context.parentDisabled;
          instance.parentReadOnly = context.parentReadOnly;
          instance.parentViewMode = context.parentViewMode;
@@ -193,6 +193,14 @@ export class Field extends PureContainer {
       super.explore(context, instance);
 
       delete context.lastFieldId;
+   }
+
+   cleanup(context, instance) {
+      super.cleanup(context, instance);
+      instance.cached.parentViewMode = instance.parentViewMode;
+      instance.cached.parentDisabled = instance.parentDisabled;
+      instance.cached.parentReadOnly = instance.parentReadOnly;
+      instance.cached.parentTabOnEnterKey = instance.parentTabOnEnterKey;
    }
 
    isEmpty(data) {
