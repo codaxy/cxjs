@@ -8,6 +8,7 @@ import {
 } from '../drag-drop/ops';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
+import {KeyCode} from "../../util/KeyCode";
 
 export class GridRow extends ValidationGroup {
    render(context, instance, key) {
@@ -26,6 +27,7 @@ export class GridRowComponent extends VDOM.Component {
       this.onMouseMove = ::this.onMouseMove;
       this.onMouseDown = ::this.onMouseDown;
       this.onMouseEnter = ::this.onMouseEnter;
+      this.onKeyDown = ::this.onKeyDown;
       this.onClick = ::this.onClick;
 
       let {grid, instance} = props;
@@ -33,7 +35,9 @@ export class GridRowComponent extends VDOM.Component {
       if (grid.widget.onRowDoubleClick)
          this.onDoubleClick = e => {
             grid.invoke("onRowDoubleClick", e, instance);
-         }
+         };
+
+
 
       if (grid.widget.onRowContextMenu)
          this.onRowContextMenu = e => {
@@ -61,6 +65,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseEnter={this.onMouseEnter}
             onTouchStart={this.onMouseDown}
             onMouseDown={this.onMouseDown}
+            onKeyDown={this.onKeyDown}
             onTouchMove={move}
             onMouseMove={move}
             onTouchEnd={up}
@@ -103,6 +108,14 @@ export class GridRowComponent extends VDOM.Component {
    onMouseMove(e) {
       if (ddDetect(e) && (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0))
          this.props.parent.beginDragDrop(e, this.props.record);
+   }
+
+   onKeyDown(e) {
+      switch (e.keyCode) {
+         case KeyCode.enter:
+            this.onClick(e);
+            break;
+      }
    }
 
    onClick(e) {
