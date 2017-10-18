@@ -1,4 +1,4 @@
-yarn.lock
-node_modules
 test
 dist
+node_modules
+yarn.lock

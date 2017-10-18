@@ -4,15 +4,17 @@ var execSync = require('child_process').execSync;
 
 var useYarn = shouldUseYarn();
 
-execSync(useYarn ? 'yarn global add cx-cli' : 'npm install cx-cli --global', {stdio: 'inherit'});
+var execute = require('cx-cli/execute');
 
 var projectName = process.argv[2];
-var args = ['create'];
-if (projectName) args.push(projectName);
-if (useYarn) args.push('--yarn');
 
-execSync('cx ' + args.join(' '), {stdio: 'inherit'});
+var argv = process.argv.slice(0, 2);
+argv.push('create', projectName);
 
+if (useYarn)
+   argv.push("--yarn");
+
+execute(argv);
 function shouldUseYarn() {
    try {
      execSync('yarnpkg --version', { stdio: 'ignore' });

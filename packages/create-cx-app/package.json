@@ -1,6 +1,6 @@
 {
   "name": "create-cx-app",
-  "version": "0.0.15",
+  "version": "17.10.6",
   "description": "Utility app to support `yarn create` command",
   "main": "./index.js",
   "scripts": {
@@ -17,6 +17,9 @@
     "scaffold",
     "template"
   ],
+  "dependencies": {
+    "cx-cli": "latest"
+  },
   "engines": {
     "node": ">=4.0.0"
   },

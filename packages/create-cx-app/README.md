@@ -1,7 +1,7 @@
 # Create Cx App
 
-Create Cx apps with no build configuration.
-This is a utility app to support `yarn create` command for the [Cx framework](https://cxjs.io/v/master/docs/intro/about).
+Create CxJS apps with no build configuration.
+This is a utility app to support `yarn create` command for the [CxJS framework](https://cxjs.io/).
 
 `create-cx-app` uses [Cx CLI](https://www.npmjs.com/package/cx-cli) in the background to create a new project directory and set up a Cx scaffold project with the basic app structure.
 
