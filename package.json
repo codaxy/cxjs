@@ -91,7 +91,8 @@
     "webpack-dev-server": "^2.8.2",
     "webpack-merge": "^4.1.0",
     "cx-cli": "file:./packages/cx-cli",
-    "create-cx-app": "file:./packages/create-cx-app"
+    "create-cx-app": "file:./packages/create-cx-app",
+    "babel-plugin-syntax-jsx": "^6.8.0"
   },
   "dependencies": {
     "babel-polyfill": "^7.0.0-beta.0",
