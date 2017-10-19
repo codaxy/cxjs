@@ -1,0 +1,32 @@
+{
+  "name": "create-cx-app",
+  "version": "17.10.7",
+  "description": "Utility app to support `yarn create` command",
+  "main": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "execute": "cx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codaxy/cxjs/tree/master/packages/create-cx-app"
+  },
+  "keywords": [
+    "cxjs",
+    "utility",
+    "scaffold",
+    "template"
+  ],
+  "dependencies": {
+    "cx-cli": "latest"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "bin": {
+    "create-cx-app": "index.js"
+  },
+  "preferGlobal": true,
+  "author": "Codaxy",
+  "license": "MIT"
+}

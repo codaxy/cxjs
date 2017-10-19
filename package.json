@@ -29,7 +29,9 @@
     "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
     "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
     "build:gallery": "webpack --config gallery/config/webpack.prod.js",
-    "build:gallery:root": "webpack --config gallery/config/webpack.prod.js"
+    "build:gallery:root": "webpack --config gallery/config/webpack.prod.js",
+    "test-cx-create-app": "cx create test-app-1",
+    "test-create-cx-app": "create-cx-app test-app-2"
   },
   "repository": {
     "type": "git",
@@ -89,7 +91,10 @@
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-combine-loaders": "^2.0.3",
     "webpack-dev-server": "^2.8.2",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "cx-cli": "file:./packages/cx-cli",
+    "create-cx-app": "file:./packages/create-cx-app",
+    "babel-plugin-syntax-jsx": "^6.8.0"
   },
   "dependencies": {
     "babel-polyfill": "^7.0.0-beta.0",

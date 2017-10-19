@@ -1,26 +1,20 @@
 {
   "name": "cx-cli",
-  "version": "17.6.2",
+  "version": "17.10.8",
   "description": "Command Line Interface tools for Cx applications",
   "main": "./bin/index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
   "dependencies": {
+    "chalk": "^2.1.0",
     "commander": "^2.9.0",
     "copy-dir": "^0.3.0",
     "cross-spawn": "^5.0.0"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=4.0.0"
   },
   "bin": {
-    "cx": "bin/index.js"
-  },
-  "files": [
-    "README.md",
-    "LICENSE.md",
-    "LICENSE-THIRD-PARTY.md",
-    "bin",
-    "tpl"
-  ]
+    "cx": "index.js"
+  }
 }
