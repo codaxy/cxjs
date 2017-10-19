@@ -352,11 +352,11 @@ class TimeScale {
    }
 
    stacknowledge(name, ordinal, value) {
-      return this.getStack(name).acknowledge(ordinal, this.decodeValue(value));
+      return this.getStack(name).acknowledge(ordinal, value);
    }
 
    stack(name, ordinal, value) {
-      let v = this.getStack(name).stack(ordinal, this.decodeValue(value));
+      let v = this.getStack(name).stack(ordinal, value);
       return v != null ? this.map(v) : null;
    }
 

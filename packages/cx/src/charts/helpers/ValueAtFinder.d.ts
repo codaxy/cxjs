@@ -7,7 +7,10 @@ interface ValueAtFinderProps extends PointReducerProps {
    at?: Cx.NumberProp,
 
    /* A binding used to receive the measured value */
-   value?: Cx.Bind
+   value?: Cx.Bind,
+
+   /* A function used to convert x values into numeric format. Commonly used with dates. */
+   convert?: (value: any) => number
 }
 
 /** Calculate value at a given point on the graph */

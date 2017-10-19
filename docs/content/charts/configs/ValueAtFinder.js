@@ -23,5 +23,13 @@ export default {
         description: <cx><Md>
             A binding that receives a measured value.
         </Md></cx>
+    },
+
+    convert: {
+        key: true,
+        type: 'function',
+        description: <cx><Md>
+            A function used to convert x values (such as dates) into numeric format.
+        </Md></cx>
     }
 };
