@@ -323,8 +323,6 @@ class TimeScale {
       let maxPad = this.maxValuePad != null ? Math.max(max, this.maxValuePad) : max;
       let factor = minPad < maxPad ? (this.b - this.a) / (maxPad - minPad) : 0;
 
-      console.log(new Date(min), new Date(max));
-
       return {
          factor: this.inverted ? -factor : factor,
          min,
@@ -354,11 +352,11 @@ class TimeScale {
    }
 
    stacknowledge(name, ordinal, value) {
-      return this.getStack(name).acknowledge(ordinal, this.decodeValue(value));
+      return this.getStack(name).acknowledge(ordinal, value);
    }
 
    stack(name, ordinal, value) {
-      let v = this.getStack(name).stack(ordinal, this.decodeValue(value));
+      let v = this.getStack(name).stack(ordinal, value);
       return v != null ? this.map(v) : null;
    }
 
@@ -440,9 +438,7 @@ class TimeScale {
          }
          else {
             let minOffset = this.getTimezoneOffset(new Date(this.scale.min));
-            console.log("OFFSET", minOffset);
             let date = Math.ceil((this.scale.min - minOffset) / size) * size + minOffset;
-            console.log('TICKS-START', new Date(this.scale.min), new Date(date), size);
             while (date <= this.scale.max) {
                result.push(date);
                date += size;

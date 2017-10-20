@@ -13,7 +13,7 @@ export class Stack {
 
    acknowledge(ordinal, value) {
       if (value != null) {
-         var v = this.totals[ordinal] || 0;
+         let v = this.totals[ordinal] || 0;
          this.totals[ordinal] = v + value;
       } else {
          this.invalid[ordinal] = true;
@@ -26,8 +26,8 @@ export class Stack {
          return [0, 1];
       }
 
-      var max = 0, min = 0;
-      for (var key in this.totals) {
+      let max = 0, min = 0;
+      for (let key in this.totals) {
          if (this.totals[key] > max)
             max = this.totals[key];
          if (this.totals[key] < min)
@@ -41,14 +41,14 @@ export class Stack {
       if (value == null || this.invalid[ordinal])
          return null;
 
-      var base = this.values[ordinal] || 0;
+      let base = this.values[ordinal] || 0;
 
-      var result = this.values[ordinal] = base + value;
+      let result = this.values[ordinal] = base + value;
 
       if (!this.normalized)
          return result;
 
-      var total = this.totals[ordinal];
+      let total = this.totals[ordinal];
 
       if (total > 0)
          return result / total;

@@ -9,17 +9,17 @@ export class ValueAtFinder extends PointReducer {
    }
 
    onInitAccumulator(acc, {data}) {
-      acc.at = data.at;
+      acc.at = this.convert(data.at);
    }
 
    onMap(acc, x, y, name) {
-      let d = x - acc.at;
-      if (d<=0 && (!acc.left || acc.left.d < d)) {
+      let d = this.convert(x) - acc.at;
+      if (d <= 0 && (!acc.left || acc.left.d < d)) {
          acc.left = {
             x, y, d
          }
       }
-      if (d>=0 && (!acc.right || acc.right.d > d)) {
+      if (d >= 0 && (!acc.right || acc.right.d > d)) {
          acc.right = {
             x, y, d
          }
@@ -38,3 +38,5 @@ export class ValueAtFinder extends PointReducer {
       instance.set('value', y);
    }
 }
+
+ValueAtFinder.prototype.convert = x => x;

@@ -60,14 +60,14 @@ export class LineGraph extends Widget {
                   instance.yAxis.stacknowledge(data.stack, x, p[this.yField]);
                } else {
                   instance.yAxis.acknowledge(p[this.yField]);
-                  if (context.pointReducer)
-                     context.pointReducer(x, p[this.yField], data.name, p, data, index);
                   if (data.area) {
                      instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
                      if (context.pointReducer && this.y0Field)
                         context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
                }
+               if (context.pointReducer)
+                  context.pointReducer(x, p[this.yField], data.name, p, data, index);
             });
          }
       }

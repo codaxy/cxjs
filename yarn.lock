@@ -1580,6 +1580,12 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
+copy-dir@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/copy-dir/-/copy-dir-0.3.0.tgz#deb2dc2fa9c9290ed47c84155a999a6d45f5a358"
+  dependencies:
+    mkdir-p "~0.0.4"
+
 copy-webpack-plugin@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-4.1.1.tgz#53ae69e04955ebfa9fda411f54cbb968531d71fd"
@@ -1604,6 +1610,11 @@ core-js@^2.4.0, core-js@^2.5.0:
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+
+"create-cx-app@file:./packages/create-cx-app":
+  version "0.0.15"
+  dependencies:
+    cx-cli latest
 
 create-ecdh@^4.0.0:
   version "4.0.0"
@@ -1632,7 +1643,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-cross-spawn@5.1.0, cross-spawn@^5.0.1:
+cross-spawn@5.1.0, cross-spawn@^5.0.0, cross-spawn@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
   dependencies:
@@ -1771,6 +1782,23 @@ currently-unhandled@^0.4.1:
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
   dependencies:
     array-find-index "^1.0.1"
+
+"cx-cli@file:./packages/cx-cli":
+  version "17.10.5"
+  dependencies:
+    chalk "^2.1.0"
+    commander "^2.9.0"
+    copy-dir "^0.3.0"
+    cross-spawn "^5.0.0"
+
+cx-cli@latest:
+  version "17.10.4"
+  resolved "https://registry.yarnpkg.com/cx-cli/-/cx-cli-17.10.4.tgz#22a33ae84cf48690c4514dd1ce83f9e6efe17dd0"
+  dependencies:
+    chalk "^2.1.0"
+    commander "^2.9.0"
+    copy-dir "^0.3.0"
+    cross-spawn "^5.0.0"
 
 "cx-react@link:./packages/cx-react":
   version "0.0.0"
@@ -3691,6 +3719,10 @@ mixin-object@^2.0.1:
   dependencies:
     for-in "^0.1.3"
     is-extendable "^0.1.1"
+
+mkdir-p@~0.0.4:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mkdir-p/-/mkdir-p-0.0.7.tgz#24c5dbe26da3a99ef158a1eef9a5c2dd9de5683c"
 
 mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"

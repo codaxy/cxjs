@@ -59,7 +59,7 @@ export class Controller extends Component {
 
    addTrigger(name, args, callback, autoRun) {
       if (!isArray(args))
-         throw new Error('Second argument to the addComputable method should be an array.');
+         throw new Error('Second argument to the addTrigger method should be an array.');
       let selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
       if (!this.computables)
          this.computables = {};

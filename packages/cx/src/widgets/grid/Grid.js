@@ -1209,17 +1209,11 @@ class GridComponent extends VDOM.Component {
             }
             let remaining = 0,
                count = Math.min(data.totalRecordCount, end - start);
-            if (count == 0) {
-               delete this.rowHeight;
-               this.dom.scroller.scrollTop = 0;
-            } else {
+            if (count > 0) {
                rowHeight = Math.round((this.dom.table.offsetHeight - headerHeight) / count);
-               if (this.rowHeight && this.rowHeight != rowHeight) {
-                  console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
-                  // if (rowHeight < this.rowHeight)
-                  //    rowHeight = this.rowHeight;
-                  // rowHeight = 35;
-               }
+               // if (this.rowHeight && this.rowHeight != rowHeight) {
+               //    console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
+               // }
                remaining = Math.max(0, data.totalRecordCount - end);
             }
             this.dom.table.style.marginTop = `${ (-headerHeight + start * rowHeight).toFixed(0) }px`;
@@ -1230,6 +1224,18 @@ class GridComponent extends VDOM.Component {
 
          this.headerHeight = headerHeight;
          this.rowHeight = rowHeight;
+
+         if (data.totalRecordCount == 0 || data.filterParams !== this.lastScrollFilterParams) {
+            this.dom.scroller.scrollTop = 0;
+            this.lastScrollFilterParams = data.filterParams;
+            if (widget.infinite) {
+               this.loadingStartPage = 0;
+               this.loadingEndPage = 0;
+               instance.buffer.records = data.records = [];
+               instance.buffer.totalRecordCount = 0;
+               instance.buffer.page = 1;
+            }
+         }
 
          this.onScroll();
 
@@ -1305,7 +1311,15 @@ class GridComponent extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            let record = records[this.state.cursor];
+            let record;
+
+            if (records)
+               record = records[this.state.cursor];
+            else {
+               let r = data.records[this.state.cursor - data.offset];
+               if (r)
+                  record = widget.mapRecord(null, instance, r, widget.infinite ? this.state.cursor - data.offset : this.state.cursor);
+            }
             if (record)
                widget.selection.select(instance.store, record.data, record.index, {
                   toggle: e.ctrlKey
