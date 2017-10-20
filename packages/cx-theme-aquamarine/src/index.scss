@@ -307,18 +307,6 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Pagination')) {
-   // pagination
-   .#{$element}pagination-page {
-      &:first-child, &:last-child {
-         &:hover {
-            background-color: transparent;
-            color: $cx-theme-primary-color-light;
-         }
-      }
-   }
-}
-
 @if (cx-included('cx/widgets/List')) {
    //LIST
    .#{$block}list.#{$state}selectable {

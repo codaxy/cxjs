@@ -165,10 +165,6 @@ let list: Item[] = [{
 }];
 
 export let sorted = list.map(section => {
-   section = {
-      ...section
-   };
-
    if (section.items) {
       section.items =  [...section.items].sort((a,b) => {
           if(a.name >= b.name)
