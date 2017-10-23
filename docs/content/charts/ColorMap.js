@@ -108,9 +108,9 @@ export const ColorMapPage = <cx>
 
         > To isolate overlapping color maps, use the `ColorMapScope` widget.
 
-        {/*## Configuration*/}
+        ## Configuration
 
-        {/*<ConfigTable props={configs}/>*/}
+        <ConfigTable props={configs}/>
 
     </Md>
 </cx>
