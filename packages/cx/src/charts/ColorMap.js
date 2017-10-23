@@ -2,9 +2,10 @@ import {Widget} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
 
 export class ColorMap extends Widget {
-   init() {
-      super.init();
-      this.dirty = true;
+   declareData() {
+      super.declareData(...arguments, {
+         names: undefined
+      })
    }
 
    explore(context, instance) {
@@ -18,6 +19,8 @@ export class ColorMap extends Widget {
             map = cache[colorMap];
             if (!map)
                map = context.colorMaps[colorMap] = cache[colorMap] = new ColorIndex();
+            if (Array.isArray(instance.data.names))
+               instance.data.names.forEach(name => map.acknowledge(name));
          }
          return map;
       }
