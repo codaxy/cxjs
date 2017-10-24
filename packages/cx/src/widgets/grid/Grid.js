@@ -1,7 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {exploreChildren} from '../../ui/layout/exploreChildren';
 import {PureContainer} from '../../ui/PureContainer';
-import {HtmlElement} from '../HtmlElement';
 import {Binding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
 import {isSelector} from '../../data/isSelector';
@@ -31,6 +30,7 @@ import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
 import {isNumber} from '../../util/isNumber';
 import {debounce} from '../../util/debounce';
+import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 
 export class Grid extends Widget {
@@ -497,7 +497,7 @@ export class Grid extends Widget {
          instance.set('sortField', sortField);
          instance.set('sortDirection', dir);
 
-         if (!this.remoteSort)
+         if (!this.remoteSort || this.infinite)
             instance.setState({sorters});
       }
    }
@@ -1225,9 +1225,12 @@ class GridComponent extends VDOM.Component {
          this.headerHeight = headerHeight;
          this.rowHeight = rowHeight;
 
-         if (data.totalRecordCount == 0 || data.filterParams !== this.lastScrollFilterParams) {
+         let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
+
+         if (data.totalRecordCount == 0 || sortersChanged || data.filterParams !== this.lastScrollFilterParams) {
             this.dom.scroller.scrollTop = 0;
             this.lastScrollFilterParams = data.filterParams;
+            this.lastSorters = data.sorters;
             if (widget.infinite) {
                this.loadingStartPage = 0;
                this.loadingEndPage = 0;
