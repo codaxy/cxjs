@@ -181,7 +181,7 @@ export const Formatting = <cx>
         <ImportPath path="import { enableCultureSensitiveFormatting() } from 'cx/ui';"/>
 
         Date, currency and number formats are dependent on an external library and must be enabled
-        before use. This is slight inconvenient but ensures small bundle sizes for applications that do
+        before use. This is slightly inconvenient but ensures small bundle sizes for applications that do
         not use this feature.
 
         <CodeSplit>
@@ -207,7 +207,7 @@ export const Formatting = <cx>
             `Format.registerFactory` can be used to define formats which take parameters.
 
             <CodeSnippet putInto="code">{`
-                Format.registerFormat('suffix', (format, suffix) => value => value.toString() + suffix);
+                Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
                 Format.value(10, 'suffix; kg'); //'10 kg'
             `}</CodeSnippet>
         </CodeSplit>
