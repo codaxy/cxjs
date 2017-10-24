@@ -1,12 +1,20 @@
 import {openContextMenu, Menu} from "cx/widgets";
+import {Controller} from "cx/ui";
+
+class ParentController extends Controller {
+   action() {
+      alert('Action');
+   }
+}
 
 export default (
    <cx>
       <div
-         onContextMenu={(e, {store}) => openContextMenu(e, (
+         controller={ParentController}
+         onContextMenu={(e, instance) => openContextMenu(e, (
             <cx>
                <Menu>
-                  <a href="#">Item 1</a>
+                  <a href="#" onClick="action">Action</a>
                   <a href="#">Item 2</a>
                   <a href="#">Item 3</a>
                   <a href="#">Item 4</a>
@@ -14,7 +22,7 @@ export default (
                   <a href="#">Item 6</a>
                </Menu>
             </cx>
-         ), store)}
+         ), instance)}
          style="padding: 5px; border: 1px solid lightgray"
       >
          Right Click Here

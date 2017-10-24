@@ -9,19 +9,30 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options 
 
    widget = Widget.create(widget);
 
-   let store, instance;
+   let store, instance, parentInstance;
 
    if (!storeOrInstance)
       storeOrInstance = new Store();
 
    if (storeOrInstance.notify)
       store = storeOrInstance;
-   else if (storeOrInstance.getChild)
-      instance = storeOrInstance;
+   else if (storeOrInstance.getChild) {
+      if (storeOrInstance.widget === widget)
+         instance = storeOrInstance;
+      else
+         parentInstance = storeOrInstance;
+   }
    else
       throw new Error('Second argument to startAppLoop should be either of type Store or Instance');
 
-   let root = <Cx store={store} widget={widget} instance={instance} options={options} subscribe={true}/>;
+   let root = <Cx
+      store={store}
+      widget={widget}
+      instance={instance}
+      parentInstance={parentInstance}
+      options={options}
+      subscribe
+   />;
 
    VDOM.DOM.render(root, parentDOMElement);
    let stopped = false;
