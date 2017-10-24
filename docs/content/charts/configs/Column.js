@@ -11,5 +11,12 @@ export default {
       description: <cx><Md>
          Column base value. Default value is `0`.
       </Md></cx>
+   },
+   hiddenBase: {
+      type: 'boolean',
+      key: true,
+      description: <cx><Md>
+         If set to `true`, the base of the graph is not shown. Instead, the range of the data along the axis is determined by the Axis widget. Default value is `false`.
+      </Md></cx>
    }
 };

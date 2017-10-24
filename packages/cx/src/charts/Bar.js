@@ -85,6 +85,6 @@ Bar.prototype.x0 = 0;
 Bar.prototype.size = 1;
 Bar.prototype.autoSize = false;
 Bar.prototype.legendShape = 'bar';
-Bar.prototype.hiddenBase = true;
+Bar.prototype.hiddenBase = false;
 
 Widget.alias('bar', Bar);
