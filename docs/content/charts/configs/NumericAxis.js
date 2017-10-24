@@ -47,5 +47,26 @@ export default {
         description: <cx><Md>
             Number used to divide values before rendering axis labels. Default value is `1`.
         </Md></cx>
+    },
+
+    deadZone: {
+        type: 'number',
+        description: <cx><Md>
+            Size of a zone reserved for labels for both lower and upper end of the axis.
+        </Md></cx>
+    },
+
+    upperDeadZone: {
+        type: 'number',
+        description: <cx><Md>
+            Size of a zone reserved for labels near the upper (higher) end of the axis.
+        </Md></cx>
+    },
+
+    lowerDeadZone: {
+        type: 'number',
+        description: <cx><Md>
+            Size of a zone reserved for labels near the lower end of the axis.
+        </Md></cx>
     }
 };

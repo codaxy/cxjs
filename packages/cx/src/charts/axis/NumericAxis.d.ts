@@ -2,7 +2,7 @@ import * as Cx from '../../core';
 import {AxisProps} from './Axis';
 
 interface NumericAxisProps extends AxisProps {
-   
+
    /** Minimum value. */
    min?: Cx.NumberProp,
 
@@ -19,14 +19,21 @@ interface NumericAxisProps extends AxisProps {
    baseClass?: string,
 
    tickDivisions?: Array<number[]>,
-   
-   // TODO: consider implementing enum
+
    /** A number ranged between `0-2`. `0` means that the range is aligned with the lowest ticks. Default value is `1`, which means that the range is aligned with medium ticks. Use value `2` to align with major ticks. */
    snapToTicks?: 0 | 1 | 2,
 
    /** Value format. Default is `n`. */
    format?: Cx.StringProp,
 
+   /** Size of a zone reserved for labels for both lower and upper end of the axis. */
+   deadZone?: Cx.NumberProp,
+
+   /** Size of a zone reserved for labels near the upper (higher) end of the axis.  */
+   upperDeadZone?: Cx.NumberProp,
+
+   /** Size of a zone reserved for labels near the lower end of the axis.   */
+   lowerDeadZone?: Cx.NumberProp,
 }
 
 export class NumericAxis extends Cx.Widget<NumericAxisProps> {

@@ -5,6 +5,14 @@ import {Format} from '../../util/Format';
 
 export class NumericAxis extends Axis {
 
+   init() {
+      if (this.deadZone) {
+         this.lowerDeadZone = this.deadZone;
+         this.upperDeadZone = this.deadZone;
+      }
+      super.init();
+   }
+
    declareData() {
       super.declareData(...arguments, {
          min: undefined,
@@ -12,7 +20,9 @@ export class NumericAxis extends Axis {
          normalized: undefined,
          inverted: undefined,
          labelDivisor: undefined,
-         format: undefined
+         format: undefined,
+         lowerDeadZone: undefined,
+         upperDeadZone: undefined
       })
    }
 
@@ -34,10 +44,10 @@ export class NumericAxis extends Axis {
 
    explore(context, instance) {
       super.explore(context, instance);
-      let {min, max, normalized, inverted} = instance.data;
+      let {min, max, normalized, inverted, lowerDeadZone, upperDeadZone} = instance.data;
       if (!instance.calculator)
          instance.calculator = new NumericScale();
-      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted);
+      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone);
    }
 
    static XY() {
@@ -66,7 +76,7 @@ Axis.alias('numeric', NumericAxis);
 
 class NumericScale {
 
-   reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted) {
+   reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone) {
       this.padding = 0;
       this.min = min;
       this.max = max;
@@ -80,6 +90,8 @@ class NumericScale {
       delete this.minValue;
       delete this.maxValue;
       this.stacks = {};
+      this.lowerDeadZone = lowerDeadZone || 0;
+      this.upperDeadZone = upperDeadZone || 0;
    }
 
    map(v, offset = 0) {
@@ -160,17 +172,41 @@ class NumericScale {
 
    getScale(tickSizes) {
       let {min, max} = this;
+      let smin = min;
+      let smax = max;
+      let tickSize;
       if (tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
-         let size = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
-         min = Math.floor(min / size) * size;
-         max = Math.ceil(max / size) * size;
+         tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
+         smin = Math.floor(smin / tickSize) * tickSize;
+         smax = Math.ceil(smax / tickSize) * tickSize;
       }
 
-      let factor = min < max ? (this.b - this.a) / (max - min + 2 * this.padding) : 0;
+      let sign = this.b > this.a ? 1 : -1;
+
+      let factor = smin < smax ? (Math.abs(this.b - this.a) - this.lowerDeadZone - this.upperDeadZone) / (smax - smin + 2 * this.padding) : 0;
+
+      if (factor < 0)
+         factor = 0;
+
+      if (factor > 0 && (this.lowerDeadZone > 0 || this.upperDeadZone > 0)) {
+         while (factor * (min - smin) < this.lowerDeadZone)
+            smin -= this.lowerDeadZone / factor;
+
+         while (factor * (smax - max) < this.upperDeadZone)
+            smax += this.upperDeadZone / factor;
+
+         if (tickSize > 0) {
+            smin = Math.floor(smin / tickSize) * tickSize;
+            smax = Math.ceil(smax / tickSize) * tickSize;
+         }
+
+         factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + 2 * this.padding) : 0;
+      }
+
       return {
-         factor: this.inverted ? -factor : factor,
-         min: min,
-         max: max
+         factor: sign * (this.inverted ? -factor : factor),
+         min: smin,
+         max: smax
       }
    }
 
