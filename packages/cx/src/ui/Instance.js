@@ -5,7 +5,6 @@ import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
-import {VDOM} from './VDOM';
 import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
@@ -58,14 +57,16 @@ export class Instance {
       this.explored = false;
       this.prepared = false;
       this.rendered = false;
+
+      if (!this.visible && wasVisible)
+         this.destroy();
+
       return this.visible;
    }
 
    scheduleExplore(context) {
       context.exploreStack.push(this);
    }
-      else if (wasVisible)
-         this.destroy();
 
    scheduleExploreIfVisible(context) {
       if (this.checkVisible(context)) {
