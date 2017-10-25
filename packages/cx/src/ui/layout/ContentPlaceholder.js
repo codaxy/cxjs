@@ -22,6 +22,9 @@ export class ContentPlaceholder extends PureContainer {
             this.setContent(context, instance, content);
          }
       }
+
+      //instance.schedulePrepare(context);
+
       super.explore(context, instance);
 
       //content will be provided through context handler
@@ -29,20 +32,20 @@ export class ContentPlaceholder extends PureContainer {
          instance.pure = false;
    }
 
-   prepare(context, instance) {
-      if (instance.content != instance.cached.content)
-         instance.shouldUpdate = true;
-
-      if (!instance.content)
-         super.prepare(context, instance);
-      else {
-         if (instance.content.shouldUpdate)
-            instance.shouldUpdate = true;
-      }
-   }
+   // prepare(context, instance) {
+   //    if (instance.content != instance.cached.content)
+   //       instance.shouldUpdate = true;
+   //
+   //    if (!instance.content)
+   //       super.prepare(context, instance);
+   //    else {
+   //       if (instance.content.shouldUpdate)
+   //          instance.shouldUpdate = true;
+   //    }
+   // }
 
    setContent(context, instance, content) {
-      if (content != instance.cached.content)
+      if (instance.cache('content'))
          instance.shouldUpdate = true;
 
       instance.content = content;
@@ -50,12 +53,6 @@ export class ContentPlaceholder extends PureContainer {
          instance.pure = false;
       if (content.shouldUpdate)
          instance.shouldUpdate = true;
-   }
-
-   cleanup(context, instance) {
-      if (!instance.content)
-         super.cleanup(context, instance);
-      instance.cached.content = instance.content;
    }
 
    render(context, instance, key) {

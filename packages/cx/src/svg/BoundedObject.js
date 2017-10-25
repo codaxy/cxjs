@@ -24,6 +24,7 @@ export class BoundedObject extends PureContainer {
 
    explore(context, instance) {
       this.exploreHelpers(context, instance);
+      instance.schedulePrepare();
       super.explore(context, instance);
    }
    

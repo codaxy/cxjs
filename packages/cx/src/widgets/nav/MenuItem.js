@@ -53,9 +53,13 @@ export class MenuItem extends HtmlElement {
       if (this.padding)
          instance.padding = this.padding;
 
-      context.lastMenuItem = this;
+      context.push('lastMenuItem', this);
+      instance.scheduleExploreCleanup(context);
       super.explore(context, instance);
-      context.lastMenuItem = lastMenuItem;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('lastMenuItem');
    }
 
    render(context, instance, key) {

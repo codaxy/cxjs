@@ -256,13 +256,14 @@ export class Grid extends Widget {
             record = instance.records[i];
             if (record.type == 'data') {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
-               wasSelected = row.selected;
-               row.selected = instance.isSelected(record.data, record.index);
-               if (this.cached && row.cached && row.cached.record && row.cached.record.data == record.data && !row.childStateDirty) {
+               let selected = instance.isSelected(record.data, record.index);
+               let changed = row.cache('selected') || row.cache('data', record.data);
+               row.selected = selected;
+               if (this.cached && !changed && !row.childStateDirty) {
                   row.shouldUpdate = false;
-               } else {
+               } else if (row.scheduleExploreIfVisible(context)) {
                   context.dragHandles = [];
-                  row.explore(context);
+                  //row.explore(context);
                   row.shouldUpdate |= wasSelected != record.selected;
                   row.dragHandles = context.dragHandles;
                }
@@ -272,32 +273,6 @@ export class Grid extends Widget {
       }
 
       context.parentPositionChangeEvent = parentPositionChangeEvent;
-   }
-
-   prepare(context, instance) {
-      if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
-         for (let i = 0; i < instance.records.length; i++) {
-            let record = instance.records[i];
-            if (record.row && (record.row.shouldUpdate || !this.cached))
-               record.row.prepare(context);
-         }
-      }
-      instance.columns.forEach(c => c.prepare(context));
-      super.prepare(context, instance);
-   }
-
-   cleanup(context, instance) {
-      if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
-         for (let i = 0; i < instance.records.length; i++) {
-            let record = instance.records[i];
-            if (record.row && (record.row.shouldUpdate || !this.cached)) {
-               record.row.cleanup(context);
-               record.row.cached.record = record;
-            }
-         }
-      }
-      instance.columns.forEach(c => c.cleanup(context));
-      super.cleanup(context, instance);
    }
 
    groupBy(grouping, {autoConfigure} = {}) {

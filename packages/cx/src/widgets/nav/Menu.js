@@ -41,10 +41,13 @@ export class Menu extends HtmlElement {
    }
 
    explore(context, instance) {
-      var lastMenu = context.lastMenu;
-      context.lastMenu = this;
+      instance.scheduleExploreCleanup(context);
+      context.push('lastMenu', this);
       super.explore(context, instance);
-      context.lastMenu = lastMenu;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('lastMenu');
    }
 
    render(context, instance, key) {
