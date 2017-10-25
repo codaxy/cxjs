@@ -112,7 +112,8 @@ export class Widget extends Component {
    }
 
    prepareData(context, instance) {
-      this.prepareCSS(context, instance);
+      if (this.styled)
+         this.prepareCSS(context, instance);
    }
 
    initInstance(context, instance) {
@@ -131,16 +132,20 @@ export class Widget extends Component {
          instance.components = {};
       for (let cmp in this.components) {
          let ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
-         if (ins.explore(context))
+         if (ins.scheduleExploreIfVisible(context))
             instance.components[cmp] = ins;
       }
    }
+
+   exploreCleanup(context, instance) {}
 
    prepare(context, instance) {
       if (instance.components)
          for (var cmp in instance.components)
             instance.components[cmp].prepare(context);
    }
+
+   prepareCleanup(context, instance) {}
 
    render(context, instance, key) {
       throw new Error('render method should be overridden.');

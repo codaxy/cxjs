@@ -7,12 +7,12 @@ Debug.enable('should-update');
 class Ctrl extends Controller {
    onInit() {
       this.store.init('data', [{
-      //    id: 1,
-      //    text: '3'
-      // }, {
-      //    id: 2,
-      //    text: '2'
-      // }, {
+         id: 1,
+         text: '3'
+      }, {
+         id: 2,
+         text: '2'
+      }, {
          id: 3,
          text: '1'
       }]);

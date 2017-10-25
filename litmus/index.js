@@ -14,7 +14,7 @@ import './index.scss';
 // import Demo from './sections/ComplexGrid';
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
-import Demo from './performance/LongList';
+//import Demo from './performance/LongList';
 //
 //
 //import Demo from './bugs/236';
@@ -22,7 +22,7 @@ import Demo from './performance/LongList';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
 // import Demo from './bugs/NativeCheckboxesAndRadios';
-//import Demo from './bugs/Repeater';
+import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 
 //import Demo from './features/flexbox';

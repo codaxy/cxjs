@@ -115,21 +115,30 @@ class CxContext extends VDOM.Component {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
          visible = instance.checkVisible(context);
-         while (context.exploreStack.length > 0) {
-            let inst = context.exploreStack.pop();
-            inst.explore(context);
+         if (visible) {
+            instance.scheduleExplore(context);
+            while (context.exploreStack.length > 0) {
+               let inst = context.exploreStack.pop();
+               inst.explore(context);
+            }
          }
       }
       while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
       if (visible) {
+         for (let i = 0; i < context.prepareList.length; i++)
+            context.prepareList[i].prepare(context);
+
          this.timings.afterExplore = now();
-         instance.prepare(context);
+         //instance.prepare(context);
          this.timings.afterPrepare = now();
 
          let result = instance.render(context);
          this.content = getContent(result);
          this.timings.afterRender = now();
+
+         for (let i = 0; i < context.cleanupList.length; i++)
+            context.cleanupList[i].cleanup(context);
       }
       else {
          this.content = null;
@@ -154,8 +163,8 @@ class CxContext extends VDOM.Component {
       this.props.flags.rendering = false;
       this.timings.afterVDOMRender = now();
 
-      let {instance} = this.props;
-      instance.cleanup(this.renderingContext);
+      //let {instance} = this.props;
+      //instance.cleanup(this.renderingContext);
 
       this.timings.afterCleanup = now();
       this.renderCount++;

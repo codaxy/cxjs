@@ -3,5 +3,6 @@ export class RenderingContext {
       this.options = options || {};
       this.exploreStack = [];
       this.prepareList = [];
+      this.cleanupList = [];
    }
 }

@@ -55,19 +55,58 @@ export class Instance {
       let wasVisible = this.visible;
       this.rawData = this.dataSelector(this.store.getData());
       this.visible = this.widget.checkVisible(context, this, this.rawData);
+      this.explored = false;
+      this.prepared = false;
+      this.rendered = false;
+      return this.visible;
+   }
 
-      if (this.visible)
-         context.exploreStack.push(this);
+   scheduleExplore(context) {
+      context.exploreStack.push(this);
+   }
       else if (wasVisible)
          this.destroy();
 
-      return this.visible;
+   scheduleExploreIfVisible(context) {
+      if (this.checkVisible(context)) {
+         this.scheduleExplore(context);
+         return true;
+      }
+      return false;
+   }
+
+   scheduleExploreCleanup(context) {
+      context.exploreStack.push(this);
+   }
+
+   schedulePrepare(context) {
+      context.prepareList.push(this);
+   }
+
+   schedulePrepareCleanup(context) {
+      context.prepareList.push(this);
+   }
+
+   cache(key, value) {
+      if (!this.cacheList)
+         this.cacheList = {};
+      let oldValue = this.cacheList[key];
+      this.cacheList[key] = value;
+      return oldValue !== value;
    }
 
    explore(context) {
 
       if (!this.visible)
+         throw new Error('Explore invisible!');
+
+      if (this.explored) {
+         this.widget.exploreCleanup(context, this);
          return;
+      }
+
+      this.explored = true;
+      this.cacheList = null;
 
       if (this.instanceCache)
          this.instanceCache.mark();
@@ -118,7 +157,7 @@ export class Instance {
             let helper = this.widget.helpers[cmp];
             if (helper) {
                let ins = this.getChild(context, helper, "helper-" + cmp);
-               if (ins.explore(context))
+               if (ins.scheduleExploreIfVisible(context))
                   this.helpers[cmp] = ins;
             }
          }
@@ -148,7 +187,7 @@ export class Instance {
             context.content = {};
          var body = context.content['body'];
          context.content['body'] = this;
-         this.outerLayout.checkVisible(context);
+         this.outerLayout.scheduleExploreIfVisible(context);
          if (this.outerLayout.shouldUpdate)
             this.shouldUpdate = true;
          context.content['body'] = body;
@@ -166,7 +205,14 @@ export class Instance {
    prepare(context) {
 
       if (!this.visible)
+         throw new Error('Prepare invisible!');
+
+      if (this.prepared) {
+         this.widget.prepareCleanup(context, this);
          return;
+      }
+
+      this.prepared = true;
 
       //clear the flag here as children are going to be rendered soon
       this.childStateDirty = false;
@@ -217,6 +263,10 @@ export class Instance {
 
       if (this.shouldUpdate)
          debug(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
+
+      if (this.cacheList)
+         for (let key in this.cacheList)
+            this.cached[key] = this.cacheList[key];
 
       return vdom;
    }
