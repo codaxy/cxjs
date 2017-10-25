@@ -26,7 +26,8 @@ export class ColumnGraph extends ColumnBarGraphBase {
                yAxis.stacknowledge(data.stack, x, y);
             }
             else {
-               yAxis.acknowledge(y0);
+               if (!this.hiddenBase)
+                  yAxis.acknowledge(y0);
                yAxis.acknowledge(y);
             }
          });
@@ -106,5 +107,6 @@ ColumnGraph.prototype.baseClass = 'columngraph';
 ColumnGraph.prototype.y0Field = false;
 ColumnGraph.prototype.y0 = 0;
 ColumnGraph.prototype.legendShape = 'column';
+ColumnGraph.prototype.hiddenBase = false;
 
 Widget.alias('columngraph', ColumnGraph);

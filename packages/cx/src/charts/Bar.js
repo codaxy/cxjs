@@ -46,7 +46,8 @@ export class Bar extends ColumnBarBase {
             xAxis.stacknowledge(data.stack, data.y, data.x);
          }
          else {
-            xAxis.acknowledge(data.x0);
+            if (!this.hiddenBase)         
+               xAxis.acknowledge(data.x0);
             xAxis.acknowledge(data.x);
          }
          super.explore(context, instance);
@@ -84,5 +85,6 @@ Bar.prototype.x0 = 0;
 Bar.prototype.size = 1;
 Bar.prototype.autoSize = false;
 Bar.prototype.legendShape = 'bar';
+Bar.prototype.hiddenBase = false;
 
 Widget.alias('bar', Bar);
