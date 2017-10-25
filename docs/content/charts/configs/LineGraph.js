@@ -59,5 +59,12 @@ export default {
       description: <cx><Md>
          Line switch. By default, the line is shown. Set to `false` to hide the line and draw only the area.
       </Md></cx>
+   },
+   hiddenBase: {
+      type: 'boolean',
+      key: true,
+      description: <cx><Md>
+         If set to `true`, the chart can clip the base of the graph and show only the appropriate range that contains the values. Default value is `false`.
+      </Md></cx>
    }
 };
