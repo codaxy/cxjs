@@ -290,7 +290,7 @@ class MarkerComponent extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
    componentWillReceiveProps(props) {
-      tooltipParentWillReceiveProps(this.el, props.instance, this.props.instance.widget.tooltip);
+      tooltipParentWillReceiveProps(this.el, props.instance, props.instance.widget.tooltip);
    }
    componentDidMount() {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
