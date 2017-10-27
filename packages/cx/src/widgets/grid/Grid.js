@@ -857,7 +857,7 @@ class GridComponent extends VDOM.Component {
 
       let {offset, records} = data;
       let result = [];
-      for (let i = start; i < end; i++) {
+      for (let i = start; i < Math.min(end, data.totalRecordCount); i++) {
          if (i >= offset && i < offset + records.length)
             result.push(records[i - offset]);
          else
@@ -929,14 +929,17 @@ class GridComponent extends VDOM.Component {
                      }
                   });
 
+                  let {data} = this.props;
+
                   if (!isNumber(totalRecordCount)) {
                      totalRecordCount = (startPage - 1) * pageSize + records.length;
                      if (!lastPage && records.length == (endPage - startPage + 1) * pageSize)
                         totalRecordCount++;
+                     if (data.totalRecordCount > totalRecordCount)
+                        totalRecordCount = data.totalRecordCount;
                   }
 
-                  let {data} = this.props;
-                  instance.buffer.totalRecordCount = data.totalRecordCount = Math.max(data.totalRecordCount, totalRecordCount);
+                  instance.buffer.totalRecordCount = data.totalRecordCount = totalRecordCount;
                   instance.buffer.records = data.records = records;
                   instance.buffer.page = data.page = startPage;
                   data.offset = (startPage - 1) * pageSize;
@@ -981,10 +984,13 @@ class GridComponent extends VDOM.Component {
 
       let {instance, data} = this.props;
       let {widget} = instance;
-      if (widget.buffered && this.rowHeight > 0 && !this.pending) {
-         let start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
-         start = Math.round(start / widget.bufferStep) * widget.bufferStep;
-         start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
+      if (widget.buffered  && !this.pending) {
+         let start = 0;
+         if (this.rowHeight > 0) {
+            Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
+            start = Math.round(start / widget.bufferStep) * widget.bufferStep;
+            start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
+         }
          let end = Math.min(data.totalRecordCount, start + widget.bufferSize);
 
          if (widget.infinite) {
