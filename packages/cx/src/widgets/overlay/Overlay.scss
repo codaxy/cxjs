@@ -16,10 +16,6 @@
       overflow: visible;
       box-sizing: border-box;
 
-      &.#{$state}inline {
-         z-index: 100000;
-      }
-
       &.#{$state}draggable {
          cursor: pointer;
          touch-action: none;

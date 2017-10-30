@@ -55,7 +55,7 @@ export const Toasts = <cx>
 
                 <Toast visible={{bind:"$page.toast.visible", defaultValue: false}}>
                     This toast is visible only on this page.
-                    <Button icon="close" dismiss mod="hollow"/>
+                    <Button icon="close" dismiss mod="hollow" tooltip="Close"/>
                 </Toast>
 
                 <Toast visible={{bind:"$page.complex.visible", defaultValue: false}}>
@@ -96,7 +96,7 @@ export const Toasts = <cx>
 
                 <Toast visible:bind="$page.toast.visible" preserveWhitespace>
                     This toast is visible only on this page.
-                    <Button icon="close" dismiss mod="hollow"/>
+                    <Button icon="close" dismiss mod="hollow" tooltip="Close"/>
                 </Toast>
 
                 <Toast visible:bind="$page.complex.visible" preserveWhitespace>

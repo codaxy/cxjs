@@ -46,7 +46,6 @@
       transition: opacity 0.2s ease-in;
       max-width: 400px;
       pointer-events: none;
-      z-index: 20000;
 
       &.#{$state}animate {
          animation: cx-tooltip-enter-animation 0.2s;
