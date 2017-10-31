@@ -96,6 +96,15 @@ export class Instance {
       return oldValue !== value;
    }
 
+   markShouldUpdate() {
+      let parent = this;
+      //notify all parents that child state change to bust up caching
+      while (parent && !parent.shouldUpdate) {
+         parent.shouldUpdate = true;
+         parent = parent.parent;
+      }
+   }
+
    explore(context) {
 
       if (!this.visible)
@@ -138,19 +147,21 @@ export class Instance {
          this.trackDestroy();
 
       this.pure = this.widget.pure;
+      this.shouldUpdate = false;
 
-      this.shouldUpdate = this.rawData !== this.cached.rawData
-         || this.cached.state !== this.state
-         || this.cached.widgetVersion !== this.widget.version
-         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get()
-         || !this.widget.memoize
-         || this.childStateDirty;
+      let shouldUpdate = this.cache('rawData', this.rawData)
+         || this.cache('state', this.state)
+         || this.cache('widgetVersion', this.widget.version)
+         || this.cache('globalCacheIdentifier', GlobalCacheIdentifier.get());
 
-      if (this.shouldUpdate) {
+      if (shouldUpdate) {
          this.data = {...this.rawData};
          this.widget.prepareData(context, this);
          debug(processDataFlag, this.widget);
       }
+
+      if (shouldUpdate || !this.childStateDirty || !this.widget.memoize)
+         this.markShouldUpdate();
 
       if (this.widget.helpers) {
          this.helpers = {};
@@ -189,22 +200,13 @@ export class Instance {
          var body = context.content['body'];
          context.content['body'] = this;
          this.outerLayout.scheduleExploreIfVisible(context);
-         if (this.outerLayout.shouldUpdate)
-            this.shouldUpdate = true;
-         context.content['body'] = body;
+         //context.content['body'] = body;
       }
 
       context.controller = contextController;
-
-      if (this.shouldUpdate)
-         this.parent.shouldUpdate = true;
-
-      if (!this.pure)
-         this.parent.pure = false;
    }
 
    prepare(context) {
-
       if (!this.visible)
          throw new Error('Prepare invisible!');
 
@@ -214,40 +216,13 @@ export class Instance {
       }
 
       this.prepared = true;
-
-      //clear the flag here as children are going to be rendered soon
-      this.childStateDirty = false;
-
-      if (this.widget.controller && this.controller)
-         this.controller.prepare(context);
-
-      if (this.shouldUpdate || !this.pure) {
-
-         if (this.helpers)
-            for (var cmp in this.helpers) {
-               var helper = this.helpers[cmp];
-               helper.prepare(context);
-               if (helper.shouldUpdate)
-                  this.shouldUpdate = true;
-            }
-
-         debug(prepareFlag, this.widget);
-         this.widget.prepare(context, this);
-      }
-
-      if (this.shouldUpdate) {
-         this.parent.shouldUpdate = true;
-         debug(shouldUpdateFlag, this.widget, this.shouldUpdate);
-      }
-
-      if (this.outerLayout && this.widget.outerLayout)
-         this.outerLayout.prepare(context);
+      this.widget.prepare(context, this);
    }
 
    render(context, keyPrefix) {
 
       if (!this.visible)
-         return;
+         throw new Error('Render invisible!');
 
       if (this.widget.isContent && !this.shouldRenderContent)
          return;
@@ -269,47 +244,21 @@ export class Instance {
          for (let key in this.cacheList)
             this.cached[key] = this.cacheList[key];
 
-      return vdom;
-   }
-
-   cleanup(context) {
-
-      if (!this.visible)
-         return;
-
       this.cached.rawData = this.rawData;
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
       this.cached.visible = true;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
-
-      if (this.outerLayout) {
-         if (this.widget.outerLayout)
-            this.outerLayout.cleanup(context);
-         else
-            delete this.outerLayout;
-      }
-
-      if (this.pure && !this.shouldUpdate)
-         return;
-
-      debug(cleanupFlag, this.widget);
-
-      if (this.components)
-         for (var cmp in this.components)
-            this.components[cmp].cleanup(context);
-
-      this.widget.cleanup(context, this);
-
-      if (this.helpers)
-         for (var cmp in this.helpers)
-            this.helpers[cmp].cleanup(context);
-
-      if (this.widget.controller && this.controller)
-         this.controller.cleanup(context);
+      this.childStateDirty = false;
 
       if (this.instanceCache)
          this.instanceCache.sweep();
+
+      return vdom;
+   }
+
+   cleanup(context) {
+      this.widget.cleanup(context, this);
    }
 
    trackDestroy() {
