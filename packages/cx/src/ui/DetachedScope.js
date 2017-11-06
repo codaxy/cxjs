@@ -47,7 +47,14 @@ export class DetachedScope extends IsolatedScope {
    }
 
    render(context, instance, key) {
-      return <Cx key={key} widget={this.container} store={instance.subStore} subscribe options={this.options} />
+      return <Cx
+         key={key}
+         widget={this.container}
+         store={instance.subStore}
+         parentInstance={instance}
+         subscribe
+         options={this.options}
+      />
    }
 }
 

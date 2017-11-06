@@ -987,7 +987,7 @@ class GridComponent extends VDOM.Component {
       if (widget.buffered  && !this.pending) {
          let start = 0;
          if (this.rowHeight > 0) {
-            Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
+            start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
             start = Math.round(start / widget.bufferStep) * widget.bufferStep;
             start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          }

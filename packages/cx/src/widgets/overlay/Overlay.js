@@ -131,8 +131,7 @@ export class Overlay extends PureContainer {
    containerFactory() {
       let el = document.createElement('div');
       document.body.appendChild(el);
-      el.style.zIndex = ZIndexManager.next();
-      el.style.position = "fixed";
+      el.style.position = "absolute";
       if (this.containerStyle)
          Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -518,6 +517,8 @@ export class OverlayComponent extends VDOM.Component {
    componentDidMount() {
       let {instance, subscribeToBeforeDismiss, parentEl} = this.props;
       let {widget} = instance;
+
+      this.setZIndex(ZIndexManager.next());
 
       this.componentDidUpdate();
       widget.overlayDidMount(instance, this);
