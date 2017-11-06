@@ -15,7 +15,6 @@
       background-color: $cx-default-toast-background-color;
       box-sizing: border-box;
       position: relative;
-      z-index: 1000;
       pointer-events: all;
       transition: all 0.2s ease-in-out;
       box-shadow: $cx-default-toast-box-shadow;

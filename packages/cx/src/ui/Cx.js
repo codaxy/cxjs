@@ -16,9 +16,9 @@ export class Cx extends VDOM.Component {
       else {
          this.widget = Widget.create(props.widget || props.items[0]);
 
-         if (this.props.parentInstance) {
-            this.parentInstance = this.props.parentInstance;
-            this.store = this.parentInstance.store;
+         if (props.parentInstance) {
+            this.parentInstance = props.parentInstance;
+            this.store = props.store || this.parentInstance.store;
          }
          else {
             this.parentInstance = new Instance(this.widget, 0);
@@ -29,7 +29,7 @@ export class Cx extends VDOM.Component {
             throw new Error('Cx component requires store.');
       }
 
-      if (this.props.subscribe)
+      if (props.subscribe)
          this.unsubscribe = this.store.subscribe(::this.update);
 
       this.flags = {};

@@ -5,6 +5,7 @@ import {SubscriberList} from '../../util/SubscriberList';
 let last = 0, next = 1;
 let transitions = {};
 let subscribers = null;
+let reload = false;
 
 export class History {
 
@@ -25,10 +26,14 @@ export class History {
       return this.navigate(state, title, url, true);
    }
 
+   static reloadOnNextChange() {
+      reload = true;
+   }
+
    static navigate(state, title, url, replace = false) {
       url = Url.resolve(url);
 
-      if (!window.history.pushState) {
+      if (!window.history.pushState || reload) {
          window.location[replace ? "replace" : "assign"](url);
          return true;
       }

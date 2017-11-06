@@ -24,7 +24,7 @@ export interface AxisProps extends BoundedObjectProps {
    labelOffset?: number | string,
 
    /** Label rotation angle in degrees. */
-   labelRotation?: number | string,
+   labelRotation?: Cx.Prop<number | string>,
 
    /** Label text-anchor value. Allowed values are start, end and middle. Default value is set based on the value of vertical and secondary flags. */
    labelAnchor?: 'start' | 'end' | 'middle' | 'auto',

@@ -26,7 +26,8 @@ export class BarGraph extends ColumnBarGraphBase {
                xAxis.stacknowledge(data.stack, y, x);
             }
             else {
-               xAxis.acknowledge(x0);
+               if (!this.hiddenBase)
+                  xAxis.acknowledge(x0);
                xAxis.acknowledge(x);
             }
          });
@@ -105,5 +106,6 @@ BarGraph.prototype.baseClass = 'bargraph';
 BarGraph.prototype.x0Field = false;
 BarGraph.prototype.x0 = 0;
 BarGraph.prototype.legendShape = 'bar';
+BarGraph.prototype.hiddenBase = false;
 
 Widget.alias('bargraph', BarGraph);

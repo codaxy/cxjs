@@ -12,6 +12,7 @@ export default (
             mod="responsive"
             lockColumnWidths
             filterParams:bind="$page.filter"
+            emptyText='No data to display'
             columns={[
                { header: "Name", field: "fullName", sortable: true },
                { header: "Continent", field: "continent", sortable: true },
@@ -20,7 +21,12 @@ export default (
                { header: "Visits", field: "visits", sortable: true, align: "right" }
             ]}
             selection={{ type: KeySelection, bind: "$page.selection" }}
-            onFetchRecords={({ page, pageSize }) => {
+            onFetchRecords={({ page, pageSize }, {store}) => {
+               if (store.get('$page.filter') % 2 == 0)
+                  return {
+                     records: [],
+                     totalRecordCount: 0
+                  };
                return new Promise(resolve => {
                   setTimeout(() => {
                      let records = [];

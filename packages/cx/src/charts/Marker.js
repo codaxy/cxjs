@@ -1,7 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
-import {tooltipMouseMove, tooltipMouseLeave, tooltipParentWillUnmount} from '../widgets/overlay/tooltip-ops';
+import {tooltipMouseMove, tooltipMouseLeave, tooltipParentWillUnmount, tooltipParentWillReceiveProps, tooltipParentDidMount} from '../widgets/overlay/tooltip-ops';
 import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse';
 import {closest} from '../util/DOM';
 import {Selection} from '../ui/selection/Selection';
@@ -274,6 +274,11 @@ class MarkerComponent extends VDOM.Component {
             widget.handleClick(e, instance);
          }
       };
+      if (widget.tooltip) {
+         shapeProps.ref = c => {
+            this.el = c
+         };
+      }
 
       return <g className={data.classNames}>
          {shapeRenderer((bounds.l + bounds.r) / 2, (bounds.t + bounds.b) / 2, data.size, shapeProps)}
@@ -283,5 +288,11 @@ class MarkerComponent extends VDOM.Component {
 
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
+   }
+   componentWillReceiveProps(props) {
+      tooltipParentWillReceiveProps(this.el, props.instance, props.instance.widget.tooltip);
+   }
+   componentDidMount() {
+      tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }
