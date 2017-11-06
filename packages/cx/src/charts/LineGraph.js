@@ -61,7 +61,8 @@ export class LineGraph extends Widget {
                } else {
                   instance.yAxis.acknowledge(p[this.yField]);
                   if (data.area) {
-                     instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
+                     if (!this.hiddenBase)
+                        instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
                      if (context.pointReducer && this.y0Field)
                         context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
@@ -182,8 +183,6 @@ export class LineGraph extends Widget {
          {area}
       </g>;
    }
-
-
 }
 
 LineGraph.prototype.xAxis = 'x';
@@ -201,5 +200,6 @@ LineGraph.prototype.active = true;
 LineGraph.prototype.legend = 'legend';
 LineGraph.prototype.legendAction = 'auto';
 LineGraph.prototype.stack = 'stack';
+LineGraph.prototype.hiddenBase = false;
 
 Widget.alias('line-graph', LineGraph);

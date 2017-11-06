@@ -26,7 +26,8 @@ export class Axis extends BoundedObject {
    declareData() {
       super.declareData({
          anchors: undefined,
-         hideLabels: undefined
+         hideLabels: undefined,
+         labelRotation: undefined
       }, ...arguments)
    }
 
@@ -94,7 +95,7 @@ export class Axis extends BoundedObject {
                   y = this.vertical ? s : bounds.b + this.labelOffset;
                }
 
-               var transform = this.labelRotation ? `rotate(${this.labelRotation} ${x} ${y})` : null;
+               var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
                res.push(<text key={`label-${si}-${i}`}
                               className={labelClass}
                               x={x}
