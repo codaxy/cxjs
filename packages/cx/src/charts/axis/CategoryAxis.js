@@ -15,6 +15,16 @@ export class CategoryAxis extends Axis {
       })
    }
 
+   initInstance(context, instance) {
+      instance.calculator = new CategoryScale();
+   }
+
+   explore(context, instance) {
+      super.explore(context, instance);
+      var {values, names, inverted, uniform, minSize} = instance.data;
+      instance.calculator.reset(inverted, uniform, values, names, minSize);
+   }
+
    render(context, instance, key) {
       var {data, calculator} = instance;
 
@@ -28,17 +38,7 @@ export class CategoryAxis extends Axis {
       </g>
    }
 
-   explore(context, instance) {
 
-      super.explore(context, instance);
-
-      var {values, names, inverted, uniform, minSize} = instance.data;
-
-      if (!instance.calculator)
-         instance.calculator = new CategoryScale();
-
-      instance.calculator.reset(inverted, uniform, values, names, minSize);
-   }
 }
 
 CategoryAxis.prototype.baseClass = 'categoryaxis';

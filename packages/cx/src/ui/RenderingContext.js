@@ -25,4 +25,8 @@ export class RenderingContext {
       let v = stack.pop();
       this[key] = v;
    }
+
+   get(key) {
+      return this[key];
+   }
 }

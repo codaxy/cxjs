@@ -50,6 +50,17 @@ export class TimeAxis extends Axis {
       })
    }
 
+   initInstance(context, instance) {
+      instance.calculator = new TimeScale();
+   }
+
+   explore(context, instance) {
+      super.explore(context, instance);
+      let {min, max, normalized, inverted} = instance.data;
+      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, this.minTickUnit);
+   }
+
+
    render(context, instance, key) {
       let {data, cached, calculator} = instance;
 
@@ -64,14 +75,6 @@ export class TimeAxis extends Axis {
       return <g key={key} className={data.classNames} style={data.style}>
          {this.renderTicksAndLabels(context, instance, formatter)}
       </g>
-   }
-
-   explore(context, instance) {
-      super.explore(context, instance);
-      let {min, max, normalized, inverted} = instance.data;
-      if (!instance.calculator)
-         instance.calculator = new TimeScale();
-      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, this.minTickUnit);
    }
 }
 

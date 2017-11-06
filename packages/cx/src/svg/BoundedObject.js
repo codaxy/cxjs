@@ -21,12 +21,6 @@ export class BoundedObject extends PureContainer {
       data.margin = Rect.convertMargin(data.margin);
       data.padding = Rect.convertMargin(data.padding);
    }
-
-   explore(context, instance) {
-      this.exploreHelpers(context, instance);
-      instance.schedulePrepare(context);
-      super.explore(context, instance);
-   }
    
    calculateBounds(context, instance) {
       var {data} = instance;
@@ -37,6 +31,7 @@ export class BoundedObject extends PureContainer {
       var {data} = instance;
       if (instance.shouldUpdate || !instance.cached.parentRect || !instance.cached.parentRect.isEqual(context.parentRect) || !data.bounds) {
          instance.parentRect = context.parentRect;
+         instance.cache('parentRect' , context.parentRect);
          instance.shouldUpdate = true;
          data.bounds = this.calculateBounds(context, instance);
          data.childrenBounds = Rect.add(data.bounds, data.padding);
@@ -47,32 +42,15 @@ export class BoundedObject extends PureContainer {
       var {data} = instance;
 
       if (!context.parentRect)
-        throw new Error('Parent bounds were not provided through the context.');
+         throw new Error('Parent bounds were not provided through the context.');
 
       this.prepareBounds(context, instance);
 
-      context.parentRect = data.childrenBounds;
-      this.prepareHelpers(context, instance);
-      super.prepare(context, instance);
-      context.parentRect = instance.parentRect;
+      context.push('parentRect', data.childrenBounds);
    }
 
-   cleanup(context, instance) {
-      instance.cached.parentRect = instance.parentRect;
-      super.cleanup(context, instance);
-      this.cleanupHelpers(context, instance);
-   }
-
-   exploreHelpers(context, instance) {
-
-   }
-
-   prepareHelpers(context, instance) {
-
-   }
-
-   cleanupHelpers(context, instance) {
-
+   prepareCleanup(context, instance) {
+      context.pop('parentRect');
    }
 }
 

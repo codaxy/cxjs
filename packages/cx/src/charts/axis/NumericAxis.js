@@ -26,6 +26,16 @@ export class NumericAxis extends Axis {
       })
    }
 
+   initInstance(context, instance) {
+      instance.calculator = new NumericScale();
+   }
+
+   explore(context, instance) {
+      super.explore(context, instance);
+      let {min, max, normalized, inverted, lowerDeadZone, upperDeadZone} = instance.data;
+      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone);
+   }
+
    render(context, instance, key) {
       let {data} = instance;
 
@@ -42,13 +52,7 @@ export class NumericAxis extends Axis {
       </g>
    }
 
-   explore(context, instance) {
-      super.explore(context, instance);
-      let {min, max, normalized, inverted, lowerDeadZone, upperDeadZone} = instance.data;
-      if (!instance.calculator)
-         instance.calculator = new NumericScale();
-      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone);
-   }
+
 
    static XY() {
       return {

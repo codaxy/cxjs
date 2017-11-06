@@ -137,21 +137,9 @@ export class Widget extends Component {
       }
    }
 
-   exploreCleanup(context, instance) {}
-
-   prepare(context, instance) {
-      if (instance.components)
-         for (var cmp in instance.components)
-            instance.components[cmp].prepare(context);
-   }
-
-   prepareCleanup(context, instance) {}
-
    render(context, instance, key) {
       throw new Error('render method should be overridden.');
    }
-
-   cleanup(context, instance) { }
 
    update() {
       this.version = (this.version || 0) + 1;

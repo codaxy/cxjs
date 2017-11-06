@@ -188,19 +188,12 @@ export class Field extends PureContainer {
          });
       }
 
-      context.lastFieldId = data.id;
-
+      context.push('lastFieldId', data.id);
       super.explore(context, instance);
-
-      delete context.lastFieldId;
    }
 
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-      instance.cached.parentViewMode = instance.parentViewMode;
-      instance.cached.parentDisabled = instance.parentDisabled;
-      instance.cached.parentReadOnly = instance.parentReadOnly;
-      instance.cached.parentTabOnEnterKey = instance.parentTabOnEnterKey;
+   exploreCleanup(context, instance) {
+      context.pop('lastFieldId');
    }
 
    isEmpty(data) {

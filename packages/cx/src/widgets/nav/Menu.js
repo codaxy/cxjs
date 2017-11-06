@@ -41,7 +41,6 @@ export class Menu extends HtmlElement {
    }
 
    explore(context, instance) {
-      instance.scheduleExploreCleanup(context);
       context.push('lastMenu', this);
       super.explore(context, instance);
    }

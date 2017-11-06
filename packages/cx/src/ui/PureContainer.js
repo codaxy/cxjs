@@ -3,7 +3,6 @@ import {StaticText} from './StaticText';
 import {Layout} from './layout/Layout';
 import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
-import {parseStyle} from '../util/parseStyle';
 import {isString} from '../util/isString';
 import {isArray} from '../util/isArray';
 
@@ -30,18 +29,8 @@ export class PureContainer extends Widget {
       super.explore(context, instance);
    }
 
-   prepare(context, instance) {
-      this.layout.prepare(context, instance);
-      super.prepare(context, instance);
-   }
-
    render(context, instance, key) {
       return this.renderChildren(context, instance, key);
-   }
-
-   cleanup(context, instance) {
-      this.layout.cleanup(context, instance)
-      super.cleanup(context, instance);
    }
 
    renderChildren(context, instance, keyPrefix) {

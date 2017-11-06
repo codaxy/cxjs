@@ -15,17 +15,12 @@ export class Layout extends Component {
 
    explore(context, instance, items) {
       let children = exploreChildren(context, instance, items, instance.cached.children);
-      if (instance.children != children) {
-         instance.shouldUpdate = true;
+      if (instance.cache('children', children)) {
+         instance.markShouldUpdate();
          instance.children = children;
       }
    }
-   
-   prepare(context, instance) {
-      for (let i = 0; i<instance.children.length; i++) {
-         instance.children[i].prepare(context);
-      }
-   }
+
 
    append(result, r) {
       if (r != null) {
@@ -59,12 +54,7 @@ export class Layout extends Component {
       return result;
    }
 
-   cleanup(context, instance) {
-      for (var i = 0; i<instance.children.length; i++) {
-         instance.children[i].cleanup(context);
-      }
-      instance.cached.children = instance.children;
-   }
+
 }
 
 Layout.prototype.CSS = 'cx';

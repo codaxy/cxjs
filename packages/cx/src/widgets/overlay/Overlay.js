@@ -64,16 +64,11 @@ export class Overlay extends PureContainer {
             dismiss: instance.dismiss
          };
 
-      if (instance.dismiss !== instance.cached.dismiss)
-         instance.shouldUpdate = true;
+      if (instance.cache('dismiss', instance.dismiss))
+         instance.markShouldUpdate();
 
       super.explore(context, instance);
       context.parentOptions = oldParentOptions;
-   }
-
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-      instance.cached.dismiss = instance.dismiss;
    }
 
    render(context, instance, key) {

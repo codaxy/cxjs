@@ -54,7 +54,6 @@ export class DocumentTitle extends Widget {
    }
 
    prepare(context, instance) {
-      super.prepare(context, instance);
       if (context.documentTitle.activeInstance == instance)
          document.title = context.documentTitle.title;
    }

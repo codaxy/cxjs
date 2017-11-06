@@ -100,10 +100,8 @@ export class List extends Widget {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
             }
-            else if (itemInstance.checkVisible(context)) {
+            else if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
-               itemInstance.scheduleExplore(context);
-            }
 
             var selected = isSelected(record.data, record.index);
             if (itemInstance.selected != selected) {
@@ -114,29 +112,17 @@ export class List extends Widget {
          else if (record.type == 'group-header' && record.grouping.header) {
             var itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.checkVisible(context)) {
+            if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
-               itemInstance.scheduleExplore(context);
-            }
          }
          else if (record.type == 'group-footer' && record.grouping.footer) {
             var itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.checkVisible(context)) {
+            if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
-               itemInstance.scheduleExplore(context);
-            }
          }
       });
       instance.instances = instances;
-   }
-
-   prepare(context, instance) {
-      instance.instances.forEach(inst => {
-         if (!this.cached || inst.shouldUpdate) {
-            inst.prepare(context);
-         }
-      });
    }
 
    render(context, instance, key) {
@@ -152,15 +138,6 @@ export class List extends Widget {
          items={items}
          selectable={!this.selection.isDummy || this.onItemClick}
       />
-   }
-
-   cleanup(context, instance) {
-      instance.instances.forEach(inst => {
-         if (!this.cached || inst.shouldUpdate) {
-            inst.cleanup(context);
-            inst.cached.record = inst.record;
-         }
-      });
    }
 
    groupBy(grouping) {

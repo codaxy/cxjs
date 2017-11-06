@@ -64,28 +64,12 @@ export class Instance {
       return this.visible;
    }
 
-   scheduleExplore(context) {
-      context.exploreStack.push(this);
-   }
-
    scheduleExploreIfVisible(context) {
       if (this.checkVisible(context)) {
-         this.scheduleExplore(context);
+         context.exploreStack.push(this);
          return true;
       }
       return false;
-   }
-
-   scheduleExploreCleanup(context) {
-      context.exploreStack.push(this);
-   }
-
-   schedulePrepare(context) {
-      context.prepareList.push(this);
-   }
-
-   schedulePrepareCleanup(context) {
-      context.prepareList.push(this);
    }
 
    cache(key, value) {
@@ -111,9 +95,29 @@ export class Instance {
          throw new Error('Explore invisible!');
 
       if (this.explored) {
-         this.widget.exploreCleanup(context, this);
+         if (this.widget.prepareCleanup)
+            context.prepareList.push(this);
+
+         if (this.widget.exploreCleanup)
+            this.widget.exploreCleanup(context, this);
+
+         if (this.widget.outerLayout)
+            context.pop('content');
+
+         if (this.widget.controller)
+            context.pop('controller');
+
          return;
       }
+
+      if (this.widget.exploreCleanup || this.widget.prepareCleanup || this.widget.outerLayout || this.widget.controller)
+         context.exploreStack.push(this);
+
+      if (this.widget.prepare)
+         context.prepareList.push(this);
+
+      if (this.widget.cleanup)
+         context.cleanupList.push(this);
 
       this.explored = true;
       this.cacheList = null;
@@ -122,7 +126,6 @@ export class Instance {
          this.instanceCache.mark();
 
       //controller may reconfigure the widget and need to go before shouldUpdate calculation
-      var contextController = context.controller;
       this.parentOptions = context.parentOptions;
 
       if (!this.controller) {
@@ -136,11 +139,11 @@ export class Instance {
 
       if (this.controller) {
          if (this.widget.controller) {
+            context.push("controller", this.controller);
             this.controller.explore(context);
             if (this.controller.onDestroy)
                this.trackDestroy();
          }
-         context.controller = this.controller;
       }
 
       if (this.widget.onDestroy)
@@ -195,15 +198,13 @@ export class Instance {
       if (this.widget.outerLayout) {
          this.outerLayout = this.parent.getChild(context, this.widget.outerLayout, null, this.store);
          this.shouldRenderContent = false; //render layout until this is set
-         if (!context.content)
-            context.content = {};
-         var body = context.content['body'];
-         context.content['body'] = this;
+         let content = {
+            ...context.content,
+            body: this
+         };
+         context.push('content', content);
          this.outerLayout.scheduleExploreIfVisible(context);
-         //context.content['body'] = body;
       }
-
-      context.controller = contextController;
    }
 
    prepare(context) {

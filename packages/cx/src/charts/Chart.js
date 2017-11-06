@@ -24,39 +24,39 @@ export class Chart extends BoundedObject {
    }
 
    explore(context, instance) {
-      var axes = context.axes;
+
+      var axes = { ...context.axes };
+
+      for (var axis in this.axes) {
+         var axisInstance = instance.axes[axis];
+         axisInstance.scheduleExploreIfVisible(context);
+         axes[axis] = this.axes[axis].report(context, axisInstance);
+      }
+
+      context.push('axes', axes);
+
       super.explore(context, instance);
-      context.axes = axes;
    }
 
-   exploreHelpers(context, instance) {
-      if (!context.axes)
-         context.axes = {};
-      for (var axis in this.axes) {
-         var axisInstance = instance.axes[axis];
-         axisInstance.explore(context);
-         context.axes[axis] = this.axes[axis].report(context, axisInstance);
-      }
-      super.exploreHelpers(context, instance);
+   exploreCleanup(context, instance) {
+      context.pop('axes');
    }
 
-   prepareHelpers(context, instance) {
-      if (!context.axes)
-         context.axes = {};
+   prepare(context, instance) {
+      var axes = {...context.axes};
+
       for (var axis in this.axes) {
-         var axisInstance = instance.axes[axis];
-         axisInstance.prepare(context);
-         context.axes[axis] = this.axes[axis].report(context, axisInstance);
+         axes[axis] = this.axes[axis].report(context, instance.axes[axis]);
       }
-      super.prepareHelpers(context, instance);
+
+      context.push('axes', axes);
    }
 
-   cleanupHelpers(context, instance) {
-      super.cleanupHelpers(context, instance);
-      for (var axis in this.axes) {
-         instance.axes[axis].cleanup(context);
-      }
+   prepareCleanup(context, instance) {
+      context.pop('axes', axes);
    }
+
+
 
    render(context, instance, key) {
       var axes = [];
