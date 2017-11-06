@@ -14,6 +14,7 @@ export class RenderingContext {
          stack = this.stacks[key] = [];
       stack.push(value);
       this[key] = value;
+      return value;
    }
 
    pop(key) {

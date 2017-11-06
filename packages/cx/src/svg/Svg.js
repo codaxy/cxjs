@@ -16,23 +16,27 @@ export class Svg extends BoundedObject {
 
    prepare(context, instance) {
       var size = instance.state.size;
-      var {parentRect, addClipRect} = context;
-      context.parentRect = new Rect({
+
+      context.push('parentRect', new Rect({
          l: 0,
          t: 0,
          r: size.width,
          b: size.height
-      });
+      }));
+
       instance.clipRects = {};
       instance.clipRectId = 0;
-      context.addClipRect = rect => {
+      context.push('addClipRect', rect => {
          var id = `clip-${++instance.clipRectId}`;
          instance.clipRects[id] = rect;
          return id;
-      };
+      });
       super.prepare(context, instance);
-      context.parentRect = parentRect;
-      context.addClipRect = addClipRect;
+   }
+
+   prepareCleanup(context, instance) {
+      context.pop('parentRect');
+      context.pop('addClipRect');
    }
 
    render(context, instance, key) {

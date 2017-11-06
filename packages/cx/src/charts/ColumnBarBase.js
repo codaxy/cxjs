@@ -51,10 +51,8 @@ export class ColumnBarBase extends PureContainer {
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate();
       }
 
       if (!data.valid)
@@ -62,15 +60,13 @@ export class ColumnBarBase extends PureContainer {
 
       if (data.active) {
          instance.bounds = this.calculateRect(instance);
+         instance.cache('bounds', instance.bounds);
          if (!instance.bounds.isEqual(instance.cached.bounds))
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate();
 
-         var parentBounds = context.parentRect;
-         context.parentRect = instance.bounds;
-         super.prepare(context, instance);
-         context.parentRect = parentBounds;
+         context.push('parentRect', instance.bounds);
          if (instance.xAxis.shouldUpdate || instance.yAxis.shouldUpdate)
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate();
       }
 
       if (data.name && context.addLegendEntry)
@@ -88,6 +84,12 @@ export class ColumnBarBase extends PureContainer {
          });
    }
 
+   prepareCleanup(context, instance) {
+      let {data} = instance;
+      if (data.valid && data.active)
+         context.pop('parentRect');
+   }
+
    onLegendClick(e, instance) {
       var allActions = this.legendAction == 'auto';
       var {data} = instance;
@@ -97,13 +99,6 @@ export class ColumnBarBase extends PureContainer {
 
       if (allActions || this.legendAction == 'select')
          this.handleClick(e, instance)
-   }
-
-   cleanup(context, instance) {
-      let {data} = instance;
-      if (data.active && data.valid)
-         super.cleanup(context, instance);
-      instance.cached.bounds = instance.bounds;
    }
 
    calculateRect(context, instance) {

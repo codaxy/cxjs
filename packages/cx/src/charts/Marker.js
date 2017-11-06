@@ -113,16 +113,16 @@ export class Marker extends BoundedObject {
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.cached.colorIndex != data.colorIndex)
-            instance.shouldUpdate = true;
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate();
       }
 
       if (data.active) {
          if (xAxis && xAxis.shouldUpdate)
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate();
 
          if (yAxis && yAxis.shouldUpdate)
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate();
 
          super.prepare(context, instance);
       }
@@ -140,12 +140,6 @@ export class Marker extends BoundedObject {
                this.onLegendClick(e, instance)
             }
          });
-   }
-
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-      if (instance.colorMap)
-         instance.cached.colorIndex = instance.data.colorIndex;
    }
 
    onLegendClick(e, instance) {

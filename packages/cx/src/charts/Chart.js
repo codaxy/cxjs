@@ -15,27 +15,27 @@ export class Chart extends BoundedObject {
       }
    }
 
-   initInstance(context, instance) {
-      super.initInstance(context, instance);
-      instance.axes = {};
-      for (var axis in this.axes) {
-         instance.axes[axis] = instance.getChild(context, this.axes[axis]);
-      }
-   }
-
    explore(context, instance) {
 
-      var axes = { ...context.axes };
+      var calculators = { ...context.axes };
 
-      for (var axis in this.axes) {
-         var axisInstance = instance.axes[axis];
-         axisInstance.scheduleExploreIfVisible(context);
-         axes[axis] = this.axes[axis].report(context, axisInstance);
-      }
-
-      context.push('axes', axes);
+      context.push('axes', calculators);
 
       super.explore(context, instance);
+
+      instance.axes = {};
+
+      //because tree exploration uses depth-first search using a stack,
+      //axes need to be registered last in order to be processed first
+      for (var axis in this.axes) {
+         var axisInstance = instance.getChild(context, this.axes[axis]);
+         if (axisInstance.scheduleExploreIfVisible(context)) {
+            instance.axes[axis] = axisInstance;
+            calculators[axis] = this.axes[axis].report(context, axisInstance);
+         }
+      }
+
+      instance.calculators = calculators;
    }
 
    exploreCleanup(context, instance) {
@@ -43,17 +43,13 @@ export class Chart extends BoundedObject {
    }
 
    prepare(context, instance) {
-      var axes = {...context.axes};
-
-      for (var axis in this.axes) {
-         axes[axis] = this.axes[axis].report(context, instance.axes[axis]);
-      }
-
-      context.push('axes', axes);
+      context.push('axes', instance.calculators);
+      super.prepare(context, instance);
    }
 
    prepareCleanup(context, instance) {
-      context.pop('axes', axes);
+      context.pop('axes');
+      super.prepareCleanup(context, instance);
    }
 
 
