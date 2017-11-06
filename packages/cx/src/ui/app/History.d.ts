@@ -8,4 +8,6 @@ export class History {
    static replaceState(state, title, url: string);
 
    static subscribe(callback: (url?: string, op?: "pushState" | "replaceState") => void): () => void;
+
+   static reloadOnNextChange();
 }

@@ -164,6 +164,11 @@ export const Router = <cx>
                  Subscribe to location changes (navigation). Useful for setting up page tracking (e.g. Google Analytics)
                  on CxJS apps. The function returns a function which can be used to unsubscribe.
              </Md></cx>
+         }, {
+             signature: 'History.reloadOnNextChange()',
+             description: <cx><Md>
+                 Instructs the router to reload the page on next navigation. This is commonly used with service workers.
+             </Md></cx>
          }]}/>
          <CodeSnippet putInto="code">{`
             History.connect(store, 'url');
