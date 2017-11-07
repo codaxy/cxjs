@@ -59,18 +59,16 @@ export class ScatterGraph extends Widget {
    }
 
    prepare(context, instance) {
-      super.prepare(context, instance);
+
       var {data, xAxis, yAxis, colorMap} = instance;
 
       if (xAxis.shouldUpdate || yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate();
 
       if (colorMap && data.name) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate();
       }
 
       if (data.name && context.addLegendEntry)

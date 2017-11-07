@@ -32,7 +32,7 @@ export class BoundedObject extends PureContainer {
       if (instance.shouldUpdate || !instance.cached.parentRect || !instance.cached.parentRect.isEqual(context.parentRect) || !data.bounds) {
          instance.parentRect = context.parentRect;
          instance.cache('parentRect' , context.parentRect);
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate();
          data.bounds = this.calculateBounds(context, instance);
          data.childrenBounds = Rect.add(data.bounds, data.padding);
       }

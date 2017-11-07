@@ -5,9 +5,11 @@ export function exploreChildren(context, instance, children, previousResult, key
 
    for (let c = 0; c < children.length; c++) {
       let cell = instance.getChild(context, children[c], key, store);
+
       if (beforeCallback)
          beforeCallback(cell);
-      if (cell.scheduleExploreIfVisible(context)) {
+
+      if (cell.checkVisible(context)) {
          if (identical >= 0) {
             if (cell == oldChildren[identical])
                identical++;
@@ -27,6 +29,9 @@ export function exploreChildren(context, instance, children, previousResult, key
 
    if (identical >= 0 && identical != newChildren.length)
       newChildren = newChildren.slice(0, identical);
+
+   for (let c = newChildren.length - 1; c >= 0; c--)
+      context.exploreStack.push(newChildren[c]);
 
    return newChildren;
 }

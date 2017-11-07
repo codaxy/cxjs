@@ -27,16 +27,4 @@ export class IsolatedScope extends PureContainer {
          super.explore(context, instance);
       }
    }
-
-   prepare(context, instance) {
-      if (instance.shouldUpdate) {
-         super.prepare(context, instance);
-      }
-   }
-
-   cleanup(context, instance) {
-      if (instance.shouldUpdate) {
-         super.cleanup(context, instance);
-      }
-   }
 }
