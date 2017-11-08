@@ -8,6 +8,7 @@ import {CSS} from '../app/CSS';
 import {ScrollReset} from 'docs/components/ScrollReset';
 import {EditOnGitX} from 'docs/components/EditOnGitX';
 import {HashRestore} from '../components/HashRestore';
+import {DocSearch} from '../components/DocSearch';
 
 import {getVersion} from './version';
 
@@ -34,6 +35,7 @@ let addRoutes = (path, pages, routes) => {
                     <div class="dxe-article-tools">
                         <a href="https://github.com/codaxy/cxjs/issues/new">Report</a>
                         <EditOnGitX url={path + name}/>
+                        <DocSearch />
                     </div>
                     {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
                     {pages[name]}
