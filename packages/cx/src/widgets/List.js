@@ -106,7 +106,7 @@ export class List extends Widget {
             var selected = isSelected(record.data, record.index);
             if (itemInstance.selected != selected) {
                itemInstance.selected = selected;
-               itemInstance.shouldUpdate = true;
+               itemInstance.markShouldUpdate();
             }
          }
          else if (record.type == 'group-header' && record.grouping.header) {

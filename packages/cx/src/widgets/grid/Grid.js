@@ -32,6 +32,7 @@ import {isNumber} from '../../util/isNumber';
 import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
+import {Cx} from '../../ui/Cx';
 
 export class Grid extends Widget {
 
@@ -240,7 +241,7 @@ export class Grid extends Widget {
       let columns = exploreChildren(context, instance, this.columns, instance.columns);
       if (columns != instance.columns) {
          instance.columns = columns;
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate();
       }
 
       let {store} = instance;
@@ -249,22 +250,21 @@ export class Grid extends Widget {
       //do not process rows in buffered mode or cached mode if nothing has changed;
       if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
          let dragHandles = context.dragHandles,
-            record,
-            wasSelected;
+            record;
 
          for (let i = 0; i < instance.records.length; i++) {
             record = instance.records[i];
             if (record.type == 'data') {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
                let selected = instance.isSelected(record.data, record.index);
-               let changed = row.cache('selected') || row.cache('data', record.data);
+               let changed = row.cache('selected', row.selected) || row.cache('recordData', record.data);
                row.selected = selected;
                if (this.cached && !changed && !row.childStateDirty) {
                   row.shouldUpdate = false;
                } else if (row.scheduleExploreIfVisible(context)) {
                   context.dragHandles = [];
-                  //row.explore(context);
-                  row.shouldUpdate |= wasSelected != record.selected;
+                  if (changed)
+                     row.markShouldUpdate();
                   row.dragHandles = context.dragHandles;
                }
             }
@@ -272,7 +272,13 @@ export class Grid extends Widget {
          context.dragHandles = dragHandles;
       }
 
-      context.parentPositionChangeEvent = parentPositionChangeEvent;
+      //TODO: Review drag handles
+
+      context.push('parentPositionChangeEvent', parentPositionChangeEvent);
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('parentPositionChangeEvent');
    }
 
    groupBy(grouping, {autoConfigure} = {}) {
@@ -708,12 +714,10 @@ class GridComponent extends VDOM.Component {
             } else {
                let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
-               let wasSelected = row.selected;
-               record.vdom = row.vdom = row.vdom && widget.cached && row.cacheBuster === record.data ? row.vdom : Widget.renderInstance(row, { name: 'grid-row'});
+               record.vdom = row.vdom = row.vdom && widget.cached && row.cached.recordData === record.data ? row.vdom : <Cx instance={row} options={{ name: 'grid-row'}} />;
                row.selected = instance.isSelected(record.data, record.index);
-               row.cacheBuster = record.data;
-               if (row.selected != wasSelected)
-                  row.shouldUpdate = true;
+               if (row.cache('selected', row.selected) || row.cache('recordData', record.data))
+                  row.markShouldUpdate();
                addRow(record, start + i);
             }
          });

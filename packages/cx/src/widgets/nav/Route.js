@@ -3,8 +3,7 @@ import {PureContainer} from '../../ui/PureContainer';
 import RouteMatcher from 'route-parser';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 
-export class Route extends PureContainer
-{
+export class Route extends PureContainer {
    init() {
       if (this.path)
          this.route = this.path;
@@ -81,10 +80,7 @@ export class Route extends PureContainer
    }
 
    explore(context, instance) {
-
-      let lastRoute = context.lastRoute;
-
-      context.lastRoute = {
+      context.push('lastRoute', {
          route: instance.cached.route,
          result: instance.cached.result,
          reverse: function (data) {
@@ -94,11 +90,12 @@ export class Route extends PureContainer
                ...data
             })
          }
-      };
-
+      });
       super.explore(context, instance);
+   }
 
-      context.lastRoute = lastRoute;
+   exploreCleanup(context, instance) {
+      context.pop('lastRoute');
    }
 }
 

@@ -29,10 +29,10 @@ export class Button extends HtmlElement {
    }
 
    explore(context, instance) {
-      if (context.parentDisabled != instance.data.parentDisabled) {
-         instance.data.parentDisabled = context.parentDisabled;
-         instance.shouldUpdate = true;
-      }
+      instance.data.parentDisabled = context.parentDisabled;
+      if (instance.cache('parentDisabled', context.parentDisabled))
+         instance.markShouldUpdate();
+
       super.explore(context, instance);
    }
 

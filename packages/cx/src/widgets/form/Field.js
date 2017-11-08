@@ -163,13 +163,15 @@ export class Field extends PureContainer {
    explore(context, instance) {
       let {data, state} = instance;
 
-      if (context.parentDisabled != instance.cached.parentDisabled || context.parentReadOnly != instance.cached.parentReadOnly
-         || context.parentViewMode != instance.cached.parentViewMode || context.parentTabOnEnterKey != instance.cached.parentTabOnEnterKey) {
-         instance.parentDisabled = context.parentDisabled;
-         instance.parentReadOnly = context.parentReadOnly;
-         instance.parentViewMode = context.parentViewMode;
-         instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-         instance.shouldUpdate = true;
+      instance.parentDisabled = context.parentDisabled;
+      instance.parentReadOnly = context.parentReadOnly;
+      instance.parentViewMode = context.parentViewMode;
+      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+
+      if (instance.cache('parentDisabled', context.parentDisabled) || instance.cache('parentReadOnly', context.parentReadOnly)
+         || instance.cache('parentViewMode', context.parentViewMode) || instance.cache('parentTabOnEnterKey', context.parentTabOnEnterKey)) {
+
+         instance.markShouldUpdate();
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
       }
