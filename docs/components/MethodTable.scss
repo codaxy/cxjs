@@ -16,11 +16,17 @@
 
     th {
         text-align: left;
+        padding-right: 10px;
     }
 
     td:first-child {
         background: #fbfbfb;
+    }
+
+    h4 {
         font: 14px monospace;
+        margin: 0;
+        padding: 0;
     }
 
     td:nth-child(2) {
@@ -28,7 +34,6 @@
     }
 
     td:nth-child(3) {
-        //background: #fbfbfb;
         font: 12px monospace;
     }
 
@@ -37,15 +42,11 @@
         border-top: 1px solid #ebebeb;
     }
 
-    .dxs-important td:first-child {
+    h4.dxs-important  {
         font-weight: bold;
     }
 
-    .dxs-regular:nth-of-type(1) td {
-        border-color: gray;
-    }
-
-    td.dxs-long {
+    h4.dxs-long  {
         font-size: 11px;
     }
 }

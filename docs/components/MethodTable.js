@@ -19,9 +19,11 @@ export class MethodTable extends PureContainer {
 
         methods.forEach(p=> {
             var r = <cx>
-                <tr className={CSS.state({important: p.key, regular: !p.key})}>
-                    <td className={CSS.state({long: p.signature > 30})}>
-                        {p.signature}
+                <tr>
+                    <td className={CSS.state({long: p.signature > 30, important: p.key, regular: !p.key})}>
+                        <h4>
+                            {p.signature}
+                        </h4>
                     </td>
                     <td>
                         {p.description}
