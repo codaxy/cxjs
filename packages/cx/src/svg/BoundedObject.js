@@ -30,6 +30,8 @@ export class BoundedObject extends PureContainer {
    prepareBounds(context, instance) {
       var {data} = instance;
       if (instance.shouldUpdate || !instance.cached.parentRect || !instance.cached.parentRect.isEqual(context.parentRect) || !data.bounds) {
+         if (!context.parentRect)
+            throw new Error('Parent bounds were not provided through the context.');
          instance.parentRect = context.parentRect;
          instance.cache('parentRect' , context.parentRect);
          instance.markShouldUpdate();
@@ -39,14 +41,8 @@ export class BoundedObject extends PureContainer {
    }
 
    prepare(context, instance) {
-      var {data} = instance;
-
-      if (!context.parentRect)
-         throw new Error('Parent bounds were not provided through the context.');
-
       this.prepareBounds(context, instance);
-
-      context.push('parentRect', data.childrenBounds);
+      context.push('parentRect', instance.data.childrenBounds);
    }
 
    prepareCleanup(context, instance) {

@@ -4,11 +4,10 @@ export class RenderingContext {
       this.exploreStack = [];
       this.prepareList = [];
       this.cleanupList = [];
+      this.stacks = {};
    }
 
    push(key, value) {
-      if (!this.stacks)
-         this.stacks = {};
       let stack = this.stacks[key];
       if (!stack)
          stack = this.stacks[key] = [];
@@ -18,13 +17,11 @@ export class RenderingContext {
    }
 
    pop(key) {
-      if (!this.stacks)
-         return;
       let stack = this.stacks[key];
       if (!stack)
          return;
-      let v = stack.pop();
-      this[key] = v;
+      stack.pop();
+      this[key] = stack[stack.length - 1];
    }
 
    get(key) {
