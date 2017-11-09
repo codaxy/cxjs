@@ -668,7 +668,7 @@ class GridComponent extends VDOM.Component {
 
       let children = [];
 
-      let addRow = (record, i) => {
+      let addRow = (record, i, standalone) => {
          let {store, key, row} = record;
          let isDragged = dragged && (row.selected || record == dragged);
          let mod = {
@@ -678,25 +678,35 @@ class GridComponent extends VDOM.Component {
             cursor: i == cursor
          };
 
-         children.push(
-            <GridRowComponent
+         let wrap = (children) => <GridRowComponent
+            key={key}
+            className={CSS.state(mod)}
+            store={store}
+            dragSource={dragSource}
+            instance={row}
+            grid={instance}
+            record={record}
+            parent={this}
+            cursorIndex={i}
+            selected={row.selected}
+            isBeingDragged={dragged}
+            cursor={mod.cursor}
+            shouldUpdate={row.shouldUpdate}
+         >
+            {children}
+         </GridRowComponent>;
+
+         if (standalone) {
+            children.push(<Cx
                key={key}
-               className={CSS.expand(row.data.classNames, CSS.state(mod))}
-               store={store}
-               dragSource={dragSource}
-               instance={row}
-               grid={instance}
-               record={record}
-               parent={this}
-               cursorIndex={i}
-               selected={row.selected}
-               isBeingDragged={dragged}
-               cursor={mod.cursor}
-               shouldUpdate={row.shouldUpdate}
-            >
-               {record.vdom}
-            </GridRowComponent>
-         );
+               instance={record.row}
+               parentInstance={instance}
+               options={{name: 'grid-row'}}
+               contentFactory={x=>wrap(x.children)}
+            />);
+         }
+         else
+            children.push(wrap(record.vdom));
       };
       if (widget.buffered) {
          let context = new RenderingContext();
@@ -706,7 +716,7 @@ class GridComponent extends VDOM.Component {
          instance.recordInstanceCache.mark();
          this.getRecordsSlice(start, end).forEach((r, i) => {
             if (r == null) {
-               addRow({row: {data: { classNames: dataCls }},
+               addRow({row: { data: { classNames: dataCls }, widget: widget.row},
                   vdom: <tr>
                      <td className="cxs-pad" colSpan={1000}>&nbsp;</td>
                   </tr>
@@ -714,11 +724,10 @@ class GridComponent extends VDOM.Component {
             } else {
                let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
-               record.vdom = row.vdom = row.vdom && widget.cached && row.cached.recordData === record.data ? row.vdom : <Cx instance={row} options={{ name: 'grid-row'}} />;
                row.selected = instance.isSelected(record.data, record.index);
                if (row.cache('selected', row.selected) || row.cache('recordData', record.data))
                   row.markShouldUpdate();
-               addRow(record, start + i);
+               addRow(record, start + i, true);
             }
          });
          instance.recordInstanceCache.sweep();

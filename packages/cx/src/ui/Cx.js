@@ -41,8 +41,14 @@ export class Cx extends VDOM.Component {
          return null;
 
       let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-      return <CxContext instance={instance} flags={this.flags} options={this.props.options}
-         buster={++this.renderCount }/>
+
+      return <CxContext
+         instance={instance}
+         flags={this.flags}
+         options={this.props.options}
+         buster={++this.renderCount }
+         contentFactory={this.props.contentFactory}
+      />
    }
 
    componentDidMount() {
@@ -103,7 +109,7 @@ class CxContext extends VDOM.Component {
          start: now()
       };
 
-      let {instance, options} = props;
+      let {instance, options, contentFactory} = props;
       let count = 0, visible, context;
 
       if (this.props.instance !== instance && this.props.instance.destroyTracked)
@@ -125,17 +131,16 @@ class CxContext extends VDOM.Component {
       while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
       if (visible) {
+         this.timings.afterExplore = now();
          for (let i = 0; i < context.prepareList.length; i++)
             context.prepareList[i].prepare(context);
-
-         this.timings.afterExplore = now();
-         //instance.prepare(context);
          this.timings.afterPrepare = now();
 
          let result = instance.render(context);
          this.content = getContent(result);
+         if (contentFactory)
+            this.content = contentFactory({children: this.content});
          this.timings.afterRender = now();
-
          for (let i = 0; i < context.cleanupList.length; i++)
             context.cleanupList[i].cleanup(context);
       }
