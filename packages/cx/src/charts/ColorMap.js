@@ -33,17 +33,20 @@ export class ColorMap extends Widget {
 
 export class ColorMapScope extends PureContainer {
    explore(context, instance) {
-      var previous = context.colorMaps;
-      instance.colorMaps = context.colorMaps = {};
+      context.push('colorMaps', instance.colorMaps = {});
       super.explore(context, instance);
-      context.colorMaps = previous;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('colorMaps');
    }
 
    prepare(context, instance) {
-      var previous = context.colorMaps;
-      context.colorMaps = instance.colorMaps;
-      super.prepare(context, instance);
-      context.colorMaps = previous;
+      context.push('colorMaps', instance.colorMaps);
+   }
+
+   prepareCleanup(context, instance) {
+      context.pop('colorMaps');
    }
 }
 
