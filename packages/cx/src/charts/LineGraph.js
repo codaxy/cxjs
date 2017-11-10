@@ -190,7 +190,6 @@ LineGraph.prototype.line = true;
 LineGraph.prototype.xField = 'x';
 LineGraph.prototype.yField = 'y';
 LineGraph.prototype.baseClass = 'linegraph';
-LineGraph.prototype.pure = false;
 LineGraph.prototype.y0 = 0;
 LineGraph.prototype.y0Field = false;
 LineGraph.prototype.active = true;

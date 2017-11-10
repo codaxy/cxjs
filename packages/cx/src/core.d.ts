@@ -81,9 +81,8 @@ declare namespace Cx {
       /** Cache render output. Default is `true`. */
       memoize?: BooleanProp,
 
-      /** Indicate that the widget does not rely on data obtained through the context. Default is `true`. */
-      pure?: boolean
-
+      /** Widget supports class, className and style attributes. */
+      styled?: boolean,
    }
 
    interface PureContainerProps extends WidgetProps {
@@ -103,8 +102,7 @@ declare namespace Cx {
       /** List of child elements. */
       children?: React.ReactNode,
 
-      plainText?: boolean,
-      styled?: boolean,
+      plainText?: boolean
 
    }
 

@@ -152,7 +152,6 @@ export class ColumnBarBase extends PureContainer {
 ColumnBarBase.prototype.xAxis = 'x';
 ColumnBarBase.prototype.yAxis = 'y';
 ColumnBarBase.prototype.offset = 0;
-ColumnBarBase.prototype.pure = false;
 ColumnBarBase.prototype.legend = 'legend';
 ColumnBarBase.prototype.legendAction = 'auto';
 ColumnBarBase.prototype.active = true;

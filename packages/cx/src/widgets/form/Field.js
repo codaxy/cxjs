@@ -346,7 +346,6 @@ Field.prototype.trackFocus = false; //add cxs-focus on parent element
 Field.prototype.labelPlacement = false;
 Field.prototype.helpPlacement = false;
 Field.prototype.styled = true;
-//Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);
 

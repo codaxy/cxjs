@@ -54,7 +54,6 @@ export class Svg extends BoundedObject {
    }
 }
 
-Svg.prototype.pure = false;
 Svg.prototype.anchors = '0 1 1 0';
 Svg.prototype.baseClass = 'svg';
 Svg.prototype.autoWidth = false;

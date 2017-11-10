@@ -54,6 +54,5 @@ BoundedObject.prototype.anchors = 0;
 BoundedObject.prototype.margin = 0;
 BoundedObject.prototype.offset = 0;
 BoundedObject.prototype.padding = 0;
-BoundedObject.prototype.pure = false;
 BoundedObject.prototype.styled = true;
 

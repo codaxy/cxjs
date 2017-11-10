@@ -59,7 +59,6 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    /** Base CSS class to be applied to the element. Defaults to `pieslice`. */
    baseClass?: string,
 
-   pure?: boolean,
    legendAction?: string,
    
    /** Tooltip configuration. For more info see Tooltips. */

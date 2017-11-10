@@ -152,7 +152,6 @@ export class Widget extends Component {
 
 Widget.prototype.visible = true;
 Widget.prototype.memoize = true; //cache rendered content and use it if possible
-Widget.prototype.pure = true; //widget does not rely on contextual data
 Widget.prototype.CSS = 'cx';
 Widget.prototype.styled = false;
 

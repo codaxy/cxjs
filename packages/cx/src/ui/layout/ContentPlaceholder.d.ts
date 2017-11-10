@@ -3,10 +3,9 @@ import {RenderingContext} from '../RenderingContext';
 
 interface ContentPlaceholderProps extends Cx.PureContainerProps {
 
-   name?: Cx.StringProp
+   name?: Cx.StringProp,
 
+   scoped?: boolean
 }
 
 export class ContentPlaceholder extends Cx.Widget<ContentPlaceholderProps> {}
-
-export function contentSandbox(context: RenderingContext, name: string, exploreFunction: () => void);

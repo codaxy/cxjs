@@ -89,6 +89,5 @@ BubbleGraph.prototype.yField = 'y';
 BubbleGraph.prototype.rField = 'r';
 
 BubbleGraph.prototype.bubbleRadius = 10;
-BubbleGraph.prototype.pure = false;
 
 Widget.alias('bubble-graph', BubbleGraph);

@@ -252,7 +252,7 @@ class ContainerComponent extends VDOM.Component {
 
 var originalWidgetFactory = Widget.factory;
 
-//support for pure components
+//support for React components
 Widget.factory = function(type, config, more) {
    var typeType = typeof type;
 

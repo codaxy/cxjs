@@ -149,7 +149,6 @@ ScatterGraph.prototype.sizeField = false;
 ScatterGraph.prototype.shape = 'circle';
 
 ScatterGraph.prototype.size = 10;
-ScatterGraph.prototype.pure = false;
 ScatterGraph.prototype.legend = 'legend';
 ScatterGraph.prototype.legendAction = 'auto';
 ScatterGraph.prototype.styled = true;

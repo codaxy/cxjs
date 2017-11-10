@@ -116,5 +116,4 @@ ColumnBarGraphBase.prototype.stack = 'stack';
 ColumnBarGraphBase.prototype.stacked = false;
 ColumnBarGraphBase.prototype.autoSize = 0;
 ColumnBarGraphBase.prototype.offset = 0;
-ColumnBarGraphBase.prototype.pure = false;
 ColumnBarGraphBase.prototype.styled = true;

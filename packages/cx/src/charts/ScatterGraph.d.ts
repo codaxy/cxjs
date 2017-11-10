@@ -53,8 +53,6 @@ interface ScatterGraphProps extends Cx.StyledContainerProps {
    /** Name of the property which holds the size value. Do not set if `size` is used. */
    sizeField?: string,
 
-   pure?: boolean,
-
    /** Name of the legend to be used. Default is legend. */
    legend?: string,
    

@@ -224,7 +224,6 @@ Marker.prototype.draggable = false;
 Marker.prototype.constrainX = false;
 Marker.prototype.constrainY = false;
 Marker.prototype.constrain = false;
-Marker.prototype.pure = false;
 Marker.prototype.legend = 'legend';
 Marker.prototype.legendAction = 'auto';
 Marker.prototype.shape = 'circle';

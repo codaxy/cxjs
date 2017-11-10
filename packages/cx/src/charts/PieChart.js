@@ -310,7 +310,6 @@ PieSlice.prototype.percentageRadius = true;
 PieSlice.prototype.baseClass = 'pieslice';
 PieSlice.prototype.legend = 'legend';
 PieSlice.prototype.active = true;
-PieSlice.prototype.pure = false;
 PieSlice.prototype.stack = 'stack';
 PieSlice.prototype.legendAction = 'auto';
 PieSlice.prototype.styled = true;

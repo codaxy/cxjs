@@ -63,7 +63,6 @@ export class DocumentTitle extends Widget {
    }
 }
 
-DocumentTitle.prototype.pure = false;
 DocumentTitle.prototype.action = "append";
 DocumentTitle.prototype.separator = '';
 

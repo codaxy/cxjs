@@ -28,7 +28,6 @@ export class ValidationError extends Widget {
 }
 
 ValidationError.prototype.baseClass = 'validationerror';
-ValidationError.prototype.pure = false;
 ValidationError.prototype.memoize = false;
 
 Widget.alias('validation-error', ValidationError);

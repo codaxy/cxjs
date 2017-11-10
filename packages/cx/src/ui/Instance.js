@@ -102,7 +102,7 @@ export class Instance {
             this.widget.exploreCleanup(context, this);
 
          if (this.widget.outerLayout)
-            context.pop('content');
+            context.popNamedValue('content', 'body');
 
          if (this.widget.controller)
             context.pop('controller');
@@ -149,7 +149,6 @@ export class Instance {
       if (this.widget.onDestroy)
          this.trackDestroy();
 
-      this.pure = this.widget.pure;
       this.shouldUpdate = false;
 
       let shouldUpdate = this.cache('rawData', this.rawData)
@@ -166,6 +165,14 @@ export class Instance {
       if (shouldUpdate || !this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate();
 
+      this.widget.explore(context, this, this.data);
+
+      if (this.widget.onExplore)
+         this.widget.onExplore(context, this);
+
+      //because tree exploration uses depth-first search using a stack,
+      //helpers need to be registered last in order to be processed first
+
       if (this.widget.helpers) {
          this.helpers = {};
          for (let cmp in this.widget.helpers) {
@@ -178,31 +185,20 @@ export class Instance {
          }
       }
 
-      this.widget.explore(context, this, this.data);
-
-      if (this.widget.onExplore)
-         this.widget.onExplore(context, this);
-
       if (this.widget.isContent) {
          if (context.contentPlaceholder) {
             var placeholder = context.contentPlaceholder[this.widget.putInto];
             if (placeholder)
                placeholder(this);
          }
-
-         if (!context.content)
-            context.content = {};
-         context.content[this.widget.putInto] = this;
+         else
+            context.pushNamedValue('content', this.widget.putInto, this);
       }
 
       if (this.widget.outerLayout) {
          this.outerLayout = this.parent.getChild(context, this.widget.outerLayout, null, this.store);
          this.shouldRenderContent = false; //render layout until this is set
-         let content = {
-            ...context.content,
-            body: this
-         };
-         context.push('content', content);
+         context.pushNamedValue('content', 'body', this);
          this.outerLayout.scheduleExploreIfVisible(context);
       }
    }

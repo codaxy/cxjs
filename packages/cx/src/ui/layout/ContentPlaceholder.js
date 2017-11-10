@@ -9,25 +9,24 @@ export class ContentPlaceholder extends PureContainer {
       });
    }
 
-   explore(context, instance, data) {
+   explore(context, instance) {
       instance.content = null;
-      const content = context.content && context.content[data.name];
-      if (content)
-         this.setContent(context, instance, content);
-      else {
-         if (!context.contentPlaceholder)
-            context.contentPlaceholder = {};
+      let {data} = instance;
 
-         context.contentPlaceholder[data.name] = (content) => {
+      const content = context.content && context.content[data.name];
+      if (content && !this.scoped)
+         this.setContent(context, instance, content);
+      else
+         context.pushNamedValue('contentPlaceholder', data.name, (content) => {
             this.setContent(context, instance, content);
-         }
-      }
+         });
+
+      if (this.scoped)
+         instance.unregisterContentPlaceholder = () => {
+            context.popNamedValue("contentPlaceholder", data.name);
+         };
 
       super.explore(context, instance);
-
-      //content will be provided through context handler
-      if (!instance.content)
-         instance.pure = false;
    }
 
    prepare(context, instance) {
@@ -56,31 +55,6 @@ export class ContentPlaceholder extends PureContainer {
 }
 
 ContentPlaceholder.prototype.name = 'body';
+ContentPlaceholder.prototype.scoped = false;
 
 Widget.alias('content-placeholder', ContentPlaceholder);
-
-export function contentSandbox(context, name, exploreFunction) {
-   let content = context.content && context.content[name];
-   let placeholder = context.contentPlaceholder && context.contentPlaceholder[name];
-
-   if (content)
-      context.content[name] = null;
-   if (placeholder)
-      context.contentPlaceholder[name] = null;
-
-   exploreFunction();
-
-   if (context.content) {
-      if (content)
-         context.content[name] = content;
-      else
-         delete context.content[name];
-   }
-
-   if (context.contentPlaceholder) {
-      if (placeholder)
-         context.contentPlaceholder[name] = placeholder;
-      else
-         delete  context.contentPlaceholder[name];
-   }
-}

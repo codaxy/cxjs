@@ -90,7 +90,6 @@ export class Legend extends HtmlElement {
 
 Legend.prototype.name = 'legend';
 Legend.prototype.baseClass = 'legend';
-Legend.prototype.pure = false;
 Legend.prototype.vertical = false;
 Legend.prototype.memoize = false;
 
