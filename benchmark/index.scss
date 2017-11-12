@@ -1,0 +1,25 @@
+@import "../packages/cx/src/variables";
+@import "../packages/cx/src/index";
+
+html {
+  height: 100%;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: 'Open Sans', sans-serif;
+}
+
+#app {
+   height: 100%;
+
+   & > div {
+      height: 100%;
+   }
+}
+
+#test {
+   display: none;
+}
