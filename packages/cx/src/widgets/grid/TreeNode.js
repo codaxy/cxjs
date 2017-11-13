@@ -76,5 +76,6 @@ TreeNode.prototype.itemIcon = 'file';
 TreeNode.prototype.loadingIcon = 'loading';
 TreeNode.prototype.folderIcon = 'folder';
 TreeNode.prototype.openFolderIcon = 'folder-open';
+TreeNode.prototype.styled = true;
 
 Widget.alias('treenode', TreeNode);
