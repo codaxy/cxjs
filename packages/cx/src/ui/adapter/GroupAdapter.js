@@ -2,6 +2,7 @@ import {ArrayAdapter} from './ArrayAdapter';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Grouper} from '../../data/Grouper';
 import {isArray} from '../../util/isArray';
+import {isDefined} from "../../util/isDefined";
 
 export class GroupAdapter extends ArrayAdapter {
 
@@ -91,8 +92,14 @@ export class GroupAdapter extends ArrayAdapter {
          this.groupings = null;
       else if (isArray(groupings)) {
          this.groupings = groupings;
-         this.groupings.forEach(g=> {
-            g.grouper = new Grouper(g.key, {...this.aggregates, ...g.aggregates}, r=>r.store.getData(), g.text);
+         this.groupings.forEach(g => {
+            let key = {};
+            for (let name in g.key) {
+               if (!g.key[name] || !isDefined(g.key[name].direction) || !isDefined(g.key[name].value))
+                  g.key[name] = {value: g.key[name], sortDirection: 'ASC'};
+               key[name] = g.key[name].value;
+            }
+            g.grouper = new Grouper(key, {...this.aggregates, ...g.aggregates}, r => r.store.getData(), g.text);
          });
       } else
          throw new Error('Invalid grouping provided.');
@@ -102,9 +109,9 @@ export class GroupAdapter extends ArrayAdapter {
    updateSorter() {
       var sorters = [];
       if (this.groupings)
-         this.groupings.forEach(g=> {
+         this.groupings.forEach(g => {
             for (var k in g.key)
-               sorters.push({ value: g.key[k] });
+               sorters.push({value: g.key[k].value, direction: g.key[k].direction});
          });
       if (this.sorters)
          sorters.push(...this.sorters);

@@ -100,16 +100,43 @@
     max-width: calc(50em);
     text-align: right;
     height: 0;
+    top: -23px;
 
     a {
         color: lightgray;
         text-decoration: none;
         margin-left: 1em;
+        font-size: 12px;
         position: relative;
-        top: -20px;
 
         &:hover {
             color: gray;
+        }
+    }
+
+    input {
+        position: relative;
+        margin-left: 1em;
+        padding: 3px;
+        border: 1px solid #e2e2e2;
+        font-family: inherit;
+        font-size: 12px;
+
+        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: lightgray;
+        }
+        &::-moz-placeholder {
+            color: lightgray;
+        }
+        &:-ms-input-placeholder {
+            color: lightgray;
+        }
+        &:-moz-placeholder {
+            color: lightgray;
+        }
+
+        @media screen and (max-width: 800px) {
+            display: none;
         }
     }
 }

@@ -33,9 +33,11 @@ export class ConfigTable extends PureContainer {
                     name.push(<cx><br/></cx>, p.alias);
 
                 var r = <cx>
-                    <tr className={CSS.state({important: p.key, regular: !p.key})}>
-                        <td className={CSS.state({long: key.length > 16})}>
-                            {name}
+                    <tr>
+                        <td>
+                            <h4 className={CSS.state({long: key.length > 16, important: p.key, regular: !p.key})}>
+                                {name}
+                            </h4>
                         </td>
                         <td>
                             {p.description}
