@@ -1612,7 +1612,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
 "create-cx-app@file:./packages/create-cx-app":
-  version "0.0.15"
+  version "17.10.7"
   dependencies:
     cx-cli latest
 
@@ -1784,7 +1784,7 @@ currently-unhandled@^0.4.1:
     array-find-index "^1.0.1"
 
 "cx-cli@file:./packages/cx-cli":
-  version "17.10.5"
+  version "17.10.8"
   dependencies:
     chalk "^2.1.0"
     commander "^2.9.0"
@@ -3030,9 +3030,9 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-intl-io@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.7.tgz#2fa80c57f8f99bb843e47db635d3109a30a6ede5"
+intl-io@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.8.tgz#d088eb9060c1a79c9b66e1215c4c1faa3484cc18"
 
 intl@^1.2.5:
   version "1.2.5"

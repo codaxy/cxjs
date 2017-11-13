@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "17.11.1",
+  "version": "17.11.2",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
-    "intl-io": "^0.2.7",
+    "intl-io": "^0.2.8",
     "route-parser": "^0.0.5"
   },
   "peerDependencies": {
