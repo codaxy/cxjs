@@ -92,15 +92,15 @@ class ColorInput extends VDOM.Component {
          return this.dropdown;
 
       let dropdown = {
-         ...this.props.instance.widget.dropdownOptions,
-         type: Dropdown,
-         relatedElement: this.input,
          scrollTracking: true,
          autoFocus: true,
          focusable: isTouchDevice(), //put focus on the dropdown to prevent opening the keyboard
          inline: !isTouchDevice(),
          touchFriendly: true,
          placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
+         ...this.props.instance.widget.dropdownOptions,
+         type: Dropdown,
+         relatedElement: this.input,
          items: {
             type: ColorPicker,
             ...this.props.picker,

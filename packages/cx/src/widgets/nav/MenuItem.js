@@ -9,7 +9,6 @@ import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
-import {isTouchEvent} from '../../util/isTouchEvent';
 
 /*
  Functionality:
@@ -128,13 +127,13 @@ class MenuItemComponent extends VDOM.Component {
       if (!this.dropdown && widget.dropdown) {
          this.dropdown = Widget.create(Dropdown, {
             matchWidth: false,
-            ...widget.dropdownOptions,
-            relatedElement: this.el.parentElement,
             placementOrder: horizontal ? 'down-right down down-left up-right up up-left' : 'right-down right right-up left-down left left-up',
-            placement: widget.placement,
-            controller: controller,
             trackScroll: true,
             inline: true,
+            ...widget.dropdownOptions,
+            relatedElement: this.el.parentElement,
+            placement: widget.placement,
+            controller: controller,
             onKeyDown: ::this.onDropdownKeyDown,
             items: widget.dropdown,
             parentPositionChangeEvent,
