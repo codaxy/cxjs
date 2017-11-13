@@ -39,6 +39,8 @@ export class ValidationGroup extends PureContainer {
 
    exploreCleanup(context, instance) {
 
+      context.pop('validation');
+
       instance.valid = instance.validation.errors.length == 0;
       if (!instance.valid && !this.isolated && context.validation)
          context.validation.errors.push(...instance.validation.errors);
@@ -49,7 +51,7 @@ export class ValidationGroup extends PureContainer {
       if (this.errors && !shallowEquals(instance.data.errors, instance.validation.errors))
          instance.set('errors', instance.validation.errors);
 
-      context.pop('validation');
+
       context.pop('parentDisabled');
       context.pop('parentReadOnly');
       context.pop('parentViewMode');
