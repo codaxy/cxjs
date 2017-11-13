@@ -17,8 +17,7 @@ let common = {
          'cx': path.resolve(path.join(__dirname, '../packages/cx')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
-         //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
-         litmus: __dirname
+         //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno'))
       },
       extensions: [".js", ".ts", ".tsx", ".json"]
    },
@@ -61,8 +60,9 @@ let common = {
    // },
    plugins: [
       new webpack.DefinePlugin({
-         'process.env.NODE_ENV': JSON.stringify('development'),
+         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
+      new webpack.optimize.UglifyJsPlugin(),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
       })
@@ -91,18 +91,9 @@ if (production) {
          new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
          }),
-
-         new webpack.optimize.UglifyJsPlugin({
-            compress: true,
-            mangle: false,
-            beautify: true
-         }),
-
-         // new BabiliPlugin({ mangle: false }),
-
-         //new webpack.optimize.ModuleConcatenationPlugin(),
+         new webpack.optimize.ModuleConcatenationPlugin(),
          sass,
-         new BundleAnalyzerPlugin()
+         //new BundleAnalyzerPlugin()
       ],
 
       output: {
