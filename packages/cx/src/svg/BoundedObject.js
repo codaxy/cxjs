@@ -46,7 +46,7 @@ export class BoundedObject extends PureContainer {
       var {data} = instance;
 
       if (!context.parentRect)
-        throw new Error('Parent bounds were not provided through the context.');
+        throw new Error('Parent bounds were not provided through the context. Is there a parent Svg element up in the tree?');
 
       this.prepareBounds(context, instance);
 
