@@ -75,4 +75,31 @@ describe('Expression', function () {
          assert.equal(e(), 'T');
       });
    });
+
+   describe('are working', function () {
+      it('function expressions with get', function () {
+         var e = Expression.get(get => get('a') + get('b'));
+         assert.equal(e({ a: 1, b: 2 }), 3);
+      });
+
+      it('are properly memoized', function () {
+         let inv = 0;
+         var e = Expression.get(get => { inv++; return get('a') + get('b')}).memoize();
+
+         e({ a: 1, b: 1 });
+         assert.equal(inv, 1);
+
+         e({ a: 1, b: 1 });
+         assert.equal(inv, 1);
+
+         e({ a: 1, b: 2 });
+         assert.equal(inv, 2);
+
+         e({ a: 1, b: 2 });
+         assert.equal(inv, 2);
+
+         e({ a: 2, b: 2 });
+         assert.equal(inv, 3);
+      });
+   });
 });

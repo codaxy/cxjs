@@ -1,8 +1,10 @@
 import {computable} from './computable';
 import {Format} from '../util/Format';
+import {Binding} from './Binding';
 
 import {quoteStr} from '../util/quote';
 import {isDigit} from '../util/isDigit';
+import {isFunction} from '../util/isFunction';
 
 /*
    Helper usage example
@@ -17,8 +19,56 @@ let expCache = {},
    helperValues = [],
    expFatArrows = null;
 
+function getExpr(expr) {
+   let formats = {};
+
+   if (expr.memoize)
+      return expr;
+
+   function memoize() {
+      let lastValue, lastRunBindings, lastRunResults, getters = {};
+
+      return function(data) {
+         let i = 0, l = lastRunBindings ? lastRunBindings.length : -1;
+         for (; i < l; i++)
+            if (lastRunBindings[i](data) !== lastRunResults[i])
+               break;
+
+         if (i === l)
+            return lastValue;
+
+         lastRunBindings = [];
+         lastRunResults = [];
+
+         let get = function(bindingWithFormat) {
+            let getter = getters[bindingWithFormat];
+            if (!getter) {
+               let b = Binding.get(bindingWithFormat).value;
+               getter = (data) => {
+                  lastRunBindings.push(b);
+                  let value = b(data);
+                  lastRunResults.push(value);
+                  return value;
+               };
+            }
+            return getter(data);
+         };
+
+         lastValue = expr(get);
+         return lastValue;
+      }
+   }
+
+   let result = memoize();
+   result.memoize = memoize;
+   return result;
+}
+
 
 export function expression(str) {
+   if (isFunction(str))
+      return getExpr(str);
+
    let r = expCache[str];
    if (r)
       return r;
