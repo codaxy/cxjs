@@ -20,41 +20,51 @@ let expCache = {},
    expFatArrows = null;
 
 function getExpr(expr) {
-   let formats = {};
 
    if (expr.memoize)
       return expr;
 
    function memoize() {
-      let lastValue, lastRunBindings, lastRunResults, getters = {};
+      let lastValue, lastRunBindings = {}, lastRunResults = {}, getters = {}, currentData, len = -1;
 
-      return function(data) {
-         let i = 0, l = lastRunBindings ? lastRunBindings.length : -1;
-         for (; i < l; i++)
+      let get = function(bindingWithFormat) {
+         let getter = getters[bindingWithFormat];
+         if (!getter) {
+            let binding = bindingWithFormat, format;
+            let colonIndex = bindingWithFormat.indexOf(':');
+            if (colonIndex != -1) {
+               format = Format.parse(bindingWithFormat.substring(colonIndex + 1));
+               binding = bindingWithFormat.substring(0, colonIndex);
+            }
+            let b = Binding.get(binding);
+            getter = (data) => {
+               let value = b.value(data);
+               lastRunBindings[len] = b.value;
+               lastRunResults[len] = value;
+               len++;
+               return value;
+            };
+
+            if (format) {
+               let valueGetter = getter;
+               getter = data => format(valueGetter(data));
+            }
+
+            getters[bindingWithFormat] = getter;
+         }
+         return getter(currentData);
+      };
+
+      return function (data) {
+         let i = 0;
+         for (; i < len; i++)
             if (lastRunBindings[i](data) !== lastRunResults[i])
                break;
-
-         if (i === l)
-            return lastValue;
-
-         lastRunBindings = [];
-         lastRunResults = [];
-
-         let get = function(bindingWithFormat) {
-            let getter = getters[bindingWithFormat];
-            if (!getter) {
-               let b = Binding.get(bindingWithFormat).value;
-               getter = (data) => {
-                  lastRunBindings.push(b);
-                  let value = b(data);
-                  lastRunResults.push(value);
-                  return value;
-               };
-            }
-            return getter(data);
-         };
-
-         lastValue = expr(get);
+         if (i !== len) {
+            len = 0;
+            currentData = data;
+            lastValue = expr(get);
+         }
          return lastValue;
       }
    }
