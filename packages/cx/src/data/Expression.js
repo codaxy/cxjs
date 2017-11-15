@@ -1,8 +1,10 @@
 import {computable} from './computable';
 import {Format} from '../util/Format';
+import {Binding} from './Binding';
 
 import {quoteStr} from '../util/quote';
 import {isDigit} from '../util/isDigit';
+import {isFunction} from '../util/isFunction';
 
 /*
    Helper usage example
@@ -17,8 +19,66 @@ let expCache = {},
    helperValues = [],
    expFatArrows = null;
 
+function getExpr(expr) {
+
+   if (expr.memoize)
+      return expr;
+
+   function memoize() {
+      let lastValue, lastRunBindings = {}, lastRunResults = {}, getters = {}, currentData, len = -1;
+
+      let get = function(bindingWithFormat) {
+         let getter = getters[bindingWithFormat];
+         if (!getter) {
+            let binding = bindingWithFormat, format;
+            let colonIndex = bindingWithFormat.indexOf(':');
+            if (colonIndex != -1) {
+               format = Format.parse(bindingWithFormat.substring(colonIndex + 1));
+               binding = bindingWithFormat.substring(0, colonIndex);
+            }
+            let b = Binding.get(binding);
+            getter = (data) => {
+               let value = b.value(data);
+               lastRunBindings[len] = b.value;
+               lastRunResults[len] = value;
+               len++;
+               return value;
+            };
+
+            if (format) {
+               let valueGetter = getter;
+               getter = data => format(valueGetter(data));
+            }
+
+            getters[bindingWithFormat] = getter;
+         }
+         return getter(currentData);
+      };
+
+      return function (data) {
+         let i = 0;
+         for (; i < len; i++)
+            if (lastRunBindings[i](data) !== lastRunResults[i])
+               break;
+         if (i !== len) {
+            len = 0;
+            currentData = data;
+            lastValue = expr(get);
+         }
+         return lastValue;
+      }
+   }
+
+   let result = memoize();
+   result.memoize = memoize;
+   return result;
+}
+
 
 export function expression(str) {
+   if (isFunction(str))
+      return getExpr(str);
+
    let r = expCache[str];
    if (r)
       return r;
