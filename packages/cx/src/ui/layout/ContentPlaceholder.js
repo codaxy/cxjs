@@ -43,12 +43,8 @@ export class ContentPlaceholder extends PureContainer {
 
    render(context, instance, key) {
       const {content} = instance;
-      if (content) {
-         content.shouldRenderContent = true;
-         var result = content.render(context);
-         content.shouldRenderContent = false;
-         return result;
-      }
+      if (content)
+         return content.contentVDOM;
 
       return super.render(context, instance, key);
    }

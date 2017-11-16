@@ -61,7 +61,7 @@ export class Repeater extends PureContainer {
    explore(context, instance, data) {
       var instances = [];
       instance.mappedRecords.forEach((record) => {
-         var subInstance = instance.getChild(context, this.item, record.key + ':', record.store);
+         var subInstance = instance.getChild(context, this.item, record.key, record.store);
          let changed = subInstance.cache('data', record.data) || subInstance.cache('key', record.key);
          subInstance.record = record;
          if (this.cached && !changed && subInstance.visible && !subInstance.childStateDirty) {

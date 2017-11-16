@@ -12,7 +12,7 @@ export default <cx>
          <Checkbox value:bind="x"/>
       </p>
 
-      <h3>Checkbox</h3>
+      <h3>Radio</h3>
       <p>
          <Radio value:bind="y" native option={1}/>
       </p>

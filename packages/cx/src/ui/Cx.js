@@ -136,8 +136,10 @@ class CxContext extends VDOM.Component {
             context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
 
-         let result = instance.render(context);
-         this.content = getContent(result);
+         console.log(context.prepareList);
+
+         //let result = instance.render(context);
+         this.content = getContent(instance.vdom);
          if (contentFactory)
             this.content = contentFactory({children: this.content});
          this.timings.afterRender = now();

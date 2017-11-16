@@ -13,8 +13,8 @@ export class Layout extends Component {
          this.CSS = CSSHelper.get(this.CSS);
    }
 
-   explore(context, instance, items) {
-      let children = exploreChildren(context, instance, items, instance.cached.children);
+   explore(context, instance, items, key) {
+      let children = exploreChildren(context, instance, items, instance.cached.children, key);
       if (instance.cache('children', children)) {
          instance.markShouldUpdate();
          instance.children = children;
@@ -44,7 +44,7 @@ export class Layout extends Component {
          child, r;
       for (var i = 0; i < instance.children.length; i++) {
          child = instance.children[i];
-         r = child.render(context, keyPrefix);
+         r = child.vdom; //child.render(context, keyPrefix);
          if (child.widget.layout && child.widget.layout.useParentLayout && isArray(r.content)) {
             r.content.forEach(r=>this.append(result, r));
          }

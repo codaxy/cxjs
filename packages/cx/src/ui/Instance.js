@@ -1,4 +1,4 @@
-var instanceId = 1000;
+let instanceId = 1000;
 import {Controller} from './Controller';
 import {debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
@@ -95,8 +95,7 @@ export class Instance {
          throw new Error('Explore invisible!');
 
       if (this.explored) {
-         if (this.widget.prepareCleanup)
-            context.prepareList.push(this);
+         context.prepareList.push(this);
 
          if (this.widget.exploreCleanup)
             this.widget.exploreCleanup(context, this);
@@ -110,16 +109,17 @@ export class Instance {
          return;
       }
 
-      if (this.widget.exploreCleanup || this.widget.prepareCleanup || this.widget.outerLayout || this.widget.controller)
-         context.exploreStack.push(this);
+      this.explored = true;
+      context.exploreStack.push(this);
 
       if (this.widget.prepare)
          context.prepareList.push(this);
+      else
+         this.prepared = true;
 
       if (this.widget.cleanup)
          context.cleanupList.push(this);
 
-      this.explored = true;
       this.cacheList = null;
 
       if (this.instanceCache)
@@ -165,6 +165,22 @@ export class Instance {
       if (shouldUpdate || !this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate();
 
+      if (this.widget.isContent) {
+         if (context.contentPlaceholder) {
+            let placeholder = context.contentPlaceholder[this.widget.putInto];
+            if (placeholder)
+               placeholder(this);
+         }
+         else
+            context.pushNamedValue('content', this.widget.putInto, this);
+      }
+
+      if (this.widget.outerLayout) {
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         context.pushNamedValue('content', 'body', this);
+         this.outerLayout.scheduleExploreIfVisible(context);
+      }
+
       this.widget.explore(context, this, this.data);
 
       if (this.widget.onExplore)
@@ -184,23 +200,6 @@ export class Instance {
             }
          }
       }
-
-      if (this.widget.isContent) {
-         if (context.contentPlaceholder) {
-            var placeholder = context.contentPlaceholder[this.widget.putInto];
-            if (placeholder)
-               placeholder(this);
-         }
-         else
-            context.pushNamedValue('content', this.widget.putInto, this);
-      }
-
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.parent.getChild(context, this.widget.outerLayout, null, this.store);
-         this.shouldRenderContent = false; //render layout until this is set
-         context.pushNamedValue('content', 'body', this);
-         this.outerLayout.scheduleExploreIfVisible(context);
-      }
    }
 
    prepare(context) {
@@ -208,7 +207,20 @@ export class Instance {
          throw new Error('Prepare invisible!');
 
       if (this.prepared) {
-         this.widget.prepareCleanup(context, this);
+         if (this.widget.prepareCleanup)
+            this.widget.prepareCleanup(context, this);
+
+         this.vdom = this.render(context);
+         console.log(this.widget, this);
+
+         if (this.widget.isContent || this.outerLayout) {
+            this.contentVDOM = this.vdom;
+            this.vdom = null;
+         }
+
+         if (this.parent.outerLayout === this)
+            this.parent.vdom = this.vdom;
+
          return;
       }
 
@@ -216,26 +228,20 @@ export class Instance {
       this.widget.prepare(context, this);
    }
 
-   render(context, keyPrefix) {
+   render(context) {
 
       if (!this.visible)
          throw new Error('Render invisible!');
 
-      if (this.widget.isContent && !this.shouldRenderContent)
-         return;
-
-      if (this.outerLayout && this.widget.outerLayout && !this.shouldRenderContent)
-         return this.outerLayout.render(context, keyPrefix);
-
       let vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
          ? this.cached.vdom
-         : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
+         : renderResultFix(this.widget.render(context, this, this.key));
 
       if (this.widget.memoize)
          this.cached.vdom = vdom;
 
       if (this.shouldUpdate)
-         debug(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
+         debug(renderFlag, this.widget, this.key);
 
       if (this.cacheList)
          for (let key in this.cacheList)
@@ -291,9 +297,9 @@ export class Instance {
    }
 
    setState(state) {
-      var skip = this.state;
+      let skip = this.state;
       if (this.state)
-         for (var k in state) {
+         for (let k in state) {
             if (this.state[k] !== state[k]) {
                skip = false;
                break;
@@ -383,7 +389,7 @@ export class Instance {
 
    getInstanceCache() {
       if (!this.instanceCache)
-         this.instanceCache = new InstanceCache(this);
+         this.instanceCache = new InstanceCache(this, this.widget.isPureContainer ? this.key : null);
       return this.instanceCache;
    }
 
@@ -450,16 +456,17 @@ function renderResultFix(res) {
 
 export class InstanceCache {
 
-   constructor(parent) {
+   constructor(parent, keyPrefix) {
       this.children = {};
       this.parent = parent;
       this.marked = {};
       this.monitored = null;
+      this.keyPrefix = keyPrefix ? keyPrefix + ':' : '';
    }
 
    getChild(widget, store, keyPrefix) {
-      var key = (keyPrefix != null ? keyPrefix + '-' : '') + widget.widgetId;
-      var instance = this.children[key];
+      let key = this.keyPrefix + (keyPrefix ? keyPrefix + '-' : '' ) + widget.widgetId;
+      let instance = this.children[key];
       if (!instance) {
          instance = new Instance(widget, key);
          instance.parent = this.parent;

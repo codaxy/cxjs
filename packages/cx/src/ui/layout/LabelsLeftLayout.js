@@ -17,7 +17,7 @@ export class LabelsLeftLayout extends Layout {
       var {children} = instance;
       var {CSS, baseClass} = this;
       children.forEach((c, i)=> {
-         var r = c.render(context);
+         var r = c.vdom ;//render(context);
          if (r) {
             if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
                r.content.forEach((r, j)=> {
