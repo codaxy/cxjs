@@ -26,8 +26,11 @@ export interface OverlayProps extends Cx.StyledContainerProps {
     * Inline overlays have z-index set to a very high value, to ensure they are displayed on top of the other content. */
    inline?: boolean,
    
-   /** Set to `true` to automatically focus the field, after it renders for the first time. */
+   /** Set to `true` to automatically focus the top level overlay element. */
    autoFocus?: boolean,
+
+   /** Set to `true` to automatically focus the first focusable child in the overlay. */
+   autoFocusFirstChild?: boolean,
 
    /** Set to `true` to append the set animate state after the initial render. Appended CSS class may be used to add show/hide animations. */
    animate?: boolean,
@@ -35,7 +38,10 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    /** Number of milliseconds to wait, before removing the element from the DOM. Used in combination with the animate property. */
    destroyDelay?: number,
 
+   /** Automatically dismiss overlay if it loses focus. */
    dismissOnFocusOut?: boolean,
+
+   /** Set to true to make the top level overlay element focusable. */
    focusable?: boolean
    
 }

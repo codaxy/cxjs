@@ -176,6 +176,7 @@ Overlay.prototype.modal = false;
 Overlay.prototype.backdrop = false;
 Overlay.prototype.inline = false;
 Overlay.prototype.autoFocus = false;
+Overlay.prototype.autoFocusFirstChild = false;
 Overlay.prototype.animate = false;
 Overlay.prototype.draggable = false;
 Overlay.prototype.destroyDelay = 0;
@@ -528,11 +529,15 @@ export class OverlayComponent extends VDOM.Component {
       else if (parentEl)
          parentEl.style.display = null;
 
-      if (widget.autoFocus) {
-         if (!FocusManager.focusFirstChild(this.el) && widget.focusable)
-            FocusManager.focus(this.el);
-      } else if (isSelfOrDescendant(this.el, document.activeElement))
+      let childHasFocus = isSelfOrDescendant(this.el, document.activeElement);
+
+      if (childHasFocus)
          oneFocusOut(this, this.el, ::this.onFocusOut);
+      else {
+         if (!widget.autoFocusFirstChild || !FocusManager.focusFirstChild(this.el))
+            if (widget.focusable && widget.autoFocus)
+               FocusManager.focus(this.el);
+      }
 
       instance.onBeforeDismiss = ::this.onBeforeDismiss;
 
