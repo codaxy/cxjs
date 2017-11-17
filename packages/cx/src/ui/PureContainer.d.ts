@@ -1,7 +1,5 @@
 import * as Cx from '../core';
-import {Component} from './Component';
-
-type Filter = string | Component;
+import {Filter} from './Container';
 
 export class PureContainer extends Cx.Widget<Cx.PureContainerProps> {
 

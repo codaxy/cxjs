@@ -1,10 +1,11 @@
 import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
+import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
 import {isString} from '../util/isString';
 import {Binding} from '../data/Binding';
 
-export class Repeater extends PureContainer {
+export class Repeater extends Container {
 
    declareData() {
       super.declareData(...arguments, {

@@ -1,6 +1,7 @@
 export * from './Component';
 export * from './Controller';
 export * from './Widget';
+export * from './Container';
 export * from './PureContainer';
 export * from './Repeater';
 export * from './Rescope';

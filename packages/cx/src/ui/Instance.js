@@ -15,6 +15,7 @@ export class Instance {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
+      this.cached = {};
    }
 
    setStore(store) {
@@ -29,7 +30,6 @@ export class Instance {
          this.widget.initialized = true;
       }
 
-      this.cached = {};
       if (!this.dataSelector) {
          this.widget.selector.init(this.store);
          this.dataSelector = this.widget.selector.createStoreSelector();
@@ -75,7 +75,7 @@ export class Instance {
    cache(key, value) {
       if (!this.cacheList)
          this.cacheList = {};
-      let oldValue = this.cacheList[key];
+      let oldValue = this.cached[key];
       this.cacheList[key] = value;
       return oldValue !== value;
    }
@@ -162,7 +162,7 @@ export class Instance {
          debug(processDataFlag, this.widget);
       }
 
-      if (shouldUpdate || !this.childStateDirty || !this.widget.memoize)
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate();
 
       if (this.widget.outerLayout) {
@@ -453,11 +453,11 @@ export class InstanceCache {
       this.parent = parent;
       this.marked = {};
       this.monitored = null;
-      this.keyPrefix = keyPrefix ? keyPrefix + ':' : '';
+      this.keyPrefix = keyPrefix != null ? keyPrefix + '-' : '';
    }
 
    getChild(widget, store, keyPrefix) {
-      let key = this.keyPrefix + (keyPrefix ? keyPrefix + '-' : '' ) + widget.widgetId;
+      let key = this.keyPrefix + widget.widgetId + (keyPrefix != null ? ':' + keyPrefix : '');
       let instance = this.children[key];
       if (!instance) {
          instance = new Instance(widget, key);
