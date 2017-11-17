@@ -20,6 +20,7 @@ export default <cx>
 
       <div outerLayout={AppLayout}>
          <Content name="sidebar">
+            Test
             <TextField value:bind="value" />
          </Content>
          Main 1

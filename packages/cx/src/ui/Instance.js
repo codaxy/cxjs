@@ -32,7 +32,7 @@ export class Instance {
       this.cached = {};
       if (!this.dataSelector) {
          this.widget.selector.init(this.store);
-         this.dataSelector = this.widget.selector.create();
+         this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
       if (this.widget.controller)
@@ -52,7 +52,7 @@ export class Instance {
          this.init(context);
 
       let wasVisible = this.visible;
-      this.rawData = this.dataSelector(this.store.getData());
+      this.rawData = this.dataSelector(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
       this.explored = false;
       this.prepared = false;
@@ -165,20 +165,17 @@ export class Instance {
       if (shouldUpdate || !this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate();
 
-      if (this.widget.isContent) {
-         if (context.contentPlaceholder) {
-            let placeholder = context.contentPlaceholder[this.widget.putInto];
-            if (placeholder)
-               placeholder(this);
-         }
-         else
-            context.pushNamedValue('content', this.widget.putInto, this);
+      if (this.widget.outerLayout) {
+         context.pushNamedValue('content', 'body', this);
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
       }
 
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
-         context.pushNamedValue('content', 'body', this);
-         this.outerLayout.scheduleExploreIfVisible(context);
+      if (this.widget.isContent) {
+         if (context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto])
+            context.contentPlaceholder[this.widget.putInto](this);
+         else
+            context.pushNamedValue('content', this.widget.putInto, this);
       }
 
       this.widget.explore(context, this, this.data);
@@ -210,13 +207,8 @@ export class Instance {
          if (this.widget.prepareCleanup)
             this.widget.prepareCleanup(context, this);
 
-         this.vdom = this.render(context);
-         console.log(this.widget, this);
-
-         if (this.widget.isContent || this.outerLayout) {
-            this.contentVDOM = this.vdom;
-            this.vdom = null;
-         }
+         if (!this.widget.isContent && !this.outerLayout)
+            this.vdom = this.render(context);
 
          if (this.parent.outerLayout === this)
             this.parent.vdom = this.vdom;
