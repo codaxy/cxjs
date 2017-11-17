@@ -237,13 +237,13 @@ class MonthInput extends VDOM.Component {
          return this.dropdown;
 
       var dropdown = {
-         ...this.props.instance.widget.dropdownOptions,
-         type: Dropdown,
-         relatedElement: this.input,
          scrollTracking: true,
          inline: !isTouchDevice(),
          placementOrder: 'down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          touchFriendly: true,
+         ...this.props.instance.widget.dropdownOptions,
+         type: Dropdown,
+         relatedElement: this.input,
          items: {
             type: MonthPicker,
             ...this.props.monthPicker,

@@ -29,13 +29,13 @@ export function closest(el, condition) {
    while (el) {
       if (condition(el))
          return el;
-      el = el.parentElement;
+      el = el.parentNode;
    }
    return null;
 }
 
 export function closestParent(el, condition) {
-   return el && closest(el.parentElement, condition);
+   return el && closest(el.parentNode, condition);
 }
 
 export function isFocused(el) {

@@ -25,7 +25,7 @@ export class CodeSnippet extends HtmlElement {
         if (this.fiddle) {
             fiddleLink = (
                 <a
-                    href={`https://cxjs.io/fiddle/?f=${this.fiddle}`}
+                    href={`https://fiddle.cxjs.io/?f=${this.fiddle}`}
                     className={this.CSS.element(this.baseClass, 'link')}
                     target="_blank"
                 >

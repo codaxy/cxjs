@@ -6,8 +6,13 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
    surface.className = 'cxb-mousecapture';
    if (cursor)
       surface.style.cursor = cursor;
+
    document.body.appendChild(surface);
 
+   if (surface.setCapture) {
+      e.preventDefault();
+      surface.setCapture(true);
+   }
 
    let move = e => {
       batchUpdates(() => {
@@ -20,6 +25,8 @@ export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
    let end = e => {
       batchUpdates(() => {
+         if (surface.releaseCapture)
+            surface.releaseCapture();
          surface.style.display = "none";
          try {
             if (onMouseUp)

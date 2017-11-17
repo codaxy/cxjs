@@ -206,14 +206,16 @@ class DateTimeInput extends VDOM.Component {
       }
 
       let dropdown = {
-         ...widget.dropdownOptions,
-         type: Dropdown,
-         relatedElement: this.input,
          scrollTracking: true,
          inline: !isTouchDevice(),
          matchWidth: false,
          placementOrder: 'down down-right down-left up up-right up-left',
          touchFriendly: true,
+         firstChildDefinesHeight: true,
+         firstChildDefinesWidth: true,
+         ...widget.dropdownOptions,
+         type: Dropdown,
+         relatedElement: this.input,
          items: {
             ...pickerConfig,
             ...this.props.picker,
@@ -231,9 +233,7 @@ class DateTimeInput extends VDOM.Component {
                      this.input.focus();
                });
             }
-         },
-         firstChildDefinesHeight: true,
-         firstChildDefinesWidth: true
+         }
       };
 
       return this.dropdown = Widget.create(dropdown);

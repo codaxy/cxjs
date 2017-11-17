@@ -334,15 +334,16 @@ class LookupComponent extends VDOM.Component {
       </cx>);
 
       let dropdown = {
-         type: Dropdown,
-         relatedElement: this.dom.input,
+         constrain: true,
          scrollTracking: true,
          inline: !isTouchDevice(),
+         placementOrder: 'down-right down-left up-right up-left',
+         ...widget.dropdownOptions,
+         type: Dropdown,
+         relatedElement: this.dom.input,
          renderChildren: ::this.renderDropdownContents,
          onFocusOut: ::this.closeDropdown,
          memoize: false,
-         constrain: true,
-         placementOrder: 'down-right down-left up-right up-left',
          touchFriendly: isTouchDevice(),
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
@@ -350,8 +351,7 @@ class LookupComponent extends VDOM.Component {
                   height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight
                }
             }
-         },
-         ...widget.dropdownOptions
+         }
       };
 
       return this.dropdown = Widget.create(dropdown);

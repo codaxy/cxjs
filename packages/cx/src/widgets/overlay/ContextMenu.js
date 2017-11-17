@@ -8,6 +8,7 @@ ContextMenu.prototype.matchWidth = false;
 ContextMenu.prototype.placementOrder = 'down-right right up-right down-left left up-left';
 ContextMenu.prototype.offset = 0;
 ContextMenu.prototype.autoFocus = true;
+ContextMenu.prototype.autoFocusFirstChild = true;
 ContextMenu.prototype.focusable = true;
 
 export const openContextMenu = (e, content, store, options) => {

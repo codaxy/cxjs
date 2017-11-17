@@ -1,4 +1,6 @@
 import {Grid, HtmlElement} from "cx/widgets";
+import {startAppLoop} from "cx/ui";
+import {Store} from "cx/data";
 import {casual} from '../casual';
 
 let data = Array.from({length: 100}, (_, i) => ({
@@ -10,7 +12,7 @@ let data = Array.from({length: 100}, (_, i) => ({
    visits: casual.integer(1, 100)
 }));
 
-export default (
+let Demo = (
    <cx>
       <div>
          <Grid
@@ -29,3 +31,35 @@ export default (
       </div>
    </cx>
 );
+
+
+let grid100 = () => {
+   let store = new Store();
+   let stop = startAppLoop(document.getElementById('test'), store, <cx>
+      <div>
+         <Demo/>
+      </div>
+   </cx>);
+   stop();
+};
+
+let grid100sealed = () => {
+   let store = new Store({
+      sealed: true
+   });
+   let stop = startAppLoop(document.getElementById('test'), store, <cx>
+      <div>
+         <Demo/>
+      </div>
+   </cx>);
+   stop();
+};
+
+let suite = new Benchmark.Suite;
+suite
+   .add('Grid100', grid100)
+   .add('Grid100 - sealed store', grid100sealed)
+   .add('Grid100 - verify', grid100)
+   .add('Grid100 - sealed - verify', grid100sealed);
+
+export default suite;
