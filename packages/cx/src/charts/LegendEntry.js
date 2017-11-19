@@ -52,7 +52,7 @@ export class LegendEntry extends HtmlElement {
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
          if (instance.cache('colorIndex', data.colorIndex))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
    }
 

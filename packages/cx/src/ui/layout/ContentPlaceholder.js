@@ -31,14 +31,14 @@ export class ContentPlaceholder extends PureContainer {
 
    prepare(context, instance) {
       if (instance.content && instance.content.shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 
    setContent(context, instance, content) {
       instance.content = content;
 
       if (instance.cache('content', content) || content.shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {

@@ -56,7 +56,6 @@ export class Instance {
       this.visible = this.widget.checkVisible(context, this, this.rawData);
       this.explored = false;
       this.prepared = false;
-      this.rendered = false;
 
       if (!this.visible && wasVisible)
          this.destroy();
@@ -73,19 +72,34 @@ export class Instance {
    }
 
    cache(key, value) {
+      let oldValue = this.cached[key];
+      if (oldValue === value)
+         return false;
+
       if (!this.cacheList)
          this.cacheList = {};
-      let oldValue = this.cached[key];
       this.cacheList[key] = value;
-      return oldValue !== value;
+      return true;
    }
 
-   markShouldUpdate() {
+   markShouldUpdate(context) {
       let parent = this;
+      let index = context.renderList.length;
       //notify all parents that child state change to bust up caching
       while (parent && !parent.shouldUpdate) {
          parent.shouldUpdate = true;
+         //content and body are rendered on demand by content placeholders
+         if (!parent.widget.isContent && !parent.outerLayout)
+            context.renderList.push(parent);
          parent = parent.parent;
+      }
+      let l = context.renderList.length - 1;
+      while (index < l) {
+         let t = context.renderList[index];
+         context.renderList[index] = context.renderList[l]
+         context.renderList[l] = t;
+         l--;
+         index++;
       }
    }
 
@@ -95,7 +109,8 @@ export class Instance {
          throw new Error('Explore invisible!');
 
       if (this.explored) {
-         context.prepareList.push(this);
+         if (this.widget.prepareCleanup)
+            context.prepareList.push(this);
 
          if (this.widget.exploreCleanup)
             this.widget.exploreCleanup(context, this);
@@ -110,7 +125,8 @@ export class Instance {
       }
 
       this.explored = true;
-      context.exploreStack.push(this);
+      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.controller || this.widget.prepareCleanup)
+         context.exploreStack.push(this);
 
       if (this.widget.prepare)
          context.prepareList.push(this);
@@ -163,7 +179,7 @@ export class Instance {
       }
 
       if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
-         this.markShouldUpdate();
+         this.markShouldUpdate(context);
 
       if (this.widget.outerLayout) {
          context.pushNamedValue('content', 'body', this);
@@ -206,13 +222,6 @@ export class Instance {
       if (this.prepared) {
          if (this.widget.prepareCleanup)
             this.widget.prepareCleanup(context, this);
-
-         if (!this.widget.isContent && !this.outerLayout)
-            this.vdom = this.render(context);
-
-         if (this.parent.outerLayout === this)
-            this.parent.vdom = this.vdom;
-
          return;
       }
 
@@ -225,31 +234,31 @@ export class Instance {
       if (!this.visible)
          throw new Error('Render invisible!');
 
-      let vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
-         ? this.cached.vdom
-         : renderResultFix(this.widget.render(context, this, this.key));
-
-      if (this.widget.memoize)
-         this.cached.vdom = vdom;
-
-      if (this.shouldUpdate)
+      if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
+         this.vdom = renderResultFix(this.widget.render(context, this, this.key));
+      }
 
       if (this.cacheList)
          for (let key in this.cacheList)
             this.cached[key] = this.cacheList[key];
 
-      this.cached.rawData = this.rawData;
-      this.cached.state = this.state;
-      this.cached.widgetVersion = this.widget.version;
-      this.cached.visible = true;
-      this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
+      this.cacheList = null;
+
+      // this.cached.rawData = this.rawData;
+      // this.cached.state = this.state;
+      // this.cached.widgetVersion = this.widget.version;
+      // this.cached.visible = true;
+      // this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
       this.childStateDirty = false;
 
       if (this.instanceCache)
          this.instanceCache.sweep();
 
-      return vdom;
+      if (this.parent.outerLayout === this)
+         this.parent.vdom = this.vdom;
+
+      return this.vdom;
    }
 
    cleanup(context) {

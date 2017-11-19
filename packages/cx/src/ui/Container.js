@@ -21,7 +21,7 @@ export class Container extends Widget {
       
       super.init();
 
-      this.layout = Layout.create(this.layout || 'default');
+      this.layout = Layout.create(this.layout || {});
    }
 
    explore(context, instance) {

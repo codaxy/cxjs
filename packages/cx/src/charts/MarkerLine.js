@@ -56,7 +56,7 @@ export class MarkerLine extends BoundedObject {
       let {data, xAxis, yAxis} = instance;
 
       if ((xAxis && xAxis.shouldUpdate) || (yAxis && yAxis.shouldUpdate))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
 
       super.prepare(context, instance);
 

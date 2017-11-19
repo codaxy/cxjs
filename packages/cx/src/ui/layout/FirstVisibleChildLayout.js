@@ -25,7 +25,7 @@ export class FirstVisibleChildLayout extends Layout {
          break;
       }
       if (instance.cache('children', instance.children))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 }
 

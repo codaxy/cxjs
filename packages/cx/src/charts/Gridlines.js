@@ -13,7 +13,7 @@ export class Gridlines extends BoundedObject {
       super.prepare(context, instance);
       let {xAxis, yAxis} = instance;
       if ((xAxis && xAxis.shouldUpdate) || (yAxis && yAxis.shouldUpdate))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {

@@ -39,7 +39,7 @@ export class BubbleGraph extends Widget {
    prepare(context, instance) {
       super.prepare(context, instance);
       if (instance.axes[this.xAxis].shouldUpdate || instance.axes[this.yAxis].shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {

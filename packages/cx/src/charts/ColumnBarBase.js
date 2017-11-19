@@ -52,7 +52,7 @@ export class ColumnBarBase extends PureContainer {
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
          if (instance.cache('colorIndex', data.colorIndex))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (!data.valid)
@@ -62,11 +62,11 @@ export class ColumnBarBase extends PureContainer {
          instance.bounds = this.calculateRect(instance);
          instance.cache('bounds', instance.bounds);
          if (!instance.bounds.isEqual(instance.cached.bounds))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
 
          context.push('parentRect', instance.bounds);
          if (instance.xAxis.shouldUpdate || instance.yAxis.shouldUpdate)
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (data.name && context.addLegendEntry)

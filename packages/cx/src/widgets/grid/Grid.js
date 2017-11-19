@@ -241,7 +241,7 @@ export class Grid extends Widget {
       let columns = exploreChildren(context, instance, this.columns, instance.columns);
       if (columns != instance.columns) {
          instance.columns = columns;
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
       }
 
       let {store} = instance;
@@ -264,7 +264,7 @@ export class Grid extends Widget {
                } else if (row.scheduleExploreIfVisible(context)) {
                   context.dragHandles = [];
                   if (changed)
-                     row.markShouldUpdate();
+                     row.markShouldUpdate(context);
                   row.dragHandles = context.dragHandles;
                }
             }
@@ -726,7 +726,7 @@ class GridComponent extends VDOM.Component {
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
                row.selected = instance.isSelected(record.data, record.index);
                if (row.cache('selected', row.selected) || row.cache('recordData', record.data))
-                  row.markShouldUpdate();
+                  row.markShouldUpdate(context);
                addRow(record, start + i, true);
             }
          });

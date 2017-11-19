@@ -3,20 +3,22 @@ export class RenderingContext {
       this.options = options || {};
       this.exploreStack = [];
       this.prepareList = [];
+      this.renderList = [];
       this.cleanupList = [];
       this.stacks = {};
 
    }
-      getStack(key) {
-         let stack = this.stacks[key];
-         if (!stack)
-            stack = this.stacks[key] = [];
-         return stack;
-      }
+
+   getStack(key) {
+      let stack = this.stacks[key];
+      if (!stack)
+         stack = this.stacks[key] = [];
+      return stack;
+   }
 
 
    push(key, value) {
-     let stack = this.getStack(key);
+      let stack = this.getStack(key);
       stack.push(value);
       this[key] = value;
       return value;

@@ -49,10 +49,10 @@ export class Range extends BoundedObject {
       var {data, xAxis, yAxis} = instance;
 
       if (xAxis && xAxis.shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
 
       if (yAxis.shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
 
       if (data.name && data.legend && context.addLegendEntry)
          context.addLegendEntry(data.legend, {

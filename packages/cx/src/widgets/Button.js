@@ -31,7 +31,7 @@ export class Button extends HtmlElement {
    explore(context, instance) {
       instance.data.parentDisabled = context.parentDisabled;
       if (instance.cache('parentDisabled', context.parentDisabled))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
 
       super.explore(context, instance);
    }

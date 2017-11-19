@@ -37,7 +37,7 @@ export class PieChart extends BoundedObject {
       instance.cache('hash', hash);
       pie.shouldUpdate = !shallowEquals(hash, instance.cached.hash)
       if (!pie.shouldUpdate)
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
       super.prepare(context, instance);
    }
 }
@@ -198,7 +198,7 @@ export class PieSlice extends PureContainer {
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
          if (instance.cache('colorIndex', data.colorIndex))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (instance.valid && data.active) {
@@ -233,7 +233,7 @@ export class PieSlice extends PureContainer {
                b: oy
             });
 
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
          }
 
          context.push('parentRect', instance.bounds);

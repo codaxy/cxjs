@@ -153,7 +153,7 @@ export class Axis extends BoundedObject {
       var [a, b] = !this.vertical ? [bounds.l, bounds.r] : [bounds.b, bounds.t];
       instance.calculator.measure(a, b);
       if (!instance.calculator.isSame(instance.cached.axis))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
    }
 
    cleanup(context, instance) {

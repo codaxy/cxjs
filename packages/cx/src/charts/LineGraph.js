@@ -80,12 +80,12 @@ export class LineGraph extends Widget {
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
          if (instance.cache('colorIndex', data.colorIndex))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (data.active) {
          if (instance.axes[this.xAxis].shouldUpdate || instance.axes[this.yAxis].shouldUpdate)
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (data.name && context.addLegendEntry)

@@ -34,7 +34,7 @@ export class BoundedObject extends PureContainer {
             throw new Error('Parent bounds were not provided through the context.');
          instance.parentRect = context.parentRect;
          instance.cache('parentRect' , context.parentRect);
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
          data.bounds = this.calculateBounds(context, instance);
          data.childrenBounds = Rect.add(data.bounds, data.padding);
       }

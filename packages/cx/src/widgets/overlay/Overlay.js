@@ -64,7 +64,7 @@ export class Overlay extends PureContainer {
       }
 
       if (instance.cache('dismiss', instance.dismiss))
-         instance.markShouldUpdate();
+         instance.markShouldUpdate(context);
 
       super.explore(context, instance);
    }

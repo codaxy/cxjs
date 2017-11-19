@@ -14,11 +14,9 @@ export class Layout extends Component {
    }
 
    explore(context, instance, items, key) {
-      let children = exploreChildren(context, instance, items, instance.cached.children, key);
-      if (instance.cache('children', children)) {
-         instance.markShouldUpdate();
-         instance.children = children;
-      }
+      instance.children = exploreChildren(context, instance, items, instance.cached.children, key);
+      if (instance.cache('children', instance.children))
+         instance.markShouldUpdate(context);
    }
 
 

@@ -114,15 +114,15 @@ export class Marker extends BoundedObject {
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
          if (instance.cache('colorIndex', data.colorIndex))
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
       }
 
       if (data.active) {
          if (xAxis && xAxis.shouldUpdate)
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
 
          if (yAxis && yAxis.shouldUpdate)
-            instance.markShouldUpdate();
+            instance.markShouldUpdate(context);
 
          super.prepare(context, instance);
       }
