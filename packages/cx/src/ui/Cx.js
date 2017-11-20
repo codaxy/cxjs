@@ -136,8 +136,8 @@ class CxContext extends VDOM.Component {
             context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
 
-         console.log(context.prepareList);
-         console.log(context.renderStack);
+         //console.log(context.prepareList);
+         //console.log(context.renderStack);
 
          //walk in reverse order so children get rendered first
          for (let j = context.renderStack.length - 1; j >= 0; j--)

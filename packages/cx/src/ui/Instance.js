@@ -10,6 +10,17 @@ import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 
+function reverseSlice(array, start) {
+   let last = array.length - 1;
+   while (start < last) {
+      let x = array[start];
+      array[start] = array[last];
+      array[last] = x;
+      start++;
+      last--;
+   }
+}
+
 export class Instance {
    constructor(widget, key) {
       this.widget = widget;
@@ -84,21 +95,20 @@ export class Instance {
 
    markShouldUpdate(context) {
       let parent = this;
-      let index = context.renderList.length;
+      let renderList = this.renderList;
+      let index = renderList.length;
       //notify all parents that child state change to bust up caching
-      while (parent && !parent.shouldUpdate) {
+      while (parent && !parent.shouldUpdate && parent.explored) {
+         if (parent.renderList !== renderList) {
+            reverseSlice(renderList, index);
+            renderList = parent.renderList;
+            index = renderList.length;
+         }
          parent.shouldUpdate = true;
-         context.renderList.push(parent);
+         renderList.push(parent);
          parent = parent.parent;
       }
-      let l = context.renderList.length - 1;
-      while (index < l) {
-         let t = context.renderList[index];
-         context.renderList[index] = context.renderList[l]
-         context.renderList[l] = t;
-         l--;
-         index++;
-      }
+      reverseSlice(renderList, index);
    }
 
    explore(context) {
@@ -116,7 +126,7 @@ export class Instance {
          if (this.widget.outerLayout)
             context.popNamedValue('content', 'body');
 
-         if (this.widget.isContent && this.popRenderList)
+         if (this.popRenderList)
             context.pop('renderList');
 
          if (this.widget.controller)
@@ -190,14 +200,21 @@ export class Instance {
          }
       }
 
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
-         this.markShouldUpdate(context);
-
       if (this.widget.outerLayout) {
          context.pushNamedValue('content', 'body', this);
          this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
          this.outerLayout.scheduleExploreIfVisible(context);
+         context.push('renderList', context.newRenderList());
       }
+
+      if (this.parent.outerLayout === this) {
+         context.pop('renderList');
+      }
+
+      this.renderList = context.renderList;
+
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
+         this.markShouldUpdate(context);
 
       this.widget.explore(context, this, this.data);
 
@@ -242,7 +259,7 @@ export class Instance {
       if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
          let vdom = renderResultFix(this.widget.render(context, this, this.key));
-         if (this.isContent || this.outerLayout)
+         if (this.widget.isContent || this.outerLayout)
             this.contentVDOM = vdom;
          else
             this.vdom = vdom;

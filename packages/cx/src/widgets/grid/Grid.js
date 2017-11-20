@@ -263,8 +263,8 @@ export class Grid extends Widget {
                   row.shouldUpdate = false;
                } else if (row.scheduleExploreIfVisible(context)) {
                   context.dragHandles = [];
-                  if (changed)
-                     row.markShouldUpdate(context);
+                  // if (changed)
+                  //    row.markShouldUpdate(context);
                   row.dragHandles = context.dragHandles;
                }
             }
