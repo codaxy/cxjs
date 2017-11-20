@@ -19,29 +19,26 @@ export class RenderingContext {
 
    push(key, value) {
       let stack = this.getStack(key);
-      stack.push(value);
-      this[key] = value;
-      return value;
+      stack.push(this[key]);
+      return this[key] = value;
    }
 
    pop(key) {
       let stack = this.getStack(key);
-      stack.pop();
-      this[key] = stack[stack.length - 1];
+      return this[key] = stack.pop();
    }
 
    pushNamedValue(key, name, value) {
       let stack = this.getStack(`${key}:${name}`);
-      stack.push(value);
       if (!this[key])
          this[key] = {};
-      this[key][name] = value;
+      stack.push(this[key][name]);
+      return this[key][name] = value;
    }
 
    popNamedValue(key, name) {
       let stack = this.getStack(`${key}:${name}`);
-      stack.pop();
-      this[key][name] = stack[stack.length - 1];
+      return this[key][name] = stack.pop();
    }
 
    get(key) {

@@ -88,9 +88,7 @@ export class Instance {
       //notify all parents that child state change to bust up caching
       while (parent && !parent.shouldUpdate) {
          parent.shouldUpdate = true;
-         //content and body are rendered on demand by content placeholders
-         if (!parent.widget.isContent && !parent.outerLayout)
-            context.renderList.push(parent);
+         context.renderList.push(parent);
          parent = parent.parent;
       }
       let l = context.renderList.length - 1;
@@ -118,6 +116,8 @@ export class Instance {
          if (this.widget.outerLayout)
             context.popNamedValue('content', 'body');
 
+         if (this.widget.outerLayout || this.wi)
+
          if (this.widget.controller)
             context.pop('controller');
 
@@ -125,7 +125,7 @@ export class Instance {
       }
 
       this.explored = true;
-      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.controller || this.widget.prepareCleanup)
+      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
          context.exploreStack.push(this);
 
       if (this.widget.prepare)
@@ -181,17 +181,17 @@ export class Instance {
       if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate(context);
 
-      if (this.widget.outerLayout) {
-         context.pushNamedValue('content', 'body', this);
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
-         this.outerLayout.scheduleExploreIfVisible(context);
-      }
-
       if (this.widget.isContent) {
          if (context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto])
             context.contentPlaceholder[this.widget.putInto](this);
          else
             context.pushNamedValue('content', this.widget.putInto, this);
+      }
+
+      if (this.widget.outerLayout) {
+         context.pushNamedValue('content', 'body', this);
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
       }
 
       this.widget.explore(context, this, this.data);
@@ -236,7 +236,11 @@ export class Instance {
 
       if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
-         this.vdom = renderResultFix(this.widget.render(context, this, this.key));
+         let vdom = renderResultFix(this.widget.render(context, this, this.key));
+         if (this.isContent || this.outerLayout)
+            this.contentVDOM = vdom;
+         else
+            this.vdom = vdom;
       }
 
       if (this.cacheList)
