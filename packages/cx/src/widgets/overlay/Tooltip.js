@@ -159,7 +159,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
       if (tooltip.alwaysVisible || tooltip.trackMouse) {
          tooltipInstance.init();
-         tooltipInstance.data = tooltipInstance.dataSelector(store.getData());
+         tooltipInstance.data = tooltipInstance.dataSelector(store);
       }
    }
 
