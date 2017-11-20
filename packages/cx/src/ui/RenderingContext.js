@@ -4,6 +4,7 @@ export class RenderingContext {
       this.exploreStack = [];
       this.prepareList = [];
       this.renderList = [];
+      this.renderStack = [this.renderList];
       this.cleanupList = [];
       this.stacks = {};
 
@@ -43,5 +44,11 @@ export class RenderingContext {
 
    get(key) {
       return this[key];
+   }
+
+   newRenderList() {
+      let list = [];
+      this.renderStack.push(list);
+      return list;
    }
 }

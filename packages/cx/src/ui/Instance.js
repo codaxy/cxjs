@@ -116,7 +116,8 @@ export class Instance {
          if (this.widget.outerLayout)
             context.popNamedValue('content', 'body');
 
-         if (this.widget.outerLayout || this.wi)
+         if (this.widget.isContent && this.popRenderList)
+            context.pop('renderList');
 
          if (this.widget.controller)
             context.pop('controller');
@@ -178,15 +179,19 @@ export class Instance {
          debug(processDataFlag, this.widget);
       }
 
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
-         this.markShouldUpdate(context);
-
       if (this.widget.isContent) {
+         this.popRenderList = false;
          if (context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto])
             context.contentPlaceholder[this.widget.putInto](this);
-         else
+         else {
             context.pushNamedValue('content', this.widget.putInto, this);
+            context.push('renderList', context.newRenderList());
+            this.popRenderList = true;
+         }
       }
+
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
+         this.markShouldUpdate(context);
 
       if (this.widget.outerLayout) {
          context.pushNamedValue('content', 'body', this);

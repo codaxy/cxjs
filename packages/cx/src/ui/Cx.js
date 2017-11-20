@@ -3,7 +3,7 @@ import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
 import {debug, appDataFlag} from '../util/Debug';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
-import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted } from './batchUpdates';
+import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -46,7 +46,7 @@ export class Cx extends VDOM.Component {
          instance={instance}
          flags={this.flags}
          options={this.props.options}
-         buster={++this.renderCount }
+         buster={++this.renderCount}
          contentFactory={this.props.contentFactory}
       />
    }
@@ -137,11 +137,12 @@ class CxContext extends VDOM.Component {
          this.timings.afterPrepare = now();
 
          console.log(context.prepareList);
-         console.log(context.renderList);
+         console.log(context.renderStack);
 
          //walk in reverse order so children get rendered first
-         for (let i = context.renderList.length - 1; i >= 0; i--)
-            context.renderList[i].render(context);
+         for (let j = context.renderStack.length - 1; j >= 0; j--)
+            for (let i = context.renderStack[j].length - 1; i >= 0; i--)
+               context.renderStack[j][i].render(context);
 
          this.content = getContent(instance.vdom);
          if (contentFactory)
