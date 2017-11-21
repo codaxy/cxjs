@@ -259,7 +259,7 @@ export class Field extends PureContainer {
 
    renderLabel(context, instance, key) {
       if (instance.components.label)
-         return getContent(instance.components.label.render(context, key));
+         return getContent(instance.components.label.vdom);
    }
 
    renderInput(context, instance, key) {

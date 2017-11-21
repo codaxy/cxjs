@@ -187,7 +187,7 @@ export class HtmlElement extends Container {
 
       this.attachProps(context, instance, props);
 
-      if (this.memoize || this.tooltip)
+      if (this.tooltip)
          return (
             <ContainerComponent
                key={key}

@@ -18,19 +18,21 @@ export default <cx>
    <div style="padding: 50px">
       <TextField value:bind="value" />
 
-      <div outerLayout={AppLayout}>
-         <Content name="sidebar">
-            Test
-            <TextField value:bind="value" />
-         </Content>
-         Main 1
-         <TextField value:bind="value" />
-      </div>
+      {/*<div outerLayout={AppLayout}>*/}
+         {/*<Content name="sidebar">*/}
+            {/*Test*/}
+            {/*<TextField value:bind="value" />*/}
+         {/*</Content>*/}
+         {/*Main 1*/}
+         {/*<TextField value:bind="value" />*/}
+      {/*</div>*/}
 
       <Button
          onClick={(e, {store}) => { store.toggle('x')}}
       >
          X
       </Button>
+
+      <TextField value:bind="value" />
    </div>
 </cx>
