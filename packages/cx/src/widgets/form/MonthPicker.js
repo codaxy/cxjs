@@ -20,12 +20,12 @@ import {
 } from '../overlay/tooltip-ops';
 import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
+import {stopPropagation} from "../../util/eventCallbacks";
+import {isString} from "../../util/isString";
+import {getCursorPos} from "../overlay/captureMouse";
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 enableCultureSensitiveFormatting();
-
-import {stopPropagation} from "../../util/eventCallbacks";
-
 
 export class MonthPicker extends Field {
 
@@ -118,11 +118,11 @@ export class MonthPicker extends Field {
 
    renderInput(context, instance, key) {
       return <MonthPickerComponent key={key}
-         instance={instance}
-         onBlur={this.onBlur}
-         onFocusOut={this.onFocusOut}
-         onKeyDown={this.onKeyDown}
-         autoFocus={this.autoFocus}
+                                   instance={instance}
+                                   onBlur={this.onBlur}
+                                   onFocusOut={this.onFocusOut}
+                                   onKeyDown={this.onKeyDown}
+                                   autoFocus={this.autoFocus}
       />
    }
 
@@ -176,8 +176,8 @@ const validationCheck = (date, data) => {
    return true;
 };
 
-const dateNumber = (date) => {
-   return date.getFullYear() * 100 + date.getMonth() + 1;
+const monthNumber = (date) => {
+   return date.getFullYear() * 12 + date.getMonth();
 };
 
 export class MonthPickerComponent extends VDOM.Component {
@@ -203,6 +203,8 @@ export class MonthPickerComponent extends VDOM.Component {
       this.handleMouseUp = ::this.handleMouseUp;
       this.handleMouseEnter = ::this.handleMouseEnter;
       this.handleKeyPress = ::this.handleKeyPress;
+      this.handleTouchMove = ::this.handleTouchMove;
+      this.handleTouchEnd = ::this.handleTouchEnd;
    }
 
    extractCursorInfo(el) {
@@ -233,6 +235,9 @@ export class MonthPickerComponent extends VDOM.Component {
          let {startYear, endYear} = this.props.instance.widget;
          data.cursorYear = Math.max(startYear, Math.min(endYear, data.cursorYear));
       }
+
+      if (Object.keys(data).every(k => this.state[k] == data[k]))
+         return;
 
       this.setState(data, () => {
          if (options.ensureVisible) {
@@ -284,32 +289,32 @@ export class MonthPickerComponent extends VDOM.Component {
 
          case KeyCode.up:
             if (column == 'Y')
-               this.moveCursor(e, {cursorYear: cursorYear - 1}, { ensureVisible: true });
+               this.moveCursor(e, {cursorYear: cursorYear - 1}, {ensureVisible: true});
             else if (column == 'Q')
                this.moveCursor(e, {
                   cursorQuarter: (cursorQuarter + 3) % 4,
                   cursorYear: cursorQuarter == 0 ? cursorYear - 1 : cursorYear
-               }, { ensureVisible: true });
+               }, {ensureVisible: true});
             else if (column == 'M')
                if (cursorMonth > 3)
-                  this.moveCursor(e, {cursorMonth: cursorMonth - 3}, { ensureVisible: true });
+                  this.moveCursor(e, {cursorMonth: cursorMonth - 3}, {ensureVisible: true});
                else
-                  this.moveCursor(e, {cursorMonth: cursorMonth + 9, cursorYear: cursorYear - 1}, { ensureVisible: true });
+                  this.moveCursor(e, {cursorMonth: cursorMonth + 9, cursorYear: cursorYear - 1}, {ensureVisible: true});
             break;
 
          case KeyCode.down:
             if (column == 'Y')
-               this.moveCursor(e, {cursorYear: cursorYear + 1}, { ensureVisible: true });
+               this.moveCursor(e, {cursorYear: cursorYear + 1}, {ensureVisible: true});
             else if (column == 'Q')
                this.moveCursor(e, {
                   cursorQuarter: (cursorQuarter + 1) % 4,
                   cursorYear: cursorQuarter == 3 ? cursorYear + 1 : cursorYear
-               }, { ensureVisible: true });
+               }, {ensureVisible: true});
             else if (column == 'M')
                if (cursorMonth < 10)
-                  this.moveCursor(e, {cursorMonth: cursorMonth + 3}, { ensureVisible: true });
+                  this.moveCursor(e, {cursorMonth: cursorMonth + 3}, {ensureVisible: true});
                else
-                  this.moveCursor(e, {cursorMonth: cursorMonth - 9, cursorYear: cursorYear + 1}, { ensureVisible: true });
+                  this.moveCursor(e, {cursorMonth: cursorMonth - 9, cursorYear: cursorYear + 1}, {ensureVisible: true});
             break;
 
          case KeyCode.pageUp:
@@ -349,8 +354,8 @@ export class MonthPickerComponent extends VDOM.Component {
          this.props.onFocusOut();
    }
 
-   getCursorDates() {
-      let {cursorMonth, cursorYear, cursorQuarter, column} = this.state;
+   getCursorDates(cursor) {
+      let {cursorMonth, cursorYear, cursorQuarter, column} = cursor || this.state;
       switch (column) {
          case 'M':
             return [new Date(cursorYear, cursorMonth - 1, 1), new Date(cursorYear, cursorMonth, 1)];
@@ -363,6 +368,21 @@ export class MonthPickerComponent extends VDOM.Component {
       }
    }
 
+   handleTouchMove(e) {
+      let cursor = getCursorPos(e);
+      let el = document.elementFromPoint(cursor.clientX, cursor.clientY);
+      if (this.dom.table.contains(el) && isString(el.dataset.point))
+      {
+         let cursor = this.extractCursorInfo(el);
+         this.moveCursor(e, cursor);
+      }
+   }
+
+   handleTouchEnd(e) {
+      if (this.state.state == 'drag')
+         this.handleMouseUp(e);
+   }
+
    handleMouseEnter(e) {
       let cursor = this.extractCursorInfo(e.target);
       cursor.hover = true;
@@ -373,13 +393,15 @@ export class MonthPickerComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
 
-      if (!cursor)
+      if (!cursor) {
          cursor = this.extractCursorInfo(e.currentTarget);
+         this.moveCursor(e, cursor);
+      }
 
       e.stopPropagation();
       preventFocusOnTouch(e);
 
-      this.dragStartDates = this.getCursorDates();
+      this.dragStartDates = this.getCursorDates(cursor);
       if (drag) {
          this.setState({
             state: 'drag',
@@ -427,21 +449,20 @@ export class MonthPickerComponent extends VDOM.Component {
 
       let from = 10000, to = 0, a, b;
 
-
       if (data.date && !widget.range) {
-         from = dateNumber(data.date);
+         from = monthNumber(data.date);
          to = from + 0.1;
       } else if (widget.range) {
          if (this.state.state == 'drag') {
             let [originFromDate, originToDate] = this.dragStartDates;
             let [cursorFromDate, cursorToDate] = this.getCursorDates();
-            a = Math.min(dateNumber(originFromDate), dateNumber(cursorFromDate));
-            b = Math.max(dateNumber(originToDate), dateNumber(cursorToDate));
+            a = Math.min(monthNumber(originFromDate), monthNumber(cursorFromDate));
+            b = Math.max(monthNumber(originToDate), monthNumber(cursorToDate));
             from = Math.min(a, b);
             to = Math.max(a, b);
          } else if (data.from && data.to) {
-            a = dateNumber(data.from);
-            b = dateNumber(data.to);
+            a = monthNumber(data.from);
+            b = monthNumber(data.to);
             from = Math.min(a, b);
             to = Math.max(a, b);
          }
@@ -455,47 +476,61 @@ export class MonthPickerComponent extends VDOM.Component {
          for (let q = 0; q < 4; q++) {
             let row = [];
             if (q == 0)
-               row.push(<th key="year"
-                  rowSpan={4}
-                  data-point={`Y-${y}`}
-                  className={CSS.element(baseClass, 'year', {
-                     cursor: showCursor && this.state.column == 'Y' && y == this.state.cursorYear
+               row.push(
+                  <th
+                     key="year"
+                     rowSpan={4}
+                     data-point={`Y-${y}`}
+                     className={CSS.element(baseClass, 'year', {
+                        cursor: showCursor && this.state.column == 'Y' && y == this.state.cursorYear
+                     })}
+                     onMouseEnter={this.handleMouseEnter}
+                     onMouseDown={this.handleMouseDown}
+                     onMouseUp={this.handleMouseUp}
+                  >
+                     {y}
+                  </th>
+               );
+
+            for (let i = 0; i < 3; i++) {
+               let m = q * 3 + i + 1;
+               let unselectable = !validationCheck(new Date(y, m - 1, 1), data);
+               let mno = y * 12 + m - 1;
+               let handle = true; //isTouchDevice(); //mno === from || mno === to - 1;
+               row.push(
+                  <td key={`M${m}`}
+                      className={CSS.state({
+                         cursor: showCursor && this.state.column == 'M' && y == this.state.cursorYear && m == this.state.cursorMonth,
+                         handle,
+                         selected: mno >= from && mno < to,
+                         unselectable
+                      })}
+                      data-point={`Y-${y}-M-${m}`}
+                      onMouseEnter={unselectable ? null : this.handleMouseEnter}
+                      onMouseDown={unselectable ? null : this.handleMouseDown}
+                      onMouseUp={unselectable ? null : this.handleMouseUp}
+                      onTouchStart={unselectable ? null : this.handleMouseDown}
+                      onTouchMove={unselectable ? null : this.handleTouchMove}
+                      onTouchEnd={this.handleMouseUp}
+                  >
+                     {monthNames[m - 1].substr(0, 3)}
+                  </td>
+               )
+            }
+            row.push(
+               <th
+                  key={`q${q}`}
+                  className={CSS.state({
+                     cursor: showCursor && this.state.column == 'Q' && y == this.state.cursorYear && q == this.state.cursorQuarter
                   })}
+                  data-point={`Y-${y}-Q-${q}`}
                   onMouseEnter={this.handleMouseEnter}
                   onMouseDown={this.handleMouseDown}
                   onMouseUp={this.handleMouseUp}
                >
-                  {y}
-               </th>);
-
-            for (let i = 0; i < 3; i++) {
-               let m = q * 3 + i + 1;
-               let unselectable = !validationCheck(new Date(y, m-1, 1), data);
-               row.push(<td key={`M${m}`}
-                  className={CSS.state({
-                     cursor: showCursor && this.state.column == 'M' && y == this.state.cursorYear && m == this.state.cursorMonth,
-                     selected: y * 100 + m >= from && y * 100 + m < to,
-                     unselectable
-                  })}
-                  data-point={`Y-${y}-M-${m}`}
-                  onMouseEnter={ unselectable ? null : this.handleMouseEnter }
-                  onMouseDown={ unselectable ? null : this.handleMouseDown }
-                  onMouseUp={ unselectable ? null : this.handleMouseUp }
-               >
-                  {monthNames[m - 1].substr(0, 3)}
-               </td>)
-            }
-            row.push(<th key={`q${q}`}
-               className={CSS.state({
-                  cursor: showCursor && this.state.column == 'Q' && y == this.state.cursorYear && q == this.state.cursorQuarter
-               })}
-               data-point={`Y-${y}-Q-${q}`}
-               onMouseEnter={this.handleMouseEnter}
-               onMouseDown={this.handleMouseDown}
-               onMouseUp={this.handleMouseUp}
-            >
-               {`Q${q + 1}`}
-            </th>);
+                  {`Q${q + 1}`}
+               </th>
+            );
             rows.push(row);
          }
          years.push(rows);
