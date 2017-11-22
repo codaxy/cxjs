@@ -178,10 +178,10 @@ export class Instance {
 
       this.shouldUpdate = false;
 
-      let shouldUpdate = this.cache('rawData', this.rawData)
-         || this.cache('state', this.state)
-         || this.cache('widgetVersion', this.widget.version)
-         || this.cache('globalCacheIdentifier', GlobalCacheIdentifier.get());
+      let shouldUpdate = this.rawData !== this.cached.rawData
+         || this.state !== this.cached.state
+         || this.widget.version !== this.cached.widgetVersion
+         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get();
 
       if (shouldUpdate) {
          this.data = {...this.rawData};
@@ -229,7 +229,7 @@ export class Instance {
          for (let cmp in this.widget.helpers) {
             let helper = this.widget.helpers[cmp];
             if (helper) {
-               let ins = this.getChild(context, helper, "helper-" + cmp);
+               let ins = this.getChild(context, helper);
                if (ins.scheduleExploreIfVisible(context))
                   this.helpers[cmp] = ins;
             }
@@ -271,11 +271,10 @@ export class Instance {
 
       this.cacheList = null;
 
-      // this.cached.rawData = this.rawData;
-      // this.cached.state = this.state;
-      // this.cached.widgetVersion = this.widget.version;
-      // this.cached.visible = true;
-      // this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
+      this.cached.rawData = this.rawData;
+      this.cached.state = this.state;
+      this.cached.widgetVersion = this.widget.version;
+      this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
       this.childStateDirty = false;
 
       if (this.instanceCache)
@@ -425,8 +424,8 @@ export class Instance {
          this.instanceCache.destroy();
    }
 
-   getChild(context, widget, keyPrefix, store) {
-      return this.getInstanceCache().getChild(widget, store || this.store, keyPrefix);
+   getChild(context, widget, key, store) {
+      return this.getInstanceCache().getChild(widget, store || this.store, key);
    }
 
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
@@ -491,17 +490,17 @@ export class InstanceCache {
       this.keyPrefix = keyPrefix != null ? keyPrefix + '-' : '';
    }
 
-   getChild(widget, store, keyPrefix) {
-      let key = this.keyPrefix + widget.widgetId + (keyPrefix != null ? ':' + keyPrefix : '');
-      let instance = this.children[key];
+   getChild(widget, store, key) {
+      let k = this.keyPrefix + (key != null ? key : widget.widgetId);
+      let instance = this.children[k];
       if (!instance) {
-         instance = new Instance(widget, key);
+         instance = new Instance(widget, k);
          instance.parent = this.parent;
-         this.children[key] = instance;
+         this.children[k] = instance;
       }
       if (instance.store !== store)
          instance.setStore(store);
-      this.marked[key] = instance;
+      this.marked[k] = instance;
       return instance;
    }
 

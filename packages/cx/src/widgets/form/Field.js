@@ -308,8 +308,8 @@ export class Field extends PureContainer {
    render(context, instance, key) {
       var {data} = instance;
       var content = !data.viewMode
-         ? this.renderInput(context, instance, key + 'input')
-         : this.renderContent(context, instance, key + 'content');
+         ? this.renderInput(context, instance, key)
+         : this.renderContent(context, instance, key);
 
       return {
          label: !this.labelPlacement && this.renderLabel(context, instance, key),

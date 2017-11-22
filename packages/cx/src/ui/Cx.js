@@ -4,6 +4,7 @@ import {RenderingContext} from './RenderingContext';
 import {debug, appDataFlag} from '../util/Debug';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
+import {shallowEquals} from "../util/shallowEquals";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -29,11 +30,22 @@ export class Cx extends VDOM.Component {
             throw new Error('Cx component requires store.');
       }
 
-      if (props.subscribe)
+      if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(::this.update);
+         this.state = {data: this.store.getData()};
+      }
 
       this.flags = {};
       this.renderCount = 0;
+   }
+
+   componentWillReceiveProps(props) {
+      //TODO: Switch to new props
+      if (props.subscribe) {
+         let data = this.store.getData();
+         if (data !== this.state.data)
+            this.setState({data: this.store.getData()});
+      }
    }
 
    render() {
@@ -92,6 +104,16 @@ export class Cx extends VDOM.Component {
       if (this.props.options && this.props.options.onPipeUpdate)
          this.props.options.onPipeUpdate(null);
    }
+
+   shouldComponentUpdate(props, state) {
+      return state !== this.state
+         || !shallowEquals(props.params, this.props.params)
+         || props.instance !== this.props.instance
+         || props.widget !== this.props.widget
+         || props.store !== this.props.store
+         || props.parentInstance !== this.props.parentInstance
+         ;
+   }
 }
 
 
@@ -104,7 +126,6 @@ class CxContext extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-
       this.timings = {
          start: now()
       };
