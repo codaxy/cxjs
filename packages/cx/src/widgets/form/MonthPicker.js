@@ -22,6 +22,7 @@ import {Localization} from '../../ui/Localization';
 import {scrollElementIntoView} from '../../util/scrollElementIntoView';
 import {stopPropagation} from "../../util/eventCallbacks";
 import {isString} from "../../util/isString";
+import {isTouchEvent} from "../../util/isTouchEvent";
 import {getCursorPos} from "../overlay/captureMouse";
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
@@ -385,7 +386,7 @@ export class MonthPickerComponent extends VDOM.Component {
 
    handleMouseEnter(e) {
       let cursor = this.extractCursorInfo(e.target);
-      cursor.hover = true;
+      cursor.hover = !isTouchEvent();
       this.moveCursor(e, cursor);
    }
 
