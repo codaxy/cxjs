@@ -119,6 +119,7 @@ export class DateTimeField extends Field {
          key={key}
          instance={instance}
          data={instance.data}
+         shouldUpdate={instance.shouldUpdate}
          picker={{
             value: this.value,
             minValue: this.minValue,
@@ -150,7 +151,7 @@ export class DateTimeField extends Field {
 }
 
 DateTimeField.prototype.baseClass = "datetimefield";
-DateTimeField.prototype.memoize = false;
+//DateTimeField.prototype.memoize = false;
 
 DateTimeField.prototype.maxValueErrorText = 'Select {0:d} or before.';
 DateTimeField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
@@ -173,12 +174,15 @@ class DateTimeInput extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      this.props.instance.component = this;
-      let {data} = this.props;
+      props.instance.component = this;
       this.state = {
          dropdownOpen: false,
          focus: false
       };
+   }
+
+   shouldComponentUpdate(props, state) {
+      return props.shouldUpdate || state !== this.state || state.dropdownOpen;
    }
 
    getDropdown() {
