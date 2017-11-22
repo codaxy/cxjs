@@ -640,6 +640,7 @@ class GridComponent extends VDOM.Component {
       };
 
       this.syncBuffering = false;
+      this.headerHeight = 0;
 
       if (widget.infinite) {
          this.start = 0;
@@ -776,7 +777,7 @@ class GridComponent extends VDOM.Component {
          );
       }
 
-      let marginTop = -(this.headerHeight || 0), marginBottom = 0;
+      let marginTop = -this.headerHeight, marginBottom = 0;
       if (this.rowHeight > 0) {
          marginTop += this.rowHeight * start;
          marginBottom = (data.totalRecordCount - (start + children.length)) * this.rowHeight;
@@ -787,11 +788,11 @@ class GridComponent extends VDOM.Component {
             key="scroller"
             ref={this.scrollerRef}
             style={{
-               marginTop: this.headerHeight
+               marginTop: `${this.headerHeight}px`
             }}
             tabIndex={widget.selectable ? 0 : null}
             onScroll={::this.onScroll}
-            className={CSS.element(baseClass, 'scroll-area', { "fixed-header": !!this.dom.fixedHeader })}
+            className={CSS.element(baseClass, 'scroll-area', { "fixed-header": !!this.props.header })}
             onKeyDown={::this.handleKeyDown}
             onMouseLeave={::this.handleMouseLeave}
             onFocus={::this.onFocus}
@@ -1000,7 +1001,7 @@ class GridComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate !== false || state != this.state;
+      return props.shouldUpdate !== false || state !== this.state;
    }
 
    componentDidMount() {
@@ -1134,6 +1135,8 @@ class GridComponent extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       let {data, widget} = props.instance;
+      if (!props.header)
+         this.headerHeight = 0;
       this.setState({
          cursor: Math.max(Math.min(this.state.cursor, data.totalRecordCount - 1), widget.selectable && this.state.focused ? 0 : -1)
       });
@@ -1192,8 +1195,9 @@ class GridComponent extends VDOM.Component {
             this.dom.fixedHeader.style.display = 'block';
             if (fixedHeaderRefs.last)
                fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
-            this.dom.scroller.style.marginTop = `${headerHeight}px`;
          }
+
+         this.dom.scroller.style.marginTop = `${headerHeight}px`;
 
          if (widget.buffered) {
             let {start, end} = this.state;
