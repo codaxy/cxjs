@@ -96,7 +96,7 @@ export class GroupAdapter extends ArrayAdapter {
             let key = {};
             for (let name in g.key) {
                if (!g.key[name] || !isDefined(g.key[name].direction) || !isDefined(g.key[name].value))
-                  g.key[name] = {value: g.key[name], sortDirection: 'ASC'};
+                  g.key[name] = {value: g.key[name], direction: 'ASC'};
                key[name] = g.key[name].value;
             }
             g.grouper = new Grouper(key, {...this.aggregates, ...g.aggregates}, r => r.store.getData(), g.text);
