@@ -107,6 +107,7 @@ export class Cx extends VDOM.Component {
 
    shouldComponentUpdate(props, state) {
       return state !== this.state
+         || !props.params
          || !shallowEquals(props.params, this.props.params)
          || props.instance !== this.props.instance
          || props.widget !== this.props.widget
