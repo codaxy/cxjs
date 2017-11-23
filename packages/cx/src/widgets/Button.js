@@ -12,7 +12,8 @@ export class Button extends HtmlElement {
          confirm: {structured: true},
          pressed: undefined,
          icon: undefined,
-         disabled: undefined
+         disabled: undefined,
+         enabled: undefined
       })
    }
 

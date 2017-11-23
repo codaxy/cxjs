@@ -493,7 +493,7 @@ export class InstanceCache {
    getChild(widget, store, key) {
       let k = this.keyPrefix + (key != null ? key : widget.widgetId);
       let instance = this.children[k];
-      if (!instance) {
+      if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
          instance = new Instance(widget, k);
          instance.parent = this.parent;
          this.children[k] = instance;

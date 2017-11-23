@@ -126,9 +126,7 @@ describe('Controller', () => {
    });
 
    it('invokes triggers and computables in order of definition', () => {
-
       let log = [];
-
       class TestController extends Controller {
          onInit() {
             this.addTrigger('t1', [], () => {
@@ -158,6 +156,35 @@ describe('Controller', () => {
 
       let tree = component.toJSON();
       assert.deepEqual(log, ["t1", "c1", "t2"]);
+   });
+
+   it('controllers are recreated if component is hidden and shown', () => {
+      let initCount = 0;
+      class TestController extends Controller {
+         onInit() {
+            initCount++;
+         }
+      }
+
+      let store = new Store();
+      store.set('visible', true);
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div visible:bind="visible" controller={TestController} />
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(initCount, 1);
+
+      store.set('visible', false);
+      let tree2 = component.toJSON();
+      assert.equal(tree2, null);
+
+      store.set('visible', true);
+      let tree3 = component.toJSON();
+      assert.equal(initCount, 2);
    });
 });
 

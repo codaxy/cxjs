@@ -31,6 +31,9 @@ export interface ButtonProps extends Cx.HtmlElementProps {
    /** Set to `true` to disable the button. */
    disabled?: Cx.BooleanProp,
 
+   /** Set to `false` to disable the button. */
+   enabled?: Cx.BooleanProp,
+
    /** 
     * Click handler.
     *
