@@ -460,7 +460,7 @@ export class InstanceCache {
    getChild(widget, store, keyPrefix) {
       var key = (keyPrefix != null ? keyPrefix + '-' : '') + widget.widgetId;
       var instance = this.children[key];
-      if (!instance) {
+      if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
          instance = new Instance(widget, key);
          instance.parent = this.parent;
          this.children[key] = instance;
