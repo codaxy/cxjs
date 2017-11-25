@@ -108,10 +108,9 @@ class SvgComponent extends VDOM.Component {
       let { instance } = this.props;
       let { widget } = this.props.instance;
 
-      var bounds = this.svg.getBoundingClientRect();
       var size = {
-         width: bounds.width,
-         height: bounds.height
+         width: this.svg.clientWidth,
+         height: this.svg.clientHeight
       };
 
       if (widget.autoHeight)
