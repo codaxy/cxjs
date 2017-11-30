@@ -284,9 +284,11 @@ export class Instance {
          this.instanceCache.sweep();
 
       if (this.parent.outerLayout === this) {
-         //TODO: Figure out nested layouts
-         this.parent.vdom = this.vdom;
-         console.log(this.vdom);
+         //if outer layouts are chained we need to find the originating element (last element with OL set)
+         let parent = this.parent;
+         while (parent.parent.outerLayout)
+            parent = parent.parent;
+         parent.vdom = this.vdom;
       }
 
       return this.vdom;
