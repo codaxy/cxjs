@@ -20,6 +20,12 @@ import {isArray} from '../util/isArray';
 export class List extends Widget {
 
    init() {
+      if (this.recordAlias)
+         this.recordName = this.recordAlias;
+      
+      if (this.indexAlias)
+         this.indexName = this.indexAlias;
+      
       this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
