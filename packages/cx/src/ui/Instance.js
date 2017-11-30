@@ -94,19 +94,19 @@ export class Instance {
    }
 
    markShouldUpdate(context) {
-      let parent = this;
+      let ins = this;
       let renderList = this.renderList;
       let index = renderList.length;
       //notify all parents that child state change to bust up caching
-      while (parent && !parent.shouldUpdate && parent.explored) {
-         if (parent.renderList !== renderList) {
+      while (ins && !ins.shouldUpdate && ins.explored) {
+         if (ins.renderList !== renderList) {
             reverseSlice(renderList, index);
-            renderList = parent.renderList;
+            renderList = ins.renderList;
             index = renderList.length;
          }
-         parent.shouldUpdate = true;
-         renderList.push(parent);
-         parent = parent.parent;
+         ins.shouldUpdate = true;
+         renderList.push(ins);
+         ins = ins.widget.isContent ? ins.contentPlaceholder : ins.parent;
       }
       reverseSlice(renderList, index);
    }
@@ -191,7 +191,8 @@ export class Instance {
 
       if (this.widget.isContent) {
          this.popRenderList = false;
-         if (context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto])
+         this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
+         if (this.contentPlaceholder)
             context.contentPlaceholder[this.widget.putInto](this);
          else {
             context.pushNamedValue('content', this.widget.putInto, this);
