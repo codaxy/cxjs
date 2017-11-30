@@ -80,87 +80,94 @@
       font-size: 100%;
    }
 
-   .#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
-      border: solid transparent;
-      content: " ";
-      height: 0;
-      width: 0;
-      position: absolute;
-   }
+   @include cx-dropdown-arrows($name, (
+      border-width: $cx-tooltip-border-width,
+      border-color: $cx-tooltip-border-color,
+      border-style: solid,
+      background-color: $cx-tooltip-background-color
+   ), $cx-tooltip-arrow-size, $besm)
 
-   .#{$element}#{$name}-arrow-border {
-      color: $cx-tooltip-border-color;
-      border-width: $cx-tooltip-border-width + $cx-tooltip-arrow-size;
-   }
-
-   .#{$element}#{$name}-arrow-fill {
-      color: $cx-tooltip-background-color;
-      border-width: $cx-tooltip-arrow-size;
-   }
-
-   .#{$state}place-right {
-      .#{$element}#{$name}-arrow-fill {
-         right: 100%;
-         top: 50%;
-         border-right-color: currentColor;
-         margin-top: -$cx-tooltip-arrow-size;
-      }
-
-      .#{$element}#{$name}-arrow-border {
-         right: 100%;
-         top: 50%;
-         border-right-color: currentColor;
-         margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-      }
-   }
-
-   .#{$state}place-left {
-      .#{$element}#{$name}-arrow-fill {
-         left: 100%;
-         top: 50%;
-         border-left-color: currentColor;
-         margin-top: -$cx-tooltip-arrow-size;
-      }
-
-      .#{$element}#{$name}-arrow-border {
-         left: 100%;
-         top: 50%;
-         border-left-color: currentColor;
-         margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-      }
-   }
-
-   .#{$state}place-up {
-      .#{$element}#{$name}-arrow-fill {
-         left: 50%;
-         top: 100%;
-         border-top-color: currentColor;
-         margin-left: -$cx-tooltip-arrow-size;
-      }
-
-      .#{$element}#{$name}-arrow-border {
-         left: 50%;
-         top: 100%;
-         border-top-color: currentColor;
-         margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-      }
-   }
-
-   .#{$state}place-down {
-      .#{$element}#{$name}-arrow-fill {
-         left: 50%;
-         bottom: 100%;
-         border-bottom-color: currentColor;
-         margin-left: -$cx-tooltip-arrow-size;
-      }
-
-      .#{$element}#{$name}-arrow-border {
-         left: 50%;
-         bottom: 100%;
-         border-bottom-color: currentColor;
-         margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-      }
-   }
+   //.#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
+   //   border: solid transparent;
+   //   content: " ";
+   //   height: 0;
+   //   width: 0;
+   //   position: absolute;
+   //}
+   //
+   //.#{$element}#{$name}-arrow-border {
+   //   color: $cx-tooltip-border-color;
+   //   border-width: $cx-tooltip-border-width + $cx-tooltip-arrow-size;
+   //}
+   //
+   //.#{$element}#{$name}-arrow-fill {
+   //   color: $cx-tooltip-background-color;
+   //   border-width: $cx-tooltip-arrow-size;
+   //}
+   //
+   //.#{$state}place-right {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      right: 100%;
+   //      top: 50%;
+   //      border-right-color: currentColor;
+   //      margin-top: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      right: 100%;
+   //      top: 50%;
+   //      border-right-color: currentColor;
+   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-left {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 100%;
+   //      top: 50%;
+   //      border-left-color: currentColor;
+   //      margin-top: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 100%;
+   //      top: 50%;
+   //      border-left-color: currentColor;
+   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-up {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 50%;
+   //      top: 100%;
+   //      border-top-color: currentColor;
+   //      margin-left: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 50%;
+   //      top: 100%;
+   //      border-top-color: currentColor;
+   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-down {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 50%;
+   //      bottom: 100%;
+   //      border-bottom-color: currentColor;
+   //      margin-left: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 50%;
+   //      bottom: 100%;
+   //      border-bottom-color: currentColor;
+   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
 }
 
 @if (cx-should-include('cx/widgets/Tooltip')) {

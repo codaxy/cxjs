@@ -109,7 +109,7 @@ Widget.alias('tooltip', Tooltip);
 
 Tooltip.prototype.baseClass = 'tooltip';
 Tooltip.prototype.offset = 8;
-Tooltip.prototype.placementOrder = 'right up down left';
+Tooltip.prototype.placementOrder = 'right up down left up-right up-left right-up right-down down-right down-left left-up left-down';
 Tooltip.prototype.animate = true;
 Tooltip.prototype.destroyDelay = 300;
 Tooltip.prototype.createDelay = 200;
