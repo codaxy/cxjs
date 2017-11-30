@@ -7,6 +7,7 @@ import {ContentPlaceholder} from "./ContentPlaceholder";
 
 import renderer from 'react-test-renderer';
 import assert from 'assert';
+import {PureContainer} from "../PureContainer";
 
 describe('ContentPlaceholder', () => {
 
@@ -135,6 +136,66 @@ describe('ContentPlaceholder', () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <main outerLayout={layout}>
+               <div putInto="header"><span text:bind="header"/></div>
+               <div putInto="footer"><span text:bind="footer"/></div>
+               <span text:bind="body" />
+            </main>
+         </Cx>
+      );
+
+      let getTree = (h, b, f) => ({
+         type: 'div',
+         props: {},
+         children: [{
+            type: 'header',
+            props: {},
+            children: [{type: 'div', props: {}, children: [{type: 'span', props: {}, children: [h]}]}]
+         }, {
+            type: 'main',
+            props: {},
+            children: [{type: 'span', props: {}, children: [b]}]
+         }, {
+            type: 'footer',
+            props: {},
+            children: [{type: 'div', props: {}, children: [{type: 'span', props: {}, children: [f]}]}]
+         }]
+      });
+
+      assert.deepEqual(component.toJSON(), getTree('H', 'B', 'F'));
+      store.set('header', 'H2');
+      assert.deepEqual(component.toJSON(), getTree('H2', 'B', 'F'));
+      store.set('footer', 'F2');
+      assert.deepEqual(component.toJSON(), getTree('H2', 'B', 'F2'));
+      store.set('body', 'B2');
+      assert.deepEqual(component.toJSON(), getTree('H2', 'B2', 'F2'));
+   });
+
+   it('data in a two-level deep outer-layout is correctly updated', () => {
+      let store = new Store({
+         data: {
+            header: 'H',
+            footer: 'F',
+            body: 'B'
+         }
+      });
+
+      let outerLayout = <cx>
+         <div>
+            <ContentPlaceholder/>
+            <footer><ContentPlaceholder name="footer"/></footer>
+         </div>
+      </cx>;
+
+      let innerLayout = <cx>
+         <PureContainer outerLayout={outerLayout}>
+            <header><ContentPlaceholder name="header"/></header>
+            <ContentPlaceholder/>
+         </PureContainer>
+      </cx>;
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <main outerLayout={innerLayout}>
                <div putInto="header"><span text:bind="header"/></div>
                <div putInto="footer"><span text:bind="footer"/></div>
                <span text:bind="body" />
