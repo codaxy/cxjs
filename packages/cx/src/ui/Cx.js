@@ -162,10 +162,12 @@ class CxContext extends VDOM.Component {
          //console.log(context.renderStack);
 
          //walk in reverse order so children get rendered first
-         for (let j = context.renderStack.length - 1; j >= 0; j--)
-            for (let i = context.renderStack[j].length - 1; i >= 0; i--) {
-               context.renderStack[j][i].render(context);
+         let renderLists = context.getRenderLists();
+         for (let j = 0; j < renderLists.length; j++) {
+            for (let i = renderLists[j].length - 1; i >= 0; i--) {
+               renderLists[j][i].render(context);
             }
+         }
 
          this.content = getContent(instance.vdom);
          if (contentFactory)

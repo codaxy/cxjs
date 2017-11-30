@@ -106,7 +106,7 @@ export class Instance {
          }
          ins.shouldUpdate = true;
          renderList.push(ins);
-         ins = ins.widget.isContent ? ins.contentPlaceholder : ins.parent;
+         ins = ins.widget.isContent || ins.outerLayout ? ins.contentPlaceholder : ins.parent;
       }
       reverseSlice(renderList, index);
    }
@@ -123,11 +123,13 @@ export class Instance {
          if (this.widget.exploreCleanup)
             this.widget.exploreCleanup(context, this);
 
-         if (this.widget.outerLayout)
-            context.popNamedValue('content', 'body');
+         if (this.popNextRenderList)
+            context.getNextRenderList();
 
-         if (this.popRenderList)
-            context.pop('renderList');
+         if (this.parent.outerLayout === this) {
+            context.getPrevRenderList();
+            context.popNamedValue('content', 'body');
+         }
 
          if (this.widget.controller)
             context.pop('controller');
@@ -177,6 +179,7 @@ export class Instance {
          this.trackDestroy();
 
       this.shouldUpdate = false;
+      this.renderList = context.getCurrentRenderList();
 
       let shouldUpdate = this.rawData !== this.cached.rawData
          || this.state !== this.cached.state
@@ -190,29 +193,28 @@ export class Instance {
       }
 
       if (this.widget.isContent) {
-         this.popRenderList = false;
+         this.popNextRenderList = false;
          this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
          if (this.contentPlaceholder)
             context.contentPlaceholder[this.widget.putInto](this);
          else {
             context.pushNamedValue('content', this.widget.putInto, this);
-            context.push('renderList', context.newRenderList());
-            this.popRenderList = true;
+            //context.push('renderList', context.newRenderList());
+            this.renderList = context.getPrevRenderList();
+            this.popNextRenderList = true;
          }
       }
 
+      if (this.parent.outerLayout === this) {
+         this.renderList = context.getNextRenderList();
+         context.pushNamedValue('content', 'body', this.parent);
+      }
+
       if (this.widget.outerLayout) {
-         context.pushNamedValue('content', 'body', this);
          this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
          this.outerLayout.scheduleExploreIfVisible(context);
-         context.push('renderList', context.newRenderList());
+         //context.push('renderList', context.newRenderList());
       }
-
-      if (this.parent.outerLayout === this) {
-         context.pop('renderList');
-      }
-
-      this.renderList = context.renderList;
 
       if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate(context);
@@ -281,8 +283,11 @@ export class Instance {
       if (this.instanceCache)
          this.instanceCache.sweep();
 
-      if (this.parent.outerLayout === this)
+      if (this.parent.outerLayout === this) {
+         //TODO: Figure out nested layouts
          this.parent.vdom = this.vdom;
+         console.log(this.vdom);
+      }
 
       return this.vdom;
    }
