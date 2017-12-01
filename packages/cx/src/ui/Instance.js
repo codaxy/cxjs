@@ -96,19 +96,33 @@ export class Instance {
    markShouldUpdate(context) {
       let ins = this;
       let renderList = this.renderList;
-      let index = renderList.length;
+      let startIndices = [{
+         list: renderList,
+         index: renderList.length
+      }];
+
       //notify all parents that child state change to bust up caching
       while (ins && !ins.shouldUpdate && ins.explored) {
          if (ins.renderList !== renderList) {
-            reverseSlice(renderList, index);
             renderList = ins.renderList;
-            index = renderList.length;
+            if (startIndices.findIndex(l => l.list === renderList) < 0) {
+               startIndices.push({
+                  list: renderList,
+                  index: renderList.length
+               });
+            }
          }
          ins.shouldUpdate = true;
          renderList.push(ins);
-         ins = ins.widget.isContent || ins.outerLayout ? ins.contentPlaceholder : ins.parent;
+         ins = ins.widget.isContent
+            ? ins.contentPlaceholder
+            : ins.parent.outerLayout === ins
+               ? ins.parent.parent
+               : ins.parent;
       }
-      reverseSlice(renderList, index);
+
+      for (let i = 0; i < startIndices.length; i++)
+         reverseSlice(startIndices[i].list, startIndices[i].index);
    }
 
    explore(context) {
@@ -141,12 +155,12 @@ export class Instance {
       if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
          context.exploreStack.push(this);
 
-      if (this.widget.prepare)
+      if (this.widget.prepare || this.widget.controller)
          context.prepareList.push(this);
       else
          this.prepared = true;
 
-      if (this.widget.cleanup)
+      if (this.widget.cleanup || this.widget.controller)
          context.cleanupList.push(this);
 
       this.cacheList = null;
@@ -199,7 +213,6 @@ export class Instance {
             context.contentPlaceholder[this.widget.putInto](this);
          else {
             context.pushNamedValue('content', this.widget.putInto, this);
-            //context.push('renderList', context.newRenderList());
             this.renderList = context.getPrevRenderList();
             this.popNextRenderList = true;
          }
@@ -213,7 +226,7 @@ export class Instance {
       if (this.widget.outerLayout) {
          this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
          this.outerLayout.scheduleExploreIfVisible(context);
-         //context.push('renderList', context.newRenderList());
+         this.renderList = context.insertRenderList();
       }
 
       if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
@@ -251,7 +264,11 @@ export class Instance {
       }
 
       this.prepared = true;
-      this.widget.prepare(context, this);
+      if (this.widget.prepare)
+         this.widget.prepare(context, this);
+
+      if (this.widget.controller && this.controller.prepare)
+         this.controller.prepare(context);
    }
 
    render(context) {
@@ -295,7 +312,11 @@ export class Instance {
    }
 
    cleanup(context) {
-      this.widget.cleanup(context, this);
+      if (this.widget.controller && this.controller.cleanup)
+         this.controller.cleanup(context);
+
+      if (this.widget.cleanup)
+         this.widget.cleanup(context, this);
    }
 
    trackDestroy() {

@@ -3,8 +3,6 @@ export class RenderingContext {
       this.options = options || {};
       this.exploreStack = [];
       this.prepareList = [];
-      this.renderList = [];
-      this.renderStack = [this.renderList];
       this.cleanupList = [];
       this.stacks = {};
 
@@ -14,7 +12,6 @@ export class RenderingContext {
       this.renderListIndex = 0;
       this.minRenderListIndex = 0;
       this.maxRenderListIndex = 0;
-
    }
 
    getStack(key) {
@@ -53,14 +50,15 @@ export class RenderingContext {
       return this[key];
    }
 
-   newRenderList() {
-      let list = [];
-      this.renderStack.push(list);
-      return list;
-   }
-
    getCurrentRenderList() {
       return this.renderLists[this.renderListIndex];
+   }
+
+   insertRenderList() {
+      this.maxRenderListIndex++;
+      for (let i = this.renderListIndex; i < this.maxRenderListIndex; i++)
+         this.renderLists[i + 1] = this.renderLists[i];
+      return this.renderLists[this.renderListIndex] = [];
    }
 
    getPrevRenderList() {

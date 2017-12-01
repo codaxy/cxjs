@@ -199,7 +199,38 @@ describe('ContentPlaceholder', () => {
       });
    });
 
-   it.only('data in a two-level deep outer-layout is correctly updated', () => {
+   it('inside a complex two-level-deep outer-layout works', () => {
+      let store = new Store();
+
+      let outerLayout = <cx>
+         <div>
+            <ContentPlaceholder/>
+         </div>
+      </cx>;
+
+      let innerLayout = <cx>
+         <PureContainer>
+            <main outerLayout={outerLayout}>
+               <ContentPlaceholder/>
+            </main>
+         </PureContainer>
+      </cx>;
+
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <section outerLayout={innerLayout}/>
+         </Cx>
+      );
+
+      assert.deepEqual(component.toJSON(), {
+         type: 'div',
+         props: {},
+         children: [{type: 'main', props: {}, children: [{type: 'section', props: {}, children: null}]}]
+      });
+   });
+
+   it('data in a two-level deep outer-layout is correctly updated', () => {
       let store = new Store({
          data: {
             header: 'H',
@@ -251,8 +282,6 @@ describe('ContentPlaceholder', () => {
             children: [{type: 'div', props: {}, children: [{type: 'span', props: {}, children: [f]}]}]
          }]
       });
-
-      console.log(component.toJSON());
 
       assert.deepEqual(component.toJSON(), getTree('H', 'B', 'F'));
       store.set('header', 'H2');
