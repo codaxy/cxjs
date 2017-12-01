@@ -12,6 +12,27 @@ export const BreakingChanges = <cx>
             From time to time we're forced to introduce breaking changes to the framework.
             This page will serve to document such events and provide information how to migrate your apps.
 
+            ## 17.12.0
+
+            ### `babel-preset-env`
+
+            Since this version `babel-preset-env` is a peerDependency of `babel-preset-cx-env`. That means that it needs
+            to be installed. This allows that `babel-preset-cx-env` is not tied to new releases of `babel-preset-env`.
+
+            <CodeSplit>
+                <CodeSnippet>
+                npm install babel-preset-env --saveDev
+                yarn add babel-preset-env --dev
+                </CodeSnippet>
+            </CodeSplit>
+
+            ### `-bind`, `-tpl`, `-expr` syntax
+
+            Data-binding attributes can now be written in an alternative syntax with a dash,
+            e.g. `value-bind` instead of `value:bind`. This solves
+            a long standing problem that VSCode reports syntax errors if XML namespaces are used inside JSX.
+            This is not really a breaking change. Both methods are supported.
+
             ## 17.7.0
 
             This release is about supporting minimal, progressive Cx applications that start really quickly,

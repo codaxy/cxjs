@@ -171,7 +171,7 @@ describe('JSCX', function() {
       });
    });
 
-   it('converts dot attributes into object configs', function () {
+   it('converts namespaced attributes into data binding objects', function () {
 
       var Component = {};
       var code = `<cx><Component value:bind="name" /></cx>`;
@@ -185,6 +185,26 @@ describe('JSCX', function() {
          $type: Component,
          value: {bind: "name"},
          jsxAttributes: ['value']
+      });
+   });
+
+   it('converts dash attributes into data binding objects', function () {
+
+      var Component = {};
+      var code = `<cx><Component value-bind="name" text-tpl="123" visible-expr="false" data-id="5" /></cx>`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Component,
+         value: {bind: "name"},
+         text: {tpl: '123'},
+         visible: {expr: 'false'},
+         "data-id": "5",
+         jsxAttributes: ['value', 'text', 'visible', 'data-id']
       });
    });
 

@@ -1,11 +1,18 @@
 "use strict";
 
+let dashRegex = /(.*)-(bind|tpl|expr)$/;
+
 function property(t, name, value) {
    if (name.namespace && name.namespace.name) {
       return t.objectProperty(t.stringLiteral(name.namespace.name), t.objectExpression([
          t.objectProperty(t.stringLiteral(name.name.name), value)
       ]));
    }
+
+   let result = dashRegex.exec(name.name);
+   if (result)
+      return t.objectProperty(t.stringLiteral(result[1]), t.objectExpression([t.objectProperty(t.stringLiteral(result[2]), value)]));
+
 
    return t.objectProperty(t.stringLiteral(name.name), value);
 }
