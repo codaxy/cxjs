@@ -230,6 +230,39 @@ describe('ContentPlaceholder', () => {
       });
    });
 
+   it('each level use an outer-layout', () => {
+      let store = new Store();
+
+      let outerLayout1 = <cx>
+         <div>
+            <ContentPlaceholder/>
+         </div>
+      </cx>;
+
+      let outerLayout2 = <cx>
+         <main>
+            <ContentPlaceholder/>
+         </main>
+      </cx>;
+
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <PureContainer outerLayout={outerLayout1}>
+               <PureContainer outerLayout={outerLayout2}>
+                  Content
+               </PureContainer>
+            </PureContainer>
+         </Cx>
+      );
+
+      assert.deepEqual(component.toJSON(), {
+         type: 'div',
+         props: {},
+         children: [{type: 'main', props: {}, children: ["Content"]}]
+      });
+   });
+
    it('data in a two-level deep outer-layout is correctly updated', () => {
       let store = new Store({
          data: {

@@ -52,7 +52,8 @@ import './index.scss';
 //import Demo from './features/fun-comps/ts';
 //import Demo from './features/fun-comps/js';
 
-import Demo from './features/layout/OuterLayout';
+//import Demo from './features/layout/OuterLayout';
+import Demo from './features/layout/ComplexLayout';
 
 let store = new Store();
 

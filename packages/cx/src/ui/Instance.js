@@ -303,7 +303,7 @@ export class Instance {
       if (this.parent.outerLayout === this) {
          //if outer layouts are chained we need to find the originating element (last element with OL set)
          let parent = this.parent;
-         while (parent.parent.outerLayout)
+         while (parent.parent.outerLayout == parent)
             parent = parent.parent;
          parent.vdom = this.vdom;
       }
@@ -506,7 +506,7 @@ export class Instance {
 }
 
 function renderResultFix(res) {
-   return res != null && isDefined(res.content) ? res : { content: res };
+   return res != null && isDefined(res.content) ? res : {content: res};
 }
 
 export class InstanceCache {

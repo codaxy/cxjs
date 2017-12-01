@@ -56,8 +56,8 @@ export class RenderingContext {
 
    insertRenderList() {
       this.maxRenderListIndex++;
-      for (let i = this.renderListIndex; i < this.maxRenderListIndex; i++)
-         this.renderLists[i + 1] = this.renderLists[i];
+      for (let i = this.maxRenderListIndex; i > this.renderListIndex; i--)
+         this.renderLists[i] = this.renderLists[i - 1];
       return this.renderLists[this.renderListIndex] = [];
    }
 
