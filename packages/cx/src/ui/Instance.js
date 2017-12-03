@@ -96,21 +96,24 @@ export class Instance {
    markShouldUpdate(context) {
       let ins = this;
       let renderList = this.renderList;
-      let startIndices = [{
-         list: renderList,
-         index: renderList.length
-      }];
+      let index = renderList.length;
+      let startIndices;
 
       //notify all parents that child state change to bust up caching
       while (ins && !ins.shouldUpdate && ins.explored) {
          if (ins.renderList !== renderList) {
-            renderList = ins.renderList;
-            if (startIndices.findIndex(l => l.list === renderList) < 0) {
-               startIndices.push({
+            if (!startIndices)
+               startIndices = [{
                   list: renderList,
-                  index: renderList.length
+                  index: index
+               }];
+            if (startIndices.length == 1 || startIndices.findIndex(l => l.list === renderList) < 0) {
+               startIndices.push({
+                  list: ins.renderList,
+                  index: ins.renderList.length
                });
             }
+            renderList = ins.renderList;
          }
          ins.shouldUpdate = true;
          renderList.push(ins);
@@ -121,8 +124,11 @@ export class Instance {
                : ins.parent;
       }
 
-      for (let i = 0; i < startIndices.length; i++)
-         reverseSlice(startIndices[i].list, startIndices[i].index);
+      if (!startIndices)
+         reverseSlice(renderList, index)
+      else
+         for (let i = 0; i < startIndices.length; i++)
+            reverseSlice(startIndices[i].list, startIndices[i].index);
    }
 
    explore(context) {
