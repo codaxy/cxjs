@@ -62,8 +62,7 @@ export const DataViews = <cx>
                     </Repeater>
 
                     You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
-                `}
-                </CodeSnippet>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
         
@@ -101,8 +100,7 @@ export const DataViews = <cx>
                     </Repeater>
 
                     You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
-                `}
-                </CodeSnippet>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
