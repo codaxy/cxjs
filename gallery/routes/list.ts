@@ -146,11 +146,11 @@ let list: Item[] = [{
       name: 'Range',
       content: () => System.import("./charts/range")
    }, {
-      route: '+/column',
+      route: '+/column/',
       name: 'Column',
       content: () => System.import("./charts/column")
    }, {
-      route: '+/bar',
+      route: '+/bar/',
       name: 'Bar',
       content: () => System.import("./charts/bar")
    }, {
@@ -158,7 +158,7 @@ let list: Item[] = [{
       name: 'MarkerLine',
       content: () => System.import("./charts/marker-line")
    }, {
-      route: '+/marker',
+      route: '+/marker/',
       name: 'Marker',
       content: () => System.import("./charts/marker")
    }]

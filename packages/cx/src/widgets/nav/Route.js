@@ -2,6 +2,7 @@ import {Widget} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
 import RouteMatcher from 'route-parser';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
+import {routeAppend} from "../../util/routeAppend";
 
 export class Route extends PureContainer
 {
@@ -41,7 +42,7 @@ export class Route extends PureContainer
          let matcher = this.matcher;
          let route = this.route;
          if (this.route[0] === '+') {
-            route = context.lastRoute.route + this.route.substring(1) + (this.prefix ? '(*remainder)' : '');
+            route = routeAppend(context.lastRoute.reverse(), this.route.substring(1)) + (this.prefix ? '(*remainder)' : '');
             if (!instance.cached.matcher || instance.cached.route !== route)
                instance.cached.matcher = new RouteMatcher(route);
             matcher = instance.cached.matcher;

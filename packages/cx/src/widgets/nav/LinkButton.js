@@ -2,6 +2,7 @@ import {Widget, VDOM} from '../../ui/Widget';
 import {Button} from '../Button';
 import {History} from '../../ui/app/History';
 import {Url} from '../../ui/app/Url';
+import {routeAppend} from "../../util/routeAppend";
 
 export class LinkButton extends Button {
 
@@ -19,7 +20,7 @@ export class LinkButton extends Button {
 
       if (typeof data.href === 'string') {
          if (data.unresolvedHref[0] === '+')
-            data.unresolvedHref = context.lastRoute.reverse() + data.href.substring(1);
+            data.unresolvedHref = routeAppend(context.lastRoute.reverse(), data.href.substring(1));
 
          data.href = Url.resolve(data.unresolvedHref);
       }

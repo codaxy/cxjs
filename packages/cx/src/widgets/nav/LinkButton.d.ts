@@ -15,7 +15,6 @@ interface LinkButtonProps extends ButtonProps {
     * In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. 
     */
    match?: string
-   
 }
 
 export class LinkButton extends Cx.Widget<LinkButtonProps> {}

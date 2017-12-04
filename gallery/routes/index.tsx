@@ -1,5 +1,6 @@
 import {cx, Route, RedirectRoute, Section, PureContainer, Link} from 'cx/widgets';
 import {FirstVisibleChildLayout, bind, tpl} from 'cx/ui'
+import {routeAppend} from "cx/util";
 import {AsyncRoute} from "../components/asyncRoute";
 import AppLayout from '../layout';
 
@@ -23,7 +24,7 @@ const catGroup = cat =>
             </dt>
             {cat.items && cat.items.map(item =>
                 <dd>
-                    <Link href={tpl("~/{$route.theme}" + item.route.substring(1) + "/")} url={bind("url")}
+                    <Link href={tpl(routeAppend("~/{$route.theme}", item.route.substring(1)))} url={bind("url")}
                         match="prefix">
                         {item.name}
                     </Link>
