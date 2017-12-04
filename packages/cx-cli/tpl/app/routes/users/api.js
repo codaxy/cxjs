@@ -22,7 +22,7 @@ export function getUser(id) {
    })
 }
 
-export function postUser(id, user) {
+export function putUser(id, user) {
    return new Promise((resolve) => {
       let index = data.findIndex(u => u.id == id);
       if (index === -1)
@@ -36,7 +36,7 @@ export function postUser(id, user) {
    })
 }
 
-export function putUser(user) {
+export function postUser(user) {
    return new Promise((resolve) => {
       let id = data.length + 1;
       let result = {

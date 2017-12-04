@@ -24,8 +24,8 @@ export default class extends Controller {
       let userId = this.store.get('$root.$route.userId');
 
       let promise = userId == 'new'
-         ? putUser(user)
-         : postUser(userId, user);
+         ? postUser(user)
+         : putUser(userId, user);
 
       promise.then(() => {
          History.pushState({}, null, "~/users")
