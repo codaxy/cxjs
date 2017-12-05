@@ -1,18 +1,20 @@
 import {Md} from '../../../components/Md';
 
 export default {
-    recordName: {
+    recordAlias: {
         type: 'string',
         key: true,
+        alias: 'recordName',
         description: <cx><Md>
-            Name used to expose record data. Defaults to `$record`.
+            Alias used to expose record data. Defaults to `$record`.
         </Md></cx>
     },
-    indexName: {
+    indexAlias: {
         type: 'string',
         key: true,
+        alias: 'indexName',
         description: <cx><Md>
-            Name used to expose record index. Defaults to `$index`.
+            Alias used to expose record index. Defaults to `$index`.
         </Md></cx>
     },
     sortField: {
