@@ -16,9 +16,6 @@ let Demo = (
    <cx>
       <div>
          <Grid
-            scrollable
-            style={{height: "800px"}}
-            mod="responsive"
             columns={[
                {header: "Name", field: "fullName", sortable: true},
                {header: "Continent", field: "continent", sortable: true},

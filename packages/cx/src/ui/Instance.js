@@ -1,3 +1,5 @@
+import {reverseSlice} from "../util/reverseSlice";
+
 let instanceId = 1000;
 import {Controller} from './Controller';
 import {debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
@@ -9,17 +11,6 @@ import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
-
-function reverseSlice(array, start) {
-   let last = array.length - 1;
-   while (start < last) {
-      let x = array[start];
-      array[start] = array[last];
-      array[last] = x;
-      start++;
-      last--;
-   }
-}
 
 export class Instance {
    constructor(widget, key) {
@@ -125,7 +116,7 @@ export class Instance {
       }
 
       if (!startIndices)
-         reverseSlice(renderList, index)
+         reverseSlice(renderList, index);
       else
          for (let i = 0; i < startIndices.length; i++)
             reverseSlice(startIndices[i].list, startIndices[i].index);
@@ -235,8 +226,9 @@ export class Instance {
          this.renderList = context.insertRenderList();
       }
 
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
          this.markShouldUpdate(context);
+      }
 
       this.widget.explore(context, this, this.data);
 
