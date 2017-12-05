@@ -35,7 +35,7 @@ export const Bullets = <cx>
             <div>
                <Svg style="width:600px; height:600px;">
                   <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
-                     <Repeater records:bind="$page.points" recordName="$point" sorters:bind="$page.sorters">
+                     <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
                         <Bar colorIndex={10}
                              style="stroke:none;opacity:0.3"
                              x:bind="$point.max"
@@ -86,7 +86,7 @@ export const Bullets = <cx>
          ...
           <Svg style="width:600px; height:600px;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
-                  <Repeater records:bind="$page.points" recordName="$point" sorters:bind="$page.sorters">
+                  <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
                      <Bar colorIndex={10}
                           style="stroke:none;opacity:0.3"
                           x:bind="$point.max"

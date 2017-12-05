@@ -34,6 +34,8 @@ export class Repeater extends PureContainer {
       super.declareData({
          records: undefined,
          sorters: undefined,
+         sortField: undefined,
+         sortDirection: undefined,
          filterParams: {
             structured: true
          }
@@ -43,8 +45,15 @@ export class Repeater extends PureContainer {
    prepareData(context, instance) {
       super.prepareData(context, instance);
 
+      let {data} = instance;
+
+      if (data.sortField)
+         data.sorters = [{
+            field: data.sortField,
+            direction: data.sortDirection || "ASC"
+         }];
+
       if (!instance.repeatable) {
-         let {data} = instance;
          this.dataAdapter.sort(data.sorters);
 
          let filter = null;

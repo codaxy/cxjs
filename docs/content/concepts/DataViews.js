@@ -4,6 +4,9 @@ import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ImportPath} from '../../components/ImportPath';
+import {ConfigTable} from '../../components/ConfigTable';
+
+import configs from '../widgets/configs/Repeater';
 
 import {store} from '../../app/store';
 
@@ -36,10 +39,9 @@ export const DataViews = <cx>
 
             <div class="widgets">
                 <div>
-                    <Repeater records:bind="intro.core.items">
-                        <div>
-                            <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
-                        </div>
+                    <Repeater records:bind="intro.core.items" >
+                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                        <br/>
                     </Repeater>
 
                     You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
@@ -48,21 +50,61 @@ export const DataViews = <cx>
 
             <Content name="code">
                 <CodeSnippet fiddle="F3RHqb0x">{`
-               store.set('intro.core.items', [
-                  { text: 'A', checked: false },
-                  { text: 'B', checked: false },
-                  { text: 'C', checked: false }
-               ]);
-               ...
-               <Repeater records:bind="intro.core.items">
-                  <Checkbox value:bind="$record.checked" text:bind="$record.text" />
-                  <br/>
-               </Repeater>
+                    store.set('intro.core.items', [
+                        { text: 'A', checked: false },
+                        { text: 'B', checked: false },
+                        { text: 'C', checked: false }
+                    ]);
+                    ...
+                    <Repeater records:bind="intro.core.items">
+                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <br/>
+                    </Repeater>
 
-               You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
-            `}</CodeSnippet>
+                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
+        
+        <CodeSplit>
+            Sometimes it is useful to change the default record and index aliases (`$record` and `$index`), e.g. if nesting one 
+            Repeater inside another. This can be done by setting the `recordAlias` and `indexAlias` attributes.
+            
+            If `sortField` is set, the collection will be sorted before output.
+            By default, Repeater maintains the order of the collection. Here is the above example, but in **descending** order:
+
+            <div class="widgets">
+                <div>
+                    <Repeater 
+                        records:bind="intro.core.items" 
+                        sortField="text"
+                        sortDirection="DESC"
+                    >
+                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                        <br/>
+                    </Repeater>
+
+                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                </div>
+            </div>
+
+            <Content name="code">
+                <CodeSnippet >{`
+                    <Repeater 
+                        records:bind="intro.core.items" 
+                        sortField="text"
+                        sortDirection="DESC"    
+                    >
+                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <br/>
+                    </Repeater>
+
+                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                `}</CodeSnippet>
+            </Content>
+        </CodeSplit>
+
+        <ConfigTable props={configs} />
 
         <CodeSplit>
 
@@ -81,7 +123,7 @@ export const DataViews = <cx>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$contestant">
+                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
                             <TextField value:bind="$contestant.firstName" label="First Name"/>
                             <TextField value:bind="$contestant.lastName" label="Last Name"/>
@@ -112,7 +154,7 @@ export const DataViews = <cx>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordName="$contestant">
+                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
                             <TextField value:bind="$contestant.firstName" label="First Name"/>
                             <TextField value:bind="$contestant.lastName" label="Last Name"/>
@@ -136,7 +178,7 @@ export const DataViews = <cx>
             `}</CodeSnippet>
 
             `Sandbox` is commonly used in single page applications to isolate data belonging to
-            different pages identified by the URL address.
+            different pages identified by the URL address. For the list of configuration properties, see the [Router docs](~/concepts/router#sandbox).
 
         </CodeSplit>
 

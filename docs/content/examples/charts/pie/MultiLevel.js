@@ -53,7 +53,7 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordName="$slice" indexName="$sliceIndex">
+                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
                            <PieSlice value:bind='$slice.sv'
                                       active:bind='$record.active'
                                       colorIndex:expr='{$index} * 3 % 16'
@@ -118,7 +118,7 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordName="$slice" indexName="$sliceIndex">
+                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
                            <PieSlice value:bind='$slice.sv'
                                       active:bind='$record.active'
                                       colorIndex:expr='{$index} * 3 % 16'

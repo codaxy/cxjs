@@ -64,6 +64,8 @@ export class List extends Widget {
       super.declareData(selection, {
          records: undefined,
          sorters: undefined,
+         sortField: undefined,
+         sortDirection: undefined,
          filterParams: {
             structured: true
          },
@@ -77,7 +79,13 @@ export class List extends Widget {
    prepareData(context, instance) {
       var {data} = instance;
 
+      if (data.sortField)
+         data.sorters = [{
+            field: data.sortField,
+            direction: data.sortDirection || "ASC"
+         }];
       this.adapter.sort(data.sorters);
+
       let filter = null;
       if (this.onCreateFilter)
          filter = instance.invoke("onCreateFilter", data.filterParams, instance);

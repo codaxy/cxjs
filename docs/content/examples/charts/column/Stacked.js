@@ -38,7 +38,7 @@ export const Stacked = <cx>
                <Svg style="width:600px; height:400px;">
                   <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.points" recordName="$point">
+                     <Repeater records:bind="$page.points" recordAlias="$point">
                         <Column name="V1"
                                 active:bind="$page.v1"
                                 colorIndex={2}
@@ -134,7 +134,7 @@ export const Stacked = <cx>
          <Svg style="width:600px; height:400px;">
             <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordName="$point">
+               <Repeater records:bind="$page.points" recordAlias="$point">
                   <Column name="V1"
                           active:bind="$page.v1"
                           colorIndex={2}

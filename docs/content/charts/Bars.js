@@ -40,7 +40,7 @@ export const Bars = <cx>
                   y: { type: CategoryAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.points" recordName="$point" sorters:bind="$page.sorters">
+                  <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
                      <Bar colorIndex={0}
                           name="Value 1"
                           height={0.3}
@@ -82,7 +82,7 @@ export const Bars = <cx>
                   y: { type: CategoryAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.points" recordName="$point" sorters:bind="$page.sorters">
+                  <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
                      <Bar colorIndex={0}
                           name="Value 1"
                           height={0.3}

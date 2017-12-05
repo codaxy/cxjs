@@ -40,7 +40,7 @@ export const Normalized = <cx>
                         x: CategoryAxis,
                         y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                      }}>
-                     <Repeater records:bind="$page.points" recordName="$point">
+                     <Repeater records:bind="$page.points" recordAlias="$point">
                         <Column name="V1"
                                 active:bind="$page.v1"
                                 colorIndex={0}
@@ -94,7 +94,7 @@ export const Normalized = <cx>
                   y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordName="$point">
+               <Repeater records:bind="$page.points" recordAlias="$point">
                   <Column name="V1"
                           active:bind="$page.v1"
                           colorIndex={0}

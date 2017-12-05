@@ -42,7 +42,7 @@ export const AutoWidth = <cx>
                         y: { type: NumericAxis, vertical: true, snapToTicks: 0 }
                      }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.points" recordName="$point">
+                     <Repeater records:bind="$page.points" recordAlias="$point">
                         <Column name="V1"
                                 active:bind="$page.v1"
                                 colorIndex={2}
@@ -141,7 +141,7 @@ export const AutoWidth = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 0 }
                }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordName="$point">
+               <Repeater records:bind="$page.points" recordAlias="$point">
                   <Column name="V1"
                           active:bind="$page.v1"
                           colorIndex={2}

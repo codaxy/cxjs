@@ -56,7 +56,7 @@ export default (
                     }
                 >
                     <Gridlines />
-                    <Repeater records:bind="points" recordName="$point">
+                    <Repeater records:bind="points" recordAlias="$point">
                         <Column
                             colorIndex:expr="{$index}"
                             width={0.5}
