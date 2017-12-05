@@ -211,6 +211,9 @@ class NumericScale {
    }
 
    acknowledge(value, width = 0, offset = 0) {
+      if (value == null)
+         return;
+
       if (this.minValue == null || value < this.minValue) {
          this.minValue = value;
          this.padding = Math.max(this.padding, Math.abs(offset - width / 2));
