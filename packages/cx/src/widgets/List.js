@@ -20,6 +20,12 @@ import {isArray} from '../util/isArray';
 export class List extends Widget {
 
    init() {
+      if (this.recordAlias)
+         this.recordName = this.recordAlias;
+      
+      if (this.indexAlias)
+         this.indexName = this.indexAlias;
+      
       this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
@@ -58,6 +64,8 @@ export class List extends Widget {
       super.declareData(selection, {
          records: undefined,
          sorters: undefined,
+         sortField: undefined,
+         sortDirection: undefined,
          filterParams: {
             structured: true
          },
@@ -71,7 +79,13 @@ export class List extends Widget {
    prepareData(context, instance) {
       var {data} = instance;
 
+      if (data.sortField)
+         data.sorters = [{
+            field: data.sortField,
+            direction: data.sortDirection || "ASC"
+         }];
       this.adapter.sort(data.sorters);
+
       let filter = null;
       if (this.onCreateFilter)
          filter = instance.invoke("onCreateFilter", data.filterParams, instance);

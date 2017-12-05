@@ -2,6 +2,7 @@ import {Widget} from '../../ui/Widget';
 import {Route} from './Route';
 import {History} from '../../ui/app/History';
 import {Url} from '../../ui/app/Url';
+import {routeAppend} from "../../util/routeAppend";
 
 export class RedirectRoute extends Route
 {
@@ -28,7 +29,7 @@ export class RedirectRoute extends Route
       var {data} = instance;
 
       if (data.redirect && data.redirect[0] === '+')
-         data.redirect = context.lastRoute.reverse() + data.redirect.substring(1);
+         data.redirect = routeAppend(context.lastRoute.reverse(), data.redirect.substring(1));
 
       if (data.redirect && History.store)
          History.replaceState({}, null, Url.resolve(data.redirect));

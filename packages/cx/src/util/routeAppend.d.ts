@@ -1,0 +1,1 @@
+export function routeAppend(base: string, path: string): string;

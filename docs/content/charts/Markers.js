@@ -48,7 +48,7 @@ export const Markers = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.reds" recordName="$point">
+                  <Repeater records:bind="$page.reds" recordAlias="$point">
                      <Marker colorIndex:bind="$point.color"
                             legendColorIndex={1}
                             active:bind="$page.showReds"
@@ -61,7 +61,7 @@ export const Markers = <cx>
                             draggableX draggableY
                      />
                   </Repeater>
-                  <Repeater records:bind="$page.blues" recordName="$point">
+                  <Repeater records:bind="$page.blues" recordAlias="$point">
                      <Marker colorIndex:bind="$point.color"
                             legendColorIndex={5}
                             active:bind="$page.showBlues"
@@ -104,7 +104,7 @@ export const Markers = <cx>
                      y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                   }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.reds" recordName="$point">
+                     <Repeater records:bind="$page.reds" recordAlias="$point">
                         <Marker colorIndex:bind="$point.color"
                                legendColorIndex={1}
                                active:bind="$page.showReds"
@@ -117,7 +117,7 @@ export const Markers = <cx>
                                draggableX draggableY
                         />
                      </Repeater>
-                     <Repeater records:bind="$page.blues" recordName="$point">
+                     <Repeater records:bind="$page.blues" recordAlias="$point">
                         <Marker colorIndex:bind="$point.color"
                                legendColorIndex={5}
                                active:bind="$page.showBlues"

@@ -8,13 +8,15 @@ import {Binding} from '../data/Binding';
 export class Repeater extends Container {
 
    declareData() {
-      super.declareData(...arguments, {
+      super.declareData({
          records: undefined,
          sorters: undefined,
+         sortField: undefined,
+         sortDirection: undefined,
          filterParams: {
             structured: true
          }
-      });
+      }, ...arguments);
    }
 
    init() {
@@ -48,6 +50,11 @@ export class Repeater extends Container {
 
    prepareData(context, instance) {
       let {data} = instance;
+      if (data.sortField)
+         data.sorters = [{
+            field: data.sortField,
+            direction: data.sortDirection || "ASC"
+         }];
       this.dataAdapter.sort(data.sorters);
       let filter = null;
       if (this.onCreateFilter)

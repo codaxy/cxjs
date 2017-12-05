@@ -57,7 +57,7 @@ export const PointReducers = <cx>
                                 }
                             }}
                         >
-                            <Repeater records:bind="$page.points" recordName="$point">
+                            <Repeater records:bind="$page.points" recordAlias="$point">
                                 <Marker colorIndex:bind="$point.color"
                                     size:bind="$point.size"
                                     x:bind="$point.x"
@@ -101,7 +101,7 @@ export const PointReducers = <cx>
                                 }
                             }}
                         >
-                            <Repeater records:bind="$page.points" recordName="$point">
+                            <Repeater records:bind="$page.points" recordAlias="$point">
                                 <Marker colorIndex:bind="$point.color"
                                     size:bind="$point.size"
                                     x:bind="$point.x"

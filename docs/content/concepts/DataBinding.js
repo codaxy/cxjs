@@ -19,7 +19,7 @@ export const DataBinding = <cx>
         data changes will be reflected in the UI and user actions will be properly translated into data changes.
         There are multiple ways of applying data to the widgets.
 
-        ### Two-way Data Binding (`:bind`)
+        ### Two-way Data Binding (`:bind` or `-bind`)
 
         Two-way data binding is commonly used in forms, as it supports both read and write operations.
         Let's use a checkbox for illustration.
@@ -39,9 +39,9 @@ export const DataBinding = <cx>
             </Content>
         </CodeSplit>
 
-        > Suffix `:bind` is used on attributes to define a two-way binding.
+        > Suffix `:bind` or `-bind` is used on attributes to define a two-way binding.
 
-        ### Data Expressions (`:expr`)
+        ### Data Expressions (`:expr` or `-expr`)
 
         Data expressions are string attributes that are compiled to JavaScript methods and used to calculate dynamic
         values at runtime.
@@ -64,13 +64,13 @@ export const DataBinding = <cx>
         Note that now the text field and the checkbox from the previous section
         are both relying on the value of `intro.core.checked`. Try clicking the checkbox.
 
-        > Suffix `:expr` is used on attributes to define a data expression.
+        > Suffix `:expr` or `-expr` is used on attributes to define a data expression.
 
         > Curly brackets denote data bindings.
 
         > Data bindings pointing to invalid locations will be reported as `undefined`.
 
-        ### Templates (`:tpl`)
+        ### Templates (`:tpl` or `-tpl`)
 
         Templates are data expressions which return strings. They are a convenient option to avoid using both types of
         quotes within data expressions.

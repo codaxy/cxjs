@@ -33,7 +33,7 @@ export const Lists = <cx>
                     records:bind="$page.records"
                     selection={PropertySelection}
                     style="width:200px"
-                    emptyText="Nothing results found."
+                    emptyText="No results found."
                     mod="bordered"
                     onItemDoubleClick={(e, {store}) => { MsgBox.alert(store.get('$record.text')) }}
                 >
@@ -61,7 +61,7 @@ export const Lists = <cx>
                 records:bind="$page.records"
                 selection={PropertySelection}
                 style="width:200px"
-                emptyText="Nothing results found."
+                emptyText="No results found."
                 mod="bordered"
                 onItemDoubleClick={(e, {store}) => { MsgBox.alert(store.get('$record.text')) }}
             >

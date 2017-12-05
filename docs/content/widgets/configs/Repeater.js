@@ -1,18 +1,6 @@
 import {Md} from '../../../components/Md';
 
-import widget from './Widget';
-import classAndStyle from './classAndStyle';
-
 export default {
-    ...widget,
-    ...classAndStyle,
-    records: {
-        type: 'array',
-        key: true,
-        description: <cx><Md>
-            An array of records to be displayed in the list.
-        </Md></cx>
-    },
     recordAlias: {
         type: 'string',
         key: true,
@@ -52,20 +40,6 @@ export default {
             A binding used to store the sorting order list. 
             This should be an array of objects with `field` and `direction` properties
             (equivalent to `sortField` and `sortDirection` properties).
-        </Md></cx>
-    },
-    selection: {
-        type: 'config',
-        key: true,
-        description: <cx><Md>
-            Selection configuration. See [Selections](~/concepts/selections) for more details.
-        </Md></cx>
-    },
-    grouping: {
-        type: 'config',
-        key: true,
-        description: <cx><Md>
-            Grouping configuration. Check [the example](~/examples/list/grouping) for more information.
         </Md></cx>
     },
 };

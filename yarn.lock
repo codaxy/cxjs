@@ -652,9 +652,9 @@ babel-plugin-transform-cx-imports@^17.4.2:
   dependencies:
     babel-plugin-syntax-jsx "^6.18.0"
 
-babel-plugin-transform-cx-jsx@^17.6.3:
-  version "17.6.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-cx-jsx/-/babel-plugin-transform-cx-jsx-17.6.3.tgz#0c171cfdf5028637af0f8b2e440fb9379f428917"
+babel-plugin-transform-cx-jsx@^17.12.0:
+  version "17.12.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-cx-jsx/-/babel-plugin-transform-cx-jsx-17.12.0.tgz#a023e1c40e54f5cd8da5efc5cfeab3caa9e27695"
   dependencies:
     babel-plugin-syntax-jsx "^6.18.0"
 
