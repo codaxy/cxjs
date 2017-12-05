@@ -108,9 +108,12 @@ class SvgComponent extends VDOM.Component {
       let { instance } = this.props;
       let { widget } = this.props.instance;
 
+      //this is the only method to get the size of the svg element working in firefox
+      var clientRects = this.svg.getClientRects();
+
       var size = {
-         width: this.svg.clientWidth,
-         height: this.svg.clientHeight
+         width: clientRects[0].width,
+         height: clientRects[0].height
       };
 
       if (widget.autoHeight)
