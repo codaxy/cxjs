@@ -51,7 +51,7 @@ export class Range extends BoundedObject {
       if (xAxis && xAxis.shouldUpdate)
          instance.markShouldUpdate(context);
 
-      if (yAxis.shouldUpdate)
+      if (yAxis && yAxis.shouldUpdate)
          instance.markShouldUpdate(context);
 
       if (data.name && data.legend && context.addLegendEntry)
