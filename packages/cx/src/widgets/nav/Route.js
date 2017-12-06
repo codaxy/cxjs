@@ -42,9 +42,9 @@ export class Route extends PureContainer
          let matcher = this.matcher;
          let route = this.route;
          if (this.route[0] === '+') {
-            route = routeAppend(context.lastRoute.reverse(), this.route.substring(1)) + (this.prefix ? '(*remainder)' : '');
+            route = routeAppend(context.lastRoute.route, this.route.substring(1));
             if (!instance.cached.matcher || instance.cached.route !== route)
-               instance.cached.matcher = new RouteMatcher(route);
+               instance.cached.matcher = new RouteMatcher(route + (this.prefix ? '(*remainder)' : ''));
             matcher = instance.cached.matcher;
          }
          instance.cached.result = matcher.match(data.url);
