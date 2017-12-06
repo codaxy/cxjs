@@ -64,7 +64,7 @@ export interface TextFieldProps extends FieldProps {
    validationRegExp?: RegExp,
    
    /** Name of the icon to be put on the left side of the input. */
-   icon?: string,
+   icon?: Cx.StringProp,
 
    /** Set to `true` to monitor and report if input value has changed after the form has been
     automatically filled. */
