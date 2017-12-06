@@ -88,7 +88,7 @@ export class LegendEntry extends HtmlElement {
          if (instance.set('active', !instance.data.active))
             return;
 
-      if (any || this.legendAction == 'select')
+      if ((any || this.legendAction == 'select') && !this.selection.isDummy)
          this.selection.selectInstance(instance);
    }
 
