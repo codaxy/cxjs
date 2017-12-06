@@ -75,7 +75,7 @@
          display: inline-block;
          margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
          box-sizing: border-box;
-         padding: cx-calc($cx-default-input-padding, -$cx-default-input-tag-spacing);
+         padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-right($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-bottom($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-left($cx-default-input-padding), -$cx-default-input-tag-spacing);
       }
    }
 

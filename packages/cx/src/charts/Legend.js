@@ -52,10 +52,11 @@ export class Legend extends HtmlElement {
 
       if (isArray(entries) && entries.length > 0) {
          list = <div key="wrap" className={CSS.element(this.baseClass, "wrap")}>
-            { entries.map((e, i) => {
-               return <div key={i}
-                           className={CSS.element(this.baseClass, "entry")}
-                           onClick={e.onClick}>
+            {entries.map((e, i) => {
+               return <div
+                  key={i}
+                  className={CSS.element(this.baseClass, "entry")}
+                  onClick={e.onClick}>
                   {this.renderShape(e)}
                   {e.name}
                </div>

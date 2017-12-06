@@ -54,7 +54,7 @@ Selection.namespace = 'ui.selection.';
 class SimpleSelection extends Selection {
 
    isSelected(store, record, index) {
-      return getIsSelectedDelegate(store)(record, index);
+      return this.getIsSelectedDelegate(store)(record, index);
    }
 
    getIsSelectedDelegate(store) {
@@ -72,6 +72,14 @@ class DummySelection extends Selection {
    isSelected(store, record, index) {
       return false;
    }
+
+   select() {
+      //dummy
+   }
+
+   selectInstance() {
+      //dummy
+   }
 }
 
 DummySelection.prototype.isDummy = true;
@@ -81,5 +89,5 @@ Selection.factory = (name) => {
       return new SimpleSelection(name);
 
    return new DummySelection();
-}
+};
 

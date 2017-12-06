@@ -72,14 +72,18 @@ $cx-default-radio-size: 14px !default;
 $cx-default-input-icon-size: $cx-default-icon-size !default;
 
 // Tool
-$cx-default-input-tool-size: 20px !default;
+$cx-default-input-tool-size: $cx-default-box-line-height !default;
+$cx-default-input-left-tool-spacing: cx-left($cx-default-box-padding) !default;
+$cx-default-input-right-tool-spacing: 1px !default;
 $cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
+$cx-default-input-left-tool-left: cx-calc(cx-left($cx-default-input-padding), 1px) !default;
+$cx-default-input-right-tool-right: cx-calc(cx-right($cx-default-input-padding), 1px) !default;
 
 // Left Icon
 $cx-input-left-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
-      left: $cx-default-box-padding + ($cx-default-box-line-height - $cx-default-input-left-tool-size) / 2,
+      left: $cx-default-input-left-tool-left,
       top: 50%,
       margin-top: -$cx-default-input-left-tool-size / 2,
       height: $cx-default-input-left-tool-size,
@@ -107,7 +111,7 @@ $cx-input-left-icon-state-style-map: (
 $cx-input-right-icon-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
-      right: $cx-default-box-padding,
+      right: $cx-default-input-right-tool-right,
       top: 50%,
       margin-top: -$cx-default-input-tool-size / 2,
       height: $cx-default-input-tool-size,
@@ -134,11 +138,12 @@ $cx-input-right-icon-state-style-map: (
 // Clear Icon
 $cx-default-clear-size: $cx-default-input-tool-size !default;
 $cx-default-clear-color: #828282 !default;
+$cx-default-clear-spacing: 1px !default; //additional padding on the left of the clear box
 
 $cx-clear-state-style-map: (
    default: (
       font-size: $cx-default-icon-size,
-      right: $cx-default-box-padding,
+      right: $cx-default-input-right-tool-right,
       top: 50%,
       margin-top: -$cx-default-clear-size / 2,
       height: $cx-default-clear-size,

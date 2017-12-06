@@ -164,7 +164,11 @@ $cx-default-input-width: 200px;
 $cx-default-input-border-color: $cx-default-border-color-light !default;
 $cx-default-input-box-shadow: null !default; //none; //0 0 1px darken($cx-default-input-border-color, 20) !default;
 $cx-default-input-background-color: #f8f9fb !default; //#f8f9fb !default;
-$cx-theme-input-padding: $cx-default-box-padding  1.5 * $cx-default-box-padding !default;
+$cx-default-input-padding: $cx-default-box-padding  1.5 * $cx-default-box-padding !default;
+$cx-default-input-left-tool-left: 6px !default;
+$cx-default-input-left-tool-spacing: 2px !default;
+$cx-default-input-right-tool-right: 6px !default;
+
 
 // label
 $cx-default-label-font-size: 12px !default;
@@ -235,7 +239,7 @@ $cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
 
 // icon
 $cx-default-input-tool-size: $cx-default-box-line-height !default;
-$cx-default-input-left-tool-size: 20px !default;
+$cx-default-input-left-tool-size: $cx-default-box-line-height !default;
 $cx-default-clear-size: $cx-default-box-line-height !default;
 
 // CHART
@@ -816,7 +820,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // standard form field - textfield, numberfield, lookupfield,...
 $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
-      padding: $cx-theme-input-padding,
+      //padding: $cx-theme-input-padding,
       //background-color: #fff,
       //border-radius: $cx-default-border-radius,
       //border-width: 1px,
@@ -1030,9 +1034,6 @@ $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
 
 // clear icon
 $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
-   default: (
-      right: $cx-default-box-padding
-   ),
    hover: (
       color: darken($cx-default-color, 5),
       background-color: transparent
@@ -1050,8 +1051,7 @@ $cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
 $cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-state-style-map, (
    default: (
       color: $cx-theme-secondary-text-color,
-      opacity: 1,
-      right: $cx-default-box-padding
+      opacity: 1
    ),
    focus: (
       color: $cx-theme-primary-color

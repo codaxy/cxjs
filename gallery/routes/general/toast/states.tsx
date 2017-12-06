@@ -16,27 +16,39 @@ export default <cx>
     <FlexRow wrap spacing="large" target="tablet" align="start">
         <Section mod="card">
             <FlexRow spacing wrap>
-                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'top' })}>Top Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'bottom' })}>Bottom Toast</Button>
-
-                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'left' })}>Left Toast</Button>
-                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'right' })}>Right Toast</Button>
-
+                <Button mod="primary" onClick={ (e, {store}) => store.toggle('$page.info.message.visible')}>Primary</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.success.message.visible')}>Success</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.warning.message.visible')}>Warning</Button>
+                <Button onClick={ (e, {store}) => store.toggle('$page.error.message.visible')}>Error</Button>
+                <Button
+                    visible={{expr: "{$root.$route.theme} == 'material'"}}
+                    onClick={ (e, {store}) => store.toggle('$page.dark.toast.visible')}>
+                    Dark Toast
+                </Button>
+            </FlexRow>
+            <br/>
+            <FlexRow spacing wrap>
                 <Button onClick={ (e, {store}) => store.toggle('$page.toast.visible')}>Toggle Toast</Button>
                 <Button onClick={ (e, {store}) => store.toggle('$page.complex.visible')}>Closable Toast</Button>
                 <Button visible={{expr: "{$root.$route.theme} == 'material'"}} onClick={(e, {store}) => store.toggle('$page.dark.visible')} ws>Dark Toggle Toast</Button> 
             </FlexRow>
             <br/>
+
             <FlexRow spacing wrap>
-                <Button mod="primary" onClick={ (e, {store}) => store.toggle('$page.info.message.visible')}>Primary</Button>
-                <Button onClick={ (e, {store}) => store.toggle('$page.success.message.visible')}>Success</Button>
-                <Button onClick={ (e, {store}) => store.toggle('$page.warning.message.visible')}>Warning</Button>
-                <Button onClick={ (e, {store}) => store.toggle('$page.error.message.visible')}>Error</Button>
-                <Button 
-                    visible={{expr: "{$root.$route.theme} == 'material'"}} 
-                    onClick={ (e, {store}) => store.toggle('$page.dark.toast.visible')}>
-                        Dark Toast
-                </Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'top' })}>Top Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'bottom' })}>Bottom Toast</Button>
+
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'left' })}>Left Toast</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'right' })}>Right Toast</Button>
+            </FlexRow>
+            <br/>
+
+            <FlexRow spacing wrap>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'top-left', mod: 'primary' })}>Top Left</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'bottom-left', mod: 'warning' })}>Bottom Left</Button>
+
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'top-right', mod: 'error' })}>Top Right</Button>
+                <Button onClick={ (e, ins) => createToast(e, ins, { placement: 'bottom-right', mod: 'success' })}>Bottom Right</Button>
             </FlexRow>
 
             <Toast visible={bind("$page.toast.visible")} ws>

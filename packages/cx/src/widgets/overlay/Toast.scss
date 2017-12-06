@@ -124,6 +124,24 @@
       &.#{$state}placement-bottom {
          flex-direction: column-reverse;
       }
+
+      &.#{$state}placement-top-left {
+         align-items: flex-start;
+      }
+
+      &.#{$state}placement-top-right {
+         align-items: flex-end;
+      }
+
+      &.#{$state}placement-bottom-left {
+         justify-content: flex-end;
+         align-items: flex-start;
+      }
+
+      &.#{$state}placement-bottom-right {
+         justify-content: flex-end;
+         align-items: flex-end;
+      }
    }
 
    .#{$element}#{$name}-item {

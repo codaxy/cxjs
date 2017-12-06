@@ -32,7 +32,7 @@
             default: (
                font-family: $cx-default-colorfield-font-family,
                font-size: 11px,
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(2 * cx-left($padding), $cx-default-clear-size)
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(cx-left($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing)
             )
          )
       );
