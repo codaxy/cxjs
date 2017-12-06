@@ -170,6 +170,15 @@ declare global {
       interface IntrinsicElements {
          cx: any
       }
+
+      interface IntrinsicAttributes {
+         key?: any;
+      }
+
+      interface IntrinsicClassAttributes<T> {
+         key?: any;
+         ref?: any;
+      }
    }
 }
 
