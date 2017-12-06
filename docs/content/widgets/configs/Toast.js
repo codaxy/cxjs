@@ -17,7 +17,10 @@ export default {
         key: true,
         type: 'string',
         description: <cx><Md>
-            Defines where the toast will be placed. Supported values are `top`, `right`, `bottom` and `left`. Default value is `top`.
+            Defines where the toast will be placed.
+            Supported values are `top`, `right`, `bottom` and `left` and corner values
+            `top-left`, `top-right`, `bottom-left`, `bottom-right`.
+            Default value is `top`.
         </Md></cx>
     },
 
