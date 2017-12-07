@@ -5,7 +5,6 @@ import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';
 import {batchUpdates} from './batchUpdates';
-import {VDOM} from './VDOM';
 import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
@@ -33,7 +32,7 @@ export class Instance {
       this.cached = {};
       if (!this.dataSelector) {
          this.widget.selector.init(this.store);
-         this.dataSelector = this.widget.selector.create();
+         this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
       if (this.widget.controller)
@@ -53,7 +52,7 @@ export class Instance {
       if (!this.initialized)
          this.init(context);
 
-      var data = this.dataSelector(this.store.getData());
+      var data = this.dataSelector(this.store);
       var wasVisible = this.visible;
       this.visible = this.widget.checkVisible(context, this, data);
 
@@ -460,6 +459,7 @@ export class InstanceCache {
    getChild(widget, store, keyPrefix) {
       var key = (keyPrefix != null ? keyPrefix + '-' : '') + widget.widgetId;
       var instance = this.children[key];
+
       if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
          instance = new Instance(widget, key);
          instance.parent = this.parent;

@@ -6,17 +6,14 @@ export function createStructuredSelector(selector, constants) {
       return () => lastResult;
 
    return function (data) {
-      let result = lastResult, k, v, i, j;
+      let result = lastResult, k, v, i;
       for (i = 0; i < keys.length; i++) {
          k = keys[i];
          v = selector[k](data);
          if (result === lastResult) {
             if (v === lastResult[k])
                continue;
-
-            result = Object.assign({}, constants);
-            for (j = 0; j < i; j++)
-               result[keys[j]] = lastResult[keys[j]];
+            result = Object.assign({}, lastResult);
          }
          result[k] = v;
       }

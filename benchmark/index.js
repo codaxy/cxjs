@@ -6,8 +6,17 @@ import './index.scss';
 
 enableCultureSensitiveFormatting();
 
-import suite from './grid/100-rows';
-//import suite from './data/expressions';
+import suite1 from './grid/100-rows';
+import suite2 from './data/expressions';
+import suite3 from './grid/realtime';
+
+Benchmark.options.maxTime = 1;
+
+let suites = [
+   suite1,
+   //suite2,
+   suite3
+];
 
 let resultsStore = new Store({
    data: {
@@ -32,27 +41,37 @@ let stop = startAppLoop(document.getElementById('app'), resultsStore, <cx>
    </div>
 </cx>);
 
-suite
-   .on('cycle', function (event) {
-      console.log(String(event.target));
-      resultsStore.update('results', results => [
-         ...results,
-         {
-            name: event.target.name,
-            ...event.target.stats
-         }
-      ]);
-   })
-   .on('complete', function () {
-      console.log(resultsStore.getData());
-   });
+let suiteIndex = 0;
 
-suite.run({
-   async: true,
-   delay: 100,
-   maxTime: 1,
-   minTime: 1
-});
+function proceed() {
+   let suite = suites[suiteIndex++];
+   if (!suite)
+      return;
+
+   suite
+      .on('cycle', function (event) {
+         console.log(String(event.target));
+         resultsStore.update('results', results => [
+            ...results,
+            {
+               name: event.target.name,
+               ...event.target.stats
+            }
+         ]);
+      })
+      .on('complete', function () {
+         console.log(resultsStore.getData());
+         proceed();
+      });
+
+   suite.run({
+      async: true
+   });
+}
+
+proceed();
+
+
 
 console.log('Done!');
 //stop();

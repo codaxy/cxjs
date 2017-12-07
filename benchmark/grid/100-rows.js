@@ -16,9 +16,6 @@ let Demo = (
    <cx>
       <div>
          <Grid
-            scrollable
-            style={{height: "800px"}}
-            mod="responsive"
             columns={[
                {header: "Name", field: "fullName", sortable: true},
                {header: "Continent", field: "continent", sortable: true},
@@ -31,7 +28,6 @@ let Demo = (
       </div>
    </cx>
 );
-
 
 let grid100 = () => {
    let store = new Store();
@@ -62,4 +58,8 @@ suite
    .add('Grid100 - verify', grid100)
    .add('Grid100 - sealed - verify', grid100sealed);
 
+//grid100();
+
 export default suite;
+
+

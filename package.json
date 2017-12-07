@@ -13,7 +13,7 @@
     "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
     "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
     "build:litmus": "webpack --config litmus/webpack.config.js",
-    "benchmark": "webpack-dev-server --config benchmark/webpack.config.js --open",
+    "benchmark": "webpack --config benchmark/webpack.config.js --watch",
     "build:benchmark": "webpack --config benchmark/webpack.config.js",
     "theme:home": "webpack-dev-server --config themes/home/webpack.config.js --open",
     "theme:core": "webpack-dev-server --config themes/core/webpack.config.js --open",

@@ -2,16 +2,17 @@ const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
-   BabiliPlugin = require("babili-webpack-plugin"),
+   MinifyPlugin = require("babel-minify-webpack-plugin"),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-   merge = require('webpack-merge'),
    path = require('path'),
    babelConfig = require('./babel.config');
 
-let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf('build') == 0;
+let sass = new ExtractTextPlugin({
+   filename: "app.css",
+   allChunks: true
+});
 
-let common = {
-
+let config = {
    resolve: {
       alias: {
          'cx': path.resolve(path.join(__dirname, '../packages/cx')),
@@ -21,7 +22,6 @@ let common = {
       },
       extensions: [".js", ".ts", ".tsx", ".json"]
    },
-
    module: {
       loaders: [{
          test: /\.json$/,
@@ -30,17 +30,13 @@ let common = {
          test: /\.js$/,
          include: /(benchmark|cx)/,
          loader: 'babel-loader',
-         query: babelConfig(production)
+         query: babelConfig(true)
       }, {
-         test: /\.tsx?$/,
-         include: /litmus/,
-         loaders: [
-            {
-               loader: 'babel-loader',
-               query: babelConfig(production)
-            },
-            'ts-loader',
-         ]
+         test: /\.scss$/,
+         loaders: sass.extract(['css-loader', 'sass-loader'])
+      }, {
+         test: /\.css$/,
+         loaders: sass.extract(['css-loader'])
       }]
    },
    entry: {
@@ -51,88 +47,33 @@ let common = {
       app: __dirname + '/index.js'
    },
    output: {
-      path: __dirname,
-      filename: "[name].js"
+      filename: "[name].js",
+      path: path.join(__dirname, 'dist'),
+      publicPath: '.'
    },
-   // externals: {
-   //    "react": "React",
-   //    "react-dom": "ReactDOM"
-   // },
+   externals: {
+      "react": "React",
+      "react-dom": "ReactDOM"
+   },
    plugins: [
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      new webpack.optimize.UglifyJsPlugin(),
+      // new MinifyPlugin({
+      //    mangle: false,
+      //    simplify: false
+      // }),
+      // new webpack.optimize.UglifyJsPlugin({
+      //    beautify: true,
+      //    mangle: false,
+      //    compress: false
+      // }),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
-      })
+      }),
+      new webpack.optimize.ModuleConcatenationPlugin(),
+      sass,
    ]
 };
 
-let specific;
-
-if (production) {
-   let sass = new ExtractTextPlugin({
-      filename: "app.css",
-      allChunks: true
-   });
-   specific = {
-      module: {
-         loaders: [{
-            test: /\.scss$/,
-            loaders: sass.extract(['css-loader', 'sass-loader'])
-         }, {
-            test: /\.css$/,
-            loaders: sass.extract(['css-loader'])
-         }]
-      },
-
-      plugins: [
-         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production'),
-         }),
-         new webpack.optimize.ModuleConcatenationPlugin(),
-         sass,
-         //new BundleAnalyzerPlugin()
-      ],
-
-      output: {
-         path: path.join(__dirname, 'dist'),
-         publicPath: '.'
-      }
-   };
-}
-else {
-   specific = {
-      module: {
-         loaders: [{
-            test: /\.scss$/,
-            loaders: ["style-loader", "css-loader", "sass-loader"]
-         }, {
-            test: /\.css$/,
-            loader: ["style-loader", "css-loader"]
-         }]
-      },
-      plugins: [
-         new webpack.HotModuleReplacementPlugin()
-      ],
-      output: {
-         publicPath: '/'
-      },
-      performance: {
-         hints: false
-      },
-      devtool: 'eval',
-      devServer: {
-         contentBase: '/',
-         hot: true,
-         port: 8186,
-         noInfo: false,
-         inline: true,
-         historyApiFallback: true,
-         //quiet: true
-      }
-   };
-}
-
-module.exports = merge(common, specific);
+module.exports = config;

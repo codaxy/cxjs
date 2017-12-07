@@ -20,7 +20,8 @@ function getSelectorConfig(props, values, nameMap) {
    let functions = {},
       structures = {},
       defaultValues = {},
-      constants, p, v, pv;
+      constants, p, v, pv,
+      constant = true;
 
    for (p in props) {
       v = values[p];
@@ -42,17 +43,24 @@ function getSelectorConfig(props, values, nameMap) {
                defaultValues[v.bind] = v.defaultValue;
             nameMap[p] = v.bind;
             functions[p] = Binding.get(v.bind).value;
+            constant = false;
          }
-         else if (v.expr)
+         else if (v.expr) {
             functions[p] = Expression.get(v.expr);
-         else if (v.tpl)
+            constant = false;
+         }
+         else if (v.tpl) {
             functions[p] = StringTemplate.get(v.tpl);
+            constant = false;
+         }
          else if (pv && typeof pv == 'object' && pv.structured) {
             if (isArray(v))
                functions[p] = getSelector(v);
             else
                structures[p] = getSelectorConfig(v, v, {});
-         } else {
+            constant = false;
+         }
+         else {
             if (!constants)
                constants = {};
             constants[p] = v;
@@ -60,6 +68,7 @@ function getSelectorConfig(props, values, nameMap) {
       }
       else if (isFunction(v)) {
          functions[p] = v;
+         constant = false;
       }
       else {
          if (isUndefined(v)) {
@@ -82,7 +91,8 @@ function getSelectorConfig(props, values, nameMap) {
       functions,
       structures,
       defaultValues,
-      constants
+      constants,
+      constant
    };
 }
 
@@ -113,5 +123,14 @@ export class StructuredSelector {
 
    create() {
       return createSelector(this.config);
+   }
+
+   createStoreSelector() {
+      if (this.config.constant) {
+         let result = {...this.config.constants};
+         return () => result;
+      }
+      let selector = this.create();
+      return store => selector(store.getData());
    }
 }
