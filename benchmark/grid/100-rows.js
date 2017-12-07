@@ -29,7 +29,6 @@ let Demo = (
    </cx>
 );
 
-
 let grid100 = () => {
    let store = new Store();
    let stop = startAppLoop(document.getElementById('test'), store, <cx>
@@ -59,4 +58,7 @@ suite
    .add('Grid100 - verify', grid100)
    .add('Grid100 - sealed - verify', grid100sealed);
 
+setInterval(grid100, 100);
+
 export default suite;
+

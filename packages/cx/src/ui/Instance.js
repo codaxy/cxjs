@@ -46,6 +46,13 @@ export class Instance {
 
       this.widget.initInstance(context, this);
       this.widget.initState(context, this);
+
+      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
+         this.needsExploreCleanup = true;
+      if (this.widget.prepare || this.widget.controller)
+         this.needsPrepare = true;
+      if (this.widget.cleanup || this.widget.controller)
+         this.needsCleanup = true;
       this.initialized = true;
    }
 
@@ -149,15 +156,15 @@ export class Instance {
       }
 
       this.explored = true;
-      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
+      if (this.needsExploreCleanup)
          context.exploreStack.push(this);
 
-      if (this.widget.prepare || this.widget.controller)
+      if (this.needsPrepare)
          context.prepareList.push(this);
       else
          this.prepared = true;
 
-      if (this.widget.cleanup || this.widget.controller)
+      if (this.needsCleanup)
          context.cleanupList.push(this);
 
       this.cacheList = null;
@@ -189,7 +196,6 @@ export class Instance {
       if (this.widget.onDestroy)
          this.trackDestroy();
 
-      this.shouldUpdate = false;
       this.renderList = context.getCurrentRenderList();
 
       let shouldUpdate = this.rawData !== this.cached.rawData
@@ -227,7 +233,10 @@ export class Instance {
       }
 
       if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
+         this.shouldUpdate = false;
          this.markShouldUpdate(context);
+      } else {
+         this.shouldUpdate = false;
       }
 
       this.widget.explore(context, this, this.data);

@@ -11,9 +11,9 @@ import suite2 from './data/expressions';
 import suite3 from './grid/realtime';
 
 let suites = [
-   suite1,
-   suite2,
-   suite3
+   // suite1,
+   // suite2,
+   // suite3
 ]
 
 let resultsStore = new Store({
