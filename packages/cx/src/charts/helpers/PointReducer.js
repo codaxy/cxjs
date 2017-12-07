@@ -27,10 +27,13 @@ export class PointReducer extends PureContainer {
       }
 
       instance.resetAccumulator();
-      context.pointReducer = instance.pointReducer;
+      context.push('pointReducer', instance.pointReducer);
 
       super.explore(context, instance);
-      context.pointReducer = pointReducer;
+   }
+
+   exploreCleanup(context, instance) {
       instance.write();
+      context.pop('pointReducer');
    }
 }

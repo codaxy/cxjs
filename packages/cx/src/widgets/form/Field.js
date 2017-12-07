@@ -163,13 +163,15 @@ export class Field extends PureContainer {
    explore(context, instance) {
       let {data, state} = instance;
 
-      if (context.parentDisabled != instance.cached.parentDisabled || context.parentReadOnly != instance.cached.parentReadOnly
-         || context.parentViewMode != instance.cached.parentViewMode || context.parentTabOnEnterKey != instance.cached.parentTabOnEnterKey) {
-         instance.parentDisabled = context.parentDisabled;
-         instance.parentReadOnly = context.parentReadOnly;
-         instance.parentViewMode = context.parentViewMode;
-         instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-         instance.shouldUpdate = true;
+      instance.parentDisabled = context.parentDisabled;
+      instance.parentReadOnly = context.parentReadOnly;
+      instance.parentViewMode = context.parentViewMode;
+      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+
+      if (instance.cache('parentDisabled', context.parentDisabled) || instance.cache('parentReadOnly', context.parentReadOnly)
+         || instance.cache('parentViewMode', context.parentViewMode) || instance.cache('parentTabOnEnterKey', context.parentTabOnEnterKey)) {
+
+         instance.markShouldUpdate(context);
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
       }
@@ -188,19 +190,12 @@ export class Field extends PureContainer {
          });
       }
 
-      context.lastFieldId = data.id;
-
+      context.push('lastFieldId', data.id);
       super.explore(context, instance);
-
-      delete context.lastFieldId;
    }
 
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-      instance.cached.parentViewMode = instance.parentViewMode;
-      instance.cached.parentDisabled = instance.parentDisabled;
-      instance.cached.parentReadOnly = instance.parentReadOnly;
-      instance.cached.parentTabOnEnterKey = instance.parentTabOnEnterKey;
+   exploreCleanup(context, instance) {
+      context.pop('lastFieldId');
    }
 
    isEmpty(data) {
@@ -264,7 +259,7 @@ export class Field extends PureContainer {
 
    renderLabel(context, instance, key) {
       if (instance.components.label)
-         return getContent(instance.components.label.render(context, key));
+         return getContent(instance.components.label.vdom);
    }
 
    renderInput(context, instance, key) {
@@ -313,8 +308,8 @@ export class Field extends PureContainer {
    render(context, instance, key) {
       var {data} = instance;
       var content = !data.viewMode
-         ? this.renderInput(context, instance, key + 'input')
-         : this.renderContent(context, instance, key + 'content');
+         ? this.renderInput(context, instance, key)
+         : this.renderContent(context, instance, key);
 
       return {
          label: !this.labelPlacement && this.renderLabel(context, instance, key),
@@ -351,7 +346,6 @@ Field.prototype.trackFocus = false; //add cxs-focus on parent element
 Field.prototype.labelPlacement = false;
 Field.prototype.helpPlacement = false;
 Field.prototype.styled = true;
-//Field.prototype.pure = false; //validation through context - recheck
 
 Localization.registerPrototype('cx/widgets/Field', Field);
 

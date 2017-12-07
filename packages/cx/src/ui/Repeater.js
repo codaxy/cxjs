@@ -1,13 +1,26 @@
 import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
+import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
 import {isString} from '../util/isString';
 import {Binding} from '../data/Binding';
 
-export class Repeater extends PureContainer {
+export class Repeater extends Container {
+
+   declareData() {
+      super.declareData({
+         records: undefined,
+         sorters: undefined,
+         sortField: undefined,
+         sortDirection: undefined,
+         filterParams: {
+            structured: true
+         }
+      }, ...arguments);
+   }
 
    init() {
-      super.init();
+
       if (this.records && this.records.bind)
          this.recordsBinding = Binding.get(this.records.bind);
 
@@ -24,102 +37,54 @@ export class Repeater extends PureContainer {
          keyField: this.keyField,
          immutable: this.immutable
       });
-   }
 
-   checkVisible(context, instance, data) {
-      return instance.repeatable || super.checkVisible(context, instance, data);
-   }
+      this.item = PureContainer.create({
+         children: this.items || this.children
+      });
 
-   declareData() {
-      super.declareData({
-         records: undefined,
-         sorters: undefined,
-         sortField: undefined,
-         sortDirection: undefined,
-         filterParams: {
-            structured: true
-         }
-      }, ...arguments);
+      delete this.children;
+      delete this.items;
+
+      super.init();
    }
 
    prepareData(context, instance) {
-      super.prepareData(context, instance);
-
       let {data} = instance;
-
       if (data.sortField)
          data.sorters = [{
             field: data.sortField,
             direction: data.sortDirection || "ASC"
          }];
-
-      if (!instance.repeatable) {
-         this.dataAdapter.sort(data.sorters);
-
-         let filter = null;
-         if (this.onCreateFilter)
-            filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-         else if (this.filter)
-            filter = item => this.filter(item, data.filterParams);
-         this.dataAdapter.setFilter(filter);
-         instance.mappedRecords = this.dataAdapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
-      }
+      this.dataAdapter.sort(data.sorters);
+      let filter = null;
+      if (this.onCreateFilter)
+         filter = instance.invoke("onCreateFilter", data.filterParams, instance);
+      else if (this.filter)
+         filter = item => this.filter(item, data.filterParams);
+      this.dataAdapter.setFilter(filter);
+      instance.mappedRecords = this.dataAdapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
+      super.prepareData(context, instance);
    }
 
    explore(context, instance, data) {
-      if (instance.repeatable)
-         return super.explore(context, instance);
-
       var instances = [];
-      instance.mappedRecords.forEach((record)=> {
-         var subInstance = instance.getChild(context, this, record.key + ':', record.store);
-         subInstance.repeatable = true;
+      instance.mappedRecords.forEach((record) => {
+         var subInstance = instance.getChild(context, this.item, record.key, record.store);
+         let changed = subInstance.cache('data', record.data) || subInstance.cache('key', record.key);
          subInstance.record = record;
-         if (this.cached && subInstance.cached && subInstance.cached.record && subInstance.cached.record.data == record.data && !subInstance.childStateDirty) {
+         if (this.cached && !changed && subInstance.visible && !subInstance.childStateDirty) {
             instances.push(subInstance);
             subInstance.shouldUpdate = false;
-         } else if (subInstance.explore(context))
+         } else if (subInstance.scheduleExploreIfVisible(context))
             instances.push(subInstance);
       });
       instance.instances = instances;
    }
 
-   prepare(context, instance) {
-      if (instance.repeatable)
-         return super.prepare(context, instance);
-
-      instance.instances.forEach(inst => {
-         if (!this.cached || inst.shouldUpdate) {
-            inst.prepare(context);
-         }
-      });
-   }
-
    render(context, instance, key) {
-      if (instance.repeatable)
-         return super.render(context, instance, key);
-
       return instance.instances.map(ins => {
          return ins.render(context, key + ':' + ins.record.key)
       });
-   }
-
-   cleanup(context, instance) {
-      if (instance.repeatable)
-         return super.cleanup(context, instance);
-
-      instance.instances.forEach(inst => {
-         if (!this.cached || inst.shouldUpdate) {
-            inst.cleanup(context);
-            inst.cached.record = inst.record;
-         }
-      });
-   }
-
-   add(item) {
-      if (isString(item))
-         return;
-      super.add(item);
    }
 }
 

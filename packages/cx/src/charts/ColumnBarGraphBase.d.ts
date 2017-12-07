@@ -63,7 +63,6 @@ interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
 
    legendAction?: string,
    legendShape?: string,
-   pure?: boolean,
 
    /** Selection configuration. */
    selection?: { type: typeof PropertySelection | typeof KeySelection, [prop: string]: any }

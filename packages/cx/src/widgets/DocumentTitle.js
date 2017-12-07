@@ -54,7 +54,6 @@ export class DocumentTitle extends Widget {
    }
 
    prepare(context, instance) {
-      super.prepare(context, instance);
       if (context.documentTitle.activeInstance == instance)
          document.title = context.documentTitle.title;
    }
@@ -64,7 +63,6 @@ export class DocumentTitle extends Widget {
    }
 }
 
-DocumentTitle.prototype.pure = false;
 DocumentTitle.prototype.action = "append";
 DocumentTitle.prototype.separator = '';
 

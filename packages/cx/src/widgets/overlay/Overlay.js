@@ -53,27 +53,25 @@ export class Overlay extends PureContainer {
    }
 
    explore(context, instance) {
-      let oldParentOptions = context.parentOptions;
-
       if (context.options.dismiss)
          instance.dismiss = context.options.dismiss;
 
-      if (instance.dismiss)
-         context.parentOptions = {
+      if (instance.dismiss) {
+         context.push('parentOptions', {
             ...context.parentOptions,
             dismiss: instance.dismiss
-         };
+         });
+      }
 
-      if (instance.dismiss !== instance.cached.dismiss)
-         instance.shouldUpdate = true;
+      if (instance.cache('dismiss', instance.dismiss))
+         instance.markShouldUpdate(context);
 
       super.explore(context, instance);
-      context.parentOptions = oldParentOptions;
    }
 
-   cleanup(context, instance) {
-      super.cleanup(context, instance);
-      instance.cached.dismiss = instance.dismiss;
+   exploreCleanup(context, instance) {
+      if (instance.dismiss)
+         context.pop('parentOptions');
    }
 
    render(context, instance, key) {

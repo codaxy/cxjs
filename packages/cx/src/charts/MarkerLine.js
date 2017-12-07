@@ -55,11 +55,10 @@ export class MarkerLine extends BoundedObject {
    prepare(context, instance) {
       let {data, xAxis, yAxis} = instance;
 
-      if (xAxis.shouldUpdate || yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+      if ((xAxis && xAxis.shouldUpdate) || (yAxis && yAxis.shouldUpdate))
+         instance.markShouldUpdate(context);
 
-      if (data.active)
-         super.prepare(context, instance);
+      super.prepare(context, instance);
 
       if (data.name && data.legend && context.addLegendEntry)
          context.addLegendEntry(data.legend, {

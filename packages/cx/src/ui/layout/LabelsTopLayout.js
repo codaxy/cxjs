@@ -20,7 +20,7 @@ export class LabelsTopLayout extends Layout {
          let rows = [];
 
          children.forEach((c, i) => {
-            let r = c.render(context);
+            let r = c.vdom; //render(context);
             if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
                r.content.forEach((r, j) => {
                   rows.push(<tr key={`${i}-${j}-label`}>

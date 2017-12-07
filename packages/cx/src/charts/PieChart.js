@@ -5,6 +5,7 @@ import {Rect} from '../svg/util/Rect';
 import {Selection} from '../ui/selection/Selection';
 import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
 import {isNumber} from '../util/isNumber';
+import {shallowEquals} from '../util/shallowEquals';
 
 export class PieChart extends BoundedObject {
 
@@ -15,27 +16,29 @@ export class PieChart extends BoundedObject {
    }
 
    explore(context, instance) {
-      var pie = context.pie;
       if (!instance.pie)
          instance.pie = new PieCalculator();
       var {data} = instance;
       instance.pie.reset(data.angle);
-      context.pie = instance.pie;
+
+      context.push('pie', instance.pie);
       super.explore(context, instance);
-      context.pie = pie;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('pie')
    }
    
    prepare(context, instance) {
       this.prepareBounds(context, instance);
       var {data, pie} = instance;
       pie.measure(data.bounds);
-      if (pie.shouldUpdate)
-         instance.shouldUpdate = true;
+      let hash = pie.hash();
+      instance.cache('hash', hash);
+      pie.shouldUpdate = !shallowEquals(hash, instance.cached.hash)
+      if (!pie.shouldUpdate)
+         instance.markShouldUpdate(context);
       super.prepare(context, instance);
-   }
-   
-   cleanup(context, instance) {
-      instance.pie.cleanup();
    }
 }
 
@@ -64,10 +67,6 @@ class PieCalculator {
          R: this.R
       }
    }
-
-   cleanup() {
-      this.oldHash = this.newHash;
-   }
    
    measure(rect) {
       for (var s in this.stacks) {
@@ -78,9 +77,6 @@ class PieCalculator {
       this.cx = (rect.l + rect.r) / 2;
       this.cy = (rect.t + rect.b) / 2;
       this.R = Math.max(0, Math.min(rect.width(), rect.height())) / 2;
-
-      this.newHash = this.hash();
-      this.shouldUpdate = !this.oldHash || Object.keys(this.newHash).some(k=>this.newHash[k] !== this.oldHash[k]);
    }
    
    map(stack, value) {
@@ -196,22 +192,13 @@ export class PieSlice extends PureContainer {
       }
    }
 
-   cleanup(context, instance) {
-      let {data} = instance;
-      if (instance.valid && data.active) {
-         super.cleanup(context, instance);
-      }
-   }
-
    prepare(context, instance) {
       let {data, segment, pie, colorMap} = instance;
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate(context);
       }
 
       if (instance.valid && data.active) {
@@ -246,13 +233,10 @@ export class PieSlice extends PureContainer {
                b: oy
             });
 
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate(context);
          }
 
-         var pr = context.parentRect;
-         context.parentRect = instance.bounds;
-         super.prepare(context, instance);
-         context.parentRect = pr;
+         context.push('parentRect', instance.bounds);
       }
 
       if (data.name && data.legend && context.addLegendEntry)
@@ -266,6 +250,12 @@ export class PieSlice extends PureContainer {
             shape: 'rect',
             onClick: e=> { this.onLegendClick(e, instance) }
          });
+   }
+
+   prepareCleanup(context, instance) {
+      if (instance.valid && instance.data.active) {
+         context.pop('parentRect');
+      }
    }
 
    onLegendClick(e, instance) {
@@ -320,7 +310,6 @@ PieSlice.prototype.percentageRadius = true;
 PieSlice.prototype.baseClass = 'pieslice';
 PieSlice.prototype.legend = 'legend';
 PieSlice.prototype.active = true;
-PieSlice.prototype.pure = false;
 PieSlice.prototype.stack = 'stack';
 PieSlice.prototype.legendAction = 'auto';
 PieSlice.prototype.styled = true;

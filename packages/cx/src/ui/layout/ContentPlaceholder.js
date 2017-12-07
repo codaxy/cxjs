@@ -9,94 +9,49 @@ export class ContentPlaceholder extends PureContainer {
       });
    }
 
-   explore(context, instance, data) {
+   explore(context, instance) {
       instance.content = null;
+      let {data} = instance;
+
       const content = context.content && context.content[data.name];
-      if (content)
+      if (content && !this.scoped)
          this.setContent(context, instance, content);
-      else {
-         if (!context.contentPlaceholder)
-            context.contentPlaceholder = {};
-
-         context.contentPlaceholder[data.name] = (content) => {
+      else
+         context.pushNamedValue('contentPlaceholder', data.name, (content) => {
             this.setContent(context, instance, content);
-         }
-      }
-      super.explore(context, instance);
+         });
 
-      //content will be provided through context handler
-      if (!instance.content)
-         instance.pure = false;
+      if (this.scoped)
+         instance.unregisterContentPlaceholder = () => {
+            context.popNamedValue("contentPlaceholder", data.name);
+         };
+
+      super.explore(context, instance);
    }
 
    prepare(context, instance) {
-      if (instance.content != instance.cached.content)
-         instance.shouldUpdate = true;
-
-      if (!instance.content)
-         super.prepare(context, instance);
-      else {
-         if (instance.content.shouldUpdate)
-            instance.shouldUpdate = true;
-      }
+      if (instance.content && instance.content.shouldUpdate)
+         instance.markShouldUpdate(context);
    }
 
    setContent(context, instance, content) {
-      if (content != instance.cached.content)
-         instance.shouldUpdate = true;
-
       instance.content = content;
-      if (!content.pure)
-         instance.pure = false;
-      if (content.shouldUpdate)
-         instance.shouldUpdate = true;
-   }
+      content.contentPlaceholder = instance;
 
-   cleanup(context, instance) {
-      if (!instance.content)
-         super.cleanup(context, instance);
-      instance.cached.content = instance.content;
+      if (instance.cache('content', content) || content.shouldUpdate)
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {
       const {content} = instance;
-      if (content) {
-         content.shouldRenderContent = true;
-         var result = content.render(context);
-         content.shouldRenderContent = false;
-         return result;
-      }
+      if (content)
+         return content.contentVDOM;
 
       return super.render(context, instance, key);
    }
 }
 
 ContentPlaceholder.prototype.name = 'body';
+ContentPlaceholder.prototype.scoped = false;
 
 Widget.alias('content-placeholder', ContentPlaceholder);
-
-export function contentSandbox(context, name, exploreFunction) {
-   let content = context.content && context.content[name];
-   let placeholder = context.contentPlaceholder && context.contentPlaceholder[name];
-
-   if (content)
-      context.content[name] = null;
-   if (placeholder)
-      context.contentPlaceholder[name] = null;
-
-   exploreFunction();
-
-   if (context.content) {
-      if (content)
-         context.content[name] = content;
-      else
-         delete context.content[name];
-   }
-
-   if (context.contentPlaceholder) {
-      if (placeholder)
-         context.contentPlaceholder[name] = placeholder;
-      else
-         delete  context.contentPlaceholder[name];
-   }
-}

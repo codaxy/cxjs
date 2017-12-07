@@ -1,8 +1,7 @@
 import {Widget, VDOM} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import {Container} from '../ui/Container';
 import {tooltipMouseMove, tooltipParentWillUnmount, tooltipMouseLeave, tooltipParentWillReceiveProps, tooltipParentDidMount} from './overlay/tooltip-ops';
 import {Url} from '../ui/app/Url';
-import {parseStyle} from '../util/parseStyle';
 import {debug} from '../util/Debug';
 import {isString} from '../util/isString';
 import {isUndefined} from '../util/isUndefined';
@@ -16,7 +15,7 @@ export var urlAttributes = {
    'img.src': true
 };
 
-export class HtmlElement extends PureContainer {
+export class HtmlElement extends Container {
 
    constructor(config) {
       super(config);
@@ -188,7 +187,7 @@ export class HtmlElement extends PureContainer {
 
       this.attachProps(context, instance, props);
 
-      if (this.memoize || this.tooltip)
+      if (this.tooltip)
          return (
             <ContainerComponent
                key={key}
@@ -252,7 +251,7 @@ class ContainerComponent extends VDOM.Component {
 
 var originalWidgetFactory = Widget.factory;
 
-//support for pure components
+//support for React components
 Widget.factory = function(type, config, more) {
    var typeType = typeof type;
 

@@ -19,6 +19,7 @@ export class GridRow extends ValidationGroup {
 }
 
 GridRow.prototype.styled = true;
+GridRow.prototype.isPureContainer = false;
 
 export class GridRowComponent extends VDOM.Component {
 
@@ -38,7 +39,6 @@ export class GridRowComponent extends VDOM.Component {
          };
 
 
-
       if (grid.widget.onRowContextMenu)
          this.onRowContextMenu = e => {
             grid.invoke("onRowContextMenu", e, instance);
@@ -48,7 +48,8 @@ export class GridRowComponent extends VDOM.Component {
    render() {
 
       let {className, dragSource, instance} = this.props;
-      let {data} = instance;
+      let {data, widget} = instance;
+      let {CSS} = widget;
       let move, up;
 
       if (dragSource) {
@@ -58,7 +59,7 @@ export class GridRowComponent extends VDOM.Component {
 
       return (
          <tbody
-            className={className}
+            className={CSS.expand(data.classNames, className)}
             style={data.style}
             onClick={this.onClick}
             onDoubleClick={this.onDoubleClick}
@@ -72,7 +73,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseUp={up}
             onContextMenu={this.onRowContextMenu}
          >
-            {this.props.children}
+         {this.props.children}
          </tbody>
       )
    }

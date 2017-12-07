@@ -1,7 +1,9 @@
 import * as Cx from '../core';
-import {Filter} from './Container';
+import {Component} from './Component';
 
-export class PureContainer extends Cx.Widget<Cx.PureContainerProps> {
+type Filter = string | Component;
+
+export class Container extends Cx.Widget<Cx.PureContainerProps> {
 
    add(...args: Array<any>);
    

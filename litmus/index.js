@@ -14,14 +14,14 @@ import './index.scss';
 // import Demo from './sections/ComplexGrid';
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
-// import Demo from './performance/LongList';
+//import Demo from './performance/LongList';
 //
 //
 //import Demo from './bugs/236';
 //import Demo from './bugs/282';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
-// import Demo from './bugs/NativeCheckboxesAndRadios';
+//import Demo from './bugs/NativeCheckboxesAndRadios';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 
@@ -34,9 +34,10 @@ import './index.scss';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
 //import Demo from './features/logo';
+//import Demo from './features/svg/rects';
 //import Demo from './features/destroy';
 //import Demo from './features/tracking';
-import Demo from './features/caching/IsolatedBoxes';
+//import Demo from './features/caching/IsolatedBoxes';
 //import Demo from './features/context-menu';
 //import Demo from './features/charts/time-axis/LocalTime';
 
@@ -50,6 +51,9 @@ import Demo from './features/caching/IsolatedBoxes';
 
 //import Demo from './features/fun-comps/ts';
 //import Demo from './features/fun-comps/js';
+
+//import Demo from './features/layout/OuterLayout';
+import Demo from './features/layout/ComplexLayout';
 
 let store = new Store();
 

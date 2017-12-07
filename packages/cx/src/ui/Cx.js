@@ -3,7 +3,8 @@ import {Instance} from './Instance';
 import {RenderingContext} from './RenderingContext';
 import {debug, appDataFlag} from '../util/Debug';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
-import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted } from './batchUpdates';
+import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
+import {shallowEquals} from "../util/shallowEquals";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -29,11 +30,22 @@ export class Cx extends VDOM.Component {
             throw new Error('Cx component requires store.');
       }
 
-      if (props.subscribe)
+      if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(::this.update);
+         this.state = {data: this.store.getData()};
+      }
 
       this.flags = {};
       this.renderCount = 0;
+   }
+
+   componentWillReceiveProps(props) {
+      //TODO: Switch to new props
+      if (props.subscribe) {
+         let data = this.store.getData();
+         if (data !== this.state.data)
+            this.setState({data: this.store.getData()});
+      }
    }
 
    render() {
@@ -41,8 +53,14 @@ export class Cx extends VDOM.Component {
          return null;
 
       let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-      return <CxContext instance={instance} flags={this.flags} options={this.props.options}
-         buster={++this.renderCount }/>
+
+      return <CxContext
+         instance={instance}
+         flags={this.flags}
+         options={this.props.options}
+         buster={++this.renderCount}
+         contentFactory={this.props.contentFactory}
+      />
    }
 
    componentDidMount() {
@@ -86,6 +104,17 @@ export class Cx extends VDOM.Component {
       if (this.props.options && this.props.options.onPipeUpdate)
          this.props.options.onPipeUpdate(null);
    }
+
+   shouldComponentUpdate(props, state) {
+      return state !== this.state
+         || !props.params
+         || !shallowEquals(props.params, this.props.params)
+         || props.instance !== this.props.instance
+         || props.widget !== this.props.widget
+         || props.store !== this.props.store
+         || props.parentInstance !== this.props.parentInstance
+         ;
+   }
 }
 
 
@@ -98,12 +127,11 @@ class CxContext extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-
       this.timings = {
          start: now()
       };
 
-      let {instance, options} = props;
+      let {instance, options, contentFactory} = props;
       let count = 0, visible, context;
 
       if (this.props.instance !== instance && this.props.instance.destroyTracked)
@@ -114,18 +142,39 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
-         visible = instance.explore(context);
+         visible = instance.scheduleExploreIfVisible(context);
+         if (visible) {
+            while (context.exploreStack.length > 0) {
+               let inst = context.exploreStack.pop();
+               inst.explore(context);
+            }
+         }
       }
       while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
       if (visible) {
          this.timings.afterExplore = now();
-         instance.prepare(context);
+         for (let i = 0; i < context.prepareList.length; i++)
+            context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
 
-         let result = instance.render(context);
-         this.content = getContent(result);
+         //console.log(context.prepareList);
+         //console.log(context.renderStack);
+
+         //walk in reverse order so children get rendered first
+         let renderLists = context.getRenderLists();
+         for (let j = 0; j < renderLists.length; j++) {
+            for (let i = renderLists[j].length - 1; i >= 0; i--) {
+               renderLists[j][i].render(context);
+            }
+         }
+
+         this.content = getContent(instance.vdom);
+         if (contentFactory)
+            this.content = contentFactory({children: this.content});
          this.timings.afterRender = now();
+         for (let i = 0; i < context.cleanupList.length; i++)
+            context.cleanupList[i].cleanup(context);
       }
       else {
          this.content = null;
@@ -150,8 +199,8 @@ class CxContext extends VDOM.Component {
       this.props.flags.rendering = false;
       this.timings.afterVDOMRender = now();
 
-      let {instance} = this.props;
-      instance.cleanup(this.renderingContext);
+      //let {instance} = this.props;
+      //instance.cleanup(this.renderingContext);
 
       this.timings.afterCleanup = now();
       this.renderCount++;

@@ -51,13 +51,9 @@ export class LegendEntry extends HtmlElement {
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate(context);
       }
-
-      super.prepare(context, instance);
    }
 
    attachProps(context, instance, props) {

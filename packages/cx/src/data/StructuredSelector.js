@@ -59,7 +59,7 @@ function getSelectorConfig(props, values, nameMap) {
             else
                structures[p] = getSelectorConfig(v, v, {});
             constant = false;
-         }
+         } 
          else {
             if (!constants)
                constants = {};

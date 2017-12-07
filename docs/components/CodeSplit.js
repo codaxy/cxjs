@@ -1,24 +1,22 @@
-import { PureContainer, ContentPlaceholder, Widget, VDOM, getContent, contentSandbox } from 'cx/ui';
+import { ContentPlaceholder, Widget, VDOM, getContent } from 'cx/ui';
 import {Md} from './Md';
 
 export class CodeSplit extends Md {
-    initComponents() {
-        super.initComponents({
-            right: Widget.create(ContentPlaceholder, {name: 'code'})
+    initHelpers() {
+        super.initHelpers({
+            right: Widget.create(ContentPlaceholder, {name: 'code', scoped: true})
         })
     }
 
-    explore(context, instance) {
-        contentSandbox(context, "code", () => {
-            super.explore(context, instance);
-        });
+    exploreCleanup(context, instance) {
+        instance.helpers.right.unregisterContentPlaceholder();
     }
 
     render(context, instance, key) {
 
-        let {data, widget, components} = instance;
+        let {data, widget, helpers} = instance;
         let {CSS, baseClass} = widget;
-        let right = getContent(components.right.render(context));
+        let right = getContent(helpers.right.render(context));
 
         return <div key={key} className={CSS.block(widget.baseClass)}>
             <div className={CSS.element(baseClass, "left")} style={data.style}>

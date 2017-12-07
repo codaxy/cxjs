@@ -36,3 +36,4 @@ export * from './isString';
 export * from './isUndefined';
 export * from './isDefined';
 export * from './routeAppend';
+export * from './reverseSlice';

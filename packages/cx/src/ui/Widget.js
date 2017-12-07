@@ -112,7 +112,8 @@ export class Widget extends Component {
    }
 
    prepareData(context, instance) {
-      this.prepareCSS(context, instance);
+      if (this.styled)
+         this.prepareCSS(context, instance);
    }
 
    initInstance(context, instance) {
@@ -131,79 +132,17 @@ export class Widget extends Component {
          instance.components = {};
       for (let cmp in this.components) {
          let ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
-         if (ins.explore(context))
+         if (ins.scheduleExploreIfVisible(context))
             instance.components[cmp] = ins;
       }
-   }
-
-   prepare(context, instance) {
-      if (instance.components)
-         for (var cmp in instance.components)
-            instance.components[cmp].prepare(context);
    }
 
    render(context, instance, key) {
       throw new Error('render method should be overridden.');
    }
 
-   cleanup(context, instance) { }
-
    update() {
       this.version = (this.version || 0) + 1;
-   }
-
-   // mount(parentDOMElement, store, options, parentInstance) {
-   //    var start = now();
-   //    var content = this.prepareRenderCleanup(store, options, null, parentInstance);
-   //    if (content) {
-   //       var render = now();
-   //       VDOM.DOM.render(content, parentDOMElement);
-   //       var done = now();
-   //       var renderCount = Timing.count(vdomRenderFlag);
-   //       Timing.log(vdomRenderFlag, renderCount, 'cx', (render - start).toFixed(2)+'ms', 'vdom', (done - render).toFixed(2)+'ms');
-   //    }
-   //    else
-   //       VDOM.DOM.unmountComponentAtNode(parentDOMElement);
-   // }
-
-   prepareRenderCleanup(store, options, key, parentInstance) {
-      var instance = parentInstance.getChild(null, this, key, store); //TODO remove context parameter
-      return Widget.renderInstance(instance, options);
-   }
-
-   static renderInstance(instance, options) {
-      var context;
-      var start = now();
-      var prepareCount = 0, changed;
-      var store = instance.store;
-
-      /* sometimes store data is changed during the prepare phase
-       and in that case instead of double render only the prepare phase is executed multiple times */
-      while (++prepareCount < 3) {
-         changed = store.silently(() => {
-            context = new RenderingContext(options);
-            instance.explore(context);
-            instance.prepare(context);
-         });
-         if (!changed || !Widget.optimizePrepare)
-            break;
-      }
-      if (changed)
-         store.notify();
-
-      var afterPrepare = now();
-
-      var content = getContent(instance.render(context));
-      var afterRender = now();
-      instance.cleanup(context);
-
-      if (process.env.NODE_ENV !== "production") {
-         var afterCleanup = now();
-         var renderCount = Timing.count(appLoopFlag);
-         Timing.log(appLoopFlag, renderCount, context.options.name || 'main', (afterCleanup - start).toFixed(1) + 'ms', 'prepare', (afterPrepare - start).toFixed(1), 'render', (afterRender - afterPrepare).toFixed(1), 'cleanup', (afterCleanup - afterRender).toFixed(1));
-         debug(appDataFlag, store.getData());
-      }
-      return content;
    }
 
    static resetCounter() {
@@ -213,7 +152,6 @@ export class Widget extends Component {
 
 Widget.prototype.visible = true;
 Widget.prototype.memoize = true; //cache rendered content and use it if possible
-Widget.prototype.pure = true; //widget does not rely on contextual data
 Widget.prototype.CSS = 'cx';
 Widget.prototype.styled = false;
 

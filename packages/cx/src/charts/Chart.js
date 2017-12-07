@@ -15,48 +15,44 @@ export class Chart extends BoundedObject {
       }
    }
 
-   initInstance(context, instance) {
-      super.initInstance(context, instance);
-      instance.axes = {};
-      for (var axis in this.axes) {
-         instance.axes[axis] = instance.getChild(context, this.axes[axis]);
-      }
-   }
-
    explore(context, instance) {
-      var axes = context.axes;
+
+      var calculators = { ...context.axes };
+
+      context.push('axes', calculators);
+
       super.explore(context, instance);
-      context.axes = axes;
+
+      instance.axes = {};
+
+      //because tree exploration uses depth-first search using a stack,
+      //axes need to be registered last in order to be processed first
+      for (var axis in this.axes) {
+         var axisInstance = instance.getChild(context, this.axes[axis]);
+         if (axisInstance.scheduleExploreIfVisible(context)) {
+            instance.axes[axis] = axisInstance;
+            calculators[axis] = this.axes[axis].report(context, axisInstance);
+         }
+      }
+
+      instance.calculators = calculators;
    }
 
-   exploreHelpers(context, instance) {
-      if (!context.axes)
-         context.axes = {};
-      for (var axis in this.axes) {
-         var axisInstance = instance.axes[axis];
-         axisInstance.explore(context);
-         context.axes[axis] = this.axes[axis].report(context, axisInstance);
-      }
-      super.exploreHelpers(context, instance);
+   exploreCleanup(context, instance) {
+      context.pop('axes');
    }
 
-   prepareHelpers(context, instance) {
-      if (!context.axes)
-         context.axes = {};
-      for (var axis in this.axes) {
-         var axisInstance = instance.axes[axis];
-         axisInstance.prepare(context);
-         context.axes[axis] = this.axes[axis].report(context, axisInstance);
-      }
-      super.prepareHelpers(context, instance);
+   prepare(context, instance) {
+      context.push('axes', instance.calculators);
+      super.prepare(context, instance);
    }
 
-   cleanupHelpers(context, instance) {
-      super.cleanupHelpers(context, instance);
-      for (var axis in this.axes) {
-         instance.axes[axis].cleanup(context);
-      }
+   prepareCleanup(context, instance) {
+      context.pop('axes');
+      super.prepareCleanup(context, instance);
    }
+
+
 
    render(context, instance, key) {
       var axes = [];

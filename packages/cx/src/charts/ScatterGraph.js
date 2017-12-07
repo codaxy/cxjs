@@ -59,18 +59,16 @@ export class ScatterGraph extends Widget {
    }
 
    prepare(context, instance) {
-      super.prepare(context, instance);
+
       var {data, xAxis, yAxis, colorMap} = instance;
 
       if (xAxis.shouldUpdate || yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate(context);
 
       if (colorMap && data.name) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate(context);
       }
 
       if (data.name && context.addLegendEntry)
@@ -151,7 +149,6 @@ ScatterGraph.prototype.sizeField = false;
 ScatterGraph.prototype.shape = 'circle';
 
 ScatterGraph.prototype.size = 10;
-ScatterGraph.prototype.pure = false;
 ScatterGraph.prototype.legend = 'legend';
 ScatterGraph.prototype.legendAction = 'auto';
 ScatterGraph.prototype.styled = true;

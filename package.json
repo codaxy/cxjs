@@ -54,8 +54,10 @@
     "babel-core": "^6.22.0",
     "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.1",
+    "babel-minify-webpack-plugin": "^0.2.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-inferno": "^3.2.0",
+    "babel-plugin-syntax-jsx": "^6.8.0",
     "babel-preset-cx-env": "link:./packages/babel-preset-cx-env",
     "babel-preset-env": "1.6.0",
     "babili-webpack-plugin": "^0.1.1",
@@ -63,7 +65,9 @@
     "bundle-loader": "^0.5.5",
     "chunk-manifest-webpack-plugin": "1.1.0",
     "copy-webpack-plugin": "^4.0.1",
+    "create-cx-app": "file:./packages/create-cx-app",
     "css-loader": "^0.28.7",
+    "cx-cli": "file:./packages/cx-cli",
     "env-test": "^1.0.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
@@ -93,10 +97,7 @@
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-combine-loaders": "^2.0.3",
     "webpack-dev-server": "^2.8.2",
-    "webpack-merge": "^4.1.0",
-    "cx-cli": "file:./packages/cx-cli",
-    "create-cx-app": "file:./packages/create-cx-app",
-    "babel-plugin-syntax-jsx": "^6.8.0"
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
     "babel-polyfill": "^7.0.0-beta.0",

@@ -41,8 +41,8 @@ export class ColumnBarGraphBase extends Widget {
    }
 
    explore(context, instance) {
-      var xAxis = instance.xAxis = context.axes[this.xAxis];
-      var yAxis = instance.yAxis = context.axes[this.yAxis];
+      instance.xAxis = context.axes[this.xAxis];
+      instance.yAxis = context.axes[this.yAxis];
 
       var {data} = instance;
 
@@ -54,20 +54,18 @@ export class ColumnBarGraphBase extends Widget {
    }
 
    prepare(context, instance) {
-      super.prepare(context, instance);
+
 
       let {data, colorMap, xAxis, yAxis} = instance;
 
       if (colorMap && data.name) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate(context);
       }
 
       if (xAxis.shouldUpdate || yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate(context);
 
       if (data.name && context.addLegendEntry)
          context.addLegendEntry(this.legend, {
@@ -118,5 +116,4 @@ ColumnBarGraphBase.prototype.stack = 'stack';
 ColumnBarGraphBase.prototype.stacked = false;
 ColumnBarGraphBase.prototype.autoSize = 0;
 ColumnBarGraphBase.prototype.offset = 0;
-ColumnBarGraphBase.prototype.pure = false;
 ColumnBarGraphBase.prototype.styled = true;

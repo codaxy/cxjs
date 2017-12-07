@@ -24,7 +24,7 @@ export const InfiniteScrolling = <cx>
                 style="height: 800px"
                 lockColumnWidths
                 cached
-                keyField="question_id"
+                keyField="id"
                 columns={[
                     {header: "#", field: "id", sortable: true},
                     {header: "Name", field: "fullName", sortable: true},

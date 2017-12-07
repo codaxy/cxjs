@@ -37,7 +37,7 @@ export class MenuItem extends HtmlElement {
 
    explore(context, instance) {
       instance.horizontal = this.horizontal;
-      let {lastMenu, lastMenuItem} = context;
+      let {lastMenu} = context;
       if (lastMenu) {
          instance.horizontal = lastMenu.horizontal;
          instance.padding = lastMenu.itemPadding;
@@ -52,9 +52,12 @@ export class MenuItem extends HtmlElement {
       if (this.padding)
          instance.padding = this.padding;
 
-      context.lastMenuItem = this;
+      context.push('lastMenuItem', this);
       super.explore(context, instance);
-      context.lastMenuItem = lastMenuItem;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('lastMenuItem');
    }
 
    render(context, instance, key) {

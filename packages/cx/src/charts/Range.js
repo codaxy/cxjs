@@ -24,9 +24,6 @@ export class Range extends BoundedObject {
 
       if (data.active) {
          if (xAxis) {
-            if (xAxis.shouldUpdate)
-               instance.shouldUpdate = true;
-
             if (data.x1 != null)
                instance.xAxis.acknowledge(data.x1, this.xSize, this.xOffset);
 
@@ -35,10 +32,6 @@ export class Range extends BoundedObject {
          }
 
          if (yAxis) {
-
-            if (yAxis.shouldUpdate)
-               instance.shouldUpdate = true;
-
             if (data.y1 != null)
                instance.yAxis.acknowledge(data.y1, this.ySize, this.yOffset);
 
@@ -51,10 +44,15 @@ export class Range extends BoundedObject {
    }
 
    prepare(context, instance) {
-      var {data} = instance;
-      if (data.active) {
-         super.prepare(context, instance);
-      }
+      super.prepare(context, instance);
+
+      var {data, xAxis, yAxis} = instance;
+
+      if (xAxis && xAxis.shouldUpdate)
+         instance.markShouldUpdate(context);
+
+      if (yAxis && yAxis.shouldUpdate)
+         instance.markShouldUpdate(context);
 
       if (data.name && data.legend && context.addLegendEntry)
          context.addLegendEntry(data.legend, {
@@ -63,15 +61,10 @@ export class Range extends BoundedObject {
             colorIndex: data.colorIndex,
             style: data.style,
             shape: 'rect',
-            onClick: e=> { this.onLegendClick(e, instance) }
+            onClick: e => {
+               this.onLegendClick(e, instance)
+            }
          });
-   }
-
-   cleanup(context, instance) {
-      var {data} = instance;
-      if (data.active) {
-         super.cleanup(context, instance);
-      }
    }
 
    onLegendClick(e, instance) {

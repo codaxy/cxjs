@@ -18,8 +18,6 @@ export interface BoundedObjectProps extends Cx.StyledContainerProps {
 
    /** Padding to be applied to the boundaries rectangle before passing to the children. */
    padding?: Cx.Prop<string | number | IRect>,
-
-   pure?: boolean
 }
 
 export class BoundedObject extends Cx.Widget<BoundedObjectProps> {}

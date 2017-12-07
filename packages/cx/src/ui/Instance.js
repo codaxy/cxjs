@@ -1,4 +1,6 @@
-var instanceId = 1000;
+import {reverseSlice} from "../util/reverseSlice";
+
+let instanceId = 1000;
 import {Controller} from './Controller';
 import {debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
@@ -15,6 +17,7 @@ export class Instance {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
+      this.cached = {};
    }
 
    setStore(store) {
@@ -29,7 +32,6 @@ export class Instance {
          this.widget.initialized = true;
       }
 
-      this.cached = {};
       if (!this.dataSelector) {
          this.widget.selector.init(this.store);
          this.dataSelector = this.widget.selector.createStoreSelector();
@@ -44,29 +46,133 @@ export class Instance {
 
       this.widget.initInstance(context, this);
       this.widget.initState(context, this);
+
+      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
+         this.needsExploreCleanup = true;
+      if (this.widget.prepare || this.widget.controller)
+         this.needsPrepare = true;
+      if (this.widget.cleanup || this.widget.controller)
+         this.needsCleanup = true;
       this.initialized = true;
+   }
+
+   checkVisible(context) {
+      if (!this.initialized)
+         this.init(context);
+
+      let wasVisible = this.visible;
+      this.rawData = this.dataSelector(this.store);
+      this.visible = this.widget.checkVisible(context, this, this.rawData);
+      this.explored = false;
+      this.prepared = false;
+
+      if (!this.visible && wasVisible)
+         this.destroy();
+
+      return this.visible;
+   }
+
+   scheduleExploreIfVisible(context) {
+      if (this.checkVisible(context)) {
+         context.exploreStack.push(this);
+         return true;
+      }
+      return false;
+   }
+
+   cache(key, value) {
+      let oldValue = this.cached[key];
+      if (oldValue === value)
+         return false;
+
+      if (!this.cacheList)
+         this.cacheList = {};
+      this.cacheList[key] = value;
+      return true;
+   }
+
+   markShouldUpdate(context) {
+      let ins = this;
+      let renderList = this.renderList;
+      let index = renderList.length;
+      let startIndices;
+
+      //notify all parents that child state change to bust up caching
+      while (ins && !ins.shouldUpdate && ins.explored) {
+         if (ins.renderList !== renderList) {
+            if (!startIndices)
+               startIndices = [{
+                  list: renderList,
+                  index: index
+               }];
+            if (startIndices.length == 1 || startIndices.findIndex(l => l.list === renderList) < 0) {
+               startIndices.push({
+                  list: ins.renderList,
+                  index: ins.renderList.length
+               });
+            }
+            renderList = ins.renderList;
+         }
+         ins.shouldUpdate = true;
+         renderList.push(ins);
+         ins = ins.widget.isContent
+            ? ins.contentPlaceholder
+            : ins.parent.outerLayout === ins
+               ? ins.parent.parent
+               : ins.parent;
+      }
+
+      if (!startIndices)
+         reverseSlice(renderList, index);
+      else
+         for (let i = 0; i < startIndices.length; i++)
+            reverseSlice(startIndices[i].list, startIndices[i].index);
    }
 
    explore(context) {
 
-      if (!this.initialized)
-         this.init(context);
+      if (!this.visible)
+         throw new Error('Explore invisible!');
 
-      var data = this.dataSelector(this.store);
-      var wasVisible = this.visible;
-      this.visible = this.widget.checkVisible(context, this, data);
+      if (this.explored) {
+         if (this.widget.prepareCleanup)
+            context.prepareList.push(this);
 
-      if (!this.visible) {
-         if (wasVisible)
-            this.destroy();
-         return false;
+         if (this.widget.exploreCleanup)
+            this.widget.exploreCleanup(context, this);
+
+         if (this.popNextRenderList)
+            context.getNextRenderList();
+
+         if (this.parent.outerLayout === this) {
+            context.getPrevRenderList();
+            context.popNamedValue('content', 'body');
+         }
+
+         if (this.widget.controller)
+            context.pop('controller');
+
+         return;
       }
+
+      this.explored = true;
+      if (this.needsExploreCleanup)
+         context.exploreStack.push(this);
+
+      if (this.needsPrepare)
+         context.prepareList.push(this);
+      else
+         this.prepared = true;
+
+      if (this.needsCleanup)
+         context.cleanupList.push(this);
+
+      this.cacheList = null;
 
       if (this.instanceCache)
          this.instanceCache.mark();
 
       //controller may reconfigure the widget and need to go before shouldUpdate calculation
-      var contextController = context.controller;
       this.parentOptions = context.parentOptions;
 
       if (!this.controller) {
@@ -80,181 +186,144 @@ export class Instance {
 
       if (this.controller) {
          if (this.widget.controller) {
+            context.push("controller", this.controller);
             this.controller.explore(context);
             if (this.controller.onDestroy)
                this.trackDestroy();
          }
-         context.controller = this.controller;
       }
 
       if (this.widget.onDestroy)
          this.trackDestroy();
 
-      this.pure = this.widget.pure;
-      this.rawData = data;
+      this.renderList = context.getCurrentRenderList();
 
-      this.shouldUpdate = this.rawData !== this.cached.rawData
-         || this.cached.state !== this.state
-         || this.cached.widgetVersion !== this.widget.version
-         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get()
-         || !this.widget.memoize
-         || this.childStateDirty;
+      let shouldUpdate = this.rawData !== this.cached.rawData
+         || this.state !== this.cached.state
+         || this.widget.version !== this.cached.widgetVersion
+         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get();
 
-      if (this.shouldUpdate) {
+      if (shouldUpdate) {
          this.data = {...this.rawData};
          this.widget.prepareData(context, this);
          debug(processDataFlag, this.widget);
       }
+
+      if (this.widget.isContent) {
+         this.popNextRenderList = false;
+         this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
+         if (this.contentPlaceholder)
+            context.contentPlaceholder[this.widget.putInto](this);
+         else {
+            context.pushNamedValue('content', this.widget.putInto, this);
+            this.renderList = context.getPrevRenderList();
+            this.popNextRenderList = true;
+         }
+      }
+
+      if (this.parent.outerLayout === this) {
+         this.renderList = context.getNextRenderList();
+         context.pushNamedValue('content', 'body', this.parent);
+      }
+
+      if (this.widget.outerLayout) {
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
+         this.renderList = context.insertRenderList();
+      }
+
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
+         this.shouldUpdate = false;
+         this.markShouldUpdate(context);
+      } else {
+         this.shouldUpdate = false;
+      }
+
+      this.widget.explore(context, this, this.data);
+
+      if (this.widget.onExplore)
+         this.widget.onExplore(context, this);
+
+      //because tree exploration uses depth-first search using a stack,
+      //helpers need to be registered last in order to be processed first
 
       if (this.widget.helpers) {
          this.helpers = {};
          for (let cmp in this.widget.helpers) {
             let helper = this.widget.helpers[cmp];
             if (helper) {
-               let ins = this.getChild(context, helper, "helper-" + cmp);
-               if (ins.explore(context))
+               let ins = this.getChild(context, helper);
+               if (ins.scheduleExploreIfVisible(context))
                   this.helpers[cmp] = ins;
             }
          }
       }
-
-      this.widget.explore(context, this, data);
-
-      if (this.widget.onExplore)
-         this.widget.onExplore(context, this);
-
-      if (this.widget.isContent) {
-         if (context.contentPlaceholder) {
-            var placeholder = context.contentPlaceholder[this.widget.putInto];
-            if (placeholder)
-               placeholder(this);
-         }
-
-         if (!context.content)
-            context.content = {};
-         context.content[this.widget.putInto] = this;
-      }
-
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.parent.getChild(context, this.widget.outerLayout, null, this.store);
-         this.shouldRenderContent = false; //render layout until this is set
-         if (!context.content)
-            context.content = {};
-         var body = context.content['body'];
-         context.content['body'] = this;
-         this.outerLayout.explore(context);
-         if (this.outerLayout.shouldUpdate)
-            this.shouldUpdate = true;
-         context.content['body'] = body;
-      }
-
-      context.controller = contextController;
-
-      if (this.shouldUpdate)
-         this.parent.shouldUpdate = true;
-
-      if (!this.pure)
-         this.parent.pure = false;
-
-      return true;
    }
 
    prepare(context) {
+      if (!this.visible)
+         throw new Error('Prepare invisible!');
+
+      if (this.prepared) {
+         if (this.widget.prepareCleanup)
+            this.widget.prepareCleanup(context, this);
+         return;
+      }
+
+      this.prepared = true;
+      if (this.widget.prepare)
+         this.widget.prepare(context, this);
+
+      if (this.widget.controller && this.controller.prepare)
+         this.controller.prepare(context);
+   }
+
+   render(context) {
 
       if (!this.visible)
-         return;
-
-      //clear the flag here as children are going to be rendered soon
-      this.childStateDirty = false;
-
-      if (this.widget.controller && this.controller)
-         this.controller.prepare(context);
-
-      if (this.shouldUpdate || !this.pure) {
-
-         if (this.helpers)
-            for (var cmp in this.helpers) {
-               var helper = this.helpers[cmp];
-               helper.prepare(context);
-               if (helper.shouldUpdate)
-                  this.shouldUpdate = true;
-            }
-
-         debug(prepareFlag, this.widget);
-         this.widget.prepare(context, this);
-      }
+         throw new Error('Render invisible!');
 
       if (this.shouldUpdate) {
-         this.parent.shouldUpdate = true;
-         debug(shouldUpdateFlag, this.widget, this.shouldUpdate);
+         debug(renderFlag, this.widget, this.key);
+         let vdom = renderResultFix(this.widget.render(context, this, this.key));
+         if (this.widget.isContent || this.outerLayout)
+            this.contentVDOM = vdom;
+         else
+            this.vdom = vdom;
       }
 
-      if (this.outerLayout && this.widget.outerLayout)
-         this.outerLayout.prepare(context);
-   }
+      if (this.cacheList)
+         for (let key in this.cacheList)
+            this.cached[key] = this.cacheList[key];
 
-   render(context, keyPrefix) {
-
-      if (!this.visible)
-         return;
-
-      if (this.widget.isContent && !this.shouldRenderContent)
-         return;
-
-      if (this.outerLayout && this.widget.outerLayout && !this.shouldRenderContent)
-         return this.outerLayout.render(context, keyPrefix);
-
-      let vdom = this.widget.memoize && this.shouldUpdate === false && this.cached.vdom
-         ? this.cached.vdom
-         : renderResultFix(this.widget.render(context, this, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId));
-
-      if (this.widget.memoize)
-         this.cached.vdom = vdom;
-
-      if (this.shouldUpdate)
-         debug(renderFlag, this.widget, (keyPrefix != null ? keyPrefix + '-' : '') + this.widget.widgetId);
-
-      return vdom;
-   }
-
-   cleanup(context) {
-
-      if (!this.visible)
-         return;
+      this.cacheList = null;
 
       this.cached.rawData = this.rawData;
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
-      this.cached.visible = true;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
-
-      if (this.outerLayout) {
-         if (this.widget.outerLayout)
-            this.outerLayout.cleanup(context);
-         else
-            delete this.outerLayout;
-      }
-
-      if (this.pure && !this.shouldUpdate)
-         return;
-
-      debug(cleanupFlag, this.widget);
-
-      if (this.components)
-         for (var cmp in this.components)
-            this.components[cmp].cleanup(context);
-
-      this.widget.cleanup(context, this);
-
-      if (this.helpers)
-         for (var cmp in this.helpers)
-            this.helpers[cmp].cleanup(context);
-
-      if (this.widget.controller && this.controller)
-         this.controller.cleanup(context);
+      this.childStateDirty = false;
 
       if (this.instanceCache)
          this.instanceCache.sweep();
+
+      if (this.parent.outerLayout === this) {
+         //if outer layouts are chained we need to find the originating element (last element with OL set)
+         let parent = this.parent;
+         while (parent.parent.outerLayout == parent)
+            parent = parent.parent;
+         parent.vdom = this.vdom;
+      }
+
+      return this.vdom;
+   }
+
+   cleanup(context) {
+      if (this.widget.controller && this.controller.cleanup)
+         this.controller.cleanup(context);
+
+      if (this.widget.cleanup)
+         this.widget.cleanup(context, this);
    }
 
    trackDestroy() {
@@ -290,9 +359,9 @@ export class Instance {
    }
 
    setState(state) {
-      var skip = this.state;
+      let skip = this.state;
       if (this.state)
-         for (var k in state) {
+         for (let k in state) {
             if (this.state[k] !== state[k]) {
                skip = false;
                break;
@@ -382,7 +451,7 @@ export class Instance {
 
    getInstanceCache() {
       if (!this.instanceCache)
-         this.instanceCache = new InstanceCache(this);
+         this.instanceCache = new InstanceCache(this, this.widget.isPureContainer ? this.key : null);
       return this.instanceCache;
    }
 
@@ -391,8 +460,8 @@ export class Instance {
          this.instanceCache.destroy();
    }
 
-   getChild(context, widget, keyPrefix, store) {
-      return this.getInstanceCache().getChild(widget, store || this.store, keyPrefix);
+   getChild(context, widget, key, store) {
+      return this.getInstanceCache().getChild(widget, store || this.store, key);
    }
 
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
@@ -444,30 +513,31 @@ export class Instance {
 }
 
 function renderResultFix(res) {
-   return res != null && isDefined(res.content) ? res : { content: res };
+   return res != null && isDefined(res.content) ? res : {content: res};
 }
 
 export class InstanceCache {
 
-   constructor(parent) {
+   constructor(parent, keyPrefix) {
       this.children = {};
       this.parent = parent;
       this.marked = {};
       this.monitored = null;
+      this.keyPrefix = keyPrefix != null ? keyPrefix + '-' : '';
    }
 
-   getChild(widget, store, keyPrefix) {
-      var key = (keyPrefix != null ? keyPrefix + '-' : '') + widget.widgetId;
-      var instance = this.children[key];
+   getChild(widget, store, key) {
+      let k = this.keyPrefix + (key != null ? key : widget.widgetId);
+      let instance = this.children[k];
 
       if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
-         instance = new Instance(widget, key);
+         instance = new Instance(widget, k);
          instance.parent = this.parent;
-         this.children[key] = instance;
+         this.children[k] = instance;
       }
       if (instance.store !== store)
          instance.setStore(store);
-      this.marked[key] = instance;
+      this.marked[k] = instance;
       return instance;
    }
 

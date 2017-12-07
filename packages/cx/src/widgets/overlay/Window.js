@@ -1,9 +1,8 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {Overlay, OverlayComponent} from './Overlay';
-import {ContentPlaceholder, contentSandbox} from '../../ui/layout/ContentPlaceholder';
+import {ContentPlaceholder} from '../../ui/layout/ContentPlaceholder';
 import {ZIndexManager} from '../../ui/ZIndexManager';
 import {Button} from '../Button';
-import CloseIcon from '../icons/close';
 import {parseStyle} from '../../util/parseStyle';
 import {Localization} from '../../ui/Localization';
 import {stopPropagation} from '../../util/eventCallbacks';
@@ -33,10 +32,10 @@ export class Window extends Overlay {
       });
    }
 
-   initComponents() {
-      return super.initComponents(...arguments, {
-         header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header'}),
-         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer'}),
+   initHelpers() {
+      return super.initHelpers(...arguments, {
+         header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header', scoped: true }),
+         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer', scoped: true}),
          close: this.closable && Button.create({
             mod: 'hollow',
             dismiss: true,
@@ -48,14 +47,14 @@ export class Window extends Overlay {
       });
    }
 
-   explore(context, instance) {
-      //prevent header and footer content to be defined outside the window or
-      //interfere with the environment
-      contentSandbox(context, "header", () => {
-         contentSandbox(context, "footer", () => {
-            super.explore(context, instance);
-         })
-      })
+   exploreCleanup(context, instance) {
+      let {helpers} = instance;
+      if (helpers) {
+         if (helpers.header)
+            helpers.header.unregisterContentPlaceholder();
+         if (helpers.footer)
+            helpers.footer.unregisterContentPlaceholder();
+      }
    }
 
    renderHeader(context, instance, key) {
@@ -63,18 +62,18 @@ export class Window extends Overlay {
       let result = [];
       if (data.title)
          result.push(data.title);
-      if (instance.components) {
-         let header = getContent(instance.components.header && instance.components.header.render(context, key));
+      if (instance.helpers) {
+         let header = getContent(instance.helpers.header && instance.helpers.header.render(context, key));
          if (header)
             result.push(header);
-         if (data.closable && instance.components.close)
-            result.push(getContent(instance.components.close.render(context)));
+         if (data.closable && instance.helpers.close)
+            result.push(getContent(instance.helpers.close.render(context)));
       }
       return result;
    }
 
    renderFooter(context, instance, key) {
-      return getContent(instance.components && instance.components.footer && instance.components.footer.render(context, key));
+      return getContent(instance.helpers && instance.helpers.footer && instance.helpers.footer.render(context, key));
    }
 
    render(context, instance, key) {

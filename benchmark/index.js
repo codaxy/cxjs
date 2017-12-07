@@ -10,8 +10,6 @@ import suite1 from './grid/100-rows';
 import suite2 from './data/expressions';
 import suite3 from './grid/realtime';
 
-Benchmark.options.maxTime = 1;
-
 let suites = [
    suite1,
    //suite2,
@@ -65,7 +63,10 @@ function proceed() {
       });
 
    suite.run({
-      async: true
+      async: true,
+      delay: 100,
+      maxTime: 1,
+      minTime: 1
    });
 }
 

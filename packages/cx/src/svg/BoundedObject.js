@@ -21,11 +21,6 @@ export class BoundedObject extends PureContainer {
       data.margin = Rect.convertMargin(data.margin);
       data.padding = Rect.convertMargin(data.padding);
    }
-
-   explore(context, instance) {
-      this.exploreHelpers(context, instance);
-      super.explore(context, instance);
-   }
    
    calculateBounds(context, instance) {
       var {data} = instance;
@@ -35,43 +30,23 @@ export class BoundedObject extends PureContainer {
    prepareBounds(context, instance) {
       var {data} = instance;
       if (instance.shouldUpdate || !instance.cached.parentRect || !instance.cached.parentRect.isEqual(context.parentRect) || !data.bounds) {
+         if (!context.parentRect)
+            throw new Error('Parent bounds were not provided through the context.');
          instance.parentRect = context.parentRect;
-         instance.shouldUpdate = true;
+         instance.cache('parentRect' , context.parentRect);
+         instance.markShouldUpdate(context);
          data.bounds = this.calculateBounds(context, instance);
          data.childrenBounds = Rect.add(data.bounds, data.padding);
       }
    }
 
    prepare(context, instance) {
-      var {data} = instance;
-
-      if (!context.parentRect)
-        throw new Error('Parent bounds were not provided through the context. Is there a parent Svg element up in the tree?');
-
       this.prepareBounds(context, instance);
-
-      context.parentRect = data.childrenBounds;
-      this.prepareHelpers(context, instance);
-      super.prepare(context, instance);
-      context.parentRect = instance.parentRect;
+      context.push('parentRect', instance.data.childrenBounds);
    }
 
-   cleanup(context, instance) {
-      instance.cached.parentRect = instance.parentRect;
-      super.cleanup(context, instance);
-      this.cleanupHelpers(context, instance);
-   }
-
-   exploreHelpers(context, instance) {
-
-   }
-
-   prepareHelpers(context, instance) {
-
-   }
-
-   cleanupHelpers(context, instance) {
-
+   prepareCleanup(context, instance) {
+      context.pop('parentRect');
    }
 }
 
@@ -79,6 +54,5 @@ BoundedObject.prototype.anchors = 0;
 BoundedObject.prototype.margin = 0;
 BoundedObject.prototype.offset = 0;
 BoundedObject.prototype.padding = 0;
-BoundedObject.prototype.pure = false;
 BoundedObject.prototype.styled = true;
 

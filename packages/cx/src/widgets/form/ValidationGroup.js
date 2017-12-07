@@ -1,6 +1,7 @@
 import {Widget} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
 import {isDefined} from '../../util/isDefined';
+import {shallowEquals} from '../../util/shallowEquals';
 
 export class ValidationGroup extends PureContainer {
 
@@ -20,46 +21,44 @@ export class ValidationGroup extends PureContainer {
 
    explore(context, instance) {
 
-      let parentDisabled = context.parentDisabled,
-         parentReadOnly = context.parentReadOnly,
-         parentViewMode = context.parentViewMode,
-         parentTabOnEnterKey = context.tabOnEnterKey;
-
       if (isDefined(instance.data.enabled))
          instance.data.disabled = !instance.data.enabled;
 
-      context.parentDisabled = parentDisabled || instance.data.disabled;
-      context.parentReadOnly = parentReadOnly || instance.data.readOnly;
-      context.parentViewMode = parentViewMode || instance.data.viewMode;
-      context.parentTabOnEnterKey = parentTabOnEnterKey || instance.data.tabOnEnterKey;
+      instance.validation = {
+         errors: []
+      };
 
-      let validation = context.validation;
+      context.push('parentDisabled', context.parentDisabled || instance.data.disabled);
+      context.push('parentReadOnly', context.parentReadOnly || instance.data.readOnly);
+      context.push('parentViewMode', context.parentViewMode || instance.data.viewMode);
+      context.push('parentTabOnEnterKey', context.parentTabOnEnterKey || instance.data.tabOnEnterKey);
+      context.push('validation', instance.validation);
 
-      if (!context.validation || instance.data.isolated)
-         context.validation = {
-            errors: []
-         };
-
-      let validationErrors = context.validation.errors.length;
       super.explore(context, instance);
-      instance.valid = context.validation.errors.length == validationErrors;
+   }
+
+   exploreCleanup(context, instance) {
+
+      context.pop('validation');
+
+      instance.valid = instance.validation.errors.length == 0;
+      if (!instance.valid && !this.isolated && context.validation)
+         context.validation.errors.push(...instance.validation.errors);
+
       instance.set('valid', instance.valid);
       instance.set('invalid', !instance.valid);
 
-      if (this.errors && JSON.stringify(instance.data.errors) != JSON.stringify(context.validation.errors))
-         instance.set('errors', context.validation.errors);
+      if (this.errors && !shallowEquals(instance.data.errors, instance.validation.errors))
+         instance.set('errors', instance.validation.errors);
 
-      context.parentDisabled = parentDisabled;
-      context.parentReadOnly = parentReadOnly;
-      context.parentViewMode = parentViewMode;
-      context.parentTabOnEnterKey = parentTabOnEnterKey;
 
-      context.validation = validation;
+      context.pop('parentDisabled');
+      context.pop('parentReadOnly');
+      context.pop('parentViewMode');
+      context.pop('parentTabOnEnterKey');
    }
 }
 
 ValidationGroup.prototype.isolated = false;
-
-//ValidationGroup.prototype.pure = false; //recheck
 
 Widget.alias('validation-group', ValidationGroup);

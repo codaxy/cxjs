@@ -39,7 +39,7 @@ export class BubbleGraph extends Widget {
    prepare(context, instance) {
       super.prepare(context, instance);
       if (instance.axes[this.xAxis].shouldUpdate || instance.axes[this.yAxis].shouldUpdate)
-         instance.shouldUpdate = true;
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {
@@ -89,6 +89,5 @@ BubbleGraph.prototype.yField = 'y';
 BubbleGraph.prototype.rField = 'r';
 
 BubbleGraph.prototype.bubbleRadius = 10;
-BubbleGraph.prototype.pure = false;
 
 Widget.alias('bubble-graph', BubbleGraph);

@@ -46,8 +46,6 @@ interface ColumnBarBaseProps extends Cx.StyledContainerProps {
     */
    yAxis?: string,
 
-   pure?: boolean,
-
    /** Name of the legend to be used. Default is `legend`. */
    legend?: string,
    

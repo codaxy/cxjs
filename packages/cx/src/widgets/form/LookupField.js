@@ -474,7 +474,11 @@ class LookupComponent extends VDOM.Component {
          this.itemStore.setData({
             $options: this.state.options
          });
-         dropdown = <Cx widget={this.getDropdown()} store={this.itemStore} options={{name: 'lookupfield-dropdown'}}/>;
+         dropdown = <Cx
+            widget={this.getDropdown()}
+            store={this.itemStore}
+            options={{name: 'lookupfield-dropdown'}}
+         />;
       }
 
       let readOnly = data.disabled || data.readOnly;

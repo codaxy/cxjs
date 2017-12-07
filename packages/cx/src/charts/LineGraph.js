@@ -79,16 +79,13 @@ export class LineGraph extends Widget {
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
-         if (instance.colorIndex != data.colorIndex) {
-            instance.colorIndex = data.colorIndex;
-            instance.shouldUpdate = true;
-         }
+         if (instance.cache('colorIndex', data.colorIndex))
+            instance.markShouldUpdate(context);
       }
 
       if (data.active) {
-         super.prepare(context, instance);
          if (instance.axes[this.xAxis].shouldUpdate || instance.axes[this.yAxis].shouldUpdate)
-            instance.shouldUpdate = true;
+            instance.markShouldUpdate(context);
       }
 
       if (data.name && context.addLegendEntry)
@@ -193,7 +190,6 @@ LineGraph.prototype.line = true;
 LineGraph.prototype.xField = 'x';
 LineGraph.prototype.yField = 'y';
 LineGraph.prototype.baseClass = 'linegraph';
-LineGraph.prototype.pure = false;
 LineGraph.prototype.y0 = 0;
 LineGraph.prototype.y0Field = false;
 LineGraph.prototype.active = true;

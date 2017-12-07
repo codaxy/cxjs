@@ -5,21 +5,15 @@ export class Gridlines extends BoundedObject {
 
    explore(context, instance) {
       super.explore(context, instance);
-      let xAxis = instance.xAxis = context.axes[this.xAxis];
-      let yAxis = instance.yAxis = context.axes[this.yAxis];
-      if (xAxis && xAxis.shouldUpdate)
-         instance.shouldUpdate = true;
-      if (yAxis && yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+      instance.xAxis = context.axes[this.xAxis];
+      instance.yAxis = context.axes[this.yAxis];
    }
 
    prepare(context, instance) {
       super.prepare(context, instance);
       let {xAxis, yAxis} = instance;
-      if (xAxis && xAxis.shouldUpdate)
-         instance.shouldUpdate = true;
-      if (yAxis && yAxis.shouldUpdate)
-         instance.shouldUpdate = true;
+      if ((xAxis && xAxis.shouldUpdate) || (yAxis && yAxis.shouldUpdate))
+         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {

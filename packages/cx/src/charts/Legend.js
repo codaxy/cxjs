@@ -91,7 +91,6 @@ export class Legend extends HtmlElement {
 
 Legend.prototype.name = 'legend';
 Legend.prototype.baseClass = 'legend';
-Legend.prototype.pure = false;
 Legend.prototype.vertical = false;
 Legend.prototype.memoize = false;
 
@@ -99,17 +98,20 @@ Widget.alias('legend', Legend);
 
 Legend.Scope = class extends PureContainer {
    explore(context, instance) {
-      var previous = context.legends;
-      instance.legends = context.legends = {};
+      context.push('legends', instance.legends = {});
       super.explore(context, instance);
-      context.legends = previous;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('legends');
    }
 
    prepare(context, instance) {
-      var previous = context.legends;
-      context.legends = instance.legends;
-      super.prepare(context, instance);
-      context.legends = previous;
+      context.push('legends', instance.legends);
+   }
+
+   prepareCleanup(context, instance) {
+      context.pop('legends');
    }
 };
 
