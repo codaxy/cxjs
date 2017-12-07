@@ -19,6 +19,7 @@ export class GridRow extends ValidationGroup {
 }
 
 GridRow.prototype.styled = true;
+GridRow.prototype.isPureContainer = false;
 
 export class GridRowComponent extends VDOM.Component {
 

@@ -58,7 +58,8 @@ suite
    .add('Grid100 - verify', grid100)
    .add('Grid100 - sealed - verify', grid100sealed);
 
-setInterval(grid100, 100);
+//setInterval(grid100, 100);
+//grid100()
 
 export default suite;
 
