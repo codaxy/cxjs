@@ -11,10 +11,13 @@
    .#{$block}#{$name} {
       box-sizing: border-box;
       overflow: hidden;
+      position: relative;
+      height: 150px; //default height
 
       & > svg {
          width: 100%;
          height: 100%;
+         position: absolute;
       }
    }
 }
