@@ -35,7 +35,7 @@ export class Window extends Overlay {
    initHelpers() {
       return super.initHelpers(...arguments, {
          header: Widget.create(this.header || {type: ContentPlaceholder, name: 'header', scoped: true }),
-         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer', scoped: true}),
+         footer: Widget.create(this.footer || {type: ContentPlaceholder, name: 'footer', scoped: true }),
          close: this.closable && Button.create({
             mod: 'hollow',
             dismiss: true,
@@ -48,13 +48,16 @@ export class Window extends Overlay {
    }
 
    exploreCleanup(context, instance) {
+      super.exploreCleanup(context, instance);
+
       let {helpers} = instance;
-      if (helpers) {
-         if (helpers.header)
-            helpers.header.unregisterContentPlaceholder();
-         if (helpers.footer)
-            helpers.footer.unregisterContentPlaceholder();
-      }
+      let unregisterHeader = helpers.header && helpers.header.unregisterContentPlaceholder;
+      if (unregisterHeader)
+         unregisterHeader();
+
+      let unregisterFooter = helpers.footer && helpers.footer.unregisterContentPlaceholder;
+      if (unregisterFooter)
+         unregisterFooter();
    }
 
    renderHeader(context, instance, key) {
