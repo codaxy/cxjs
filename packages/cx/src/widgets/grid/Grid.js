@@ -249,11 +249,8 @@ export class Grid extends Widget {
 
       //do not process rows in buffered mode or cached mode if nothing has changed;
       if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
-         let dragHandles = context.dragHandles,
-            record;
-
          for (let i = 0; i < instance.records.length; i++) {
-            record = instance.records[i];
+            let record = instance.records[i];
             if (record.type == 'data') {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
                let selected = instance.isSelected(record.data, record.index);
@@ -261,19 +258,12 @@ export class Grid extends Widget {
                row.selected = selected;
                if (this.cached && !changed && !row.childStateDirty) {
                   row.shouldUpdate = false;
-               } else if (row.scheduleExploreIfVisible(context)) {
-                  context.dragHandles = [];
-                  // if (changed)
-                  //    row.markShouldUpdate(context);
-                  row.dragHandles = context.dragHandles;
                }
+               else
+                  row.scheduleExploreIfVisible(context);
             }
          }
-         context.dragHandles = dragHandles;
       }
-
-      //TODO: Review drag handles
-
       context.push('parentPositionChangeEvent', parentPositionChangeEvent);
    }
 

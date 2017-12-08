@@ -11,11 +11,12 @@ export class DragSource extends PureContainer {
    }
 
    explore(context, instance) {
-      let dragHandles = context.dragHandles;
-      context.dragHandles = [];
+      context.push('dragHandles', instance.dragHandles = []);
       super.explore(context, instance);
-      instance.dragHandles = context.dragHandles;
-      context.dragHandles = dragHandles;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('dragHandles');
    }
 
    render(context, instance, key) {
@@ -29,6 +30,7 @@ DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = 'dragsource';
 DragSource.prototype.hideOnDrag = false;
 DragSource.prototype.handled = false;
+DragSource.prototype.isPureContainer = false;
 
 Widget.alias('dragsource', DragSource);
 

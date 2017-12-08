@@ -16,6 +16,16 @@ export class GridRow extends ValidationGroup {
          {this.renderChildren(context, instance)}
       </tr>
    }
+
+   explore(context, instance) {
+      context.push('dragHandles', instance.dragHandles = []);
+      super.explore(context, instance);
+   }
+
+   exploreCleanup(context, instance) {
+      super.exploreCleanup(context, instance);
+      context.pop('dragHandles');
+   }
 }
 
 GridRow.prototype.styled = true;
