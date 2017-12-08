@@ -226,6 +226,10 @@ export class Instance {
          context.pushNamedValue('content', 'body', this.parent);
       }
 
+      //onExplore might set the outer layout
+      if (this.widget.onExplore)
+         this.widget.onExplore(context, this);
+
       if (this.widget.outerLayout) {
          this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
          this.outerLayout.scheduleExploreIfVisible(context);
@@ -240,9 +244,6 @@ export class Instance {
       }
 
       this.widget.explore(context, this, this.data);
-
-      if (this.widget.onExplore)
-         this.widget.onExplore(context, this);
 
       //because tree exploration uses depth-first search using a stack,
       //helpers need to be registered last in order to be processed first

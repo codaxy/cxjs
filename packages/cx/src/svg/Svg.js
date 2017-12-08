@@ -48,7 +48,7 @@ export class Svg extends BoundedObject {
             size={instance.state.size}
             shouldUpdate={instance.shouldUpdate}
          >
-         {this.renderChildren(context, instance)}
+            {this.renderChildren(context, instance)}
          </SvgComponent>
       )
    }
@@ -97,25 +97,33 @@ class SvgComponent extends VDOM.Component {
             width: `${size.width}px`
          };
 
-      return <svg ref={el=>{this.svg = el}} className={data.classNames} style={style}>
-         <defs>
-            {defs}
-         </defs>
-         {children}
-      </svg>
+      //parent div is needed because clientWidth doesn't work on the svg element in FF
+
+      return (
+         <div
+            ref={el => {
+               this.el = el
+            }}
+            className={data.classNames} style={style}
+         >
+            <svg>
+               <defs>
+                  {defs}
+               </defs>
+               {children}
+            </svg>
+         </div>
+      )
    }
 
    onResize() {
 
-      let { instance } = this.props;
-      let { widget } = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = this.props.instance;
 
-      //this is the only method to get the size of the svg element working in firefox
-      var clientRects = this.svg.getClientRects();
-
-      var size = {
-         width: clientRects[0].width,
-         height: clientRects[0].height
+      let size = {
+         width: this.el.clientWidth,
+         height: this.el.clientHeight
       };
 
       if (widget.autoHeight)

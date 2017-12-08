@@ -304,8 +304,8 @@ class TimeScale {
                size /= miliSeconds.month;
                let minMonth = monthNumber(minDate);
                let maxMonth = monthNumber(maxDate);
-               minMonth = Math.floor(minMonth / size) * size - minOffset;
-               maxMonth = Math.ceil(maxMonth / size) * size - maxOffset;
+               minMonth = Math.floor(minMonth / size) * size;
+               maxMonth = Math.ceil(maxMonth / size) * size;
                min = new Date(Math.floor(minMonth / 12), minMonth % 12, 1).getTime();
                max = new Date(Math.floor(maxMonth / 12), maxMonth % 12 + 1, 1).getTime();
                break;

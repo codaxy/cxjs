@@ -158,3 +158,4 @@ ColumnBarBase.prototype.active = true;
 ColumnBarBase.prototype.stacked = false;
 ColumnBarBase.prototype.stack = 'stack';
 ColumnBarBase.prototype.legendShape = 'rect';
+ColumnBarBase.prototype.styled = true;
