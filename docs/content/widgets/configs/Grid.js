@@ -150,12 +150,17 @@ export default {
             Number of rows to be scrolled before buffer adjustment. Default value is 15.
         </Md></cx>
     },
-
     pageSize: {
         type: 'number',
         key: true,
         description: <cx><Md>
             Page size used to fetch records during infinite scrolling. Default value is `100`.
+        </Md></cx>
+    },
+    onRowDoubleClick: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to be executed when a row is double-clicked.
         </Md></cx>
     }
 };
