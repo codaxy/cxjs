@@ -2,13 +2,11 @@ import {Component} from './Component';
 import {CSSHelper} from './CSSHelper';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
-import {debug, appDataFlag} from '../util/Debug';
 import {parseStyle} from '../util/parseStyle';
-import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
-import {RenderingContext} from './RenderingContext';
 import {isString} from '../util/isString';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
+import {Console} from '../util/Console';
 
 import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
@@ -41,6 +39,11 @@ export class Widget extends Component {
 
       if (this.styled)
          this.style = parseStyle(this.style);
+      else if (this.style) {
+         Console.warn('Components that allow use of the style attribute should set styled = true on their prototype. This will be an error in future versions.');
+         this.style = parseStyle(this.style);
+         this.styled = true;
+      }
 
       if (typeof this.if !== 'undefined')
          this.visible = this.if;
@@ -97,6 +100,7 @@ export class Widget extends Component {
          },
          ...options
       };
+
       Object.assign(props, ...arguments);
       this.selector = new StructuredSelector({props: props, values: this});
       this.nameMap = this.selector.nameMap;
