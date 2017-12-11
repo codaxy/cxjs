@@ -24,5 +24,13 @@ interface IconProps extends Cx.WidgetProps {
 export class Icon extends Cx.Widget<IconProps> {
    static restoreDefaultIcons();
 
-   static registerFactory(factory: (name: string) => any)
+   static clear();
+
+   static register(name: string, icon: any, defaultIcon: boolean);
+
+   static unregister(...args: string[]);
+
+   static registerFactory(factory: (name: string, props: { [key: string]: any }) => any);
+
+   static render(name: string, props: { [key: string]: any });
 }
