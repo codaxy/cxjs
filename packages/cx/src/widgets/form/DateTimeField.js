@@ -82,10 +82,18 @@ export class DateTimeField extends Field {
          data.refDate = zeroTime(new Date(data.refDate));
 
       if (data.maxValue)
-         data.maxValue = zeroTime(new Date(data.maxValue));
+         data.maxValue = new Date(data.maxValue);
 
       if (data.minValue)
-         data.minValue = zeroTime(new Date(data.minValue));
+         data.minValue = new Date(data.minValue);
+
+      if (this.segment == 'date') {
+         if (data.minValue)
+            data.minValue = zeroTime(data.minValue);
+
+         if (data.maxValue)
+            data.maxValue = zeroTime(data.maxValue);
+      }
 
       super.prepareData(...arguments);
    }
