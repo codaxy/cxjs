@@ -22,7 +22,7 @@ import './index.scss';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
-//import Demo from './bugs/Repeater';
+import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 
 //import Demo from './features/flexbox';
@@ -53,7 +53,7 @@ import './index.scss';
 //import Demo from './features/fun-comps/js';
 
 //import Demo from './features/layout/OuterLayout';
-import Demo from './features/layout/ComplexLayout';
+//import Demo from './features/layout/ComplexLayout';
 
 let store = new Store();
 

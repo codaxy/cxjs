@@ -92,5 +92,6 @@ Repeater.prototype.recordName = '$record';
 Repeater.prototype.indexName = '$index';
 Repeater.prototype.cached = false;
 Repeater.prototype.immutable = false;
+Repeater.prototype.isPureContainer = true;
 
 Widget.alias('repeater', Repeater);

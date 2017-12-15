@@ -1,5 +1,5 @@
 import {Widget, VDOM} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import {Container} from '../ui/Container';
 import {BoundedObject} from '../svg/BoundedObject';
 import {Rect} from '../svg/util/Rect';
 import {Selection} from '../ui/selection/Selection';
@@ -138,7 +138,7 @@ PieChart.prototype.anchors = '0 1 1 0';
 PieChart.prototype.angle = 360;
 
 Widget.alias('pie-slice')
-export class PieSlice extends PureContainer {
+export class PieSlice extends Container {
    init() {
       this.selection = Selection.create(this.selection);
       super.init();
