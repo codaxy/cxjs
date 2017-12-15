@@ -40,7 +40,7 @@ export default <cx>
     <Section mod="well" 
         controller={PageController}
         style="height: 100%;"
-        bodyStyle="display: flex;">
+        bodyStyle="display: flex; flex-direction: column;">
         <Svg style="width: 100%; flex: 1;">
            <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
               <Gridlines/>
