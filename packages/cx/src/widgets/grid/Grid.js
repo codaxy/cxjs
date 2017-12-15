@@ -72,7 +72,10 @@ export class Grid extends Widget {
 
       this.columns = Widget.create(GridColumnHeader, this.columns || [], {
          children: null,
-         items: null
+         items: null,
+         style: null, //may access record
+         "class": null,
+         className: null
       });
       this.columns.forEach(c => c.init());
 
