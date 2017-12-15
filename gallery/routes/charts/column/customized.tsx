@@ -23,10 +23,10 @@ export default <cx>
 
     <Section mod="well"
         controller={PageController}
-        bodyStyle="display:flex;"
+        bodyStyle="display:flex; flex-direction: column;"
         style="height: 100%"
     >
-        <Svg style="width:100%;">
+        <Svg style="width: 100%; flex: 1;">
             <Chart offset="20 -20 -120 40" axes={{
                 x: {type: CategoryAxis, labelRotation: -45, labelDy: '0.4em', labelAnchor: "end"},
                 y: {type: NumericAxis, vertical: true}
