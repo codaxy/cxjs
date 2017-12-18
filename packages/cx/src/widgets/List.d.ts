@@ -8,7 +8,13 @@ interface ListProps extends Cx.StyledContainerProps {
    records?: Cx.RecordsProp,
     
    /** Used for sorting the list. */
-   sorters?: Cx.Sorter[],
+   sorters?: Cx.SortersProp,
+
+   /** A binding used to store the name of the field used for sorting the collection. Available only if `sorters` are not used. */
+   sortField?: Cx.StringProp,
+   
+   /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
+   sortDirection?: Cx.StringProp,
     
    itemStyle?: Cx.StyleProp,
     

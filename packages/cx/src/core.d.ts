@@ -51,6 +51,7 @@ declare namespace Cx {
    type BooleanProp = Prop<boolean>;
    type ClassProp = Prop<string> | StructuredProp;
    type RecordsProp = Prop<Record[]>;
+   type SortersProp = Prop<Sorter[]>;
 
    interface WidgetProps {
 
