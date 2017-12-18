@@ -17,11 +17,6 @@ export class Controller extends Component {
       let {store} = this.instance;
       this.store = store; //in rare cases instance may change its store
 
-      if (!this.initialized) {
-         this.init();
-         this.initialized = true;
-      }
-
       if (this.computables) {
          for (let key in this.computables) {
             let x = this.computables[key];
@@ -54,7 +49,7 @@ export class Controller extends Component {
       let selector = computable(...args, callback).memoize();
       if (!this.computables)
          this.computables = {};
-      this.computables[computablePrefix + name] = { name, selector, type: 'computable' };
+      this.computables[computablePrefix + name] = {name, selector, type: 'computable'};
    }
 
    addTrigger(name, args, callback, autoRun) {
@@ -63,7 +58,7 @@ export class Controller extends Component {
       let selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
       if (!this.computables)
          this.computables = {};
-      this.computables[triggerPrefix + name] = { name, selector, type: 'trigger' };
+      this.computables[triggerPrefix + name] = {name, selector, type: 'trigger'};
    }
 
    removeTrigger(name) {
@@ -78,4 +73,3 @@ export class Controller extends Component {
 }
 
 Controller.namespace = 'ui.controller.';
-Controller.lazyInit = true;

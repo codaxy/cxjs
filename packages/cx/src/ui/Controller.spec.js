@@ -125,6 +125,36 @@ describe('Controller', () => {
       assert.equal(callback2, 0);
    });
 
+   it('ancestor controllers are initialized first', () => {
+
+      let order = [];
+
+      class TestController1 extends Controller {
+         onInit() {
+            order.push("1");
+         }
+      }
+
+      class TestController2 extends Controller {
+         onInit() {
+            order.push("2");
+         }
+      }
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div controller={TestController1}>
+               <div controller={TestController2} />
+            </div>
+         </Cx>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(order, ["1", "2"]);
+   });
+
    it('invokes triggers and computables in order of definition', () => {
       let log = [];
       class TestController extends Controller {
