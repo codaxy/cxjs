@@ -68,8 +68,10 @@ export class DateTimeField extends Field {
       super.init();
    }
 
-   prepareData(context, {data}) {
-      super.prepareData(...arguments);
+   prepareData(context, instance) {
+      super.prepareData(context, instance);
+
+      let {data} = instance;
 
       if (data.value) {
          let date = data.date = new Date(data.value);
@@ -95,7 +97,7 @@ export class DateTimeField extends Field {
             data.maxValue = zeroTime(data.maxValue);
       }
 
-      super.prepareData(...arguments);
+      instance.lastDropdown = context.lastDropdown;
    }
 
    validate(context, instance) {
@@ -197,7 +199,7 @@ class DateTimeInput extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
-      let {widget} = this.props.instance;
+      let {widget, lastDropdown} = this.props.instance;
 
       let pickerConfig;
 
@@ -219,7 +221,7 @@ class DateTimeInput extends VDOM.Component {
 
       let dropdown = {
          scrollTracking: true,
-         inline: !isTouchDevice(),
+         inline: !isTouchDevice() || !!lastDropdown,
          matchWidth: false,
          placementOrder: 'down down-right down-left up up-right up-left',
          touchFriendly: true,

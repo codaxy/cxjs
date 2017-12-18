@@ -46,11 +46,13 @@ export class ColorField extends Field {
       super.init();
    }
 
-   prepareData(context, {data}) {
+   prepareData(context, instance) {
+      let {data} = instance;
       data.stateMods = [data.stateMods, {
          "empty": !data.value
       }];
-      super.prepareData(...arguments);
+      instance.lastDropdown = context.lastDropdown;
+      super.prepareData(context, instance);
    }
 
    renderInput(context, instance, key) {
@@ -91,14 +93,16 @@ class ColorInput extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
+      let {widget, lastDropdown} = this.props.instance;
+
       let dropdown = {
          scrollTracking: true,
          autoFocus: true, //put focus on the dropdown to prevent opening the keyboard
          focusable: true,
-         inline: !isTouchDevice(),
+         inline: !isTouchDevice() || !!lastDropdown,
          touchFriendly: true,
          placementOrder: ' down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
-         ...this.props.instance.widget.dropdownOptions,
+         ...widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          items: {

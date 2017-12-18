@@ -22,7 +22,7 @@ import './index.scss';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
-import Demo from './bugs/Repeater';
+//import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 
 //import Demo from './features/flexbox';
@@ -47,7 +47,7 @@ import Demo from './bugs/Repeater';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 
-//import Demo from './features/menu/icons';
+import Demo from './features/menu/icons';
 
 //import Demo from './features/fun-comps/ts';
 //import Demo from './features/fun-comps/js';

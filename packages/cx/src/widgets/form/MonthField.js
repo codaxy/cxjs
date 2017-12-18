@@ -82,8 +82,10 @@ export class MonthField extends Field {
       super.init();
    }
 
-   prepareData(context, {data}) {
-      super.prepareData(...arguments);
+   prepareData(context, instance) {
+      super.prepareData(context, instance);
+
+      let {data} = instance;
 
       let formatOptions = {
          year: 'numeric',
@@ -115,7 +117,7 @@ export class MonthField extends Field {
       if (data.minValue)
          data.minValue = monthStart(new Date(data.minValue));
 
-      super.prepareData(...arguments);
+      instance.lastDropdown = context.lastDropdown;
    }
 
    validateRequired(context, instance) {
@@ -236,12 +238,14 @@ class MonthInput extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
+      let {widget, lastDropdown} = this.props.instance;
+
       var dropdown = {
          scrollTracking: true,
-         inline: !isTouchDevice(),
+         inline: !isTouchDevice() || !!lastDropdown,
          placementOrder: 'down down-left down-right up up-left up-right right right-up right-down left left-up left-down',
          touchFriendly: true,
-         ...this.props.instance.widget.dropdownOptions,
+         ...widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          items: {

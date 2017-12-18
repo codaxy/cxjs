@@ -27,10 +27,14 @@ export class Dropdown extends Overlay {
    }
 
    explore(context, instance) {
-      let parentPositionChangeEvent = context.parentPositionChangeEvent;
-      context.parentPositionChangeEvent = instance.positionChangeSubcribers;
+      context.push('parentPositionChangeEvent', instance.positionChangeSubcribers);
+      context.push('lastDropdown', instance);
       super.explore(context, instance);
-      context.parentPositionChangeEvent = parentPositionChangeEvent;
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop('parentPositionChangeEvent');
+      context.pop('lastDropdown');
    }
 
    overlayDidMount(instance, component) {

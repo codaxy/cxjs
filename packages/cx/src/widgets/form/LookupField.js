@@ -135,6 +135,8 @@ export class LookupField extends Field {
          }
       }
 
+      instance.lastDropdown = context.lastDropdown;
+
       super.prepareData(context, instance);
    }
 
@@ -307,7 +309,7 @@ class LookupComponent extends VDOM.Component {
       if (this.dropdown)
          return this.dropdown;
 
-      let {widget} = this.props.instance;
+      let {widget, lastDropdown} = this.props.instance;
       let {CSS, baseClass} = widget;
 
       // generate class names for 'selected' and 'cursor' with state prefix
@@ -336,7 +338,7 @@ class LookupComponent extends VDOM.Component {
       let dropdown = {
          constrain: true,
          scrollTracking: true,
-         inline: !isTouchDevice(),
+         inline: !isTouchDevice() || !!lastDropdown,
          placementOrder: 'down-right down-left up-right up-left',
          ...widget.dropdownOptions,
          type: Dropdown,
