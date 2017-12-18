@@ -10,17 +10,17 @@ interface GridProps extends Cx.StyledContainerProps {
    /** An array of records to be displayed in the grid. */
    records?: Cx.Prop<Cx.Record[]>,
 
-   /** A binding used to store the sorting order list. Commonly used for server-side sorting */
-   sorters?: Cx.RecordsProp,
-
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
    scrollable?: Cx.BooleanProp,
+   
+   /** A binding used to store the sorting order list. Commonly used for server-side sorting */
+   sorters?: Cx.SortersProp,
 
-   /**
-    * A binding used to store the name of the field used for sorting grids.
-    * Available only if `sorters` are not used.
-    */
+   /** A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not used. */
    sortField?: Cx.StringProp,
+   
+   /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
+   sortDirection?: Cx.StringProp,
 
    /** Default sort field. Used if neither `sortField` or `sorters` are set. */
    defaultSortField?: string;
@@ -30,12 +30,6 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Set to `true` to add vertical gridlines. */
    vlines?: boolean;
-
-   /**
-    * A binding used to store the sort direction.
-    * Available only if `sorters` are not used.
-    */
-   sortDirection?: Cx.StringProp,
 
    /** Text to be displayed instead of an empty table. */
    emptyText?: Cx.StringProp,
@@ -135,6 +129,12 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** A callback to fetch records during infinite loading */
    onFetchRecords?: (pageInfo: { page: number, pageSize: number, sorters?: Cx.Record[], sortField?: string, sortDirection?: string }, instance?: Instance) => FetchRecordsResult | Promise<FetchRecordsResult>;
+
+   /** Callback function to be executed when a row is double-clicked. */
+   onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
+   /** Callback function to be executed when a row is clicked. */
+   onRowClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

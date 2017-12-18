@@ -162,5 +162,11 @@ export default {
         description: <cx><Md>
             Callback function to be executed when a row is double-clicked.
         </Md></cx>
+    },
+    onRowClick: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to be executed when a row is clicked.
+        </Md></cx>
     }
 };
