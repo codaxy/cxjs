@@ -115,7 +115,7 @@ class Max {
             this.result = value;
          this.empty = false;
       }
-      else
+      else if (value != null)
          this.invalid = true;
    }
 
@@ -138,7 +138,7 @@ class Min {
             this.result = value;
          this.empty = false;
       }
-      else
+      else if (value != null)
          this.invalid = true;
    }
 
