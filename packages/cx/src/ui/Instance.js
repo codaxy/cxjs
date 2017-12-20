@@ -186,6 +186,10 @@ export class Instance {
 
       if (this.controller) {
          if (this.widget.controller) {
+            if (!this.controller.initialized) {
+               this.controller.init();
+               this.controller.initialized = true;
+            }
             context.push("controller", this.controller);
             this.controller.explore(context);
             if (this.controller.onDestroy)

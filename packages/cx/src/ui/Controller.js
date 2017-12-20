@@ -8,6 +8,7 @@ const triggerPrefix = 'trigger-';
 export class Controller extends Component {
 
    init() {
+      this.initialized = true;
       super.init();
       if (this.onInit)
          this.onInit();
@@ -16,6 +17,12 @@ export class Controller extends Component {
    explore(context) {
       let {store} = this.instance;
       this.store = store; //in rare cases instance may change its store
+
+      if (!this.initialized) {
+         this.init();
+         //if someone forgets to call super.init()
+         this.initialized = true;
+      }
 
       if (this.computables) {
          for (let key in this.computables) {
@@ -73,3 +80,4 @@ export class Controller extends Component {
 }
 
 Controller.namespace = 'ui.controller.';
+Controller.lazyInit = true;
