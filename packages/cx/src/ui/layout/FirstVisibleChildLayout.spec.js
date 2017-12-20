@@ -1,0 +1,64 @@
+import {Cx} from '../Cx';
+import {VDOM} from '../Widget';
+import {HtmlElement} from '../../widgets/HtmlElement';
+import {Store} from '../../data/Store';
+
+import renderer from 'react-test-renderer';
+import assert from 'assert';
+import {FirstVisibleChildLayout} from "./FirstVisibleChildLayout";
+
+describe('FirstVisibleChildLayout', () => {
+
+   it('renders only the first child', () => {
+
+      let widget = <cx>
+         <div layout={FirstVisibleChildLayout}>
+            <header></header>
+            <main></main>
+            <footer></footer>
+         </div>
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      console.log(tree);
+      assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [{type: 'header', props: {}, children: null}]
+         }
+      )
+   });
+
+   it('skips the first child if not visible', () => {
+
+      let widget = <cx>
+         <div layout={FirstVisibleChildLayout}>
+            <header visible={false}></header>
+            <main></main>
+            <footer></footer>
+         </div>
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      console.log(tree);
+      assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [{type: 'main', props: {}, children: null}]
+         }
+      )
+   });
+});
+
