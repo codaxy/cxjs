@@ -20,7 +20,7 @@ export class Controller extends Component {
 
       if (!this.initialized) {
          this.init();
-         //if someone forgets to call super.init()
+         //just in case someone forgets to call super.init()
          this.initialized = true;
       }
 

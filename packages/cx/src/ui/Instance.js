@@ -37,15 +37,16 @@ export class Instance {
          this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
+      //init instance might change the store, so it must go before the controller
+      this.widget.initInstance(context, this);
+      this.widget.initState(context, this);
+
       if (this.widget.controller)
          this.controller = Controller.create(this.widget.controller, {
             widget: this.widget,
             instance: this,
             store: this.store
          });
-
-      this.widget.initInstance(context, this);
-      this.widget.initState(context, this);
 
       if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
          this.needsExploreCleanup = true;
