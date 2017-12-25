@@ -3,6 +3,7 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Grouper} from '../../data/Grouper';
 import {isArray} from '../../util/isArray';
 import {isDefined} from "../../util/isDefined";
+import {getComparer} from "../../data";
 
 export class GroupAdapter extends ArrayAdapter {
 
@@ -14,10 +15,10 @@ export class GroupAdapter extends ArrayAdapter {
    }
 
    getRecords(context, instance, records, parentStore) {
-      var result = super.getRecords(context, instance, records, parentStore);
+      let result = super.getRecords(context, instance, records, parentStore);
 
       if (this.groupings) {
-         var groupedResults = [];
+         let groupedResults = [];
          this.processLevel([], result, groupedResults, parentStore);
          result = groupedResults;
       }
@@ -27,29 +28,31 @@ export class GroupAdapter extends ArrayAdapter {
 
    processLevel(keys, records, result, parentStore) {
 
-      var level = keys.length;
-      var inverseLevel = this.groupings.length - level;
+      let level = keys.length;
+      let inverseLevel = this.groupings.length - level;
 
       if (inverseLevel == 0) {
-         for (var i = 0; i < records.length; i++) {
+         for (let i = 0; i < records.length; i++) {
             records[i].store.setStore(parentStore);
             result.push(records[i]);
          }
          return;
       }
 
-      var grouping = this.groupings[level];
-      var {grouper} = grouping;
+      let grouping = this.groupings[level];
+      let {grouper} = grouping;
       grouper.reset();
       grouper.processAll(records);
-      var results = grouper.getResults();
+      let results = grouper.getResults();
+      if (grouping.comparer)
+         results.sort(grouping.comparer);
 
       results.forEach(gr => {
 
          keys.push(gr.key);
 
-         var $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
-         var groupStore = new ReadOnlyDataView({
+         let $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
+         let groupStore = new ReadOnlyDataView({
             store: parentStore,
             data: {
                [this.groupName]: $group
@@ -57,8 +60,8 @@ export class GroupAdapter extends ArrayAdapter {
             immutable: this.immutable
          });
 
-         var group = {
-            key: keys.map(key=>Object.keys(key).map(k=>key[k]).join(':')).join('|'),
+         let group = {
+            key: keys.map(key => Object.keys(key).map(k => key[k]).join(':')).join('|'),
             data: gr.records[0],
             group: $group,
             grouping,
@@ -82,7 +85,6 @@ export class GroupAdapter extends ArrayAdapter {
                key: 'footer:' + group.key
             });
 
-
          keys.pop();
       });
    }
@@ -93,34 +95,24 @@ export class GroupAdapter extends ArrayAdapter {
       else if (isArray(groupings)) {
          this.groupings = groupings;
          this.groupings.forEach(g => {
+            let groupSorters = [];
             let key = {};
             for (let name in g.key) {
                if (!g.key[name] || !isDefined(g.key[name].direction) || !isDefined(g.key[name].value))
                   g.key[name] = {value: g.key[name], direction: 'ASC'};
                key[name] = g.key[name].value;
+               groupSorters.push({
+                  field: name,
+                  direction: g.key[name].direction
+               });
             }
             g.grouper = new Grouper(key, {...this.aggregates, ...g.aggregates}, r => r.store.getData(), g.text);
+            g.comparer = null;
+            if (groupSorters.length > 0)
+               g.comparer = getComparer(groupSorters, x => x.key)
          });
       } else
          throw new Error('Invalid grouping provided.');
-      this.updateSorter();
-   }
-
-   updateSorter() {
-      var sorters = [];
-      if (this.groupings)
-         this.groupings.forEach(g => {
-            for (var k in g.key)
-               sorters.push({value: g.key[k].value, direction: g.key[k].direction});
-         });
-      if (this.sorters)
-         sorters.push(...this.sorters);
-      this.buildSorter(sorters);
-   }
-
-   sort(sorters) {
-      this.sorters = sorters;
-      this.updateSorter();
    }
 }
 
