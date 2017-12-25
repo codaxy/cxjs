@@ -1033,9 +1033,7 @@ class GridComponent extends VDOM.Component {
    onDropTest(e) {
       let {instance} = this.props;
       let {widget} = instance;
-      if (widget.onDropTest)
-         return instance.invoke("onDropTest", e, instance);
-      return true;
+      return widget.onDropTest && instance.invoke("onDropTest", e, instance);
    }
 
    onDragEnd(e) {
