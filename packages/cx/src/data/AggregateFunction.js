@@ -67,20 +67,16 @@ Avg.prototype.empty = true;
 
 class Count {
    process(value) {
-      this.empty = false;
       if (value != null)
          this.result++;
    }
 
    getResult() {
-      if (this.empty || this.invalid)
-         return null;
       return this.result;
    }
 }
 
 Count.prototype.result = 0;
-Count.prototype.empty = true;
 
 
 class Distinct {

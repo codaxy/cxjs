@@ -757,7 +757,7 @@ class GridComponent extends VDOM.Component {
 
       let content = [];
 
-      if (children.length == 0 && data.emptyText) {
+      if (data.totalRecordCount == 0 && data.emptyText) {
          children.push(
             <tbody
                key="empty"
