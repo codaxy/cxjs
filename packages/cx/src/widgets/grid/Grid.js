@@ -758,7 +758,7 @@ class GridComponent extends VDOM.Component {
       let content = [];
 
       if (data.totalRecordCount == 0 && data.emptyText) {
-         children.push(
+         children = [
             <tbody
                key="empty"
                className={CSS.element(baseClass, 'empty-text')}
@@ -769,7 +769,7 @@ class GridComponent extends VDOM.Component {
                </td>
             </tr>
             </tbody>
-         );
+         ];
       }
 
       let marginTop = -this.headerHeight, marginBottom = 0;
