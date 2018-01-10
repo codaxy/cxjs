@@ -28,6 +28,7 @@ export class DropZone extends PureContainer {
          overStyle: {structured: true},
          nearStyle: {structured: true},
          farStyle: {structured: true},
+         data: {structured: true}
       })
    }
 
@@ -110,8 +111,6 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    onDragStart(e) {
-      this.initialWidth = this.el.offsetWidth;
-      this.initialHeight = this.el.offsetHeight;
       this.setState({
          state: 'far'
       });
