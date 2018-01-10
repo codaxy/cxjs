@@ -26,6 +26,9 @@ interface DropZoneProps extends Cx.StyledContainerProps {
    /** Distance in `px` used to determine if cursor is near the dropzone. If not configured, cursor is never considered near. */
    nearDistance?: number,
 
+   /** Bindable data related to the DropZone that might be useful inside onDrop operations. */
+   data?: Cx.StructuredProp,
+
    /** 
     * Inflate the drop zone's bounding box so it activates on cursor proximity. 
     * Useful for invisible drop-zones that are only a few pixels tall/wide.  

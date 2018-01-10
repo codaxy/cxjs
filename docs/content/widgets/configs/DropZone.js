@@ -90,6 +90,14 @@ export default {
         </Md></cx>
     },
 
+    data: {
+        type: 'object',
+        key: true,
+        description: <cx><Md>
+            Bindable data related to the DropZone that might be useful inside onDrop operations.
+        </Md></cx>
+    },
+
     onDrop: {
         type: 'function',
         key: true,
