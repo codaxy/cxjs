@@ -51,7 +51,7 @@ export const Buffering = <cx>
                 selection={{ type: KeySelection, bind: "$page.selection" }}
             />
 
-            <CodeSnippet putInto="code" fiddle="Qq5LHNJc">{`
+            <CodeSnippet putInto="code" fiddle="t1lQ6JCH">{`
                 class PageController extends Controller {
                     onInit() {
                         this.store.init(
