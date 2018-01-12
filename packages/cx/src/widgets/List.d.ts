@@ -43,6 +43,8 @@ interface ListProps extends Cx.StyledContainerProps {
    /** Callback to create a filter function for given filter params. */
    onCreateFilter?: (filterParams: any, instance: Instance) => (record: Cx.Record) => boolean;
 
+   /** Scrolls selection into the view. Default value is false. */
+   scrollSelectionIntoView?: boolean,
 }
 
 export class List extends Cx.Widget<ListProps> {}

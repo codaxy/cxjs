@@ -68,4 +68,10 @@ export default {
             Grouping configuration. Check [the example](~/examples/list/grouping) for more information.
         </Md></cx>
     },
+    scrollSelectionIntoView: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to add ensure that selected record is automatically scrolled into the view on selection change.
+        </Md></cx>
+    },
 };

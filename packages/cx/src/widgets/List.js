@@ -197,6 +197,7 @@ List.prototype.focused = false;
 List.prototype.itemPad = true;
 List.prototype.cached = false;
 List.prototype.styled = true;
+List.prototype.scrollSelectionIntoView = false;
 
 Widget.alias('list', List);
 
@@ -307,6 +308,19 @@ class ListComponent extends VDOM.Component {
       >
          {children}
       </ul>;
+   }
+
+   componentDidUpdate() {
+      let {widget} = this.props.instance;
+      if (widget.scrollSelectionIntoView) {
+         let {CSS, baseClass} = widget;
+         let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
+         let firstSelectedRow = this.el.querySelector(selectedRowSelector);
+         if (firstSelectedRow != this.selectedEl) {
+            scrollElementIntoView(firstSelectedRow);
+            this.selectedEl = firstSelectedRow;
+         }
+      }
    }
 
    moveCursor(index, focused, scrollIntoView) {

@@ -46,7 +46,7 @@ export default {
     scrollSelectionIntoView: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to add ensure that on selection change, selected record is automatically scrolled into the view.
+            Set to `true` to add ensure that selected record is automatically scrolled into the view on selection change.
         </Md></cx>
     },
     selection: {
