@@ -612,6 +612,7 @@ Grid.prototype.bufferSize = 60;
 Grid.prototype.pageSize = 100;
 Grid.prototype.infinite = false;
 Grid.prototype.styled = true;
+Grid.prototype.scrollSelectionIntoView = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -1228,6 +1229,16 @@ class GridComponent extends VDOM.Component {
                instance.buffer.records = data.records = [];
                instance.buffer.totalRecordCount = 0;
                instance.buffer.page = 1;
+            }
+         }
+
+         if (widget.scrollSelectionIntoView && !widget.buffered) {
+            let {CSS, baseClass} = widget;
+            let selectedRowSelector = `.${CSS.element(baseClass, "data")}.${CSS.state("selected")}`;
+            let firstSelectedRow = this.dom.table.querySelector(selectedRowSelector);
+            if (firstSelectedRow != this.selectedEl) {
+               scrollElementIntoView(firstSelectedRow);
+               this.selectedEl = firstSelectedRow;
             }
          }
 

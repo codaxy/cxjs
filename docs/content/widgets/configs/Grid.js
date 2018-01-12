@@ -43,6 +43,12 @@ export default {
             Otherwise, the grid will grow to accomodate all rows.
         </Md></cx>
     },
+    scrollSelectionIntoView: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to add ensure that on selection change, selected record is automatically scrolled into the view.
+        </Md></cx>
+    },
     selection: {
         type: 'config',
         key: true,

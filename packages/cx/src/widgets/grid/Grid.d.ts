@@ -93,6 +93,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Specifies how many rows needs to be scrolled in order to recalculate buffer */
    bufferStep?: number,
 
+   /** Scrolls selection into the view. Default value is false. */
+   scrollSelectionIntoView?: boolean,
+
    /**
     * Set to true to lock column widths after the first render.
     * This is helpful in pagination scenarios to maintain consistent looks across pages.
