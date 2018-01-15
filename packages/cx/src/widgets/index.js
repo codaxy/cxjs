@@ -5,7 +5,7 @@ import {PureContainer} from '../ui/PureContainer';
 import {IsolatedScope} from '../ui/IsolatedScope';
 import {DetachedScope} from '../ui/DetachedScope';
 import {Content} from '../ui/layout/Content';
-import {ContentPlaceholder} from '../ui/layout/ContentPlaceholder';
+import {ContentPlaceholder, ContentPlaceholderScope} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
 import {Rescope} from '../ui/Rescope';
 import {Repeater} from '../ui/Repeater';
@@ -18,6 +18,7 @@ export {
    PureContainer,
    Content,
    ContentPlaceholder,
+   ContentPlaceholderScope,
    ContentResolver,
    Rescope,
    Repeater,

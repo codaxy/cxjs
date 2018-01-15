@@ -9,3 +9,10 @@ interface ContentPlaceholderProps extends Cx.PureContainerProps {
 }
 
 export class ContentPlaceholder extends Cx.Widget<ContentPlaceholderProps> {}
+
+
+interface ContentPlaceholderScopeProps extends Cx.PureContainerProps {
+   name?: string | string[]
+}
+
+export class ContentPlaceholderScope extends Cx.Widget<ContentPlaceholderScopeProps> {}
