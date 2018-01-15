@@ -1,5 +1,6 @@
 import {Widget} from '../Widget';
 import {PureContainer} from '../PureContainer';
+import {isString} from "../../util/isString";
 
 export class ContentPlaceholder extends PureContainer {
 
@@ -30,16 +31,14 @@ export class ContentPlaceholder extends PureContainer {
    }
 
    prepare(context, instance) {
-      if (instance.content && instance.content.shouldUpdate)
+      let {content} = instance;
+      if (instance.cache('content', content) || (content && content.shouldUpdate))
          instance.markShouldUpdate(context);
    }
 
    setContent(context, instance, content) {
       instance.content = content;
       content.contentPlaceholder = instance;
-
-      if (instance.cache('content', content) || content.shouldUpdate)
-         instance.markShouldUpdate(context);
    }
 
    render(context, instance, key) {
@@ -55,3 +54,27 @@ ContentPlaceholder.prototype.name = 'body';
 ContentPlaceholder.prototype.scoped = false;
 
 Widget.alias('content-placeholder', ContentPlaceholder);
+
+export class ContentPlaceholderScope extends PureContainer {
+   init() {
+      super.init();
+
+      if (isString(this.name))
+         this.name = [this.name];
+   }
+
+   explore(context, instance) {
+      this.name.forEach(name => {
+         context.pushNamedValue('contentPlaceholder', name, null);
+         context.pushNamedValue('content', name, null);
+      });
+      super.explore(context, instance);
+   }
+
+   exploreCleanup(context, instance) {
+      this.name.forEach(name => {
+         context.popNamedValue('contentPlaceholder', name);
+         context.popNamedValue('content', name);
+      });
+   }
+}
