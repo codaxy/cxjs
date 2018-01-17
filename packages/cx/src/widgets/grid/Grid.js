@@ -112,14 +112,20 @@ export class Grid extends Widget {
 
       super.init();
 
+      if (!this.row)
+         this.row = {};
+
+      // if (this.columns)
+      //    this.row.line1 = {
+      //       columns: this.columns
+      //    };
+
       this.row = Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, 'data'),
          className: this.rowClass,
          style: this.rowStyle,
-         ...this.row,
-         items: Widget.create(GridCell, columns || [], {
-            recordName: this.recordName
-         })
+         recordName: this.recordName,
+         ...this.row
       });
 
       if (this.grouping) {

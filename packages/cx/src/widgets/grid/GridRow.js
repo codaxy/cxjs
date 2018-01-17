@@ -9,12 +9,18 @@ import {
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 import {KeyCode} from "../../util/KeyCode";
+import {GridRowLine} from "./GridRowLine";
 
 export class GridRow extends ValidationGroup {
-   render(context, instance, key) {
-      return <tr key={key}>
-         {this.renderChildren(context, instance)}
-      </tr>
+   init() {
+      this.items = [];
+      for (let i = 0; i < 10; i++) {
+         if (this['line' + i])
+            this.items.push(GridRowLine.create(this['line' + i], {
+               recordName: this.recordName
+            }));
+      }
+      super.init();
    }
 
    explore(context, instance) {
@@ -28,8 +34,7 @@ export class GridRow extends ValidationGroup {
    }
 }
 
-GridRow.prototype.styled = true;
-GridRow.prototype.isPureContainer = false;
+GridRow.prototype.styled = true; //styles used on the wrapper component
 
 export class GridRowComponent extends VDOM.Component {
 

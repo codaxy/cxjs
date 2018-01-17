@@ -44,10 +44,11 @@ import './index.scss';
 //import Demo from './features/grid/header-tool';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
+import Demo from './features/grid/MultiLine';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 
-import Demo from './features/menu/icons';
+//import Demo from './features/menu/icons';
 
 //import Demo from './features/fun-comps/ts';
 //import Demo from './features/fun-comps/js';
