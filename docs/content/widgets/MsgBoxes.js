@@ -28,17 +28,26 @@ export const MsgBoxes = <cx>
                 <Button
                     onClick={() => {
                         MsgBox
-                            .yesNo('Would you like to see another alert?')
+                            .yesNo({ message: 'Would you like to see another alert?', yes: "Yes, please", no: "No, thanks" })
                             .then((btn) => {
                                 if (btn == 'yes')
                                     MsgBox.alert(`Here it is.`)
                             });
                     }}
                 >
-                    Yes or No
+                    Custom Yes or No
                 </Button>
             </div>
 
+            Both `alert` and `yesNo` methods accept either just a message string, or a configuration object, with the following properties:
+            * `message` - message string,
+            * `title` - window title,
+            * `header` - window header,
+            * `items` or `children` - list of child elements (for rich content),
+            * `store` - store to be used in the new Window instance,
+            * `style` - window style,
+            * `yes` - custom `yes` text, default value: `Yes`,
+            * `no` - custom `no` text, default value: `No`.
 
             <CodeSnippet fiddle="g1Z5Q4QH" putInto="code">{`
                 <Button
@@ -52,14 +61,14 @@ export const MsgBoxes = <cx>
                 <Button
                     onClick={() => {
                         MsgBox
-                            .yesNo('Would you like to see another alert?')
+                            .yesNo({ message: 'Would you like to see another alert?', yes: "Yes, please", no: "No, thanks" })
                             .then((btn) => {
                                 if (btn == 'yes')
-                                    MsgBox.alert(\`Here it is.\`)
+                                    MsgBox.alert('Here it is.')
                             });
                     }}
                 >
-                    Yes or No
+                    Custom Yes or No
                 </Button>
             `}</CodeSnippet>
 
@@ -84,7 +93,7 @@ export const MsgBoxes = <cx>
             </Md></cx>
         }]}/>
 
-        > In case you needs to display rich content such as links or images inside the message box,
+        > In case you need to display rich content such as links or images inside the message box,
         pass it through `children` instead of `message`.
 
     </Md>
