@@ -75,7 +75,7 @@ export const StepByStep = <cx>
 
                     npm install cx cx-react --save
 
-                    npm install webpack webpack-dev-server babel-core babel-loader babel-plugin-syntax-jsx babel-preset-cx-env css-loader extract-text-webpack-plugin file-loader html-webpack-plugin json-loader node-sass sass-loader style-loader --save-dev
+                    npm install webpack webpack-dev-server babel-core babel-loader babel-plugin-syntax-jsx babel-preset-cx-env css-loader extract-text-webpack-plugin file-loader html-webpack-plugin json-loader node-sass sass-loader style-loader react react-dom babel-preset-env --save-dev
                 `}</CodeSnippet>
             </Content>
 
