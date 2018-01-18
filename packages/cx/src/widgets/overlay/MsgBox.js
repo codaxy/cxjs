@@ -82,8 +82,8 @@ export class MsgBox {
                   justify={MsgBox.prototype.footerJustify}
                   hspacing="small"
                >
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yes || "Yes"}</Button>
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.no || "No"}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yesText || "Yes"}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.noText || "No"}</Button>
                </FlexRow>
             </Window>
          </cx>);
