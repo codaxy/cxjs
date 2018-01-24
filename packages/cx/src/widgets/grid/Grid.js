@@ -33,6 +33,7 @@ import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
+import {GridRowLine} from "./GridRowLine";
 
 export class Grid extends Widget {
 
@@ -68,25 +69,61 @@ export class Grid extends Widget {
       if (this.records && this.records.bind)
          this.recordsBinding = Binding.get(this.records.bind);
 
-      let columns = this.columns;
+      if (!this.row)
+         this.row = {};
 
-      this.columns = Widget.create(GridColumnHeader, this.columns || [], {
-         children: null,
-         items: null,
-         style: null, //may access record
-         "class": null,
-         className: null
-      });
-      this.columns.forEach(c => c.init());
+      if (this.columns)
+         this.row.line1 = {
+            columns: this.columns
+         };
 
+      // let columns = this.columns;
+      //
+      // this.columns = Widget.create(GridColumnHeader, this.columns || [], {
+      //    children: null,
+      //    items: null,
+      //    style: null, //may access record
+      //    "class": null,
+      //    className: null
+      // });
+      // this.columns.forEach(c => c.init());
+
+      this.hasSortableColumns = false;
       let aggregates = {};
-      this.columns.filter(c => c.aggregate && c.aggregateField).forEach(c => {
-         aggregates[c.aggregateField] = {
-            value: c.value != null ? c.value : {bind: this.recordName + '.' + c.field},
-            weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
-            type: c.aggregate
+      let lines = [];
+      for (let i = 0; i < 10; i++) {
+         let l = this.row['line' + i];
+         if (l) {
+            lines.push(l);
+
+            if (l.columns) {
+               l.columns.forEach(c => {
+                  if (c.sortable)
+                     this.hasSortableColumns = true;
+
+                  if (c.aggregate && c.aggregateField) {
+                     aggregates[c.aggregateField] = {
+                        value: c.value != null ? c.value : {bind: this.recordName + '.' + c.field},
+                        weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
+                        type: c.aggregate
+                     }
+                  }
+               })
+            }
          }
+      }
+
+      this.header = PureContainer.create({
+         items: GridColumnHeaderLine.create(lines)
       });
+
+      // this.columns.filter(c => c.aggregate && c.aggregateField).forEach(c => {
+      //    aggregates[c.aggregateField] = {
+      //       value: c.value != null ? c.value : {bind: this.recordName + '.' + c.field},
+      //       weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
+      //       type: c.aggregate
+      //    }
+      // });
 
       //add default footer if some columns have aggregates and grouping is not defined
       if (!this.grouping && Object.keys(aggregates).length > 0)
@@ -111,14 +148,6 @@ export class Grid extends Widget {
          this.selectable = true;
 
       super.init();
-
-      if (!this.row)
-         this.row = {};
-
-      // if (this.columns)
-      //    this.row.line1 = {
-      //       columns: this.columns
-      //    };
 
       this.row = Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, 'data'),
@@ -192,7 +221,7 @@ export class Grid extends Widget {
       let headerMode = this.headerMode;
 
       if (this.headerMode == null) {
-         if (this.scrollable || this.columns.some(x => x.sortable))
+         if (this.scrollable || this.hasSortableColumns)
             headerMode = "default";
          else
             headerMode = 'plain';
@@ -247,11 +276,14 @@ export class Grid extends Widget {
       context.parentPositionChangeEvent = instance.fixedHeaderResizeEvent;
       super.explore(context, instance);
 
-      let columns = exploreChildren(context, instance, this.columns, instance.columns);
-      if (columns != instance.columns) {
-         instance.columns = columns;
-         instance.markShouldUpdate(context);
-      }
+      instance.header = instance.getChild(this.header);
+      instance.header.scheduleExploreIfVisible(context);
+
+      // let columns = exploreChildren(context, instance, this.columns, instance.columns);
+      // if (columns != instance.columns) {
+      //    instance.columns = columns;
+      //    instance.markShouldUpdate(context);
+      // }
 
       let {store} = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
@@ -345,113 +377,118 @@ export class Grid extends Widget {
    }
 
    renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
-      let {data, widget} = instance;
+      let {data, widget, header} = instance;
       if (!refs)
          refs = {};
       let {CSS, baseClass} = widget;
 
-      let result = [[], [], []];
-      let skip = {};
+      let headerRows = [];
 
-      let empty = [true, true, true];
+      header.items.forEach(line => {
 
-      instance.columns.forEach((columnInstance, i) => {
+         let result = [[], [], []];
+         let skip = {};
 
-         let c = columnInstance.widget;
+         let empty = [true, true, true];
 
-         for (let l = 0; l < 3; l++) {
+         instance.columns.forEach((columnInstance, i) => {
 
-            let colKey = `${i}-${l}`;
+            let c = columnInstance.widget;
 
-            if (skip[colKey])
-               continue;
+            for (let l = 0; l < 3; l++) {
 
-            let header = columnInstance.components[`header${l + 1}`];
-            let colSpan, rowSpan, style, cls, mods = [], content, sortIcon, tool;
+               let colKey = `${i}-${l}`;
 
-            if (header) {
-               empty[l] = false;
+               if (skip[colKey])
+                  continue;
 
-               if (header.widget.align)
-                  mods.push('aligned-' + header.widget.align);
-               else if (c.align)
-                  mods.push('aligned-' + c.align);
+               let header = columnInstance.components[`header${l + 1}`];
+               let colSpan, rowSpan, style, cls, mods = [], content, sortIcon, tool;
 
-               if (c.sortable && header.widget.allowSorting) {
-                  mods.push('sortable');
+               if (header) {
+                  empty[l] = false;
 
-                  if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
-                     mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
-                     sortIcon = <DropDownIcon className={CSS.element(baseClass, 'column-sort-icon')}/>
+                  if (header.widget.align)
+                     mods.push('aligned-' + header.widget.align);
+                  else if (c.align)
+                     mods.push('aligned-' + c.align);
+
+                  if (c.sortable && header.widget.allowSorting) {
+                     mods.push('sortable');
+
+                     if (data.sorters && data.sorters[0].field == (c.sortField || c.field)) {
+                        mods.push('sorted-' + data.sorters[0].direction.toLowerCase());
+                        sortIcon = <DropDownIcon className={CSS.element(baseClass, 'column-sort-icon')}/>
+                     }
+                  }
+
+                  style = header.data.style;
+                  if (header.data.classNames)
+                     cls = header.data.classNames;
+
+                  content = header.render(context);
+
+                  if (header.components && header.components.tool) {
+                     tool = <div
+                        className={CSS.element(baseClass, 'col-header-tool')}>{getContent(header.components.tool.render(context))}
+                     </div>;
+                     mods.push('tool');
+                  }
+
+                  if (fixed && originalRefs[colKey]) {
+                     let width = originalRefs[colKey].offsetWidth + 'px';
+                     style = {...style, width, minWidth: width, maxWidth: width}
+                  }
+
+                  if (header.data.colSpan > 1 || header.data.rowSpan > 1) {
+                     colSpan = header.data.colSpan;
+                     rowSpan = header.data.rowSpan;
+
+                     for (let r = 0; r < header.data.rowSpan; r++)
+                        for (let c = 0; c < header.data.colSpan; c++)
+                           skip[`${i + c}-${l + r}`] = true;
                   }
                }
 
-               style = header.data.style;
-               if (header.data.classNames)
-                  cls = header.data.classNames;
+               cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
 
-               content = header.render(context);
+               let onContextMenu;
 
-               if (header.components && header.components.tool) {
-                  tool = <div
-                     className={CSS.element(baseClass, 'col-header-tool')}>{getContent(header.components.tool.render(context))}
-                  </div>;
-                  mods.push('tool');
-               }
+               if (this.onColumnContextMenu)
+                  onContextMenu = e => instance.invoke('onColumnContextMenu', e, columnInstance);
 
-               if (fixed && originalRefs[colKey]) {
-                  let width = originalRefs[colKey].offsetWidth + 'px';
-                  style = {...style, width, minWidth: width, maxWidth: width}
-               }
-
-               if (header.data.colSpan > 1 || header.data.rowSpan > 1) {
-                  colSpan = header.data.colSpan;
-                  rowSpan = header.data.rowSpan;
-
-                  for (let r = 0; r < header.data.rowSpan; r++)
-                     for (let c = 0; c < header.data.colSpan; c++)
-                        skip[`${i + c}-${l + r}`] = true;
-               }
+               result[l].push(<th key={i}
+                                  ref={c => {
+                                     refs[colKey] = c
+                                  }}
+                                  colSpan={colSpan}
+                                  rowSpan={rowSpan}
+                                  className={cls}
+                                  style={style}
+                                  onClick={e => this.onHeaderClick(e, c, instance, l)}
+                                  onContextMenu={onContextMenu}
+               >
+                  {getContent(content)}
+                  {sortIcon}
+                  {tool}
+               </th>);
             }
+         });
 
-            cls = CSS.element(baseClass, 'col-header', mods) + (cls ? ' ' + cls : '');
+         result = result.filter((_, i) => !empty[i]);
 
-            let onContextMenu;
+         if (fixed && result[0])
+            result[0].push(<th key="dummy"
+                               rowSpan={result.length}
+                               className={CSS.element(baseClass, "col-header")}
+                               ref={el => {
+                                  refs.last = el
+                               }}/>);
 
-            if (this.onColumnContextMenu)
-               onContextMenu = e => instance.invoke('onColumnContextMenu', e, columnInstance);
-
-            result[l].push(<th key={i}
-               ref={c => {
-                  refs[colKey] = c
-               }}
-               colSpan={colSpan}
-               rowSpan={rowSpan}
-               className={cls}
-               style={style}
-               onClick={e => this.onHeaderClick(e, c, instance, l)}
-               onContextMenu={onContextMenu}
-            >
-               {getContent(content)}
-               {sortIcon}
-               {tool}
-            </th>);
-         }
+         return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
+         {result.map((h, i) => <tr key={i}>{h}</tr>)}
+         </tbody>;
       });
-
-      result = result.filter((_, i) => !empty[i]);
-
-      if (fixed && result[0])
-         result[0].push(<th key="dummy"
-            rowSpan={result.length}
-            className={CSS.element(baseClass, "col-header")}
-            ref={el => {
-               refs.last = el
-            }}/>);
-
-      return <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-      {result.map((h, i) => <tr key={i}>{h}</tr>)}
-      </tbody>;
    }
 
    onHeaderClick(e, column, instance, headerLine) {
@@ -1406,6 +1443,27 @@ class GridComponent extends VDOM.Component {
    }
 }
 
+class GridColumnHeaderLine extends PureContainer {
+   init() {
+      this.items = Widget.create(GridColumnHeader, this.columns || []);
+      super.init();
+   }
+
+   render(context, instance, key) {
+      let {data} = instance;
+      return <tr
+         key={key}
+         className={data.classNames}
+         style={data.style}
+      >
+         {this.renderChildren(context, instance)}
+      </tr>
+   }
+}
+
+GridColumnHeaderLine.prototype.isPureContainer = false;
+GridColumnHeaderLine.prototype.styled = true;
+
 class GridColumnHeader extends PureContainer {
 
    declareData() {
@@ -1451,14 +1509,14 @@ class GridColumnHeader extends PureContainer {
 
    initComponents() {
       return super.initComponents({
-         header1: this.header1 && GridHeaderCell.create(this.header1),
-         header2: this.header2 && GridHeaderCell.create(this.header2),
-         header3: this.header3 && GridHeaderCell.create(this.header3),
+         header1: this.header1 && GridColumnHeaderCell.create(this.header1),
+         header2: this.header2 && GridColumnHeaderCell.create(this.header2),
+         header3: this.header3 && GridColumnHeaderCell.create(this.header3),
       })
    }
 }
 
-class GridHeaderCell extends PureContainer {
+class GridColumnHeaderCell extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          text: undefined,
@@ -1479,10 +1537,10 @@ class GridHeaderCell extends PureContainer {
    }
 }
 
-GridHeaderCell.prototype.colSpan = 1;
-GridHeaderCell.prototype.rowSpan = 1;
-GridHeaderCell.prototype.allowSorting = true;
-GridHeaderCell.prototype.styled = true;
+GridColumnHeaderCell.prototype.colSpan = 1;
+GridColumnHeaderCell.prototype.rowSpan = 1;
+GridColumnHeaderCell.prototype.allowSorting = true;
+GridColumnHeaderCell.prototype.styled = true;
 
 function initGrouping(grouping) {
    grouping.forEach(g => {
