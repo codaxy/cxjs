@@ -16,7 +16,7 @@ import {KeyCode} from '../../util/KeyCode';
  - tracks focus and closes if focusElement goes outside the dropdown
  - switches focus to the dropdown when right key pressed
  - listens to dropdown's key events and captures focus back when needed
- - automatically opens the dropdown if mouse is hold over for a period of time
+ - automatically opens the dropdown if mouse is held over for a period of time
  */
 
 export class MenuItem extends HtmlElement {
@@ -31,7 +31,8 @@ export class MenuItem extends HtmlElement {
       super.declareData(...arguments, {
          icon: undefined,
          disabled: undefined,
-         checked: false
+         checked: false,
+         arrow: undefined
       });
    }
 
@@ -156,7 +157,7 @@ class MenuItemComponent extends VDOM.Component {
       let dropdown = this.state.dropdownOpen
          && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}}/>;
 
-      let arrow = widget.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
+      let arrow = data.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
       let icon = null;
 
@@ -187,7 +188,7 @@ class MenuItemComponent extends VDOM.Component {
          open: this.state.dropdownOpen,
          horizontal: instance.horizontal,
          vertical: !instance.horizontal,
-         arrow: widget.arrow,
+         arrow: data.arrow,
          cursor: widget.showCursor,
          [instance.padding + '-padding']: instance.padding,
          icon: !!icon || instance.icons,
