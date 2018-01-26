@@ -1,5 +1,5 @@
 import { HtmlElement, Menu, MenuItem, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
-import { Content } from 'cx/ui';
+import { Content, computable } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -45,7 +45,7 @@ export const Menus = <cx>
                             <MenuItem hideCursor>
                                 <TextField value:bind="$page.text" mod="menu"/>
                             </MenuItem>
-                            <Submenu arrow icon="calendar">
+                            <Submenu arrow icon="calendar" placement="top">
                                 Submenu
                                 <Menu putInto="dropdown">
                                     <a href="#">Item 1</a>
