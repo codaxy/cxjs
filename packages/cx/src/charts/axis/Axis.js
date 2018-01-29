@@ -27,7 +27,8 @@ export class Axis extends BoundedObject {
       super.declareData({
          anchors: undefined,
          hideLabels: undefined,
-         labelRotation: undefined
+         labelRotation: undefined,
+         labelAnchor: undefined
       }, ...arguments)
    }
 
@@ -101,7 +102,7 @@ export class Axis extends BoundedObject {
                               x={x}
                               y={y}
                               dx={this.labelDx}
-                              textAnchor={this.labelAnchor}
+                              textAnchor={data.labelAnchor}
                               transform={transform}>
                   {this.wrapLines(valueFormatter(v), x, this.labelDy, offsetClass)}
                </text>);
