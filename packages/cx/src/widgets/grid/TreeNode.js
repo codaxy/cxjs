@@ -4,6 +4,12 @@ import DropdownIcon from '../icons/drop-down';
 
 export class TreeNode extends Widget {
 
+   init() {
+      if (this.itemIcon)
+         this.leafIcon = this.itemIcon;
+      super.init();
+   }
+
    declareData() {
       super.declareData({
          level: undefined,
@@ -12,7 +18,9 @@ export class TreeNode extends Widget {
          text: undefined,
          loading: undefined,
          icon: undefined,
-
+         leafIcon: undefined,
+         openFolderIcon: undefined,
+         folderIcon: undefined
       }, ...arguments);
    }
 
@@ -22,7 +30,8 @@ export class TreeNode extends Widget {
          expanded: data.expanded,
          loading: data.loading,
          leaf: data.leaf,
-         folder: !data.leaf
+         folder: !data.leaf,
+         icon: !this.hideIcon
       };
       data.stateMods[`level-${data.level}`] = true;
       super.prepareData(context, instance);
@@ -36,14 +45,14 @@ export class TreeNode extends Widget {
 
       if (!data.icon) {
          if (data.leaf)
-            icon = this.itemIcon;
+            icon = data.leafIcon;
          else {
             if (data.loading)
                icon = this.loadingIcon;
             else if (data.expanded)
-               icon = this.openFolderIcon || this.folderIcon;
+               icon = data.openFolderIcon || data.folderIcon;
             else
-               icon = this.folderIcon;
+               icon = data.folderIcon;
          }
       }
 
@@ -51,7 +60,7 @@ export class TreeNode extends Widget {
          <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
             { !data.leaf && <DropdownIcon className={CSS.element(baseClass, 'arrow')} /> }
             {
-               Icon.render(icon, {
+               !this.hideIcon && Icon.render(icon, {
                   className: CSS.element(baseClass, 'icon')
                })
             }
@@ -77,5 +86,6 @@ TreeNode.prototype.loadingIcon = 'loading';
 TreeNode.prototype.folderIcon = 'folder';
 TreeNode.prototype.openFolderIcon = 'folder-open';
 TreeNode.prototype.styled = true;
+TreeNode.prototype.hideIcon = false;
 
 Widget.alias('treenode', TreeNode);

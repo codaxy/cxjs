@@ -72,8 +72,15 @@ export default {
     },
     itemIcon: {
         type: 'string',
+        alias: 'leafIcon',
         description: <cx><Md>
-            Icon to represent leaf nodes. Default is `loading`.
+            Icon to represent leaf nodes. Default is `file`.
+        </Md></cx>
+    },
+    hideIcon: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide icons.
         </Md></cx>
     }
 };
