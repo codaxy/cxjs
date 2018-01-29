@@ -258,7 +258,7 @@ let dragCandidate = {};
 
 export function ddMouseDown(e) {
    dragCandidate = {
-      el: e.target,
+      el: e.currentTarget,
       start: {...getCursorPos(e)}
    }
 }
@@ -269,7 +269,7 @@ export function ddMouseUp() {
 
 export function ddDetect(e) {
    let cursor = getCursorPos(e);
-   if (e.target == dragCandidate.el && Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >= 2) {
+   if (e.currentTarget == dragCandidate.el && Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >= 2) {
       dragCandidate = {};
       return true;
    }
@@ -278,10 +278,10 @@ export function ddDetect(e) {
 let lastDragHandle;
 
 export function ddHandle(e) {
-   lastDragHandle = e.target;
+   lastDragHandle = e.currentTarget;
 }
 
 export function isDragHandleEvent(e) {
-   return e.target == lastDragHandle;
+   return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 

@@ -7,6 +7,7 @@ export default <cx>
       center
       style={{width: '500px'}}
       modal
+      draggable
    >
       <div putInto="header">
          <Button
