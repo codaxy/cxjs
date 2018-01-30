@@ -1,7 +1,7 @@
-import { Controller } from 'cx/ui';
+import { Controller } from "cx/ui";
 
 export default class extends Controller {
-    onInit(){
-
+    onInit() {
+        
     }
 }
