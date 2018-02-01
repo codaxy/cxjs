@@ -60,6 +60,8 @@ export default (
             records:bind="$page.records"
             lockColumnWidths
             cached
+            scrollable
+            style="height: 300px"
             row={{
                style: {
                   background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}

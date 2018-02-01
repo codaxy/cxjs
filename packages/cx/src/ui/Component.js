@@ -38,7 +38,7 @@ export class Component {
          return this.create(typeAlias(config, more));
 
       if (isArray(typeAlias))
-         return typeAlias.map(c=>this.create(c, config, more));
+         return typeAlias.map(c => this.create(c, config, more));
 
       if (typeAlias.$type)
          return this.create(typeAlias.$type, typeAlias, config);
@@ -74,7 +74,7 @@ export class Component {
       }
 
       if (isArray(config))
-         return config.map(cfg=>this.create(cmpType, cfg, more));
+         return config.map(cfg => this.create(cmpType, cfg, more));
 
       let cfg = config;
 
@@ -82,7 +82,7 @@ export class Component {
          cfg = Object.assign({}, config, more);
 
       let cmp = new cmpType(cfg);
-      if (!this.lazyInit)
+      if (!cmpType.lazyInit)
          cmp.init();
       return cmp;
    }
