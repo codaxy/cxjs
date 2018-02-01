@@ -35,6 +35,13 @@ import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
 import {GridRowLine} from "./GridRowLine";
 
+/*
+   Unfinished:
+   - complex headers
+   - visibility of the first row somehow affects visibility of the header
+   - colSpan, rowSpan, rowClass, rowStyle vs lineClass, lineStyle
+*/
+
 export class Grid extends Widget {
 
    declareData() {
