@@ -9,7 +9,9 @@ export class GridCell extends PureContainer {
          value: undefined,
          weight: undefined,
          pad: undefined,
-         format: undefined
+         format: undefined,
+         colSpan: undefined,
+         rowSpan: undefined
       })
    }
 
@@ -45,6 +47,8 @@ export class GridCell extends PureContainer {
             key={key}
             className={data.classNames}
             style={data.style}
+            colSpan={data.colSpan}
+            rowSpan={data.rowSpan}
          >
             {v}
          </td>

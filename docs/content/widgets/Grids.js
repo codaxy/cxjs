@@ -109,6 +109,7 @@ export const Grids = <cx>
         - [Complex Header](~/examples/grid/complex-headers)
         - [Buffering 5000 rows](~/examples/grid/buffering)
         - [Infinite scrolling](~/examples/grid/infinite-scrolling)
+        - [Row Expanding](~/examples/grid/row-expanding)
 
         ## Configuration
 

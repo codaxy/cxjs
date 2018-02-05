@@ -37,7 +37,6 @@ import {GridRowLine} from "./GridRowLine";
 
 /*
    Unfinished:
-   - complex headers
    - visibility of the first row somehow affects visibility of the header
    - colSpan, rowSpan, rowClass, rowStyle vs lineClass, lineStyle
 */
@@ -123,14 +122,6 @@ export class Grid extends Widget {
             }
          })
       });
-
-      // this.columns.filter(c => c.aggregate && c.aggregateField).forEach(c => {
-      //    aggregates[c.aggregateField] = {
-      //       value: c.value != null ? c.value : {bind: this.recordName + '.' + c.field},
-      //       weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
-      //       type: c.aggregate
-      //    }
-      // });
 
       //add default footer if some columns have aggregates and grouping is not defined
       if (!this.grouping && Object.keys(aggregates).length > 0)
@@ -393,17 +384,15 @@ export class Grid extends Widget {
       if (!header)
          return headerRows;
 
+      let skip = {};
+
       header.children.forEach((line, lineIndex) => {
-
-         let result = [[], [], []];
-         let skip = {};
-
          let empty = [true, true, true];
+         let result = [[], [], []];
+
 
          line.children.forEach((columnInstance, i) => {
-
             let c = columnInstance.widget;
-
             for (let l = 0; l < 3; l++) {
 
                let colKey = `${lineIndex}-${i}-${l}`;
@@ -455,7 +444,7 @@ export class Grid extends Widget {
 
                      for (let r = 0; r < header.data.rowSpan; r++)
                         for (let c = 0; c < header.data.colSpan; c++)
-                           skip[`${i + c}-${l + r}`] = true;
+                           skip[`${lineIndex}-${i + c}-${l + r}`] = true;
                   }
                }
 
@@ -487,22 +476,24 @@ export class Grid extends Widget {
 
          result = result.filter((_, i) => !empty[i]);
 
-         if (fixed && result[0]) {
-            result[0].push(<th
-               key="dummy"
-               rowSpan={result.length}
-               className={CSS.element(baseClass, "col-header")}
-               ref={el => {
-                  refs.last = el
-               }}/>
+         if (result[0]) {
+            if (fixed) {
+               result[0].push(<th
+                  key="dummy"
+                  rowSpan={result.length}
+                  className={CSS.element(baseClass, "col-header")}
+                  ref={el => {
+                     refs.last = el
+                  }}/>
+               );
+            }
+
+            headerRows.push(
+               <tbody key={'h' + key + lineIndex} className={CSS.element(baseClass, 'header')}>
+               {result.map((h, i) => <tr key={i}>{h}</tr>)}
+               </tbody>
             );
          }
-
-         headerRows.push(
-            <tbody key={'h' + key} className={CSS.element(baseClass, 'header')}>
-            {result.map((h, i) => <tr key={i}>{h}</tr>)}
-            </tbody>
-         );
       });
 
       return headerRows;
@@ -1479,8 +1470,19 @@ class GridComponent extends VDOM.Component {
 }
 
 class GridColumnHeaderLine extends PureContainer {
+
+   declareData() {
+      return super.declareData(...arguments, {
+         showHeader: undefined
+      })
+   }
+
    init() {
       this.items = Widget.create(GridColumnHeader, this.columns || []);
+      this.visible = this.showHeader;
+      this.style = this.headerStyle;
+      this.className = this.headerClass;
+      this.class = null;
       super.init();
    }
 
@@ -1498,6 +1500,7 @@ class GridColumnHeaderLine extends PureContainer {
 
 GridColumnHeaderLine.prototype.isPureContainer = false;
 GridColumnHeaderLine.prototype.styled = true;
+GridColumnHeaderLine.prototype.showHeader = true;
 GridColumnHeaderLine.lazyInit = false;
 
 class GridColumnHeader extends PureContainer {
