@@ -28,22 +28,31 @@ export const MsgBoxes = <cx>
                 <Button
                     onClick={() => {
                         MsgBox
-                            .yesNo('Would you like to see another alert?')
+                            .yesNo({ message: 'Would you like to see another alert?', yesText: "Yes, please", noText: "No, thanks" })
                             .then((btn) => {
                                 if (btn == 'yes')
                                     MsgBox.alert(`Here it is.`)
                             });
                     }}
                 >
-                    Yes or No
+                    Custom Yes or No
                 </Button>
             </div>
 
+            Both `alert` and `yesNo` methods accept either just a message string, or a configuration object, with the following properties:
+            * `message` - message string,
+            * `title` - window title,
+            * `header` - window header,
+            * `items` or `children` - list of child elements (for rich content),
+            * `store` - store to be used in the new Window instance,
+            * `style` - window style,
+            * `yesText` - custom `yes` text, default value: `Yes`,
+            * `noText` - custom `no` text, default value: `No`.
 
             <CodeSnippet fiddle="g1Z5Q4QH" putInto="code">{`
                 <Button
                     onClick={() => {
-                        MsgBox.alert({message: 'This is an alert!', title: 'Title'})
+                        MsgBox.alert({ message: 'This is an alert!', title: 'Title' })
                     }}
                 >
                     Alert
@@ -52,14 +61,14 @@ export const MsgBoxes = <cx>
                 <Button
                     onClick={() => {
                         MsgBox
-                            .yesNo('Would you like to see another alert?')
+                            .yesNo({ message: 'Would you like to see another alert?', yesText: "Yes, please", noText: "No, thanks" })
                             .then((btn) => {
                                 if (btn == 'yes')
-                                    MsgBox.alert(\`Here it is.\`)
+                                    MsgBox.alert('Here it is.')
                             });
                     }}
                 >
-                    Yes or No
+                    Custom Yes or No
                 </Button>
             `}</CodeSnippet>
 
@@ -72,19 +81,19 @@ export const MsgBoxes = <cx>
             signature: 'MsgBox.alert(options)',
             description: <cx><Md>
                 Displays an alert window. The `options` parameter may be a string or a configuration object with
-                `message`, `title` and
-                `store` properties. Result is a `Promise` which is resolved once the user clicks OK.
+                properties such as `message`, `title` and
+                `store` (see full list above). Result is a `Promise` which is resolved once the user clicks OK.
             </Md></cx>
         }, {
             signature: 'MsgBox.yesNo(options)',
             description: <cx><Md>
                 Displays a confirmation window with two options (yes and no).
-                `options` parameter may be a string or a configuration object with `message`, `title` and
-                `store` properties. Result is a `Promise` which is resolved once the user clicks one of the options.
+                `options` parameter may be a string or a configuration object with properties such as `message`, `title` and
+                `store` (see full list above). Result is a `Promise` which is resolved once the user clicks one of the options.
             </Md></cx>
         }]}/>
 
-        > In case you needs to display rich content such as links or images inside the message box,
+        > In case you need to display rich content such as links or images inside the message box,
         pass it through `children` instead of `message`.
 
     </Md>

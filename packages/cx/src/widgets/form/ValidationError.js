@@ -14,8 +14,13 @@ export class ValidationError extends Widget {
 
    explore(context, instance) {
       var {data, lastError} = instance;
-      data.errorMessage = lastError.message;
-      data.fieldId = lastError.fieldId;
+      let c1 = instance.cache('lastErrorMessage', lastError.message);
+      let c2 = instance.cache('lastErrorFieldId', lastError.fieldId);
+      if (c1 || c2) {
+         data.errorMessage = lastError.message;
+         data.fieldId = lastError.fieldId;
+         instance.markShouldUpdate(context);
+      }
       super.explore(context, instance);
    }
 
@@ -29,6 +34,5 @@ export class ValidationError extends Widget {
 
 ValidationError.prototype.baseClass = 'validationerror';
 ValidationError.prototype.styled = true;
-//ValidationError.prototype.memoize = false;
 
 Widget.alias('validation-error', ValidationError);

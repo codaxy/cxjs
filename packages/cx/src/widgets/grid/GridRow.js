@@ -152,6 +152,7 @@ export class GridRowComponent extends VDOM.Component {
    shouldComponentUpdate(props) {
       return props.shouldUpdate !== false
          || props.cursor != this.props.cursor
-         || props.selected != this.props.selected;
+         || props.selected != this.props.selected
+         || props.isBeingDragged != this.props.isBeingDragged
    }
 }

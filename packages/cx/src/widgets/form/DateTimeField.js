@@ -472,6 +472,9 @@ class DateTimeInput extends VDOM.Component {
       let {instance, data} = this.props;
       let {widget} = instance;
 
+      if (data.disabled || data.readOnly)
+         return;
+
       if (widget.reactOn.indexOf(eventType) === -1)
          return;
 

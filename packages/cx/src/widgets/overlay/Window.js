@@ -6,6 +6,7 @@ import {Button} from '../Button';
 import {parseStyle} from '../../util/parseStyle';
 import {Localization} from '../../ui/Localization';
 import {stopPropagation} from '../../util/eventCallbacks';
+import { ddMouseDown, ddDetect, ddMouseUp } from '../drag-drop/ops';
 
 export class Window extends Overlay {
 
@@ -115,7 +116,11 @@ class WindowComponent extends OverlayComponent {
                className={CSS.element(baseClass, 'header')}
                style={data.headerStyle}
                onMouseDown={::this.onHeaderMouseDown}
+               onMouseUp={ddMouseUp}
+               onMouseMove={::this.onHeaderMouseMove}
                onTouchStart={::this.onHeaderMouseDown}
+               onTouchEnd={ddMouseUp}
+               onTouchMove={::this.onHeaderMouseMove}
             >
                { this.props.header }
             </header>
@@ -187,8 +192,15 @@ class WindowComponent extends OverlayComponent {
    }
 
    onHeaderMouseDown(e) {
-      this.startMoveOperation(e);
       e.stopPropagation();
+      ddMouseDown(e);
+   }
+
+   onHeaderMouseMove(e) {
+      e.stopPropagation();
+      if (ddDetect(e)) {
+         this.startMoveOperation(e);
+      }
    }
 }
 

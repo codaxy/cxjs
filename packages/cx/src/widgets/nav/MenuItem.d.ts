@@ -8,13 +8,13 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    clickToOpen?: boolean,
    hoverToOpen?: boolean,
    horizontal?: boolean,
-   arrow?: boolean,
+   arrow?: Cx.BooleanProp,
    dropdownOptions?: Cx.Config | null,
    showCursor?: boolean,
    pad?: boolean,
    placement?: string | null,
-   autoClose?: boolean
-   
+   autoClose?: boolean,
+   icons?: boolean
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}

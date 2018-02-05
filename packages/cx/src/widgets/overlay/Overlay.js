@@ -6,6 +6,7 @@ import {isSelfOrDescendant} from '../../util/DOM';
 import {parseStyle} from '../../util/parseStyle';
 import {captureMouseOrTouch} from './captureMouse';
 import {ZIndexManager} from "../../ui/ZIndexManager";
+import { ddMouseDown, ddMouseUp, ddDetect } from "../drag-drop/ops";
 
 /*
  Features:
@@ -201,6 +202,8 @@ class OverlayContent extends VDOM.Component {
             onMouseUp={this.props.onMouseUp}
             onMouseDown={this.props.onMouseDown}
             onTouchStart={this.props.onTouchStart}
+            onTouchEnd={this.props.onTouchEnd}
+            onTouchMove={this.props.onTouchMove}
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
             onClick={this.props.onClick}
@@ -263,12 +266,14 @@ export class OverlayComponent extends VDOM.Component {
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
             onKeyDown={::this.onKeyDown}
-            onMouseMove={::this.onMouseMove}
-            onMouseUp={::this.onMouseUp}
             onMouseDown={::this.onMouseDown}
+            onMouseUp={::this.onMouseUp}
+            onMouseMove={::this.onMouseMove}
             onTouchStart={::this.onMouseDown}
-            onMouseEnter={::this.onMouseEnter}
+            onTouchEnd={::this.onMouseUp}
+            onTouchMove={::this.onMouseMove}
             onMouseLeave={::this.onMouseLeave}
+            onMouseEnter={::this.onMouseEnter}
             onClick={::this.onClick}
             onDidUpdate={::this.overlayDidUpdate}
          >
@@ -377,7 +382,6 @@ export class OverlayComponent extends VDOM.Component {
       let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();
-         e.stopPropagation();
          let rect = this.el.getBoundingClientRect();
          let cursor = this.getCursorPos(e);
          let captureData = {
@@ -391,10 +395,8 @@ export class OverlayComponent extends VDOM.Component {
          captureMouseOrTouch(e, ::this.onMouseMove, null, captureData, prefix + '-resize');
       }
       else if (data.draggable) {
-         this.startMoveOperation(e);
-         e.stopPropagation();
+         ddMouseDown(e);
       }
-
       e.stopPropagation();
    }
 
@@ -408,15 +410,24 @@ export class OverlayComponent extends VDOM.Component {
 
       if (widget.backdrop) {
          if (instance.dismiss)
-            instance.dismiss();
+         instance.dismiss();
       }
    }
-
+   
    onMouseUp(e) {
+      ddMouseUp();
       e.stopPropagation();
    }
-
+   
    onMouseMove(e, captureData) {
+      // handle dragging
+      let {data} = this.props.instance;
+      let detect = ddDetect(e);
+      if (data.draggable && detect) {
+         this.startMoveOperation(e);
+         return;
+      }
+
       if (captureData && captureData.prefix) {
          let {prefix, rect, dl, dt, dr, db} = captureData;
          let cursor = this.getCursorPos(e);

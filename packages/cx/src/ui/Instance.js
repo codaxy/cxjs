@@ -193,7 +193,7 @@ export class Instance {
             }
             context.push("controller", this.controller);
             this.controller.explore(context);
-            if (this.controller.onDestroy)
+            if (this.controller.onDestroy && this.controller.widget == this.widget)
                this.trackDestroy();
          }
       }
@@ -357,7 +357,7 @@ export class Instance {
          if (this.widget.onDestroy)
             this.widget.onDestroy(this);
 
-         if (this.widget.controller && this.controller && this.controller.onDestroy)
+         if (this.widget.controller && this.controller && this.controller.onDestroy && this.controller.widget == this.widget)
             this.controller.onDestroy();
 
          this.destroyTracked = false;

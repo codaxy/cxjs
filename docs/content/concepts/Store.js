@@ -391,7 +391,7 @@ export const Store = <cx>
 
         The `update` method is primarily used to perform Store updates that are dependant on the previous state.
         This simplifies use-cases where we would typically use the `get` method to read a value, perform some
-        calculation on it, and than use the `set` method to save the new value to the Store.
+        calculation on it, and then use the `set` method to save the new value to the Store.
         `update` method requires two parameters, `path` under which the value is stored and an update function
         `updateFn`.
         Optionally, additional arguments can be provided, that are used by the update function.
