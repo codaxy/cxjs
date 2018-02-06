@@ -44,9 +44,11 @@ export const RowExpanding = <cx>
         <CodeSplit>
             # Grid with Row Expanding
 
-            Grid supports rendering lines in multiple lines. Click on the search icon to expand the grid header
-            to include search controls. Click on the arrows to expand individual rows. Please note that search
-            is not implemented in the example.
+            Grid supports rendering rows in multiple lines. Lines can be shown or hidden which is convenient
+            for implementing drill-downs and on demand content.
+            Click on the search icon to expand the grid header with search controls.
+            Click on the arrows to expand individual rows.
+            Please note that search is not implemented in this example.
 
             <Grid
                 records:bind="$page.records"

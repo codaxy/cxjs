@@ -42,9 +42,9 @@ import './index.scss';
 //import Demo from './features/charts/time-axis/LocalTime';
 
 //import Demo from './features/grid/header-tool';
-//import Demo from './features/grid/GridBuffering';
+import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
-import Demo from './features/grid/MultiLine';
+//import Demo from './features/grid/MultiLine';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 

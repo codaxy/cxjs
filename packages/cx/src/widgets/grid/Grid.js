@@ -760,7 +760,10 @@ class GridComponent extends VDOM.Component {
                parentInstance={instance}
                options={{name: 'grid-row'}}
                contentFactory={x => wrap(x.children)}
-               params={mod}
+               params={{
+                  ...mod,
+                  data: record.data
+               }}
             />);
          }
          else
