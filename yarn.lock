@@ -1923,7 +1923,7 @@ currently-unhandled@^0.4.1:
     array-find-index "^1.0.1"
 
 "cx-cli@file:./packages/cx-cli":
-  version "17.10.8"
+  version "17.12.0"
   dependencies:
     chalk "^2.1.0"
     commander "^2.9.0"
@@ -3169,9 +3169,9 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-intl-io@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.8.tgz#d088eb9060c1a79c9b66e1215c4c1faa3484cc18"
+intl-io@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/intl-io/-/intl-io-0.2.10.tgz#3bd47369575c0454b210582b671174c367760706"
 
 intl@^1.2.5:
   version "1.2.5"

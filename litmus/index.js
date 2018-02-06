@@ -24,6 +24,7 @@ import './index.scss';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
+import Demo from './bugs/364';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -42,7 +43,7 @@ import './index.scss';
 //import Demo from './features/charts/time-axis/LocalTime';
 
 //import Demo from './features/grid/header-tool';
-import Demo from './features/grid/GridBuffering';
+//import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/hscroll';

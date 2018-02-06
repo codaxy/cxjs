@@ -69,8 +69,6 @@ export class DateTimeField extends Field {
    }
 
    prepareData(context, instance) {
-      super.prepareData(context, instance);
-
       let {data} = instance;
 
       if (data.value) {
@@ -98,6 +96,8 @@ export class DateTimeField extends Field {
       }
 
       instance.lastDropdown = context.lastDropdown;
+
+      super.prepareData(context, instance);
    }
 
    validate(context, instance) {

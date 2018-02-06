@@ -139,7 +139,7 @@ else {
       devServer: {
          contentBase: '/',
          hot: true,
-         port: 8086,
+         port: 8085,
          noInfo: false,
          inline: true,
          historyApiFallback: true,
