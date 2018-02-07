@@ -19,7 +19,6 @@ import {
    registerDropZone,
 } from '../drag-drop/ops';
 
-import {GridCell} from './GridCell';
 import {GridRow, GridRowComponent} from './GridRow';
 import {Localization} from '../../ui/Localization';
 import {SubscriberList} from '../../util/SubscriberList';
@@ -33,13 +32,6 @@ import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
-import {GridRowLine} from "./GridRowLine";
-
-/*
-   Unfinished:
-   - visibility of the first row somehow affects visibility of the header
-   - colSpan, rowSpan, rowClass, rowStyle vs lineClass, lineStyle
-*/
 
 export class Grid extends Widget {
 
@@ -82,17 +74,6 @@ export class Grid extends Widget {
          this.row.line1 = {
             columns: this.columns
          };
-
-      // let columns = this.columns;
-      //
-      // this.columns = Widget.create(GridColumnHeader, this.columns || [], {
-      //    children: null,
-      //    items: null,
-      //    style: null, //may access record
-      //    "class": null,
-      //    className: null
-      // });
-      // this.columns.forEach(c => c.init());
 
       this.hasSortableColumns = false;
       let aggregates = {};
@@ -1506,7 +1487,7 @@ GridColumnHeaderLine.prototype.styled = true;
 GridColumnHeaderLine.prototype.showHeader = true;
 GridColumnHeaderLine.lazyInit = false;
 
-class GridColumnHeader extends PureContainer {
+class GridColumnHeader extends Widget {
 
    declareData() {
       return super.declareData(...arguments, {
@@ -1515,6 +1496,10 @@ class GridColumnHeader extends PureContainer {
    }
 
    init() {
+      delete this.style;
+      delete this.className;
+      delete this.class;
+
       if (this.header)
          this.header1 = this.header;
 
@@ -1555,6 +1540,10 @@ class GridColumnHeader extends PureContainer {
          header2: this.header2 && GridColumnHeaderCell.create(this.header2),
          header3: this.header3 && GridColumnHeaderCell.create(this.header3),
       })
+   }
+
+   render() {
+      return null;
    }
 }
 
