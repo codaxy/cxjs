@@ -26,7 +26,7 @@ export class Svg extends BoundedObject {
       instance.clipRects = {};
       instance.clipRectId = 0;
       context.push('addClipRect', rect => {
-         var id = `clip-${++instance.clipRectId}`;
+         var id = `clip-${instance.id}-${++instance.clipRectId}`;
          instance.clipRects[id] = rect;
          return id;
       });
