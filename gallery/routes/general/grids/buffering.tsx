@@ -38,7 +38,7 @@ export default (
                cached
                columns={
                    [
-                       { header: "#", field: "index", sortable: true, value: {bind: "$index"} },
+                       { header: "#", field: "index", sortable: true, value: {expr: "{$index}+1"} },
                        { header: "Name", field: "fullName", sortable: true },
                        { header: "Continent", field: "continent", sortable: true },
                        { header: "Browser", field: "browser", sortable: true },

@@ -36,7 +36,7 @@ export default (
       <Grid
         records={bind("$page.records")}
         scrollable={true}
-        style={{ width: "100%", height: "700px" }}
+        style={{ width: "100%", flex: "1 1 0" }}
         columns={
           [
             {
@@ -44,9 +44,8 @@ export default (
               field: "fullName",
               sortable: true,
               aggregate: "count",
-              aggregateField: "people",
               footer: {
-                tpl: "{$group.name} - {$group.people} {$group.people:plural;person}"
+                tpl: "{$group.name} - {$group.fullName} {$group.fullName:plural;person}"
               }
             },
             {

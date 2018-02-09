@@ -19,6 +19,7 @@ const header = getHeader({
         "filtering": "Filtering",
         "row-editing": "Row Editing",
         "form-editing": "Form Editing",
+        "row-expanding": "Row Expanding",
         "tree-grid": "Tree Grid",
         "header-menu": "Header Menu",
         "complex-header": "Complex Header",
@@ -42,6 +43,7 @@ export default <cx>
         <SandboxedAsyncRoute route="+/filtering" content={() => System.import("./filtering")}/>
         <SandboxedAsyncRoute route="+/row-editing" content={() => System.import("./row-editing")}/>
         <SandboxedAsyncRoute route="+/form-editing" content={() => System.import("./form-editing")}/>
+        <SandboxedAsyncRoute route="+/row-expanding" content={() => System.import("./row-expanding")}/>
         <SandboxedAsyncRoute route="+/tree-grid" content={() => System.import("./tree-grid")}/>
         <SandboxedAsyncRoute route="+/complex-header" content={() => System.import("./complex-header")}/>
         <SandboxedAsyncRoute route="+/header-menu" content={() => System.import("./header-menu")}/>

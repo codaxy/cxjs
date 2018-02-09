@@ -66,8 +66,11 @@ export default (
             lockColumnWidths
             cached
             scrollable
-            rowStyle={{
-               background: {expr: "!!{$record.$editing} ? 'rgba(128, 128, 128, 0.1)' : null"}
+            row={{
+               valid: { bind: "$record.valid" },
+               style: {
+                  background: {expr: "!!{$record.$editing} ? 'rgba(128, 128, 128, 0.1)' : null"}
+               }
             }}
             columns={
                [
@@ -83,6 +86,7 @@ export default (
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
                            autoFocus
+                           required
                         />
                      </cx>
                   },
@@ -93,6 +97,7 @@ export default (
                            value:bind="$record.continent"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -103,6 +108,7 @@ export default (
                            value:bind="$record.browser"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -113,6 +119,7 @@ export default (
                            value:bind="$record.os"
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
+                           required
                         />
                      </cx>
                   },
@@ -127,6 +134,7 @@ export default (
                            viewMode:expr="!{$record.$editing}"
                            style="width: 100%"
                            inputStyle="text-align: right"
+                           required
                         />
                      </cx>
                   }, {
@@ -136,7 +144,12 @@ export default (
                   items: <cx>
                      <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                      <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                     <Button mod:expr="{$root.$route.theme} == 'aquamarine' ? 'flat-primary' : 'primary'" onClick="saveRow" visible:expr="!!{$record.$editing}">Save</Button>
+                     <Button
+                        mod:expr="{$root.$route.theme} == 'aquamarine' ? 'flat-primary' : 'primary'"
+                        onClick="saveRow"
+                        visible:expr="!!{$record.$editing}"
+                        disabled:expr="!{$record.valid}"
+                     >Save</Button>
                      <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
                   </cx>
                }
