@@ -26,7 +26,7 @@ export function putUser(id, user) {
     return new Promise(resolve => {
         let index = data.findIndex(u => u.id == id);
         if (index === -1) throw new Error("User not found!");
-        let result = (data[index] = {S
+        let result = (data[index] = {
             ...data[index],
             ...user,
             id: id
