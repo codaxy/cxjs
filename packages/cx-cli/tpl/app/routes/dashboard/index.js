@@ -41,14 +41,14 @@ export default (
                             >
                                 <Gridlines xAxis={false} />
                                 <Repeater
-                                    records:bind="bars"
+                                    records-bind="bars"
                                     recordName="$point"
                                 >
                                     <Column
                                         width={0.8}
-                                        colorIndex:bind="$point.colorIndex"
-                                        x:bind="$point.day"
-                                        y:bind="$point.value"
+                                        colorIndex-bind="$point.colorIndex"
+                                        x-bind="$point.day"
+                                        y-bind="$point.value"
                                     />
                                 </Repeater>
                             </Chart>
@@ -70,22 +70,22 @@ export default (
                             >
                                 <Gridlines xAxis={false} />
                                 <LineGraph
-                                    data:bind="bars"
+                                    data-bind="bars"
                                     xField="day"
                                     yField="value"
                                     colorIndex={6}
                                     lineStyle="stroke-width: 5px"
                                 />
                                 <Repeater
-                                    records:bind="bars"
+                                    records-bind="bars"
                                     recordName="$point"
                                 >
                                     <Marker
                                         size={10}
                                         class="line-marker"
                                         colorIndex={6}
-                                        x:bind="$point.day"
-                                        y:bind="$point.value"
+                                        x-bind="$point.day"
+                                        y-bind="$point.value"
                                         tooltip={{
                                             text: { tpl: "{$point.value:n;0}" },
                                             placement: "up"

@@ -31,17 +31,17 @@ export default (
                 <dl>
                     <dt>App</dt>
                     <dd>
-                        <Link href="~/" url:bind="url">
+                        <Link href="~/" url-bind="url">
                             Home
                         </Link>
                     </dd>
                     <dd>
-                        <Link href="~/dashboard" url:bind="url">
+                        <Link href="~/dashboard" url-bind="url">
                             Dashboard
                         </Link>
                     </dd>
                     <dd>
-                        <Link href="~/about" url:bind="url">
+                        <Link href="~/about" url-bind="url">
                             About
                         </Link>
                     </dd>
@@ -49,7 +49,7 @@ export default (
                 <dl>
                     <dt>Admin</dt>
                     <dd>
-                        <Link href="~/users" url:bind="url" match="prefix">
+                        <Link href="~/users" url-bind="url" match="prefix">
                             Users
                         </Link>
                     </dd>
