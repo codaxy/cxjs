@@ -2,7 +2,7 @@ import {cx, Button, Section, FlexCol, FlexRow} from 'cx/widgets';
 
 let boxIndex = 0;
 
-const Box = (name, flex = 1) => <cx>
+const Box = (name, flex = '1 1 auto') => <cx>
     <div
         style={{
             flex: flex,
@@ -101,19 +101,19 @@ export default <cx>
         <FlexRow spacing wrap target="tablet" align="start">
             <Section mod="card" title="justify: start" hLevel={4}>
                 <FlexRow style={`border: 1px solid ${borderColor}`} justify="start">
-                    {Box("Item", 0)}
+                    {Box("Item", '0 0 auto')}
                 </FlexRow>
             </Section>
 
             <Section mod="card" title="justify: center" hLevel={4}>
                 <FlexRow style={`border: 1px solid ${borderColor}`} justify="center">
-                    {Box("Item", 0)}
+                    {Box("Item", '0 0 auto')}
                 </FlexRow>
             </Section>
 
             <Section mod="card" title="justify: end" hLevel={4}>
                 <FlexRow style={`border: 1px solid ${borderColor}`} justify="end">
-                    {Box("Item", 0)}
+                    {Box("Item", '0 0 auto')}
                 </FlexRow>
             </Section>
         </FlexRow>

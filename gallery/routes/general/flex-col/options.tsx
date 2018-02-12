@@ -2,7 +2,7 @@ import {cx, Button, Section, FlexRow, FlexCol} from 'cx/widgets';
 
 let boxIndex = 0;
 
-const Box = (name, flex = 1) => <cx>
+const Box = (name, flex = '1 1 auto') => <cx>
     <div
         style={{
             flex: flex,
@@ -110,22 +110,22 @@ export default <cx>
         <FlexRow spacing wrap target="tablet" align="start">
             <Section mod="card" title="justify: start" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor}; height: 100px;`} justify="start">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
 
             <Section mod="card" title="justify: center" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor}; height: 100px;`} justify="center">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
 
             <Section mod="card" title="justify: end" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor}; height: 100px;`} justify="end">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
         </FlexRow>
@@ -133,29 +133,29 @@ export default <cx>
         <FlexRow spacing wrap target="tablet" align="start">
             <Section mod="card" title="align: start" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor};`} align="start">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
 
             <Section mod="card" title="align: center" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor};`} align="center">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
 
             <Section mod="card" title="align: end" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor};`} align="end">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
 
             <Section mod="card" title="align: stretch" hLevel={4}>
                 <FlexCol style={`border: 1px solid ${borderColor};`} align="stretch">
-                    {Box("Item 1", 0)}
-                    {Box("Item 2", 0)}
+                    {Box("Item 1", '0 0 auto')}
+                    {Box("Item 2", '0 0 auto')}
                 </FlexCol>
             </Section>
         </FlexRow>
