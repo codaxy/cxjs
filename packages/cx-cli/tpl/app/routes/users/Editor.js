@@ -21,7 +21,7 @@ export default (
             <Section
                 mod="card"
                 style="max-width: 300px"
-                title:bind="user.display"
+                title-bind="user.display"
             >
                 <ValidationGroup
                     layout={{
@@ -29,32 +29,32 @@ export default (
                         mod: "stretch",
                         vertical: true
                     }}
-                    invalid:bind="invalid"
+                    invalid-bind="invalid"
                 >
                     <TextField
                         label="Username"
-                        value:bind="user.username"
+                        value-bind="user.username"
                         style="width: 100%"
                         required
                     />
                     <TextField
                         label="Display"
-                        value:bind="user.display"
+                        value-bind="user.display"
                         style="width: 100%"
                         required
                     />
                     <TextField
                         label="Email"
-                        value:bind="user.email"
+                        value-bind="user.email"
                         style="width: 100%"
                     />
-                    <Checkbox value:bind="user.enabled">Enabled</Checkbox>
+                    <Checkbox value-bind="user.enabled">Enabled</Checkbox>
                     <hr />
                     <FlexRow spacing>
                         <Button
                             mod="primary"
                             onClick="onSave"
-                            disabled:bind="invalid"
+                            disabled-bind="invalid"
                         >
                             Save
                         </Button>
