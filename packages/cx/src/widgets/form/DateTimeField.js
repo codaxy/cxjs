@@ -73,7 +73,10 @@ export class DateTimeField extends Field {
 
       if (data.value) {
          let date = data.date = new Date(data.value);
-         data.formatted = Culture.getDateTimeCulture().format(date, data.format);
+         if (isNaN(date.getTime()))
+            data.formatted = String(data.value);
+         else
+            data.formatted = Culture.getDateTimeCulture().format(date, data.format);
       }
       else
          data.formatted = "";
@@ -104,22 +107,24 @@ export class DateTimeField extends Field {
       super.validate(context, instance);
       var {data} = instance;
       if (!data.error && data.date) {
-         var d;
-         if (data.maxValue) {
-            d = dateDiff(data.date, data.maxValue);
-            if (d > 0)
-               data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
-            else if (d == 0 && data.maxExclusive)
-               data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
-         }
-
-
-         if (data.minValue) {
-            d = dateDiff(data.date, data.minValue);
-            if (d < 0)
-               data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
-            else if (d == 0 && data.minExclusive)
-               data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+         if (isNaN(data.date))
+            data.error = this.inputErrorText;
+         else {
+            let d;
+            if (data.maxValue) {
+               d = dateDiff(data.date, data.maxValue);
+               if (d > 0)
+                  data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
+               else if (d == 0 && data.maxExclusive)
+                  data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
+            }
+            if (data.minValue) {
+               d = dateDiff(data.date, data.minValue);
+               if (d < 0)
+                  data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
+               else if (d == 0 && data.minExclusive)
+                  data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+            }
          }
       }
    }

@@ -40,8 +40,12 @@ export class Calendar extends Field {
          disabled: data.disabled
       };
 
-      if (data.value)
-         data.date = zeroTime(new Date(data.value));
+      if (data.value) {
+         let d = new Date(data.value);
+         if (!isNaN(d.getTime())) {
+            data.date = zeroTime(d);
+         }
+      }
 
       if (data.refDate)
          data.refDate = zeroTime(new Date(data.refDate));
