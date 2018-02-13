@@ -58,7 +58,7 @@ interface LookupFieldProps extends FieldProps {
     */
    bindings?: any,
    
-   /** A delay in milliseconds before making the query used to wait that the user stops typing. */
+   /** A delay in milliseconds between the moment the user stops typing and when tha query is made. Default value is `150`. */
    queryDelay?: number,
 
    /** Minimal number of characters required before query is made. */
