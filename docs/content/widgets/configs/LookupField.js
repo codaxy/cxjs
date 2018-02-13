@@ -143,5 +143,11 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             No effect if `multiple` is used. Default value is `false`.
         </Md></cx>
+    },
+    queryDelay: {
+        type: 'number',
+        description: <cx><Md>
+            A delay in milliseconds between the moment the user stops typing and when tha query is made. Default value is `150`.
+        </Md></cx>
     }
 };
