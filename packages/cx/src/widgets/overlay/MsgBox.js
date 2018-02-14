@@ -39,7 +39,7 @@ export class MsgBox {
                   direction={MsgBox.prototype.footerDirection}
                   justify={MsgBox.prototype.footerJustify}
                >
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>OK</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback}>{options.okText || "OK"}</Button>
                </FlexRow>
             </Window>
          </cx>);

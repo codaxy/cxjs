@@ -47,7 +47,8 @@ export const MsgBoxes = <cx>
             * `store` - store to be used in the new Window instance,
             * `style` - window style,
             * `yesText` - custom `yes` text, default value: `Yes`,
-            * `noText` - custom `no` text, default value: `No`.
+            * `noText` - custom `no` text, default value: `No`,
+            * `okText` - custom `OK` text, default value: `OK`.
 
             <CodeSnippet fiddle="g1Z5Q4QH" putInto="code">{`
                 <Button
