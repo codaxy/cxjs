@@ -49,7 +49,11 @@ export class Button extends HtmlElement {
       }
 
       if (this.dismiss) {
-         props.onClick = () => {
+         let { onClick } = props;
+         
+         props.onClick = (...args) => {
+            if (onClick && onClick(...args) === false) return;
+
             if (instance.parentOptions && isFunction(instance.parentOptions.dismiss))
                instance.parentOptions.dismiss();
          }

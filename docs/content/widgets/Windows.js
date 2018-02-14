@@ -38,7 +38,10 @@ export const Windows = <cx>
                 </div>
                 <div putInto="footer" style={{float:"right"}} trimWhitespace={false}>
                     <Button mod="primary">Submit</Button>
-                    <Button onClick={(e, ins) => { ins.parentOptions.dismiss() }}>
+                    <Button 
+                        // this will cause the Window to close
+                        dismiss
+                    >
                         Cancel
                     </Button>
                 </div>
@@ -63,7 +66,10 @@ export const Windows = <cx>
                     </div>
                     <div putInto="footer" style={{float:"right"}} trimWhitespace={false}>
                         <Button mod="primary">Submit</Button>
-                        <Button onClick={(e, ins) => { ins.parentOptions.dismiss() }}>
+                        <Button 
+                            // this will cause the Window to close
+                            dismiss
+                        >
                             Cancel
                         </Button>
                     </div>

@@ -73,5 +73,11 @@ export default {
         description: <cx><Md>
             Name of the icon to be put on the left side of the button.
         </Md></cx>
+    },
+    dismiss: {
+        type: 'boolean',
+        description: <cx><Md>
+            If set to `true`, the Button will cause its parent Overlay (if one exists) to close. This however, can be prevented if `onClick` explicitly returns `false`.
+        </Md></cx>
     }
 };
