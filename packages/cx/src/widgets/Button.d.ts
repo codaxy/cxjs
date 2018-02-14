@@ -45,6 +45,7 @@ export interface ButtonProps extends Cx.HtmlElementProps {
    /** Button type. */
    type?: 'submit' | 'button',
 
+   /** If set to `true`, the Button will cause its parent Overlay (if one exists) to close. This however, can be prevented if `onClick` explicitly returns `false`. */
    dismiss?: boolean
 }
 
