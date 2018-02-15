@@ -490,14 +490,18 @@ export class Grid extends Widget {
       if (header.allowSorting && column.sortable && (column.field || column.sortField || column.value)) {
          let sortField = column.sortField || column.field;
          let dir = 'ASC';
-         if (data.sorters && data.sorters[0].field == sortField && (data.sorters[0].value == column.value || data.sortField) && data.sorters[0].direction == 'ASC')
-            dir = 'DESC';
+         if (data.sorters && data.sorters[0].field == sortField && (data.sorters[0].value == column.value || data.sortField)) {
+            if (data.sorters[0].direction == 'ASC')
+               dir = 'DESC';
+            else if (this.clearableSort && data.sorters[0].direction == 'DESC')
+               dir = null;
+         }
 
-         let sorters = [{
+         let sorters = dir ? [{
             field: sortField,
             direction: dir,
             value: column.value
-         }];
+         }] : null;
 
          instance.set('sorters', sorters);
          instance.set('sortField', sortField);
@@ -656,6 +660,7 @@ Grid.prototype.pageSize = 100;
 Grid.prototype.infinite = false;
 Grid.prototype.styled = true;
 Grid.prototype.scrollSelectionIntoView = false;
+Grid.prototype.clearableSort = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);

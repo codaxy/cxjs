@@ -163,6 +163,13 @@ export default {
             Page size used to fetch records during infinite scrolling. Default value is `100`.
         </Md></cx>
     },
+    clearableSort: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            If set, clicking on the column header will loop between ASC, DESC and no sorting order, instead of ASC and DESC only.
+        </Md></cx>
+    },
     onRowDoubleClick: {
         type: 'function',
         description: <cx><Md>

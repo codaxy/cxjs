@@ -130,6 +130,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Enable infinite scrolling */
    infinite?: boolean,
 
+   /** If set, clicking on the column header will loop between ASC, DESC and no sorting order, instead of ASC and DESC only. */
+   clearableSort?: boolean,
+
    /** A callback to fetch records during infinite loading */
    onFetchRecords?: (pageInfo: { page: number, pageSize: number, sorters?: Cx.Record[], sortField?: string, sortDirection?: string }, instance?: Instance) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
