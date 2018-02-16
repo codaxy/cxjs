@@ -59,7 +59,7 @@ export class List extends Widget {
 
    declareData() {
 
-      var selection = this.selection.configureWidget(this);
+      let selection = this.selection.configureWidget(this);
 
       super.declareData(selection, {
          records: undefined,
@@ -77,7 +77,7 @@ export class List extends Widget {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
 
       if (data.sortField)
          data.sorters = [{
@@ -103,11 +103,11 @@ export class List extends Widget {
    }
 
    explore(context, instance, data) {
-      var instances = [];
-      var isSelected = this.selection.getIsSelectedDelegate(instance.store);
+      let instances = [];
+      let isSelected = this.selection.getIsSelectedDelegate(instance.store);
       instance.mappedRecords.forEach(record => {
          if (record.type == 'data') {
-            var itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
+            let itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
             itemInstance.record = record;
 
             if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data && !itemInstance.childStateDirty) {
@@ -117,20 +117,20 @@ export class List extends Widget {
             else if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
 
-            var selected = isSelected(record.data, record.index);
+            let selected = isSelected(record.data, record.index);
             if (itemInstance.selected != selected) {
                itemInstance.selected = selected;
                //itemInstance.markShouldUpdate(context);
             }
          }
          else if (record.type == 'group-header' && record.grouping.header) {
-            var itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
+            let itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
             itemInstance.record = record;
             if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
          }
          else if (record.type == 'group-footer' && record.grouping.footer) {
-            var itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
+            let itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
             itemInstance.record = record;
             if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
@@ -140,7 +140,7 @@ export class List extends Widget {
    }
 
    render(context, instance, key) {
-      var items = instance.instances.map(x => ({
+      let items = instance.instances.map(x => ({
          instance: x,
          key: x.record.key,
          type: x.record.type,
@@ -204,7 +204,7 @@ Widget.alias('list', List);
 class ListComponent extends VDOM.Component {
    constructor(props) {
       super(props);
-      var {focused} = props.instance.widget;
+      let {focused} = props.instance.widget;
       this.state = {
          cursor: focused && props.selectable ? 0 : -1,
          focused: focused
@@ -216,8 +216,8 @@ class ListComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
    }
@@ -229,22 +229,22 @@ class ListComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       offFocusOut(this);
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", null, instance);
    }
 
    render() {
-      var {instance, items, selectable} = this.props;
-      var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
-      var itemStyle = CSS.parseStyle(data.itemStyle);
+      let {instance, items, selectable} = this.props;
+      let {data, widget} = instance;
+      let {CSS, baseClass} = widget;
+      let itemStyle = CSS.parseStyle(data.itemStyle);
       this.cursorChildIndex = [];
       let cursorIndex = 0;
 
-      var children = items.length > 0 && items.map((x, i) => {
+      let children = items.length > 0 && items.map((x, i) => {
             let {data, selected} = x.instance;
             let className;
 
@@ -269,9 +269,15 @@ class ListComponent extends VDOM.Component {
                      style={itemStyle}
                      onClick={e => this.handleItemClick(e, x.instance)}
                      onDoubleClick={onDblClick}
-                     onMouseEnter={e => {
-                        this.moveCursor(ind)
-                     }}>
+                     onMouseDown={e => {
+                        this.moveCursor(ind);
+                        if (e.shiftKey)
+                           e.preventDefault();
+                     }}
+                     // onMouseEnter={e => {
+                     //    this.moveCursor(ind, { hover: true })
+                     // }}
+                  >
                      {x.content}
                   </li>
                );
@@ -323,41 +329,82 @@ class ListComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(index, focused, scrollIntoView) {
-      if (!this.props.selectable)
+   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions} = {}) {
+
+      let {instance, selectable} = this.props;
+      if (!selectable)
          return;
 
-      if (focused != null && this.state.focused != focused)
-         this.setState({
-            focused: focused || this.props.instance.widget.focused
-         });
+      let {widget} = instance;
+      let newState = {};
+      if (widget.focused)
+         focused = true;
 
-      this.setState({
-         cursor: index
-      }, () => {
-         if (scrollIntoView) {
-            var item = this.el.children[this.cursorChildIndex[index]];
-            scrollElementIntoView(item);
+      if (focused != null && this.state.focused != focused)
+         newState.focused = focused;
+
+      //ignore mouse enter/leave events (support with a flag if a feature request comes)
+      if (!hover)
+         newState.cursor = index;
+
+      if (select) {
+         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+         if (start < 0)
+            start = index;
+         this.selectRange(start, index, selectOptions);
+         if (!selectRange)
+            newState.selectionStart = index;
+      }
+
+      if (Object.keys(newState).length > 0) {
+         this.setState(newState, () => {
+            if (scrollIntoView) {
+               let item = this.el.children[this.cursorChildIndex[index]];
+               if (item)
+                  scrollElementIntoView(item);
+            }
+         });
+      }
+   }
+
+   selectRange(from, to, options) {
+      let {instance, data} = this.props;
+      let {mappedRecords, widget} = instance;
+
+      if (from > to) {
+         let tmp = from;
+         from = to;
+         to = tmp;
+      }
+
+      let selection = [], indexes = [];
+
+      for (let cursor = from; cursor <= to; cursor++) {
+         let record = mappedRecords[cursor];
+         if (record) {
+            selection.push(record.data);
+            indexes.push(record.index);
          }
-      });
+      }
+
+      widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         var firstSelected = this.props.items.findIndex(x => x.instance.selected);
-         this.moveCursor(firstSelected != -1 ? firstSelected : 0, focused);
+         let firstSelected = this.props.items.findIndex(x => x.instance.selected);
+         this.moveCursor(firstSelected != -1 ? firstSelected : 0, { focused: true });
       }
    }
-
 
    onFocus() {
       FocusManager.nudge();
       this.showCursor(true);
 
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       if (!widget.focused)
          oneFocusOut(this, this.el, () => {
-            this.moveCursor(-1, false);
+            this.moveCursor(-1, { focused: false });
          });
 
       this.setState({
@@ -370,47 +417,49 @@ class ListComponent extends VDOM.Component {
    }
 
    handleMouseLeave() {
-      if (!this.state.focused)
-         this.moveCursor(-1);
+      this.moveCursor(-1, { hover: true });
    }
 
    handleItemClick(e, itemInstance) {
       e.stopPropagation();
 
       let {instance} = this.props;
-      var {widget} = instance;
+      let {widget} = instance;
 
       if (widget.onItemClick && instance.invoke("onItemClick", e, itemInstance) === false)
          return;
 
-      if (!this.props.selectable)
-         return;
-
-      var {store, record} = itemInstance;
-      var {data, index} = record;
-
-      widget.selection.select(store, data, index, {
-         toggle: e.ctrlKey
+      this.moveCursor(this.state.cursor, {
+         select: true,
+         selectOptions: {
+            toggle: e.ctrlKey
+         },
+         selectRange: e.shiftKey
       });
    }
 
    handleKeyDown(e) {
 
-      var {instance, items} = this.props;
+      let {instance, items} = this.props;
 
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            var item = items[this.cursorChildIndex[this.state.cursor]];
+            let item = items[this.cursorChildIndex[this.state.cursor]];
             if (item)
                this.handleItemClick(e, item.instance);
             break;
 
          case KeyCode.down:
             if (this.state.cursor + 1 < this.cursorChildIndex.length) {
-               this.moveCursor(this.state.cursor + 1, true, true);
+               this.moveCursor(this.state.cursor + 1, {
+                  focused: true,
+                  scrollIntoView: true,
+                  select: e.shiftKey,
+                  selectRange: true
+               });
                e.stopPropagation();
                e.preventDefault();
             }
@@ -418,7 +467,12 @@ class ListComponent extends VDOM.Component {
 
          case KeyCode.up:
             if (this.state.cursor > 0) {
-               this.moveCursor(this.state.cursor - 1, true, true);
+               this.moveCursor(this.state.cursor - 1, {
+                  focused: true,
+                  scrollIntoView: true,
+                  select: e.shiftKey,
+                  selectRange: true
+               });
                e.stopPropagation();
                e.preventDefault();
             }

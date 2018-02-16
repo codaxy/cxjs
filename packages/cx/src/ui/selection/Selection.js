@@ -10,8 +10,12 @@ export class Selection extends Component {
       return (record, index) => this.isSelected(store, record, index);
    }
    
-   select(store, record, index) {
+   select(store, record, index, options) {
+      this.selectMultiple(store, [record], [index], options)
+   }
 
+   selectMultiple(store, records, indexes, options) {
+      //abstract
    }
 
    declareData() {
@@ -62,9 +66,9 @@ class SimpleSelection extends Selection {
       return (record, index) => record === selection;
    }
 
-   select(store, record, index) {
+   selectMultiple(store, records, index) {
       if (this.bind)
-         store.set(this.bind, record);
+         store.set(this.bind, records[0]);
    }
 }
 
@@ -73,7 +77,7 @@ class DummySelection extends Selection {
       return false;
    }
 
-   select() {
+   selectMultiple() {
       //dummy
    }
 

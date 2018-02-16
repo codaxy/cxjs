@@ -1307,26 +1307,42 @@ class GridComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(index, focused, scrollIntoView) {
+   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions} = {}) {
       let {widget} = this.props.instance;
       if (!widget.selectable)
          return;
 
-      if (focused != null && this.state.focused != focused)
-         this.setState({
-            focused: focused || widget.focused
-         });
+      let newState = {};
 
-      this.setState({
-         cursor: index
-      }, () => {
-         if (scrollIntoView) {
-            let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
-            let item = this.dom.scroller.firstChild.children[index + 1 - start];
-            if (item)
-               scrollElementIntoView(item);
-         }
-      });
+      if (widget.focused)
+         focused = true;
+
+      if (focused != null && this.state.focused != focused)
+         newState.focused = focused;
+
+      //ignore mouse enter/leave events (support with a flag if a feature request comes)
+      if (!hover)
+         newState.cursor = index;
+
+      if (select) {
+         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+         if (start < 0)
+            start = index;
+         this.selectRange(start, index, selectOptions);
+         if (!selectRange)
+            newState.selectionStart = index;
+      }
+
+      if (Object.keys(newState).length > 0) {
+         this.setState(newState, () => {
+            if (scrollIntoView) {
+               let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
+               let item = this.dom.scroller.firstChild.children[index + 1 - start];
+               if (item)
+                  scrollElementIntoView(item);
+            }
+         });
+      }
    }
 
    showCursor(focused) {
@@ -1336,7 +1352,7 @@ class GridComponent extends VDOM.Component {
          //if there are no selected records, find the first data record (skip group header)
          if (cursor == -1)
             cursor = records.findIndex(x => x.type == 'data');
-         this.moveCursor(cursor, true, true);
+         this.moveCursor(cursor, { focused: true, scrollIntoView: true });
       }
    }
 
@@ -1347,7 +1363,7 @@ class GridComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (!widget.focused)
          oneFocusOut(this, this.dom.scroller, () => {
-            this.moveCursor(-1, false);
+            this.moveCursor(-1, { focused: false });
          });
 
       this.setState({
@@ -1360,38 +1376,65 @@ class GridComponent extends VDOM.Component {
    }
 
    handleMouseLeave() {
-      if (!this.state.focused)
-         this.moveCursor(-1);
+      this.moveCursor(-1, { hover: true });
+   }
+
+   selectRange(from, to, options) {
+      let {instance, data} = this.props;
+      let {records, widget} = instance;
+
+      if (from > to) {
+         let tmp = from;
+         from = to;
+         to = tmp;
+      }
+
+      let selection = [], indexes = [];
+
+      for (let cursor = from; cursor <= to; cursor++) {
+         let record;
+         if (records)
+            record = records[cursor];
+         else {
+            let r = data.records[cursor - data.offset];
+            if (r)
+               record = widget.mapRecord(null, instance, r, widget.infinite ? cursor - data.offset : cursor);
+         }
+         if (record) {
+            selection.push(record.data);
+            indexes.push(record.index);
+         }
+      }
+
+      widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
    handleKeyDown(e) {
 
       let {instance, data} = this.props;
-      let {records, widget} = instance;
 
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            let record;
-
-            if (records)
-               record = records[this.state.cursor];
-            else {
-               let r = data.records[this.state.cursor - data.offset];
-               if (r)
-                  record = widget.mapRecord(null, instance, r, widget.infinite ? this.state.cursor - data.offset : this.state.cursor);
-            }
-            if (record)
-               widget.selection.select(instance.store, record.data, record.index, {
+            this.moveCursor(this.state.cursor, {
+               select: true,
+               selectOptions: {
                   toggle: e.ctrlKey
-               });
+               },
+               selectRange: e.shiftKey
+            });
             break;
 
          case KeyCode.down:
             if (this.state.cursor + 1 < data.totalRecordCount) {
-               this.moveCursor(this.state.cursor + 1, true, true);
+               this.moveCursor(this.state.cursor + 1, {
+                  focused: true,
+                  scrollIntoView: true,
+                  select: e.shiftKey,
+                  selectRange: true
+               });
                e.stopPropagation();
                e.preventDefault();
             }
@@ -1399,7 +1442,12 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.up:
             if (this.state.cursor > 0) {
-               this.moveCursor(this.state.cursor - 1, true, true);
+               this.moveCursor(this.state.cursor - 1, {
+                  focused: true,
+                  scrollIntoView: true,
+                  select: e.shiftKey,
+                  selectRange: true
+               });
                e.stopPropagation();
                e.preventDefault();
             }
@@ -1408,7 +1456,6 @@ class GridComponent extends VDOM.Component {
    }
 
    beginDragDrop(e, record) {
-
       let {instance, data} = this.props;
       let {widget, store, isSelected} = instance;
       let {CSS, baseClass} = widget;

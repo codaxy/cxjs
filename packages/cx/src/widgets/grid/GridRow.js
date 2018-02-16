@@ -95,11 +95,11 @@ export class GridRowComponent extends VDOM.Component {
 
    onMouseEnter(e) {
       let {parent, cursorIndex} = this.props;
-      parent.moveCursor(cursorIndex);
+      parent.moveCursor(cursorIndex, { hover: true });
    }
 
    onMouseDown(e) {
-      let {grid, record, instance} = this.props;
+      let {grid, record, instance, parent, cursorIndex} = this.props;
 
       if (this.props.dragSource) {
          ddMouseDown(e);
@@ -112,13 +112,16 @@ export class GridRowComponent extends VDOM.Component {
       if (widget.selectable)
          preventFocusOnTouch(e);
 
-      if (!isTouchEvent()) {
-         if (e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)) {
-            widget.selection.select(store, record.data, record.index, {
-               toggle: e.ctrlKey
-            });
+      parent.moveCursor(cursorIndex, {
+         select: !isTouchEvent() && (e.shiftKey || e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)),
+         selectRange: e.shiftKey,
+         selectOptions: {
+            toggle: e.ctrlKey
          }
-      }
+      });
+
+      if (e.shiftKey && !isTouchEvent())
+         e.preventDefault();
    }
 
    onMouseMove(e) {
@@ -135,7 +138,7 @@ export class GridRowComponent extends VDOM.Component {
    }
 
    onClick(e) {
-      let {grid, record, instance} = this.props;
+      let {grid, record, instance, parent, cursorIndex} = this.props;
       let {store, widget} = grid;
 
       if (grid.widget.onRowClick) {
@@ -145,8 +148,13 @@ export class GridRowComponent extends VDOM.Component {
 
       e.stopPropagation();
 
-      if (isTouchEvent() || (widget.selection.isSelected(store, record.data, record.index) && !e.ctrlKey))
-         widget.selection.select(store, record.data, record.index);
+      parent.moveCursor(cursorIndex, {
+         select: isTouchEvent() || (!e.shiftKey && !e.ctrlKey && widget.selection.isSelected(store, record.data, record.index)),
+         selectRange: e.shiftKey,
+         selectOptions: {
+            toggle: e.ctrlKey
+         }
+      });
    }
 
    shouldComponentUpdate(props) {

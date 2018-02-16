@@ -2,42 +2,49 @@ import {Selection} from './Selection';
 
 export class PropertySelection extends Selection {
 
-   select(store, record, index, {toggle} = {}) {
+   selectMultiple(store, records, indexes, {toggle, add} = {}) {
 
       if (this.toggle)
          toggle = true;
 
-      if (this.records && this.records.bind) {
-         var array = store.get(this.records.bind);
-         var rec = array[index];
-         if (rec !== record)
+      if (!this.records || !this.records.bind)
+         return false;
+
+      let array = store.get(this.records.bind);
+      let newArray = [...array];
+      let dirty = false;
+
+      if (!toggle && !add) {
+         newArray.forEach((r, i) => {
+            if (r[this.selectedField]) {
+               let nr = Object.assign({}, r);
+               nr[this.selectedField] = false;
+               newArray[i] = nr;
+               dirty = true;
+            }
+         });
+      }
+
+      records.forEach((record, i) => {
+         let index = indexes[i];
+         let rec = newArray[index];
+         if (array[index] !== record)
             throw new Error('Stale data.');
 
-         var value = rec[this.selectedField];
-         var newValue = toggle ? !value : true;
+         let value = rec[this.selectedField];
+         let newValue = add ? true : toggle ? !value : true;
 
-         var newArray = [...array];
-
-         var dirty = false;
-
-         if (newValue && !toggle)
-            newArray.forEach((r, i) => {
-               if (r != record && r[this.selectedField]) {
-                  var nr = Object.assign({}, r);
-                  nr[this.selectedField] = false;
-                  newArray[i] = nr;
-                  dirty = true;
-               }
-            });
-
-         if (value == newValue && !dirty)
+         if (value == newValue)
             return;
 
-         var newRec = Object.assign({}, rec);
+         let newRec = Object.assign({}, rec);
          newRec[this.selectedField] = newValue;
          newArray[index] = newRec;
+         dirty = true;
+      });
+
+      if (dirty)
          store.set(this.records.bind, newArray);
-      }
    }
 
    isSelected(store, record, index) {

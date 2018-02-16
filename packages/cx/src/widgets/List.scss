@@ -49,6 +49,10 @@
          cursor: pointer;
       }
 
+      &:hover {
+         @include cx-add-state-rules($cx-list-item, hover);
+      }
+
       &.#{$state}cursor {
          @include cx-add-state-rules($cx-list-item, hover);
 

@@ -1,5 +1,6 @@
 import {Selection} from './Selection';
 import {isArray} from '../../util/isArray';
+import {isNonEmptyArray} from "../../util/isNonEmptyArray";
 
 export class KeySelection extends Selection {
    init() {
@@ -66,33 +67,48 @@ export class KeySelection extends Selection {
       return super.configureWidget(widget);
    }
 
-   select(store, record, index, {toggle} = {}) {
+   selectMultiple(store, records, indexes, {toggle, add} = {}) {
       if (!this.selection.bind)
          return false;
 
       if (this.toggle)
          toggle = true;
 
-      var key = this.getKey(record);
+      if (!isNonEmptyArray(records)) {
+         if (!toggle && !add)
+            return store.delete(this.selection.bind);
+         return false;
+      }
+
+      var keys = records.map(record => this.getKey(record));
       var selection = store.get(this.selection.bind);
       if (!this.multiple) {
-         if (!toggle)
+         let key = keys[0];
+         if (!toggle || !this.areKeysEqual(selection, key))
             store.set(this.selection.bind, key);
-         else if (this.areKeysEqual(selection, key))
+         else
             store.delete(this.selection.bind);
       } else {
          if (this.storage == 'array') {
-            var exists = isArray(selection) && selection.some(x=>this.areKeysEqual(x, key));
-            if (!toggle)
-               store.set(this.selection.bind, [key]);
-            else if (!exists)
-               store.set(this.selection.bind, [...(selection || []), key]);
-            else
-               store.set(this.selection.bind, selection.filter(x=>!this.areKeysEqual(x, key)));
+            if (!isArray(selection) || !toggle && !add)
+               store.set(this.selection.bind, keys);
+            else {
+               let newSelection = [...selection];
+               keys.forEach(key => {
+                  let exists = selection.some(x => this.areKeysEqual(x, key));
+                  if (!exists)
+                     newSelection.push(key);
+                  else if (toggle)
+                     newSelection = newSelection.filter(x => !this.areKeysEqual(x, key)); //TODO: optimize
+               });
+               store.set(this.selection.bind, newSelection);
+            }
          }
          else if (this.storage == 'hash') {
-            var newSelection = Object.assign({}, selection);
-            newSelection[key] = true;
+            let newSelection = Object.assign({}, selection);
+            keys.forEach(key => {
+               newSelection[key] = true;
+            });
             store.set(this.selection.bind, newSelection);
          }
       }
