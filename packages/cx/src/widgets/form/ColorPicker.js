@@ -16,7 +16,8 @@ export class ColorPicker extends Field {
 
    declareData() {
       super.declareData({
-         value: null
+         value: null,
+         format: undefined
       }, ...arguments);
    }
 
@@ -25,10 +26,11 @@ export class ColorPicker extends Field {
    }
 
    handleEvent(eventType, instance, color) {
-      var {store} = instance;
+      let {data} = instance;
       if (this.reportOn.indexOf(eventType) != -1) {
-         var value;
-         switch (this.format) {
+         let value;
+         switch (data.format) {
+            default:
             case 'rgba':
                value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${Math.round(color.a * 100) / 100})`;
                break;
@@ -66,14 +68,14 @@ class ColorPickerComponent extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      var {data} = props.instance;
-      var color = this.parse(data.value);
+      let {data} = props.instance;
+      let color = this.parse(data.value);
       if (color.r != this.state.r || color.g != this.state.g || color.b != this.state.b || color.a != this.state.a)
          this.setState(color);
    }
 
    parse(color) {
-      var c = parseColor(color);
+      let c = parseColor(color);
       if (c == null) {
          c = {
             type: 'rgba',
@@ -87,12 +89,12 @@ class ColorPickerComponent extends VDOM.Component {
       c.a = Math.round(c.a * 100) / 100;
 
       if (c.type == 'rgba') {
-         var [h, s, l] = rgbToHsl(c.r, c.g, c.b);
+         let [h, s, l] = rgbToHsl(c.r, c.g, c.b);
          return {r: c.r, g: c.g, b: c.b, h, s, l, a: c.a};
       }
 
       if (c.type == 'hsla') {
-         var [r, g, b] = hslToRgb(c.h, c.s, c.l);
+         let [r, g, b] = hslToRgb(c.h, c.s, c.l);
          r = this.fix255(r);
          g = this.fix255(g);
          b = this.fix255(b);
@@ -100,100 +102,151 @@ class ColorPickerComponent extends VDOM.Component {
       }
 
 
-
       throw new Error(`Color ${color} parsing failed.`);
    }
 
    render() {
-      var { h, s, l, a, r, g, b } = this.state;
-      var {instance} = this.props;
-      var {widget, data} = instance;
-      var {CSS, baseClass} = widget;
-      var hcolor = `hsl(${h},100%,50%)`;
-      var hsl = `hsl(${h},${s}%,${l}%)`;
-      var hsla = `hsla(${h.toFixed(0)},${s.toFixed(0)}%,${l.toFixed(0)}%,${a})`;
-      var rgb = `rgb(${r},${g},${b})`;
-      var rgba = `rgba(${r.toFixed(0)},${g.toFixed(0)},${b.toFixed(0)},${a})`;
-      var hex = rgbToHex(r, g, b);
+      let {h, s, l, a, r, g, b} = this.state;
+      let {instance} = this.props;
+      let {widget, data} = instance;
+      let {CSS, baseClass} = widget;
+      let hcolor = `hsl(${h},100%,50%)`;
+      let hsl = `hsl(${h},${s}%,${l}%)`;
+      let hsla = `hsla(${h.toFixed(0)},${s.toFixed(0)}%,${l.toFixed(0)}%,${a})`;
+      let rgb = `rgb(${r},${g},${b})`;
+      let rgba = `rgba(${r.toFixed(0)},${g.toFixed(0)},${b.toFixed(0)},${a})`;
+      let hex = rgbToHex(r, g, b);
 
-      var alphaGradient = `${getVendorPrefix('css')}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
+      let alphaGradient = `${getVendorPrefix('css')}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
 
-      return <div className={data.classNames}
-                  style={data.style}
-                  onBlur={::this.onBlur}
-                  onMouseDown={stopPropagation}
-                  onTouchStart={stopPropagation}>
-         <div className={CSS.element(baseClass, 'picker')} style={{backgroundColor:hcolor}}
-              onMouseDown={::this.onSLSelect}
-              onTouchStart={::this.onSLSelect}>
-            <div className={CSS.element(baseClass, 'indicator')} style={{
+      return <div
+         className={data.classNames}
+         style={data.style}
+         onBlur={::this.onBlur}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}
+      >
+         <div
+            className={CSS.element(baseClass, 'picker')} style={{backgroundColor: hcolor}}
+            onMouseDown={::this.onSLSelect}
+            onTouchStart={::this.onSLSelect}
+         >
+            <div
+               className={CSS.element(baseClass, 'indicator')} style={{
                left: `calc(${s}% - 4px)`,
-               top: `calc(${100-l}% - 4px)`,
+               top: `calc(${100 - l}% - 4px)`,
                borderColor: `rgba(${r < 128 ? 255 : 0}, ${g < 128 ? 255 : 0}, ${b < 128 ? 255 : 0}, 0.5)`
-            }}></div>
+            }}
+            />
          </div>
          <div className={CSS.element(baseClass, 'details')}>
-            <div className={CSS.element(baseClass, 'hue')}
-                 onMouseDown={::this.onHueSelect}
-                 onTouchStart={::this.onHueSelect}
-                 onWheel={e=>{this.onWheel(e, 'h', 10)}}>
-               <div className={CSS.element(baseClass, 'indicator')} style={{
-                  left: `calc(${h/3.6}% - 2px)`
-               }}></div>
+            <div
+               className={CSS.element(baseClass, 'hue')}
+               onMouseDown={::this.onHueSelect}
+               onTouchStart={::this.onHueSelect}
+               onWheel={e => {
+                  this.onWheel(e, 'h', 10)
+               }}
+            >
+               <div
+                  className={CSS.element(baseClass, 'indicator')}
+                  style={{
+                     left: `calc(${h / 3.6}% - 2px)`
+                  }}
+               />
             </div>
             <div className={CSS.element(baseClass, 'inputs')}>
                <label>
                   {'H '}
-                  <input value={h.toFixed(0)} onChange={e=>{this.onNumberChange(e, 'h')}} onWheel={e=>{this.onWheel(e, 'h', 10)}} />
+                  <input value={h.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 'h')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'h', 10)
+                  }}/>
                </label>
                <label>
                   {'S '}
-                  <input value={s.toFixed(0)} onChange={e=>{this.onNumberChange(e, 's')}} onWheel={e=>{this.onWheel(e, 's', 5)}}/>
+                  <input value={s.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 's')
+                  }} onWheel={e => {
+                     this.onWheel(e, 's', 5)
+                  }}/>
                </label>
                <label>
                   {'L '}
-                  <input value={l.toFixed(0)} onChange={e=>{this.onNumberChange(e, 'l')}} onWheel={e=>{this.onWheel(e, 'l', 5)}}/>
+                  <input value={l.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 'l')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'l', 5)
+                  }}/>
                </label>
                <label>
                   {'A '}
-                  <input value={a} onChange={e=>{this.onNumberChange(e, 'a')}} onWheel={e=>{this.onWheel(e, 'a', 0.1)}}/>
+                  <input value={a} onChange={e => {
+                     this.onNumberChange(e, 'a')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'a', 0.1)
+                  }}/>
                </label>
             </div>
             <div className={CSS.element(baseClass, 'alpha')}
                  onMouseDown={::this.onAlphaSelect}
                  onTouchStart={::this.onAlphaSelect}
-                 onWheel={e=>{this.onWheel(e, 'a', 0.1)}}>
-               <div style={{background:alphaGradient}} />
-               <div className={CSS.element(baseClass, 'indicator')} style={{
-                  left: `calc(${a*100}% - 2px)`
-               }}></div>
+                 onWheel={e => {
+                    this.onWheel(e, 'a', 0.1)
+                 }}>
+               <div style={{background: alphaGradient}}/>
+               <div
+                  className={CSS.element(baseClass, 'indicator')}
+                  style={{
+                     left: `calc(${a * 100}% - 2px)`
+                  }}
+               />
             </div>
             <div className={CSS.element(baseClass, 'inputs')}>
                <label>
                   {'R '}
-                  <input value={r.toFixed(0)} onChange={e=>{this.onNumberChange(e, 'r')}} onWheel={e=>{this.onWheel(e, 'r', 5)}} />
+                  <input value={r.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 'r')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'r', 5)
+                  }}/>
                </label>
                <label>
                   {'G '}
-                  <input value={g.toFixed(0)} onChange={e=>{this.onNumberChange(e, 'g')}} onWheel={e=>{this.onWheel(e, 'g', 5)}}/>
+                  <input value={g.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 'g')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'g', 5)
+                  }}/>
                </label>
                <label>
                   {'B '}
-                  <input value={b.toFixed(0)} onChange={e=>{this.onNumberChange(e, 'b')}} onWheel={e=>{this.onWheel(e, 'b', 5)}}/>
+                  <input value={b.toFixed(0)} onChange={e => {
+                     this.onNumberChange(e, 'b')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'b', 5)
+                  }}/>
                </label>
                <label>
                   {'A '}
-                  <input value={a} onChange={e=>{this.onNumberChange(e, 'a')}} onWheel={e=>{this.onWheel(e, 'a', 0.1)}}/>
+                  <input value={a} onChange={e => {
+                     this.onNumberChange(e, 'a')
+                  }} onWheel={e => {
+                     this.onWheel(e, 'a', 0.1)
+                  }}/>
                </label>
             </div>
             <div className={CSS.element(baseClass, 'preview')}>
                <div className={CSS.element(baseClass, 'values')}>
-                  <input value={hsla} readOnly />
+                  <input value={hsla} readOnly/>
                   <input value={rgba} readOnly/>
                   <input value={hex} readOnly/>
                </div>
-               <div className={CSS.element(baseClass, 'color')} onClick={e=>{this.onColorClick(e)}}>
-                  <div style={{backgroundColor:hsla}}></div>
+               <div className={CSS.element(baseClass, 'color')} onClick={e => {
+                  this.onColorClick(e)
+               }}>
+                  <div style={{backgroundColor: hsla}}></div>
                </div>
             </div>
          </div>
@@ -213,12 +266,12 @@ class ColorPickerComponent extends VDOM.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var el = e.currentTarget;
-      var bounds = el.getBoundingClientRect();
+      let el = e.currentTarget;
+      let bounds = el.getBoundingClientRect();
 
-      var move = e=> {
-         var pos = getCursorPos(e);
-         var x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
+      let move = e => {
+         let pos = getCursorPos(e);
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
          this.setColorProp({
             h: x * 360
          });
@@ -282,10 +335,10 @@ class ColorPickerComponent extends VDOM.Component {
          }
       }
 
-      var state = {...this.state};
-      var fixAlpha = false;
+      let state = {...this.state};
+      let fixAlpha = false;
 
-      for (var prop in props) {
+      for (let prop in props) {
 
          value = props[prop];
 
@@ -312,7 +365,7 @@ class ColorPickerComponent extends VDOM.Component {
             case 'g':
             case 'b':
                state[prop] = Math.round(Math.min(255, Math.max(0, value)));
-               var [h, s, l] = rgbToHsl(state.r, state.g, state.b);
+               let [h, s, l] = rgbToHsl(state.r, state.g, state.b);
                state.h = h;
                state.s = s;
                state.l = l;
@@ -340,14 +393,14 @@ class ColorPickerComponent extends VDOM.Component {
    onNumberChange(e, prop) {
       e.preventDefault();
       e.stopPropagation();
-      var number = parseFloat(e.target.value || '0');
+      let number = parseFloat(e.target.value || '0');
       this.setColorProp(prop, number);
    }
 
    onWheel(e, prop, delta) {
       e.preventDefault();
       e.stopPropagation();
-      var factor = e.deltaY < 0 ? 1 : -1;
+      let factor = e.deltaY < 0 ? 1 : -1;
       this.setColorProp(prop, this.state[prop] + delta * factor);
    }
 

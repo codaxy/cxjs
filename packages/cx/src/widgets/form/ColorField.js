@@ -32,7 +32,8 @@ export class ColorField extends Field {
          readOnly: undefined,
          enabled: undefined,
          placeholder: undefined,
-         required: undefined
+         required: undefined,
+         format: undefined
       }, ...arguments);
    }
 
