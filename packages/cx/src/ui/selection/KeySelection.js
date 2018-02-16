@@ -67,7 +67,7 @@ export class KeySelection extends Selection {
       return super.configureWidget(widget);
    }
 
-   selectMany(store, records, indexes, {toggle} = {}) {
+   selectMultiple(store, records, indexes, {toggle, add} = {}) {
       if (!this.selection.bind)
          return false;
 
@@ -75,7 +75,7 @@ export class KeySelection extends Selection {
          toggle = true;
 
       if (!isNonEmptyArray(records)) {
-         if (!toggle)
+         if (!toggle && !add)
             return store.delete(this.selection.bind);
          return false;
       }
@@ -84,13 +84,13 @@ export class KeySelection extends Selection {
       var selection = store.get(this.selection.bind);
       if (!this.multiple) {
          let key = keys[0];
-         if (!toggle)
+         if (!toggle || !this.areKeysEqual(selection, key))
             store.set(this.selection.bind, key);
-         else if (this.areKeysEqual(selection, key))
+         else
             store.delete(this.selection.bind);
       } else {
          if (this.storage == 'array') {
-            if (!isArray(selection) || !toggle)
+            if (!isArray(selection) || !toggle && !add)
                store.set(this.selection.bind, keys);
             else {
                let newSelection = [...selection];
@@ -98,7 +98,7 @@ export class KeySelection extends Selection {
                   let exists = selection.some(x => this.areKeysEqual(x, key));
                   if (!exists)
                      newSelection.push(key);
-                  else
+                  else if (toggle)
                      newSelection = newSelection.filter(x => !this.areKeysEqual(x, key)); //TODO: optimize
                });
                store.set(this.selection.bind, newSelection);

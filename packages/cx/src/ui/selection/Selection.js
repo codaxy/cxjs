@@ -11,7 +11,7 @@ export class Selection extends Component {
    }
    
    select(store, record, index, options) {
-      this.selectMany(store, [record], [index], options)
+      this.selectMultiple(store, [record], [index], options)
    }
 
    selectMultiple(store, records, indexes, options) {
