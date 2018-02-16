@@ -24,7 +24,7 @@ import './index.scss';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
-import Demo from './bugs/364';
+import Demo from './bugs/374';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';

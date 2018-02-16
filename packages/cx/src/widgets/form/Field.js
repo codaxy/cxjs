@@ -222,13 +222,14 @@ export class Field extends PureContainer {
          }
       }
 
-      if (!data.error && data.value != null && this.onValidate && !state.validating && data.value != state.lastValidatedValue) {
+      if (!data.error && !this.isEmpty(data) && this.onValidate && !state.validating && (!state.previouslyValidated || data.value != state.lastValidatedValue)) {
          let result = instance.invoke("onValidate", data.value, instance);
          if (isPromise(result)) {
             data.error = this.validatingText;
             instance.setState({
                validating: true,
-               lastValidatedValue: data.value
+               lastValidatedValue: data.value,
+               previouslyValidated: true
             });
             result
                .then(r => {

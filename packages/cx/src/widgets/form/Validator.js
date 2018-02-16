@@ -10,6 +10,10 @@ export class Validator extends Field {
       })
    }
 
+   isEmpty(data) {
+      return false;
+   }
+
    render() {
       return null;
    }
