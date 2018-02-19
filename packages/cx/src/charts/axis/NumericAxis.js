@@ -167,6 +167,17 @@ class NumericScale {
       if (this.max == null)
          this.max = this.normalized ? 1 : 100;
 
+      if (this.min == this.max) {
+         if (this.min == 0) {
+            this.min = -1;
+            this.max = 1;
+         } else {
+            let delta = Math.abs(this.min) * 0.1;
+            this.min -= delta;
+            this.max += delta;
+         }
+      }
+
       this.origin = this.inverted ? this.b : this.a;
 
       this.scale = this.getScale();
