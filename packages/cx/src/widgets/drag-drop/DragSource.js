@@ -87,8 +87,10 @@ class DragSourceComponent extends VDOM.Component {
 
    onMouseDown(e) {
       ddMouseDown(e);
-      if (isDragHandleEvent(e) || !this.props.handled)
+      if (isDragHandleEvent(e) || !this.props.handled) {
          e.preventDefault();
+         e.stopPropagation();
+      }
    }
 
    onMouseMove(e) {

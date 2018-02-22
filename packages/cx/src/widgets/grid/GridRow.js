@@ -103,8 +103,10 @@ export class GridRowComponent extends VDOM.Component {
 
       if (this.props.dragSource) {
          ddMouseDown(e);
-         if (isDragHandleEvent(e) || instance.dragHandles.length == 0)
+         if (isDragHandleEvent(e) || instance.dragHandles.length == 0) {
             e.preventDefault();
+            e.stopPropagation();
+         }
       }
 
       let {store, widget} = grid;
