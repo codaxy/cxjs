@@ -1299,7 +1299,7 @@ class GridComponent extends VDOM.Component {
             let selectedRowSelector = `.${CSS.element(baseClass, "data")}.${CSS.state("selected")}`;
             let firstSelectedRow = this.dom.table.querySelector(selectedRowSelector);
             if (firstSelectedRow != this.selectedEl) {
-               scrollElementIntoView(firstSelectedRow);
+               firstSelectedRow && scrollElementIntoView(firstSelectedRow);
                this.selectedEl = firstSelectedRow;
             }
          }
