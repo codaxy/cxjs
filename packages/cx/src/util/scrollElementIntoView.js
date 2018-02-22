@@ -2,6 +2,9 @@ import {findScrollableParent} from './findScrollableParent';
 import {getScrollerBoundingClientRect} from './getScrollerBoundingClientRect';
 
 export function scrollElementIntoView(el) {
+   
+   if (!el) return false;
+   
    let parentEl = findScrollableParent(el);
    if (!parentEl)
       return false;
