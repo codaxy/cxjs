@@ -1,7 +1,7 @@
 import { TextField } from 'cx/widgets';
 import {createFunctionalComponent, PureContainer} from 'cx/ui';
 
-const SuperText = createFunctionalComponent(({children, ...props}) => {
+const SuperText = createFunctionalComponent(({...props}) => {
 
    console.log('inside func. component -------', props);
 
@@ -10,7 +10,7 @@ const SuperText = createFunctionalComponent(({children, ...props}) => {
          <PureContainer>
             <TextField {...props} value-bind="value" placeholder="Default" label="Default" />
             <br/>
-            {children}
+            {props.children}
          </PureContainer>
       </cx>
    )
@@ -27,10 +27,8 @@ export default (
          // label="Standard"
          // placeholder="Standard"
          // {...props} 
-         {...{
-            label: "Standard",
-            placeholder: "Standard"
-         }} 
+         help= "Standard help"
+         //{...props}
       >
          <TextField {...props} value-bind="value" />
       </SuperText>
