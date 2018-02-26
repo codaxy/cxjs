@@ -13,7 +13,6 @@ export const flattenProps = props => {
       props = {
          ...props.$props,
          jsxAttributes: props.jsxAttributes,
-         //jsxSpread: props.jsxSpread,
          children: props.children
       };
    }
