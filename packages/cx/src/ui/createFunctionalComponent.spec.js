@@ -1,6 +1,7 @@
 import { Cx } from './Cx';
 import { VDOM } from './Widget';
 import { HtmlElement } from '../widgets/HtmlElement';
+import { TextField } from '../widgets/form/TextField';
 import { Store } from '../data/Store';
 import { createFunctionalComponent } from './createFunctionalComponent';
 
@@ -11,35 +12,29 @@ import assert from 'assert';
 describe('createFunctionalComponent', () => {
 
    it('allows spread', () => {
-      const SuperText = createFunctionalComponent(({...props}) => {
+      
+      const SuperDiv = createFunctionalComponent(({...props}) => {
+
+         console.log('inside func. component -------', props);
       
          return (
             <cx>
-               <PureContainer>
-                  <TextField {...props} value-bind="value" placeholder="Default" label="Default" />
-                  <br/>
-                  {props.children}
-               </PureContainer>
+               <div {...props} />
             </cx>
          )
       });
       
       let props = {
-         label: "Spread",
-         placeholder: "Spread"
+         text: "Spread",
+         style: "background: red;"
       }
       
-      export default (
+      const widget = (
          <cx>
-            <SuperText 
-               // label="Standard"
-               // placeholder="Standard"
-               // {...props} 
-               help= "Standard help"
-               //{...props}
-            >
-               <TextField {...props} value-bind="value" />
-            </SuperText>
+            <SuperDiv 
+               {...props}
+               //class="test"
+            />
          </cx>
       );
 
@@ -52,24 +47,19 @@ describe('createFunctionalComponent', () => {
       let tree = component.toJSON();
       assert.deepEqual(tree, {
          type: 'div',
-         props: {},
-         children: [
-            {
-               type: 'div',
-               props: {},
-               children: ["A"]
+         children: ["Spread"],
+         props: {
+            style: {
+               background: "red"
             },
-            {
-               type: 'div',
-               props: {},
-               children: ["B"]
-            },
-            {
-               type: 'div',
-               props: {},
-               children: ["C"]
-            }
-         ]
+            //className: "test",
+            jsxSpread: [
+               {
+                  style: "background: red;",
+                  text: "Spread"
+               }
+            ]
+         }
       })
    });
 });
