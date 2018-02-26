@@ -8,9 +8,9 @@ import {isUndefined} from '../util/isUndefined';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 
-var isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
+let isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : false;
 
-export var urlAttributes = {
+export let urlAttributes = {
    'a.href': true,
    'img.src': true
 };
@@ -26,7 +26,7 @@ export class HtmlElement extends Container {
 
    declareData() {
 
-      var data = {
+      let data = {
          text: undefined,
          innerHtml: undefined,
          attrs: {
@@ -37,7 +37,7 @@ export class HtmlElement extends Container {
          }
       };
 
-      var name;
+      let name;
 
       this.urlAttributes = [];
 
@@ -100,6 +100,7 @@ export class HtmlElement extends Container {
          case 'memoize':
          case "onInit":
          case "onExplore":
+         case "onDestroy":
          case "html":
          case "innerText":
          case "baseClass":
@@ -107,6 +108,7 @@ export class HtmlElement extends Container {
          case "tooltip":
          case "styles":
          case "jsxAttributes":
+         case "jsxSpread":
          case "instance":
             return false;
 
@@ -131,7 +133,7 @@ export class HtmlElement extends Container {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       if (this.urlAttributes && data.attrs) {
          data.attrs = {...data.attrs};
          this.urlAttributes.forEach(attr => {
@@ -215,14 +217,14 @@ class ContainerComponent extends VDOM.Component {
    }
 
    render() {
-      var {tag, props, children, instance} = this.props;
+      let {tag, props, children, instance} = this.props;
 
       if (instance.widget.tooltip) {
          props.ref = c => {
             this.el = c
          };
 
-         var {onMouseLeave, onMouseMove} = props;
+         let {onMouseLeave, onMouseMove} = props;
 
          props.onMouseLeave = (e) => {
             tooltipMouseLeave(e, instance, instance.widget.tooltip);
@@ -249,11 +251,11 @@ class ContainerComponent extends VDOM.Component {
    }
 }
 
-var originalWidgetFactory = Widget.factory;
+let originalWidgetFactory = Widget.factory;
 
 //support for React components
 Widget.factory = function(type, config, more) {
-   var typeType = typeof type;
+   let typeType = typeof type;
 
    if (typeType == 'undefined') {
       debug('Creating a widget of unknown type.', config, more);

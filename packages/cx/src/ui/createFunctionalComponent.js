@@ -1,14 +1,14 @@
 import {createComponentFactory} from './Component';
-import {flattenProps} from '../ui/flattenProps';
+import {flattenProps, spreadProps} from '../ui/flattenProps';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 
 export function createFunctionalComponent(factory) {
    return createComponentFactory((...args) => {
       let props = args[0];
-
+      
       //test if the component is invoked through JSX
-      if (props && isArray(props.jsxAttributes)) {
+      if (props && isArray(props.jsxAttributes || props.jsxSpread)) {
          let result = factory(flattenProps(props));
          let isArr = isArray(result);
          if (isArr && result.length < 2) {

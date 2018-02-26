@@ -28,5 +28,30 @@ describe('HtmlElement', () => {
       assert.equal(tree.type, 'div');
       assert.deepEqual(tree.children, ['Test']);
    });
+
+   it('allows spread bindings', () => {
+
+      let store = new Store({
+         data: {
+            title: 'title'
+         }
+      });
+
+      const component = renderer.create(
+         <Cx store={store}>
+            <a href="#" {...{title: {bind:"title"}}}>Link</a>
+         </Cx>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: 'a',
+         children: ['Link'],
+         props: {
+            href: '#',
+            title: 'title'
+         }
+      })
+   });
 });
 

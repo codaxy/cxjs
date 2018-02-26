@@ -26,7 +26,6 @@ describe('FirstVisibleChildLayout', () => {
       );
 
       let tree = component.toJSON();
-      console.log(tree);
       assert.deepEqual(tree, {
             type: 'div',
             props: {},
@@ -52,7 +51,6 @@ describe('FirstVisibleChildLayout', () => {
       );
 
       let tree = component.toJSON();
-      console.log(tree);
       assert.deepEqual(tree, {
             type: 'div',
             props: {},
