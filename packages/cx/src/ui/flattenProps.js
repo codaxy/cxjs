@@ -5,12 +5,7 @@ export const flattenProps = props => {
    if (props.jsxSpread) {
       props = {
          ...props,
-         ...props.jsxSpread.reduce((acc, props) => {
-            for (let key in props) {
-               acc[key] = props[key];
-            }
-            return acc;
-         }, {})
+         ...props.jsxSpread.reduce((acc, prop) => Object.assign(acc, prop), {})
       };
    }
 

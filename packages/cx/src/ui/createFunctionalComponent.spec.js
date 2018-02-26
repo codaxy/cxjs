@@ -12,11 +12,7 @@ import assert from 'assert';
 describe('createFunctionalComponent', () => {
 
    it('allows spread', () => {
-      
       const SuperDiv = createFunctionalComponent(({...props}) => {
-
-         console.log('inside func. component -------', props);
-      
          return (
             <cx>
                <div {...props} />
@@ -51,14 +47,7 @@ describe('createFunctionalComponent', () => {
          props: {
             style: {
                background: "red"
-            },
-            //className: "test",
-            jsxSpread: [
-               {
-                  style: "background: red;",
-                  text: "Spread"
-               }
-            ]
+            }
          }
       })
    });
