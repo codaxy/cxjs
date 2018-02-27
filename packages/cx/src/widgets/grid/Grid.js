@@ -237,8 +237,8 @@ export class Grid extends Widget {
 
       instance.records = this.mapRecords(context, instance);
 
-      //tree adapters can additional (child) records
-      if (instance.records.length > data.totalRecordCount && !isNonEmptyArray(this.grouping))
+      //tree adapters can have additional (child) records
+      if (instance.records && instance.records.length > data.totalRecordCount && !isNonEmptyArray(this.grouping))
          data.totalRecordCount = instance.records.length;
    }
 
