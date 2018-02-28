@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Framework for enterprise JavaScript applications",
   "main": "src/index.js",
   "scripts": {
