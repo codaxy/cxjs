@@ -1,6 +1,7 @@
 import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
 import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from './ops';
+import {preventFocus} from "../../ui/FocusManager";
 
 export class DragSource extends PureContainer {
 
@@ -88,7 +89,7 @@ class DragSourceComponent extends VDOM.Component {
    onMouseDown(e) {
       ddMouseDown(e);
       if (isDragHandleEvent(e) || !this.props.handled) {
-         e.preventDefault();
+         preventFocus(e); //disables text selection in Firefox
          e.stopPropagation();
       }
    }
