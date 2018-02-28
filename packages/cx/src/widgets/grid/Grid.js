@@ -1400,9 +1400,10 @@ class GridComponent extends VDOM.Component {
          if (records)
             record = records[cursor];
          else {
-            let r = data.records[cursor - data.offset];
+            let offset = widget.infinite ? data.offset : 0;
+            let r = data.records[cursor - offset];
             if (r)
-               record = widget.mapRecord(null, instance, r, widget.infinite ? cursor - data.offset : cursor);
+               record = widget.mapRecord(null, instance, r, cursor - offset);
          }
          if (record) {
             selection.push(record.data);
