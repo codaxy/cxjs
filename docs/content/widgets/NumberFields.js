@@ -1,5 +1,5 @@
-import { Content, LabelsLeftLayout } from 'cx/ui';
-import { HtmlElement, NumberField } from 'cx/widgets';
+import {Content, LabelsLeftLayout} from 'cx/ui';
+import {HtmlElement, NumberField} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -13,11 +13,11 @@ export const NumberFields = <cx>
     <Md>
         # Number Field
 
-      <ImportPath path="import {NumberField} from 'cx/widgets';" />
-
-      The `NumberField` control is used for numeric inputs, including currencies and percentages.
+        <ImportPath path="import {NumberField} from 'cx/widgets';"/>
 
         <CodeSplit>
+
+            The `NumberField` control is used for numeric inputs, including currencies and percentages.`
 
 
             <div class="widgets">
@@ -35,10 +35,10 @@ export const NumberFields = <cx>
                     <NumberField label="Percentage" value:bind="$page.number" format="ps"/>
                     <NumberField label="Suffix" value:bind="$page.number" format="suffix; kg"/>
                     <NumberField label="Required" value:bind="$page.number" required/>
-                    <NumberField label="Styled" value:bind="$page.number" 
-                        inputStyle={{border: '1px solid green'}} 
-                        icon="dollar" 
-                        showClear />
+                    <NumberField label="Styled" value:bind="$page.number"
+                                 inputStyle={{border: '1px solid green'}}
+                                 icon="dollar"
+                                 showClear/>
                     <NumberField label="View" value:bind="$page.number" mode="view"/>
                     <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A"/>
                 </div>
@@ -46,7 +46,7 @@ export const NumberFields = <cx>
 
             <Content name="code">
                 <CodeSnippet fiddle="PokioWF7">{`
-               <div layout={LabelsLeftLayout}>
+                <div layout={LabelsLeftLayout}>
                     <NumberField label="Standard" value:bind="$page.number" autoFocus/>
                     <NumberField label="Disabled" value:bind="$page.number" disabled/>
                     <NumberField label="Readonly" value:bind="$page.number" readOnly/>
@@ -60,9 +60,9 @@ export const NumberFields = <cx>
                     <NumberField label="Percentage" value:bind="$page.number" format="ps"/>
                     <NumberField label="Suffix" value:bind="$page.number" format="suffix; kg"/>
                     <NumberField label="Required" value:bind="$page.number" required/>
-                    <NumberField label="Styled" value:bind="$page.number" 
-                        inputStyle={{border: '1px solid green'}} 
-                        icon="dollar" 
+                    <NumberField label="Styled" value:bind="$page.number"
+                        inputStyle={{border: '1px solid green'}}
+                        icon="dollar"
                         showClear />
                     <NumberField label="View" value:bind="$page.number" mode="view"/>
                     <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A"/>

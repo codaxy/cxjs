@@ -84,6 +84,11 @@ interface NumberFieldProps extends FieldProps {
    /** Invalid input error text. */
    inputErrorText?: string,
 
+   /** A scale used to define mapping between displayed and stored values. E.g. 0.01 for percentages. DV = (SV - OFFSET) / SCALE */
+   scale?: number,
+
+   /** Offset to define mapping between displayed and stored values. DV = (SV - OFFSET) / SCALE */
+   offset?: number,
 }
 
 export class NumberField extends Cx.Widget<any> {}

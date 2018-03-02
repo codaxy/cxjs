@@ -86,5 +86,19 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             Default value is `true`.
         </Md></cx>
+    },
+    scale: {
+        type: 'number',
+        key: true,
+        description: <cx><Md>
+            A scale used to define mapping between displayed and stored values. E.g. 0.01 for displaying percentages. `DV = (SV - OFFSET) / SCALE`
+        </Md></cx>
+    },
+    offset: {
+        type: 'number',
+        key: true,
+        description: <cx><Md>
+            An offset used to define mapping between displayed and stored values. E.g. 273.15 for displaying temperatures in Kelvins. `DV = (SV - OFFSET) / SCALE`
+        </Md></cx>
     }
 };

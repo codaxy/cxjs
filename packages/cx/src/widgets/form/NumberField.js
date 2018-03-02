@@ -33,7 +33,9 @@ export class NumberField extends Field {
          maxExclusive: undefined,
          incrementPercentage: undefined,
          increment: undefined,
-         icon: undefined
+         icon: undefined,
+         scale: undefined,
+         offset: undefined
       }, ...arguments);
    }
 
@@ -105,6 +107,8 @@ NumberField.prototype.inputErrorText = 'Invalid number entered.';
 NumberField.prototype.suppressErrorsUntilVisited = true;
 
 NumberField.prototype.incrementPercentage = 0.1;
+NumberField.prototype.scale = 1;
+NumberField.prototype.offset = 0;
 NumberField.prototype.snapToIncrement = true;
 NumberField.prototype.icon = null;
 NumberField.prototype.showClear = false;
@@ -240,9 +244,9 @@ class Input extends VDOM.Component {
 
    updateCursorPosition(preCursorText) {
       if (isString(preCursorText)) {
-         var cursor = 0;
-         var preCursor = 0;
-         var text = this.input.value || '';
+         let cursor = 0;
+         let preCursor = 0;
+         let text = this.input.value || '';
          while (preCursor < preCursorText.length && cursor < text.length) {
             if (text[cursor] == preCursorText[preCursor]) {
                cursor++;
@@ -299,47 +303,49 @@ class Input extends VDOM.Component {
       }
 
       if (e.target.value) {
-         let v = Culture.getNumberCulture().parse(e.target.value);
-         if (isNaN(v)) {
+         let displayValue = Culture.getNumberCulture().parse(e.target.value);
+         if (isNaN(displayValue)) {
             instance.setState({
                inputError: instance.widget.inputErrorText
             });
             return;
          }
 
+         let value = displayValue * data.scale + data.offset;
+
          if (change == 'wheel') {
             e.preventDefault();
-            var increment = data.increment != null ? data.increment : this.calculateIncrement(v, data.incrementPercentage);
-            v = v + (e.deltaY < 0 ? increment : -increment);
+            let increment = data.increment != null ? data.increment : this.calculateIncrement(value, data.incrementPercentage);
+            value = value + (e.deltaY < 0 ? increment : -increment);
             if (widget.snapToIncrement) {
-               v = Math.round(v / increment) * increment;
+               value = Math.round(value / increment) * increment;
             }
 
             if (data.minValue != null) {
                if (data.minExclusive) {
-                  if (v <= data.minValue)
+                  if (value <= data.minValue)
                      return;
                } else {
-                  v = Math.max(v, data.minValue);
+                  value = Math.max(value, data.minValue);
                }
             }
 
             if (data.maxValue != null) {
                if (data.maxExclusive) {
-                  if (v >= data.maxValue)
+                  if (value >= data.maxValue)
                      return;
                } else {
-                  v = Math.min(v, data.maxValue);
+                  value = Math.min(value, data.maxValue);
                }
             }
          }
 
-         var fmt = data.format;
+         let fmt = data.format;
 
-         var formatted = Format.value(v, fmt);
+         let formatted = Format.value(value, fmt);
          //re-parse to avoid differences between formatted value and value in the store
-         var culture = Culture.getNumberCulture();
-         v = culture.parse(formatted);
+         let culture = Culture.getNumberCulture();
+         value = culture.parse(formatted) * data.scale + data.offset;
 
          if (change == 'input' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == culture.decimalSeparator)
             return;
@@ -355,7 +361,7 @@ class Input extends VDOM.Component {
             this.updateCursorPosition(preCursorText);
          }
 
-         instance.set('value', v);
+         instance.set('value', value);
       } else
          instance.set('value', null);
 
