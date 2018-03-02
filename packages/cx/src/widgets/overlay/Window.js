@@ -177,7 +177,9 @@ class WindowComponent extends OverlayComponent {
          this.setState({
             active: true
          }, () => {
-            this.setZIndex(ZIndexManager.next());
+            //React portals cause focusin events which may actually belong to another window or a dropdown
+            if (this.containerEl.contains(document.activeElement))
+               this.setZIndex(ZIndexManager.next());
          });
       }
    }

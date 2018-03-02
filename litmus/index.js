@@ -25,7 +25,8 @@ import './index.scss';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 //import Demo from './bugs/380';
-import Demo from './bugs/JSXSpread';
+//import Demo from './bugs/JSXSpread';
+import Demo from './bugs/MultiModals';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
