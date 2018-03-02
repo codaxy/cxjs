@@ -155,7 +155,7 @@ describe('Controller', () => {
       assert.deepEqual(order, ["1", "2"]);
    });
 
-   it('controllers are invisible elemets are not initialized', () => {
+   it('controllers on invisible elements are not initialized', () => {
 
       let order = [];
 

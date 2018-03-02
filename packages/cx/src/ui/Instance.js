@@ -490,31 +490,37 @@ export class Instance {
 
    getCallback(methodName) {
       let scope = this.widget;
-      let method = scope[methodName];
+      let callback = scope[methodName];
 
-      if (typeof method === 'string') {
-         if (!this.controller)
-            throw new Error(`Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`);
+      if (typeof callback === 'string')
+         return this.getControllerMethod(callback);
 
-         let at = this;
-         while (at != null && at.controller && !at.controller[method])
-            at = at.parent;
-
-         if (!at || !at.controller || !at.controller[method])
-            throw new Error(`Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`);
-
-         scope = at.controller;
-         method = scope[method];
-      }
-
-      if (typeof method !== 'function')
+      if (typeof callback !== 'function')
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
-      return method.bind(scope);
+      return callback.bind(scope);
+   }
+
+   getControllerMethod(methodName) {
+      if (!this.controller)
+         throw new Error(`Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`);
+
+      let at = this;
+      while (at != null && at.controller && !at.controller[methodName])
+         at = at.parent;
+
+      if (!at || !at.controller || !at.controller[methodName])
+         throw new Error(`Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`);
+
+      return at.controller[methodName].bind(at.controller);
    }
 
    invoke(methodName, ...args) {
       return this.getCallback(methodName).apply(null, args);
+   }
+
+   invokeControllerMethod(methodName, ...args) {
+      return this.getControllerMethod(methodName).apply(null, args);
    }
 }
 
