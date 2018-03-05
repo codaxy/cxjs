@@ -203,13 +203,13 @@ export class Field extends PureContainer {
    }
 
    validateRequired(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       if (this.isEmpty(data))
          return this.requiredText;
    }
 
    validate(context, instance) {
-      var {data, state} = instance;
+      let {data, state} = instance;
       state = state || {};
 
       if (!data.error) {
@@ -277,23 +277,27 @@ export class Field extends PureContainer {
    }
 
    renderValue(context, instance, key) {
-      var text = this.formatValue(context, instance)
+      let text = this.formatValue(context, instance)
       if (text) {
          return <span>{text}</span>;
       }
    }
 
    renderContent(context, instance, key) {
-      var content = this.renderValue(...arguments) || this.renderEmptyText(...arguments);
+      let content = this.renderValue(...arguments) || this.renderEmptyText(...arguments);
       return this.renderWrap(context, instance, key, content);
    }
 
    renderWrap(context, instance, key, content) {
-      var {data} = instance;
+      let {data} = instance;
+      let interactable = !data.viewMode && !data.disabled;
       return (
-         <div key={key}
-            className={data.classNames} style={data.style} onMouseDown={stopPropagation}
-            onTouchStart={stopPropagation}
+         <div
+            key={key}
+            className={data.classNames}
+            style={data.style}
+            onMouseDown={interactable ? stopPropagation : null}
+            onTouchStart={interactable ? stopPropagation : null}
          >
             {content}
             {this.labelPlacement && this.renderLabel(context, instance, "label")}
@@ -302,13 +306,16 @@ export class Field extends PureContainer {
    }
 
    renderEmptyText(context, {data}, key) {
-      return <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>{data.emptyText ||
-      <span>&nbsp;</span>}</span>;
+      return (
+         <span key={key} className={this.CSS.element(this.baseClass, 'empty-text')}>
+            {data.emptyText || <span>&nbsp;</span>}
+         </span>
+      );
    }
 
    render(context, instance, key) {
-      var {data} = instance;
-      var content = !data.viewMode
+      let {data} = instance;
+      let content = !data.viewMode
          ? this.renderInput(context, instance, key)
          : this.renderContent(context, instance, key);
 
