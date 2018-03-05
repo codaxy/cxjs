@@ -1,8 +1,9 @@
 import {getSelector} from './getSelector'
+import {isDefined} from "../util/isDefined";
 
 export function getComparer(sorters, dataAccessor) {
    let data = (sorters || []).map(s => {
-      let selector = s.field ? x => x[s.field] : getSelector(s.value);
+      let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? x => x[s.field] : () => null;
       return {
          getter: dataAccessor ? x => selector(dataAccessor(x)) : selector,
          factor: s.direction && s.direction[0].toLowerCase() == 'd' ? -1 : 1
