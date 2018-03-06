@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Icon} from '../Icon';
-import DropdownIcon from '../icons/drop-down';
+import {stopPropagation} from "../../util/eventCallbacks";
 
 export class TreeNode extends Widget {
 
@@ -25,7 +25,7 @@ export class TreeNode extends Widget {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       data.stateMods = {
          expanded: data.expanded,
          loading: data.loading,
@@ -38,8 +38,8 @@ export class TreeNode extends Widget {
    }
 
    render(context, instance, key) {
-      var {data, widget} = instance;
-      var {CSS, baseClass} = widget;
+      let {data, widget} = instance;
+      let {CSS, baseClass} = widget;
 
       let icon = data.icon;
 
@@ -61,7 +61,11 @@ export class TreeNode extends Widget {
          arrowIcon = this.loadingIcon;
 
       return <div key={key} className={data.classNames} style={data.style}>
-         <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
+         <div
+            className={CSS.element(baseClass, 'handle')}
+            onClick={e => this.toggle(e, instance)}
+            onMouseDown={stopPropagation}
+         >
             { !data.leaf && Icon.render(arrowIcon, { className: CSS.element(baseClass, 'arrow')}) }
             {
                !this.hideIcon && Icon.render(icon, {
@@ -76,7 +80,7 @@ export class TreeNode extends Widget {
    }
 
    toggle(e, instance) {
-      var {data} = instance;
+      let {data} = instance;
       if (!data.leaf)
          instance.set('expanded', !data.expanded);
       e.preventDefault();
