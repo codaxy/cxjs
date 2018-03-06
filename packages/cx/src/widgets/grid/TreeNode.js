@@ -56,9 +56,13 @@ export class TreeNode extends Widget {
          }
       }
 
+      let arrowIcon = this.arrowIcon;
+      if (this.hideIcon && data.loading)
+         arrowIcon = this.loadingIcon;
+
       return <div key={key} className={data.classNames} style={data.style}>
          <div className={CSS.element(baseClass, 'handle')} onClick={e => this.toggle(e, instance)}>
-            { !data.leaf && <DropdownIcon className={CSS.element(baseClass, 'arrow')} /> }
+            { !data.leaf && Icon.render(arrowIcon, { className: CSS.element(baseClass, 'arrow')}) }
             {
                !this.hideIcon && Icon.render(icon, {
                   className: CSS.element(baseClass, 'icon')
@@ -85,6 +89,7 @@ TreeNode.prototype.itemIcon = 'file';
 TreeNode.prototype.loadingIcon = 'loading';
 TreeNode.prototype.folderIcon = 'folder';
 TreeNode.prototype.openFolderIcon = 'folder-open';
+TreeNode.prototype.arrowIcon = 'drop-down';
 TreeNode.prototype.styled = true;
 TreeNode.prototype.hideIcon = false;
 
