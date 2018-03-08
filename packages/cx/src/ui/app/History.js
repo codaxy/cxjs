@@ -9,9 +9,10 @@ let reload = false;
 
 export class History {
 
-   static connect(store, bind) {
+   static connect(store, urlBinding, hashBinding) {
       this.store = store;
-      this.bind = bind;
+      this.urlBinding = urlBinding;
+      this.hashBinding = hashBinding;
       this.updateStore();
       window.onpopstate = () => {
          this.updateStore()
@@ -68,11 +69,15 @@ export class History {
    }
 
    static updateStore(href) {
-      let url = Url.unresolve(href || document.location.href);
+      let url = Url.unresolve(href || document.location.href), hash = null;
       let hashIndex = url.indexOf('#');
-      if (hashIndex !== -1)
+      if (hashIndex !== -1) {
+         hash = url.substring(hashIndex);
          url = url.substring(0, hashIndex);
-      return this.store.set(this.bind, url);
+      }
+      if (this.hashBinding)
+         this.store.set(this.hashBinding, hash);
+      return this.store.set(this.urlBinding, url);
    }
 
    static subscribe(callback) {

@@ -29,9 +29,10 @@ let addRoutes = (path, pages, routes) => {
 
         if (name[0] == name[0].toUpperCase()) {
             routes.push(<cx>
-                <Route url:bind="url"
-                    route={path + getPageName(name)}>
-                    <HashRestore/>
+                <Route
+                    url:bind="url"
+                    route={path + getPageName(name)}
+                >
                     <div class="dxe-article-tools">
                         <a href="https://github.com/codaxy/cxjs/issues/new">Report</a>
                         <EditOnGitX url={path + name}/>
@@ -40,6 +41,7 @@ let addRoutes = (path, pages, routes) => {
                     {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
                     {pages[name]}
                     {/*</CSSTransitionGroup>*/}
+                    <HashRestore />
                 </Route>
             </cx>);
         }

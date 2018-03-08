@@ -1,7 +1,7 @@
 import { View } from './../../data/View';
 
 export class History {
-   static connect(store: View, bind: string);
+   static connect(store: View, urlBinding: string, hashBinding?: string);
 
    static pushState(state, title, url: string);
 

@@ -4,6 +4,7 @@
     margin-top: 16px;
     position: relative;
     overflow-x: auto;
+    font-size: 13px;
 
     table {
         border-collapse: collapse;
@@ -11,30 +12,15 @@
     }
 
     p {
-        margin: 0;
+        margin-left: 1em;
     }
 
     th {
         text-align: left;
         padding-right: 10px;
-    }
-
-    td:first-child {
-        background: #fbfbfb;
-    }
-
-    h4 {
-        font: 14px monospace;
-        margin: 0;
-        padding: 0;
-    }
-
-    td:nth-child(2) {
-        min-width: 300px;
-    }
-
-    td:nth-child(3) {
-        font: 12px monospace;
+        font-weight: normal;
+        color: gray;
+        font-size: 11px;
     }
 
     td {
@@ -42,11 +28,18 @@
         border-top: 1px solid #ebebeb;
     }
 
-    h4.dxs-important  {
+    h5 {
+        font-weight: normal;
+        font-size: 14px;
+        margin: 0 0 5px;
+        font-family: Consolas, monospace;
+    }
+
+    td.dxs-important h5 {
         font-weight: bold;
     }
 
-    h4.dxs-long  {
+    h5.dxs-long  {
         font-size: 11px;
     }
 }

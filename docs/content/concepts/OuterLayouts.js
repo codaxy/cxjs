@@ -25,27 +25,32 @@ export const OuterLayouts = <cx>
     <Md>
         # Outer Layouts
 
-        Outer layouts define wrapper around the content being rendered. This is very convenient
-        when multiple pages need to share a common layout or for defining global application layouts.
+        Outer layouts are used to wrap the content being rendered into a frame, e.g. to add a header and a footer.
+        This is very convenient for defining global application layouts and should not be confused with [Inner Layouts](~/concepts/inner-layouts).
 
-        To assign an outer layout to a widget specify the `outerLayout` attribute.
+        An outer layout is a simple widget tree which uses the `ContentPlaceholder` widget to specify content insertion points.
+        The layout can be assigned to any widget using the `outerLayout` attribute (please see the example below).
 
-        ### ContentPlaceholder
+        ## ContentPlaceholder
         <ImportPath path="import {ContentPlaceholder} from 'cx/ui';" />
-        
-        A layout is a simple widget tree. `ContentPlaceholder` elements are used to specify content insertion points.
 
-        ### Content
+        `ContentPlaceholder` elements are used to specify content insertion points inside outer layouts.
+        If multiple placeholders are needed, you should assign each content placeholder a different `name`.
+        Name `body` is reserved for the place where the actual widget will be rendered.
+
+        ## Content
         <ImportPath path="import {Content} from 'cx/ui';" />
 
         <CodeSplit>
-           The `Content` widget is used to define content that will be plugged into placeholders.  
+            The `Content` widget is used to define contents that will be plugged into placeholders. Use `for` or `name`
+            to specify in which placeholder contents will go.
 
-            The following example shows basic usage of layouts implemented using inline styles and flex.
+            The following example shows the basic usage of outer layouts implemented using inline styles and flex based
+            CSS layouts.
 
             <div class="widgets">
                 <div outerLayout={AppLayout}>
-                    <Content name="sidebar">
+                    <Content for="sidebar">
                         Nav 1
                     </Content>
                     Main 1
@@ -75,14 +80,14 @@ export const OuterLayouts = <cx>
                </cx>;
                ...
                <div outerLayout={AppLayout}>
-                  <Content name="sidebar">
+                  <Content for="sidebar">
                      Nav 1
                   </Content>
                   Main 1
                </div>
                ...
                <div outerLayout={AppLayout}>
-                  <Content name="sidebar">
+                  <Content for="sidebar">
                      Nav 2
                   </Content>
                   Main 2
@@ -92,7 +97,7 @@ export const OuterLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        Instead of using the Content widget, alternatively, you can define `putInto` or `contentFor` attribute for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
+        Instead of using the `Content` widget, alternatively, you can define `putInto` or `contentFor` attribute for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
             <CodeSnippet>{`
@@ -107,11 +112,6 @@ export const OuterLayouts = <cx>
 
         When using outer layouts, the content is rendered inside out. A layout can contain other layouts, which
         enables better code reuse.
-
-        ## Inner Layouts
-
-        For defining child elements' layout (e.g. form elements alignment and label placement), check out the [Inner Layouts](~/concepts/inner-layouts) page.
-
     </Md>
 
 </cx>;

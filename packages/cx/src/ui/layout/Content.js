@@ -5,7 +5,7 @@ export class Content extends PureContainer {
 
    init() {
       super.init();
-      this.putInto = this.name;
+      this.putInto = this.for || this.name;
    }
 }
 

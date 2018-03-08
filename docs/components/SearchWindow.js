@@ -42,14 +42,13 @@ class SearchController extends Controller {
     }
 
     onItemClick(e, {store}) {
-        var url = store.get('$record.url');
+        let url = store.get('$record.url');
         History.pushState({}, null, url);
-        if (window.innerWidth < 1000)
-            store.set('search.visible', false);
+        store.set('search.visible', false);
     }
 }
 
-var searchProps = {
+let searchProps = {
     style: "width:300px;height:400px;"
 };
 

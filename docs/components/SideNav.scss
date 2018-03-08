@@ -5,6 +5,7 @@
    .cxe-list-item {
       padding: 0;
       position: relative;
+       font-size: 14px;
    }
 
    &:focus {
@@ -12,7 +13,7 @@
    }
 
    .cxe-sidenav-topic {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
       color: gray;
       padding: 10px;

@@ -4,6 +4,7 @@
     margin-top: 16px;
     position: relative;
     overflow-x: auto;
+    font-size: 13px;
 
     table {
         border-collapse: collapse;
@@ -16,7 +17,10 @@
 
     th {
         text-align: left;
-        padding-right: 10px;
+        padding: 0 10px 0 5px;
+        font-size: 11px;
+        color: gray;
+        font-weight: normal;
     }
 
     td:first-child {
@@ -37,17 +41,23 @@
         border-top: 1px solid #ebebeb;
     }
 
-    h4 {
-        font: 14px monospace;
+    h5 {
+        font-family: monospace;
+        font-size: 13.5px;
         margin: 0;
         padding: 0;
+        font-weight: normal;
+
+        a {
+            color: inherit;
+        }
     }
 
-    h4.dxs-important  {
+    h5.dxs-important  {
         font-weight: bold;
     }
 
-    h4.dxs-long {
+    h5.dxs-long {
         font-size: 11px;
     }
 }

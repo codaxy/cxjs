@@ -6,7 +6,8 @@ export class HashRestore extends VDOM.Component {
     }
 
     componentDidMount() {
-        let hash = window.location.hash;
+        let hash = this.props.instance.store.get('hash');
+        console.log(hash);
         if (hash) {
             location.replace("#");
             location.replace(hash);

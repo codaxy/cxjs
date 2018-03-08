@@ -5,7 +5,7 @@ import {CSS} from '../app/CSS';
 export class MethodTable extends PureContainer {
     init() {
         super.init();
-        var methods = this.methods || [];
+        let methods = this.methods || [];
 
         if (this.sort) {
             methods.sort((a, b) => {
@@ -18,14 +18,12 @@ export class MethodTable extends PureContainer {
         }
 
         methods.forEach(p=> {
-            var r = <cx>
+            let r = <cx>
                 <tr>
-                    <td className={CSS.state({long: p.signature > 30, important: p.key, regular: !p.key})}>
-                        <h4>
+                    <td className={CSS.state({important: p.key})}>
+                        <h5>
                             {p.signature}
-                        </h4>
-                    </td>
-                    <td>
+                        </h5>
                         {p.description}
                     </td>
                 </tr>
@@ -40,8 +38,7 @@ export class MethodTable extends PureContainer {
                 <tbody>
                 {
                     !this.hideHeader && <tr>
-                        <th>Signature</th>
-                        <th>Description</th>
+                        <th>Methods</th>
                     </tr>
                 }
                 {this.renderChildren(context, instance)}

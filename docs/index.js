@@ -30,7 +30,7 @@ let stop, start = () => {
     }
 
     Url.setBaseFromScript('~/app*.js');
-    History.connect(store, 'url');
+    History.connect(store, 'url', "hash");
     Widget.resetCounter();
     Timing.enable('app-loop');
     //Timing.enable('vdom-render');
