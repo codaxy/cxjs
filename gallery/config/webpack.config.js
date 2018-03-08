@@ -28,7 +28,7 @@ module.exports = (production) => ({
    },
 
    module: {
-      loaders: [{
+      rules: [{
          test: /\.tsx?$/,
          include: /gallery/,
          loaders: [
@@ -90,37 +90,34 @@ module.exports = (production) => ({
       "react-dom": "ReactDOM"
    },
    plugins: [
-      new webpack.NamedChunksPlugin(chunk => {
-         if (chunk.name)
-            return chunk.name;
-
-         // if (chunk.entryModule)
-         //    console.log('CHUNK', chunk.entryModule.resource);
-         // else
-         //    console.log('CH', chunk.modules.map(x=>x.resource));
-
-         if (chunk.modules.some(m => m.resource.match(/themes.material\.js$/)))
-            return 'material';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.frost\.js$/)))
-            return 'frost';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.core\.js$/)))
-            return 'core';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
-            return 'dark';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.aquamarine\.js$/)))
-            return 'aquamarine';
-
-         if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
-            return 'polyfill';
-
-         return chunk.name;
-      }),
-      // new webpack.optimize.CommonsChunkPlugin({
-      //    name: "vendor"
+      // new webpack.NamedChunksPlugin(chunk => {
+      //    if (chunk.name)
+      //       return chunk.name;
+      //
+      //    // if (chunk.entryModule)
+      //    //    console.log('CHUNK', chunk.entryModule.resource);
+      //    // else
+      //    //    console.log('CH', chunk.modules.map(x=>x.resource));
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/themes.material\.js$/)))
+      //       return 'material';
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/themes.frost\.js$/)))
+      //       return 'frost';
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/themes.core\.js$/)))
+      //       return 'core';
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
+      //       return 'dark';
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/themes.aquamarine\.js$/)))
+      //       return 'aquamarine';
+      //
+      //    if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
+      //       return 'polyfill';
+      //
+      //    return chunk.name;
       // }),
       new HtmlWebpackPlugin({
          template: p('index.html'),
@@ -129,17 +126,17 @@ module.exports = (production) => ({
          reactScripts: production ? reactScripts : reactScriptsDev,
          favicon: p('assets/favicon.png'),
       }),
-      new ScriptExtHtmlWebpackPlugin({
-         async: /\.js$/,
-         preload: {
-            test: /(material)/,
-            chunks: 'async'
-         },
-         prefetch: {
-            test: /\.js$/,
-            chunks: 'async'
-         }
-      })
+      // new ScriptExtHtmlWebpackPlugin({
+      //    async: /\.js$/,
+      //    preload: {
+      //       test: /(material)/,
+      //       chunks: 'async'
+      //    },
+      //    prefetch: {
+      //       test: /\.js$/,
+      //       chunks: 'async'
+      //    }
+      // })
    ]
 });
 

@@ -9,8 +9,8 @@ var webpack = require('webpack'),
 let root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
 var specific = {
+   mode: 'production',
    plugins: [
-      new webpack.optimize.UglifyJsPlugin(),
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
       }),

@@ -24,7 +24,7 @@ let common = {
    },
 
    module: {
-      loaders: [{
+      rules: [{
          test: /\.json$/,
          loader: 'json-loader'
       }, {
@@ -79,7 +79,7 @@ if (production) {
    });
    specific = {
       module: {
-         loaders: [{
+         rules: [{
             test: /\.scss$/,
             loaders: sass.extract(['css-loader', 'sass-loader'])
          }, {
@@ -115,7 +115,7 @@ if (production) {
 else {
    specific = {
       module: {
-         loaders: [{
+         rules: [{
             test: /\.scss$/,
             loaders: ["style-loader", "css-loader", "sass-loader"]
          }, {
@@ -123,6 +123,7 @@ else {
             loader: ["style-loader", "css-loader"]
          }]
       },
+      mode: 'development',
       plugins: [
          new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin({
