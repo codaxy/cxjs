@@ -3,6 +3,7 @@ import {getCursorPos, captureMouseOrTouch} from '../overlay/captureMouse';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {getScrollerBoundingClientRect} from '../../util/getScrollerBoundingClientRect';
 import {isNumber} from '../../util/isNumber';
+import {ZIndexManager} from "../../ui/ZIndexManager";
 
 let dropZones = new SubscriberList(),
    activeZone,
@@ -33,6 +34,7 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    cloneEl.style.top = `-1000px`;
    cloneEl.style.minWidth = `${Math.ceil(sourceBounds.width)}px`;
    cloneEl.style.minHeight = `${Math.ceil(sourceBounds.height)}px`;
+   cloneEl.style.zIndex = ZIndexManager.next() + 1000;
    document.body.appendChild(cloneEl);
 
    let styles = getComputedStyle(sourceEl);

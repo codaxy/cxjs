@@ -26,13 +26,13 @@ import './index.scss';
 //import Demo from './bugs/179';
 //import Demo from './bugs/380';
 //import Demo from './bugs/JSXSpread';
-import Demo from './bugs/MultiModals';
+//import Demo from './bugs/MultiModals';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-//import Demo from './features/drag-drop/grid-to-grid';
+import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
