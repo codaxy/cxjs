@@ -25,7 +25,12 @@ interface RadioProps extends FieldProps {
     * Use native radio HTML element (`<input type="radio"/>`). 
     * Default is `false`. Native radio buttons are difficult to style.
     */
-   native?: boolean
+   native?: boolean,
+
+   /**
+    * Set to `true` to set the make the radio initially selected.
+    */
+   default: boolean
 
 }
 

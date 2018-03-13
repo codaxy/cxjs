@@ -29,8 +29,8 @@ export const Radios = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native/>
-                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
+                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native default />
+                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
                     <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
                 </div>
                 <div layout={LabelsLeftLayout}>
@@ -43,7 +43,7 @@ export const Radios = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="w0Hk6JJo">{`
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native/>
+                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native default />
                     <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
                     <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
                 </div>

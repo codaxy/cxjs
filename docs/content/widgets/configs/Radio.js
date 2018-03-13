@@ -43,5 +43,12 @@ export default {
         description: <cx><Md>
             Text description.
         </Md></cx>
-    }
+    },
+    "default": {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to make the radio button initially selected.
+        </Md></cx>
+    },
 };
