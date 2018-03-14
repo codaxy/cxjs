@@ -28,6 +28,7 @@ function getExpr(expr) {
       let lastValue, lastRunBindings = {}, lastRunResults = {}, getters = {}, currentData, len = -1;
 
       let get = function(bindingWithFormat) {
+
          let getter = getters[bindingWithFormat];
          if (!getter) {
             let binding = bindingWithFormat, format;
@@ -35,6 +36,12 @@ function getExpr(expr) {
             if (colonIndex != -1) {
                format = Format.parse(bindingWithFormat.substring(colonIndex + 1));
                binding = bindingWithFormat.substring(0, colonIndex);
+            } else {
+               let nullSeparatorIndex = bindingWithFormat.indexOf(':');
+               if (nullSeparatorIndex != -1) {
+                  format = Format.parse(bindingWithFormat.substring(nullSeparatorIndex));
+                  binding = bindingWithFormat.substring(0, nullSeparatorIndex - 1);
+               }
             }
             let b = Binding.get(binding);
             getter = (data) => {
@@ -125,6 +132,13 @@ export function expression(str) {
                   let colon = term.indexOf(':', formatStart > 0 ? formatStart : 0);
                   let binding = colon == -1 ? term : term.substring(0, colon);
                   let format = colon == -1 ? null : term.substring(colon + 1);
+                  if (colon == -1) {
+                     let nullSepIndex = binding.indexOf('|');
+                     if (nullSepIndex != -1) {
+                        format = binding.substring(nullSepIndex);
+                        binding = binding.substring(0, nullSepIndex);
+                     }
+                  }
                   let argName = binding.replace(/\./g, '_');
                   if (isDigit(argName[0]))
                      argName = '$' + argName;
