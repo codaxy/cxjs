@@ -104,7 +104,16 @@ const formats = {
         description: <cx><Md>
             Encodes the given value using the `encodeURIComponent` function. Useful in URL templates.
         </Md></cx>
-    }
+    },
+    "ellipsis": {
+        description: <cx><Md>
+            Shortens long texts.
+
+            `ellipsis;maxLength;position`
+
+            `position` defines ellipsis position and can be either `start`, `end` or `middle`. Default position is `end`.
+        </Md></cx>
+    },
 };
 
 export const Formatting = <cx>
