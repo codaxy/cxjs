@@ -32,7 +32,7 @@ import './index.scss';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-import Demo from './features/drag-drop/grid-to-grid';
+//import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
@@ -49,7 +49,7 @@ import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/hscroll';
-//import Demo from './features/grid/InfiniteScroll';
+import Demo from './features/grid/InfiniteScroll';
 
 //import Demo from './features/menu/icons';
 //import Demo from './features/window/header-buttons';

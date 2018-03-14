@@ -1281,7 +1281,11 @@ class GridComponent extends VDOM.Component {
 
          let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
 
-         if (data.totalRecordCount == 0 || sortersChanged || data.filterParams !== this.lastScrollFilterParams) {
+         if (data.totalRecordCount == 0) {
+            this.dom.scroller.scrollTop = 0;
+         }
+
+         if (sortersChanged || data.filterParams !== this.lastScrollFilterParams) {
             this.dom.scroller.scrollTop = 0;
             this.lastScrollFilterParams = data.filterParams;
             this.lastSorters = data.sorters;
