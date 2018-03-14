@@ -95,6 +95,40 @@ var formatFactory = {
       let date = formatFactory.date();
       let time = formatFactory.time();
       return value => date(value) + ' ' + time(value);
+   },
+
+   ellipsis: function (part0, length, where) {
+      length = Number(length);
+      if (!(length > 3))
+         length = 10;
+      switch (where) {
+         default:
+         case "end":
+            return (value) => {
+               let s = String(value);
+               if (s.length > length)
+                  return s.substring(0, length - 3) + "...";
+               return s;
+            };
+
+         case "start":
+            return (value) => {
+               let s = String(value);
+               if (s.length > length)
+                  return "..." + s.substring(s.length - length + 3);
+               return s;
+            };
+
+         case "middle":
+            return (value) => {
+               let s = String(value);
+               if (s.length > length) {
+                  let x = Math.floor(length - 2) / 2;
+                  return s.substring(0, x) + "..." + s.substring(s.length - (length - 3 - x));
+               }
+               return s;
+            };
+      }
    }
 };
 
