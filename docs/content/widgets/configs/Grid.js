@@ -181,5 +181,11 @@ export default {
         description: <cx><Md>
             Callback function to be executed when a row is clicked.
         </Md></cx>
+    },
+    remoteSort: {
+        type: "boolean",
+        description: <cx><Md>
+            Set to `true` if sorting is done remotely, on the server-side. Default value is `false`.
+        </Md></cx>
     }
 };
