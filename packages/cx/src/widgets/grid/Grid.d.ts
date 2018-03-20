@@ -76,6 +76,7 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Record alias. Default is `$record`. */
    recordAlias?: string,
 
+   /** Set to `true` if sorting is done remotely, on the server-side. Default value is `false`. */
    remoteSort?: boolean,
 
    /** Set to `true` to enable row caching. This greatly improves grid performance
