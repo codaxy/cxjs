@@ -1,4 +1,4 @@
-import {HtmlElement, TextField, Checkbox, Grid, TreeNode} from 'cx/widgets';
+import {HtmlElement, TextField, Icon, Grid, TreeNode} from 'cx/widgets';
 import {Content, Controller, LabelsLeftLayout, KeySelection, TreeAdapter} from 'cx/ui';
 import {ExposedRecordView, Binding} from 'cx/data';
 import {Md} from '../../../components/Md';
@@ -53,9 +53,11 @@ export const TreeGrid = <cx>
                             leaf:bind="$record.$leaf"
                             level:bind="$record.$level"
                             loading:bind="$record.$loading"
-                            text:bind="$record.fullName"
                             icon:bind="$record.icon"
-                        />
+                        >
+                            <Icon name="search" />
+                            <span text:bind="$record.fullName" />
+                        </TreeNode>
                     </cx>
                     },
                     {header: 'Phone', field: 'phone'},
