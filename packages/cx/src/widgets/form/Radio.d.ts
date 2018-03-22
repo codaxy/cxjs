@@ -30,7 +30,7 @@ interface RadioProps extends FieldProps {
    /**
     * Set to `true` to set the make the radio initially selected.
     */
-   default: boolean
+   default?: boolean
 
 }
 

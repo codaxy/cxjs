@@ -21,7 +21,7 @@ import './index.scss';
 //import Demo from './bugs/282';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
-import Demo from './bugs/395';
+//import Demo from './bugs/395';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
@@ -49,7 +49,7 @@ import Demo from './bugs/395';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
-//import Demo from './features/hscroll';
+import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 
 //import Demo from './features/menu/icons';
