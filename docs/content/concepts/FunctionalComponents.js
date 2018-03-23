@@ -8,6 +8,8 @@ import {Gridlines, LineGraph, Chart, NumericAxis} from 'cx/charts';
 import {TextField} from 'cx/widgets';
 import {createFunctionalComponent, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 
+import configs from '../widgets/configs/FunctionalComponent';
+
 const LineChart = ({ data, chartStyle, lineStyle, areaStyle }) => <cx>
     <Svg style={chartStyle}>
         <Chart offset="20 -20 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
@@ -136,6 +138,14 @@ export const FunctionalComponents = <cx>
 
         > Note that React (functional) components can freely be mixed with CxJS, therefore, `createFunctionalComponent` is required
         when a CxJS functional component doesn't have a recognizable syntax.
-    </Md>
+
+        ### Reserved property names
+
+        A number of properties that can be passed to functional components are important for the internal workings of the `Cx` framework. They ensure functional components work well
+        with other `Cx` widgets, and **should not be used within the function body**. 
+
+        <ConfigTable props={configs} />
+    </Md>   
+        
 </cx>;
 
