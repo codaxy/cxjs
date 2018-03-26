@@ -46,7 +46,7 @@ export default {
         description: <cx><Md>
             This property is used to define a component that will be rendered inside the column header, 
             which can be used for creating custom header menus for filtering or other options. 
-            [See example](https://github.com/codaxy/cxjs/blob/master/gallery/routes/general/grids/header-menu.tsx).
+            [See example](https://fiddle.cxjs.io/?f=Gibc7IUr).
         </Md></cx>
     }
 };
