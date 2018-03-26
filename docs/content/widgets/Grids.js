@@ -106,6 +106,7 @@ export const Grids = <cx>
         - [Row Editing](~/examples/grid/row-editing)
         - [Inline Editing](~/examples/grid/inline-edit)
         - [TreeGrid](~/examples/grid/tree-grid)
+        - [Header Menu](~/examples/grid/header-menu)
         - [Complex Header](~/examples/grid/complex-headers)
         - [Buffering 5000 rows](~/examples/grid/buffering)
         - [Infinite scrolling](~/examples/grid/infinite-scrolling)

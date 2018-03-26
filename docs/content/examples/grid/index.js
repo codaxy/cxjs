@@ -10,3 +10,4 @@ export * from './ComplexHeaders';
 export * from './Buffering';
 export * from './InfiniteScrolling';
 export * from './RowExpanding';
+export * from './HeaderMenu';
