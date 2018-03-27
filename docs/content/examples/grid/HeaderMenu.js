@@ -109,7 +109,7 @@ const columnMenu = filter => (
    <cx>
       <Menu horizontal itemPadding="small">
          <Submenu placement="down-left">
-            <span style={{ "padding": "4px" }}>
+            <span style={{ "padding": "7px 4px" }}>
                <Icon name={"menu"} />
             </span>
             <Menu putInto="dropdown">
@@ -193,25 +193,25 @@ export const HeaderMenu = <cx>
                   },
                   {
                      header: {
-                     text: "Visits",
-                     tool: columnMenu(
-                           <cx>
-                                 <FlexRow mod="menu">
-                                 <TextField
-                                    value={bind("filter.visits.from")}
-                                    style="width: 40px"
-                                 />
-                                 <Slider
-                                    from={bind("filter.visits.from")}
-                                    to={bind("filter.visits.to")}
-                                    step={1}
-                                 />
-                                 <TextField
-                                    value={bind("filter.visits.to")}
-                                    style="width: 40px"
-                                 />
-                                 </FlexRow>
-                           </cx>
+                        text: "Visits",
+                        tool: columnMenu(
+                            <cx>
+                                    <FlexRow mod="menu">
+                                    <TextField
+                                        value={bind("filter.visits.from")}
+                                        style="width: 40px"
+                                    />
+                                    <Slider
+                                        from={bind("filter.visits.from")}
+                                        to={bind("filter.visits.to")}
+                                        step={1}
+                                    />
+                                    <TextField
+                                        value={bind("filter.visits.to")}
+                                        style="width: 40px"
+                                    />
+                                    </FlexRow>
+                            </cx>
                         )
                      },
                      field: "visits",
