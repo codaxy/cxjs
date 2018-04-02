@@ -44,6 +44,7 @@ export * from './Hscrollers';
 export * from './Validators';
 export * from './ContextMenus';
 export * from './ProgressBars';
+export * from './Texts';
 
 import { bumpVersion } from '../version';
 

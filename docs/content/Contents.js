@@ -91,6 +91,7 @@ var contents = [{
         {title: 'DetachedScope', url: '~/widgets/detached-scope'},
         {title: 'ContentResolver', url: '~/widgets/content-resolvers'},
         {title: 'ProgressBar', url: '~/widgets/progress-bars'},
+        {title: 'Text', url: '~/widgets/texts'},
     ]
 }, {
     topic: 'Overlays',
