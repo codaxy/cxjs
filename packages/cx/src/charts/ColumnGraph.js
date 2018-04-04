@@ -11,7 +11,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
       let {data, xAxis, yAxis} = instance;
 
       if (isArray(data.data)) {
-         data.data.forEach(p => {
+         data.data.forEach((p, index) => {
             var y0 = this.y0Field ? p[this.y0Field] : data.y0;
             var x = p[this.xField];
             var y = p[this.yField];
@@ -30,6 +30,9 @@ export class ColumnGraph extends ColumnBarGraphBase {
                   yAxis.acknowledge(y0);
                yAxis.acknowledge(y);
             }
+
+            if (context.pointReducer)
+               context.pointReducer(x, y, data.name, p, data, index);
          });
       }
    }
