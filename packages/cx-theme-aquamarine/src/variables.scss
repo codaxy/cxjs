@@ -485,12 +485,9 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
       line-height: $cx-default-box-line-height,
       text-transform: uppercase
    ),
-   hover: (
-      color: $cx-theme-primary-text-color
-   ),
    cursor: (
       background-color: rgba(0, 0, 0, 0.1),
-      color: $cx-theme-primary-color,
+      //color: $cx-theme-primary-color,
       outline: none
    ),
    selected: (
@@ -505,7 +502,7 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
       //box-shadow: $cx-theme-box-shadow
    ),
    active: (
-      color: $cx-theme-primary-color,  
+      color: $cx-theme-primary-color,
       background-color: $cx-default-tab-background-color
    ),
    disabled: (
