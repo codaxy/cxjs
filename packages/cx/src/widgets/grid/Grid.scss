@@ -78,6 +78,19 @@
                table-layout: fixed;
             }
          }
+
+         & > .#{$element}#{$name}-fixed-footer {
+            overflow: hidden;
+
+            & > table {
+               width: auto;
+               table-layout: fixed;
+            }
+         }
+
+         .#{$element}#{$name}-fixed-footer-corner {
+            width: 100%;
+         }
       }
 
       &.#{$mod}responsive {
@@ -326,6 +339,7 @@
 
       td {
          border-top: 1px solid $cx-default-grid-border-color;
+         box-sizing: border-box;
 
          &.#{$state}pad {
             padding: cx-get-state-rule($data-state-style-map, default, padding);
@@ -372,13 +386,6 @@
          border-right-style: solid;
          border-right-color: $cx-default-grid-border-color;
       }
-   }
-
-   .#{$element}#{$name}-fixed-header {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
    }
 
    .#{$block}#{$name}.#{$state}selectable {

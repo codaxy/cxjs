@@ -12,7 +12,7 @@ class PageController extends Controller {
 
       this.store.set(
          "$page.records",
-         Array.from({length: 100}).map((v, i) => ({
+         Array.from({length: 5}).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
@@ -30,7 +30,9 @@ export default (
          <Grid
             records:bind="$page.records"
             scrollable={true}
-            style={{height: "700px", margin: "50px"}}
+            mod="responsive"
+            style={{width: 'auto', height: "700px", margin: "50px"}}
+            fixedFooter
             columns={[
                {
                   header: "Name",
@@ -40,7 +42,7 @@ export default (
                   aggregateAlias: "people",
                   footer: {
                      tpl:
-                        "{$group.name} - {$group.people} {$group.people:plural;person}"
+                        "{$group.name:suffix; - }{$group.people} {$group.people:plural;person}"
                   }
                },
                {
@@ -77,6 +79,9 @@ export default (
                }
             ]}
             grouping={[
+               {
+                  showFooter: true
+               },
                {
                   key: {name: {bind: "$record.continent"}},
                   showFooter: true,
