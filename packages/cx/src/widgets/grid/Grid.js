@@ -95,7 +95,7 @@ export class Grid extends Widget {
                this.hasSortableColumns = true;
 
             if (c.aggregate && c.aggregateField) {
-               aggregates[c.aggregateField] = {
+               aggregates[c.aggregateAlias] = {
                   value: c.value != null ? c.value : {bind: this.recordName + '.' + c.aggregateField},
                   weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
                   type: c.aggregate
@@ -1581,6 +1581,9 @@ class GridColumnHeader extends Widget {
 
       if (!this.aggregateField && this.field)
          this.aggregateField = this.field;
+
+      if (!this.aggregateAlias)
+         this.aggregateAlias = this.aggregateField;
 
       if (this.footer && isSelector(this.footer))
          this.footer = {

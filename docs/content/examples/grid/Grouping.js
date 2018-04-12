@@ -49,7 +49,7 @@ export const Grouping = <cx>
                     field: 'fullName',
                     sortable: true,
                     aggregate: 'count',
-                    aggregateField: 'people',
+                    aggregateAlias: 'people',
                     footer: {tpl: '{$group.name} - {$group.people} {$group.people:plural;person}'}
                 },
                     {
