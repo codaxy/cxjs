@@ -12,7 +12,7 @@ class PageController extends Controller {
 
       this.store.set(
          "$page.records",
-         Array.from({length: 5}).map((v, i) => ({
+         Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
@@ -29,7 +29,8 @@ export default (
       <div controller={PageController}>
          <Grid
             records:bind="$page.records"
-            scrollable={true}
+            keyField='id'
+            scrollable
             mod="responsive"
             style={{width: 'auto', height: "700px", margin: "50px"}}
             fixedFooter

@@ -36,7 +36,7 @@ import {Cx} from '../../ui/Cx';
 //TODO:
 // - Hide last row when fixed footer is on
 // - check 1px top border
-// - fix bottom margin
+// + fix bottom margin
 
 export class Grid extends Widget {
 
@@ -592,7 +592,7 @@ export class Grid extends Widget {
          });
 
          if (fixed)
-            cells.push(<td key="dummy" className={CSS.element(baseClass, 'fixed-footer-corner')} />);
+            cells.push(<td key="dummy" className={CSS.element(baseClass, 'fixed-footer-corner')}/>);
 
          lines.push(
             <tbody
@@ -712,7 +712,6 @@ class GridComponent extends VDOM.Component {
       };
 
       this.syncBuffering = false;
-      this.headerHeight = 0;
 
       if (widget.infinite) {
          this.start = 0;
@@ -724,6 +723,10 @@ class GridComponent extends VDOM.Component {
 
       this.scrollerRef = el => {
          this.dom.scroller = el;
+      }
+
+      this.wrapperRef = el => {
+         this.dom.wrapper = el;
       }
    }
 
@@ -855,12 +858,6 @@ class GridComponent extends VDOM.Component {
          ];
       }
 
-      let marginTop = -this.headerHeight, marginBottom = 0;
-      if (this.rowHeight > 0) {
-         marginTop += this.rowHeight * start;
-         marginBottom = (data.totalRecordCount - (start + children.length)) * this.rowHeight;
-      }
-
       if (this.props.fixedHeader)
          content.push(<div
             key="fh"
@@ -881,9 +878,6 @@ class GridComponent extends VDOM.Component {
          <div
             key="scroller"
             ref={this.scrollerRef}
-            // style={{
-            //    marginTop: `${this.headerHeight}px`
-            // }}
             tabIndex={widget.selectable ? 0 : null}
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, 'scroll-area', {"fixed-header": !!this.props.header})}
@@ -892,18 +886,20 @@ class GridComponent extends VDOM.Component {
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
          >
-            <table
-               ref={el => {
-                  this.dom.table = el
-               }}
-               style={{
-                  marginTop: `${marginTop.toFixed(0)}px`,
-                  marginBottom: `${marginBottom.toFixed(0)}px`,
-               }}
+            <div
+               ref={this.wrapperRef}
+               className={CSS.element(baseClass, 'table-wrapper')}
             >
-               {this.props.header}
-               {children}
-            </table>
+               <table
+                  ref={el => {
+                     this.dom.table = el
+                  }}
+               >
+                  {this.props.header}
+                  {children}
+               </table>
+
+            </div>
          </div>
       );
 
@@ -1091,7 +1087,6 @@ class GridComponent extends VDOM.Component {
             this.pending = true;
             this.setState({start, end}, () => {
                this.pending = false;
-               setTimeout(::this.onScroll, 0);
             });
          }
       }
@@ -1230,8 +1225,6 @@ class GridComponent extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       let {data, widget} = props.instance;
-      if (!props.header)
-         this.headerHeight = 0;
       this.setState({
          cursor: Math.max(Math.min(this.state.cursor, data.totalRecordCount - 1), widget.selectable && this.state.focused ? 0 : -1)
       });
@@ -1266,13 +1259,12 @@ class GridComponent extends VDOM.Component {
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
 
-         let resized = false, headerHeight = 0, rowHeight = 0;
+         let resized = false, headerHeight = 0, footerHeight = 0, rowHeight = 0;
 
          if (headerRefs) {
             let headerCls = widget.CSS.element(widget.baseClass, "header");
             let node = this.dom.table.firstChild;
             while (node && node.classList.contains(headerCls)) {
-               headerHeight += node.offsetHeight;
                node = node.nextSibling;
             }
          }
@@ -1290,6 +1282,7 @@ class GridComponent extends VDOM.Component {
                }
             }
             this.dom.fixedHeader.style.display = 'block';
+            headerHeight = this.dom.fixedHeader.offsetHeight;
             if (fixedHeaderRefs.last)
                fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
          }
@@ -1309,7 +1302,7 @@ class GridComponent extends VDOM.Component {
             }
 
             this.dom.fixedFooter.style.display = 'block';
-            this.dom.table.style.marginBottom = `${-this.dom.fixedFooter.offsetHeight}px`;
+            footerHeight = this.dom.fixedFooter.offsetHeight;
          }
 
          if (widget.buffered) {
@@ -1328,12 +1321,12 @@ class GridComponent extends VDOM.Component {
                remaining = Math.max(0, data.totalRecordCount - end);
             }
             this.dom.table.style.marginTop = `${ (-headerHeight + start * rowHeight).toFixed(0) }px`;
-            this.dom.table.style.marginBottom = `${ (remaining * this.headerHeight).toFixed(0) }px`;
+            this.dom.table.style.marginBottom = `${ (remaining * headerHeight - footerHeight).toFixed(0) }px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
+            this.dom.table.style.marginBottom = `${-footerHeight}px`;
          }
 
-         this.headerHeight = headerHeight;
          this.rowHeight = rowHeight;
 
          let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
@@ -1365,7 +1358,7 @@ class GridComponent extends VDOM.Component {
             }
          }
 
-         this.onScroll();
+         setTimeout(::this.onScroll, 0);
 
          if (resized)
             instance.fixedHeaderResizeEvent.notify();

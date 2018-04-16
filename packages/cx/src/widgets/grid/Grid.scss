@@ -20,6 +20,7 @@
          border-collapse: collapse;
          width: 100%;
          position: relative;
+         overflow-anchor: none;
       }
 
       .#{$state}aligned-left {
@@ -414,6 +415,10 @@
       right: 0;
       top: 0;
       bottom: 0;
+   }
+
+   &.#{$element}#{$name}-table-wrapper {
+      overflow: hidden;
    }
 }
 
