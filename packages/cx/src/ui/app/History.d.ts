@@ -10,4 +10,6 @@ export class History {
    static subscribe(callback: (url?: string, op?: "pushState" | "replaceState") => void): () => void;
 
    static reloadOnNextChange();
+
+   static addNavigateConfirmation(callback: ((url?: string) => boolean | Promise<boolean>), executeOnlyOnce?: boolean);
 }

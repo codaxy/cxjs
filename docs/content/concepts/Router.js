@@ -1,4 +1,5 @@
-import {HtmlElement, TextField} from 'cx/widgets';
+import {HtmlElement, Button, MsgBox, Link} from 'cx/widgets';
+import {History} from "cx/ui";
 import {Md} from '../../components/Md';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
@@ -172,11 +173,18 @@ export const Router = <cx>
                     Instructs the router to reload the page on next navigation. This is commonly used with service
                     workers.
                 </Md></cx>
+            }, {
+                signature: 'History.addNavigateConfirmation(callback, permanent)',
+                description: <cx><Md>
+                    Instructs the router to execute the given callback to confirm leaving the current page. Return value should
+                    be a boolean value or a promise. The callback is executed only for the current page, unless `permanent`
+                    argument is set to `true`. See the example below.
+                </Md></cx>
             }]}/>
             <CodeSnippet putInto="code">{`
             History.connect(store, 'url');
 
-            History.subscribe((url) => {
+            History.subscribe(url => {
                 if (window.ga) {
                     ga('set', 'page', url);
                     ga('send', 'pageview');
@@ -186,9 +194,52 @@ export const Router = <cx>
             </CodeSnippet>
         </CodeSplit>
 
-        > Please note that fallback mechanism for browsers which do not support `pushState` navigation is standard
-        navigation
-        (full page load).
+        <CodeSplit>
+            > Please note that fallback mechanism for browsers which do not support `pushState` navigation is standard
+            navigation (full page load).
+
+            The following example illustrates the use of `History.addNavigateConfirmation` to ask the user for confirmation
+            before leaving the page.
+
+            <div class="widgets">
+                <div>
+                    <Button
+                        onClick={(e, {store}) => {
+                            History.addNavigateConfirmation(
+                                url => MsgBox
+                                    .yesNo('Are you sure that you want to leave this page?')
+                                    .then(answer => answer == 'yes')
+                            );
+                            store.set('$page.confirmation', true);
+                        }}
+                    >
+                        Add Confirmation
+                    </Button>
+                    <p ws visible:expr="!!{$page.confirmation}">
+                        Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
+                    </p>
+                </div>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <Button
+                    onClick={(e, {store}) => {
+                        History.addNavigateConfirmation(
+                            url => MsgBox
+                                .yesNo('Are you sure you want to leave this page?')
+                                .then(result => result == 'yes')
+                        );
+                        store.set('$page.confirmation', true);
+                    }}
+                >
+                    Add Confirmation
+                </Button>
+                <p ws visible:expr="!!{$page.confirmation}">
+                    Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
+                </p>
+            `}</CodeSnippet>
+
+        </CodeSplit>
 
         ## Link
 

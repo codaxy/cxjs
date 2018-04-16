@@ -2,10 +2,14 @@ import {Url} from './Url';
 import {batchUpdatesAndNotify} from '../batchUpdates';
 import {SubscriberList} from '../../util/SubscriberList';
 
-let last = 0, next = 1;
-let transitions = {};
-let subscribers = null;
-let reload = false;
+let last = 0,
+   next = 1,
+   transitions = {},
+   subscribers = null,
+   reload = false,
+   navigateConfirmationCallback = null,
+   permanentNavigateConfirmation = false;
+
 
 export class History {
 
@@ -20,7 +24,7 @@ export class History {
    }
 
    static pushState(state, title, url) {
-      return this.navigate(state, title, url);
+      return this.confirmAndNavigate(state, title, url);
    }
 
    static replaceState(state, title, url) {
@@ -29,6 +33,29 @@ export class History {
 
    static reloadOnNextChange() {
       reload = true;
+   }
+
+   static addNavigateConfirmation(callback, permanent = false) {
+      navigateConfirmationCallback = callback;
+      permanentNavigateConfirmation = permanent;
+   }
+
+   static confirmAndNavigate(state, title, url, replace) {
+      if (!navigateConfirmationCallback)
+         return this.navigate(state, title, url, replace);
+
+      let result = navigateConfirmationCallback(url);
+
+      Promise
+         .resolve(result)
+         .then(value => {
+            if (value) {
+               if (!permanentNavigateConfirmation)
+                  navigateConfirmationCallback = null;
+               this.navigate(state, title, url, replace);
+            }
+         });
+      return false;
    }
 
    static navigate(state, title, url, replace = false) {

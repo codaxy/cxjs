@@ -32,8 +32,8 @@ export class Md extends HtmlElement {
         props.onClick = (e) => {
             if (e.target.tagName == 'A') {
                 if (Url.isLocal(e.target.href) && e.target.href.indexOf('#') == -1) {
-                    if (History.pushState({}, null, e.target.href))
-                        e.preventDefault();
+                    History.pushState({}, null, e.target.href);
+                    e.preventDefault();
                 }
             }
         }
