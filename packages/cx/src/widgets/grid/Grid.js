@@ -827,22 +827,6 @@ class GridComponent extends VDOM.Component {
          ];
       }
 
-      if (this.props.fixedHeader)
-         content.push(<div
-            key="fh"
-            ref={el => {
-               this.dom.fixedHeader = el
-            }}
-            className={CSS.element(baseClass, 'fixed-header')}
-            style={{
-               display: this.scrollWidth > 0 ? 'block' : 'none'
-            }}
-         >
-            <table>
-               {this.props.fixedHeader}
-            </table>
-         </div>);
-
       content.push(
          <div
             key="scroller"
@@ -871,6 +855,22 @@ class GridComponent extends VDOM.Component {
             </div>
          </div>
       );
+
+      if (this.props.fixedHeader)
+         content.push(<div
+            key="fh"
+            ref={el => {
+               this.dom.fixedHeader = el
+            }}
+            className={CSS.element(baseClass, 'fixed-header')}
+            style={{
+               display: this.scrollWidth > 0 ? 'block' : 'none'
+            }}
+         >
+            <table>
+               {this.props.fixedHeader}
+            </table>
+         </div>);
 
       if (this.props.fixedFooter)
          content.push(<div
@@ -1128,8 +1128,9 @@ class GridComponent extends VDOM.Component {
    onDragOver(ev) {
       let {CSS, baseClass} = this.props.instance.widget;
       let rowClass = CSS.element(baseClass, 'data');
-      let nodes = Array.from(this.dom.scroller.firstChild.childNodes)
-                       .filter(node => node.className && node.className.indexOf(rowClass) != -1);
+      let nodes = Array
+         .from(this.dom.table.children)
+         .filter(node => node.className && node.className.indexOf(rowClass) != -1);
 
       let cy = ev.cursor.clientY;
       let s = 0, e = nodes.length, m, b;
@@ -1225,6 +1226,7 @@ class GridComponent extends VDOM.Component {
             for (let c = 0; c < sr.children.length; c++) {
                let cell = sr.children[c];
                cell.style.width = cell.style.minWidth = cell.style.maxWidth = `${sr.children[c].offsetWidth}px`;
+               cell.style.boxSizing = 'border-box';
             }
          }
       }
@@ -1246,6 +1248,10 @@ class GridComponent extends VDOM.Component {
 
             this.dom.fixedHeader.style.display = 'block';
             headerHeight = this.dom.fixedHeader.offsetHeight;
+            this.dom.scroller.style.marginTop = `${headerHeight}px`;
+         }
+         else {
+            this.dom.scroller.style.marginTop = 0;
          }
 
          if (this.dom.fixedFooter) {
@@ -1260,6 +1266,10 @@ class GridComponent extends VDOM.Component {
 
             this.dom.fixedFooter.style.display = 'block';
             footerHeight = this.dom.fixedFooter.offsetHeight;
+            this.dom.scroller.style.marginBottom = `${footerHeight}px`;
+         }
+         else {
+            this.dom.scroller.style.marginBottom = 0;
          }
 
          if (widget.buffered) {
@@ -1352,7 +1362,7 @@ class GridComponent extends VDOM.Component {
          this.setState(newState, () => {
             if (scrollIntoView) {
                let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
-               let item = this.dom.scroller.firstChild.children[index + 1 - start];
+               let item = this.dom.table.children[index + 1 - start];
                if (item)
                   scrollElementIntoView(item);
             }

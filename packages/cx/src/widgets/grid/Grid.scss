@@ -73,6 +73,11 @@
 
          & > .#{$element}#{$name}-fixed-header {
             overflow: hidden;
+            position: absolute;
+            display: none;
+            left: 0;
+            top: 0;
+            right: 0;
 
             & > table {
                width: auto;
@@ -82,6 +87,11 @@
 
          & > .#{$element}#{$name}-fixed-footer {
             overflow: hidden;
+            position: absolute;
+            display: none;
+            left: 0;
+            bottom: 0;
+            right: 0;
 
             & > table {
                width: auto;
