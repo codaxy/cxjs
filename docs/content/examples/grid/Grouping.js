@@ -31,10 +31,12 @@ export const Grouping = <cx>
 
             An example of a grid control with grouping.
 
-            <Grid records:bind='$page.records'
-                scrollable={true}
+            <Grid
+                records:bind='$page.records'
+                scrollable
+                fixedFooter
                 style={{width: "100%", height: '800px'}}
-                grouping={[{
+                grouping={[{ showFooter: true }, {
                     key: {
                         name: {
                             value: {bind: '$record.continent'},
@@ -50,38 +52,38 @@ export const Grouping = <cx>
                     sortable: true,
                     aggregate: 'count',
                     aggregateAlias: 'people',
-                    footer: {tpl: '{$group.name} - {$group.people} {$group.people:plural;person}'}
+                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'}
                 },
-                    {
-                        header: 'Continent',
-                        field: 'continent',
-                        visible: true,
-                        sortable: true,
-                        aggregate: 'distinct',
-                        footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'}
-                    },
-                    {
-                        header: 'Browser',
-                        field: 'browser',
-                        sortable: true,
-                        aggregate: 'distinct',
-                        footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
-                    },
-                    {
-                        header: 'OS',
-                        field: 'os',
-                        sortable: true,
-                        aggregate: 'distinct',
-                        footer: {tpl: '{$group.os} {$group.os:plural;OS}'}
-                    },
-                    {
-                        header: 'Visits',
-                        field: 'visits',
-                        sortable: true,
-                        aggregate: "sum",
-                        align: "right",
-                        format: 'n;0'
-                    }]}
+                {
+                    header: 'Continent',
+                    field: 'continent',
+                    visible: true,
+                    sortable: true,
+                    aggregate: 'distinct',
+                    footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'}
+                },
+                {
+                    header: 'Browser',
+                    field: 'browser',
+                    sortable: true,
+                    aggregate: 'distinct',
+                    footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
+                },
+                {
+                    header: 'OS',
+                    field: 'os',
+                    sortable: true,
+                    aggregate: 'distinct',
+                    footer: {tpl: '{$group.os} {$group.os:plural;OS}'}
+                },
+                {
+                    header: 'Visits',
+                    field: 'visits',
+                    sortable: true,
+                    aggregate: "sum",
+                    align: "right",
+                    format: 'n;0'
+                }]}
             />
 
             <CodeSnippet putInto="code" fiddle="0Ztcob5B">{`
@@ -104,10 +106,12 @@ export const Grouping = <cx>
 
             ...
 
-            <Grid records:bind='$page.records'
-                scrollable={true}
-                style={{width: "100%", height: '700px'}}
-                grouping={[{
+            <Grid
+                records:bind='$page.records'
+                scrollable
+                fixedFooter
+                style={{width: "100%", height: '800px'}}
+                grouping={[{ showFooter: true }, {
                     key: {
                         name: {
                             value: {bind: '$record.continent'},
@@ -122,8 +126,8 @@ export const Grouping = <cx>
                     field: 'fullName',
                     sortable: true,
                     aggregate: 'count',
-                    aggregateField: 'people',
-                    footer: {tpl: '{$group.name} - {$group.people} {$group.people:plural;person}'}
+                    aggregateAlias: 'people',
+                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'}
                 },
                 {
                     header: 'Continent',

@@ -248,13 +248,7 @@ export class Grid extends Widget {
    }
 
    initInstance(context, instance) {
-      instance.refs = {
-         header: {},
-         fixed: {}
-      };
-
       instance.fixedHeaderResizeEvent = new SubscriberList();
-
       super.initInstance(context, instance);
    }
 
@@ -333,20 +327,15 @@ export class Grid extends Widget {
    }
 
    render(context, instance, key) {
-      let {data, refs} = instance;
+      let {data} = instance;
 
 
-      let fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', {
-         fixed: true,
-         refs: refs.fixed,
-         originalRefs: refs.header
-      });
+      let fixedHeader = data.scrollable && this.showHeader && this.renderHeader(context, instance, 'header', true);
 
       if (!this.buffered)
          this.renderRows(context, instance);
 
-      refs.header = {};
-      let header = this.showHeader && this.renderHeader(context, instance, 'header', {refs: refs.header});
+      let header = this.showHeader && this.renderHeader(context, instance, 'header');
 
       let fixedFooter = false;
 
@@ -361,20 +350,16 @@ export class Grid extends Widget {
             data={instance.data}
             shouldUpdate={instance.shouldUpdate}
             header={header}
-            headerRefs={refs.header}
             fixedHeader={fixedHeader}
-            fixedHeaderRefs={refs.fixed}
             fixedFooter={fixedFooter}
          />
       )
    }
 
-   renderHeader(context, instance, key, {fixed, refs, originalRefs}) {
+   renderHeader(context, instance, key, fixed) {
       let {data, widget, components} = instance;
       let {header} = components;
 
-      if (!refs)
-         refs = {};
       let {CSS, baseClass} = widget;
 
       let headerRows = [];
@@ -431,11 +416,6 @@ export class Grid extends Widget {
                      mods.push('tool');
                   }
 
-                  if (fixed && originalRefs[colKey]) {
-                     let width = originalRefs[colKey].offsetWidth + 'px';
-                     style = {...style, width, minWidth: width, maxWidth: width}
-                  }
-
                   if (header.data.colSpan > 1 || header.data.rowSpan > 1) {
                      colSpan = header.data.colSpan;
                      rowSpan = header.data.rowSpan;
@@ -455,9 +435,6 @@ export class Grid extends Widget {
 
                result[l].push(<th
                   key={i}
-                  ref={c => {
-                     refs[colKey] = c
-                  }}
                   colSpan={colSpan}
                   rowSpan={rowSpan}
                   className={cls}
@@ -480,10 +457,7 @@ export class Grid extends Widget {
                   key="dummy"
                   rowSpan={result.length}
                   className={CSS.element(baseClass, "col-header")}
-                  ref={el => {
-                     refs.last = el
-                  }}/>
-               );
+               />);
             }
 
             headerRows.push(
@@ -632,7 +606,7 @@ export class Grid extends Widget {
                record.vdom.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
 
             if (g.showHeader)
-               record.vdom.push(this.renderHeader(context, instance, record.key + '-header', {}));
+               record.vdom.push(this.renderHeader(context, instance, record.key + '-header'));
          }
 
          if (record.type == 'group-footer') {
@@ -1246,13 +1220,17 @@ class GridComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      let {headerRefs, fixedHeaderRefs, instance, data} = this.props;
+      let {instance, data} = this.props;
       let {widget} = instance;
 
-      if (widget.lockColumnWidths && headerRefs && isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
-         for (let k in headerRefs) {
-            let c = headerRefs[k];
-            c.style.width = c.offsetWidth + 'px';
+      if (widget.lockColumnWidths && isArray(data.records) && data.records.length >= widget.lockColumnWidthsRequiredRowCount) {
+         let headerTBody = this.dom.table.firstChild;
+         for (let r = 0; r < headerTBody.children.length; r++) {
+            let sr = headerTBody.children[r];
+            for (let c = 0; c < sr.children.length; c++) {
+               let cell = sr.children[c];
+               cell.style.width = cell.style.minWidth = cell.style.maxWidth = `${sr.children[c].offsetWidth}px`;
+            }
          }
       }
 
@@ -1261,45 +1239,29 @@ class GridComponent extends VDOM.Component {
 
          let resized = false, headerHeight = 0, footerHeight = 0, rowHeight = 0;
 
-         if (headerRefs) {
-            let headerCls = widget.CSS.element(widget.baseClass, "header");
-            let node = this.dom.table.firstChild;
-            while (node && node.classList.contains(headerCls)) {
-               node = node.nextSibling;
-            }
-         }
-
          if (this.dom.fixedHeader) {
-            for (let k in headerRefs) {
-               let c = headerRefs[k];
-               let fhe = fixedHeaderRefs[k];
-               if (fhe) {
-                  let w = c.offsetWidth + 'px';
-                  if (w !== fhe.style.width) {
-                     fhe.style.width = fhe.style.minWidth = fhe.style.maxWidth = w;
-                     resized = true;
-                  }
-               }
-            }
+
+            let fixedHeaderTBody = this.dom.fixedHeader.firstChild.firstChild;
+
+            resized = copyCellWidths(this.dom.table.firstChild, fixedHeaderTBody);
+
+            let scrollColumnEl = fixedHeaderTBody.firstChild.lastChild;
+            if (scrollColumnEl)
+               scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + 'px';
+
             this.dom.fixedHeader.style.display = 'block';
             headerHeight = this.dom.fixedHeader.offsetHeight;
-            if (fixedHeaderRefs.last)
-               fixedHeaderRefs.last.style.width = fixedHeaderRefs.last.style.minWidth = this.scrollWidth + 'px';
          }
 
          if (this.dom.fixedFooter) {
             let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
             let srcTableBody = this.dom.table.lastChild;
 
-            for (let r = 0; r < srcTableBody.children.length; r++) {
-               let sr = srcTableBody.children[r];
-               let dr = dstTableBody.children[r];
-               for (let c = 0; c < sr.children.length; c++) {
-                  let dc = dr.children[c];
-                  let width = sr.children[c].offsetWidth;
-                  dc.style.width = dc.style.minWidth = dc.style.maxWidth = `${width}px`;
-               }
-            }
+            copyCellWidths(srcTableBody, dstTableBody);
+
+            let scrollColumnEl = dstTableBody.firstChild.lastChild;
+            if (scrollColumnEl)
+               scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + 'px';
 
             this.dom.fixedFooter.style.display = 'block';
             footerHeight = this.dom.fixedFooter.offsetHeight;
@@ -1696,5 +1658,20 @@ function initGrouping(grouping) {
    })
 }
 
+function copyCellWidths(srcTableBody, dstTableBody) {
+   let changed = false;
+   for (let r = 0; r < srcTableBody.children.length; r++) {
+      let sr = srcTableBody.children[r];
+      let dr = dstTableBody.children[r];
+      for (let c = 0; c < sr.children.length; c++) {
+         let dc = dr.children[c];
+         let ws = `${sr.children[c].offsetWidth}px`;
+         if (!changed && dc.style.width != ws)
+            changed = true;
+         dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
+      }
+   }
+   return changed;
+}
 
 

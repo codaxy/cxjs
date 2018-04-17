@@ -32,7 +32,7 @@ export default (
             keyField='id'
             scrollable
             mod="responsive"
-            style={{width: 'auto', height: "700px", margin: "50px"}}
+            style={{width: '400px', height: "700px", margin: "50px"}}
             fixedFooter
             columns={[
                {
@@ -41,6 +41,7 @@ export default (
                   sortable: true,
                   aggregate: "count",
                   aggregateAlias: "people",
+                  style: "white-space: nowrap",
                   footer: {
                      tpl:
                         "{$group.name:suffix; - }{$group.people} {$group.people:plural;person}"

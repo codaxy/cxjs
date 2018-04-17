@@ -216,7 +216,7 @@
          padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
-      &:hover {
+      .#{$state}selectable &:hover {
          @include cx-add-state-rules($cx-list-item, hover);
       }
 
@@ -419,6 +419,8 @@
 
    &.#{$element}#{$name}-table-wrapper {
       overflow: hidden;
+      display: inline-block;
+      min-width: 100%;
    }
 }
 
