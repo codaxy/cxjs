@@ -29,8 +29,11 @@ export default (
       <div controller={PageController}>
          <Grid
             records:bind="$page.records"
-            scrollable={true}
-            style={{height: "700px", margin: "50px"}}
+            keyField='id'
+            scrollable
+            mod="responsive"
+            style={{width: '400px', height: "700px", margin: "50px"}}
+            fixedFooter
             columns={[
                {
                   header: "Name",
@@ -38,9 +41,10 @@ export default (
                   sortable: true,
                   aggregate: "count",
                   aggregateAlias: "people",
+                  style: "white-space: nowrap",
                   footer: {
                      tpl:
-                        "{$group.name} - {$group.people} {$group.people:plural;person}"
+                        "{$group.name:suffix; - }{$group.people} {$group.people:plural;person}"
                   }
                },
                {
@@ -77,6 +81,9 @@ export default (
                }
             ]}
             grouping={[
+               {
+                  showFooter: true
+               },
                {
                   key: {name: {bind: "$record.continent"}},
                   showFooter: true,

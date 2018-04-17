@@ -20,6 +20,7 @@
          border-collapse: collapse;
          width: 100%;
          position: relative;
+         overflow-anchor: none;
       }
 
       .#{$state}aligned-left {
@@ -77,6 +78,19 @@
                width: auto;
                table-layout: fixed;
             }
+         }
+
+         & > .#{$element}#{$name}-fixed-footer {
+            overflow: hidden;
+
+            & > table {
+               width: auto;
+               table-layout: fixed;
+            }
+         }
+
+         .#{$element}#{$name}-fixed-footer-corner {
+            width: 100%;
          }
       }
 
@@ -202,7 +216,7 @@
          padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
-      &:hover {
+      .#{$state}selectable &:hover {
          @include cx-add-state-rules($cx-list-item, hover);
       }
 
@@ -326,6 +340,7 @@
 
       td {
          border-top: 1px solid $cx-default-grid-border-color;
+         box-sizing: border-box;
 
          &.#{$state}pad {
             padding: cx-get-state-rule($data-state-style-map, default, padding);
@@ -374,13 +389,6 @@
       }
    }
 
-   .#{$element}#{$name}-fixed-header {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-   }
-
    .#{$block}#{$name}.#{$state}selectable {
 
       .#{$element}#{$name}-scroll-area {
@@ -407,6 +415,12 @@
       right: 0;
       top: 0;
       bottom: 0;
+   }
+
+   &.#{$element}#{$name}-table-wrapper {
+      overflow: hidden;
+      display: inline-block;
+      min-width: 100%;
    }
 }
 
