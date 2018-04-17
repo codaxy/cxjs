@@ -33,11 +33,6 @@ import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
 
-//TODO:
-// - Hide last row when fixed footer is on
-// - check 1px top border
-// + fix bottom margin
-
 export class Grid extends Widget {
 
    declareData() {
