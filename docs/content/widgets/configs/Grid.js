@@ -187,5 +187,11 @@ export default {
         description: <cx><Md>
             Set to `true` if sorting is done remotely, on the server-side. Default value is `false`.
         </Md></cx>
+    },
+    fixedFooter: {
+        type: "boolean",
+        description: <cx><Md>
+            Set to `true` to add a fixed footer at the bottom of the grid.
+        </Md></cx>
     }
 };
