@@ -3,16 +3,12 @@ import field from './Field';
 import calendar from './Calendar';
 
 let {
-    minValue, 
     minExclusive, 
-    maxValue, 
     maxExclusive, 
 } = calendar;
 
 export default {
-    minValue,
     minExclusive,
-    maxValue,
     maxExclusive,
     ...field,
     format: {
@@ -33,9 +29,8 @@ export default {
     reactOn: {
         type: 'string',
         description: <cx><Md>
-            Defaults to `input`. Other permitted values are `enter` and `blur`. Multiple values should be separated by
-            space,
-            .e.g. 'enter blur'.
+            Permitted values are `enter`, `blur`, `change` and `wheel`. Multiple values should be separated by
+            space, e.g. `"enter blur wheel"`. Defaults to `"enter blur"`.
         </Md></cx>
     },
     baseClass: {
@@ -49,7 +44,8 @@ export default {
         alias: 'step',
         type: 'number',
         description: <cx><Md>
-            Increment/decrement value when using arrow keys or mouse wheel.
+            Increment/decrement value when using arrow keys or mouse wheel. 
+            Mouse wheel reaction must be explicitly enabled by setting the [`reactOn`](~/widgets/number-fields#reactOn) property, e.g. `reactOn="enter blur wheel"`.
         </Md></cx>
     },
     snapToIncrement: {
@@ -99,6 +95,18 @@ export default {
         key: true,
         description: <cx><Md>
             An offset used to define mapping between displayed and stored values. E.g. 273.15 for displaying temperatures in Kelvins. `DV = (SV - OFFSET) / SCALE`
+        </Md></cx>
+    },
+    minValue: {
+        type: 'number',
+        description: <cx><Md>
+            Smallest allowed number value.
+        </Md></cx>
+    },
+    maxValue: {
+        type: 'number',
+        description: <cx><Md>
+            Largest allowed number value.
         </Md></cx>
     }
 };
