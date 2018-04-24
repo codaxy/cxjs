@@ -204,11 +204,16 @@ Widget.alias('list', List);
 class ListComponent extends VDOM.Component {
    constructor(props) {
       super(props);
-      let {focused} = props.instance.widget;
+      let {widget} = props.instance;
+      let {focused} = widget;
       this.state = {
          cursor: focused && props.selectable ? 0 : -1,
          focused: focused
-      }
+      };
+
+      this.handleItemMouseDown = ::this.handleItemMouseDown;
+      this.handleItemDoubleClick = ::this.handleItemDoubleClick;
+      this.handleItemClick = ::this.handleItemClick;
    }
 
    shouldComponentUpdate(props, state) {
@@ -236,6 +241,20 @@ class ListComponent extends VDOM.Component {
          instance.invoke("pipeKeyDown", null, instance);
    }
 
+   handleItemMouseDown(e) {
+      let index = Number(e.currentTarget.dataset.recordIndex);
+      this.moveCursor(index);
+      if (e.shiftKey)
+         e.preventDefault();
+   }
+
+   handleItemDoubleClick(e) {
+      let {instance, items} = this.props;
+      let index = Number(e.currentTarget.dataset.recordIndex);
+      let item = items[this.cursorChildIndex[index]];
+      instance.invoke("onItemDoubleClick", e, item.instance)
+   }
+
    render() {
       let {instance, items, selectable} = this.props;
       let {data, widget} = instance;
@@ -244,13 +263,17 @@ class ListComponent extends VDOM.Component {
       this.cursorChildIndex = [];
       let cursorIndex = 0;
 
+      let onDblClick;
+
+      if (widget.handleItemDoubleClick)
+         onDblClick = this.handleItemDoubleClick;
+
       let children = items.length > 0 && items.map((x, i) => {
             let {data, selected} = x.instance;
             let className;
 
             if (x.type == 'data') {
-               let ind = cursorIndex++,
-                  onDblClick;
+               let ind = cursorIndex++;
 
                this.cursorChildIndex.push(i);
                className = CSS.element(baseClass, 'item', {
@@ -259,24 +282,15 @@ class ListComponent extends VDOM.Component {
                   pad: widget.itemPad
                });
 
-               if (widget.onItemDoubleClick)
-                  onDblClick = e => { instance.invoke("onItemDoubleClick", e, x.instance)};
-
                return (
                   <li
                      key={x.key}
                      className={CSS.expand(className, data.classNames)}
                      style={itemStyle}
-                     onClick={e => this.handleItemClick(e, x.instance)}
+                     onClick={this.handleItemClick}
                      onDoubleClick={onDblClick}
-                     onMouseDown={e => {
-                        this.moveCursor(ind);
-                        if (e.shiftKey)
-                           e.preventDefault();
-                     }}
-                     // onMouseEnter={e => {
-                     //    this.moveCursor(ind, { hover: true })
-                     // }}
+                     data-record-index={ind}
+                     onMouseDown={this.handleItemMouseDown}
                   >
                      {x.content}
                   </li>
@@ -380,7 +394,7 @@ class ListComponent extends VDOM.Component {
       let selection = [], indexes = [];
 
       for (let cursor = from; cursor <= to; cursor++) {
-         let record = mappedRecords[cursor];
+         let record = mappedRecords[this.cursorChildIndex[cursor]];
          if (record) {
             selection.push(record.data);
             indexes.push(record.index);
@@ -420,13 +434,15 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(-1, { hover: true });
    }
 
-   handleItemClick(e, itemInstance) {
-      e.stopPropagation();
+   handleItemClick(e) {
+      let {instance, items} = this.props;
+      let index = Number(e.currentTarget.dataset.recordIndex);
+      let item = items[this.cursorChildIndex[index]];
 
-      let {instance} = this.props;
+      e.stopPropagation();
       let {widget} = instance;
 
-      if (widget.onItemClick && instance.invoke("onItemClick", e, itemInstance) === false)
+      if (widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false)
          return;
 
       this.moveCursor(this.state.cursor, {
