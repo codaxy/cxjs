@@ -382,8 +382,8 @@ class ListComponent extends VDOM.Component {
    }
 
    selectRange(from, to, options) {
-      let {instance, data} = this.props;
-      let {mappedRecords, widget} = instance;
+      let {instance, items} = this.props;
+      let {widget} = instance;
 
       if (from > to) {
          let tmp = from;
@@ -394,8 +394,9 @@ class ListComponent extends VDOM.Component {
       let selection = [], indexes = [];
 
       for (let cursor = from; cursor <= to; cursor++) {
-         let record = mappedRecords[this.cursorChildIndex[cursor]];
-         if (record) {
+         let item = items[this.cursorChildIndex[cursor]];
+         if (item) {
+            let record = item.instance.record;
             selection.push(record.data);
             indexes.push(record.index);
          }

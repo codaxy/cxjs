@@ -14,7 +14,7 @@ class Ctrl extends Controller {
       this.store.set("$page.records", [
          { id: 1, g: "Test", name: "Test A" },
          { id: 2, g: "Test", name: "Test B" },
-         { id: 3, g: "Test", name: "Test C" }
+         { id: 3, g: "Test2", name: "Test C" }
       ]);
    }
 }

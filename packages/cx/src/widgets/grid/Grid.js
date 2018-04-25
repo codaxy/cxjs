@@ -1664,6 +1664,9 @@ function initGrouping(grouping) {
 }
 
 function copyCellWidths(srcTableBody, dstTableBody) {
+   if (!srcTableBody || !dstTableBody)
+      return false;
+
    let changed = false;
    for (let r = 0; r < srcTableBody.children.length; r++) {
       let sr = srcTableBody.children[r];
