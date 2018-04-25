@@ -51,6 +51,8 @@ export class Overlay extends PureContainer {
             instance.set('visible', false)
          };
       }
+
+      super.initInstance(context, instance);
    }
 
    explore(context, instance) {
