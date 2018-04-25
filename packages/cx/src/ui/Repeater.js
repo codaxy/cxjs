@@ -39,7 +39,8 @@ export class Repeater extends Container {
       });
 
       this.item = PureContainer.create({
-         children: this.items || this.children
+         children: this.items || this.children,
+         layout: this.layout
       });
 
       delete this.children;
@@ -78,13 +79,7 @@ export class Repeater extends Container {
          } else if (subInstance.scheduleExploreIfVisible(context))
             instances.push(subInstance);
       });
-      instance.instances = instances;
-   }
-
-   render(context, instance, key) {
-      return instance.instances.map(ins => {
-         return ins.render(context, key + ':' + ins.record.key)
-      });
+      instance.children = instances;
    }
 }
 
