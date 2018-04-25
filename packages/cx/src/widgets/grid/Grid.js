@@ -534,7 +534,7 @@ export class Grid extends Widget {
 
                if (c.footer.expand) {
                   colSpan = 1;
-                  for (let ind = i + 1; ind < instance.columns.length && !instance.columns[ind].widget.footer && !instance.columns[ind].widget.aggregate; ind++)
+                  for (let ind = i + 1; ind < line.children.length && !line.children[ind].widget.footer && !line.children[ind].widget.aggregate; ind++)
                      colSpan++;
                }
 
