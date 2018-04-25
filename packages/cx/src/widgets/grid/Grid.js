@@ -360,7 +360,7 @@ export class Grid extends Widget {
       let headerRows = [];
 
       if (!header)
-         return headerRows;
+         return null;
 
       let skip = {};
 
@@ -462,6 +462,9 @@ export class Grid extends Widget {
             );
          }
       });
+
+      if (headerRows.length == 0)
+         return null;
 
       return headerRows;
    }
