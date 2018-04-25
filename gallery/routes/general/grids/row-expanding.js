@@ -188,34 +188,13 @@ export default <cx>
                   colSpan: 1000,
                   style: 'border-top-color: rgba(0, 0, 0, 0.05)',
                   items: <cx>
-                     <Grid 
-                        scrollable={true}
-                        style='height: 300px'
-                        records-bind="$page.records"
-                        scrollable
-                        columns={[
-                           {
-                              header: "Name",
-                              field: "fullName",
-                              sortable: true
-                           },
-                           {
-                              header: "Continent",
-                              field: "continent",
-                              sortable: true
-                           },
-                           {
-                              header: "Browser",
-                              field: "browser",
-                              sortable: true
-                           },
-                           {
-                              header: "OS",
-                              field: "os",
-                              sortable: true
-                           }
-                        ]}
-                     />
+                     <Svg style="width:100%; height:400px;">
+                        <Chart offset="20 -10 -40 40"
+                               axes={{x: {type: NumericAxis}, y: {type: NumericAxis, vertical: true}}}>
+                           <Gridlines/>
+                           <LineGraph data:bind="$record.points" colorIndex={8}/>
+                        </Chart>
+                     </Svg>
                   </cx>
                }]
             }
