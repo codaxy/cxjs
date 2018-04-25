@@ -41,6 +41,12 @@ export default (
             <Switch value-bind="$page.v0" label="Test 1" />
             <Switch value-bind="$page.v1" label="Test 2" />
          </div>
+
+         <div>
+            <Repeater records-bind="$page.layers" layout={LabelsLeftLayout}>
+               <Switch value-bind="$record.isSelected" label-bind="$record.name" />
+            </Repeater>
+         </div>
       </div>
    </cx>
 );

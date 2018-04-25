@@ -4,6 +4,7 @@ import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
 import {isString} from '../util/isString';
 import {Binding} from '../data/Binding';
+import {UseParentLayout} from "./layout/UseParentLayout";
 
 export class Repeater extends Container {
 
@@ -40,7 +41,7 @@ export class Repeater extends Container {
 
       this.item = PureContainer.create({
          children: this.items || this.children,
-         layout: this.layout
+         layout: UseParentLayout
       });
 
       delete this.children;
