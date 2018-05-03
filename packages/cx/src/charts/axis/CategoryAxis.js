@@ -197,6 +197,15 @@ class CategoryScale {
       return [stack.index[name], stack.count];
    }
 
+   trackValue(v, offset = 0, constrain = false) {
+      let index = Math.round((v - this.origin) / this.factor - offset + this.min - this.padding);
+      if (index < this.min)
+         index = this.min;
+      if (index > this.max)
+         index = this.max;
+      return this.valueList[index];
+   }
+
    findTickSize(minPxDist) {
       return 1;
    }
