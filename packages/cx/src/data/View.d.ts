@@ -4,7 +4,8 @@ import {Binding} from './Binding';
 declare type Path = string | Binding;
 
 interface ViewConfig {
-   store?: View
+   store?: View,
+   sealed?: boolean
 }
 
 export class View {
