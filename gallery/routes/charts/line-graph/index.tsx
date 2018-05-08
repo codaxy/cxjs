@@ -21,7 +21,7 @@ export default <cx>
         <SandboxedRoute route="+/standard">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/stacked" content={()=>System.import("./stacked")} />
+        <SandboxedAsyncRoute route="+/stacked" content={()=>import("./stacked")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

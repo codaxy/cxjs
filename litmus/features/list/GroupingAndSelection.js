@@ -2,9 +2,9 @@ import {
    FlexCol,
    FlexRow,
    Grid,
-   HtmlElement,
    Icon,
    List,
+   HtmlElement,
    TextField
 } from "cx/widgets";
 import { Controller, KeySelection } from "cx/ui";
@@ -12,7 +12,7 @@ import { Controller, KeySelection } from "cx/ui";
 class Ctrl extends Controller {
    onInit() {
       this.store.set("$page.records", [
-         { id: 1, g: "Test", name: "Test A" },
+         { id: 1, g: "Test", name: "Test A2" },
          { id: 2, g: "Test", name: "Test B" },
          { id: 3, g: "Test2", name: "Test C" }
       ]);

@@ -1,6 +1,5 @@
-const webpack = require('webpack'),
-   HtmlWebpackPlugin = require('html-webpack-plugin'),
-   PreloadWebpackPlugin = require('preload-webpack-plugin'),
+const HtmlWebpackPlugin = require('html-webpack-plugin'),
+   InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
    ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
    merge = require('webpack-merge'),
    path = require('path'),
@@ -28,7 +27,7 @@ module.exports = (production) => ({
    },
 
    module: {
-      loaders: [{
+      rules: [{
          test: /\.tsx?$/,
          include: /gallery/,
          loaders: [
@@ -89,39 +88,12 @@ module.exports = (production) => ({
       "react": "React",
       "react-dom": "ReactDOM"
    },
+
+   optimization: {
+      runtimeChunk: 'single'
+   },
+
    plugins: [
-      new webpack.NamedChunksPlugin(chunk => {
-         if (chunk.name)
-            return chunk.name;
-
-         // if (chunk.entryModule)
-         //    console.log('CHUNK', chunk.entryModule.resource);
-         // else
-         //    console.log('CH', chunk.modules.map(x=>x.resource));
-
-         if (chunk.modules.some(m => m.resource.match(/themes.material\.js$/)))
-            return 'material';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.frost\.js$/)))
-            return 'frost';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.core\.js$/)))
-            return 'core';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.dark\.js$/)))
-            return 'dark';
-
-         if (chunk.modules.some(m => m.resource.match(/themes.aquamarine\.js$/)))
-            return 'aquamarine';
-
-         if (chunk.modules.some(m => m.resource.match(/polyfill\.js$/)))
-            return 'polyfill';
-
-         return chunk.name;
-      }),
-      // new webpack.optimize.CommonsChunkPlugin({
-      //    name: "vendor"
-      // }),
       new HtmlWebpackPlugin({
          template: p('index.html'),
          gtmh: gtm.head,
@@ -129,6 +101,7 @@ module.exports = (production) => ({
          reactScripts: production ? reactScripts : reactScriptsDev,
          favicon: p('assets/favicon.png'),
       }),
+      new InlineManifestWebpackPlugin(),
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,
          preload: {

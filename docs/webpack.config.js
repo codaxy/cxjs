@@ -1,12 +1,10 @@
 const webpack = require('webpack'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
     merge = require('webpack-merge'),
-    combine = require('webpack-combine-loaders'),
     path = require('path'),
-    ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+    InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     babelConfig = require('./babel.config'),
@@ -14,50 +12,37 @@ const webpack = require('webpack'),
     reactScriptsProd = require('../misc/reactScripts'),
     reactScriptsDev = require('../misc/reactScripts.dev');
 
-
 var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
 
 if (production) {
-    var sass = new ExtractTextPlugin({
-        filename: "app.ltc.[chunkhash].css",
-        allChunks: true
-    });
 
     var root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
     specific = {
+        mode: 'production',
         module: {
-            loaders: [{
+            rules: [{
                 test: /\.scss$/,
-                loaders: sass.extract(['css-loader', 'sass-loader'])
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             }, {
                 test: /\.css$/,
-                loaders: sass.extract(['css-loader'])
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             }]
         },
-
         plugins: [
             new webpack.LoaderOptionsPlugin({
                 options: {
                     "if-loader": 'production',
                 }
             }),
-            new ChunkManifestPlugin({
-                manifestVariable: "webpackManifest",
-                inlineManifest: true
-            }),
-            new WebpackCleanupPlugin(),
-            new webpack.optimize.UglifyJsPlugin(),
+            //new WebpackCleanupPlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
-            sass,
-            // new OptimizeCssAssetsPlugin({
-            //     cssProcessorOptions: {
-            //         safe: true,
-            //         mergeLonghand: false
-            //     }
-            // }),
+            new MiniCssExtractPlugin({
+                filename: 'app.ltc.[chunkhash].css',
+                chunkFilename: '[id].ltc.[chunkhash].css',
+            }),
             new CopyWebpackPlugin([{
                 from: path.resolve(__dirname, '../misc/netlify.redirects'),
                 to: '_redirects',
@@ -84,8 +69,9 @@ if (production) {
 else {
     //dev
     specific = {
+        mode: 'development',
         module: {
-            loaders: [{
+            rules: [{
                 test: /\.scss$/,
                 loaders: ["style-loader", "css-loader", "sass-loader"]
             }, {
@@ -142,7 +128,7 @@ var common = {
     },
 
     module: {
-        loaders: [{
+        rules: [{
             test: /\.js$/,
             include: /[\\\/](docs|cx|cx-react)[\\\/]/,
             exclude: /(babelHelpers)/,
@@ -152,9 +138,6 @@ var common = {
             }, {
                 loader: 'if-loader'
             }]
-        }, {
-            test: /\.json$/,
-            loader: 'json-loader'
         }, {
             test: /\.(jpg|png)$/,
             loader: "file-loader"
@@ -176,15 +159,6 @@ var common = {
         "react-dom": "ReactDOM"
     },
     plugins: [
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     names: ["vendor", "manifest"],
-        //     minChunks: Infinity
-        // }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'app',
-            children: true,
-            minChunks: Infinity
-        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
             gtmh: gtm.head,
@@ -194,8 +168,15 @@ var common = {
             minify: {
                 removeComments: true
             }
-        })
-    ]
+        }),
+        new InlineManifestWebpackPlugin(),
+    ],
+
+    optimization: {
+        splitChunks: {
+            minChunks: 100
+        }
+    }
 };
 
 module.exports = merge(common, specific);

@@ -27,7 +27,7 @@ let stop, start = () => {
 if (Object.assign && window.fetch && window.WeakMap && window.Intl)
     start();
 else {
-    System.import(/* webpackChunkName: "polyfill" */ './polyfill')
+    import(/* webpackChunkName: "polyfill" */ './polyfill')
         .then(start)
         .catch(error => {
             console.error(error);

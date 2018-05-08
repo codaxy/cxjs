@@ -1,5 +1,5 @@
 import { Widget, startAppLoop, History } from 'cx/ui';
-import { HtmlElement } from 'cx/widgets';
+//import { HtmlElement } from 'cx/widgets';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
 import "./error";

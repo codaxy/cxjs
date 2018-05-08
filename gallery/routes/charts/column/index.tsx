@@ -24,10 +24,10 @@ export default <cx>
         <SandboxedRoute route="+/customized">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/normalized" content={()=>System.import("./normalized")} />
-        <SandboxedAsyncRoute route="+/stacked" content={()=>System.import("./stacked")} />
-        <SandboxedAsyncRoute route="+/auto-column-width" content={()=>System.import("./auto-column-width")} />
-        <SandboxedAsyncRoute route="+/combination" content={()=>System.import("./combination")} />
+        <SandboxedAsyncRoute route="+/normalized" content={()=>import("./normalized")} />
+        <SandboxedAsyncRoute route="+/stacked" content={()=>import("./stacked")} />
+        <SandboxedAsyncRoute route="+/auto-column-width" content={()=>import("./auto-column-width")} />
+        <SandboxedAsyncRoute route="+/combination" content={()=>import("./combination")} />
         <RedirectRoute redirect="+/customized" />
     </PureContainer>
 </cx>

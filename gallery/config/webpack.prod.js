@@ -9,13 +9,12 @@ var webpack = require('webpack'),
 let root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
 var specific = {
+   mode: 'production',
    plugins: [
-      new webpack.optimize.UglifyJsPlugin(),
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
       }),
-      //sass,
-      new WebpackCleanupPlugin(),
+      //new WebpackCleanupPlugin(),
       new CopyWebpackPlugin([{
          from: path.join(__dirname, '../assets'),
          to: path.join(__dirname, '../dist/assets'),
@@ -24,10 +23,10 @@ var specific = {
          to: '_redirects',
          toType: 'file'
       }]),
-      new ChunkManifestPlugin({
-         manifestVariable: "webpackManifest",
-         inlineManifest: true
-      }),
+      // new ChunkManifestPlugin({
+      //    manifestVariable: "webpackManifest",
+      //    inlineManifest: true
+      // }),
    ],
 
    output: {

@@ -21,7 +21,7 @@ export default <cx>
         <SandboxedRoute route="+/options">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/sidebar-layout" content={()=>System.import("./sidebar-layout")} />
+        <SandboxedAsyncRoute route="+/sidebar-layout" content={()=>import("./sidebar-layout")} />
         <RedirectRoute redirect="+/options" />
     </PureContainer>
 </cx>

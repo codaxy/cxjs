@@ -5,8 +5,9 @@ var webpack = require('webpack'),
 
 var specific = {
    module: {
-      loaders: []
+      rules: []
    },
+   mode: 'development',
    plugins: [
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()

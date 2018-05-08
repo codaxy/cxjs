@@ -4,7 +4,7 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
-    "module": "es2015",
+    "module": "esnext",
     "sourceMap": false,
     "jsxFactory": "cx",
     "baseUrl": ".",
