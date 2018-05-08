@@ -15,7 +15,7 @@ module.exports = {
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
                 //add here any ES6 based library
@@ -38,12 +38,20 @@ module.exports = {
         filename: "[name].js"
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor"
-        }),
         new HtmlWebpackPlugin({
             template: p("app/index.html"),
             hash: true
         })
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    name: "vendor",
+                    chunks: "initial",
+                    minChunks: 2
+                }
+            }
+        }
+    }
 };

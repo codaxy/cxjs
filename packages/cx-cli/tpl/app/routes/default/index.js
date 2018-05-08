@@ -1,4 +1,4 @@
-import { HtmlElement, Link, Section } from "cx/widgets";
+import { Section } from "cx/widgets";
 
 export default (
     <cx>
