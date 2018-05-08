@@ -6,9 +6,9 @@
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
   "dependencies": {
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-cx-imports": "^17.4.2",
     "babel-plugin-transform-cx-jsx": "^18.5.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-function-bind": "6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
