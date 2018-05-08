@@ -11,11 +11,11 @@ function loadCulture(culture) {
     //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
     switch (culture) {
         case 'de-de':
-            return System.import('cx/locale/de-de');
+            return import('cx/locale/de-de');
 
         default:
         case 'en-us':
-            return System.import('cx/locale/en-us');
+            return import('cx/locale/en-us');
     }
 }
 
@@ -63,11 +63,11 @@ export const LocalizationPage = <cx>
                 //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
                 switch (culture) {
                     case 'de-de':
-                        return System.import('cx/locale/de-de');
+                        return import('cx/locale/de-de');
 
                     default:
                     case 'en-us':
-                        return System.import('cx/locale/en-us');
+                        return import('cx/locale/en-us');
                 }
             }
 

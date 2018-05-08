@@ -21,7 +21,7 @@ export default <cx>
         <SandboxedRoute route="+/states">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/baseline" content={()=>System.import("../../../examples/baseline")} />
+        <SandboxedAsyncRoute route="+/baseline" content={()=>import("../../../examples/baseline")} />
         <RedirectRoute redirect="+/states" />
     </PureContainer>
 </cx>

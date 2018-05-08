@@ -1,4 +1,4 @@
-import { HtmlElement, Route } from "cx/widgets";
+import { Route } from "cx/widgets";
 
 import List from "./List";
 import Editor from "./Editor";

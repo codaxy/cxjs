@@ -3,7 +3,7 @@ import {SubscribableView} from './SubscribableView';
 
 export class Store extends SubscribableView {
    constructor(config = {}) {
-      super();
+      super(config);
       this.data = config.data || {};
       this.meta = {
          version: 0

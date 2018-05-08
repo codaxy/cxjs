@@ -39,6 +39,12 @@ export default {
             Name of the field used for aggregation. Use if it's different than `field`.
         </Md></cx>
     },
+    aggregateAlias: {
+        type: 'string',
+        description: <cx><Md>
+            Name under which aggregate result will be available. Use if it's different than `aggregateField`.
+        </Md></cx>
+    },
     weightField: {
         type: 'string',
         description: <cx><Md>

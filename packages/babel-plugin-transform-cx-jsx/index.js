@@ -2,19 +2,26 @@
 
 let dashRegex = /(.*)-(bind|tpl|expr)$/;
 
+function objectKeyIdentifier(t, name) {
+   if (name.indexOf('-') >= 0)
+      return t.stringLiteral(name);
+
+   return t.stringLiteral(name)
+
+}
+
 function property(t, name, value) {
    if (name.namespace && name.namespace.name) {
-      return t.objectProperty(t.stringLiteral(name.namespace.name), t.objectExpression([
-         t.objectProperty(t.stringLiteral(name.name.name), value)
+      return t.objectProperty(objectKeyIdentifier(t, name.namespace.name), t.objectExpression([
+         t.objectProperty(objectKeyIdentifier(t, name.name.name), value)
       ]));
    }
 
    let result = dashRegex.exec(name.name);
    if (result)
-      return t.objectProperty(t.stringLiteral(result[1]), t.objectExpression([t.objectProperty(t.stringLiteral(result[2]), value)]));
+      return t.objectProperty(objectKeyIdentifier(t, result[1]), t.objectExpression([t.objectProperty(t.identifier(result[2]), value)]));
 
-
-   return t.objectProperty(t.stringLiteral(name.name), value);
+   return t.objectProperty(objectKeyIdentifier(t, name.name), value);
 }
 
 function elementName(name) {
@@ -80,12 +87,12 @@ function processElement(t, element, options) {
 
             if (element.children != null)
                children = element.children
-                  .filter(function (c) {
-                     return c.type == "JSXElement"
-                  })
-                  .map(function (c) {
-                     return processElement(t, c, options)
-                  });
+                                 .filter(function (c) {
+                                    return c.type == "JSXElement"
+                                 })
+                                 .map(function (c) {
+                                    return processElement(t, c, options)
+                                 });
 
             if (tagName == 'Cx') {
                if (children && children.length > 0)
@@ -107,15 +114,15 @@ function processElement(t, element, options) {
 
          let dotIndex = tagName.indexOf('.');
          if (dotIndex != -1)
-            attrs.push(t.objectProperty(t.stringLiteral('$type'), t.memberExpression(
+            attrs.push(t.objectProperty(t.identifier('$type'), t.memberExpression(
                t.identifier(tagName.substr(0, dotIndex)), t.identifier(tagName.substring(dotIndex + 1)))));
          else if (tagName[0].toLowerCase() == tagName[0]) {
-            attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier('HtmlElement')));
-            attrs.push(t.objectProperty(t.stringLiteral('tag'), t.stringLiteral(tagName)));
+            attrs.push(t.objectProperty(t.identifier('$type'), t.identifier('HtmlElement')));
+            attrs.push(t.objectProperty(t.identifier('tag'), t.stringLiteral(tagName)));
             if (!options.scope.opts || options.scope.opts.autoImportHtmlElement !== false)
                options.scope.$cx.addImport("HtmlElement", "cx/widgets");
          } else
-            attrs.push(t.objectProperty(t.stringLiteral('$type'), t.identifier(tagName)));
+            attrs.push(t.objectProperty(t.identifier('$type'), t.identifier(tagName)));
 
          let attrNames = [];
 
@@ -130,19 +137,20 @@ function processElement(t, element, options) {
                   let a = processAttribute(t, element.openingElement.attributes[i], options);
                   if (a) {
                      attrs.push(a);
-                     attrNames.push(a.key.value);
+                     attrNames.push(a.key.value || a.key.name);
                   }
                }
             }
          }
 
          if (spread.length > 0)
-            attrs.push(t.objectProperty(t.stringLiteral('jsxSpread'), t.arrayExpression(spread)));
+            attrs.push(t.objectProperty(t.identifier('jsxSpread'), t.arrayExpression(spread)));
 
-         if (attrNames.length > 0)
-            attrs.push(t.objectProperty(t.stringLiteral('jsxAttributes'), t.arrayExpression(attrNames.map(function (name) {
+         if (attrNames.length > 0) {
+            attrs.push(t.objectProperty(t.identifier('jsxAttributes'), t.arrayExpression(attrNames.map(function (name) {
                return t.stringLiteral(name)
             }))));
+         }
 
          if (element.children != null && element.children.length) {
             children = [];
@@ -152,7 +160,7 @@ function processElement(t, element, options) {
                   children.push(c);
             }
             if (children.length)
-               attrs.push(t.objectProperty(t.stringLiteral('children'), t.arrayExpression(children)));
+               attrs.push(t.objectProperty(t.identifier('children'), t.arrayExpression(children)));
          }
 
          return t.objectExpression(attrs);
@@ -166,20 +174,27 @@ module.exports = function(options) {
    return {
       visitor: {
          Program: {
-            enter: function(path, scope) {
+            enter: function (path, scope) {
                scope.$cx = {
                   imports: {},
                   addImport: function (name, importPath) {
-                     if (scope.$cx.imports[name])
-                        return;
-                     let identifier = t.identifier(name);
-                     let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(importPath));
-                     path.unshiftContainer("body", importDeclaration);
-                     scope.$cx.imports[name] = true;
+                     if (!scope.$cx.imports[name])
+                        scope.$cx.imports[name] = {status: 'missing', path: importPath};
                   }
                }
             },
             exit: function (path, scope) {
+               if (scope.$cx) {
+                  Object.keys(scope.$cx.imports).forEach(name => {
+                     if (scope.$cx.imports[name].status != 'missing')
+                        return;
+
+                     let identifier = t.identifier(name);
+                     let importDeclaration = t.importDeclaration([t.importSpecifier(identifier, identifier)], t.stringLiteral(scope.$cx.imports[name].path));
+                     path.unshiftContainer("body", importDeclaration);
+                  })
+               }
+
                delete scope.$cx;
             }
          },
@@ -219,7 +234,7 @@ module.exports = function(options) {
 
          ImportSpecifier(path, scope) {
             if (path.node.imported && scope.$cx) {
-               scope.$cx.imports[path.node.imported.name] = true;
+               scope.$cx.imports[path.node.imported.name] = { status: 'valid' };
             }
          }
       },

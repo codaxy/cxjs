@@ -1,7 +1,7 @@
 module.exports = function (production) {
    let config = {
       cacheDirectory: true,
-      cacheIdentifier: "v14",
+      cacheIdentifier: "v15",
       "plugins": [
          // ["transform-runtime", {
          //    helpers: true,

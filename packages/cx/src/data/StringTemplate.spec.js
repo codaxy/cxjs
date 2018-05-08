@@ -36,6 +36,28 @@ describe('StringTemplate', function() {
       });
    });
 
+   describe('supports formatting', function() {
+      it('with colon', function () {
+         var e = StringTemplate.compile('{str:suffix;kg}');
+         assert.equal(e({ str: '5'}), '5kg');
+      });
+
+      it('with multiple formats', function () {
+         var e = StringTemplate.compile('{str:suffix;kg:wrap;(;)}');
+         assert.equal(e({ str: '5'}), '(5kg)');
+      });
+
+      it("with null values", function () {
+         var e = StringTemplate.compile('{str:suffix;kg:|N/A}');
+         assert.equal(e({ str: null}), 'N/A');
+      });
+
+      it("of null values", function () {
+         var e = StringTemplate.compile('{str|N/A}');
+         assert.equal(e({ str: null}), 'N/A');
+      });
+   });
+
    describe('supports expressions', function() {
       it('using []', function () {
          var e = StringTemplate.compile('1 + 2 = {[1+2]}');

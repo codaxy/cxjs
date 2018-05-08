@@ -20,6 +20,7 @@ import {Localization} from '../../ui/Localization';
 import ForwardIcon from '../icons/forward';
 import DropdownIcon from '../icons/drop-down';
 import "../../ui/Format";
+import {monthStart} from "../../util/date/monthStart";
 
 export class Calendar extends Field {
 
@@ -162,14 +163,13 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    getPage(refDate) {
-      refDate = zeroTime(refDate); //make a copy
-      let monthDate = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
+      refDate = monthStart(refDate); //make a copy
 
-      let startDate = new Date(monthDate);
+      let startDate = new Date(refDate);
       startDate.setDate(1 - startDate.getDay());
 
-      let endDate = new Date(monthDate);
-      endDate.setMonth(monthDate.getMonth() + 1);
+      let endDate = new Date(refDate);
+      endDate.setMonth(refDate.getMonth() + 1);
       endDate.setDate(endDate.getDate() - 1);
       endDate.setDate(endDate.getDate() + 6 - endDate.getDay());
 
@@ -290,11 +290,11 @@ export class CalendarCmp extends VDOM.Component {
       let cursor = new Date(this.state.cursor);
 
       if (e.deltaY < 0) {
-         cursor.setMonth(cursor.getMonth() - 1)
+         cursor.setMonth(cursor.getMonth() - 1);
          this.moveCursor(e, cursor, {movePage: true});
       }
       else if (e.deltaY > 0) {
-         cursor.setMonth(cursor.getMonth() + 1)
+         cursor.setMonth(cursor.getMonth() + 1);
          this.moveCursor(e, cursor, {movePage: true});
       }
    }

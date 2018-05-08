@@ -11,7 +11,7 @@ interface GridProps extends Cx.StyledContainerProps {
    records?: Cx.Prop<Cx.Record[]>,
 
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
-   scrollable?: Cx.BooleanProp,
+   scrollable?: boolean
    
    /** A binding used to store the sorting order list. Commonly used for server-side sorting */
    sorters?: Cx.SortersProp,
@@ -76,6 +76,7 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Record alias. Default is `$record`. */
    recordAlias?: string,
 
+   /** Set to `true` if sorting is done remotely, on the server-side. Default value is `false`. */
    remoteSort?: boolean,
 
    /** Set to `true` to enable row caching. This greatly improves grid performance
@@ -141,6 +142,9 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Callback function to be executed when a row is clicked. */
    onRowClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
+   /** Set to true to add a fixed footer at the bottom of the grid. */
+   fixedFooter?: boolean,
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

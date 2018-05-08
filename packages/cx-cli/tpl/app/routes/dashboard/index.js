@@ -1,4 +1,4 @@
-import { HtmlElement, Section, FlexRow, Repeater, Rescope } from "cx/widgets";
+import { Section, FlexRow, Repeater, Rescope } from "cx/widgets";
 import {
     CategoryAxis,
     Chart,

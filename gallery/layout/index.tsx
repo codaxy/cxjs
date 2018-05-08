@@ -25,34 +25,34 @@ export default <cx>
                 onResolve={theme => {
                     switch (theme) {
                         case "material":
-                            return System.import("../themes/material")
+                            return import(/* webpackChunkName: 'material' */ "../themes/material")
                                 .then(() => {
                                     loadTheme("material");
                                     return <cx><ContentPlaceholder/></cx>;
                                 });
 
                         case "frost":
-                            return System.import("../themes/frost")
+                            return import(/* webpackChunkName: 'frost' */ "../themes/frost")
                                 .then(() => {
                                     loadTheme("frost");
                                     return <cx><ContentPlaceholder/></cx>;
                                 });
 
                         case "dark":
-                            return System.import("../themes/dark")
+                            return import(/* webpackChunkName: 'dark' */"../themes/dark")
                                 .then(() => {
                                     loadTheme("dark");
                                     return <cx><ContentPlaceholder/></cx>;
                                 });
 
                         case "core":
-                            return System.import("../themes/core").then(() => {
+                            return import(/* webpackChunkName: 'core' */"../themes/core").then(() => {
                                 loadTheme("core");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
 
                         case "aquamarine":
-                            return System.import("../themes/aquamarine").then(() => {
+                            return import(/* webpackChunkName: 'aquamarine' */"../themes/aquamarine").then(() => {
                                 loadTheme("aquamarine");
                                 return <cx><ContentPlaceholder/></cx>;
                             });

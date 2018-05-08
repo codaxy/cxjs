@@ -23,9 +23,9 @@ export default <cx>
         <SandboxedRoute route="+/standard">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/combination" content={() => System.import("./combination")} />
-        <SandboxedAsyncRoute route="+/stacked" content={() => System.import("./stacked")} />
-        <SandboxedAsyncRoute route="+/bullets" content={() => System.import("./bullets")} />
+        <SandboxedAsyncRoute route="+/combination" content={() => import("./combination")} />
+        <SandboxedAsyncRoute route="+/stacked" content={() => import("./stacked")} />
+        <SandboxedAsyncRoute route="+/bullets" content={() => import("./bullets")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

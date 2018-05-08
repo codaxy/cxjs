@@ -36,20 +36,20 @@ export default <cx>
         <SandboxedRoute route="+/basic">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route="+/multi-select" content={() => System.import("./multi-select")}/>
-        <SandboxedAsyncRoute route="+/grouping" content={() => System.import("./grouping")}/>
-        <SandboxedAsyncRoute route="+/dynamic-grouping" content={() => System.import("./dynamic-grouping")}/>
-        <SandboxedAsyncRoute route="+/drag-drop" content={() => System.import("./drag-drop")}/>
-        <SandboxedAsyncRoute route="+/filtering" content={() => System.import("./filtering")}/>
-        <SandboxedAsyncRoute route="+/row-editing" content={() => System.import("./row-editing")}/>
-        <SandboxedAsyncRoute route="+/form-editing" content={() => System.import("./form-editing")}/>
-        <SandboxedAsyncRoute route="+/row-expanding" content={() => System.import("./row-expanding")}/>
-        <SandboxedAsyncRoute route="+/tree-grid" content={() => System.import("./tree-grid")}/>
-        <SandboxedAsyncRoute route="+/complex-header" content={() => System.import("./complex-header")}/>
-        <SandboxedAsyncRoute route="+/header-menu" content={() => System.import("./header-menu")}/>
-        <SandboxedAsyncRoute route="+/dashboard-grid" content={() => System.import("./dashboard-grid")}/>
-        <SandboxedAsyncRoute route="+/buffering" content={() => System.import("./buffering")}/>
-        <SandboxedAsyncRoute route="+/misc" content={() => System.import("./misc")}/>
+        <SandboxedAsyncRoute route="+/multi-select" content={() => import("./multi-select")}/>
+        <SandboxedAsyncRoute route="+/grouping" content={() => import("./grouping")}/>
+        <SandboxedAsyncRoute route="+/dynamic-grouping" content={() => import("./dynamic-grouping")}/>
+        <SandboxedAsyncRoute route="+/drag-drop" content={() => import("./drag-drop")}/>
+        <SandboxedAsyncRoute route="+/filtering" content={() => import("./filtering")}/>
+        <SandboxedAsyncRoute route="+/row-editing" content={() => import("./row-editing")}/>
+        <SandboxedAsyncRoute route="+/form-editing" content={() => import("./form-editing")}/>
+        <SandboxedAsyncRoute route="+/row-expanding" content={() => import("./row-expanding")}/>
+        <SandboxedAsyncRoute route="+/tree-grid" content={() => import("./tree-grid")}/>
+        <SandboxedAsyncRoute route="+/complex-header" content={() => import("./complex-header")}/>
+        <SandboxedAsyncRoute route="+/header-menu" content={() => import("./header-menu")}/>
+        <SandboxedAsyncRoute route="+/dashboard-grid" content={() => import("./dashboard-grid")}/>
+        <SandboxedAsyncRoute route="+/buffering" content={() => import("./buffering")}/>
+        <SandboxedAsyncRoute route="+/misc" content={() => import("./misc")}/>
         <RedirectRoute redirect="+/basic"/>
     </PureContainer>
 </cx>

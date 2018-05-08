@@ -79,7 +79,7 @@ export default (
                      field: "continent",
                      sortable: true,
                      aggregate: "distinct",
-                     aggregateField: "continents",
+                     aggregateAlias: "continents",
                      footer: {
                         tpl: "{$group.continents} {$group.continents:plural;continent}"
                      }
@@ -89,7 +89,7 @@ export default (
                      field: "browser",
                      sortable: true,
                      aggregate: "distinct",
-                     aggregateField: "browsers",
+                     aggregateAlias: "browsers",
                      footer: {
                         tpl: "{$group.browsers} {$group.browsers:plural;browser}"
                      }
@@ -99,7 +99,7 @@ export default (
                      field: "os",
                      sortable: true,
                      aggregate: "distinct",
-                     aggregateField: "oss",
+                     aggregateAlias: "oss",
                      footer: {tpl: "{$group.oss} {$group.oss:plural;OS}"}
                   },
                   {

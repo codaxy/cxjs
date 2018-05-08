@@ -14,6 +14,7 @@ module.exports = function (context) {
       'transform-cx-jsx',
       'transform-es2015-parameters',
       'transform-export-extensions',
+      'syntax-dynamic-import',
       ["transform-react-jsx", {"pragma": pragma}]
    );
 

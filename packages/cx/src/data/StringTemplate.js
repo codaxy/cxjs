@@ -49,8 +49,13 @@ export function stringTemplate(str) {
             if (termStart >= 0) {
                if (--bracketsOpen == 0) {
                   term = str.substring(termStart, i);
-                  if (term.indexOf(':') == -1)
-                     term += ':s';
+                  if (term.indexOf(':') == -1) {
+                     let nullSepIndex = term.indexOf('|');
+                     if (nullSepIndex == -1)
+                        term += ':s';
+                     else
+                        term = term.substring(0, nullSepIndex) + ":s" + term.substring(nullSepIndex);
+                  }
                   expr = plus(expr) + (percentSign ? '%{' : '{') + term + '}';
                   termStart = -1;
                   quoteStart = i + 1;

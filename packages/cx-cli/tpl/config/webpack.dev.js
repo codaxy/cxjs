@@ -3,8 +3,9 @@ var webpack = require("webpack"),
     common = require("./webpack.config");
 
 var specific = {
+    mode: 'development',
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.scss$/,
                 loaders: ["style-loader", "css-loader", "sass-loader"]

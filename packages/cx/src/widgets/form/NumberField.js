@@ -95,7 +95,7 @@ export class NumberField extends Field {
 }
 
 NumberField.prototype.baseClass = "numberfield";
-NumberField.prototype.reactOn = "enter change wheel blur";
+NumberField.prototype.reactOn = "enter blur";
 NumberField.prototype.format = 'n';
 NumberField.prototype.inputType = 'text';
 

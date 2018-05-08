@@ -1,4 +1,4 @@
-import { HtmlElement, Link, Button } from "cx/widgets";
+import { Link } from "cx/widgets";
 import { ContentPlaceholder } from "cx/ui";
 import Controller from "./Controller";
 

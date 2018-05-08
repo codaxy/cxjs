@@ -6,6 +6,7 @@ import {
 } from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util/KeyCode';
+import {isUndefined} from "../../util/isUndefined";
 
 export class Radio extends Field {
 
@@ -32,9 +33,12 @@ export class Radio extends Field {
       return data.text;
    }
 
-   prepareData(context, {data}) {
+   prepareData(context, instance) {
       super.prepareData(...arguments);
+      let {data} = instance;
       data.checked = data.value === data.option;
+      if (this.default && isUndefined(data.value))
+         instance.set('value', data.option);
    }
 
    renderValue(context, {data}) {
@@ -128,6 +132,7 @@ export class Radio extends Field {
 
 Radio.prototype.baseClass = "radio";
 Radio.prototype.native = false;
+Radio.prototype.default = false;
 
 Widget.alias('radio', Radio);
 

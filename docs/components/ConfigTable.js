@@ -45,7 +45,7 @@ export class ConfigTable extends PureContainer {
                         <td>
                             {p.description}
                         </td>
-                        <td>
+                        <td visible={!this.hideType}>
                             {p.type}
                         </td>
                     </tr>
@@ -63,7 +63,7 @@ export class ConfigTable extends PureContainer {
                 <tr>
                     <th>{data.header || 'Property'}</th>
                     <th>Description</th>
-                    <th>Type</th>
+                    { !this.hideType && <th>Type</th> }
                 </tr>
                 {this.renderChildren(context, instance)}
                 </tbody>
@@ -73,3 +73,4 @@ export class ConfigTable extends PureContainer {
 }
 
 ConfigTable.prototype.sort = true;
+ConfigTable.prototype.hideType = false;

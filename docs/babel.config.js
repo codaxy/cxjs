@@ -5,7 +5,7 @@ module.exports = function (options) {
 
     return {
         "cacheDirectory": true,
-        "cacheIdentifier": "v13",
+        "cacheIdentifier": "v15",
         "presets": [
             ["env", {
                 loose: true,
@@ -28,6 +28,7 @@ module.exports = function (options) {
             "transform-function-bind",
             'transform-export-extensions',
             'transform-es2015-parameters',
+            'syntax-dynamic-import',
             isProduction && ["transform-cx-imports", {useSrc: true}],
         ].filter(Boolean)
     }

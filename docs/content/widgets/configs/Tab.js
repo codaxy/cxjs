@@ -19,7 +19,7 @@ export default {
         </Md></cx>
     },
     "default": {
-        type: 'string/number',
+        type: 'boolean',
         key: true,
         description: <cx><Md>
             Set to `true` to set the default tab.

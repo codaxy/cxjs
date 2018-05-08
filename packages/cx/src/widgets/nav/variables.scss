@@ -3,10 +3,16 @@
 $cx-default-cover-border-color: $cx-default-border-color !default;
 $cx-default-cover-background-color: white !default;
 
-$cx-default-hscroller-button-width: 20px !default;
+$cx-default-scroller-button-size: 20px !default;
 
 //MENU
 @import "Menu.variables";
 
 // TAB
 @import "Tab.variables";
+
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   "cx/widgets/HScroller": "cx/widgets/Scroller",
+   "cx/widgets/VScroller": "cx/widgets/Scroller"
+));

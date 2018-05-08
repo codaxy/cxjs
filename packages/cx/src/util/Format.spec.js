@@ -46,4 +46,18 @@ describe('Format', function () {
          assert.equal(Format.value(new Date(2015, 3, 1, 5, 6, 14), 'dt'), '4/1/2015 05:06');
       });
    });
+
+   describe('ellipsis', function () {
+      it('can shorten long texts', function () {
+         assert.equal(Format.value('This is a very long text.', 'ellipsis;7'), 'This...');
+      });
+
+      it('can be used at the start of string', function () {
+         assert.equal(Format.value('This is a very long text.', 'ellipsis;8;start'), '...text.');
+      });
+
+      it('can be used in the middle of the string', function () {
+         assert.equal(Format.value('First (Middle) Last', 'ellipsis;11;middle'), 'Firs...Last');
+      });
+   });
 });

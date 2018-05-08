@@ -21,7 +21,7 @@ export default <cx>
         <SandboxedRoute route="+/standard">
             {Default}
         </SandboxedRoute>
-        <SandboxedAsyncRoute route='+/multilevel' content={()=>System.import("./multilevel")} />
+        <SandboxedAsyncRoute route='+/multilevel' content={()=>import("./multilevel")} />
         <RedirectRoute redirect="+/standard" />
     </PureContainer>
 </cx>

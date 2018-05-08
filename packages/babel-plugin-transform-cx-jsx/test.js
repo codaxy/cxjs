@@ -411,7 +411,7 @@ describe('JSCX', function() {
          //presets: ['es2015']
       }).code;
 
-      assert.equal(unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '), '<Cx items={[{ "$type": Container, "class": "test", "jsxAttributes": ["class"]}]}></Cx>');
+      assert.equal(unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '), '<Cx items={[{ $type: Container, class: "test", jsxAttributes: ["class"]}]}></Cx>');
    });
 
    it("registers functional Cx components", function () {
@@ -425,7 +425,7 @@ describe('JSCX', function() {
 
       assert.equal(
          unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '),
-         'import { createFunctionalComponent } from "cx/ui";let x = createFunctionalComponent(props => ({ "$type": Container}))');
+         'import { createFunctionalComponent } from "cx/ui";let x = createFunctionalComponent(props => ({ $type: Container}))');
    });
 
    it("multiple functional components add only one import", function () {
@@ -441,8 +441,8 @@ describe('JSCX', function() {
          unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '),
          [
             'import { createFunctionalComponent } from "cx/ui";',
-            'let X = createFunctionalComponent(props => ({ "$type": Container}));',
-            'let Y = createFunctionalComponent(props => ({ "$type": Container}))'
+            'let X = createFunctionalComponent(props => ({ $type: Container}));',
+            'let Y = createFunctionalComponent(props => ({ $type: Container}))'
          ].join('')
       );
    });
@@ -460,7 +460,28 @@ describe('JSCX', function() {
          unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '),
          [
             'import { HtmlElement } from "cx/widgets";',
-            'let x = { "$type": HtmlElement, "tag": "div"}',
+            'let x = { $type: HtmlElement, tag: "div"}',
+         ].join('')
+      );
+   });
+
+   it("does not auto import HtmlElement if it's already there", function () {
+
+      var code = `
+import { HtmlElement } from "cx/widgets";
+let x = <cx><div></div></cx>
+`;
+
+      var output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.equal(
+         unwrap(output).replace(/\n/g, '').replace(/\s\s/g, ' '),
+         [
+            'import { HtmlElement } from "cx/widgets";',
+            'let x = { $type: HtmlElement, tag: "div"}',
          ].join('')
       );
    });

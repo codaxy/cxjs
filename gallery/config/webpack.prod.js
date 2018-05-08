@@ -14,8 +14,7 @@ var specific = {
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
       }),
-      //sass,
-      new WebpackCleanupPlugin(),
+      //new WebpackCleanupPlugin(),
       new CopyWebpackPlugin([{
          from: path.join(__dirname, '../assets'),
          to: path.join(__dirname, '../dist/assets'),
@@ -24,10 +23,10 @@ var specific = {
          to: '_redirects',
          toType: 'file'
       }]),
-      new ChunkManifestPlugin({
-         manifestVariable: "webpackManifest",
-         inlineManifest: true
-      }),
+      // new ChunkManifestPlugin({
+      //    manifestVariable: "webpackManifest",
+      //    inlineManifest: true
+      // }),
    ],
 
    output: {

@@ -1,5 +1,5 @@
 import {createComponentFactory} from './Component';
-import {flattenProps, spreadProps} from '../ui/flattenProps';
+import {flattenProps} from '../ui/flattenProps';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 

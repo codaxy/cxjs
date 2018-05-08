@@ -22,6 +22,7 @@ export default (
             ]}
             selection={{ type: KeySelection, bind: "$page.selection" }}
             onFetchRecords={({ page, pageSize }, {store}) => {
+               console.log("FETCH", page, pageSize);
                if (store.get('$page.filter') % 2 == 0)
                   return {
                      records: [],

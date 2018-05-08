@@ -11,8 +11,9 @@ var sass = new ExtractTextPlugin({
 });
 
 var specific = {
+    mode: 'production',
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.scss$/,
                 loaders: sass.extract(["css-loader", "sass-loader"])
@@ -25,7 +26,6 @@ var specific = {
     },
 
     plugins: [
-        new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),

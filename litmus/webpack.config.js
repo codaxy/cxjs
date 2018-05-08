@@ -78,6 +78,7 @@ if (production) {
       allChunks: true
    });
    specific = {
+      mode: 'production',
       module: {
          rules: [{
             test: /\.scss$/,

@@ -21,12 +21,14 @@ import './index.scss';
 //import Demo from './bugs/282';
 // import Demo from './bugs/192';
 // import Demo from './bugs/search';
+//import Demo from './bugs/395';
+//import Demo from './bugs/414';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
 //import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 //import Demo from './bugs/380';
 //import Demo from './bugs/JSXSpread';
-import Demo from './bugs/MultiModals';
+//import Demo from './bugs/MultiModals';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -48,8 +50,10 @@ import Demo from './bugs/MultiModals';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
+//import Demo from './features/grid/FixedFooter';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
+import Demo from './features/list/GroupingAndSelection';
 
 //import Demo from './features/menu/icons';
 //import Demo from './features/window/header-buttons';

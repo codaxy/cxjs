@@ -105,9 +105,9 @@ export class KeySelection extends Selection {
             }
          }
          else if (this.storage == 'hash') {
-            let newSelection = Object.assign({}, selection);
+            let newSelection = toggle ? {...selection} : {};
             keys.forEach(key => {
-               newSelection[key] = true;
+               newSelection[key] = !newSelection[key];
             });
             store.set(this.selection.bind, newSelection);
          }

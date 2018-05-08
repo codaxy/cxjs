@@ -1,8 +1,9 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Icon} from '../Icon';
 import {stopPropagation} from "../../util/eventCallbacks";
+import {Container} from "../../ui/Container";
 
-export class TreeNode extends Widget {
+export class TreeNode extends Container {
 
    init() {
       if (this.itemIcon)
@@ -74,7 +75,7 @@ export class TreeNode extends Widget {
             }
          </div>
          <div>
-            {data.text}
+            {data.text || this.renderChildren(context, instance)}
          </div>
       </div>;
    }
