@@ -302,6 +302,10 @@ class MenuItemComponent extends VDOM.Component {
             this.closeDropdown();
          }
       }
+      else {
+         if (e.keyCode == KeyCode.enter)
+            this.onClick(e);
+      }
    }
 
    onMouseDown(e) {
