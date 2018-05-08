@@ -1,9 +1,11 @@
-var webpack = require("webpack"),
+const
+    webpack = require("webpack"),
     merge = require("webpack-merge"),
     common = require("./webpack.config");
 
-var specific = {
+module.exports = merge(common, {
     mode: 'development',
+
     module: {
         rules: [
             {
@@ -16,18 +18,20 @@ var specific = {
             }
         ]
     },
+
     plugins: [new webpack.HotModuleReplacementPlugin()],
+
     output: {
         publicPath: "/"
     },
+
     devtool: "eval",
+
     devServer: {
         hot: true,
-        port: 8088,
+        port: 8765,
         noInfo: false,
         inline: true,
         historyApiFallback: true
     }
-};
-
-module.exports = merge(common, specific);
+});

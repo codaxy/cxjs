@@ -1,6 +1,6 @@
-const webpack = require("webpack"),
+const
     HtmlWebpackPlugin = require("html-webpack-plugin"),
-    merge = require("webpack-merge"),
+    InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
     path = require("path"),
     babelCfg = require("./babel.config"),
     p = p => path.join(__dirname, "../", p || "");
@@ -33,25 +33,13 @@ module.exports = {
         vendor: ["cx-react", p("app/polyfill.js")],
         app: [p("app/index.js")]
     },
-    output: {
-        path: p("dist"),
-        filename: "[name].js"
-    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: p("app/index.html"),
-            hash: true
-        })
+            template: p("app/index.html")
+        }),
+        new InlineManifestWebpackPlugin()
     ],
     optimization: {
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    name: "vendor",
-                    chunks: "initial",
-                    minChunks: 2
-                }
-            }
-        }
+        runtimeChunk: 'single'
     }
 };
