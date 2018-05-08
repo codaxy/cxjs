@@ -1,8 +1,6 @@
 const webpack = require('webpack'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin"),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
     merge = require('webpack-merge'),
     path = require('path'),
@@ -17,10 +15,6 @@ const webpack = require('webpack'),
 var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
 
 if (production) {
-    var sass = new ExtractTextPlugin({
-        filename: "app.ltc.[chunkhash].css",
-        allChunks: true
-    });
 
     var root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
@@ -45,7 +39,6 @@ if (production) {
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
-            //sass,
             new MiniCssExtractPlugin({
                 filename: 'app.ltc.[chunkhash].css',
                 chunkFilename: '[id].ltc.[chunkhash].css',
@@ -166,15 +159,6 @@ var common = {
         "react-dom": "ReactDOM"
     },
     plugins: [
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     names: ["vendor", "manifest"],
-        //     minChunks: Infinity
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'app',
-        //     children: true,
-        //     minChunks: Infinity
-        // }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
             gtmh: gtm.head,
