@@ -8,7 +8,7 @@ $mod: map-get($cx-besm, mod);
 @if (cx-included('cx/widgets/Grid')) {
 
    $section-mods: primary success warning error;
-   
+
    @each $i in $section-mods {
       .#{$block}section.#{$mod}#{$i} {
          .#{$element}section-header {
@@ -16,6 +16,14 @@ $mod: map-get($cx-besm, mod);
          }
       }
    }
+
+   // can be used interchangeably with mod='card'
+   .cxm-well {
+      @extend .cxm-card;
+   }
+}
+
+@if (cx-included('cx/widgets/Grid')) {
 
    .#{$block}grid.#{$state}scrollable.#{$state}border {
       border-color: $cx-default-grid-header-border-color;

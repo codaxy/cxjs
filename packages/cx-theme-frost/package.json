@@ -2,7 +2,7 @@
   "name": "cx-theme-frost",
   "version": "17.4.0",
   "description": "Frost theme CSS styles for Cx applications",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
   "files": [

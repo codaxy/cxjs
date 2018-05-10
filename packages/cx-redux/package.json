@@ -1,10 +1,10 @@
 {
   "name": "cx-redux",
-  "version": "17.5.0",
+  "version": "18.5.1",
   "description": "CxJS Redux integration",
-  "main": "src",
+  "main": "dist/index.js",
   "scripts": {},
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {

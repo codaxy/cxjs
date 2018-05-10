@@ -652,11 +652,6 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
    )
 ));
 
-// can be used interchangeably with mod='card'
-.cxm-well {
-   @extend .cxm-card;
-}
-
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
    font-size: $cx-default-box-font-size - 1px,

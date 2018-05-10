@@ -1,8 +1,8 @@
 {
   "name": "cx-theme-material",
-  "version": "17.10.0",
+  "version": "18.5.0",
   "description": "Material theme CSS styles for Cx applications",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
   "files": [

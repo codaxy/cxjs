@@ -221,10 +221,6 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
       )
    )   
 ));
-// can be used interchangeably with mod='card'
-.cxm-well {
-   @extend .cxm-card;
-}
 
 // LIST ITEM
 $cx-list-item: cx-deep-map-merge($cx-list-item, (

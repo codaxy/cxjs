@@ -2,7 +2,7 @@
   "name": "cx-theme-aquamarine",
   "version": "17.10.2",
   "description": "Aquamarine theme CSS styles for Cx applications",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
   "files": [
