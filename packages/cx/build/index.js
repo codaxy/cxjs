@@ -88,6 +88,13 @@ function buildTheme(themeName) {
          },
          output: {}
       }, {
+         name: 'reset',
+         css: true,
+         options: {
+            entry: [resolvePath("reset.scss")]
+         },
+         output: {}
+      }, {
          name: 'charts',
          css: true,
          options: {

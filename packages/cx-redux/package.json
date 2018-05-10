@@ -1,6 +1,6 @@
 {
   "name": "cx-redux",
-  "version": "18.5.1",
+  "version": "18.5.2",
   "description": "CxJS Redux integration",
   "main": "dist/index.js",
   "scripts": {},
