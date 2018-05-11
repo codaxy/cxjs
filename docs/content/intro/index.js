@@ -1,4 +1,5 @@
 export * from './About';
+export * from './Welcome';
 export * from './GettingStarted';
 export * from './FeatureList';
 export * from './CommandLine';

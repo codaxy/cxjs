@@ -9,7 +9,7 @@ import {Todo} from '../examples/todo/Todo';
 
 export const StepByStep = <cx>
     <Md>
-        # Step by Step Tutorial
+        # Tutorial
         
         Cx is built using ES2015 JSX with webpack as a module bundling, building and
         dev server option. This is also the preferred way, but not required, for 

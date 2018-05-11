@@ -1,9 +1,8 @@
-import { HtmlElement, Checkbox, TextField, Text } from 'cx/widgets';
+import {HtmlElement, Checkbox, TextField, Text} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
-
 
 
 export const GettingStarted = <cx>
@@ -12,22 +11,26 @@ export const GettingStarted = <cx>
 
         ## Basic Concepts
 
-        It is very important to understand the concept of store, JSX syntax, and how data-binding works.
+        Understanding how data-binding works and concepts such as [Store](~/concepts/store) and [JSX
+        syntax](~/intro/jsx) will make it easier to understand
+        CxJS. Start by thinking of spreadsheets.
 
-        The easiest way to understand CxJS is to think about spreadsheets.
+        While holding the application state, the [Store](~/concepts/store) offers different methods of accessing and
+        modifying the data. The
+        [Store](~/concepts/store) is at your disposal for all widgets where the user can access data directly using
+        bindings, and/or the
+        user can calculate required values using different expressions (formulas).
 
-        The store holds the whole application state and offers methods to access and
-        modify the data. The store is available to all widgets which can access data
-        directly using bindings or calculate required values using expressions (formulas).
-
-        Cx uses JSX syntax, [introduced by React](https://facebook.github.io/react/docs/introducing-jsx.html),
-        which enables HTML/XML-like structures inside JavaScript. On top of JSX syntax, Cx uses custom data binding instructions
-        to specify how widgets connect to the underlying data store.
-
-        Similar to spreadsheets, data can be accessed using references, called bindings in CxJS. While cell references have predefined format
-        (A1, B2), in CxJS you give names that you find appropriate. Nested data can be accessed using the `.` operator, e.g. `person.name`.
-        Component properties can be connected (bound) to values from the store and automatically update whenever the referenced data change,
-        again just like spreadsheets.
+        CxJS uses [JSX syntax](~/intro/jsx), [introduced by
+        React](https://facebook.github.io/react/docs/introducing-jsx.html), which enables structures similar to HTML/XML
+        inside JavaScript. CxJS has custom [data binding instructions](~/concepts/data-binding) that specify how widgets
+        connect to the underlying
+        data store. You can access data from the [Store](~/concepts/store) using references (bindings) like you would on
+        a spreadsheet.
+        Spreadsheet cell references have a predefined format such as A1 or B2, but with CxJS you choose the names that
+        custom fit you. Nested data can be accessed using the `.` operator, for example `person.name`. Widget
+        properties can be connected (bound) to values from the [Store](~/concepts/store) and are automatically updated
+        whenever the referenced data changes.
 
         Check out the following example:
 
@@ -48,11 +51,12 @@ export const GettingStarted = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        If you take a closer look at the source code, you'll see what Cx is about. You can freely combine widgets with plain HTML
-        and use special attributes to connect to the data. On every data change the page is updated without any 
-        code required for propagating data changes.
-        
-        Learn more:
+
+        Looking at the source code on the right of your screen, you will see an example of how CxJS works. The user will
+        be able to freely combine widgets with plain HTML and use special attributes to connect the data. Data changes
+        are applied automatically, so it saves you the hassle of writing code required for updating the page.
+
+        Click the links below to learn more:
 
         * [Store](~/concepts/store)
         * [JSX](~/intro/jsx)
@@ -61,7 +65,7 @@ export const GettingStarted = <cx>
 
         ## Widgets
 
-        Cx offers an extensive library of widgets. You should get familiar with commonly used widgets, such as:
+        CxJS offers an extensive library of widgets. Get familiar with the widgets most commonly used:
 
         - [TextField](~/widgets/text-fields)
         - [NumberField](~/widgets/number-fields)
@@ -75,7 +79,7 @@ export const GettingStarted = <cx>
 
         ## Advanced Concepts
 
-        At this point you're probably wondering how all pieces are glued together. Well, you should read more about:
+        In order to put all the pieces together, get familiar with he concepts listed below:
 
         - [Controllers](~/concepts/controllers)
         - [Data Views](~/concepts/data-views)
@@ -88,13 +92,13 @@ export const GettingStarted = <cx>
 
         ## Cx Fiddle
 
-        [Cx Fiddle](https://cxjs.io/fiddle) allows you to experiment with Cx directly in the browser, without setting up a new project.
-        There are many examples to play with, and you can also create, save and share your own snippets.
-        Here are a couple of links worth checking out:
+        [CxJS Fiddle](https://cxjs.io/fiddle) allows you to experiment with CxJS directly in the browser, without setting up
+        a new project. Below are some examples to test out. You can also create, save and share your own snippets.
+        Check out the links below:
 
         - [BMI Calculator](https://cxjs.io/fiddle/?f=luv00Rpw)
         - [Simple Grid](https://cxjs.io/fiddle/?f=XlL9AvMh)
-        - [Grid Dashboard](https://cxjs.io/fiddle/?f=vwyHzOO1)
+        - [Dashboard Grid](https://cxjs.io/fiddle/?f=vwyHzOO1)
         - [Pong Game](https://cxjs.io/fiddle/?f=ndK9CuDC)
         - [Loan Calculator](https://cxjs.io/fiddle/?f=fYp9BujX)
         - [Bullet Chart](https://cxjs.io/fiddle/?f=XTLdQm8r)
@@ -102,19 +106,21 @@ export const GettingStarted = <cx>
 
         ## Demo Applications
 
-        There are a few demo applications which will provide deeper insights into how Cx projects look from the inside:
+        Below are demo applications which will provide a deeper insight into how CxJS projects function:
 
-        - [Cx Starter Kit](https://github.com/codaxy/cx-starter-kit) - dashboards, admin pages, routing, layout, etc.
-        - [Employee Directory](https://github.com/codaxy/employee-directory-demo) + [blog post](https://blog.codaxy.com/cx-walkthrough-89dc37da9abc#.lt23d5ipc) - layout, REST API, etc.
+        - [Cx Starter Kit](https://github.com/codaxy/cx-starter-kit) - dashboards, admin pages, routing, layouts, etc.
+        - [Employee Directory](https://github.com/codaxy/employee-directory-demo) + [blog
+        post](https://blog.codaxy.com/cx-walkthrough-89dc37da9abc#.lt23d5ipc) - layout, REST API, etc.
         - [State of JS Explorer](https://github.com/codaxy/state-of-js-2016-explorer) - charts, styling
-        - [tdo](https://github.com/mstijak/tdo) - appearance, keyboard navigation
+        - [tdo](https://github.com/mstijak/tdo) - dark appearance, keyboard navigation
 
         ## Starting a new Project
 
-        You're now ready to start a new project with Cx.
+        You are now ready to start a new project with CxJS.
 
-        - [Command Line Interface](~/intro/command-line) - quickly scaffold new applications using Cx CLI
-        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new Cx application and configuring webpack and babel along the way
+        - [Command Line Interface](~/intro/command-line) - quickly generate new applications using Cx CLI
+        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new CxJS application. You will also
+        configure both webpack and babel along the way
 
     </Md>
 </cx>
