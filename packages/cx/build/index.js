@@ -91,7 +91,7 @@ function buildTheme(themeName) {
          name: 'reset',
          css: true,
          options: {
-            entry: [resolvePath("reset.scss")]
+            entry: [resolvePath("reset.scss"), themeSrc('reset.scss')]
          },
          output: {}
       }, {
@@ -105,7 +105,7 @@ function buildTheme(themeName) {
          name: 'widgets',
          css: true,
          options: {
-            entry: [themeSrc('variables.scss'), cxSrc('widgets/index.scss')]
+            entry: [themeSrc('variables.scss'), cxSrc('widgets/index.scss'), themeSrc('widgets.scss')]
          },
          output: {}
       }, {
