@@ -1,5 +1,5 @@
-import { Content } from 'cx/ui';
-import { HtmlElement, Tab } from 'cx/widgets';
+import {Content} from 'cx/ui';
+import {HtmlElement, Tab} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -10,55 +10,54 @@ export const CommandLine = <cx>
         # Command Line Interface
 
         <CodeSplit>
-        
-        Cx requires tools such as babel and webpack which are plugin-based and take a 
-        significant amount of work to configure properly.
-        Normally, when starting a new project, you wouldn't go through all that setup 
-        every single time, but rather use some kind of boilerplate project that contains the 
-        basic file structure as well as all of the required tools and configuration code. 
-        
-        We created one such project and put it inside the 
-        [Cx Command Line Tool](https://www.npmjs.com/package/cx-cli). This
-        tool helps you start and evolve your application — it is the quickest way of setting 
-        things up.
 
-        ## Usage
+            CxJS requires plugin-based tools such as [Babel](https://babeljs.io) and [webpack](https://webpack.js.org)
+            which take a significant amount of time to be configured properly. Generally, when starting a new project,
+            the developer would not go through the same setup every time. It is easier to start by copying
+            a boilerplate project that contains the basic project structure which has all of the required tools and
+            configuration files.
 
-        Provided that you have Node.js and npm installed, you can use your favorite command line
-        tool to quickly set up a new Cx project. 
+            The quickest way to set up a new CxJS project is by using the [Cx Command Line
+            Tool](https://www.npmjs.com/package/cx-cli).
 
-        If you haven't done so already, initialize the `package.json`
-        file inside the project folder, by running the command `npm init`.
+            ## Usage
 
-        Install the `cx-cli` tool:
+            Once you have [Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) installed, you can use
+            any terminal tool to quickly set up a new CxJS project.
 
-        `npm install cx-cli --global`
-        
-        For new projects, use scaffold to create basic app structure.
+            Install the `cx-cli` tool:
 
-        `cx scaffold [--yarn]`
+            `npm install cx-cli --global`
 
-        Append --yarn to use yarn package manager to install packages.
+            Make sure you initialize the `package.json` file inside the project folder by running the
+            `npm init` command.
 
-        Alternatively, use install to add packages into an existing project structure:
+            For new projects, use the scaffold command to copy the default project template.
 
-        `cx install [--yarn]`
-        Please note that this will add Cx, React, Babel and Sass related packages.
+            `cx scaffold [--yarn]`
 
-        Start your application using:
+            Append `--yarn` to use the [yarn](https://yarnpkg.com) package manager for installing packages instead of npm.
 
-        `cx start`
-        
-        Make a production build:
+            Alternatively, use the install command to add packages into an existing project structure:
 
-        `cx build`
+            `cx install [--yarn]`
 
-        Set up a new route folder:
+            Please note that this will add CxJS, React, Babel, and Sass related packages to your project.
 
-        `cx add route route_name`
+            Start your application using:
 
-        This command creates a new folder - `app/routes/route_name` and copies the `index.js`, 
-        `index.scss` and `controller.js` files from the template.
+            `cx start`
+
+            To make a production build, run:
+
+            `cx build`
+
+            To create a new route folder, run:
+
+            `cx add route &lt;route_name&gt;`
+
+            This command will create a new folder - `app/routes/route_name` and also create default `index.js`,
+            `index.scss`, and `controller.js` files.
 
             <CodeSnippet putInto="code">{`
                 // Create a new app
@@ -76,6 +75,5 @@ export const CommandLine = <cx>
                 cx add route route_name
             `}</CodeSnippet>
         </CodeSplit>
-
-   </Md>
+    </Md>
 </cx>

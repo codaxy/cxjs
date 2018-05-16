@@ -1,5 +1,5 @@
-import { HtmlElement, Button, enableMsgBoxAlerts } from 'cx/widgets';
-import { Rescope } from 'cx/ui';
+import {HtmlElement, Button, enableMsgBoxAlerts} from 'cx/widgets';
+import {Rescope} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -9,57 +9,62 @@ export const BreakingChanges = <cx>
         <Md>
             # Breaking Changes
 
-            From time to time we're forced to introduce breaking changes to the framework.
-            This page will serve to document such events and provide information how to migrate your apps.
+            Sometimes we are forced to introduce breaking changes to the framework.
+            This page will provide information about breaking changes and how to migrate your applications to the latest
+            versions of the framework.
 
             ## 17.12.0
 
             ### `babel-preset-env`
 
-            Since this version `babel-preset-env` is a peerDependency of `babel-preset-cx-env`. That means that it needs
-            to be installed. This allows that `babel-preset-cx-env` is not tied to new releases of `babel-preset-env`.
+            `babel-preset-env` is now a peer dependency of `babel-preset-cx-env`. Therefore it needs
+            to be installed in your project.
+            This change enables the `babel-preset-env` package to be updated independently from the
+            `babel-preset-cx-env`
+            package.
 
             <CodeSplit>
                 <CodeSnippet>
-                npm install babel-preset-env --saveDev
-                yarn add babel-preset-env --dev
+                    npm install babel-preset-env --saveDev
+                    yarn add babel-preset-env --dev
                 </CodeSnippet>
             </CodeSplit>
 
             ### `-bind`, `-tpl`, `-expr` syntax
 
-            Data-binding attributes can now be written in an alternative syntax with a dash,
-            e.g. `value-bind` instead of `value:bind`. This solves
-            a long standing problem that VSCode reports syntax errors if XML namespaces are used inside JSX.
-            This is not really a breaking change. Both methods are supported.
+            Data-binding attributes can now be written in an alternative syntax with a dash instead of a colon, for
+            example `value-bind` instead of `value:bind`. Although not necessarily a breaking change, both methods are
+            supported which solves a long standing problem of syntax errors that [Visual Studio
+            Code](https://code.visualstudio.com) reports if XML namespaces are used inside JSX.
 
             ## 17.7.0
 
-            This release is about supporting minimal, progressive Cx applications that start really quickly,
-            like [CxJS Hacker News](https://github.com/codaxy/cxjs-hackernews).
-            Bigger applications may also benefit from these changes by adopting [the app shell architecture](https://developers.google.com/web/fundamentals/architecture/app-shell)
-            which allows quick startup through incremental app loading.
+            This release adds support for CxJS applications with an extremely short start up time such as [CxJS Hacker
+            News](https://github.com/codaxy/cxjs-hackernews).
+            Bigger applications will improve startup time through incremental app loading and adopting [the app shell
+            architecture](https://developers.google.com/web/fundamentals/architecture/app-shell).
 
-            To support minimal application shells some internal CxJS dependencies had to be broken.
+            In order for us to support minimal application shells some internal CxJS dependencies had to be broken.
 
             ### Confirmation Dialogs
 
-            To support user confirmation, `Button` required `MsgBox` and `Window` components. This (`confirm`) functionality
-            is not always needed. When required, it's better to load these additional classes after the application starts.
+            The `Button` requires `MsgBox` and `Window` components in order to support user confirmation dialogs.
+            This (`confirm`) function is not always necessary, but when needed. it's better to load these additional classes
+            after the application launch.
 
             <CodeSplit>
 
-                To enable CxJS based confirmation dialogs, call the `enableMsgBoxAlerts` method.
-                Otherwise, browser's default `prompt` dialog will appear.
+                In order to enable CxJS based confirmation dialogs, use the `enableMsgBoxAlerts` method.
+                Otherwise, the browser default `prompt` dialog will appear.
 
                 <div class="widgets">
                     <Button
                         mod="danger"
-                        text={{ bind: "$page.showDialogText", defaultValue: "Click Me" }}
+                        text={{bind: "$page.showDialogText", defaultValue: "Click Here"}}
                         confirm="Would you like to use CxJS based dialogs?"
-                        onClick={(e, {store})=>{
+                        onClick={(e, {store}) => {
                             enableMsgBoxAlerts();
-                            store.set('$page.showDialogText', "Click Me Again");
+                            store.set('$page.showDialogText', "Click Here Again");
                         }}
                     />
                 </div>
@@ -67,16 +72,16 @@ export const BreakingChanges = <cx>
                 <CodeSnippet putInto="code">{`
                     <Button
                         mod="danger"
-                        text={{ bind: "$page.showDialogText", defaultValue: "Click Me" }}
+                        text={{ bind: "$page.showDialogText", defaultValue: "Click Here" }}
                         confirm="Would you like to use CxJS based dialogs?"
                         onClick={(e, {store})=>{
                             enableMsgBoxAlerts();
-                            store.set('$page.showDialogText', "Click Me Again");
+                            store.set('$page.showDialogText', "Click Here Again");
                         }}
                     />
                 `}</CodeSnippet>
 
-                To enable confirmations on application startup, use the following snippet:
+                To enable the confirmation function on application startup, use the following snippet:
 
                 <CodeSplit>
                     <CodeSnippet>{`
@@ -89,14 +94,15 @@ export const BreakingChanges = <cx>
 
             ### Tooltips
 
-            Tooltips are not implicitly loaded anymore. For example,
+            Tooltips are not automatically loaded anymore. The following example will not work because
+            tooltips first need to be enabled using the `enableTooltips` method.
 
             <CodeSplit>
                 <CodeSnippet>
                     {`<div tooltip="Some tooltip" />`}
                 </CodeSnippet>
 
-                will not just work. Now, it's required to enable tooltips using the `enableTooltips` method.
+                Use the following code to enable tooltips:
 
                 <CodeSnippet>{`
                 import {enableTooltips} from 'cx/widgets';
@@ -107,9 +113,9 @@ export const BreakingChanges = <cx>
 
             ### Culture-Sensitive Number, Date and Currency Formatting
 
-            Culture-sensitive number and date formats are not automatically registered anymore for the same reasons.
-            Formatting is auto-enabled if `NumberField`, `DateField` or any other culture dependent widget is used,
-            otherwise it needs to be enabled using the `enableCultureSensitiveFormatting`.
+            Culture-sensitive formats for dates and numbers are not automatically registered.
+            Formatting is auto-enabled if `NumberField`, `DateField` or any other culture dependent widget is used;
+            otherwise it needs to be enabled using the `enableCultureSensitiveFormatting` method.
 
             <CodeSplit>
                 <CodeSnippet>{`
@@ -121,9 +127,9 @@ export const BreakingChanges = <cx>
 
             ### Fat Arrow Expansion
 
-            To support fat arrows in expressions, CxJS includes a transformer which transforms fat arrows into
-            standard function notation. This is needed to support fat arrows in Internet Explorer and older
-            versions of Safari.
+            In order to support fat arrows in expressions CxJS includes a transformer which rewrites fat arrows into
+            the standard function notation. This allows fat arrows to be used in Internet Explorer and older
+            versions of Safari, like in the following example.
 
             <CodeSplit>
                 <CodeSnippet>
@@ -141,12 +147,9 @@ export const BreakingChanges = <cx>
             </CodeSplit>
 
 
-
-
-
             ### Enable All
 
-            For apps that do not use code-splitting and want to enable all internal dependencies,
+            For apps that do not use code-splitting and the developers want to enable all internal dependencies,
             you may use `enableAllInternalDependencies` and everything will be as it was in previous versions.
 
             <CodeSplit>
@@ -159,7 +162,8 @@ export const BreakingChanges = <cx>
 
             ## 17.4.0
 
-            We're happy to announce that we obtained ownership of the `cx` package at [npmjs](https://www.npmjs.com/package/cx)
+            We're proud to announce that we obtained ownership of the `cx` package at
+            [npmjs](https://www.npmjs.com/package/cx)
             and therefore our `cx-core` package will be replaced with `cx` and deprecated.
 
             To migrate your apps, please do the following:
@@ -177,14 +181,14 @@ export const BreakingChanges = <cx>
             ```
             test: /\.js$/,
             loader: 'babel-loader',
-            include: /(app|cx)/,  //previously (app|cx-core)
+            include: /(app|cx)/, //previously (app|cx-core)
             ```
 
-            If `cx-core` reference is used `.scss` files, replace it with `cx`.
+            If `cx-core` reference is used in `.scss` files, replace it with `cx`.
 
             ```
-            @import "~cx/src/variables";    //cx-core => cx
-            @import "~cx/src/index";        //cx-core => cx
+            @import "~cx/src/variables"; //cx-core => cx
+            @import "~cx/src/index"; //cx-core => cx
             ```
 
             After you're done, please upgrade all Cx related packages to the latest version.
@@ -198,9 +202,9 @@ export const BreakingChanges = <cx>
 
             That's it.
 
-            The `cx-core` package will continue to work for some time, however, it's advisable for all users to switch to the new
-            package. The benefit of this change is that code completion will now work as IDEs will be able to find the
-            `cx` package.
+            The `cx-core` package will continue to work, but we recommend that all users to switch
+            to the new package. The benefit of this change is that the code completion will now work as IDEs will now be
+            able to find the `cx` package.
         </Md>
     </Rescope>
 </cx>

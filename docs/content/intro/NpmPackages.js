@@ -6,10 +6,11 @@ export const NpmPackages = <cx>
         # NPM Packages
 
         CxJS includes a number of NPM packages used for different purposes.
-        This article provides a brief overview of all packages and links
-        to npm homepages where you can find more information about each package.
+        This article provides an overview of all the packages which link directly to the
+        npm website where you can find detailed information about each package.
 
         ### General
+
         <table class="dxb-table">
             <tbody>
             <tr>
@@ -23,7 +24,8 @@ export const NpmPackages = <cx>
             <tr>
                 <th><a href="https://www.npmjs.com/package/cx-cli">cx-cli</a></th>
                 <td ws>
-                    <Link href="~/intro/command-line">Command Line Interface</Link> used to speed up development of CxJS applications.
+                    <Link href="~/intro/command-line">Command Line Interface</Link>
+                    used to quickly create new CxJS applications.
                 </td>
             </tr>
 
@@ -61,7 +63,7 @@ export const NpmPackages = <cx>
 
         ### Virtual DOM
 
-        Virtual DOM packages are used to connect Cx with a library used for DOM manipulation.
+        Virtual DOM packages connect CxJS with the library used for DOM manipulation.
 
         <table class="dxb-table">
             <tbody>
@@ -83,7 +85,7 @@ export const NpmPackages = <cx>
 
         ### Themes
 
-        Theme packages enable simple CxJS theming.
+        Theme packages enable changing the appearance of CxJS applications.
 
         <table class="dxb-table">
             <tbody>
@@ -108,7 +110,7 @@ export const NpmPackages = <cx>
 
         ## Babel
 
-        There are a couple of packages for configuring Babel.
+        The following are the Babel plugins used for compiling CxJS applications:
 
         <table class="dxb-table">
             <tbody>
@@ -122,9 +124,8 @@ export const NpmPackages = <cx>
                 <th><a href="https://www.npmjs.com/package/babel-plugin-transform-cx-imports">babel-plugin-transform-cx-imports</a>
                 </th>
                 <td ws>
-                    Rewrites imports to access widgets from the `src` folder which results with smaller bundles in
-                    scenarios when
-                    tree-shaking doesn't work well.
+                    Rewrites imports in order to access widgets from the <code>src</code> folder which results in smaller bundles in
+                    scenarios when tree-shaking is not work well.
                 </td>
             </tr>
             <tr>
@@ -148,8 +149,8 @@ export const NpmPackages = <cx>
                     <a href="https://www.npmjs.com/package/cx-scss-manifest-webpack-plugin">cx-scss-manifest-webpack-plugin</a>
                 </th>
                 <td ws>
-                    Inspects application source code and generates a SCSS manifest file for importing
-                    only the required elements from CxJS SCSS library.
+                    Generates the SCSS manifest which imports CSS for widgets that are used in the application.
+                    When using this plugin, CSS will not be imported for unused widgets.
                 </td>
             </tr>
             </tbody>
