@@ -132,15 +132,15 @@ export const CustomBindings = <cx>
                     />
 
                     <PureContainer if-bind="$page.city.id" layout={UseParentLayout}>
-                        <TextField value-bind="$page.city.name" label="City:" viewMode style="font-weight: bold"/>
+                        <TextField value-bind="$page.city.name" label="City:" viewMode style="font-weight: bold" />
                         <NumberField value-bind="$page.city.population" label="Population" viewMode style="font-weight: bold" />
-                        <NumberField value-bind="$page.city.landArea" label="Land Area" viewMode style="font-weight: bold" format="suffix; km2"/>
+                        <NumberField value-bind="$page.city.landArea" label="Land Area" viewMode style="font-weight: bold" format="suffix; km2" />
                     </PureContainer>
                 </div>
 
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
                     <LookupField
-                        style="max-width: 260px"
+                        style="max-width: 300px"
                         label="Multi Select"
                         records-bind="$page.selectedCities"
                         onQuery="query"
@@ -158,12 +158,12 @@ export const CustomBindings = <cx>
                         <span text-tpl="Land Area: {$option.landArea} km2" />
                     </LookupField>
 
-                    <Repeater records-bind="$page.selectedCities">
-                        <div style="border-bottom: 1px solid lightgray; padding: 5px">
-                            <h3 text-bind="$option.text" style="margin: 2px 0;" />
-                            <span text-tpl="Population: {$option.population}" />
+                    <Repeater records-bind="$page.selectedCities" recordAlias="$city">
+                        <div style="border-bottom: 1px solid lightgray; padding: 8px">
+                            <h4 text-bind="$city.text" style="margin: 2px 0;" />
+                            Population: <NumberField value-bind="$city.population" viewMode />
                             <br />
-                            <span text-tpl="Land Area: {$option.landArea} km2" />
+                            Land Area: <NumberField value-bind="$city.landArea" format="suffix; km2" viewMode />
                         </div>
                     </Repeater>
                 </div>
