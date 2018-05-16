@@ -31,7 +31,7 @@ export const Buffering = <cx>
 
         <CodeSplit>
 
-            The `Grid` widgets supports buffered rendering which dramatically improves performance with many rows.
+            The `Grid` widget supports buffered rendering which dramatically improves performance with many rows.
             Set grid to `buffered` mode and tweak `bufferSize` and `bufferStep` parameters for the best scrolling experience.
 
             <Grid

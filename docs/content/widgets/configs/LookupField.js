@@ -149,5 +149,11 @@ export default {
         description: <cx><Md>
             A delay in milliseconds between the moment the user stops typing and when tha query is made. Default value is `150`.
         </Md></cx>
+    },
+    bindings: {
+        type: 'array',
+        description: <cx><Md>
+            An array of mappings between options and value fields. Use this property to pass additional options to the selection.
+        </Md></cx>
     }
 };
