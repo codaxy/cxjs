@@ -90,10 +90,10 @@ export const GettingStarted = <cx>
         - [Router](~/concepts/router)
         - [Charts](~/concepts/charts)
 
-        ## Cx Fiddle
+        ## CxJS Fiddle
 
         [CxJS Fiddle](https://cxjs.io/fiddle) allows you to experiment with CxJS directly in the browser, without setting up
-        a new project. Below are some examples to test out. You can also create, save and share your own snippets.
+        a new project. Below are some examples to test out. You can also create, save, and share your own snippets.
         Check out the links below:
 
         - [BMI Calculator](https://cxjs.io/fiddle/?f=luv00Rpw)
@@ -108,9 +108,11 @@ export const GettingStarted = <cx>
 
         Below are demo applications which will provide a deeper insight into how CxJS projects function:
 
-        - [Cx Starter Kit](https://github.com/codaxy/cx-starter-kit) - dashboards, admin pages, routing, layouts, etc.
+        - [CxJS Starter Kit](https://github.com/codaxy/cx-starter-kit) - dashboards, admin pages, routing, layouts
+        - [Worldoscope](https://github.com/codaxy/worldoscope) - charts, data tables, Material theme.
+        - [CxJS Hacker News](https://github.com/codaxy/cxjs-hackernews) - startup performance, layout, infinite scrolling
         - [Employee Directory](https://github.com/codaxy/employee-directory-demo) + [blog
-        post](https://blog.codaxy.com/cx-walkthrough-89dc37da9abc#.lt23d5ipc) - layout, REST API, etc.
+        post](https://blog.codaxy.com/cx-walkthrough-89dc37da9abc#.lt23d5ipc) - layout, REST API
         - [State of JS Explorer](https://github.com/codaxy/state-of-js-2016-explorer) - charts, styling
         - [tdo](https://github.com/mstijak/tdo) - dark appearance, keyboard navigation
 
@@ -119,9 +121,8 @@ export const GettingStarted = <cx>
         You are now ready to start a new project with CxJS.
 
         - [Command Line Interface](~/intro/command-line) - quickly generate new applications using Cx CLI
-        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new CxJS application. You will also
-        configure both webpack and babel along the way
-
+        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating new CxJS application. You will also
+        configure both [webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) along the way
     </Md>
 </cx>
 
