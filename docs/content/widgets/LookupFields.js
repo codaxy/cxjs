@@ -107,7 +107,7 @@ export const LookupFields = <cx>
             not specified (single selection mode), then it's required to bind `value` and `text` properties.
 
             In multiple selection mode, it's necessary to bind the `records` or `values` property. The `records`
-            property will hold a list of the selected options. 
+            property will hold a list of the selected values.
             By default, only `id` and `text` properties are copied from the option to the selection;
             however, it's possible to provide a list of `bindings` which describes the mapping between options and value
             fields.
@@ -133,7 +133,6 @@ export const LookupFields = <cx>
                 </tr>
                 </tbody>
             </table>
-
 
             <CodeSnippet putInto="code" fiddle="y9CHlIUn">{`
             class PageController extends Controller {
@@ -204,10 +203,13 @@ export const LookupFields = <cx>
 
         </CodeSplit>
 
+        Advanced lookup examples:
+
+        - [Custom Bindings](~/examples/lookup/custom-bindings)
+
         ## Configuration
 
         <ConfigTable props={configs}/>
 
     </Md>
 </cx>
-
