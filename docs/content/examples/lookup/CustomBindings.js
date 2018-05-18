@@ -29,15 +29,17 @@ class PageController extends Controller {
 export const CustomBindings = <cx>
     <Md controller={PageController}>
 
-        # Custom Bindings
+        # Lookup Bindings
 
         <CodeSplit>
 
-            Following examples show how to use lookup custom bindings property.
+            The following examples show how to configure lookup bindings.
 
-            Single Selection:
+            ##### Single Selection Mode
 
-            When using custom bindings with a single selection mode key record is mandatory, while text record is optional. Options data are exposed through `$option` alias.
+            In the single selection mode, the `key` field is mandatory, while the `text` field is optional. 
+            Option data is available by using the `$option` alias. If you take a look at the following example,
+            you'll notice that when an option is selected multiple fields are copied.
 
             <div class="widgets" style="align-items: start">
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
@@ -92,9 +94,10 @@ export const CustomBindings = <cx>
                 </div>
             </div>
 
-            Multi Selection:
+            ##### Multiple Selection Mode
 
-            When using custom bindings with a multiple selection mode both key and text records are mandatory. Options data are exposed through `$option` alias, while selection data have to be prefixed with `$value` prefix.
+            When custom bindings are used in the multiple selection mode both `key` and `text` fields are mandatory. 
+            Option data is available through `$option` alias, while selection data is available through the `$value` alias.
 
             <CodeSnippet putInto="code" fiddle="5Zp9AfEj">{`
                 class PageController extends Controller {
