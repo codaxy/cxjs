@@ -456,6 +456,7 @@ class ListComponent extends VDOM.Component {
    handleKeyDown(e) {
 
       let {instance, items} = this.props;
+      let {widget} = instance;
 
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
@@ -463,8 +464,8 @@ class ListComponent extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             let item = items[this.cursorChildIndex[this.state.cursor]];
-            if (item)
-               this.handleItemClick(e, item.instance);
+            if (item && widget.onItemClick)
+               instance.invoke("onItemClick", e, item.instance);
             break;
 
          case KeyCode.down:

@@ -15,8 +15,15 @@ interface ListProps extends Cx.StyledContainerProps {
    
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
    sortDirection?: Cx.StringProp,
-    
+
+   /** CSS style that will be applied to all list items. */
    itemStyle?: Cx.StyleProp,
+
+   /** CSS class that will be applied to all list items. */
+   itemClass?: Cx.ClassProp,
+
+   /** CSS class that will be applied to all list items. */
+   itemClassName?: Cx.ClassProp,
     
    emptyText?:  Cx.StringProp,
    

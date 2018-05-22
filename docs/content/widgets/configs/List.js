@@ -74,4 +74,17 @@ export default {
             Set to `true` to add ensure that selected record is automatically scrolled into the view on selection change.
         </Md></cx>
     },
+    itemStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            CSS style that will be applied to all list items.
+        </Md></cx>
+    },
+    itemClass: {
+        alias: 'itemClassName',
+        type: 'string/object',
+        description: <cx><Md>
+            CSS class that will be applied to all list items.
+        </Md></cx>
+    },
 };
