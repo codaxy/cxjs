@@ -6,8 +6,7 @@ function objectKeyIdentifier(t, name) {
    if (name.indexOf('-') >= 0)
       return t.stringLiteral(name);
 
-   return t.stringLiteral(name)
-
+   return t.identifier(name);
 }
 
 function property(t, name, value) {

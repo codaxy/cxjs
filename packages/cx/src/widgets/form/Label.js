@@ -29,22 +29,27 @@ export class Label extends HtmlElement {
    }
 
    isValidHtmlAttribute(attrName) {
-      if (attrName == 'asterisk')
-         return false;
+      switch (attrName) {
+         case "asterisk":
+         case "required":
+            return false;
+      }
       return super.isValidHtmlAttribute(attrName);
    }
 
    attachProps(context, instance, props) {
       super.attachProps(context, instance, props);
-      props.htmlFor = instance.data.htmlFor;
+      if (instance.data.htmlFor) {
+         props.htmlFor = instance.data.htmlFor;
 
-      if (!props.onClick && instance.data.htmlFor)
-         props.onClick = () => {
-            //additional focus for LookupFields which are not input based
-            let el = document.getElementById(instance.data.htmlFor);
-            if (el)
-               FocusManager.focusFirst(el);
-         };
+         if (!props.onClick)
+            props.onClick = () => {
+               //additional focus for LookupFields which are not input based
+               let el = document.getElementById(instance.data.htmlFor);
+               if (el)
+                  FocusManager.focusFirst(el);
+            };
+      }
 
       let {data} = instance;
       if (this.asterisk && data.required) {
