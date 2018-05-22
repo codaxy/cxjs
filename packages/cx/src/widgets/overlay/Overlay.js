@@ -7,6 +7,7 @@ import {parseStyle} from '../../util/parseStyle';
 import {captureMouseOrTouch} from './captureMouse';
 import {ZIndexManager} from "../../ui/ZIndexManager";
 import { ddMouseDown, ddMouseUp, ddDetect } from "../drag-drop/ops";
+import { isObject} from "../../util/isObject";
 
 /*
  Features:
@@ -93,8 +94,10 @@ export class Overlay extends PureContainer {
    overlayDidMount(instance, component) {
       if (this.center) {
          let {el} = component;
-         el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
-         el.style.top = `${(window.innerHeight - el.offsetHeight) / 2}px`;
+         if (!el.style.left)
+            el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+         if (!el.style.top)
+            el.style.top = `${(window.innerHeight - el.offsetHeight) / 2}px`;
       }
    }
 
@@ -165,6 +168,36 @@ export class Overlay extends PureContainer {
       options.name = options.name || 'overlay';
       stop = startAppLoop(el, storeOrInstance, this, options);
       return options.dismiss;
+   }
+
+   handleMove(e, instance, component) {
+      let {widget} = instance;
+      if (!widget.onMove || instance.invoke("onMove", e, instance, component) !== false) {
+         instance.store.silently(() => {
+            if (isObject(this.style) && isObject(this.style.top) && this.style.top.bind) {
+               instance.store.set(this.style.top.bind, component.el.style.top);
+            }
+
+            if (isObject(this.style) && isObject(this.style.left) && this.style.left.bind) {
+               instance.store.set(this.style.left.bind, component.el.style.left);
+            }
+         });
+      }
+   }
+
+   handleResize(e, instance, component) {
+      let {widget} = instance;
+      if (!widget.onResize || instance.invoke("onResize", e, instance, component) !== false) {
+         instance.store.silently(() => {
+            if (isObject(this.style) && isObject(this.style.width) && this.style.width.bind) {
+               instance.store.set(this.style.width.bind, component.el.style.width);
+            }
+
+            if (isObject(this.style) && isObject(this.style.height) && this.style.height.bind) {
+               instance.store.set(this.style.height.bind, component.el.style.height);
+            }
+         });
+      }
    }
 }
 
@@ -423,7 +456,8 @@ export class OverlayComponent extends VDOM.Component {
    
    onMouseMove(e, captureData) {
       // handle dragging
-      let {data} = this.props.instance;
+      let {instance} = this.props;
+      let {data, widget} = instance;
       let detect = ddDetect(e);
       if (data.draggable && detect) {
          this.startMoveOperation(e);
@@ -461,6 +495,11 @@ export class OverlayComponent extends VDOM.Component {
                top: `${rect.top}px`,
                bottom: 'auto'
             });
+
+         if (prefix.indexOf('w') >= 0 || prefix.indexOf('n') >= 0)
+            widget.handleMove(e, instance, this);
+
+         widget.handleResize(e, instance, this);
       }
       else {
          let prefix = this.getResizePrefix(e);
@@ -502,6 +541,10 @@ export class OverlayComponent extends VDOM.Component {
             right: 'auto',
             bottom: 'auto'
          });
+
+         let {instance} = this.props;
+         let {widget} = instance;
+         widget.handleMove(e, instance, this);
       }
    }
 

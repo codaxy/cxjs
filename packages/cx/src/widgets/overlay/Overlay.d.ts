@@ -1,13 +1,14 @@
 import * as Cx from '../../core';
+import { Instance } from "../../ui/Instance";
 
 export interface OverlayProps extends Cx.StyledContainerProps {
-   
+
    /** Set to `true` to enable resizing. */
    resizable?: Cx.BooleanProp,
 
    /** Set to `true` to enable dragging the overlay. */
    draggable?: Cx.BooleanProp,
-   
+
    /** Base CSS class to be applied to the field. Defaults to `overlay`. */
    baseClass?: string,
 
@@ -22,10 +23,10 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    /** Set to `true` to add a modal backdrop which will dismiss the window when clicked. */
    backdrop?: boolean,
 
-   /** Set to `true` to force the element to be rendered inline, instead of being appended to the body element. 
+   /** Set to `true` to force the element to be rendered inline, instead of being appended to the body element.
     * Inline overlays have z-index set to a very high value, to ensure they are displayed on top of the other content. */
    inline?: boolean,
-   
+
    /** Set to `true` to automatically focus the top level overlay element. */
    autoFocus?: boolean,
 
@@ -42,8 +43,13 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    dismissOnFocusOut?: boolean,
 
    /** Set to true to make the top level overlay element focusable. */
-   focusable?: boolean
-   
+   focusable?: boolean,
+
+   /** A callback function which fires while the overlay is being moved around. */
+   onMove(e: Event, instance: Instance, component: any);
+
+   /** A callback function which fires while the overlay is being resized. */
+   onResize(e: Event, instance: Instance, component: any);
 }
 
 export class Overlay extends Cx.Widget<OverlayProps> {}

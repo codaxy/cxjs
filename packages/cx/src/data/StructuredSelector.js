@@ -56,8 +56,11 @@ function getSelectorConfig(props, values, nameMap) {
          else if (pv && typeof pv == 'object' && pv.structured) {
             if (isArray(v))
                functions[p] = getSelector(v);
-            else
-               structures[p] = getSelectorConfig(v, v, {});
+            else {
+               let s = getSelectorConfig(v, v, {});
+               structures[p] = s;
+               Object.assign(defaultValues, s.defaultValues);
+            }
             constant = false;
          } 
          else {
@@ -96,7 +99,7 @@ function getSelectorConfig(props, values, nameMap) {
    };
 }
 
-function createSelector({ functions, structures, constants }) {
+function createSelector({ functions, structures, constants, defaultValues }) {
    let selector = {};
 
    for (let n in functions) {
