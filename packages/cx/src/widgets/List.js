@@ -246,13 +246,28 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(index);
       if (e.shiftKey)
          e.preventDefault();
+
+      this.moveCursor(index, {
+         select: true,
+         selectOptions: {
+            toggle: e.ctrlKey
+         },
+         selectRange: e.shiftKey
+      });
+   }
+
+   handleItemClick(e) {
+      let {instance, items} = this.props;
+      let index = Number(e.currentTarget.dataset.recordIndex);
+      let item = items[this.cursorChildIndex[index]];
+      instance.invoke("onItemClick", e, item.instance);
    }
 
    handleItemDoubleClick(e) {
       let {instance, items} = this.props;
       let index = Number(e.currentTarget.dataset.recordIndex);
       let item = items[this.cursorChildIndex[index]];
-      instance.invoke("onItemDoubleClick", e, item.instance)
+      instance.invoke("onItemDoubleClick", e, item.instance);
    }
 
    render() {
@@ -263,9 +278,12 @@ class ListComponent extends VDOM.Component {
       this.cursorChildIndex = [];
       let cursorIndex = 0;
 
-      let onDblClick;
+      let onDblClick, onClick;
 
-      if (widget.handleItemDoubleClick)
+      if (widget.onItemClick)
+         onClick = this.handleItemClick;
+
+      if (widget.onItemDoubleClick)
          onDblClick = this.handleItemDoubleClick;
 
       let children = items.length > 0 && items.map((x, i) => {
@@ -287,10 +305,10 @@ class ListComponent extends VDOM.Component {
                      key={x.key}
                      className={CSS.expand(className, data.classNames)}
                      style={itemStyle}
-                     onClick={this.handleItemClick}
-                     onDoubleClick={onDblClick}
                      data-record-index={ind}
                      onMouseDown={this.handleItemMouseDown}
+                     onClick={onClick}
+                     onDoubleClick={onDblClick}
                   >
                      {x.content}
                   </li>
@@ -433,26 +451,6 @@ class ListComponent extends VDOM.Component {
 
    handleMouseLeave() {
       this.moveCursor(-1, { hover: true });
-   }
-
-   handleItemClick(e) {
-      let {instance, items} = this.props;
-      let index = Number(e.currentTarget.dataset.recordIndex);
-      let item = items[this.cursorChildIndex[index]];
-
-      e.stopPropagation();
-      let {widget} = instance;
-
-      if (widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false)
-         return;
-
-      this.moveCursor(this.state.cursor, {
-         select: true,
-         selectOptions: {
-            toggle: e.ctrlKey
-         },
-         selectRange: e.shiftKey
-      });
    }
 
    handleKeyDown(e) {

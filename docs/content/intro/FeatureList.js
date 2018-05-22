@@ -10,7 +10,7 @@ export const FeatureList = <cx>
     <Md>
         # List of Features
 
-        All Cx features listed at one place:
+        All of the CxJS features are listed below:
 
         ## Core
 
@@ -18,9 +18,9 @@ export const FeatureList = <cx>
 
         * Two-way data binding
         * Expressions
-        * Templates
-        * Computable
-        * Setters
+        * String templates
+        * Computables
+        * Value setters
 
         ### Controllers
 
