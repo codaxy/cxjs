@@ -24,7 +24,7 @@ export const DataViews = <cx>
     <Md>
         # Data Views
 
-        Having all data in a single object means that sometimes it's hard to access a particular object or a property.
+        Having all data in a single object makes it difficult to access a particular object or property.
         The purpose of data views is to simplify this.
 
         <CodeSplit>
@@ -33,9 +33,9 @@ export const DataViews = <cx>
 
             <ImportPath path="import { Repeater } from 'cx/widgets';" />
 
-            One of the most commonly used data views is the `ExposedRecordView` used
-            by `Repeater` and `Grid` controls. It exposes a single element from an array as a separate store property
-            (`$record`) and also the element's index under the `$index` property.
+            Repeater renders its content for each record of the assigned collection.
+            Within the Repeater, use the `$record` alias to access the record data.
+            Element index is available by using the `$index` alias.
 
             <div class="widgets">
                 <div>
@@ -118,7 +118,7 @@ export const DataViews = <cx>
             <div class="widgets">
                 <div>
                     <div preserveWhitespace>
-                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">Winner</Radio>
+                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
@@ -149,7 +149,7 @@ export const DataViews = <cx>
             <CodeSnippet putInto="code" fiddle="110OL8gu">{`
                 <div>
                     <div preserveWhitespace>
-                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">Winner</Radio>
+                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
                         <Radio value:bind="$page.place" option="second">2nd Place</Radio>
                         <Radio value:bind="$page.place" option="third">3rd Place</Radio>
                     </div>
@@ -178,7 +178,7 @@ export const DataViews = <cx>
             `}</CodeSnippet>
 
             `Sandbox` is commonly used in single page applications to isolate data belonging to
-            different pages identified by the URL address. For the list of configuration properties, see the [Router docs](~/concepts/router#sandbox).
+            different pages being identified by the URL address. For the list of configuration properties, see the [Router docs](~/concepts/router#sandbox).
 
         </CodeSplit>
 
@@ -187,11 +187,10 @@ export const DataViews = <cx>
         <ImportPath path="import { Rescope } from 'cx/ui';" />
 
         The `Rescope` widget enables shorter data binding paths by selecting a common prefix.
-        Check out the previous example to see how `Rescope` was used to display results.
+        Check out the previous example to see how `Rescope` is used to display results.
 
         Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
         `winner` and `$root.$page.results.winner` point to the same object.
-
     </Md>
 </cx>
 

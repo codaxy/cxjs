@@ -30,7 +30,7 @@ export default {
         key: true,
         description: <cx><Md>
             A binding used to store the sort direction. Available only if `sorters` are not used.
-            Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`.
+            Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`.
         </Md></cx>
     },
     sorters: {
@@ -40,6 +40,13 @@ export default {
             A binding used to store the sorting order list. 
             This should be an array of objects with `field` and `direction` properties
             (equivalent to `sortField` and `sortDirection` properties).
+        </Md></cx>
+    },
+    records: {
+        type: 'array',
+        key: true,
+        description: <cx><Md>
+            An array of records to be shown.
         </Md></cx>
     },
 };
