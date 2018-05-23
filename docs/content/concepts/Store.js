@@ -13,7 +13,7 @@ class PageController extends Controller {
             name: 'Jane',
             disabled: true,
             todoList: [
-                {id: 1, text: 'Learn Cx', done: true},
+                {id: 1, text: 'Learn CxJS', done: true},
                 {id: 2, text: "Feed the cat", done: false},
                 {id: 3, text: "Take a break", done: false}
             ],
@@ -34,26 +34,23 @@ export const Store = <cx>
 
         <ImportPath path="import { Store } from 'cx/data';"/>
 
-        Cx widgets are tightly connected to a central data repository called `Store`.
+        CxJS widgets are tightly connected to a central data repository called `Store`.
 
         - Widgets access stored data to calculate data required for rendering (data binding process).
-        - Widgets react on user inputs and update the Store either directly (two-way bindings) or by dispatching
-        actions which are translated into new application state.
-        - Store sends change notifications which produce a new rendering of the widget tree and DOM update.
+        - Widgets react to user inputs and update the Store either directly (two-way bindings) or by dispatching
+        actions which are translated into the new application state.
+        - The Store sends a change notification which produce a new rendering of the widget tree and update the DOM.
 
         ### Principles
 
-        - The state of the whole application is stored in an object tree within a single Store.
+        - The whole application state is stored in the object tree within a single Store.
         - The state is immutable. On every change, a new copy of the state is created containing the updated values.
-        - The only way to change the state is through Store methods or with the use of two-way data binding.
+        - The only way to change the state is through the use of two-way data binding or the Store methods.
 
         ### Store methods
 
-        The Store instantiation is already shown on our [Step by Step](~/intro/step-by-step#application-entry-point)
-        page, so it will be omitted here.
-        In order to enforce the proclaimed principles, the Store exposes a set of public methods that can be used to
+        In order to simplify working with immutable data, the Store exposes a set of public methods that can be used to
         manage the application state.
-
 
         <MethodTable methods={[{
             signature: 'Store.init(path, value)',
@@ -71,19 +68,19 @@ export const Store = <cx>
         }, {
             signature: 'Store.get(path)',
             description: <cx><Md>
-                The `get` method can take any number of arguments or an array of strings representing paths,
-                and returns the corresponding values.
+                The `get` method is used to read the data from the store under the given `path`.
+                The method can take multiple arguments or an array of strings representing paths.
             </Md></cx>
         }, {
             signature: 'Store.delete(path)',
             description: <cx><Md>
-                Removes data from the Store, stored under the given `path`.
+                Removes data from the Store stored under the given `path`.
             </Md></cx>
         }, {
             signature: 'Store.update(path, updateFn, ...args)',
             description: <cx><Md>
                 Applies the `updateFn` to the data stored under the given `path`. `args` can contain additional
-                parameters used by the `updateFn`.
+                parameters that will be passed to the `updateFn`.
             </Md></cx>
         }, {
             signature: 'Store.toggle(path)',
@@ -110,27 +107,32 @@ export const Store = <cx>
             signature: 'Store.notify(path)',
             description: <cx><Md>
                 Notifies Store subscribers about the change. Usually, notifications cause the application to re-render.
-                This method is automatically called whenever a change is made.
-                Optional `path` argument can be provided to indicate where the change occurred.
+                This method automatically occurs whenever a change is made.
+                Optional `path` argument is provided to indicate where the change occurred.
             </Md></cx>
         }, {
             signature: 'Store.silently(callback)',
             description: <cx><Md>
-                `silently` method can be used to perform data changes which do not fire notifications, that is, cause re-render.
+                `silently` method is used to perform data changes without notifications.
+                Changes made this way will not reflect in the UI until the application is rendered again.
+
                 The Store instance is passed to the `callback` function.
             </Md></cx>
         }, {
             signature: 'Store.batch(callback)',
             description: <cx><Md>
-                `batch` method can be used to perform multiple Store operations silently and re-render the application
-                only once afterwards.
+                `batch` method is used to perform multiple Store operations silently and afterwards send
+                a notification only once. This causes the application to be re-rendered only once even if multiple
+                changes occurred.
+
                 The Store instance is passed to the `callback` function.
             </Md></cx>
         }, {
             signature: 'Store.dispatch(action)',
             description: <cx><Md>
-                `dispatch` method is useful if the Store is used in combination with Redux. This method is available
-                only if application Store is based on a Redux store (See [cx-redux](https://www.npmjs.com/package/cx-redux) package).
+                `dispatch` method is used for dispatching actions.
+                This method is available only if the application Store is based on a Redux store (See
+                [cx-redux](https://www.npmjs.com/package/cx-redux) package).
             </Md></cx>
         }, {
             signature: 'Store.load(data)',
@@ -142,8 +144,8 @@ export const Store = <cx>
 
         ### Examples
 
-        In the examples below we'll explore the most common ways to use the Store in Cx:
-        - inside Controllers (store is available via `this.store`)
+        In the examples below we will explore the most common ways to use the Store in CxJS:
+        - inside Controllers (store is available via `this.store`)n
         - through two-way data binding ([explained here](~/concepts/data-binding))
         - inside event handlers
 
@@ -154,7 +156,7 @@ export const Store = <cx>
             The `init` method is typically used inside the Controller's `onInit` method to initialize the data.
             It takes two arguments, `path` and `value`. The `path` is a string which is used as a key for storing the
             `value`. If the `path` is already taken, the method returns `false` without overwriting the existing value.
-            Otherwise it saves the `value` and returns `true`.
+            Otherwise, it saves the `value` and returns `true`.
 
             <Content name="code">
                 <CodeSnippet fiddle="fMy6p8FB">{`
@@ -192,13 +194,12 @@ export const Store = <cx>
         ## `get`
 
         The `get` method is used to read data from the Store. It takes any number of arguments or an array of strings
-        representing paths,
-        and returns the corresponding values. In the previous example, the `greet` method inside the controller is
-        invoking the `Store.get` method to read the name from the Store.
-        Notice how we are able to directly access a certain property (`$page.name`) by using the `.` in our `path`
-        string.
-
-        **Note on `path`:** Think of `path` as a property accessor of our data object.
+        representing paths and it returns the corresponding values.
+        In the previous example, the `greet` method inside the controller is
+        using the `Store.get` method to read the name from the Store.
+        You will notice that we are able to directly access a nested property (`$page.name`) by using the `.` in our
+        `path`
+        string. Think of `path` as a property accessor.
 
         <CodeSplit>
             <div class="widgets">
@@ -214,11 +215,10 @@ export const Store = <cx>
         <CodeSplit>
 
             The `set` method is used to update data in the Store. It takes two arguments, `path` and `value`.
-            Any existing data stored under the given `path` gets overwritten.
-            In this example, we are accesing the Store from inside an event handler.
-            In Cx, all event handlers are passed at least two arguments, `event` and `instance`.
-            `instance` represents the Cx widget that fired the event, and we are using it to obtain the access to the
-            Store.
+            Any existing data stored under the given `path` will be overwritten.
+            In this example, we are accessing the Store from inside an event handler.
+            In CxJS, all event handlers receive at least two arguments, `event` and `instance`.
+            The `instance` represents the CxJS widget that triggered the event and we can use it to obtain the Store.
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
@@ -231,8 +231,9 @@ export const Store = <cx>
                     />
                 </div>
             </div>
-            We are also using the [`computable`](~/concepts/data-binding#computables) function to dynamically change the
-            button text, depending on the `$page.disabled` value.
+
+            In this example, the [`computable`](~/concepts/data-binding#computables) function is used to dynamically
+            calculate the button text, depending on the `$page.disabled` value.
 
             <Content name="code">
                 <CodeSnippet fiddle="RzBoFq52">{`
@@ -255,17 +256,17 @@ export const Store = <cx>
 
             ## `toggle`
 
-            Toggling boolean values inside the Store is quite common, and the `toggle` method provides a more practical
-            way to do it.
+            The `toggle` method is used for inverting boolean values inside the Store.
             Below is the same example, only this time done using `toggle`.
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
                     <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled"/>
-                    <Button onClick={(e, {store}) => {
-                        store.toggle('$page.disabled');
-                    }}
-                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}
+                    <Button
+                        onClick={(e, {store}) => {
+                            store.toggle('$page.disabled');
+                        }}
+                        text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}
                     />
                 </div>
             </div>
@@ -276,7 +277,8 @@ export const Store = <cx>
                 <CodeSnippet fiddle="tBnXbiZo">{`
                     <div layout={LabelsTopLayout} >
                         <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
-                        <Button onClick={(e, {store}) => {
+                        <Button
+                            onClick={(e, {store}) => {
                                 store.toggle('$page.disabled');
                             }}
                             text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
@@ -292,8 +294,8 @@ export const Store = <cx>
 
         <CodeSplit>
 
-            The `delete` method is used to remove data from the Store. It takes one parameter, the `path` under which
-            the value is stored.
+            The `delete` method is used to remove data from the Store. It takes a single parameter it being the `path`
+            under which the value is stored.
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
@@ -327,8 +329,7 @@ export const Store = <cx>
         <CodeSplit>
 
             The `copy` method is used to copy data from one path to another. It takes two parameters, the origin path
-            and the destination path.
-            Any existing data stored under the destination path is overwritten.
+            and the destination path. Any existing data stored under the destination path is overwritten.
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
@@ -359,7 +360,7 @@ export const Store = <cx>
 
         <CodeSplit>
 
-            The `move` method is similar to the `copy` method, with the difference that it removes the data
+            The `move` method is similar to the `copy` method. The only difference is that it removes the data
             from the Store after creating a copy. Any existing data stored under the destination path is overwritten.
 
             <div class="widgets">
@@ -389,18 +390,18 @@ export const Store = <cx>
 
         ## `update`
 
-        The `update` method is primarily used to perform Store updates that are dependant on the previous state.
-        This simplifies use-cases where we would typically use the `get` method to read a value, perform some
-        calculation on it, and then use the `set` method to save the new value to the Store.
+        The `update` method is primarily used to perform an update that is dependant on the previous state.
+        This simplifies use-cases where the developer would use the `get` method to read a value, perform
+        calculation, and then use the `set` method to save the result to the Store.
+
         `update` method requires two parameters, `path` under which the value is stored and an update function
-        `updateFn`.
-        Optionally, additional arguments can be provided, that are used by the update function.
+        `updateFn`. As an option any additional arguments will be passed over to the update function.
 
         <CodeSplit>
 
             The simplest example of when to use the `update` method is the counter widget. On click, the `update` method
-            reads the current
-            count from the Store, passes it to the `updateFn`, takes the returned value and writes it back to the Store.
+            reads the current count from the Store, passes it to the `updateFn`, takes the returned value and writes
+            it back to the Store.
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
@@ -411,9 +412,9 @@ export const Store = <cx>
                 </div>
             </div>
 
-            `updateFn` should receive the initial value as a first argument followed by any additional arguments that
-            are
-            provided, and should return **either the updated value, or the initial value, if no changes were made**.
+            `updateFn` receives the initial value as a first argument followed by any additional arguments that
+            are provided by the developer. The function must return either the updated value, or the initial value if no
+            changes are made.
             This helps the Store to determine the state changes more efficiently. It's important to note that `updateFn`
             should be a pure function, without any side effects, e.g. direct object or array mutations.
 
@@ -435,9 +436,10 @@ export const Store = <cx>
 
         <ImportPath path="import {updateArray, append, merge, filter, updateTree} from 'cx/data';"/>
 
-        Cx provides a set of commonly used update functions, which are listed below.
-        We will go through an example for the `updateArray` function, as one of the most commonly used update functions.
-        Other functions can be looked up in the table below.
+        CxJS provides a set of commonly used update functions, which are listed below.
+        We will be showing you an example for the `updateArray` function, as one of the most commonly used update
+        functions.
+        Other functions are listed in the table below.
 
         ### `updateArray`
 
@@ -450,11 +452,11 @@ export const Store = <cx>
                 <div layout={LabelsLeftLayout}>
                     <strong>Todo List</strong>
                     <Repeater records:bind="$page.todoList">
-                        <Checkbox value:bind="$record.done" text:bind="$record.text" />
-                        <br />
+                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                        <br/>
                     </Repeater>
                     <Button
-                        onClick={(e, { store }) => {
+                        onClick={(e, {store}) => {
                             store.update(
                                 "$page.todoList",
                                 updateArray,
@@ -512,37 +514,38 @@ export const Store = <cx>
         <MethodTable methods={[{
             signature: 'merge(item, data)',
             description: <cx><Md>
-                `merge` function takes two arguments, `item` and `data`, and attempts to merge `data` with the `item`
-                object. It returns the original object if no changes were made. Otherwise, a new object is returned.
+                `merge` function takes two arguments, `item` and `data`, and merges them into a single object.
+                The function returns the original object if no changes were made.
             </Md></cx>
         }, {
             signature: 'updateArray(array, updateCallback, itemFilter, removeFilter)',
             description: <cx><Md>
-                `updateArray` function takes three arguments: `array` that needs to be updated, `updateCallback` and
-                `itemFilter` functions. `itemFilter` is optional and it can be used to select elements that
-                to be updated. `removeFilter` is also optional and it can be used to filter out elements from the list.
-                It returns the original array if no changes were made. Otherwise, a new array is returned.
+                `updateArray` function takes four arguments: `array` that needs to be updated, `updateCallback`,
+                `itemFilter` and `removeFilter` functions. `itemFilter` is optional and it can be used to select
+                elements that
+                need to be updated. `removeFilter` is also optional and it can be used to filter out elements from the
+                list.
+                If no changes are made, the function will return the original array.
             </Md></cx>
         }, {
             signature: 'append(array, ...items)',
             description: <cx><Md>
-                `append` function takes any number of arguments. First argument is the `array` to which all subsequent
+                `append` function takes a number of arguments. First argument is the `array` to which all subsequent
                 arguments will be appended.
-                If no changes were made, it returns the original array. Otherwise, a new array is returned.
             </Md></cx>
         }, {
             signature: 'filter(array, callback)',
             description: <cx><Md>
-                `filter` function works just like the `Array.prototype.filter` function with the difference that it
+                `filter` function works just like the `Array.prototype.filter` function the difference being that it
                 returns the original array if none of the items were filtered out.
             </Md></cx>
         }, {
             signature: 'updateTree(array, updateCallback, itemFilter, childrenProperty, removeFilter)',
             description: <cx><Md>
-                `updateTree` is similar to `updateArray`, with the difference that it can be applied to array tree
-                structures multiple levels deep. It basically applies `updateArray` function to each item's children.
-                If no changes were made, it returns the original array. Otherwise, a new array is returned.
+                `updateTree` is similar to `updateArray`, the difference being that it can be applied to tree
+                structures on multiple levels. It basically applies the `updateArray` function to each item's children.
                 `childrenProperty` specifies where child nodes are stored. Default value is `$children`.
+                If no changes were made, the function returns the original array.
             </Md></cx>
         }, {
             signature: 'removeTreeNodes(array, criteria, childrenProperty)',
