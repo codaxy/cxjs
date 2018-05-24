@@ -430,6 +430,7 @@
    &.#{$element}#{$name}-table-wrapper {
       overflow: hidden;
       display: inline-block;
+      vertical-align: top;
       min-width: 100%;
    }
 }
