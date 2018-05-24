@@ -48,7 +48,7 @@ export const InnerLayouts = <cx>
         # Inner Layouts
 
         Inner layouts define how widget's children are laid out. If no layout is specified,
-        children are put in the same way as defined in the widget tree.
+        children are rendered in the same order as how they are defined in the widget tree.
 
         Inner layouts are set using the `layout` attribute.
 
@@ -59,9 +59,9 @@ export const InnerLayouts = <cx>
 
         <CodeSplit>
 
-            For complex widgets which report multiple top-level elements, elements
-            are laid down sequentially in the same order as defined in the `render` method. For form elements,
-            this means that the label will be displayed first and the input will follow.
+            Some widgets consist of multiple parts, such as form fields. If there is no layout,
+            the parts will be laid down in the same order how they are defined in the `render` method.
+            For a form field, the label will be displayed first and the input will follow.
 
             <div class="widgets">
                 <div trimWhitespace={false}>
@@ -82,14 +82,14 @@ export const InnerLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        Obviously, this layout does not work very well for form elements.
+        This layout does not work very well for form elements.
 
         ### LabelsLeftLayout
 
         <ImportPath path="import {LabelsLeftLayout} from 'cx/ui';" />
 
-        `LabelsLeftLayout` is used to get a horizontal form layout. In this layout
-        all children content is rendered inside a table, where labels go into the first column, and
+        `LabelsLeftLayout` is used to get horizontal form layouts. In this layout
+        all children content is rendered inside a table where labels go into the first column, while
         inputs and other content go into the second column.
 
         <CodeSplit>
@@ -106,7 +106,8 @@ export const InnerLayouts = <cx>
                 </div>
             </div>
 
-            The [`LabeledContainer`](~/widgets/labeled-containers) control can be used when multiple widgets need to be placed on the right side.
+            The [`LabeledContainer`](~/widgets/labeled-containers) control can be used when multiple
+            widgets need to be placed on the right side.
 
             <Content name="code">
                 <CodeSnippet fiddle="48FYzkPT">{`
@@ -129,13 +130,12 @@ export const InnerLayouts = <cx>
 
             <ImportPath path="import {LabelsTopLayout} from 'cx/ui';" />
 
-            `LabelsTopLayout` is used for dense forms with very long labels or when putting labels on top might
-            save some space.
+            `LabelsTopLayout` is used for dense forms with very long labels or when labels are put on top in order to save some space.
 
             This layout is also implemented using an HTML `table` element with two rows.
-            The first row contains all labels and the second row contains inputs and other content.
-            Notice that labels are bottom aligned, even if some labels break to two rows (*hint*: set the width on the
-            label too).
+            The first row contains all of the labels while the second row contains inputs along with other content.
+            When labels are too long they need to be broken down into multiple lines.
+            To preserve the visual layout, labels are bottom aligned.
 
             <div class="widgets">
                 <div>
@@ -220,10 +220,10 @@ export const InnerLayouts = <cx>
 
             <ImportPath path="import {FirstVisibleChildLayout} from 'cx/ui';" />
 
-            The `FirstVisibleChildLayout` is used for scenarios when only one child needs to be displayed.
+            The `FirstVisibleChildLayout` is used when you want to display a single child at a time.
             Think of this layout as a complex `if ... else ...` statement.
 
-            The following example shows how to use this layout with asynchronous loading operations.
+            The following example shows how to use this layout for an asynchronous loading operation.
 
             <div class="widgets">
                 <div controller={FetchController}>
@@ -233,10 +233,11 @@ export const InnerLayouts = <cx>
                             loading data.
                         </div>
                         <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}}
-                            text:tpl="Success! Result: {$page.fetch.result:n}."></div>
+                            text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                     </div>
-                    <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch
+                    <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>
+                        Fetch
                     </Button>
                 </div>
             </div>
@@ -262,7 +263,7 @@ export const InnerLayouts = <cx>
                      <div layout={FirstVisibleChildLayout}>
                         <div visible:expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
                         <div visible:expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while loading data.</div>
-                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text:tpl="Success! Result: {$page.fetch.result:n}."></div>
+                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                      </div>
                      <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch</Button>
@@ -272,23 +273,21 @@ export const InnerLayouts = <cx>
         </CodeSplit>
 
         Initially, `page.fetch.status` is undefined, so the first three `div` elements will not be visible and the
-        default
-        message will appear.
+        default message will appear.
 
-        After you click Fetch, the default message disappears and loading message is displayed until the result is
+        After you click Fetch, the default message disappears and the loading message will display until the result is
         fetched.
-        The default message disappears even if it doesn't have `visible:expr` set because the layout stops rendering
-        after
-        the first visible child is rendered which, in this case, is the loading message `div`.
-        The same applies after the result is fetched.
+        The default message will disappear even if it does not have `visible:expr` set.
+        That happens because the layout stops processing content after the first child is rendered,
+        in this case it being the loading message `div`.
 
         ### UseParentLayout
 
         <ImportPath path="import {UseParentLayout} from 'cx/ui';" />
 
-        `UseParentLayout` is not a real layout, but an instruction that the widget should use parent's layout instead of
-        its own. `UseParentLayout` can be used only on widgets which are pure containers, that is, which only render its 
-        children and do not add any markup. `UseParentLayout` is commonly used with `LabelsTopLayout` or `FirstVisibleChildLayout`
+        `UseParentLayout` is not considered a real layout. It is an instruction that the widget should use parent's layout instead of
+        its own. `UseParentLayout` can be used only on widgets which render only its
+        children and do not add any markup (pure containers). `UseParentLayout` is commonly used with `LabelsTopLayout` or `LabelsLeftLayout`
         as parent layouts.
 
         <CodeSplit>
@@ -324,7 +323,7 @@ export const InnerLayouts = <cx>
             </CodeSnippet>
         </CodeSplit>
 
-        Note how the widget tree is deeply nested, yet it's rendered as a simple list of elements that share the
+        Notice how the widget tree being deeply nested still renders as a simple list of elements that share the
         same layout.
 
         ## Outer Layouts
