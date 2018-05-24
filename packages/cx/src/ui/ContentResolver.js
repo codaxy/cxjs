@@ -49,8 +49,8 @@ export class ContentResolver extends PureContainer {
                break;
 
             case 'append':
-               this.add(content);
                this.add(this.initialItems);
+               this.add(content);               
                break;
 
             case "replace":
