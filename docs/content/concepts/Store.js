@@ -557,8 +557,10 @@ export const Store = <cx>
             signature: 'findTreeNode(array, criteria, childrenProperty)',
             description: <cx><Md>
                 `findTreeNode` scans the tree using the depth-first search algorithm until it finds
-                a node that satisfies the given search criteria.
+                a node that satisfies the given search criteria. `criteria` is a predicate function that takes a node object 
+                as input and returns `true` or `false`, based on the search criteria.
                 `childrenProperty` specifies where child nodes are stored. Default value is `$children`.
+                `findTreeNode` returns the first node object that satisfies the search criteria.
             </Md></cx>
         }]}/>
     </Md>
