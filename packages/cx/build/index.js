@@ -91,7 +91,7 @@ function buildTheme(themeName) {
          name: 'reset',
          css: true,
          options: {
-            entry: [resolvePath("reset.scss"), themeSrc('reset.scss')]
+            entry: [themeSrc('variables.scss'), resolvePath("reset.scss"), themeSrc('reset.scss')]
          },
          output: {}
       }, {

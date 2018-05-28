@@ -46,10 +46,10 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    focusable?: boolean,
 
    /** A callback function which fires while the overlay is being moved around. */
-   onMove(e: Event, instance: Instance, component: any);
+   onMove?(e: Event, instance: Instance, component: any);
 
    /** A callback function which fires while the overlay is being resized. */
-   onResize(e: Event, instance: Instance, component: any);
+   onResize?(e: Event, instance: Instance, component: any);
 }
 
 export class Overlay extends Cx.Widget<OverlayProps> {}
