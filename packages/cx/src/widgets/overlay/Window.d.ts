@@ -7,7 +7,7 @@ interface WindowProps extends OverlayProps {
    title?: Cx.StringProp,
 
    /** Controls the close button visibility. Defaults to `true`. */
-   closeable?: Cx.BooleanProp,
+   closable?: Cx.BooleanProp,
 
    /** A custom style which will be applied to the body. */
    bodyStyle?: Cx.StyleProp,

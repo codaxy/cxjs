@@ -7,10 +7,14 @@ import {parseStyle} from '../../util/parseStyle';
 import {Localization} from '../../ui/Localization';
 import {stopPropagation} from '../../util/eventCallbacks';
 import { ddMouseDown, ddDetect, ddMouseUp } from '../drag-drop/ops';
+import {isDefined} from "../../util/isDefined";
 
 export class Window extends Overlay {
 
    init() {
+      if (isDefined(this.closeable))
+         this.closable = this.closeable;
+
       if (typeof this.headerStyle === 'string')
          this.headerStyle = parseStyle(this.headerStyle);
 
