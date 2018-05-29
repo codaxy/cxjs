@@ -269,7 +269,11 @@ export class Grid extends Widget {
             if (record.type == 'data') {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
                let selected = instance.isSelected(record.data, record.index);
-               let changed = row.cache('selected', row.selected) || row.cache('recordData', record.data);
+               let changed = false;
+               if (row.cache('selected', row.selected))
+                  changed = true;
+               if (row.cache('recordData', record.data))
+                  changed = true;
                row.selected = selected;
                if (this.cached && !changed && !row.childStateDirty) {
                   row.shouldUpdate = false;

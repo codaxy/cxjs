@@ -25,17 +25,19 @@ export default (
          controller={Ctrl}
          records-bind="$page.records"
          scrollSelectionIntoView
+         cached
+         keyField="id"
          selection={{
             type: KeySelection,
             bind: "$page.selectedId",
             keyField: "id"
          }}
-         grouping={{
-            key: {
-               name: { bind: "$record.g" }
-            },
-            header: <h2 text-tpl="{$group.name}" />
-         }}
+         // grouping={{
+         //    key: {
+         //       name: { bind: "$record.g" }
+         //    },
+         //    header: <h2 text-tpl="{$group.name}" />
+         // }}
       >
          <span text-bind="$record.name" />
       </List>

@@ -107,21 +107,21 @@ export class List extends Widget {
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
       instance.mappedRecords.forEach(record => {
          if (record.type == 'data') {
-            let itemInstance = instance.getChild(context, this.child, record.key + ':', record.store);
+            let itemInstance = instance.getChild(context, this.child, record.key, record.store);
             itemInstance.record = record;
+            itemInstance.selected = isSelected(record.data, record.index);
 
-            if (this.cached && itemInstance.cached && itemInstance.cached.record && itemInstance.cached.record.data == record.data && !itemInstance.childStateDirty) {
+            let changed = false;
+            if (itemInstance.cache('recordData', record.data))
+               changed = true;
+            if (itemInstance.cache('selected', itemInstance.selected))
+               changed = true;
+
+            if (this.cached && !changed && itemInstance.visible && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
-            }
-            else if (itemInstance.scheduleExploreIfVisible(context))
+            } else if (itemInstance.scheduleExploreIfVisible(context))
                instances.push(itemInstance);
-
-            let selected = isSelected(record.data, record.index);
-            if (itemInstance.selected != selected) {
-               itemInstance.selected = selected;
-               //itemInstance.markShouldUpdate(context);
-            }
          }
          else if (record.type == 'group-header' && record.grouping.header) {
             let itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);

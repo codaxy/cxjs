@@ -168,8 +168,6 @@ export class Instance {
       if (this.needsCleanup)
          context.cleanupList.push(this);
 
-      this.cacheList = null;
-
       if (this.instanceCache)
          this.instanceCache.mark();
 
