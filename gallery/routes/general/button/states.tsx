@@ -22,7 +22,6 @@ export default <cx>
             <br/>
             <h6>Primary</h6>
             {buttons("primary")}
-
             <br/>
             <h6>Danger</h6>
             {buttons("danger")}
