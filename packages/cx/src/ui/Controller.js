@@ -7,11 +7,13 @@ const triggerPrefix = 'trigger-';
 
 export class Controller extends Component {
 
-   init() {
-      this.initialized = true;
-      super.init();
-      if (this.onInit)
-         this.onInit();
+   init(context) {
+      if (!this.initialized) {
+         this.initialized = true;
+         super.init();
+         if (this.onInit)
+            this.onInit(context);
+      }
    }
 
    explore(context) {
@@ -19,8 +21,8 @@ export class Controller extends Component {
       this.store = store; //in rare cases instance may change its store
 
       if (!this.initialized) {
-         this.init();
-         //just in case someone forgets to call super.init()
+         this.init(context);
+         //forgive if the developer forgets to call super.init()
          this.initialized = true;
       }
 

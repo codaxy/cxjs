@@ -186,7 +186,7 @@ export class Instance {
       if (this.controller) {
          if (this.widget.controller) {
             if (!this.controller.initialized) {
-               this.controller.init();
+               this.controller.init(context);
                this.controller.initialized = true;
             }
             context.push("controller", this.controller);
