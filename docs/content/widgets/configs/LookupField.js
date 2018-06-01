@@ -154,6 +154,7 @@ export default {
         type: 'array',
         description: <cx><Md>
             An array of mappings between options and value fields. Use this property to pass additional options to the selection.
+            [See example](~/examples/lookup/custom-bindings).
         </Md></cx>
     }
 };
