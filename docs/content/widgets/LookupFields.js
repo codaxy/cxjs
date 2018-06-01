@@ -35,7 +35,7 @@ export const LookupFields = <cx>
     <Md>
         <CodeSplit>
 
-            # Lookups
+            # LookupField
 
             <ImportPath path="import {LookupField} from 'cx/widgets';" />
 
