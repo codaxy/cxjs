@@ -33,13 +33,13 @@ export const CustomBindings = <cx>
 
         <CodeSplit>
 
-            The following examples show how to configure lookup bindings.
+            The following examples show how to configure `LookupField` bindings.
 
-            ##### Single Selection Mode
+            ## Single Selection Mode
 
-            In the single selection mode, the `key` field is mandatory, while the `text` field is optional. 
+            In single selection mode, the `key` field is mandatory, while the `text` field is optional. 
             Option data is available by using the `$option` alias. If you take a look at the following example,
-            you'll notice that when an option is selected multiple fields are copied.
+            you'll notice that when an option is selected, multiple fields are copied.
 
             <div class="widgets" style="align-items: start">
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
@@ -94,9 +94,9 @@ export const CustomBindings = <cx>
                 </div>
             </div>
 
-            ##### Multiple Selection Mode
+            ## Multiple Selection Mode
 
-            When custom bindings are used in the multiple selection mode both `key` and `text` fields are mandatory. 
+            When custom bindings are used in multiple selection mode, both `key` and `text` fields are mandatory. 
             Option data is available through `$option` alias, while selection data is available through the `$value` alias.
 
             <CodeSnippet putInto="code" fiddle="5Zp9AfEj">{`
