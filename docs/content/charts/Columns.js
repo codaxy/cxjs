@@ -87,7 +87,7 @@ export const Columns = <cx>
           `}</CodeSnippet>
       </CodeSplit>
 
-      Examples:
+      ## Examples:
 
       * [Combination](~/examples/charts/column/combination)
       * [Stacked](~/examples/charts/column/stacked)

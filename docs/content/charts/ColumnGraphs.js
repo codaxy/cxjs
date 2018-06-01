@@ -176,7 +176,7 @@ export const ColumnGraphs = <cx>
         `}</CodeSnippet>
         </CodeSplit>
 
-        Examples:
+        ## Examples:
 
         * [Timeline](~/examples/charts/bar/timeline)
 

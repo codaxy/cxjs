@@ -93,7 +93,7 @@ export const Ranges = <cx>
          `}</CodeSnippet>
       </CodeSplit>
 
-       Examples:
+       ## Examples:
 
        * [Timeline](~/examples/charts/bar/timeline)
 

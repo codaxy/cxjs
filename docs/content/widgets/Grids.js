@@ -96,7 +96,7 @@ export const Grids = <cx>
          `}</CodeSnippet>
         </CodeSplit>
 
-        Examples:
+        ## Examples:
 
         - [Pagination](~/examples/grid/pagination)
         - [Multiple selection](~/examples/grid/multiple-selection)

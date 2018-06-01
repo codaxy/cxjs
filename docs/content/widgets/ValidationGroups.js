@@ -46,7 +46,7 @@ export const ValidationGroups = <cx>
              `}</CodeSnippet>
         </CodeSplit>
 
-        Examples:
+        ## Examples:
 
         * [Validation options](~/examples/form/validation-options)
 

@@ -56,46 +56,48 @@ export const Radios = <cx>
             </Content>
         </CodeSplit>
 
-        ## Configuration
-
-        <ConfigTable props={configs}/>
-
         ## Examples
 
         <CodeSplit>
 
-            ### Repeater
+            ### Repeater example
 
-            Radio is commonly combined with a `Repeater` when the list of choices is coming from data.
+            Radio is commonly combined with a `Repeater` when the list of choices is dynamic.
 
             <div class="widgets">
                 <div controller={RadioController}>
                     <Repeater records:bind="$page.options">
                         <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text"
-                               style={{float: 'left', width: '130px'}}/>
+                            style={{float: 'left', width: '130px'}}/>
                     </Repeater>
                 </div>
             </div>
 
-            Please note that to avoid multiple instances controller should not be assigned to the repeater.
+            Please note that, in order to avoid multiple instances, controller should not be assigned to the Repeater.
 
             <Content name="code">
-                <CodeSnippet fiddle="6Am2ggFS">{`
-               class RadioController extends Controller {
-                  init() {
-                     var options = Array.from({length: 20}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
-                     this.store.set('$page.options', options);
-                  }
-               }
-               ...
-               <div controller={RadioController}>
-                  <Repeater records:bind="$page.options">
-                     <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text" style={{float: 'left', width: '130px'}} />
-                  </Repeater>
-               </div>
-            `}</CodeSnippet>
+                <CodeSnippet fiddle="6Am2ggFS">
+                {`
+                    class RadioController extends Controller {
+                        init() {
+                            var options = Array.from({length: 20}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
+                            this.store.set('$page.options', options);
+                        }
+                    }
+                    ...
+                    <div controller={RadioController}>
+                        <Repeater records:bind="$page.options">
+                            <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text" style={{float: 'left', width: '130px'}} />
+                        </Repeater>
+                    </div>
+                `}
+                </CodeSnippet>
             </Content>
         </CodeSplit>
+
+        ## Configuration
+
+        <ConfigTable props={configs}/>
 
     </Md>
 </cx>

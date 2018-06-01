@@ -44,7 +44,7 @@ export const Lists = <cx>
                 </List>
             </div>
 
-            Examples:
+            ## Examples:
 
             * [Grouping](~/examples/list/grouping)
 
