@@ -79,6 +79,10 @@ export class Controller extends Component {
       if (this.computables)
          delete this.computables[computablePrefix + name];
    }
+
+   invokeParentMethod(methodName, ...args) {
+      return this.instance.invokeControllerMethod(methodName, ...args);
+   }
 }
 
 Controller.namespace = 'ui.controller.';

@@ -12,12 +12,11 @@ import {
     Text,
     MsgBox
 } from 'cx/widgets';
-import {LabelsLeftLayout, Controller} from 'cx/ui';
+import {LabelsTopLayout, LabelsLeftLayout, Controller} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ImportPath} from '../../components/ImportPath';
-
 
 class TabController extends Controller {
     onInit() {
@@ -62,6 +61,45 @@ class MethodController extends Controller {
         MsgBox.alert('Hello!');
     }
 }
+
+class TodoListController extends Controller {
+    onInit() {
+        this.store.init("$page.todoList", [
+            { id: 0, text: 'Learn Cx', done: true }, 
+            { id: 1, text: "Feed the cat", done: false },
+        ])
+    }
+
+    addNewTask(task) {
+        this.store.update("$page.todoList", todoList => {            
+            return [
+                ...todoList,
+                {
+                    id: todoList.length,
+                    text: task,
+                    done: false
+                }
+            ];
+        });
+    }
+}
+
+// NewTask component
+class NewTaskController extends Controller {
+    addTask() {
+        let task = this.store.get("$page.task");
+        this.store.delete("$page.task");
+        this.invokeParentMethod("addNewTask", task);
+    }
+}
+const NewTask = (
+    <cx>
+        <div controller={NewTaskController} layout={LabelsTopLayout} >
+            <TextField value-bind="$page.task" label="Task description" />
+            <Button onClick="addTask" text="Add task" />
+        </div>
+    </cx>
+);
 
 export const Controllers = <cx>
 
@@ -278,6 +316,75 @@ export const Controllers = <cx>
         </CodeSplit>
 
         When using names of callbacks, it's possible to invoke methods defined higher in the ancestor controller tree.
+
+        <CodeSplit>
+
+            ### `invokeParentMethod`
+
+            In some cases we might need to call the parent Controller's method from within the child Controller
+            that contains part of the business logic.        
+            
+            In such cases, we can use `invokeParentMethod` as shown in the example below.
+            
+            <div class="widgets" >
+                <div controller={TodoListController} layout={LabelsLeftLayout}>
+                    <NewTask />
+                
+                    <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
+                    <Repeater records:bind="$page.todoList" >
+                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                        <br/>
+                    </Repeater>
+                </div>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                // NewTask component
+                class NewTaskController extends Controller {
+                    addTask() {
+                        let task = this.store.get("$page.task");
+                        this.store.delete("$page.task");
+                        this.invokeParentMethod("addNewTask", task);
+                    }
+                }
+                const NewTask = (
+                    <cx>
+                        <div controller={NewTaskController} layout={LabelsTopLayout} >
+                            <TextField value-bind="$page.task" label="Task description" />
+                            <Button onClick="addTask" text="Add task" />
+                        </div>
+                    </cx>
+                );
+                ...
+                // Main TodoList component
+                class TodoListController extends Controller {                
+                    addNewTask(task) {
+                        this.store.update("$page.todoList", todoList => {            
+                            return [
+                                ...todoList,
+                                {
+                                    id: todoList.length,
+                                    text: task,
+                                    done: false
+                                }
+                            ];
+                        });
+                    }
+                }
+                <div controller={TodoListController} layout={LabelsLeftLayout}>
+                    <NewTask />
+                
+                    <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
+                    <Repeater records:bind="$page.todoList" >
+                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                        <br/>
+                    </Repeater>
+                </div>
+            `}</CodeSnippet>
+
+            `invokeParentMethod` accepts the name of the parent method, followed by any number
+            of arguments it expects.
+        </CodeSplit>
 
     </Md>
 
