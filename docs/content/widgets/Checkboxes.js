@@ -59,21 +59,16 @@ export const Checkboxes = <cx>
         </CodeSplit>
 
         In rare cases, checkboxes offer a third state called the `indeterminate` state to indicate absence of proper value.
-        Examples:
+        
+        ## Examples:
 
         * [Checkbox Accordion](https://cxjs.io/fiddle/?f=gckby0gw)
 
-        ## Configuration
-
-        <ConfigTable props={configs}/>
-
-        ## Examples
-
         <CodeSplit>
 
-            ### Repeater
+            ### Repeater example
 
-            Checkbox is commonly combined with a `Repeater` when list of choices is variable.
+            Checkbox is commonly combined with a `Repeater` when the list of choices is dynamic.
 
             <div class="widgets">
                 <div controller={CbController}>
@@ -84,26 +79,31 @@ export const Checkboxes = <cx>
                 </div>
             </div>
 
-            Please note that in order to avoid multiple instances controller should not be assigned to the repeater.
+            Please note that, in order to avoid multiple instances, controller should not be assigned to the Repeater.
 
             <Content name="code">
-                <CodeSnippet fiddle="Bhi9Crdc">{`
-               class CbController extends Controller {
-                  init() {
-                     var options = Array.from({length: 5}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
-                     this.store.set('$page.options', options);
-                  }
-               }
-               ...
-               <div controller={CbController}>
-                  <Repeater records:bind="$page.options">
-                     <Checkbox value:bind="$record.checked" text:bind="$record.text" />
-                     <br/>
-                  </Repeater>
-               </div>
-            `}</CodeSnippet>
+                <CodeSnippet fiddle="Bhi9Crdc">
+                {`
+                    class CbController extends Controller {
+                        init() {
+                            var options = Array.from({length: 5}).map((v, i) => ({ id: i, text: \`Option \${i + 1}\` }));
+                            this.store.set('$page.options', options);
+                        }
+                    }
+                    ...
+                    <div controller={CbController}>
+                        <Repeater records:bind="$page.options">
+                            <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                            <br/>
+                        </Repeater>
+                    </div>
+                `}
+                </CodeSnippet>
             </Content>
         </CodeSplit>
 
+        ## Configuration
+
+        <ConfigTable props={configs}/>
     </Md>
 </cx>

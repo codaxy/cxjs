@@ -47,11 +47,7 @@ export const Charts = <cx>
       </CodeSplit>
 
       The most important part is axis configuration. Numeric, category and date axis types are supported.
-
-      ## Configuration
-
-      <ConfigTable props={configs} />
-
+      
       ## Main Chart Elements Overview
 
       Main chart elements are:
@@ -75,6 +71,11 @@ export const Charts = <cx>
       * SVG elements:
          - [Rectangle](~/svg/rectangles) - Used to draw a rectangle.
          - [Line](~/svg/lines) - Used to draw a line.
+         
+
+      ## Configuration
+
+      <ConfigTable props={configs} />
 
    </Md>
 </cx>;

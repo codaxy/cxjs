@@ -203,7 +203,7 @@ export const LookupFields = <cx>
 
         </CodeSplit>
 
-        ### Advanced examples:
+        ## Examples:
 
         - [Custom bindings](~/examples/lookup/custom-bindings) *- for passing additional options to the selection*
 

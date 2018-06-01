@@ -107,7 +107,7 @@ export const Bars = <cx>
          `}</CodeSnippet>
       </CodeSplit>
 
-      Examples:
+      ## Examples:
 
       * [Combination](~/examples/charts/bar/combination)
       * [Stacked](~/examples/charts/bar/stacked)

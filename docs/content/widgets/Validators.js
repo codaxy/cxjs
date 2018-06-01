@@ -95,11 +95,11 @@ export const Validators = <cx>
              `}</CodeSnippet>
         </CodeSplit>
 
-        ### Configuration
+        ## Configuration
 
         <ConfigTable props={configs}/>
 
-        ### Methods
+        ## Methods
 
         <MethodTable
             methods={[{
