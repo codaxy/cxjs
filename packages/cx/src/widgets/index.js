@@ -4,6 +4,7 @@ import {StaticText} from '../ui/StaticText';
 import {PureContainer} from '../ui/PureContainer';
 import {IsolatedScope} from '../ui/IsolatedScope';
 import {DetachedScope} from '../ui/DetachedScope';
+import {Restate} from '../ui/Restate';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder, ContentPlaceholderScope} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
@@ -23,7 +24,8 @@ export {
    Rescope,
    Repeater,
    IsolatedScope,
-   DetachedScope
+   DetachedScope,
+   Restate
 };
 
 export * from './cx';
