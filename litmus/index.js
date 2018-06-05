@@ -53,7 +53,8 @@ import './index.scss';
 //import Demo from './features/grid/FixedFooter';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
-import Demo from './features/list/GroupingAndSelection';
+//import Demo from './features/list/GroupingAndSelection';
+import Demo from './features/restate/LookupField';
 
 //import Demo from './features/menu/icons';
 //import Demo from './features/window/header-buttons';
