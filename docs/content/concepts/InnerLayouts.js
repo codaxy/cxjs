@@ -213,6 +213,41 @@ export const InnerLayouts = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
+        #### Multiple Columns
+
+        `LabelsTopLayout` can render fields in multiple `columns`.
+
+        <CodeSplit>
+
+            <div class="widgets">
+                <div layout={{type: LabelsTopLayout, columns: 3}}>
+                    <TextField label="Field1" value:bind="$page.field1" />
+                    <TextField label="Field2" value:bind="$page.field2" />
+                    <TextField label="Field3" value:bind="$page.field3" />
+                    <TextField label="Field4" value:bind="$page.field4" />
+                    <TextField label="Field5" value:bind="$page.field5" />
+                    <TextField label="Field6" value:bind="$page.field6" />
+                    <TextField label="Field7" value:bind="$page.field7" />
+                    <TextField label="Field8" value:bind="$page.field8" />
+                    <TextField label="Field9" value:bind="$page.field9" />
+                </div>
+            </div>
+
+            <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
+                <div layout={{type: LabelsTopLayout, columns: 3}}>
+                    <TextField label="Field1" value:bind="$page.field1" />
+                    <TextField label="Field2" value:bind="$page.field2" />
+                    <TextField label="Field3" value:bind="$page.field3" />
+                    <TextField label="Field4" value:bind="$page.field4" />
+                    <TextField label="Field5" value:bind="$page.field5" />
+                    <TextField label="Field6" value:bind="$page.field6" />
+                    <TextField label="Field7" value:bind="$page.field7" />
+                    <TextField label="Field8" value:bind="$page.field8" />
+                    <TextField label="Field9" value:bind="$page.field9" />
+                </div>
+            `}</CodeSnippet>
+        </CodeSplit>
+
 
         <CodeSplit>
 
