@@ -9,9 +9,7 @@ import {casual} from '../data/casual';
 import plural from 'plural';
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
+    onInit() {
         //init grid data
         this.store.set('$page.records', Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
@@ -28,14 +26,6 @@ class PageController extends Controller {
             {id: 'browser', text: 'Browser'},
             {id: 'os', text: 'Operating System'}
         ]);
-
-        //when changed, apply grouping to the grid
-        this.addTrigger('grouping', ['$page.groups'], (g) => {
-            var groupings = [{key: {}, showFooter: true}];
-            groupings.push(...(g || []).map(x => x.id));
-            var grid = this.widget.findFirst(Grid);
-            grid.groupBy(groupings, {autoConfigure: true});
-        }, true);
     }
 }
 
@@ -45,17 +35,16 @@ Format.registerFactory('plural', (format, text) => {
 
 export const DynamicGrouping = <cx>
     <Md controller={PageController}>
-
-        # Grouping
-
         <CodeSplit>
+
+            # Dynamic Grouping in Grids
 
             Grid control supports multiple levels of grouping and aggregation.
 
             <div style="margin-bottom: 10px" ws>
                 Group by:
                 <LookupField
-                    records:bind="$page.groups"
+                    records:bind="$page.grouping"
                     options:bind="$page.groupableFields"
                     multiple={true}
                 />
@@ -64,6 +53,11 @@ export const DynamicGrouping = <cx>
             <Grid
                 records:bind='$page.records'
                 style={{width: "100%"}}
+                groupingParams:bind="$page.grouping"
+                onCreateGrouping={(groupingParams) => [
+                    {key: {}, showFooter: true},
+                    ...(groupingParams || []).map(x => x.id)
+                ]}
                 columns={[{
                     header: 'Name',
                     field: 'fullName',
@@ -103,9 +97,7 @@ export const DynamicGrouping = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="8q0SGiPg">{`
                 class PageController extends Controller {
-                    init() {
-                        super.init();
-
+                    onInit() {
                         //init grid data
                         this.store.set('$page.records', Array.from({length: 100}).map((v, i)=>({
                             id: i + 1,
@@ -122,14 +114,6 @@ export const DynamicGrouping = <cx>
                             {id: 'browser', text: 'Browser'},
                             {id: 'os', text: 'Operating System'}
                         ]);
-
-                        //when changed, apply grouping to the grid
-                        this.addTrigger('grouping', ['$page.groups'], (g) => {
-                            var groupings = [{key: {}, showFooter: true}];
-                            groupings.push(...(g || []).map(x=>x.id));
-                            var grid = this.widget.findFirst(Grid);
-                            grid.groupBy(groupings, {autoConfigure: true});
-                        });
                     }
                 }
 
@@ -142,7 +126,7 @@ export const DynamicGrouping = <cx>
                 <div style="margin-bottom: 10px" ws>
                     Group by:
                     <LookupField
-                        records:bind="$page.groups"
+                        records:bind="$page.grouping"
                         options:bind="$page.groupableFields"
                         multiple={true}
                     />
@@ -151,6 +135,11 @@ export const DynamicGrouping = <cx>
                 <Grid
                     records:bind='$page.records'
                     style={{width: "100%"}}
+                    groupingParams:bind="$page.grouping"
+                    onCreateGrouping={(groupingParams) => [
+                        {key: {}, showFooter: true},
+                        ...(groupingParams || []).map(x => x.id)
+                    ]}
                     columns={[{
                         header: 'Name',
                         field: 'fullName',

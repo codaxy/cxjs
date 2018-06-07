@@ -32,6 +32,7 @@ import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
+import {isObject} from "../../util/isObject";
 
 export class Grid extends Widget {
 
@@ -49,6 +50,7 @@ export class Grid extends Widget {
          dragSource: {structured: true},
          dropZone: {structured: true},
          filterParams: {structured: true},
+         groupingParams: {structured: true},
          page: undefined,
          totalRecordCount: undefined,
       }, selection, ...arguments);
@@ -154,7 +156,7 @@ export class Grid extends Widget {
 
    prepareData(context, instance) {
 
-      let {data, state} = instance;
+      let {data, state, cached} = instance;
 
       data.version = ++instance.v;
 
@@ -235,6 +237,12 @@ export class Grid extends Widget {
 
       super.prepareData(context, instance);
 
+      if (this.onCreateGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams))
+      {
+         let grouping = instance.invoke("onCreateGrouping", data.groupingParams, instance);
+         this.groupBy(grouping, { autoConfigure: true })
+      }
+
       instance.records = this.mapRecords(context, instance);
 
       //tree adapters can have additional (child) records
@@ -293,7 +301,7 @@ export class Grid extends Widget {
    groupBy(grouping, {autoConfigure} = {}) {
       if (grouping) {
          if (!isArray(grouping)) {
-            if (isString(grouping) || typeof grouping == 'object')
+            if (isString(grouping) || isObject(grouping))
                return this.groupBy([grouping]);
             throw new Error('DynamicGrouping should be an array or grouping objects');
          }
@@ -306,10 +314,10 @@ export class Grid extends Widget {
                         bind: this.recordName + '.' + g
                      }
                   },
-                  showHeader: i == grouping.length - 1,
+                  showHeader: !this.scrollable && i == grouping.length - 1,
                   showFooter: true,
-                  caption: {tpl: '{$group.' + g + '}'},
-                  text: {tpl: '{$record.' + g + '}'}
+                  caption: {bind: `$group.${g}`},
+                  text: {bind: `${this.recordName}.${g}`}
                }
             }
             return g;
@@ -319,7 +327,7 @@ export class Grid extends Widget {
       }
 
       if (autoConfigure)
-         this.showHeader = !isArray(grouping) || !grouping.some(g => g.showHeader);
+         this.showHeader = this.scrollable || !isArray(grouping) || !grouping.some(g => g.showHeader);
 
       this.dataAdapter.groupBy(grouping);
       this.update();
