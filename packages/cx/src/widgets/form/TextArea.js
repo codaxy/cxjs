@@ -10,7 +10,6 @@ import {
 } from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {KeyCode} from '../../util';
-import {isTouchDevice} from '../../util';
 
 export class TextArea extends TextField {
 
@@ -20,20 +19,24 @@ export class TextArea extends TextField {
       }, ...arguments);
    }
 
+   prepareData(context, instance) {
+      let {state, data, cached} = instance;
+      if (!cached.data || data.value != cached.data.value)
+         state.empty = !data.value;
+      super.prepareData(context, instance);
+   }
+
    renderInput(context, instance, key) {
       return <Input key={key}
          data={instance.data}
          instance={instance}
-         handleChange={(e, change) => this.handleChange(e, change, instance)}
          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
-   handleChange(e, change, instance) {
-      if (this.reactOn.indexOf(change) != -1) {
-         instance.set('value', e.target.value || null);
-      }
+   validateRequired(context, instance) {
+      return instance.state.empty && this.requiredText;
    }
 }
 
@@ -129,21 +132,33 @@ class Input extends VDOM.Component {
       }
    }
 
-   componentWillReceiveProps(props) {
-      let {data} = props.instance;
-      if (data.value != this.input.value)
+   componentWillReceiveProps({data, instance}) {
+      if (data.value != this.props.data.value) {
          this.input.value = data.value || '';
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
+      }
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
    }
 
    onChange(e, change) {
-      if (change == 'blur')
-         this.props.instance.setState({visited: true});
-      if (this.state.focus)
-         this.setState({
-            focus: false
+      let {instance, data} = this.props;
+
+      if (change == 'blur') {
+         instance.setState({visited: true});
+         if (this.state.focus)
+            this.setState({
+               focus: false
+            });
+      }
+
+      if (data.required) {
+         instance.setState({
+            empty: !e.target.value
          });
-      this.props.handleChange(e, change)
+      }
+
+      if (instance.widget.reactOn.indexOf(change) != -1) {
+         instance.set('value', e.target.value || null);
+      }
    }
 
    onFocus() {

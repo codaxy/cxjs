@@ -2,7 +2,6 @@ import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
 import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
-import {isString} from '../util/isString';
 import {Binding} from '../data/Binding';
 import {UseParentLayout} from "./layout/UseParentLayout";
 
@@ -72,7 +71,7 @@ export class Repeater extends Container {
       var instances = [];
       instance.mappedRecords.forEach((record) => {
          var subInstance = instance.getChild(context, this.item, record.key, record.store);
-         let changed = subInstance.cache('data', record.data) || subInstance.cache('key', record.key);
+         let changed = subInstance.cache('recordData', record.data) || subInstance.cache('key', record.key);
          subInstance.record = record;
          if (this.cached && !changed && subInstance.visible && !subInstance.childStateDirty) {
             instances.push(subInstance);

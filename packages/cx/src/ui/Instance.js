@@ -28,7 +28,7 @@ export class Instance {
 
       //widget is initialized when first instance is initialized
       if (!this.widget.initialized) {
-         this.widget.init();
+         this.widget.init(context);
          this.widget.initialized = true;
       }
 
@@ -303,6 +303,7 @@ export class Instance {
       this.cacheList = null;
 
       this.cached.rawData = this.rawData;
+      this.cached.data = this.data;
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
@@ -363,7 +364,7 @@ export class Instance {
    }
 
    setState(state) {
-      let skip = this.state;
+      let skip = !!this.state;
       if (this.state)
          for (let k in state) {
             if (this.state[k] !== state[k]) {
@@ -375,7 +376,6 @@ export class Instance {
       if (skip)
          return;
 
-      this.cached.state = this.state;
       this.state = Object.assign({}, this.state, state);
       let parent = this.parent;
       //notify all parents that child state change to bust up caching
