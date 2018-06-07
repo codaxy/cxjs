@@ -89,12 +89,5 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             Default value is `true`.
         </Md></cx>
-    },
-    trackBrowserAutofill: {
-        type: 'string',
-        description: <cx><Md>
-            Set to `true` to monitor and report if input value has changed after the form has been
-            automatically filled.
-        </Md></cx>
     }
 };

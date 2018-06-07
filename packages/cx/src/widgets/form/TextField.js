@@ -82,7 +82,6 @@ TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 TextField.prototype.alwaysShowClear = false;
-TextField.prototype.trackBrowserAutofill = false;
 
 Localization.registerPrototype('cx/widgets/TextField', TextField);
 
@@ -207,11 +206,6 @@ class Input extends VDOM.Component {
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
-      if (this.props.instance.widget.trackBrowserAutofill)
-         this.autoFillTimer = setInterval(() => {
-            if (this.props.data.value != this.input.value && document.activeElement !== this.input)
-               this.props.instance.set('value', this.input.value || null);
-         }, 300);
    }
 
    componentDidUpdate() {
@@ -220,8 +214,6 @@ class Input extends VDOM.Component {
 
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
-      if (this.autoFillTimer)
-         clearInterval(this.autoFillTimer);
    }
 
 
