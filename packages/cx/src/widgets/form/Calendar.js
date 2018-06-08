@@ -116,7 +116,8 @@ export class Calendar extends Field {
          }
       }
 
-      instance.set('value', date.toISOString());
+      let encode = widget.encoding || Culture.getDefaultDateEncoding();
+      instance.set('value', encode(date));
 
       if (this.onSelect)
          instance.invoke("onSelect", e, instance, date);

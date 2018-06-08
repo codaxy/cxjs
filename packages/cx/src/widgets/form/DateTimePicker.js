@@ -107,7 +107,8 @@ class DateTimePickerComponent extends VDOM.Component {
    }
 
    handleChange() {
-      this.props.instance.set('value', this.state.date.toISOString());
+      let encode = this.props.instance.widget.encoding || Culture.getDefaultDateEncoding();
+      this.props.instance.set('value', encode(this.state.date));
    }
 
    render() {

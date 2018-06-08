@@ -6,3 +6,4 @@ export * from './upperBoundCheck';
 export * from './maxDate';
 export * from './minDate';
 export * from './sameDate';
+export * from './encodeDateWithTimezoneOffset';

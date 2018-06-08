@@ -522,7 +522,10 @@ class DateTimeInput extends VDOM.Component {
 
             date = mixed;
          }
-         if (!instance.set('value', date ? date.toISOString() : null))
+
+         let encode = widget.encoding || Culture.getDefaultDateEncoding();
+
+         if (!instance.set('value', date ? encode(date) : null))
             this.input.value = text || '';
       }
    }

@@ -2,9 +2,10 @@ import {NumberCulture, DateTimeCulture} from 'intl-io';
 import {Localization} from './Localization';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 
-var culture = 'en';
-var cultureCache = {};
-var defaultCurrency = 'USD';
+let culture = 'en';
+let cultureCache = {};
+let defaultCurrency = 'USD';
+let dateEncoding = date => date.toISOString();
 
 export class Culture {
    static setCulture(cultureCode) {
@@ -37,5 +38,13 @@ export class Culture {
       if (!cultureCache.dateCulture)
          cultureCache.dateCulture = new DateTimeCulture(culture);
       return cultureCache.dateCulture;
+   }
+
+   static getDefaultDateEncoding() {
+      return dateEncoding;
+   }
+
+   static setDefaultDateEncoding(encoding) {
+      dateEncoding = encoding;
    }
 }
