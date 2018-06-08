@@ -11,6 +11,13 @@ export default {
             Text to be displayed in the header.
         </Md></cx>
     },
+    header: {
+        key: true,
+        type: 'object',
+        description: <cx><Md>
+            Advanced Window header as a custom Cx component. [See example](https://fiddle.cxjs.io/?f=gDdDHHI9).
+        </Md></cx>
+    },
     closable: {
         key: true,
         alias: 'closeable',
