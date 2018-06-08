@@ -41,8 +41,8 @@ export const MsgBoxes = <cx>
 
             Both `alert` and `yesNo` methods accept either just a message string, or a configuration object, with the following properties:
             * `message` - message string,
-            * `title` - window title,
-            * `header` - window header,
+            * `title` - window title (string),
+            * `header` - window header (Cx component),
             * `items` or `children` - list of child elements (for rich content),
             * `store` - store to be used in the new Window instance,
             * `style` - window style,
