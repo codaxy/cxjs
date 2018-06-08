@@ -66,7 +66,13 @@ export interface DateTimeFieldProps extends FieldProps {
    segment?: 'date' | 'time' | 'datetime',
 
    /** Set to `true` to indicate that only one segment of the selected date is affected. */
-   partial?: boolean
+   partial?: boolean,
+
+   /** The function that will be used to convert Date objects before writing data to the store.
+    * Default implementation is Date.toISOString.
+    * See also Culture.setDefaultDateEncoding.
+    */
+   encoding?: (date: Date) => any
 
 }
 

@@ -56,5 +56,14 @@ export default {
         description: <cx><Md>
             Set to `true` to disallow the `maxValue`. Default value is `false`.
         </Md></cx>
+    },
+    encoding: {
+        type: 'function',
+        description: <cx>
+            <Md>
+                Sets the function that will be used to convert Date objects before writing data to the store.
+                Default implementation is `Date.toISOString`. See also [Culture.setDefaultDateEncoding](~/concepts/localization#culture).
+            </Md>
+        </cx>
     }
 };

@@ -121,6 +121,21 @@ export const LocalizationPage = <cx>
                     Sets default currency, which is otherwise `USD`.
                     https://en.wikipedia.org/wiki/ISO_4217
                 </Md></cx>
+            }, {
+                signature: 'Culture.getDefaultDateEncoding()',
+                description: <cx><Md>
+                    Returns a function that is used to encode dates.
+                    The function expects a Date and returns a string or a number;
+                </Md></cx>
+            }, {
+                signature: 'Culture.setDefaultDateEncoding(encoding)',
+                description: <cx><Md>
+                    Sets the function that will be used to encode dates for DateField, Calendar and other date/time related widgets.
+                    The default encoding simply invokes the `toISOString` method which converts local time into UTC time.
+                    Pass `encodeDateWithTimezoneOffset` to format dates in ISO 8601 format with timezone information preserved.
+
+                    `Culture.setDefaultDateEncoding(encodeDateWithTimezoneOffset);`
+                </Md></cx>
             }]}/>
         </CodeSplit>
 

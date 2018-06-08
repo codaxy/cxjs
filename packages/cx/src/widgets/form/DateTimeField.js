@@ -212,14 +212,16 @@ class DateTimeInput extends VDOM.Component {
          case 'calendar':
             pickerConfig = {
                type: Calendar,
-               partial: widget.partial
+               partial: widget.partial,
+               encoding: widget.encoding
             };
             break;
 
          default:
             pickerConfig = {
                type: DateTimePicker,
-               segment: widget.segment
+               segment: widget.segment,
+               encoding: widget.encoding
             };
             break;
       }
