@@ -54,7 +54,7 @@ export const DynamicGrouping = <cx>
                 records:bind='$page.records'
                 style={{width: "100%"}}
                 groupingParams:bind="$page.grouping"
-                onCreateGrouping={(groupingParams) => [
+                onGetGrouping={(groupingParams) => [
                     {key: {}, showFooter: true},
                     ...(groupingParams || []).map(x => x.id)
                 ]}
@@ -136,7 +136,7 @@ export const DynamicGrouping = <cx>
                     records:bind='$page.records'
                     style={{width: "100%"}}
                     groupingParams:bind="$page.grouping"
-                    onCreateGrouping={(groupingParams) => [
+                    onGetGrouping={(groupingParams) => [
                         {key: {}, showFooter: true},
                         ...(groupingParams || []).map(x => x.id)
                     ]}

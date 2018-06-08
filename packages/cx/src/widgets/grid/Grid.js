@@ -1,5 +1,4 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {exploreChildren} from '../../ui/layout/exploreChildren';
 import {PureContainer} from '../../ui/PureContainer';
 import {Binding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
@@ -237,9 +236,9 @@ export class Grid extends Widget {
 
       super.prepareData(context, instance);
 
-      if (this.onCreateGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams))
+      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams))
       {
-         let grouping = instance.invoke("onCreateGrouping", data.groupingParams, instance);
+         let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
          this.groupBy(grouping, { autoConfigure: true })
       }
 
@@ -298,7 +297,7 @@ export class Grid extends Widget {
       context.pop('parentPositionChangeEvent');
    }
 
-   groupBy(grouping, {autoConfigure} = {}) {
+   applyGrouping(grouping, {autoConfigure} = {}) {
       if (grouping) {
          if (!isArray(grouping)) {
             if (isString(grouping) || isObject(grouping))
@@ -330,6 +329,11 @@ export class Grid extends Widget {
          this.showHeader = this.scrollable || !isArray(grouping) || !grouping.some(g => g.showHeader);
 
       this.dataAdapter.groupBy(grouping);
+
+   }
+
+   groupBy(grouping, options) {
+      this.applyGrouping(grouping, options);
       this.update();
    }
 
