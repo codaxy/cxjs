@@ -4,25 +4,25 @@ var c = 'fr-fr';
 
 // Field
 Localization.localize(c, 'cx/widgets/Field', {
-   requiredText: 'Ce champ est obligatoire.',
-   validatingText: 'La validation est en cours...',
-   validationExceptionText: 'Un problème est survenu lors de la validation des données. Consultez le journal pour plus de détails'
+   requiredText: 'Ce champ est requis.',
+   validatingText: 'La validation est en cours ...',
+   validationExceptionText: "Une erreur s'est produite lors de la validation des entrées. Consultez le journal pour plus de détails."
 });
 
 // LookupField
 Localization.localize(c, 'cx/widgets/LookupField', {
    loadingText: 'Chargement...',
-   queryErrorText: "Une erreur s'est produite lors de l'obtention des données pour l'affichage.",
+   queryErrorText: "Une erreur s'est produite lors de l'interrogation des données de recherche.",
    noResultsText: 'Aucun résultat trouvé.',
-   minQueryLengthMessageText: 'Entrez au moins {0} caractère (s).'
+   minQueryLengthMessageText: 'Tapez au moins {0} caractère (s).'
 });
 
 // In common for Calendar and MonthPicker
 const calendarErrorMessages = {
-   maxValueErrorText: 'La date sélectionnée est postérieure à la dernière date autorisée {0:d}.',
-   maxExclusiveErrorText: 'La date sélectionnée doit être antérieure à {0:d}.',
-   minValueErrorText: 'La date sélectionnée est antérieure à {0:d}.',
-   minExclusiveErrorText: 'La date sélectionnée doit être postérieure à {0:d}.',
+   maxValueErrorText: 'Sélectionnez {0:d} ou avant.',
+   maxExclusiveErrorText: 'Sélectionnez une date avant {0:d}.',
+   minValueErrorText: 'Sélectionnez {0:d} ou plus tard.',
+   minExclusiveErrorText: 'Sélectionnez une date après {0:d}.',
 };
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
@@ -32,7 +32,7 @@ Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 // In common for DateField and MonthField
 const dateFieldErrorMessages = {
    ...calendarErrorMessages,
-   inputErrorText: 'Date invalide.' 
+   inputErrorText: 'Date invalide entrée.' 
 };
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
@@ -44,8 +44,8 @@ Localization.localize(c, 'cx/widgets/NumberField', {
    maxValueErrorText: 'Entrez {0:n} ou moins.',
    maxExclusiveErrorText: 'Entrez un nombre inférieur à {0:n}.',
    minValueErrorText: 'Entrez {0:n} ou plus.',
-   minExclusiveErrorText: 'Entrez un nombre supérieur à {0:n}.',
-   inputErrorText: 'Numéro invalide.'
+   minExclusiveErrorText: 'Entrez un nombre supérieur à {0: n}.',
+   inputErrorText: 'Numéro invalide entré.'
 });
 
 // TextField
