@@ -4,25 +4,25 @@ var c = 'fr-fr';
 
 // Field
 Localization.localize(c, 'cx/widgets/Field', {
-   requiredText: 'Ce champ est requis.',
+   requiredText: 'Ce champ est obligatoire.',
    validatingText: 'La validation est en cours ...',
-   validationExceptionText: ''
+   validationExceptionText: 'Un problème est survenu lors de la validation des données. Consultez le journal pour plus de détails'
 });
 
 // LookupField
 Localization.localize(c, 'cx/widgets/LookupField', {
    loadingText: 'Chargement...',
-   queryErrorText: 'Une erreur s'est produite lors de l'interrogation des données de recherche.',
+   queryErrorText: "Une erreur s'est produite lors de l'obtention des données pour l'affichage.",
    noResultsText: 'Aucun résultat trouvé.',
-   minQueryLengthMessageText: 'Tapez au moins {0} caractère(s).'
+   minQueryLengthMessageText: 'Entrez au moins {0} caractère (s).'
 });
 
 // In common for Calendar and MonthPicker
 const calendarErrorMessages = {
-   maxValueErrorText: 'Select {0:d} or before.',
-   maxExclusiveErrorText: 'Select a date before {0:d}.',
-   minValueErrorText: 'Select {0:d} or later.',
-   minExclusiveErrorText: 'Select a date after {0:d}.',
+   maxValueErrorText: 'La date sélectionnée est postérieure à la dernière date autorisée {0: d}.',
+   maxExclusiveErrorText: 'La date sélectionnée doit être antérieure à {0: d}.',
+   minValueErrorText: 'La date sélectionnée est antérieure à {0: d}.',
+   minExclusiveErrorText: 'La date sélectionnée doit être postérieure à {0: d}.',
 };
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
