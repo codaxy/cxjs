@@ -4,17 +4,17 @@ var c = 'fr-fr';
 
 // Field
 Localization.localize(c, 'cx/widgets/Field', {
-   requiredText: 'This field is required.',
-   validatingText: 'Validation is in progress...',
-   validationExceptionText: 'Something went wrong during input validation. Check log for more details.'
+   requiredText: 'Ce champ est requis.',
+   validatingText: 'La validation est en cours ...',
+   validationExceptionText: ''
 });
 
 // LookupField
 Localization.localize(c, 'cx/widgets/LookupField', {
-   loadingText: 'Loading...',
-   queryErrorText: 'Error occurred while querying for lookup data.',
-   noResultsText: 'No results found.',
-   minQueryLengthMessageText: 'Type in at least {0} character(s).'
+   loadingText: 'Chargement...',
+   queryErrorText: 'Une erreur s'est produite lors de l'interrogation des données de recherche.',
+   noResultsText: 'Aucun résultat trouvé.',
+   minQueryLengthMessageText: 'Tapez au moins {0} caractère(s).'
 });
 
 // In common for Calendar and MonthPicker
