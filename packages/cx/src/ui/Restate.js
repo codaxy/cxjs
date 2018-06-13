@@ -87,19 +87,18 @@ class RestateStore extends Store {
    }
 
    setItem(...args) {
-      return this.wrapper(() => {
-         super.setItem(...args);
-      });
+      let changed = super.setItem(...args);
+      if (changed)
+         this.bubble();
    }
 
    deleteItem(...args) {
-      return this.wrapper(() => {
-         super.deleteItem(...args);
-      })
+      let changed = super.deleteItem(...args);
+      if (changed)
+         this.bubble();
    }
 
-   wrapper(callback) {
-      let result = callback();
+   bubble() {
       let notified = this.store.batch(() => {
          let data = this.getData();
          for (let key in this.bindings) {
@@ -114,7 +113,5 @@ class RestateStore extends Store {
       //in non-detached mode the parent store triggers a new render cycle
       if (!notified && !this.detached)
          this.store.notify();
-
-      return result;
    }
 }
