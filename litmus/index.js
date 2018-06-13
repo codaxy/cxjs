@@ -24,7 +24,7 @@ import './index.scss';
 //import Demo from './bugs/395';
 //import Demo from './bugs/414';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
-//import Demo from './bugs/Repeater';
+import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 //import Demo from './bugs/380';
 //import Demo from './bugs/JSXSpread';
@@ -55,7 +55,7 @@ import './index.scss';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
 //import Demo from './features/restate/LookupField';
-import Demo from './features/layout/MultiColumnLabelsTopLayout';
+//import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
 //import Demo from './features/window/header-buttons';

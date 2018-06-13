@@ -57,6 +57,10 @@ export class List extends Widget {
       }
    }
 
+   initInstance(context, instance) {
+      this.adapter.initInstance(context, instance);
+   }
+
    declareData() {
 
       let selection = this.selection.configureWidget(this);

@@ -1,49 +1,37 @@
-import {Button, HtmlElement, NumberField, Repeater, Text, Link} from "cx/widgets";
-import {Controller} from "cx/ui";
-import {Debug} from "cx/util";
+import { FlexRow, HtmlElement, Radio, Repeater, Text } from "cx/widgets";
+import { Controller } from "cx/ui";
 
-Debug.enable('should-update');
-
-class Ctrl extends Controller {
+class AppController extends Controller {
    onInit() {
-      this.store.init('data', [{
-         id: 1,
-         text: '3',
-         items: [{
-            id: 1,
-            text: '31'
-         }]
-      }, {
-         id: 2,
-         text: '2',
-         items: [{
-            id: 1,
-            text: '31'
-         }]
-      }, {
-         id: 3,
-         text: '1',
-         items: [{
-            id: 1,
-            text: '31'
-         }]
-      }]);
+      this.store.init("records", [
+         { id: 0, text: "Record 1", option: 1 },
+         { id: 1, text: "Record 2", option: 2 }
+      ]);
+
+      this.store.init("options", [
+         { id: 0, text: "Option 1" },
+         { id: 1, text: "Option 2" },
+         { id: 2, text: "Option 3" }
+      ]);
    }
 }
 
 export default (
    <cx>
-      <div controller={Ctrl}>
-         <Repeater records:bind="data" keyField="id">
-            <dt>
-               <Text bind="$record.text" />
-            </dt>
-            <Repeater records:bind="$record.items">
-               <dd>
-                  <Text bind="$record.text" />
-               </dd>
-            </Repeater>
+      <main controller={AppController}>
+         <Repeater records:bind="records">
+            <Text value:bind="$record.text" />
+            <hr />
+            <FlexRow hspacing>
+               <Repeater records:bind="options" recordAlias="$option">
+                  <Radio
+                     text:bind="$option.text"
+                     value:bind="$record.option"
+                     option:bind="$option.id"
+                  />
+               </Repeater>
+            </FlexRow>
          </Repeater>
-      </div>
+      </main>
    </cx>
 );

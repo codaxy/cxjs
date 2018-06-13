@@ -7,8 +7,9 @@ import {isArray} from '../../util/isArray';
 
 export class ArrayAdapter extends DataAdapter {
 
-   init() {
-      this.map = new WeakMap();
+   initInstance(context, instance) {
+      if (!instance.recordStoreCache)
+         instance.recordStoreCache = new WeakMap();
    }
 
    getRecords(context, instance, records, parentStore) {      
@@ -17,6 +18,9 @@ export class ArrayAdapter extends DataAdapter {
 
    mapRecords(context, instance, records, parentStore, recordsBinding) {
       let result = [];
+
+      if (!instance.recordStoreCache)
+         this.initInstance(context, instance);
 
       if (isArray(records))
          records.forEach((data, index)=> {
@@ -36,7 +40,7 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    mapRecord(context, instance, data, parentStore, recordsBinding, index) {
-      let recordStore = this.map.get(data);
+      let recordStore = instance.recordStoreCache.get(data);
       let writable = parentStore && recordsBinding;
       if (writable) {
          if (!recordStore)
@@ -68,7 +72,7 @@ export class ArrayAdapter extends DataAdapter {
       }
 
       if (typeof data == 'object')
-         this.map.set(data, recordStore);
+         instance.recordStoreCache.set(data, recordStore);
 
       return {
          store: recordStore,

@@ -251,6 +251,7 @@ export class Grid extends Widget {
 
    initInstance(context, instance) {
       instance.fixedHeaderResizeEvent = new SubscriberList();
+      this.dataAdapter.initInstance(context, instance);
       super.initInstance(context, instance);
    }
 

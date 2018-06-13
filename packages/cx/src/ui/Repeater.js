@@ -49,6 +49,10 @@ export class Repeater extends Container {
       super.init();
    }
 
+   initInstance(context, instance) {
+      this.dataAdapter.initInstance(context, instance);
+   }
+
    prepareData(context, instance) {
       let {data} = instance;
       if (data.sortField)
@@ -78,6 +82,7 @@ export class Repeater extends Container {
             subInstance.shouldUpdate = false;
          } else if (subInstance.scheduleExploreIfVisible(context))
             instances.push(subInstance);
+         console.log(subInstance);
       });
       instance.children = instances;
    }
