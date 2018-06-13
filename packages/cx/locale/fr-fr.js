@@ -51,11 +51,11 @@ Localization.localize(c, 'cx/widgets/NumberField', {
 // TextField
 Localization.localize(c, 'cx/widgets/TextField', {
    validationErrorText: "La valeur entrée n'est pas valide.",
-   minLengthValidationErrorText: 'Entrez {[{0}-{1}]} caractères supplémentaires.',
+   minLengthValidationErrorText: 'Entrez {[{0} - {1}]} plus de caractères.',
    maxLengthValidationErrorText: 'Utilisez {0} caractères ou moins.'
 });
 
 // UploadButton
 Localization.localize(c, 'cx/widgets/UploadButton', {
-   validationErrorText: 'Le téléchargement est en cours.'
+   validationErrorText: 'Upload is in progress.'
 });
