@@ -57,5 +57,5 @@ Localization.localize(c, 'cx/widgets/TextField', {
 
 // UploadButton
 Localization.localize(c, 'cx/widgets/UploadButton', {
-   validationErrorText: 'Upload is in progress.'
+   validationErrorText: 'Le téléchargement est en cours.'
 });
