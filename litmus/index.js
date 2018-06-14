@@ -24,11 +24,12 @@ import './index.scss';
 //import Demo from './bugs/395';
 //import Demo from './bugs/414';
 //import Demo from './bugs/NativeCheckboxesAndRadios';
-import Demo from './bugs/Repeater';
+//import Demo from './bugs/Repeater';
 //import Demo from './bugs/179';
 //import Demo from './bugs/380';
 //import Demo from './bugs/JSXSpread';
 //import Demo from './bugs/MultiModals';
+import Demo from './bugs/lookupfiledset';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';

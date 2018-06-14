@@ -82,7 +82,6 @@ export class Repeater extends Container {
             subInstance.shouldUpdate = false;
          } else if (subInstance.scheduleExploreIfVisible(context))
             instances.push(subInstance);
-         console.log(subInstance);
       });
       instance.children = instances;
    }

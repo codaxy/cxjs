@@ -59,13 +59,15 @@ export class LookupField extends Field {
             b.push({
                key: true,
                local: this.value.bind,
-               remote: `$option.${this.optionIdField}`
+               remote: `$option.${this.optionIdField}`,
+               set: this.value.set
             });
 
          if (this.text && this.text.bind)
             b.push({
                local: this.text.bind,
-               remote: `$option.${this.optionTextField}`
+               remote: `$option.${this.optionTextField}`,
+               set: this.text.set
             });
          this.bindings = b;
       }
@@ -645,7 +647,11 @@ class LookupComponent extends VDOM.Component {
       }
       else {
          bindings.forEach(b => {
-            store.set(b.local, Binding.get(b.remote).value(itemData));
+            let v = Binding.get(b.remote).value(itemData);
+            if (b.set)
+               b.set(v, instance);
+            else
+               store.set(b.local, v);
          });
       }
 
