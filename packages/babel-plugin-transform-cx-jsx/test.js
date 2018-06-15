@@ -1,9 +1,9 @@
 "use strict";
 
-var babel  = require("babel-core");
-var plugin = require("./index");
+let babel  = require("babel-core");
+let plugin = require("./index");
 
-var assert = require('assert');
+let assert = require('assert');
 
 function unwrap(code) {
    return code.substring(0, code.length - 1);
@@ -14,9 +14,9 @@ describe('JSCX', function() {
 
    it("doesn't touch non-wrapped code", function () {
 
-      var code = `<div id="123" />`;
+      let code = `<div id="123" />`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -26,9 +26,9 @@ describe('JSCX', function() {
 
    it('converts <cx></cx> to null', function () {
 
-      var code = `<cx></cx>`;
+      let code = `<cx></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -36,29 +36,80 @@ describe('JSCX', function() {
       assert.equal(unwrap(output), 'null');
    });
 
-   it('allows whitespice within <cx>', function () {
+   it('trims whitespace within <cx>', function () {
 
-      var Container = {};
+      let Container = {};
 
-      var code = `<cx>
+      let code = `<cx>
          <Container />
       </cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
 
-      assert.deepEqual(eval(output), {$type: Container});
+      assert.deepEqual(eval(output), {
+         $type: Container
+      });
+   });
+
+   it('trims whitespace', function () {
+      let Container = {};
+
+      let code = `<cx>
+         <Container>
+            <Container />    
+         </Container>
+      </cx>`;
+
+      let output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Container,
+         children: [{
+            $type: Container
+         }]
+      });
+   });
+
+   it('preserves whitespace if ws flag is set', function () {
+      let Container = {};
+
+      let code = `<cx>
+         <Container>
+            <Container ws>
+                Text
+            </Container>    
+         </Container>
+      </cx>`;
+
+      let output = babel.transform(code, {
+         plugins: [plugin, 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert.deepEqual(eval(output), {
+         $type: Container,
+         children: [{
+            $type: Container,
+            children: ['\n                Text\n            '],
+            jsxAttributes: ["ws"],
+            ws: true
+         }]
+      })
    });
 
    it('converts jsx like to config', function () {
 
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component></Component></cx>`;
+      let code = `<cx><Component></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -68,11 +119,11 @@ describe('JSCX', function() {
 
    it('converts jsx attributes to config properties', function () {
       
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component id="123"></Component></cx>`;
+      let code = `<cx><Component id="123"></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -82,10 +133,10 @@ describe('JSCX', function() {
 
    it('converts jsx literal attributes to config properties', function () {
 
-      var code = `<cx><Component id={123}></Component></cx>`;
-      var Component = {};
+      let code = `<cx><Component id={123}></Component></cx>`;
+      let Component = {};
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -95,10 +146,10 @@ describe('JSCX', function() {
 
    it('converts jsx object attributes to config properties', function () {
 
-      var Component = {};
-      var code = `<cx><Component value={{ x: 1 }}></Component></cx>`;
+      let Component = {};
+      let code = `<cx><Component value={{ x: 1 }}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -109,11 +160,11 @@ describe('JSCX', function() {
    it('converts jsx function attributes to config properties', function () {
 
       
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component onClick={e=>{}}></Component></cx>`;
+      let code = `<cx><Component onClick={e=>{}}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx', 'transform-es2015-arrow-functions']
          //presets: ['es2015']
       }).code;
@@ -123,11 +174,11 @@ describe('JSCX', function() {
 
    it('converts jsx children into children array', function () {
       
-      var Component = {}, Child = {}, GrandChild = {};
+      let Component = {}, Child = {}, GrandChild = {};
 
-      var code = `<cx><Component><Child><GrandChild></GrandChild></Child></Component></cx>`;
+      let code = `<cx><Component><Child><GrandChild></GrandChild></Child></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -140,11 +191,11 @@ describe('JSCX', function() {
 
    it('allows namespaces', function () {
       
-      var ui = {Component: {}};
+      let ui = {Component: {}};
 
-      var code = `<cx><ui.Component/></cx>`;
+      let code = `<cx><ui.Component/></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -156,11 +207,11 @@ describe('JSCX', function() {
 
    it('converts jsx text child into text widget', function () {
       
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component>Text</Component></cx>`;
+      let code = `<cx><Component>Text</Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -173,10 +224,10 @@ describe('JSCX', function() {
 
    it('converts namespaced attributes into data binding objects', function () {
 
-      var Component = {};
-      var code = `<cx><Component value:bind="name" /></cx>`;
+      let Component = {};
+      let code = `<cx><Component value:bind="name" /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -190,10 +241,10 @@ describe('JSCX', function() {
 
    it('converts dash attributes into data binding objects', function () {
 
-      var Component = {};
-      var code = `<cx><Component value-bind="name" text-tpl="123" visible-expr="false" data-id="5" /></cx>`;
+      let Component = {};
+      let code = `<cx><Component value-bind="name" text-tpl="123" visible-expr="false" data-id="5" /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -210,10 +261,10 @@ describe('JSCX', function() {
 
    it('multiple root elements are converted to a config array', function () {
 
-      var Component = {}, Component2 = {};
-      var code = `<cx><Component /><Component2></Component2></cx>`;
+      let Component = {}, Component2 = {};
+      let code = `<cx><Component /><Component2></Component2></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -223,11 +274,11 @@ describe('JSCX', function() {
 
    it('allows expressions as children', function () {
 
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component>{true}</Component></cx>`;
+      let code = `<cx><Component>{true}</Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -237,11 +288,11 @@ describe('JSCX', function() {
 
    it('allows props', function () {
 
-      var Component = {};
+      let Component = {};
 
-      var code = `<cx><Component disabled /></cx>`;
+      let code = `<cx><Component disabled /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -251,12 +302,12 @@ describe('JSCX', function() {
 
    it('allows spread', function () {
 
-      var Component = {};
-      var test = {a: 1, b: 2};
+      let Component = {};
+      let test = {a: 1, b: 2};
 
-      var code = `<cx><Component {...test} /></cx>`;
+      let code = `<cx><Component {...test} /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -266,11 +317,11 @@ describe('JSCX', function() {
 
    it('allows namespaced components', function () {
 
-      var Component = { Nested: {} };
+      let Component = { Nested: {} };
 
-      var code = `<cx><Component.Nested /></cx>`;
+      let code = `<cx><Component.Nested /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -280,11 +331,11 @@ describe('JSCX', function() {
 
    it('converts lowercase tags into HtmlElement with tag prop', function () {
 
-      var HtmlElement = { };
+      let HtmlElement = { };
 
-      var code = `<cx><div></div></cx>`;
+      let code = `<cx><div></div></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [[plugin, { autoImportHtmlElement: false }], 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -294,12 +345,12 @@ describe('JSCX', function() {
 
    it('converts jsx elements in attributes', function () {
 
-      var Component = {};
-      var Layout = {};
+      let Component = {};
+      let Layout = {};
 
-      var code = `<cx><Component layout={<Layout type="1" />}></Component></cx>`;
+      let code = `<cx><Component layout={<Layout type="1" />}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -317,12 +368,12 @@ describe('JSCX', function() {
 
    it('converts jsx element arrays in attributes', function () {
 
-      var Component = {};
-      var Layout = {};
+      let Component = {};
+      let Layout = {};
 
-      var code = `<cx><Component layout={<cx><Layout type="1" /><Layout type="2" /></cx>}></Component></cx>`;
+      let code = `<cx><Component layout={<cx><Layout type="1" /><Layout type="2" /></cx>}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -344,12 +395,12 @@ describe('JSCX', function() {
 
    it('converts jsx elements in structured attributes', function () {
 
-      var Component = {};
-      var Layout = {};
+      let Component = {};
+      let Layout = {};
 
-      var code = `<cx><Component layout={{ x: <Layout type="1" />}}></Component></cx>`;
+      let code = `<cx><Component layout={{ x: <Layout type="1" />}}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -369,12 +420,12 @@ describe('JSCX', function() {
 
    it('converts jsx elements within arrays', function () {
 
-      var Component = {};
-      var Column = {};
+      let Component = {};
+      let Column = {};
 
-      var code = `<cx><Component columns={[ <Column type="1" /> ]}></Component></cx>`;
+      let code = `<cx><Component columns={[ <Column type="1" /> ]}></Component></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -392,9 +443,9 @@ describe('JSCX', function() {
 
    it("doesn't touch empty Cx element", function () {
 
-      var code = `<Cx id="123" />`;
+      let code = `<Cx id="123" />`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -404,9 +455,9 @@ describe('JSCX', function() {
 
    it("converts only inner content of Cx elements", function () {
 
-      var code = `<Cx><Container class="test" /></Cx>`;
+      let code = `<Cx><Container class="test" /></Cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -416,9 +467,9 @@ describe('JSCX', function() {
 
    it("registers functional Cx components", function () {
 
-      var code = `let x = props => <cx><Container /></cx>`;
+      let code = `let x = props => <cx><Container /></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -430,9 +481,9 @@ describe('JSCX', function() {
 
    it("multiple functional components add only one import", function () {
 
-      var code = `let X = props => <cx><Container /></cx>;let Y = props => <cx><Container /></cx>;`;
+      let code = `let X = props => <cx><Container /></cx>;let Y = props => <cx><Container /></cx>;`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -449,9 +500,9 @@ describe('JSCX', function() {
 
    it("import for HtmlElement is automatically added", function () {
 
-      var code = `let x = <cx><div></div></cx>`;
+      let code = `let x = <cx><div></div></cx>`;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
@@ -467,12 +518,12 @@ describe('JSCX', function() {
 
    it("does not auto import HtmlElement if it's already there", function () {
 
-      var code = `
+      let code = `
 import { HtmlElement } from "cx/widgets";
 let x = <cx><div></div></cx>
 `;
 
-      var output = babel.transform(code, {
+      let output = babel.transform(code, {
          plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;

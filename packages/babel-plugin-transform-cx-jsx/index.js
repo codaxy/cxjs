@@ -43,7 +43,7 @@ function processAttribute(t, attribute, options) {
    return false;
 }
 
-function processChild(t, child, options) {
+function processChild(t, child, options, preserveWhitespace) {
 
    if (!child)
       return child;
@@ -53,7 +53,12 @@ function processChild(t, child, options) {
          return processElement(t, child, options);
 
       case 'JSXText':
-         return t.stringLiteral(child.value);
+         if (preserveWhitespace)
+            return t.stringLiteral(child.value);
+         let s = innerTextTrim(child.value);
+         if (!s)
+            return null;
+         return t.stringLiteral(s);
 
       case 'JSXExpressionContainer':
          return processChild(t, child.expression, options);
@@ -124,8 +129,8 @@ function processElement(t, element, options) {
             attrs.push(t.objectProperty(t.identifier('$type'), t.identifier(tagName)));
 
          let attrNames = [];
-
-         let spread = [];
+         let spread = [],
+            preserveWhitespace = false;
 
          if (element.openingElement.attributes && element.openingElement.attributes.length) {
             for (let i = 0; i < element.openingElement.attributes.length; i++) {
@@ -136,7 +141,14 @@ function processElement(t, element, options) {
                   let a = processAttribute(t, element.openingElement.attributes[i], options);
                   if (a) {
                      attrs.push(a);
-                     attrNames.push(a.key.value || a.key.name);
+                     let attrName = a.key.value || a.key.name;
+                     attrNames.push(attrName);
+                     switch (attrName) {
+                        case "ws":
+                        case "preserveWhitespace":
+                           preserveWhitespace = true;
+                           break;
+                     }
                   }
                }
             }
@@ -154,7 +166,7 @@ function processElement(t, element, options) {
          if (element.children != null && element.children.length) {
             children = [];
             for (let i = 0; i < element.children.length; i++) {
-               let c = processChild(t, element.children[i], options);
+               let c = processChild(t, element.children[i], options, preserveWhitespace);
                if (c)
                   children.push(c);
             }
@@ -240,3 +252,10 @@ module.exports = function(options) {
       inherits: require("babel-plugin-syntax-jsx")
    }
 };
+
+
+export function innerTextTrim(str) {
+   str = str.replace(/\t/g, '');
+   str = str.replace(/(\s*[\r\n]\s*)/g, '');
+   return str;
+}
