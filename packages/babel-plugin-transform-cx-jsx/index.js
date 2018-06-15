@@ -254,7 +254,7 @@ module.exports = function(options) {
 };
 
 
-export function innerTextTrim(str) {
+function innerTextTrim(str) {
    str = str.replace(/\t/g, '');
    str = str.replace(/(\s*[\r\n]\s*)/g, '');
    return str;
