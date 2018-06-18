@@ -537,9 +537,7 @@ let x = <cx><div></div></cx>
       );
    });
 
-   it.only("expands fat arrows in string based expressions if expandFatArrows is set", function () {
-
-      const Repeater = {};
+   it("expands fat arrows in string based expressions if expandFatArrows is set", function () {
 
       let code = `<cx>
         <Repeater records-expr="{data}.filter(a=>a.enabled)" />

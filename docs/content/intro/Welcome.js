@@ -27,13 +27,11 @@ export const Welcome = <cx>
 
             # Welcome to CxJS
 
-            **Get familiar with the CxJS product guide and explore its features:**
-
             CxJS is a modern framework that helps you create web applications that are both data-oriented and
             visually appealing.
 
-            CxJS makes application development easy by providing a complete set of widgets and charts
-            combined with JSX syntax and declarative data-binding.
+            CxJS makes application development easy by providing a complete set of widgets and charts combined with JSX
+            syntax and declarative data-binding.
 
             CxJS solves problems with a unified approach, unlike other frameworks which solve one UI problem at a
             time.

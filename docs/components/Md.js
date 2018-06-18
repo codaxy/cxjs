@@ -71,3 +71,4 @@ export class Md extends HtmlElement {
 
 Md.prototype.className = 'cxb-md';
 Md.prototype.preserveDocumentTitle = false;
+Md.prototype.plainText = true;

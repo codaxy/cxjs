@@ -65,7 +65,7 @@ function processChild(t, child, options, preserveWhitespace) {
          if (preserveWhitespace)
             return t.stringLiteral(child.value);
          let s = innerTextTrim(child.value);
-         if (!s)
+         if (!s || s == ' ')
             return null;
          return t.stringLiteral(s);
 
@@ -139,7 +139,9 @@ function processElement(t, element, options) {
 
          let attrNames = [];
          let spread = [],
-            preserveWhitespace = false;
+            preserveWhitespace = !options.scope.opts
+               || !options.scope.opts.trimWhitespace
+               || (options.scope.opts.trimWhitespaceExceptions && options.scope.opts.trimWhitespaceExceptions.indexOf(element.openingElement.name.name) != -1);
 
          if (element.openingElement.attributes && element.openingElement.attributes.length) {
             for (let i = 0; i < element.openingElement.attributes.length; i++) {
@@ -262,9 +264,6 @@ module.exports = function(options) {
    }
 };
 
-
 function innerTextTrim(str) {
-   str = str.replace(/\t/g, '');
-   str = str.replace(/(\s*[\r\n]\s*)/g, '');
-   return str;
+   return str.replace(/\s+/g, ' ');
 }

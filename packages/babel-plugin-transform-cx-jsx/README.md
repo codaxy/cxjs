@@ -33,6 +33,8 @@ Plugin options:
 - `autoImportHtmlElement: true` - add HtmlElement import to your file, if missing
 - `transformFunctionalComponents: true` - transform functional components
 - `expandFatArrows: false` - transform fat arrows inside string based expressions (IE)
+- `trimWhitespace: false` - remove extra whitespace to trim application size
+- `trimWhitespaceExceptions: []` - specify the list of elements which should preserve the whitespace (e.g. ['Md', 'code'])
 
 ### Functional components
 

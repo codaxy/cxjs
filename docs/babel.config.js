@@ -5,7 +5,7 @@ module.exports = function (options) {
 
     return {
         "cacheDirectory": true,
-        "cacheIdentifier": "v15",
+        "cacheIdentifier": "v16",
         "presets": [
             ["env", {
                 loose: true,
@@ -21,7 +21,10 @@ module.exports = function (options) {
             }]
         ],
         "plugins": [
-            'transform-cx-jsx',
+            ['transform-cx-jsx', {
+                trimWhitespace: true,
+                trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
+            }],
             ["transform-react-jsx", {"pragma": 'VDOM.createElement'}],
             'external-helpers',
             'transform-object-rest-spread',
