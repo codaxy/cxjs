@@ -32,6 +32,7 @@ Plugin options:
 
 - `autoImportHtmlElement: true` - add HtmlElement import to your file, if missing
 - `transformFunctionalComponents: true` - transform functional components
+- `expandFatArrows: false` - transform fat arrows inside string based expressions (IE)
 
 ### Functional components
 

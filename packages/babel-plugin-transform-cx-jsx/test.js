@@ -1,6 +1,6 @@
 "use strict";
 
-let babel  = require("babel-core");
+let babel = require("babel-core");
 let plugin = require("./index");
 
 let assert = require('assert');
@@ -10,7 +10,7 @@ function unwrap(code) {
    //return code.substring(15, code.length-1);
 }
 
-describe('JSCX', function() {
+describe('JSCX', function () {
 
    it("doesn't touch non-wrapped code", function () {
 
@@ -118,7 +118,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx attributes to config properties', function () {
-      
+
       let Component = {};
 
       let code = `<cx><Component id="123"></Component></cx>`;
@@ -159,7 +159,7 @@ describe('JSCX', function() {
 
    it('converts jsx function attributes to config properties', function () {
 
-      
+
       let Component = {};
 
       let code = `<cx><Component onClick={e=>{}}></Component></cx>`;
@@ -173,7 +173,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx children into children array', function () {
-      
+
       let Component = {}, Child = {}, GrandChild = {};
 
       let code = `<cx><Component><Child><GrandChild></GrandChild></Child></Component></cx>`;
@@ -190,7 +190,7 @@ describe('JSCX', function() {
    });
 
    it('allows namespaces', function () {
-      
+
       let ui = {Component: {}};
 
       let code = `<cx><ui.Component/></cx>`;
@@ -206,7 +206,7 @@ describe('JSCX', function() {
    });
 
    it('converts jsx text child into text widget', function () {
-      
+
       let Component = {};
 
       let code = `<cx><Component>Text</Component></cx>`;
@@ -317,7 +317,7 @@ describe('JSCX', function() {
 
    it('allows namespaced components', function () {
 
-      let Component = { Nested: {} };
+      let Component = {Nested: {}};
 
       let code = `<cx><Component.Nested /></cx>`;
 
@@ -331,12 +331,12 @@ describe('JSCX', function() {
 
    it('converts lowercase tags into HtmlElement with tag prop', function () {
 
-      let HtmlElement = { };
+      let HtmlElement = {};
 
       let code = `<cx><div></div></cx>`;
 
       let output = babel.transform(code, {
-         plugins: [[plugin, { autoImportHtmlElement: false }], 'syntax-jsx']
+         plugins: [[plugin, {autoImportHtmlElement: false}], 'syntax-jsx']
          //presets: ['es2015']
       }).code;
 
@@ -535,5 +535,21 @@ let x = <cx><div></div></cx>
             'let x = { $type: HtmlElement, tag: "div"}',
          ].join('')
       );
+   });
+
+   it.only("expands fat arrows in string based expressions if expandFatArrows is set", function () {
+
+      const Repeater = {};
+
+      let code = `<cx>
+        <Repeater records-expr="{data}.filter(a=>a.enabled)" />
+      </cx>`;
+
+      let output = babel.transform(code, {
+         plugins: [[plugin, { expandFatArrows: true }], 'syntax-jsx']
+         //presets: ['es2015']
+      }).code;
+
+      assert(output.indexOf("function (a){return a.enabled}") > 0);
    });
 });

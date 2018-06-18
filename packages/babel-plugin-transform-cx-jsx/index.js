@@ -1,5 +1,7 @@
 "use strict";
 
+const expandFatArrows = require('./expandFatArrows');
+
 let dashRegex = /(.*)-(bind|tpl|expr)$/;
 
 function objectKeyIdentifier(t, name) {
@@ -9,16 +11,23 @@ function objectKeyIdentifier(t, name) {
    return t.identifier(name);
 }
 
-function property(t, name, value) {
+function bindExprTplObject(t, instr, value, options) {
+   if (instr == "expr") {
+      if (value && value.type == 'StringLiteral' && options.scope.opts && options.scope.opts.expandFatArrows) {
+         value = t.stringLiteral(expandFatArrows(value.value));
+      }
+   }
+   return t.objectExpression([t.objectProperty(objectKeyIdentifier(t, instr), value)])
+}
+
+function property(t, name, value, options) {
    if (name.namespace && name.namespace.name) {
-      return t.objectProperty(objectKeyIdentifier(t, name.namespace.name), t.objectExpression([
-         t.objectProperty(objectKeyIdentifier(t, name.name.name), value)
-      ]));
+      return t.objectProperty(objectKeyIdentifier(t, name.namespace.name), bindExprTplObject(t, name.name.name, value, options));
    }
 
    let result = dashRegex.exec(name.name);
    if (result)
-      return t.objectProperty(objectKeyIdentifier(t, result[1]), t.objectExpression([t.objectProperty(t.identifier(result[2]), value)]));
+      return t.objectProperty(objectKeyIdentifier(t, result[1]), bindExprTplObject(t, result[2], value, options));
 
    return t.objectProperty(objectKeyIdentifier(t, name.name), value);
 }
@@ -35,9 +44,9 @@ function processAttribute(t, attribute, options) {
    if (attribute.type === 'JSXAttribute') {
 
       if (attribute.value == null)
-         return property(t, attribute.name, t.booleanLiteral(true));
+         return property(t, attribute.name, t.booleanLiteral(true), options);
 
-      return property(t, attribute.name, processChild(t, attribute.value, { root: false, scope: options.scope }));
+      return property(t, attribute.name, processChild(t, attribute.value, { root: false, scope: options.scope }), options);
    }
 
    return false;
