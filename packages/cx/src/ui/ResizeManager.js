@@ -13,6 +13,18 @@ export class ResizeManager {
          subscribers.notify();
       });
    }
+
+   static trackElement(el, callback) {
+      if (typeof ResizeObserver !== 'function')
+         return this.subscribe(callback);
+
+      let obs = new ResizeObserver(callback);
+      obs.observe(el);
+
+      return () => {
+         obs.disconnect();
+      }
+   }
 }
 
 if (typeof window != 'undefined')

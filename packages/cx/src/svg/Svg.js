@@ -139,7 +139,7 @@ class SvgComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      this.offResize = ResizeManager.subscribe(::this.onResize);
+      this.offResize = ResizeManager.trackElement(this.el, ::this.onResize);
       this.onResize();
    }
 

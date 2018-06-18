@@ -1090,7 +1090,7 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.scrollable)
-         this.offResize = ResizeManager.subscribe(::this.componentDidUpdate);
+         this.offResize = ResizeManager.trackElement(this.dom.scroller, ::this.componentDidUpdate);
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);

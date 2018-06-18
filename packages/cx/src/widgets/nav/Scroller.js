@@ -114,7 +114,7 @@ export class HScrollerComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      this.unsubscribeResize = ResizeManager.subscribe(::this.componentDidUpdate);
+      this.unsubscribeResize = ResizeManager.trackElement(this.clip, ::this.componentDidUpdate);
       this.componentDidUpdate();
    }
 

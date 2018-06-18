@@ -43,7 +43,7 @@ export default <cx>
         <Svg style="width: 100%; flex: 1;">
            <Chart offset="20 -20 -40 40" axes={{
                  x: window.innerWidth >= mw ? CategoryAxis : {type: CategoryAxis, labelAnchor: "end", labelRotation: -45, labelDy: '0.35em' },
-                 y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
+                 y: { type: NumericAxis, vertical: true, normalized: true, format: 'p;0' }
               }}>
               <Gridlines/>
               <Repeater records={bind("$page.points4")} recordName="$point">
