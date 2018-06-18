@@ -1,4 +1,4 @@
-import { HtmlElement, LookupField, TextField } from "cx/widgets";
+import { HtmlElement, LookupField, TextField, NumberField, Checkbox } from "cx/widgets";
 import { Controller } from "cx/ui";
 
 class AppController extends Controller {
@@ -6,7 +6,7 @@ class AppController extends Controller {
       this.store.init("options", [
          { id: 0, text: "Option 1" },
          { id: 1, text: "Option 2" },
-         { id: 2, text: "Option 3" }
+         { id: 2, text: "Option 6" }
       ]);
    }
 }

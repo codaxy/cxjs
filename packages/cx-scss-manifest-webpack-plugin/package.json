@@ -1,6 +1,6 @@
 {
   "name": "cx-scss-manifest-webpack-plugin",
-  "version": "17.6.0",
+  "version": "18.6.0",
   "description": "Webpack plugin that inspects app's source code and generates a manifest file for importing only required elements of CxJS SCSS",
   "main": "src/index.js",
   "scripts": {},

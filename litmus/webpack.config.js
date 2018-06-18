@@ -67,7 +67,10 @@ let common = {
       new CxScssManifestPlugin({
          outputPath: path.join(__dirname, 'manifest.scss')
       })
-   ]
+   ],
+   stats: {
+      usedExports: true
+   }
 };
 
 let specific;

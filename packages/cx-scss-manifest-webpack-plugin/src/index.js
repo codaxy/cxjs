@@ -3,6 +3,8 @@ let cxManifest = require('cx/manifest.js'),
 
 let cxModuleNameMap = {};
 
+const pluginName = 'CxScssManifestPlugin';
+
 for (let name in cxManifest) {
    if (cxManifest[name].scss)
       cxModuleNameMap[cxManifest[name].js] = name;
@@ -20,23 +22,28 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
    let manifest = this.manifest;
    let dirty = false;
 
-   compiler.plugin('compilation', (compilation) => {
-      compilation.plugin('additional-chunk-assets', (chunks) => {
-         chunks.forEach(chunk => {
+   compiler.hooks.compilation.tap(pluginName, compilation => {
+      compilation.hooks.additionalAssets.tap(pluginName, () => {
+
+         compilation.chunks.forEach(chunk => {
             chunk.forEachModule(module => {
 
                if (!module.resource || module.resource.indexOf('node_modules') !== -1)
                   return;
 
                module.dependencies.forEach(dep => {
-                  if (!dep.module || !dep.module.usedExports || !dep.module.resource)
+                  /*
+                     It would be better to use usedExports but they are missing in webpack 4
+                   */
+
+                  if (!dep.module || !dep.module.buildMeta || !dep.module.buildMeta.providedExports || !dep.module.resource)
                      return;
 
                   let ns = dep.module.resource.match(ns1) || dep.module.resource.match(ns2);
                   if (!ns)
                      return;
 
-                  dep.module.usedExports.forEach(exp => {
+                  dep.module.buildMeta.providedExports.forEach(exp => {
                      let cxModule = ns[1] + '/' + exp;
                      if (!manifest[cxModule] && cxManifest[cxModule]) {
                         dirty = true;
@@ -44,9 +51,11 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
                      }
                   });
                });
-            })
-         });
+            });
+         })
+      });
 
+      compilation.hooks.needAdditionalPass.tap(pluginName, () => {
          let content = "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin\n\n";
          content += "$cx-include-all: false;\n\n";
 
@@ -65,6 +74,8 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
             }
             dirty = false;
          }
+
+         return dirty;
       });
    });
 };
