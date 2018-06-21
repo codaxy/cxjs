@@ -184,7 +184,6 @@ class Input extends VDOM.Component {
             {...data.inputAttrs}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
-            //onInput={ e => this.onChange(e, 'input') }
             onChange={ e => this.onChange(e, 'change') }
             onKeyDown={::this.onKeyDown}
             onBlur={ e => {
@@ -347,7 +346,7 @@ class Input extends VDOM.Component {
          let culture = Culture.getNumberCulture();
          value = culture.parse(formatted) * data.scale + data.offset;
 
-         if (change == 'input' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == culture.decimalSeparator)
+         if (change == 'change' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == culture.decimalSeparator)
             return;
 
          if (change != 'blur'
