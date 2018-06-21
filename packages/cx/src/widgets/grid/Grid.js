@@ -786,7 +786,11 @@ class GridComponent extends VDOM.Component {
          this.getRecordsSlice(start, end).forEach((r, i) => {
             if (r == null) {
                addRow({
-                  row: {data: {classNames: dataCls}, widget: widget.row},
+                  key: 'dummy-' + start + i,
+                  row: {
+                     data: {classNames: dataCls},
+                     widget: widget.row
+                  },
                   vdom: <tr>
                      <td className="cxs-pad" colSpan={1000}>&nbsp;</td>
                   </tr>

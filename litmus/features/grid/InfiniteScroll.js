@@ -40,11 +40,12 @@ export default (
                            title: casual.full_name,
                            visits: casual.integer(1, 100)
                         });
+                     console.log("RESULTS", page, pageSize);
                      resolve({
                         records,
                         totalRecordCount: 100000
                      });
-                  }, 100);
+                  }, Math.random() * 5000);
                });
             }}
          />

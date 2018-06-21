@@ -29,7 +29,7 @@ import './index.scss';
 //import Demo from './bugs/380';
 //import Demo from './bugs/JSXSpread';
 //import Demo from './bugs/MultiModals';
-import Demo from './bugs/lookupfiledset';
+//import Demo from './bugs/lookupfiledset';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -53,7 +53,7 @@ import Demo from './bugs/lookupfiledset';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/grid/FixedFooter';
 //import Demo from './features/hscroll';
-//import Demo from './features/grid/InfiniteScroll';
+import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
 //import Demo from './features/restate/LookupField';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
@@ -74,8 +74,8 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-Timing.enable('app-loop');
-Debug.enable("app-data");
+//Timing.enable('app-loop');
+//Debug.enable("app-data");
 
 History.connect(store, "url");
 
