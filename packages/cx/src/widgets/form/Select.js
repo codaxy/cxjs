@@ -33,6 +33,9 @@ export class Select extends Field {
       if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
+      if (this.alwaysShowClear)
+         this.showClear = true;
+
       super.init();
    }
 

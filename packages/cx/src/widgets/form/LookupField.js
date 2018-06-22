@@ -53,6 +53,9 @@ export class LookupField extends Field {
       if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
+      if (this.alwaysShowClear)
+         this.showClear = true;
+
       if (!this.bindings) {
          let b = [];
          if (this.value && this.value.bind)
