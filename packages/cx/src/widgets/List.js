@@ -144,7 +144,7 @@ export class List extends Widget {
    }
 
    render(context, instance, key) {
-      let items = instance.instances.map(x => ({
+      let items = instance.instances.map((x, i) => ({
          instance: x,
          key: x.record.key,
          type: x.record.type,
@@ -227,8 +227,10 @@ class ListComponent extends VDOM.Component {
    componentDidMount() {
       let {instance} = this.props;
       let {widget} = instance;
-      if (widget.pipeKeyDown)
+      if (widget.pipeKeyDown) {
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
+         this.showCursor();
+      }
    }
 
    componentWillReceiveProps(props) {
@@ -264,7 +266,16 @@ class ListComponent extends VDOM.Component {
       let {instance, items} = this.props;
       let index = Number(e.currentTarget.dataset.recordIndex);
       let item = items[this.cursorChildIndex[index]];
-      instance.invoke("onItemClick", e, item.instance);
+      if (instance.invoke("onItemClick", e, item.instance) === false)
+         return;
+
+      this.moveCursor(index, {
+         select: true,
+         selectOptions: {
+            toggle: e.ctrlKey
+         },
+         selectRange: e.shiftKey
+      });
    }
 
    handleItemDoubleClick(e) {
@@ -291,43 +302,43 @@ class ListComponent extends VDOM.Component {
          onDblClick = this.handleItemDoubleClick;
 
       let children = items.length > 0 && items.map((x, i) => {
-            let {data, selected} = x.instance;
-            let className;
+         let {data, selected} = x.instance;
+         let className;
 
-            if (x.type == 'data') {
-               let ind = cursorIndex++;
+         if (x.type == 'data') {
+            let ind = cursorIndex++;
 
-               this.cursorChildIndex.push(i);
-               className = CSS.element(baseClass, 'item', {
-                  selected: selected,
-                  cursor: ind == this.state.cursor,
-                  pad: widget.itemPad
-               });
+            this.cursorChildIndex.push(i);
+            className = CSS.element(baseClass, 'item', {
+               selected: selected,
+               cursor: ind == this.state.cursor,
+               pad: widget.itemPad
+            });
 
-               return (
-                  <li
-                     key={x.key}
-                     className={CSS.expand(className, data.classNames)}
-                     style={itemStyle}
-                     data-record-index={ind}
-                     onMouseDown={this.handleItemMouseDown}
-                     onClick={onClick}
-                     onDoubleClick={onDblClick}
-                  >
-                     {x.content}
-                  </li>
-               );
-            } else {
-               return (
-                  <li
-                     key={x.key}
-                     className={CSS.element(baseClass, x.type)}
-                  >
-                     {x.content}
-                  </li>
-               );
-            }
-         });
+            return (
+               <li
+                  key={x.key}
+                  className={CSS.expand(className, data.classNames)}
+                  style={itemStyle}
+                  data-record-index={ind}
+                  onMouseDown={this.handleItemMouseDown}
+                  onClick={onClick}
+                  onDoubleClick={onDblClick}
+               >
+                  {x.content}
+               </li>
+            );
+         } else {
+            return (
+               <li
+                  key={x.key}
+                  className={CSS.element(baseClass, x.type)}
+               >
+                  {x.content}
+               </li>
+            );
+         }
+      });
 
       if (!children && data.emptyText) {
          children = <li className={CSS.element(baseClass, 'empty-text')}>
@@ -429,8 +440,17 @@ class ListComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         let firstSelected = this.props.items.findIndex(x => x.instance.selected);
-         this.moveCursor(firstSelected != -1 ? firstSelected : 0, { focused: true });
+         let index = -1, firstSelected = -1;
+         for (let i = 0; i < this.props.items.length; i++) {
+            if (this.props.items[i].type == 'data') {
+               index++;
+               if (this.props.items[i].instance.selected) {
+                  firstSelected = index;
+                  break;
+               }
+            }
+         }
+         this.moveCursor(firstSelected != -1 ? firstSelected : 0, {focused: true});
       }
    }
 
@@ -468,8 +488,15 @@ class ListComponent extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             let item = items[this.cursorChildIndex[this.state.cursor]];
-            if (item && widget.onItemClick)
-               instance.invoke("onItemClick", e, item.instance);
+            if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance)===false)
+               return;
+            this.moveCursor(this.state.cursor, {
+               select: true,
+               selectOptions: {
+                  toggle: e.ctrlKey
+               },
+               selectRange: e.shiftKey
+            });
             break;
 
          case KeyCode.down:

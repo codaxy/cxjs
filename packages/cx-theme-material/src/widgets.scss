@@ -646,6 +646,10 @@ $form-list: (
       border-width: 1px;
       border-color: transparent transparent rgba(0, 0, 0, 0.09);
    }
+
+   &.#{$mod}dropdown > .#{$element}list-item {
+      border-bottom-color: transparent;
+   }
 }
 
 //RIPPLE EFFECT

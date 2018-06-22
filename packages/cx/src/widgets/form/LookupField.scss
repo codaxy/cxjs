@@ -97,28 +97,28 @@
       min-width: 100%;
       width: 100%;
 
-      &:focus {
-         @include cx-add-state-rules($cx-list, focus);
-      }
-
-      & > li {
-         list-style: none;
-         padding: map-get($cx-menu-padding-options, medium);
-         margin: 0;
-         cursor: pointer;
-
-         &.#{$state}cursor {
-            @include cx-add-state-rules($cx-list-item, cursor);
-         }
-
-         &.#{$state}selected {
-            @include cx-add-state-rules($cx-list-item, selected);
-
-            &.#{$state}cursor {
-               @include cx-add-state-rules($cx-list-item, selected-cursor);
-            }
-         }
-      }
+      //&:focus {
+      //   @include cx-add-state-rules($cx-list, focus);
+      //}
+      //
+      //& > li {
+      //   list-style: none;
+      //   padding: map-get($cx-menu-padding-options, medium);
+      //   margin: 0;
+      //   cursor: pointer;
+      //
+      //   &.#{$state}cursor {
+      //      @include cx-add-state-rules($cx-list-item, cursor);
+      //   }
+      //
+      //   &.#{$state}selected {
+      //      @include cx-add-state-rules($cx-list-item, selected);
+      //
+      //      &.#{$state}cursor {
+      //         @include cx-add-state-rules($cx-list-item, selected-cursor);
+      //      }
+      //   }
+      //}
    }
 
    .#{$element}#{$name}-query {

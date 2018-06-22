@@ -27,15 +27,15 @@ interface LookupFieldProps extends FieldProps {
    /** A list of available options. */
    options?: Cx.RecordsProp,
 
-   /** 
-    * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property. 
-    * No effect if `multiple` is used. Default value is `false`. 
+   /**
+    * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
+    * No effect if `multiple` is used. Default value is `false`.
     */
    hideClear?: boolean,
 
-   /** 
-    * Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property. 
-    * No effect if `multiple` is used. Default value is `true`. 
+   /**
+    * Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
+    * No effect if `multiple` is used. Default value is `true`.
     */
    showClear?: boolean,
 
@@ -46,18 +46,18 @@ interface LookupFieldProps extends FieldProps {
 
    /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string,
-   
+
    /* TODO: Check type */
 
    /** Additional config to be applied to all items */
    itemsConfig?: any,
 
-   /** 
-    * An array of objects describing the mapping of option data to store data. 
-    * Each entry must define `local`, `remote` bindings. `key: true` is used to indicate fields that are used in the primary key. 
+   /**
+    * An array of objects describing the mapping of option data to store data.
+    * Each entry must define `local`, `remote` bindings. `key: true` is used to indicate fields that are used in the primary key.
     */
    bindings?: any,
-   
+
    /** A delay in milliseconds between the moment the user stops typing and when tha query is made. Default value is `150`. */
    queryDelay?: number,
 
@@ -67,12 +67,12 @@ interface LookupFieldProps extends FieldProps {
    /** Set to `true` to hide the search field. */
    hideSearchField?: boolean,
 
-   /** 
-    * Number of options required to show the search field. 
-    * If there are only a few options, there is no need for search. Defaults to `7`. 
+   /**
+    * Number of options required to show the search field.
+    * If there are only a few options, there is no need for search. Defaults to `7`.
     */
    minOptionsForSearchField?: number,
-   
+
    /** Text to display while data is being loaded. */
    loadingText?: string,
 
@@ -89,32 +89,32 @@ interface LookupFieldProps extends FieldProps {
    optionTextField?: string,
 
    /**
-    * Available only in `multiple` selection mode and without custom `bindings`. 
-    * Name of the field to store id of the selected value. Default value is `id`. 
+    * Available only in `multiple` selection mode and without custom `bindings`.
+    * Name of the field to store id of the selected value. Default value is `id`.
     */
    valueIdField?: string,
 
-   /** 
-    * Available only in `multiple` selection mode. 
-    * Name of the field to store display text of the selected value. Default value is `text`. 
+   /**
+    * Available only in `multiple` selection mode.
+    * Name of the field to store display text of the selected value. Default value is `text`.
     */
    valueTextField?: string,
 
-   /** 
-    * If `true` `onQuery` will be called only once to fetch all options. 
-    * After that options are filtered client-side. 
+   /**
+    * If `true` `onQuery` will be called only once to fetch all options.
+    * After that options are filtered client-side.
     */
    fetchAll?: boolean,
 
-   /** 
-    * If this flag is set along with `fetchAll`, fetched options are cached for the lifetime of the widget. 
-    * Otherwise, data is fetched whenever the dropdown is shown. 
+   /**
+    * If this flag is set along with `fetchAll`, fetched options are cached for the lifetime of the widget.
+    * Otherwise, data is fetched whenever the dropdown is shown.
     */
    cacheAll?: boolean,
-   
+
    /** Close the dropdown after selection. Default is `true`. */
    closeOnSelect?: boolean,
-   
+
    /** Mesasge to be displayed to the user if the entered search query is too short. */
    minQueryLengthMessageText?: string,
 
@@ -122,8 +122,13 @@ interface LookupFieldProps extends FieldProps {
    icon?: string,
 
    /** Query function. */
-   onQuery?: string | (() => void)
-   
+   onQuery?: string | (() => Cx.Record[]),
+
+   /** Set to true to sort dropdown options. */
+   sort?: boolean,
+
+   /** Additional list options, such as grouping configuration, custom sorting, etc. */
+   listOptions?: Cx.Config,
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

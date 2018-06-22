@@ -156,5 +156,17 @@ export default {
             An array of mappings between options and value fields. Use this property to pass additional options to the selection.
             [See example](~/examples/lookup/custom-bindings).
         </Md></cx>
+    },
+    sort: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to sort drop-down options.
+        </Md></cx>
+    },
+    listOptions: {
+        type: 'config',
+        description: <cx><Md>
+            Set to `true` to sort drop-down options.
+        </Md></cx>
     }
 };

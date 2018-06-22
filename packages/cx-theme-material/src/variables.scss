@@ -139,12 +139,12 @@ $cx-default-grid-header-padding: $cx-default-box-padding + 5px 2 * $cx-default-b
 // data
 $cx-default-grid-data-border-color: #e0e0e0 !default;
 $cx-default-grid-data-background-color: $cx-default-grid-header-background-color !default;
-$cx-default-grid-data-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 1px !default;
+$cx-default-grid-data-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px $cx-default-box-padding !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
 
 //LIST
-$cx-default-list-item-padding: 3 * $cx-default-box-padding !default;
+$cx-default-list-item-padding: $cx-default-box-padding+1 2 * $cx-default-box-padding $cx-default-box-padding !default;
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
