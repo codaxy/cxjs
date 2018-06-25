@@ -40,6 +40,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Drop zone configuration. Define `mode` as either `preview` or `insertion`. */
    dropZone?: Cx.StructuredProp,
 
+   /** Row configuration. See grid examples. */
+   row?: Cx.Config,
+
    /**An array of columns. Check column configuration options in the section below. */
    columns?: Cx.Record[],
 
