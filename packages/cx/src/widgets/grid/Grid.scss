@@ -64,10 +64,8 @@
             flex: 1 1 0%;
             -webkit-overflow-scrolling: touch;
 
-            &.#{$state}fixed-header {
-               .#{$element}#{$name}-header {
-                  visibility: hidden;
-               }
+            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header {
+               visibility: hidden;
             }
          }
 
