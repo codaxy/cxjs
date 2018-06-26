@@ -228,6 +228,7 @@ Marker.prototype.legend = 'legend';
 Marker.prototype.legendAction = 'auto';
 Marker.prototype.shape = 'circle';
 Marker.prototype.styled = true;
+Marker.prototype.hidden = false;
 
 BoundedObject.alias('marker', Marker);
 
@@ -274,7 +275,7 @@ class MarkerComponent extends VDOM.Component {
       }
 
       return <g className={data.classNames}>
-         {shapeRenderer((bounds.l + bounds.r) / 2, (bounds.t + bounds.b) / 2, data.size, shapeProps)}
+         {!widget.hidden && shapeRenderer((bounds.l + bounds.r) / 2, (bounds.t + bounds.b) / 2, data.size, shapeProps)}
          {children}
       </g>;
    }

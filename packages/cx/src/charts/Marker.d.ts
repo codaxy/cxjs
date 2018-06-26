@@ -77,6 +77,9 @@ interface MarkerProps extends BoundedObjectProps {
 
    /** Tooltip configuration. For more info see Tooltips. */
    tooltip?: Cx.StringProp | Cx.StructuredProp
+
+   /** Set to true to hide the marker. The marker will still participate in axis range calculations. */
+   hidden?: boolean
 }
 
 export class Marker extends Cx.Widget<MarkerProps> {}

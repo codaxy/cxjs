@@ -25,15 +25,24 @@ interface TooltipProps extends DropdownProps {
    animate?: boolean,
    
    /** Set to `true` to make the tooltip follow the mouse movement. */
-   trackMouse?: string, 
+   trackMouse?: boolean,
+
+   trackMouseX?: boolean,
+   trackMouseY?: boolean,
 
    /** 
     * This property controls how tooltips behave on touch events. 
     * Default value is `toggle` which means that the tooltip is shown on first tap and closed on the second tap. 
     * Use `ignore` to skip showing tooltips on touch events. 
     */
-   touchBehavior?: string
+   touchBehavior?: string,
 
+
+   /**
+    * Set to true to rely on browser's window mousemove event for getting mouse coordinates
+    * instead of using the element that tooltip is attached to.
+    */
+   globalMouseTracking?: boolean
 }
 
 export class Tooltip extends Cx.Widget<TooltipProps> {}

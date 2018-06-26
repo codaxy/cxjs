@@ -9,6 +9,14 @@ import {wireTooltipOps} from './tooltip-ops';
 
 export class Tooltip extends Dropdown {
 
+   init() {
+      if (this.trackMouse) {
+         this.trackMouseX = true;
+         this.trackMouseY = true;
+      }
+      super.init();
+   }
+
    declareData() {
       super.declareData(...arguments, {
          text: undefined,
@@ -39,7 +47,7 @@ export class Tooltip extends Dropdown {
    initInstance(context, instance) {
       super.initInstance(context, instance);
 
-      if (this.trackMouse) {
+      if (this.trackMouseX || this.trackMouseY) {
          instance.trackMouse = (e) => {
             instance.mousePosition = {
                x: e.clientX,
@@ -67,12 +75,20 @@ export class Tooltip extends Dropdown {
                this.updateDropdownPosition(instance, instance.tooltipComponent);
          }
       }, 500);
+
+      if (instance.widget.globalMouseTracking && instance.trackMouse) {
+         document.addEventListener('mousemove', instance.trackMouse);
+      }
    }
 
    overlayWillUnmount(instance, component) {
       clearInterval(instance.parentValidityCheckTimer);
       super.overlayWillUnmount(instance, component);
       instance.tooltipComponent = null;
+
+      if (instance.widget.globalMouseTracking && instance.trackMouse) {
+         document.removeEventListener('mousemove', instance.trackMouse);
+      }
    }
 
    handleMouseEnter(instance, component) {
@@ -115,10 +131,13 @@ Tooltip.prototype.destroyDelay = 300;
 Tooltip.prototype.createDelay = 200;
 Tooltip.prototype.matchWidth = false;
 Tooltip.prototype.trackMouse = false;
+Tooltip.prototype.trackMouseX = false;
+Tooltip.prototype.trackMouseY = false;
 Tooltip.prototype.touchFriendly = false; //rename to positioningMode
 Tooltip.prototype.touchBehavior = 'toggle';
 Tooltip.prototype.arrow = true;
 Tooltip.prototype.alwaysVisible = false;
+Tooltip.prototype.globalMouseTracking = false;
 
 export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
@@ -157,7 +176,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       tooltipInstance = parentInstance.tooltips[name] = parentInstance.getChild(null, tooltipWidget, null, store);
       tooltipInstance.config = tooltip;
 
-      if (tooltip.alwaysVisible || tooltip.trackMouse) {
+      if (tooltip.alwaysVisible || tooltip.trackMouse || tooltip.trackMouseX || tooltip.trackMouseY) {
          tooltipInstance.init();
          tooltipInstance.data = tooltipInstance.dataSelector(store);
       }
@@ -217,7 +236,7 @@ function tooltipMouseLeave(e, parentInstance, tooltip, options) {
 function tooltipParentDidMount(element, parentInstance, tooltip, options) {
    if (tooltip && tooltip.alwaysVisible) {
       let instance = getTooltipInstance(element, parentInstance, tooltip, options);
-      if (instance.data.alwaysVisible)
+      if (instance && instance.data.alwaysVisible)
          tooltipMouseMove(element, parentInstance, tooltip, options);
    }
 }

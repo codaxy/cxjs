@@ -84,5 +84,12 @@ export default {
         description: <cx><Md>
             Constrain the marker position to min/max values of the Y axis during drag operations.
         </Md></cx>
+    },
+
+    hidden: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make the shape draggable along the X axis.
+        </Md></cx>
     }
 };

@@ -76,5 +76,13 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `tooltip`.
         </Md></cx>
+    },
+    globalMouseTracking: {
+        key: false,
+        type: 'string',
+        description: <cx><Md>
+            Set to `true` to rely on browser's window `mousemove` event for getting mouse coordinates
+            * instead of using the element that tooltip is attached to.
+        </Md></cx>
     }
 };
