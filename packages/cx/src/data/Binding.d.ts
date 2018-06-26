@@ -10,3 +10,5 @@ export class Binding {
 
    static get(path: string): Binding;
 }
+
+export function isBinding(value: any): boolean;

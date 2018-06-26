@@ -1,7 +1,7 @@
 import {Widget, VDOM, getContent} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
 import {GroupAdapter} from '../ui/adapter/GroupAdapter';
-import {Binding} from '../data/Binding';
+import {Binding, isBinding} from '../data/Binding';
 import {Selection} from '../ui/selection/Selection';
 import {KeyCode} from '../util/KeyCode';
 import {scrollElementIntoView} from '../util/scrollElementIntoView';
@@ -29,7 +29,7 @@ export class List extends Widget {
       this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
-         recordsBinding: this.records && this.records.bind && Binding.get(this.records.bind),
+         recordsBinding: isBinding(this.records) && Binding.get(this.records.bind),
          keyField: this.keyField
       });
 

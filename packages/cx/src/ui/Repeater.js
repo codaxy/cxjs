@@ -2,7 +2,7 @@ import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
 import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
-import {Binding} from '../data/Binding';
+import {Binding, isBinding} from '../data/Binding';
 import {UseParentLayout} from "./layout/UseParentLayout";
 
 export class Repeater extends Container {
@@ -21,7 +21,7 @@ export class Repeater extends Container {
 
    init() {
 
-      if (this.records && this.records.bind)
+      if (isBinding(this.records))
          this.recordsBinding = Binding.get(this.records.bind);
 
       if (this.recordAlias)

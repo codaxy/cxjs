@@ -11,6 +11,7 @@ import {isString} from '../util/isString';
 import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
+import {isObject} from '../util/isObject';
 
 export class Instance {
    constructor(widget, key) {
@@ -423,7 +424,7 @@ export class Instance {
       let changed = false;
       batchUpdates(() => {
          let p = this.widget[prop];
-         if (p && typeof p == 'object') {
+         if (isObject(p)) {
             if (p.set) {
                if (isFunction(p.set)) {
                   p.set(value, this);
@@ -439,7 +440,7 @@ export class Instance {
                this.store.dispatch(action);
                changed = true;
             }
-            else if (p.bind) {
+            else if (isString(p.bind)) {
                changed = this.store.set(p.bind, value);
             }
          }

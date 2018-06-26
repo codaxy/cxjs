@@ -1,6 +1,6 @@
 import {Widget, VDOM, getContent} from '../../ui/Widget';
 import {PureContainer} from '../../ui/PureContainer';
-import {Binding} from '../../data/Binding';
+import {Binding, isBinding} from '../../data/Binding';
 import {getSelector} from '../../data/getSelector';
 import {isSelector} from '../../data/isSelector';
 import {Format} from '../../ui/Format';
@@ -23,6 +23,7 @@ import {Localization} from '../../ui/Localization';
 import {SubscriberList} from '../../util/SubscriberList';
 import {RenderingContext} from '../../ui/RenderingContext';
 import {isNonEmptyArray} from '../../util/isNonEmptyArray';
+import {isObject} from "../../util/isObject";
 import {isString} from '../../util/isString';
 import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
@@ -31,7 +32,7 @@ import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
-import {isObject} from "../../util/isObject";
+
 
 export class Grid extends Widget {
 
@@ -65,7 +66,7 @@ export class Grid extends Widget {
       if (this.buffered)
          this.scrollable = true;
 
-      if (this.records && this.records.bind)
+      if (isBinding(this.records))
          this.recordsBinding = Binding.get(this.records.bind);
 
       if (!this.row)
