@@ -75,12 +75,20 @@ export class Tooltip extends Dropdown {
                this.updateDropdownPosition(instance, instance.tooltipComponent);
          }
       }, 500);
+
+      if (instance.widget.globalMouseTracking && instance.trackMouse) {
+         document.addEventListener('mousemove', instance.trackMouse);
+      }
    }
 
    overlayWillUnmount(instance, component) {
       clearInterval(instance.parentValidityCheckTimer);
       super.overlayWillUnmount(instance, component);
       instance.tooltipComponent = null;
+
+      if (instance.widget.globalMouseTracking && instance.trackMouse) {
+         document.removeEventListener('mousemove', instance.trackMouse);
+      }
    }
 
    handleMouseEnter(instance, component) {
@@ -129,6 +137,7 @@ Tooltip.prototype.touchFriendly = false; //rename to positioningMode
 Tooltip.prototype.touchBehavior = 'toggle';
 Tooltip.prototype.arrow = true;
 Tooltip.prototype.alwaysVisible = false;
+Tooltip.prototype.globalMouseTracking = false;
 
 export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
@@ -227,7 +236,7 @@ function tooltipMouseLeave(e, parentInstance, tooltip, options) {
 function tooltipParentDidMount(element, parentInstance, tooltip, options) {
    if (tooltip && tooltip.alwaysVisible) {
       let instance = getTooltipInstance(element, parentInstance, tooltip, options);
-      if (instance.data.alwaysVisible)
+      if (instance && instance.data.alwaysVisible)
          tooltipMouseMove(element, parentInstance, tooltip, options);
    }
 }

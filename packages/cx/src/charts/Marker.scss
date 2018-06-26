@@ -30,6 +30,10 @@
       .#{$state}selectable > & {
          cursor: pointer;
       }
+
+      &.#{$state}hidden {
+         visibility: hidden;
+      }
    }
 }
 

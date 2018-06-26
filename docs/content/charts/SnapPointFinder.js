@@ -29,6 +29,7 @@ export const SnapPointFinderPage = <cx>
         <CodeSplit>
 
             The `SnapPointFinder` helper is used to find a point on the graph near the cursor.
+            Tracked information is used for displaying visual helpers such as lines, markers and tooltips.
 
             <div class="widgets">
                 <Svg style="width:600px;height:500px;" margin="60 60 60 60" controller={ChartController}>
@@ -40,7 +41,6 @@ export const SnapPointFinderPage = <cx>
                             <Gridlines />
                             <SnapPointFinder
                                 cursorX:bind="$page.cursor.x"
-                                cursorY:bind="$page.cursor.y"
                                 snapX:bind="$page.snapX"
                                 snapY:bind="$page.snapY"
                                 maxDistance={Infinity}
@@ -61,15 +61,16 @@ export const SnapPointFinderPage = <cx>
                                 }}
                             />
                             <Marker
+                                style="visibility: hidden"
                                 x:bind="$page.snapX"
-                                y:bind="$page.cursor.y"
-                                colorIndex={5} size={10}
                                 tooltip={{
                                     alwaysVisible: true,
                                     text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},
-                                    placement: 'up',
+                                    placement: 'right',
                                     destroyDelay: 0,
-                                    createDelay: 0
+                                    createDelay: 0,
+                                    trackMouseY: true,
+                                    globalMouseTracking: true
                                 }}
                             />
                         </MouseTracker>
@@ -97,24 +98,38 @@ export const SnapPointFinderPage = <cx>
                         <Gridlines />
                         <SnapPointFinder
                             cursorX:bind="$page.cursor.x"
-                            cursorY:bind="$page.cursor.y"
                             snapX:bind="$page.snapX"
                             snapY:bind="$page.snapY"
+                            maxDistance={Infinity}
                         >
                             <LineGraph data:bind="$page.data" colorIndex={5} />
-                            <Marker
-                                x:bind="$page.snapX"
-                                y:bind="$page.snapY"
-                                colorIndex={5} size={10}
-                                tooltip={{
-                                    alwaysVisible: true,
-                                    text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},
-                                    placement: 'up',
-                                    destroyDelay: 0,
-                                    createDelay: 0
-                                }}
-                            />
                         </SnapPointFinder>
+                        <MarkerLine x:bind="$page.snapX" />
+                        <Marker
+                            x:bind="$page.snapX"
+                            y:bind="$page.snapY"
+                            colorIndex={5} size={10}
+                            tooltip={{
+                                alwaysVisible: true,
+                                text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},
+                                placement: 'up',
+                                destroyDelay: 0,
+                                createDelay: 0
+                            }}
+                        />
+                        <Marker
+                            style="visibility: hidden"
+                            x:bind="$page.snapX"
+                            tooltip={{
+                                alwaysVisible: true,
+                                text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},
+                                placement: 'right',
+                                destroyDelay: 0,
+                                createDelay: 0,
+                                trackMouseY: true,
+                                globalMouseTracking: true
+                            }}
+                        />
                     </MouseTracker>
                 </Chart>
             </Svg>
