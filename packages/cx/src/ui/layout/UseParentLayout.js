@@ -5,7 +5,7 @@ export class UseParentLayout extends Layout {
    render(context, instance, keyPrefix) {
       var result = [];
       instance.children.forEach(c => {
-         var r = c.render(context);
+         var r = c.vdom;
          if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
             r.content.forEach(r=> {
                result.push(r);
