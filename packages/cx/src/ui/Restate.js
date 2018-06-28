@@ -90,12 +90,14 @@ class RestateStore extends Store {
       let changed = super.setItem(...args);
       if (changed)
          this.bubble();
+      return changed;
    }
 
    deleteItem(...args) {
       let changed = super.deleteItem(...args);
       if (changed)
          this.bubble();
+      return changed;
    }
 
    bubble() {
