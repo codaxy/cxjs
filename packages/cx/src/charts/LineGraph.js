@@ -96,7 +96,7 @@ export class LineGraph extends Widget {
             disabled: data.disabled,
             //selected: this.selection.isInstanceSelected(instance),
             style: data.style,
-            shape: 'rect',
+            shape: this.legendShape,
             onClick: e=> { this.onLegendClick(e, instance) }
          });
    }
@@ -195,6 +195,7 @@ LineGraph.prototype.y0Field = false;
 LineGraph.prototype.active = true;
 LineGraph.prototype.legend = 'legend';
 LineGraph.prototype.legendAction = 'auto';
+LineGraph.prototype.legendShape = 'rect';
 LineGraph.prototype.stack = 'stack';
 LineGraph.prototype.hiddenBase = false;
 

@@ -76,8 +76,8 @@ $cx-default-input-tool-size: $cx-default-box-line-height !default;
 $cx-default-input-left-tool-spacing: cx-left($cx-default-box-padding) !default;
 $cx-default-input-right-tool-spacing: 1px !default;
 $cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
-$cx-default-input-left-tool-left: cx-calc(cx-left($cx-default-input-padding), 1px) !default;
-$cx-default-input-right-tool-right: cx-calc(cx-right($cx-default-input-padding), 1px) !default;
+$cx-default-input-left-tool-left: cx-calc(cx-left($cx-default-input-padding), cx-left($cx-default-box-border-width)) !default;
+$cx-default-input-right-tool-right: cx-calc(cx-right($cx-default-input-padding), cx-right($cx-default-box-border-width)) !default;
 
 // Left Icon
 $cx-input-left-icon-state-style-map: (

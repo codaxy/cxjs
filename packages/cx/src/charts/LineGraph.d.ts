@@ -81,8 +81,8 @@ interface LineGraphProps extends Cx.WidgetProps {
    /** Name of the legend to be used. Default is `legend`. */
    legend?: string,
 
-   legendAction?: string
-
+   legendAction?: string,
+   legendShape?: string
 }
 
 export class LineGraph extends Cx.Widget<LineGraphProps> {}

@@ -1,5 +1,4 @@
 import {PureContainer} from './PureContainer';
-import {Widget} from './Widget';
 import {isPromise} from '../util/isPromise';
 
 export class ContentResolver extends PureContainer {
@@ -72,4 +71,4 @@ export class ContentResolver extends PureContainer {
 }
 
 ContentResolver.prototype.mode = 'replace';
-ContentResolver.prototype.params = null;
+ContentResolver.prototype.params = {}; //unique value that is impossible to reproduce for equality check

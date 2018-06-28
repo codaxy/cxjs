@@ -29,6 +29,7 @@ export class DateTimePicker extends Widget {
 }
 
 DateTimePicker.prototype.baseClass = "datetimepicker";
+DateTimePicker.prototype.styled = true;
 DateTimePicker.prototype.size = 3;
 DateTimePicker.prototype.autoFocus = false;
 DateTimePicker.prototype.segment = "datetime";

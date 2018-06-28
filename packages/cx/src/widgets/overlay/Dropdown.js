@@ -92,6 +92,10 @@ export class Dropdown extends Overlay {
       var {data} = instance;
       var parentBounds = component.parentBounds = this.relatedElement.getBoundingClientRect();
 
+      //getBoundingClientRect() will return an empty rect if the element is hidden or removed
+      if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0)
+         return;
+
       if (this.trackMouseX && instance.mousePosition) {
          parentBounds = {
             top: parentBounds.top,
