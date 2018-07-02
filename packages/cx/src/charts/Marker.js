@@ -123,9 +123,9 @@ export class Marker extends BoundedObject {
 
          if (yAxis && yAxis.shouldUpdate)
             instance.markShouldUpdate(context);
-
-         super.prepare(context, instance);
       }
+
+      super.prepare(context, instance);
 
       if (data.name && context.addLegendEntry)
          context.addLegendEntry(this.legend, {

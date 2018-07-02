@@ -8,7 +8,7 @@ interface LegendEntryProps extends Cx.HtmlElementProps {
    /** Shape of the symbol. `square`, `circle`, `triangle` etc. */
    shape?: Cx.StringProp,
 
-   /** Size of the symbol. Default value is `18`. */
+   /** Size of the symbol in pixels. Default value is `18`. */
    size?: Cx.NumberProp,
 
    /** Index of a color from the standard palette of colors. 0-15. */
@@ -31,6 +31,8 @@ interface LegendEntryProps extends Cx.HtmlElementProps {
    
    legendAction?: string,
 
+   /** Size of the svg shape container in pixels. Default value is 20. */
+   svgSize?: number
 }
 
 export class LegendEntry extends Cx.Widget<LegendEntryProps> {}

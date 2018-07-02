@@ -11,6 +11,11 @@ interface LegendProps extends Cx.HtmlElementProps {
    /** Switch to vertical mode. */
    vertical?: boolean,
 
+   /** Size of the svg shape container in pixels. Default value is 20. */
+   svgSize?: number,
+
+   /** Shape size in pixels. Default value is 18. */
+   shapeSize?: number
 }
 
 export class Legend extends Cx.Widget<LegendProps> {

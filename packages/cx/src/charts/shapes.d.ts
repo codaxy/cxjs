@@ -2,7 +2,7 @@ import * as Cx from '../core';
 
 type ShapeRender = (cx: number, cy: number, size: number, props?: Cx.Config, options?: Cx.Config) => JSX.Element;
 
-export function registerShape(name: string, callback: (cx: number) => any); 
+export function registerShape(name: string, callback: (cx: number, cy: number, size: number) => any);
 
 export function getShape(shapeName: string): string;
 

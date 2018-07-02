@@ -97,9 +97,17 @@ export class LegendEntry extends HtmlElement {
       });
       var shape = getShape(entry.shape || 'square');
 
-      return <svg key="svg" className={this.CSS.element(this.baseClass, "svg")}>
+      return <svg
+         key="svg"
+         className={this.CSS.element(this.baseClass, "svg")}
+         style={{
+            width: `${this.svgSize}px`,
+            height: `${this.svgSize}px`,
+            marginTop: `${-this.svgSize / 2}px`,
+         }}
+      >
          {
-            shape(10, 10, entry.size, {
+            shape(this.svgSize / 2, this.svgSize / 2, entry.size, {
                style: entry.style,
                className: className
             })
@@ -112,5 +120,6 @@ LegendEntry.prototype.baseClass = "legendentry";
 LegendEntry.prototype.shape = "square";
 LegendEntry.prototype.legendAction = "auto";
 LegendEntry.prototype.size = 18;
+LegendEntry.prototype.svgSize = 20;
 
 Widget.alias('legend-entry', LegendEntry);
