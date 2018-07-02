@@ -39,7 +39,7 @@ export class Pagination extends Widget {
             key={p < minPage ? '-1' : p > maxPage ? '-2' : p}
             className={CSS.element(baseClass, "page", {
                active: page == p,
-               disabled: p > pageCount || (p < page && page == 1)
+               disabled: (p <= maxPage && p > pageCount) || (p < minPage && page == 1) || (p > maxPage && page + 1 > pageCount)
             })}
             onMouseDown={e => {
                e.stopPropagation();
