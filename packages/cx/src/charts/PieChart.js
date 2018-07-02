@@ -247,7 +247,7 @@ export class PieSlice extends Container {
             disabled: data.disabled,
             selected: this.selection.isInstanceSelected(instance),
             style: data.style,
-            shape: 'rect',
+            shape: this.legendShape,
             onClick: e=> { this.onLegendClick(e, instance) }
          });
    }
@@ -312,6 +312,7 @@ PieSlice.prototype.legend = 'legend';
 PieSlice.prototype.active = true;
 PieSlice.prototype.stack = 'stack';
 PieSlice.prototype.legendAction = 'auto';
+PieSlice.prototype.legendShape = 'rect';
 PieSlice.prototype.styled = true;
 
 Widget.alias('pie-chart', PieChart);
