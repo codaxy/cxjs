@@ -45,6 +45,12 @@ export default {
             Name under which aggregate result will be available. Use if it's different than `aggregateField`.
         </Md></cx>
     },
+    aggregateValue: {
+        type: 'any',
+        description: <cx><Md>
+            A value or an expression used to retrieve the value that will be passed to the aggregate function.
+        </Md></cx>
+    },
     weightField: {
         type: 'string',
         description: <cx><Md>

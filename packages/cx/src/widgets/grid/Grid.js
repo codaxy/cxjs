@@ -96,9 +96,15 @@ export class Grid extends Widget {
             if (c.sortable)
                this.hasSortableColumns = true;
 
-            if (c.aggregate && c.aggregateField) {
+            if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
                aggregates[c.aggregateAlias] = {
-                  value: c.value != null ? c.value : {bind: this.recordName + '.' + c.aggregateField},
+                  value: isDefined(c.aggregateValue)
+                     ? c.aggregateValue
+                     : isDefined(c.value)
+                        ? c.value
+                        : c.aggregateField
+                           ? {bind: this.recordName + '.' + c.aggregateField}
+                           : null,
                   weight: c.weight != null ? c.weight : c.weightField && {bind: this.recordName + '.' + c.weightField},
                   type: c.aggregate
                }

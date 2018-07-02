@@ -7,6 +7,7 @@ export class GridCell extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          value: undefined,
+         aggregateValue: undefined,
          weight: undefined,
          pad: undefined,
          format: undefined,
