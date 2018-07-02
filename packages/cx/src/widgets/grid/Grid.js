@@ -237,10 +237,9 @@ export class Grid extends Widget {
 
       super.prepareData(context, instance);
 
-      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams))
-      {
+      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams)) {
          let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
-         this.groupBy(grouping, { autoConfigure: true })
+         this.groupBy(grouping, {autoConfigure: true})
       }
 
       instance.records = this.mapRecords(context, instance);
@@ -537,7 +536,9 @@ export class Grid extends Widget {
       let {header} = instance.components;
 
       let lines = [];
-      header.children.forEach(line => {
+      header.children.forEach((line, lineIndex) => {
+
+         let empty = true;
 
          let cells = line.children.map((ci, i) => {
             if (--skip >= 0)
@@ -548,6 +549,7 @@ export class Grid extends Widget {
                v = c.footer.value(data);
                pad = c.footer.pad;
                colSpan = c.footer.colSpan;
+               empty = false;
 
                if (c.footer.expand) {
                   colSpan = 1;
@@ -559,6 +561,7 @@ export class Grid extends Widget {
                   skip = colSpan - 1;
             }
             else if (c.aggregate && c.aggregateField && c.footer !== false) {
+               empty = false;
                v = group[c.aggregateField];
                if (isString(ci.data.format))
                   v = Format.value(v, ci.data.format);
@@ -580,22 +583,30 @@ export class Grid extends Widget {
             </td>;
          });
 
+         if (empty)
+            return;
+
          if (fixed)
             cells.push(<td key="dummy" className={CSS.element(baseClass, 'fixed-footer-corner')}/>);
 
          lines.push(
-            <tbody
-               key={'f' + i}
-               className={CSS.element(baseClass, 'group-footer', ['level-' + level])}
-            >
-            <tr>
+            <tr key={lineIndex}>
                {cells}
             </tr>
-            </tbody>
          );
       });
 
-      return lines;
+      if (lines.length == 0)
+         return null;
+
+      return (
+         <tbody
+            key={'f' + i}
+            className={CSS.element(baseClass, 'group-footer', ['level-' + level])}
+         >
+         {lines}
+         </tbody>
+      );
    }
 
    renderRows(context, instance) {

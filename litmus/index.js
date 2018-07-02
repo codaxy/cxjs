@@ -30,6 +30,7 @@ import './index.scss';
 //import Demo from './bugs/JSXSpread';
 //import Demo from './bugs/MultiModals';
 //import Demo from './bugs/lookupfiledset';
+import Demo from './bugs/459';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -68,7 +69,7 @@ import './index.scss';
 //import Demo from './features/layout/OuterLayout';
 //import Demo from './features/layout/ComplexLayout';
 
-import Demo from './bugs/stacked';
+//import Demo from './bugs/stacked';
 
 let store = new Store();
 
