@@ -264,8 +264,8 @@ export class Grid extends Widget {
 
    explore(context, instance) {
 
-      let parentPositionChangeEvent = context.parentPositionChangeEvent;
-      context.parentPositionChangeEvent = instance.fixedHeaderResizeEvent;
+      context.push('parentPositionChangeEvent', instance.fixedHeaderResizeEvent);
+
       super.explore(context, instance);
 
       let {store} = instance;
@@ -292,7 +292,6 @@ export class Grid extends Widget {
             }
          }
       }
-      context.push('parentPositionChangeEvent', parentPositionChangeEvent);
    }
 
    exploreCleanup(context, instance) {
