@@ -3,4 +3,4 @@ import { MenuItemProps } from './MenuItem';
 
 interface SubmenuProps extends MenuItemProps {}
 
-export class Submenu extends Cx.Widget<any> {}
+export class Submenu extends Cx.Widget<SubmenuProps> {}
