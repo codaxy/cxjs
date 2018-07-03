@@ -15,6 +15,19 @@ export class Legend extends HtmlElement {
       super.prepareData(context, instance);
    }
 
+   isValidHtmlAttribute(attrName) {
+      if (!super.isValidHtmlAttribute(attrName))
+         return false;
+
+      switch (attrName) {
+         case 'shapeSize':
+            return false;
+
+         default:
+            return true;
+      }
+   }
+
    explore(context, instance) {
       if (!context.legends)
          context.legends = {};
@@ -27,7 +40,7 @@ export class Legend extends HtmlElement {
          if (!context.legends)
             return;
 
-         var legend = context.legends[legendName];
+         let legend = context.legends[legendName];
          if (!legend)
             legend = context.legends[legendName] = {
                entries: [],
@@ -45,9 +58,9 @@ export class Legend extends HtmlElement {
 
    renderChildren(context, instance) {
 
-      var CSS = this.CSS;
+      const CSS = this.CSS;
 
-      var entries = instance.legends[this.name] && instance.legends[this.name].entries,
+      let entries = instance.legends[this.name] && instance.legends[this.name].entries,
          list;
 
       if (isArray(entries) && entries.length > 0) {
@@ -71,12 +84,12 @@ export class Legend extends HtmlElement {
    }
 
    renderShape(entry) {
-      var className = this.CSS.element(this.baseClass, 'shape', {
+      const className = this.CSS.element(this.baseClass, 'shape', {
          disabled: entry.disabled,
          selected: entry.selected,
          [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active)
       });
-      var shape = getShape(entry.shape || 'square');
+      const shape = getShape(entry.shape || 'square');
 
       return <svg
          className={this.CSS.element(this.baseClass, "svg")}
