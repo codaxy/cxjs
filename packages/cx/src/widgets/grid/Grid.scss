@@ -213,6 +213,10 @@
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       background-color: cx-get-state-rule($data-state-style-map, default, background-color);
 
+      &:nth-child(odd) {
+         @include cx-add-state-rules($data-state-style-map, alternate);
+      }
+
       td {
          padding: 0;
          border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);

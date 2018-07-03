@@ -41,6 +41,7 @@ $cx-default-grid-data-font-size: null !default;
 $cx-default-grid-data-font-weight: null !default;
 $cx-default-grid-data-line-height: null !default;
 $cx-default-grid-data-background-color: transparent !default;
+$cx-default-grid-data-alternate-background-color: null !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-data-padding: 5px !default;
 
@@ -52,7 +53,10 @@ $cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
     background-color: $cx-default-grid-data-background-color,
     border-color: $cx-default-grid-data-border-color,
     padding: $cx-default-grid-data-padding
-  )
+  ),
+   alternate: (
+      background-color: $cx-default-grid-data-alternate-background-color,
+   )
 )) !default;
 
 // pagination

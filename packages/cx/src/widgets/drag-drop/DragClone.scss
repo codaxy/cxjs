@@ -1,5 +1,6 @@
 @mixin cx-dragclone(
    $name: 'dragclone',
+   $style: $cx-dragclone-style,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -8,13 +9,16 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
+
+      @include cx-add-rules($style);
+
       pointer-events: none;
-      background: rgba(255, 255, 255, 0.8);
+      background: $cx-default-dragclone-background-color;
       min-width: 10px;
       min-height: 10px;
       position: fixed;
       opacity: 0.9;
-      box-shadow: 0 0 3px rgba(128, 128, 128, 0.3);
+      box-shadow: $cx-default-dragclone-box-shadow;
       display: flex;
 
       & > * {

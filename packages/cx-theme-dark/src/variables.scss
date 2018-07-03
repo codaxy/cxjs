@@ -11,7 +11,9 @@ $cx-default-highlight-color: rgb(81, 90, 112) !default;
 $cx-default-highlight-color-light: lighten($cx-default-highlight-color, 15) !default;
 $cx-default-error-color: rgba(220, 0, 9, 0.8) !default;
 
-$cx-default-border-color: rgb(68, 68, 68) !default;
+//$cx-default-border-color: #212121 !default;
+//$cx-default-border-color: #4c4c4c !default;
+$cx-default-border-color: #414141 !default;
 $cx-default-border-color-dark: darken($cx-default-border-color, 14) !default;
 $cx-default-border-radius: 2px !default;
 
@@ -19,7 +21,7 @@ $cx-default-border-radius: 2px !default;
 $cx-default-button-background-color: lighten($cx-default-background-color-light, 6) !default;
 $cx-default-button-border-color: $cx-default-border-color !default;
 $cx-default-button-color: darken($cx-default-color, 2) !default;
-$cx-default-button-box-shadow: inset 0 -1px rgb(75, 75, 75) !default;
+$cx-default-button-box-shadow: inset 0 -1px rgb(64, 64, 64) !default;
 $cx-theme-primary-button-background-color: #006699 !default;
 $cx-danger-button-background-color: #860000 !default;
 
@@ -54,6 +56,8 @@ $cx-default-wheel-clip-border-radius: $cx-default-border-radius !default;
 
 // GRID
 $cx-default-grid-background-color: lighten($cx-default-background-color-light, 6) !default;
+$cx-default-grid-data-border-color: transparent !default;
+$cx-default-grid-data-alternate-background-color: rgba(white, 0.025) !default;
 $cx-default-grid-header-background-color: lighten($cx-default-background-color-light, 3) !default;
 $cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !default;
 
@@ -79,11 +83,13 @@ $cx-default-cover-background-color: lighten($cx-default-background-color-light, 
 $cx-default-cover-border-color: $cx-default-cover-background-color !default;
 
 // PROGRESSBAR
-// PROGRESSBAR
 $cx-default-progressbar-background-color: rgba(0, 0, 0, 0.18) !default;
 $cx-default-progressbar-border-width: 0 !default;
 $cx-default-progressbar-border-radius: $cx-default-border-radius !default;
 $cx-default-progressbar-indicator-background-color: $cx-default-highlight-color !default;
+
+// DRAGCLONE
+$cx-default-dragclone-background-color: $cx-default-background-color !default;
 
 // CHART
 $cx-default-palette-fill-whiten: 0% !default;
@@ -426,7 +432,7 @@ $cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-sty
 // GLOBALS
 $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
-      background: #222
+      background-color: #222
    ),
    a: (
       color: darken(#9faed2, 4)

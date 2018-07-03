@@ -28,36 +28,14 @@ $mod: map-get($cx-besm, mod);
       border-color: $cx-default-grid-header-border-color;
    }
 
-   .#{$element}grid-data {
-      &:nth-child(odd) {
-         background-color: lighten($cx-default-background-color, 2);
-
-         &.#{$state}selected {
-            @include cx-add-state-rules($cx-list-item, selected);
-            &:hover {
-               @include cx-add-state-rules($cx-list-item, selected-cursor);
-            }
-         }
-         &.#{$state}cursor {
-            @include cx-add-state-rules($cx-list-item, hover);
-         }
-
-         .#{$state}focused &, :focus & {
-            &.#{$state}cursor {
-               @include cx-add-state-rules($cx-list-item, cursor);
-            }
-            &.#{$state}selected {
-               @include cx-add-state-rules($cx-list-item, selected-cursor);
-            }
-         }
-      }
+   .#{$element}grid-group-caption td {
+      border-bottom: 1px solid $cx-default-grid-header-border-color;
    }
 
    .#{$element}grid-header .#{$element}textfield-input {
       background-color: $cx-default-background-color;
    }
 }
-
 
 //override for chrome mobile default press effect
 .#{$block}button, .#{$block}tab, .#{$block}menu {

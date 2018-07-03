@@ -271,5 +271,8 @@ $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    h6: (
       font-weight: 400,
       color: #24b5d6
+   ),
+   table: (
+      font-size: inherit
    )
 ));
