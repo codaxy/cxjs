@@ -27,7 +27,7 @@ const entries = [{
    name: 'widgets',
    css: true,
    options: {
-      entry: [cxSrc('widgets/index.js'), cxSrc('variables.scss'), cxSrc('widgets/index.scss')]
+      entry: [cxSrc('widgets/index.js'), cxSrc('variables.scss'), cxSrc('widgets/index.scss'), cxSrc('ui/index.scss')]
    },
    output: {}
 }, {
@@ -112,7 +112,7 @@ function buildTheme(themeName) {
          name: 'widgets',
          css: true,
          options: {
-            entry: [themeSrc('variables.scss'), cxSrc('widgets/index.scss'), themeSrc('widgets.scss')]
+            entry: [themeSrc('variables.scss'), cxSrc('widgets/index.scss'), cxSrc('ui/index.scss'), themeSrc('widgets.scss')]
          },
          output: {}
       }, {
