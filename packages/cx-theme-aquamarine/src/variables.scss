@@ -1080,7 +1080,7 @@ $cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
 //GLOBALS
 $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
    html: (
-      background: #fafafa
+      background-color: #fafafa
    ),
    h1: (
       font-weight: 400,

@@ -82,6 +82,8 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                      //var code = result.code.replace(/from '@\//g, "from './");
                      if (result.code.length > 5) {
                         let code = result.code.replace(/from "@\//g, "from \"./");
+                        if (!fs.existsSync(distPath))
+                           fs.mkdirSync(distPath);
                         fs.writeFileSync(dist(e.name + '.js'), code);
                         console.log(e.name + '.js', code.length / 1000, 'kB');
                      }
