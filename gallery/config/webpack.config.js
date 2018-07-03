@@ -44,8 +44,11 @@ module.exports = (production) => ({
          loader: 'babel-loader',
          query: babelCfg
       }, {
-         test: /\.(png|jpg)/,
-         loader: 'file-loader'
+         test: /\.(png|jpg|svg)/,
+         loader: 'file-loader',
+         options: {
+            name: '[path][name].ltc.[hash].[ext]'
+         }
       }, {
          test: /\.scss$/,
          use: [

@@ -143,8 +143,11 @@ var common = {
                 loader: 'if-loader'
             }]
         }, {
-            test: /\.(jpg|png)$/,
-            loader: "file-loader"
+            test: /\.(png|jpg|svg)/,
+            loader: 'file-loader',
+            options: {
+                name: '[path][name].ltc.[hash].[ext]'
+            }
         }]
     },
     entry: {
