@@ -1,6 +1,6 @@
 var webpack = require('webpack'),
    CopyWebpackPlugin = require('copy-webpack-plugin'),
-   ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+   InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
    WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
    merge = require('webpack-merge'),
    common = require('./webpack.config'),
@@ -10,6 +10,13 @@ let root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
 
 var specific = {
    mode: 'production',
+
+   optimization: {
+      runtimeChunk: {
+         name: "manifest",
+      },
+   },
+
    plugins: [
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production')
@@ -22,11 +29,12 @@ var specific = {
          from: path.resolve(__dirname, '../../misc/netlify.redirects'),
          to: '_redirects',
          toType: 'file'
+      }, {
+         from: path.resolve(__dirname, '../../misc/netlify.headers'),
+         to: '_headers',
+         toType: 'file'
       }]),
-      // new ChunkManifestPlugin({
-      //    manifestVariable: "webpackManifest",
-      //    inlineManifest: true
-      // }),
+      new InlineManifestWebpackPlugin('manifest'),
    ],
 
    output: {

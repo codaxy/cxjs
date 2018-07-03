@@ -47,6 +47,10 @@ if (production) {
                 from: path.resolve(__dirname, '../misc/netlify.redirects'),
                 to: '_redirects',
                 toType: 'file'
+            }, {
+                from: path.resolve(__dirname, '../misc/netlify.headers'),
+                to: '_headers',
+                toType: 'file'
             }]),
             new ScriptExtHtmlWebpackPlugin({
                 //async: /\!(app|vendor).js$/,
@@ -169,12 +173,15 @@ var common = {
                 removeComments: true
             }
         }),
-        new InlineManifestWebpackPlugin(),
+        new InlineManifestWebpackPlugin("manifest"),
     ],
 
     optimization: {
         splitChunks: {
             minChunks: 100
+        },
+        runtimeChunk: {
+            name: "manifest"
         }
     }
 };
