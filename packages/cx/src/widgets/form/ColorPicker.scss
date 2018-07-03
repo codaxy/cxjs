@@ -1,9 +1,18 @@
 
-@if cx-call-once("cx/widgets/checker-background") {
-   %cx-checker-bg {
-      background-repeat: repeat;
-      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
-   }
+//@if cx-call-once("cx/widgets/checker-background") {
+//   %cx-checker-bg {
+//      background-repeat: repeat;
+//      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
+//   }
+//}
+
+@mixin cx-checker-background(
+   $tile-size: 4px,
+   $color: rgba(gray, 0.5)
+) {
+   background-image: linear-gradient(45deg, $color 25%, transparent 25%), linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%), linear-gradient(-45deg, transparent 75%, $color 75%);
+   background-size: 2 * $tile-size 2 * $tile-size;
+   background-position: 0 0, 0 $tile-size, $tile-size -#{$tile-size}, -#{$tile-size} 0px;
 }
 
 @mixin cx-colorpicker(
@@ -95,8 +104,9 @@
    }
 
    .#{$element}#{$name}-alpha {
-      height: 15px;
-      @extend %cx-checker-bg;
+      height: 16px;
+      //@extend %cx-checker-bg;
+      @include cx-checker-background();
       position: relative;
       touch-action: none;
 
@@ -142,9 +152,10 @@
    }
 
    .#{$element}#{$name}-color {
-      @extend %cx-checker-bg;
-      height: 70px;
-      width: 70px;
+      //@extend %cx-checker-bg;
+      @include cx-checker-background();
+      height: 68px;
+      width: 68px;
       float: right;
 
       & > div {

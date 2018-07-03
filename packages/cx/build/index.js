@@ -44,6 +44,13 @@ const entries = [{
       entry: [cxSrc('charts/index.js'), cxSrc('variables.scss'), cxSrc('charts/index.scss')]
    },
    output: {}
+}, {
+   name: 'reset',
+   css: true,
+   options: {
+      entry: [cxSrc('variables.scss'), resolvePath("reset.scss"), cxSrc('global.scss')]
+   },
+   output: {}
 }];
 
 const externalPaths = {

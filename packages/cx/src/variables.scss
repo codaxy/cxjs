@@ -228,13 +228,15 @@ $cx-element-style-map: (
    text: (
       fill: currentColor,
       stroke: none
+   ),
+
+   table: (
+      font-size: inherit
    )
 ) !default;
 
-
 $cx-default-cover-border-color: $cx-default-border-color !default;
 $cx-default-cover-background-color: white !default;
-
 
 @import "charts/variables";
 @import "ui/variables";
