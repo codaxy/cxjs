@@ -105,31 +105,31 @@ class Input extends VDOM.Component {
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
-            <div
-               className={CSS.element(baseClass, 'left-icon')}
-               onMouseDown={preventDefault}
-               onClick={e => this.onChange(e, 'enter')}
-            >
-               {
-                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
-               }
-            </div>
-         );
+         <div
+            className={CSS.element(baseClass, 'left-icon')}
+            onMouseDown={preventDefault}
+            onClick={e => this.onChange(e, 'enter')}
+         >
+            {
+               Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
+            }
+         </div>
+      );
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
          if (widget.showClear && (widget.alwaysShowClear || !data.required) && data.value != null)
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={ e => e.preventDefault() }
-                  onClick={ e => this.onClearClick(e) }
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={e => this.onClearClick(e)}
                >
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );
       }
 
-      let empty = this.input ? !this.input.value  : data.empty;
+      let empty = this.input ? !this.input.value : data.empty;
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
@@ -159,11 +159,11 @@ class Input extends VDOM.Component {
             {...data.inputAttrs}
             onMouseMove={::this.onMouseMove}
             onMouseLeave={::this.onMouseLeave}
-            onInput={ e => this.onChange(e, 'input') }
-            onChange={ e => this.onChange(e, 'change') }
-            onKeyDown={ ::this.onKeyDown }
-            onFocus={ ::this.onFocus }
-            onBlur={ ::this.onBlur }
+            onInput={e => this.onChange(e, 'input')}
+            onChange={e => this.onChange(e, 'change')}
+            onKeyDown={::this.onKeyDown}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
             onClick={stopPropagation}
          />
          {insideButton}
@@ -242,21 +242,25 @@ class Input extends VDOM.Component {
    }
 
    onChange(e, change) {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
 
       if (change == 'blur' || change == 'enter') {
          instance.setState({visited: true});
       }
 
-      let {widget, data} = instance;
+      let {widget} = instance;
 
       if (widget.reactOn.indexOf(change) != -1) {
-         var value = e.target.value;
-         if (data.maxLength != null && value.length > data.maxLength) {
-            value = value.substring(0, data.maxLength);
-            this.input.value = value;
+         let text = e.target.value;
+         if (data.maxLength != null && text.length > data.maxLength) {
+            text = text.substring(0, data.maxLength);
+            this.input.text = text;
          }
-         instance.set('value', value || null);
+
+         //it's important not to set the old value as it causes weird behavior if debounce is used
+         let value = text || null;
+         if (value !== data.value)
+            instance.set('value', value);
       }
    }
 }

@@ -157,7 +157,11 @@ class Input extends VDOM.Component {
       }
 
       if (instance.widget.reactOn.indexOf(change) != -1) {
-         instance.set('value', e.target.value || null);
+         let value = e.target.value || null;
+
+         //it's important not to set the old value as it causes weird behavior if debounce is used
+         if (value !== data.value)
+            instance.set('value', value);
       }
    }
 

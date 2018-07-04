@@ -492,7 +492,7 @@ class DateTimeInput extends VDOM.Component {
    }
 
    setValue(text, baseValue) {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
       let {widget} = instance;
 
       let date = widget.parseDate(text);
@@ -527,8 +527,12 @@ class DateTimeInput extends VDOM.Component {
 
          let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
-         if (!instance.set('value', date ? encode(date) : null))
-            this.input.value = text || '';
+         let value = date ? encode(date) : null;
+
+         if (value !== data.value) {
+            if (!instance.set('value', value))
+               this.input.value = text || '';
+         }
       }
    }
 }

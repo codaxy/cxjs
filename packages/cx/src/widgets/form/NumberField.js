@@ -290,19 +290,21 @@ class Input extends VDOM.Component {
 
    onChange(e, change) {
 
-      let {instance} = this.props;
-      let {data, widget} = instance;
+      let {instance, data} = this.props;
+      let {widget} = instance;
 
       if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly)
          return;
 
       if (change == 'blur') {
-         instance.setState({visited: true});
+         instance.setState({ visited: true });
          if (this.state.focus)
             this.setState({
                focus: false
             });
       }
+
+      let value = null;
 
       if (e.target.value) {
          let displayValue = Culture.getNumberCulture().parse(e.target.value);
@@ -313,7 +315,7 @@ class Input extends VDOM.Component {
             return;
          }
 
-         let value = displayValue * data.scale + data.offset;
+         value = displayValue * data.scale + data.offset;
 
          if (change == 'wheel') {
             e.preventDefault();
@@ -362,10 +364,11 @@ class Input extends VDOM.Component {
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
          }
+      }
 
+      //it's important not to set the old value as it causes weird behavior if debounce is used
+      if (value !== data.value)
          instance.set('value', value);
-      } else
-         instance.set('value', null);
 
       instance.setState({
          inputError: false

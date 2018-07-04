@@ -196,12 +196,23 @@ export class MonthField extends Field {
          inputError: false
       });
 
+      let {data} = instance;
+
+      //it's important not to set the same values as that causes weird behavior if debounce is used
+
       if (this.range) {
-         instance.set('from', date1 ? date1.toISOString() : null);
-         instance.set('to', date2 ? date2.toISOString() : null);
+         let d1 = date1 ? date1.toISOString() : null;
+         let d2 = date2 ? date2.toISOString() : null;
+         if (d1 !== data.from)
+            instance.set('from', d1);
+         if (d2 !== data.to)
+            instance.set('to', d2);
       }
-      else
-         instance.set('value', date1 ? date1.toISOString() : null);
+      else {
+         let value = date1 ? date1.toISOString() : null;
+         if (value !== data.value)
+            instance.set('value', value);
+      }
    }
 }
 

@@ -21,7 +21,6 @@ import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
 import {Localization} from '../../ui/Localization';
 import {isDefined} from '../../util/isDefined';
-import {isArray} from '../../util/isArray';
 
 export class ColorField extends Field {
 
@@ -57,8 +56,10 @@ export class ColorField extends Field {
    }
 
    renderInput(context, instance, key) {
-      return <ColorInput key={key}
+      return <ColorInput
+         key={key}
          instance={instance}
+         data={instance.data}
          picker={{
             value: this.value,
             format: this.format
@@ -82,7 +83,7 @@ class ColorInput extends VDOM.Component {
 
    constructor(props) {
       super(props);
-      let {data} = this.props.instance;
+      let {data} = this.props;
       this.data = data;
       this.state = {
          dropdownOpen: false,
@@ -130,8 +131,8 @@ class ColorInput extends VDOM.Component {
    }
 
    render() {
-      let {instance, label, help} = this.props;
-      let {data, widget, state} = instance;
+      let {instance, label, help, data} = this.props;
+      let {widget, state} = instance;
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let insideButton;
@@ -139,12 +140,13 @@ class ColorInput extends VDOM.Component {
          if (widget.showClear && (((!data.required || widget.alwaysShowClear) && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={ e => {
-                     e.preventDefault();
-                     e.stopPropagation(); }}
-                  onClick={e => {
-                    this.onClearClick(e);
-                  }}>
+                    onMouseDown={e => {
+                       e.preventDefault();
+                       e.stopPropagation();
+                    }}
+                    onClick={e => {
+                       this.onClearClick(e);
+                    }}>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );
@@ -162,7 +164,7 @@ class ColorInput extends VDOM.Component {
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} />;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}}/>;
 
       let empty = this.input ? !this.input.value : data.empty;
 
@@ -191,23 +193,23 @@ class ColorInput extends VDOM.Component {
             readOnly={data.readOnly}
             placeholder={data.placeholder}
             {...data.inputAttrs}
-            onInput={ e => this.onChange(e, 'input') }
-            onChange={ e => this.onChange(e, 'change') }
-            onKeyDown={ e => this.onKeyDown(e) }
-            onBlur={ e => {
+            onInput={e => this.onChange(e, 'input')}
+            onChange={e => this.onChange(e, 'change')}
+            onKeyDown={e => this.onKeyDown(e)}
+            onBlur={e => {
                this.onBlur(e)
-            } }
-            onFocus={ e => {
+            }}
+            onFocus={e => {
                this.onFocus(e)
-            } }
+            }}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          />
-         { well }
-         { insideButton }
-         { dropdown }
-         { label }
-         { help }
+         {well}
+         {insideButton}
+         {dropdown}
+         {label}
+         {help}
       </div>;
    }
 
@@ -298,7 +300,7 @@ class ColorInput extends VDOM.Component {
    }
 
    openDropdown(e) {
-      let {data} = this.props.instance;
+      let {data} = this.props;
       this.openDropdownOnFocus = false;
 
       if (!this.state.dropdownOpen && !(data.disabled || data.readOnly)) {
@@ -311,17 +313,18 @@ class ColorInput extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      let {data, state} = props.instance;
+      let {data, instance} = this.props;
+      let {state} = instance;
       let nv = this.trim(data.value || '');
       if (nv != this.input.value && (this.data.value != data.value || !state.inputError)) {
          this.input.value = nv;
-         props.instance.setState({
+         instance.setState({
             inputError: false
          })
       }
       this.data = data;
 
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
+      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
    }
 
    componentDidMount() {
@@ -345,15 +348,15 @@ class ColorInput extends VDOM.Component {
    }
 
    onChange(e, eventType) {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
 
       if (eventType == 'blur')
          instance.setState({visited: true});
 
-      let value = e.target.value;
+      let text = e.target.value;
       let isValid;
       try {
-         parseColor(value);
+         parseColor(text);
          isValid = true;
       }
       catch (e) {
@@ -361,9 +364,9 @@ class ColorInput extends VDOM.Component {
       }
 
       if (eventType == 'blur' || eventType == 'enter') {
-
-         if (isValid)
-            instance.set('value', value || null);
+         let value = text || null;
+         if (isValid && value !== data.value)
+            instance.set('value', value);
 
          instance.setState({
             inputError: !isValid && 'Invalid color entered.'

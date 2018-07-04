@@ -31,7 +31,7 @@ import './index.scss';
 //import Demo from './bugs/MultiModals';
 //import Demo from './bugs/lookupfiledset';
 //import Demo from './bugs/459';
-import Demo from "./bugs/LookupFieldAutofocus";
+import Demo from "./bugs/GridFilters";
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
