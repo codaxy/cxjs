@@ -370,7 +370,8 @@ class ListComponent extends VDOM.Component {
          let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
          let firstSelectedRow = this.el.querySelector(selectedRowSelector);
          if (firstSelectedRow != this.selectedEl) {
-            scrollElementIntoView(firstSelectedRow);
+            if (firstSelectedRow)
+               scrollElementIntoView(firstSelectedRow);
             this.selectedEl = firstSelectedRow;
          }
       }

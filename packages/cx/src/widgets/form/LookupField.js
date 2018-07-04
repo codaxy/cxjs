@@ -301,6 +301,7 @@ class LookupComponent extends VDOM.Component {
             sortField={widget.sort && widget.optionTextField}
             sortDirection="ASC"
             mod="dropdown"
+            scrollSelectionIntoView
             {...widget.listOptions}
             records:bind="$options"
             recordName="$option"
