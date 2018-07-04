@@ -2,12 +2,20 @@ import { Widget, VDOM } from '../../ui/Widget';
 import { PureContainer } from '../../ui/PureContainer';
 import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from './ops';
 import {preventFocus} from "../../ui/FocusManager";
+import {parseStyle} from "../../util/parseStyle";
 
 export class DragSource extends PureContainer {
 
+   init() {
+      this.cloneStyle = parseStyle(this.cloneStyle);
+      super.init();
+   }
+
    declareData() {
       super.declareData(...arguments, {
-         data: { structured: true }
+         data: { structured: true },
+         cloneStyle: { structured: true },
+         cloneClass: { structured: true },
       })
    }
 
@@ -117,7 +125,9 @@ class DragSourceComponent extends VDOM.Component {
          },
          clone: {
             widget,
-            store
+            store,
+            "class": data.cloneClass,
+            style: data.cloneStyle
          }
       }, (e) => {
          this.setState({

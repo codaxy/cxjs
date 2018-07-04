@@ -3,6 +3,8 @@ import {getCursorPos, captureMouseOrTouch} from '../overlay/captureMouse';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {getScrollerBoundingClientRect} from '../../util/getScrollerBoundingClientRect';
 import {isNumber} from '../../util/isNumber';
+import {isObject} from '../../util/isObject';
+import {isString} from '../../util/isString';
 import {ZIndexManager} from "../../ui/ZIndexManager";
 
 let dropZones = new SubscriberList(),
@@ -28,8 +30,16 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    let sourceBounds = sourceEl.getBoundingClientRect();
    let cursor = getCursorPos(e);
 
+   let clone = {
+      ...options.clone,
+   };
+
    let cloneEl = document.createElement('div');
-   cloneEl.className = "cxb-dragclone";
+   cloneEl.classList.add("cxb-dragclone");
+   if (isString(clone["class"]))
+      cloneEl.classList.add(clone["class"]);
+   if (isObject(clone.style))
+      Object.assign(cloneEl.style, clone.style);
    cloneEl.style.left = `-1000px`;
    cloneEl.style.top = `-1000px`;
    cloneEl.style.minWidth = `${Math.ceil(sourceBounds.width)}px`;
@@ -39,9 +49,7 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
    let styles = getComputedStyle(sourceEl);
 
-   let clone = {
-      ...options.clone,
-   };
+
 
    let deltaX = cursor.clientX - sourceBounds.left;
    let deltaY = cursor.clientY - sourceBounds.top;

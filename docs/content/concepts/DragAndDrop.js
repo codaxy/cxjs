@@ -65,6 +65,7 @@ export const DragAndDrop = <cx>
                 <DragSource
                     style="width:80px;height:80px;background:Coral;cursor:move"
                     data={{text: 'B2', type: 'b2'}}
+                    cloneStyle="border: 1px solid gray; padding: 10px; transform: scale(0.5)"
                 >
                     B2
                 </DragSource>
@@ -92,6 +93,7 @@ export const DragAndDrop = <cx>
                 <DragSource
                     style="width:80px;height:80px;background:Coral;cursor:move"
                     data={{text: 'B2', type: 'b2'}}
+                    cloneStyle="border: 1px solid gray; padding: 10px; transform: scale(0.5)"
                 >
                     B2
                 </DragSource>

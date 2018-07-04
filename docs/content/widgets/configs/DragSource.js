@@ -53,5 +53,19 @@ export default {
             A callback invoked when drag operation completes.
             Arguments are `event` and `instance`.
         </Md></cx>
-    }
+    },
+
+    cloneClass: {
+        type: 'string',
+        description: <cx><Md>
+            Additional CSS class to be applied to the drag clone element.
+        </Md></cx>
+    },
+
+    cloneStyle: {
+        type: 'string',
+        description: <cx><Md>
+            Additional style rules to be applied to the drag clone element.
+        </Md></cx>
+    },
 };
