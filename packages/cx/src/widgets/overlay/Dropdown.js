@@ -14,6 +14,14 @@ import {SubscriberList} from '../../util/SubscriberList';
 
 export class Dropdown extends Overlay {
 
+   init() {
+      if (this.trackMouse) {
+         this.trackMouseX = true;
+         this.trackMouseY = true;
+      }
+      super.init();
+   }
+
    declareData() {
       return super.declareData(...arguments, {
          placement: undefined

@@ -20,6 +20,7 @@ export const openContextMenu = (e, content, store, options) => {
          x: e.clientX,
          y: e.clientY
       },
+      trackMouse: true,
       items: content
    });
    menu.open(store, options);

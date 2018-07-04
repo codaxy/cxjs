@@ -9,14 +9,6 @@ import {wireTooltipOps} from './tooltip-ops';
 
 export class Tooltip extends Dropdown {
 
-   init() {
-      if (this.trackMouse) {
-         this.trackMouseX = true;
-         this.trackMouseY = true;
-      }
-      super.init();
-   }
-
    declareData() {
       super.declareData(...arguments, {
          text: undefined,
