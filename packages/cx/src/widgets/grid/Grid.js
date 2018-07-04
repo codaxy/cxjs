@@ -1427,10 +1427,14 @@ class GridComponent extends VDOM.Component {
       this.showCursor(true);
 
       let {widget} = this.props.instance;
-      if (!widget.focused)
-         oneFocusOut(this, this.dom.scroller, () => {
-            this.moveCursor(-1, {focused: false});
-         });
+      if (!widget.focused) {
+         if (this.dom.scroller) {
+            //if an inner element is focused first (autoFocus), this.dom.scroller might be undefined
+            oneFocusOut(this, this.dom.scroller, () => {
+               this.moveCursor(-1, {focused: false});
+            });
+         }
+      }
 
       this.setState({
          focused: true
