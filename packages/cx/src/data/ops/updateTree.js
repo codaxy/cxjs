@@ -3,7 +3,7 @@ import {updateArray} from './updateArray';
 export function updateTree(array, updateCallback, itemFilter, childrenField, removeFilter) {
    return updateArray(array, item => {
       if (itemFilter(item))
-         return updateCallback(item);
+         item = updateCallback(item);
 
       let children = item[childrenField];
       if (!Array.isArray(children))
