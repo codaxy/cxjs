@@ -15,18 +15,20 @@ export function createFunctionalComponent(factory) {
          if (isArray(result) && result.length < 2) {
             result = result[0];
          }
-         let {visible, controller, layout, outerLayout} = props;
+         let {visible, controller, layout, outerLayout, putInto, contentFor} = props;
          if (props["if"] !== undefined)
             visible = props["if"];
 
-         if (result && (isDefined(visible) || controller || outerLayout || layout)) {
+         if (result && (isDefined(visible) || controller || outerLayout || layout || putInto || contentFor)) {
             result = {
                type: PureContainer,
-               visible: visible,
-               controller: controller,
-               outerLayout: outerLayout,
+               visible,
+               controller,
+               outerLayout,
                layout: layout || UseParentLayout,
-               children: result
+               children: result,
+               putInto,
+               contentFor
             };
          }
 
