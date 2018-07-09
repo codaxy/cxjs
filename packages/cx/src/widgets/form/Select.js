@@ -160,7 +160,7 @@ class SelectComponent extends VDOM.Component {
             }}
             className={CSS.element(baseClass, 'select')}
             style={data.inputStyle}
-            value={data.value || widget.nullString}
+            value={data.value == null ? widget.nullString : String(data.value)}
             multiple={multiple}
             disabled={data.disabled}
             {...data.inputAttrs}
