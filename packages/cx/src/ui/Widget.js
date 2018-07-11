@@ -142,7 +142,7 @@ export class Widget extends Component {
    }
 
    render(context, instance, key) {
-      throw new Error('render method should be overridden.');
+      throw new Error("Widget's render method should be overridden. This error can happen if you forgot to import the component before using it.");
    }
 
    update() {
