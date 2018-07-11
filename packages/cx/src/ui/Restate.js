@@ -47,8 +47,10 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
-      instance.container = instance.getChild(context, this.container, null, instance.subStore);
-      instance.container.scheduleExploreIfVisible(context);
+      if (instance.shouldUpdate) {
+         instance.container = instance.getChild(context, this.container, null, instance.subStore);
+         instance.container.scheduleExploreIfVisible(context);
+      }
       super.explore(context, instance);
    }
 
