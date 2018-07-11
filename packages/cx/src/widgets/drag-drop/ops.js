@@ -45,6 +45,11 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    cloneEl.style.minWidth = `${Math.ceil(sourceBounds.width)}px`;
    cloneEl.style.minHeight = `${Math.ceil(sourceBounds.height)}px`;
    cloneEl.style.zIndex = ZIndexManager.next() + 1000;
+
+   if (clone.cloneContent) {
+      cloneEl.appendChild(sourceEl.cloneNode(true));
+   }
+
    document.body.appendChild(cloneEl);
 
    let styles = getComputedStyle(sourceEl);
@@ -77,10 +82,15 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       onDragEnd
    };
 
-   if (clone.widget && clone.store) {
+   if (clone.widget && clone.store && !clone.cloneContent) {
       puppet.stop = startAppLoop(cloneEl, clone.store, clone.widget, {
          removeParentDOMElement: true
       });
+   }
+   else {
+      puppet.stop = () => {
+         document.body.removeChild(cloneEl)
+      }
    }
 
    let event = getDragEvent(e, 'dragstart');
