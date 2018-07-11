@@ -60,7 +60,7 @@ interface FlexBoxProps extends Cx.StyledContainerProps {
    /**
     * Set to true to add overflow styles required for deeply nested flexbox calculations.
     */
-   nested: boolean
+   nested?: boolean
 }
 
 export class FlexBox extends Cx.Widget<FlexBoxProps> {}
