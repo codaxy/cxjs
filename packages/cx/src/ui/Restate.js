@@ -114,9 +114,13 @@ class RestateStore extends Store {
                this.store.set(this.bindings[key], value);
          }
       });
+   }
+
+   doNotify(path) {
+      super.doNotify(path);
 
       //in non-detached mode the parent store triggers a new render cycle
-      if (!notified && !this.detached)
+      if (!this.detached)
          this.store.notify();
    }
 }
