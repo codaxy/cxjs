@@ -60,4 +60,10 @@ describe('Format', function () {
          assert.equal(Format.value('First (Middle) Last', 'ellipsis;11;middle'), 'Firs...Last');
       });
    });
+
+   describe('null text', function () {
+      it('can contain null text', function () {
+         assert.equal(Format.value(null, 'n;2|N/A'), 'N/A');
+      });
+   });
 });

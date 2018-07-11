@@ -54,7 +54,7 @@ describe('JSCX', function () {
       });
    });
 
-   it('trims whitespace', function () {
+   it('trims whitespace if the trimWhitespace flag is set', function () {
       let Container = {};
 
       let code = `<cx>
@@ -64,7 +64,7 @@ describe('JSCX', function () {
       </cx>`;
 
       let output = babel.transform(code, {
-         plugins: [plugin, 'syntax-jsx']
+         plugins: [[plugin, { trimWhitespace: true }], 'syntax-jsx']
          //presets: ['es2015']
       }).code;
 
@@ -88,7 +88,7 @@ describe('JSCX', function () {
       </cx>`;
 
       let output = babel.transform(code, {
-         plugins: [plugin, 'syntax-jsx']
+         plugins: [[plugin, { trimWhitespace: true }], 'syntax-jsx']
          //presets: ['es2015']
       }).code;
 
