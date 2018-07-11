@@ -177,7 +177,7 @@ export class LookupField extends Field {
 }
 
 LookupField.prototype.baseClass = "lookupfield";
-LookupField.prototype.memoize = false;
+//LookupField.prototype.memoize = false;
 LookupField.prototype.multiple = false;
 LookupField.prototype.queryDelay = 150;
 LookupField.prototype.minQueryLength = 0;
