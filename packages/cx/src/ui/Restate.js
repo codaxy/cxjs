@@ -47,7 +47,8 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
-      if (instance.shouldUpdate) {
+      if (!this.detached || instance.shouldUpdate) {
+         //if Restate is not detached the tree must be walked for putInto widgets
          instance.container = instance.getChild(context, this.container, null, instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
       }
