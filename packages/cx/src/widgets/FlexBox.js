@@ -1,8 +1,8 @@
 import {VDOM} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import {Container} from '../ui/Container';
 import {isUndefined} from '../util/isUndefined';
 
-export class FlexBox extends PureContainer {
+export class FlexBox extends Container {
 
    init() {
       if (this.padding)
@@ -45,7 +45,8 @@ export class FlexBox extends PureContainer {
       data.stateMods = {
          ...data.stateMods,
          [this.hpad + '-hpad']: this.hpad,
-         [this.vpad + '-vpad']: this.vpad
+         [this.vpad + '-vpad']: this.vpad,
+         nested: this.nested
       };
       super.prepareCSS(context, instance);
    }
@@ -84,6 +85,7 @@ FlexBox.prototype.wrap = false;
 FlexBox.prototype.align = false;
 FlexBox.prototype.justify = false;
 FlexBox.prototype.target = 'any';
+FlexBox.prototype.nested = false;
 
 export class FlexRow extends FlexBox {}
 

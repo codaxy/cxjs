@@ -7,7 +7,7 @@ export default {
     ...classAndStyle,
     ...pureContainer,
     field: {
-        type: 'text',
+        type: 'string',
         key: true,
         description: <cx><Md>
             Name of the property inside the record to be displayed. Used for displaying or sorting.
@@ -19,6 +19,13 @@ export default {
         description: <cx><Md>
             Text to be shown in the header or a header configuration object. Use the `items` property to put stuff
             inside the header.
+        </Md></cx>
+    },
+    format: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            A format to be used for formatting of cell values.
         </Md></cx>
     },
     footer: {

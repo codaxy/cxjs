@@ -42,7 +42,14 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+
+      &.#{$state}nested {
+         overflow: hidden;
+
+         & > div {
+            overflow: auto;
+         }
+      }
 
       @each $pad, $size in $cx-pad-size
       {
@@ -62,7 +69,6 @@
 
       display: flex;
       flex: 1 1 auto;
-      overflow: auto;
 
       &.#{$state}column {
          flex-direction: column;

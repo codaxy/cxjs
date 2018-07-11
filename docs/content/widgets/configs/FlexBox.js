@@ -107,5 +107,13 @@ export default {
         description: <cx><Md>
             Base CSS class. Default is `flexbox`.
         </Md></cx>
-    }
+    },
+
+    nested: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Set to `true` to add overflow styles required for deeply nested flexbox calculations.
+        </Md></cx>
+    },
 };
