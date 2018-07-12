@@ -1,6 +1,6 @@
 {
   "name": "cx-theme-frost",
-  "version": "18.7.0",
+  "version": "18.7.1",
   "description": "Frost theme CSS styles for Cx applications",
   "main": "./dist/index.js",
   "author": "Codaxy",
@@ -8,6 +8,7 @@
   "files": [
     "README.md",
     "LICENSE.md",
-    "src"
+    "src",
+    "dist"
   ]
 }
