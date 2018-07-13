@@ -254,7 +254,7 @@ class Input extends VDOM.Component {
          let text = e.target.value;
          if (data.maxLength != null && text.length > data.maxLength) {
             text = text.substring(0, data.maxLength);
-            this.input.text = text;
+            this.input.value = text;
          }
 
          //it's important not to set the old value as it causes weird behavior if debounce is used

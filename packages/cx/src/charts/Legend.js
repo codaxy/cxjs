@@ -16,15 +16,12 @@ export class Legend extends HtmlElement {
    }
 
    isValidHtmlAttribute(attrName) {
-      if (!super.isValidHtmlAttribute(attrName))
-         return false;
-
       switch (attrName) {
          case 'shapeSize':
             return false;
 
          default:
-            return true;
+            return super.isValidHtmlAttribute(attrName);
       }
    }
 
