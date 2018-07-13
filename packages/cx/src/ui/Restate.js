@@ -78,12 +78,19 @@ Restate.prototype.detached = false;
 
 class RestateStore extends Store {
 
+   constructor(config) {
+      super(config);
+      this.parentData = {};
+   }
+
    setParentData(data) {
       let changed = this.silently(() => {
          for (let key in data) {
-            this.set(key, data[key]);
+            super.setItem(key, data[key]);
          }
       });
+
+      this.parentData = data;
 
       if (changed && this.detached)
          this.notify();
@@ -104,14 +111,20 @@ class RestateStore extends Store {
    }
 
    bubble() {
-      let notified = this.store.batch(() => {
+      this.store.batch(() => {
          let data = this.getData();
          for (let key in this.bindings) {
             let value = data[key];
-            if (value === undefined)
-               this.store.delete(this.bindings[key]);
-            else
-               this.store.set(this.bindings[key], value);
+
+            //Only values that have actually changed in the RestateStore are propagated to the parent store
+            // to avoid race conditions that can happen due to async functions keeping the reference of the
+            // restate store of an invisible widget
+            if (value !== this.parentData[key]) {
+               if (value === undefined)
+                  this.store.delete(this.bindings[key]);
+               else
+                  this.store.set(this.bindings[key], value);
+            }
          }
       });
    }
