@@ -76,7 +76,7 @@ export class Binding {
          return b;
       }
 
-      if (isObject(value) && isString(path.bind))
+      if (isObject(path) && isString(path.bind))
          return this.get(path.bind);
 
       if (path instanceof Binding)
