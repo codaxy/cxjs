@@ -1,6 +1,6 @@
 {
   "name": "cx-theme-aquamarine",
-  "version": "18.7.2",
+  "version": "18.7.3",
   "description": "Aquamarine theme CSS styles for Cx applications",
   "main": "./dist/index.js",
   "author": "Codaxy",
