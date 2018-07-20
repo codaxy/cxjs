@@ -10,7 +10,8 @@ import {isTouchEvent} from '../util/isTouchEvent';
 */
 
 let subscribers = new SubscriberList(),
-   intervalId;
+   timerInterval = 300,
+   timerId = null;
 
 let lastActiveElement = null;
 let pending = false;
@@ -18,7 +19,9 @@ let pending = false;
 export class FocusManager {
 
    static subscribe(callback) {
-      return subscribers.subscribe(callback);
+      let unsubscribe = subscribers.subscribe(callback);
+      checkTimer();
+      return unsubscribe;
    }
 
    static onFocusOut(el, callback) {
@@ -54,7 +57,8 @@ export class FocusManager {
                   lastActiveElement = document.activeElement;
                   batchUpdates(() => {
                      subscribers.notify(lastActiveElement);
-                  })
+                  });
+                  checkTimer();
                }
             }, 0);
          }
@@ -101,12 +105,10 @@ export class FocusManager {
    }
 
    static setInterval(interval) {
-      clearInterval(intervalId);
-      intervalId = setInterval(::this.nudge, interval);
+      timerInterval = interval;
+      checkTimer();
    }
 }
-
-FocusManager.setInterval(300);
 
 export function oneFocusOut(component, el, callback) {
    if (!component.oneFocusOut)
@@ -144,14 +146,22 @@ export function preventFocus(e) {
    }
 }
 
+function checkTimer() {
+   let shouldRun = !subscribers.isEmpty();
+
+   if (shouldRun && !timerId)
+      timerId = setInterval(() => {
+         FocusManager.nudge()
+      }, timerInterval);
+
+
+   if (!shouldRun && timerId) {
+      clearInterval(timerId);
+      timerId = null;
+   }
+}
+
 export function preventFocusOnTouch(e, force = false) {
    if (force || isTouchEvent())
       preventFocus(e);
-}
-
-if (module.hot) {
-   module.hot.accept();
-   module.hot.dispose(function () {
-      clearInterval(intervalId);
-   });
 }

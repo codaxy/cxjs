@@ -15,12 +15,14 @@ export class SubscriberList {
       if (this.subscriptions[slot] === callback) {
          this.freeSlots.push(slot);
          delete this.subscriptions[slot];
+         this.subscriptionCount--;
       }
    }
 
    subscribe(callback) {
       let slot = this.getSlot();
       this.subscriptions[slot] = callback;
+      this.subscriptionCount++;
       return () => {
          this.recycle(slot, callback);
       }
@@ -30,6 +32,11 @@ export class SubscriberList {
       this.subscriptions = {};
       this.freeSlots = [];
       this.nextSlot = 1;
+      this.subscriptionCount = 0;
+   }
+
+   isEmpty() {
+      return this.subscriptionCount == 0;
    }
 
    getSubscribers() {

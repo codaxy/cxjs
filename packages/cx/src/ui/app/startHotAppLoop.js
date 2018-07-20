@@ -1,21 +1,21 @@
 import { startAppLoop } from "./startAppLoop";
 import { Widget } from "../Widget";
 
-export function startHotAppLoop(module, element, store, widgets, options) {
+export function startHotAppLoop(appModule, element, store, widgets, options) {
    let stop;
    //webpack (HMR)
-   if (module.hot) {
+   if (appModule.hot) {
       // accept itself
-      module.hot.accept();
+      appModule.hot.accept();
 
       // remember data on dispose
-      module.hot.dispose(function (data) {
+      appModule.hot.dispose(function (data) {
          data.state = store.getData();
          if (stop) stop();
       });
 
       //apply data on hot replace
-      if (module.hot.data) store.load(module.hot.data.state);
+      if (appModule.hot.data) store.load(appModule.hot.data.state);
    }
 
    Widget.resetCounter();

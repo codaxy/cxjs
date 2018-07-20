@@ -17,9 +17,15 @@ export class SubscriberList {
    clear();
 
    /**
-    * Returns a an array of subscribed callbacks.
+    * Returns an array of subscribed callbacks.
     */
    getSubscribers() : Callback[];
+
+
+   /**
+    * Returns true if there are no subscribers.
+    */
+   isEmpty() : boolean;
 
    /** 
     * Trigger all subscribed callbacks with provided arguments.
