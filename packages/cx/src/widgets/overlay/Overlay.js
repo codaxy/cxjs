@@ -8,6 +8,7 @@ import {captureMouseOrTouch} from './captureMouse';
 import {ZIndexManager} from "../../ui/ZIndexManager";
 import { ddMouseDown, ddMouseUp, ddDetect } from "../drag-drop/ops";
 import { isObject} from "../../util/isObject";
+import { isBinding } from "../../data/Binding";
 
 /*
  Features:
@@ -44,20 +45,17 @@ export class Overlay extends PureContainer {
       super.prepareData(context, instance);
    }
 
-   initInstance(context, instance) {
-      if (this.visible && this.visible.bind) {
-         instance.dismiss = () => {
-            if (instance.onBeforeDismiss && instance.onBeforeDismiss() === false)
-               return;
-            instance.set('visible', false)
-         };
-      }
-
-      super.initInstance(context, instance);
-   }
-
    explore(context, instance) {
-      if (context.options.dismiss)
+      if (isBinding(this.visible)) {
+         if (!instance.dismiss) {
+            instance.dismiss = () => {
+               if (instance.onBeforeDismiss && instance.onBeforeDismiss() === false)
+                  return;
+               instance.set('visible', false)
+            };
+         }
+      }
+      else if (context.options.dismiss)
          instance.dismiss = context.options.dismiss;
 
       if (instance.dismiss) {
