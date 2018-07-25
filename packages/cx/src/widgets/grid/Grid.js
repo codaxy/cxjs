@@ -32,6 +32,7 @@ import {debounce} from '../../util/debounce';
 import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
+import {Console} from "../../util/Console";
 
 
 export class Grid extends Widget {
@@ -333,6 +334,11 @@ export class Grid extends Widget {
 
       if (autoConfigure)
          this.showHeader = this.scrollable || !isArray(grouping) || !grouping.some(g => g.showHeader);
+
+      if (!this.dataAdapter.groupBy) {
+         Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.")
+         return;
+      }
 
       this.dataAdapter.groupBy(grouping);
 
@@ -645,11 +651,11 @@ export class Grid extends Widget {
             g = record.grouping;
             if (g.showFooter) {
                record.vdom = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store);
-
-               if (this.fixedFooter && i == records.length - 1) {
-                  instance.footerVDOM = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store, true);
-               }
             }
+         }
+
+         if (this.fixedFooter && i == records.length - 1) {
+            instance.footerVDOM = this.renderGroupFooter(context, instance, g, record.level, record.group, record.key + '-footer', record.store, true);
          }
       }
    }

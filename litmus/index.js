@@ -30,7 +30,7 @@ import './index.scss';
 //import Demo from './bugs/JSXSpread';
 //import Demo from './bugs/MultiModals';
 //import Demo from './bugs/lookupfiledset';
-import Demo from './bugs/469';
+//import Demo from './bugs/469';
 //import Demo from "./bugs/GridFilters";
 
 //import Demo from './features/flexbox';
@@ -53,7 +53,7 @@ import Demo from './bugs/469';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
-//import Demo from './features/grid/FixedFooter';
+import Demo from './features/grid/FixedFooterNoGrouping';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
