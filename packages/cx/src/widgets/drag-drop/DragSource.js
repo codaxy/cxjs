@@ -76,17 +76,25 @@ class DragSourceComponent extends VDOM.Component {
          })
       ];
 
+      let eventHandlers = {
+         ...instance.getJsxEventProps(),
+         onTouchStart: this.onMouseDown,
+         onMouseDown: this.onMouseDown,
+         onTouchMove: this.onMouseMove,
+         onMouseMove: this.onMouseMove,
+         onTouchEnd: ddMouseUp,
+         onMouseUp: ddMouseUp
+      };
+
+      delete eventHandlers.onDragStart;
+      delete eventHandlers.onDragEnd;
+
       return (
          <div
+            ref={this.setRef}
             className={CSS.expand(classes)}
             style={data.style}
-            onTouchStart={this.onMouseDown}
-            onMouseDown={this.onMouseDown}
-            onTouchMove={this.onMouseMove}
-            onMouseMove={this.onMouseMove}
-            onTouchEnd={ddMouseUp}
-            onMouseUp={ddMouseUp}
-            ref={this.setRef}
+            {...eventHandlers}
          >
             {children}
          </div>

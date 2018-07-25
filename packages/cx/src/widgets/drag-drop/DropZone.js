@@ -1,11 +1,11 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {PureContainer} from '../../ui/PureContainer';
+import {Container} from '../../ui/Container';
 import {parseStyle} from '../../util/parseStyle';
 import {registerDropZone} from './ops';
 import {findScrollableParent} from '../../util/findScrollableParent'
 import {isNumber} from '../../util/isNumber';
 
-export class DropZone extends PureContainer {
+export class DropZone extends Container {
 
    init() {
       this.overStyle = parseStyle(this.overStyle);
