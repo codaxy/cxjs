@@ -1314,6 +1314,11 @@ class GridComponent extends VDOM.Component {
             this.dom.fixedFooter.style.display = 'block';
             footerHeight = this.dom.fixedFooter.offsetHeight;
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;
+
+            //Show the last row if fixed footer is shown without grouping, otherwise hide it
+            //Hacky: accessing internal adapter property to check if grouping is applied
+            if (!isNonEmptyArray(widget.dataAdapter.groupings))
+               footerHeight = 0;
          }
          else {
             this.dom.scroller.style.marginBottom = 0;
