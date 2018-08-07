@@ -16,6 +16,7 @@ export class ContentResolver extends PureContainer {
 
    initInstance(context, instance) {
       instance.content = this.initialItems;
+      instance.cachedParams = {}; //unique value which will never pass the equality check
    }
 
    prepareData(context, instance) {
@@ -71,4 +72,3 @@ export class ContentResolver extends PureContainer {
 }
 
 ContentResolver.prototype.mode = 'replace';
-ContentResolver.prototype.params = {}; //unique value that is impossible to reproduce for equality check
