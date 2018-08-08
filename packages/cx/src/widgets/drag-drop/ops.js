@@ -8,6 +8,7 @@ import {isString} from '../../util/isString';
 import {ZIndexManager} from "../../ui/ZIndexManager";
 
 let dropZones = new SubscriberList(),
+   dragStartedZones,
    activeZone,
    nearZones,
    puppet,
@@ -95,6 +96,8 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
    let event = getDragEvent(e, 'dragstart');
 
+   dragStartedZones = new WeakMap();
+
    dropZones.execute(zone => {
 
       if (zone.onDropTest && !zone.onDropTest(event))
@@ -102,6 +105,8 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
       if (zone.onDragStart)
          zone.onDragStart(event);
+
+      dragStartedZones.set(zone, true);
    });
 
    notifyDragMove(e);
@@ -139,15 +144,15 @@ function notifyDragMove(e, captureData) {
 
    if (nearZones != null) {
       away.forEach(z => {
-         if (z.onDragAway && nearZones[z])
+         if (z.onDragAway && nearZones.has(z))
             z.onDragAway(z);
       });
    }
 
    near.forEach(z => {
-      if (z.onDragNear && z != over && (nearZones == null || !nearZones[z])) {
+      if (z.onDragNear && z != over && (nearZones == null || !nearZones.has(z))) {
          z.onDragNear(z);
-         newNear[z] = true;
+         newNear.set(z, true);
       }
    });
 
@@ -245,11 +250,11 @@ function notifyDragDrop(e) {
 
    dropZones.execute(zone => {
 
-      if (zone.onDropTest && !zone.onDropTest(event))
-         return;
-
-      if (nearZones != null && zone.onDragAway && nearZones[zone])
+      if (nearZones != null && zone.onDragAway && nearZones.has(zone))
          zone.onDragAway(e);
+
+      if (!dragStartedZones.has(zone))
+         return;
 
       if (zone.onDragEnd)
          zone.onDragEnd(event);
@@ -261,6 +266,7 @@ function notifyDragDrop(e) {
    nearZones = null;
    activeZone = null;
    puppet = null;
+   dragStartedZones = null;
 }
 
 
