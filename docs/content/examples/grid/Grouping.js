@@ -38,10 +38,7 @@ export const Grouping = <cx>
                 style={{width: "100%", height: '800px'}}
                 grouping={[{ showFooter: true }, {
                     key: {
-                        name: {
-                            value: {bind: '$record.continent'},
-                            direction: 'ASC'
-                        }
+                        name: {bind: '$record.continent'}
                     },
                     showFooter: true,
                     caption: {bind: '$group.name'}
