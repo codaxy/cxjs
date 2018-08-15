@@ -802,7 +802,7 @@ class GridComponent extends VDOM.Component {
       };
       if (widget.buffered) {
          let context = new RenderingContext();
-         let dataCls = CSS.element(baseClass, "data");
+         let dummyDataClass = CSS.element(baseClass, "data", { "dummy": true });
          if (!instance.recordInstanceCache)
             instance.recordInstanceCache = new InstanceCache(instance);
          instance.recordInstanceCache.mark();
@@ -811,11 +811,16 @@ class GridComponent extends VDOM.Component {
                addRow({
                   key: 'dummy-' + start + i,
                   row: {
-                     data: {classNames: dataCls},
+                     data: {classNames: dummyDataClass},
                      widget: widget.row
                   },
                   vdom: <tr>
-                     <td className="cxs-pad" colSpan={1000}>&nbsp;</td>
+                     <td
+                        colSpan={1000}
+                        style={{
+                           height: `${this.rowHeight}px`
+                        }}
+                     />
                   </tr>
                }, start + i)
             } else {

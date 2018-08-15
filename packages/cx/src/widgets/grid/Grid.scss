@@ -272,6 +272,12 @@
       &.#{$state}draggable {
          touch-action: none;
       }
+
+      &.#{$state}dummy {
+         td {
+            box-sizing: border-box;
+         }
+      }
    }
 
    &.#{$element}#{$name}-dropzone {
