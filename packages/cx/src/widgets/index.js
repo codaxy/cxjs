@@ -5,6 +5,7 @@ import {PureContainer} from '../ui/PureContainer';
 import {IsolatedScope} from '../ui/IsolatedScope';
 import {DetachedScope} from '../ui/DetachedScope';
 import {Restate} from '../ui/Restate';
+import {DataProxy} from '../ui/DataProxy';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder, ContentPlaceholderScope} from '../ui/layout/ContentPlaceholder';
 import {ContentResolver} from '../ui/ContentResolver';
@@ -25,7 +26,8 @@ export {
    Repeater,
    IsolatedScope,
    DetachedScope,
-   Restate
+   Restate,
+   DataProxy
 };
 
 export * from './cx';

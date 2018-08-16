@@ -25,6 +25,7 @@ export class Restate extends PureContainer {
       delete this.children;
       delete this.controller;
       delete this.outerLayout;
+      delete this.layout;
       super.init();
    }
 

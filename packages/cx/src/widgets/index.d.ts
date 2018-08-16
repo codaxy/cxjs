@@ -10,6 +10,7 @@ import {Repeater} from '../ui/Repeater';
 import {IsolatedScope} from '../ui/IsolatedScope';
 import {DetachedScope} from '../ui/DetachedScope';
 import {Restate} from '../ui/Restate';
+import {DataProxy} from '../ui/DataProxy';
 
 //re-export widgets defined in ui namespace
 export {
@@ -24,7 +25,8 @@ export {
    Repeater,
    IsolatedScope,
    DetachedScope,
-   Restate
+   Restate,
+   DataProxy
 };
 
 export * from './cx';

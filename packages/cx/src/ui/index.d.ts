@@ -23,6 +23,7 @@ export * from './batchUpdates';
 export * from './IsolatedScope';
 export * from './DetachedScope';
 export * from './Restate';
+export * from './DataProxy';
 
 export * from './createFunctionalComponent';
 
