@@ -8,3 +8,4 @@ interface RestateProps extends Cx.PureContainerProps {
 }
 
 export class Restate extends Cx.Widget<RestateProps> {}
+export class PrivateState extends Cx.Widget<RestateProps> {}

@@ -154,3 +154,5 @@ class RestateStore extends Store {
       super.doNotify();
    }
 }
+
+export class PrivateState extends Restate {};
