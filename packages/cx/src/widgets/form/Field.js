@@ -11,7 +11,7 @@ import {Console} from '../../util/Console';
 import {parseStyle} from '../../util/parseStyle';
 import {FocusManager} from '../../ui/FocusManager';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import {tooltipMouseLeave, tooltipMouseMove} from "../overlay";
+import {tooltipMouseLeave, tooltipMouseMove} from "../overlay/tooltip-ops";
 
 export class Field extends PureContainer {
 

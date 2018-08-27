@@ -2,8 +2,8 @@ import {PureContainer} from "./PureContainer";
 import {isString} from "../util/isString";
 import {isObject} from "../util/isObject";
 import {isFunction} from "../util/isFunction";
-import {ReadOnlyDataView} from "cx/src/data/ReadOnlyDataView";
-import {UseParentLayout} from "cx/ui";
+import {ReadOnlyDataView} from "../data/ReadOnlyDataView";
+import {UseParentLayout} from "../ui/layout/UseParentLayout";
 
 
 export class DataProxy extends PureContainer {
