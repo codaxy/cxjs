@@ -23,7 +23,9 @@ interface DragSourceProps extends Cx.StyledContainerProps {
 
    onDragStart?: (e, instance: Instance) => any,
 
-   onDragEnd?: (e, instance: Instance) => void
+   onDragEnd?: (e, instance: Instance) => void,
+
+   id: Cx.StringProp
 }
 
 export class DragSource extends Cx.Widget<DragSourceProps> {}

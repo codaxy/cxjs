@@ -13,6 +13,7 @@ export class DragSource extends Container {
 
    declareData() {
       super.declareData(...arguments, {
+         id: undefined,
          data: { structured: true },
          cloneStyle: { structured: true },
          cloneClass: { structured: true },
@@ -91,6 +92,7 @@ class DragSourceComponent extends VDOM.Component {
 
       return (
          <div
+            id={data.id}
             ref={this.setRef}
             className={CSS.expand(classes)}
             style={data.style}
