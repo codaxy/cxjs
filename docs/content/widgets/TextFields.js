@@ -35,7 +35,7 @@ export const TextFields = <cx>
                         inputStyle={{border: '1px solid green'}} 
                         icon="search" 
                         showClear />
-                    <TextField label="View" value:bind="$page.text" mode="view"/>
+                    <TextField label="View" value:bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too."/>
                     <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
                 </div>
             </div>
@@ -56,7 +56,7 @@ export const TextFields = <cx>
                         inputStyle={{border: '1px solid green'}} 
                         icon="search" 
                         showClear />
-                    <TextField label="View" value:bind="$page.text" mode="view"/>
+                    <TextField label="View" value:bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too."/>
                     <TextField label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A"/>
                 </div>
             `}</CodeSnippet>

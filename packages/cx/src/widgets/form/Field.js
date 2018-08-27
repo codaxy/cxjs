@@ -11,6 +11,7 @@ import {Console} from '../../util/Console';
 import {parseStyle} from '../../util/parseStyle';
 import {FocusManager} from '../../ui/FocusManager';
 import {isTouchEvent} from '../../util/isTouchEvent';
+import {tooltipMouseLeave, tooltipMouseMove} from "../overlay";
 
 export class Field extends PureContainer {
 
@@ -279,7 +280,13 @@ export class Field extends PureContainer {
    renderValue(context, instance, key) {
       let text = this.formatValue(context, instance)
       if (text) {
-         return <span>{text}</span>;
+         return <span
+            key={key}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+         >
+            {text}
+         </span>;
       }
    }
 
@@ -290,14 +297,14 @@ export class Field extends PureContainer {
 
    renderWrap(context, instance, key, content) {
       let {data} = instance;
-      let interactable = !data.viewMode && !data.disabled;
+      let interactive = !data.viewMode && !data.disabled;
       return (
          <div
             key={key}
             className={data.classNames}
             style={data.style}
-            onMouseDown={interactable ? stopPropagation : null}
-            onTouchStart={interactable ? stopPropagation : null}
+            onMouseDown={interactive ? stopPropagation : null}
+            onTouchStart={interactive ? stopPropagation : null}
          >
             {content}
             {this.labelPlacement && this.renderLabel(context, instance, "label")}
