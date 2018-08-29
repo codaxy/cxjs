@@ -85,6 +85,7 @@ var contents = [{
         {title: 'Section', url: '~/widgets/sections'},
         {title: 'Heading', url: '~/widgets/headings'},
         {title: 'FlexBox', url: '~/widgets/flex-box'},
+        {title: 'Splitter', url: '~/widgets/splitters'},
         {title: 'Icon', url: '~/widgets/icons'},
         {title: 'PureContainer', url: '~/widgets/pure-container'},
         {title: 'IsolatedScope', url: '~/widgets/isolated-scope'},

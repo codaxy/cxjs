@@ -53,7 +53,7 @@ import './index.scss';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
-import Demo from './features/grid/FixedFooterNoGrouping';
+//import Demo from './features/grid/FixedFooterNoGrouping';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
@@ -69,6 +69,7 @@ import Demo from './features/grid/FixedFooterNoGrouping';
 
 //import Demo from './features/layout/OuterLayout';
 //import Demo from './features/layout/ComplexLayout';
+import Demo from './features/splitter';
 
 //import Demo from './bugs/stacked';
 
