@@ -32,6 +32,7 @@ import './index.scss';
 //import Demo from './bugs/lookupfiledset';
 //import Demo from './bugs/469';
 //import Demo from "./bugs/GridFilters";
+import Demo from './bugs/476';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -69,7 +70,7 @@ import './index.scss';
 
 //import Demo from './features/layout/OuterLayout';
 //import Demo from './features/layout/ComplexLayout';
-import Demo from './features/splitter';
+//import Demo from './features/splitter';
 
 //import Demo from './bugs/stacked';
 

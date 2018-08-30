@@ -127,7 +127,7 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    getDropdown() {
-      let {horizontal, controller, widget, parentPositionChangeEvent} = this.props.instance;
+      let {horizontal, widget, parentPositionChangeEvent} = this.props.instance;
       if (!this.dropdown && widget.dropdown) {
          this.dropdown = Widget.create(Dropdown, {
             matchWidth: false,
@@ -137,7 +137,6 @@ class MenuItemComponent extends VDOM.Component {
             ...widget.dropdownOptions,
             relatedElement: this.el.parentElement,
             placement: widget.placement,
-            controller: controller,
             onKeyDown: ::this.onDropdownKeyDown,
             items: widget.dropdown,
             parentPositionChangeEvent,
@@ -152,10 +151,10 @@ class MenuItemComponent extends VDOM.Component {
    render() {
 
       let {instance, data} = this.props;
-      let {store, widget} = instance;
+      let {widget} = instance;
       let {CSS, baseClass} = widget;
       let dropdown = this.state.dropdownOpen
-         && <Cx widget={this.getDropdown()} store={store} options={{name: 'submenu'}}/>;
+         && <Cx widget={this.getDropdown()} options={{name: 'submenu'}} parentInstance={instance}/>;
 
       let arrow = data.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
