@@ -32,7 +32,7 @@ import './index.scss';
 //import Demo from './bugs/lookupfiledset';
 //import Demo from './bugs/469';
 //import Demo from "./bugs/GridFilters";
-import Demo from './bugs/476';
+//import Demo from './bugs/476';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -62,6 +62,7 @@ import Demo from './bugs/476';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
+import Demo from './features/menu/overflow';
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
 

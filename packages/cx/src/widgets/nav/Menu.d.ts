@@ -16,7 +16,6 @@ interface MenuProps extends Cx.HtmlElementProps {
 
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string
-
 }
 
 export class Menu extends Cx.Widget<MenuProps> {}

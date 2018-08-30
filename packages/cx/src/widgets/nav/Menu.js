@@ -27,6 +27,22 @@ export class Menu extends HtmlElement {
          this.itemPadding = this.defaultVerticalItemPadding;
 
       super.init();
+
+      if (this.overflow) {
+
+         if (!this.horizontal)
+            throw new Error("Overflow works only on horizontal menus.");
+
+         this.items.push(MenuItem.create({
+            text: "Overflow",
+            mod: 'overflow',
+            items: [{
+               type: Menu,
+               putInto: "dropdown",
+               items: [...this.items]
+            }]
+         }))
+      }
    }
 
    prepareData(context, instance) {
@@ -35,6 +51,7 @@ export class Menu extends HtmlElement {
          ...data.stateMods,
          horizontal: this.horizontal,
          vertical: !this.horizontal,
+         overflow: this.overflow,
          [this.itemPadding+'-item-padding']: this.itemPadding
       };
       super.prepareData(context, instance);
@@ -72,6 +89,7 @@ Menu.prototype.horizontal = false;
 Menu.prototype.defaultVerticalItemPadding = "medium";
 Menu.prototype.defaultHorizontalItemPadding = "small";
 Menu.prototype.icons = false;
+Menu.prototype.overflow = false;
 Menu.Item = MenuItem;
 
 class MenuComponent extends VDOM.Component {
@@ -79,13 +97,15 @@ class MenuComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
-         cursor: null
+         cursor: null,
+         maxItems: Infinity
       }
    }
 
    render() {
       let {instance, children} = this.props;
-      let {data} = instance;
+      let {data, widget} = instance;
+      let {CSS} = widget;
       this.itemInfo = Array.from({length: children.length});
       const ref = el=> {
          this.el = el
@@ -93,7 +113,9 @@ class MenuComponent extends VDOM.Component {
       return (
          <ul
             ref={ref}
-            className={data.classNames}
+            className={CSS.expand(data.classNames, CSS.state({
+               "pack": this.state.maxItems < children.length
+            }))}
             style={data.style}
             onFocus={::this.onFocus}
             onBlur={FocusManager.nudge()}
@@ -108,6 +130,7 @@ class MenuComponent extends VDOM.Component {
                return <MenuItemComponent
                   key={key}
                   cursor={key === this.state.cursor}
+                  hidden={i >= this.state.maxItems}
                   instance={instance}
                   itemInfo={this.itemInfo}
                   itemKey={key}
@@ -196,6 +219,32 @@ class MenuComponent extends VDOM.Component {
       var {widget} = this.props.instance;
       if (widget.autoFocus && this.itemInfo.length > 0)
          FocusManager.focusFirst(this.itemInfo[0].el);
+      this.measureOverflow();
+   }
+
+   componentDidUpdate() {
+      this.measureOverflow();
+   }
+
+   measureOverflow() {
+      var {widget} = this.props.instance;
+      if (widget.overflow) {
+         console.log(this.el.offsetWidth, this.el.scrollWidth);
+         let itemsFit = 0;
+         let fitItemsWidth = 0;
+         Array.from(this.el.children).forEach(child => {
+            if (child.offsetWidth + fitItemsWidth < this.el.offsetWidth) {
+               itemsFit++;
+               fitItemsWidth += child.offsetWidth;
+            }
+         });
+         console.log(itemsFit);
+         if (this.state.maxItems != itemsFit) {
+            this.setState({
+               maxItems: itemsFit
+            })
+         }
+      }
    }
 
    onFocus() {
@@ -219,12 +268,13 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    render() {
-      let {itemInfo, itemIndex, itemKey, instance, cursor} = this.props;
+      let {itemInfo, itemIndex, itemKey, instance, cursor, hidden} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let mods = {
          cursor: cursor,
          focusable: this.state.focusable,
+         hidden
       };
 
       return <li
