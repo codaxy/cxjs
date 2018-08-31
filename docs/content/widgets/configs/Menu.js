@@ -49,5 +49,17 @@ export default {
         description: <cx><Md>
             Set to `true`, to prevent Submenus to expand on hover. Default value is `false`.
         </Md></cx>
+    },
+    overflow: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to put overflow menu items into a submenu on the right. Default value is `false`.
+        </Md></cx>
+    },
+    overflowIcon: {
+        type: 'boolean',
+        description: <cx><Md>
+            Icon to be used for the overflow menu.
+        </Md></cx>
     }
 };

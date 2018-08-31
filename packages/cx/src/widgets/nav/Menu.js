@@ -6,6 +6,7 @@ import {debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {MenuItem} from "./MenuItem";
 import {isUndefined} from '../../util/isUndefined';
+import {ResizeManager} from "../../ui/ResizeManager";
 
 /*
  Functionality:
@@ -34,7 +35,7 @@ export class Menu extends HtmlElement {
             throw new Error("Overflow works only on horizontal menus.");
 
          this.items.push(MenuItem.create({
-            text: "Overflow",
+            icon: this.overflowIcon,
             mod: 'overflow',
             items: [{
                type: Menu,
@@ -46,7 +47,7 @@ export class Menu extends HtmlElement {
    }
 
    prepareData(context, instance) {
-      var {data} = instance;
+      let {data} = instance;
       data.stateMods = {
          ...data.stateMods,
          horizontal: this.horizontal,
@@ -90,6 +91,7 @@ Menu.prototype.defaultVerticalItemPadding = "medium";
 Menu.prototype.defaultHorizontalItemPadding = "small";
 Menu.prototype.icons = false;
 Menu.prototype.overflow = false;
+Menu.prototype.overflowIcon = "drop-down";
 Menu.Item = MenuItem;
 
 class MenuComponent extends VDOM.Component {
@@ -98,7 +100,7 @@ class MenuComponent extends VDOM.Component {
       super(props);
       this.state = {
          cursor: null,
-         maxItems: Infinity
+         visibleItemCount: Infinity
       }
    }
 
@@ -114,7 +116,7 @@ class MenuComponent extends VDOM.Component {
          <ul
             ref={ref}
             className={CSS.expand(data.classNames, CSS.state({
-               "pack": this.state.maxItems < children.length
+               "pack": this.state.visibleItemCount < children.length - 1
             }))}
             style={data.style}
             onFocus={::this.onFocus}
@@ -130,7 +132,7 @@ class MenuComponent extends VDOM.Component {
                return <MenuItemComponent
                   key={key}
                   cursor={key === this.state.cursor}
-                  hidden={i >= this.state.maxItems}
+                  hidden={i >= this.state.visibleItemCount && i + 1 != children.length}
                   instance={instance}
                   itemInfo={this.itemInfo}
                   itemKey={key}
@@ -152,12 +154,12 @@ class MenuComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      var {instance} = this.props;
-      var {widget} = instance;
+      let {instance} = this.props;
+      let {widget} = instance;
 
-      var keyCode = e.keyCode;
+      let keyCode = e.keyCode;
       debug(menuFlag, 'Menu', 'keyDown', this.el, keyCode);
-      var {horizontal} = widget;
+      let {horizontal} = widget;
 
       if (keyCode == KeyCode.tab) {
          if (horizontal)
@@ -167,10 +169,10 @@ class MenuComponent extends VDOM.Component {
       }
 
       if (this.state.cursor != null) {
-         var cursorIndex = this.itemInfo.findIndex(a=>a.key == this.state.cursor);
+         let cursorIndex = this.itemInfo.findIndex(a=>a.key == this.state.cursor);
 
          if (horizontal ? keyCode == KeyCode.left : keyCode == KeyCode.up) {
-            for (var c = cursorIndex - 1; c >= 0; c--)
+            for (let c = cursorIndex - 1; c >= 0; c--)
                if (this.itemInfo[c].focusable) {
                   FocusManager.focusFirst(this.itemInfo[c].el);
                   e.stopPropagation();
@@ -180,7 +182,7 @@ class MenuComponent extends VDOM.Component {
          }
 
          if (horizontal ? keyCode == KeyCode.right : keyCode == KeyCode.down) {
-            for (var c = cursorIndex + 1; c < this.itemInfo.length; c++)
+            for (let c = cursorIndex + 1; c < this.itemInfo.length; c++)
                if (this.itemInfo[c].focusable) {
                   FocusManager.focusFirst(this.itemInfo[c].el);
                   e.stopPropagation();
@@ -216,10 +218,12 @@ class MenuComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      var {widget} = this.props.instance;
+      let {widget} = this.props.instance;
       if (widget.autoFocus && this.itemInfo.length > 0)
          FocusManager.focusFirst(this.itemInfo[0].el);
       this.measureOverflow();
+      if (widget.overflow)
+         this.unsubscribeResize = ResizeManager.trackElement(this.el, ::this.measureOverflow);
    }
 
    componentDidUpdate() {
@@ -227,23 +231,26 @@ class MenuComponent extends VDOM.Component {
    }
 
    measureOverflow() {
-      var {widget} = this.props.instance;
-      if (widget.overflow) {
-         console.log(this.el.offsetWidth, this.el.scrollWidth);
-         let itemsFit = 0;
-         let fitItemsWidth = 0;
-         Array.from(this.el.children).forEach(child => {
-            if (child.offsetWidth + fitItemsWidth < this.el.offsetWidth) {
-               itemsFit++;
-               fitItemsWidth += child.offsetWidth;
-            }
-         });
-         console.log(itemsFit);
-         if (this.state.maxItems != itemsFit) {
-            this.setState({
-               maxItems: itemsFit
-            })
-         }
+      let {widget} = this.props.instance;
+      if (!widget.overflow)
+         return;
+
+      let visibleItemCount = 0;
+      let fitItemsWidth = 0;
+      let children = Array.from(this.el.children);
+      let widths = children.map(c => c.offsetWidth);
+      let clientWidth = this.el.clientWidth;
+      let overflowWidth = widths[widths.length - 1];
+      for (let i = 0; i < widths.length - 1; i++) {
+         if (widths[i] + fitItemsWidth > clientWidth - overflowWidth)
+            break;
+         visibleItemCount++;
+         fitItemsWidth += widths[i];
+      }
+      if (this.state.visibleItemCount != visibleItemCount) {
+         this.setState({
+            visibleItemCount: visibleItemCount
+         })
       }
    }
 
@@ -253,6 +260,7 @@ class MenuComponent extends VDOM.Component {
 
    componentWillUnmount() {
       offFocusOut(this);
+      this.unsubscribeResize && this.unsubscribeResize();
    }
 }
 
@@ -329,8 +337,8 @@ class MenuItemComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
-      let {itemInfo, itemIndex} = this.props;
-      let focusable = !!findFirst(this.el, isFocusable);
+      let {itemInfo, itemIndex, hidden} = this.props;
+      let focusable = !hidden && !!findFirst(this.el, isFocusable);
       if (focusable !== this.state.focusable) {
          itemInfo[itemIndex].focusable = focusable;
          this.setState({focusable: focusable});

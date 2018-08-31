@@ -31,6 +31,7 @@
 
             &.#{$state}hidden {
                visibility: hidden;
+               position: absolute;
             }
          }
       }
@@ -54,15 +55,14 @@
 
       &.#{$state}overflow {
          overflow: hidden;
+         display: flex;
 
-         & > .#{$element}#{$name}-item > .#{$block}#{$name}item.#{$mod}overflow {
+         & > .#{$element}#{$name}-item:last-child {
             visibility: hidden;
-            position: absolute;
-            right: 0;
-            top: 0;
+            margin-left: auto;
          }
 
-         &.#{$state}pack > .#{$element}#{$name}-item > .#{$block}#{$name}item.#{$mod}overflow {
+         &.#{$state}pack > .#{$element}#{$name}-item:last-child {
             visibility: visible;
          }
       }
