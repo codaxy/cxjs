@@ -1,8 +1,8 @@
-import {Widget, VDOM} from "../ui/Widget";
-import {captureMouseOrTouch, getCursorPos} from "./overlay/captureMouse";
+import {Widget, VDOM} from "cx/src/ui/Widget";
+import {captureMouseOrTouch, getCursorPos} from "cx/src/widgets/overlay/captureMouse";
 
 
-export class Splitter extends Widget {
+export class Resizer extends Widget {
    declareData(...args) {
       super.declareData(...args, {
          value: undefined,
@@ -15,7 +15,7 @@ export class Splitter extends Widget {
    render(context, instance, key) {
       let {data} = instance;
 
-      return <SplitterCmp
+      return <ResizerCmp
          key={key}
          instance={instance}
          data={data}
@@ -23,15 +23,15 @@ export class Splitter extends Widget {
    }
 }
 
-Splitter.prototype.baseClass = "splitter";
-Splitter.prototype.styled = true;
-Splitter.prototype.horizontal = false;
-Splitter.prototype.forNextElement = false;
-Splitter.prototype.defaultValue = null;
-Splitter.prototype.minValue = 0;
-Splitter.prototype.maxValue = 1e6;
+Resizer.prototype.baseClass = "splitter";
+Resizer.prototype.styled = true;
+Resizer.prototype.horizontal = false;
+Resizer.prototype.forNextElement = false;
+Resizer.prototype.defaultValue = null;
+Resizer.prototype.minValue = 0;
+Resizer.prototype.maxValue = 1e6;
 
-class SplitterCmp extends VDOM.Component {
+class ResizerCmp extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {

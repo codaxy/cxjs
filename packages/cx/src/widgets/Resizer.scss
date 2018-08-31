@@ -38,6 +38,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Splitter')) {
+@if (cx-should-include('cx/widgets/Resizer')) {
    @include cx-splitter();
 }

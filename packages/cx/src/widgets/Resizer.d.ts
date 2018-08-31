@@ -1,9 +1,9 @@
 import {
    Widget,
    StyledContainerProps
-} from '../core';
+} from 'cx/src/core';
 
-interface SplitterProps extends StyledContainerProps {
+interface ResizerProps extends StyledContainerProps {
 
    /** Make splitter horizontal. */
    horizontal?: boolean;
@@ -24,4 +24,4 @@ interface SplitterProps extends StyledContainerProps {
    maxValue?: Cx.NumberProp,
 }
 
-export class Splitter extends Widget<SplitterProps> {}
+export class Resizer extends Widget<ResizerProps> {}

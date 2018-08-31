@@ -1,19 +1,19 @@
-import {FlexRow, Splitter, FlexCol} from 'cx/widgets';
+import {FlexRow, Resizer, FlexCol} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 
-import configs from './configs/Splitter';
+import configs from './configs/Resizer';
 
-export const Splitters = <cx>
+export const Resizers = <cx>
     <Md>
-        # Splitter
+        # Resizer
 
-        <ImportPath path="import {Splitter} from 'cx/widgets';"/>
+        <ImportPath path="import {Resizer} from 'cx/widgets';"/>
 
-        Splitters are used to resize adjacent components.
+        Resizers are used to resize adjacent components.
 
         <CodeSplit>
             <div class="widgets">
@@ -24,7 +24,7 @@ export const Splitters = <cx>
                         width: {expr: "{width} || '150px'"},
                         boxSizing: "border-box"
                     }}/>
-                    <Splitter value-bind="width" minValue={50} maxValue={250} />
+                    <Resizer value-bind="width" minValue={50} maxValue={250} />
                     <div style={{
                         border: "1px solid gray",
                         background: "lightgray",
@@ -39,7 +39,7 @@ export const Splitters = <cx>
                         background: "lightgray",
                         width: {expr: "{width} || '150px'"}
                     }}/>
-                    <Splitter value-bind="width" minValue={50} maxValue={250} />
+                    <Resizer value-bind="width" minValue={50} maxValue={250} />
                     <div style={{
                         border: "1px solid gray",
                         background: "lightgray",
