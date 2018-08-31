@@ -231,7 +231,8 @@ class MenuComponent extends VDOM.Component {
    }
 
    measureOverflow() {
-      let {widget} = this.props.instance;
+      let {instance} = this.props;
+      let {widget} = instance;
       if (!widget.overflow)
          return;
 
@@ -252,6 +253,7 @@ class MenuComponent extends VDOM.Component {
             visibleItemCount: visibleItemCount
          })
       }
+      instance.visibleMenuItemCount = visibleItemCount;
    }
 
    onFocus() {
