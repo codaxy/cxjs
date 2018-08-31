@@ -150,7 +150,7 @@ class MenuItemComponent extends VDOM.Component {
 
    render() {
 
-      let {instance, data} = this.props;
+      let {instance, data, children} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let dropdown = this.state.dropdownOpen
@@ -183,6 +183,8 @@ class MenuItemComponent extends VDOM.Component {
          </div>
       }
 
+      let empty = !children || (Array.isArray(children) && children.length==0);
+
       let classNames = CSS.expand(data.classNames, CSS.state({
          open: this.state.dropdownOpen,
          horizontal: instance.horizontal,
@@ -191,8 +193,12 @@ class MenuItemComponent extends VDOM.Component {
          cursor: widget.showCursor,
          [instance.padding + '-padding']: instance.padding,
          icon: !!icon || instance.icons,
-         disabled: data.disabled
+         disabled: data.disabled,
+         empty
       }));
+
+      if (empty)
+         children = <span className={CSS.element(baseClass, "baseline")}>&nbsp;</span>
 
       return <div
          className={classNames}
@@ -209,7 +215,7 @@ class MenuItemComponent extends VDOM.Component {
          onClick={::this.onClick}
          onBlur={::this.onBlur}
       >
-         {this.props.children}
+         {children}
          {icon}
          {arrow}
          {dropdown}

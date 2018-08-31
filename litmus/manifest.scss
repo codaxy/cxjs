@@ -110,7 +110,6 @@ $cx-include-all: false;
 	"cx/util/tooltipsFlag",
 	"cx/util/trimFractionZeros",
 	"cx/util/vdomRenderFlag",
-	"cx/widgets/Button",
 	"cx/widgets/Dropdown",
 	"cx/widgets/HtmlElement",
 	"cx/widgets/Icon",
@@ -118,8 +117,7 @@ $cx-include-all: false;
 	"cx/widgets/MenuItem",
 	"cx/widgets/Overlay",
 	"cx/widgets/OverlayComponent",
-	"cx/widgets/Submenu",
-	"cx/widgets/alert",
+	"cx/widgets/Splitter",
 	"cx/widgets/captureMouse",
 	"cx/widgets/captureMouseOrTouch",
 	"cx/widgets/clearIcons",
@@ -130,7 +128,6 @@ $cx-include-all: false;
 	"cx/widgets/getCursorPos",
 	"cx/widgets/initiateDragDrop",
 	"cx/widgets/isDragHandleEvent",
-	"cx/widgets/registerAlertImpl",
 	"cx/widgets/registerDropZone",
 	"cx/widgets/registerIcon",
 	"cx/widgets/registerIconFactory",
@@ -143,6 +140,5 @@ $cx-include-all: false;
 	"cx/widgets/tooltipParentWillUnmount",
 	"cx/widgets/unregisterIcon",
 	"cx/widgets/urlAttributes",
-	"cx/widgets/wireTooltipOps",
-	"cx/widgets/yesNo"
+	"cx/widgets/wireTooltipOps"
 );

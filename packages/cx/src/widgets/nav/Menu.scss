@@ -28,6 +28,11 @@
                   margin: 0 cx-right($value) 0 cx-left($value);
                }
             }
+
+            &.#{$state}hidden {
+               visibility: hidden;
+               position: absolute;
+            }
          }
       }
 
@@ -45,6 +50,20 @@
             border: none;
             border-top: 1px solid $cx-default-menu-separator-color;
             margin: map-get($cx-menu-padding-options, medium)
+         }
+      }
+
+      &.#{$state}overflow {
+         overflow: hidden;
+         display: flex;
+
+         & > .#{$element}#{$name}-item:last-child {
+            visibility: hidden;
+            margin-left: auto;
+         }
+
+         &.#{$state}pack > .#{$element}#{$name}-item:last-child {
+            visibility: visible;
          }
       }
    }
