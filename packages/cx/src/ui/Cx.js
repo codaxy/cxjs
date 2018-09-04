@@ -158,38 +158,50 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
-         if (!instance.scheduleExploreIfVisible(context))
-            throw new Error("The widget passed to a Cx component should always be visible.");
-
-         while (context.exploreStack.length > 0) {
-            let inst = context.exploreStack.pop();
-            inst.explore(context);
+         visible = instance.scheduleExploreIfVisible(context);
+         if (visible) {
+            while (context.exploreStack.length > 0) {
+               let inst = context.exploreStack.pop();
+               inst.explore(context);
+            }
+         }
+         else if (instance.destroyTracked) {
+            instance.destroy();
+            break;
          }
       }
       while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
-      this.timings.afterExplore = now();
-      for (let i = 0; i < context.prepareList.length; i++)
-         context.prepareList[i].prepare(context);
-      this.timings.afterPrepare = now();
+      if (visible) {
 
-      //console.log(context.prepareList);
-      //console.log(context.renderStack);
+         this.timings.afterExplore = now();
 
-      //walk in reverse order so children get rendered first
-      let renderLists = context.getRenderLists();
-      for (let j = 0; j < renderLists.length; j++) {
-         for (let i = renderLists[j].length - 1; i >= 0; i--) {
-            renderLists[j][i].render(context);
+         for (let i = 0; i < context.prepareList.length; i++)
+            context.prepareList[i].prepare(context);
+         this.timings.afterPrepare = now();
+
+         //console.log(context.prepareList);
+         //console.log(context.renderStack);
+
+         //walk in reverse order so children get rendered first
+         let renderLists = context.getRenderLists();
+         for (let j = 0; j < renderLists.length; j++) {
+            for (let i = renderLists[j].length - 1; i >= 0; i--) {
+               renderLists[j][i].render(context);
+            }
          }
-      }
 
-      this.content = getContent(instance.vdom);
-      if (contentFactory)
-         this.content = contentFactory({children: this.content});
-      this.timings.afterRender = now();
-      for (let i = 0; i < context.cleanupList.length; i++)
-         context.cleanupList[i].cleanup(context);
+         this.content = getContent(instance.vdom);
+         if (contentFactory)
+            this.content = contentFactory({children: this.content});
+         this.timings.afterRender = now();
+         for (let i = 0; i < context.cleanupList.length; i++)
+            context.cleanupList[i].cleanup(context);
+      }
+      else {
+         this.content = null;
+         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
+      }
 
       this.timings.beforeVDOMRender = now();
       this.props.flags.preparing = false;
