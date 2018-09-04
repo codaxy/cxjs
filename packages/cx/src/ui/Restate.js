@@ -50,15 +50,8 @@ export class Restate extends PureContainer {
    explore(context, instance) {
       if (!this.detached) {
          instance.container = instance.getChild(context, this.container, "container", instance.subStore);
-
-         let innerDataChanged = instance.cache("innerData", instance.subStore.getData());
-
-         if (instance.shouldUpdate || innerDataChanged) {
-            //walk the three whenever data change
-            instance.container.scheduleExploreIfVisible(context);
-         }
+         instance.container.scheduleExploreIfVisible(context);
       }
-
       super.explore(context, instance);
    }
 
