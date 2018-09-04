@@ -13,7 +13,7 @@ export class Instance {
    controller: any;
    parentOptions: any;
 
-   constructor(widget: Widget, key: number);
+   constructor(widget: Widget, key: string | number, parent?: Instance, store?: View);
 
    setStore(store: View) : void;
 
@@ -48,6 +48,8 @@ export class Instance {
    clearChildrenCache();
 
    getChild(context: RenderingContext | null, widget: Widget, keyPrefix?: string, store?: View) : Instance;
+
+   getDetachedChild(widget: Widget, key: number | string, store?: View) : Instance;
 
    // TODO: check return type
    prepareRenderCleanupChild(widget: Widget, store?: View, keyPrefix?: string, options?: object) : JSX.Element | void;

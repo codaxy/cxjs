@@ -218,7 +218,7 @@ describe('Controller', () => {
       assert.deepEqual(log, ["t1", "c1", "t2"]);
    });
 
-   it('controllers are recreated if component is hidden and shown', () => {
+   it('is recreated if a component is hidden and shown', () => {
       let initCount = 0;
       class TestController extends Controller {
          onInit() {

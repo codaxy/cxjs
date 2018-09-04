@@ -7,7 +7,7 @@ import {Controller} from "./Controller";
 import {DataProxy} from "./DataProxy";
 import {computable} from "cx/ui";
 
-describe.only('DataProxy', () => {
+describe('DataProxy', () => {
 
    it('can calculate values', () => {
 

@@ -5,6 +5,7 @@ import {debug, appDataFlag} from '../util/Debug';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
 import {shallowEquals} from "../util/shallowEquals";
+import {PureContainer} from "./PureContainer";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -15,7 +16,7 @@ export class Cx extends VDOM.Component {
          this.store = props.instance.store;
       }
       else {
-         this.widget = Widget.create(props.widget || props.items[0]);
+         this.widget = PureContainer.create({ items: props.widget || props.items });
 
          if (props.parentInstance) {
             this.parentInstance = props.parentInstance;
@@ -48,14 +49,25 @@ export class Cx extends VDOM.Component {
       }
    }
 
+   getInstance() {
+      if (this.props.instance)
+         return this.props.instance;
+
+      if (this.instance)
+         return this.instance;
+
+      if (this.widget && this.parentInstance)
+         return this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store);
+
+      throw new Error("Could not resolve a widget instance in the Cx component.");
+   }
+
    render() {
       if (!this.widget)
          return null;
 
-      let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-
       return <CxContext
-         instance={instance}
+         instance={this.getInstance()}
          flags={this.flags}
          options={this.props.options}
          buster={++this.renderCount}
@@ -134,6 +146,10 @@ class CxContext extends VDOM.Component {
       let {instance, options, contentFactory} = props;
       let count = 0, visible, context;
 
+      //should not be tracked by parents for destroy
+      if (!instance.detached)
+         throw new Error("The instance passed to a Cx component should be detached from its parent.");
+
       if (this.props.instance !== instance && this.props.instance.destroyTracked)
          this.props.instance.destroy();
 
@@ -142,44 +158,38 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
-         visible = instance.scheduleExploreIfVisible(context);
-         if (visible) {
-            while (context.exploreStack.length > 0) {
-               let inst = context.exploreStack.pop();
-               inst.explore(context);
-            }
+         if (!instance.scheduleExploreIfVisible(context))
+            throw new Error("The widget passed to a Cx component should always be visible.");
+
+         while (context.exploreStack.length > 0) {
+            let inst = context.exploreStack.pop();
+            inst.explore(context);
          }
       }
-      while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
+      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
-      if (visible) {
-         this.timings.afterExplore = now();
-         for (let i = 0; i < context.prepareList.length; i++)
-            context.prepareList[i].prepare(context);
-         this.timings.afterPrepare = now();
+      this.timings.afterExplore = now();
+      for (let i = 0; i < context.prepareList.length; i++)
+         context.prepareList[i].prepare(context);
+      this.timings.afterPrepare = now();
 
-         //console.log(context.prepareList);
-         //console.log(context.renderStack);
+      //console.log(context.prepareList);
+      //console.log(context.renderStack);
 
-         //walk in reverse order so children get rendered first
-         let renderLists = context.getRenderLists();
-         for (let j = 0; j < renderLists.length; j++) {
-            for (let i = renderLists[j].length - 1; i >= 0; i--) {
-               renderLists[j][i].render(context);
-            }
+      //walk in reverse order so children get rendered first
+      let renderLists = context.getRenderLists();
+      for (let j = 0; j < renderLists.length; j++) {
+         for (let i = renderLists[j].length - 1; i >= 0; i--) {
+            renderLists[j][i].render(context);
          }
+      }
 
-         this.content = getContent(instance.vdom);
-         if (contentFactory)
-            this.content = contentFactory({children: this.content});
-         this.timings.afterRender = now();
-         for (let i = 0; i < context.cleanupList.length; i++)
-            context.cleanupList[i].cleanup(context);
-      }
-      else {
-         this.content = null;
-         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
-      }
+      this.content = getContent(instance.vdom);
+      if (contentFactory)
+         this.content = contentFactory({children: this.content});
+      this.timings.afterRender = now();
+      for (let i = 0; i < context.cleanupList.length; i++)
+         context.cleanupList[i].cleanup(context);
 
       this.timings.beforeVDOMRender = now();
       this.props.flags.preparing = false;
