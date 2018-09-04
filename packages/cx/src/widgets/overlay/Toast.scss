@@ -101,7 +101,7 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      position: absolute;
+      position: fixed;
       left: 0;
       top: 0;
       right: 0;
@@ -111,6 +111,7 @@
       flex-direction: column;
       align-items: center;
       overflow: hidden;
+      z-index: 1000000;
 
       &.#{$state}placement-right {
          justify-content: center;

@@ -1,6 +1,5 @@
 import {Overlay} from './Overlay';
 import {Text} from '../../ui/Text';
-import {ZIndexManager} from "../../ui/ZIndexManager";
 
 export class Toast extends Overlay {
 
