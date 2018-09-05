@@ -13,12 +13,12 @@ export const Resizers = <cx>
 
         <ImportPath path="import {Resizer} from 'cx/widgets';"/>
 
-        Resizers are used to resize adjacent sibling elements. In the background, Resizer uses the reference to one of the adjacent
+        Resizer is used to resize adjacent elements. In the background, Resizer uses the reference to one of the adjacent
         elements so it can measure their size. By default, Resizer uses the previous element sibling for size measurement. If we want to use the next
-        element sibling instead we can use the `forNextElement` flag. 
+        element sibling instead, we can use the `forNextElement` flag. 
         
         When we move the Resizer, it either adds or subtracts the offset to the original size
-        of the element. On double-click, the default size is set.
+        of the affected element. On double-click, the default size is set.
 
         <CodeSplit>
             <div class="widgets">
