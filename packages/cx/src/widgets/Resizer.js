@@ -5,10 +5,10 @@ import {captureMouseOrTouch, getCursorPos} from "cx/src/widgets/overlay/captureM
 export class Resizer extends Widget {
    declareData(...args) {
       super.declareData(...args, {
-         value: undefined,
-         defaultValue: undefined,
-         minValue: undefined,
-         maxValue: undefined
+         size: undefined,
+         defaultSize: undefined,
+         minSize: undefined,
+         maxSize: undefined
       })
    }
 
@@ -23,13 +23,13 @@ export class Resizer extends Widget {
    }
 }
 
-Resizer.prototype.baseClass = "splitter";
+Resizer.prototype.baseClass = "resizer";
 Resizer.prototype.styled = true;
 Resizer.prototype.horizontal = false;
 Resizer.prototype.forNextElement = false;
-Resizer.prototype.defaultValue = null;
-Resizer.prototype.minValue = 0;
-Resizer.prototype.maxValue = 1e6;
+Resizer.prototype.defaultSize = null;
+Resizer.prototype.minSize = 0;
+Resizer.prototype.maxSize = 1e6;
 
 class ResizerCmp extends VDOM.Component {
    constructor(props) {
@@ -60,7 +60,7 @@ class ResizerCmp extends VDOM.Component {
          }))}
          style={data.style}
          onDoubleClick={(e) => {
-            instance.set("value", data.defaultValue);
+            instance.set("size", data.defaultSize);
          }}
          onMouseDown={(e) => {
             let initialPosition = getCursorPos(e);
@@ -131,7 +131,7 @@ class ResizerCmp extends VDOM.Component {
             newSize = this.el.previousElementSibling.offsetWidth + offset;
       }
 
-      return Math.max(data.minValue, Math.min(newSize, data.maxValue));
+      return Math.max(data.minSize, Math.min(newSize, data.maxSize));
    }
 
    onDragComplete() {
@@ -139,7 +139,7 @@ class ResizerCmp extends VDOM.Component {
       this.hasCapture = false;
       let {instance} = this.props;
 
-      instance.set("value", this.getNewSize(this.state.offset));
+      instance.set("size", this.getNewSize(this.state.offset));
 
       this.setState({
          dragged: false,
