@@ -1,6 +1,6 @@
 
-@mixin cx-splitter(
-   $name: 'splitter',
+@mixin cx-resizer(
+   $name: 'resizer',
    $besm: $cx-besm
 ) {
 
@@ -38,6 +38,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Splitter')) {
-   @include cx-splitter();
+@if (cx-should-include('cx/widgets/Resizer')) {
+   @include cx-resizer();
 }

@@ -7,38 +7,38 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Make splitter horizontal.
+            Make resizer horizontal.
         </Md></cx>
     },
     forNextElement: {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Use the element after the the splitter for size measurements.
+            Use the element after the resizer for size measurements.
         </Md></cx>
     },
-    value: {
+    size: {
         type: 'number',
         key: true,
         description: <cx><Md>
             A binding for the new size which is in pixels.
         </Md></cx>
     },
-    defaultValue: {
+    defaultSize: {
         type: 'number',
         key: true,
         description: <cx><Md>
-            Default value that will be set when the user double click on the splitter. Default value is `null`.
+            Default size that will be set when the user double-clicks the resizer. Default size value is `null`.
         </Md></cx>
     },
-    minValue: {
+    minSize: {
         type: 'number',
         key: true,
         description: <cx><Md>
             Minimum size of the element in pixels.
         </Md></cx>
     },
-    maxValue: {
+    maxSize: {
         type: 'number',
         key: true,
         description: <cx><Md>
@@ -48,7 +48,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied to the element. Default is 'splitter'.
+            Base CSS class to be applied to the element. Default is 'resizer'.
         </Md></cx>
     }
 

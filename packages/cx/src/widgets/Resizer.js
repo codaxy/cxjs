@@ -1,21 +1,21 @@
-import {Widget, VDOM} from "../ui/Widget";
-import {captureMouseOrTouch, getCursorPos} from "./overlay/captureMouse";
+import {Widget, VDOM} from "cx/src/ui/Widget";
+import {captureMouseOrTouch, getCursorPos} from "cx/src/widgets/overlay/captureMouse";
 
 
-export class Splitter extends Widget {
+export class Resizer extends Widget {
    declareData(...args) {
       super.declareData(...args, {
-         value: undefined,
-         defaultValue: undefined,
-         minValue: undefined,
-         maxValue: undefined
+         size: undefined,
+         defaultSize: undefined,
+         minSize: undefined,
+         maxSize: undefined
       })
    }
 
    render(context, instance, key) {
       let {data} = instance;
 
-      return <SplitterCmp
+      return <ResizerCmp
          key={key}
          instance={instance}
          data={data}
@@ -23,15 +23,15 @@ export class Splitter extends Widget {
    }
 }
 
-Splitter.prototype.baseClass = "splitter";
-Splitter.prototype.styled = true;
-Splitter.prototype.horizontal = false;
-Splitter.prototype.forNextElement = false;
-Splitter.prototype.defaultValue = null;
-Splitter.prototype.minValue = 0;
-Splitter.prototype.maxValue = 1e6;
+Resizer.prototype.baseClass = "resizer";
+Resizer.prototype.styled = true;
+Resizer.prototype.horizontal = false;
+Resizer.prototype.forNextElement = false;
+Resizer.prototype.defaultSize = null;
+Resizer.prototype.minSize = 0;
+Resizer.prototype.maxSize = 1e6;
 
-class SplitterCmp extends VDOM.Component {
+class ResizerCmp extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -60,7 +60,7 @@ class SplitterCmp extends VDOM.Component {
          }))}
          style={data.style}
          onDoubleClick={(e) => {
-            instance.set("value", data.defaultValue);
+            instance.set("size", data.defaultSize);
          }}
          onMouseDown={(e) => {
             let initialPosition = getCursorPos(e);
@@ -131,7 +131,7 @@ class SplitterCmp extends VDOM.Component {
             newSize = this.el.previousElementSibling.offsetWidth + offset;
       }
 
-      return Math.max(data.minValue, Math.min(newSize, data.maxValue));
+      return Math.max(data.minSize, Math.min(newSize, data.maxSize));
    }
 
    onDragComplete() {
@@ -139,7 +139,7 @@ class SplitterCmp extends VDOM.Component {
       this.hasCapture = false;
       let {instance} = this.props;
 
-      instance.set("value", this.getNewSize(this.state.offset));
+      instance.set("size", this.getNewSize(this.state.offset));
 
       this.setState({
          dragged: false,

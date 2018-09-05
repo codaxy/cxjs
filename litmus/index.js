@@ -71,7 +71,7 @@ import Demo from './features/menu/overflow';
 
 //import Demo from './features/layout/OuterLayout';
 //import Demo from './features/layout/ComplexLayout';
-//import Demo from './features/splitter';
+//import Demo from './features/resizer';
 
 //import Demo from './bugs/stacked';
 

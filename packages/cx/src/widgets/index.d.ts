@@ -41,7 +41,7 @@ export * from './Section';
 export * from './FlexBox';
 export * from './Icon';
 export * from './ProgressBar';
-export * from './Splitter';
+export * from './Resizer';
 
 export * from './overlay/index';
 export * from './nav/index';
