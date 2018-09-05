@@ -4,15 +4,10 @@ import {isObject} from "../util/isObject";
 import {isFunction} from "../util/isFunction";
 import {ReadOnlyDataView} from "../data/ReadOnlyDataView";
 import {UseParentLayout} from "../ui/layout/UseParentLayout";
+import {getSelector} from "../data/getSelector";
 
 
 export class DataProxy extends PureContainer {
-
-   declareData() {
-      return super.declareData(...arguments, {
-         data: {structured: true}
-      })
-   }
 
    init() {
       if (!this.data)
@@ -40,6 +35,7 @@ export class DataProxy extends PureContainer {
    initInstance(context, instance) {
       instance.store = new DataProxyView({
          store: instance.store,
+         privateData: this.data,
          onSet: (path, value) => {
             let config = this.data[path];
             if (config.bind)
@@ -63,25 +59,30 @@ export class DataProxy extends PureContainer {
          instance.store.setStore(store);
       };
    }
-
-   prepareData(context, instance) {
-      let {data, store} = instance;
-      store.setData(data.data);
-      super.prepareData(context, instance);
-   }
 }
 
 class DataProxyView extends ReadOnlyDataView {
 
+   constructor(config) {
+      super(config);
+      this.dataSelector = getSelector(this.privateData);
+   }
+
+   getAdditionalData(parentStoreData) {
+      if (this.meta.version !== this.cache.version)
+         this.data = this.dataSelector(parentStoreData);
+      return this.data;
+   }
+
    setItem(path, value) {
-      if (isObject(this.data) && this.data.hasOwnProperty(path))
+      if (isObject(this.privateData) && this.privateData.hasOwnProperty(path))
          return this.onSet(path, value);
 
       return super.setItem(path, value);
    }
 
    deleteItem(path) {
-      if (isObject(this.data) && this.data.hasOwnProperty(path))
+      if (isObject(this.privateData) && this.privateData.hasOwnProperty(path))
          return this.onSet(path, undefined);
 
       return super.deleteItem(path);

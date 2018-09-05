@@ -149,5 +149,46 @@ describe('DataProxy', () => {
          children: ["good"]
       })
    });
+
+   it('correctly updates aliased data after write', () => {
+
+      class TestController extends Controller {
+         onInit() {
+            this.store.set('$value', "excellent");
+            assert.equal(this.store.get("$value"), "excellent");
+         }
+      }
+
+      let widget = <cx>
+         <DataProxy
+            data={{
+               $value: {bind: "value"}
+            }}
+            controller={TestController}
+         >
+            <span text-bind="$value"/>
+         </DataProxy>
+      </cx>;
+
+      let store = new Store({
+         data: {
+            value: "good"
+         }
+      });
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+
+      assert(store.get('value'), 'excellent');
+
+      assert.deepEqual(tree, {
+         type: 'span',
+         props: {},
+         children: ["excellent"]
+      })
+   });
 });
 
