@@ -4,7 +4,7 @@ import {Binding} from './Binding';
 export class ExposedValueView extends View {
 
    getData() {
-      if (this.cache.durable && this.meta.version === this.cache.version && this.cache.key === this.key)
+      if (this.sealed && this.meta.version === this.cache.version && this.cache.key === this.key)
          return this.cache.result;
 
       let data = this.store.getData();
@@ -13,8 +13,7 @@ export class ExposedValueView extends View {
 
       this.cache.version = this.meta.version;
       this.cache.key = this.key;
-      this.cache.durable = this.immutable || this.store.sealed;
-      this.cache.result = this.immutable || this.store.sealed ? {...data} : data;
+      this.cache.result = this.sealed || this.immutable || this.store.sealed ? {...data} : data;
       this.cache.result[this.recordName] = record;
       return this.cache.result;
    }

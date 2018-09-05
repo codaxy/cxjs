@@ -35,7 +35,8 @@ export class Repeater extends Container {
          recordName: this.recordName,
          indexName: this.indexName,
          keyField: this.keyField,
-         immutable: this.immutable
+         immutable: this.immutable,
+         sealed: this.sealed
       });
 
       this.item = PureContainer.create({
@@ -91,6 +92,7 @@ Repeater.prototype.recordName = '$record';
 Repeater.prototype.indexName = '$index';
 Repeater.prototype.cached = false;
 Repeater.prototype.immutable = false;
+Repeater.prototype.sealed = false;
 Repeater.prototype.isPureContainer = true;
 
 Widget.alias('repeater', Repeater);

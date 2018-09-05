@@ -50,7 +50,8 @@ export class ArrayAdapter extends DataAdapter {
                itemIndex: index,
                recordName: this.recordName,
                indexName: this.indexName,
-               immutable: this.immutable
+               immutable: this.immutable,
+               sealed: this.sealed
             });
          else {
             recordStore.setStore(parentStore);
@@ -120,3 +121,6 @@ export class ArrayAdapter extends DataAdapter {
       this.buildSorter(sorters);
    }
 }
+
+ArrayAdapter.prototype.immutable = false;
+ArrayAdapter.prototype.sealed = false;

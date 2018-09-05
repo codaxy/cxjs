@@ -8,7 +8,12 @@ interface RepeaterProps extends Cx.PureContainerProps {
    indexName?: string;
    indexAlias?: string;
    cached?: boolean;
+
+   /** Indicate that parent store data should not be mutated. */
    immutable?: boolean;
+
+   /** Indicate that record stores should not be mutated. */
+   sealed?: boolean;
 
    sorters?: Cx.SortersProp;
 
