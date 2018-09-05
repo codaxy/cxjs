@@ -7,8 +7,6 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options 
    if (!parentDOMElement || parentDOMElement.nodeType !== 1)
       throw new Error('First argument to startAppLoop should be a valid DOM element.');
 
-   widget = Widget.create(widget);
-
    let store, instance, parentInstance;
 
    if (!storeOrInstance)

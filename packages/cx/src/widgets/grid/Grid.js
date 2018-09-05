@@ -826,6 +826,7 @@ class GridComponent extends VDOM.Component {
             } else {
                let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
+               row.detached = true;
                row.selected = instance.isSelected(record.data, record.index);
                // if (row.cache('selected', row.selected) || row.cache('recordData', record.data)) {
                //    //row.markShouldUpdate(context);

@@ -69,6 +69,10 @@
                padding-left: cx-calc($icon-size);
             }
 
+            &.#{$state}empty {
+               padding-right: cx-calc($icon-size) / 2;
+            }
+
             & > .#{$element}#{$name}-arrow {
                right: cx-right($value) / 2;
             }
@@ -97,6 +101,15 @@
       left: 0;
       top: 0;
       bottom: 0;
+   }
+
+   .#{$element}#{$name}-baseline {
+      display: inline-block;
+      width: 1px;
+      margin-left: -1px;
+      visibility: hidden;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
    }
 
    .#{$element}#{$name}-icon {

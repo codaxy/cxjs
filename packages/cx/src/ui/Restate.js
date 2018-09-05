@@ -48,9 +48,8 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
-      if (!this.detached || instance.shouldUpdate) {
-         //if Restate is not detached the tree must be walked for putInto widgets
-         instance.container = instance.getChild(context, this.container, null, instance.subStore);
+      if (!this.detached) {
+         instance.container = instance.getChild(context, this.container, "container", instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
       }
       super.explore(context, instance);
@@ -68,7 +67,9 @@ export class Restate extends PureContainer {
 
       return <Cx
          key={key}
-         instance={instance.container}
+         widget={this.container}
+         parentInstance={instance}
+         store={instance.subStore}
          subscribe
          options={this.options}
       />
@@ -97,22 +98,10 @@ class RestateStore extends Store {
          this.notify();
    }
 
-   setItem(...args) {
-      let changed = super.setItem(...args);
-      if (changed)
-         this.bubble();
-      return changed;
-   }
+   doNotify(path) {
+      super.doNotify(path);
 
-   deleteItem(...args) {
-      let changed = super.deleteItem(...args);
-      if (changed)
-         this.bubble();
-      return changed;
-   }
-
-   bubble() {
-      this.store.batch(() => {
+      let changed = this.store.batch(() => {
          let data = this.getData();
          for (let key in this.bindings) {
             let value = data[key];
@@ -128,13 +117,9 @@ class RestateStore extends Store {
             }
          }
       });
-   }
-
-   doNotify(path) {
-      super.doNotify(path);
 
       //in non-detached mode the parent store triggers a new render cycle
-      if (!this.detached)
+      if (!this.detached && !changed)
          this.store.notify();
    }
 }

@@ -14,11 +14,13 @@ import {isArray} from '../util/isArray';
 import {isObject} from '../util/isObject';
 
 export class Instance {
-   constructor(widget, key) {
+   constructor(widget, key, parent, store) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
       this.cached = {};
+      this.parent = parent;
+      this.store = store;
    }
 
    setStore(store) {
@@ -335,7 +337,7 @@ export class Instance {
    trackDestroy() {
       if (!this.destroyTracked) {
          this.destroyTracked = true;
-         if (this.parent)
+         if (this.parent && !this.detached)
             this.parent.trackDestroyableChild(this);
       }
    }
@@ -469,6 +471,12 @@ export class Instance {
       return this.getInstanceCache().getChild(widget, store || this.store, key);
    }
 
+   getDetachedChild(widget, key, store) {
+      let child = new Instance(widget, key, this, store || this.store);
+      child.detached = true;
+      return child;
+   }
+
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
       return widget.prepareRenderCleanup(store || this.store, options, keyPrefix, this);
    }
@@ -543,8 +551,7 @@ export class InstanceCache {
 
 
       if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
-         instance = new Instance(widget, k);
-         instance.parent = this.parent;
+         instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }
       if (instance.store !== store)

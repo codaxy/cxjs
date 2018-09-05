@@ -5,6 +5,7 @@ import {debug, appDataFlag} from '../util/Debug';
 import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
 import {shallowEquals} from "../util/shallowEquals";
+import {PureContainer} from "./PureContainer";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -15,7 +16,7 @@ export class Cx extends VDOM.Component {
          this.store = props.instance.store;
       }
       else {
-         this.widget = Widget.create(props.widget || props.items[0]);
+         this.widget = PureContainer.create({ items: props.widget || props.items });
 
          if (props.parentInstance) {
             this.parentInstance = props.parentInstance;
@@ -48,14 +49,25 @@ export class Cx extends VDOM.Component {
       }
    }
 
+   getInstance() {
+      if (this.props.instance)
+         return this.props.instance;
+
+      if (this.instance)
+         return this.instance;
+
+      if (this.widget && this.parentInstance)
+         return this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store);
+
+      throw new Error("Could not resolve a widget instance in the Cx component.");
+   }
+
    render() {
       if (!this.widget)
          return null;
 
-      let instance = this.props.instance || this.parentInstance.getChild(this.context, this.widget, null, this.store);
-
       return <CxContext
-         instance={instance}
+         instance={this.getInstance()}
          flags={this.flags}
          options={this.props.options}
          buster={++this.renderCount}
@@ -134,6 +146,10 @@ class CxContext extends VDOM.Component {
       let {instance, options, contentFactory} = props;
       let count = 0, visible, context;
 
+      //should not be tracked by parents for destroy
+      if (!instance.detached)
+         throw new Error("The instance passed to a Cx component should be detached from its parent.");
+
       if (this.props.instance !== instance && this.props.instance.destroyTracked)
          this.props.instance.destroy();
 
@@ -149,11 +165,17 @@ class CxContext extends VDOM.Component {
                inst.explore(context);
             }
          }
+         else if (instance.destroyTracked) {
+            instance.destroy();
+            break;
+         }
       }
-      while (visible && this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
+      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
 
       if (visible) {
+
          this.timings.afterExplore = now();
+
          for (let i = 0; i < context.prepareList.length; i++)
             context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
