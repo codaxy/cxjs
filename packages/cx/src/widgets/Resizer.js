@@ -1,6 +1,5 @@
-import {Widget, VDOM} from "cx/src/ui/Widget";
-import {captureMouseOrTouch, getCursorPos} from "cx/src/widgets/overlay/captureMouse";
-
+import {Widget, VDOM} from "../ui/Widget";
+import {captureMouseOrTouch, getCursorPos} from "./overlay/captureMouse";
 
 export class Resizer extends Widget {
    declareData(...args) {
