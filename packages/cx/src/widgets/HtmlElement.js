@@ -54,9 +54,11 @@ export class HtmlElement extends Container {
             }
             else if ((name = this.isValidHtmlAttribute(attr)) && !data.hasOwnProperty(name)) {
                if (name.indexOf('on') == 0) {
-                  if (!this.events)
-                     this.events = {};
-                  this.events[name] = this[attr];
+                  if (this[attr]) {
+                     if (!this.events)
+                        this.events = {};
+                     this.events[name] = this[attr];
+                  }
                } else {
                   if (!this.attrs)
                      this.attrs = {};

@@ -12,7 +12,7 @@ export class ArrayAdapter extends DataAdapter {
          instance.recordStoreCache = new WeakMap();
    }
 
-   getRecords(context, instance, records, parentStore) {      
+   getRecords(context, instance, records, parentStore) {
       return this.mapRecords(context, instance, records, parentStore, this.recordsBinding);
    }
 
@@ -23,11 +23,11 @@ export class ArrayAdapter extends DataAdapter {
          this.initInstance(context, instance);
 
       if (isArray(records))
-         records.forEach((data, index)=> {
+         records.forEach((data, index) => {
 
             if (this.filterFn && !this.filterFn(data))
                return;
-            
+
             let record = this.mapRecord(context, instance, data, parentStore, recordsBinding, index);
 
             result.push(record);
@@ -65,7 +65,8 @@ export class ArrayAdapter extends DataAdapter {
                   [this.recordName]: data,
                   [this.indexName]: index
                },
-               immutable: this.immutable
+               immutable: this.immutable,
+               sealed: this.sealed
             });
          else {
             recordStore.setStore(parentStore);
@@ -90,27 +91,27 @@ export class ArrayAdapter extends DataAdapter {
 
    buildSorter(sorters) {
       if (isArray(sorters) && sorters.length > 0) {
-         if (sorters.every(x=>x.field && x.value == null)) {
+         if (sorters.every(x => x.field && x.value == null)) {
             //if all sorters are based on record fields access data directly (faster)
-            this.sorter = sorter(sorters.map(x=> {
+            this.sorter = sorter(sorters.map(x => {
                if (x.field)
                   return {
                      value: {bind: x.field},
                      direction: x.direction
                   };
                return x;
-            }), x=>x.data)
+            }), x => x.data)
          }
          else {
             //if some sorters use computed values, use store data object
-            this.sorter = sorter(sorters.map(x=> {
+            this.sorter = sorter(sorters.map(x => {
                if (x.field && x.value == null)
                   return {
                      value: {bind: this.recordName + '.' + x.field},
                      direction: x.direction
                   };
                return x;
-            }), x=>x.store.getData())
+            }), x => x.store.getData())
          }
       } else {
          this.sorter = null;
