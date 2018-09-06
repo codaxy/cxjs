@@ -1,11 +1,11 @@
-import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox} from '../../../packages/cx/widgets';
+import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox} from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, LabelsTopLayout, LabelsLeftLayout} from '../../../packages/cx/ui';
+import {Controller, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
-import {computable, updateArray} from '../../../packages/cx/data';
+import {computable, updateArray} from 'cx/data';
 
 class PageController extends Controller {
     onInit() {

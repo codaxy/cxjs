@@ -1,73 +1,139 @@
-import {HtmlElement, Content, Checkbox, Repeater, Text, TextField, NumberField, Button, MsgBox} from '../../../packages/cx/widgets';
+import {HtmlElement, Content, Checkbox, Repeater, Text, TextField, Button, FlexRow, FlexCol, Restate} from 'cx/widgets';
+import {Svg} from "cx/svg";
+import {Column, Chart, Gridlines, CategoryAxis, NumericAxis} from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, LabelsTopLayout, LabelsLeftLayout} from '../../../packages/cx/ui';
+import {Controller, LabelsTopLayout, LabelsLeftLayout, createFunctionalComponent} from 'cx/ui';
 import {ImportPath} from 'docs/components/ImportPath';
 import {MethodTable} from '../../components/MethodTable';
-import {computable, updateArray} from '../../../packages/cx/data';
+import {computable, updateArray} from 'cx/data';
+import {casual} from 'docs/content/examples/data/casual';
 
-class PageController extends Controller {
-    onInit() {
-        this.store.init('$page', {
-            name: 'Jane',
-            disabled: true,
-            todoList: [
-                {id: 1, text: 'Learn CxJS', done: true},
-                {id: 2, text: "Feed the cat", done: false},
-                {id: 3, text: "Take a break", done: false}
-            ],
-            count: 0
-        });
-    }
-
-    greet() {
-        let name = this.store.get('$page.name')
-        MsgBox.alert(`Hello, ${name}!`);
-    }
+function delay(miliseconds) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, miliseconds);
+    })
 }
+
+const UsageStats = createFunctionalComponent(({userId}) => {
+    class WidgetController extends Controller {
+        onInit() {
+            // simmulate data fetching - this can be async
+            let data = Array.from({length: userId}, (_, i) => ({
+                x: casual.city,
+                y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
+            }));   
+            this.store.set("$page.data", data);
+        }
+    }
+
+    return <cx>
+        <div style="flex:1;" controller={WidgetController}>
+            <FlexCol style="flex:1">
+                <h3 text={"User Id: " + userId} style="margin-top: 0px;"/>
+                <Svg style="flex:1; height:300px;">
+                    <Chart offset="20 -20 -110 40" 
+                        axes={{
+                            x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
+                            y: { type: NumericAxis, vertical: true } 
+                        }}>
+                        <Gridlines/>
+                        <Repeater records-bind="$page.data" recordAlias="$point">
+                            <Column 
+                                colorIndex={computable("$point", point => userId - Math.round(point.y*6/50))}
+                                width={0.8}
+                                x-tpl="{$point.x:ellipsis;16}"
+                                y-bind="$point.y"
+                                tooltip-tpl="{$point.x} {$point.y:n;0}" 
+                            />
+                        </Repeater>
+                    </Chart>
+                </Svg>
+            </FlexCol>
+        </div>
+    </cx>;
+});
 
 export const PrivateState = <cx>
 
     <Md>
-        # PrivateState
+        # Private State
 
         <CodeSplit>
 
             <ImportPath path="import { PrivateState } from 'cx/widgets';" />
 
-            Repeater renders its content for each record of the assigned collection.
-            Within the Repeater, use the `$record` alias to access the record data.
-            Element index is available by using the `$index` alias.
+            As usefuel as the global Store may be, sometimes it causes us trouble if some widgets 
+            unintentionally overwrite each other's data, due to the same store paths.
+
+            Consider the example below: we are using a simple UsageStats widget that loads and displays some user data.
+            Data is stored under `$page.data`. Using more then one instance of the UsageStats widget on the same page
+            will cause unpredictable and hard to discover bugs, due to unintended data mutation.
 
             <div class="widgets">
-                <div>
-                    <Repeater records:bind="intro.core.items" >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
-                        <br/>
-                    </Repeater>
-
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
-                </div>
+                <FlexRow style="width:100%;">
+                    <UsageStats userId={10} />
+                    <UsageStats userId={12} />
+                </FlexRow>
             </div>
 
-            <Content name="code">
-                <CodeSnippet fiddle="F3RHqb0x">{`
-                    store.set('intro.core.items', [
-                        { text: 'A', checked: false },
-                        { text: 'B', checked: false },
-                        { text: 'C', checked: false }
-                    ]);
-                    ...
-                    <Repeater records:bind="intro.core.items">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
-                        <br/>
-                    </Repeater>
+            Although we are passing different `userIds` to the UsageStats widget, they are both showing identical data. 
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+            <Content name="code">
+                <CodeSnippet /* fiddle="F3RHqb0x" */>{`
+                    const UsageStats = createFunctionalComponent(({userId}) => {
+                        class WidgetController extends Controller {
+                            onInit() {
+                                // simmulate data fetching - this can be async
+                                let data = Array.from({length: userId}, (_, i) => ({
+                                    x: casual.city,
+                                    y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
+                                }));   
+                                this.store.set("$page.data", data);
+                            }
+                        }
+                    
+                        return <cx>
+                            <div style="flex:1;" controller={WidgetController}>
+                                <FlexCol style="flex:1">
+                                    <h3 text={"User Id: " + userId} style="margin-top: 0px;"/>
+                                    <Svg style="flex:1; height:300px;">
+                                        <Chart offset="20 -20 -110 40" 
+                                            axes={{
+                                                x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
+                                                y: { type: NumericAxis, vertical: true } 
+                                            }}>
+                                            <Gridlines/>
+                                            <Repeater records-bind="$page.data" recordAlias="$point">
+                                                <Column 
+                                                    colorIndex={computable("$point", point => userId - Math.round(point.y*6/50))}
+                                                    width={0.8}
+                                                    x-tpl="{$point.x:ellipsis;16}"
+                                                    y-bind="$point.y"
+                                                    tooltip-tpl="{$point.x} {$point.y:n;0}" 
+                                                />
+                                            </Repeater>
+                                        </Chart>
+                                    </Svg>
+                                </FlexCol>
+                            </div>
+                        </cx>;
+                    });
+                    ...
+                    
+                    <FlexRow style="width:100%;">
+                        <UsageStats userId={10} />
+                        <UsageStats userId={12} />
+                    </FlexRow>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
+
+        To solve this problem, we can use `PrivateState` to isolate the parts of the Store that are used within a widget.
+        This way we can have as many instances as we want, without worrying about Store pollution.
 
         ### Examples
 
@@ -76,46 +142,7 @@ export const PrivateState = <cx>
         - through two-way data binding ([explained here](~/concepts/data-binding))
         - inside event handlers
 
-        <CodeSplit>
-
-            ## `init`
-
-            The `init` method is typically used inside the Controller's `onInit` method to initialize the data.
-            It takes two arguments, `path` and `value`. The `path` is a string which is used as a key for storing the
-            `value`. If the `path` is already taken, the method returns `false` without overwriting the existing value.
-            Otherwise, it saves the `value` and returns `true`.
-
-            <Content name="code">
-                <CodeSnippet fiddle="fMy6p8FB">{`
-                    class PageController extends Controller {
-                        onInit() {
-                            this.store.init('$page', {
-                                name: 'Jane',
-                                disabled: true,
-                                todoList: [
-                                    { id: 1, text: 'Learn Cx', done: true }, 
-                                    { id: 2, text: "Feed the cat", done: false },
-                                    { id: 3, text: "Take a break", done: false }
-                                ],
-                                count: 0
-                            });
-                        }
-                    
-                        greet() {
-                            let name = this.store.get('$page.name')
-                            MsgBox.alert(\`Hello, \${name}!\`);
-                        }
-                    }
-                    ...
-
-                    <div layout={LabelsTopLayout} controller={PageController}>
-                        <TextField label="Name" value:bind="$page.name" />
-                        <Button onClick="greet">Greet</Button>
-                    </div>
-                `}
-                </CodeSnippet>
-            </Content>
-        </CodeSplit>
+      
 
 
         ## `get`
@@ -130,10 +157,7 @@ export const PrivateState = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <div layout={LabelsTopLayout} controller={PageController}>
-                    <TextField label="Name" value:bind='$page.name'/>
-                    <Button onClick="greet">Greet</Button>
-                </div>
+                
             </div>
         </CodeSplit>
     </Md>
