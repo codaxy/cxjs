@@ -41,6 +41,12 @@ export class LinkButton extends Button {
 
          case 'prefix':
             return data.url && data.unresolvedHref && data.url.indexOf(data.unresolvedHref) === 0;
+
+         case 'subroute':
+            return data.url 
+               && data.unresolvedHref 
+               && data.url.indexOf(data.unresolvedHref) === 0 
+               && (data.url === data.unresolvedHref || data.url[data.unresolvedHref.length] === "/");
       }
    }
 

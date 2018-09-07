@@ -34,8 +34,9 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Either `equal` or `prefix`. Default is `equal` which means that `url` must be exactly match `href` in order to
-            consider the link active. In `prefix` mode, if `href` is a prefix of `url`, the link is considered active.
+            Accepted values are `equal`, `prefix` and `subroute`. Default is `equal` which means that `url` must be exactly match `href` in order to consider the link active. 
+            In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. In `subroute` mode, the `href` can be followed by a forward slash `/`, indicating 
+            a subroute.
         </Md></cx>
     }
 };
