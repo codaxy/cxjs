@@ -1,4 +1,5 @@
 import { batchUpdates } from '../../ui/batchUpdates';
+import { getParentFrameBoundingClientRect } from '../../util/getParentFrameBoundingClientRect';
 
 export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
 
@@ -82,8 +83,9 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
 
 export function getCursorPos(e) {
    let p = (e.touches && e.touches[0]) || e;
+   let offset = getParentFrameBoundingClientRect(e.target);
    return {
-      clientX: p.clientX,
-      clientY: p.clientY
+      clientX: p.clientX + offset.left,
+      clientY: p.clientY + offset.top
    }
 }

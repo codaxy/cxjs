@@ -11,6 +11,7 @@ import {captureMouseOrTouch, getCursorPos} from '../overlay/captureMouse';
 import {isUndefined} from '../../util/isUndefined';
 import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 export class Slider extends Field {
 
@@ -230,7 +231,7 @@ class SliderComponent extends VDOM.Component {
          return;
 
       let handleEl = this.dom[handle];
-      let b = handleEl.getBoundingClientRect();
+      let b = getTopLevelBoundingClientRect(handleEl);
       let pos = getCursorPos(e);
       let dx = pos.clientX - (b.left + b.right) / 2;
       let dy = pos.clientY - (b.top + b.bottom) / 2;
@@ -277,7 +278,7 @@ class SliderComponent extends VDOM.Component {
    getValues(e, d = 0) {
       let {data, widget} = this.props.instance;
       let {minValue, maxValue} = data;
-      let b = this.dom.range.getBoundingClientRect();
+      let b = getTopLevelBoundingClientRect(this.dom.range);
       let pos = getCursorPos(e);
       let pct = widget.vertical
          ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))

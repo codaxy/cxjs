@@ -5,6 +5,7 @@ import {isTouchDevice} from '../../util/isTouchDevice';
 import {ResizeManager} from '../../ui/ResizeManager';
 import {Localization} from '../../ui/Localization';
 import {SubscriberList} from '../../util/SubscriberList';
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 /*
  Dropdown specific features:
@@ -98,7 +99,7 @@ export class Dropdown extends Overlay {
    updateDropdownPosition(instance, component) {
       var {el} = component;
       var {data} = instance;
-      var parentBounds = component.parentBounds = this.relatedElement.getBoundingClientRect();
+      var parentBounds = component.parentBounds = getTopLevelBoundingClientRect(this.relatedElement);
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
       if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0)

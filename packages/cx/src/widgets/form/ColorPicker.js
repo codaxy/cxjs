@@ -8,6 +8,7 @@ import {parseColor} from '../../util/color/parseColor';
 import {getVendorPrefix} from '../../util/getVendorPrefix';
 import {stopPropagation} from '../../util/eventCallbacks';
 import {isString} from '../../util/isString';
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems
@@ -286,7 +287,7 @@ class ColorPickerComponent extends VDOM.Component {
       e.stopPropagation();
 
       let el = e.currentTarget;
-      let bounds = el.getBoundingClientRect();
+      let bounds = getTopLevelBoundingClientRect(el);
 
       let move = e => {
          let pos = getCursorPos(e);
@@ -305,7 +306,7 @@ class ColorPickerComponent extends VDOM.Component {
       e.stopPropagation();
 
       let el = e.currentTarget;
-      let bounds = el.getBoundingClientRect();
+      let bounds = getTopLevelBoundingClientRect(el);
 
       let move = e => {
          let pos = getCursorPos(e);

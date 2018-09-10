@@ -6,6 +6,7 @@ import {isTouchEvent} from '../../util/isTouchEvent';
 import {shallowEquals} from '../../util/shallowEquals';
 import {isSelector} from '../../data/isSelector';
 import {wireTooltipOps} from './tooltip-ops';
+import {getCursorPos} from "./captureMouse";
 
 export class Tooltip extends Dropdown {
 
@@ -41,9 +42,10 @@ export class Tooltip extends Dropdown {
 
       if (this.trackMouseX || this.trackMouseY) {
          instance.trackMouse = (e) => {
+            let pos = getCursorPos(e);
             instance.mousePosition = {
-               x: e.clientX,
-               y: e.clientY
+               x: pos.clientX,
+               y: pos.clientY
             };
             if (instance.tooltipComponent)
                this.updateDropdownPosition(instance, instance.tooltipComponent);
@@ -57,7 +59,7 @@ export class Tooltip extends Dropdown {
       super.overlayDidMount(instance, component);
 
       instance.parentValidityCheckTimer = setInterval(() => {
-         if (!document.body.contains(this.relatedElement)) {
+         if (!this.relatedElement.ownerDocument.body.contains(this.relatedElement)) {
             if (instance.dismissTooltip) {
                instance.dismissTooltip();
                instance.dismissTooltip = null;
@@ -105,7 +107,7 @@ export class Tooltip extends Dropdown {
 
    dismissTooltip(instance) {
       if (instance && instance.dismissTooltip) {
-         if (instance.data && instance.data.alwaysVisible && document.body.contains(this.relatedElement))
+         if (instance.data && instance.data.alwaysVisible && this.relatedElement.ownerDocument.body.contains(this.relatedElement))
             return;
          instance.dismissTooltip();
          instance.dismissTooltip = null;
@@ -195,7 +197,8 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
          instance.pending = true;
          setTimeout(() => {
             instance.pending = false;
-            if (instance.mouseOverTarget && document.body.contains(instance.widget.relatedElement)) {
+            let {relatedElement} = instance.widget;
+            if (instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
                instance.dismissTooltip = instance.widget.open(instance, {
                   onPipeUpdate: cb => {
                      instance.update = cb;

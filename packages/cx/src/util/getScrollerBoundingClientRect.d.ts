@@ -1,1 +1,1 @@
-export function getScrollerBoundingClientRect(scrollEl: Element) : ClientRect;
+export function getScrollerBoundingClientRect(scrollEl: Element, topLevel?: boolean) : ClientRect;

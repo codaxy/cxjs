@@ -6,6 +6,7 @@ import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse
 import {closest} from '../util/DOM';
 import {Selection} from '../ui/selection/Selection';
 import {getShape} from './shapes';
+import {getTopLevelBoundingClientRect} from "../util/getTopLevelBoundingClientRect";
 
 export class Marker extends BoundedObject {
 
@@ -191,7 +192,7 @@ export class Marker extends BoundedObject {
 
    handleDragMove(e, instance, captureData) {
       let cursor = getCursorPos(e);
-      let svgBounds = captureData.svgEl.getBoundingClientRect();
+      let svgBounds = getTopLevelBoundingClientRect(captureData.svgEl);
       let {xAxis, yAxis} = instance;
       if (this.draggableX && xAxis) {
          let x = xAxis.trackValue(cursor.clientX - svgBounds.left, this.xOffset);

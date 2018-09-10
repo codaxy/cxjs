@@ -103,8 +103,7 @@ function createSelector({ functions, structures, constants, defaultValues }) {
    let selector = {};
 
    for (let n in functions) {
-      const f = functions[n];
-      selector[n] = f.memoize ? f.memoize() : f;
+      selector[n] = functions[n];
    }
 
    for (let n in structures)
@@ -125,7 +124,10 @@ export class StructuredSelector {
    }
 
    create() {
-      return createSelector(this.config);
+      let selector = createSelector(this.config);
+      if (selector.memoize)
+         return selector.memoize();
+      return selector;
    }
 
    createStoreSelector() {

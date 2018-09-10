@@ -4,6 +4,7 @@ import {parseStyle} from '../../util/parseStyle';
 import {registerDropZone} from './ops';
 import {findScrollableParent} from '../../util/findScrollableParent'
 import {isNumber} from '../../util/isNumber';
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 export class DropZone extends Container {
 
@@ -138,13 +139,7 @@ class DropZoneComponent extends VDOM.Component {
 
    onDragMeasure(e) {
 
-      let r = this.el.getBoundingClientRect();
-      let rect = {
-         left: r.left,
-         right: r.right,
-         top: r.top,
-         bottom: r.bottom
-      };
+      let rect = getTopLevelBoundingClientRect(this.el);
 
       let {instance} = this.props;
       let {widget} = instance;

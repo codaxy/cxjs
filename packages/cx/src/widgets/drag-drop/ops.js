@@ -6,6 +6,7 @@ import {isNumber} from '../../util/isNumber';
 import {isObject} from '../../util/isObject';
 import {isString} from '../../util/isString';
 import {ZIndexManager} from "../../ui/ZIndexManager";
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 let dropZones = new SubscriberList(),
    dragStartedZones,
@@ -28,7 +29,7 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    }
 
    let sourceEl = options.sourceEl || e.currentTarget;
-   let sourceBounds = sourceEl.getBoundingClientRect();
+   let sourceBounds = getTopLevelBoundingClientRect(sourceEl);
    let cursor = getCursorPos(e);
 
    let clone = {
@@ -188,8 +189,8 @@ function notifyDragMove(e, captureData) {
 
    if (vscrollParent || hscrollParent) {
       let scrollX = 0, scrollY = 0;
-      let vscrollBounds = vscrollParent && getScrollerBoundingClientRect(vscrollParent);
-      let hscrollBounds = hscrollParent == vscrollParent ? vscrollBounds : hscrollParent && getScrollerBoundingClientRect(hscrollParent);
+      let vscrollBounds = vscrollParent && getScrollerBoundingClientRect(vscrollParent, true);
+      let hscrollBounds = hscrollParent == vscrollParent ? vscrollBounds : hscrollParent && getScrollerBoundingClientRect(hscrollParent, true);
 
       if (vscrollBounds) {
          if (cursor.clientY < vscrollBounds.top + 20)

@@ -9,5 +9,5 @@ export function findScrollableParent(sourceEl, horizontal = false) {
       let oy = getComputedStyle(el)[horizontal ? "overflow-x" : "overflow-y"];
       return oy == "auto" || oy == "scroll";
    });
-   return scrollParent || document.scrollingElement || document.documentElement;
+   return scrollParent || sourceEl.ownerDocument.scrollingElement || sourceEl.ownerDocument.documentElement;
 }

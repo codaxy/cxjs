@@ -1,5 +1,11 @@
-export function getScrollerBoundingClientRect(scrollEl) {
-   if (scrollEl == document.body || scrollEl == document.documentElement)
+import {getParentFrameBoundingClientRect} from "./getParentFrameBoundingClientRect";
+import {getTopLevelBoundingClientRect} from "./getTopLevelBoundingClientRect";
+
+export function getScrollerBoundingClientRect(scrollEl, topLevel = false) {
+   if (scrollEl == scrollEl.ownerDocument.body || scrollEl == scrollEl.ownerDocument.documentElement) {
+      if (topLevel)
+         return getParentFrameBoundingClientRect(scrollEl.ownerDocument.body);
+
       return {
          left: 0,
          top: 0,
@@ -8,6 +14,9 @@ export function getScrollerBoundingClientRect(scrollEl) {
          width: window.innerWidth,
          height: window.innerHeight
       };
+   }
 
-   return scrollEl.getBoundingClientRect();
+   return topLevel
+      ? getTopLevelBoundingClientRect(scrollEl)
+      : scrollEl.getBoundingClientRect();
 }

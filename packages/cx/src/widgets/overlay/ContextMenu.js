@@ -1,4 +1,5 @@
 import {Dropdown} from './Dropdown';
+import {getCursorPos} from "./captureMouse";
 
 export class ContextMenu extends Dropdown {}
 ContextMenu.prototype.trackMouse = true;
@@ -14,11 +15,12 @@ ContextMenu.prototype.focusable = true;
 export const openContextMenu = (e, content, store, options) => {
    e.preventDefault();
    e.stopPropagation();
+   let position = getCursorPos(e);
    let menu = ContextMenu.create({
       relatedElement: e.currentTarget,
       mousePosition: {
-         x: e.clientX,
-         y: e.clientY
+         x: position.clientX,
+         y: position.clientY
       },
       trackMouse: true,
       items: content

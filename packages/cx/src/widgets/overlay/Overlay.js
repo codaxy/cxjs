@@ -9,6 +9,7 @@ import {ZIndexManager} from "../../ui/ZIndexManager";
 import { ddMouseDown, ddMouseUp, ddDetect } from "../drag-drop/ops";
 import { isObject} from "../../util/isObject";
 import { isBinding } from "../../data/Binding";
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 
 /*
  Features:
@@ -391,7 +392,7 @@ export class OverlayComponent extends VDOM.Component {
       if (!data.resizable)
          return '';
       let cursor = this.getCursorPos(e);
-      let bounds = this.el.getBoundingClientRect();
+      let bounds = getTopLevelBoundingClientRect(this.el);
       let leftMargin = cursor.clientX - bounds.left;
       let rightMargin = bounds.right - cursor.clientX;
       let topMargin = cursor.clientY - bounds.top;
@@ -415,7 +416,7 @@ export class OverlayComponent extends VDOM.Component {
       let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();
-         let rect = this.el.getBoundingClientRect();
+         let rect = getTopLevelBoundingClientRect(this.el);
          let cursor = this.getCursorPos(e);
          let captureData = {
             prefix: prefix,
@@ -518,7 +519,7 @@ export class OverlayComponent extends VDOM.Component {
    startMoveOperation(e) {
       if (this.el && !this.getResizePrefix(e)) {
          e.stopPropagation();
-         let rect = this.el.getBoundingClientRect();
+         let rect = getTopLevelBoundingClientRect(this.el);
          let cursor = this.getCursorPos(e);
          let data = {
             dx: cursor.clientX - rect.left,

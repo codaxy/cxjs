@@ -2,6 +2,7 @@ import {BoundedObject} from '../svg/BoundedObject';
 import {VDOM} from '../ui/Widget';
 import {captureMouseOrTouch, getCursorPos} from '../widgets/overlay/captureMouse';
 import {closest} from '../util/DOM';
+import {getTopLevelBoundingClientRect} from "../util/getTopLevelBoundingClientRect";
 
 export class Range extends BoundedObject {
    declareData() {
@@ -133,7 +134,7 @@ export class Range extends BoundedObject {
    handleMouseDown(e, instance) {
       if (this.draggableX || this.draggableY) {
          var svgEl = closest(e.target, el => el.tagName == 'svg');
-         var svgBounds = svgEl.getBoundingClientRect();
+         var svgBounds = getTopLevelBoundingClientRect(svgEl);
          var cursor = getCursorPos(e);
          var {data, xAxis, yAxis} = instance;
 

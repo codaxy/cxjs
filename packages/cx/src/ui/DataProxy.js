@@ -66,6 +66,8 @@ class DataProxyView extends ReadOnlyDataView {
    constructor(config) {
       super(config);
       this.dataSelector = getSelector(this.privateData);
+      if (this.dataSelector.memoize)
+         this.dataSelector = this.dataSelector.memoize();
    }
 
    getAdditionalData(parentStoreData) {

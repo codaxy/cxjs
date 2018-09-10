@@ -33,6 +33,8 @@ import {shallowEquals} from '../../util/shallowEquals';
 import {InstanceCache} from "../../ui/Instance";
 import {Cx} from '../../ui/Cx';
 import {Console} from "../../util/Console";
+import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
+import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundingClientRect";
 
 
 export class Grid extends Widget {
@@ -1167,7 +1169,7 @@ class GridComponent extends VDOM.Component {
    }
 
    onDragMeasure(e) {
-      let r = this.dom.scroller.getBoundingClientRect();
+      let r = getTopLevelBoundingClientRect(this.dom.scroller);
       let {clientX, clientY} = e.cursor;
 
       if (clientX < r.left || clientX >= r.right || clientY < r.top || clientY >= r.bottom)
@@ -1185,8 +1187,10 @@ class GridComponent extends VDOM.Component {
          .from(this.dom.table.children)
          .filter(node => node.className && node.className.indexOf(rowClass) != -1);
 
-      let cy = ev.cursor.clientY;
+
       let s = 0, e = nodes.length, m, b;
+      let parentOffset = getParentFrameBoundingClientRect(this.dom.scroller);
+      let cy = ev.cursor.clientY - parentOffset.top;
 
       while (s < e) {
          m = Math.floor((s + e) / 2);
