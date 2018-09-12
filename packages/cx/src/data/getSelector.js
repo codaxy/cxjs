@@ -29,6 +29,9 @@ export function getSelector(config) {
          if (config.expr)
             return Expression.get(config.expr);
 
+         if (config.get)
+            return config.get;
+
          let selectors = {};
          let constants = {};
 

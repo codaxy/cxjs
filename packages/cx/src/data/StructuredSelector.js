@@ -49,6 +49,10 @@ function getSelectorConfig(props, values, nameMap) {
             functions[p] = Expression.get(v.expr);
             constant = false;
          }
+         else if (v.get) {
+            functions[p] = v.get;
+            constant = false;
+         }
          else if (v.tpl) {
             functions[p] = StringTemplate.get(v.tpl);
             constant = false;

@@ -9,4 +9,9 @@ describe('getSelector', function() {
       let selector = getSelector(arraySelector);
       assert.deepEqual(selector(state), ['Joe', 'Joe']);
    });
+
+   it('get can be used for selectors that have set defined too ', function () {
+      let selector = getSelector({ get: data => data.name, set: () => {} });
+      assert.deepEqual(selector({ name: "Jack"}), 'Jack');
+   });
 });
