@@ -250,20 +250,20 @@ describe('Controller', () => {
    });
 
    it('allows creation through a factory', () => {
-      let global = {x: 0};
+      let store = new Store({ data: { x: 0}});
 
-      const controllerFactory = ({state}) => {
+      const controllerFactory = ({store}) => {
          return {
             increment() {
-               state.x++;
+               store.update("x", x => x + 1);
             }
          }
       };
 
-      let c = Controller.create(controllerFactory, {state: global});
+      let c = Controller.create(controllerFactory, {store});
 
       c.increment();
-      assert.equal(global.x, 1);
+      assert.equal(store.get("x"), 1);
    });
 
    it('lifetime methods of a functional controller are properly invoked', () => {
@@ -301,7 +301,7 @@ describe('Controller', () => {
       assert.equal(initCount, 2);
    });
 
-   it.only('widgets can define methods without a real controller', () => {
+   it('widgets can easily define controller methods', () => {
       let store = new Store({ data: { x: 0}});
 
       const component = renderer.create(
