@@ -1,6 +1,7 @@
 import {computable} from '../data/computable';
 import {Component} from './Component';
 import {isArray} from '../util/isArray';
+import {isFunction} from '../util/isFunction';
 
 const computablePrefix = 'computable-';
 const triggerPrefix = 'trigger-';
@@ -87,3 +88,22 @@ export class Controller extends Component {
 
 Controller.namespace = 'ui.controller.';
 Controller.lazyInit = true;
+
+Controller.factory = function(alias, config, more) {
+   if (isFunction(alias)) {
+      let result = alias(config);
+      if (result instanceof Controller)
+         return result;
+
+      return new Controller({
+         ...config,
+         ...more,
+         ...result
+      });
+   }
+
+   return new Controller({
+      ...config,
+      ...more
+   });
+}
