@@ -178,7 +178,8 @@ export class View {
          get: ::this.get,
          update: ::this.update,
          delete: ::this.delete,
-         toggle: ::this.toggle
+         toggle: ::this.toggle,
+         init: ::this.init
       }
    }
 }
