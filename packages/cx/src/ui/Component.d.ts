@@ -6,6 +6,8 @@ interface DecoratorFactory<T> {
 
 export class Component {
 
+   constructor(config?: Cx.Config);
+
    init();
 
    /**

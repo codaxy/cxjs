@@ -35,13 +35,13 @@ describe('Controller', () => {
       }
 
       let widget = <cx>
-         <div controller={TestController} />
+         <div controller={TestController}/>
       </cx>;
 
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate />
+         <Cx widget={widget} store={store} subscribe immediate/>
       );
 
       let tree = component.toJSON();
@@ -75,7 +75,7 @@ describe('Controller', () => {
 
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
-            <Cmp controller={TestController} onTest="callback" />
+            <Cmp controller={TestController} onTest="callback"/>
          </Cx>
       );
 
@@ -115,7 +115,7 @@ describe('Controller', () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <div controller={TestController1}>
-               <Cmp controller={TestController2} onTest="callback1" />
+               <Cmp controller={TestController2} onTest="callback1"/>
             </div>
          </Cx>
       );
@@ -146,7 +146,7 @@ describe('Controller', () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <div controller={TestController1}>
-               <div controller={TestController2} />
+               <div controller={TestController2}/>
             </div>
          </Cx>
       );
@@ -176,7 +176,7 @@ describe('Controller', () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <div controller={TestController1}>
-               <div visible={false} controller={TestController2} />
+               <div visible={false} controller={TestController2}/>
             </div>
          </Cx>
       );
@@ -187,6 +187,7 @@ describe('Controller', () => {
 
    it('invokes triggers and computables in order of definition', () => {
       let log = [];
+
       class TestController extends Controller {
          onInit() {
             this.addTrigger('t1', [], () => {
@@ -205,13 +206,13 @@ describe('Controller', () => {
       }
 
       let widget = <cx>
-         <div controller={TestController} />
+         <div controller={TestController}/>
       </cx>;
 
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate />
+         <Cx widget={widget} store={store} subscribe immediate/>
       );
 
       let tree = component.toJSON();
@@ -220,6 +221,7 @@ describe('Controller', () => {
 
    it('is recreated if a component is hidden and shown', () => {
       let initCount = 0;
+
       class TestController extends Controller {
          onInit() {
             initCount++;
@@ -231,7 +233,7 @@ describe('Controller', () => {
 
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
-            <div visible:bind="visible" controller={TestController} />
+            <div visible:bind="visible" controller={TestController}/>
          </Cx>
       );
 
@@ -245,6 +247,114 @@ describe('Controller', () => {
       store.set('visible', true);
       let tree3 = component.toJSON();
       assert.equal(initCount, 2);
+   });
+
+   it('allows creation through a factory', () => {
+      let store = new Store({ data: { x: 0}});
+
+      const controllerFactory = ({store}) => {
+         return {
+            increment() {
+               store.update("x", x => x + 1);
+            }
+         }
+      };
+
+      let c = Controller.create(controllerFactory, {store});
+
+      c.increment();
+      assert.equal(store.get("x"), 1);
+   });
+
+   it('lifetime methods of a functional controller are properly invoked', () => {
+      let initCount = 0,
+         destroyCount = 0;
+
+      const testController = () => ({
+         onInit() {
+            initCount++;
+         },
+
+         onDestroy() {
+            destroyCount++;
+         }
+      });
+
+      let store = new Store();
+      store.set('visible', true);
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div visible:bind="visible" controller={testController}/>
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(initCount, 1);
+
+      store.set('visible', false);
+      let tree2 = component.toJSON();
+      assert.equal(destroyCount, 1);
+
+      store.set('visible', true);
+      let tree3 = component.toJSON();
+      assert.equal(initCount, 2);
+   });
+
+   it('widgets can easily define controller methods', () => {
+      let store = new Store({ data: { x: 0}});
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div
+               controller={{
+                  increment(count) {
+                     this.store.update("x", x => x + count);
+                  }
+               }}
+            >
+               <div
+                  controller={{
+                     onInit() {
+                        this.invokeParentMethod("increment", 1);
+                     }
+                  }}
+               />
+            </div>
+
+
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(store.get("x"), 1);
+   });
+
+   it('functional controllers get store methods through configuration', () => {
+      let store = new Store({ data: { x: 0}});
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div
+               controller={({update}) => ({
+                  increment(count) {
+                     update("x", x => x + count);
+                  }
+               })}
+            >
+               <div
+                  controller={{
+                     onInit() {
+                        this.invokeParentMethod("increment", 1);
+                     }
+                  }}
+               />
+            </div>
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(store.get("x"), 1);
    });
 });
 

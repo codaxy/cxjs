@@ -170,6 +170,17 @@ export class View {
       this.store = store;
       this.meta = store.getMeta();
    }
+
+   getMethods() {
+      return {
+         getData: ::this.getData,
+         set: ::this.set,
+         get: ::this.get,
+         update: ::this.update,
+         delete: ::this.delete,
+         toggle: ::this.toggle
+      }
+   }
 }
 
 View.prototype.sealed = false; //indicate that data should be copied before virtual items are added

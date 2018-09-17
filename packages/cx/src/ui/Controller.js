@@ -1,6 +1,8 @@
 import {computable} from '../data/computable';
 import {Component} from './Component';
 import {isArray} from '../util/isArray';
+import {isFunction} from '../util/isFunction';
+import {View} from "../data/View";
 
 const computablePrefix = 'computable-';
 const triggerPrefix = 'trigger-';
@@ -87,3 +89,49 @@ export class Controller extends Component {
 
 Controller.namespace = 'ui.controller.';
 Controller.lazyInit = true;
+
+Controller.factory = function(alias, config, more) {
+   if (isFunction(alias)) {
+      let cfg = {
+         ...config,
+         ...more
+      };
+
+      if (cfg.instance) {
+         //in rare cases instance.store may change, so we cannot rely on the store passed through configuration
+         cfg.store = new InstanceStoreProxy(cfg.instance);
+         Object.assign(cfg, cfg.store.getMethods());
+      }
+
+      let result = alias(cfg);
+      if (result instanceof Controller)
+         return result;
+
+      return new Controller({
+         ...config,
+         ...more,
+         ...result
+      });
+   }
+
+   return new Controller({
+      ...config,
+      ...more
+   });
+};
+
+class InstanceStoreProxy extends View {
+   constructor(instance) {
+      super({
+         store: instance.store
+      });
+
+      Object.defineProperty(this, "store", {
+         get: () => instance.store
+      });
+   }
+
+   getData() {
+      return this.store.getData();
+   }
+}
