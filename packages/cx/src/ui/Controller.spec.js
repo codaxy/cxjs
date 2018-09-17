@@ -329,5 +329,32 @@ describe('Controller', () => {
       let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
    });
+
+   it('functional controllers get store methods through configuration', () => {
+      let store = new Store({ data: { x: 0}});
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div
+               controller={({update}) => ({
+                  increment(count) {
+                     update("x", x => x + count);
+                  }
+               })}
+            >
+               <div
+                  controller={{
+                     onInit() {
+                        this.invokeParentMethod("increment", 1);
+                     }
+                  }}
+               />
+            </div>
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(store.get("x"), 1);
+   });
 });
 
