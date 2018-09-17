@@ -72,4 +72,6 @@ export class View {
    load(data: Record): boolean;
 
    dispatch(action);
+
+   getMethods();
 }
