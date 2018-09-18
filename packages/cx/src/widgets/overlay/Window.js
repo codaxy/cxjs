@@ -8,6 +8,7 @@ import {Localization} from '../../ui/Localization';
 import {stopPropagation} from '../../util/eventCallbacks';
 import { ddMouseDown, ddDetect, ddMouseUp } from '../drag-drop/ops';
 import {isDefined} from "../../util/isDefined";
+import {KeyCode} from "../../util/KeyCode";
 
 export class Window extends Overlay {
 
@@ -91,6 +92,14 @@ export class Window extends Overlay {
          {this.renderContents(context, instance)}
       </WindowComponent>;
    }
+
+   handleKeyDown(event, instance, component) {
+      if (super.handleKeyDown(event, instance, component) == false)
+         return;
+
+      if (this.closeOnEscape && event.keyCode == KeyCode.esc && instance.dismiss)
+         instance.dismiss();
+   }
 }
 
 Window.prototype.baseClass = 'window';
@@ -98,6 +107,7 @@ Window.prototype.closable = true;
 Window.prototype.resizable = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
+Window.prototype.closeOnEscape = false;
 
 Widget.alias('window', Window);
 Localization.registerPrototype("cx/widgets/Window", Window);
@@ -209,5 +219,3 @@ class WindowComponent extends OverlayComponent {
       }
    }
 }
-
-WindowComponent.prototype.focusable = true;

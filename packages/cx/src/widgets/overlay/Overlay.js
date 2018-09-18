@@ -117,8 +117,7 @@ export class Overlay extends PureContainer {
    }
 
    handleKeyDown(e, instance, component) {
-      if (this.onKeyDown)
-         instance.invoke("onKeyDown", e, instance, component);
+      return this.onKeyDown && instance.invoke("onKeyDown", e, instance, component);
    }
 
    handleMouseLeave(instance, component) {

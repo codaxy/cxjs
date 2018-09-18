@@ -16,23 +16,7 @@ import './index.scss';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
 //import Demo from './performance/LongList';
 //
-//
-//import Demo from './bugs/236';
-//import Demo from './bugs/282';
-// import Demo from './bugs/192';
-// import Demo from './bugs/search';
-//import Demo from './bugs/395';
-//import Demo from './bugs/414';
-//import Demo from './bugs/NativeCheckboxesAndRadios';
-//import Demo from './bugs/Repeater';
-//import Demo from './bugs/179';
-//import Demo from './bugs/380';
-//import Demo from './bugs/JSXSpread';
-//import Demo from './bugs/MultiModals';
-//import Demo from './bugs/lookupfiledset';
-//import Demo from './bugs/469';
-//import Demo from "./bugs/GridFilters";
-//import Demo from './bugs/476';
+import Demo from './bugs/483';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -62,7 +46,7 @@ import './index.scss';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
-import Demo from './features/menu/overflow';
+//import Demo from './features/menu/overflow';
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
 

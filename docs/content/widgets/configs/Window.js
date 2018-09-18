@@ -32,5 +32,13 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the field. Defaults to `window`.
         </Md></cx>
-    }
+    },
+    closeOnEscape: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make the window automatically close if the Esc key is pressed on the keyboard.
+            Default value is `false`.
+        </Md></cx>
+    },
 };

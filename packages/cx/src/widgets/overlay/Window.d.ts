@@ -23,10 +23,15 @@ interface WindowProps extends OverlayProps {
    
    /** Set to `true` to enable resizing. */
    resizable?: boolean,
+
    /** Set to `true` to automatically focus the field, after it renders for the first time. */
    autoFocus?: boolean,
-   
-   focusable?: boolean
+
+   /** Set to `false` to prevent the window itself to be focusable. Default value is true.*/
+   focusable?: boolean,
+
+   /** Set to `true` to make the window automatically close if Esc is pressed on the keyboard. Default value is false.*/
+   closeOnEscape?: boolean,
 
 }
 
