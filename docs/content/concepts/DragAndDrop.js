@@ -127,9 +127,6 @@ export const DragAndDrop = <cx>
                     style="width: 180px;height:180px;background:moccasin;padding:15px"
                     data={{type: 'b1', text: 'Box with a drag handle'}}
                     handled
-                    clone={<cx>
-                        <div>Test</div>
-                    </cx>}
                 >
                     <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
                         DRAG USING THIS HANDLE
