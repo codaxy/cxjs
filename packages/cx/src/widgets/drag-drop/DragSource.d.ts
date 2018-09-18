@@ -25,7 +25,10 @@ interface DragSourceProps extends Cx.StyledContainerProps {
 
    onDragEnd?: (e, instance: Instance) => void,
 
-   id: Cx.StringProp
+   id?: Cx.StringProp,
+
+   /** Custom contents to be displayed during drag & drop operation. */
+   clone?: Cx.Config,
 }
 
 export class DragSource extends Cx.Widget<DragSourceProps> {}

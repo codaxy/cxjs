@@ -44,8 +44,12 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       Object.assign(cloneEl.style, clone.style);
    cloneEl.style.left = `-1000px`;
    cloneEl.style.top = `-1000px`;
-   cloneEl.style.minWidth = `${Math.ceil(sourceBounds.width)}px`;
-   cloneEl.style.minHeight = `${Math.ceil(sourceBounds.height)}px`;
+
+   if (clone.matchSize) {
+      cloneEl.style.width = `${Math.ceil(sourceBounds.width)}px`;
+      cloneEl.style.height = `${Math.ceil(sourceBounds.height)}px`;
+   }
+
    cloneEl.style.zIndex = ZIndexManager.next() + 1000;
 
    if (clone.cloneContent) {
@@ -56,10 +60,8 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 
    let styles = getComputedStyle(sourceEl);
 
-
-
-   let deltaX = cursor.clientX - sourceBounds.left;
-   let deltaY = cursor.clientY - sourceBounds.top;
+   let deltaX = clone.matchCursorOffset ? cursor.clientX - sourceBounds.left : -3;
+   let deltaY = clone.matchCursorOffset ? cursor.clientY - sourceBounds.top : -3;
 
    let source = {
       ...options.source,

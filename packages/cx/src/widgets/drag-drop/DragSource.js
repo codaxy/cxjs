@@ -133,11 +133,13 @@ class DragSourceComponent extends VDOM.Component {
             data: data.data
          },
          clone: {
-            widget,
+            widget: widget.clone || widget,
             store,
             "class": data.cloneClass,
             style: data.cloneStyle,
-            cloneContent: true
+            cloneContent: !widget.clone,
+            matchSize: !widget.clone,
+            matchCursorOffset: !widget.clone,
          }
       }, (e) => {
          this.setState({

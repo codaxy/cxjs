@@ -68,4 +68,11 @@ export default {
             Additional style rules to be applied to the drag clone element.
         </Md></cx>
     },
+
+    clone: {
+        type: 'config',
+        description: <cx><Md>
+            Custom contents to be displayed during drag & drop operation.
+        </Md></cx>
+    },
 };
