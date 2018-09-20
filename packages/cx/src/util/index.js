@@ -38,3 +38,4 @@ export * from './isDefined';
 export * from './routeAppend';
 export * from './reverseSlice';
 export * from './getTopLevelBoundingClientRect';
+export * from './getParentFrameBoundingClientRect';
