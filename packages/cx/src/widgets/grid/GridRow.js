@@ -150,7 +150,9 @@ export class GridRowComponent extends VDOM.Component {
             return;
       }
 
-      e.stopPropagation();
+      //
+      if (e.type != "keydown")
+         e.stopPropagation();
 
       parent.moveCursor(cursorIndex, {
          select: isTouchEvent() || (!e.shiftKey && !e.ctrlKey && widget.selection.isSelected(store, record.data, record.index)),

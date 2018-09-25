@@ -228,21 +228,6 @@
          padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
-      td.#{$state}cellected {
-         position: relative;
-
-         &:after {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid red;
-            content: ' ';
-            background: rgba(red, 0.1);
-         }
-      }
-
       .#{$state}selectable &:hover {
          @include cx-add-state-rules($cx-list-item, hover);
       }
@@ -422,18 +407,40 @@
       }
    }
 
-   .#{$block}#{$name}.#{$state}selectable {
+   .#{$element}#{$name}-scroll-area {
+      @include cx-add-state-rules($cx-list, default);
 
-      .#{$element}#{$name}-scroll-area {
-         @include cx-add-state-rules($cx-list, default);
-
-         &:focus {
-            @include cx-add-state-rules($cx-list, focus);
-         }
+      &:focus {
+         @include cx-add-state-rules($cx-list, focus);
       }
+   }
 
+   .#{$block}#{$name}.#{$state}selectable {
       .#{$element}#{$name}-data {
          cursor: pointer;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}cell-editable {
+      .#{$element}#{$name}-data td {
+         &:hover {
+            background: rgba(gray, 0.05);
+         }
+
+         &.#{$state}cellected {
+            position: relative;
+
+            &:after {
+               position: absolute;
+               left: -1px;
+               top: -1px;
+               right: -1px;
+               bottom: -1px;
+               background: rgba(green, 0.1);
+               border: 2px solid rgba(green, 1);
+               content: ' ';
+            }
+         }
       }
    }
 

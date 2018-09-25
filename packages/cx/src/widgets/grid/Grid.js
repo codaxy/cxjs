@@ -235,6 +235,7 @@ export class Grid extends Widget {
 
       data.stateMods = {
          selectable: this.selectable,
+         "cell-editable": this.cellEditable,
          scrollable: data.scrollable,
          buffered: this.buffered,
          ['header-' + headerMode]: true,
@@ -705,6 +706,7 @@ Grid.prototype.infinite = false;
 Grid.prototype.styled = true;
 Grid.prototype.scrollSelectionIntoView = false;
 Grid.prototype.clearableSort = false;
+Grid.prototype.cellEditable = false;
 
 Widget.alias('grid', Grid);
 Localization.registerPrototype('cx/widgets/Grid', Grid);
@@ -766,7 +768,7 @@ class GridComponent extends VDOM.Component {
             selected: row.selected,
             dragged: isDragged,
             draggable: dragSource && row.dragHandles.length == 0,
-            cursor: i == cursor
+            cursor: widget.selectable && i == cursor
          };
 
          let wrap = (children) => <GridRowComponent
@@ -782,13 +784,13 @@ class GridComponent extends VDOM.Component {
             selected={row.selected}
             isBeingDragged={dragged}
             cursor={mod.cursor}
-            cursorCellIndex={mod.cursor && cursorCellIndex}
-            cellEdit={mod.cursor && cursorCellIndex && cellEdit}
+            cursorCellIndex={i == cursor && cursorCellIndex}
+            cellEdit={i == cursor && cursorCellIndex && cellEdit}
             shouldUpdate={row.shouldUpdate}
          >
             {[children].map(({key, data, content}) => <tr key={key} className={data.classNames} style={data.style}>
                {content.map(({key, data, content, instance}, cellIndex) => {
-                     let cellected = mod.cursor && cellIndex == cursorCellIndex;
+                     let cellected = i == cursor && cellIndex == cursorCellIndex;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
                      if (cellected && cellEdit) {
                         let column = widget.row.line1.columns[cursorCellIndex];
@@ -810,9 +812,10 @@ class GridComponent extends VDOM.Component {
                contentFactory={x => wrap(x.children)}
                params={{
                   ...mod,
+                  cursor: i == cursor,
                   data: record.data,
-                  cursorCellIndex: mod.cursor && cursorCellIndex,
-                  cellEdit: mod.cursor && cursorCellIndex && cellEdit
+                  cursorCellIndex: i == cursor && cursorCellIndex,
+                  cellEdit: i == cursor && cursorCellIndex && cellEdit
                }}
             />);
          }
@@ -903,7 +906,7 @@ class GridComponent extends VDOM.Component {
          <div
             key="scroller"
             ref={this.scrollerRef}
-            tabIndex={widget.selectable ? 0 : null}
+            tabIndex={widget.selectable || widget.cellEditable ? 0 : null}
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, 'scroll-area', {"fixed-header": !!this.props.header})}
             onKeyDown={::this.handleKeyDown}
@@ -1413,7 +1416,7 @@ class GridComponent extends VDOM.Component {
 
    moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex} = {}) {
       let {widget} = this.props.instance;
-      if (!widget.selectable)
+      if (!widget.selectable && !widget.cellEditable)
          return;
 
       let newState = {};
@@ -1421,17 +1424,13 @@ class GridComponent extends VDOM.Component {
       if (cellIndex != null)
          newState.cursorCellIndex = cellIndex;
 
-      // if (widget.cellEditable && this.state.cellEdit)
-      //    newState.cellEdit = false;
-
       if (widget.focused)
          focused = true;
 
       if (focused != null && this.state.focused != focused)
          newState.focused = focused;
 
-      //ignore mouse enter/leave events (support with a flag if a feature request comes)
-      if (!hover)
+      if (index != this.state.cursor)
          newState.cursor = index;
 
       if (select) {
@@ -1570,7 +1569,7 @@ class GridComponent extends VDOM.Component {
             break;
 
          case KeyCode.right:
-            if (this.state.cursorCellIndex + 1 < 100) {
+            if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
                this.setState({
                   cursorCellIndex: this.state.cursorCellIndex + 1
                });

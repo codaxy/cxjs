@@ -61,7 +61,10 @@ export default (
                         <TextField value-bind="$record.fullName" style="width: 100%" autoFocus />
                      </cx>
                   },
-                  { header: "Continent", field: "continent", sortable: true },
+                  { header: "Continent", field: "continent", sortable: true,
+                     editor: <cx>
+                        <TextField value-bind="$record.continent" style="width: 100%" autoFocus />
+                     </cx> },
                   { header: "Browser", field: "browser", sortable: true },
                   { header: "OS", field: "os", sortable: true },
                   {
@@ -72,7 +75,6 @@ export default (
                   }
                ]
             }
-            selection={{ type: KeySelection, bind: "$page.selection" }}
             cellEditable
          />
       </div>
