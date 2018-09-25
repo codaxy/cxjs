@@ -12,13 +12,12 @@ export class GridRowLine extends Container {
 
    render(context, instance, key) {
       let {data} = instance;
-      return <tr
-         key={key}
-         className={data.classNames}
-         style={data.style}
-      >
-         {this.renderChildren(context, instance)}
-      </tr>
+      return {
+         key,
+         data,
+         content: this.renderChildren(context, instance),
+         atomic: true
+      };
    }
 }
 

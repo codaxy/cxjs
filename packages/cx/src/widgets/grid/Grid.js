@@ -719,6 +719,7 @@ class GridComponent extends VDOM.Component {
 
       this.state = {
          cursor: widget.focused && widget.selectable ? 0 : -1,
+         cursorCellIndex: 0,
          focused: widget.focused,
          dragInsertionIndex: null,
          start: 0,
@@ -749,7 +750,7 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
-      let {dragged, start, end, cursor} = this.state;
+      let {dragged, start, end, cursor, cursorCellIndex} = this.state;
 
       if (this.syncBuffering) {
          start = this.start;
@@ -781,9 +782,17 @@ class GridComponent extends VDOM.Component {
             selected={row.selected}
             isBeingDragged={dragged}
             cursor={mod.cursor}
+            cursorCellIndex={mod.cursor && cursorCellIndex}
             shouldUpdate={row.shouldUpdate}
          >
-            {children}
+            {[children].map(({key, data, content}) => <tr key={key} className={data.classNames} style={data.style}>
+               {content.map(({key, data, content}, cellIndex) => {
+                     let cellected = mod.cursor && cellIndex == cursorCellIndex;
+                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                     return <td key={key} className={className} style={data.style}>{content}</td>
+                  }
+               )}
+               </tr>)}
          </GridRowComponent>;
 
          if (standalone) {
@@ -795,7 +804,8 @@ class GridComponent extends VDOM.Component {
                contentFactory={x => wrap(x.children)}
                params={{
                   ...mod,
-                  data: record.data
+                  data: record.data,
+                  cursorCellIndex: mod.cursor && cursorCellIndex
                }}
             />);
          }
@@ -1526,6 +1536,26 @@ class GridComponent extends VDOM.Component {
                   scrollIntoView: true,
                   select: e.shiftKey,
                   selectRange: true
+               });
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+
+         case KeyCode.right:
+            if (this.state.cursorCellIndex + 1 < 100) {
+               this.setState({
+                  cursorCellIndex: this.state.cursorCellIndex + 1
+               });
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+
+         case KeyCode.left:
+            if (this.state.cursorCellIndex > 0) {
+               this.setState({
+                  cursorCellIndex: this.state.cursorCellIndex - 1
                });
                e.stopPropagation();
                e.preventDefault();

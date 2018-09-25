@@ -228,6 +228,21 @@
          padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
+      td.#{$state}cellected {
+         position: relative;
+
+         &:after {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid red;
+            content: ' ';
+            background: rgba(red, 0.1);
+         }
+      }
+
       .#{$state}selectable &:hover {
          @include cx-add-state-rules($cx-list-item, hover);
       }
