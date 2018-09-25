@@ -10,6 +10,7 @@ import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 import {KeyCode} from "../../util/KeyCode";
 import {GridRowLine} from "./GridRowLine";
+import {closest} from "../../util/DOM";
 
 export class GridRow extends ValidationGroup {
    init() {
@@ -42,7 +43,6 @@ export class GridRowComponent extends VDOM.Component {
       super(props);
       this.onMouseMove = ::this.onMouseMove;
       this.onMouseDown = ::this.onMouseDown;
-      this.onMouseEnter = ::this.onMouseEnter;
       this.onKeyDown = ::this.onKeyDown;
       this.onClick = ::this.onClick;
 
@@ -78,7 +78,6 @@ export class GridRowComponent extends VDOM.Component {
             style={data.style}
             onClick={this.onClick}
             onDoubleClick={this.onDoubleClick}
-            onMouseEnter={this.onMouseEnter}
             onTouchStart={this.onMouseDown}
             onMouseDown={this.onMouseDown}
             onKeyDown={this.onKeyDown}
@@ -91,11 +90,6 @@ export class GridRowComponent extends VDOM.Component {
          {this.props.children}
          </tbody>
       )
-   }
-
-   onMouseEnter(e) {
-      let {parent, cursorIndex} = this.props;
-      parent.moveCursor(cursorIndex, { hover: true });
    }
 
    onMouseDown(e) {
@@ -119,7 +113,8 @@ export class GridRowComponent extends VDOM.Component {
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey
-         }
+         },
+         cellIndex: this.getCellIndex(e),
       });
 
       if (e.shiftKey && !isTouchEvent())
@@ -139,6 +134,13 @@ export class GridRowComponent extends VDOM.Component {
       }
    }
 
+   getCellIndex(e) {
+      let td = closest(e.target, node => node.tagName == 'TD');
+      if (td)
+         return Array.from(td.parentElement.children).indexOf(td);
+      return -1;
+   }
+
    onClick(e) {
       let {grid, record, instance, parent, cursorIndex} = this.props;
       let {store, widget} = grid;
@@ -155,7 +157,8 @@ export class GridRowComponent extends VDOM.Component {
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey
-         }
+         },
+         cellIndex: this.getCellIndex(e),
       });
    }
 
@@ -166,5 +169,6 @@ export class GridRowComponent extends VDOM.Component {
          || props.isBeingDragged != this.props.isBeingDragged
          || props.cursorIndex !== this.props.cursorIndex
          || props.cursorCellIndex !== this.props.cursorCellIndex
+         || props.cellEdit !== this.props.cellEdit
    }
 }

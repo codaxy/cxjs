@@ -750,7 +750,7 @@ class GridComponent extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
-      let {dragged, start, end, cursor, cursorCellIndex} = this.state;
+      let {dragged, start, end, cursor, cursorCellIndex, cellEdit} = this.state;
 
       if (this.syncBuffering) {
          start = this.start;
@@ -783,12 +783,18 @@ class GridComponent extends VDOM.Component {
             isBeingDragged={dragged}
             cursor={mod.cursor}
             cursorCellIndex={mod.cursor && cursorCellIndex}
+            cellEdit={mod.cursor && cursorCellIndex && cellEdit}
             shouldUpdate={row.shouldUpdate}
          >
             {[children].map(({key, data, content}) => <tr key={key} className={data.classNames} style={data.style}>
-               {content.map(({key, data, content}, cellIndex) => {
+               {content.map(({key, data, content, instance}, cellIndex) => {
                      let cellected = mod.cursor && cellIndex == cursorCellIndex;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                     if (cellected && cellEdit) {
+                        let column = widget.row.line1.columns[cursorCellIndex];
+                        if (column && column.editor)
+                           return <td key={key}><Cx parentInstance={instance} widget={column.editor}/></td>
+                     }
                      return <td key={key} className={className} style={data.style}>{content}</td>
                   }
                )}
@@ -805,7 +811,8 @@ class GridComponent extends VDOM.Component {
                params={{
                   ...mod,
                   data: record.data,
-                  cursorCellIndex: mod.cursor && cursorCellIndex
+                  cursorCellIndex: mod.cursor && cursorCellIndex,
+                  cellEdit: mod.cursor && cursorCellIndex && cellEdit
                }}
             />);
          }
@@ -1404,12 +1411,18 @@ class GridComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions} = {}) {
+   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex} = {}) {
       let {widget} = this.props.instance;
       if (!widget.selectable)
          return;
 
       let newState = {};
+
+      if (cellIndex != null)
+         newState.cursorCellIndex = cellIndex;
+
+      // if (widget.cellEditable && this.state.cellEdit)
+      //    newState.cellEdit = false;
 
       if (widget.focused)
          focused = true;
@@ -1514,12 +1527,22 @@ class GridComponent extends VDOM.Component {
    handleKeyDown(e) {
 
       let {instance, data} = this.props;
+      let {widget} = instance;
 
-      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
+      if (widget.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
+            if (widget.cellEditable) {
+               if (!this.state.cellEdit)
+                  this.setState({
+                     cellEdit: true
+                  });
+               else
+                  this.cancelCellEdit(e);
+            }
+
             this.moveCursor(this.state.cursor, {
                select: true,
                selectOptions: {
@@ -1527,6 +1550,10 @@ class GridComponent extends VDOM.Component {
                },
                selectRange: e.shiftKey
             });
+            break;
+
+         case KeyCode.esc:
+            this.cancelCellEdit(e);
             break;
 
          case KeyCode.down:
@@ -1574,6 +1601,15 @@ class GridComponent extends VDOM.Component {
                e.preventDefault();
             }
             break;
+      }
+   }
+
+   cancelCellEdit(e) {
+      if (this.state.cellEdit) {
+         FocusManager.focus(this.dom.scroller);
+         this.setState({cellEdit: false});
+         e.stopPropagation();
+         e.preventDefault();
       }
    }
 

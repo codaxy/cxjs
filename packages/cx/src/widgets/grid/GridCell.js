@@ -46,6 +46,7 @@ export class GridCell extends PureContainer {
       return {
          atomic: true,
          content: v,
+         instance,
          data,
          key
       }

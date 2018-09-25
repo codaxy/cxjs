@@ -56,7 +56,10 @@ export default (
                      },
                      field: "fullName",
                      visible: bind('$page.grid.columns.name.visible'),
-                     sortable: true
+                     sortable: true,
+                     editor: <cx>
+                        <TextField value-bind="$record.fullName" style="width: 100%" autoFocus />
+                     </cx>
                   },
                   { header: "Continent", field: "continent", sortable: true },
                   { header: "Browser", field: "browser", sortable: true },
@@ -70,6 +73,7 @@ export default (
                ]
             }
             selection={{ type: KeySelection, bind: "$page.selection" }}
+            cellEditable
          />
       </div>
    </cx>
