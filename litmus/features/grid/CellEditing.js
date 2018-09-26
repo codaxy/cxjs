@@ -21,7 +21,7 @@ class PageController extends Controller {
       this.store.set(
          "$page.records",
          Array
-            .from({ length: 10000 })
+            .from({ length: 1000 })
             .map((v, i) => ({
                id: i + 1,
                fullName: casual.full_name,
@@ -43,8 +43,8 @@ export default (
          <Grid
             records:bind="$page.records"
             scrollable
-            buffered
-            style="height: 800px"
+            //buffered
+            style="height: 800px;"
             lockColumnWidths
             cached
             columns={
@@ -58,7 +58,7 @@ export default (
                      visible: bind('$page.grid.columns.name.visible'),
                      sortable: true,
                      editor: <cx>
-                        <TextField value-bind="$record.fullName" style="width: 100%" autoFocus />
+                        <TextField value-bind="$record.fullName" style="width: 100%" autoFocus required visited />
                      </cx>
                   },
                   { header: "Continent", field: "continent", sortable: true,
@@ -76,6 +76,9 @@ export default (
                ]
             }
             cellEditable
+            onCellEdited={(data, record) => {
+               console.log(data, record);
+            }}
          />
       </div>
    </cx>

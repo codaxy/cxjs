@@ -43,7 +43,6 @@ export class GridRowComponent extends VDOM.Component {
       super(props);
       this.onMouseMove = ::this.onMouseMove;
       this.onMouseDown = ::this.onMouseDown;
-      this.onKeyDown = ::this.onKeyDown;
       this.onClick = ::this.onClick;
 
       let {grid, instance} = props;
@@ -51,6 +50,12 @@ export class GridRowComponent extends VDOM.Component {
       if (grid.widget.onRowDoubleClick)
          this.onDoubleClick = e => {
             grid.invoke("onRowDoubleClick", e, instance);
+         };
+
+      if (grid.widget.cellEditable)
+         this.onDoubleClick = e => {
+            this.props.parent.moveCursor(this.props.cursorIndex, { cellEdit: true });
+            e.preventDefault(); //prevent text selection
          };
 
 
@@ -80,7 +85,7 @@ export class GridRowComponent extends VDOM.Component {
             onDoubleClick={this.onDoubleClick}
             onTouchStart={this.onMouseDown}
             onMouseDown={this.onMouseDown}
-            onKeyDown={this.onKeyDown}
+            //onKeyDown={this.onKeyDown}
             onTouchMove={move}
             onMouseMove={move}
             onTouchEnd={up}
@@ -126,14 +131,6 @@ export class GridRowComponent extends VDOM.Component {
          this.props.parent.beginDragDrop(e, this.props.record);
    }
 
-   onKeyDown(e) {
-      switch (e.keyCode) {
-         case KeyCode.enter:
-            this.onClick(e);
-            break;
-      }
-   }
-
    getCellIndex(e) {
       let td = closest(e.target, node => node.tagName == 'TD');
       if (td)
@@ -150,9 +147,7 @@ export class GridRowComponent extends VDOM.Component {
             return;
       }
 
-      //
-      if (e.type != "keydown")
-         e.stopPropagation();
+      e.stopPropagation();
 
       parent.moveCursor(cursorIndex, {
          select: isTouchEvent() || (!e.shiftKey && !e.ctrlKey && widget.selection.isSelected(store, record.data, record.index)),

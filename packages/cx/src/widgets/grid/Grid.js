@@ -35,6 +35,7 @@ import {Cx} from '../../ui/Cx';
 import {Console} from "../../util/Console";
 import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundingClientRect";
+import {ValidationGroup} from "../form/ValidationGroup";
 
 
 export class Grid extends Widget {
@@ -60,6 +61,12 @@ export class Grid extends Widget {
    }
 
    init() {
+
+      if (this.recordAlias)
+         this.recordName = this.recordAlias;
+
+      if (this.indexAlias)
+         this.indexName = this.indexAlias;
 
       if (this.infinite) {
          this.buffered = true;
@@ -127,7 +134,8 @@ export class Grid extends Widget {
          recordsBinding: this.recordsBinding,
          keyField: this.keyField,
          aggregates: aggregates,
-         recordName: this.recordName
+         recordName: this.recordName,
+         indexName: this.indexName
       }, this.dataAdapter);
 
       this.selection = Selection.create(this.selection, {
@@ -691,6 +699,7 @@ Grid.prototype.baseClass = 'grid';
 Grid.prototype.showHeader = true;
 Grid.prototype.showFooter = false;
 Grid.prototype.recordName = '$record';
+Grid.prototype.indexName = '$index';
 Grid.prototype.remoteSort = false;
 Grid.prototype.lockColumnWidths = false;
 Grid.prototype.lockColumnWidthsRequiredRowCount = 3;
@@ -795,12 +804,23 @@ class GridComponent extends VDOM.Component {
                      if (cellected && cellEdit) {
                         let column = widget.row.line1.columns[cursorCellIndex];
                         if (column && column.editor)
-                           return <td key={key}><Cx parentInstance={instance} widget={column.editor}/></td>
+                           return <td key={key}>
+                              <Cx parentInstance={instance} subscribe>
+                                 <ValidationGroup
+                                    valid={{
+                                       get: () => this.cellEditorValid,
+                                       set: (value) => { this.cellEditorValid = value; }
+                                    }}
+                                 >
+                                    {column.editor}
+                                 </ValidationGroup>
+                              </Cx>
+                           </td>
                      }
                      return <td key={key} className={className} style={data.style}>{content}</td>
                   }
                )}
-               </tr>)}
+            </tr>)}
          </GridRowComponent>;
 
          if (standalone) {
@@ -824,7 +844,7 @@ class GridComponent extends VDOM.Component {
       };
       if (widget.buffered) {
          let context = new RenderingContext();
-         let dummyDataClass = CSS.element(baseClass, "data", { "dummy": true });
+         let dummyDataClass = CSS.element(baseClass, "data", {"dummy": true});
          if (!instance.recordInstanceCache)
             instance.recordInstanceCache = new InstanceCache(instance);
          instance.recordInstanceCache.mark();
@@ -910,7 +930,6 @@ class GridComponent extends VDOM.Component {
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, 'scroll-area', {"fixed-header": !!this.props.header})}
             onKeyDown={::this.handleKeyDown}
-            onMouseLeave={::this.handleMouseLeave}
             onFocus={::this.onFocus}
             onBlur={::this.onBlur}
          >
@@ -1414,12 +1433,18 @@ class GridComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex} = {}) {
+   moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex, cellEdit, cancelEdit} = {}) {
       let {widget} = this.props.instance;
       if (!widget.selectable && !widget.cellEditable)
          return;
 
       let newState = {};
+
+      if (cellEdit != null && cellEdit != this.state.cellEdit) {
+         newState.cellEdit = cellEdit;
+         if (cellEdit && !widget.row.line1.columns[this.state.cursorCellIndex].editor)
+            newState.cellEdit = false;
+      }
 
       if (cellIndex != null)
          newState.cursorCellIndex = cellIndex;
@@ -1427,11 +1452,15 @@ class GridComponent extends VDOM.Component {
       if (widget.focused)
          focused = true;
 
-      if (focused != null && this.state.focused != focused)
+      if (focused != null && this.state.focused != focused) {
          newState.focused = focused;
+         newState.cellEdit = false;
+      }
 
-      if (index != this.state.cursor)
+      if (index != this.state.cursor) {
          newState.cursor = index;
+         newState.cellEdit = false;
+      }
 
       if (select) {
          let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
@@ -1443,12 +1472,36 @@ class GridComponent extends VDOM.Component {
       }
 
       if (Object.keys(newState).length > 0) {
+         let prevState = this.state;
          this.setState(newState, () => {
+
+            let wasCellEditing = prevState.focused && prevState.cellEdit;
+            if (!this.state.cellEdit && wasCellEditing) {
+               FocusManager.focus(this.dom.scroller);
+               let record = this.getRecordAt(this.state.cursor);
+               if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
+                  record.store.set(widget.recordName, this.cellEditUndoData);
+               else {
+                  if (widget.onCellEdited && record.data != this.cellEditUndoData)
+                     this.props.instance.invoke("onCellEdited", {
+                        column: widget.row.line1.columns[prevState.cursorCellIndex],
+                        newData: record.data,
+                        oldData: this.cellEditUndoData,
+                        field: widget.row.line1.columns[prevState.cursorCellIndex].field
+                     }, record);
+               }
+            }
+
+            if (this.state.cellEdit && !wasCellEditing)
+               this.cellEditUndoData = this.getRecordAt(this.state.cursor).data;
+
             if (scrollIntoView) {
                let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
                let item = this.dom.table.children[index + 1 - start];
+               if (widget.cellEditable && this.state.cursorCellIndex >= 0)
+                  item = item.firstChild.children[this.state.cursorCellIndex];
                if (item)
-                  scrollElementIntoView(item);
+                  scrollElementIntoView(item, true, widget.cellEditable);
             }
          });
       }
@@ -1456,17 +1509,25 @@ class GridComponent extends VDOM.Component {
 
    showCursor(focused) {
       let {records, isSelected} = this.props.instance;
-      if (this.state.cursor == -1 && records) {
-         let cursor = records.findIndex(x => isSelected(x.data, x.index));
+      let cursor = this.state.cursor;
+      if (cursor == -1 && records) {
+         cursor = records.findIndex(x => isSelected(x.data, x.index));
          //if there are no selected records, find the first data record (skip group header)
          if (cursor == -1)
             cursor = records.findIndex(x => x.type == 'data');
-         this.moveCursor(cursor, {focused: true, scrollIntoView: true});
       }
+      else
+         cursor = 0;
+      this.moveCursor(cursor, {focused: true, scrollIntoView: true, cellIndex: 0});
    }
 
    onFocus() {
       FocusManager.nudge();
+
+      //focus moved within the grid
+      if (this.state.focused)
+         return;
+
       this.showCursor(true);
 
       let {widget} = this.props.instance;
@@ -1486,10 +1547,6 @@ class GridComponent extends VDOM.Component {
 
    onBlur() {
       FocusManager.nudge();
-   }
-
-   handleMouseLeave() {
-      this.moveCursor(-1, {hover: true});
    }
 
    selectRange(from, to, options) {
@@ -1523,6 +1580,21 @@ class GridComponent extends VDOM.Component {
       widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
+   getRecordAt(cursor) {
+      let {instance, data} = this.props;
+      let {records, widget} = instance;
+
+      if (records)
+         return records[cursor];
+
+      let offset = widget.infinite ? data.offset : 0;
+      let r = data.records[cursor - offset];
+      if (r)
+         return widget.mapRecord(null, instance, r, cursor - offset);
+
+      return null;
+   }
+
    handleKeyDown(e) {
 
       let {instance, data} = this.props;
@@ -1533,26 +1605,25 @@ class GridComponent extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            if (widget.cellEditable) {
-               if (!this.state.cellEdit)
-                  this.setState({
-                     cellEdit: true
-                  });
-               else
-                  this.cancelCellEdit(e);
-            }
-
             this.moveCursor(this.state.cursor, {
                select: true,
                selectOptions: {
                   toggle: e.ctrlKey
                },
-               selectRange: e.shiftKey
+               selectRange: e.shiftKey,
+               cellEdit: widget.cellEditable && !this.state.cellEdit,
+               focused: true
             });
+            e.stopPropagation();
+            e.preventDefault();
             break;
 
          case KeyCode.esc:
-            this.cancelCellEdit(e);
+            if (this.state.cellEdit) {
+               this.moveCursor(this.state.cursor, {cellEdit: false, focused: true, cancelEdit: true });
+               e.stopPropagation();
+               e.preventDefault();
+            }
             break;
 
          case KeyCode.down:
@@ -1562,26 +1633,6 @@ class GridComponent extends VDOM.Component {
                   scrollIntoView: true,
                   select: e.shiftKey,
                   selectRange: true
-               });
-               e.stopPropagation();
-               e.preventDefault();
-            }
-            break;
-
-         case KeyCode.right:
-            if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
-               this.setState({
-                  cursorCellIndex: this.state.cursorCellIndex + 1
-               });
-               e.stopPropagation();
-               e.preventDefault();
-            }
-            break;
-
-         case KeyCode.left:
-            if (this.state.cursorCellIndex > 0) {
-               this.setState({
-                  cursorCellIndex: this.state.cursorCellIndex - 1
                });
                e.stopPropagation();
                e.preventDefault();
@@ -1600,15 +1651,30 @@ class GridComponent extends VDOM.Component {
                e.preventDefault();
             }
             break;
-      }
-   }
 
-   cancelCellEdit(e) {
-      if (this.state.cellEdit) {
-         FocusManager.focus(this.dom.scroller);
-         this.setState({cellEdit: false});
-         e.stopPropagation();
-         e.preventDefault();
+         case KeyCode.right:
+            if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
+               this.moveCursor(this.state.cursor, {
+                  focused: true,
+                  cellIndex: this.state.cursorCellIndex + 1,
+                  scrollIntoView: true,
+               });
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
+
+         case KeyCode.left:
+            if (this.state.cursorCellIndex > 0) {
+               this.moveCursor(this.state.cursor, {
+                  focused: true,
+                  cellIndex: this.state.cursorCellIndex - 1,
+                  scrollIntoView: true,
+               });
+               e.stopPropagation();
+               e.preventDefault();
+            }
+            break;
       }
    }
 

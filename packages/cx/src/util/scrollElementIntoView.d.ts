@@ -1,2 +1,2 @@
 
-export function scrollElementIntoView(el: Element): boolean;
+export function scrollElementIntoView(el: Element, vertical?: boolean, horizontal?: boolean): void;
