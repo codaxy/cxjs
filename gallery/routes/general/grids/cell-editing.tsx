@@ -124,6 +124,7 @@ export default (
                            required
                            visited
                            inputStyle="text-align: right"
+                           reactOn="change"
                         />
                      </cx>
                   }

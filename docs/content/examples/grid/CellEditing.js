@@ -128,6 +128,7 @@ export const CellEditing = (
                                         required
                                         visited
                                         inputStyle="text-align: right"
+                                        reactOn="change"
                                     />
                                 </cx>
                             }
@@ -233,6 +234,7 @@ export const CellEditing = (
                                         required
                                         visited
                                         inputStyle="text-align: right"
+                                        reactOn="change"
                                     />
                                 </cx>
                             }
