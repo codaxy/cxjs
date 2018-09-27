@@ -799,23 +799,33 @@ class GridComponent extends VDOM.Component {
          >
             {[children].map(({key, data, content}) => <tr key={key} className={data.classNames} style={data.style}>
                {content.map(({key, data, content, instance}, cellIndex) => {
-                     let cellected = i == cursor && cellIndex == cursorCellIndex;
-                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
-                     if (cellected && cellEdit) {
-                        let column = widget.row.line1.columns[cursorCellIndex];
-                        if (column && column.editor)
-                           return <td key={key}>
+                  let cellected = i == cursor && cellIndex == cursorCellIndex;
+                  let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                  if (cellected && cellEdit) {
+                     let column = widget.row.line1.columns[cursorCellIndex];
+                     if (column && column.editor)
+                        //add an inner div with fixed height in order to help IE absolutely position the contents inside
+                        return <td key={key} className={CSS.element(baseClass, "cell-editor")}>
+                           <div
+                              className={CSS.element(baseClass, "cell-editor-wrap")}
+                              style={{
+                                 height: this.rowHeight + 1
+                              }}
+                           >
                               <Cx parentInstance={instance} subscribe>
                                  <ValidationGroup
                                     valid={{
                                        get: () => this.cellEditorValid,
-                                       set: (value) => { this.cellEditorValid = value; }
+                                       set: (value) => {
+                                          this.cellEditorValid = value;
+                                       }
                                     }}
                                  >
                                     {column.editor}
                                  </ValidationGroup>
                               </Cx>
-                           </td>
+                           </div>
+                        </td>
                      }
                      return <td key={key} className={className} style={data.style}>{content}</td>
                   }
@@ -841,6 +851,9 @@ class GridComponent extends VDOM.Component {
          }
          else
             children.push(wrap(record.vdom));
+
+         //avoid re-rendering on cursor change
+         row.shouldUpdate = false;
       };
       if (widget.buffered) {
          let context = new RenderingContext();
@@ -1446,8 +1459,10 @@ class GridComponent extends VDOM.Component {
             newState.cellEdit = false;
       }
 
-      if (cellIndex != null)
+      if (cellIndex != null && cellIndex != this.state.cursorCellIndex) {
          newState.cursorCellIndex = cellIndex;
+         newState.cellEdit = false;
+      }
 
       if (widget.focused)
          focused = true;
@@ -1474,11 +1489,10 @@ class GridComponent extends VDOM.Component {
       if (Object.keys(newState).length > 0) {
          let prevState = this.state;
          this.setState(newState, () => {
-
             let wasCellEditing = prevState.focused && prevState.cellEdit;
             if (!this.state.cellEdit && wasCellEditing) {
                FocusManager.focus(this.dom.scroller);
-               let record = this.getRecordAt(this.state.cursor);
+               let record = this.getRecordAt(prevState.cursor);
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                   record.store.set(widget.recordName, this.cellEditUndoData);
                else {
@@ -1498,7 +1512,7 @@ class GridComponent extends VDOM.Component {
             if (scrollIntoView) {
                let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
                let item = this.dom.table.children[index + 1 - start];
-               if (widget.cellEditable && this.state.cursorCellIndex >= 0)
+               if (widget.cellEditable && this.state.cursorCellIndex >= 0 && item)
                   item = item.firstChild.children[this.state.cursorCellIndex];
                if (item)
                   scrollElementIntoView(item, true, widget.cellEditable);
@@ -1510,15 +1524,17 @@ class GridComponent extends VDOM.Component {
    showCursor(focused) {
       let {records, isSelected} = this.props.instance;
       let cursor = this.state.cursor;
-      if (cursor == -1 && records) {
-         cursor = records.findIndex(x => isSelected(x.data, x.index));
-         //if there are no selected records, find the first data record (skip group header)
-         if (cursor == -1)
-            cursor = records.findIndex(x => x.type == 'data');
+      if (cursor == -1) {
+         if (records) {
+            cursor = records.findIndex(x => isSelected(x.data, x.index));
+            //if there are no selected records, find the first data record (skip group header)
+            if (cursor == -1)
+               cursor = records.findIndex(x => x.type == 'data');
+         }
+         else
+            cursor = 0;
       }
-      else
-         cursor = 0;
-      this.moveCursor(cursor, {focused: true, scrollIntoView: true, cellIndex: 0});
+      this.moveCursor(cursor, {focused: true, scrollIntoView: true});
    }
 
    onFocus() {
@@ -1528,9 +1544,13 @@ class GridComponent extends VDOM.Component {
       if (this.state.focused)
          return;
 
-      this.showCursor(true);
-
       let {widget} = this.props.instance;
+
+      //the cursor will be set if focus in originating from a mouse event
+      setTimeout(() => {
+         this.showCursor(true);
+      }, 0);
+
       if (!widget.focused) {
          if (this.dom.scroller) {
             //if an inner element is focused first (autoFocus), this.dom.scroller might be undefined
@@ -1620,7 +1640,7 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.esc:
             if (this.state.cellEdit) {
-               this.moveCursor(this.state.cursor, {cellEdit: false, focused: true, cancelEdit: true });
+               this.moveCursor(this.state.cursor, {cellEdit: false, focused: true, cancelEdit: true});
                e.stopPropagation();
                e.preventDefault();
             }

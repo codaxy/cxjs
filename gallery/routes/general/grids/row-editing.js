@@ -62,7 +62,7 @@ export default (
          bodyStyle="display:flex; flex-direction:column"
          controller={PageController}>
          <Grid
-            records:bind="$page.records"
+            records-bind="$page.records"
             lockColumnWidths
             cached
             scrollable
@@ -82,8 +82,8 @@ export default (
                      sortable: true,
                      items: <cx>
                         <TextField
-                           value:bind="$record.fullName"
-                           viewMode:expr="!{$record.$editing}"
+                           value-bind="$record.fullName"
+                           viewMode-expr="!{$record.$editing}"
                            style="width: 100%"
                            autoFocus
                            required
@@ -94,8 +94,8 @@ export default (
                      header: "Continent", field: "continent", sortable: true,
                      items: <cx>
                         <TextField
-                           value:bind="$record.continent"
-                           viewMode:expr="!{$record.$editing}"
+                           value-bind="$record.continent"
+                           viewMode-expr="!{$record.$editing}"
                            style="width: 100%"
                            required
                         />
@@ -105,8 +105,8 @@ export default (
                      header: "Browser", field: "browser", sortable: true,
                      items: <cx>
                         <TextField
-                           value:bind="$record.browser"
-                           viewMode:expr="!{$record.$editing}"
+                           value-bind="$record.browser"
+                           viewMode-expr="!{$record.$editing}"
                            style="width: 100%"
                            required
                         />
@@ -116,8 +116,8 @@ export default (
                      header: "OS", field: "os", sortable: true,
                      items: <cx>
                         <TextField
-                           value:bind="$record.os"
-                           viewMode:expr="!{$record.$editing}"
+                           value-bind="$record.os"
+                           viewMode-expr="!{$record.$editing}"
                            style="width: 100%"
                            required
                         />
@@ -130,11 +130,12 @@ export default (
                      align: "right",
                      items: <cx>
                         <NumberField
-                           value:bind="$record.visits"
-                           viewMode:expr="!{$record.$editing}"
+                           value-bind="$record.visits"
+                           viewMode-expr="!{$record.$editing}"
                            style="width: 100%"
                            inputStyle="text-align: right"
                            required
+                           reactOn="change"
                         />
                      </cx>
                   }, {
@@ -142,15 +143,15 @@ export default (
                   style: "whitespace: nowrap",
                   align:"center",
                   items: <cx>
-                     <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
-                     <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
+                     <Button mod="hollow" onClick="editRow" visible-expr="!{$record.$editing}">Edit</Button>
+                     <Button mod="hollow" onClick="deleteRow" visible-expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
                      <Button
-                        mod:expr="{$root.$route.theme} == 'aquamarine' ? 'flat-primary' : 'primary'"
+                        mod-expr="{$root.$route.theme} == 'aquamarine' ? 'flat-primary' : 'primary'"
                         onClick="saveRow"
-                        visible:expr="!!{$record.$editing}"
-                        disabled:expr="!{$record.valid}"
+                        visible-expr="!!{$record.$editing}"
+                        disabled-expr="!{$record.valid}"
                      >Save</Button>
-                     <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
+                     <Button mod="hollow" onClick="cancelRowEditing" visible-expr="!!{$record.$editing}">Cancel</Button>
                   </cx>
                }
                ]

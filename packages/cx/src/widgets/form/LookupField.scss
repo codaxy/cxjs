@@ -42,6 +42,11 @@
          $overrides: ( default: ( padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding) ) )
       );
 
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
       .#{$state}multiple > & {
          padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) $cx-default-input-tag-spacing 0;
       }
@@ -96,29 +101,6 @@
       margin: 0;
       min-width: 100%;
       width: 100%;
-
-      //&:focus {
-      //   @include cx-add-state-rules($cx-list, focus);
-      //}
-      //
-      //& > li {
-      //   list-style: none;
-      //   padding: map-get($cx-menu-padding-options, medium);
-      //   margin: 0;
-      //   cursor: pointer;
-      //
-      //   &.#{$state}cursor {
-      //      @include cx-add-state-rules($cx-list-item, cursor);
-      //   }
-      //
-      //   &.#{$state}selected {
-      //      @include cx-add-state-rules($cx-list-item, selected);
-      //
-      //      &.#{$state}cursor {
-      //         @include cx-add-state-rules($cx-list-item, selected-cursor);
-      //      }
-      //   }
-      //}
    }
 
    .#{$element}#{$name}-query {
@@ -126,7 +108,7 @@
          $besm, $state-style-map, 
          $placeholder: $placeholder, 
          $width: calc(100% - 10px), 
-         $overrides: ( default: ( margin: 5px, flex: 0 0 auto ) ) 
+         $overrides: ( default: ( margin: 5px, flex: 0 0 auto, height: auto ) )
       );
       //put query field down when placed up
       .#{$state}place-up-right &,

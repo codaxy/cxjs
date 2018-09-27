@@ -18,6 +18,7 @@ const header = getHeader({
         "drag-drop": "Row Drag & Drop",
         "filtering": "Filtering",
         "row-editing": "Row Editing",
+        "cell-editing": "Cell Editing",
         "form-editing": "Form Editing",
         "row-expanding": "Row Expanding",
         "tree-grid": "Tree Grid",
@@ -42,6 +43,7 @@ export default <cx>
         <SandboxedAsyncRoute route="+/drag-drop" content={() => import("./drag-drop")}/>
         <SandboxedAsyncRoute route="+/filtering" content={() => import("./filtering")}/>
         <SandboxedAsyncRoute route="+/row-editing" content={() => import("./row-editing")}/>
+        <SandboxedAsyncRoute route="+/cell-editing" content={() => import("./cell-editing")}/>
         <SandboxedAsyncRoute route="+/form-editing" content={() => import("./form-editing")}/>
         <SandboxedAsyncRoute route="+/row-expanding" content={() => import("./row-expanding")}/>
         <SandboxedAsyncRoute route="+/tree-grid" content={() => import("./tree-grid")}/>

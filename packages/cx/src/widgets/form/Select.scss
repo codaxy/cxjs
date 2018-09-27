@@ -22,7 +22,8 @@
       @include cxb-field(
          $besm,
          $state-style-map: $state-style-map,
-         $width: $width
+         $width: $width,
+         $input: true
       );
 
    .#{$element}#{$name}-left-icon {

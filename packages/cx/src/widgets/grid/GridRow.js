@@ -8,7 +8,6 @@ import {
 } from '../drag-drop/ops';
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
-import {KeyCode} from "../../util/KeyCode";
 import {GridRowLine} from "./GridRowLine";
 import {closest} from "../../util/DOM";
 
@@ -85,7 +84,6 @@ export class GridRowComponent extends VDOM.Component {
             onDoubleClick={this.onDoubleClick}
             onTouchStart={this.onMouseDown}
             onMouseDown={this.onMouseDown}
-            //onKeyDown={this.onKeyDown}
             onTouchMove={move}
             onMouseMove={move}
             onTouchEnd={up}

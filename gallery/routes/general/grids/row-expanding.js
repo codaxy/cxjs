@@ -47,7 +47,7 @@ export default <cx>
          records:bind="$page.records"
          lockColumnWidths
          cached
-         style="width: 100%; flex: 1 1 0"
+         style="width: 100%; flex: 1 1 0px"
          scrollable
          row={{
             style: {

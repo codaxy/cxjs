@@ -17,6 +17,7 @@
    @if $input {
       width: $width;
       line-height: 0;
+      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       //font: cx-get-state-rule($state-style-map, default, 'font');
       //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
@@ -68,7 +69,7 @@
 
    @if $input {
       width: $width;
-      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
+      height: 100%; //cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @if ($cx-use-box-line-height-fix) {
          //100% line-height fix - inputs work better in all browser, especially in Firefox

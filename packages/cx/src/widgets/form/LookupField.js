@@ -45,7 +45,8 @@ export class LookupField extends Field {
          placeholder: undefined,
          required: undefined,
          options: undefined,
-         icon: undefined
+         icon: undefined,
+         autoOpen: undefined,
       }, additionalAttributes, ...arguments);
    }
 
@@ -141,6 +142,9 @@ export class LookupField extends Field {
          }
       }
 
+      if (data.autoOpen)
+         data.autoFocus = true;
+
       instance.lastDropdown = context.lastDropdown;
 
       super.prepareData(context, instance);
@@ -200,6 +204,7 @@ LookupField.prototype.minQueryLengthMessageText = 'Type in at least {0} characte
 LookupField.prototype.icon = null;
 LookupField.prototype.sort = false;
 LookupField.prototype.listOptions = null;
+LookupField.prototype.autoOpen = false;
 
 Localization.registerPrototype('cx/widgets/LookupField', LookupField);
 
@@ -686,6 +691,11 @@ class LookupComponent extends VDOM.Component {
          case KeyCode.tab:
             break;
 
+         case KeyCode.down:
+            this.openDropdown(e);
+            e.stopPropagation();
+            break;
+
          default:
             this.openDropdown(e);
             break;
@@ -837,6 +847,8 @@ class LookupComponent extends VDOM.Component {
    componentDidMount() {
       tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.dom.input, this);
+      if (this.props.instance.data.autoOpen)
+         this.openDropdown(null);
    }
 
    componentDidUpdate() {

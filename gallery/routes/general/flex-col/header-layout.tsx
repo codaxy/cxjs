@@ -28,7 +28,7 @@ export default <cx>
         <FlexRow style="background: rgba(128, 128, 128, 0.1); padding: 20px" justify="center" align="center">
             Header
         </FlexRow>
-        <FlexRow style="flex: 1 1 0" spacing>
+        <FlexRow style="flex: 1 1 0px" spacing>
             <FlexCol
                 style="background: rgba(128, 128, 128, 0.1); width: 200px; max-width: 40vw"
                 justify="center"

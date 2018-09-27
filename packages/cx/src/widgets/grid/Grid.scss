@@ -1,6 +1,7 @@
 @mixin cx-grid( $name: 'grid', 
    $header-state-style-map: $cx-grid-header-state-style-map, 
-   $data-state-style-map: $cx-grid-data-state-style-map, 
+   $data-state-style-map: $cx-grid-data-state-style-map,
+   $cell-cursor-style: $cx-grid-cell-cursor-style,
    $icon-size: $cx-default-icon-size, $besm: $cx-besm 
 ) {
    $block: map-get($besm, block);
@@ -429,18 +430,36 @@
 
          &.#{$state}cellected {
             position: relative;
+            user-select: none;
 
             &:after {
                position: absolute;
-               left: -1px;
-               top: -1px;
-               right: -1px;
-               bottom: -1px;
-               background: rgba(green, 0.1);
-               border: 2px solid rgba(green, 1);
                content: ' ';
+               @include cx-add-rules($cell-cursor-style);
             }
          }
+
+         &.#{$element}#{$name}-cell-editor {
+            position: relative;
+            user-select: none;
+         }
+      }
+   }
+
+   &.#{$element}#{$name}-cell-editor-wrap {
+      position: absolute;
+      top: -1px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+
+      & > *:only-child {
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
       }
    }
 
