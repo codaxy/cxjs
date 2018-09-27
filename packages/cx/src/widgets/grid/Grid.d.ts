@@ -148,6 +148,12 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Set to true to add a fixed footer at the bottom of the grid. */
    fixedFooter?: boolean,
+
+   /** Set to true to enable cell editing. Please note that all editable columns should specify the editor field. */
+   cellEditable?: boolean,
+
+   /** A callback function which is executed after a cell has been successfully edited. */
+   onCellEdited?: (change, record) => void
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

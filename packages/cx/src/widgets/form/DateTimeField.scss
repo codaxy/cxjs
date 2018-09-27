@@ -16,9 +16,7 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $input-state-style-map,
-         $width: $width
-      );
+      @include cxb-field($besm, $input-state-style-map, $width: $width, $input: true);
    }
 
    $padding: cx-get-state-rule($input-state-style-map, default, 'padding');

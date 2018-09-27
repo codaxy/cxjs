@@ -12,7 +12,7 @@ const browsers = {
 }
 
 const operatingSystems = {
-   operating_systems: ['Windows', 'Mac OS', 'Ubuntu', 'Android', 'iOS', 'Edge'],
+   operating_systems: ['Windows', 'Mac OS', 'Ubuntu', 'Android', 'iOS'],
 
    operating_system: function () {
       return this.random_element(this.operating_systems);

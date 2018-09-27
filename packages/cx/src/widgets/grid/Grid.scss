@@ -1,6 +1,7 @@
 @mixin cx-grid( $name: 'grid', 
    $header-state-style-map: $cx-grid-header-state-style-map, 
-   $data-state-style-map: $cx-grid-data-state-style-map, 
+   $data-state-style-map: $cx-grid-data-state-style-map,
+   $cell-cursor-style: $cx-grid-cell-cursor-style,
    $icon-size: $cx-default-icon-size, $besm: $cx-besm 
 ) {
    $block: map-get($besm, block);
@@ -407,18 +408,58 @@
       }
    }
 
-   .#{$block}#{$name}.#{$state}selectable {
+   .#{$element}#{$name}-scroll-area {
+      @include cx-add-state-rules($cx-list, default);
 
-      .#{$element}#{$name}-scroll-area {
-         @include cx-add-state-rules($cx-list, default);
-
-         &:focus {
-            @include cx-add-state-rules($cx-list, focus);
-         }
+      &:focus {
+         @include cx-add-state-rules($cx-list, focus);
       }
+   }
 
+   .#{$block}#{$name}.#{$state}selectable {
       .#{$element}#{$name}-data {
          cursor: pointer;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}cell-editable {
+      .#{$element}#{$name}-data td {
+         &:hover {
+            background: rgba(gray, 0.05);
+         }
+
+         &.#{$state}cellected {
+            position: relative;
+            user-select: none;
+
+            &:after {
+               position: absolute;
+               content: ' ';
+               @include cx-add-rules($cell-cursor-style);
+            }
+         }
+
+         &.#{$element}#{$name}-cell-editor {
+            position: relative;
+            user-select: none;
+         }
+      }
+   }
+
+   &.#{$element}#{$name}-cell-editor-wrap {
+      position: absolute;
+      top: -1px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+
+      & > *:only-child {
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
       }
    }
 

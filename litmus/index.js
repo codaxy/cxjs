@@ -15,8 +15,6 @@ import './index.scss';
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
 //import Demo from './performance/LongList';
-//
-import Demo from './bugs/483';
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -39,6 +37,7 @@ import Demo from './bugs/483';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/grid/FixedFooterNoGrouping';
+import Demo from './features/grid/CellEditing';
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';

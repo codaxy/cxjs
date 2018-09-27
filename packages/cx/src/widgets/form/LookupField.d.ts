@@ -129,6 +129,11 @@ interface LookupFieldProps extends FieldProps {
 
    /** Additional list options, such as grouping configuration, custom sorting, etc. */
    listOptions?: Cx.Config,
+
+   /** Set to true to show the dropdown immediately after the component has mounted.
+    * This is commonly used for cell editing in grids.
+    */
+   autoOpen?: Cx.BooleanProp,
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

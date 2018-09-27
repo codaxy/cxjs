@@ -19,7 +19,8 @@
       @include cxb-field(
          $besm,
          $state-style-map,
-         $width: $width
+         $width: $width,
+         $input: true
       );
    }
 

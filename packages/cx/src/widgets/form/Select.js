@@ -15,6 +15,7 @@ import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {isString} from '../../util/isString';
 import {isDefined} from '../../util/isDefined';
+import {KeyCode} from "../../util/KeyCode";
 
 export class Select extends Field {
 
@@ -104,20 +105,20 @@ class SelectComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       let icon = data.icon && (
-            <div className={CSS.element(baseClass, 'left-icon')}>
-               {
-                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
-               }
-            </div>
-         );
+         <div className={CSS.element(baseClass, 'left-icon')}>
+            {
+               Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
+            }
+         </div>
+      );
 
       let insideButton, readOnly = data.disabled || data.readOnly;
 
       if (widget.showClear && !readOnly && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.placeholder && data.value != null) {
          insideButton = (
             <div onMouseDown={preventDefault}
-               onClick={e => this.onClearClick(e)}
-               className={CSS.element(baseClass, 'clear')}>
+                 onClick={e => this.onClearClick(e)}
+                 className={CSS.element(baseClass, 'clear')}>
                <ClearIcon className={CSS.element(baseClass, 'icon')}/>
             </div>
          )
@@ -154,7 +155,8 @@ class SelectComponent extends VDOM.Component {
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}
       >
-         <select id={data.id}
+         <select
+            id={data.id}
             ref={el => {
                this.select = el
             }}
@@ -165,7 +167,8 @@ class SelectComponent extends VDOM.Component {
             disabled={data.disabled}
             {...data.inputAttrs}
             onBlur={::this.onBlur}
-            onFocus={ e => this.onFocus() }
+            onFocus={e => this.onFocus()}
+            onKeyDown={::this.onKeyDown}
             onChange={e => {
                e.preventDefault();
                select(e.target.value);
@@ -176,10 +179,10 @@ class SelectComponent extends VDOM.Component {
             {placeholder}
             {this.props.children}
          </select>
-         { insideButton }
-         { icon }
-         { label }
-         { help }
+         {insideButton}
+         {icon}
+         {label}
+         {help}
       </div>
    }
 
@@ -207,6 +210,15 @@ class SelectComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
       instance.set('value', widget.emptyValue);
+   }
+
+   onKeyDown(e) {
+      switch (e.keyCode) {
+         case KeyCode.up:
+         case KeyCode.down:
+            e.stopPropagation();
+            break;
+      }
    }
 
    componentDidMount() {

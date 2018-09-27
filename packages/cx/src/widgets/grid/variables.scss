@@ -65,10 +65,16 @@ $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
 
-$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, ()) !default;
 
-)) !default;
-
+$cx-grid-cell-cursor-style: (
+   left: -1px,
+   top: -1px,
+   right: -1px,
+   bottom: -1px,
+   background: rgba(green, 0.1),
+   border: 2px solid rgba(green, 1)
+);
 
 $cx-dependencies: map-merge($cx-dependencies, (
    'cx/widgets/Grid': 'cx/widgets/DragClone'

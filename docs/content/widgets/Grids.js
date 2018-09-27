@@ -104,6 +104,7 @@ export const Grids = <cx>
         - [Dynamic Grouping](~/examples/grid/dynamic-grouping)
         - [Form Editing](~/examples/grid/form-edit)
         - [Row Editing](~/examples/grid/row-editing)
+        - [Cell Editing](~/examples/grid/cell-editing)
         - [Inline Editing](~/examples/grid/inline-edit)
         - [TreeGrid](~/examples/grid/tree-grid)
         - [Header Menu](~/examples/grid/header-menu)

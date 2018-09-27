@@ -43,17 +43,13 @@ export class GridCell extends PureContainer {
             v = Format.value(v, data.format);
       }
 
-      return (
-         <td
-            key={key}
-            className={data.classNames}
-            style={data.style}
-            colSpan={data.colSpan}
-            rowSpan={data.rowSpan}
-         >
-            {v}
-         </td>
-      )
+      return {
+         atomic: true,
+         content: v,
+         instance,
+         data,
+         key
+      }
    }
 }
 

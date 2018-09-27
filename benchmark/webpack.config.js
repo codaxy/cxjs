@@ -13,6 +13,7 @@ let sass = new ExtractTextPlugin({
 });
 
 let config = {
+   mode: 'production',
    resolve: {
       alias: {
          'cx': path.resolve(path.join(__dirname, '../packages/cx')),
@@ -23,7 +24,7 @@ let config = {
       extensions: [".js", ".ts", ".tsx", ".json"]
    },
    module: {
-      loaders: [{
+      rules: [{
          test: /\.json$/,
          loader: 'json-loader'
       }, {
@@ -59,19 +60,9 @@ let config = {
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      // new MinifyPlugin({
-      //    mangle: false,
-      //    simplify: false
-      // }),
-      // new webpack.optimize.UglifyJsPlugin({
-      //    beautify: true,
-      //    mangle: false,
-      //    compress: false
-      // }),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
       }),
-      new webpack.optimize.ModuleConcatenationPlugin(),
       sass,
    ]
 };
