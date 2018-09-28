@@ -6,7 +6,7 @@ let subscribers, eventBan = 0;
 export function executeKeyboardShortcuts(e) {
    if (Date.now() < eventBan)
       return;
-   //Avoid duplicate executions as event.stopPropagation() for a React events does not stop native events
+   //Avoid duplicate executions as event.stopPropagation() for React events does not stop native events
    eventBan = Date.now() + 5;
    subscribers && subscribers.notify(e);
 }
