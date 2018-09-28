@@ -803,14 +803,12 @@ class GridComponent extends VDOM.Component {
                   let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
                   if (cellected && cellEdit) {
                      let column = widget.row.line1.columns[cursorCellIndex];
-                     if (column && column.editor)
+                     if (column && column.editor && data.editable)
                         //add an inner div with fixed height in order to help IE absolutely position the contents inside
                         return <td key={key} className={CSS.element(baseClass, "cell-editor")}>
                            <div
                               className={CSS.element(baseClass, "cell-editor-wrap")}
-                              style={{
-                                 height: this.rowHeight + 1
-                              }}
+                              style={this.rowHeight > 0 ? { height: this.rowHeight + 1 } : null}
                            >
                               <Cx parentInstance={instance} subscribe>
                                  <ValidationGroup

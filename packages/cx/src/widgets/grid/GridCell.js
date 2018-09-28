@@ -12,7 +12,8 @@ export class GridCell extends PureContainer {
          pad: undefined,
          format: undefined,
          colSpan: undefined,
-         rowSpan: undefined
+         rowSpan: undefined,
+         editable: undefined
       })
    }
 
@@ -55,3 +56,4 @@ export class GridCell extends PureContainer {
 
 GridCell.prototype.pad = true;
 GridCell.prototype.styled = true;
+GridCell.prototype.editable = true;

@@ -54,6 +54,7 @@ export const CellEditing = (
                                 header: "Name",
                                 field: "fullName",
                                 sortable: true,
+                                editable: false,
                                 editor: <cx>
                                     <TextField
                                         value-bind="$record.fullName"
