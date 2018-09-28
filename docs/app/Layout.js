@@ -1,5 +1,5 @@
 import { HtmlElement, Icon } from 'cx/widgets';
-import { ContentPlaceholder } from 'cx/ui';
+import { ContentPlaceholder, executeKeyboardShortcuts } from 'cx/ui';
 import {SearchWindow} from 'docs/components/SearchWindow';
 import {CSS} from './CSS';
 
@@ -14,10 +14,13 @@ const closeMenuOnSmallScreens = (e, {store}) => {
 };
 
 export const Layout = <cx>
-    <div class={{
-        "dxb-layout": true,
-        'dxs-navopen': {bind: 'layout.navOpen'}
-    }}>
+    <div
+        class={{
+            "dxb-layout": true,
+            'dxs-navopen': {bind: 'layout.navOpen'}
+        }}
+        onKeyDown={executeKeyboardShortcuts}
+    >
         <div
             class="dxe-layout-menu"
             onClick={toggleMenu}

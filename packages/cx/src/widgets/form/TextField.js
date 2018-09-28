@@ -13,6 +13,7 @@ import {Icon} from '../Icon';
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
+import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
 
 export class TextField extends Field {
 
@@ -81,6 +82,7 @@ TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 TextField.prototype.alwaysShowClear = false;
+TextField.prototype.keyboardShortcut = false;
 
 Localization.registerPrototype('cx/widgets/TextField', TextField);
 
@@ -214,7 +216,6 @@ class Input extends VDOM.Component {
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
    }
-
 
    onKeyDown(e) {
       let {instance} = this.props;

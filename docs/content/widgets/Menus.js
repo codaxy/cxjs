@@ -5,6 +5,7 @@ import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
+import {KeyCode} from "cx/util";
 
 
 import configs from './configs/Menu';
@@ -24,7 +25,7 @@ export const Menus = <cx>
 
             <div class="widgets">
                 <Menu horizontal>
-                    <Submenu>
+                    <Submenu keyboardShortcut={KeyCode.esc}>
                         File
                         <Menu putInto="dropdown" icons>
                             <MenuItem
@@ -98,7 +99,7 @@ export const Menus = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="LZFHw09A">{`
                 <Menu horizontal>
-                    <Submenu>
+                    <Submenu keyboardShortcut={KeyCode.esc}>
                         File
                         <Menu putInto="dropdown" icons>
                             <MenuItem

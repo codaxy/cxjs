@@ -9,6 +9,7 @@ import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
+import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
 
 /*
  Functionality:
@@ -107,6 +108,7 @@ MenuItem.prototype.placement = null; //default dropdown placement
 MenuItem.prototype.autoClose = false;
 MenuItem.prototype.checkedIcon = 'check';
 MenuItem.prototype.uncheckedIcon = 'dummy';
+MenuItem.prototype.keyboardShortcut = false;
 
 Widget.alias('submenu', MenuItem);
 Localization.registerPrototype('cx/widgets/MenuItem', MenuItem);
@@ -226,6 +228,15 @@ class MenuItemComponent extends VDOM.Component {
       if (this.state.dropdownOpen && this.validateDropdownPosition) {
          this.validateDropdownPosition();
       }
+   }
+
+   componentDidMount() {
+      let {widget} = this.props.instance;
+      if (widget.keyboardShortcut)
+         this.unregisterKeyboardShortcut = registerKeyboardShortcut(widget.keyboardShortcut, (e) => {
+            this.el.focus(); //open the dropdown
+            this.onClick(e); //execute the onClick handler
+         });
    }
 
    onDropdownKeyDown(e) {
@@ -398,5 +409,8 @@ class MenuItemComponent extends VDOM.Component {
 
       if (this.offParentPositionChange)
          this.offParentPositionChange();
+
+      if (this.unregisterKeyboardShortcut)
+         this.unregisterKeyboardShortcut();
    }
 }

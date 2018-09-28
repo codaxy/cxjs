@@ -1,4 +1,5 @@
 import * as Cx from '../../core';
+import {KeyboardShortcut} from "../../ui/keyboardShortcuts";
 
 export interface MenuItemProps extends Cx.HtmlElementProps {
    
@@ -14,7 +15,8 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    pad?: boolean,
    placement?: string | null,
    autoClose?: boolean,
-   icons?: boolean
+   icons?: boolean,
+   keyboardShortcut?: KeyboardShortcut
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}

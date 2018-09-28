@@ -24,6 +24,7 @@ export * from './IsolatedScope';
 export * from './DetachedScope';
 export * from './Restate';
 export * from './DataProxy';
+export * from './keyboardShortcuts';
 
 export * from './createFunctionalComponent';
 
