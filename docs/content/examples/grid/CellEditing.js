@@ -34,7 +34,8 @@ export const CellEditing = (
 
                 To setup cell editing set the `cellEditable` flag on the grid
                 and specify `editor` widget configurations for all editable columns.
-                You may also use the `onCellEdited` callback to react on changes, e.g. update the record in the database.
+                If some of the cells should not be editable, disable editing using the `editable` property.
+                Use the `onCellEdited` callback to react on changes, e.g. update the record in the database.
 
                 <Grid
                     cellEditable
