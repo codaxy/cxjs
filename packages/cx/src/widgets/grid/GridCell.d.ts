@@ -21,8 +21,10 @@ interface GridCellProps extends Cx.PureContainerProps {
    recordName?: string,
 
    /** Record alias. Default is `$record`. */
-   recordAlias?: string
+   recordAlias?: string,
 
+   /** Indicate if a cell is editable or not. Default value is true. */
+   editable?: boolean
 }
 
 export class GridCell extends Cx.Widget<GridCellProps> {}

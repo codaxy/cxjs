@@ -89,5 +89,17 @@ export default {
         description: <cx><Md>
             A field used for sorting purposes. E.g. sort by month number instead of month name.
         </Md></cx>
+    },
+    editable: {
+        type: 'bool',
+        description: <cx><Md>
+            Indicate if a cell is editable or not. Default value is `true`.
+        </Md></cx>
+    },
+    editor: {
+        type: 'config',
+        description: <cx><Md>
+            Cell editor configuration.
+        </Md></cx>
     }
 };
