@@ -646,7 +646,7 @@ export class Grid extends Widget {
       for (let i = 0; i < records.length; i++) {
          record = records[i];
          if (record.type == 'data')
-            record.vdom = getContent(record.row.render(context, record.key));
+            record.vdom = record.row.render(context, record.key);
 
          if (record.type == 'group-header') {
             record.vdom = [];
@@ -750,10 +750,6 @@ class GridComponent extends VDOM.Component {
       this.scrollerRef = el => {
          this.dom.scroller = el;
       }
-
-      this.wrapperRef = el => {
-         this.dom.wrapper = el;
-      }
    }
 
    render() {
@@ -797,35 +793,44 @@ class GridComponent extends VDOM.Component {
             cellEdit={i == cursor && cursorCellIndex && cellEdit}
             shouldUpdate={row.shouldUpdate}
          >
-            {[children].map(({key, data, content}) => <tr key={key} className={data.classNames} style={data.style}>
+            {children.content.map(({key, data, content}) => <tr key={key} className={data.classNames}
+                                                                style={data.style}>
                {content.map(({key, data, content, instance}, cellIndex) => {
-                  let cellected = i == cursor && cellIndex == cursorCellIndex;
-                  let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
-                  if (cellected && cellEdit) {
-                     let column = widget.row.line1.columns[cursorCellIndex];
-                     if (column && column.editor && data.editable)
+                     let cellected = i == cursor && cellIndex == cursorCellIndex;
+                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                     if (cellected && cellEdit) {
+                        let column = widget.row.line1.columns[cursorCellIndex];
+                        if (column && column.editor && data.editable)
                         //add an inner div with fixed height in order to help IE absolutely position the contents inside
-                        return <td key={key} className={CSS.element(baseClass, "cell-editor")}>
-                           <div
-                              className={CSS.element(baseClass, "cell-editor-wrap")}
-                              style={this.rowHeight > 0 ? { height: this.rowHeight + 1 } : null}
-                           >
-                              <Cx parentInstance={instance} subscribe>
-                                 <ValidationGroup
-                                    valid={{
-                                       get: () => this.cellEditorValid,
-                                       set: (value) => {
-                                          this.cellEditorValid = value;
-                                       }
-                                    }}
-                                 >
-                                    {column.editor}
-                                 </ValidationGroup>
-                              </Cx>
-                           </div>
-                        </td>
+                           return <td key={key} className={CSS.element(baseClass, "cell-editor")}>
+                              <div
+                                 className={CSS.element(baseClass, "cell-editor-wrap")}
+                                 style={this.rowHeight > 0 ? {height: this.rowHeight + 1} : null}
+                              >
+                                 <Cx parentInstance={instance} subscribe>
+                                    <ValidationGroup
+                                       valid={{
+                                          get: () => this.cellEditorValid,
+                                          set: (value) => {
+                                             this.cellEditorValid = value;
+                                          }
+                                       }}
+                                    >
+                                       {column.editor}
+                                    </ValidationGroup>
+                                 </Cx>
+                              </div>
+                           </td>
                      }
-                     return <td key={key} className={className} style={data.style}>{content}</td>
+                     return <td
+                        key={key}
+                        className={className}
+                        style={data.style}
+                        colSpan={data.colSpan}
+                        rowSpan={data.rowSpan}
+                     >
+                        {content}
+                     </td>
                   }
                )}
             </tr>)}
@@ -837,7 +842,10 @@ class GridComponent extends VDOM.Component {
                instance={record.row}
                parentInstance={instance}
                options={{name: 'grid-row'}}
-               contentFactory={x => wrap(x.children)}
+               contentFactory={x => wrap({
+                  content: Array.isArray(x.children) ? x.children : [x.children],
+                  data: {}
+               })}
                params={{
                   ...mod,
                   cursor: i == cursor,
@@ -867,14 +875,21 @@ class GridComponent extends VDOM.Component {
                      data: {classNames: dummyDataClass},
                      widget: widget.row
                   },
-                  vdom: <tr>
-                     <td
-                        colSpan={1000}
-                        style={{
-                           height: `${this.rowHeight}px`
-                        }}
-                     />
-                  </tr>
+                  vdom: {
+                     content: [{
+                        key: 0,
+                        data: {},
+                        content: [{
+                           key: 0,
+                           data: {
+                              colSpan: 1000,
+                              style: {
+                                 height: `${this.rowHeight}px`
+                              }
+                           }
+                        }]
+                     }]
+                  }
                }, start + i)
             } else {
                let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
@@ -945,7 +960,6 @@ class GridComponent extends VDOM.Component {
             onBlur={::this.onBlur}
          >
             <div
-               ref={this.wrapperRef}
                className={CSS.element(baseClass, 'table-wrapper')}
             >
                <table

@@ -476,9 +476,10 @@
       bottom: 0;
    }
 
+   //used to cut off the negative margin
    &.#{$element}#{$name}-table-wrapper {
       overflow: hidden;
-      display: inline-block;
+      display: inline-block; //preserve content width
       vertical-align: top;
       min-width: 100%;
    }
