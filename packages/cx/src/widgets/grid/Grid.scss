@@ -68,6 +68,14 @@
             &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header {
                visibility: hidden;
             }
+
+            //used to cut off the negative margin
+            & > .#{$element}#{$name}-table-wrapper {
+               overflow: hidden;
+               display: inline-block; //preserve content width
+               vertical-align: top;
+               min-width: 100%;
+            }
          }
 
          & > .#{$element}#{$name}-fixed-header {
@@ -446,7 +454,7 @@
       }
    }
 
-   &.#{$element}#{$name}-cell-editor-wrap {
+   .#{$element}#{$name}-cell-editor-wrap {
       position: absolute;
       top: -1px;
       bottom: 0;
@@ -474,14 +482,6 @@
       right: 0;
       top: 0;
       bottom: 0;
-   }
-
-   //used to cut off the negative margin
-   &.#{$element}#{$name}-table-wrapper {
-      overflow: hidden;
-      display: inline-block; //preserve content width
-      vertical-align: top;
-      min-width: 100%;
    }
 }
 
