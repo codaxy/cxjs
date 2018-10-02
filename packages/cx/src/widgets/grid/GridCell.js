@@ -1,6 +1,7 @@
 import {PureContainer} from '../../ui/PureContainer';
 import {Format} from '../../ui/Format';
 import {VDOM} from '../../ui/Widget';
+import {isUndefined} from "../../util/isUndefined";
 
 export class GridCell extends PureContainer {
 
@@ -20,6 +21,10 @@ export class GridCell extends PureContainer {
    init() {
       if (!this.value && this.field)
          this.value = {bind: this.recordName + '.' + this.field};
+
+      if (isUndefined(this.editable))
+         this.editable = !!this.editor;
+
       super.init();
    }
 
@@ -28,6 +33,7 @@ export class GridCell extends PureContainer {
 
       data.classNames = this.CSS.expand(data.className, data.class, this.CSS.state({
          pad: data.pad,
+         editable: data.editable,
          ['aligned-' + this.align]: this.align
       }));
 
@@ -56,4 +62,3 @@ export class GridCell extends PureContainer {
 
 GridCell.prototype.pad = true;
 GridCell.prototype.styled = true;
-GridCell.prototype.editable = true;

@@ -14,6 +14,7 @@ import {isDefined} from '../../util/isDefined';
 import {isArray} from '../../util/isArray';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
+import {KeyCode} from "../../util";
 enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {
@@ -293,7 +294,16 @@ class Input extends VDOM.Component {
       if (instance.widget.handleKeyDown(e, instance) === false)
          return;
 
-      if (e.keyCode == 13) this.onChange(e, 'enter');
+      switch (e.keyCode) {
+         case KeyCode.enter:
+            this.onChange(e, 'enter');
+            break;
+
+         case KeyCode.left:
+         case KeyCode.right:
+            e.stopPropagation();
+            break;
+      }
    }
 
    onChange(e, change) {

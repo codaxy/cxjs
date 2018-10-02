@@ -442,6 +442,7 @@
 
             &:after {
                position: absolute;
+               pointer-events: none;
                content: ' ';
                @include cx-add-rules($cell-cursor-style);
             }
