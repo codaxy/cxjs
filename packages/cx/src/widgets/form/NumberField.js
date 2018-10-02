@@ -53,8 +53,12 @@ export class NumberField extends Field {
    }
 
    prepareData(context, instance) {
-      let {data} = instance;
+      let {data, state, cached} = instance;
       data.formatted = Format.value(data.value, data.format);
+
+      if (!cached.data || data.value != cached.data.value)
+         state.empty = !data.value;
+
       super.prepareData(context, instance);
    }
 
@@ -94,6 +98,10 @@ export class NumberField extends Field {
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
       )
+   }
+
+   validateRequired(context, instance) {
+      return instance.state.empty && this.requiredText;
    }
 }
 
@@ -207,7 +215,7 @@ class Input extends VDOM.Component {
 
    componentWillReceiveProps(props) {
       let {data, state} = props.instance;
-      if (this.input.value != props.data.formatted && (this.props.data.formatted != data.formatted || !state.inputError)) {
+      if (this.props.data.formatted != data.formatted && !state.inputError) {
          this.input.value = props.data.formatted || '';
          props.instance.setState({
             inputError: false
@@ -293,6 +301,12 @@ class Input extends VDOM.Component {
       let {instance, data} = this.props;
       let {widget} = instance;
 
+      if (data.required) {
+         instance.setState({
+            empty: !e.target.value
+         });
+      }
+
       if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly)
          return;
 
@@ -363,6 +377,9 @@ class Input extends VDOM.Component {
             let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
+         }
+         else {
+            this.input.value = formatted;
          }
       }
 
