@@ -43,6 +43,7 @@ export class GridRowComponent extends VDOM.Component {
       this.onMouseMove = ::this.onMouseMove;
       this.onMouseDown = ::this.onMouseDown;
       this.onClick = ::this.onClick;
+      this.onKeyDown = ::this.onKeyDown;
 
       let {grid, instance} = props;
 
@@ -69,12 +70,15 @@ export class GridRowComponent extends VDOM.Component {
       let {className, dragSource, instance} = this.props;
       let {data, widget} = instance;
       let {CSS} = widget;
-      let move, up;
+      let move, up, keyDown;
 
       if (dragSource) {
          move = this.onMouseMove;
          up = ddMouseUp;
       }
+
+      if (widget.onRowClick)
+         keyDown = this.onKeyDown;
 
       return (
          <tbody
@@ -88,6 +92,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseMove={move}
             onTouchEnd={up}
             onMouseUp={up}
+            onKeyDown={keyDown}
             onContextMenu={this.onRowContextMenu}
          >
          {this.props.children}
@@ -134,6 +139,13 @@ export class GridRowComponent extends VDOM.Component {
       if (td)
          return Array.from(td.parentElement.children).indexOf(td);
       return -1;
+   }
+
+   onKeyDown(e) {
+      let {grid, instance} = this.props;
+      if (grid.invoke("onRowClick", e, instance) === false) {
+         e.stopPropagation();
+      }
    }
 
    onClick(e) {
