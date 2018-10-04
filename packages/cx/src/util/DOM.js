@@ -43,7 +43,7 @@ export function isFocused(el) {
 }
 
 export function isFocusedDeep(el) {
-   return document.activeElement == el || el.contains(document.activeElement);
+   return document.activeElement == el || (document.activeElement && el.contains(document.activeElement));
 }
 
 const focusableWithoutTabIndex = ['INPUT', 'SELECT', 'TEXTAREA', 'A', 'BUTTON'];

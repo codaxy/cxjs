@@ -2,6 +2,7 @@ import { isSelfOrDescendant, findFirst, findFirstChild, isFocusable, closestPare
 import { batchUpdates } from './batchUpdates';
 import { SubscriberList } from '../util/SubscriberList';
 import {isTouchEvent} from '../util/isTouchEvent';
+import {getActiveElement} from "../util/getActiveElement";
 
 /*
 *  Purpose of FocusManager is to provide focusout notifications.
@@ -25,10 +26,10 @@ export class FocusManager {
    }
 
    static onFocusOut(el, callback) {
-      let active = isSelfOrDescendant(el, document.activeElement);
+      let active = isSelfOrDescendant(el, getActiveElement());
       return this.subscribe(focusedEl => {
          if (!active)
-            active = isSelfOrDescendant(el, document.activeElement);
+            active = isSelfOrDescendant(el, getActiveElement());
          else if (!isSelfOrDescendant(el, focusedEl)) {
             active = false;
             callback(focusedEl);
@@ -48,13 +49,13 @@ export class FocusManager {
    }
 
    static nudge() {
-      if (typeof document !== "undefined" && document.activeElement !== lastActiveElement) {
+      if (typeof document !== "undefined" && getActiveElement() !== lastActiveElement) {
          if (!pending) {
             pending = true;
             setTimeout(function () {
                pending = false;
-               if (document.activeElement !== lastActiveElement) {
-                  lastActiveElement = document.activeElement;
+               if (getActiveElement() !== lastActiveElement) {
+                  lastActiveElement = getActiveElement();
                   batchUpdates(() => {
                      subscribers.notify(lastActiveElement);
                   });
@@ -134,11 +135,12 @@ export function preventFocus(e) {
    e.preventDefault();
 
    //unfocus activeElement
-   if (e.currentTarget !== document.activeElement && !document.activeElement.contains(e.currentTarget)) {
+   const activeElement = getActiveElement();
+   if (e.currentTarget !== activeElement && !activeElement.contains(e.currentTarget)) {
       //force field validation on outside click, however, preserve active window or dropdown menu
-      let focusableParent = closestParent(document.activeElement, isFocusable) || document.body;
+      let focusableParent = closestParent(activeElement, isFocusable) || document.body;
       if (focusableParent === document.body)
-         document.activeElement.blur();
+         activeElement.blur();
       else
          focusableParent.focus();
 

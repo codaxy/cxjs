@@ -10,6 +10,7 @@ import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
+import {getActiveElement} from "../../util/getActiveElement";
 
 /*
  Functionality:
@@ -267,14 +268,14 @@ class MenuItemComponent extends VDOM.Component {
             FocusManager.focus(this.el);
          else if (!widget.clickToOpen) {
             // Automatically open the dropdown only if parent menu is focused
-            let commonParentMenu = closest(this.el, el => el.tagName == 'UL' && el.contains(document.activeElement));
+            let commonParentMenu = closest(this.el, el => el.tagName == 'UL' && el.contains(getActiveElement()));
             if (commonParentMenu)
                this.autoFocusTimerId = setTimeout(() => {
                   delete this.autoFocusTimerId;
                   if (!this.state.dropdownOpen) {
                      debug(menuFlag, 'MenuItem', 'hoverFocusTimeout:before', this.el);
                      FocusManager.focus(this.el);
-                     debug(menuFlag, 'MenuItem', 'hoverFocusTimeout:after', this.el, document.activeElement);
+                     debug(menuFlag, 'MenuItem', 'hoverFocusTimeout:after', this.el, getActiveElement());
                   }
                }, widget.hoverFocusTimeout);
          }
@@ -371,7 +372,7 @@ class MenuItemComponent extends VDOM.Component {
       }
 
       if (widget.autoClose)
-         document.activeElement.blur();
+         getActiveElement().blur();
    }
 
    onFocus() {
