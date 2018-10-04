@@ -71,7 +71,7 @@
          left: 0;
          right: 0;
          height: 2px;
-         background: cx-get-state-rule(map-get($cx-tab-mods, classic), selected, background-color);
+         background: inherit;
       }
    }
 }
