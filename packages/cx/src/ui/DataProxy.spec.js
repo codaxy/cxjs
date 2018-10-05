@@ -190,5 +190,45 @@ describe('DataProxy', () => {
          children: ["excellent"]
       })
    });
+
+   it('properly binds structures', () => {
+
+      class TestController extends Controller {
+         onInit() {
+            this.store.set('$person.firstName', "Jim");
+         }
+      }
+
+      let widget = <cx>
+         <DataProxy
+            data={{
+               $person: {bind: "person"}
+            }}
+            controller={TestController}
+         >
+            <span text-tpl="{$person.firstName} {$person.lastName}" />
+         </DataProxy>
+      </cx>;
+
+      let store = new Store({
+         data: {
+            person: { firstName: "John", lastName: "Smith" }
+         }
+      });
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+
+      assert(store.get('person.firstName'), 'Jim');
+
+      assert.deepEqual(tree, {
+         type: 'span',
+         props: {},
+         children: ["Jim Smith"]
+      })
+   });
 });
 

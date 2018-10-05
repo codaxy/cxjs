@@ -2,9 +2,11 @@ import {PureContainer} from "./PureContainer";
 import {isString} from "../util/isString";
 import {isObject} from "../util/isObject";
 import {isFunction} from "../util/isFunction";
+import {isUndefined} from "../util/isUndefined";
 import {ReadOnlyDataView} from "../data/ReadOnlyDataView";
 import {UseParentLayout} from "../ui/layout/UseParentLayout";
 import {getSelector} from "../data/getSelector";
+import {Binding} from "../data/Binding";
 
 
 export class DataProxy extends PureContainer {
@@ -39,7 +41,7 @@ export class DataProxy extends PureContainer {
          onSet: (path, value) => {
             let config = this.data[path];
             if (config.bind)
-               return instance.store.setItem(config.bind, value);
+               return isUndefined(value) ? instance.store.deleteItem(config.bind) : instance.store.setItem(config.bind, value);
 
             if (!config.set)
                throw new Error(`Cannot set value for ${path} in DataProxy as the setter is not defined.`);
@@ -77,16 +79,20 @@ class DataProxyView extends ReadOnlyDataView {
    }
 
    setItem(path, value) {
-      if (isObject(this.privateData) && this.privateData.hasOwnProperty(path))
-         return this.onSet(path, value);
-
-      return super.setItem(path, value);
+      let binding = Binding.get(path);
+      let bindingRoot = binding.parts[0];
+      if (!isObject(this.privateData) || !this.privateData.hasOwnProperty(bindingRoot)) {
+         if (isUndefined(value))
+            return super.deleteItem(path);
+         return super.setItem(path, value);
+      }
+      let newValue = value;
+      if (binding.parts.length > 1)
+         newValue = binding.set(this.getAdditionalData(this.store.getData()), value)[bindingRoot];
+      return this.onSet(bindingRoot, newValue);
    }
 
    deleteItem(path) {
-      if (isObject(this.privateData) && this.privateData.hasOwnProperty(path))
-         return this.onSet(path, undefined);
-
-      return super.deleteItem(path);
+      return this.setItem(path, undefined);
    }
 }
