@@ -39,6 +39,7 @@ export class Ref extends Component {
       });
    }
 
+   //allows the function to be passed as a selector, e.g. to computable or addTrigger
    memoize() {
       return this.get;
    }
