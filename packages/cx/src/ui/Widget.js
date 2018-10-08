@@ -1,4 +1,4 @@
-import {Component} from './Component';
+import {Component} from '../util/Component';
 import {CSSHelper} from './CSSHelper';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';

@@ -1,4 +1,4 @@
-import {Component} from '../Component';
+import {Component} from '../../util/Component';
 import {contentAppend} from '../Widget';
 import {CSSHelper} from '../CSSHelper';
 import {exploreChildren} from './exploreChildren';
@@ -8,7 +8,6 @@ import {isArray} from '../../util/isArray';
 export class Layout extends Component {
    
    init() {
-      super.init();
       if (isString(this.CSS))
          this.CSS = CSSHelper.get(this.CSS);
    }
@@ -60,3 +59,5 @@ Layout.prototype.CSS = 'cx';
 Layout.namespace = 'ui.layout.';
 
 Layout.alias('default', Layout);
+
+Layout.autoInit = true;

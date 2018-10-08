@@ -1,5 +1,5 @@
 import * as Cx from '../core';
-import {Component} from './Component';
+import {Component} from '../util/Component';
 
 type Filter = string | Component;
 

@@ -89,7 +89,6 @@ describe('createFunctionalComponent', () => {
          children: ["OK"],
          props: {}
       })
-
    });
 
    it('visible and multiple items behave as expected', () => {
@@ -213,4 +212,36 @@ describe('createFunctionalComponent', () => {
          }]
       })
    });
+
+
+   it('can use refs for data bindings', () => {
+      const X = createFunctionalComponent(({store}) => {
+         let x = store.ref("x", "OK");
+         return (
+            <cx>
+               <div text={x}/>
+            </cx>
+         );
+      });
+
+      const widget = (
+         <cx>
+            <X visible={true} />
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: 'div',
+         children: ["OK"],
+         props: {}
+      })
+   });
+
 });

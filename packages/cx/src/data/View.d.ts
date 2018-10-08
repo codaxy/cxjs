@@ -1,5 +1,6 @@
 import {Record} from '../core'
 import {Binding} from './Binding';
+import {Ref} from "./Ref";
 
 declare type Path = string | Binding;
 
@@ -31,11 +32,14 @@ export class View {
     * Removes data from the Store.
     * @param path - Path to be deleted.
     * @return {boolean}
-    *//**
+    */
+
+   /**
     * Removes data from the Store.
     * @param paths - Array of paths to be deleted.
     * @return {boolean}
-    *//**
+    */
+   /**
     * Removes data from the Store.
     * @param ...paths - Any number of paths to be deleted.
     * @return {boolean}
@@ -54,9 +58,9 @@ export class View {
 
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
 
-   /** 
-    * `batch` method can be used to perform multiple Store operations silently 
-    * and re-render the application only once afterwards. The Store instance 
+   /**
+    * `batch` method can be used to perform multiple Store operations silently
+    * and re-render the application only once afterwards. The Store instance
     * is passed to the `callback` function.
     * @param callback - Function that will perform multiple Store operations
     * @return {boolean}
@@ -74,4 +78,6 @@ export class View {
    dispatch(action);
 
    getMethods();
+
+   ref<T = any>(path: string, defaultValue?: T): Ref<T>;
 }

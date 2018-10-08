@@ -1,5 +1,5 @@
 import {Record} from '../../core';
-import {Component} from '../Component';
+import {Component} from '../../util/Component';
 import {View} from '../../data/View';
 import {Instance} from '../Instance';
 

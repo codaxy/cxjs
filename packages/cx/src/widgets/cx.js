@@ -1,6 +1,6 @@
 import {HtmlElement} from './HtmlElement';
 import {VDOM} from '../ui/Widget';
-import {createComponentFactory, isComponentFactory} from '../ui/Component';
+import {createComponentFactory, isComponentFactory} from '../util/Component';
 import {createFunctionalComponent} from '../ui/createFunctionalComponent'
 import {isString} from '../util/isString';
 import {isNumber} from '../util/isNumber';

@@ -356,5 +356,27 @@ describe('Controller', () => {
       let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
    });
+
+   it('addComputable accepts refs', () => {
+      let store = new Store({data: {x: 0}});
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div
+               controller={({ref}) => {
+                  let x = ref("x");
+                  return {
+                     onInit() {
+                        this.addComputable("y", [x], x => x + 1);
+                     }
+                  }
+               }}
+            />
+         </Cx>
+      );
+
+      let tree1 = component.toJSON();
+      assert.equal(store.get("y"), 1);
+   });
 });
 

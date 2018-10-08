@@ -112,6 +112,7 @@ export class HtmlElement extends Container {
          case "jsxAttributes":
          case "jsxSpread":
          case "instance":
+         case "store":
             return false;
 
          default:
