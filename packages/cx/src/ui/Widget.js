@@ -160,7 +160,6 @@ Widget.prototype.CSS = 'cx';
 Widget.prototype.styled = false;
 
 Widget.namespace = 'ui.';
-Widget.lazyInit = true;
 Widget.optimizePrepare = true;
 
 Widget.factory = (type, config, more) => 

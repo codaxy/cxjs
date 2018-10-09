@@ -8,8 +8,8 @@ export function exploreChildren(
    instance: Instance,
    children: Instance[],
    previousResult: Instance[],
-   key: string,
-   store: View,
+   key?: string,
+   store?: View,
    beforeCallback?: () => void,
    afterCallback?: () => void
 ) : Instance[];

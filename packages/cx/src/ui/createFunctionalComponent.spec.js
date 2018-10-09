@@ -243,5 +243,4 @@ describe('createFunctionalComponent', () => {
          props: {}
       })
    });
-
 });

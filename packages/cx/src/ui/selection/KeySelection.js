@@ -4,7 +4,6 @@ import {isNonEmptyArray} from "../../util/isNonEmptyArray";
 
 export class KeySelection extends Selection {
    init() {
-      super.init();
 
       if (this.bind && !this.selection)
          this.selection = {
@@ -140,5 +139,6 @@ export class KeySelection extends Selection {
 KeySelection.prototype.multiple = false;
 KeySelection.prototype.keyField = 'id';
 KeySelection.prototype.storage = 'array';
+KeySelection.autoInit = true;
 
 Selection.alias('key', KeySelection);

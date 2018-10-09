@@ -52,8 +52,6 @@ export class Chart extends BoundedObject {
       super.prepareCleanup(context, instance);
    }
 
-
-
    render(context, instance, key) {
       var axes = [];
       for (var k in instance.axes) {
@@ -62,13 +60,14 @@ export class Chart extends BoundedObject {
 
       return [
          axes,
-         this.renderChildren(context, instance, key)
+         this.renderChildren(context, instance)
       ];
    }
 }
 
 Chart.prototype.anchors = '0 1 1 0';
 Chart.prototype.styled = true;
+Chart.prototype.isPureContainer = true;
 
 Widget.alias('chart', Chart);
 

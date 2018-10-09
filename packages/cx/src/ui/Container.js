@@ -1,14 +1,14 @@
-import {Widget} from './Widget';
+import {contentAppend, Widget} from './Widget';
 import {StaticText} from './StaticText';
-import {Layout} from './layout/Layout';
 import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 import {isString} from '../util/isString';
 import {isArray} from '../util/isArray';
+import {exploreChildren} from "./layout/exploreChildren";
 
 export class Container extends Widget {
 
-   init() {
+   init(context) {
       if (typeof this.ws !== 'undefined')
          this.preserveWhitespace = this.ws;
 
@@ -16,54 +16,111 @@ export class Container extends Widget {
          this.trimWhitespace = false;
 
       let items = this.items || this.children || [];
+      delete this.children;
       this.items = [];
-      this.add(items);
-      
-      super.init();
 
-      this.layout = Layout.create(this.layout || {});
+      if (this.layout) {
+         let layout = Widget.create({ type: this.layout, items });
+         layout.init(context);
+         this.layout = null;
+         this.add(layout);
+         this.layout = layout;
+      }
+      else {
+         this.add(items);
+      }
+
+      super.init(context);
+   }
+
+   exploreItems(context, instance, items) {
+      instance.children = exploreChildren(context, instance, items, instance.cached.children);
+      if (instance.cache('children', instance.children))
+         instance.markShouldUpdate(context);
    }
 
    explore(context, instance) {
-      this.layout.explore(context, instance, this.items);
       super.explore(context, instance);
+      this.exploreItems(context, instance, this.items);
    }
 
-   render(context, instance, key) {
-      return this.renderChildren(context, instance, key);
+   render(context, instance) {
+      return this.renderChildren(context, instance);
    }
 
-   renderChildren(context, instance, keyPrefix) {
-      return this.layout.render(context, instance, keyPrefix)
+   renderChildren(context, instance, forceResolve) {
+
+      let {isPureContainer} = this;
+      if (forceResolve)
+         isPureContainer = false;
+
+      function append(result, r) {
+         if (r == null)
+            return;
+
+         if (isArray(r))
+            return r.forEach(x => append(result, x))
+
+         if (typeof r != 'object') {
+            contentAppend(result, r);
+            return;
+         }
+
+         if (r.atomic || isPureContainer)
+            result.push(r);
+         else {
+            let first = true;
+            for (let k in r)
+               if (contentAppend(result, r[k], !first))
+                  first = false;
+         }
+      }
+
+      let result = [];
+      for (let i = 0; i < instance.children.length; i++) {
+         append(result, instance.children[i].vdom);
+      }
+      return result;
    }
 
    clear() {
-      this.items = [];
+      if (this.layout)
+         this.layout.clear();
+      else
+         this.items = [];
    }
 
    add(...args) {
+      if (this.layout)
+         return this.layout.add(...args);
+
       args.forEach(a => {
          if (!a)
             return;
          if (isArray(a))
-            a.forEach(c=>this.add(c));
+            a.forEach(c => this.add(c));
          else if (isString(a)) {
             if (this.trimWhitespace)
                a = innerTextTrim(a);
             if (a)
                this.addText(a);
          } else if (a.isComponent)
-            this.items.push(a);
-         else
+            this.items.push(this.wrapItem(a));
+         else {
             this.add(Widget.create(a, this.itemDefaults));
+         }
       });
+   }
+
+   wrapItem(item) {
+      return item;
    }
 
    addText(text) {
       if (this.plainText || text.indexOf('{') == -1 || text.indexOf('}') == -1)
-         this.items.push(Widget.create(StaticText, {text: text}));
+         this.add(Widget.create(StaticText, {text: text}));
       else
-         this.items.push(Widget.create(Text, {text: {tpl: text}}));
+         this.add(Widget.create(Text, {text: {tpl: text}}));
    }
 
    find(filter, options) {
@@ -74,7 +131,7 @@ export class Container extends Widget {
       if (!filter || !this.items)
          return [];
 
-      var alias = filter;
+      let alias = filter;
 
       if (isString(filter))
          filter = (w) => w.componentAlias == alias;
@@ -82,10 +139,10 @@ export class Container extends Widget {
       if (filter.isComponentType)
          filter = (w) => w instanceof alias;
 
-      var results = [];
+      let results = [];
 
-      for (var i = 0; i < this.items.length; i++) {
-         var w = this.items[i];
+      for (let i = 0; i < this.items.length; i++) {
+         let w = this.items[i];
 
          if (!w.initialized)
             w.init();

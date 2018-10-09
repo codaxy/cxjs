@@ -1,5 +1,5 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {PureContainer} from '../../ui/PureContainer';
+import {Container} from '../../ui/Container';
 import {startAppLoop} from '../../ui/app/startAppLoop';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
 import {isSelfOrDescendant} from '../../util/DOM';
@@ -20,7 +20,7 @@ import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClien
  - stop mouse events from bubbling to parents, but allow keystrokes
  */
 
-export class Overlay extends PureContainer {
+export class Overlay extends Container {
    declareData() {
       return super.declareData(...arguments, {
          shadowStyle: {

@@ -1,8 +1,8 @@
-import { PureContainer, HtmlElement } from 'cx/widgets';
-import { Widget, VDOM } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
+import { Widget, VDOM, Container} from 'cx/ui';
 import {CSS} from '../app/CSS';
 
-export class MethodTable extends PureContainer {
+export class MethodTable extends Container {
     init() {
         super.init();
         let methods = this.methods || [];

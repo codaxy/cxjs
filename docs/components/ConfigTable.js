@@ -1,8 +1,8 @@
-import { HtmlElement, PureContainer } from 'cx/widgets';
-import { Widget, VDOM } from 'cx/ui';
+import { HtmlElement } from 'cx/widgets';
+import { Widget, VDOM, Container } from 'cx/ui';
 import {CSS} from '../app/CSS';
 
-export class ConfigTable extends PureContainer {
+export class ConfigTable extends Container {
 
     declareData() {
        super.declareData({

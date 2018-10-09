@@ -48,8 +48,8 @@ export class LabeledContainer extends FieldGroup
 
    render(context, instance, key) {
       return {
-         label: this.renderLabel(context, instance, key),
-         content: this.renderChildren(context, instance, key)
+         label: this.renderLabel(context, instance),
+         content: this.renderChildren(context, instance)
       }
    }
 }

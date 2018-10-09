@@ -1,10 +1,10 @@
 import {Widget, VDOM, getContent} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import {Container} from '../ui/Container';
 import {Heading} from './Heading';
 import {isString} from '../util/isString';
 import {parseStyle} from '../util/parseStyle';
 
-export class Section extends PureContainer {
+export class Section extends Container {
 
    init() {
       if (isString(this.headerStyle))

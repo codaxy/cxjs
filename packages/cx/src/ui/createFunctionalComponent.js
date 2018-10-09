@@ -7,12 +7,12 @@ import {UseParentLayout} from "./layout/UseParentLayout";
 class FunctionalComponent extends PureContainer {
    initInstance(context, instance) {
       this.add(this.childrenFactory({...this.props, store: instance.store }));
-      instance.widgets = this.children || this.items;
+      instance.widgets = this.items;
       this.clear();
    }
 
    explore(context, instance) {
-      this.layout.explore(context, instance, instance.widgets);
+      this.exploreItems(context, instance, instance.widgets);
    }
 }
 

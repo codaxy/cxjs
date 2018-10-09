@@ -49,7 +49,9 @@ export const AsyncRoute = createFunctionalComponent(({route, content, prefix} : 
         <ContentResolver
             params={bind("version")}
             onResolve={() => content().then(x => x.default)}
-        />
+        >
+            Loading
+        </ContentResolver>
     </Route>
 </cx>);
 

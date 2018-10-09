@@ -1792,7 +1792,7 @@ class GridColumnHeaderLine extends PureContainer {
 GridColumnHeaderLine.prototype.isPureContainer = false;
 GridColumnHeaderLine.prototype.styled = true;
 GridColumnHeaderLine.prototype.showHeader = true;
-GridColumnHeaderLine.lazyInit = false;
+GridColumnHeaderLine.autoInit = true;
 
 class GridColumnHeader extends Widget {
 
@@ -1857,7 +1857,7 @@ class GridColumnHeader extends Widget {
    }
 }
 
-GridColumnHeader.lazyInit = false;
+GridColumnHeader.autoInit = true;
 
 class GridColumnHeaderCell extends PureContainer {
    declareData() {

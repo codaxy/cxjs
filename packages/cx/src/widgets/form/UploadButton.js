@@ -19,7 +19,7 @@ export class UploadButton extends Field {
    renderInput(context, instance, key) {
       let {data} = instance;
       return <UploadButtonComponent key={key} instance={instance}>
-         {data.text || this.renderChildren(context, instance)}
+         {data.text || this.renderChildren(context, instance, true)}
       </UploadButtonComponent>
    }
 }

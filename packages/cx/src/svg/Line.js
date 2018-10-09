@@ -22,7 +22,7 @@ export class Line extends TextualBoundedObject {
                style={data.style}
                stroke={data.stroke}
          />
-         {this.renderChildren(context, instance, key)}
+         {this.renderChildren(context, instance)}
       </g>;
    }
 }

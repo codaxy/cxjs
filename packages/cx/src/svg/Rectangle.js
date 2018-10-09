@@ -26,7 +26,7 @@ export class Rectangle extends TextualBoundedObject {
                fill={data.fill}
                stroke={data.stroke}
          />
-         {this.renderChildren(context, instance, key)}
+         {this.renderChildren(context, instance)}
       </g>;
    }
 }
