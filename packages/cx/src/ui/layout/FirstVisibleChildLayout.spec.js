@@ -36,6 +36,36 @@ describe('FirstVisibleChildLayout', () => {
       )
    });
 
+   it('do not process other widgets', () => {
+
+      let h = false, m = false, f = false;
+
+      let widget = <cx>
+         <div layout={FirstVisibleChildLayout}>
+            <header onInit={() => {h = true }} />
+            <main onInit={() => {m = true }}  />
+            <footer onInit={() => {f = true }} />
+         </div>
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: 'div',
+         props: {},
+         children: [{type: 'header', props: {}, children: null}]
+      });
+
+      assert.equal(h, true);
+      assert.equal(m, false);
+      assert.equal(f, false);
+   });
+
    it('skips the first child if not visible', () => {
 
       let widget = <cx>
@@ -61,7 +91,7 @@ describe('FirstVisibleChildLayout', () => {
       )
    });
 
-   it.skip('skips pure containers which use parent layouts', () => {
+   it('skips pure containers which use parent layouts', () => {
 
       let widget = <cx>
          <div layout={FirstVisibleChildLayout}>

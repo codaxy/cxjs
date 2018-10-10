@@ -1,5 +1,5 @@
 import {LabelsLeftLayout, FirstVisibleChildLayout, PureContainer, UseParentLayout} from "cx/ui";
-import {TextField, Route, Checkbox, LabeledContainer} from "cx/widgets";
+import {TextField, Route, Checkbox, LabeledContainer, DateTimeField} from "cx/widgets";
 
 export default <cx>
    <div layout={FirstVisibleChildLayout} visible={false}>
@@ -18,6 +18,7 @@ export default <cx>
          <LabeledContainer label="123">
             132132
          </LabeledContainer>
+         <DateTimeField />
          {/*<TextField value:bind="$page.text" label="Label 1"/>*/}
          {/*<Checkbox value:bind="$page.showSection1">Show More</Checkbox>*/}
          {/*<PureContainer layout={UseParentLayout} visible:bind="$page.showSection1">*/}

@@ -20,11 +20,17 @@ export class Container extends Widget {
       this.items = [];
 
       if (this.layout) {
-         let layout = Widget.create({ type: this.layout, items });
+         let layout = Widget.create({type: this.layout, items});
          layout.init(context);
          this.layout = null;
-         this.add(layout);
-         this.layout = layout;
+         if (layout.noLayout) {
+            this.useParentLayout = true;
+            this.add(items);
+         }
+         else {
+            this.add(layout);
+            this.layout = layout;
+         }
       }
       else {
          this.add(items);
@@ -50,9 +56,7 @@ export class Container extends Widget {
 
    renderChildren(context, instance, forceResolve) {
 
-      let {isPureContainer} = this;
-      if (forceResolve)
-         isPureContainer = false;
+      let preserveComplexContent = this.useParentLayout && !forceResolve;
 
       function append(result, r) {
          if (r == null)
@@ -66,7 +70,7 @@ export class Container extends Widget {
             return;
          }
 
-         if (r.atomic || isPureContainer)
+         if (r.atomic || preserveComplexContent)
             result.push(r);
          else {
             let first = true;

@@ -28,7 +28,8 @@ export class LabelsTopLayout extends PureContainer {
          rows: []
       };
 
-      const processItem = (r) => {
+      const processItem = (item) => {
+         let r = item.vdom;
          if (!r)
             return;
          if (isArray(r.content) && !r.label)
@@ -62,7 +63,6 @@ export class LabelsTopLayout extends PureContainer {
    addItem(state, item) {
       if (!state.labelCells || state.labelCells.length + 1 > this.columns)
          this.addRow(state);
-
 
       state.labelCells.push(
          <td className={this.CSS.element(this.baseClass, "label")} key={state.labelCells.length}>

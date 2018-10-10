@@ -1,8 +1,7 @@
 import {PureContainer} from "../PureContainer";
-import {MenuItem} from "../../widgets/nav";
 
 function isVisibleDeep(instance) {
-   if (instance.visible && !instance.widget.isPureContainer)
+   if (instance.visible && (!instance.widget.isPureContainer || !instance.widget.useParentLayout))
       return true;
    if (instance.children) {
       for (let i = 0; i < instance.children.length; i++)
@@ -33,6 +32,8 @@ class FirstVisibleChildItem extends PureContainer {
       return super.render(context, instance, key)
    }
 }
+
+FirstVisibleChildItem.prototype.useParentLayout = true;
 
 export class FirstVisibleChildLayout extends PureContainer {
 
