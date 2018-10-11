@@ -23,7 +23,6 @@ export default <cx>
     <a
         href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/flex-row/options.tsx" target="_blank"
         putInto="github"
-        onExplore={() => { debugger; }}
     >
         Source Code
     </a>

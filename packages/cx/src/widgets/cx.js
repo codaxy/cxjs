@@ -16,7 +16,7 @@ function getHtmlElementFactory(tagName) {
    let factory = htmlFactoryCache[tagName];
    if (factory)
       return factory;
-   return htmlFactoryCache[tagName] = createComponentFactory(config => HtmlElement.create(HtmlElement, {tag: tagName}, flattenProps(config)), {tag: tagName});
+   return htmlFactoryCache[tagName] = createComponentFactory(() => {}, config => HtmlElement.create(HtmlElement, {tag: tagName}, flattenProps(config)), {tag: tagName});
 }
 
 export function cx(typeName, props, ...children) {

@@ -326,7 +326,7 @@ export const Controllers = <cx>
             
             In such cases, we can use `invokeParentMethod` as shown in the example below.
             
-            <div class="widgets" >
+            <div class="widgets" visible={true} >
                 <div controller={TodoListController} layout={LabelsLeftLayout}>
                     <NewTask />
                 

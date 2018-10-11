@@ -33,7 +33,7 @@ export class Component {
          return typeAlias;
 
       if (isComponentFactory(typeAlias))
-         return this.create(typeAlias(config, more));
+         return this.create(typeAlias.create(config));
 
       if (isArray(typeAlias))
          return typeAlias.map(c => this.create(c, config, more));
@@ -96,9 +96,10 @@ Component.factory = (alias, config, more) => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
 
-export function createComponentFactory(factory, meta) {
+export function createComponentFactory(factory, jsxDriver, meta) {
    factory.$isComponentFactory = true;
    factory.$meta = meta;
+   factory.create = jsxDriver;
    return factory;
 }
 

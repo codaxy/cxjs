@@ -104,7 +104,7 @@ describe('createFunctionalComponent', () => {
 
       const widget = (
          <cx>
-            <FComponent visible={true}/>
+            <FComponent/>
          </cx>
       );
 
@@ -139,7 +139,7 @@ describe('createFunctionalComponent', () => {
       const widget = (
          <cx>
             <div layout={LabelsLeftLayout}>
-               <FComponent visible={true}/>
+               <FComponent/>
             </div>
          </cx>
       );
@@ -242,5 +242,49 @@ describe('createFunctionalComponent', () => {
          children: ["OK"],
          props: {}
       })
+   });
+
+   it('adds children at the right place', () => {
+      const X = ({children}) => <cx>
+         <header />
+         <main>
+            {children}
+         </main>
+         <footer />
+      </cx>;
+
+      const widget = (
+         <cx>
+            <X>
+               <div />
+            </X>
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+
+      assert.deepEqual(tree, [{
+         type: 'header',
+         children: null,
+         props: {}
+      }, {
+         type: 'main',
+         children: [{
+            type: 'div',
+            children: null,
+            props: {}
+         }],
+         props: {}
+      }, {
+         type: 'footer',
+         children: null,
+         props: {}
+      }])
    });
 });

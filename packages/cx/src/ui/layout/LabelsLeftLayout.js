@@ -4,6 +4,8 @@ import {isArray} from '../../util/isArray';
 
 
 function validContent(r) {
+   if (!r.hasOwnProperty("content"))
+      return r;
    let content = [];
    for (let key in r)
       if (key != "label")
@@ -20,7 +22,7 @@ export class LabelsLeftLayout extends PureContainer {
       const addItem = (r, key) => {
          if (!r)
             return;
-         if (isArray(r.content) && !r.label)
+         if (r.useParentLayout && isArray(r.content))
             r.content.forEach((x, i) => addItem(x, key + '-' + i));
          else {
             result.push(<tr key={key}>

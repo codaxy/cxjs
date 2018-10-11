@@ -54,21 +54,25 @@ export class Container extends Widget {
       return this.renderChildren(context, instance);
    }
 
-   renderChildren(context, instance, forceResolve) {
+   renderChildren(context, instance) {
 
-      let preserveComplexContent = this.useParentLayout && !forceResolve;
+      let preserveComplexContent = this.useParentLayout;
 
       function append(result, r) {
          if (r == null)
             return;
 
-         if (isArray(r))
-            return r.forEach(x => append(result, x))
-
-         if (typeof r != 'object') {
+         //react element
+         if (!r.hasOwnProperty("content")) {
             contentAppend(result, r);
             return;
          }
+
+         if (!r.content)
+            return;
+
+         if (r.useParentLayout)
+            return r.content.forEach(x => append(result, x));
 
          if (r.atomic || preserveComplexContent)
             result.push(r);
@@ -84,6 +88,13 @@ export class Container extends Widget {
       for (let i = 0; i < instance.children.length; i++) {
          append(result, instance.children[i].vdom);
       }
+
+      if (this.useParentLayout)
+         return {
+            useParentLayout: true,
+            content: result
+         };
+
       return result;
    }
 

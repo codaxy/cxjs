@@ -48,7 +48,7 @@ export class Select extends Field {
          select={v => this.select(v, instance)}
          label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
-         {this.renderChildren(context, instance, true)}
+         {this.renderChildren(context, instance)}
       </SelectComponent>
    }
 

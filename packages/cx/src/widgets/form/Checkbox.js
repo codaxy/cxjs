@@ -78,7 +78,7 @@ export class Checkbox extends Field {
 
    renderInput(context, instance, key) {
       let {data} = instance;
-      let text = data.text || this.renderChildren(context, instance, true);
+      let text = data.text || this.renderChildren(context, instance);
       let {CSS, baseClass} = this;
       return this.renderWrap(context, instance, key, [
          this.native
@@ -94,7 +94,7 @@ export class Checkbox extends Field {
 
    formatValue(context, instance) {
       let {data} = instance;
-      return data.value && (data.text || this.renderChildren(context, instance, true));
+      return data.value && (data.text || this.renderChildren(context, instance));
    }
 
    handleClick(e, instance) {

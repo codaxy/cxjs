@@ -32,7 +32,7 @@ export class LabelsTopLayout extends PureContainer {
          let r = item.vdom;
          if (!r)
             return;
-         if (isArray(r.content) && !r.label)
+         if (isArray(r.content) && r.useParentLayout)
             r.content.forEach((x, i) => processItem(x, key + '-' + i));
          else
             this.addItem(state, r);

@@ -1,4 +1,4 @@
-import {createComponentFactory} from '../util/Component';
+import {createComponentFactory, isComponentFactory} from '../util/Component';
 import {flattenProps} from '../ui/flattenProps';
 import {isArray} from '../util/isArray';
 import {PureContainer} from "./PureContainer";
@@ -11,11 +11,12 @@ class FunctionalComponent extends PureContainer {
 }
 
 export function createFunctionalComponent(factory) {
-   return createComponentFactory((...args) => {
-      let props = args[0];
+   if (isComponentFactory(factory))
+      return factory;
 
-      //test if the component is invoked through JSX
-      if (props && isArray(props.jsxAttributes || props.jsxSpread)) {
+   return createComponentFactory(
+      factory,
+      props => {
          let innerProps = flattenProps(props);
          delete innerProps.visible;
          delete innerProps.if;
@@ -29,12 +30,11 @@ export function createFunctionalComponent(factory) {
             layout: UseParentLayout, //default value
             ...props,
             $type: FunctionalComponent,
-            type: FunctionalComponent,
+            children: null,
+            items: null,
             childrenFactory: factory,
             props: innerProps
          };
       }
-
-      return factory(...args);
-   });
+   )
 }

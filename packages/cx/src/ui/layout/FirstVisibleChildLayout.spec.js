@@ -8,6 +8,7 @@ import assert from 'assert';
 import {FirstVisibleChildLayout} from "./FirstVisibleChildLayout";
 import {UseParentLayout} from "./UseParentLayout";
 import {PureContainer} from "../PureContainer";
+import {createFunctionalComponent} from "../createFunctionalComponent";
 
 describe('FirstVisibleChildLayout', () => {
 
@@ -98,6 +99,37 @@ describe('FirstVisibleChildLayout', () => {
             <PureContainer layout={UseParentLayout}>
                <header visible={false}></header>
             </PureContainer>
+            <main></main>
+            <footer></footer>
+         </div>
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [{type: 'main', props: {}, children: null}]
+         }
+      )
+   });
+
+   it('works with functional components', () => {
+
+      let FC = ({children}) => <cx>
+         {children}
+      </cx>;
+
+      let widget = <cx>
+         <div layout={FirstVisibleChildLayout}>
+            <FC dummy>
+               <header visible={false}></header>
+            </FC>
             <main></main>
             <footer></footer>
          </div>
