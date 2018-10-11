@@ -33,6 +33,9 @@ interface WindowProps extends OverlayProps {
    /** Set to `true` to make the window automatically close if Esc is pressed on the keyboard. Default value is false.*/
    closeOnEscape?: boolean,
 
+   /** Set to `true` to disable moving the window by dragging the header. */
+   fixed?: boolean,
+
 }
 
 export class Window extends Cx.Widget<WindowProps> {}

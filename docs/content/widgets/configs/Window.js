@@ -41,4 +41,10 @@ export default {
             Default value is `false`.
         </Md></cx>
     },
+    fixed: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to disable moving the window by dragging the header.
+        </Md></cx>
+    },
 };
