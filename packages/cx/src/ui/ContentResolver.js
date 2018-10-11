@@ -63,11 +63,15 @@ export class ContentResolver extends PureContainer {
       }
       else
          instance.content = this.initialItems;
+   }
 
+   explore(context, instance) {
+      //a little bit hacky
       if (this.layout)
          this.layout.items = instance.content;
       else
          this.items = instance.content;
+      super.explore(context, instance);
    }
 }
 
