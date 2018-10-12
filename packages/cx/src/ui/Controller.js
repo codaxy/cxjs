@@ -3,6 +3,7 @@ import {Component} from '../util/Component';
 import {isArray} from '../util/isArray';
 import {isFunction} from '../util/isFunction';
 import {View} from "../data/View";
+import {StoreProxy} from "../data/StoreProxy";
 
 const computablePrefix = 'computable-';
 const triggerPrefix = 'trigger-';
@@ -97,7 +98,7 @@ Controller.factory = function(alias, config, more) {
 
       if (cfg.instance) {
          //in rare cases instance.store may change, so we cannot rely on the store passed through configuration
-         cfg.store = new InstanceStoreProxy(cfg.instance);
+         cfg.store = new StoreProxy(() => cfg.instance.store);
          Object.assign(cfg, cfg.store.getMethods());
       }
 
@@ -117,19 +118,3 @@ Controller.factory = function(alias, config, more) {
       ...more
    });
 };
-
-class InstanceStoreProxy extends View {
-   constructor(instance) {
-      super({
-         store: instance.store
-      });
-
-      Object.defineProperty(this, "store", {
-         get: () => instance.store
-      });
-   }
-
-   getData() {
-      return this.store.getData();
-   }
-}

@@ -17,5 +17,5 @@ export const flattenProps = props => {
       };
    }
 
-   return props;
+   return {...props};
 };

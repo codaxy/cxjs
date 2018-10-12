@@ -9,6 +9,8 @@ import assert from 'assert';
 import {Rescope} from "./Rescope";
 import {LabelsLeftLayout} from "./layout/LabelsLeftLayout";
 import {LabeledContainer} from "../widgets/form/LabeledContainer";
+import {Repeater} from "./Repeater";
+import {FirstVisibleChildLayout} from "./layout/FirstVisibleChildLayout";
 
 describe('createFunctionalComponent', () => {
 
@@ -126,7 +128,7 @@ describe('createFunctionalComponent', () => {
       }])
    });
 
-   it('respects inner layout', () => {
+   it('respects inner layouts', () => {
       const FComponent = createFunctionalComponent(({}) => {
          return (
             <cx>
@@ -226,7 +228,7 @@ describe('createFunctionalComponent', () => {
 
       const widget = (
          <cx>
-            <X visible={true} />
+            <X visible={true}/>
          </cx>
       );
 
@@ -246,17 +248,17 @@ describe('createFunctionalComponent', () => {
 
    it('adds children at the right place', () => {
       const X = ({children}) => <cx>
-         <header />
+         <header/>
          <main>
             {children}
          </main>
-         <footer />
+         <footer/>
       </cx>;
 
       const widget = (
          <cx>
             <X>
-               <div />
+               <div/>
             </X>
          </cx>
       );
@@ -286,5 +288,90 @@ describe('createFunctionalComponent', () => {
          children: null,
          props: {}
       }])
+   });
+
+   it('works well with repeaters', () => {
+      const X = createFunctionalComponent(({store}) => {
+         let text = store.ref('$record.text');
+         return <cx>
+            <div text={text}/>
+         </cx>;
+      });
+
+      const widget = (
+         <cx>
+            <Repeater records-bind="array">
+               <X/>
+            </Repeater>
+         </cx>
+      );
+
+      let store = new Store({ data: { array: [{ text: '0' }, { text: '1' }, { text: '2' }]}});
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+
+      assert.deepEqual(tree, [{
+         type: 'div',
+         children: ["0"],
+         props: {}
+      }, {
+         type: 'div',
+         children: ["1"],
+         props: {}
+      }, {
+         type: 'div',
+         children: ["2"],
+         props: {}
+      }]);
+
+      store.update("array", array => [array[0], { text: "10"}, array[2]]);
+
+      tree = component.toJSON();
+
+      assert.deepEqual(tree, [{
+         type: 'div',
+         children: ["0"],
+         props: {}
+      }, {
+         type: 'div',
+         children: ["10"],
+         props: {}
+      }, {
+         type: 'div',
+         children: ["2"],
+         props: {}
+      }]);
+   });
+
+   it('can have its own layout', () => {
+      const X = () => <cx>
+         <div>1</div>
+         <div>2</div>
+         <div>3</div>
+      </cx>
+
+      const widget = (
+         <cx>
+            <X layout={FirstVisibleChildLayout}/>
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+
+      assert.deepEqual(tree, {
+         type: 'div',
+         children: ["1"],
+         props: {}
+      })
    });
 });

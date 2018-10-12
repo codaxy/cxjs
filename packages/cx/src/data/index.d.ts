@@ -19,3 +19,4 @@ export * from './ops/index';
 export * from './diff/index';
 export * from './Ref';
 export * from './ArrayRef';
+export * from './StoreProxy';

@@ -1,12 +1,26 @@
 import {createComponentFactory, isComponentFactory} from '../util/Component';
 import {flattenProps} from '../ui/flattenProps';
-import {isArray} from '../util/isArray';
 import {PureContainer} from "./PureContainer";
 import {UseParentLayout} from "./layout/UseParentLayout";
+import {StoreProxy} from "../data/StoreProxy";
 
 class FunctionalComponent extends PureContainer {
    initInstance(context, instance) {
-      this.add(this.childrenFactory({...this.props, store: instance.store }));
+      this.clear();
+      this.add(this.childrenFactory({
+         ...this.props,
+         store: new StoreProxy(() => instance.store)
+      }));
+      instance.content = this.layout ? this.layout.items : this.items;
+      this.clear();
+   }
+
+   explore(context, instance) {
+      if (this.layout)
+         this.layout.items = instance.content;
+      else
+         this.items = instance.content;
+      this.exploreItems(context, instance, instance.content);
    }
 }
 

@@ -68,7 +68,7 @@ export class Container extends Widget {
             return;
          }
 
-         if (!r.content)
+         if (r.content == null)
             return;
 
          if (r.useParentLayout)
