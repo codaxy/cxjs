@@ -3,6 +3,7 @@ import {flattenProps} from '../ui/flattenProps';
 import {PureContainer} from "./PureContainer";
 import {UseParentLayout} from "./layout/UseParentLayout";
 import {StoreProxy} from "../data/StoreProxy";
+import {isDefined} from "../util/isDefined";
 
 class FunctionalComponent extends PureContainer {
    initInstance(context, instance) {
@@ -41,11 +42,12 @@ export function createFunctionalComponent(factory) {
          delete innerProps.contentFor;
 
          return {
-            layout: UseParentLayout, //default value
-            ...props,
-            $type: FunctionalComponent,
-            children: null,
-            items: null,
+            type: FunctionalComponent,
+            visible: isDefined(props.if) ? props.if : isDefined(props.visible) ? props.visible: true,
+            layout: props.layout || UseParentLayout,
+            controller: props.controller,
+            outerLayout: props.outerLayout,
+            putInto: props.contentFor || props.putInto,
             childrenFactory: factory,
             props: innerProps
          };
