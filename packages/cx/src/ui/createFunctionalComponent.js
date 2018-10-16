@@ -31,7 +31,7 @@ export function createFunctionalComponent(factory) {
 
    return createComponentFactory(
       factory,
-      props => {
+      (props = {}) => {
          let innerProps = flattenProps(props);
          delete innerProps.visible;
          delete innerProps.if;
