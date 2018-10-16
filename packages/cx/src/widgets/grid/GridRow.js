@@ -10,6 +10,7 @@ import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 import {GridRowLine} from "./GridRowLine";
 import {closest} from "../../util/DOM";
+import {KeyCode} from "../../util/KeyCode";
 
 export class GridRow extends ValidationGroup {
    init() {
@@ -143,7 +144,8 @@ export class GridRowComponent extends VDOM.Component {
 
    onKeyDown(e) {
       let {grid, instance} = this.props;
-      if (grid.invoke("onRowClick", e, instance) === false) {
+
+      if (e.keyCode == KeyCode.enter && grid.invoke("onRowClick", e, instance) === false) {
          e.stopPropagation();
       }
    }

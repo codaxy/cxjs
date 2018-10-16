@@ -1627,6 +1627,18 @@ class GridComponent extends VDOM.Component {
       return null;
    }
 
+   getRecordInstanceAt(cursor) {
+      let record = this.getRecordAt(cursor);
+      if (!record)
+         return null;
+      let {instance} = this.props;
+      if (instance.recordInstanceCache)
+         return instance.recordInstanceCache.getChild(instance.widget.row, record.store, record.key);
+
+      //different signature
+      return instance.getChild(instance.widget.row, record.key, record.store);
+   }
+
    handleKeyDown(e) {
 
       let {instance, data} = this.props;
@@ -1634,6 +1646,10 @@ class GridComponent extends VDOM.Component {
 
       if (widget.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
          return;
+
+      let recordInstance = this.getRecordInstanceAt(this.state.cursor);
+      if (recordInstance && widget.onRowKeyDown)
+         instance.invoke("onRowKeyDown", e, recordInstance);
 
       switch (e.keyCode) {
          case KeyCode.enter:
