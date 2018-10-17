@@ -320,7 +320,7 @@ class MenuItemComponent extends VDOM.Component {
          }
       }
       else {
-         if (e.keyCode == KeyCode.enter)
+         if (e.keyCode == KeyCode.enter && widget.onClick)
             this.onClick(e);
       }
    }
