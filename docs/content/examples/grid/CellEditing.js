@@ -36,6 +36,7 @@ export const CellEditing = (
                 and specify `editor` widget configurations for all editable columns.
                 If some of the cells should not be editable, disable editing using the `editable` property.
                 Use the `onCellEdited` callback to react on changes, e.g. update the record in the database.
+                For grids with many records it is recommended to [use buffering](./buffering) for optimal performance.
 
                 <Grid
                     cellEditable
@@ -89,6 +90,7 @@ export const CellEditing = (
                                         value-bind="$record.browser"
                                         required
                                         autoOpen
+                                        submitOnEnterKey
                                         options={[
                                             { id: "Opera", text: "Opera" },
                                             { id: "Safari", text: "Safari" },
@@ -107,6 +109,7 @@ export const CellEditing = (
                                         value-bind="$record.os"
                                         required
                                         autoOpen
+                                        submitOnEnterKey
                                         options={[
                                             { id: "Mac OS", text: "Mac OS" },
                                             { id: "iOS", text: "iOS" },
