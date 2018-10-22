@@ -168,5 +168,19 @@ export default {
         description: <cx><Md>
             Set to `true` to sort drop-down options.
         </Md></cx>
+    },
+
+    autoOpen: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to sort drop-down options.
+        </Md></cx>
+    },
+
+    submitOnEnterKey: {
+        type: 'config',
+        description: <cx><Md>
+            Set to `true` to allow enter key events to be propagated. This is useful for submitting forms and closing grid cell editors.
+        </Md></cx>
     }
 };

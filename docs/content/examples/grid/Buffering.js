@@ -36,6 +36,7 @@ export const Buffering = <cx>
 
             <Grid
                 records:bind="$page.records"
+                keyField="id"
                 buffered
                 style="height: 800px"
                 lockColumnWidths
@@ -72,6 +73,7 @@ export const Buffering = <cx>
                 ...
                 <Grid
                     records:bind="$page.records"
+                    keyField="id"
                     buffered
                     style="height: 800px"
                     lockColumnWidths

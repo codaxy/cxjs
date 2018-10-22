@@ -131,9 +131,11 @@ interface LookupFieldProps extends FieldProps {
    listOptions?: Cx.Config,
 
    /** Set to true to show the dropdown immediately after the component has mounted.
-    * This is commonly used for cell editing in grids.
-    */
+    * This is commonly used for cell editing in grids. */
    autoOpen?: Cx.BooleanProp,
+
+   /** Set to true to allow enter key events to be propagated. This is useful for submitting forms or closing grid cell editors. */
+   submitOnEnterKey?: Cx.BooleanProp,
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

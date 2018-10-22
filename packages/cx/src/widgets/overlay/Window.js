@@ -105,6 +105,7 @@ export class Window extends Overlay {
 Window.prototype.baseClass = 'window';
 Window.prototype.closable = true;
 Window.prototype.resizable = false;
+Window.prototype.fixed = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
 Window.prototype.closeOnEscape = false;
@@ -214,7 +215,7 @@ class WindowComponent extends OverlayComponent {
 
    onHeaderMouseMove(e) {
       e.stopPropagation();
-      if (ddDetect(e)) {
+      if (!this.props.instance.widget.fixed && ddDetect(e)) {
          this.startMoveOperation(e);
       }
    }

@@ -205,6 +205,7 @@ LookupField.prototype.icon = null;
 LookupField.prototype.sort = false;
 LookupField.prototype.listOptions = null;
 LookupField.prototype.autoOpen = false;
+LookupField.prototype.submitOnEnterKey = false;
 
 Localization.registerPrototype('cx/widgets/LookupField', LookupField);
 
@@ -316,7 +317,7 @@ class LookupComponent extends VDOM.Component {
             }}
             selection={{
                type: SelectionDelegate,
-               delegate: (data) => this.props.instance.data.selectedKeys.find(x => areKeysEqual(x, this.getOptionKey({ $option: data }))) != null
+               delegate: (data) => this.props.instance.data.selectedKeys.find(x => areKeysEqual(x, this.getOptionKey({$option: data}))) != null
             }}
          >
             {this.props.itemConfig}
@@ -540,25 +541,29 @@ class LookupComponent extends VDOM.Component {
          error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty)
       };
 
-      return <div className={CSS.expand(data.classNames, CSS.state(states))}
-                  style={data.style}
-                  onMouseDown={stopPropagation}
-                  onTouchStart={stopPropagation}>
-         <div id={data.id}
-              className={CSS.element(widget.baseClass, "input")}
-              tabIndex={data.disabled ? null : 0}
-              ref={el => {
-                 this.dom.input = el
-              }}
-              onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
-              onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
-              onClick={e => this.onClick(e)}
-              onInput={e => this.onChange(e, 'input')}
-              onChange={e => this.onChange(e, 'change')}
-              onKeyDown={e => this.onKeyDown(e)}
-              onMouseDown={e => this.onMouseDown(e)}
-              onBlur={e => this.onBlur(e)}
-              onFocus={e => this.onFocus(e)}>
+      return <div
+         className={CSS.expand(data.classNames, CSS.state(states))}
+         style={data.style}
+         onMouseDown={stopPropagation}
+         onTouchStart={stopPropagation}
+         onKeyDown={e => this.onKeyDown(e)}
+      >
+         <div
+            id={data.id}
+            className={CSS.element(widget.baseClass, "input")}
+            tabIndex={data.disabled ? null : 0}
+            ref={el => {
+               this.dom.input = el
+            }}
+            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
+            onClick={e => this.onClick(e)}
+            onInput={e => this.onChange(e, 'input')}
+            onChange={e => this.onChange(e, 'change')}
+            onKeyDown={e => this.onInputKeyDown(e)}
+            onMouseDown={e => this.onMouseDown(e)}
+            onBlur={e => this.onBlur(e)}
+            onFocus={e => this.onFocus(e)}>
             {text}
          </div>
          {insideButton}
@@ -577,7 +582,8 @@ class LookupComponent extends VDOM.Component {
 
    onItemClick(e, {store}) {
       this.select(e, store.getData());
-      e.stopPropagation();
+      if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown")
+         e.stopPropagation();
       e.preventDefault();
    }
 
@@ -676,6 +682,15 @@ class LookupComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
+      // switch (e.keyCode) {
+      //    case KeyCode.enter:
+      //       if ( this.state.dropdownOpen)
+      //          e.stopPropagation();
+      //       return;
+      // }
+   }
+
+   onInputKeyDown(e) {
 
       let {instance} = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false)
@@ -689,6 +704,8 @@ class LookupComponent extends VDOM.Component {
          case KeyCode.shift:
          case KeyCode.ctrl:
          case KeyCode.tab:
+         case KeyCode.left:
+         case KeyCode.right:
             break;
 
          case KeyCode.down:
