@@ -101,7 +101,10 @@ class MenuComponent extends VDOM.Component {
       this.state = {
          cursor: null,
          visibleItemCount: Infinity
-      }
+      };
+      this.ref = el=> {
+         this.el = el
+      };
    }
 
    render() {
@@ -109,12 +112,10 @@ class MenuComponent extends VDOM.Component {
       let {data, widget} = instance;
       let {CSS} = widget;
       this.itemInfo = Array.from({length: children.length});
-      const ref = el=> {
-         this.el = el
-      };
+
       return (
          <ul
-            ref={ref}
+            ref={this.ref}
             className={CSS.expand(data.classNames, CSS.state({
                "pack": this.state.visibleItemCount < children.length - 1
             }))}
