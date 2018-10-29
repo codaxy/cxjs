@@ -28,17 +28,16 @@ export class LabelsTopLayout extends PureContainer {
          rows: []
       };
 
-      const processItem = (item) => {
-         let r = item.vdom;
+      const processContent = (r) => {
          if (!r)
             return;
          if (isArray(r.content) && r.useParentLayout)
-            r.content.forEach((x, i) => processItem(x, key + '-' + i));
+            r.content.forEach((x) => processContent(x));
          else
             this.addItem(state, r);
       };
 
-      children.forEach(processItem);
+      children.forEach(item => processContent(item.vdom));
 
       this.addRow(state);
 

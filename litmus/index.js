@@ -57,7 +57,8 @@ import './index.scss';
 //import Demo from './features/resizer';
 
 //import Demo from './bugs/stacked';
-import Demo from './bugs/FirstVisibleChild';
+//import Demo from './bugs/FirstVisibleChild';
+import Demo from './bugs/LabelsTopLayout';
 
 let store = new Store();
 
