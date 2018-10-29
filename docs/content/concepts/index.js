@@ -11,7 +11,7 @@ export * from './Formatting';
 export * from './Charts';
 export * from './Localization';
 export * from './Store';
-export * from './PrivateState';
+export * from './PrivateStates';
 export * from './FunctionalComponents';
 export * from './DragAndDrop';
 

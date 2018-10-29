@@ -28,7 +28,7 @@ var contents = [{
         {title: 'Controllers', url: '~/concepts/controllers'},
         {title: 'Inner Layouts', url: '~/concepts/inner-layouts'},
         {title: 'Functional Components', url: '~/concepts/functional-components'},
-        {title: 'Private State', url: '~/concepts/private-state'},
+        {title: 'Private State', url: '~/concepts/private-states'},
         {title: 'Outer Layouts', url: '~/concepts/outer-layouts'},
         {title: 'Router', url: '~/concepts/router'},
         {title: 'Selection', url: '~/concepts/selections'},
