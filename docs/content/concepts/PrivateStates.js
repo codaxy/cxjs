@@ -70,7 +70,7 @@ export const PrivateStates = <cx>
             will cause unpredictable and hard to discover bugs, due to unintended data mutation.
 
             <div class="widgets">
-                <FlexRow style="width:100%;">
+                <FlexRow style="width:100%;" spacing>
                     <UsageStats userId={6} />
                     <UsageStats userId={10} />
                 </FlexRow>
@@ -108,7 +108,7 @@ export const PrivateStates = <cx>
                     });
                     ...
                     
-                    <FlexRow style="width:100%;">
+                    <FlexRow style="width:100%;" spacing>
                         <UsageStats userId={6} />
                         <UsageStats userId={10} />
                     </FlexRow>
@@ -121,7 +121,7 @@ export const PrivateStates = <cx>
                 
         <CodeSplit>
             <div class="widgets">
-                <FlexRow style="width:100%;">
+                <FlexRow style="width:100%;" spacing>
                     <IsolatedUsageStats userId={6} />
                     <IsolatedUsageStats userId={10} />
                 </FlexRow>
@@ -136,7 +136,7 @@ export const PrivateStates = <cx>
                     </cx>
                     ...
                     
-                    <FlexRow style="width:100%;">
+                    <FlexRow style="width:100%;" spacing>
                         <IsolatedUsageStats userId={6} />
                         <IsolatedUsageStats userId={10} />
                     </FlexRow>
