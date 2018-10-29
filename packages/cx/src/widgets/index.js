@@ -4,7 +4,7 @@ import {StaticText} from '../ui/StaticText';
 import {PureContainer} from '../ui/PureContainer';
 import {IsolatedScope} from '../ui/IsolatedScope';
 import {DetachedScope} from '../ui/DetachedScope';
-import {Restate} from '../ui/Restate';
+import {Restate, PrivateState} from '../ui/Restate';
 import {DataProxy} from '../ui/DataProxy';
 import {Content} from '../ui/layout/Content';
 import {ContentPlaceholder, ContentPlaceholderScope} from '../ui/layout/ContentPlaceholder';
@@ -27,6 +27,7 @@ export {
    IsolatedScope,
    DetachedScope,
    Restate,
+   PrivateState,
    DataProxy
 };
 
