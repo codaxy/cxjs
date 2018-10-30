@@ -68,14 +68,12 @@ export class Container extends Widget {
             return;
          }
 
-         if (r.content == null)
-            return;
-
          if (r.useParentLayout)
             return r.content.forEach(x => append(result, x));
 
-         if (r.atomic || preserveComplexContent)
+         if (r.atomic || preserveComplexContent) {
             result.push(r);
+         }
          else {
             let first = true;
             for (let k in r)
