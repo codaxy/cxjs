@@ -45,10 +45,12 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    cloneEl.style.left = `-1000px`;
    cloneEl.style.top = `-1000px`;
 
-   if (clone.matchSize) {
+   if (clone.matchSize || clone.matchWidth)
       cloneEl.style.width = `${Math.ceil(sourceBounds.width)}px`;
+
+   if (clone.matchSize || clone.matchHeight)
       cloneEl.style.height = `${Math.ceil(sourceBounds.height)}px`;
-   }
+
 
    cloneEl.style.zIndex = ZIndexManager.next() + 1000;
 

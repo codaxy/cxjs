@@ -237,19 +237,21 @@
          padding: cx-get-state-rule($data-state-style-map, default, padding);
       }
 
-      .#{$state}selectable &:hover {
-         @include cx-add-state-rules($cx-list-item, hover);
-      }
-
-      &.#{$state}cursor {
-         @include cx-add-state-rules($cx-list-item, hover);
-      }
-
-      &.#{$state}selected {
-         @include cx-add-state-rules($cx-list-item, selected);
+      .#{$state}selectable & {
+         &:hover {
+            @include cx-add-state-rules($cx-list-item, hover);
+         }
 
          &.#{$state}cursor {
-            @include cx-add-state-rules($cx-list-item, selected-cursor);
+            @include cx-add-state-rules($cx-list-item, hover);
+         }
+
+         &.#{$state}selected {
+            @include cx-add-state-rules($cx-list-item, selected);
+
+            &.#{$state}cursor {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
          }
       }
 
