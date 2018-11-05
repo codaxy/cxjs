@@ -36,6 +36,7 @@ import {Console} from "../../util/Console";
 import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
 import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundingClientRect";
 import {ValidationGroup} from "../form/ValidationGroup";
+import {closest} from "../../util/DOM";
 
 
 export class Grid extends Widget {
@@ -793,9 +794,13 @@ class GridComponent extends VDOM.Component {
             cellEdit={i == cursor && cursorCellIndex && cellEdit}
             shouldUpdate={row.shouldUpdate}
          >
-            {children.content.map(({key, data, content}) => <tr key={key} className={data.classNames}
-                                                                style={data.style}>
-               {content.map(({key, data, content, instance}, cellIndex) => {
+            {children.content.map(({key, data, content}) => (
+               <tr
+                  key={key}
+                  className={data.classNames}
+                  style={data.style}
+               >
+                  {content.map(({key, data, content, instance}, cellIndex) => {
                      let cellected = i == cursor && cellIndex == cursorCellIndex;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
                      if (cellected && cellEdit) {
@@ -831,9 +836,9 @@ class GridComponent extends VDOM.Component {
                      >
                         {content}
                      </td>
-                  }
-               )}
-            </tr>)}
+                  })}
+               </tr>
+            ))}
          </GridRowComponent>;
 
          if (standalone) {
@@ -1726,12 +1731,30 @@ class GridComponent extends VDOM.Component {
                key={i}
                className={CSS.element(baseClass, 'data', {selected: !widget.selection.isDummy})}
             >
-            {record.vdom}
+            {record.vdom.content.map(({key, data, content}) => (
+               <tr
+                  key={key}
+                  className={data.classNames}
+                  style={data.style}
+               >
+                  {content.map(({key, data, content}) => {
+                     return <td
+                        key={key}
+                        className={data.classNames}
+                        style={data.style}
+                        colSpan={data.colSpan}
+                        rowSpan={data.rowSpan}
+                     >
+                        {content}
+                     </td>
+                  })}
+               </tr>
+            ))}
             </tbody>
          ));
 
       initiateDragDrop(e, {
-         sourceEl: e.currentTarget,
+         sourceEl: closest(e.currentTarget, a => a.tagName == 'TBODY'),
          source: {
             data: data.dragSource.data,
             store: store,
@@ -1740,7 +1763,9 @@ class GridComponent extends VDOM.Component {
          },
          clone: {
             store: record.store,
-            widget: props => (
+            matchCursorOffset: true,
+            matchWidth: true,
+            widget: () => (
                <div className={data.classNames}>
                   <table>
                      {contents}
