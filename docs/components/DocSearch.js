@@ -13,11 +13,16 @@ export class DocSearch extends VDOM.Component
 
     componentDidMount() {
         if (typeof docsearch == "function")
+            try {
             docsearch({
                 apiKey: 'b77ab797ddcee40f03751aeb694168ed',
                 indexName: 'cxjs',
                 inputSelector: this.el,
                 debug: false // Set debug to true if you want to inspect the dropdown
             });
+            } 
+        catch (err) {
+            console.log("DocSearch init error.", err);
+        }
     }
 }
