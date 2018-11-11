@@ -47,6 +47,7 @@ export class LookupField extends Field {
          options: undefined,
          icon: undefined,
          autoOpen: undefined,
+         readOnly: undefined,
       }, additionalAttributes, ...arguments);
    }
 
@@ -108,7 +109,8 @@ export class LookupField extends Field {
 
       data.stateMods = {
          multiple: this.multiple,
-         disabled: data.disabled
+         disabled: data.disabled,
+         readonly: data.readOnly,
       };
 
       data.selectedKeys = [];
@@ -452,14 +454,15 @@ class LookupComponent extends VDOM.Component {
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
-         <div key="icon"
-              className={CSS.element(baseClass, 'left-icon')}
-              onMouseDown={preventDefault}
-              onClick={e => {
-                 this.openDropdown(e);
-                 e.stopPropagation();
-                 e.preventDefault();
-              }}
+         <div
+            key="icon"
+            className={CSS.element(baseClass, 'left-icon')}
+            onMouseDown={preventDefault}
+            onClick={e => {
+               this.openDropdown(e);
+               e.stopPropagation();
+               e.preventDefault();
+            }}
          >
             {
                Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
@@ -479,41 +482,45 @@ class LookupComponent extends VDOM.Component {
          />;
       }
 
-      let readOnly = data.disabled || data.readOnly;
+      let insideButton = null;
 
-      let insideButton;
+      if (!data.readOnly) {
 
-      if (widget.showClear && !readOnly && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.value != null) {
-         insideButton = (
-            <div key="ib" onMouseDown={preventDefault}
-                 onClick={e => this.onClearClick(e)}
-                 className={CSS.element(baseClass, 'clear')}>
-               <ClearIcon className={CSS.element(baseClass, 'icon')}/>
-            </div>
-         )
-      }
-      else {
-         insideButton = (
-            <div key="ib"
-                 className={CSS.element(baseClass, 'tool')}
-                 onMouseDown={preventDefault}
-                 onClick={e => {
-                    this.openDropdown(e);
-                    e.stopPropagation();
-                    e.preventDefault();
-                 }}
-            >
-               <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
-            </div>
-         );
+         if (widget.showClear && !data.disabled && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.value != null) {
+            insideButton = (
+               <div key="ib" onMouseDown={preventDefault}
+                    onClick={e => this.onClearClick(e)}
+                    className={CSS.element(baseClass, 'clear')}>
+                  <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            )
+         }
+         else {
+            insideButton = (
+               <div key="ib"
+                    className={CSS.element(baseClass, 'tool')}
+                    onMouseDown={preventDefault}
+                    onClick={e => {
+                       this.openDropdown(e);
+                       e.stopPropagation();
+                       e.preventDefault();
+                    }}
+               >
+                  <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
+               </div>
+            );
+         }
       }
 
       let text;
 
       if (this.props.multiple) {
+         let readOnly = data.disabled || data.readOnly;
          if (isArray(data.records) && data.records.length > 0) {
-            text = data.records.map((v, i) => <div key={i}
-                                                   className={CSS.element(baseClass, 'tag', {"readonly": readOnly})}>
+            text = data.records.map((v, i) => <div
+               key={i}
+               className={CSS.element(baseClass, 'tag', {"readonly": readOnly})}
+            >
                <span className={CSS.element(baseClass, 'tag-value')}>{v[widget.valueTextField]}</span>
                {!readOnly && (
                   <div className={CSS.element(baseClass, 'tag-clear')}
@@ -536,7 +543,7 @@ class LookupComponent extends VDOM.Component {
       let states = {
          visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !insideButton || data.icon,
+         icon: !!data.icon,
          empty: !data.placeholder && data.empty,
          error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty)
       };
