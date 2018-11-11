@@ -58,7 +58,7 @@ export class NumberField extends Field {
       data.formatted = Format.value(data.value, data.format);
 
       if (!cached.data || data.value != cached.data.value)
-         state.empty = !data.value;
+         state.empty = data.value != null;
 
       super.prepareData(context, instance);
    }
