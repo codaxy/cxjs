@@ -1072,7 +1072,8 @@ class GridComponent extends VDOM.Component {
                      sorters: data.sorters,
                      sortField: data.sortField,
                      sortDirection: data.sortDirection,
-                     filterParams: data.filterParams
+                     filterParams: data.filterParams,
+                     state: this.prevFetchRecordsState
                   }, instance);
                   promises.push(Promise.resolve(result));
                }
@@ -1096,6 +1097,7 @@ class GridComponent extends VDOM.Component {
                            throw new Error('onFetchRecords should return an array of records or an object with results inside records property.');
                         totalRecordCount = page.totalRecordCount;
                         lastPage = page.lastPage;
+                        this.prevFetchRecordsState = page.state;
                         records.push(...page.records);
                      }
                   });
@@ -1443,6 +1445,7 @@ class GridComponent extends VDOM.Component {
                instance.buffer.records = data.records = [];
                instance.buffer.totalRecordCount = 0;
                instance.buffer.page = 1;
+               this.prevFetchRecordsState = null;
             }
          }
 
