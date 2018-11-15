@@ -773,7 +773,7 @@ class GridComponent extends VDOM.Component {
          let mod = {
             selected: row.selected,
             dragged: isDragged,
-            draggable: dragSource && row.dragHandles.length == 0,
+            draggable: dragSource && (!row.dragHandles || row.dragHandles.length == 0),
             cursor: widget.selectable && i == cursor
          };
 
