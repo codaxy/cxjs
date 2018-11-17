@@ -1,5 +1,6 @@
 import {ArrayAdapter} from './ArrayAdapter';
 import {Binding} from '../../data/Binding';
+import {isArray} from '../../util/isArray';
 
 export class TreeAdapter extends ArrayAdapter {
 
@@ -49,6 +50,20 @@ export class TreeAdapter extends ArrayAdapter {
             data[this.expandedField] = false;
       }
    }
+
+   sort(sorters) {
+      if (this.foldersFirst) {
+            if (!sorters || !isArray(sorters))
+                  sorters = [];
+
+            sorters = [
+                  {field: this.leafField, direction: "ASC"},
+                  ...sorters
+            ];
+      }
+
+      super.sort(sorters);
+   }
 }
 
 TreeAdapter.prototype.childrenField = '$children';
@@ -56,3 +71,4 @@ TreeAdapter.prototype.expandedField = '$expanded';
 TreeAdapter.prototype.leafField = '$leaf';
 TreeAdapter.prototype.loadingField = '$loading';
 TreeAdapter.prototype.loadedField = '$loaded';
+TreeAdapter.prototype.foldersFirst = true;
