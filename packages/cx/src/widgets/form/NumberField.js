@@ -4,14 +4,13 @@ import {Format} from '../../ui/Format';
 import {Culture} from '../../ui/Culture';
 import {StringTemplate} from '../../data/StringTemplate';
 import {tooltipParentWillReceiveProps, tooltipParentWillUnmount, tooltipMouseMove, tooltipMouseLeave, tooltipParentDidMount} from '../overlay/tooltip-ops';
-import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
+import {stopPropagation} from '../../util/eventCallbacks';
 import {Icon} from '../Icon';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 import {isString} from '../../util/isString';
 import {isNumber} from '../../util/isNumber';
 import {isDefined} from '../../util/isDefined';
-import {isArray} from '../../util/isArray';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 import {KeyCode} from "../../util";
@@ -58,7 +57,7 @@ export class NumberField extends Field {
       data.formatted = Format.value(data.value, data.format);
 
       if (!cached.data || data.value != cached.data.value)
-         state.empty = data.value != null;
+         state.empty = data.value == null;
 
       super.prepareData(context, instance);
    }
@@ -163,13 +162,13 @@ class Input extends VDOM.Component {
                <div className={CSS.element(baseClass, 'clear')}
                   onMouseDown={ e => e.preventDefault() }
                   onClick={ e => this.onClearClick(e) }
-                  >
+               >
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );
       }
 
-      let empty = this.input ? !this.input.value  : data.empty;
+      let empty = this.input ? !this.input.value : data.empty;
 
       return <div
          className={CSS.expand(data.classNames, CSS.state({
