@@ -13,7 +13,6 @@ import {Icon} from '../Icon';
 import {KeyCode} from '../../util';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
-import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
 
 export class TextField extends Field {
 

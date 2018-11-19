@@ -1,7 +1,12 @@
+interface TreeItem {
+    [key: string]: any,
+    [childrenField: string]: Array<TreeItem>
+}
+
 export function updateTree(
-    array: any[],
-    updateCallback: (item: any, index: number) => any,
-    itemFilter?: (item: any, index?: number) => any,
+    array: Array<TreeItem>,
+    updateCallback: (item?: TreeItem, index?: number) => TreeItem,
+    itemFilter?: (item?: TreeItem, index?: number) => boolean,
     childrenField?: string,
-    removeFilter?: (item: any, index?: number) => any,
-): any[];
+    removeFilter?: (item?: TreeItem, index?: number) => boolean,
+): Array<TreeItem>;

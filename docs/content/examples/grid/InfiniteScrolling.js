@@ -12,12 +12,13 @@ export const InfiniteScrolling = <cx>
 
         <CodeSplit>
 
-            Infinite scrolling is a technique of dynamically loading more data based on the scroll position. Grids
+            Infinite scrolling is a technique of dynamically loading additional data based on the scroll position. Grids
             support infinite by setting the `infinite` flag and implementing the `onFetchRecords` callback which
             is responsible for fetching data based on current the visible page and active sorting and filtering
-            parameters. Fetch result should be an object containing the `records` property containing an array of records;
-            The `lastPage` flag should be set if there is no remaining data. Alternatively, `totalRecordCount` can be used
-            to indicate total number of records.
+            parameters. Fetch result should be an object containing the `records` property containing an array of
+            records; The `lastPage` flag should be set if there is no remaining data. Alternatively, `totalRecordCount`
+            can be used to indicate total number of records. If necessary, the fetch result should include `state` to
+            pass data such as pagination tokens or cursor positions between fetch results.
 
             <Grid
                 infinite
@@ -45,6 +46,7 @@ export const InfiniteScrolling = <cx>
                                 title: casual.full_name,
                                 visits: casual.integer(1, 100)
                             });
+
                         resolve({
                             records,
                             totalRecordCount: 100000

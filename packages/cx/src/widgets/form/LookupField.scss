@@ -17,6 +17,9 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4);
+
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $input: false);
       cursor: pointer;
@@ -29,10 +32,15 @@
          min-width: $cx-default-input-width;
          width: auto;
       }
-   }
 
-   $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4);
+      &.#{$state}readonly {
+         pointer-events: none;
+
+         & > .#{$element}#{$name}-input {
+            padding-right: cx-right($padding);
+         }
+      }
+   }
 
    .#{$element}#{$name}-input {
       @include cxe-field-input ( 
