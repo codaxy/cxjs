@@ -12,7 +12,8 @@ let isDataAttribute = attr => attr.indexOf('data-') == 0 ? attr.substring(5) : f
 
 export let urlAttributes = {
    'a.href': true,
-   'img.src': true
+   'img.src': true,
+   'iframe.src': true
 };
 
 export class HtmlElement extends Container {
