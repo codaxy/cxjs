@@ -43,9 +43,9 @@ export class LinkButton extends Button {
             return data.url && data.unresolvedHref && data.url.indexOf(data.unresolvedHref) === 0;
 
          case 'subroute':
-            return data.url 
-               && data.unresolvedHref 
-               && data.url.indexOf(data.unresolvedHref) === 0 
+            return data.url
+               && data.unresolvedHref
+               && data.url.indexOf(data.unresolvedHref) === 0
                && (data.url === data.unresolvedHref || data.url[data.unresolvedHref.length] === "/");
       }
    }
@@ -75,7 +75,7 @@ export class LinkButton extends Button {
       if (this.onClick && instance.invoke("onClick", e, instance) === false)
          return;
 
-      if (data.href && Url.isLocal(data.href)) {
+      if (data.href && Url.isLocal(data.href) && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
          e.preventDefault();
          History.pushState({}, null, data.href);
       }
