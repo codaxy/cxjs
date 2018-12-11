@@ -20,8 +20,12 @@ const borderColor = 'rgba(176, 196, 222, 0.5)';
 
 
 export default <cx>
-    <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/flex-row/options.tsx" target="_blank"
-        putInto="github">Source Code</a>
+    <a
+        href="https://github.com/codaxy/cx/tree/master/gallery/routes/general/flex-row/options.tsx" target="_blank"
+        putInto="github"
+    >
+        Source Code
+    </a>
     <FlexCol vspacing>
         <FlexRow spacing wrap target="tablet" align="start">
 

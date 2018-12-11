@@ -19,6 +19,7 @@ export class Restate extends PureContainer {
          layout: this.layout,
          controller: this.controller,
          outerLayout: this.outerLayout,
+         useParentLayout: this.useParentLayout,
          ws: this.ws
       });
       delete this.items;
@@ -26,6 +27,7 @@ export class Restate extends PureContainer {
       delete this.controller;
       delete this.outerLayout;
       delete this.layout;
+      this.useParentLayout = true;
       super.init();
    }
 

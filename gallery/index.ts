@@ -15,7 +15,6 @@ export default function() {
    //store
    const store = new Store();
 
-
    //routing
    Url.setBaseFromScript('app*.js');
    History.connect(store, 'url');

@@ -40,3 +40,4 @@ export * from './reverseSlice';
 export * from './getTopLevelBoundingClientRect';
 export * from './getParentFrameBoundingClientRect';
 export * from './getActiveElement';
+export * from './Component';

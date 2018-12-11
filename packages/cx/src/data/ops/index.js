@@ -5,4 +5,6 @@ export * from './updateArray';
 export * from './updateTree';
 export * from './removeTreeNodes';
 export * from './findTreeNode';
+export * from './moveElement';
+export * from './insertElement';
 

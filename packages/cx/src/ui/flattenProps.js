@@ -1,6 +1,6 @@
 export const flattenProps = props => {
 
-   if (!props) return props;
+   if (!props) return {};
 
    if (props.jsxSpread) {
       props = {
@@ -17,5 +17,5 @@ export const flattenProps = props => {
       };
    }
 
-   return props;
+   return {...props};
 };

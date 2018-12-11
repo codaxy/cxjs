@@ -62,7 +62,7 @@ export class Switch extends Field {
       let {rangeStyle, handleStyle} = data;
       let {CSS, baseClass} = this;
 
-      let text = data.text || getContent(this.renderChildren(context, instance));
+      let text = data.text || this.renderChildren(context, instance);
 
       return <div key={key}
          className={data.classNames}

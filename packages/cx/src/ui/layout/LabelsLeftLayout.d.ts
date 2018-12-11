@@ -1,4 +1,4 @@
 import * as Cx from '../../core';
-import { Layout } from './Layout';
+import { PureContainer } from '../PureContainer';
 
-export class LabelsLeftLayout extends Layout {}
+export class LabelsLeftLayout extends PureContainer {}

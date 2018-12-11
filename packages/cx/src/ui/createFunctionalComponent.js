@@ -1,40 +1,56 @@
-import {createComponentFactory} from './Component';
+import {createComponentFactory, isComponentFactory} from '../util/Component';
 import {flattenProps} from '../ui/flattenProps';
-import {isDefined} from '../util/isDefined';
-import {isArray} from '../util/isArray';
 import {PureContainer} from "./PureContainer";
 import {UseParentLayout} from "./layout/UseParentLayout";
+import {StoreProxy} from "../data/StoreProxy";
+import {isDefined} from "../util/isDefined";
+
+class FunctionalComponent extends PureContainer {
+   initInstance(context, instance) {
+      this.clear();
+      this.add(this.childrenFactory({
+         ...this.props,
+         store: new StoreProxy(() => instance.store)
+      }));
+      instance.content = this.layout ? this.layout.items : this.items;
+      this.clear();
+   }
+
+   explore(context, instance) {
+      if (this.layout)
+         this.layout.items = instance.content;
+      else
+         this.items = instance.content;
+      this.exploreItems(context, instance, instance.content);
+   }
+}
 
 export function createFunctionalComponent(factory) {
-   return createComponentFactory((...args) => {
-      let props = args[0];
-      
-      //test if the component is invoked through JSX
-      if (props && isArray(props.jsxAttributes || props.jsxSpread)) {
-         let result = factory(flattenProps(props));
-         if (isArray(result) && result.length < 2) {
-            result = result[0];
-         }
-         let {visible, controller, layout, outerLayout, putInto, contentFor} = props;
-         if (props["if"] !== undefined)
-            visible = props["if"];
+   if (isComponentFactory(factory))
+      return factory;
 
-         if (result && (isDefined(visible) || controller || outerLayout || layout || putInto || contentFor)) {
-            result = {
-               type: PureContainer,
-               visible,
-               controller,
-               outerLayout,
-               layout: layout || UseParentLayout,
-               children: result,
-               putInto,
-               contentFor
-            };
-         }
+   return createComponentFactory(
+      factory,
+      (props = {}) => {
+         let innerProps = flattenProps(props);
+         delete innerProps.visible;
+         delete innerProps.if;
+         delete innerProps.controller;
+         delete innerProps.layout;
+         delete innerProps.outerLayout;
+         delete innerProps.putInto;
+         delete innerProps.contentFor;
 
-         return result;
+         return {
+            type: FunctionalComponent,
+            visible: isDefined(props.if) ? props.if : isDefined(props.visible) ? props.visible: true,
+            layout: props.layout || UseParentLayout,
+            controller: props.controller,
+            outerLayout: props.outerLayout,
+            putInto: props.contentFor || props.putInto,
+            childrenFactory: factory,
+            props: innerProps
+         };
       }
-
-      return factory(...args);
-   });
+   )
 }

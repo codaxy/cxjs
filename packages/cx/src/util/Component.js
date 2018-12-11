@@ -1,8 +1,8 @@
-import {isString} from '../util/isString';
-import {isFunction} from '../util/isFunction';
-import {isArray} from '../util/isArray';
+import {isString} from './isString';
+import {isFunction} from './isFunction';
+import {isArray} from './isArray';
 
-var componentAlias = {};
+const componentAlias = {};
 
 export class Component {
    constructor(config) {
@@ -12,8 +12,6 @@ export class Component {
       }
       Object.assign(this, config);
    }
-
-   init() {}
 
    static alias(alias, type) {
       if (type) {
@@ -35,7 +33,7 @@ export class Component {
          return typeAlias;
 
       if (isComponentFactory(typeAlias))
-         return this.create(typeAlias(config, more));
+         return this.create(typeAlias.create(config));
 
       if (isArray(typeAlias))
          return typeAlias.map(c => this.create(c, config, more));
@@ -82,7 +80,7 @@ export class Component {
          cfg = Object.assign({}, config, more);
 
       let cmp = new cmpType(cfg);
-      if (!cmpType.lazyInit)
+      if (cmpType.autoInit && cmp.init)
          cmp.init();
       return cmp;
    }
@@ -92,15 +90,16 @@ Component.prototype.isComponent = true;
 
 Component.isComponentType = true;
 Component.namespace = '';
-Component.lazyInit = false;
+Component.autoInit = false;
 
 Component.factory = (alias, config, more) => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
 
-export function createComponentFactory(factory, meta) {
+export function createComponentFactory(factory, jsxDriver, meta) {
    factory.$isComponentFactory = true;
    factory.$meta = meta;
+   factory.create = jsxDriver;
    return factory;
 }
 

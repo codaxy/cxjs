@@ -18,8 +18,8 @@ function getPageName(name) {
         name = name.substring(0, name.length - 4);
 
     return name.replace(/([A-Z])/g, "-$1")
-        .toLowerCase()
-        .substring(1);
+               .toLowerCase()
+               .substring(1);
 }
 
 let addRoutes = (path, pages, routes) => {
@@ -33,15 +33,17 @@ let addRoutes = (path, pages, routes) => {
                     url:bind="url"
                     route={path + getPageName(name)}
                 >
-                    <div class="dxe-article-tools">
-                        <a href="https://github.com/codaxy/cxjs/issues/new">Report</a>
-                        <EditOnGitX url={path + name}/>
-                        <DocSearch />
-                    </div>
-                    {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
-                    {pages[name]}
-                    {/*</CSSTransitionGroup>*/}
-                    <HashRestore />
+                    <Sandbox storage:bind="pages" key:bind="url">
+                        <div class="dxe-article-tools">
+                            <a href="https://github.com/codaxy/cxjs/issues/new">Report</a>
+                            <EditOnGitX url={path + name}/>
+                            <DocSearch/>
+                        </div>
+                        {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
+                        {pages[name]}
+                        {/*</CSSTransitionGroup>*/}
+                        <HashRestore/>
+                    </Sandbox>
                 </Route>
             </cx>);
         }
@@ -142,22 +144,20 @@ const getChapterRoutes = chapter => {
 
 export const ContentRouter = <cx>
     <div class={CSS.block("article")}>
-        <ScrollReset class={CSS.element("article", "body")} trigger:bind="url">
-            <Sandbox storage:bind="pages" key:bind="url" controller={ContentController}>
-                <ContentResolver
-                    params={{
-                        chapter: {bind: "chapter"},
-                        version: {bind: "activeVersion"}
-                    }}
-                    layout={FirstVisibleChildLayout}
-                    onResolve={p => getChapterRoutes(p.chapter)}
-                    mode="prepend"
-                >
-                    <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>
-                    <Loading/>
-                    <PageNotFound/>
-                </ContentResolver>
-            </Sandbox>
+        <ScrollReset class={CSS.element("article", "body")} trigger:bind="url" controller={ContentController}>
+            <ContentResolver
+                params={{
+                    chapter: {bind: "chapter"},
+                    version: {bind: "activeVersion"}
+                }}
+                layout={FirstVisibleChildLayout}
+                onResolve={p => getChapterRoutes(p.chapter)}
+                mode="prepend"
+            >
+                <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>
+                <Loading/>
+                <PageNotFound/>
+            </ContentResolver>
         </ScrollReset>
     </div>
 </cx>;

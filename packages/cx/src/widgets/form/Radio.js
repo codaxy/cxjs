@@ -96,7 +96,7 @@ export class Radio extends Field {
 
    renderInput(context, instance, key) {
       var {data} = instance;
-      var text = data.text || getContent(this.renderChildren(context, instance));
+      var text = data.text || this.renderChildren(context, instance);
       var {CSS, baseClass} = this;
       return this.renderWrap(context, instance, key, [
          this.native

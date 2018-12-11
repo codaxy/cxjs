@@ -7,13 +7,7 @@ export function isSelector(config) {
       case 'object':
          if (config.type || config.$type)
             return false;
-         if (config.bind)
-            return true;
-         if (config.tpl)
-            return true;
-         if (config.expr)
-            return true;
-         return false;
+         return !!(config.bind || config.tpl || config.expr || config.get);
 
       case 'function':
          return true;

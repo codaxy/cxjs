@@ -1,4 +1,4 @@
-import {Component} from './Component';
+import {Component} from '../util/Component';
 import {CSSHelper} from './CSSHelper';
 import './CSS';
 import {StructuredSelector} from '../data/StructuredSelector';
@@ -160,7 +160,6 @@ Widget.prototype.CSS = 'cx';
 Widget.prototype.styled = false;
 
 Widget.namespace = 'ui.';
-Widget.lazyInit = true;
 Widget.optimizePrepare = true;
 
 Widget.factory = (type, config, more) => 

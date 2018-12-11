@@ -17,8 +17,8 @@ export function computable(...selectorsAndCompute) {
       a = selectorsAndCompute[i];
       if (isString(a))
          inputs.push(Binding.get(a).value);
-      else if (a.createSelector)
-         inputs.push(a.createSelector());
+      else if (a.memoize)
+         inputs.push(a.memoize());
       else if (isFunction(a))
          inputs.push(a);
       else

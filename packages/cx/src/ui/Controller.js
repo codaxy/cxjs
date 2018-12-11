@@ -1,8 +1,9 @@
 import {computable} from '../data/computable';
-import {Component} from './Component';
+import {Component} from '../util/Component';
 import {isArray} from '../util/isArray';
 import {isFunction} from '../util/isFunction';
 import {View} from "../data/View";
+import {StoreProxy} from "../data/StoreProxy";
 
 const computablePrefix = 'computable-';
 const triggerPrefix = 'trigger-';
@@ -12,7 +13,6 @@ export class Controller extends Component {
    init(context) {
       if (!this.initialized) {
          this.initialized = true;
-         super.init();
          if (this.onInit)
             this.onInit(context);
       }
@@ -88,7 +88,6 @@ export class Controller extends Component {
 }
 
 Controller.namespace = 'ui.controller.';
-Controller.lazyInit = true;
 
 Controller.factory = function(alias, config, more) {
    if (isFunction(alias)) {
@@ -99,7 +98,7 @@ Controller.factory = function(alias, config, more) {
 
       if (cfg.instance) {
          //in rare cases instance.store may change, so we cannot rely on the store passed through configuration
-         cfg.store = new InstanceStoreProxy(cfg.instance);
+         cfg.store = new StoreProxy(() => cfg.instance.store);
          Object.assign(cfg, cfg.store.getMethods());
       }
 
@@ -107,31 +106,15 @@ Controller.factory = function(alias, config, more) {
       if (result instanceof Controller)
          return result;
 
-      return new Controller({
+      return Controller.create({
          ...config,
          ...more,
          ...result
       });
    }
 
-   return new Controller({
+   return Controller.create({
       ...config,
       ...more
    });
 };
-
-class InstanceStoreProxy extends View {
-   constructor(instance) {
-      super({
-         store: instance.store
-      });
-
-      Object.defineProperty(this, "store", {
-         get: () => instance.store
-      });
-   }
-
-   getData() {
-      return this.store.getData();
-   }
-}

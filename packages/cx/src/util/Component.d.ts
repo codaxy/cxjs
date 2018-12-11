@@ -30,7 +30,7 @@ export class Component {
    
    static isComponentType: boolean;
    static namespace: string;
-   static lazyInit: boolean;
+   static autoInit: boolean;
 
    static factory(alias: string, config: Cx.Config, more?: Cx.Config) : Component;
 

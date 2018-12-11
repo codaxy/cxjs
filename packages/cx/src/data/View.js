@@ -1,5 +1,7 @@
 import {Binding} from './Binding';
 import {isArray} from '../util/isArray';
+import {isDefined} from "../util/isDefined";
+import {Ref} from "./Ref";
 
 export class View {
 
@@ -50,7 +52,7 @@ export class View {
       let value = this.get(from);
       this.set(to, value);
    }
- 
+
    move(from, to) {
       this.batch(() => {
          this.copy(from, to);
@@ -149,7 +151,7 @@ export class View {
    }
 
    load(data) {
-      return this.batch(store=> {
+      return this.batch(store => {
          for (var key in data)
             store.set(key, data[key]);
       });
@@ -171,6 +173,15 @@ export class View {
       this.meta = store.getMeta();
    }
 
+   ref(path, defaultValue) {
+      if (isDefined(defaultValue))
+         this.init(path, defaultValue);
+      return Ref.create({
+         store: this,
+         path
+      });
+   }
+
    getMethods() {
       return {
          getData: ::this.getData,
@@ -179,7 +190,8 @@ export class View {
          update: ::this.update,
          delete: ::this.delete,
          toggle: ::this.toggle,
-         init: ::this.init
+         init: ::this.init,
+         ref: ::this.ref
       }
    }
 }

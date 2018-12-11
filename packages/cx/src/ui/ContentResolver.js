@@ -11,7 +11,8 @@ export class ContentResolver extends PureContainer {
 
    init() {
       super.init();
-      this.initialItems = this.items;
+      this.initialItems = this.layout ? this.layout.items : this.items;
+      this.clear();
    }
 
    initInstance(context, instance) {
@@ -41,7 +42,7 @@ export class ContentResolver extends PureContainer {
 
    setContent(instance, content) {
       if (content) {
-         this.items = [];
+         this.clear();
          switch (this.mode) {
             case 'prepend':
                this.add(content);
@@ -50,23 +51,26 @@ export class ContentResolver extends PureContainer {
 
             case 'append':
                this.add(this.initialItems);
-               this.add(content);               
+               this.add(content);
                break;
 
             case "replace":
                this.add(content);
                break;
          }
-         instance.content = this.items;
+         instance.content = this.layout ? this.layout.items : this.items;
+         this.clear();
       }
       else
          instance.content = this.initialItems;
-
-      this.items = this.initialItems;
    }
 
    explore(context, instance) {
-      this.items = instance.content;
+      //a little bit hacky
+      if (this.layout)
+         this.layout.items = instance.content;
+      else
+         this.items = instance.content;
       super.explore(context, instance);
    }
 }

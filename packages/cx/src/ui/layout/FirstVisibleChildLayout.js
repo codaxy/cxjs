@@ -1,32 +1,57 @@
-import {Layout} from './Layout';
-import {isArray} from '../../util/isArray';
+import {PureContainer} from "../PureContainer";
 
-export class FirstVisibleChildLayout extends Layout {
-
-   checkVisible(instance) {
-      if (!instance.visible)
-         return false;
-
-      if (instance.widget.layout && instance.widget.layout.useParentLayout)
-         return isArray(instance.children) && instance.children.some(c => this.checkVisible(c));
-
+function isVisibleDeep(instance) {
+   if (instance.visible && (!instance.widget.isPureContainer || !instance.widget.useParentLayout))
       return true;
+   if (instance.children) {
+      for (let i = 0; i < instance.children.length; i++)
+         if (isVisibleDeep(instance.children[i]))
+            return true;
+   }
+   return false;
+}
+
+class FirstVisibleChildItem extends PureContainer {
+
+   explore(context, instance) {
+      if (instance.parent.firstVisibleChild)
+         return;
+      super.explore(context, instance);
    }
 
-   explore(context, instance, items) {
-      instance.children = [];
-      for (let i = 0; i < items.length; i++) {
-         let x = instance.getChild(context, items[i]);
-         if (!x.scheduleExploreIfVisible(context))
-            continue;
+   exploreCleanup(context, instance) {
+      if (instance.parent.firstVisibleChild)
+         return;
+      if (isVisibleDeep(instance))
+         instance.parent.firstVisibleChild = instance;
+   }
 
-         let old = instance.cached.children;
-         instance.children = old && old[0] === x ? old : [x];
-         break;
-      }
-      if (instance.cache('children', instance.children))
-         instance.markShouldUpdate(context);
+   render(context, instance, key) {
+      if (instance.parent.firstVisibleChild != instance)
+         return null;
+      return super.render(context, instance, key)
    }
 }
 
-Layout.alias('firstvisiblechild', FirstVisibleChildLayout);
+FirstVisibleChildItem.prototype.useParentLayout = true;
+
+export class FirstVisibleChildLayout extends PureContainer {
+
+   explore(context, instance) {
+      instance.firstVisibleChild = null;
+      for (let i = this.items.length - 1; i >= 0; i--) {
+         let x = instance.getChild(context, this.items[i]);
+         x.scheduleExploreIfVisible(context);
+      }
+   }
+
+   exploreCleanup(context, instance) {
+      instance.children = [];
+      if (instance.firstVisibleChild)
+         instance.children.push(instance.firstVisibleChild);
+   }
+
+   wrapItem(item) {
+      return item instanceof FirstVisibleChildItem ? item : FirstVisibleChildItem.create({items: item});
+   }
+}

@@ -1,5 +1,5 @@
 import {VDOM, getContent, contentAppend} from '../Widget';
-import {Layout} from './Layout';
+import {PureContainer} from '../PureContainer';
 import {isArray} from '../../util/isArray';
 import {isUndefined} from '../../util/isUndefined';
 
@@ -11,7 +11,7 @@ function validContent(r) {
    return content;
 }
 
-export class LabelsTopLayout extends Layout {
+export class LabelsTopLayout extends PureContainer {
 
    init() {
       if (this.vertical && isUndefined(this.columns))
@@ -20,7 +20,7 @@ export class LabelsTopLayout extends Layout {
       super.init();
    }
 
-   render(context, instance, keyPrefix) {
+   render(context, instance, key) {
       let {children} = instance;
       let {CSS, baseClass} = this;
 
@@ -28,21 +28,20 @@ export class LabelsTopLayout extends Layout {
          rows: []
       };
 
-      children.forEach((c) => {
-         let r = c.vdom; //render(context);
-         if (c.widget.layout && c.widget.layout.useParentLayout && isArray(r.content)) {
-            r.content.forEach(item => {
-               this.addItem(state, item);
-            })
-         }
-         else {
+      const processContent = (r) => {
+         if (!r)
+            return;
+         if (isArray(r.content) && r.useParentLayout)
+            r.content.forEach((x) => processContent(x));
+         else
             this.addItem(state, r);
-         }
-      });
+      };
+
+      children.forEach(item => processContent(item.vdom));
 
       this.addRow(state);
 
-      return <table key={keyPrefix} className={CSS.block(baseClass, this.mod)}>
+      return <table key={key} className={CSS.block(baseClass, this.mod)}>
          <tbody>
          {state.rows}
          </tbody>
@@ -64,7 +63,6 @@ export class LabelsTopLayout extends Layout {
       if (!state.labelCells || state.labelCells.length + 1 > this.columns)
          this.addRow(state);
 
-
       state.labelCells.push(
          <td className={this.CSS.element(this.baseClass, "label")} key={state.labelCells.length}>
             {getContent(item.label)}
@@ -81,5 +79,3 @@ export class LabelsTopLayout extends Layout {
 LabelsTopLayout.prototype.baseClass = 'labelstoplayout';
 LabelsTopLayout.prototype.vertical = false;
 LabelsTopLayout.prototype.columns = undefined;
-
-Layout.alias('labels-top', LabelsTopLayout);

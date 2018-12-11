@@ -1,4 +1,4 @@
-import { Widget, startAppLoop, History } from 'cx/ui';
+import {Widget, startAppLoop, History, startHotAppLoop} from 'cx/ui';
 //import { HtmlElement } from 'cx/widgets';
 import { Timing, Debug } from 'cx/util';
 import { Store } from 'cx/data';
@@ -57,6 +57,8 @@ import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/resizer';
 
 //import Demo from './bugs/stacked';
+//import Demo from './bugs/FirstVisibleChild';
+import Demo from './bugs/LabelsTopLayout';
 
 let store = new Store();
 
@@ -67,29 +69,7 @@ Widget.resetCounter();
 //Timing.enable('app-loop');
 //Debug.enable("app-data");
 
-History.connect(store, "url");
+History.connect(store, "url")
 
-
-if (module.hot) {
-
-   // accept itself
-   module.hot.accept();
-
-   // remember data on dispose
-   module.hot.dispose(function (data) {
-      data.state = store.getData();
-      if (stop)
-         stop();
-   });
-
-   //apply data on hot replace
-   if (module.hot.data)
-      store.load(module.hot.data.state);
-}
-
-let stop = startAppLoop(document.getElementById('app'), store, <cx>
-   <div>
-      <Demo />
-   </div>
-</cx>);
+let stop = startHotAppLoop(module, document.getElementById('app'), store, Demo);
 

@@ -5,7 +5,7 @@ export class Widget extends Cx.Widget<Cx.WidgetProps> {
     static resetCounter() : void;
 }
 
-export function contentAppend(result, w, prependSpace) : boolean;
+export function contentAppend(result, w, prependSpace?) : boolean;
 
 export function getContentArray(x) : any[];
 
