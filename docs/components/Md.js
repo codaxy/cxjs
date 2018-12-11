@@ -31,7 +31,7 @@ export class Md extends HtmlElement {
         super.attachProps(context, instance, props);
         props.onClick = (e) => {
             if (e.target.tagName == 'A') {
-                if (Url.isLocal(e.target.href) && e.target.href.indexOf('#') == -1) {
+                if (Url.isLocal(e.target.href) && e.target.href.indexOf('#') == -1 && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
                     History.pushState({}, null, e.target.href);
                     e.preventDefault();
                 }
