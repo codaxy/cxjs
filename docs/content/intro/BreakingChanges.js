@@ -13,6 +13,64 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 18.12.0
+
+            ### Functional Components and CxJS attributes
+
+            In order to support [store refs](https://github.com/codaxy/cxjs/issues/487) some changes were made to how
+            functional components handle CxJS-specific attributes such as `visible`, `controller` and `layout`.
+
+            For example, let's take a simple Tab component.
+
+            <CodeSplit>
+                <CodeSnippet>{`
+                    const TabCmp = ({ prop1, children }) => <cx>
+                       <div class="tab">
+                          {children}
+                       </div>
+                    </cx>
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            In previous versions of CxJS, if the `visible` attribute is used on a functional component,
+            it would be applied on all top-level elements.
+
+            <CodeSplit>
+                <CodeSnippet>{`
+                    <TabCmp visible-expr="{tab} == 'tab1'">
+                        Tab1 Content
+                    </TabCmp>
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            This example above would expand to:
+
+            <CodeSplit>
+                <CodeSnippet>{`
+                    <div visible-expr="{tab} == 'tab1'" class="tab">
+                        Tab1 Content
+                    </div>
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            From this version, a PureContainer wrapper is added to all functional components and all CxJS-specific attributes
+            are applied on the wrapper element.
+
+            <CodeSplit>
+                <CodeSnippet>{`
+                    <PureContainer visible-expr="{tab} == 'tab1'">
+                        <div class="tab">
+                            Tab1 Content
+                        </div>
+                    </PureContainer>
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            Please note that this is a breaking change only if top-level component is `Rescope`, `Restate` or `DataProxy`.
+
+            With this change, both functional components and functional controllers can receive the `store` prop which
+            enables [an alternative syntax for accessing data using store references](https://github.com/codaxy/cxjs/issues/487).
+
             ## 17.12.0
 
             ### `babel-preset-env`
@@ -49,7 +107,8 @@ export const BreakingChanges = <cx>
             ### Confirmation Dialogs
 
             The `Button` requires `MsgBox` and `Window` components in order to support user confirmation dialogs.
-            This (`confirm`) function is not always necessary, but when needed. it's better to load these additional classes
+            This (`confirm`) function is not always necessary, but when needed. it's better to load these additional
+            classes
             after the application launch.
 
             <CodeSplit>
