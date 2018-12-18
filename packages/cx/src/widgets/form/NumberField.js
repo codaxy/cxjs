@@ -399,7 +399,8 @@ class Input extends VDOM.Component {
          instance.set('value', value);
 
       instance.setState({
-         inputError: false
+         inputError: false,
+         visited: true
       });
    }
 
