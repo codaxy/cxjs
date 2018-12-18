@@ -54,6 +54,7 @@ export class DetachedScope extends IsolatedScope {
          parentInstance={instance}
          subscribe
          options={this.options}
+         onError={this.onError}
       />
    }
 }

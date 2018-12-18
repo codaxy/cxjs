@@ -16,7 +16,7 @@ export class Cx extends VDOM.Component {
          this.store = props.instance.store;
       }
       else {
-         this.widget = PureContainer.create({ items: props.widget || props.items });
+         this.widget = PureContainer.create({items: props.widget || props.items});
 
          if (props.parentInstance) {
             this.parentInstance = props.parentInstance;
@@ -38,6 +38,9 @@ export class Cx extends VDOM.Component {
 
       this.flags = {};
       this.renderCount = 0;
+
+      if (props.onError)
+         this.componentDidCatch = ::this.componentDidCatchHandler;
    }
 
    componentWillReceiveProps(props) {
@@ -126,6 +129,11 @@ export class Cx extends VDOM.Component {
          || props.store !== this.props.store
          || props.parentInstance !== this.props.parentInstance
          ;
+   }
+
+   componentDidCatchHandler(error, info) {
+      this.flags.preparing = false;
+      this.props.onError(error, this.getInstance(), info);
    }
 }
 

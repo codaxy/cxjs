@@ -74,6 +74,7 @@ export class Restate extends PureContainer {
          store={instance.subStore}
          subscribe
          options={this.options}
+         onError={this.onError}
       />
    }
 }
