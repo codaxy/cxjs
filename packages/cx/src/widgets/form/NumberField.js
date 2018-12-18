@@ -319,8 +319,10 @@ class Input extends VDOM.Component {
       if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly)
          return;
 
-      if (change == 'blur') {
+      if (change == 'blur' || change == 'enter')
          instance.setState({ visited: true });
+
+      if (change == 'blur') {
          if (this.state.focus)
             this.setState({
                focus: false
