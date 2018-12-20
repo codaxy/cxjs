@@ -89,5 +89,11 @@ export default {
             Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
             Default value is `true`.
         </Md></cx>
+    },
+    validationParams: {
+        type: 'any',
+        description: <cx><Md>
+            Validation params to be passed to the `onValidate` callback.
+        </Md></cx>
     }
 };

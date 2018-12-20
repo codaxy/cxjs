@@ -57,12 +57,11 @@ export class TextField extends Field {
       super.validate(context, instance);
 
       let {data} = instance;
-      if (!data.error && this.validationRegExp)
-         if (!this.validationRegExp.test(data.value))
-            data.error = this.validationErrorText;
 
       if (!data.error && data.value) {
-         if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
+         if (this.validationRegExp && !this.validationRegExp.test(data.value))
+            data.error = this.validationErrorText;
+         else if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
             data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
          else if (typeof data.value === 'string' && data.maxLength != null && data.value.length > data.maxLength)
             data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);

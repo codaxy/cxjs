@@ -28,7 +28,8 @@ export class Field extends PureContainer {
          emptyText: undefined,
          visited: undefined,
          autoFocus: undefined,
-         tabOnEnterKey: undefined
+         tabOnEnterKey: undefined,
+         validationParams: {structured: true},
       }, ...arguments);
    }
 
@@ -151,7 +152,7 @@ export class Field extends PureContainer {
       data.tabOnEnterKey = data._tabOnEnterKey || context.parentTabOnEnterKey;
 
       if (!data.error && !data.disabled && !data.viewMode)
-         this.validate(context, instance);
+         this.validate(context, instance, data.validationParams);
 
       data.stateMods = {
          ...data.stateMods,
