@@ -152,7 +152,7 @@ export class Field extends PureContainer {
       data.tabOnEnterKey = data._tabOnEnterKey || context.parentTabOnEnterKey;
 
       if (!data.error && !data.disabled && !data.viewMode)
-         this.validate(context, instance, data.validationParams);
+         this.validate(context, instance);
 
       data.stateMods = {
          ...data.stateMods,
@@ -225,7 +225,7 @@ export class Field extends PureContainer {
       }
 
       if (!data.error && !this.isEmpty(data) && this.onValidate && !state.validating && (!state.previouslyValidated || data.value != state.lastValidatedValue)) {
-         let result = instance.invoke("onValidate", data.value, instance);
+         let result = instance.invoke("onValidate", data.value, instance, data.validationParams);
          if (isPromise(result)) {
             data.error = this.validatingText;
             instance.setState({
