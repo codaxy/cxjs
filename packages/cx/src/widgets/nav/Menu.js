@@ -78,7 +78,7 @@ export class Menu extends HtmlElement {
          let mi = {
             type: MenuItem,
             items: item,
-            autoClose: true,
+            autoClose: true
          };
 
          if (item.if)
