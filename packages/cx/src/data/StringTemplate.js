@@ -92,3 +92,7 @@ export const StringTemplate = {
       return stringTemplate(format)(args);
    }
 }
+
+export function invalidateStringTemplateCache() {
+   tplCache = {};
+}

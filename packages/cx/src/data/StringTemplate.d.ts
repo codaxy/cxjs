@@ -10,3 +10,5 @@ export class StringTemplate {
 
    static format(format: string, ...args): string;
 }
+
+export function invalidateStringTemplateCache();

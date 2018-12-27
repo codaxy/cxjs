@@ -1,6 +1,8 @@
 import {NumberCulture, DateTimeCulture} from 'intl-io';
 import {Localization} from './Localization';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
+import {invalidateExpressionCache} from "../data/Expression";
+import {invalidateStringTemplateCache} from "../data/StringTemplate";
 
 let culture = 'en';
 let cultureCache = {};
@@ -12,12 +14,18 @@ export class Culture {
       culture = cultureCode;
       cultureCache = {};
       Localization.setCulture(cultureCode);
-      GlobalCacheIdentifier.change();
+      this.invalidateCache();
    }
 
    static setDefaultCurrency(currencyCode) {
       defaultCurrency = currencyCode;
+      this.invalidateCache();
+   }
+
+   static invalidateCache() {
       GlobalCacheIdentifier.change();
+      invalidateExpressionCache();
+      invalidateStringTemplateCache();
    }
 
    static get defaultCurrency() {

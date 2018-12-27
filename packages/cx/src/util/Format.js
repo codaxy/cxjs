@@ -8,7 +8,7 @@ import {isArray} from '../util/isArray';
 
 const defaultFormatter = v => v.toString();
 
-var formatFactory = {
+let formatFactory = {
 
    string: function() {
       return defaultFormatter
@@ -142,21 +142,21 @@ formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
 
 function buildFormatter(format) {
-   var formatter = defaultFormatter;
+   let formatter = defaultFormatter, nullText = '';
    if (format) {
-      var pipeParts = format.split('|');
-      var nullText = pipeParts[1] || '';
-      var colonSepParts = pipeParts[0].split(':');
-      for (var i = 0; i < colonSepParts.length; i++) {
-         var parts = colonSepParts[i].split(';');
-         var factory = formatFactory[parts[0]];
+      let pipeParts = format.split('|');
+      nullText = pipeParts[1] || '';
+      let colonSepParts = pipeParts[0].split(':');
+      for (let i = 0; i < colonSepParts.length; i++) {
+         let parts = colonSepParts[i].split(';');
+         let factory = formatFactory[parts[0]];
          if (!factory)
             debug('Unknown string format: ' + format);
          else if (i == 0)
             formatter = factory(...parts);
          else {
-            var outerFmt = factory(...parts);
-            var innerFmt = formatter;
+            let outerFmt = factory(...parts);
+            let innerFmt = formatter;
             formatter = v => outerFmt(innerFmt(v));
          }
       }
@@ -164,7 +164,7 @@ function buildFormatter(format) {
    return v => (v == null || v === '') ? nullText : formatter(v);
 }
 
-var format = {
+let format = {
    cache: {},
 };
 
@@ -181,8 +181,8 @@ function getFormatCache() {
 function getFormatter(format) {
    if (!format)
       format = '';
-   var formatCache = getFormatCache();
-   var formatter = formatCache[format];
+   let formatCache = getFormatCache();
+   let formatter = formatCache[format];
    if (!formatter)
       formatter = formatCache[format] = buildFormatter(format);
 
@@ -192,7 +192,7 @@ function getFormatter(format) {
 export class Format {
 
    static value(v, format) {
-      var formatter = getFormatter(format);
+      let formatter = getFormatter(format);
       return formatter(v);
    }
 
