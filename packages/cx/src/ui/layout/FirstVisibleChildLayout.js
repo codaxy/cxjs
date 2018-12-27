@@ -13,6 +13,12 @@ function isVisibleDeep(instance) {
 
 class FirstVisibleChildItem extends PureContainer {
 
+   checkVisible(context, instance, data) {
+      if (instance.parent.firstVisibleChild)
+         return false;
+      return super.checkVisible(context, instance, data);
+   }
+
    explore(context, instance) {
       if (instance.parent.firstVisibleChild)
          return;
@@ -46,9 +52,15 @@ export class FirstVisibleChildLayout extends PureContainer {
    }
 
    exploreCleanup(context, instance) {
+      let {children, firstVisibleChild} = instance;
+      if (children) {
+         for (let i = 0; i < children.length; i++)
+            if (children[i] != firstVisibleChild)
+               children[i].destroy();
+      }
       instance.children = [];
-      if (instance.firstVisibleChild)
-         instance.children.push(instance.firstVisibleChild);
+      if (firstVisibleChild)
+         instance.children.push(firstVisibleChild);
    }
 
    wrapItem(item) {

@@ -8,7 +8,6 @@ import assert from 'assert';
 import {FirstVisibleChildLayout} from "./FirstVisibleChildLayout";
 import {UseParentLayout} from "./UseParentLayout";
 import {PureContainer} from "../PureContainer";
-import {createFunctionalComponent} from "../createFunctionalComponent";
 
 describe('FirstVisibleChildLayout', () => {
 
@@ -148,6 +147,49 @@ describe('FirstVisibleChildLayout', () => {
             children: [{type: 'main', props: {}, children: null}]
          }
       )
+   });
+
+   it('properly destroys invisible items', () => {
+      let destroyList = [];
+      let widget = <cx>
+         <div layout={FirstVisibleChildLayout}>
+            <div visible-expr="{index} == 0" onDestroy={() => destroyList.push(0)} />
+            <div visible-expr="{index} == 1" onDestroy={() => destroyList.push(1)} />
+            <div visible-expr="{index} == 2" onDestroy={() => destroyList.push(2)} />
+            <div visible-expr="{index} == 3" onDestroy={() => destroyList.push(3)} />
+            <div visible-expr="{index} == 4" onDestroy={() => destroyList.push(4)} />
+         </div>
+      </cx>;
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      store.set("index", 0);
+      component.toJSON();
+      assert.deepEqual(destroyList, []);
+
+      store.set("index", 3);
+      component.toJSON();
+      assert.deepEqual(destroyList, [0]);
+
+      store.set("index", 1);
+      component.toJSON();
+      assert.deepEqual(destroyList, [0, 3]);
+
+      store.set("index", 4);
+      component.toJSON();
+      assert.deepEqual(destroyList, [0, 3, 1]);
+
+      store.set("index", 0);
+      component.toJSON();
+      assert.deepEqual(destroyList, [0, 3, 1, 4]);
+
+      store.set("index", -1);
+      component.toJSON();
+      assert.deepEqual(destroyList, [0, 3, 1, 4, 0]);
    });
 });
 
