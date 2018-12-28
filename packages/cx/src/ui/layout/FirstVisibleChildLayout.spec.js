@@ -36,7 +36,7 @@ describe('FirstVisibleChildLayout', () => {
       )
    });
 
-   it('do not process other widgets', () => {
+   it.only('does not process other widgets', () => {
 
       let h = false, m = false, f = false;
 

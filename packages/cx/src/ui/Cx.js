@@ -160,7 +160,7 @@ class CxContext extends VDOM.Component {
          this.props.flags.dirty = false;
          visible = instance.scheduleExploreIfVisible(context);
          if (visible) {
-            while (context.exploreStack.length > 0) {
+            while (!context.exploreStack.empty()) {
                let inst = context.exploreStack.pop();
                inst.explore(context);
             }

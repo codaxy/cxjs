@@ -58,7 +58,7 @@ import Demo from './features/drag-drop/grid-to-grid';
 
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
-import Demo from './bugs/LabelsTopLayout';
+//import Demo from './bugs/LabelsTopLayout';
 
 let store = new Store();
 

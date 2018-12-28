@@ -1,7 +1,9 @@
+import {TraversalStack} from "../util/TraversalStack";
+
 export class RenderingContext {
    constructor(options) {
       this.options = options || {};
-      this.exploreStack = [];
+      this.exploreStack = new TraversalStack();
       this.prepareList = [];
       this.cleanupList = [];
       this.stacks = {};
