@@ -28,6 +28,8 @@ export function exploreChildren(context, instance, children, previousResult, key
             newChildren.push(cell);
 
          context.exploreStack.push(cell);
+         if (cell.needsExploreCleanup)
+            context.exploreStack.push(cell);
       }
    }
 

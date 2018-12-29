@@ -79,6 +79,10 @@ export class Instance {
    scheduleExploreIfVisible(context) {
       if (this.checkVisible(context)) {
          context.exploreStack.push(this);
+
+         if (this.needsExploreCleanup)
+            context.exploreStack.push(this);
+
          return true;
       }
       return false;
@@ -160,8 +164,6 @@ export class Instance {
       }
 
       this.explored = true;
-      if (this.needsExploreCleanup)
-         context.exploreStack.push(this);
 
       if (this.needsPrepare)
          context.prepareList.push(this);
@@ -236,24 +238,6 @@ export class Instance {
       if (this.widget.onExplore)
          this.widget.onExplore(context, this);
 
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
-         this.outerLayout.scheduleExploreIfVisible(context);
-         this.renderList = context.insertRenderList();
-      }
-
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
-         this.shouldUpdate = false;
-         this.markShouldUpdate(context);
-      } else {
-         this.shouldUpdate = false;
-      }
-
-      this.widget.explore(context, this, this.data);
-
-      //because tree exploration uses depth-first search using a stack,
-      //helpers need to be registered last in order to be processed first
-
       if (this.widget.helpers) {
          this.helpers = {};
          for (let cmp in this.widget.helpers) {
@@ -264,6 +248,22 @@ export class Instance {
                   this.helpers[cmp] = ins;
             }
          }
+      }
+
+      if (this.widget.outerLayout) {
+         context.exploreStack.hop();
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
+         this.renderList = context.insertRenderList();
+      }
+
+      this.widget.explore(context, this, this.data);
+
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
+         this.shouldUpdate = false;
+         this.markShouldUpdate(context);
+      } else {
+         this.shouldUpdate = false;
       }
    }
 
