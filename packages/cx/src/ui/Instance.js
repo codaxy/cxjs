@@ -238,6 +238,8 @@ export class Instance {
       if (this.widget.onExplore)
          this.widget.onExplore(context, this);
 
+      context.exploreStack.hop();
+
       if (this.widget.helpers) {
          this.helpers = {};
          for (let cmp in this.widget.helpers) {
@@ -251,7 +253,6 @@ export class Instance {
       }
 
       if (this.widget.outerLayout) {
-         context.exploreStack.hop();
          this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
          this.outerLayout.scheduleExploreIfVisible(context);
          this.renderList = context.insertRenderList();
