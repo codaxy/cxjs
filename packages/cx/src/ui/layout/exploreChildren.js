@@ -5,8 +5,8 @@ export function exploreChildren(context, instance, children, previousResult, key
    let oldChildren = previousResult || newChildren;
    let identical = previousResult ? 0 : -1;
 
-   if (children.length)
-      context.exploreStack.hop();
+   // if (children.length)
+   //    context.exploreStack.hop();
 
    for (let c = 0; c < children.length; c++) {
       let cell = instance.getChild(context, children[c], key, store);

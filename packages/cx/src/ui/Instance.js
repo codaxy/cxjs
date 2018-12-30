@@ -238,6 +238,12 @@ export class Instance {
       if (this.widget.onExplore)
          this.widget.onExplore(context, this);
 
+      if (this.widget.outerLayout) {
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
+         this.renderList = context.insertRenderList();
+      }
+
       context.exploreStack.hop();
 
       if (this.widget.helpers) {
@@ -250,12 +256,6 @@ export class Instance {
                   this.helpers[cmp] = ins;
             }
          }
-      }
-
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
-         this.outerLayout.scheduleExploreIfVisible(context);
-         this.renderList = context.insertRenderList();
       }
 
       this.widget.explore(context, this, this.data);
