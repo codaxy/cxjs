@@ -15,8 +15,10 @@ interface UploadButtonProps extends FieldProps {
    multiple?: boolean,
    
    method?: string,
-   uploadInProgressText?: string
+   uploadInProgressText?: string,
 
+   /** Defaults to `false`. Set to `true` to abort uploads if the button is destroyed (unmounted). */
+   abortOnDestroy: boolean
 }
 
 export class UploadButton extends Cx.Widget<UploadButtonProps> {}

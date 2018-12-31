@@ -20,7 +20,7 @@ import './index.scss';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-import Demo from './features/drag-drop/grid-to-grid';
+//import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
@@ -58,7 +58,8 @@ import Demo from './features/drag-drop/grid-to-grid';
 
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
-import Demo from './bugs/LabelsTopLayout';
+//import Demo from './bugs/LabelsTopLayout';
+import Demo from './bugs/509';
 
 let store = new Store();
 

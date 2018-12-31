@@ -76,6 +76,12 @@ export default {
             Return value should be a string or a promise that resolves to a string.
         </Md></cx>
     },
+    abortOnDestroy: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to abort uploads if the button is destroyed (unmounted). Default to `false`.
+        </Md></cx>
+    },
     text: {
         type: 'string',
         description: <cx><Md>
