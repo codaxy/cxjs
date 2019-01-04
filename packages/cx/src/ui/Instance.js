@@ -244,6 +244,10 @@ export class Instance {
          this.renderList = context.insertRenderList();
       }
 
+      this.shouldUpdate = false;
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
+         this.markShouldUpdate(context);
+
       context.exploreStack.hop();
 
       if (this.widget.helpers) {
@@ -259,13 +263,6 @@ export class Instance {
       }
 
       this.widget.explore(context, this, this.data);
-
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
-         this.shouldUpdate = false;
-         this.markShouldUpdate(context);
-      } else {
-         this.shouldUpdate = false;
-      }
    }
 
    prepare(context) {
