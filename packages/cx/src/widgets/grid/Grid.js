@@ -853,7 +853,7 @@ class GridComponent extends VDOM.Component {
                })}
                params={{
                   ...mod,
-                  cursor: i == cursor,
+                  cursorIndex: i,
                   data: record.data,
                   cursorCellIndex: i == cursor && cursorCellIndex,
                   cellEdit: i == cursor && cursorCellIndex && cellEdit
