@@ -37,7 +37,9 @@ export const TreeGrid = <cx>
 
             The following example shows how to make a tree out of grid control.
 
-            <Grid records:bind='$page.data'
+            <Grid
+                buffered
+                records:bind='$page.data'
                 mod="tree"
                 style={{width: "100%", height: '500px'}}
                 scrollable={true}
@@ -49,14 +51,14 @@ export const TreeGrid = <cx>
                 columns={[
                     {
                         header: 'Name', field: 'fullName', sortable: true, items: <cx>
-                        <TreeNode expanded:bind="$record.$expanded"
-                            leaf:bind="$record.$leaf"
-                            level:bind="$record.$level"
-                            loading:bind="$record.$loading"
-                            text:bind="$record.fullName"
-                            icon:bind="$record.icon"
-                        />                        
-                    </cx>
+                            <TreeNode expanded:bind="$record.$expanded"
+                                      leaf:bind="$record.$leaf"
+                                      level:bind="$record.$level"
+                                      loading:bind="$record.$loading"
+                                      text:bind="$record.fullName"
+                                      icon:bind="$record.icon"
+                            />
+                        </cx>
                     },
                     {header: 'Phone', field: 'phone'},
                     {header: 'City', field: 'city', sortable: true},
@@ -92,7 +94,9 @@ export const TreeGrid = <cx>
             }
             ...
 
-            <Grid records:bind='$page.data'
+            <Grid
+                buffered
+                records:bind='$page.data'
                 mod="tree"
                 style={{width: "100%", height: '500px'}}
                 scrollable={true}

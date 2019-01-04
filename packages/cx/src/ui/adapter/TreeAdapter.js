@@ -72,3 +72,4 @@ TreeAdapter.prototype.leafField = '$leaf';
 TreeAdapter.prototype.loadingField = '$loading';
 TreeAdapter.prototype.loadedField = '$loaded';
 TreeAdapter.prototype.foldersFirst = true;
+TreeAdapter.prototype.isTreeAdapter = true;
