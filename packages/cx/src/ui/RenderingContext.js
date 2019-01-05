@@ -1,4 +1,5 @@
 import {TraversalStack} from "../util/TraversalStack";
+import {reverseSlice} from "../util/reverseSlice";
 
 export class RenderingContext {
    constructor(options) {
@@ -8,12 +9,14 @@ export class RenderingContext {
       this.cleanupList = [];
       this.stacks = {};
 
-      this.renderLists = {
-         0: []
-      };
-      this.renderListIndex = 0;
-      this.minRenderListIndex = 0;
-      this.maxRenderListIndex = 0;
+      // this.renderLists = {
+      //    0: []
+      // };
+      // this.renderListIndex = 0;
+      // this.minRenderListIndex = 0;
+      // this.maxRenderListIndex = 0;
+
+      this.renderList = new LinkedListsNode();
    }
 
    getStack(key) {
@@ -52,39 +55,71 @@ export class RenderingContext {
       return this[key];
    }
 
-   getCurrentRenderList() {
-      return this.renderLists[this.renderListIndex];
+   // getCurrentRenderList() {
+   //    return this.renderLists[this.renderListIndex];
+   // }
+   //
+   // insertRenderList() {
+   //    this.maxRenderListIndex++;
+   //    for (let i = this.maxRenderListIndex; i > this.renderListIndex; i--)
+   //       this.renderLists[i] = this.renderLists[i - 1];
+   //    return this.renderLists[this.renderListIndex] = [];
+   // }
+   //
+   // getPrevRenderList() {
+   //    this.renderListIndex--;
+   //    if (this.renderListIndex < this.minRenderListIndex) {
+   //       this.minRenderListIndex = this.renderListIndex;
+   //       this.renderLists[this.renderListIndex] = [];
+   //    }
+   //    return this.renderLists[this.renderListIndex];
+   // }
+   //
+   // getNextRenderList() {
+   //    this.renderListIndex++;
+   //    if (this.renderListIndex > this.maxRenderListIndex) {
+   //       this.maxRenderListIndex = this.renderListIndex;
+   //       this.renderLists[this.renderListIndex] = [];
+   //    }
+   //    return this.renderLists[this.renderListIndex];
+   // }
+
+   getRootRenderList() {
+      let rl = this.renderList;
+      while (rl.left)
+         rl = rl.left;
+      return rl;
+   }
+}
+
+class LinkedListsNode {
+   constructor(left, right) {
+      this.left = left;
+      this.right = right;
+      this.data = [];
    }
 
-   insertRenderList() {
-      this.maxRenderListIndex++;
-      for (let i = this.maxRenderListIndex; i > this.renderListIndex; i--)
-         this.renderLists[i] = this.renderLists[i - 1];
-      return this.renderLists[this.renderListIndex] = [];
+   insertLeft() {
+      let node = new LinkedListsNode(this.left, this);
+      if (this.left)
+         this.left.right = node;
+      this.left = node;
+      return node;
    }
 
-   getPrevRenderList() {
-      this.renderListIndex--;
-      if (this.renderListIndex < this.minRenderListIndex) {
-         this.minRenderListIndex = this.renderListIndex;
-         this.renderLists[this.renderListIndex] = [];
-      }
-      return this.renderLists[this.renderListIndex];
+   insertRight() {
+      let node = new LinkedListsNode(this, this.right);
+      if (this.right)
+         this.right.left = node;
+      this.right = node;
+      return node;
    }
 
-   getNextRenderList() {
-      this.renderListIndex++;
-      if (this.renderListIndex > this.maxRenderListIndex) {
-         this.maxRenderListIndex = this.renderListIndex;
-         this.renderLists[this.renderListIndex] = [];
-      }
-      return this.renderLists[this.renderListIndex];
+   markReverseIndex() {
+      this.reverseIndex = this.data.length;
    }
 
-   getRenderLists() {
-      let result = [];
-      for (let i = this.minRenderListIndex; i <= this.maxRenderListIndex; i++)
-         result.push(this.renderLists[i]);
-      return result;
+   reverse() {
+      reverseSlice(this.data, this.reverseIndex);
    }
 }

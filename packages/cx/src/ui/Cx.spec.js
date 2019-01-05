@@ -5,7 +5,7 @@ import {Store} from '../data/Store';
 import renderer from 'react-test-renderer';
 import assert from 'assert';
 
-describe.only('Cx', () => {
+describe('Cx', () => {
 
    it('can render cx content', () => {
       let widget = <cx>
@@ -109,7 +109,7 @@ describe.only('Cx', () => {
          }]
       });
 
-      console.log(events);
+      //console.log(events);
 
       assert.deepEqual(events, [
          ["explore", "0"],
