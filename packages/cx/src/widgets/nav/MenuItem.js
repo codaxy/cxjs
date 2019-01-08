@@ -11,6 +11,7 @@ import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
 import {getActiveElement} from "../../util/getActiveElement";
+import {tooltipMouseLeave, tooltipMouseMove, tooltipParentWillUnmount, tooltipParentDidMount} from "../overlay/tooltip-ops";
 
 /*
  Functionality:
@@ -238,6 +239,8 @@ class MenuItemComponent extends VDOM.Component {
             this.el.focus(); //open the dropdown
             this.onClick(e); //execute the onClick handler
          });
+
+      tooltipParentDidMount(this.el, this.props.instance, widget.tooltip);
    }
 
    onDropdownKeyDown(e) {
@@ -283,6 +286,8 @@ class MenuItemComponent extends VDOM.Component {
          e.stopPropagation();
          e.preventDefault();
       }
+
+      tooltipMouseMove(e, this.props.instance, widget.tooltip);
    }
 
    onMouseLeave(e) {
@@ -294,6 +299,8 @@ class MenuItemComponent extends VDOM.Component {
          if (widget.hoverToOpen && document.activeElement == this.el)
             this.el.blur();
       }
+
+      tooltipMouseLeave(e, this.props.instance, widget.tooltip);
    }
 
    onKeyDown(e) {
@@ -413,5 +420,7 @@ class MenuItemComponent extends VDOM.Component {
 
       if (this.unregisterKeyboardShortcut)
          this.unregisterKeyboardShortcut();
+
+      tooltipParentWillUnmount(this.props.instance);
    }
 }
