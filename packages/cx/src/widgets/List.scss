@@ -1,0 +1,89 @@
+
+@mixin cx-list(
+   $name: 'list',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      border: 0 solid $cx-default-border-color;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+      @include cx-add-state-rules($cx-list, default);
+
+      &:hover {
+         @include cx-add-state-rules($cx-list, hover);
+      }
+
+      &.#{$state}focused {
+         @include cx-add-state-rules($cx-list, focus);
+      }
+
+      &.#{$mod}bordered {
+         border-width: 1px;
+
+         & > .#{$element}#{$name}-item:not(:first-child) {
+            border-top-width: 1px;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-item {
+      margin: 0;
+      border: 0 solid $cx-default-border-color;
+
+      &.#{$state}pad {
+         padding: $cx-default-list-item-padding;
+      }
+
+      @include cx-add-state-rules($cx-list-item, default);
+
+      .#{$state}selectable > & {
+         cursor: pointer;
+      }
+
+      &:hover {
+         @include cx-add-state-rules($cx-list-item, hover);
+      }
+
+      &.#{$state}cursor {
+         @include cx-add-state-rules($cx-list-item, hover);
+
+         .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+            @include cx-add-state-rules($cx-list-item, cursor);
+
+            &:active {
+               @include cx-add-state-rules($cx-list-item, active);
+            }
+         }
+      }
+
+      &.#{$state}selected {
+          @include cx-add-state-rules($cx-list-item, selected);
+
+         &.#{$state}cursor {
+            @include cx-add-state-rules($cx-list-item, selected-hover);
+
+            .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+                @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
+         }
+      }
+   }
+
+   .#{$element}#{$name}-empty-text {
+      padding: $cx-default-list-item-padding;
+      color: $cx-default-empty-text-color;
+   }
+}
+
+@if (cx-should-include('cx/widgets/List')) {
+   @include cx-list();
+}

@@ -1,0 +1,47 @@
+@import "call-once";
+@import "colors";
+
+$cx-include-all: true !default;
+
+$cx-excluded: () !default;
+$cx-used: null !default;
+
+$cx-dependencies: () !default;
+
+@function cx-should-include($name, $once: true) {
+   @return (
+       (map-get($cx-excluded, $name) != true) and
+       ($cx-include-all or
+       ($cx-used != null and map-get($cx-used, $name) == true))
+   )
+   and ($once != true or cx-call-once($name));
+}
+
+@function cx-included($name) {
+   @return cx-called-once($name);
+}
+
+@function cx-widget($name) {
+   @if (map-get($cx-excluded, $name)) {
+      @return 0;
+   }
+   $cx-used: map_merge($cx-used, ($name: true)) !global;
+   $dummy: 1;
+   $deps: map-get($cx-dependencies, $name);
+   @if ($deps == null) {
+      @return 0;
+   }
+   @each $dep in $deps {
+      $dummy: cx-widget($dep);
+   }
+   @return $dummy;
+}
+
+@mixin cx-widgets($names...) {
+   $dummy: 1;
+   $cx-used: () !default !global;
+
+   @each $name in $names {
+      $dummy: cx-widget($name)
+   }
+}

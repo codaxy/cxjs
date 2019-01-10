@@ -1,0 +1,19 @@
+
+@mixin cx-range(
+   $name: 'range',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$element}#{$name}-rect {
+      stroke-width: 0;
+      fill-opacity: 0.3;
+      fill: lightgray;
+   }
+}
+
+@if (cx-should-include('cx/charts/Range')) {
+   @include cx-range();
+}

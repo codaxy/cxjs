@@ -1,0 +1,81 @@
+
+$cx-default-tab-color: inherit !default;
+$cx-default-tab-font-size: null !default;
+$cx-default-tab-font-weight: inherit !default;
+$cx-default-tab-background-color: transparent !default;
+$cx-default-tab-border-width: $cx-default-box-border-width !default;
+$cx-default-tab-border-color: transparent !default;
+$cx-default-tab-border-radius: $cx-default-border-radius !default;
+$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-tab-box-shadow: none !default;
+
+$cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
+   default: (
+      color: $cx-default-tab-color,
+      font-size: $cx-default-tab-font-size,
+      line-height: $cx-default-box-line-height,
+      font-weight: $cx-default-tab-font-weight,
+      text-decoration: none,
+      cursor: pointer,
+      text-align: center,
+      background-color: $cx-default-tab-background-color,
+      border-radius: $cx-default-tab-border-radius,
+      padding: $cx-default-tab-padding,
+      border-width: $cx-default-tab-border-width,
+      border-color: $cx-default-tab-border-color,
+      border-style: solid,
+      box-shadow: $cx-default-tab-box-shadow
+   ),
+   hover: (
+      text-decoration: none
+   ),
+   disabled: (
+      background-color: transparent,
+      pointer-events: none
+   )
+)) !default;
+
+$cx-tab-mods: (
+   classic: (
+      default: (
+         position: relative,
+         border-width: 1px,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
+      ),
+      selected: (
+         border-color: $cx-default-border-color,
+         background-color: $cx-default-cover-background-color
+      )
+   ),
+   line: (
+      default: (
+         background-color: transparent !important,
+         border-left-color: transparent !important,
+         border-right-color: transparent !important,
+         border-top-color: transparent !important,
+         border-left-width: 0,
+         border-right-width: 0,
+         border-bottom-width: 2px,
+         border-top-width: 0,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
+      ),
+      hover: (
+         border-color: rgba(128, 128, 128, 0.2),
+      ),
+      cursor: (
+         border-color: rgba(123,190,255, 0.3),
+      ),
+      selected: (
+         border-color: rgba(128, 128, 128, 0.4),
+      ),
+      selected-cursor: (
+         border-color: rgba(123,190,255, 0.7),
+      ),
+      active: (),
+      disabled: (
+         border-color: transparent
+      )
+   )
+) !default;

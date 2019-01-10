@@ -1,0 +1,155 @@
+@mixin cx-calendar(
+   $name: 'calendar',
+   $state-style-map: $cx-calendar-state-style-map,
+   $width: $cx-default-input-width,
+   $icon-size: $cx-default-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}calendar {
+      @include cx-add-state-rules($state-style-map, 'default');
+
+      display: inline-block;
+      vertical-align: middle;
+      width: 18em;
+      box-sizing: border-box;
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, 'hover');
+      }
+
+      &:focus {
+        @include cx-add-state-rules($state-style-map, 'focus');
+      }
+
+      &.#{$state}error {
+         @include cx-add-state-rules($state-style-map, 'error');
+
+         &:focus {
+            @include cx-add-state-rules($state-style-map, 'error-focus');
+         }
+      }
+
+      table {
+         border-spacing: 0;
+         width: 100%;
+      }
+
+      td, th {
+         text-align: center;
+         width: 2em;
+         line-height: 2em;
+         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      th {
+        font-weight: cx-get-state-rule($state-style-map, header, font-weight);
+      }
+
+      tbody td {
+        @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
+        user-select: none;
+      }
+
+      .#{$element}#{$name}-header {
+         @include cx-add-state-rules($state-style-map, header);
+      }
+
+      td.#{$state}today {
+        @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
+
+        &:hover {
+           @include cx-add-state-rules($cx-calendar-day-state-style-map, hover)
+        }
+      }
+
+      td.#{$state}outside {
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, outside)
+      }
+
+      td.#{$state}unselectable {
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, disabled)
+      }
+
+      td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
+      }
+
+      td.#{$state}selected {
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, selected);
+      }
+
+      &:not(.#{$state}disabled) {
+         td {
+            cursor: pointer;
+         }
+      }
+
+      td:first-child, td:last-child {
+         display: none;
+         pointer-events: none;
+      }
+
+      &:focus {
+
+         td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover-focus);
+
+            &:active {
+               @include cx-add-state-rules($cx-calendar-day-state-style-map, active)
+            }
+         }
+
+         td.#{$state}selected {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected-focus)
+         }
+      }
+
+      &.#{$state}disabled {
+         background-color: transparent;
+         border-color: transparent;
+         color: darken(#fff, 18);
+         pointer-events: none;
+         opacity: 0.9;
+      }
+   }
+
+   .#{$element}#{$name}-header td {
+      line-height: 0;
+   }
+
+   .#{$element}#{$name}-icon-next-year,
+   .#{$element}#{$name}-icon-prev-year,
+   .#{$element}#{$name}-icon-prev-month,
+   .#{$element}#{$name}-icon-next-month {
+      width: $icon-size;
+      height: $icon-size;
+      display: inline-block;
+      font-size: $icon-size;
+      line-height: $icon-size;
+      user-select: none;
+   }
+
+   .#{$element}#{$name}-icon-prev-year {
+      transform: rotate(180deg);
+   }
+   .#{$element}#{$name}-icon-prev-month {
+      transform: rotate(90deg);
+   }
+   .#{$element}#{$name}-icon-next-month {
+      transform: rotate(-90deg);
+   }
+
+   th.#{$element}#{$name}-display {
+      line-height: 1.5;
+      padding: 0.5em;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Calendar')) {
+   @include cx-calendar();
+}

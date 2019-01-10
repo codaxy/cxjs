@@ -1,0 +1,147 @@
+@mixin cx-scroller(
+   $name: 'scroller',
+   $icon-size: $cx-default-icon-size,
+   $button-size: $cx-default-scroller-button-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      position: relative;
+      user-select: none;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+
+      &.#{$state}horizontal {
+         white-space: nowrap;
+
+         &.#{$state}horizontal.#{$state}scrollable {
+            padding-left: $button-size;
+            padding-right: $button-size;
+         }
+      }
+
+      &.#{$state}vertical {
+         &.#{$state}scrollable {
+            padding-top: $button-size;
+            padding-bottom: $button-size;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-clip {
+      overflow: hidden;
+      box-sizing: border-box;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      flex: 1 1 0%;
+   }
+
+   .#{$element}#{$name}-scroller {
+      box-sizing: border-box;
+
+      .#{$block}#{$name}.#{$state}horizontal > .#{$element}#{$name}-clip > & {
+         overflow-x: auto;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical > .#{$element}#{$name}-clip > & {
+         overflow-y: auto;
+         flex: 1 1 0%;
+      }
+
+      &::-webkit-scrollbar {
+         display: none;
+      }
+   }
+
+   .#{$element}#{$name}-left-arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: $button-size;
+      cursor: pointer;
+      display: none;
+
+      & > .#{$element}#{$name}-icon {
+         transform: rotate(90deg);
+      }
+
+      .#{$state}scrollable > & {
+         display: block;
+      }
+   }
+
+   .#{$element}#{$name}-right-arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: $button-size;
+      cursor: pointer;
+      display: none;
+
+      & > .#{$element}#{$name}-icon {
+         transform: rotate(-90deg);
+      }
+
+      .#{$state}scrollable > & {
+         display: block;
+      }
+   }
+
+   .#{$element}#{$name}-top-arrow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: $button-size;
+      cursor: pointer;
+      display: none;
+
+      & > .#{$element}#{$name}-icon {
+         transform: rotate(180deg);
+      }
+
+      .#{$state}scrollable > & {
+         display: block;
+      }
+   }
+
+   .#{$element}#{$name}-bottom-arrow {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: $button-size;
+      cursor: pointer;
+      display: none;
+
+      & > .#{$element}#{$name}-icon {
+         //transform: rotate(-90deg);
+      }
+
+      .#{$state}scrollable > & {
+         display: block;
+      }
+   }
+
+   .#{$element}#{$name}-icon {
+      height: $icon-size;
+      width: $icon-size;
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      margin-left: -$icon-size/2;
+      margin-top: -$icon-size/2;
+   }
+
+}
+
+@if (cx-should-include('cx/widgets/Scroller')) {
+   @include cx-scroller();
+}

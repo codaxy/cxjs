@@ -1,0 +1,34 @@
+@mixin cx-dragclone(
+   $name: 'dragclone',
+   $style: $cx-dragclone-style,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+
+      @include cx-add-rules($style);
+
+      pointer-events: none;
+      background: $cx-default-dragclone-background-color;
+      min-width: 10px;
+      min-height: 10px;
+      position: fixed;
+      opacity: 0.9;
+      box-shadow: $cx-default-dragclone-box-shadow;
+      display: flex;
+
+      & > * {
+         margin: 0 !important;
+         display: block;
+         flex: auto;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/DragClone')) {
+   @include cx-dragclone();
+}

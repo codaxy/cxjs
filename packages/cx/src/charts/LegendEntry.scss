@@ -1,0 +1,31 @@
+
+@mixin cx-legendentry(
+   $name: 'legendentry',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      display: inline-block;
+      padding: 5px 0 5px 30px;
+      position: relative;
+      box-sizing: border-box;
+      cursor: pointer;
+   }
+
+   .#{$element}#{$name}-svg {
+      position: absolute;
+      left: 5px;
+      top: 50%;
+   }
+
+   .#{$element}#{$name}-shape {
+      fill: #eee;
+   }
+}
+
+@if (cx-should-include('cx/charts/LegendEntry')) {
+   @include cx-legendentry();
+}

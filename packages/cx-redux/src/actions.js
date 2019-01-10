@@ -1,0 +1,1 @@
+export const CX_REPLACE_STATE = 'CX-REPLACE-STATE';

@@ -1,0 +1,46 @@
+
+$cx-default-radio-color: currentColor !default;
+$cx-default-radio-background-color: $cx-default-input-background-color !default;
+$cx-default-radio-border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width) !default;
+$cx-default-radio-border-color: $cx-default-input-border-color !default;
+
+$cx-radio-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  default: (
+    color: $cx-default-radio-color,
+    background-color: $cx-default-radio-background-color,
+    border-width: $cx-default-radio-border-width,
+    border-color: $cx-default-radio-border-color    
+  ),
+  hover: (
+
+  ),
+  checked: (
+
+  ),
+  checked-focus: (
+   
+  ),
+  checked-hover: (
+  
+  ),
+  focus: (
+    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+    outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
+    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+  ),
+
+  disabled: (
+    background: rgb(235, 235, 228),
+    color: rgb(84, 84, 84)
+  ),
+  disabled-checked: (
+  
+  ),
+  error: (
+    border-color: rgba(220, 0, 9, 0.8)
+  ),
+
+  error-focus: (
+    box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
+  )
+)) !default;

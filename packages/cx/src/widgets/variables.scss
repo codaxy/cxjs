@@ -1,0 +1,138 @@
+
+// Padding
+$cx-default-padding-extra-small: 3px !default;
+$cx-default-padding-small: 5px !default;
+$cx-default-padding-medium: 10px !default;
+$cx-default-padding-large: 15px !default;
+$cx-default-padding-extra-large: 20px !default;
+
+$cx-pad-size: (
+   xsmall: $cx-default-padding-extra-small,
+   small: $cx-default-padding-small,
+   medium: $cx-default-padding-medium,
+   large: $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large
+) !default;
+
+@import "form/variables";
+@import "grid/variables";
+@import "nav/variables";
+@import "overlay/variables";
+@import "drag-drop/variables";
+@import "Button.variables";
+
+// HEADING
+$cx-caption-style-map: () !default;
+
+$cx-caption-level-style-map: (
+   1: (
+      margin: 0,
+      padding: 0
+   ),
+   2: (
+      margin: 0,
+      padding: 0
+   ),
+   3: (
+      margin: 0,
+      padding: 0
+   ),
+   4:(
+      margin: 0,
+      padding: 0
+   ),
+   5: (
+      margin: 0,
+      padding: 0
+   ),
+   6: (
+      margin: 0,
+      padding: 0
+   ),
+) !default;
+
+// SECTION
+$cx-section-styles: () !default;
+
+$cx-section-mods: (
+  card: (
+    default: (
+      background-color: rgba(255, 255, 255, 0.9),
+      border-radius: 3px
+    )
+  ),
+  warning: (
+      default: (
+         color: #fff,
+         background-color: #f09037,
+         border-radius: 3px
+      )   
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: #1f99f8,
+         border-radius: 3px
+      )
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #5cb85c,
+         border-radius: 3px
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #d9534f,
+         border-radius: 3px
+      )
+   )  
+) !default;
+
+// ProgressBar
+$cx-default-progressbar-width: 180px !default;
+$cx-default-progressbar-height: 24px !default;
+$cx-default-progressbar-font-size: smaller !default;
+$cx-default-progressbar-color: $cx-default-color !default;
+$cx-default-progressbar-background-color: rgba(#fff, 0.5) !default;
+$cx-default-progressbar-border-width: 1px !default;
+$cx-default-progressbar-border-color: #98d4ff !default;
+$cx-default-progressbar-border-radius: 0 !default;
+
+$cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
+
+$cx-progressbar-state-style-map: (
+   default: (
+      position: relative,
+      width: $cx-default-progressbar-width,
+      min-height: $cx-default-progressbar-height,
+      background-color: $cx-default-progressbar-background-color,
+      border-style: solid,
+      border-color: $cx-default-progressbar-border-color,
+      border-width: $cx-default-progressbar-border-width,
+      border-radius: $cx-default-progressbar-border-radius,
+      font-size: $cx-default-progressbar-font-size,
+      text-align: center,
+      line-height: $cx-default-progressbar-height
+   ),
+   disabled: (
+      opacity: 0.2
+   )
+);
+
+$cx-progressbar-mods: ();
+
+// for backward compatibility
+.cxm-well {
+   @extend .cxm-card !optional;
+}
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/FlexRow': 'cx/widgets/FlexBox',
+   'cx/widgets/FlexCol': 'cx/widgets/FlexBox',
+   'cx/widgets/CxCredit': 'cx/widgets/Tooltip',
+   'cx/widgets/Button': 'cx/widgets/HtmlElement',
+   'cx/widgets/HtmlElement': 'cx/widgets/Tooltip'
+))

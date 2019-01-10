@@ -1,0 +1,47 @@
+@function cx-top($list) {
+   @if (length($list) > 0) {
+      @return nth($list, 1);
+   }
+   @return null;
+}
+
+@function cx-right($list) {
+   @if (length($list) == 1) {
+      @return nth($list, 1);
+   }
+   @if (length($list) > 1) {
+      @return nth($list, 2);
+   }
+   @return null;
+}
+
+@function cx-bottom($list) {
+   @if (length($list) > 2) {
+      @return nth($list, 3);
+   }
+
+   @if (length($list) >= 1) {
+      @return nth($list, 1);
+   }
+
+   @return null;
+}
+
+@function cx-left($list) {
+   @if (length($list) == 1) {
+      @return nth($list, 1);
+   }
+
+   @if (length($list) == 2) {
+      @return nth($list, 2);
+   }
+
+   @if (length($list) == 3) {
+      @return nth($list, 2);
+   }
+
+   @if (length($list) == 4) {
+      @return nth($list, 4);
+   }
+   @return null;
+}

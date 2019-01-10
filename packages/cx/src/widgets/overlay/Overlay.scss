@@ -1,0 +1,62 @@
+
+@mixin cx-overlay(
+   $name: 'overlay',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   %cxb-overlay {
+      left: calc(50% - 250px); //guess
+      top: calc(50% - 100px); //guess
+      min-width: 10px;
+      min-height: 10px;
+      position: fixed;
+      overflow: visible;
+      box-sizing: border-box;
+
+      &.#{$state}draggable {
+         cursor: pointer;
+         touch-action: none;
+      }
+
+      &:focus {
+         outline: none;
+      }
+   }
+
+   %cxe-overlay-modal-backdrop {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+   }
+
+   %cxe-overlay-shadow {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(128, 128, 128, 0.3);
+   }
+
+   .#{$block}#{$name} {
+      @extend %cxb-overlay;
+
+      &.#{$state}pad {
+         padding: $cx-default-container-padding;
+      }
+   }
+
+   .#{$element}#{$name}-modal-backdrop {
+      @extend %cxe-overlay-modal-backdrop;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Overlay')) {
+   @include cx-overlay();
+}
+

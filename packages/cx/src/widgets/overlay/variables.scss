@@ -1,0 +1,79 @@
+// TOOLTIP
+$cx-tooltip-background-color: white !default;
+$cx-tooltip-border-color: #d5d5d5 !default;
+$cx-tooltip-border-width: 1px !default;
+$cx-tooltip-border-radius: 5px !default;
+$cx-tooltip-arrow-size: 5px !default;
+$cx-tooltip-color: null !default;
+$cx-tooltip-padding: 10px !default;
+
+$cx-tooltip-background-color-error: white !default;
+$cx-tooltip-border-color-error: #e63001 !default;
+$cx-tooltip-color-error: null !default;
+
+// DROPDOWN
+$cx-default-dropdown-color: $cx-default-color !default;
+$cx-default-dropdown-background-color: white !default;
+$cx-default-dropdown-arrow-size: 6px !default;
+$cx-default-dropdown-arrow-offset: 16px !default;
+
+$cx-dropdown-styles: (
+   color: $cx-default-dropdown-color,
+   background-color: $cx-default-dropdown-background-color,
+   border-radius: $cx-default-border-radius,
+   border-color: $cx-default-border-color,
+   border-width: 0,
+   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29),
+   white-space: normal,
+   font-weight: normal,
+   font-size: $cx-default-font-size,
+   text-align: left,
+   line-height: normal
+) !default;
+
+// TOAST
+$cx-default-toast-color: $cx-default-color !default;
+$cx-default-toast-background-color: rgb(255, 255, 255) !default;
+$cx-default-toast-border-width: 0 !default;
+$cx-default-toast-border-color: rgba(255, 255, 255, 0) !default;
+$cx-default-toast-box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.3) !default;
+$cx-default-toast-padding: 10px !default;
+
+$cx-toast-mods: (
+   warning: (
+      default: (
+         color: #fff,
+         background-color: #f09037
+      )   
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: #1f99f8
+      )
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #5cb85c
+      )
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #d9534f
+      )
+   )  
+) !default;
+
+// WINDOW
+@import "Window.variables";
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   "cx/widgets/Overlay": "cx/widgets/captureMouse",
+   'cx/widgets/Dropdown': 'cx/widgets/Overlay',
+   'cx/widgets/Window': 'cx/widgets/Overlay',
+   'cx/widgets/Tooltip': 'cx/widgets/Dropdown',
+   'cx/widgets/MsgBox': 'cx/widgets/Window',
+   'cx/widgets/Toast': 'cx/widgets/Overlay',
+));

@@ -1,0 +1,316 @@
+import {Axis} from './Axis';
+import {VDOM} from '../../ui/Widget';
+import {Stack} from './Stack';
+import {Format} from '../../util/Format';
+
+export class NumericAxis extends Axis {
+
+   init() {
+      if (this.deadZone) {
+         this.lowerDeadZone = this.deadZone;
+         this.upperDeadZone = this.deadZone;
+      }
+      super.init();
+   }
+
+   declareData() {
+      super.declareData(...arguments, {
+         min: undefined,
+         max: undefined,
+         normalized: undefined,
+         inverted: undefined,
+         labelDivisor: undefined,
+         format: undefined,
+         lowerDeadZone: undefined,
+         upperDeadZone: undefined
+      })
+   }
+
+   initInstance(context, instance) {
+      instance.calculator = new NumericScale();
+   }
+
+   explore(context, instance) {
+      super.explore(context, instance);
+      let {min, max, normalized, inverted, lowerDeadZone, upperDeadZone} = instance.data;
+      instance.calculator.reset(min, max, this.snapToTicks, this.tickDivisions, this.minTickDistance, this.minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone);
+   }
+
+   render(context, instance, key) {
+      let {data} = instance;
+
+      if (!data.bounds.valid())
+         return null;
+
+      let baseFormatter = Format.parse(data.format);
+      let formatter = data.labelDivisor != 1
+         ?  v => baseFormatter(v / data.labelDivisor)
+         : baseFormatter;
+
+      return <g key={key} className={data.classNames} style={data.style}>
+         {this.renderTicksAndLabels(context, instance, formatter)}
+      </g>
+   }
+
+
+
+   static XY() {
+      return {
+         x: {type: NumericAxis},
+         y: {type: NumericAxis, vertical: true}
+      }
+   }
+}
+
+NumericAxis.prototype.baseClass = 'numericaxis';
+NumericAxis.prototype.tickDivisions = [
+   [1, 2, 10],
+   [1, 5, 10],
+   [2.5, 5, 10],
+   //[2, 4, 10],
+   [5, 10]
+];
+
+NumericAxis.prototype.snapToTicks = 1;
+NumericAxis.prototype.normalized = false;
+NumericAxis.prototype.format = 'n';
+NumericAxis.prototype.labelDivisor = 1;
+
+Axis.alias('numeric', NumericAxis);
+
+class NumericScale {
+
+   reset(min, max, snapToTicks, tickDivisions, minTickDistance, minLabelDistance, normalized, inverted, lowerDeadZone, upperDeadZone) {
+      this.padding = 0;
+      this.min = min;
+      this.max = max;
+      this.snapToTicks = snapToTicks;
+      this.tickDivisions = tickDivisions;
+      this.minLabelDistance = minLabelDistance;
+      this.minTickDistance = minTickDistance;
+      this.tickSizes = [];
+      this.normalized = normalized;
+      this.inverted = inverted;
+      delete this.minValue;
+      delete this.maxValue;
+      this.stacks = {};
+      this.lowerDeadZone = lowerDeadZone || 0;
+      this.upperDeadZone = upperDeadZone || 0;
+   }
+
+   map(v, offset = 0) {
+      return this.origin + (v + offset - this.scale.min + this.padding) * this.scale.factor;
+   }
+
+   decodeValue(n) {
+      return n;
+   }
+
+   encodeValue(v) {
+      return v;
+   }
+
+   constrainValue(v) {
+      return Math.max(this.scale.min, Math.min(this.scale.max, v));
+   }
+
+   trackValue(v, offset = 0, constrain = false) {
+      let value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.padding;
+      if (constrain)
+         value = this.constrainValue(v);
+      return value;
+   }
+
+   hash() {
+      let r = {
+         origin: this.origin,
+         factor: this.scale.factor,
+         min: this.scale.min,
+         max: this.scale.max,
+         padding: this.padding
+      };
+      r.stacks = Object.keys(this.stacks).map(s=>this.stacks[s].info.join(',')).join(':');
+      return r;
+   }
+
+   isSame(x) {
+      let hash = this.hash();
+      let same = x && !Object.keys(hash).some(k=>x[k] !== hash[k]);
+      this.shouldUpdate = !same;
+      return same;
+   }
+
+   measure(a, b) {
+
+      this.a = a;
+      this.b = b;
+
+      for (let s in this.stacks) {
+         let info = this.stacks[s].measure(this.normalized);
+         let [min, max, invalid] = info;
+         if (this.min == null || min < this.min)
+            this.min = min;
+         if (this.max == null || max > this.max)
+            this.max = max;
+         this.stacks[s].info = info;
+      }
+
+      if (this.minValue != null && this.min == null) // || this.minValue < this.min))
+         this.min = this.minValue;
+
+      if (this.min == null)
+         this.min = 0;
+
+      if (this.maxValue != null && this.max == null) // || this.maxValue > this.max))
+         this.max = this.maxValue;
+
+      if (this.max == null)
+         this.max = this.normalized ? 1 : 100;
+
+      if (this.min == this.max) {
+         if (this.min == 0) {
+            this.min = -1;
+            this.max = 1;
+         } else {
+            let delta = Math.abs(this.min) * 0.1;
+            this.min -= delta;
+            this.max += delta;
+         }
+      }
+
+      this.origin = this.inverted ? this.b : this.a;
+
+      this.scale = this.getScale();
+
+      this.calculateTicks();
+   }
+
+   getScale(tickSizes) {
+      let {min, max} = this;
+      let smin = min;
+      let smax = max;
+      let tickSize;
+      if (tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
+         tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
+         smin = Math.floor(smin / tickSize) * tickSize;
+         smax = Math.ceil(smax / tickSize) * tickSize;
+      }
+
+      let sign = this.b > this.a ? 1 : -1;
+
+      let factor = smin < smax ? (Math.abs(this.b - this.a) - this.lowerDeadZone - this.upperDeadZone) / (smax - smin + 2 * this.padding) : 0;
+
+      if (factor < 0)
+         factor = 0;
+
+      if (factor > 0 && (this.lowerDeadZone > 0 || this.upperDeadZone > 0)) {
+         while (factor * (min - smin) < this.lowerDeadZone)
+            smin -= this.lowerDeadZone / factor;
+
+         while (factor * (smax - max) < this.upperDeadZone)
+            smax += this.upperDeadZone / factor;
+
+         if (tickSize > 0) {
+            smin = Math.floor(smin / tickSize) * tickSize;
+            smax = Math.ceil(smax / tickSize) * tickSize;
+         }
+
+         factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + 2 * this.padding) : 0;
+      }
+
+      return {
+         factor: sign * (this.inverted ? -factor : factor),
+         min: smin,
+         max: smax
+      }
+   }
+
+   acknowledge(value, width = 0, offset = 0) {
+      if (value == null)
+         return;
+
+      if (this.minValue == null || value < this.minValue) {
+         this.minValue = value;
+         this.padding = Math.max(this.padding, Math.abs(offset - width / 2));
+      }
+      if (this.maxValue == null || value > this.maxValue) {
+         this.maxValue = value;
+         this.padding = Math.max(this.padding, Math.abs(offset + width / 2));
+      }
+   }
+
+   getStack(name) {
+      let s = this.stacks[name];
+      if (!s)
+         s = this.stacks[name] = new Stack();
+      return s;
+   }
+
+   stacknowledge(name, ordinal, value) {
+      return this.getStack(name).acknowledge(ordinal, value);
+   }
+
+   stack(name, ordinal, value) {
+      let v = this.getStack(name).stack(ordinal, value);
+      return v != null ? this.map(v) : null;
+   }
+
+   findTickSize(minPxDist) {
+      return this.tickSizes.find(a=>a * Math.abs(this.scale.factor) >= minPxDist);
+   }
+
+   getTickSizes() {
+      return this.tickSizes;
+   }
+
+   calculateTicks() {
+      let dist = this.minLabelDistance / Math.abs(this.scale.factor);
+      let unit = Math.pow(10, Math.floor(Math.log10(dist)));
+
+      let bestLevel = 100;
+      let bestTicks = [];
+      let bestScale = this.scale;
+
+      for (let i = 0; i < this.tickDivisions.length && bestLevel > 0; i++) {
+         let divs = this.tickDivisions[i];
+         let tickSizes = divs.map(s => s * unit);
+         let scale = this.getScale(tickSizes);
+         tickSizes.forEach((size, level) => {
+            if (size * Math.abs(scale.factor) >= this.minTickDistance && level < bestLevel) {
+               bestScale = scale;
+               bestTicks = tickSizes;
+               bestLevel = level;
+            }
+         });
+      }
+      this.scale = bestScale;
+      this.tickSizes = bestTicks.filter(ts => ts * Math.abs(bestScale.factor) >= this.minTickDistance);
+      if (this.tickSizes.length > 0) {
+         let max = this.tickSizes[this.tickSizes.length - 1];
+         this.tickSizes.push(2 * max);
+         this.tickSizes.push(5 * max);
+         this.tickSizes.push(10 * max);
+      }
+   }
+
+   getTicks(tickSizes) {
+      return tickSizes.map(size => {
+         let start = Math.ceil(this.scale.min / size);
+         let end = Math.floor(this.scale.max / size);
+         let result = [];
+         for (let i = start; i <= end; i++)
+            result.push(i * size);
+         return result;
+      })
+   }
+
+   mapGridlines() {
+      let size = this.tickSizes[0];
+      let start = Math.ceil(this.scale.min / size);
+      let end = Math.floor(this.scale.max / size);
+      let result = [];
+      for (let i = start; i <= end; i++)
+         result.push(this.map(i * size));
+      return result;
+   }
+}

@@ -1,0 +1,17 @@
+@mixin cx-draghandle(
+   $name: 'draghandle',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      touch-action: none;
+   }
+}
+
+@if (cx-should-include('cx/widgets/DragHandle')) {
+   @include cx-draghandle();
+}

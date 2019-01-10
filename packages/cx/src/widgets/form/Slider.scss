@@ -1,0 +1,121 @@
+
+@mixin cx-slider(
+   $name: 'slider',
+   $state-style-map: $cx-input-state-style-map,
+   $styles: $cx-slider-handle-styles,
+   $width: $cx-default-input-width,
+   $size: $cx-default-slider-handle-size,
+   $axis-size: $cx-default-slider-axis-size,
+   $axis-background-color: $cx-default-slider-axis-background-color,
+   $range-background-color: $cx-default-slider-range-background-color,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map, $input: false, $box: true);
+
+      width: $width;
+
+      &.#{$state}vertical {
+         width: 28px;
+         height: $width;
+      }
+
+      &.#{$state}disabled {
+         pointer-events: none;
+         opacity: 0.5;
+      }
+
+      user-select: none;
+   }
+
+   .#{$element}#{$name}-axis {
+
+      position: absolute;
+      background-color: $axis-background-color;
+      border-radius: $size / 2;
+      box-sizing: border-box;
+
+      .#{$block}#{$name}.#{$state}horizontal & {
+         left: $size / 2;
+         right: $size / 2;
+         top: calc(50% - #{$axis-size / 2});
+         height: $axis-size;
+         padding: 0 $axis-size / 2;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         top: $size / 2;
+         bottom: $size / 2;
+         width: $axis-size;
+         left: calc(50% - #{$axis-size / 2});
+         padding: $axis-size / 2 0;
+      }
+   }
+
+   .#{$element}#{$name}-space {
+      position: relative;
+      width: 100%;
+      height: 100%;
+   }
+
+   .#{$element}#{$name}-range {
+      position: absolute;
+
+      background-color: $range-background-color;
+      border-radius: $axis-size / 2;
+
+      .#{$block}#{$name}.#{$state}horizontal & {
+         height: 100%;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         width: 100%;
+      }
+   }
+
+   .#{$element}#{$name}-handle {
+      position: absolute;
+      box-sizing: border-box;
+      width: $size;
+      height: $size;
+      margin-left: -$size / 2;
+      margin-top: -$size / 2;
+      touch-action: none;
+
+      .#{$block}#{$name}.#{$state}horizontal & {
+         left: 0;
+         top: 50%;
+      }
+
+      .#{$block}#{$name}.#{$state}vertical & {
+         left: 50%;
+         top: 0;
+      }
+
+      @include cx-add-state-rules($styles, default);
+
+      &:hover {
+         @include cx-add-state-rules($styles, hover);
+      }
+
+      &:focus {
+         @include cx-add-state-rules($styles, focus);
+      }
+
+      &[disabled] {
+         @include cx-add-state-rules($styles, disabled);
+      }
+
+      &:active {
+         @include cx-add-state-rules($styles, active);
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Slider')) {
+   @include cx-slider();
+}

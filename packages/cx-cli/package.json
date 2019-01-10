@@ -1,0 +1,20 @@
+{
+  "name": "cx-cli",
+  "version": "18.5.0",
+  "description": "Command Line Interface tools for CxJS applications",
+  "main": "./bin/index.js",
+  "author": "Codaxy",
+  "license": "SEE LICENSE.md",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "commander": "^2.9.0",
+    "copy-dir": "^0.3.0",
+    "cross-spawn": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "bin": {
+    "cx": "index.js"
+  }
+}

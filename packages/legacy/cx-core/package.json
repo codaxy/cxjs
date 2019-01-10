@@ -1,0 +1,16 @@
+{
+  "name": "cx-core",
+  "version": "17.4.0",
+  "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Codaxy",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs"
+  },
+  "homepage": "https://github.com/codaxy/cxjs",
+  "dependencies": {
+    "cx": "^17.4.0"
+  }
+}

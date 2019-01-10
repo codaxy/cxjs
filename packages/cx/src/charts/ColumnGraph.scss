@@ -1,0 +1,28 @@
+
+@mixin cx-columngraph(
+   $name: 'columngraph',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$element}#{$name}-column {
+      stroke-width: 1px;
+      fill: #eee;
+      stroke: #ccc;
+
+      &.#{$state}selectable {
+         cursor: pointer;
+      }
+
+      &.#{$state}selected {
+         stroke-width: 2px;
+      }
+   }
+}
+
+
+@if (cx-should-include('cx/charts/ColumnGraph')) {
+   @include cx-columngraph();
+}

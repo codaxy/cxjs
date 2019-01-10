@@ -1,0 +1,144 @@
+@mixin cx-flexbox-spacing(
+   $divider,
+   $besm: $cx-besm
+) {
+   $state: map-get($besm, state);
+   @each $pad, $size in $cx-pad-size
+   {
+      &.#{$state}#{$pad}-hspacing {
+         margin-left: -$size / $divider;
+         margin-right: -$size / $divider;
+
+         & > * {
+            margin-left: $size / $divider;
+            margin-right: $size / $divider;
+         }
+      }
+
+      &.#{$state}#{$pad}-vspacing {
+         margin-top: -$size / $divider;
+         margin-bottom: -$size / $divider;
+
+         & > * {
+            margin-top: $size / $divider;
+            margin-bottom: $size / $divider;
+         }
+      }
+   }
+}
+
+@mixin cx-flexbox(
+   $name: 'flexbox',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      &.#{$state}nested {
+         overflow: hidden;
+
+         & > div {
+            overflow: auto;
+         }
+      }
+
+      @each $pad, $size in $cx-pad-size
+      {
+         &.#{$state}#{$pad}-hpad {
+            padding-left: $size;
+            padding-right: $size;
+         }
+
+         &.#{$state}#{$pad}-vpad {
+            padding-top: $size;
+            padding-bottom: $size;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-flexbox {
+
+      display: flex;
+      flex: 1 1 auto;
+
+      &.#{$state}column {
+         flex-direction: column;
+      }
+
+      &.#{$state}row {
+         flex-direction: row;
+      }
+
+      &.#{$state}row-reverse {
+         flex-direction: row-reverse;
+      }
+
+      @include cx-flexbox-spacing(2, $besm);
+
+      &.#{$state}align-center {
+         align-items: center;
+      }
+
+      &.#{$state}align-start {
+         align-items: flex-start;
+      }
+
+      &.#{$state}align-end {
+         align-items: flex-end;
+      }
+
+      &.#{$state}align-baseline {
+         align-items: baseline;
+      }
+
+      &.#{$state}wrap {
+         flex-wrap: wrap;
+      }
+
+      &.#{$state}justify-center {
+         justify-content: center;
+      }
+
+      &.#{$state}justify-start {
+         justify-content: flex-start;
+      }
+
+      &.#{$state}justify-end {
+         justify-content: flex-end;
+      }
+
+      &.#{$state}target-phone {
+         @media not screen and (min-width: $cx-screen-size-small) {
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
+         }
+      }
+
+      &.#{$state}target-tablet {
+         @media not screen and (min-width: $cx-screen-size-medium) {
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
+         }
+      }
+
+      &.#{$state}target-desktop {
+         @media not screen and (min-width: $cx-screen-size-large) {
+            display: block;
+            @include cx-flexbox-spacing(1, $besm);
+         }
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/FlexBox')) {
+   @include cx-flexbox();
+}

@@ -1,0 +1,31 @@
+.dxb-contents {
+   //padding: 10px;
+
+   h1 {
+      margin: 20px 0 5px 0;
+      padding: 0;
+      font-size: 12px;
+
+      color: gray;
+   }
+
+   ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+         a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            //color: #414340;
+            color: rgba(255, 255, 255, 0.5);
+         }
+
+         a:active {
+            font-weight: bold;
+         }
+      }
+   }
+}

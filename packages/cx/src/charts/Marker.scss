@@ -1,0 +1,42 @@
+
+@mixin cx-marker(
+   $name: 'marker',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$element}#{$name}-shape {
+      fill: rgb(128, 128, 128);
+      stroke: rgb(128, 128, 128);
+      stroke-width: 1px;
+
+      .#{$state}draggable-x > & {
+         cursor: ew-resize;
+         touch-action: none;
+      }
+
+      .#{$state}draggable-y > & {
+         cursor: ns-resize;
+         touch-action: none;
+      }
+
+      .#{$state}draggable-xy > & {
+         cursor: move;
+         touch-action: none;
+      }
+
+      .#{$state}selectable > & {
+         cursor: pointer;
+      }
+
+      &.#{$state}hidden {
+         visibility: hidden;
+      }
+   }
+}
+
+@if (cx-should-include('cx/charts/Marker')) {
+   @include cx-marker();
+}

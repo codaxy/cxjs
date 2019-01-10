@@ -1,0 +1,81 @@
+
+@import "cover";
+
+@mixin cx-tab(
+   $name: 'tab',
+   $state-style-map: $cx-tab-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      box-sizing: border-box;
+      display: inline-block;
+
+      @include cx-add-state-rules($state-style-map, default);
+
+
+      &:hover {
+         @include cx-add-state-rules($state-style-map, hover);
+      }
+
+      &:focus {
+         @include cx-add-state-rules($state-style-map, cursor);
+      }
+
+      &.#{$state}active {
+         @include cx-add-state-rules($state-style-map, selected);
+
+         &:focus {
+            @include cx-add-state-rules($state-style-map, selected-cursor);
+         }
+      }
+
+      &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
+      }
+
+      @each $name, $config in $cx-tab-mods {
+         &.#{$mod}#{$name} {
+            @include cx-add-state-rules($config, default);
+
+            &:hover {
+               @include cx-add-state-rules($config, hover);
+            }
+
+            &:focus {
+               @include cx-add-state-rules($config, cursor);
+            }
+
+            &.#{$state}active {
+               @include cx-add-state-rules($config, selected);
+
+               &:focus {
+                  @include cx-add-state-rules($config, selected-cursor);
+               }
+            }
+
+            &.#{$state}disabled {
+               @include cx-add-state-rules($config, disabled);
+            }
+         }
+      }
+
+      &.#{$mod}classic.#{$state}active:after {
+         content: ' ';
+         position: absolute;
+         top: 100%;
+         left: 0;
+         right: 0;
+         height: 2px;
+         background: inherit;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Tab')) {
+   @include cx-tab();
+}

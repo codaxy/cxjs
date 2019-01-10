@@ -1,0 +1,20 @@
+
+@mixin cx-link(
+   $name: 'link',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      &.#{$state}active {
+         font-weight: bold;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Link')) {
+   @include cx-link();
+}
+

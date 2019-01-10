@@ -1,0 +1,47 @@
+.dxb-methodtable {
+
+    max-width: 50em;
+    margin-top: 16px;
+    position: relative;
+    overflow-x: auto;
+    font-size: 13px;
+
+    table {
+        border-collapse: collapse;
+        min-width: 100%;
+    }
+
+    p {
+        margin-left: 1em;
+    }
+
+    th {
+        text-align: left;
+        padding-right: 10px;
+        font-weight: normal;
+        color: gray;
+        font-size: 11px;
+    }
+
+    td {
+        padding: 5px;
+        border-top: 1px solid #ebebeb;
+    }
+
+    h5 {
+        font-weight: normal;
+        font-size: 14px;
+        margin: 0 0 5px;
+        font-family: Consolas, monospace;
+    }
+
+    td.dxs-important h5 {
+        font-weight: bold;
+    }
+
+    h5.dxs-long  {
+        font-size: 11px;
+    }
+}
+
+

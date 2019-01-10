@@ -1,0 +1,75 @@
+@mixin cx-dropzone(
+   $name: 'dropzone',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      box-sizing: border-box;
+      position: relative;
+
+      &.#{$mod}hline {
+         height: 1px;
+         margin-top: -1px;
+         align-self: stretch;
+
+         &.#{$state}over {
+            background: black;
+            box-shadow: 0 0 2px black;
+         }
+      }
+
+      &.#{$mod}vline {
+         width: 1px;
+         margin-left: -1px;
+         min-height: 1em;
+         display: inline-block;
+         vertical-align: middle;
+         align-self: stretch;
+
+         &.#{$state}over {
+            background: black;
+            box-shadow: 0 0 2px black;
+         }
+      }
+
+      &.#{$mod}block {
+         height: 1px;
+         margin-top: -1px;
+         align-self: stretch;
+
+         &.#{$state}over {
+            height: 25px;
+            border: 2px dotted lightgray;
+            margin: 5px;
+         }
+      }
+
+      &.#{$mod}inline-block {
+         width: 1px;
+         margin-left: -1px;
+         min-height: 1em;
+         position: relative;
+         display: inline-block;
+         vertical-align: top;
+         align-self: stretch;
+
+         &:after {
+            content: ' ';
+         }
+
+         &.#{$state}over {
+            width: 50px;
+            border: 2px dotted lightgray;
+            margin: 5px;
+         }
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/DropZone')) {
+   @include cx-dropzone();
+}

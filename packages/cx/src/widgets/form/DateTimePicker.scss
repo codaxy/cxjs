@@ -1,0 +1,45 @@
+@mixin cx-datetimepicker(
+   $name: 'datetimepicker',
+   $dtp-font-size: $cx-default-font-size,
+   $dtp-background-color: $cx-default-datetimepicker-background-color,
+   $dtp-border-width: $cx-default-datetimepicker-border-width,
+   $dtp-border-radius: $cx-default-datetimepicker-border-radius,
+   $dtp-border-color: $cx-default-datetimepicker-border-color,
+   $dtp-padding: $cx-default-datetimepicker-padding,
+   $tool-size: $cx-default-input-tool-size,
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      background: $dtp-background-color;
+      border-style: solid;
+      border-width: $dtp-border-width;
+      border-radius: $dtp-border-radius;
+      border-color: $dtp-border-color;
+      display: inline-block;
+      vertical-align: middle;
+      padding: $dtp-padding;
+      user-select: none;
+      font-size: $dtp-font-size;
+
+      &:focus {
+         outline: 0;
+      }
+   }
+
+   @include cx-wheel-elements($name+'-wheel', $tool-size, $icon-size, $besm);
+
+   .#{$element}#{$name}-spacer {
+      width: 20px;
+      display: inline-block;
+   }
+}
+
+@if (cx-should-include('cx/widgets/DateTimePicker')) {
+   @include cx-datetimepicker();
+}

@@ -1,0 +1,23 @@
+
+@mixin cxb-axis() {
+   shape-rendering: crispEdges;
+}
+
+@mixin cxe-axis-ticks() {
+   stroke: $cx-axis-ticks-stroke;
+   stroke-width: 1px;
+}
+
+@mixin cxe-axis-line() {
+   stroke: $cx-axis-line-stroke;
+   stroke-width: 1px;
+}
+
+@mixin cxe-axis-label() {
+   font-size: smaller;
+   fill: currentColor;
+}
+
+@mixin cxe-axis-label-offset() {
+   visibility: hidden;
+}

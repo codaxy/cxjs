@@ -1,0 +1,196 @@
+
+
+@mixin cx-lookupfield( 
+   $name: 'lookupfield', 
+   $state-style-map: $cx-std-field-state-style-map, 
+   $placeholder: $cx-input-placeholder, 
+   $empty-text: $cx-empty-text, 
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map, 
+   $clear-state-style-map: $cx-clear-state-style-map, 
+   $tool-state-style-map: $cx-input-right-icon-state-style-map, 
+   $icon-size: $cx-default-input-icon-size, 
+   $width: $cx-default-input-width, 
+   $tag-state-style-map: $cx-input-tag-state-style-map, 
+   $besm: $cx-besm 
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4);
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $state-style-map, $input: false);
+      cursor: pointer;
+      width: $width;
+
+      font: cx-get-state-rule($state-style-map, default, 'font');
+      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+
+      &.#{$state}multiple {
+         min-width: $cx-default-input-width;
+         width: auto;
+      }
+
+      &.#{$state}readonly {
+         pointer-events: none;
+
+         & > .#{$element}#{$name}-input {
+            padding-right: cx-right($padding);
+         }
+      }
+   }
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input ( 
+         $besm, $state-style-map, 
+         $placeholder: $placeholder, 
+         $input: false, 
+         $overrides: ( default: ( padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding) ) )
+      );
+
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .#{$state}multiple > & {
+         padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) $cx-default-input-tag-spacing 0;
+      }
+
+      .#{$state}icon > & {
+         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+      }
+   }
+
+   .#{$element}#{$name}-tag {
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+
+      @include cx-add-state-rules($tag-state-style-map, default);
+
+      &:hover {
+         @include cx-add-state-rules($tag-state-style-map, hover);
+      }
+
+      &.#{$state}readonly {
+         padding-right: cx-right($padding);
+         pointer-events: none;
+      }
+   }
+
+   .#{$element}#{$name}-placeholder {
+      color: $cx-default-input-placeholder-color;
+
+      .#{$block}#{$name}.#{$state}multiple & {
+         display: inline-block;
+         margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
+         box-sizing: border-box;
+         padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-right($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-bottom($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-left($cx-default-input-padding), -$cx-default-input-tag-spacing);
+      }
+   }
+
+   .#{$element}#{$name}-tag-value {
+      padding: 0 cx-calc($cx-default-input-tag-spacing, $border-radius-offset);
+      display: inline-block;
+   }
+
+   .#{$element}#{$name}-tag-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+      right: $border-radius-offset / 2;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+   }
+
+   .#{$element}#{$name}-lookup-options {
+      padding: 0;
+      margin: 0;
+      min-width: 100%;
+      width: 100%;
+   }
+
+   .#{$element}#{$name}-query {
+      @include cxe-field-input (
+         $besm, $state-style-map, 
+         $placeholder: $placeholder, 
+         $width: calc(100% - 10px), 
+         $overrides: ( default: ( margin: 5px, flex: 0 0 auto, height: auto ) )
+      );
+      //put query field down when placed up
+      .#{$state}place-up-right &,
+      .#{$state}place-up &,
+      .#{$state}place-up-left & {
+         order: 1;
+      }
+   }
+
+   .#{$element}#{$name}-dropdown {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      &:focus {
+         outline: none;
+      }
+   }
+
+   .#{$element}#{$name}-message {
+      font-size: smaller;
+      padding: 10px;
+      color: gray;
+      font-style: italic;
+
+      &.#{$state}error {
+         color: #9e2f2d;
+      }
+   }
+
+   .#{$element}#{$name}-scroll-container {
+      overflow: auto;
+      flex: 1 1 auto;
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+
+      .#{$state}focus > & {
+         @include cx-add-state-rules($clear-state-style-map, focus);
+      }
+      .#{$state}error > & {
+         @include cx-add-state-rules($clear-state-style-map, error);
+      }
+   }
+
+   .#{$element}#{$name}-tool {
+      @include cxe-field-button($besm, $tool-state-style-map);
+
+      .#{$state}disabled > & {
+         @include cx-add-state-rules($state-style-map, disabled);
+         border-width: 0;
+      }
+      .#{$state}focus > & {
+         @include cx-add-state-rules($tool-state-style-map, focus);
+      }
+      .#{$state}error > & {
+         @include cx-add-state-rules($tool-state-style-map, error);
+      }
+   }
+
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
+}
+
+@if (cx-should-include('cx/widgets/LookupField')) {
+   @include cx-lookupfield();
+}

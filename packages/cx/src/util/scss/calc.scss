@@ -1,0 +1,41 @@
+@function cx-calc($lengths...) {
+   $units: ();
+
+   @each $l in $lengths {
+      $unit: unit($l);
+      @if (map-has-key($units, $unit)) {
+         $nl: map-get($units, $unit) + $l;
+         $units: map-merge($units, ($unit: $nl))
+      } @else {
+         $units: map-merge($units, ($unit: $l))
+      }
+   }
+
+   $keys: map-keys($units);
+   @if (length($keys) == 1) {
+      @return map-get($units, nth($keys, 1));
+   }
+
+   $calc: '';
+   $count: 0;
+
+   @each $u, $v in $units {
+      @if ($v != 0) {
+         $count: $count + 1;
+         @if ($count > 1) {
+            $calc: $calc + ' + ';
+         }
+         $calc: $calc + $v;
+      }
+   }
+
+   @if ($count == 0) {
+      @return 0;
+   }
+
+   @if ($count == 1) {
+      @return #{$calc};
+   }
+
+   @return #{'calc(' + $calc  + ')'};
+}

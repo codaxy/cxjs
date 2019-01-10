@@ -1,0 +1,371 @@
+
+@if cx-call-once("cx/widgets/checker-background") {
+   %cx-checker-bg {
+      background-repeat: repeat;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
+   }
+}
+
+$cx-use-box-line-height-fix: true !default;
+
+// Appearance
+$cx-default-input-font-family: $cx-default-box-font-family !default;
+$cx-default-input-font-size: $cx-default-box-font-size !default;
+$cx-default-input-border-color: $cx-default-border-color !default;
+$cx-default-input-border-radius: $cx-default-border-radius !default;
+$cx-default-input-background-color: white !default;
+$cx-default-input-color: black !default;
+$cx-default-input-placeholder-color: $cx-default-empty-text-color !default;
+$cx-default-input-width: 180px !default;
+$cx-default-input-padding: $cx-default-box-padding !default;
+
+$cx-input-placeholder: (
+   color: $cx-default-input-placeholder-color,
+   opacity: 1
+) !default;
+
+$cx-input-state-style-map: (
+   default: (
+      line-height: $cx-default-box-line-height,
+      padding: $cx-default-input-padding,
+      border-width: $cx-default-box-border-width,
+      font-size: $cx-default-input-font-size,
+      font-family: $cx-default-input-font-family,
+      border-color: $cx-default-input-border-color,
+      border-style: solid,
+      border-radius: $cx-default-input-border-radius,
+      background-color: $cx-default-input-background-color,
+      color: $cx-default-input-color,
+      outline-offset: 0,
+      box-shadow: none,
+      -ms-appearance: none,
+      -moz-appearance: none,
+      -webkit-appearance: none
+   ),
+   hover: (
+
+   ),
+
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+   ),
+
+   disabled: (
+      background: rgb(235, 235, 228),
+      color: rgb(84, 84, 84),
+      pointer-events: none
+   ),
+
+   error: (
+      border-color: rgba(220, 0, 9, 0.8)
+   ),
+
+   error-focus: (
+      box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
+   )
+) !default;
+
+$cx-default-checkbox-size: 14px !default;
+$cx-default-radio-size: 14px !default;
+$cx-default-input-icon-size: $cx-default-icon-size !default;
+
+// Tool
+$cx-default-input-tool-size: $cx-default-box-line-height !default;
+$cx-default-input-left-tool-spacing: cx-left($cx-default-box-padding) !default;
+$cx-default-input-right-tool-spacing: 1px !default;
+$cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
+$cx-default-input-left-tool-left: cx-calc(cx-left($cx-default-input-padding), cx-left($cx-default-box-border-width)) !default;
+$cx-default-input-right-tool-right: cx-calc(cx-right($cx-default-input-padding), cx-right($cx-default-box-border-width)) !default;
+
+// Left Icon
+$cx-input-left-icon-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      left: $cx-default-input-left-tool-left,
+      top: 50%,
+      margin-top: -$cx-default-input-left-tool-size / 2,
+      height: $cx-default-input-left-tool-size,
+      width: $cx-default-input-left-tool-size,
+      line-height: $cx-default-input-left-tool-size,
+      opacity: 0.6,
+      text-align: center
+   ),
+   hover: (
+      opacity: 1
+   ),
+   active: (
+
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
+   )
+) !default;
+
+
+//Right Icon
+$cx-input-right-icon-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-input-right-tool-right,
+      top: 50%,
+      margin-top: -$cx-default-input-tool-size / 2,
+      height: $cx-default-input-tool-size,
+      width: $cx-default-input-tool-size,
+      line-height: $cx-default-input-tool-size,
+      opacity: 0.6,
+      text-align: center,
+      cursor: pointer
+   ),
+   hover: (
+      opacity: 1
+   ),
+   active: (
+
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
+   )
+) !default;
+
+// Clear Icon
+$cx-default-clear-size: $cx-default-input-tool-size !default;
+$cx-default-clear-color: #828282 !default;
+$cx-default-clear-spacing: 1px !default; //additional padding on the left of the clear box
+
+$cx-clear-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-input-right-tool-right,
+      top: 50%,
+      margin-top: -$cx-default-clear-size / 2,
+      height: $cx-default-clear-size,
+      width: $cx-default-clear-size,
+      line-height: $cx-default-clear-size,
+      color: $cx-default-clear-color,
+      border-radius: $cx-default-border-radius,
+      text-align: center
+   ),
+   hover: (
+      background-color: rgba(128, 128, 128, 0.2)
+   ),
+   active: (
+
+   ),
+   focus: (
+   
+   ),
+   error: (
+   
+   )
+) !default;
+
+
+// Label
+
+$cx-default-label-padding: $cx-default-box-padding 0 !default;
+$cx-default-label-font-size: $cx-default-box-font-size !default;
+$cx-default-label-font-family: $cx-default-box-font-family !default;
+$cx-default-label-font-weight: normal !default;
+$cx-default-label-line-height: $cx-default-box-line-height !default;
+$cx-default-label-color: null !default;
+$cx-default-label-asterisk-color: #a80000 !default;
+
+$cx-label-state-style-map: (
+   default: (
+      padding: $cx-default-label-padding,
+      font-size: $cx-default-label-font-size,
+      font-family: $cx-default-label-font-family,
+      font-weight: $cx-default-label-font-weight,
+      line-height: $cx-default-label-line-height,
+      color: $cx-default-label-color,
+      border-style: solid,
+      border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0,
+      border-color: transparent
+   ),
+   hover: (
+
+   ),
+   active: (
+
+   ),
+   disabled: (
+      color: #bdbdbd
+   )
+) !default;
+
+// STANDARD FORM FIELD (textfield, numberfield, lookupfield, select,...)
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+    
+)) !default;
+
+// COLORFIELD
+$cx-default-colorfield-font-family: 'Consolas', monospace !default;
+
+// MONTHPICKER
+$cx-default-monthpicker-font-size: smaller !default;
+$cx-default-monthpicker-font-weight: normal !default;
+
+// SLIDER
+$cx-default-slider-axis-size: 8px !default;
+$cx-default-slider-axis-background-color: rgba(128, 128, 128, 0.2) !default;
+$cx-default-slider-range-background-color: #98d4ff !default;
+
+// handle
+$cx-default-slider-handle-size: 18px !default;
+$cx-default-slider-handle-background-color: rgb(235, 235, 235) !default;
+$cx-default-slider-handle-border-width: 1px !default;
+$cx-default-slider-handle-border-color: rgb(204, 204, 204) !default;
+$cx-default-slider-handle-border-radius: 50% !default;
+$cx-default-slider-handle-box-shadow: 0 0 3px rgba(128, 128, 128, 0.3) !default;
+
+
+$cx-slider-handle-styles: (
+   default: (
+      background-color: $cx-default-slider-handle-background-color,
+      border-style: solid,
+      border-width: $cx-default-slider-handle-border-width,
+      border-color: $cx-default-slider-handle-border-color,
+      border-radius: $cx-default-slider-handle-border-radius,
+      box-shadow: $cx-default-slider-handle-box-shadow
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+   ),
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+   ),
+   disabled: (
+
+   ),
+   active: (
+      background: rgb(220, 220, 220)
+   )
+) !default;
+
+// SWITCH
+$cx-default-switch-axis-background-color: $cx-default-slider-axis-background-color !default;
+$cx-default-switch-range-background-color: #87cc8a !default;
+$cx-default-switch-axis-size: 20px !default;
+$cx-default-switch-width: 32px !default;
+
+$cx-default-switch-handle-background-color: $cx-default-slider-handle-background-color !default;
+$cx-default-switch-handle-border-width: $cx-default-slider-handle-border-width !default;  
+$cx-default-switch-handle-border-color: $cx-default-slider-handle-border-color !default; 
+$cx-default-switch-handle-border-radius: $cx-default-slider-handle-border-radius !default; 
+$cx-default-switch-handle-box-shadow: $cx-default-slider-handle-box-shadow !default;
+$cx-default-switch-handle-size: 18px !default;
+
+$cx-switch-handle-styles: (
+  default: (
+    background-color: $cx-default-switch-handle-background-color,
+    border-style: solid,
+    border-width: $cx-default-switch-handle-border-width,
+    border-color: $cx-default-switch-handle-border-color,
+    border-radius: $cx-default-switch-handle-border-radius,
+    box-shadow: $cx-default-switch-handle-box-shadow
+   ),
+  hover: (
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.5)
+  ),
+  focus: (
+    border-color: rgba(77, 144, 254, 0.8),
+    outline: none,
+    box-shadow: 0 0 2px rgba(77, 144, 254, 0.8)
+  ),
+  disabled: (
+
+  ),
+  active: (
+      background: rgb(220, 220, 220)
+  ),
+  on: (
+
+  ),
+  on-active: (
+  
+  )  
+) !default;
+
+// TEXTAREA
+$cx-default-textarea-width: 300px !default;
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+   default: (
+      line-height: normal
+   )
+));
+
+// LOOKUPFIELD TAG
+$cx-default-input-tag-spacing: 3px !default;
+$cx-default-input-tag-font-size: null !default;
+$cx-default-input-tag-background-color: #eee !default;
+$cx-default-input-tag-border-radius: $cx-default-border-radius !default;
+$cx-default-input-tag-padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) !default;
+
+$cx-input-tag-state-style-map: (
+  default: (
+    font-size: $cx-default-input-tag-font-size,
+    background-color: $cx-default-input-tag-background-color,
+    margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing,
+    padding: $cx-default-input-tag-padding,
+    padding-right: cx-calc($cx-default-clear-size, 2px),
+    border-radius: $cx-default-input-tag-border-radius
+  )
+) !default;
+
+// CALENDAR
+@import 'Calendar.variables';
+@import 'Checkbox.variables';
+@import 'Radio.variables';
+@import 'ColorPicker.variables';
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   "cx/widgets/Field": "cx/widgets/Label" "cx/widgets/Tooltip" "cx/widgets/ValidationError" "cx/widgets/HelpText",
+   "cx/widgets/DateTimeField": "cx/widgets/Field" "cx/widgets/DateTimePicker" "cx/widgets/Calendar" "cx/widgets/Dropdown",
+   "cx/widgets/DateField": "cx/widgets/DateTimeField",
+   "cx/widgets/TimeField": "cx/widgets/TimeField",
+   "cx/widgets/TextField": "cx/widgets/Field",
+   "cx/widgets/NumberField": "cx/widgets/Field",
+   "cx/widgets/MonthField": "cx/widgets/Field" "cx/widgets/MonthPicker" "cx/widgets/Dropdown",
+   "cx/widgets/ColorField": "cx/widgets/Field" "cx/widgets/ColorPicker" "cx/widgets/Dropdown",
+   "cx/widgets/LookupField": "cx/widgets/Field" "cx/widgets/Dropdown",
+   "cx/widgets/Select": "cx/widgets/Field",
+   "cx/widgets/Slider": "cx/widgets/Field",
+   "cx/widgets/Switch": "cx/widgets/Field"
+));
+
+// DATE TIME PICKER
+$cx-default-datetimepicker-font-size: $cx-default-font-size !default;
+$cx-default-datetimepicker-background-color: #fff !default;
+$cx-default-datetimepicker-border-width: 1px !default;
+$cx-default-datetimepicker-border-radius: 0 !default;
+$cx-default-datetimepicker-border-color: #d3d3d3 !default;
+$cx-default-datetimepicker-padding: 0 5px !default;
+
+// wheel
+$cx-default-wheel-clip-background-color: #fff !default;
+$cx-default-wheel-clip-border-width: 1px !default;
+$cx-default-wheel-clip-border-radius: 0 !default;
+$cx-default-wheel-clip-border-color: #d3d3d3 !default;
+
+$cx-wheel-selection-state-style-map: (
+   default: (
+      border-width: 2px 0 2px 0,
+      border-style: solid,
+      border-color: #9bc8ff,
+      background-color: rgba(#9bc8ff, 0.1)
+   ),
+   active: (
+      border-color: #3c7eff,
+      background: rgba(#3c7eff, 0.1)
+   )
+) !default;

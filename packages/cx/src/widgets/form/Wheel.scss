@@ -1,0 +1,149 @@
+@mixin cx-wheel-elements(
+   $name: 'wheel',
+   $tool-size: $cx-default-input-tool-size,
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$element}#{$name}-container {
+      position: relative;
+      display: inline-block;
+      padding: 30px 5px;
+      vertical-align: middle;
+      background: inherit;
+      text-align: center;
+   }
+
+   .#{$element}#{$name}-clip {
+      position: relative;
+      overflow: hidden;
+      background: inherit;
+      user-select: none;
+      background-color: $cx-default-wheel-clip-background-color;
+      border-style: solid;
+      border-width: $cx-default-wheel-clip-border-width;
+      border-radius: $cx-default-wheel-clip-border-radius;
+      border-color: $cx-default-wheel-clip-border-color;
+   }
+
+   .#{$element}#{$name}-mask {
+      position: absolute;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      background: inherit;
+      opacity: 0.6;
+   }
+
+   .#{$element}#{$name}-vscroll {
+      width: calc(100% + 20px);
+      display: flex;
+      overflow-y: auto;
+      overflow-x: hidden;
+      touch-action: pan-y;
+
+      &::-webkit-scrollbar {
+         display: none;
+      }
+   }
+
+   .#{$element}#{$name}-wheel {}
+
+   .#{$element}#{$name}-option {
+      padding: 5px 15px;
+      flex: 0 0 auto;
+
+      &.cxs-dummy {
+         visibility: hidden;
+      }
+   }
+
+   .#{$element}#{$name}-selection {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-top: -2px;
+      box-sizing: content-box;
+      pointer-events: none;
+      @include cx-add-state-rules($cx-wheel-selection-state-style-map, default);
+   }
+
+   .#{$element}#{$name}-container.#{$state}active .#{$element}#{$name}-selection {
+      @include cx-add-state-rules($cx-wheel-selection-state-style-map, active);
+   }
+
+   .#{$element}#{$name}-arrow-up,
+   .#{$element}#{$name}-arrow-down {
+      position: absolute;
+      left: 50%;
+      margin-left: -($tool-size/2);
+      width: $tool-size;
+      height: $tool-size;
+      opacity: 0.5;
+      cursor: pointer;
+
+      &:hover {
+         opacity: 1;
+      }
+   }
+
+   .#{$element}#{$name}-arrow-down {
+      bottom: 5px;
+   }
+
+   .#{$element}#{$name}-arrow-up {
+      transform: rotate(180deg);
+      top: 5px;
+   }
+
+   .#{$element}#{$name}-arrow-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -$icon-size/2;
+      margin-top: -$icon-size/2;
+      width: $icon-size;
+      height: $icon-size;
+   }
+}
+
+@mixin cx-wheel(
+   $name: 'wheel',
+   $tool-size: $cx-default-input-tool-size,
+   $icon-size: $cx-default-input-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      display: inline-block;
+      text-align: center;
+      padding: 30px 5px;
+      vertical-align: middle;
+      background: inherit;
+      position: relative;
+      font-size: 14px;
+      user-select: none;
+
+      &:focus {
+         outline: 0;
+
+         .#{$element}#{$name}-selection {
+            border-color: #3c7eff;
+            background: rgba(#3c7eff, 0.1);
+         }
+      }
+   }
+
+   @include cx-wheel-elements($name, $tool-size, $icon-size, $besm)
+}
+
+@if (cx-should-include('cx/widgets/Wheel')) {
+   @include cx-wheel();
+}

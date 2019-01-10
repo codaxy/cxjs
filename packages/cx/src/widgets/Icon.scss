@@ -1,0 +1,23 @@
+@mixin cx-icon(
+   $name: 'icon',
+   $size: $cx-default-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      width: $size;
+      height: $size;
+      line-height: $size;
+      text-align: center;
+      vertical-align: middle;
+      display: inline-block;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Icon')) {
+   @include cx-icon();
+}

@@ -1,0 +1,23 @@
+
+@mixin cx-gridlines(
+   $name: 'gridlines',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      shape-rendering: crispEdges;
+
+      path {
+         stroke: rgba(128, 128, 128, 0.15);
+         fill: none;
+         stroke-width: 1;
+      }
+   }
+}
+
+@if (cx-should-include('cx/charts/Gridlines')) {
+   @include cx-gridlines();
+}

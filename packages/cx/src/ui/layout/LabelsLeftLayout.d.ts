@@ -1,0 +1,4 @@
+import * as Cx from '../../core';
+import { PureContainer } from '../PureContainer';
+
+export class LabelsLeftLayout extends PureContainer {}

@@ -1,0 +1,109 @@
+
+@mixin cx-button(
+   $name: 'button',
+   $state-style-map: $cx-button-state-style-map,
+   $mods: $cx-button-mods,
+   $icon-size: $cx-default-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      position: relative;
+      box-sizing: border-box;
+      display: inline-block;
+
+      $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
+      $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
+      $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
+
+      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
+
+      @include cx-add-state-rules($state-style-map, 'default');
+
+      &::-moz-focus-inner {
+         border: 0;
+         padding: 0;
+         margin: -1px;
+      }
+
+
+      &:hover {
+         @include cx-add-state-rules($state-style-map, 'hover');
+      }
+
+      &:focus {
+         @include cx-add-state-rules($state-style-map, 'focus');
+      }
+
+      &:hover:focus {
+         @include cx-add-state-rules($state-style-map, 'hover-focus');
+      }
+
+      &:active, &.#{$state}pressed {
+         @include cx-add-state-rules($state-style-map, 'active');
+      }
+
+
+      &[disabled], &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, 'disabled');
+      }
+
+      @each $modname, $config in $mods {
+         &.#{$mod}#{$modname} {
+            @include cx-add-state-rules($config, default);
+
+            &[disabled], &.#{$state}disabled {
+                @include cx-add-state-rules($config, disabled);
+            }
+
+            &:hover {
+                @include cx-add-state-rules($config, hover);
+            }
+
+            &:focus {
+                @include cx-add-state-rules($config, focus);
+            }
+
+            &:active, &.#{$state}pressed {
+                @include cx-add-state-rules($config, active);
+            }
+         }
+      }
+   }
+   
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+
+   .#{$element}#{$name}-icon {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: cx-left($padding) / 2;
+      margin-top: -$icon-size / 2;
+      height: $icon-size;
+      width: $icon-size;
+      line-height: $icon-size;
+      text-align: center;
+   }
+
+   .#{$element}#{$name}-baseline {
+      display: inline-block;
+      width: 1px;
+      margin-left: -1px;
+   }
+
+   .#{$block}#{$name}.#{$state}icon {
+      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $icon-size);
+
+      &.#{$state}empty {
+         padding: cx-top($padding) cx-right($padding)/2 cx-bottom($padding) cx-calc(cx-left($padding)/2, $icon-size);
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Button')) {
+   @include cx-button;
+}

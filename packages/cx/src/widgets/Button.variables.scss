@@ -1,0 +1,108 @@
+
+$cx-default-button-font-family: $cx-default-box-font-family !default;
+$cx-default-button-font-size: $cx-default-box-font-size !default;
+$cx-default-button-font-weight: normal !default;
+$cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-button-border-width: $cx-default-box-border-width !default;
+$cx-default-button-line-height: $cx-default-box-line-height !default;
+$cx-default-button-background-color: #eee !default;
+$cx-default-button-border-color: #ccc !default;
+$cx-default-button-border-radius: $cx-default-border-radius !default;
+$cx-default-button-color: null !default;
+$cx-default-button-box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1) !default;
+
+$cx-button-state-style-map: (
+   default: (
+      background-color: $cx-default-button-background-color,
+      box-shadow: $cx-default-button-box-shadow,
+      border-color: $cx-default-button-border-color,
+      border-width: $cx-default-button-border-width,
+      border-radius: $cx-default-button-border-radius,
+      border-style: solid,
+      user-select: none,
+      color: $cx-default-button-color,
+      font-family: $cx-default-button-font-family,
+      font-size: $cx-default-button-font-size,
+      font-weight: $cx-default-button-font-weight,
+      line-height: $cx-default-button-line-height,
+      padding: $cx-default-button-padding,
+      cursor: pointer,
+      -webkit-appearance: none,
+      -moz-appearance: none,
+      appearance: none,
+      white-space: nowrap,
+      text-decoration: none
+   ),
+   hover: (
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+      text-decoration: none
+   ),
+   focus: (
+      outline: none,
+      box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8)
+   ),
+   hover-focus: (
+       
+   ),
+   disabled: (
+      color: gray,
+      box-shadow: none,
+      pointer-events: none
+   ),
+   active: (
+      top: 1px,
+      box-shadow: none
+   )
+) !default;
+
+$cx-button-mods: (
+   primary: (
+      default: (
+         background-color: #1f99f8,
+         border-color: #1E88E5,
+         color: white
+      ),
+      disabled: (
+         background-color: transparentize(#1f99f8, 0.5),
+         border-color: transparentize(#1E88E5, 0.9),
+         color: transparentize(white, 0.4),
+      ),
+      hover: (
+          background-color: #1f99f8
+      )
+   ),
+   danger: (
+      default: (
+         background-color: #d32f2f,
+         border-color: #c62828,
+         color: white
+      ),
+      disabled: (
+         background-color: transparentize(#d32f2f, 0.4),
+         border-color: transparentize(#c62828, 0.9),
+         color: transparentize(white, 0.5),
+      ),
+      hover: (
+          background-color: #d32f2f
+      )
+   ),
+   hollow: (
+      default: (
+         background-color: transparent,
+         border-color: transparent,
+         color: inherit,
+         box-shadow: none
+      ),
+      hover: map-merge(map-get($cx-list-item, hover), (
+         box-shadow: none,
+         border-color: transparent
+      )),
+      focus: map-merge(map-get($cx-list-item, selected-cursor), (
+         box-shadow: none,
+         border-color: transparent
+      )),
+      disabled: (
+         color: rgba(128, 128, 128, 0.5)
+      )
+   )
+) !default;

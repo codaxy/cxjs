@@ -1,0 +1,113 @@
+@mixin cx-window(
+   $name: 'window',
+   $state-style-map: $cx-window-state-style-map,
+   $header-state-style-map: $cx-window-header-state-style-map,
+   $body-state-style-map: $cx-window-body-state-style-map,
+   $footer-state-style-map: $cx-window-footer-state-style-map,
+   $mods: $cx-window-mods,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      @extend %cxb-overlay;
+      display: flex;
+      flex-direction: column;
+
+      @include cx-add-state-rules($state-style-map, default);
+
+      &.#{$state}resizable {
+         &.#{$state}active {
+            @include cx-add-state-rules($state-style-map, resizable);
+         }
+      }
+
+      &.#{$mod}alert {
+         min-width: 300px;
+      }
+   }
+
+   .#{$element}#{$name}-header {
+      position: relative; //put on top of modal backdrop
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      flex: none;
+      touch-action: none;
+
+      @include cx-add-state-rules($header-state-style-map, default);
+
+      .#{$state}draggable & {
+         cursor: pointer;
+      }
+
+      .#{$state}active & {
+         @include cx-add-state-rules($header-state-style-map, active);
+      }
+   }
+
+   .#{$element}#{$name}-footer {
+      position: relative;
+      box-sizing: border-box;
+      flex: none;
+
+      @include cx-add-state-rules($footer-state-style-map, default);
+
+      //TODO: Extract common autoclear
+      &:after {
+         clear: both;
+         visibility: hidden;
+         display: block;
+         font-size: 0;
+         content: " ";
+         height: 0;
+      }
+
+      .#{$mod}alert & {
+         text-align: center;
+      }
+   }
+
+   .#{$element}#{$name}-body {
+      overflow: auto;
+      position: relative; //put on top of modal backdrop
+      box-sizing: border-box;
+      flex: auto;
+
+      @include cx-add-state-rules($body-state-style-map, default);
+
+      .#{$mod}alert & {
+         padding: 40px;
+         text-align: center;
+      }
+   }
+
+   @each $modname, $config in $mods {
+      &.#{$mod}#{$modname} {
+         @include cx-add-state-rules($config, frame);
+
+         .#{$element}#{$name}-body {
+            @include cx-add-state-rules($config, body);
+         }
+         .#{$element}#{$name}-footer {
+            @include cx-add-state-rules($config, footer);
+         }
+      }
+   }
+
+   .#{$element}#{$name}-modal-backdrop {
+      @extend %cxe-overlay-modal-backdrop;
+   }
+
+   .#{$element}#{$name}-shadow {
+      @extend %cxe-overlay-shadow;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Window')) {
+   @include cx-window();
+}
+

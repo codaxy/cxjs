@@ -1,0 +1,14 @@
+
+$cx-include-global-rules: false !default;
+
+@mixin cx-global-rules() {
+   @each $tag, $styles in $cx-element-style-map {
+      #{$tag} {
+         @include cx-add-rules($styles)
+      }
+   }
+}
+
+@if ($cx-include-global-rules and cx-call-once('cx/globals')) {
+   @include cx-global-rules();
+}

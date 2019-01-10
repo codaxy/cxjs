@@ -1,0 +1,81 @@
+// GRID
+$cx-default-grid-font-size: $cx-default-box-font-size !default;
+$cx-default-grid-border-color: $cx-default-border-color !default;
+$cx-default-grid-border-radius: null !default;
+$cx-default-grid-box-shadow: null !default;
+
+// header
+$cx-default-grid-header-font-size: $cx-default-box-font-size !default;
+$cx-default-grid-header-font-weight: normal !default;
+$cx-default-grid-header-line-height: null !default;
+$cx-default-grid-header-color: $cx-default-color !default;
+$cx-default-grid-header-background-color: #eee !default;
+$cx-default-grid-header-border-color: $cx-default-border-color !default;
+$cx-default-grid-header-box-shadow: null !default;
+$cx-default-grid-header-padding: null !default;
+
+$cx-grid-header-state-style-map: (
+  default: (
+    font-size: $cx-default-grid-header-font-size,
+    font-weight: $cx-default-grid-header-font-weight,
+    line-height: $cx-default-grid-header-line-height,
+    color: $cx-default-grid-header-color,
+    background-color: $cx-default-grid-header-background-color,
+    border-color: $cx-default-grid-header-border-color,
+    background-clip: padding-box,
+    padding: $cx-default-grid-header-padding
+   ),
+  hover: (
+    background-color: darken($cx-default-grid-header-background-color, 2)
+  ),
+  sorted: (
+    background-color: darken($cx-default-grid-header-background-color, 7)
+  ),
+  sorted-hover: (
+    background-color: darken($cx-default-grid-header-background-color, 5)
+  )
+) !default;
+
+// data
+$cx-default-grid-data-font-size: null !default;
+$cx-default-grid-data-font-weight: null !default;
+$cx-default-grid-data-line-height: null !default;
+$cx-default-grid-data-background-color: transparent !default;
+$cx-default-grid-data-alternate-background-color: null !default;
+$cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
+$cx-default-grid-data-padding: 5px !default;
+
+$cx-grid-data-state-style-map: cx-deep-map-merge($cx-list-item, (
+  default: (
+    font-size: $cx-default-grid-data-font-size,
+    line-height: $cx-default-grid-data-line-height,
+    font-weight: $cx-default-grid-data-font-weight,
+    background-color: $cx-default-grid-data-background-color,
+    border-color: $cx-default-grid-data-border-color,
+    padding: $cx-default-grid-data-padding
+  ),
+   alternate: (
+      background-color: $cx-default-grid-data-alternate-background-color,
+   )
+)) !default;
+
+// pagination
+$cx-grid-pagination-default-border-width: $cx-default-border-width !default;
+$cx-grid-pagination-default-border-color: $cx-default-border-color !default;
+$cx-grid-pagination-default-border-radius: null !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
+
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, ()) !default;
+
+$cx-grid-cell-cursor-style: (
+   left: -1px,
+   top: -1px,
+   right: -1px,
+   bottom: -1px,
+   background: rgba(green, 0.1),
+   border: 2px solid rgba(green, 1)
+);
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/Grid': 'cx/widgets/DragClone'
+))

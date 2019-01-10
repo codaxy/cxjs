@@ -1,0 +1,15 @@
+@import "axis/variables";
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/charts/Bar': 'cx/charts/palette',
+   'cx/charts/BarGraph': 'cx/charts/palette',
+   'cx/charts/Column': 'cx/charts/palette',
+   'cx/charts/ColumnGraph': 'cx/charts/palette',
+   'cx/charts/LineGraph': 'cx/charts/palette',
+   'cx/charts/ColorMap': 'cx/charts/palette',
+   'cx/charts/ScatterGraph': 'cx/charts/palette',
+   'cx/charts/BubbleGraph': 'cx/charts/palette',
+   'cx/charts/MarkerLine': 'cx/charts/palette',
+   'cx/charts/Marker': 'cx/charts/palette',
+   'cx/charts/PieChart': 'cx/charts/palette'
+))

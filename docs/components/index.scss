@@ -1,0 +1,18 @@
+@import "ImportPath";
+@import "CodeSplit";
+@import "CodeSnippet";
+@import "ConfigTable";
+@import "MethodTable";
+@import "Zenburn";
+@import "SideNav";
+@import "EditOnGitX";
+@import "Floater";
+
+.dxb-table {
+    max-width: 50em;
+
+    th {
+        text-align: left;
+        min-width: 150px;
+    }
+}

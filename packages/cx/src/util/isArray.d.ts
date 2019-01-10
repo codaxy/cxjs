@@ -1,0 +1,1 @@
+export function isArray(x: any): boolean;

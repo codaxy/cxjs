@@ -1,0 +1,123 @@
+
+@mixin cx-checkbox(
+   $name: 'checkbox',
+   $state-style-map: $cx-checkbox-state-style-map,
+   $width: $cx-default-input-width,
+   $empty-text: $cx-empty-text,
+   $besm: $cx-besm,
+   $size: $cx-default-checkbox-size
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-width: cx-get-state-rule($state-style-map, default, border-width);
+
+   $outer-styles: cx-deep-map-merge($state-style-map, (
+      default: (
+         border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0
+      )
+   ));
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
+      min-width: $size;
+   }
+
+   .#{$element}#{$name}-checkbox {
+      padding: 0;
+      margin: 0 !important;
+      width: $size;
+      height: $size;
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      //-webkit-appearance: none;
+
+      &::-moz-focus-inner {
+         border: 0;
+         padding: 0;
+         margin: -1px;
+      }
+
+      &:focus {
+         box-shadow: inset 0 0 1px 1px rgba(77, 144, 254, 0.8), 0 0 2px 2px rgba(77, 144, 254, 0.8);
+         background: rgba(77, 144, 254, 0.8);
+         outline: 0;
+      }
+   }
+
+   .#{$element}#{$name}-text {
+      display: inline-block;
+      margin-left: $size;
+      user-select: none;
+
+      .#{$state}disabled > & {
+         opacity: 0.5;
+      }
+   }
+
+   .#{$element}#{$name}-baseline {
+      user-select: none;
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
+
+   //non-native implementation
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false,
+         $overrides: (
+            default: (
+               padding: 0,
+               margin: 0 !important
+            )
+         )
+      );
+      width: $size;
+      height: $size;
+
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+
+      &.#{$state}checked {
+         @include cx-add-state-rules($state-style-map, checked);
+
+         &:focus {
+           @include cx-add-state-rules($state-style-map, checked-focus);
+         }
+
+        .#{$state}disabled > & {
+          @include cx-add-state-rules($state-style-map, disabled-checked);
+        }
+      }
+   }
+
+   .#{$element}#{$name}-input-check {
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+      position: absolute;
+      display: block;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      .#{$state}checked > & {
+         visibility: visible;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Checkbox')) {
+   @include cx-checkbox();
+}

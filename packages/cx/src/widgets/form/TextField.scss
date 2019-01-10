@@ -1,0 +1,67 @@
+
+@mixin cx-textfield(
+   $name: 'textfield',
+   $state-style-map: $cx-std-field-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      @include cxb-field(
+         $besm,
+         $state-style-map,
+         $width: $width,
+         $input: true
+      );
+   }
+
+   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
+
+      .#{$state}icon > & {
+         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+      }
+
+      .#{$state}clear > & {
+         padding-right: cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-clear-spacing);
+      }
+   }
+
+   .#{$element}#{$name}-left-icon {
+      @include cxe-field-button($besm, $left-icon-state-style-map);
+      pointer-events: none;
+   }
+
+   .#{$element}#{$name}-clear {
+      @include cxe-field-button($besm, $clear-state-style-map);
+   }
+
+   .#{$element}#{$name}-icon {
+      @include cxe-field-button-icon($besm, $icon-size);
+   }
+
+   .#{$element}#{$name}-empty-text {
+      @include cxe-field-empty-text($empty-text);
+   }
+}
+
+@if (cx-should-include('cx/widgets/TextField')) {
+   @include cx-textfield();
+}
+
+

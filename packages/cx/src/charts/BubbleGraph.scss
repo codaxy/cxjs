@@ -1,0 +1,30 @@
+
+@mixin cx-bubblegraph(
+   $name: 'bubblegraph',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+   }
+
+   .#{$element}#{$name}-bubble {
+      fill: rgb(128, 128, 128);
+      opacity: 0.5;
+
+      &:hover {
+         opacity: 0.75;
+      }
+
+      &.#{$state}selected {
+         stroke: black;
+         stroke-width: 2px;
+      }
+   }
+}
+
+@if (cx-should-include('cx/charts/BubbleGraph')) {
+   @include cx-bubblegraph();
+}

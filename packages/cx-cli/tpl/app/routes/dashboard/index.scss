@@ -1,0 +1,52 @@
+.kpi-header {
+    margin: 0 0 10px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.kpi-footer {
+    margin-top: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    color: gray;
+}
+
+.kpi-main {
+    height: 115px;
+}
+
+.kpi-value {
+    font-size: 50px;
+    text-align: right;
+    padding-top: 20px;
+}
+
+.kpi-value-text {
+    font-size: 15px;
+    text-align: right;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+.donut-text {
+    font-size: 20px;
+}
+
+.line-marker circle {
+    stroke: white;
+    stroke-width: 4px;
+    transition: stroke 0.3s ease-in-out;
+}
+
+.line-marker circle:hover {
+    stroke: #99e4ee;
+}
+
+.cxe-numericaxis-label {
+    font-size: 10px;
+}
+
+.cxe-categoryaxis-label {
+    font-size: 10px;
+}

@@ -1,0 +1,68 @@
+
+$cx-default-window-background-color: transparent !default;
+$cx-default-window-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29) !default;
+$cx-default-window-border-radius: $cx-default-border-radius !default;
+
+//header
+$cx-default-window-header-color: null !default;
+$cx-default-window-header-background-color: rgba(246, 246, 246, 0.9) !default;
+$cx-default-window-header-padding: 10px 15px !default;
+$cx-default-window-header-font-size: 16px !default;
+
+//footer
+$cx-default-window-footer-color: null !default;
+$cx-default-window-footer-background-color: rgba(246, 246, 246, 0.9) !default;
+$cx-default-window-footer-padding: 10px 15px !default;
+$cx-default-window-footer-font-size: 16px !default;
+
+$cx-window-state-style-map: (
+   default: (
+      box-shadow: $cx-default-window-box-shadow,
+      background-color: $cx-default-window-background-color,
+      border-radius: $cx-default-window-border-radius
+   ),
+   resizable: (
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.29)
+   )
+) !default;
+
+
+$cx-window-header-state-style-map: (
+   default: (
+      color: $cx-default-window-header-color,
+      background: $cx-default-window-header-background-color,
+      padding: $cx-default-window-header-padding,
+      font-size: $cx-default-window-header-font-size
+   ),
+   active: (
+
+   )
+) !default;
+
+$cx-window-footer-state-style-map: (
+   default: (
+      background: $cx-default-window-footer-background-color,
+      padding: $cx-default-window-footer-padding
+   )
+) !default;
+
+$cx-window-body-state-style-map: (
+   default: (
+      background: white
+   )
+) !default;
+
+
+$cx-window-mods: (
+  alert: (
+    frame: (
+      
+    ),
+    body: (
+     
+    ),
+    footer: (
+  
+    )
+  )   
+);

@@ -1,0 +1,27 @@
+
+@mixin cx-pieslice(
+   $name: 'pieslice',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$element}#{$name}-slice {
+      stroke-width: 0;
+      fill: #eee;
+      stroke: #ccc;
+
+      &.#{$state}selectable {
+         cursor: pointer;
+      }
+
+      &.#{$state}selected {
+         stroke-width: 2px;
+      }
+   }
+}
+
+@if (cx-should-include('cx/charts/PieSlice')) {
+   @include cx-pieslice();
+}

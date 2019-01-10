@@ -1,0 +1,91 @@
+
+@mixin cx-treenode(
+   $name: 'treenode',
+   $icon-size: $cx-default-icon-size,
+   $handle-size: $cx-default-input-tool-size,
+   $handle-state-style-map: $cx-input-right-icon-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      padding-left: $handle-size + $icon-size / 4;
+
+      &.#{$state}icon {
+         padding-left: $handle-size + $icon-size + $icon-size / 4;
+      }
+
+      position: relative;
+
+      @for $i from 1 through 20 {
+         &.#{$state}level-#{$i} {
+            margin-left: #{($i * 20)}px;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-handle {
+      position: absolute;
+
+      @include cx-add-state-rules($handle-state-style-map, default);
+
+      left: 0;
+      top: 50%;
+      margin-top: -$handle-size/2;
+      bottom: 0;
+      width: $handle-size + $icon-size;
+      height: $handle-size;
+
+      &:hover {
+         @include cx-add-state-rules($handle-state-style-map, hover);
+      }
+
+      &:active {
+         @include cx-add-state-rules($handle-state-style-map, active);
+      }
+   }
+
+   .#{$element}#{$name}-arrow {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      margin-left: ($handle-size - $icon-size) / 2;
+      height: $icon-size;
+      width: $icon-size;
+      line-height: $icon-size;
+      transform: rotate(-90deg);
+      transition: transform 0.2s;
+
+      .#{$state}expanded & {
+         transform: rotate(0);
+      }
+   }
+
+   .#{$element}#{$name}-icon {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      margin-left: ($handle-size + $icon-size) / 2;
+      height: $icon-size;
+      width: $icon-size;
+      line-height: $icon-size;
+   }
+
+   .#{$block}grid.#{$mod}tree {
+      td {
+         border-top: none;
+      }
+   }
+}
+
+
+@if (cx-should-include('cx/widgets/TreeNode')) {
+   @include cx-treenode();
+}

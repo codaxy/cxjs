@@ -1,0 +1,20 @@
+
+@import 'axis/index';
+
+@import 'PieChart';
+@import 'Legend';
+@import 'LegendEntry';
+@import 'Gridlines';
+@import 'Column';
+@import 'Bar';
+@import 'LineGraph';
+@import 'ColumnGraph';
+@import 'BarGraph';
+@import 'ScatterGraph';
+@import 'BubbleGraph';
+@import 'Marker';
+@import 'MarkerLine';
+@import 'Range';
+
+//define last for higher priority
+@import 'palette';

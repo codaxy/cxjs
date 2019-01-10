@@ -1,0 +1,45 @@
+
+@mixin cx-labelsleftlayout(
+   $name: 'labelsleftlayout',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}labelsleftlayout {
+      border-spacing: 0;
+
+      &.#{$mod}stretch {
+         width: 100%;
+
+         .#{$element}labelsleftlayout-label {
+            width: 5em;
+
+            .#{$block}label {
+               white-space: nowrap;
+            }
+         }
+      }
+   }
+
+   .#{$element}labelsleftlayout-field {
+      padding: 5px 0 5px 5px;
+   }
+
+   .#{$element}labelsleftlayout-label {
+      text-align: right;
+      vertical-align: top;
+
+      padding: 5px 5px 5px 0;
+
+      .#{$block}label {
+         padding-right: 0;
+      }
+   }
+}
+
+@if (cx-should-include('cx/ui/LabelsLeftLayout')) {
+  @include cx-labelsleftlayout();
+}

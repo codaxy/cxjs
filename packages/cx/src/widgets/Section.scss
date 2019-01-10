@@ -1,0 +1,55 @@
+
+@mixin cx-section(
+   $name: 'section',
+   $mods: $cx-section-mods,
+   $besm: $cx-besm
+) {
+
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      flex-direction: column;
+      display: flex;
+      box-sizing: border-box;
+
+      @include cx-add-rules($cx-section-styles);
+
+      @each $modname, $config in $mods {
+        &.#{$mod}#{$modname} {
+          @include cx-add-state-rules($config, default);
+        }
+      }
+      
+   }
+
+   .#{$element}#{$name}-header {
+      margin: 0 1.5rem;
+      padding: 1rem 0;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+   }
+
+   .#{$element}#{$name}-body {
+      flex: 1 1 auto;
+      box-sizing: border-box;
+      overflow: auto;
+
+      .#{$state}pad > & {
+         padding: 1rem 1.5rem;
+      }
+   }
+
+   .#{$element}#{$name}-footer {
+      margin: 0 1.5rem;
+      padding: 1rem 0;
+      box-sizing: border-box;
+      border-top: 1px solid rgba(128, 128, 128, 0.3);
+   }
+}
+
+@if (cx-should-include('cx/widgets/Section')) {
+   @include cx-section();
+}

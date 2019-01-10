@@ -1,0 +1,152 @@
+.dxb-article {
+    position: relative;
+    min-height: 100%;
+
+    background: #343434;
+    background-image: url('img/38fffa06.png');
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        //z-index: -1000;
+        width: calc(50em - 20px);
+        background: white;
+
+        @media screen and (max-width: 800px) {
+            width: 100%;
+        }
+    }
+}
+
+.dxe-article-body {
+    padding: 40px 0 40px 40px;
+    font-size: 14px;
+    line-height: 24px;
+    color: #4e5665;
+    position: relative;
+
+    @media screen and (max-width: 500px) {
+        padding: 26px 16px;
+    }
+
+    h1 {
+        margin: 0 0 5px 0;
+        padding: 0;
+
+        color: #414340;
+        font-size: 24px;
+    }
+
+    h2 {
+        margin: 32px 0 0 0;
+        padding: 0;
+
+        color: #414340;
+        font-size: 18px;
+
+        & ~ h3 {
+            margin-top: 16px;
+        }
+    }
+
+    h3 {
+        margin: 32px 0 0 0;
+        padding: 0;
+
+        color: #414340;
+        font-size: 14px;
+    }
+
+    code {
+        background: rgba(128, 128, 128, 0.1);
+        padding: 0 5px;
+        border-radius: 5px;
+        display: inline-block;
+        font-size: 13px;
+    }
+
+    blockquote {
+        margin: 0;
+
+        p {
+            border-left: 5px solid #ce8989;
+            padding-left: 15px;
+        }
+    }
+
+    p {
+        max-width: 50em;
+        margin: 0.7em 0 1em;
+    }
+
+    ul, ol {
+        max-width: 46em;
+    }
+
+    h1 > a, h2 > a, h3 > a, h4 > a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.dxe-article-tools {
+    position: relative;
+    max-width: calc(50em);
+    text-align: right;
+    height: 0;
+    top: -23px;
+
+    a {
+        color: lightgray;
+        text-decoration: none;
+        margin-left: 1em;
+        font-size: 12px;
+        position: relative;
+
+        &:hover {
+            color: gray;
+        }
+    }
+
+    input {
+        position: relative;
+        margin-left: 1em;
+        padding: 3px;
+        border: 1px solid #e2e2e2;
+        font-family: inherit;
+        font-size: 12px;
+
+        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: lightgray;
+        }
+        &::-moz-placeholder {
+            color: lightgray;
+        }
+        &:-ms-input-placeholder {
+            color: lightgray;
+        }
+        &:-moz-placeholder {
+            color: lightgray;
+        }
+
+        @media screen and (max-width: 800px) {
+            display: none;
+        }
+    }
+}
+
+a {
+    color: rgb(209, 89, 83);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

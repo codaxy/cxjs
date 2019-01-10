@@ -1,0 +1,243 @@
+
+// FUNCTIONS
+@import "util/scss/index";
+
+
+// SCREEN SIZE
+$cx-screen-size-small:  400px !default;
+$cx-screen-size-medium: 800px !default;
+$cx-screen-size-large: 1300px !default;
+$cx-screen-size-extra-large: 1800px !default;
+
+//
+// BESM
+//
+// B - block - top level HTML element
+// E - element - part of the component (block)
+// S - state - indicator of the component state which affects the appearance
+// M - mod - user supplied instruction which overrides default appearance
+//
+
+$cx-besm: (
+   block: 'cxb-',
+   element: 'cxe-',
+   state: 'cxs-',
+   mod: 'cxm-',
+) !default;
+
+//
+// Boxes
+// -----
+//
+// Boxes are inline-block elements which are likely to appear in the same row, such as buttons and form elements.
+// These elements should have the same height in order to avoid problems when put together in a toolbar
+// or a complex form.
+//
+// To ensure the height consistency, all box models should use the same line-height, top/bottom padding and border-width;
+//
+// For elements which do not have a natural border, such as checkboxes, radios and buttons,
+// border-color should be set to transparent.
+//
+//  box height = line-height + padding-top + padding-bottom + border-width-top + border-width-bottom
+//
+// Some browsers do not respect the line-height being set and therefore explicit height value is
+// calculated and set on all box elements.
+//
+// Hint: Use em units to make the box height grow with the font-size, but note that the elements
+//       will not be aligned in case of pixel boundaries and icons may appear blurry in some desktop browsers.
+//
+
+$cx-default-box-font-size: 13px !default;
+$cx-default-box-font-family: inherit !default;
+$cx-default-box-line-height: 16px !default;
+$cx-default-box-padding: 5px !default; //should not be a list
+$cx-default-box-border-width: 1px !default;
+
+
+// Borders
+// -------
+
+$cx-default-border-color: #bfbfbf !default;
+$cx-default-border-radius: 0 !default;
+$cx-default-border-width: 1px !default;
+
+
+// Padding
+// -------
+
+$cx-default-container-padding: 5px !default;
+
+// Empty Texts
+// ------------
+//
+// Displayed instead of whitespace
+
+$cx-default-empty-text-color: rgba(128, 128, 128, 0.7) !default;
+
+$cx-empty-text: (
+   color: $cx-default-empty-text-color
+) !default;
+
+
+//Icons
+$cx-default-icon-size: 16px !default;
+
+
+//Selection
+$cx-selection-background-color: rgba(135, 206, 250, 0.6);
+
+
+//List
+$cx-default-list-item-padding: 5px 10px !default;
+
+//Lists
+$cx-list: (
+   default: (
+      -webkit-overflow-scrolling: touch
+   ),
+   hover: (),
+   focus: (
+      outline: none
+   )
+);
+
+$cx-list-item: (
+   default: (
+     
+   ),
+   hover: (
+      background-color: rgba(128, 128, 128, 0.1),
+      outline: none
+   ),
+   cursor: (
+      background-color: rgba(123,190,255, 0.15),
+      outline: none,
+   ),
+   selected: (
+      background-color: rgba(123,190,255, 0.4)
+   ),
+   selected-hover: (
+      background-color: rgba(123,190,255, 0.2)
+   ),
+   selected-cursor: (
+      background-color: rgba(123,190,255, 0.3),
+      outline: none
+   ),
+   disabled: (
+      color: rgba(128, 128, 128, .5),
+      background-color: rgba(128, 128, 128, .1),
+      cursor: default
+   ),
+   active: (
+      //causes flickering
+      //background: rgba(123,190,255, 0.7)
+   ),
+) !default;
+
+$cx-default-font-family: -apple-system,
+   BlinkMacSystemFont,
+   "Segoe UI",
+   "Roboto",
+   "Helvetica Neue", Arial, sans-serif !default;
+
+$cx-default-font-size: 14px !default;
+$cx-default-color: #373a3c !default;
+
+$cx-element-style-map: (
+   html: (
+      font-family: $cx-default-font-family,
+      font-size: $cx-default-font-size,
+      height: 100%,
+      background-color: #eee
+   ),
+
+   body: (
+      margin: 0,
+      padding: 0,
+      height: 100%,
+      color: $cx-default-color,
+   ),
+
+   h1: (
+      font-size: 2rem,
+      line-height: 1.1,
+      margin: 0 0 0.75rem 0,
+      font-weight: 500
+   ),
+
+   h2: (
+      font-size: 1.75rem,
+      line-height: 1.1,
+      margin: 0 0 0.5rem 0,
+      font-weight: 500
+   ),
+
+   h3: (
+      font-size: 1.5rem,
+      line-height: 1.1,
+      margin: 0 0 0.5rem 0,
+      font-weight: 500
+   ),
+
+   h4: (
+      font-size: 1.3rem,
+      line-height: 1.1,
+      margin: 0 0 0.5rem 0,
+      font-weight: 500
+   ),
+
+   h5: (
+      font-size: 1.15rem,
+      line-height: 1.1,
+      margin: 0 0 0.5rem 0,
+      font-weight: 500
+   ),
+
+   h6: (
+      font-size: 1rem,
+      line-height: 1.1,
+      margin: 0 0 0.5rem 0,
+      font-weight: 500
+   ),
+
+   p: (
+      margin: 0 0 1rem 0,
+   ),
+
+   a: (
+      text-decoration: none,
+      color: #0275d8
+   ),
+
+   'a:hover': (
+      text-decoration: underline
+   ),
+
+   ul: (
+      margin: 0 0 1rem 0,
+   ),
+
+   ol: (
+      margin: 0 0 1rem 0,
+   ),
+
+   th: (
+      font-weight: 500
+   ),
+
+   text: (
+      fill: currentColor,
+      stroke: none
+   ),
+
+   table: (
+      font-size: inherit
+   )
+) !default;
+
+$cx-default-cover-border-color: $cx-default-border-color !default;
+$cx-default-cover-background-color: white !default;
+
+@import "charts/variables";
+@import "ui/variables";
+@import "widgets/variables";

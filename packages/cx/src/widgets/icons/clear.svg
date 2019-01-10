@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="32"
+   viewBox="0 0 32 32"
+   width="32"
+   id="svg4136"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="close.svg">
+  <metadata
+     id="metadata4144">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4142" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1856"
+     inkscape:window-height="1057"
+     id="namedview4140"
+     showgrid="true"
+     inkscape:zoom="19.622214"
+     inkscape:cx="23.277748"
+     inkscape:cy="14.948171"
+     inkscape:window-x="3056"
+     inkscape:window-y="439"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4136">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4148"
+       empspacing="4"
+       dotted="false" />
+  </sodipodi:namedview>
+  <path
+     d="M 16.900001,16 21.82,11.08 c 0.24,-0.24 0.24,-0.6 0,-0.84 -0.239998,-0.24 -0.599999,-0.24 -0.839999,0 l -4.920002,4.92 -5.04,-4.98 c -0.239998,-0.24 -0.6,-0.24 -0.839999,0 -0.2399999,0.239999 -0.2399999,0.599999 0,0.839999 L 15.16,16 10.18,20.980001 c -0.2399999,0.24 -0.2399999,0.600001 0,0.839999 0.239999,0.24 0.600001,0.24 0.839999,0 L 16,16.84 l 4.980001,4.98 c 0.24,0.24 0.600001,0.24 0.839999,0 0.24,-0.239998 0.24,-0.599999 0,-0.839999 L 16.900001,16 Z"
+     id="path4138"
+     inkscape:connector-curvature="0"
+     style="fill:#000000" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Base"
+     style="display:none">
+    <circle
+       style="opacity:1;fill:none;stroke:#000000;stroke-width:0.0501454;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4140-7"
+       cx="16"
+       cy="16"
+       r="16.000975" />
+  </g>
+</svg>

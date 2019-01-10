@@ -1,0 +1,123 @@
+
+@mixin cx-radio(
+   $name: 'radio',
+   $state-style-map: $cx-radio-state-style-map,
+   $size: $cx-default-radio-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   $padding: cx-get-state-rule($state-style-map, default, padding);
+   $border-width: cx-get-state-rule($state-style-map, default, border-width);
+
+   $outer-styles: cx-deep-map-merge($state-style-map, (
+      default: (
+         border-width: cx-top($border-width) 0 cx-bottom($border-width) 0
+      )
+   ));
+
+   .#{$block}#{$name} {
+      @include cxb-field($besm, $outer-styles,
+         $input: false,
+         $box: true
+      );
+      min-width: $size;
+   }
+
+   .#{$element}#{$name}-radio {
+      padding: 0;
+      margin: 0 !important;
+      width: $size;
+      height: $size;
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      -webkit-backface-visibility: hidden;
+      outline: none;
+
+      &::-moz-focus-outer {
+         border: 0
+      }
+
+      &:focus {
+         box-shadow: 0 0 2px 2px rgba(77, 144, 254, 0.8);
+         background: transparent;
+         border-radius: 50%;
+         outline: none;
+      }
+   }
+
+   .#{$element}#{$name}-text {
+      display: inline-block;
+      margin-left: $size;
+      user-select: none;
+
+      .#{$state}disabled > & {
+         opacity: 0.5;
+      }
+   }
+
+   //non-native implementation
+   .#{$element}#{$name}-input {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false,
+         $overrides: (
+            default:(
+               padding: 0,
+               margin: 0 !important
+            )
+         )
+      );
+
+      width: $size;
+      height: $size;
+
+      top: calc(50% - #{$size / 2});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      border-radius: 50%;
+      //overflow: hidden;
+      opacity: 1;
+
+      &.#{$state}checked {
+         @include cx-add-state-rules($state-style-map, checked);
+
+         &:focus {
+           @include cx-add-state-rules($state-style-map, checked-focus);
+         }
+         &:hover {
+           @include cx-add-state-rules($state-style-map, checked-hover);
+         }
+
+        .#{$state}disabled > & {
+          @include cx-add-state-rules($state-style-map, disabled-checked);
+        }
+      }
+
+      &:before {
+         content: ' ';
+         width: calc(100% - 6px);
+         height: calc(100% - 6px);
+         visibility: hidden;
+         position: absolute;
+         margin: 3px;
+         box-sizing: border-box;
+         background-color: currentColor;
+         border-radius: 50%
+      }
+
+      &.#{$state}checked:before {
+         visibility: visible;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Radio')) {
+   @include cx-radio();
+}

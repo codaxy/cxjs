@@ -1,0 +1,41 @@
+.hamburger {
+    $size: 20px;
+    $icon-size: 16px;
+    $thickness: 2px;
+    $color: rgba(255, 255, 255, 0.8);
+
+    display: block;
+    position: relative;
+    width: $size;
+    height: $size;
+    margin-right: 1rem;
+    flex-shrink: 0;
+
+    &:after,
+    &:before {
+        background-color: $color;
+        transition: all 0.2s linear;
+        content: " ";
+        display: block;
+        position: absolute;
+        height: $thickness;
+        left: ($size - $icon-size) / 2;
+        right: ($size - $icon-size) / 2;
+        top: ($size/2) - ceil($thickness/2);
+    }
+    &:before {
+        box-shadow: $color 0 (-$icon-size/2 + $thickness);
+    }
+    &:after {
+        box-shadow: $color 0 ($icon-size/2) - $thickness;
+    }
+
+    &.open {
+        &:before {
+            box-shadow: $color 0 (-$icon-size/2 + $thickness + 3px);
+        }
+        &:after {
+            box-shadow: $color 0 ($icon-size/2 - $thickness - 3px);
+        }
+    }
+}

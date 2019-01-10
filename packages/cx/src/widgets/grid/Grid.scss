@@ -1,0 +1,493 @@
+@mixin cx-grid( $name: 'grid', 
+   $header-state-style-map: $cx-grid-header-state-style-map, 
+   $data-state-style-map: $cx-grid-data-state-style-map,
+   $cell-cursor-style: $cx-grid-cell-cursor-style,
+   $icon-size: $cx-default-icon-size, $besm: $cx-besm 
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      box-sizing: border-box;
+      position: relative;
+      font-size: $cx-default-grid-font-size;
+      box-shadow: $cx-default-grid-box-shadow;
+      border-radius: $cx-default-grid-border-radius;
+
+      table {
+         border-spacing: 0;
+         border-collapse: collapse;
+         width: 100%;
+         position: relative;
+         overflow-anchor: none;
+      }
+
+      .#{$state}aligned-left {
+         text-align: left;
+      }
+
+      .#{$state}aligned-right {
+         text-align: right;
+      }
+
+      .#{$state}aligned-center {
+         text-align: center;
+      }
+
+      &.#{$state}scrollable {
+
+         &.#{$state}border {
+            border: 1px solid $cx-default-grid-border-color;
+
+            table {
+               border: none;
+            }
+         }
+
+         overflow: hidden;
+
+         th {
+            border-top: none;
+            border-left: none;
+         }
+
+         th:last-child {
+            border-right: none;
+         }
+
+         display: flex;
+         flex-direction: column;
+
+         & > .#{$element}#{$name}-scroll-area {
+            overflow-y: auto;
+            flex: 1 1 0%;
+            -webkit-overflow-scrolling: touch;
+
+            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header {
+               visibility: hidden;
+            }
+
+            //used to cut off the negative margin
+            & > .#{$element}#{$name}-table-wrapper {
+               overflow: hidden;
+               display: inline-block; //preserve content width
+               vertical-align: top;
+               min-width: 100%;
+            }
+         }
+
+         & > .#{$element}#{$name}-fixed-header {
+            overflow: hidden;
+            position: absolute;
+            display: none;
+            left: 0;
+            top: 0;
+            right: 0;
+
+            & > table {
+               width: auto;
+               table-layout: fixed;
+            }
+         }
+
+         & > .#{$element}#{$name}-fixed-footer {
+            overflow: hidden;
+            position: absolute;
+            display: none;
+            left: 0;
+            bottom: 0;
+            right: 0;
+
+            & > table {
+               width: auto;
+               table-layout: fixed;
+            }
+         }
+
+         .#{$element}#{$name}-fixed-footer-corner {
+            width: 100%;
+         }
+      }
+
+      &.#{$mod}responsive {
+         width: 100%;
+
+         & > .#{$element}#{$name}-scroll-area {
+            overflow-x: auto;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-empty-text td {
+      color: #aaa;
+      padding: 2rem;
+   }
+
+   .#{$element}#{$name}-col-header {
+      text-align: left;
+      padding: cx-get-state-rule($data-state-style-map, default, padding);
+      box-sizing: border-box;
+      position: relative;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-user-select: none;
+
+      @include cx-add-state-rules($header-state-style-map, default);
+
+      .#{$state}header-default & {
+         border-width: 1px;
+         border-style: solid;
+         position: relative;
+      }
+
+      .#{$state}header-plain & {         
+         background-color: transparent;
+      }
+
+
+      &.#{$state}sortable {
+         cursor: pointer;
+         user-select: none;
+
+         &.#{$state}sorted-asc, &.#{$state}sorted-desc {
+            @include cx-add-state-rules($header-state-style-map, sorted);
+
+            &:hover {
+               @include cx-add-state-rules($header-state-style-map, sorted-hover);
+            }
+         }
+
+         &:hover, .#{$element}#{$name}-fixed-header &:hover {
+            @include cx-add-state-rules($header-state-style-map, hover);
+         }
+
+         .#{$element}#{$name}-fixed-header & {
+            &.#{$state}sorted-asc, &.#{$state}sorted-desc {
+               &:hover {
+                  @include cx-add-state-rules($header-state-style-map, sorted-hover);
+               }
+            }
+         }
+      }
+
+      &.#{$state}tool {
+         transition: padding-left 0.2s;
+         padding-right: cx-calc(15px, $icon-size);
+      }
+
+      &.#{$state}sortable:not(.#{$state}aligned-right) {
+         padding-right: cx-calc(5px, $icon-size);
+
+         .#{$element}#{$name}-column-sort-icon {
+            right: 2px;
+         }
+
+         &.#{$state}tool.#{$state}sorted-asc, &.#{$state}tool.#{$state}sorted-desc {
+            padding-left: cx-calc(5px, $icon-size);
+
+            .#{$element}#{$name}-column-sort-icon {
+               left: 2px;
+            }
+         }
+      }
+
+      &.#{$state}sortable.#{$state}aligned-center {
+         padding-left: cx-calc(5px, $icon-size);
+      }
+
+      &.#{$state}sortable.#{$state}aligned-right {
+         padding-left: cx-calc(5px, $icon-size);
+
+         .#{$element}#{$name}-column-sort-icon {
+            left: 2px;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-column-sort-icon {
+      width: $icon-size;
+      height: $icon-size;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      position: absolute;
+      transition: transform 0.1s linear;
+
+      .#{$state}sorted-desc > & {
+         transform: rotate(180deg);
+      }
+   }
+
+   .#{$element}#{$name}-data {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      background-color: cx-get-state-rule($data-state-style-map, default, background-color);
+
+      &:nth-child(odd) {
+         @include cx-add-state-rules($data-state-style-map, alternate);
+      }
+
+      td {
+         padding: 0;
+         border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
+         line-height: cx-get-state-rule($data-state-style-map, default, line-height);
+         font-weight: cx-get-state-rule($data-state-style-map, default, font-weight);
+      }
+
+      td.#{$state}pad {
+         padding: cx-get-state-rule($data-state-style-map, default, padding);
+      }
+
+      .#{$state}selectable & {
+         &:hover {
+            @include cx-add-state-rules($cx-list-item, hover);
+         }
+
+         &.#{$state}cursor {
+            @include cx-add-state-rules($cx-list-item, hover);
+         }
+
+         &.#{$state}selected {
+            @include cx-add-state-rules($cx-list-item, selected);
+
+            &.#{$state}cursor {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
+         }
+      }
+
+      .#{$state}focused &, :focus & {
+
+         &.#{$state}cursor {
+            @include cx-add-state-rules($cx-list-item, cursor);
+         }
+
+         &.#{$state}selected {
+            &.#{$state}cursor {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
+            }
+         }
+
+         &:active {
+            @include cx-add-state-rules($cx-list-item, active);
+         }
+      }
+
+      .#{$state}drag-move &.#{$state}dragged {
+         display: none;
+      }
+
+      .#{$state}drag-copy &.#{$state}dragged {
+         opacity: 0.5;
+      }
+
+      &.#{$state}draggable {
+         touch-action: none;
+      }
+
+      &.#{$state}dummy {
+         td {
+            box-sizing: border-box;
+         }
+      }
+   }
+
+   &.#{$element}#{$name}-dropzone {
+      position: relative;
+      padding: 0;
+
+      .#{$state}drop-preview & {
+         border-top: 1px solid $cx-default-grid-border-color;
+
+         &:after {
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            border: 1px dotted gray;
+            content: ' ';
+         }
+      }
+
+      .#{$state}drop-insertion & {
+         height: 0;
+
+         &:after {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-top: 1px solid black;
+            content: ' ';
+            box-shadow: 0 0 2px black;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-group-caption {
+      font-weight: bold;
+      font-size: 115%;
+
+      td {
+         padding: cx-get-state-rule($data-state-style-map, default, padding);
+      }
+
+      &:not(:first-child) {
+         td {
+            padding-top: 15px;
+         }
+      }
+
+      &.#{$state}level-2 {
+         font-size: 130%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-3 {
+         font-size: 145%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-4 {
+         font-size: 160%;
+
+         td {
+            border-bottom: 1px solid grey;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-group-footer {
+      font-weight: bold;
+
+      td {
+         border-top: 1px solid $cx-default-grid-border-color;
+         box-sizing: border-box;
+
+         &.#{$state}pad {
+            padding: cx-get-state-rule($data-state-style-map, default, padding);
+         }
+      }
+
+      &.#{$state}level-2 {
+         font-weight: bold;
+         font-size: 110%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-3 {
+         font-weight: bold;
+         font-size: 120%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+
+      &.#{$state}level-4 {
+         font-weight: bold;
+         font-size: 130%;
+
+         td {
+            border-top: 1px solid grey;
+         }
+      }
+   }
+
+   &.#{$state}border {
+      table {
+         border: 1px solid $cx-default-grid-border-color;
+      }
+   }
+
+   &.#{$state}vlines {
+      td:not(:last-child), th:not(:last-child) {
+         border-right-width: 1px;
+         border-right-style: solid;
+         border-right-color: $cx-default-grid-border-color;
+      }
+   }
+
+   .#{$element}#{$name}-scroll-area {
+      @include cx-add-state-rules($cx-list, default);
+
+      &:focus {
+         @include cx-add-state-rules($cx-list, focus);
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}selectable {
+      .#{$element}#{$name}-data {
+         cursor: pointer;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}cell-editable {
+      .#{$element}#{$name}-data td {
+         &:hover {
+            background: rgba(gray, 0.05);
+         }
+
+         &.#{$state}cellected {
+            position: relative;
+            user-select: none;
+
+            &:after {
+               position: absolute;
+               pointer-events: none;
+               content: ' ';
+               @include cx-add-rules($cell-cursor-style);
+            }
+         }
+
+         &.#{$element}#{$name}-cell-editor {
+            position: relative;
+            user-select: none;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-cell-editor-wrap {
+      position: absolute;
+      top: -1px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: calc(100% + 2px);
+
+      & > *:only-child {
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}buffered {
+      .#{$element}#{$name}-data {
+         white-space: nowrap;
+      }
+   }
+
+   &.#{$element}#{$name}-col-header-tool {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Grid')) {
+   @include cx-grid();
+}

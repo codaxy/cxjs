@@ -1,0 +1,60 @@
+
+@mixin cx-labelstoplayout(
+   $name: 'labelstoplayout',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}labelstoplayout {
+      border-spacing: 0;
+
+      &.#{$mod}stretch {
+         width: 100%;
+
+         //unsure what it does
+         //.#{$element}labelstoplayout-label {
+         //   width: 10em;
+         //}
+      }
+   }
+
+   .#{$element}labelstoplayout-field {
+      padding: 0 5px;
+      box-sizing: border-box;
+      vertical-align: top;
+
+      &:first-child {
+         padding-left: 0;
+      }
+
+      &:last-child {
+         padding-right: 0;
+      }
+   }
+
+   .#{$element}labelstoplayout-label {
+      vertical-align: bottom;
+      padding: 5px 5px 0 5px;
+      box-sizing: border-box;
+
+      .#{$block}label {
+         padding-left: 0;
+         padding-bottom: 0;
+      }
+
+      &:first-child {
+         padding-left: 0;
+      }
+
+      &:last-child {
+         padding-right: 0;
+      }
+   }
+}
+
+@if (cx-should-include('cx/ui/LabelsTopLayout')) {
+   @include cx-labelstoplayout();
+}

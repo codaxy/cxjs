@@ -1,0 +1,33 @@
+
+@mixin cx-numericaxis(
+   $name: 'numericaxis',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxb-axis();
+   }
+
+   .#{$element}#{$name}-ticks {
+      @include cxe-axis-ticks();
+   }
+
+   .#{$element}#{$name}-line {
+      @include cxe-axis-line();
+   }
+
+   .#{$element}#{$name}-label {
+      @include cxe-axis-label();
+   }
+
+   .#{$element}#{$name}-label-offset {
+      @include cxe-axis-label-offset();
+   }
+}
+
+@if (cx-should-include('cx/charts/NumericAxis')) {
+   @include cx-numericaxis();
+}

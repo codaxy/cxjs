@@ -1,0 +1,128 @@
+@mixin cx-menuitem(
+   $name: 'menuitem',
+   $state-style-map: $cx-list-item,
+   $icon-size: $cx-default-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      box-sizing: border-box;
+      cursor: pointer;
+      position: relative;
+      border-radius: $cx-default-border-radius;
+
+      &:focus {
+         outline: none;
+      }
+
+      & > a:hover {
+         text-decoration: none;
+      }
+
+      .#{$state}focusable > &.#{$state}cursor {
+         @include cx-add-state-rules($state-style-map, default);
+
+         &:hover {
+            @include cx-add-state-rules($state-style-map, hover);
+         }
+      }
+
+      .#{$state}focusable.#{$state}cursor > &.#{$state}cursor {
+         @include cx-add-state-rules($state-style-map, selected-cursor);
+      }
+
+      .#{$state}disabled {
+         opacity: 0.5;
+         pointer-events: none;
+      }
+
+      & > a {
+         text-decoration: none;
+         color: inherit;
+
+         &:focus {
+            outline: none;
+         }
+      }
+
+      @each $size, $value in $cx-menu-padding-options {
+
+         &.#{$state}#{$size}-padding {
+
+            & > a,
+            & > span {
+               padding: $value;
+               line-height: $cx-default-box-line-height;
+               border: $cx-default-box-border-width solid transparent;
+               display: block;
+            }
+
+            &.#{$state}arrow {
+               padding-right: cx-calc($icon-size);
+            }
+
+            &.#{$state}icon {
+               padding-left: cx-calc($icon-size);
+            }
+
+            &.#{$state}empty {
+               padding-right: cx-calc($icon-size) / 2;
+            }
+
+            & > .#{$element}#{$name}-arrow {
+               right: cx-right($value) / 2;
+            }
+
+            & > .#{$element}#{$name}-button {
+               width: cx-calc(cx-left($value), $icon-size);
+            }
+         }
+      }
+   }
+
+   .#{$element}#{$name}-arrow {
+      position: absolute;
+      width: $icon-size;
+      height: $icon-size;
+      top: 50%;
+      margin-top: -$icon-size/2;
+
+      .#{$state}vertical > & {
+         transform: rotate(-90deg);
+      }
+   }
+
+   .#{$element}#{$name}-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+   }
+
+   .#{$element}#{$name}-baseline {
+      display: inline-block;
+      width: 1px;
+      margin-left: -1px;
+      visibility: hidden;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+   }
+
+   .#{$element}#{$name}-icon {
+      position: absolute;
+      width: $icon-size;
+      height: $icon-size;
+      top: 50%;
+      left: 50%;
+      margin-top: -$icon-size/2;
+      margin-left: -$icon-size/2;
+   }
+}
+
+@if (cx-should-include('cx/widgets/MenuItem')) {
+   @include cx-menuitem();
+}

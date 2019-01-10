@@ -1,0 +1,18 @@
+// MENU
+$cx-menu-state-style-map: $cx-list !default;
+$cx-default-menu-separator-color: lightgray !default;
+
+// MENU ITEM
+$cx-menu-padding-options: (
+   xsmall: $cx-default-padding-extra-small 2 * $cx-default-padding-extra-small,
+   small: $cx-default-padding-small 2 * $cx-default-padding-small,
+   medium: $cx-default-padding-medium 2 * $cx-default-padding-medium,
+   large: $cx-default-padding-large 2 * $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
+) !default;
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/Menu': 'cx/widgets/MenuItem',
+   'cx/widgets/MenuItem': 'cx/widgets/Dropdown',
+   'cx/widgets/SubMenu': 'cx/widgets/MenuItem'
+));

@@ -1,0 +1,175 @@
+@keyframes cx-tooltip-enter-animation {
+   from {
+      transform: scale(0.9);
+      opacity: 0;
+   }
+
+   to {
+      transform: scale(1);
+      opacity: 1;
+   }
+}
+
+@keyframes cx-tooltip-leave-animation {
+   from {
+      transform: scale(1);
+      opacity: 1;
+   }
+
+   to {
+      transform: scale(0.9);
+      opacity: 0;
+   }
+}
+
+@mixin cx-tooltip(
+   $name: 'tooltip',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map_get($besm, mod);
+
+   .#{$block}#{$name} {
+      @extend %cxb-overlay;
+      display: block;
+      left: -10000px;
+      top: -10000px;
+      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
+      background-color: $cx-tooltip-background-color;
+      border: $cx-tooltip-border-width solid $cx-tooltip-border-color;
+      color: $cx-tooltip-color;
+      padding: $cx-tooltip-padding;
+      border-radius: $cx-tooltip-border-radius;
+      font-size: smaller;
+      transition: opacity 0.2s ease-in;
+      max-width: 400px;
+      pointer-events: none;
+
+      &.#{$state}animate {
+         animation: cx-tooltip-enter-animation 0.2s;
+      }
+
+      &.#{$state}animate-leave {
+         animation: cx-tooltip-leave-animation 0.2s;
+         animation-fill-mode: forwards;
+      }
+
+      &.#{$state}mouse-trap {
+         pointer-events: auto;
+      }
+
+      &.#{$mod}error {
+         background-color: $cx-tooltip-background-color-error;
+         border-color: $cx-tooltip-border-color-error;
+         color: $cx-tooltip-color-error;
+
+         .#{$element}#{$name}-arrow-border {
+            color: $cx-tooltip-border-color-error;
+         }
+
+         .#{$element}#{$name}-arrow-fill {
+            color: $cx-tooltip-background-color-error;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-title {
+      font-weight: bold;
+      font-size: 100%;
+   }
+
+   @include cx-dropdown-arrows($name, (
+      border-width: $cx-tooltip-border-width,
+      border-color: $cx-tooltip-border-color,
+      border-style: solid,
+      background-color: $cx-tooltip-background-color
+   ), $cx-tooltip-arrow-size, $besm)
+
+   //.#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
+   //   border: solid transparent;
+   //   content: " ";
+   //   height: 0;
+   //   width: 0;
+   //   position: absolute;
+   //}
+   //
+   //.#{$element}#{$name}-arrow-border {
+   //   color: $cx-tooltip-border-color;
+   //   border-width: $cx-tooltip-border-width + $cx-tooltip-arrow-size;
+   //}
+   //
+   //.#{$element}#{$name}-arrow-fill {
+   //   color: $cx-tooltip-background-color;
+   //   border-width: $cx-tooltip-arrow-size;
+   //}
+   //
+   //.#{$state}place-right {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      right: 100%;
+   //      top: 50%;
+   //      border-right-color: currentColor;
+   //      margin-top: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      right: 100%;
+   //      top: 50%;
+   //      border-right-color: currentColor;
+   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-left {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 100%;
+   //      top: 50%;
+   //      border-left-color: currentColor;
+   //      margin-top: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 100%;
+   //      top: 50%;
+   //      border-left-color: currentColor;
+   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-up {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 50%;
+   //      top: 100%;
+   //      border-top-color: currentColor;
+   //      margin-left: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 50%;
+   //      top: 100%;
+   //      border-top-color: currentColor;
+   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+   //
+   //.#{$state}place-down {
+   //   .#{$element}#{$name}-arrow-fill {
+   //      left: 50%;
+   //      bottom: 100%;
+   //      border-bottom-color: currentColor;
+   //      margin-left: -$cx-tooltip-arrow-size;
+   //   }
+   //
+   //   .#{$element}#{$name}-arrow-border {
+   //      left: 50%;
+   //      bottom: 100%;
+   //      border-bottom-color: currentColor;
+   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
+   //   }
+   //}
+}
+
+@if (cx-should-include('cx/widgets/Tooltip')) {
+   @include cx-tooltip();
+}

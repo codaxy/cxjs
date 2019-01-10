@@ -1,0 +1,120 @@
+
+@mixin cx-monthpicker(
+   $name: 'monthpicker',
+   $state-style-map: $cx-input-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $input: false
+      );
+      overflow-y: scroll;
+      overflow-x: hidden;
+      min-height: 10em;
+      max-height: 30em;//100vh;
+      height: 100%;
+      position: relative;
+      width: 23em;
+      overflow-anchor: none;
+      touch-action: pan-y;
+
+      table {
+         border-spacing: 0;
+         width: 100%;
+         font-size: 0.9em;
+      }
+
+      $border-color: cx-get-state-rule($state-style-map, default, border-color);
+
+      th, td {
+         border-top: 1px solid transparentize($border-color, 0.5);
+         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      tbody:not(:first-child) {
+         tr:first-child {
+            th, td {
+               border-top: 1px solid $border-color;
+            }
+         }
+      }
+
+      th, td {
+         text-align: center;
+         font-size: $cx-default-monthpicker-font-size;
+         font-weight: $cx-default-monthpicker-font-weight;
+         line-height: 2em;
+         cursor: pointer;
+         -webkit-user-select: none;
+         -ms-user-select: none;
+         -moz-user-select: none;
+         user-select: none;
+      }
+
+      th {
+         padding: 0 0.5em;
+         color: lightgray;
+      }
+
+      .#{$element}#{$name}-year {
+         font-size: 120%;
+         color: gray;
+      }
+
+      td {
+         padding: 0.5em 1em;
+      }
+
+      td.#{$state}outside {
+         color: lightgray;
+      }
+
+      td.#{$state}unselectable {
+         @include cx-add-state-rules($cx-list-item, disabled);
+      }
+
+      td.#{$state}selected {
+         @include cx-add-state-rules($cx-list-item, selected);
+         border-color: transparent;
+         &:hover {
+           @include cx-add-state-rules($cx-list-item, selected-hover);
+         }
+      }
+
+      td.#{$state}cursor, th.#{$state}cursor {
+         @include cx-add-state-rules($cx-list-item, hover);
+      }
+
+      &:focus {
+         td.#{$state}selected {
+            @include cx-add-state-rules($cx-list-item, selected);
+         }
+
+         td.#{$state}cursor, th.#{$state}cursor {
+            @include cx-add-state-rules($cx-list-item, selected-cursor);
+         }
+      }
+
+      td.#{$state}handle {
+         //@include cx-add-state-rules($cx-list-item, selected-cursor);
+         touch-action: none;
+      }
+   }
+
+   .#{$block}#{$name}.#{$state}disabled {
+      background-color: transparent;
+      border-color: transparent;
+      color: darken(#fff, 18);
+      pointer-events: none;
+   }
+}
+
+@if (cx-should-include('cx/widgets/MonthPicker')) {
+   @include cx-monthpicker();
+}

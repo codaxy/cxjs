@@ -1,0 +1,20 @@
+{
+  "name": "babel-plugin-cx",
+  "version": "16.12.0",
+  "description": "Transpile JSX into Cx config objects",
+  "repository": "https://github.com/codaxy/cxjs",
+  "author": "Marko Stijak",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "index.js",
+  "dependencies": {
+    "babel-plugin-transform-cx-jsx": "*"
+  },
+  "keywords": [
+    "babel-plugin",
+    "babel",
+    "es2015",
+    "es2016",
+    "cx",
+    "jsx"
+  ]
+}

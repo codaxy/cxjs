@@ -1,0 +1,1 @@
+export function moveElement(array, sourceIndex, targetIndex);

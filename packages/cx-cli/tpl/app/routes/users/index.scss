@@ -1,0 +1,28 @@
+.user-card {
+    color: inherit;
+    width: 250px;
+
+    &:hover {
+        text-decoration: none;
+        border-color: $header-color;
+    }
+}
+
+.user-card-body {
+    box-sizing: border-box;
+    //border: 1px solid lightgray;
+    padding-left: 60px;
+    position: relative;
+    height: 70px;
+
+    img {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    &:hover {
+        border: 1px solid $header-color;
+        margin: -1px;
+    }
+}

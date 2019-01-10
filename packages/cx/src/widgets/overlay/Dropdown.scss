@@ -1,0 +1,165 @@
+@mixin cx-dropdown-arrows(
+   $name: 'dropdown',
+   $styles: $cx-dropdown-styles,
+   $arrow-size: $cx-default-dropdown-arrow-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   $border-width: map-get($styles, border-width);
+
+   .#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
+      border-style: solid;
+      border-color: transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+   }
+
+   .#{$element}#{$name}-arrow-border {
+      color: map-get($styles, border-color);
+      border-width: $border-width + $arrow-size;
+   }
+
+   .#{$element}#{$name}-arrow-fill {
+      color: map-get($styles, background-color);
+      border-width: $arrow-size;
+   }
+
+   .#{$state}place-right, .#{$state}place-right-up, .#{$state}place-right-down {
+      & > .#{$element}#{$name}-arrow-fill {
+         right: 100%;
+         top: 50%;
+         border-right-color: currentColor;
+         margin-top: -$arrow-size;
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         right: 100%;
+         top: 50%;
+         border-right-color: currentColor;
+         margin-top: cx-calc(-$border-width, -$arrow-size);
+      }
+   }
+
+   .#{$state}place-left, .#{$state}place-left-down, .#{$state}place-left-up {
+      & > .#{$element}#{$name}-arrow-fill {
+         left: 100%;
+         top: 50%;
+         border-left-color: currentColor;
+         margin-top: -$arrow-size;
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         left: 100%;
+         top: 50%;
+         border-left-color: currentColor;
+         margin-top: cx-calc(-$border-width, -$arrow-size);
+      }
+   }
+
+
+   .#{$state}place-right-down, .#{$state}place-left-down {
+      & > .#{$element}#{$name}-arrow-fill {
+         top: $cx-default-dropdown-arrow-offset;
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         top: $cx-default-dropdown-arrow-offset;
+      }
+   }
+
+   .#{$state}place-right-up, .#{$state}place-left-up {
+      & > .#{$element}#{$name}-arrow-fill, & > .#{$element}#{$name}-arrow-border {
+         top: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+      }
+   }
+
+
+   .#{$state}place-up, .#{$state}place-up-left, .#{$state}place-up-right {
+      & > .#{$element}#{$name}-arrow-fill {
+         left: 50%;
+         top: 100%;
+         border-top-color: currentColor;
+         margin-left: -$arrow-size;
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         left: 50%;
+         top: 100%;
+         border-top-color: currentColor;
+         margin-left: cx-calc(-$border-width, -$arrow-size);
+      }
+   }
+
+   .#{$state}place-down, .#{$state}place-down-left, .#{$state}place-down-right {
+      & > .#{$element}#{$name}-arrow-fill {
+         left: 50%;
+         bottom: 100%;
+         border-bottom-color: currentColor;
+         margin-left: -$arrow-size;
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         left: 50%;
+         bottom: 100%;
+         border-bottom-color: currentColor;
+         margin-left: cx-calc(-$border-width, -$arrow-size);
+      }
+   }
+
+   .#{$state}place-down-right, .#{$state}place-up-right {
+      & > .#{$element}#{$name}-arrow-fill, & > .#{$element}#{$name}-arrow-border {
+         left: $cx-default-dropdown-arrow-offset;
+      }
+   }
+
+   .#{$state}place-down-left, .#{$state}place-up-left {
+      & > .#{$element}#{$name}-arrow-fill {
+         left: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+      }
+
+      & > .#{$element}#{$name}-arrow-border {
+         left: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+      }
+   }
+}
+
+
+@mixin cx-dropdown(
+   $name: 'dropdown',
+   $styles: $cx-dropdown-styles,
+   $arrow-size: $cx-default-dropdown-arrow-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      @extend %cxb-overlay;
+      display: block;
+      left: -10000px;
+      top: -10000px;
+
+      @include cx-add-rules($styles);
+
+      &.#{$state}place-screen-center {
+         box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29), 0 0 1000px 1000px rgba(128, 128, 128, 0.3);
+      }
+
+      &.#{$state}pad {
+         padding: $cx-default-container-padding;
+      }
+   }
+
+   @include cx-dropdown-arrows($name, $styles, $arrow-size, $besm);
+}
+
+@if (cx-should-include('cx/widgets/Dropdown')) {
+   @include cx-dropdown();
+}

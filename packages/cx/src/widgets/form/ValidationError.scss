@@ -1,0 +1,22 @@
+
+@mixin cx-validationerror(
+   $name: 'uploadbutton',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $mod: map-get($besm, mod);
+
+   .#{$block}validationerror {
+      color: rgb(220, 0, 9);
+      font-size: smaller;
+
+      &.#{$mod}block {
+         display: block;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/ValidationError')) {
+   @include cx-validationerror();
+}

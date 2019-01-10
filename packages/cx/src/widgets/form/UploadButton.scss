@@ -1,0 +1,47 @@
+
+@import "../Button";
+
+@mixin cx-uploadbutton(
+   $name: 'uploadbutton',
+   $state-style-map: $cx-button-state-style-map,
+   $mods: $cx-button-mods,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   @include cx-button($name,
+      $mods: $mods,
+      $state-style-map: $state-style-map,
+      $besm: $besm
+   );
+
+   .#{$element}#{$name}-input {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+   }
+
+   .#{$element}#{$name}-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: rgba(8, 176, 255, 0.5);
+      outline: 1px solid rgba(8, 176, 255, 0.5);
+      transition: opacity 0.5s ease-in-out;
+
+      &.#{$state}done {
+         opacity: 0;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/UploadButton')) {
+   @include cx-uploadbutton();
+}

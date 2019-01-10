@@ -1,0 +1,172 @@
+@mixin cxb-field(
+   $besm,
+   $state-style-map,
+   $input: true,
+   $box: false,
+   $width: null
+)
+{
+   position: relative;
+   display: inline-block;
+   box-sizing: border-box;
+
+   $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
+   $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
+
+   @if $input {
+      width: $width;
+      line-height: 0;
+      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
+
+      //font: cx-get-state-rule($state-style-map, default, 'font');
+      //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      //
+      //height: calc(#{$line-height} + #{cx-top($padding) + cx-bottom($padding)} + #{cx-top($border-width) + cx-bottom($border-width)});
+   }
+
+   @if ($box) {
+      line-height: $line-height;
+      padding: $padding;
+      border-width: $border-width;
+      border-style: solid;
+      border-color: transparent;
+
+      //other optional rules which could affect height
+      font: cx-get-state-rule($state-style-map, default, 'font');
+      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      height: cx-get-state-rule($state-style-map, default, 'height');
+   }
+
+   $state: map-get($besm, state);
+
+   &.#{$state}view-mode {
+      line-height: $line-height;
+      padding: $padding;
+      border-width: $border-width;
+      border-style: solid;
+      border-color: transparent;
+   }
+}
+
+@mixin cxe-field-input(
+   $besm,
+   $state-style-map,
+   $overrides: null,
+   $placeholder: null,
+   $width: 100%,
+   $input: true
+) {
+   $state: map-get($besm, state);
+
+   $styles: cx-deep-map-merge($state-style-map, $overrides);
+
+   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
+   $padding: cx-get-state-rule($styles, default, 'padding', 0);
+   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+
+   box-sizing: border-box;
+
+   @if $input {
+      width: $width;
+      height: 100%; //cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
+
+      @if ($cx-use-box-line-height-fix) {
+         //100% line-height fix - inputs work better in all browser, especially in Firefox
+         $styles: cx-deep-map-merge($styles, (
+            default: (
+               line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)),
+               padding: 0 cx-right($padding) 0 cx-left($padding)
+            )
+         ));
+      }
+   }
+
+   @include cx-add-state-rules($styles, default);
+
+   &:hover {
+      @include cx-add-state-rules($styles, hover);
+   }
+
+   &:focus {
+      @include cx-add-state-rules($styles, focus);
+   }
+
+   @if $input {
+      &:disabled {
+         @include cx-add-state-rules($styles, disabled);
+      }
+   }
+   @else {
+      .#{$state}disabled > & {
+         @include cx-add-state-rules($styles, disabled);
+      }
+   }
+
+   .#{$state}error > & {
+      @include cx-add-state-rules($styles, error);
+
+      &:focus {
+         @include cx-add-state-rules($styles, error-focus);
+      }
+   }
+
+   @if $input {
+      &::-webkit-input-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &::-moz-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &:-ms-input-placeholder {
+         @include cx-add-rules($placeholder);
+      }
+
+      &::-ms-clear {
+         width: 0;
+         height: 0;
+      }
+   }
+}
+
+@mixin cxe-field-button(
+   $besm,
+   $state-style-map
+) {
+   display: block;
+   position: absolute;
+
+   @include cx-add-state-rules($state-style-map, default);
+
+   &:hover {
+      @include cx-add-state-rules($state-style-map, hover);
+   }
+
+   &:active {
+      @include cx-add-state-rules($state-style-map, active);
+   }
+
+}
+
+@mixin cxe-field-button-icon(
+   $besm,
+   $size
+) {
+   display: block;
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin-top: -$size / 2;
+   margin-left: -$size / 2;
+   height: $size;
+   width: $size;
+   line-height: $size;
+   text-align: center;
+}
+
+
+@mixin cxe-field-empty-text($empty-text) {
+   @include cx-add-rules($empty-text);
+}

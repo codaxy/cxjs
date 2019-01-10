@@ -1,0 +1,40 @@
+
+$cx-default-checkbox-color: $cx-default-input-color !default;
+$cx-default-checkbox-background-color: $cx-default-input-background-color !default;
+$cx-default-checkbox-border-width: cx-get-state-rule($cx-input-state-style-map, default, border-width) !default;
+$cx-default-checkbox-border-color: $cx-default-input-border-color !default;
+
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+  default: (
+    color: $cx-default-checkbox-color,
+    background-color: $cx-default-checkbox-background-color,
+    border-width: $cx-default-checkbox-border-width,
+    border-color: $cx-default-checkbox-border-color
+  ),
+  checked: (
+
+  ),
+  checked-focus: (
+    
+  ),
+  focus: (
+    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+    outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
+    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow)
+  ),
+
+  disabled: (
+    background: rgb(235, 235, 228),
+    color: rgb(84, 84, 84)
+  ),
+  disabled-checked: (
+    
+  ),
+  error: (
+    border-color: rgba(220, 0, 9, 0.8)
+  ),
+
+  error-focus: (
+    box-shadow: 0 0 2px rgba(220, 0, 9, 0.8)
+  )
+)) !default;

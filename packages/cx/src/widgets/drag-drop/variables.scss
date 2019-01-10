@@ -1,0 +1,12 @@
+$cx-default-dragclone-background-color: rgba(white, 0.9) !default;
+$cx-default-dragclone-box-shadow: 0 0 3px rgba(128, 128, 128, 0.3) !default;
+
+$cx-dragclone-style: (
+   background-color: $cx-default-dragclone-background-color,
+   box-shadow: $cx-default-dragclone-box-shadow,
+   opacity: 0.9
+) !default;
+
+$cx-dependencies: map-merge($cx-dependencies, (
+   'cx/widgets/DragSource': 'cx/widgets/DragClone'
+))

@@ -1,0 +1,112 @@
+$header-color: #a73232;
+$aside-width: 260px;
+$small-device-width: 800px;
+
+#app,
+.layout {
+    height: 100%;
+}
+
+.header {
+    padding: 1.5em;
+    background: $header-color;
+    position: fixed;
+    transition: all 0.2s linear;
+    left: 0;
+    top: 0;
+    right: 0;
+    box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.26);
+    display: flex;
+    align-items: center;
+
+    h2 {
+        line-height: 1;
+        font-size: 1.5rem;
+        margin: 0;
+        color: white;
+    }
+
+    .layout.nav & {
+        transform: translateX($aside-width);
+        @media screen and (min-width: $small-device-width) {
+            left: $aside-width;
+            transform: none;
+        }
+    }
+}
+
+.aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: $aside-width;
+    background: white;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.26);
+    font-size: 13px;
+
+    transform: translateX(-300px);
+    transition: transform 0.2s linear;
+
+    .layout.nav & {
+        transform: none;
+    }
+
+    h1 {
+        line-height: 3rem;
+        margin: 0;
+        padding: 0.5em;
+        text-align: center;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.26);
+        text-transform: uppercase;
+        font-size: 1.5rem;
+    }
+
+    dt {
+        padding: 0.5rem 0.5rem 0.5rem 2rem;
+        font-weight: bold;
+    }
+
+    dl .cxb-link {
+        padding: 0.5rem;
+        display: block;
+        color: inherit;
+
+        &.cxs-active {
+            color: $header-color;
+        }
+    }
+}
+
+.main {
+    padding: 5.5rem 1rem 1rem;
+    transition: all 0.2s linear;
+    height: 100%;
+    box-sizing: border-box;
+    display: block;
+
+    .layout.nav & {
+        transform: translateX($aside-width);
+        @media screen and (min-width: $small-device-width) {
+            margin-left: $aside-width;
+            transform: none;
+        }
+    }
+}
+
+h3 {
+    color: $header-color;
+}
+
+p {
+    max-width: 40em;
+}
+
+.cxb-section.cxm-card {
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
+    border-radius: 1px;
+}
+
+.layout.nav {
+}

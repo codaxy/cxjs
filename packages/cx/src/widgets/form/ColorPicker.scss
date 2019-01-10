@@ -1,0 +1,185 @@
+
+//@if cx-call-once("cx/widgets/checker-background") {
+//   %cx-checker-bg {
+//      background-repeat: repeat;
+//      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
+//   }
+//}
+
+@mixin cx-checker-background(
+   $tile-size: 4px,
+   $color: rgba(gray, 0.5)
+) {
+   background-image: linear-gradient(45deg, $color 25%, transparent 25%), linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%), linear-gradient(-45deg, transparent 75%, $color 75%);
+   background-size: 2 * $tile-size 2 * $tile-size;
+   background-position: 0 0, 0 $tile-size, $tile-size -#{$tile-size}, -#{$tile-size} 0px;
+}
+
+@mixin cx-colorpicker(
+   $name: 'colorpicker',
+   $state-style-map: $cx-colorpicker-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+
+      @include cx-add-state-rules($state-style-map, default);
+
+      display: inline-flex;
+      flex-direction: column;
+
+      @media screen and (min-width: 500px) {
+         flex-direction: row;
+      }
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, hover);
+      }
+
+      input {
+         @include cxe-field-input(
+            $besm,
+            $state-style-map,
+            $placeholder: $placeholder,
+            $input: false,
+            $overrides: (
+               default: (
+                  line-height: 12px,
+                  font-size: 11px,
+                  font-family: $cx-default-colorpicker-font-family,
+                  padding: 2px
+               )
+            )
+         );
+      }
+   }
+
+   .#{$element}#{$name}-picker {
+      width: 200px;
+      height: 200px;
+      margin: 5px;
+      //cursor: crosshair;
+      float: left;
+      position: relative;
+      touch-action: none;
+
+      background: -webkit-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -moz-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -ms-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -o-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -o-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+   }
+
+   .#{$element}#{$name}-indicator {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      box-sizing: border-box;
+      width: 9px;
+      height: 9px;
+      left: calc(50% - 5px);
+      top: calc(50% - 5px);
+   }
+
+   .#{$element}#{$name}-hue {
+      height: 15px;
+      position: relative;
+      background: -moz-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -webkit-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -ms-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -o-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      touch-action: none;
+      //margin-bottom: 5px;
+
+      .#{$element}#{$name}-indicator {
+         border-color: rgba(0, 0, 0, 0.5);
+         height: calc(100% + 4px);
+         border-radius: 2px;
+         width: 4px;
+         top: -2px;
+      }
+   }
+
+   .#{$element}#{$name}-alpha {
+      height: 16px;
+      //@extend %cx-checker-bg;
+      @include cx-checker-background();
+      position: relative;
+      touch-action: none;
+
+      & > div:first-child {
+         width: 100%;
+         height: 100%;
+      }
+
+      .#{$element}#{$name}-indicator {
+         border-color: rgba(0, 0, 0, 0.5);
+         top: -2px;
+         height: calc(100% + 4px);
+         border-radius: 2px;
+         width: 4px;
+      }
+   }
+
+   .#{$element}#{$name}-details {
+      width: 200px;
+      min-height: 170px;
+      float: left;
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+   }
+
+   .#{$element}#{$name}-inputs {
+      label {
+         width: 25%;
+         display: inline-block;
+         text-align: right;
+         font-size: 12px;
+
+         input {
+            width: 60%;
+            text-align: center;
+         }
+      }
+   }
+
+   .#{$element}#{$name}-preview {
+   }
+
+   .#{$element}#{$name}-color {
+      //@extend %cx-checker-bg;
+      @include cx-checker-background();
+      height: 68px;
+      width: 68px;
+      float: right;
+
+      & > div {
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   .#{$element}#{$name}-values {
+      float: left;
+      width: 100px;
+      margin-right: 5px;
+
+      input {
+         width: 120px;
+         display: block;
+      }
+
+      input:not(:last-child) {
+         margin: 0 0 8px 0;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/ColorPicker')) {
+   @include cx-colorpicker();
+}

@@ -1,0 +1,21 @@
+
+@mixin cx-cover(
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$mod}cover {
+      background-color: $cx-default-cover-background-color;
+      border-color: $cx-default-cover-border-color;
+      border-style: solid;
+      fill: $cx-default-cover-background-color;
+      stroke: $cx-default-cover-border-color;
+   }
+}
+
+@if (cx-should-include('cx/widgets/cover')) {  // check path
+   @include cx-cover();
+}

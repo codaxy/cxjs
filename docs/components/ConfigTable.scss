@@ -1,0 +1,65 @@
+.dxb-configtable {
+
+    max-width: 50em;
+    margin-top: 16px;
+    position: relative;
+    overflow-x: auto;
+    font-size: 13px;
+
+    table {
+        border-collapse: collapse;
+        min-width: 100%;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    th {
+        text-align: left;
+        padding: 0 10px 0 5px;
+        font-size: 11px;
+        color: gray;
+        font-weight: normal;
+    }
+
+    td:first-child {
+        background: #fbfbfb;
+    }
+
+    td:nth-child(2) {
+        min-width: 300px;
+    }
+
+    td:nth-child(3) {
+        //background: #fbfbfb;
+        font: 12px monospace;
+    }
+
+    td {
+        padding: 5px;
+        border-top: 1px solid #ebebeb;
+    }
+
+    h5 {
+        font-family: monospace;
+        font-size: 13.5px;
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    h5.dxs-important  {
+        font-weight: bold;
+    }
+
+    h5.dxs-long {
+        font-size: 11px;
+    }
+}
+
+

@@ -1,0 +1,27 @@
+
+@mixin cx-column(
+   $name: 'column',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$element}#{$name}-rect {
+      stroke-width: 1px;
+      fill: #eee;
+      stroke: #ccc;
+
+      &.#{$state}selectable {
+         cursor: pointer;
+      }
+
+      &.#{$state}selected {
+         stroke-width: 2px;
+      }
+   }
+}
+
+@if (cx-should-include('cx/charts/Column')) {
+   @include cx-column();
+}

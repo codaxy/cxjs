@@ -1,0 +1,114 @@
+
+@mixin cx-pagination(
+   $name: 'pagination',
+   $state-style-map: $cx-grid-pagination-state-style-map,
+   $icon-size: $cx-default-icon-size,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+
+   .#{$block}#{$name} {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 0;
+      padding: 0;
+      line-height: $cx-default-box-line-height;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      user-select: none;
+
+      @include cx-add-state-rules($cx-list, default);
+
+      &:hover {
+         @include cx-add-state-rules($cx-list, hover);
+      }
+
+      &:focus {
+         @include cx-add-state-rules($cx-list, focus);
+      }
+   }
+
+   .#{$element}#{$name}-page {
+      display: inline-block;
+      box-sizing: border-box;      
+      border-style: solid;
+      margin-left: -1px;
+      text-decoration: none;
+      cursor: pointer;
+      border-width: $cx-grid-pagination-default-border-width;
+      border-color: $cx-grid-pagination-default-border-color;
+      border-radius: $cx-grid-pagination-default-border-radius;
+      padding: $cx-grid-pagination-default-padding;
+
+      @include cx-add-state-rules($state-style-map, default);
+
+      position: relative;
+
+      &:first-child {
+         border-top-left-radius: $cx-default-border-radius;
+         border-bottom-left-radius: $cx-default-border-radius;
+
+         &:after {
+            content: '<';
+            visibility: hidden;
+         }
+      }
+
+      &:last-child {
+         border-top-right-radius: $cx-default-border-radius;
+         border-bottom-right-radius: $cx-default-border-radius;
+
+         &:after {
+            content: '>';
+            visibility: hidden;
+         }
+      }
+
+      &:hover {
+        @include cx-add-state-rules($state-style-map, hover);
+
+         &:focus {
+            @include cx-add-state-rules($state-style-map, cursor);
+         }
+      }
+
+      &:active {
+         @include cx-add-state-rules($state-style-map, active);
+      }
+
+      &.#{$state}active {
+         @include cx-add-state-rules($state-style-map, selected);
+        
+         .#{$block}#{$name}:focus > & {
+            @include cx-add-state-rules($state-style-map, selected-cursor);
+         }
+      }
+
+      &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
+      }
+   }
+
+   .#{$element}#{$name}-icon-prev-page,
+   .#{$element}#{$name}-icon-next-page {
+      width: $icon-size;
+      height: $icon-size;
+      font-size: $icon-size;
+      line-height: $icon-size;
+      position: absolute;
+      top: 50%;
+      margin-top: -$icon-size / 2;
+      left: 50%;
+      margin-left: -$icon-size / 2;
+   }
+
+   .#{$element}#{$name}-icon-prev-page {
+      transform: rotate(180deg);
+   }
+}
+
+@if (cx-should-include('cx/widgets/Pagination')) {
+   @include cx-pagination();
+}

@@ -1,0 +1,40 @@
+{
+  "name": "cx-app-tpl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config config/webpack.dev.js --open",
+    "build": "webpack --config config/webpack.prod.js"
+  },
+  "author": "Not Set",
+  "license": "ISC",
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "cx": "^18.5.8",
+    "cx-react": "^17.10.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-cx-env": "^18.5.0",
+    "babel-preset-env": "^1.6.1",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.4",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^3.2.0",
+    "inline-manifest-webpack-plugin": "^4.0.0",
+    "json-loader": "^0.5.4",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.0"
+  }
+}

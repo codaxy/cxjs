@@ -1,0 +1,25 @@
+@mixin cx-dragsource(
+   $name: 'dragsource',
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      box-sizing: border-box;
+
+      &.#{$state}dragged {
+         opacity: 0.3;
+      }
+
+      &.#{$state}draggable {
+         touch-action: none;
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/DragSource')) {
+   @include cx-dragsource();
+}

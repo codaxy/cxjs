@@ -1,0 +1,37 @@
+
+@mixin cx-label(
+   $name: 'label',
+   $state-style-map: $cx-label-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}label {
+      display: inline-block;
+
+      @include cx-add-state-rules($state-style-map, default);
+
+      &:hover {
+         @include cx-add-state-rules($state-style-map, hover);
+      }
+
+      &:active {
+         @include cx-add-state-rules($state-style-map, active);
+      }
+
+      &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
+      }
+   }
+
+   .#{$element}label-asterisk {
+      color: $cx-default-label-asterisk-color;
+   }
+}
+
+@if (cx-should-include('cx/widgets/Label')) {
+   @include cx-label();
+}

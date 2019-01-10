@@ -1,0 +1,43 @@
+
+@mixin cx-resizer(
+   $name: 'resizer',
+   $besm: $cx-besm
+) {
+
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   $mod: map-get($besm, mod);
+
+   .#{$block}#{$name} {
+      position: relative;
+      flex-shrink: 0;
+
+      &.#{$state}vertical {
+         width: 5px;
+         cursor: col-resize;
+      }
+
+
+      &.#{$state}horizontal {
+         height: 5px;
+         cursor: row-resize;
+      }
+   }
+
+   .#{$element}#{$name}-handle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+
+      &.#{$state}dragged {
+         background: rgba(gray, 0.5);
+      }
+   }
+}
+
+@if (cx-should-include('cx/widgets/Resizer')) {
+   @include cx-resizer();
+}
