@@ -106,7 +106,7 @@ export const LocalizationPage = <cx>
         </CodeSplit>
 
         ## Culture
-        <ImportPath path="import {Culture} from 'cx/ui';" />
+        <ImportPath path="import {Culture} from 'cx/ui';"/>
 
         The `Culture` object provides methods for selecting an UI culture used for formatting and localizing messages.
 
@@ -138,11 +138,11 @@ export const LocalizationPage = <cx>
 
                     `Culture.setDefaultDateEncoding(encodeDateWithTimezoneOffset);`
                 </Md></cx>
-            }]} />
+            }]}/>
         </CodeSplit>
 
         ## Localization
-        <ImportPath path="import {Localization} from 'cx/ui';" />
+        <ImportPath path="import {Localization} from 'cx/ui';"/>
 
         The `Localization` object offers methods for providing errors messages and other texts that appear in widgets
         in different languages.
@@ -164,7 +164,7 @@ export const LocalizationPage = <cx>
                     Override prototype properties for a given component name. Used for changing defaults and
                     theme adjustments.
                 </Md></cx>
-            }]} />
+            }]}/>
 
 
             <CodeSnippet putInto="code">{`

@@ -34,7 +34,10 @@ const dateFieldErrorMessages = {
    ...calendarErrorMessages,
    inputErrorText: 'Invalid date entered.' 
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
 // DateField
@@ -59,10 +62,13 @@ Localization.localize(c, 'cx/widgets/TextField', {
 // UploadButton
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'Upload is in progress.'
+<<<<<<< HEAD
 });
 
 // MsgBox
 Localization.localize(c, 'cx/widgets/MsgBox', {
    yesText:"Yes",
    noText: "No"
+=======
+>>>>>>> origin/master
 });

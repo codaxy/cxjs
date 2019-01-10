@@ -58,10 +58,13 @@ Localization.localize(c, 'cx/widgets/TextField', {
 // UploadButton
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'La carga está en progreso.'
+<<<<<<< HEAD
 });
 
 // MsgBox
 Localization.localize(c, 'cx/widgets/MsgBox', {
    yesText:"Sí",
    noText: "No"
+=======
+>>>>>>> origin/master
 });

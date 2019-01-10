@@ -64,4 +64,4 @@ Localization.localize(c, 'cx/widgets/Field', {
  Localization.localize(c, 'cx/widgets/MsgBox', {
    yesText:"Da",
    noText: "Ne"
-});
+ });
