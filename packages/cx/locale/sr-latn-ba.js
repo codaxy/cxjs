@@ -60,3 +60,9 @@ Localization.localize(c, 'cx/widgets/Field', {
  Localization.localize(c, 'cx/widgets/UploadButton', {
     validationErrorText: 'Otpremanje je u toku.'
  });
+
+ // MsgBox
+Localization.localize(c, 'cx/widgets/MsgBox', {
+   yesText:"Da",
+   noText: "Ne"
+});
