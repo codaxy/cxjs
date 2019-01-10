@@ -59,3 +59,9 @@ Localization.localize(c, 'cx/widgets/TextField', {
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'Wird hochgeladen...'
 });
+
+// MsgBox
+Localization.localize(c, 'cx/widgets/MsgBox', {
+   yesText:"Ja",
+   noText: "Nein"
+});

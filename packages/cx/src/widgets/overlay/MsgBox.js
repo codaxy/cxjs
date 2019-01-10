@@ -82,8 +82,8 @@ export class MsgBox {
                   justify={MsgBox.prototype.footerJustify}
                   hspacing="small"
                >
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yesText || "Yes"}</Button>
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.noText || "No"}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yesText || MsgBox.prototype.yesText}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.noText || MsgBox.prototype.noText}</Button>
                </FlexRow>
             </Window>
          </cx>);
@@ -96,6 +96,8 @@ export class MsgBox {
 MsgBox.prototype.buttonMod = null;
 MsgBox.prototype.footerDirection = "row";
 MsgBox.prototype.footerJustify = "center";
+MsgBox.prototype.yesText = 'Yes';
+MsgBox.prototype.noText = 'No';
 Localization.registerPrototype('cx/widgets/MsgBox', MsgBox);
 
 

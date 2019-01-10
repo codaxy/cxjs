@@ -59,3 +59,9 @@ Localization.localize(c, 'cx/widgets/TextField', {
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'Le téléchargement est en cours.'
 });
+
+// MsgBox
+Localization.localize(c, 'cx/widgets/MsgBox', {
+   yesText:"Oui",
+   noText: "Non"
+});
