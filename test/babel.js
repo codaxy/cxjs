@@ -1,14 +1,13 @@
-require("babel-core/register")({
+require("@babel/register")({
    retainLines: true,
    "presets": [
-      ["env", {loose: true}]
+      ["@babel/preset-env", {loose: true}]
    ],
    "plugins": [
-      ["babel-plugin-transform-react-jsx", {"pragma": "VDOM.createElement"}],
-      "babel-plugin-transform-cx-jsx",
-      'transform-object-rest-spread',
-      "transform-function-bind",
-      'transform-export-extensions',
-      'transform-es2015-parameters',
+      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      "transform-cx-jsx",
+      '@babel/proposal-object-rest-spread',
+      "@babel/proposal-function-bind",
+      '@babel/transform-parameters',
    ]
 });
