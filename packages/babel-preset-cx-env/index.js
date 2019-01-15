@@ -24,8 +24,10 @@ module.exports = function (context) {
          plugins.push('transform-cx-imports');
    }
 
+   delete opts.cx;
+
    return {
-      presets: [['babel-preset-env', opts]],
+      presets: [['@babel/preset-env', opts]],
       plugins: plugins
    };
 };

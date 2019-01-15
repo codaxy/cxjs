@@ -20,7 +20,7 @@ module.exports = function (production) {
             },
             modules: false,
             loose: true,
-            useBuiltIns: true,
+            useBuiltIns: "usage",
             cx: {
                imports: {
                   useSrc: true
