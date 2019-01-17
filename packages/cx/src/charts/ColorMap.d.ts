@@ -10,6 +10,10 @@ export class ColorMap extends Cx.Widget<ColorMapProps> {
    onGetCache?: string | (() => Cx.Record);
 
    names?: Cx.Prop<string[]>;
+
+   step?: Cx.NumberProp;
+   offset?: Cx.NumberProp;
+   size?: Cx.NumberProp;
 }
 
 

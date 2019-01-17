@@ -4,7 +4,10 @@ import {PureContainer} from '../ui/PureContainer';
 export class ColorMap extends Widget {
    declareData() {
       super.declareData(...arguments, {
-         names: undefined
+         names: undefined,
+         offset: undefined,
+         step: undefined,
+         size: undefined,
       })
    }
 
@@ -13,12 +16,18 @@ export class ColorMap extends Widget {
          context.colorMaps = {};
 
       context.getColorMap = (colorMap) => {
-         var map = context.colorMaps[colorMap];
+         let map = context.colorMaps[colorMap];
          if (!map) {
             let cache = this.onGetCache ? instance.invoke("onGetCache") : {};
             map = cache[colorMap];
-            if (!map)
-               map = context.colorMaps[colorMap] = cache[colorMap] = new ColorIndex();
+            if (!map) {
+               let {data} = instance;
+               map = context.colorMaps[colorMap] = cache[colorMap] = new ColorIndex({
+                  offset: data.offset,
+                  step: data.step,
+                  size: data.size
+               });
+            }
             if (Array.isArray(instance.data.names))
                instance.data.names.forEach(name => map.acknowledge(name));
          }
@@ -30,6 +39,10 @@ export class ColorMap extends Widget {
       return null;
    }
 }
+
+ColorMap.prototype.offset = 0;
+ColorMap.prototype.step = null;
+ColorMap.prototype.size = 16;
 
 export class ColorMapScope extends PureContainer {
    explore(context, instance) {
@@ -54,9 +67,12 @@ ColorMap.Scope = ColorMapScope;
 Widget.alias('color-map', ColorMap);
 
 export class ColorIndex {
-   constructor() {
+   constructor({offset, step, size}) {
       this.colorMap = {};
       this.dirty = true;
+      this.offset = offset;
+      this.step = step;
+      this.size = size;
    }
 
    acknowledge(name) {
@@ -70,14 +86,14 @@ export class ColorIndex {
 
       if (this.dirty) {
          this.dirty = false;
-
-         var n = Object.keys(this.colorMap).length;
-         this.dist = n > 0 ? 16 / n : 1;
-         this.offset = 0;
+         if (!this.step) {
+            let n = Object.keys(this.colorMap).length;
+            this.step = n > 0 ? this.size / n : 1;
+         }
       }
 
-      var index = this.colorMap[name];
+      let index = this.colorMap[name] || 0;
+      return Math.round(this.offset + this.step * index + this.size) % this.size;
 
-      return Math.round(this.offset + this.dist * index) % 16;
    }
 }
