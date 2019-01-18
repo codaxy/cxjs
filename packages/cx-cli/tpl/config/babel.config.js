@@ -14,7 +14,7 @@ module.exports = {
                 },
                 modules: false,
                 loose: true,
-                useBuiltIns: true,
+                useBuiltIns: 'usage',
                 cx: {
                     imports: {
                         useSrc: true

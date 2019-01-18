@@ -3,7 +3,7 @@
   "version": "19.1.0",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
   "repository": "https://github.com/codaxy/cxjs",
-  "author": "Marko Stijak",
+  "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "dependencies": {
@@ -12,8 +12,7 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
-    "mocha": "^2.3.4",
-    "@babel/runtime": "^7.2.0"
+    "mocha": "^2.3.4"
   },
   "scripts": {
     "test": "mocha"
