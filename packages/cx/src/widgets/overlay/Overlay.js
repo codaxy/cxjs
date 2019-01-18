@@ -215,6 +215,7 @@ Overlay.prototype.destroyDelay = 0;
 Overlay.prototype.dismissOnFocusOut = false;
 Overlay.prototype.focusable = false;
 Overlay.prototype.containerStyle = null;
+Overlay.prototype.dismissOnPopState = false;
 
 Widget.alias('overlay', Overlay);
 
@@ -605,9 +606,18 @@ export class OverlayComponent extends VDOM.Component {
                });
          }, 0);
       }
+
+      if (widget.dismissOnPopState)
+      {
+         this.onPopState = () => { this.props.instance.dismiss() };
+         window.addEventListener('popstate', this.onPopState)
+      }
    }
 
    componentWillUnmount() {
+
+      if (this.onPopState)
+         window.removeEventListener('popstate', this.onPopState)
 
       offFocusOut(this);
       this.unmounting = true;

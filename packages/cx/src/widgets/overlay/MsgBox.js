@@ -33,6 +33,7 @@ export class MsgBox {
                resizable={false}
                closable={false}
                style={options.style || "max-width: 90vw"}
+               dismissOnPopState
             >
                {options.message || options.items || options.children}
                <FlexRow putInto="footer"
@@ -75,6 +76,7 @@ export class MsgBox {
                resizable={false}
                closable={false}
                style={options.style || "max-width: 90vw"}
+               dismissOnPopState
             >
                {options.message || options.items || options.children}
                <FlexRow putInto="footer"

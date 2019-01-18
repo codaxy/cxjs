@@ -45,6 +45,9 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    /** Set to true to make the top level overlay element focusable. */
    focusable?: boolean,
 
+   /** Set to `true` to dismiss the window if the user presses the back button in the browser. */
+   dismissOnPopState?: boolean
+
    /** A callback function which fires while the overlay is being moved around. */
    onMove?(e: Event, instance: Instance, component: any);
 
