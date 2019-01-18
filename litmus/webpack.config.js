@@ -27,20 +27,10 @@ let common = {
          test: /\.json$/,
          loader: 'json-loader'
       }, {
-         test: /\.js$/,
+         test: /\.(js|ts|tsx)$/,
          include: /(litmus|cx)/,
          loader: 'babel-loader',
          query: babelConfig(production)
-      }, {
-         test: /\.tsx?$/,
-         include: /litmus/,
-         loaders: [
-            {
-               loader: 'babel-loader',
-               query: babelConfig(production)
-            },
-            'ts-loader',
-         ]
       }]
    },
    entry: {

@@ -59,7 +59,8 @@ import './index.scss';
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
 //import Demo from './bugs/LabelsTopLayout';
-import Demo from './bugs/509';
+//import Demo from './bugs/509';
+import Demo from './features/typescript/jsx';
 
 let store = new Store();
 

@@ -54,6 +54,7 @@
     "@babel/plugin-external-helpers": "^7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
+    "@babel/preset-typescript": "^7.1.0",
     "@babel/register": "^7.0.0",
     "@types/react": "^16.0.7",
     "babel-jest": "^22.4.3",
