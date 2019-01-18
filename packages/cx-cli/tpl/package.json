@@ -9,8 +9,7 @@
   },
   "author": "Not Set",
   "license": "ISC",
-  "dependencies": {
-    "babel-polyfill": "^6.23.0",
+  "dependencies": {    
     "cx": "^19.1.2",
     "cx-react": "^17.10.0",
     "react": "^16.2.0",
