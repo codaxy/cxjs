@@ -1,6 +1,6 @@
 "use strict";
 
-var babel  = require("babel-core"),
+var babel  = require("@babel/core"),
    plugin = require("./index"),
    assert = require('assert');
 

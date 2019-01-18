@@ -13,6 +13,48 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 19.1.0
+
+            ### Babel 7
+
+            Starting with this version CxJS tooling requires Babel 7. New versions of the `babel-preset-cx-env`, `babel-plugin-transform-cx-jsx`,
+            and `babel-plugin-transform-cx-imports` packages do not support Babel 6 anymore.
+
+            These are the steps required to migrate your applications to Babel 7:
+
+            In `package.json`, update the following packages:
+
+            - `"babel-core"` => `"@babel/core": "^7.2.2"`,
+            - `"babel-preset-env"` => `"@babel/preset-env": "^7.2.3"`
+
+            In `babel.config`, replace `useBuiltIns: true` with `useBuiltIns: 'usage'`.
+
+            In `polyfill.js`, remove `import "babel-polyfill";`
+
+            If some other Babel plugins are used please make sure that these are also upgraded to versions which target Babel 7.
+
+            That's it.
+
+            #### TypeScript
+
+            One of the benefits that Babel 7 brings is support for TypeScript without the TypeScript tooling.
+            You can easily enable TypeScript in your project by installing the `@babel/preset-typescript` npm package
+            and registering the preset in your `babel.config` file.
+            You'll also have to tweak rules in `webpack.config.js` to support `.ts` and `.tsx` files.
+
+            Replace
+            <CodeSnippet>
+                test: /\.js$/,
+                loader: 'babel-loader',
+            </CodeSnippet>
+            with:
+            <CodeSnippet>
+                test: /\.(js|ts|tsx)$/,
+                loader: 'babel-loader',
+            </CodeSnippet>
+
+            You can now mix `.js`, `.ts` and `.tsx` files. However, some of the [JSX in TS related quirks still apply](https://github.com/codaxy/cx-typescript-boilerplate).
+
             ## 18.12.0
 
             ### Functional Components and CxJS attributes

@@ -14,7 +14,7 @@ module.exports = {
          },
          modules: false,
          loose: true,
-         useBuiltIns: "entry",
+         useBuiltIns: "usage",
          cx: {
             imports: {
                useSrc: true
@@ -23,9 +23,9 @@ module.exports = {
       }]
    ],
    "plugins": [
-      'external-helpers',
-      'transform-export-extensions',
-      'transform-es2015-parameters',
+      // 'external-helpers',
+      // 'transform-export-extensions',
+      // 'transform-es2015-parameters',
    ]
 };
 

@@ -1,6 +1,6 @@
 "use strict";
 
-let babel = require("babel-core");
+let babel = require("@babel/core");
 let plugin = require("./index");
 
 let assert = require('assert');
@@ -165,7 +165,7 @@ describe('JSCX', function () {
       let code = `<cx><Component onClick={e=>{}}></Component></cx>`;
 
       let output = babel.transform(code, {
-         plugins: [plugin, 'syntax-jsx', 'transform-es2015-arrow-functions']
+         plugins: [plugin, 'syntax-jsx']
          //presets: ['es2015']
       }).code;
 

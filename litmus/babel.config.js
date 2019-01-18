@@ -10,6 +10,7 @@ module.exports = function (production) {
          // }]
       ],
       presets: [
+         '@babel/preset-typescript',
          ["cx-env", {
             targets: {
                chrome: 50,
