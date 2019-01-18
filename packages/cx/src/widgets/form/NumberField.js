@@ -13,7 +13,7 @@ import {isNumber} from '../../util/isNumber';
 import {isDefined} from '../../util/isDefined';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
-import {KeyCode} from "../../util";
+import {KeyCode} from "../../util/KeyCode";
 enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {

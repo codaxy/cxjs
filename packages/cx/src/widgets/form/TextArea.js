@@ -9,7 +9,7 @@ import {
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 
 export class TextArea extends TextField {
 

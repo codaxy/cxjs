@@ -21,9 +21,9 @@ import {Icon} from '../Icon';
 import CalendarIcon from '../icons/calendar';
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import {isTouchDevice} from '../../util';
+import {isTouchDevice} from '../../util/isTouchDevice';
 import {Localization} from '../../ui/Localization';
 import {isDefined} from '../../util/isDefined';
 
