@@ -14,9 +14,10 @@ module.exports = function (manifest, paths, pkgSrc) {
 
             ImportDeclaration: function (path, scope) {
                path.node.specifiers.forEach(spec=>{
-                  var localImports = imports[scope.file.opts.filename];
+                  var fileName = fixPathSeparators(scope.file.opts.filename);
+                  var localImports = imports[fileName];
                   if (!localImports)
-                     localImports = imports[scope.file.opts.filename] = {};
+                     localImports = imports[fileName] = {};
                   var resolvedPath = pathResolve(
                      p.dirname(scope.file.opts.filename),
                      path.node.source.value
@@ -53,6 +54,7 @@ module.exports = function (manifest, paths, pkgSrc) {
                names.forEach(name=> {
                   let path = fixPathSeparators(scope.file.opts.filename),
                      srcPath = path;
+
                   if (imports[path] && imports[path][name]) {
                      srcPath = imports[path][name];
                   }
