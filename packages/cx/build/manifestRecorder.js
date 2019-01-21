@@ -1,5 +1,6 @@
 var fs = require('fs'),
    pathResolve = require('./pathResolve'),
+   fixPathSeparators = require(('./fixPathSeparators')),
    p = require('path')
 
 
@@ -50,7 +51,7 @@ module.exports = function (manifest, paths, pkgSrc) {
                }
 
                names.forEach(name=> {
-                  let path = scope.file.opts.filename,
+                  let path = fixPathSeparators(scope.file.opts.filename),
                      srcPath = path;
                   if (imports[path] && imports[path][name]) {
                      srcPath = imports[path][name];

@@ -20,7 +20,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
    let all = entries.map(async (e) => {
 
       let options = Object.assign({
-         treeshake: false,
+         treeshake: true,
 
          external: function (id) {
 
