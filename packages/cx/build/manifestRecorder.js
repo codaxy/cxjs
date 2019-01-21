@@ -63,7 +63,7 @@ module.exports = function (manifest, paths, pkgSrc) {
                      if (path.indexOf(key) == 0) {
                         var jsPath = 'src/' + srcPath.substring(pkgSrc.length + 1);
 
-                        var expName = paths[key].substring(2) + '/' + name;
+                        var expName = paths[key].substring(3) + '/' + name;
 
                         if (!manifest[expName])
                            manifest[expName] = {};
