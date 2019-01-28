@@ -10,7 +10,7 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 

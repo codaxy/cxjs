@@ -16,7 +16,8 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    placement?: string | null,
    autoClose?: boolean,
    icons?: boolean,
-   keyboardShortcut?: KeyboardShortcut
+   keyboardShortcut?: KeyboardShortcut,
+   tooltip?: string | Cx.Record
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}

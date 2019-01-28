@@ -264,7 +264,7 @@ export class Grid extends Widget {
       instance.records = this.mapRecords(context, instance);
 
       //tree adapters can have additional (child) records
-      if (instance.records && instance.records.length > data.totalRecordCount && !isNonEmptyArray(this.grouping))
+      if (instance.records && instance.records.length > data.totalRecordCount && this.dataAdapter.isTreeAdapter)
          data.totalRecordCount = instance.records.length;
    }
 
@@ -685,7 +685,7 @@ export class Grid extends Widget {
       this.dataAdapter.sort(sorters);
 
       //if no filtering or sorting applied, let the component maps records on demand
-      if (this.buffered && !filter && !isNonEmptyArray(sorters))
+      if (this.buffered && !filter && !isNonEmptyArray(sorters) && !this.dataAdapter.isTreeAdapter)
          return null;
 
       return this.dataAdapter.getRecords(context, instance, data.records, store);
@@ -853,7 +853,7 @@ class GridComponent extends VDOM.Component {
                })}
                params={{
                   ...mod,
-                  cursor: i == cursor,
+                  cursorIndex: i,
                   data: record.data,
                   cursorCellIndex: i == cursor && cursorCellIndex,
                   cellEdit: i == cursor && cursorCellIndex && cellEdit

@@ -1,5 +1,4 @@
 import {Widget, VDOM} from '../../ui/Widget';
-import {Field} from './Field';
 
 export class ValidationError extends Widget {
 

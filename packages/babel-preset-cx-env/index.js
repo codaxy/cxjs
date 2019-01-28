@@ -8,14 +8,13 @@ module.exports = function (context) {
    var plugins = [];
 
    plugins.push(
-      'transform-class-properties',
-      'transform-object-rest-spread',
-      'transform-function-bind',
+      '@babel/proposal-class-properties',
+      '@babel/proposal-object-rest-spread',
+      '@babel/proposal-function-bind',
       'transform-cx-jsx',
-      'transform-es2015-parameters',
-      'transform-export-extensions',
-      'syntax-dynamic-import',
-      ["transform-react-jsx", {"pragma": pragma}]
+      '@babel/transform-parameters',
+      '@babel/syntax-dynamic-import',
+      ["@babel/transform-react-jsx", {"pragma": pragma}]
    );
 
    if (imports !== false) {
@@ -25,8 +24,10 @@ module.exports = function (context) {
          plugins.push('transform-cx-imports');
    }
 
+   delete opts.cx;
+
    return {
-      presets: [['babel-preset-env', opts]],
+      presets: [['@babel/preset-env', opts]],
       plugins: plugins
    };
 };

@@ -2,7 +2,6 @@ const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
-   BabiliPlugin = require("babili-webpack-plugin"),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
    merge = require('webpack-merge'),
    path = require('path'),
@@ -28,20 +27,10 @@ let common = {
          test: /\.json$/,
          loader: 'json-loader'
       }, {
-         test: /\.js$/,
+         test: /\.(js|ts|tsx)$/,
          include: /(litmus|cx)/,
          loader: 'babel-loader',
          query: babelConfig(production)
-      }, {
-         test: /\.tsx?$/,
-         include: /litmus/,
-         loaders: [
-            {
-               loader: 'babel-loader',
-               query: babelConfig(production)
-            },
-            'ts-loader',
-         ]
       }]
    },
    entry: {

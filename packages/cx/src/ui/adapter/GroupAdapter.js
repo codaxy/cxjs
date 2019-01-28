@@ -3,7 +3,7 @@ import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {Grouper} from '../../data/Grouper';
 import {isArray} from '../../util/isArray';
 import {isDefined} from "../../util/isDefined";
-import {getComparer} from "../../data";
+import {getComparer} from "../../data/comparer";
 
 export class GroupAdapter extends ArrayAdapter {
 

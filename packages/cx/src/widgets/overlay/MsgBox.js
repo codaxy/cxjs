@@ -33,6 +33,7 @@ export class MsgBox {
                resizable={false}
                closable={false}
                style={options.style || "max-width: 90vw"}
+               dismissOnPopState
             >
                {options.message || options.items || options.children}
                <FlexRow putInto="footer"
@@ -75,6 +76,7 @@ export class MsgBox {
                resizable={false}
                closable={false}
                style={options.style || "max-width: 90vw"}
+               dismissOnPopState
             >
                {options.message || options.items || options.children}
                <FlexRow putInto="footer"
@@ -82,8 +84,8 @@ export class MsgBox {
                   justify={MsgBox.prototype.footerJustify}
                   hspacing="small"
                >
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yesText || "Yes"}</Button>
-                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.noText || "No"}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('yes')}>{options.yesText || MsgBox.prototype.yesText}</Button>
+                  <Button mod={ MsgBox.prototype.buttonMod } onClick={callback('no')}>{options.noText || MsgBox.prototype.noText}</Button>
                </FlexRow>
             </Window>
          </cx>);
@@ -96,6 +98,8 @@ export class MsgBox {
 MsgBox.prototype.buttonMod = null;
 MsgBox.prototype.footerDirection = "row";
 MsgBox.prototype.footerJustify = "center";
+MsgBox.prototype.yesText = 'Yes';
+MsgBox.prototype.noText = 'No';
 Localization.registerPrototype('cx/widgets/MsgBox', MsgBox);
 
 

@@ -59,3 +59,10 @@ Localization.localize(c, 'cx/widgets/TextField', {
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'Upload is in progress.'
 });
+
+// MsgBox
+Localization.localize(c, 'cx/widgets/MsgBox', {
+   yesText:"Yes",
+   noText: "No"
+});
+

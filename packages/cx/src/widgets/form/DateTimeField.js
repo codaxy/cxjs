@@ -5,7 +5,7 @@ import {DateTimePicker} from './DateTimePicker';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import {isTouchDevice} from '../../util';
+import {isTouchDevice} from '../../util/isTouchDevice';
 import {Dropdown} from '../overlay/Dropdown';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
@@ -17,7 +17,7 @@ import {
    tooltipMouseLeave,
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
