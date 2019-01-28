@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "19.1.4",
+  "version": "19.2.0",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
