@@ -45,10 +45,7 @@ export class FirstVisibleChildLayout extends PureContainer {
 
    explore(context, instance) {
       instance.firstVisibleChild = null;
-      for (let i = this.items.length - 1; i >= 0; i--) {
-         let x = instance.getChild(context, this.items[i]);
-         x.scheduleExploreIfVisible(context);
-      }
+      super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {

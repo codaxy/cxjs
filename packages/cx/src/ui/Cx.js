@@ -160,8 +160,9 @@ class CxContext extends VDOM.Component {
          this.props.flags.dirty = false;
          visible = instance.scheduleExploreIfVisible(context);
          if (visible) {
-            while (context.exploreStack.length > 0) {
+            while (!context.exploreStack.empty()) {
                let inst = context.exploreStack.pop();
+               //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
                inst.explore(context);
             }
          }
@@ -180,15 +181,13 @@ class CxContext extends VDOM.Component {
             context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
 
-         //console.log(context.prepareList);
-         //console.log(context.renderStack);
-
          //walk in reverse order so children get rendered first
-         let renderLists = context.getRenderLists();
-         for (let j = 0; j < renderLists.length; j++) {
-            for (let i = renderLists[j].length - 1; i >= 0; i--) {
-               renderLists[j][i].render(context);
+         let renderList = context.getRootRenderList();
+         while (renderList) {
+            for (let i = renderList.data.length - 1; i >= 0; i--) {
+               renderList.data[i].render(context);
             }
+            renderList = renderList.right;
          }
 
          this.content = getContent(instance.vdom);
