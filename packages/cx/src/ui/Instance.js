@@ -104,10 +104,8 @@ export class Instance {
       let renderList = this.renderList;
       renderList.markReverseIndex();
 
-
       //notify all parents that child state changed to bust up caching
       while (ins && !ins.shouldUpdate && ins.explored) {
-         //console.log("MSC", ins.widget.constructor.name, ins.widget.widgetId);
          if (ins.renderList !== renderList) {
             renderList.reverse();
             renderList = ins.renderList;
@@ -120,23 +118,7 @@ export class Instance {
             : ins.parent.outerLayout === ins
                ? ins.parent.parent
                : ins.parent;
-
-         // let x = context.getRootRenderList();
-         // while (x) {
-         //    console.log(x.data.map(i => [i.widget.constructor.name, i.widget.widgetId, i.widget.tag || '']));
-         //    x = x.right;
-         // }
       }
-
-      // if (!startIndices)
-      //    reverseSlice(renderList, index);
-      // else
-      //    for (let i = 0; i < startIndices.length; i++)
-      //       reverseSlice(startIndices[i].list, startIndices[i].index);
-      //
-      //    let lists = context.getRenderLists().map(list => list.map(i => [i.widget.constructor.name, i.widget.widgetId, i.widget.tag || '']));
-      //    console.log(lists);
-
       renderList.reverse();
    }
 
