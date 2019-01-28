@@ -158,6 +158,7 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
+         instance.assignedRenderList = context.getRootRenderList();
          visible = instance.scheduleExploreIfVisible(context);
          if (visible) {
             while (!context.exploreStack.empty()) {

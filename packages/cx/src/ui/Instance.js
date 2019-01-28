@@ -185,7 +185,7 @@ export class Instance {
       if (this.widget.onDestroy)
          this.trackDestroy();
 
-      this.renderList = this.parent.renderList || context.getRootRenderList();
+      this.renderList = this.assignedRenderList || this.parent.renderList || context.getRootRenderList();
 
       let shouldUpdate = this.rawData !== this.cached.rawData
          || this.state !== this.cached.state
