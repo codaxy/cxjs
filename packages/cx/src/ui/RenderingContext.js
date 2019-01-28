@@ -8,14 +8,6 @@ export class RenderingContext {
       this.prepareList = [];
       this.cleanupList = [];
       this.stacks = {};
-
-      // this.renderLists = {
-      //    0: []
-      // };
-      // this.renderListIndex = 0;
-      // this.minRenderListIndex = 0;
-      // this.maxRenderListIndex = 0;
-
       this.renderList = new LinkedListsNode();
    }
 
@@ -54,35 +46,6 @@ export class RenderingContext {
    get(key) {
       return this[key];
    }
-
-   // getCurrentRenderList() {
-   //    return this.renderLists[this.renderListIndex];
-   // }
-   //
-   // insertRenderList() {
-   //    this.maxRenderListIndex++;
-   //    for (let i = this.maxRenderListIndex; i > this.renderListIndex; i--)
-   //       this.renderLists[i] = this.renderLists[i - 1];
-   //    return this.renderLists[this.renderListIndex] = [];
-   // }
-   //
-   // getPrevRenderList() {
-   //    this.renderListIndex--;
-   //    if (this.renderListIndex < this.minRenderListIndex) {
-   //       this.minRenderListIndex = this.renderListIndex;
-   //       this.renderLists[this.renderListIndex] = [];
-   //    }
-   //    return this.renderLists[this.renderListIndex];
-   // }
-   //
-   // getNextRenderList() {
-   //    this.renderListIndex++;
-   //    if (this.renderListIndex > this.maxRenderListIndex) {
-   //       this.maxRenderListIndex = this.renderListIndex;
-   //       this.renderLists[this.renderListIndex] = [];
-   //    }
-   //    return this.renderLists[this.renderListIndex];
-   // }
 
    getRootRenderList() {
       let rl = this.renderList;
