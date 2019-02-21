@@ -98,10 +98,6 @@ class Input extends VDOM.Component {
       </div>
    }
 
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.instance.shouldUpdate !== false || this.state != nextState;
-   }
-
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
    }

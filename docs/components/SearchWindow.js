@@ -66,7 +66,7 @@ export const SearchWindow = <cx>
         header={
             <TextField
                 value:bind="search.query"
-                style="width:100%;"
+                style="width:100%;height:auto"
                 inputStyle="font-size:20px;height:40px;"
                 placeholder="Search..."
                 autoFocus

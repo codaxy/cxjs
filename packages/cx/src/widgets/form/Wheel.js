@@ -28,7 +28,6 @@ export class Wheel extends PureContainer {
             baseClass={this.baseClass}
             className={data.classNames}
             style={data.style}
-            shouldUpdate={instance.shouldUpdate}
             index={index}
             onChange={(newIndex) => {
                let option = options[newIndex];
@@ -61,10 +60,6 @@ export class WheelComponent extends VDOM.Component {
       };
       this.onWheel = ::this.onWheel;
       this.onKeyDown = ::this.onKeyDown
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate !== false || state !== this.state;
    }
 
    render() {

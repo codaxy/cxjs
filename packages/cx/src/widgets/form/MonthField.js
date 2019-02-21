@@ -217,7 +217,6 @@ export class MonthField extends Field {
 }
 
 MonthField.prototype.baseClass = "monthfield";
-MonthField.prototype.memoize = false;
 MonthField.prototype.maxValueErrorText = 'Select {0:d} or before.';
 MonthField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 MonthField.prototype.minValueErrorText = 'Select {0:d} or later.';
@@ -321,7 +320,7 @@ class MonthInput extends VDOM.Component {
 
       var dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'monthfield-dropdown'}} subscribe />;
 
       let empty = this.input ? !this.input.value : data.empty;
 

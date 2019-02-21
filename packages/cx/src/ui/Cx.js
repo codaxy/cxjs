@@ -172,7 +172,7 @@ class CxContext extends VDOM.Component {
             break;
          }
       }
-      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
+      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
 
       if (visible) {
 

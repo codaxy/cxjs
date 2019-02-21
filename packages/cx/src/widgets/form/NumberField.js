@@ -92,7 +92,6 @@ export class NumberField extends Field {
          <Input
             key={key}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
             instance={instance}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
@@ -136,10 +135,6 @@ class Input extends VDOM.Component {
       this.state = {
          focus: false
       };
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state !== this.state;
    }
 
    render() {

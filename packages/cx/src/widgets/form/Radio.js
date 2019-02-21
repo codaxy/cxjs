@@ -89,7 +89,6 @@ export class Radio extends Field {
             key="check"
             instance={instance}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
          />
       );
    }
@@ -151,7 +150,7 @@ class RadioCmp extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
+      return state.value != this.state.value;
    }
 
    render() {

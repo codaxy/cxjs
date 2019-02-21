@@ -389,7 +389,7 @@ class LookupComponent extends VDOM.Component {
                className={CSS.element(baseClass, "scroll-container")}
                onWheel={::this.onListWheel}
             >
-               <Cx widget={this.list} store={this.itemStore} options={{name: 'lookupfield-list'}}/>
+               <Cx widget={this.list} store={this.itemStore} options={{name: 'lookupfield-list'}} />
             </div>
          )
       }

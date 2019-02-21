@@ -80,7 +80,6 @@ export class Slider extends Field {
             key={key}
             instance={instance}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
          />
       )
@@ -109,7 +108,7 @@ class SliderComponent extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state !== this.state;
+      return state !== this.state;
    }
 
    render() {

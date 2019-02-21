@@ -44,7 +44,7 @@ import './index.scss';
 //import Demo from './features/restate/LookupField';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
-//import Demo from './features/menu/icons';
+import Demo from './features/menu/icons';
 //import Demo from './features/menu/overflow';
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
@@ -60,7 +60,7 @@ import './index.scss';
 //import Demo from './bugs/FirstVisibleChild';
 //import Demo from './bugs/LabelsTopLayout';
 //import Demo from './bugs/509';
-import Demo from './features/typescript/jsx';
+//import Demo from './features/typescript/jsx';
 
 let store = new Store();
 

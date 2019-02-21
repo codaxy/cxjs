@@ -164,7 +164,7 @@ class ColorInput extends VDOM.Component {
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}}/>;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} subscribe />;
 
       let empty = this.input ? !this.input.value : data.empty;
 
