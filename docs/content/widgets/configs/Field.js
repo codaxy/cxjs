@@ -121,6 +121,13 @@ export default {
             for more information.
         </Md></cx>
     },
+    validationParams: {
+        type: 'structure',
+        description: <cx><Md>
+            An structured binding for additional validation parameters. Useful if validation depends on values
+            from other fields, e.g. confirm password. Calculated value is passed as the third argument to `onValidate`.
+        </Md></cx>
+    },
     trackFocus: {
         type: 'boolean',
         description: <cx><Md>
