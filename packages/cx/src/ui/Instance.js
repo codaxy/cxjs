@@ -12,6 +12,7 @@ import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 import {isObject} from '../util/isObject';
+import {isNonEmptyArray} from "../util/isNonEmptyArray";
 
 export class Instance {
    constructor(widget, key, parent, store) {
@@ -182,7 +183,7 @@ export class Instance {
          }
       }
 
-      if (this.widget.onDestroy)
+      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions))
          this.trackDestroy();
 
       this.renderList = this.assignedRenderList || this.parent.renderList || context.getRootRenderList();
@@ -323,10 +324,25 @@ export class Instance {
       this.trackDestroy();
    }
 
+   subscribeOnDestroy(callback) {
+      if (!this.destroySubscriptions)
+         this.destroySubscriptions = [];
+      this.destroySubscriptions.push(callback);
+      this.trackDestroy();
+      return () => {
+         this.destroySubscriptions.filter(cb => cb != callback);
+      }
+   }
+
    destroy() {
       if (this.instanceCache) {
          this.instanceCache.destroy();
          delete this.instanceCache;
+      }
+
+      if (this.destroySubscriptions) {
+         this.destroySubscriptions.forEach(cb => cb());
+         this.destroySubscriptions = null;
       }
 
       if (this.destroyTracked) {
