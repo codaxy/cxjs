@@ -61,7 +61,8 @@ import './index.scss';
 //import Demo from './bugs/LabelsTopLayout';
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
-import Demo from "./bugs/519";
+//import Demo from "./bugs/519";
+import Demo from "./features/restate/DeferredUpdates";
 
 let store = new Store();
 
@@ -69,7 +70,7 @@ Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-//Timing.enable('app-loop');
+Timing.enable('app-loop');
 //Debug.enable("app-data");
 
 History.connect(store, "url")

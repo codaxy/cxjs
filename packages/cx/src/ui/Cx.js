@@ -16,7 +16,7 @@ export class Cx extends VDOM.Component {
          this.store = props.instance.store;
       }
       else {
-         this.widget = PureContainer.create({ items: props.widget || props.items });
+         this.widget = PureContainer.create({items: props.widget || props.items});
 
          if (props.parentInstance) {
             this.parentInstance = props.parentInstance;
@@ -33,19 +33,24 @@ export class Cx extends VDOM.Component {
 
       if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(::this.update);
-         this.state = {data: this.store.getData()};
+         this.state = {data: this.store.getData(), deferToken: 0};
       }
 
       this.flags = {};
       this.renderCount = 0;
+
+      this.deferCounter = 0;
+      this.waitForIdle();
    }
 
    componentWillReceiveProps(props) {
       //TODO: Switch to new props
       if (props.subscribe) {
          let data = this.store.getData();
-         if (data !== this.state.data)
+         if (data !== this.state.data) {
+            this.waitForIdle();
             this.setState({data: this.store.getData()});
+         }
       }
    }
 
@@ -63,7 +68,7 @@ export class Cx extends VDOM.Component {
    }
 
    render() {
-      if (!this.widget)
+      if (!this.widget || this.state.deferToken < this.deferCounter)
          return null;
 
       return <CxContext
@@ -95,6 +100,7 @@ export class Cx extends VDOM.Component {
          this.flags.dirty = true;
       else if (isBatchingUpdates() || this.props.immediate) {
          notifyBatchedUpdateStarting();
+         this.waitForIdle();
          this.setState({data: data}, notifyBatchedUpdateCompleted);
       } else {
          //in standard mode sequential store commands are batched
@@ -102,15 +108,33 @@ export class Cx extends VDOM.Component {
             notifyBatchedUpdateStarting();
             this.pendingUpdateTimer = setTimeout(() => {
                delete this.pendingUpdateTimer;
+               this.waitForIdle();
                this.setState({data: data}, notifyBatchedUpdateCompleted);
             }, 0);
          }
       }
    }
 
+   waitForIdle() {
+      if (!this.props.renderOnIdle)
+         return;
+
+      if (this.idleToken)
+         cancelIdleCallback(this.idleToken);
+
+      let token = ++this.deferCounter;
+      this.idleToken = requestIdleCallback(() => {
+         this.setState({ deferToken: token });
+      }, {
+         timeout: 60000
+      });
+   }
+
    componentWillUnmount() {
       if (this.pendingUpdateTimer)
          clearTimeout(this.pendingUpdateTimer);
+      if (this.idleToken)
+         cancelIdleCallback(this.idleToken);
       if (this.unsubscribe)
          this.unsubscribe();
       if (this.props.options && this.props.options.onPipeUpdate)
@@ -118,6 +142,9 @@ export class Cx extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
+      if (props.renderOnIdle && state.deferToken != this.deferCounter)
+         return false;
+
       return state !== this.state
          || !props.params
          || !shallowEquals(props.params, this.props.params)

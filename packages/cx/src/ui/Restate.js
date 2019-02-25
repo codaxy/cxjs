@@ -8,7 +8,8 @@ export class Restate extends PureContainer {
 
    declareData() {
       return super.declareData(...arguments, {
-         data: {structured: true}
+         data: {structured: true},
+         waitForIdle: undefined
       })
    }
 
@@ -74,11 +75,13 @@ export class Restate extends PureContainer {
          store={instance.subStore}
          subscribe
          options={this.options}
+         renderOnIdle={instance.data.waitForIdle}
       />
    }
 }
 
 Restate.prototype.detached = false;
+Restate.prototype.waitForIdle = false;
 
 class RestateStore extends Store {
 
