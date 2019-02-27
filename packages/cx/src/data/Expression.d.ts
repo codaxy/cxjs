@@ -13,3 +13,4 @@ export class Expression {
    static expandFatArrows: boolean;
 }
 
+export function invalidateExpressionCache();

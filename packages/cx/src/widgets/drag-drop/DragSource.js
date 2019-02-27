@@ -57,10 +57,6 @@ class DragSourceComponent extends VDOM.Component {
       };
    }
 
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.instance.shouldUpdate || nextState != this.state;
-   }
-
    render() {
       let {instance, children, handled} = this.props;
       let {data, widget} = instance;

@@ -78,5 +78,13 @@ export default {
         description: <cx><Md>
             Add
         </Md></cx>
+    },
+
+    dismissOnPopState: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            /** Set to `true` to dismiss the window if the user presses the back button in the browser. */
+        </Md></cx>
     }
 };

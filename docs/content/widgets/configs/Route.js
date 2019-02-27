@@ -23,5 +23,11 @@ export default {
         description: <cx><Md>
             Params binding. Matched route parameters will be stored inside.
         </Md></cx>
+    },
+    prefix: {
+        type: 'boolean',
+        description: <cx><Md>
+            Match route even if given `route` is only a prefix of the current `url`. This is used if a route contains nested subroutes.
+        </Md></cx>
     }
 };

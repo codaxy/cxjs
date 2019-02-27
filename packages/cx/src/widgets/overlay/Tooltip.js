@@ -195,11 +195,23 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
    if (!instance.dismissTooltip) {
       if (!instance.pending) {
          instance.pending = true;
+         let parentDestroyed = false;
+         let dismiss;
+         let unsubscribeDismiss = instance.parent.subscribeOnDestroy(() => {
+            parentDestroyed = true;
+            if (dismiss)
+               dismiss();
+         });
+         instance.dismissTooltip = () => {
+            unsubscribeDismiss();
+            if (dismiss)
+               dismiss();
+         };
          setTimeout(() => {
             instance.pending = false;
             let {relatedElement} = instance.widget;
-            if (instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
-               instance.dismissTooltip = instance.widget.open(instance, {
+            if (!parentDestroyed && instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
+               dismiss = instance.widget.open(instance, {
                   onPipeUpdate: cb => {
                      instance.update = cb;
                   }

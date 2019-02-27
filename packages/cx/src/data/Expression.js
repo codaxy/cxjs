@@ -215,3 +215,7 @@ export const Expression = {
 export function plugFatArrowExpansion(impl) {
    expFatArrows = impl;
 }
+
+export function invalidateExpressionCache() {
+   expCache = {};
+}

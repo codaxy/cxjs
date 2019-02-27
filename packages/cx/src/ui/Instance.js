@@ -12,6 +12,7 @@ import {isFunction} from '../util/isFunction';
 import {isDefined} from '../util/isDefined';
 import {isArray} from '../util/isArray';
 import {isObject} from '../util/isObject';
+import {isNonEmptyArray} from "../util/isNonEmptyArray";
 
 export class Instance {
    constructor(widget, key, parent, store) {
@@ -79,6 +80,10 @@ export class Instance {
    scheduleExploreIfVisible(context) {
       if (this.checkVisible(context)) {
          context.exploreStack.push(this);
+
+         if (this.needsExploreCleanup)
+            context.exploreStack.push(this);
+
          return true;
       }
       return false;
@@ -98,39 +103,24 @@ export class Instance {
    markShouldUpdate(context) {
       let ins = this;
       let renderList = this.renderList;
-      let index = renderList.length;
-      let startIndices;
+      renderList.markReverseIndex();
 
-      //notify all parents that child state change to bust up caching
+      //notify all parents that child state changed to bust up caching
       while (ins && !ins.shouldUpdate && ins.explored) {
          if (ins.renderList !== renderList) {
-            if (!startIndices)
-               startIndices = [{
-                  list: renderList,
-                  index: index
-               }];
-            if (startIndices.length == 1 || startIndices.findIndex(l => l.list === renderList) < 0) {
-               startIndices.push({
-                  list: ins.renderList,
-                  index: ins.renderList.length
-               });
-            }
+            renderList.reverse();
             renderList = ins.renderList;
+            renderList.markReverseIndex();
          }
          ins.shouldUpdate = true;
-         renderList.push(ins);
+         renderList.data.push(ins);
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
                ? ins.parent.parent
                : ins.parent;
       }
-
-      if (!startIndices)
-         reverseSlice(renderList, index);
-      else
-         for (let i = 0; i < startIndices.length; i++)
-            reverseSlice(startIndices[i].list, startIndices[i].index);
+      renderList.reverse();
    }
 
    explore(context) {
@@ -145,13 +135,9 @@ export class Instance {
          if (this.widget.exploreCleanup)
             this.widget.exploreCleanup(context, this);
 
-         if (this.popNextRenderList)
-            context.getNextRenderList();
-
-         if (this.parent.outerLayout === this) {
-            context.getPrevRenderList();
+         if (this.parent.outerLayout === this)
             context.popNamedValue('content', 'body');
-         }
+
 
          if (this.widget.controller)
             context.pop('controller');
@@ -160,8 +146,6 @@ export class Instance {
       }
 
       this.explored = true;
-      if (this.needsExploreCleanup)
-         context.exploreStack.push(this);
 
       if (this.needsPrepare)
          context.prepareList.push(this);
@@ -199,10 +183,10 @@ export class Instance {
          }
       }
 
-      if (this.widget.onDestroy)
+      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions))
          this.trackDestroy();
 
-      this.renderList = context.getCurrentRenderList();
+      this.renderList = this.assignedRenderList || this.parent.renderList || context.getRootRenderList();
 
       let shouldUpdate = this.rawData !== this.cached.rawData
          || this.state !== this.cached.state
@@ -215,44 +199,35 @@ export class Instance {
          debug(processDataFlag, this.widget);
       }
 
+      //onExplore might set the outer layout
+      if (this.widget.onExplore)
+         this.widget.onExplore(context, this);
+
+      if (this.parent.outerLayout === this) {
+         this.renderList = this.renderList.insertRight();
+         context.pushNamedValue('content', 'body', this.parent);
+      }
+
+      if (this.widget.outerLayout) {
+         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout.scheduleExploreIfVisible(context);
+         this.renderList = this.renderList.insertLeft();
+      }
+
       if (this.widget.isContent) {
-         this.popNextRenderList = false;
          this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
          if (this.contentPlaceholder)
             context.contentPlaceholder[this.widget.putInto](this);
          else {
             context.pushNamedValue('content', this.widget.putInto, this);
-            this.renderList = context.getPrevRenderList();
-            this.popNextRenderList = true;
          }
       }
 
-      if (this.parent.outerLayout === this) {
-         this.renderList = context.getNextRenderList();
-         context.pushNamedValue('content', 'body', this.parent);
-      }
-
-      //onExplore might set the outer layout
-      if (this.widget.onExplore)
-         this.widget.onExplore(context, this);
-
-      if (this.widget.outerLayout) {
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
-         this.outerLayout.scheduleExploreIfVisible(context);
-         this.renderList = context.insertRenderList();
-      }
-
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) {
-         this.shouldUpdate = false;
+      this.shouldUpdate = false;
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
          this.markShouldUpdate(context);
-      } else {
-         this.shouldUpdate = false;
-      }
 
-      this.widget.explore(context, this, this.data);
-
-      //because tree exploration uses depth-first search using a stack,
-      //helpers need to be registered last in order to be processed first
+      context.exploreStack.hop();
 
       if (this.widget.helpers) {
          this.helpers = {};
@@ -265,6 +240,8 @@ export class Instance {
             }
          }
       }
+
+      this.widget.explore(context, this, this.data);
    }
 
    prepare(context) {
@@ -347,10 +324,25 @@ export class Instance {
       this.trackDestroy();
    }
 
+   subscribeOnDestroy(callback) {
+      if (!this.destroySubscriptions)
+         this.destroySubscriptions = [];
+      this.destroySubscriptions.push(callback);
+      this.trackDestroy();
+      return () => {
+         this.destroySubscriptions.filter(cb => cb != callback);
+      }
+   }
+
    destroy() {
       if (this.instanceCache) {
          this.instanceCache.destroy();
          delete this.instanceCache;
+      }
+
+      if (this.destroySubscriptions) {
+         this.destroySubscriptions.forEach(cb => cb());
+         this.destroySubscriptions = null;
       }
 
       if (this.destroyTracked) {

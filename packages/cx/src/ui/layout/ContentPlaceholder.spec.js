@@ -192,10 +192,21 @@ describe('ContentPlaceholder', () => {
          </Cx>
       );
 
-      assert.deepEqual(component.toJSON(), {
+      let tree = component.toJSON();
+      console.log(tree);
+
+      assert.deepEqual(tree, {
          type: 'div',
          props: {},
-         children: [{type: 'main', props: {}, children: [{type: 'section', props: {}, children: null}]}]
+         children: [{
+            type: 'main',
+            props: {},
+            children: [{
+               type: 'section',
+               props: {},
+               children: null
+            }]
+         }]
       });
    });
 

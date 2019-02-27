@@ -2,17 +2,17 @@ var cx = require('../../babel-plugin-transform-cx-jsx');
 
 module.exports = {
    "presets": [
-      ["env", {
+      ["@babel/preset-env", {
          loose: true,
          modules: false
       }]
    ],
    "plugins": [
-      "external-helpers",
-      'transform-function-bind',
-      'transform-object-rest-spread',
+      //"@babel/external-helpers",
+      '@babel/proposal-function-bind',
+      '@babel/proposal-object-rest-spread',
       cx,
-      ["transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
 
    ]
 };

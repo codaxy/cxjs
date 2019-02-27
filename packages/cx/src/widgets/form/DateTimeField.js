@@ -5,7 +5,7 @@ import {DateTimePicker} from './DateTimePicker';
 import {Calendar} from './Calendar';
 import {Culture} from '../../ui/Culture';
 import {isTouchEvent} from '../../util/isTouchEvent';
-import {isTouchDevice} from '../../util';
+import {isTouchDevice} from '../../util/isTouchDevice';
 import {Dropdown} from '../overlay/Dropdown';
 import {StringTemplate} from '../../data/StringTemplate';
 import {zeroTime} from '../../util/date/zeroTime';
@@ -17,7 +17,7 @@ import {
    tooltipMouseLeave,
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
@@ -134,7 +134,6 @@ export class DateTimeField extends Field {
          key={key}
          instance={instance}
          data={instance.data}
-         shouldUpdate={instance.shouldUpdate}
          picker={{
             value: this.value,
             minValue: this.minValue,
@@ -194,10 +193,6 @@ class DateTimeInput extends VDOM.Component {
          dropdownOpen: false,
          focus: false
       };
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state !== this.state || state.dropdownOpen;
    }
 
    getDropdown() {
@@ -298,7 +293,7 @@ class DateTimeInput extends VDOM.Component {
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}}/>;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'datefield-dropdown'}} subscribe />;
 
       let empty = this.input ? !this.input.value : data.empty;
 

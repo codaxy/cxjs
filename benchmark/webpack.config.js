@@ -2,7 +2,6 @@ const webpack = require('webpack'),
    ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
-   MinifyPlugin = require("babel-minify-webpack-plugin"),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
    path = require('path'),
    babelConfig = require('./babel.config');

@@ -13,7 +13,7 @@ import {isNumber} from '../../util/isNumber';
 import {isDefined} from '../../util/isDefined';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
-import {KeyCode} from "../../util";
+import {KeyCode} from "../../util/KeyCode";
 enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {
@@ -92,7 +92,6 @@ export class NumberField extends Field {
          <Input
             key={key}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
             instance={instance}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
@@ -136,10 +135,6 @@ class Input extends VDOM.Component {
       this.state = {
          focus: false
       };
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state !== this.state;
    }
 
    render() {
@@ -319,8 +314,10 @@ class Input extends VDOM.Component {
       if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly)
          return;
 
-      if (change == 'blur') {
+      if (change == 'blur' || change == 'enter')
          instance.setState({ visited: true });
+
+      if (change == 'blur') {
          if (this.state.focus)
             this.setState({
                focus: false
@@ -397,7 +394,8 @@ class Input extends VDOM.Component {
          instance.set('value', value);
 
       instance.setState({
-         inputError: false
+         inputError: false,
+         visited: true
       });
    }
 

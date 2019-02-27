@@ -72,7 +72,6 @@ export class Checkbox extends Field {
          key="check"
          instance={instance}
          data={instance.data}
-         shouldUpdate={instance.shouldUpdate}
       />;
    }
 
@@ -137,14 +136,14 @@ class CheckboxCmp extends VDOM.Component {
       }
    }
 
+   shouldComponentUpdate(props, state) {
+      return this.state.value != state.value;
+   }
+
    componentWillReceiveProps(props) {
       this.setState({
          value: props.data.value
       });
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state != this.state;
    }
 
    render() {

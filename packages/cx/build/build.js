@@ -1,4 +1,4 @@
-var rollup = require('rollup'),
+let rollup = require('rollup'),
    path = require('path'),
    fs = require('fs'),
    babel = require('rollup-plugin-babel'),
@@ -13,14 +13,15 @@ var rollup = require('rollup'),
 
 
 module.exports = function build(srcPath, distPath, entries, paths, externals) {
-   var src = getPathResolver(srcPath);
-   var dist = getPathResolver(distPath);
-   var manifest = {};
+   let src = getPathResolver(srcPath);
+   let dist = getPathResolver(distPath);
+   let manifest = {};
 
-   var all = entries.map(function (e) {
-      var options = Object.assign({
+   let all = entries.map(async (e) => {
+
+      let options = Object.assign({
          treeshake: true,
-         sourceMap: false,
+
          external: function (id) {
 
             if (id.indexOf('babel') == 0)
@@ -36,11 +37,12 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                   if (externals && externals.indexOf(id) >= 0)
                      return true;
                   //console.log('ISEXTERNAL', id);
-                  return id[0] == '@';
+                  return id.substring(0, 3) == 'cx/';
             }
          },
          plugins: [
             multiEntry(),
+
             scss({
                output: e.css && dist(e.name + '.css') || false,
                importer: function (name, prev, done) {
@@ -52,6 +54,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                   }
                }
             }),
+
             babel({
                presets: babelConfig.presets,
                plugins: [
@@ -61,7 +64,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
             }),
             importAlias({
                paths: paths,
-               path: src('./' + e.name + '/')
+               path: srcPath //src('./' + e.name + '/')
             }),
             prettier({
                tabWidth: 2,
@@ -72,27 +75,45 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
          ]
       }, e.options);
 
-      return rollup
-         .rollup(options)
-         .then(function (bundle) {
-            bundle
-               .generate(Object.assign({format: 'es'}, e.output))
-               .then(result => {
-                  if (e.name) {
-                     //var code = result.code.replace(/from '@\//g, "from './");
-                     if (result.code.length > 5) {
-                        let code = result.code.replace(/from "@\//g, "from \"./");
-                        if (!fs.existsSync(distPath))
-                           fs.mkdirSync(distPath);
-                        fs.writeFileSync(dist(e.name + '.js'), code);
-                        console.log(e.name + '.js', code.length / 1000, 'kB');
-                     }
+      try {
+         let bundle = await rollup.rollup(options);
+
+         let {output} = await bundle.generate({format: 'es', ...e.output});
+
+         for (const chunkOrAsset of output) {
+            if (chunkOrAsset.isAsset) {
+               console.log('Unexpected asset', chunkOrAsset);
+            } else {
+               if (e.name) {
+                  //let code = result.code.replace(/from '@\//g, "from './");
+                  if (chunkOrAsset.code.length > 5) {
+                     let code = chunkOrAsset.code.replace(/from "@\//g, "from \"./");
+                     if (!fs.existsSync(distPath))
+                        fs.mkdirSync(distPath);
+                     fs.writeFileSync(dist(e.name + '.js'), code);
+                     console.log(e.name + '.js', code.length, 'bytes');
                   }
-               })
-         })
-         .catch(e => {
-            console.log(e);
-         });
+               }
+            }
+         }
+
+         // if (e.name) {
+         //    await bundle.write({
+         //       format: 'es',
+         //       ...e.output,
+         //       //dir: distPath
+         //       file: dist(e.name + '.js')
+         //    });
+         //
+         //    let stats = fs.statSync(dist(e.name + '.js'));
+         //    let fileSizeInBytes = stats["size"];
+         //
+         //    console.log(e.name + '.js', fileSizeInBytes / 1000, 'kB');
+         // }
+      }
+      catch (err) {
+         console.error(err);
+      }
    });
 
    return Promise

@@ -75,11 +75,19 @@ export class Menu extends HtmlElement {
 
    add(item) {
       if (item && item.tag == 'a') {
-         this.add({
+         let mi = {
             type: MenuItem,
             items: item,
             autoClose: true
-         })
+         };
+
+         if (item.if)
+            mi.if = item.if;
+
+         if (item.visible)
+            mi.visible = item.visible;
+
+         super.add(mi);
       }
       else
          super.add(...arguments);

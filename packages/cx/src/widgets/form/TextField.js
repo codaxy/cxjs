@@ -10,7 +10,7 @@ import {
 import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import ClearIcon from '../icons/clear';
 
@@ -46,7 +46,6 @@ export class TextField extends Field {
             key={key}
             instance={instance}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
@@ -57,12 +56,11 @@ export class TextField extends Field {
       super.validate(context, instance);
 
       let {data} = instance;
-      if (!data.error && this.validationRegExp)
-         if (!this.validationRegExp.test(data.value))
-            data.error = this.validationErrorText;
 
       if (!data.error && data.value) {
-         if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
+         if (this.validationRegExp && !this.validationRegExp.test(data.value))
+            data.error = this.validationErrorText;
+         else if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
             data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
          else if (typeof data.value === 'string' && data.maxLength != null && data.value.length > data.maxLength)
             data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);
@@ -96,7 +94,7 @@ class Input extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      return props.shouldUpdate || state !== this.state;
+      return state !== this.state;
    }
 
    render() {
@@ -258,8 +256,11 @@ class Input extends VDOM.Component {
 
          //it's important not to set the old value as it causes weird behavior if debounce is used
          let value = text || null;
-         if (value !== data.value)
+         if (value !== data.value) {
             instance.set('value', value);
+            if (value)
+               instance.setState({visited: true});
+         }
       }
    }
 }

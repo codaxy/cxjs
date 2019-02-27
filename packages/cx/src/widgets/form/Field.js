@@ -28,7 +28,8 @@ export class Field extends PureContainer {
          emptyText: undefined,
          visited: undefined,
          autoFocus: undefined,
-         tabOnEnterKey: undefined
+         tabOnEnterKey: undefined,
+         validationParams: {structured: true},
       }, ...arguments);
    }
 
@@ -224,7 +225,7 @@ export class Field extends PureContainer {
       }
 
       if (!data.error && !this.isEmpty(data) && this.onValidate && !state.validating && (!state.previouslyValidated || data.value != state.lastValidatedValue)) {
-         let result = instance.invoke("onValidate", data.value, instance);
+         let result = instance.invoke("onValidate", data.value, instance, data.validationParams);
          if (isPromise(result)) {
             data.error = this.validatingText;
             instance.setState({

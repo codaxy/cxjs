@@ -1,5 +1,6 @@
 var fs = require('fs'),
    pathResolve = require('./pathResolve'),
+   fixPathSeparators = require(('./fixPathSeparators')),
    p = require('path')
 
 
@@ -13,9 +14,10 @@ module.exports = function (manifest, paths, pkgSrc) {
 
             ImportDeclaration: function (path, scope) {
                path.node.specifiers.forEach(spec=>{
-                  var localImports = imports[scope.file.opts.filename];
+                  var fileName = fixPathSeparators(scope.file.opts.filename);
+                  var localImports = imports[fileName];
                   if (!localImports)
-                     localImports = imports[scope.file.opts.filename] = {};
+                     localImports = imports[fileName] = {};
                   var resolvedPath = pathResolve(
                      p.dirname(scope.file.opts.filename),
                      path.node.source.value
@@ -50,8 +52,9 @@ module.exports = function (manifest, paths, pkgSrc) {
                }
 
                names.forEach(name=> {
-                  let path = scope.file.opts.filename,
+                  let path = fixPathSeparators(scope.file.opts.filename),
                      srcPath = path;
+
                   if (imports[path] && imports[path][name]) {
                      srcPath = imports[path][name];
                   }
@@ -60,7 +63,7 @@ module.exports = function (manifest, paths, pkgSrc) {
                      if (path.indexOf(key) == 0) {
                         var jsPath = 'src/' + srcPath.substring(pkgSrc.length + 1);
 
-                        var expName = paths[key].substring(2) + '/' + name;
+                        var expName = paths[key].substring(3) + '/' + name;
 
                         if (!manifest[expName])
                            manifest[expName] = {};

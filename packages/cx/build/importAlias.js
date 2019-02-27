@@ -19,7 +19,7 @@ module.exports = function(options = {}) {
                      if (importPath.indexOf(name) == 0)
                         return `import ${match1} from "${options.paths[name]}"`;
                   }
-                  console.log('UNMATCHED IMPORT INCLUDED IN THE BUNDLE', importPath);
+                  console.log('UNMATCHED IMPORT INCLUDED IN THE BUNDLE', importPath, nsPath, match2);
                   //throw new Error('Unmatched: ' + importPath);
                }
             }

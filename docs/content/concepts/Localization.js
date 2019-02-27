@@ -12,7 +12,8 @@ function loadCulture(culture) {
     switch (culture) {
         case 'de-de':
             return import('cx/locale/de-de');
-
+        case 'nl-nl':
+            return import('cx/locale/nl-nl');
         default:
         case 'en-us':
             return import('cx/locale/en-us');
@@ -48,6 +49,7 @@ export const LocalizationPage = <cx>
             <div class="widgets" controller={PageController}>
                 <div preserveWhitespace>
                     <Button onClick={(e, {store}) => {setCulture('de-de', store)}}>de-de</Button>
+                    <Button onClick={(e, { store }) => { setCulture('nl-nl', store) }}>nl-nl</Button>
                     <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
                 </div>
                 <div layout={LabelsLeftLayout}>

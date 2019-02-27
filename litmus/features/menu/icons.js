@@ -2,6 +2,9 @@ import {HtmlElement, Menu, MenuItem, Submenu, TextField, DateField, Checkbox} fr
 
 export default <cx>
    <div style="padding: 50px">
+      <TextField value:bind="$page.text" mod="menu"/>
+      <TextField value:bind="$page.text2" mod="menu"/>
+      <Checkbox value-bind="$page.check" text-bind="$page.text" />
       <Menu horizontal>
          <Submenu>
             File

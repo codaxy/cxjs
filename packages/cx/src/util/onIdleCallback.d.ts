@@ -1,0 +1,1 @@
+export function onIdleCallback(callback: (idleDeadline: any) => any, options?: any) : () => void;

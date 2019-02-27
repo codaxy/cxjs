@@ -16,7 +16,7 @@ export class CodeSplit extends Md {
 
         let {data, widget, helpers} = instance;
         let {CSS, baseClass} = widget;
-        let right = getContent(helpers.right.render(context));
+        let right = getContent(helpers.right.vdom);
 
         return <div key={key} className={CSS.block(widget.baseClass)}>
             <div className={CSS.element(baseClass, "left")} style={data.style}>

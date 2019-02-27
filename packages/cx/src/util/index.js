@@ -41,3 +41,4 @@ export * from './getTopLevelBoundingClientRect';
 export * from './getParentFrameBoundingClientRect';
 export * from './getActiveElement';
 export * from './Component';
+export * from './onIdleCallback';

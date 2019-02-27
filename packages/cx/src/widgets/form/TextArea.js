@@ -9,7 +9,7 @@ import {
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 
 export class TextArea extends TextField {
 
@@ -96,10 +96,6 @@ class Input extends VDOM.Component {
          {label}
          {help}
       </div>
-   }
-
-   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.instance.shouldUpdate !== false || this.state != nextState;
    }
 
    componentWillUnmount() {

@@ -11,6 +11,7 @@ import {Localization} from '../../ui/Localization';
 import {KeyCode} from '../../util/KeyCode';
 import {registerKeyboardShortcut} from "../../ui/keyboardShortcuts";
 import {getActiveElement} from "../../util/getActiveElement";
+import {tooltipMouseLeave, tooltipMouseMove, tooltipParentWillUnmount, tooltipParentDidMount} from "../overlay/tooltip-ops";
 
 /*
  Functionality:
@@ -69,7 +70,6 @@ export class MenuItem extends HtmlElement {
             key={key}
             instance={instance}
             data={instance.data}
-            shouldUpdate={instance.shouldUpdate}
          >
             {instance.data.text
                ? <span>{instance.data.text}</span>
@@ -100,7 +100,6 @@ MenuItem.prototype.hoverFocusTimeout = 500;
 MenuItem.prototype.hoverToOpen = false;
 MenuItem.prototype.clickToOpen = false;
 MenuItem.prototype.horizontal = true;
-MenuItem.prototype.memoize = false;
 MenuItem.prototype.arrow = false;
 MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
@@ -121,12 +120,6 @@ class MenuItemComponent extends VDOM.Component {
       this.state = {
          dropdownOpen: false
       }
-   }
-
-   shouldComponentUpdate(props, state) {
-      return props.shouldUpdate
-         || state != this.state
-         || state.dropdownOpen; //always render if dropdown is open as we don't know if dropdown contents has changed
    }
 
    getDropdown() {
@@ -157,7 +150,7 @@ class MenuItemComponent extends VDOM.Component {
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let dropdown = this.state.dropdownOpen
-         && <Cx widget={this.getDropdown()} options={{name: 'submenu'}} parentInstance={instance}/>;
+         && <Cx widget={this.getDropdown()} options={{name: 'submenu'}} parentInstance={instance} subscribe />;
 
       let arrow = data.arrow && <DropdownIcon className={CSS.element(baseClass, 'arrow')}/>;
 
@@ -238,6 +231,8 @@ class MenuItemComponent extends VDOM.Component {
             this.el.focus(); //open the dropdown
             this.onClick(e); //execute the onClick handler
          });
+
+      tooltipParentDidMount(this.el, this.props.instance, widget.tooltip);
    }
 
    onDropdownKeyDown(e) {
@@ -283,6 +278,8 @@ class MenuItemComponent extends VDOM.Component {
          e.stopPropagation();
          e.preventDefault();
       }
+
+      tooltipMouseMove(e, this.props.instance, widget.tooltip);
    }
 
    onMouseLeave(e) {
@@ -294,6 +291,8 @@ class MenuItemComponent extends VDOM.Component {
          if (widget.hoverToOpen && document.activeElement == this.el)
             this.el.blur();
       }
+
+      tooltipMouseLeave(e, this.props.instance, widget.tooltip);
    }
 
    onKeyDown(e) {
@@ -413,5 +412,7 @@ class MenuItemComponent extends VDOM.Component {
 
       if (this.unregisterKeyboardShortcut)
          this.unregisterKeyboardShortcut();
+
+      tooltipParentWillUnmount(this.props.instance);
    }
 }

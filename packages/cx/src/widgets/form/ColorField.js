@@ -15,7 +15,7 @@ import {
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
 import {stopPropagation} from '../../util/eventCallbacks';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 
 import DropdownIcon from '../icons/drop-down';
 import ClearIcon from '../icons/clear';
@@ -164,7 +164,7 @@ class ColorInput extends VDOM.Component {
 
       let dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}}/>;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'colorfield-dropdown'}} subscribe />;
 
       let empty = this.input ? !this.input.value : data.empty;
 

@@ -6,6 +6,7 @@ import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
 import {shallowEquals} from "../util/shallowEquals";
 import {PureContainer} from "./PureContainer";
+import {onIdleCallback} from "../util/onIdleCallback";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -33,22 +34,27 @@ export class Cx extends VDOM.Component {
 
       if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(::this.update);
-         this.state = {data: this.store.getData()};
+         this.state = {data: this.store.getData(), deferToken: 0};
       }
 
       this.flags = {};
       this.renderCount = 0;
-
+     
       if (props.onError)
          this.componentDidCatch = ::this.componentDidCatchHandler;
+
+      this.deferCounter = 0;
+      this.waitForIdle();
    }
 
    componentWillReceiveProps(props) {
       //TODO: Switch to new props
       if (props.subscribe) {
          let data = this.store.getData();
-         if (data !== this.state.data)
+         if (data !== this.state.data) {
+            this.waitForIdle();
             this.setState({data: this.store.getData()});
+         }
       }
    }
 
@@ -66,7 +72,7 @@ export class Cx extends VDOM.Component {
    }
 
    render() {
-      if (!this.widget)
+      if (!this.widget || this.state.deferToken < this.deferCounter)
          return null;
 
       return <CxContext
@@ -98,6 +104,7 @@ export class Cx extends VDOM.Component {
          this.flags.dirty = true;
       else if (isBatchingUpdates() || this.props.immediate) {
          notifyBatchedUpdateStarting();
+         this.waitForIdle();
          this.setState({data: data}, notifyBatchedUpdateCompleted);
       } else {
          //in standard mode sequential store commands are batched
@@ -105,15 +112,33 @@ export class Cx extends VDOM.Component {
             notifyBatchedUpdateStarting();
             this.pendingUpdateTimer = setTimeout(() => {
                delete this.pendingUpdateTimer;
+               this.waitForIdle();
                this.setState({data: data}, notifyBatchedUpdateCompleted);
             }, 0);
          }
       }
    }
 
+   waitForIdle() {
+      if (!this.props.renderOnIdle)
+         return;
+
+      if (this.unsubscribeIdleRequest)
+         this.unsubscribeIdleRequest();
+
+      let token = ++this.deferCounter;
+      this.unsubscribeIdleRequest = onIdleCallback(() => {
+         this.setState({deferToken: token});
+      }, {
+         timeout: this.props.idleTimeout || 60000
+      });
+   }
+
    componentWillUnmount() {
       if (this.pendingUpdateTimer)
          clearTimeout(this.pendingUpdateTimer);
+      if (this.unsubscribeIdleRequest)
+         this.unsubscribeIdleRequest();
       if (this.unsubscribe)
          this.unsubscribe();
       if (this.props.options && this.props.options.onPipeUpdate)
@@ -121,6 +146,9 @@ export class Cx extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
+      if (props.renderOnIdle && state.deferToken != this.deferCounter)
+         return false;
+
       return state !== this.state
          || !props.params
          || !shallowEquals(props.params, this.props.params)
@@ -166,10 +194,12 @@ class CxContext extends VDOM.Component {
       do {
          context = new RenderingContext(options);
          this.props.flags.dirty = false;
+         instance.assignedRenderList = context.getRootRenderList();
          visible = instance.scheduleExploreIfVisible(context);
          if (visible) {
-            while (context.exploreStack.length > 0) {
+            while (!context.exploreStack.empty()) {
                let inst = context.exploreStack.pop();
+               //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
                inst.explore(context);
             }
          }
@@ -178,7 +208,7 @@ class CxContext extends VDOM.Component {
             break;
          }
       }
-      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare);
+      while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
 
       if (visible) {
 
@@ -188,15 +218,13 @@ class CxContext extends VDOM.Component {
             context.prepareList[i].prepare(context);
          this.timings.afterPrepare = now();
 
-         //console.log(context.prepareList);
-         //console.log(context.renderStack);
-
          //walk in reverse order so children get rendered first
-         let renderLists = context.getRenderLists();
-         for (let j = 0; j < renderLists.length; j++) {
-            for (let i = renderLists[j].length - 1; i >= 0; i--) {
-               renderLists[j][i].render(context);
+         let renderList = context.getRootRenderList();
+         while (renderList) {
+            for (let i = renderList.data.length - 1; i >= 0; i--) {
+               renderList.data[i].render(context);
             }
+            renderList = renderList.right;
          }
 
          this.content = getContent(instance.vdom);

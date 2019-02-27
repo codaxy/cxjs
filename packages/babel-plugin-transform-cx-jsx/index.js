@@ -1,3 +1,5 @@
+const jsx = require("@babel/plugin-syntax-jsx").default;
+
 "use strict";
 
 const expandFatArrows = require('./expandFatArrows');
@@ -60,6 +62,9 @@ function processChild(t, child, options, preserveWhitespace) {
    switch (child.type) {
       case 'JSXElement':
          return processElement(t, child, options);
+
+      case "JSXEmptyExpression":
+         return null;
 
       case 'JSXText':
          if (preserveWhitespace)
@@ -194,6 +199,7 @@ module.exports = function(options) {
    let t = options.types;
 
    return {
+      name: 'babel-plugin-transform-cx-jsx',
       visitor: {
          Program: {
             enter: function (path, scope) {
@@ -260,7 +266,7 @@ module.exports = function(options) {
             }
          }
       },
-      inherits: require("babel-plugin-syntax-jsx")
+      inherits: jsx
    }
 };
 

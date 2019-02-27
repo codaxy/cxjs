@@ -15,7 +15,7 @@ import {
    tooltipMouseLeave,
    tooltipParentDidMount
 } from '../overlay/tooltip-ops';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import ForwardIcon from '../icons/forward';
 import DropdownIcon from '../icons/drop-down';

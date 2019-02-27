@@ -22,7 +22,7 @@ import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
 import ClearIcon from '../icons/clear';
 import DropdownIcon from '../icons/drop-down';
 import {getSearchQueryPredicate} from '../../util/getSearchQueryPredicate';
-import {KeyCode} from '../../util';
+import {KeyCode} from '../../util/KeyCode';
 import {Localization} from '../../ui/Localization';
 import {StringTemplate} from '../../data/StringTemplate';
 import {Icon} from '../Icon';
@@ -389,7 +389,7 @@ class LookupComponent extends VDOM.Component {
                className={CSS.element(baseClass, "scroll-container")}
                onWheel={::this.onListWheel}
             >
-               <Cx widget={this.list} store={this.itemStore} options={{name: 'lookupfield-list'}}/>
+               <Cx widget={this.list} store={this.itemStore} options={{name: 'lookupfield-list'}} />
             </div>
          )
       }

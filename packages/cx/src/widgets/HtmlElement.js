@@ -165,7 +165,7 @@ export class HtmlElement extends Container {
          }
       }
 
-      let {data, events, shouldUpdate} = instance;
+      let {data, events} = instance;
 
       let props = Object.assign({
          key: key
@@ -201,7 +201,6 @@ export class HtmlElement extends Container {
                props={props}
                instance={instance}
                data={data}
-               shouldUpdate={shouldUpdate}
             >
                {props.children}
             </ContainerComponent>
@@ -215,10 +214,6 @@ HtmlElement.prototype.tag = 'div';
 HtmlElement.prototype.styled = true;
 
 class ContainerComponent extends VDOM.Component {
-
-   shouldComponentUpdate(props) {
-      return props.shouldUpdate;
-   }
 
    render() {
       let {tag, props, children, instance} = this.props;

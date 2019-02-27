@@ -27,6 +27,7 @@ export class UploadButton extends Field {
 UploadButton.prototype.baseClass = 'uploadbutton';
 UploadButton.prototype.multiple = false;
 UploadButton.prototype.method = 'POST';
+UploadButton.prototype.abortOnDestroy = false;
 UploadButton.prototype.uploadInProgressText = 'Upload is in progress.';
 
 Localization.registerPrototype('cx/widgets/UploadButton', UploadButton);
@@ -97,9 +98,11 @@ class UploadButtonComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      for (let key in this.uploads) {
-         let upload = this.uploads[key];
-         upload.xhr.abort();
+      if (this.props.instance.widget.abortOnDestroy) {
+         for (let key in this.uploads) {
+            let upload = this.uploads[key];
+            upload.xhr.abort();
+         }
       }
    }
 
