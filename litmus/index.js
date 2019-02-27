@@ -42,6 +42,7 @@ import './index.scss';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
 //import Demo from './features/restate/LookupField';
+import Demo from './features/restate/ErrorMessage';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
@@ -59,10 +60,12 @@ import './index.scss';
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
 //import Demo from './bugs/LabelsTopLayout';
+
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
 //import Demo from "./bugs/519";
 import Demo from "./features/restate/DeferredUpdates";
+
 
 let store = new Store();
 

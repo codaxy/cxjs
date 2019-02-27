@@ -39,6 +39,9 @@ export class Cx extends VDOM.Component {
 
       this.flags = {};
       this.renderCount = 0;
+     
+      if (props.onError)
+         this.componentDidCatch = ::this.componentDidCatchHandler;
 
       this.deferCounter = 0;
       this.waitForIdle();
@@ -154,6 +157,11 @@ export class Cx extends VDOM.Component {
          || props.store !== this.props.store
          || props.parentInstance !== this.props.parentInstance
          ;
+   }
+
+   componentDidCatchHandler(error, info) {
+      this.flags.preparing = false;
+      this.props.onError(error, this.getInstance(), info);
    }
 }
 
