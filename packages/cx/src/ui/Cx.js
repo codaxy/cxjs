@@ -104,7 +104,6 @@ export class Cx extends VDOM.Component {
          this.flags.dirty = true;
       else if (isBatchingUpdates() || this.props.immediate) {
          notifyBatchedUpdateStarting();
-         this.waitForIdle();
          this.setState({data: data}, notifyBatchedUpdateCompleted);
       } else {
          //in standard mode sequential store commands are batched
@@ -112,7 +111,6 @@ export class Cx extends VDOM.Component {
             notifyBatchedUpdateStarting();
             this.pendingUpdateTimer = setTimeout(() => {
                delete this.pendingUpdateTimer;
-               this.waitForIdle();
                this.setState({data: data}, notifyBatchedUpdateCompleted);
             }, 0);
          }
@@ -120,7 +118,7 @@ export class Cx extends VDOM.Component {
    }
 
    waitForIdle() {
-      if (!this.props.renderOnIdle)
+      if (!this.props.deferredUntilIdle)
          return;
 
       if (this.unsubscribeIdleRequest)
@@ -130,7 +128,7 @@ export class Cx extends VDOM.Component {
       this.unsubscribeIdleRequest = onIdleCallback(() => {
          this.setState({deferToken: token});
       }, {
-         timeout: this.props.idleTimeout || 60000
+         timeout: this.props.idleTimeout || 30000
       });
    }
 
@@ -146,7 +144,7 @@ export class Cx extends VDOM.Component {
    }
 
    shouldComponentUpdate(props, state) {
-      if (props.renderOnIdle && state.deferToken != this.deferCounter)
+      if (props.deferredUntilIdle && state.deferToken != this.deferCounter)
          return false;
 
       return state !== this.state

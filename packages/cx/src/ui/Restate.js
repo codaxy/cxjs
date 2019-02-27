@@ -9,7 +9,8 @@ export class Restate extends PureContainer {
    declareData() {
       return super.declareData(...arguments, {
          data: {structured: true},
-         waitForIdle: undefined
+         deferredUntilIdle: undefined,
+         idleTimeout: undefined
       })
    }
 
@@ -76,7 +77,8 @@ export class Restate extends PureContainer {
          subscribe
          options={this.options}
          onError={this.onError}
-         renderOnIdle={instance.data.waitForIdle}
+         deferredUntilIdle={instance.data.deferredUntilIdle}
+         idleTimeout={instance.data.idleTimeout}
       />
    }
 }

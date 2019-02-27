@@ -19,7 +19,7 @@ class PageController extends Controller {
 const LineChart = () => <cx>
    <Restate
       detached
-      waitForIdle
+      deferredUntilIdle
       data={{
          test: {bind: "test"}
       }}

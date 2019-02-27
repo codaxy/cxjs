@@ -3,7 +3,7 @@ import {Button} from "cx/widgets";
 
 export default <cx>
    <div>
-      Nesto
+      Content Before
       <Restate
          detached
          onError={(error, instance, info) => {
@@ -12,7 +12,7 @@ export default <cx>
          }}
          layout={FirstVisibleChildLayout}
       >
-         <div visible-expr="!!{error}">
+         <div visible-expr="!!{error}" ws>
             Error
 
             <Button
@@ -29,6 +29,7 @@ export default <cx>
                if (store.get("counter") > 5)
                   throw new Error("Greska");
             }}
+            ws
          >
             <Button
                onClick={(e, {store}) => {
@@ -39,6 +40,6 @@ export default <cx>
             <span text-bind="counter" />
          </div>
       </Restate>
-      Jos nesto
+      Content After
    </div>
 </cx>
