@@ -6,6 +6,7 @@ import {Timing, now, appLoopFlag, vdomRenderFlag} from '../util/Timing';
 import {isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted} from './batchUpdates';
 import {shallowEquals} from "../util/shallowEquals";
 import {PureContainer} from "./PureContainer";
+import {onIdleCallback} from "../util/onIdleCallback";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -119,22 +120,22 @@ export class Cx extends VDOM.Component {
       if (!this.props.renderOnIdle)
          return;
 
-      if (this.idleToken)
-         cancelIdleCallback(this.idleToken);
+      if (this.unsubscribeIdleRequest)
+         this.unsubscribeIdleRequest();
 
       let token = ++this.deferCounter;
-      this.idleToken = requestIdleCallback(() => {
-         this.setState({ deferToken: token });
+      this.unsubscribeIdleRequest = onIdleCallback(() => {
+         this.setState({deferToken: token});
       }, {
-         timeout: 60000
+         timeout: this.props.idleTimeout || 60000
       });
    }
 
    componentWillUnmount() {
       if (this.pendingUpdateTimer)
          clearTimeout(this.pendingUpdateTimer);
-      if (this.idleToken)
-         cancelIdleCallback(this.idleToken);
+      if (this.unsubscribeIdleRequest)
+         this.unsubscribeIdleRequest();
       if (this.unsubscribe)
          this.unsubscribe();
       if (this.props.options && this.props.options.onPipeUpdate)
