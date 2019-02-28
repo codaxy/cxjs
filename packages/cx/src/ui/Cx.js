@@ -32,9 +32,13 @@ export class Cx extends VDOM.Component {
             throw new Error('Cx component requires store.');
       }
 
+      this.state = {
+         deferToken: 0
+      };
+
       if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(::this.update);
-         this.state = {data: this.store.getData(), deferToken: 0};
+         this.state.data = this.store.getData();
       }
 
       this.flags = {};

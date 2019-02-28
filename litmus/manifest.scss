@@ -54,7 +54,6 @@ $cx-include-all: false;
 	"cx/ui/Controller",
 	"cx/ui/Cx",
 	"cx/ui/DataAdapter",
-	"cx/ui/FirstVisibleChildLayout",
 	"cx/ui/FocusManager",
 	"cx/ui/History",
 	"cx/ui/Instance",
@@ -136,6 +135,7 @@ $cx-include-all: false;
 	"cx/util/isUndefined",
 	"cx/util/menuFlag",
 	"cx/util/now",
+	"cx/util/onIdleCallback",
 	"cx/util/parseStyle",
 	"cx/util/prepareFlag",
 	"cx/util/preventDefault",
@@ -151,7 +151,6 @@ $cx-include-all: false;
 	"cx/util/tooltipsFlag",
 	"cx/util/trimFractionZeros",
 	"cx/util/vdomRenderFlag",
-	"cx/widgets/Button",
 	"cx/widgets/Field",
 	"cx/widgets/HelpText",
 	"cx/widgets/HtmlElement",
@@ -159,11 +158,9 @@ $cx-include-all: false;
 	"cx/widgets/Label",
 	"cx/widgets/TextField",
 	"cx/widgets/ValidationError",
-	"cx/widgets/alert",
 	"cx/widgets/autoFocus",
 	"cx/widgets/clearIcons",
 	"cx/widgets/getFieldTooltip",
-	"cx/widgets/registerAlertImpl",
 	"cx/widgets/registerIcon",
 	"cx/widgets/registerIconFactory",
 	"cx/widgets/renderIcon",
@@ -175,6 +172,5 @@ $cx-include-all: false;
 	"cx/widgets/tooltipParentWillUnmount",
 	"cx/widgets/unregisterIcon",
 	"cx/widgets/urlAttributes",
-	"cx/widgets/wireTooltipOps",
-	"cx/widgets/yesNo"
+	"cx/widgets/wireTooltipOps"
 );
