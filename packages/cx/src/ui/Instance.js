@@ -330,7 +330,7 @@ export class Instance {
       this.destroySubscriptions.push(callback);
       this.trackDestroy();
       return () => {
-         this.destroySubscriptions.filter(cb => cb != callback);
+         this.destroySubscriptions && this.destroySubscriptions.filter(cb => cb != callback);
       }
    }
 
