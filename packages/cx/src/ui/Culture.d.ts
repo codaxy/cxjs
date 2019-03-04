@@ -8,9 +8,9 @@ export class Culture {
 
    static setDefaultCurrency(currencyCode: string);
 
-   readonly defaultCurrency: string;
+   static readonly defaultCurrency: string;
 
-   readonly culture: string;
+   static readonly culture: string;
 
    static getNumberCulture(): any;
 
