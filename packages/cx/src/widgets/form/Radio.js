@@ -149,10 +149,6 @@ class RadioCmp extends VDOM.Component {
       });
    }
 
-   shouldComponentUpdate(props, state) {
-      return state.value != this.state.value;
-   }
-
    render() {
       var {instance, data} = this.props;
       var {widget} = instance;

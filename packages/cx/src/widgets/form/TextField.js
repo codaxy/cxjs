@@ -93,10 +93,6 @@ class Input extends VDOM.Component {
       }
    }
 
-   shouldComponentUpdate(props, state) {
-      return state !== this.state;
-   }
-
    render() {
       let {instance, data, label, help} = this.props;
       let {widget, state} = instance;

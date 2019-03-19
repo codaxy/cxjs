@@ -107,10 +107,6 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
-   shouldComponentUpdate(props, state) {
-      return state !== this.state;
-   }
-
    render() {
       let {instance, data, label} = this.props;
       let {widget} = instance;

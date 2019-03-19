@@ -136,10 +136,6 @@ class CheckboxCmp extends VDOM.Component {
       }
    }
 
-   shouldComponentUpdate(props, state) {
-      return this.state.value != state.value;
-   }
-
    componentWillReceiveProps(props) {
       this.setState({
          value: props.data.value
