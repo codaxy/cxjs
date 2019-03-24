@@ -5,15 +5,19 @@ import {UseParentLayout} from "./layout/UseParentLayout";
 import {StoreProxy} from "../data/StoreProxy";
 import {isDefined} from "../util/isDefined";
 
+let currentInstance = null;
+
 class FunctionalComponent extends PureContainer {
    initInstance(context, instance) {
       this.clear();
+      currentInstance = instance;
       this.add(this.childrenFactory({
          ...this.props,
          store: new StoreProxy(() => instance.store)
       }));
       instance.content = this.layout ? this.layout.items : this.items;
       this.clear();
+      currentInstance = null;
    }
 
    explore(context, instance) {
@@ -22,6 +26,9 @@ class FunctionalComponent extends PureContainer {
       else
          this.items = instance.content;
       this.exploreItems(context, instance, instance.content);
+      if (instance.computables) {
+         instance.computables.forEach(cb => cb(instance.store.getData()))
+      }
    }
 }
 
@@ -53,4 +60,8 @@ export function createFunctionalComponent(factory) {
          };
       }
    )
+}
+
+export function getCurrentInstance() {
+   return currentInstance;
 }

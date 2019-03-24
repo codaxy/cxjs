@@ -202,7 +202,6 @@ class CxContext extends VDOM.Component {
          if (visible) {
             while (!context.exploreStack.empty()) {
                let inst = context.exploreStack.pop();
-               currentInstance = inst;
                //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
                inst.explore(context);
             }
@@ -297,8 +296,4 @@ class CxContext extends VDOM.Component {
       if (instance.destroyTracked)
          instance.destroy();
    }
-}
-
-export function getCurrentInstance() {
-   return currentInstance;
 }

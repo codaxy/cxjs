@@ -1,4 +1,4 @@
-import {getCurrentInstance} from "../ui/Cx";
+import {getCurrentInstance} from "../ui/createFunctionalComponent";
 
 export function useEffect(callback) {
    let destroyCallback = callback();

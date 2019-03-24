@@ -1,7 +1,11 @@
-import {getCurrentInstance} from "../ui/Cx";
+import {getCurrentInstance} from "../ui/createFunctionalComponent";
 
 export function useStore() {
    return getCurrentInstance().store;
+}
+
+export function useStoreMethods() {
+   return getCurrentInstance().store.getMethods();
 }
 
 export function ref(name, defaultValue) {
