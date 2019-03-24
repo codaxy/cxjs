@@ -51,6 +51,12 @@ const entries = [{
       input: [cxSrc('variables.scss'), resolvePath("reset.scss"), cxSrc('global.scss')]
    },
    output: {}
+}, {
+   name: 'hooks',
+   options: {
+      input: [cxSrc('hooks/index.js')]
+   },
+   output: {}
 }];
 
 const externalPaths = {
@@ -59,7 +65,8 @@ const externalPaths = {
    [cxSrc('./ui/')]: 'cx/ui',
    [cxSrc('./widgets')]: 'cx/widgets',
    [cxSrc('./charts')]: 'cx/charts',
-   [cxSrc('./svg/')]: 'cx/svg'
+   [cxSrc('./svg/')]: 'cx/svg',
+   [cxSrc('./hooks/')]: 'cx/hooks'
 };
 
 (async function buildAll() {
