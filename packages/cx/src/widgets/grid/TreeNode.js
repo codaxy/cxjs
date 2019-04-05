@@ -21,7 +21,8 @@ export class TreeNode extends Container {
          icon: undefined,
          leafIcon: undefined,
          openFolderIcon: undefined,
-         folderIcon: undefined
+         folderIcon: undefined,
+         hideArrow: undefined
       }, ...arguments);
    }
 
@@ -67,7 +68,7 @@ export class TreeNode extends Container {
             onClick={e => this.toggle(e, instance)}
             onMouseDown={stopPropagation}
          >
-            { !data.leaf && Icon.render(arrowIcon, { className: CSS.element(baseClass, 'arrow')}) }
+            { !data.leaf && !data.hideArrow && Icon.render(arrowIcon, { className: CSS.element(baseClass, 'arrow')}) }
             {
                !this.hideIcon && Icon.render(icon, {
                   className: CSS.element(baseClass, 'icon')
