@@ -82,5 +82,11 @@ export default {
         description: <cx><Md>
             Set to `true` to hide icons.
         </Md></cx>
+    },
+    hideArrow: {
+        type: 'boolean',
+        description: <cx><Md>
+            A value indicating if arrow should be displayed or not. Can be used to hide arrow for folders with no children.
+        </Md></cx>
     }
 };
