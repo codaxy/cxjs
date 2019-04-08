@@ -76,7 +76,8 @@ export class List extends Widget {
          itemStyle: {
             structured: true
          },
-         emptyText: undefined
+         emptyText: undefined,
+         tabIndex: undefined
       }, ...arguments);
    }
 
@@ -352,7 +353,7 @@ class ListComponent extends VDOM.Component {
          }}
          className={CSS.expand(data.classNames, CSS.state({focused: this.state.focused}))}
          style={data.style}
-         tabIndex={widget.focusable && selectable && items.length > 0 ? 0 : null}
+         tabIndex={widget.focusable && selectable && items.length > 0 ? data.tabIndex || 0 : null}
          onMouseDown={e=>preventFocusOnTouch(e)}
          onKeyDown={::this.handleKeyDown}
          onMouseLeave={::this.handleMouseLeave}

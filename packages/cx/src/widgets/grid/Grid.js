@@ -58,6 +58,7 @@ export class Grid extends Widget {
          groupingParams: {structured: true},
          page: undefined,
          totalRecordCount: undefined,
+         tabIndex: undefined,
       }, selection, ...arguments);
    }
 
@@ -957,7 +958,7 @@ class GridComponent extends VDOM.Component {
          <div
             key="scroller"
             ref={this.scrollerRef}
-            tabIndex={widget.selectable || widget.cellEditable ? 0 : null}
+            tabIndex={widget.selectable || widget.cellEditable ? data.tabIndex || 0 : null}
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, 'scroll-area', {"fixed-header": !!this.props.header})}
             onKeyDown={::this.handleKeyDown}
