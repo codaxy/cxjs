@@ -55,6 +55,12 @@ export default {
             Either `view` or `edit` (default). In view mode, the field is displayed as plain text.
         </Md></cx>
     },
+    tabIndex: {
+        type: 'string',
+        description: <cx><Md>
+            Custom tab index to be set on the field.
+        </Md></cx>
+    },
     viewMode: {
         type: 'boolean',
         description: <cx><Md>
