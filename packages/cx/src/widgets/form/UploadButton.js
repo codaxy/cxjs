@@ -57,7 +57,6 @@ class UploadButtonComponent extends VDOM.Component {
          icon = Icon.render(data.icon, {
             className: CSS.element(baseClass, "icon")
          });
-
          className = CSS.expand(className, CSS.state('icon'), children.length == 0 && CSS.state('empty'));
       }
 
@@ -80,8 +79,10 @@ class UploadButtonComponent extends VDOM.Component {
                key={this.uploadKey}
                className={CSS.element(baseClass, "input")}
                type="file"
+               multiple={widget.multiple}
+               tabIndex={data.tabIndex}
                onChange={::this.onFileSelected}
-               multiple={widget.multiple}/>
+            />
          }
       </div>
    }

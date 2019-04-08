@@ -543,7 +543,7 @@ export class MonthPickerComponent extends VDOM.Component {
          }}
          className={data.classNames}
          style={data.style}
-         tabIndex={data.disabled ? null : 0}
+         tabIndex={data.disabled ? null : data.tabIndex || 0}
          onKeyDown={this.handleKeyPress}
          onMouseDown={stopPropagation}
          onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}

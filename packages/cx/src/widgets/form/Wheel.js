@@ -90,7 +90,7 @@ export class WheelComponent extends VDOM.Component {
          displayedOptions = displayedOptions.slice(this.index, this.index + size);
 
       return <div
-         tabIndex={this.props.focusable ? 0 : null}
+         tabIndex={this.props.focusable ? data.tabIndex || 0 : null}
          className={className || CSS.element(baseClass, "container", { active })}
          style={style}
          onKeyDown={this.onKeyDown}

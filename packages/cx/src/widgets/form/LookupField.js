@@ -558,7 +558,7 @@ class LookupComponent extends VDOM.Component {
          <div
             id={data.id}
             className={CSS.element(widget.baseClass, "input")}
-            tabIndex={data.disabled ? null : 0}
+            tabIndex={data.disabled ? null : data.tabIndex || 0}
             ref={el => {
                this.dom.input = el
             }}
