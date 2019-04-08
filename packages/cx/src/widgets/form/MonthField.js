@@ -292,13 +292,13 @@ class MonthInput extends VDOM.Component {
          if (widget.showClear && (((widget.alwaysShowClear || !data.required) && !data.empty) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={ e => {
-                     e.preventDefault();
-                     e.stopPropagation();
-                  }}
-                  onClick={e => {
-                     this.onClearClick(e);
-                  }}>
+                    onMouseDown={e => {
+                       e.preventDefault();
+                       e.stopPropagation();
+                    }}
+                    onClick={e => {
+                       this.onClearClick(e);
+                    }}>
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
             );
@@ -313,14 +313,15 @@ class MonthInput extends VDOM.Component {
       if (data.icon) {
          icon = (
             <div className={CSS.element(baseClass, 'left-icon')}>
-               { Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')}) }
+               {Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})}
             </div>
          );
       }
 
       var dropdown = false;
       if (this.state.dropdownOpen)
-         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'monthfield-dropdown'}} subscribe />;
+         dropdown = <Cx widget={this.getDropdown()} parentInstance={instance} options={{name: 'monthfield-dropdown'}}
+                        subscribe/>;
 
       let empty = this.input ? !this.input.value : data.empty;
 
@@ -331,11 +332,12 @@ class MonthInput extends VDOM.Component {
          empty: empty && !data.placeholder,
          error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty)
       }))}
-         style={data.style}
-         onMouseDown={::this.onMouseDown}
-         onTouchStart={stopPropagation}
-         onClick={stopPropagation}>
-         <input id={data.id}
+                  style={data.style}
+                  onMouseDown={::this.onMouseDown}
+                  onTouchStart={stopPropagation}
+                  onClick={stopPropagation}>
+         <input
+            id={data.id}
             ref={el => {
                this.input = el
             }}
@@ -345,24 +347,25 @@ class MonthInput extends VDOM.Component {
             defaultValue={data.formatted}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
-            onInput={ e => this.onChange(e, 'input') }
-            onChange={ e => this.onChange(e, 'change') }
-            onKeyDown={ e => this.onKeyDown(e) }
-            onBlur={ e => {
+            onInput={e => this.onChange(e, 'input')}
+            onChange={e => this.onChange(e, 'change')}
+            onKeyDown={e => this.onKeyDown(e)}
+            onBlur={e => {
                this.onBlur(e)
-            } }
-            onFocus={ e => {
+            }}
+            onFocus={e => {
                this.onFocus(e)
-            } }
+            }}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
          />
-         { icon }
-         { insideButton }
-         { dropdown }
-         { label }
-         { help }
+         {icon}
+         {insideButton}
+         {dropdown}
+         {label}
+         {help}
       </div>;
    }
 

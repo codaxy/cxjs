@@ -149,6 +149,7 @@ class Input extends VDOM.Component {
             type={widget.inputType}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
             {...data.inputAttrs}
             onMouseMove={::this.onMouseMove}

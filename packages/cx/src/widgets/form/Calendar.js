@@ -420,7 +420,7 @@ export class CalendarCmp extends VDOM.Component {
       let dayNames = culture.getWeekdayNames('short').map(x => x.substr(0, 2));
 
       return <div className={data.classNames}
-         tabIndex={data.disabled ? null : 0}
+         tabIndex={data.disabled ? null : data.tabIndex || 0}
          onKeyDown={e => this.handleKeyPress(e)}
          onMouseDown={e => e.stopPropagation()}
          ref={el => {

@@ -80,6 +80,9 @@ export interface FieldProps extends Cx.StyledContainerProps {
     */
    trackFocus?: boolean,
 
+   /** Custom tab index */
+   tabIndex?: Cx.StringProp,
+
    /** 
     * Additional content to be displayed next to the field. 
     * This is commonly used for presenting additional information or validation errors. 

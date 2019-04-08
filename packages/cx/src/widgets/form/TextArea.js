@@ -28,10 +28,10 @@ export class TextArea extends TextField {
 
    renderInput(context, instance, key) {
       return <Input key={key}
-         data={instance.data}
-         instance={instance}
-         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
-         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+                    data={instance.data}
+                    instance={instance}
+                    label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+                    help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
       />
    }
 
@@ -71,7 +71,8 @@ class Input extends VDOM.Component {
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}
       >
-         <textarea className={CSS.element(baseClass, 'input')}
+         <textarea
+            className={CSS.element(baseClass, 'input')}
             ref={el => {
                this.input = el
             }}
@@ -81,14 +82,15 @@ class Input extends VDOM.Component {
             defaultValue={data.value}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
             {...data.inputAttrs}
-            onInput={ e => this.onChange(e, 'input') }
-            onChange={ e => this.onChange(e, 'change') }
-            onBlur={ e => {
+            onInput={e => this.onChange(e, 'input')}
+            onChange={e => this.onChange(e, 'change')}
+            onBlur={e => {
                this.onChange(e, 'blur')
-            } }
-            onFocus={ e => this.onFocus() }
+            }}
+            onFocus={e => this.onFocus()}
             onClick={stopPropagation}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}

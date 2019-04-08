@@ -319,6 +319,7 @@ class DateTimeInput extends VDOM.Component {
             defaultValue={data.formatted}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
             {...data.inputAttrs}
             onInput={ e => this.onChange(e, 'input') }

@@ -158,7 +158,7 @@ class RadioCmp extends VDOM.Component {
       return (
          <span
             key="check"
-            tabIndex={data.disabled ? null : 0}
+            tabIndex={data.disabled ? null : data.tabIndex || 0}
             className={CSS.element(baseClass, "input", {
                checked: this.state.value
             })}
