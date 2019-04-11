@@ -1312,14 +1312,14 @@ class GridComponent extends VDOM.Component {
       let {widget} = this.props.instance;
       if (widget.scrollable)
          return this.dom.scroller;
-      return findScrollableParent(this.el, true);
+      return findScrollableParent(this.dom.table, true);
    }
 
    onGetVScrollParent() {
       let {widget} = this.props.instance;
       if (widget.scrollable)
          return this.dom.scroller;
-      return findScrollableParent(this.el);
+      return findScrollableParent(this.dom.table);
    }
 
    componentWillReceiveProps(props) {
@@ -1955,5 +1955,3 @@ function copyCellWidths(srcTableBody, dstTableBody) {
    }
    return changed;
 }
-
-
