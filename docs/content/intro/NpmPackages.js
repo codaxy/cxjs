@@ -103,7 +103,7 @@ export const NpmPackages = <cx>
             </tr>
             <tr>
                 <th><a href="https://www.npmjs.com/package/cx-theme-marine">cx-theme-marine</a></th>
-                <td>Material theme.</td>
+                <td>Marine theme.</td>
             </tr>
             </tbody>
         </table>
