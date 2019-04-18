@@ -12,8 +12,8 @@ Localization.localize(c, 'cx/widgets/Field', {
  
  // LookupField
  Localization.localize(c, 'cx/widgets/LookupField', {
-    loadingText: 'Bezig met laden ...'
-   ,
+    loadingText: 'Bezig met laden ...',
+    requiredText: 'Dit veld is verplicht.',
     queryErrorText: 'Er is een fout opgetreden bij het weergeven van gegevens.' ,
     noResultsText: 'Geen resultaten gevonden',
     minQueryLengthMessageText: 'Voer minimaal {0} tekens in.'
@@ -21,11 +21,13 @@ Localization.localize(c, 'cx/widgets/Field', {
  
  // In common for Calendar and MonthPicker
  const calendarErrorMessages = {
+    requiredText: 'Dit veld is verplicht.',
     maxValueErrorText: 'De geselecteerde datum is later dan de laatst toegestane datum {0: d}',
     maxExclusiveErrorText: 'De geselecteerde datum moet vóór {0: d}' ,
     minValueErrorText: 'De geselecteerde datum is eerder dan {0: d}',
     minExclusiveErrorText: 'De geselecteerde datum moet later zijn dan {0: d}',
  };
+
  // Calendar
  Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
  // MonthPicker
@@ -36,6 +38,7 @@ Localization.localize(c, 'cx/widgets/Field', {
     ...calendarErrorMessages,
     inputErrorText: 'Ongeldige datum.'
  };
+
  // MonthField
  Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
  // DateField
@@ -43,6 +46,7 @@ Localization.localize(c, 'cx/widgets/Field', {
  
  // NumberField
  Localization.localize(c, 'cx/widgets/NumberField', {
+    requiredText: 'Dit veld is verplicht.',
     maxValueErrorText: 'Voer {0: n} of minder in.',
     maxExclusiveErrorText: 'Voer een nummer in dat kleiner is dan {0: n}.',
     minValueErrorText:'Voer {0: n} of meer in.' ,
@@ -52,6 +56,7 @@ Localization.localize(c, 'cx/widgets/Field', {
  
  // TextField
  Localization.localize(c, 'cx/widgets/TextField', {
+    requiredText: 'Dit veld is verplicht.',
     validationErrorText: 'De ingevoerde waarde is ongeldig.',
     minLengthValidationErrorText: 'Vul {[{0} - {1}]} extra karakters in.',
     maxLengthValidationErrorText: 'Gebruik {0} tekens of minder.'
