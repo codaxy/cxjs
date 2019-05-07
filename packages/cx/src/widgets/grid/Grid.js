@@ -1425,7 +1425,10 @@ class GridComponent extends VDOM.Component {
             this.dom.table.style.marginBottom = `${ (remaining * headerHeight - footerHeight).toFixed(0) }px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
-            this.dom.table.style.marginBottom = `${-footerHeight}px`;
+
+            // We need negative bottom margin only if we specify in the grouping that footer should be shown, otherwise this margin will hide the last grid row.
+            if (widget.dataAdapter.groupings && widget.dataAdapter.groupings.some(g => g.showFooter))
+               this.dom.table.style.marginBottom = `${-footerHeight}px`;
          }
 
          this.rowHeight = rowHeight;
