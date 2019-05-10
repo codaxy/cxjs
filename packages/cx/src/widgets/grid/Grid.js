@@ -1855,19 +1855,22 @@ class GridColumnHeader extends Widget {
       if (this.header)
          this.header1 = this.header;
 
+      if (!this.header1 && this.sortable)
+         this.header1 = { text: '' };
+
       if (this.header1 && isSelector(this.header1))
          this.header1 = {
-            text: this.header1 || ''
+            text: this.header1
          };
 
       if (this.header2 && isSelector(this.header2))
          this.header2 = {
-            text: this.header2 || ''
+            text: this.header2
          };
 
       if (this.header3 && isSelector(this.header3))
          this.header3 = {
-            text: this.header3 || ''
+            text: this.header3
          };
 
       if (!this.aggregateField && this.field)
