@@ -125,11 +125,17 @@ export class Grid extends Widget {
       });
 
       //add default footer if some columns have aggregates and grouping is not defined
-      if (!this.grouping && Object.keys(aggregates).length > 0)
+      if (!this.grouping && (Object.keys(aggregates).length > 0 || this.fixedFooter))
          this.grouping = [{
             key: {},
             showFooter: true
          }];
+
+      if (this.fixedFooter && isNonEmptyArray(this.grouping)) {
+         this.grouping[0].showFooter = true;
+         if (this.grouping[0].key && Object.keys(this.grouping[0].key).length > 0)
+            Console.warn("First grouping level in grids with a fixed footer must group all data. The key field should be omitted.")
+      }
 
       this.dataAdapter = DataAdapter.create({
          type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
