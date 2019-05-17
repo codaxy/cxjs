@@ -5,7 +5,8 @@ import renderer from 'react-test-renderer';
 import assert from 'assert';
 import {Controller} from "./Controller";
 import {DataProxy} from "./DataProxy";
-import {computable} from "cx/ui";
+import {computable} from "../data/computable";
+import {HtmlElement} from "../widgets/HtmlElement";
 
 describe('DataProxy', () => {
 

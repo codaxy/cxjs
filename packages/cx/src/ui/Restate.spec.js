@@ -1,3 +1,4 @@
+import {HtmlElement} from "../widgets/HtmlElement";
 import {Cx} from './Cx';
 import {Restate} from './Restate';
 import {Store} from '../data/Store';
@@ -5,6 +6,7 @@ import {VDOM} from "./VDOM";
 import renderer from 'react-test-renderer';
 import assert from 'assert';
 import {Controller} from "./Controller";
+import {bind} from "./bind";
 
 describe('Restate', () => {
 
@@ -181,6 +183,46 @@ describe('Restate', () => {
 
       let tree = component.toJSON();
       assert(!changed);
+   });
+
+   it("shared state can be used across components inside and outside Restate", () => {
+
+      let widget = <cx>
+         <div>
+            <div text={bind("person.gender", "Male")}/>
+            <Restate
+               detached
+               data={{
+                  person: {bind: "person"}
+               }}
+            >
+               <div text={bind("person.firstName", "John")}/>
+               <div text={bind("person.lastName", "Doe")}/>
+            </Restate>
+            <div text={bind("person.address", "Unknown")}/>
+         </div>
+      </cx>;
+
+      let changed = false;
+      let store = new Store();
+      store.subscribe(() => {
+         changed = true;
+         //console.log(store.getData());
+      });
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(store.getData(), {
+         person: {
+            firstName: 'John',
+            lastName: 'Doe',
+            address: 'Unknown',
+            gender: 'Male',
+         }
+      })
    });
 });
 

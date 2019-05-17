@@ -11,8 +11,7 @@ import {Console} from '../util/Console';
 import {VDOM as vdom} from './VDOM';
 export const VDOM = vdom;
 
-
-var widgetId = 100;
+let widgetId = 100;
 
 export class Widget extends Component {
 

@@ -247,13 +247,13 @@ describe('createFunctionalComponent', () => {
    });
 
    it('adds children at the right place', () => {
-      const X = ({children}) => <cx>
+      const X = createFunctionalComponent(({children}) => <cx>
          <header/>
          <main>
             {children}
          </main>
          <footer/>
-      </cx>;
+      </cx>);
 
       const widget = (
          <cx>
@@ -348,11 +348,11 @@ describe('createFunctionalComponent', () => {
    });
 
    it('can have its own layout', () => {
-      const X = () => <cx>
+      const X = createFunctionalComponent(() => <cx>
          <div>1</div>
          <div>2</div>
          <div>3</div>
-      </cx>
+      </cx>);
 
       const widget = (
          <cx>

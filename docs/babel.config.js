@@ -11,10 +11,11 @@ module.exports = function (options) {
                 loose: true,
                 modules: false,
                 useBuiltIns: "usage",
+                corejs: 3,
                 targets: {
                     chrome: 55,
                     ie: 11,
-                    ff: 30,
+                    firefox: 30,
                     edge: 12,
                     safari: 9
                 }

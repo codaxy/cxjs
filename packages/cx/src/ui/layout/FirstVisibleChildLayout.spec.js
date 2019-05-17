@@ -8,6 +8,7 @@ import assert from 'assert';
 import {FirstVisibleChildLayout} from "./FirstVisibleChildLayout";
 import {UseParentLayout} from "./UseParentLayout";
 import {PureContainer} from "../PureContainer";
+import {createFunctionalComponent} from "../createFunctionalComponent";
 
 describe('FirstVisibleChildLayout', () => {
 
@@ -120,9 +121,9 @@ describe('FirstVisibleChildLayout', () => {
 
    it('works with functional components', () => {
 
-      let FC = ({children}) => <cx>
+      let FC = createFunctionalComponent(({children}) => <cx>
          {children}
-      </cx>;
+      </cx>);
 
       let widget = <cx>
          <div layout={FirstVisibleChildLayout}>
