@@ -1,4 +1,4 @@
-import {HtmlElement, Content, Button, FlexRow, FlexCol, PrivateState, LookupField, Repeater} from 'cx/widgets';
+import {HtmlElement, Content, Button, FlexRow, FlexCol, PrivateState, LookupField, Repeater, Rescope} from 'cx/widgets';
 import {Svg} from "cx/svg";
 import {Chart, Gridlines, NumericAxis, LineGraph} from 'cx/charts';
 import {Md} from 'docs/components/Md';
@@ -11,31 +11,12 @@ import {casual} from 'docs/content/examples/data/casual';
 import { isBinding } from 'cx/src/data/Binding';
 
 // TODO: create code sandbox example for this feature
-// generate user list
-function getUsers() {
-    let ids = [6, 14];
-    return ids.map(id => {
-        let user = getUserData(id);
-        return {
-            id,
-            name: user.name
-        }
-    });
-}
-
-class PageController extends Controller {
-    onInit() {
-        this.loadUsers();
-    }
-
-    loadUsers() {
-        let users = getUsers();
-        this.store.set("$page.users", users);
-    }
+function delay(ms) {
+    return new Promise(resolve => setTimeout(() => resolve(), ms));
 }
 
 let cache = {};
-function getUserData(userId) {
+async function getUserData(userId) {
     if (!userId) return;
     var y = 100 + Math.random() * 200;
     if (!cache[userId]) 
@@ -47,51 +28,31 @@ function getUserData(userId) {
                 y: (y = y + Math.random() * 100 - 50)
             }))
         };
-
+    await delay(Math.round(Math.random()*400));
     return cache[userId];
 }
 
+class PageController extends Controller {
+    onInit() {
+        this.loadUsers();
+    }
+
+    loadUsers() {
+        this.store.set("$page.userId1", 6);
+        this.store.set("$page.userId2", 14);
+    }
+}
+
 let UserStats = createFunctionalComponent(({userId}) => {
-    
-    class WidgetController extends Controller {
-        onInit() {
-            this.loadData();
-        }
-        loadData() {
-            let id = this.store.get(userId.bind);
-            if (!id) return;
-            // simmulate data fetching
-            let user = getUserData(id);
-            this.store.set("$page.user", user);
-        }
-    };
-
-    return <cx>
-        <div style="flex:1;" controller={WidgetController}>
-            <h3 text-tpl="User: {$page.user.name}" style="margin-top: 0px; display: inline-block;"/>
-            <Svg style="flex:1; height: 200px; width: 325px;">
-                <Chart offset="20 -20 -20 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-                    <Gridlines/>
-                    <LineGraph data-bind="$page.user.data" colorIndex={userId} />
-                </Chart>
-            </Svg>
-            <div style="margin-top: 10px; display: flex; justify-content: center;">
-                <Button text="Load data" onClick="loadData" />
-            </div>
-        </div>
-    </cx>;
-});
-
-let IsolatedUserStats = createFunctionalComponent(({userId}) => {
 
     class WidgetController extends Controller {
         onInit() {
             this.addTrigger("loadData", ["userId"], () => this.loadData(), true);
         }
-        loadData() {
+        async loadData() {
             // simmulate data fetching
             let userId = this.store.get("userId");
-            let user = getUserData(userId);
+            let user = await getUserData(userId);
             this.store.set("user", user);
         }
     };
@@ -101,7 +62,13 @@ let IsolatedUserStats = createFunctionalComponent(({userId}) => {
             <div style="flex:1;" controller={WidgetController}>
                 <h3 text-tpl="User: {user.name}" style="margin-top: 0px; display: inline-block;"/>
                 <Svg style="flex:1; height: 200px; width: 325px;">
-                    <Chart offset="20 -20 -20 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                    <Chart 
+                        offset="20 -20 -20 40" 
+                        axes={{ 
+                            x: { type: NumericAxis }, 
+                            y: { type: NumericAxis, vertical: true } }
+                        }
+                    >
                         <Gridlines/>
                         <LineGraph data-bind="user.data" colorIndex-bind="userId" />
                     </Chart>
@@ -125,56 +92,78 @@ export const PrivateStates = <cx>
 
             As usefuel as the global Store may be, sometimes it causes us trouble if some widgets 
             unintentionally overwrite each other's data, due to the same Store bindings.
+            
+            In such cases we can use `PrivateState` to isolate widget Store.
 
-            Consider the example below: we are using a simple UserStats widget that loads and displays some user data 
-            based on the `userId`.
-            Data is stored under `$page.data`. Using more then one instance of the UserStats widget on the same page
-            will cause unpredictable and hard to discover bugs, due to unintended data mutation.
-
-            <div class="widgets" style="display:flex;" controller={PageController}>
-                <Repeater
-                    records-bind="$page.users"
-                >
-                    <UserStats userId-bind="$record.id" />
-                </Repeater>
+            <div class="widgets" style="display:flex;" 
+                controller={{ 
+                    onInit() {
+                        this.store.set("$page.userId1", 6);
+                        this.store.set("$page.userId2", 14);
+                    }
+                }}
+            >
+                <UserStats userId-bind="$page.userId1" />
+                <UserStats userId-bind="$page.userId2" />
             </div>
 
-            Although we are passing different `userIds` to the UserStats widgets, they are both showing identical graphs
-            because both instances are using the same Store binding for the data - `$page.data`, and the widget that was loaded last
-            simply overwrites the other data.
+            `UserStats` are internaly using the same bindings to store data, but their Stores are isolated.
+            
+            Parent (global) Store values for `$page.userId1` and `$page.userId2` are available within the `PrivateStore` simply as `userId`.
+            
+            we are passing different `userIds` to the UserStats widgets, they are both showing identical graphs
+            because both instances are using the same Store binding for the data - `$page.userData`, and the widget that was loaded last
+            simply overwrites the existing data.
 
             <Content name="code">
                 <CodeSnippet /* fiddle="F3RHqb0x" */>{`
                     let UserStats = createFunctionalComponent(({userId}) => {
+
                         class WidgetController extends Controller {
                             onInit() {
-                                // simmulate data fetching - this can be async
-                                let data = getUserData(userId);
-                                this.store.set("$page.data", data);
+                                this.addTrigger("loadData", ["userId"], () => this.loadData(), true);
                             }
-                        }
+                            async loadData() {
+                                // simmulate data fetching
+                                let userId = this.store.get("userId");
+                                let user = await getUserData(userId);
+                                this.store.set("user", user);
+                            }
+                        };
                     
                         return <cx>
-                            <div style="flex:1;" controller={WidgetController}>
-                                <FlexCol style="flex:1">
-                                    <h3 text={"User Id: " + userId} style="margin-top: 0px;"/>
-                                    <Svg style="flex:1; height:200px;">
-                                        <Chart offset="20 -20 -20 40" 
-                                            axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                            <PrivateState data={{ userId: userId }}>
+                                <div style="flex:1;" controller={WidgetController}>
+                                    <h3 text-tpl="User: {user.name}" style="margin-top: 0px; display: inline-block;"/>
+                                    <Svg style="flex:1; height: 200px; width: 325px;">
+                                        <Chart 
+                                            offset="20 -20 -20 40" 
+                                            axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}
+                                        >
                                             <Gridlines/>
-                                            <LineGraph data-bind="$page.data" colorIndex={userId} />
+                                            <LineGraph data-bind="user.data" colorIndex-bind="userId" />
                                         </Chart>
                                     </Svg>
-                                </FlexCol>
-                            </div>
+                                    <div style="margin-top: 10px; display: flex; justify-content: center;">
+                                        <Button text="Load data" onClick="loadData" />
+                                    </div>
+                                </div>
+                            </PrivateState>
                         </cx>;
                     });
                     ...
                     
-                    <FlexRow style="width:100%;" spacing>
-                        <UserStats userId={6} />
-                        <UserStats userId={10} />
-                    </FlexRow>
+                    <div class="widgets" style="display:flex;" 
+                        controller={{ 
+                            onInit() {
+                                this.store.set("$page.userA", 6);
+                                this.store.set("$page.userB", 14);
+                            }
+                        }}
+                    >
+                        <UserStats userId-bind="$page.userA" />
+                        <UserStats userId-bind="$page.userB" />
+                    </div>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -184,30 +173,16 @@ export const PrivateStates = <cx>
                 
         <CodeSplit>
             <div class="widgets" style="display:flex;">
-                <IsolatedUserStats userId={6} />
-                <IsolatedUserStats userId={10} />
+                <UserStats userId={6} />
+                <UserStats userId={10} />
             </div>
 
-            <Content name="code">
-                <CodeSnippet /* fiddle="F3RHqb0x" */>{`
-                    const IsolatedUserStats = (props) => <cx>
-                        <PrivateState>
-                            <UserStats {...props} />
-                        </PrivateState>
-                    </cx>
-                    ...
-                    
-                    <FlexRow style="width:100%;" spacing>
-                        <IsolatedUserStats userId={6} />
-                        <IsolatedUserStats userId={10} />
-                    </FlexRow>
-                `}</CodeSnippet>
-            </Content>
+           
         </CodeSplit>
 
         ### Passing bindings to PrivateState
 
-        In the example above we hardcoded the `userId` values that were passed to the `IsolatedUserStats` widgets.
+        In the example above we hardcoded the `userId` values that were passed to the `UserStats` widgets.
         Normally we will use data from the store, so we will need to pass the `userId` as a Store binding.
 
         <CodeSplit>
@@ -222,7 +197,7 @@ export const PrivateStates = <cx>
                         <div text-tpl="{$option.name} "/><span style="font-size: 0.8em;" text-tpl="(id: {$option.id})" />
                     </LookupField>
                 </LabelsTopLayout>
-                <IsolatedUserStats userId-bind="$page.userId" />
+                <UserStats userId-bind="$page.userId" />
             </div>
         </CodeSplit>
 
