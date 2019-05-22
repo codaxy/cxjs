@@ -74,16 +74,16 @@ export class NumberField extends Field {
       if (isNumber(data.value) && !data.error) {
          if (isNumber(data.minValue)) {
             if (data.value < data.minValue)
-               data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minValueErrorText, data.minValue / (data.scale || 1));
             else if (data.value == data.minValue && data.minExclusive)
-               data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue / (data.scale || 1));
          }
 
          if (isNumber(data.maxValue)) {
             if (data.value > data.maxValue)
-               data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue / (data.scale || 1));
             else if (data.value == data.maxValue && data.maxExclusive)
-               data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue / (data.scale || 1));
          }
       }
    }
