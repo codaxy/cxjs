@@ -63,8 +63,8 @@ import './index.scss';
 
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
-//import Demo from "./bugs/519";
-import Demo from "./features/restate/DeferredUpdates";
+import Demo from "./bugs/536";
+//import Demo from "./features/restate/DeferredUpdates";
 
 
 let store = new Store();
