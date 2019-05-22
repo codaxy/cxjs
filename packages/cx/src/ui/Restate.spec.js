@@ -53,20 +53,18 @@ describe('Restate', () => {
    });
 
    it('wires declared data', () => {
-
-      class TestController extends Controller {
-         onInit() {
-            this.store.init('name', "Sasa");
-            this.store.init('nickname', "Sale");
-         }
-      }
-
       let widget = <cx>
          <div>
-            <Restate data={{
+            <Restate
+               data={{
                name: {bind: "person.name"}
             }}>
-               <div controller={TestController}/>
+               <div controller={{
+                  onInit() {
+                     this.store.init('name', "Sasa");
+                     this.store.init('nickname', "Sale");
+                  }
+               }}/>
             </Restate>
          </div>
       </cx>;
@@ -74,6 +72,7 @@ describe('Restate', () => {
       let changed = false;
       let store = new Store();
       store.subscribe(() => {
+         //console.log(store.getData());
          changed = true;
       });
 
