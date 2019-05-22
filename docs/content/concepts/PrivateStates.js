@@ -10,7 +10,7 @@ import {MethodTable} from '../../components/MethodTable';
 import {casual} from 'docs/content/examples/data/casual';
 import { isBinding } from 'cx/src/data/Binding';
 
-// TODO: create code sandbox example for this feature
+// simulate network latency
 function delay(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
 }
@@ -32,6 +32,8 @@ async function getUser(id) {
 class PageController extends Controller {
     onInit() {
         this.loadUsers();
+        this.store.init("$page.senderId", 0);
+        this.store.init("$page.receiverId", 1);
     }
 
     async loadUsers() {
@@ -39,44 +41,6 @@ class PageController extends Controller {
         this.store.set("$page.users", users);
     }
 }
-
-// let UserStats = createFunctionalComponent(({userId}) => {
-
-//     class WidgetController extends Controller {
-//         onInit() {
-//             this.addTrigger("loadData", ["userId"], () => this.loadData(), true);
-//         }
-//         async loadData() {
-//             // simmulate data fetching
-//             let userId = this.store.get("userId");
-//             let user = await getUserData(userId);
-//             this.store.set("user", user);
-//         }
-//     };
-
-//     return <cx>
-//         <PrivateState data={{ userId: userId }}>
-//             <div style="flex:1;" controller={WidgetController}>
-//                 <h3 text-tpl="User: {user.name}" style="margin-top: 0px; display: inline-block;"/>
-//                 <Svg style="flex:1; height: 200px; width: 325px;">
-//                     <Chart 
-//                         offset="20 -20 -20 40" 
-//                         axes={{ 
-//                             x: { type: NumericAxis }, 
-//                             y: { type: NumericAxis, vertical: true } }
-//                         }
-//                     >
-//                         <Gridlines/>
-//                         <LineGraph data-bind="user.data" colorIndex-bind="userId" />
-//                     </Chart>
-//                 </Svg>
-//                 <div style="margin-top: 10px; display: flex; justify-content: center;">
-//                     <Button text="Load data" onClick="loadData" />
-//                 </div>
-//             </div>
-//         </PrivateState>
-//     </cx>;
-// });
 
 const UserData = ({userId}) => (
     <cx>
@@ -115,38 +79,51 @@ export const PrivateStates = <cx>
 
             <ImportPath path="import { PrivateState } from 'cx/widgets';" />
 
-            As usefuel as the global Store may be, sometimes it causes us trouble if some widgets 
-            unintentionally overwrite each other's data, due to the same Store bindings.
+            The `PrivateState` widget allows a part of the widget tree to work with a separate data store. 
+            Data shared beetween the parent store and the child store must be explicitely defined through the `data` property.
 
-            The `PrivateState` widget allows a part of the widget tree to work with a separate (almost completely clean) data store. 
-            Data shared beetween the parent store and the child store must be explicitely defined.
-
-            
+            In the example below `UserData` component is used to display user details based on the `userId` property.
+            `data` property takes initial store values that can either be primitive values or store bindings from the parent store.
+            Each value will be made available within the `PrivateState` under the corresponding property name.
 
             <Content name="code">
                 <CodeSnippet /* fiddle="F3RHqb0x" */>{`
-                    <LookupField label="User" value-bind="$page.userId" options-bind="$page.users" optionTextField="name" />
-                    <PrivateState
-                        data={{
-                            userId: bind('$page.userId')
-                        }}
-                        controller={{ 
-                            onInit() {
-                                this.addTrigger("loadUser", ["userId"], () => this.loadData(), true);
-                            },
-                            async loadData() {
-                                let id = this.store.get("userId");
-                                let user = await getUser(id);
-                                this.store.set("user", user);
-                            }
-                        }}
-                        layout={UseParentLayout}
-                    >   
-                        <strong>User data</strong>
-                        <TextField label="Name" value-bind="user.name" />
-                        <TextField label="Phone" value-bind="user.phone" />
-                        <TextField label="City" value-bind="user.city" />
-                    </PrivateState>
+                    const UserData = ({userId}) => (
+                        <cx>
+                            <PrivateState
+                                data={{
+                                    userId: userId
+                                }}
+                                controller={{ 
+                                    onInit() {
+                                        this.addTrigger("loadUser", ["userId"], () => this.loadData(), true);
+                                    },
+                                    async loadData() {
+                                        this.store.set("loading", true);
+                                        let id = this.store.get("userId");
+                                        let user = await getUser(id);
+                                        this.store.set("user", user);
+                                        this.store.set("loading", false);
+                                    }
+                                }}
+                                layout={UseParentLayout}
+                            >   
+                                <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
+                                <TextField label="Name" value-bind="user.name" />
+                                <TextField label="Phone" value-bind="user.phone" />
+                                <TextField label="City" value-bind="user.city" />
+                            </PrivateState>
+                        </cx>
+                    );
+                    ...
+                    <LabelsLeftLayout>
+                        <LookupField label="Sender" value-bind="$page.senderId" options-bind="$page.users" optionTextField="name" />
+                        <UserData userId-bind="$page.senderId" />
+                    </LabelsLeftLayout>
+                    <LabelsLeftLayout>
+                        <LookupField label="Receiver" value-bind="$page.receiverId" options-bind="$page.users" optionTextField="name" />
+                        <UserData userId-bind="$page.receiverId" />
+                    </LabelsLeftLayout>
                 `}</CodeSnippet>
             </Content>
 
@@ -155,37 +132,20 @@ export const PrivateStates = <cx>
                // style="display: flex;"
                 controller={PageController}   
             >   
-                <div layout={LabelsLeftLayout} 
-                    //style="display: flex; flex-direction: column;"
-                >
-                    <LookupField label="User" value-bind="$page.userId" options-bind="$page.users" optionTextField="name" />
-                    <PrivateState
-                        data={{
-                            userId: bind('$page.userId')
-                        }}
-                        controller={{ 
-                            onInit() {
-                                this.addTrigger("loadUser", ["userId"], () => this.loadData(), true);
-                            },
-                            async loadData() {
-                                this.store.set("loading", true);
-                                let id = this.store.get("userId");
-                                let user = await getUser(id);
-                                this.store.set("user", user);
-                                this.store.set("loading", false);
-                            }
-                        }}
-                        layout={UseParentLayout}
-                    >   
-                        <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
-                        <TextField label="Name" value-bind="user.name" />
-                        <TextField label="Phone" value-bind="user.phone" />
-                        <TextField label="City" value-bind="user.city" />
-                    </PrivateState>
-                </div>
+                <LabelsLeftLayout>
+                    <LookupField label="Sender" value-bind="$page.senderId" options-bind="$page.users" optionTextField="name" />
+                    <UserData userId-bind="$page.senderId" />
+                </LabelsLeftLayout>
+                <LabelsLeftLayout>
+                    <LookupField label="Receiver" value-bind="$page.receiverId" options-bind="$page.users" optionTextField="name" />
+                    <UserData userId-bind="$page.receiverId" />
+                </LabelsLeftLayout>
             </div>
 
-            `UserStats` are internaly using the same bindings to store data, but their Stores are isolated.
+            In the example above, `userId` bindings within the `UserData` instances represent parent store's `$page.senderId` and `$page.receiverId` values
+            respectivly.
+
+    
             
             Parent (global) Store values for `$page.userId1` and `$page.userId2` are available within the `PrivateStore` simply as `userId`.
 
