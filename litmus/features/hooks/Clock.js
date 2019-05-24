@@ -1,26 +1,41 @@
-import {createFunctionalComponent, Format, computable} from "cx/ui";
-import {useInterval, ref, useTrigger, useStoreMethods} from "cx/hooks";
+import {createFunctionalComponent, Format, computable, enableCultureSensitiveFormatting} from "cx/ui";
+import {useInterval, ref, useTrigger, useStoreMethods, useStore, useState, useCleanup} from "cx/hooks";
+import {Button} from "cx/widgets";
 
-const Clock = createFunctionalComponent(() => {
-   let time = ref("time", Date.now());
-   useInterval(() => time.set(Date.now()), 1000);
-   let {get, set} = useStoreMethods();
+enableCultureSensitiveFormatting();
 
-   useTrigger([time], time => {
-      set("time2", time);
-   });
+const Clock = createFunctionalComponent(({value}) => {
+   let valueRef = useState(Date.now());
+   let timer = null;
 
-   let oneHourMore = computable(time, time => time + 60 * 60 * 1000);
+   let stop = () => {
+      clearInterval(timer);
+   };
+
+   let start = () => {
+      stop();
+      timer = setInterval(() => {
+         valueRef.set(Date.now());
+      }, 1000)
+   };
+
+   useCleanup(stop);
+
+   start();
+
+   let oneHourMore = computable(valueRef, time => time + 60 * 60 * 1000);
 
    return <cx>
-      <div text={() => Format.value(time.get(), "time")}/>
-      <div text={() => Format.value(oneHourMore(), "time")}/>
+      <div text={() => Format.value(valueRef.get(), "time")}/>
+      <div text={() => Format.value(oneHourMore(), "datetime;HHMMSS")}/>
+      <Button onClick={stop}>Stop</Button>
+      <Button onClick={start}>Start</Button>
    </cx>
 });
 
 export default <cx>
    <div>
-      <Clock/>
+      <Clock value-bind="time"/>
       <div text-tpl="T{time2:time}"/>
    </div>
 </cx>

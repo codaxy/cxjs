@@ -1,10 +1,8 @@
-import {useEffect} from "./useEffect";
+import {useCleanup} from "./useEffect";
 
 export function useInterval(callback, timeout) {
-   return useEffect(() => {
-      let timer = setInterval(callback, timeout);
-      return () => {
-         clearInterval(timer);
-      }
-   })
+   let timer = setInterval(callback, timeout);
+   return useCleanup(() => {
+      clearInterval(timer);
+   });
 }
