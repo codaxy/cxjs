@@ -57,8 +57,8 @@ describe('Restate', () => {
          <div>
             <Restate
                data={{
-               name: {bind: "person.name"}
-            }}>
+                  name: {bind: "person.name"}
+               }}>
                <div controller={{
                   onInit() {
                      this.store.init('name', "Sasa");
@@ -222,6 +222,68 @@ describe('Restate', () => {
             gender: 'Male',
          }
       })
+   });
+
+   it("updates if shared state if changed from outside", () => {
+
+      [true, false].forEach(detached => {
+
+         let widget = <cx>
+            <div>
+               <Restate
+                  data={{
+                     person: {bind: "person"}
+                  }}
+               >
+                  <div text={bind("person.firstName")}/>
+               </Restate>
+               <div text={bind("person.firstName", "John")}/>
+            </div>
+         </cx>;
+
+         let store = new Store();
+
+         const component = renderer.create(
+            <Cx widget={widget} store={store} subscribe immediate/>
+         );
+
+         let tree = component.toJSON();
+         assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [
+               {
+                  type: 'div',
+                  props: {},
+                  children: ["John"]
+               },
+               {
+                  type: 'div',
+                  props: {},
+                  children: ["John"]
+               }
+            ]
+         });
+         store.set('person.firstName', "Jack");
+
+         tree = component.toJSON();
+         assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [
+               {
+                  type: 'div',
+                  props: {},
+                  children: ["Jack"]
+               },
+               {
+                  type: 'div',
+                  props: {},
+                  children: ["Jack"]
+               }
+            ]
+         });
+      });
    });
 });
 

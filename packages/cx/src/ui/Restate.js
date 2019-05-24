@@ -3,8 +3,11 @@ import {Store} from '../data/Store';
 import {Cx} from './Cx';
 import {isString} from "../util/isString";
 import {VDOM} from "./VDOM";
-import {isFunction, isObject, isUndefined} from "../util";
-import {Binding, getSelector} from "../data";
+import {isFunction} from "../util/isFunction";
+import {isObject} from "../util/isObject";
+import {isUndefined} from "../util/isUndefined";
+import {Binding} from "../data/Binding";
+import {getSelector} from "../data/getSelector";
 
 export class Restate extends PureContainer {
 
@@ -65,13 +68,10 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
+      instance.subStore.parentDataCheck();
       if (!this.detached) {
          instance.container = instance.getChild(context, this.container, "container", instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
-      }
-      else {
-         //check if data has changed
-         instance.subStore.parentDataCheck();
       }
       super.explore(context, instance);
    }
@@ -137,8 +137,10 @@ class RestateStore extends Store {
       if (binding.parts.length > 1)
          newValue = binding.set(this.getData(), value)[bindingRoot];
       this.onSet(bindingRoot, newValue);
-      super.setItem(bindingRoot, newValue);
-      this.parentDataCheck();
+      this.batch(() => {
+         super.setItem(bindingRoot, newValue);
+         this.parentDataCheck();
+      });
       return true;
    }
 
