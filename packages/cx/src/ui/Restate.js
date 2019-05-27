@@ -7,7 +7,7 @@ import {isFunction} from "../util/isFunction";
 import {isObject} from "../util/isObject";
 import {isUndefined} from "../util/isUndefined";
 import {Binding} from "../data/Binding";
-import {getSelector} from "../data/getSelector";
+import {StructuredSelector} from "../data/StructuredSelector";
 
 export class Restate extends PureContainer {
 
@@ -28,6 +28,10 @@ export class Restate extends PureContainer {
          useParentLayout: this.useParentLayout,
          ws: this.ws
       });
+      this.privateDataSelector = new StructuredSelector({
+         props: this.data || {},
+         values: this.data
+      });
       delete this.items;
       delete this.children;
       delete this.controller;
@@ -38,10 +42,12 @@ export class Restate extends PureContainer {
    }
 
    initInstance(context, instance) {
+      this.privateDataSelector.init(instance.store);
       instance.subStore = new RestateStore({
          store: instance.store,
          detached: this.detached,
          privateData: this.data || {},
+         dataSelector: this.privateDataSelector.create(),
          onSet: (path, value) => {
             let config = this.data[path];
             if (!config || (!config.bind && !config.set))
@@ -68,7 +74,8 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
-      instance.subStore.parentDataCheck();
+      if (instance.subStore.parentDataCheck())
+         instance.markShouldUpdate();
       if (!this.detached) {
          instance.container = instance.getChild(context, this.container, "container", instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
@@ -101,16 +108,13 @@ class RestateStore extends Store {
 
    constructor(config) {
       super(config);
-      this.dataSelector = getSelector(this.privateData);
       this.parentDataVersion = -1;
-      if (this.dataSelector.memoize)
-         this.dataSelector = this.dataSelector.memoize();
       this.parentDataCheck();
    }
 
    parentDataCheck() {
       if (this.parentDataVersion == this.store.meta.version)
-         return;
+         return false;
       this.parentDataVersion = this.store.meta.version;
       this.parentData = this.dataSelector(this.store.getData());
       let changed = this.silently(() => {
@@ -120,6 +124,7 @@ class RestateStore extends Store {
       });
       if (changed)
          this.notify();
+      return changed;
    }
 
    setItem(path, value) {

@@ -224,13 +224,14 @@ describe('Restate', () => {
       })
    });
 
-   it("updates if shared state if changed from outside", () => {
+   it("updates if shared state is changed from outside", () => {
 
       [true, false].forEach(detached => {
 
          let widget = <cx>
             <div>
                <Restate
+                  detached={detached}
                   data={{
                      person: {bind: "person"}
                   }}
@@ -280,6 +281,43 @@ describe('Restate', () => {
                   type: 'div',
                   props: {},
                   children: ["Jack"]
+               }
+            ]
+         });
+      });
+   });
+
+   it("allows field initialization in data declaration", () => {
+
+      [true, false].forEach(detached => {
+         let widget = <cx>
+            <div>
+               <Restate
+                  detached={detached}
+                  data={{
+                     name: bind("name", 'Cx')
+                  }}
+               >
+                  <div text-bind="name"/>
+               </Restate>
+            </div>
+         </cx>;
+
+         let store = new Store();
+
+         const component = renderer.create(
+            <Cx widget={widget} store={store} subscribe immediate/>
+         );
+
+         let tree = component.toJSON();
+         assert.deepEqual(tree, {
+            type: 'div',
+            props: {},
+            children: [
+               {
+                  type: 'div',
+                  props: {},
+                  children: ["Cx"]
                }
             ]
          });
