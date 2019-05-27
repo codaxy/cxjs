@@ -74,16 +74,16 @@ export class NumberField extends Field {
       if (isNumber(data.value) && !data.error) {
          if (isNumber(data.minValue)) {
             if (data.value < data.minValue)
-               data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minValueErrorText, Format.value(data.minValue, data.format));
             else if (data.value == data.minValue && data.minExclusive)
-               data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minExclusiveErrorText, Format.value(data.minValue, data.format));
          }
 
          if (isNumber(data.maxValue)) {
             if (data.value > data.maxValue)
-               data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxValueErrorText, Format.value(data.maxValue, data.format));
             else if (data.value == data.maxValue && data.maxExclusive)
-               data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxExclusiveErrorText, Format.value(data.maxValue, data.format));
          }
       }
    }
@@ -110,10 +110,10 @@ NumberField.prototype.reactOn = "enter blur";
 NumberField.prototype.format = 'n';
 NumberField.prototype.inputType = 'text';
 
-NumberField.prototype.maxValueErrorText = 'Enter {0:n} or less.';
-NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0:n}.';
-NumberField.prototype.minValueErrorText = 'Enter {0:n} or more.';
-NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0:n}.';
+NumberField.prototype.maxValueErrorText = 'Enter {0} or less.';
+NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0}.';
+NumberField.prototype.minValueErrorText = 'Enter {0} or more.';
+NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
 NumberField.prototype.suppressErrorsUntilVisited = true;
 
