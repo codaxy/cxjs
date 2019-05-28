@@ -296,7 +296,9 @@ export class PieSlice extends Container {
 
    handleClick(e, instance) {
       if (!this.selection.isDummy) {
-         this.selection.selectInstance(instance);
+         this.selection.selectInstance(instance, {
+            toggle: e.ctrlKey
+         });
          e.stopPropagation();
          e.preventDefault();
       }

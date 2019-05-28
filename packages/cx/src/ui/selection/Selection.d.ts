@@ -3,6 +3,11 @@ import {Component} from '../../util/Component';
 import {View} from '../../data/View';
 import {Instance} from '../Instance';
 
+interface Config {
+    add: Boolean;
+    toggle: Boolean;
+}
+
 export class Selection extends Component {
 
    isSelected(store: View, record: Record, index?: number);
@@ -15,7 +20,7 @@ export class Selection extends Component {
 
    configureWidget(widget): Record;
 
-   selectInstance(instance: Instance);
+   selectInstance(instance: Instance, options: Config);
 
    isInstanceSelected(instance: Instance): boolean;
 
