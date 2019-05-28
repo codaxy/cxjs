@@ -108,7 +108,7 @@ export const LocalizationPage = <cx>
         ## Culture
         <ImportPath path="import {Culture} from 'cx/ui';"/>
 
-        The `Culture` object provides methods for selecting an UI culture used for formatting and localizing messages.
+        The `Culture` object provides methods for selecting a UI culture used for formatting and localizing messages.
 
         <CodeSplit>
             <MethodTable methods={[{
@@ -181,4 +181,3 @@ export const LocalizationPage = <cx>
         </CodeSplit>
     </Md>
 </cx>
-

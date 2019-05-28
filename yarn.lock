@@ -2766,7 +2766,7 @@ currently-unhandled@^0.4.1:
     array-find-index "^1.0.1"
 
 "cx-cli@file:./packages/cx-cli":
-  version "18.5.1"
+  version "19.5.0"
   dependencies:
     chalk "^2.1.0"
     commander "^2.9.0"

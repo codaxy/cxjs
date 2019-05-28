@@ -9,7 +9,7 @@ Localization.localize(c, 'cx/widgets/Field', {
     validatingText: 'Validatie is bezig ...',
     validationExceptionText: 'Er is een probleem opgetreden bij het valideren van de gegevens. Controleer het logboek voor meer details '
  });
- 
+
  // LookupField
  Localization.localize(c, 'cx/widgets/LookupField', {
     loadingText: 'Bezig met laden ...',
@@ -18,7 +18,7 @@ Localization.localize(c, 'cx/widgets/Field', {
     noResultsText: 'Geen resultaten gevonden',
     minQueryLengthMessageText: 'Voer minimaal {0} tekens in.'
  });
- 
+
  // In common for Calendar and MonthPicker
  const calendarErrorMessages = {
     requiredText: 'Dit veld is verplicht.',
@@ -32,7 +32,7 @@ Localization.localize(c, 'cx/widgets/Field', {
  Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
  // MonthPicker
  Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
- 
+
  // In common for DateField and MonthField
  const dateFieldErrorMessages = {
     ...calendarErrorMessages,
@@ -43,17 +43,17 @@ Localization.localize(c, 'cx/widgets/Field', {
  Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
  // DateField
  Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
- 
+
  // NumberField
  Localization.localize(c, 'cx/widgets/NumberField', {
     requiredText: 'Dit veld is verplicht.',
-    maxValueErrorText: 'Voer {0: n} of minder in.',
-    maxExclusiveErrorText: 'Voer een nummer in dat kleiner is dan {0: n}.',
-    minValueErrorText:'Voer {0: n} of meer in.' ,
-    minExclusiveErrorText: 'Voer een getal in dat groter is dan {0: n}.',
+    maxValueErrorText: 'Voer {0} of minder in.',
+    maxExclusiveErrorText: 'Voer een nummer in dat kleiner is dan {0}.',
+    minValueErrorText:'Voer {0} of meer in.',
+    minExclusiveErrorText: 'Voer een getal in dat groter is dan {0}.',
     inputErrorText: 'Ongeldig nummer.'
  });
- 
+
  // TextField
  Localization.localize(c, 'cx/widgets/TextField', {
     requiredText: 'Dit veld is verplicht.',
@@ -61,7 +61,7 @@ Localization.localize(c, 'cx/widgets/Field', {
     minLengthValidationErrorText: 'Vul {[{0} - {1}]} extra karakters in.',
     maxLengthValidationErrorText: 'Gebruik {0} tekens of minder.'
  });
- 
+
  // UploadButton
  Localization.localize(c, 'cx/widgets/UploadButton', {
     validationErrorText: 'Upload is bezig.'
