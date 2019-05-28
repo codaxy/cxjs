@@ -32,7 +32,7 @@ Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 // In common for DateField and MonthField
 const dateFieldErrorMessages = {
    ...calendarErrorMessages,
-   inputErrorText: 'Ungültiges Datum eingegeben.' 
+   inputErrorText: 'Ungültiges Datum eingegeben.'
 };
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
@@ -41,10 +41,10 @@ Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 
 // NumberField
 Localization.localize(c, 'cx/widgets/NumberField', {
-   maxValueErrorText: 'Geben Sie {0:n} oder weniger ein.',
-   maxExclusiveErrorText: 'Geben Sie eine Zahl kleiner als {0:n} ein.',
-   minValueErrorText: 'Geben Sie {0:n} oder mehr ein.',
-   minExclusiveErrorText: 'Geben Sie eine Zahl größer als {0:n} ein.',
+   maxValueErrorText: 'Geben Sie {0} oder weniger ein.',
+   maxExclusiveErrorText: 'Geben Sie eine Zahl kleiner als {0} ein.',
+   minValueErrorText: 'Geben Sie {0} oder mehr ein.',
+   minExclusiveErrorText: 'Geben Sie eine Zahl größer als {0} ein.',
    inputErrorText: 'Ungültige Zahl eingegeben.'
 });
 
