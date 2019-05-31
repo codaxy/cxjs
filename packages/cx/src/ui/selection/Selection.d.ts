@@ -3,7 +3,7 @@ import {Component} from '../../util/Component';
 import {View} from '../../data/View';
 import {Instance} from '../Instance';
 
-interface Config {
+interface SelectOptions {
     add: Boolean;
     toggle: Boolean;
 }
@@ -20,7 +20,7 @@ export class Selection extends Component {
 
    configureWidget(widget): Record;
 
-   selectInstance(instance: Instance, options: Config);
+   selectInstance(instance: Instance, options: SelectOptions);
 
    isInstanceSelected(instance: Instance): boolean;
 
