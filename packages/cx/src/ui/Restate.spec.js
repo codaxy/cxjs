@@ -323,5 +323,48 @@ describe('Restate', () => {
          });
       });
    });
+
+   it("updates if internal data changes", () => {
+
+      class TestController extends Controller {
+         onInit() {
+            this.store.init('nickname', "Sale");
+         }
+      }
+
+      let widget = <cx>
+         <div>
+            <Restate>
+               <Restate>
+                  <div controller={TestController} text-bind="nickname"/>
+               </Restate>
+            </Restate>
+         </div>
+      </cx>;
+
+      let changed = false;
+      let store = new Store();
+      store.subscribe(() => {
+         changed = true;
+         console.log("CHANGED");
+      });
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store} subscribe immediate/>
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: 'div',
+         props: {},
+         children: [
+            {
+               type: 'div',
+               props: {},
+               children: ["Sale"]
+            }
+         ]
+      });
+   });
 });
 

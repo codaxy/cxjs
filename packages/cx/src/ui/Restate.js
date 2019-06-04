@@ -117,14 +117,11 @@ class RestateStore extends Store {
          return false;
       this.parentDataVersion = this.store.meta.version;
       this.parentData = this.dataSelector(this.store.getData());
-      let changed = this.silently(() => {
+      return this.batch(() => {
          for (let key in this.parentData) {
             super.setItem(key, this.parentData[key]);
          }
       });
-      if (changed)
-         this.notify();
-      return changed;
    }
 
    setItem(path, value) {
@@ -134,8 +131,6 @@ class RestateStore extends Store {
          let changed = isUndefined(value)
             ? super.deleteItem(path)
             : super.setItem(path, value);
-         if (changed && !this.detached)
-            this.store.notify();
          return changed;
       }
       let newValue = value;
@@ -151,5 +146,11 @@ class RestateStore extends Store {
 
    deleteItem(path) {
       return this.setItem(path, undefined);
+   }
+
+   doNotify() {
+      if (!this.detached)
+         this.store.notify();
+      super.doNotify();
    }
 }
