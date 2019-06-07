@@ -70,6 +70,41 @@ const UserData = ({userId}) => (
     </cx>
 );
 
+const UserData2 = ({userId}) => (
+    <cx>
+        <PrivateState
+            // data={{
+            //     userId: userId
+            // }}
+            controller={{ 
+                onInit() {
+                    this.addTrigger("loadUser", ["userId"], (userId) => this.loadData(userId));
+                    this.loadUsers();
+                },
+                async loadUsers() {
+                    this.store.set("loading", true);
+                    let users = await getUsers();
+                    this.store.set("users", users);
+                    this.store.set("loading", false);
+                },
+                async loadData(userId) {
+                    this.store.set("loading", true);
+                    let user = await getUser(userId);
+                    this.store.set("user", user);
+                    this.store.set("loading", false);
+                }
+            }}
+            layout={UseParentLayout}
+        >   
+            <LookupField label="User" value-bind="userId" options-bind="users" optionTextField="name" />
+            <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
+            <TextField label="Name" value-bind="user.name" />
+            <TextField label="Phone" value-bind="user.phone" />
+            <TextField label="City" value-bind="user.city" />
+        </PrivateState>
+    </cx>
+);
+
 export const PrivateStates = <cx>
 
     <Md>
@@ -88,26 +123,30 @@ export const PrivateStates = <cx>
 
             <Content name="code">
                 <CodeSnippet /* fiddle="F3RHqb0x" */>{`
-                    const UserData = ({userId}) => (
+                    const UserData2 = ({userId}) => (
                         <cx>
                             <PrivateState
-                                data={{
-                                    userId: userId
-                                }}
                                 controller={{ 
                                     onInit() {
-                                        this.addTrigger("loadUser", ["userId"], () => this.loadData(), true);
+                                        this.addTrigger("loadUser", ["userId"], (userId) => this.loadData(userId));
+                                        this.loadUsers();
                                     },
-                                    async loadData() {
+                                    async loadUsers() {
                                         this.store.set("loading", true);
-                                        let id = this.store.get("userId");
-                                        let user = await getUser(id);
+                                        let users = await getUsers();
+                                        this.store.set("users", users);
+                                        this.store.set("loading", false);
+                                    },
+                                    async loadData(userId) {
+                                        this.store.set("loading", true);
+                                        let user = await getUser(userId);
                                         this.store.set("user", user);
                                         this.store.set("loading", false);
                                     }
                                 }}
                                 layout={UseParentLayout}
                             >   
+                                <LookupField label="User" value-bind="userId" options-bind="users" optionTextField="name" />
                                 <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
                                 <TextField label="Name" value-bind="user.name" />
                                 <TextField label="Phone" value-bind="user.phone" />
@@ -128,6 +167,17 @@ export const PrivateStates = <cx>
             </Content>
 
 
+            <div class="widgets"
+               // style="display: flex;"
+                //controller={PageController}   
+            >   
+                    <LabelsLeftLayout>
+                        <UserData2 />
+                    </LabelsLeftLayout>
+                    <LabelsLeftLayout>
+                        <UserData2 />
+                    </LabelsLeftLayout>
+            </div>
             <div class="widgets"
                // style="display: flex;"
                 controller={PageController}   
