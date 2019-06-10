@@ -99,7 +99,7 @@ export class ColumnBarGraphBase extends Widget {
          return;
 
       if (!this.selection.isDummy)
-         this.selection.select(instance.store, point, index, e.ctrlKey);
+         this.selection.select(instance.store, point, index, { toggle: e.ctrlKey });
    }
 }
 
