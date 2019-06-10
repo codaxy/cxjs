@@ -30,7 +30,10 @@ interface LineGraphProps extends Cx.WidgetProps {
    className?: Cx.ClassProp,
 
 
+   /** Additional styles to be applied to the line element. */
    lineStyle?: Cx.StyleProp,
+
+   /** Additional styles to be applied to the area below the line. */
    areaStyle?: Cx.StyleProp,
 
    /** Area switch. Default value is `false`. */
