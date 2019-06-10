@@ -63,7 +63,7 @@ import './index.scss';
 
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
-import Demo from "./bugs/536";
+import Demo from "./bugs/530";
 //import Demo from "./features/restate/DeferredUpdates";
 
 
