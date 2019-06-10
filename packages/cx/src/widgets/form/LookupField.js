@@ -796,6 +796,10 @@ class LookupComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget, data} = instance;
 
+      //do not make duplicate queries if fetchAll is enabled
+      if (widget.fetchAll && this.state.status == 'loading')
+         return;
+
       if (this.queryTimeoutId)
          clearTimeout(this.queryTimeoutId);
 
@@ -835,9 +839,14 @@ class LookupComponent extends VDOM.Component {
             if (!result)
                result = instance.invoke("onQuery", fetchAll ? '' : q, instance);
 
+            let query = this.lastQueryId = Date.now();
+
             Promise
                .resolve(result)
                .then((results) => {
+                  //discard results which do not belong to the last query
+                  if (query !== this.lastQueryId)
+                     return;
 
                   if (!isArray(results))
                      results = [];
