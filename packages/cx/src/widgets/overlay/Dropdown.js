@@ -531,7 +531,7 @@ export class Dropdown extends Overlay {
       if (!this.arrow)
          return super.renderContents(context, instance);
 
-      let result = [...super.renderContents(context, instance)];
+      let result = [].concat(super.renderContents(context, instance));
       result.push(
          <div key="arrow-border" className={CSS.element(baseClass, "arrow-border")}></div>,
          <div key="arrow-back" className={CSS.element(baseClass, "arrow-fill")}></div>
