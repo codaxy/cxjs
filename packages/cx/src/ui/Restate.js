@@ -155,4 +155,4 @@ class RestateStore extends Store {
    }
 }
 
-export class PrivateState extends Restate {};
+export class PrivateStore extends Restate {};

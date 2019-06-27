@@ -1,4 +1,4 @@
-import {HtmlElement, Content, Button, FlexRow, FlexCol, PrivateState, LookupField, Repeater, Rescope, TextField, Label, Icon} from 'cx/widgets';
+import {HtmlElement, Content, Button, FlexRow, FlexCol, PrivateStore, LookupField, Repeater, Rescope, TextField, Label, Icon} from 'cx/widgets';
 import {Svg} from "cx/svg";
 import {Chart, Gridlines, NumericAxis, LineGraph} from 'cx/charts';
 import {Md} from 'docs/components/Md';
@@ -44,7 +44,7 @@ class PageController extends Controller {
 
 const UserData = ({userId}) => (
     <cx>
-        <PrivateState
+        <PrivateStore
             data={{
                 userId: userId
             }}
@@ -66,13 +66,13 @@ const UserData = ({userId}) => (
             <TextField label="Name" value-bind="user.name" />
             <TextField label="Phone" value-bind="user.phone" />
             <TextField label="City" value-bind="user.city" />
-        </PrivateState>
+        </PrivateStore>
     </cx>
 );
 
 const UserData2 = ({userId}) => (
     <cx>
-        <PrivateState
+        <PrivateStore
             // data={{
             //     userId: userId
             // }}
@@ -101,31 +101,31 @@ const UserData2 = ({userId}) => (
             <TextField label="Name" value-bind="user.name" />
             <TextField label="Phone" value-bind="user.phone" />
             <TextField label="City" value-bind="user.city" />
-        </PrivateState>
+        </PrivateStore>
     </cx>
 );
 
-export const PrivateStates = <cx>
+export const PrivateStores = <cx>
 
     <Md>
-        # Private State
+        # Private Store
 
         <CodeSplit>
 
-            <ImportPath path="import { PrivateState } from 'cx/widgets';" />
+            <ImportPath path="import { PrivateStore } from 'cx/widgets';" />
 
-            The `PrivateState` widget allows a part of the widget tree to work with a separate data store. 
+            The `PrivateStore` widget allows a part of the widget tree to work with a separate data store. 
             Data shared beetween the parent store and the child store must be explicitely defined through the `data` property.
 
             In the example below `UserData` component is used to display user details based on the `userId` property.
             `data` property takes initial store values that can either be primitive values or store bindings from the parent store.
-            Each value will be made available within the `PrivateState` under the corresponding property name.
+            Each value will be made available within the `PrivateStore` under the corresponding property name.
 
             <Content name="code">
                 <CodeSnippet /* fiddle="F3RHqb0x" */>{`
                     const UserData2 = ({userId}) => (
                         <cx>
-                            <PrivateState
+                            <PrivateStore
                                 controller={{ 
                                     onInit() {
                                         this.addTrigger("loadUser", ["userId"], (userId) => this.loadData(userId));
@@ -151,7 +151,7 @@ export const PrivateStates = <cx>
                                 <TextField label="Name" value-bind="user.name" />
                                 <TextField label="Phone" value-bind="user.phone" />
                                 <TextField label="City" value-bind="user.city" />
-                            </PrivateState>
+                            </PrivateStore>
                         </cx>
                     );
                     ...
@@ -167,7 +167,7 @@ export const PrivateStates = <cx>
             </Content>
 
 
-            <div class="widgets"
+            {/* <div class="widgets"
                // style="display: flex;"
                 //controller={PageController}   
             >   
@@ -177,8 +177,61 @@ export const PrivateStates = <cx>
                     <LabelsLeftLayout>
                         <UserData2 />
                     </LabelsLeftLayout>
-            </div>
+            </div> */}
             <div class="widgets"
+               style="display: flex;"
+            >  
+                <div
+                    class="flex-column flex-start"
+                    //style="display: flex; flex-direction: column; align-items: flex-start;"
+                >
+                    <LookupField 
+                        options={users}
+                        optionTextField="name"
+                        value-bind="$page.userId"
+                        label="Public"
+                    />
+                    <PrivateStore>
+                        <LookupField 
+                            options={users}
+                            optionTextField="name"
+                            value-bind="$page.userId"
+                            label="Private A"
+                        />
+                        <LookupField 
+                            options={users}
+                            optionTextField="name"
+                            value-bind="$page.userId"
+                            label="Private A"
+                        />
+                    </PrivateStore>
+                </div> 
+                <div
+                    class="flex-column flex-start"
+                >
+                    <LookupField 
+                        options={users}
+                        optionTextField="name"
+                        value-bind="$page.userId"
+                        label="Public"
+                    />
+                    <PrivateStore>
+                        <LookupField 
+                            options={users}
+                            optionTextField="name"
+                            value-bind="$page.userId"
+                            label="Private B"
+                        />
+                        <LookupField 
+                            options={users}
+                            optionTextField="name"
+                            value-bind="$page.userId"
+                            label="Private B"
+                        />
+                    </PrivateStore>
+                </div> 
+            </div>
+            {/* <div class="widgets"
                // style="display: flex;"
                 controller={PageController}   
             >   
@@ -190,7 +243,7 @@ export const PrivateStates = <cx>
                     <LookupField label="Receiver" value-bind="$page.receiverId" options-bind="$page.users" optionTextField="name" />
                     <UserData userId-bind="$page.receiverId" />
                 </LabelsLeftLayout>
-            </div>
+            </div> */}
 
             In the example above, `userId` bindings within the `UserData` instances represent parent store's `$page.senderId` and `$page.receiverId` values
             respectivly.
@@ -209,18 +262,18 @@ export const PrivateStates = <cx>
 
         </CodeSplit>
 
-        To solve this problem, we can use `PrivateState` to isolate the parts of the Store that are used within a widget.
+        To solve this problem, we can use `PrivateStore` to isolate the parts of the Store that are used within a widget.
         This way we can have as many instances as we want, without worrying about Store pollution.
                 
 
-        ### Passing bindings to PrivateState
+        ### Passing bindings to PrivateStore
 
         In the example above we hardcoded the `userId` values that were passed to the `UserStats` widgets.
         Normally we will use data from the store, so we will need to pass the `userId` as a Store binding.
 
        
 
-        Explain how to set `data` prop for `PrivateState`.
+        Explain how to set `data` prop for `PrivateStore`.
 
 
 

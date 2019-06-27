@@ -30,6 +30,15 @@ body {
     opacity: 1;
 }
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-start {
+    align-items: flex-start;
+}
+
 @import "app/index";
 @import "content/index";
 @import "components/index";

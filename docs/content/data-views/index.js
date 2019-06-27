@@ -1,5 +1,5 @@
 export * from './DataViews';
-export * from './PrivateState';
+export * from './PrivateStore';
 
 
 
