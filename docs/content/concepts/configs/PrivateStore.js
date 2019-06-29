@@ -1,0 +1,36 @@
+import {Md} from '../../../components/Md';
+import pureContainer from '../../widgets/configs/PureContainer';
+
+export default {
+    ...pureContainer,
+    
+    data: {
+        key: true,
+        type: 'object',
+        description: <cx><Md>
+            Object whose property names represent the internal bindings under which the property values are available within the `PrivateStore`.
+        </Md></cx>
+    },
+    detached: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Improve performance by detaching `PrivateStore` subtree from the rest of the page. 
+            Detached contents render in their own render loop and use a data declaration which explains which changes can go in or out.
+        </Md></cx>
+    },
+    deferredUntilIdle: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Improves performance by deferring the render until the browser is idle.
+        </Md></cx>
+    },
+    idleTimeout: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Time limit in milliseconds a browser can defer the render.
+        </Md></cx>
+    }
+};

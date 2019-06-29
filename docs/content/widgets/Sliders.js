@@ -1,4 +1,4 @@
-import { HtmlElement, Slider } from 'cx/widgets';
+import { HtmlElement, Slider, PrivateStore, IsolatedScope } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -19,7 +19,6 @@ export const Sliders = <cx>
         The `Slider` widget allow selecting numerical values by dragging the slider handle.
 
         <CodeSplit>
-
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     <Slider
@@ -44,7 +43,7 @@ export const Sliders = <cx>
 
             <CodeSnippet putInto="code" fiddle="NvE9CD9C">{`
                 <div layout={LabelsLeftLayout}>
-                    <Slider label="Standard" value:bind="$page.to" tooltip={{
+                    <Slider label="Standard" value:bind="$page.to" valueTooltip={{
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
                         }}

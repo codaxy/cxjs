@@ -1,293 +1,185 @@
-import {HtmlElement, Content, Button, FlexRow, FlexCol, PrivateStore, LookupField, Repeater, Rescope, TextField, Label, Icon} from 'cx/widgets';
-import {Svg} from "cx/svg";
-import {Chart, Gridlines, NumericAxis, LineGraph} from 'cx/charts';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {Controller, createFunctionalComponent, LabelsTopLayout, bind, LabelsLeftLayout, UseParentLayout} from 'cx/ui';
-import {ImportPath} from 'docs/components/ImportPath';
-import {MethodTable} from '../../components/MethodTable';
-import {casual} from 'docs/content/examples/data/casual';
-import { isBinding } from 'cx/src/data/Binding';
-
-// simulate network latency
-function delay(ms) {
-    return new Promise(resolve => setTimeout(() => resolve(), ms));
-}
-
-let users = Array.from({length: 10}).map((_, i) => ({
-    id: i,
-    name: casual.full_name,
-    phone: casual.phone,
-    city: casual.city
-}));
-async function getUsers() {
-    return users;
-}
-async function getUser(id) {
-    await delay(300);
-    return users.find(u => u.id === id);
-}
-
-class PageController extends Controller {
-    onInit() {
-        this.loadUsers();
-        this.store.init("$page.senderId", 0);
-        this.store.init("$page.receiverId", 1);
-    }
-
-    async loadUsers() {
-        let users = await getUsers();
-        this.store.set("$page.users", users);
-    }
-}
-
-const UserData = ({userId}) => (
-    <cx>
-        <PrivateStore
-            data={{
-                userId: userId
-            }}
-            controller={{ 
-                onInit() {
-                    this.addTrigger("loadUser", ["userId"], () => this.loadData(), true);
-                },
-                async loadData() {
-                    this.store.set("loading", true);
-                    let id = this.store.get("userId");
-                    let user = await getUser(id);
-                    this.store.set("user", user);
-                    this.store.set("loading", false);
-                }
-            }}
-            layout={UseParentLayout}
-        >   
-            <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
-            <TextField label="Name" value-bind="user.name" />
-            <TextField label="Phone" value-bind="user.phone" />
-            <TextField label="City" value-bind="user.city" />
-        </PrivateStore>
-    </cx>
-);
-
-const UserData2 = ({userId}) => (
-    <cx>
-        <PrivateStore
-            // data={{
-            //     userId: userId
-            // }}
-            controller={{ 
-                onInit() {
-                    this.addTrigger("loadUser", ["userId"], (userId) => this.loadData(userId));
-                    this.loadUsers();
-                },
-                async loadUsers() {
-                    this.store.set("loading", true);
-                    let users = await getUsers();
-                    this.store.set("users", users);
-                    this.store.set("loading", false);
-                },
-                async loadData(userId) {
-                    this.store.set("loading", true);
-                    let user = await getUser(userId);
-                    this.store.set("user", user);
-                    this.store.set("loading", false);
-                }
-            }}
-            layout={UseParentLayout}
-        >   
-            <LookupField label="User" value-bind="userId" options-bind="users" optionTextField="name" />
-            <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
-            <TextField label="Name" value-bind="user.name" />
-            <TextField label="Phone" value-bind="user.phone" />
-            <TextField label="City" value-bind="user.city" />
-        </PrivateStore>
-    </cx>
-);
+import { computable, Controller, UseParentLayout } from 'cx/ui';
+import { Icon, LookupField, PrivateStore, Rescope, Slider, TextField } from 'cx/widgets';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { ImportPath } from 'docs/components/ImportPath';
+import { Md } from 'docs/components/Md';
+import { casual } from 'docs/content/examples/data/casual';
+import { ConfigTable } from '../../components/ConfigTable';
+import config from './configs/PrivateStore';
 
 export const PrivateStores = <cx>
-
-    <Md>
-        # Private Store
-
-        <CodeSplit>
+    <Rescope bind="$page">
+        <Md>
+            # Private Store
 
             <ImportPath path="import { PrivateStore } from 'cx/widgets';" />
 
-            The `PrivateStore` widget allows a part of the widget tree to work with a separate data store. 
-            Data shared beetween the parent store and the child store must be explicitely defined through the `data` property.
+            <CodeSplit>
+                `PrivateStore` allows a part of the widget tree to work with a separate data store, isolated from the global store. 
+                This way multiple components can use the same bindings that can have different values between the stores.
 
-            In the example below `UserData` component is used to display user details based on the `userId` property.
-            `data` property takes initial store values that can either be primitive values or store bindings from the parent store.
-            Each value will be made available within the `PrivateStore` under the corresponding property name.
+                In the example below, each [Slider](~/widgets/sliders) is storing its value under the same binding (`slider`). But each `slider` binding
+                can have a different value within its own data store. You can test this by moving the sliders. 
+                Sliders that are within the same `PrivateStore` will show the same values.
 
-            <Content name="code">
-                <CodeSnippet /* fiddle="F3RHqb0x" */>{`
-                    const UserData2 = ({userId}) => (
-                        <cx>
-                            <PrivateStore
-                                controller={{ 
-                                    onInit() {
-                                        this.addTrigger("loadUser", ["userId"], (userId) => this.loadData(userId));
-                                        this.loadUsers();
-                                    },
-                                    async loadUsers() {
-                                        this.store.set("loading", true);
-                                        let users = await getUsers();
-                                        this.store.set("users", users);
-                                        this.store.set("loading", false);
-                                    },
-                                    async loadData(userId) {
-                                        this.store.set("loading", true);
-                                        let user = await getUser(userId);
-                                        this.store.set("user", user);
-                                        this.store.set("loading", false);
-                                    }
-                                }}
-                                layout={UseParentLayout}
-                            >   
-                                <LookupField label="User" value-bind="userId" options-bind="users" optionTextField="name" />
-                                <strong>User data <Icon name="loading" visible-bind="loading"/></strong>
-                                <TextField label="Name" value-bind="user.name" />
-                                <TextField label="Phone" value-bind="user.phone" />
-                                <TextField label="City" value-bind="user.city" />
-                            </PrivateStore>
-                        </cx>
-                    );
-                    ...
-                    <LabelsLeftLayout>
-                        <LookupField label="Sender" value-bind="$page.senderId" options-bind="$page.users" optionTextField="name" />
-                        <UserData userId-bind="$page.senderId" />
-                    </LabelsLeftLayout>
-                    <LabelsLeftLayout>
-                        <LookupField label="Receiver" value-bind="$page.receiverId" options-bind="$page.users" optionTextField="name" />
-                        <UserData userId-bind="$page.receiverId" />
-                    </LabelsLeftLayout>
+                <div class="widgets">  
+                    <div class="flex-column">
+                        <Slider value-bind="slider" label="Global store" />
+                        <Slider value-bind="slider" label="Global store" />
+                    </div>
+                    <PrivateStore detached>
+                        <div class="flex-column">
+                            <Slider value-bind="slider" label="Private store A" />
+                            <Slider value-bind="slider" label="Private store A" />
+                        </div> 
+                    </PrivateStore>
+                    <PrivateStore detached>
+                        <div class="flex-column">
+                            <Slider value-bind="slider" label="Private store B" />
+                            <Slider value-bind="slider" label="Private store B" />
+                        </div> 
+                    </PrivateStore>
+                </div>
+
+                Private stores have the lifespan of the `PrivateStore` component, meaning each time 
+                a `PrivateStore` components is destroyed, the data is lost. 
+                This can be observed if you move the sliders, navigate to another page and come back again. 
+                Only the sliders within the global store will be in the same position as before, while the others will be in their starting positions.
+
+                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                    <div class="widgets">  
+                        <div class="flex-column">
+                            <Slider value-bind="slider" label="Global store" />
+                            <Slider value-bind="slider" label="Global store" />
+                        </div>
+                        <PrivateStore>
+                            <div class="flex-column">
+                                <Slider value-bind="slider" label="Private store A" />
+                                <Slider value-bind="slider" label="Private store A" />
+                            </div> 
+                        </PrivateStore>
+                        <PrivateStore>
+                            <div class="flex-column">
+                                <Slider value-bind="slider" label="Private store B" />
+                                <Slider value-bind="slider" label="Private store B" />
+                            </div> 
+                        </PrivateStore>
+                    </div>
                 `}</CodeSnippet>
-            </Content>
+            </CodeSplit>
 
+            <CodeSplit>
+                ## Sharing data between the stores
 
-            {/* <div class="widgets"
-               // style="display: flex;"
-                //controller={PageController}   
-            >   
-                    <LabelsLeftLayout>
-                        <UserData2 />
-                    </LabelsLeftLayout>
-                    <LabelsLeftLayout>
-                        <UserData2 />
-                    </LabelsLeftLayout>
-            </div> */}
-            <div class="widgets"
-               style="display: flex;"
-            >  
-                <div
-                    class="flex-column flex-start"
-                    //style="display: flex; flex-direction: column; align-items: flex-start;"
-                >
-                    <LookupField 
-                        options={users}
-                        optionTextField="name"
-                        value-bind="$page.userId"
-                        label="Public"
-                    />
-                    <PrivateStore>
-                        <LookupField 
-                            options={users}
-                            optionTextField="name"
-                            value-bind="$page.userId"
-                            label="Private A"
-                        />
-                        <LookupField 
-                            options={users}
-                            optionTextField="name"
-                            value-bind="$page.userId"
-                            label="Private A"
-                        />
-                    </PrivateStore>
-                </div> 
-                <div
-                    class="flex-column flex-start"
-                >
-                    <LookupField 
-                        options={users}
-                        optionTextField="name"
-                        value-bind="$page.userId"
-                        label="Public"
-                    />
-                    <PrivateStore>
-                        <LookupField 
-                            options={users}
-                            optionTextField="name"
-                            value-bind="$page.userId"
-                            label="Private B"
-                        />
-                        <LookupField 
-                            options={users}
-                            optionTextField="name"
-                            value-bind="$page.userId"
-                            label="Private B"
-                        />
-                    </PrivateStore>
-                </div> 
-            </div>
-            {/* <div class="widgets"
-               // style="display: flex;"
-                controller={PageController}   
-            >   
-                <LabelsLeftLayout>
-                    <LookupField label="Sender" value-bind="$page.senderId" options-bind="$page.users" optionTextField="name" />
-                    <UserData userId-bind="$page.senderId" />
-                </LabelsLeftLayout>
-                <LabelsLeftLayout>
-                    <LookupField label="Receiver" value-bind="$page.receiverId" options-bind="$page.users" optionTextField="name" />
-                    <UserData userId-bind="$page.receiverId" />
-                </LabelsLeftLayout>
-            </div> */}
-
-            In the example above, `userId` bindings within the `UserData` instances represent parent store's `$page.senderId` and `$page.receiverId` values
-            respectivly.
-
-    
+                Data shared beetween the parent (in this case global) store and the child store must be explicitly defined with the `data` property.
+                `data` is an object whose property names represent the internal bindings under which the property values are available within the `PrivateStore`.
             
-            Parent (global) Store values for `$page.userId1` and `$page.userId2` are available within the `PrivateStore` simply as `userId`.
+                <div class="widgets flex-row flex-start">  
+                    <div class="flex-column">
+                        <strong>Global store</strong>
+                        <Slider value-bind="slider" label="Global value" />
+                    </div>
+                    <PrivateStore
+                        data={{
+                            globalValue: { bind: "slider" },
+                        }}
+                    >
+                        <div class="flex-column">
+                            <strong>Private store</strong>
+                            <Slider value-bind="globalValue" label="Global value" />
+                            <Slider value-bind="slider" label="Private value" />
+                        </div> 
+                    </PrivateStore>
+                </div>
 
-            We define the `data` property as a configuration object where any number of global store bindings are listed that will be 
-            available within the PrivateStore under the the corresponding property name. 
-            For example, we pass an outer binding ()
+                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                    <div class="widgets flex-row flex-start">  
+                        <div class="flex-column">
+                            <strong>Global store</strong>
+                            <Slider value-bind="slider" label="Global value" />
+                        </div>
+                        <PrivateStore
+                            data={{
+                                globalValue: { bind: "slider" },
+                            }}
+                        >
+                            <div class="flex-column">
+                                <strong>Private store</strong>
+                                <Slider value-bind="globalValue" label="Global value" />
+                                <Slider value-bind="slider" label="Private value" />
+                            </div> 
+                        </PrivateStore>
+                    </div>
+                `}</CodeSnippet>
+
+                Property values can be primitives, bindings, expressions or computables.
+            </CodeSplit>
+
+            <CodeSplit>
+                ### Read-only values
+
+                Primitives, expressions and computables defined in the `data` object are treated as read-only.
+                This means, data will flow only in one direction, from parent to child store.
             
-            we are passing different `userIds` to the UserStats widgets, they are both showing identical graphs
-            because both instances are using the same Store binding for the data - `$page.userData`, and the widget that was loaded last
-            simply overwrites the existing data.
+                <div class="widgets flex-row flex-start">  
+                    <div class="flex-column">
+                        <strong>Global store</strong>
+                        <Slider value-bind="slider" label="Global value" />
+                    </div>
+                    <PrivateStore
+                        data={{
+                            // read-only values
+                            globalValueExpr: { expr: "{slider}" },
+                            primitiveValue: 33,
+                            computedValue: computable("slider", (slider) => 100 - slider)
+                        }}
+                    >
+                        <div class="flex-column">
+                            <strong>Private store</strong>
+                            <Slider value-bind="globalValueExpr" label="Global value" disabled/>
+                            <Slider value-bind="primitiveValue" label="Primitive value" disabled/>
+                            <Slider value-bind="computedValue" label="Computed value" disabled/>
+                        </div> 
+                    </PrivateStore>
+                </div>
 
-        </CodeSplit>
+                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                     <div class="widgets flex-row flex-start">  
+                        <div class="flex-column">
+                            <strong>Global store</strong>
+                            <Slider value-bind="slider" label="Global value" />
+                        </div>
+                        <PrivateStore
+                            data={{
+                                // read-only values
+                                globalValueExpr: { expr: "{slider}" },
+                                primitiveValue: 33,
+                                computedValue: computable("slider", (slider) => 100 - slider)
+                            }}
+                        >
+                            <div class="flex-column">
+                                <strong>Private store</strong>
+                                <Slider value-bind="globalValueExpr" label="Global value" disabled/>
+                                <Slider value-bind="primitiveValue" label="Primitive value" disabled/>
+                                <Slider value-bind="computedValue" label="Computed value" disabled/>
+                            </div> 
+                        </PrivateStore>
+                    </div>
+                `}</CodeSnippet>
 
-        To solve this problem, we can use `PrivateStore` to isolate the parts of the Store that are used within a widget.
-        This way we can have as many instances as we want, without worrying about Store pollution.
-                
+                Trying to change read-only values from within the child store will log an error to the console, 
+                so the UI should prevent it.
+            </CodeSplit>
 
-        ### Passing bindings to PrivateStore
+            ## Performance improvements
 
-        In the example above we hardcoded the `userId` values that were passed to the `UserStats` widgets.
-        Normally we will use data from the store, so we will need to pass the `userId` as a Store binding.
+            `PrivateStore` can also be used for performance improvements since it supports some advanced features such es 
+            deferred rendering and seperate (detached) render loop. See the configuration table below for more information.
 
-       
+            **Note:** when using `detached` property, be aware that it may break some advanced Cx features, such as layouts, that depend on the use of `context`.
 
-        Explain how to set `data` prop for `PrivateStore`.
-
-
-
-        ## `get`
-
-        The `get` method is used to read data from the Store. It takes any number of arguments or an array of strings
-        representing paths and it returns the corresponding values.
-        In the previous example, the `greet` method inside the controller is
-        using the `Store.get` method to read the name from the Store.
-        You will notice that we are able to directly access a nested property (`$page.name`) by using the `.` in our
-        `path`
-        string. Think of `path` as a property accessor.
-
-        
-    </Md>
+            <ConfigTable props={config} />
+        </Md>
+    </Rescope>
 </cx>
-
