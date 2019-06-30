@@ -1,5 +1,5 @@
-import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope } from 'cx/ui';
+import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
+import { LabelsLeftLayout, Rescope, DataProxy, computable } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -39,12 +39,12 @@ export const DataViews = <cx>
 
             <div class="widgets">
                 <div>
-                    <Repeater records:bind="intro.core.items" >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                    <Repeater records-bind="intro.core.items" >
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
@@ -56,12 +56,12 @@ export const DataViews = <cx>
                         { text: 'C', checked: false }
                     ]);
                     ...
-                    <Repeater records:bind="intro.core.items">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                    <Repeater records-bind="intro.core.items">
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -76,30 +76,30 @@ export const DataViews = <cx>
             <div class="widgets">
                 <div>
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet >{`
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"    
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -119,14 +119,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
@@ -150,14 +150,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
@@ -191,6 +191,51 @@ export const DataViews = <cx>
 
         Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
         `winner` and `$root.$page.results.winner` point to the same object.
+       
+        <CodeSplit>
+
+            ## DataProxy
+            <ImportPath path="import { DataProxy } from 'cx/ui';" />
+
+            The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
+            In the example below, `$page.slider` bindig is made available as `slider`.
+            This createas a simple mapping between two store values. 
+            
+            <div class="widgets flex-row flex-start">  
+                <div class="flex-column">
+                    <Slider value-bind="$page.slider" label="Global binding" />
+                </div>
+                <DataProxy
+                    value-bind="$page.slider"
+                    alias="slider"
+                >
+                    <div class="flex-column">
+                        <Slider value-bind="slider" label="Alias" />
+                    </div> 
+                </DataProxy>
+            </div>
+
+            <CodeSnippet putInto="code">{`
+                <div class="widgets flex-row flex-start">  
+                    <div class="flex-column">
+                        <Slider value-bind="$page.slider" label="Global binding" />
+                        <Slider value-bind="$page.slider" label="Global binding" />
+                    </div>
+                    <DataProxy
+                        value-bind="$page.slider"
+                        alias="slider"
+                    >
+                        <div class="flex-column">
+                            <Slider value-bind="slider" label="Alias" />
+                        </div> 
+                    </DataProxy>
+                </div>
+            `}</CodeSnippet>
+            
+            
+        </CodeSplit>
+        
+
     </Md>
 </cx>
 
