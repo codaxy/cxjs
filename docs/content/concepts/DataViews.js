@@ -1,5 +1,5 @@
 import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope, DataProxy, computable } from 'cx/ui';
+import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout, UseParentLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -198,8 +198,8 @@ export const DataViews = <cx>
             <ImportPath path="import { DataProxy } from 'cx/ui';" />
 
             The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
-            In the example below, `$page.slider` bindig is made available as `slider`.
-            This createas a simple mapping between two store values. 
+            In the example below, `$page.slider` bindig is made available under the `slider` alias.
+            This createas a simple two-way mapping between the two store values. Changing any one of them will affect the other.
             
             <div class="widgets flex-row flex-start">  
                 <div class="flex-column">
@@ -214,6 +214,16 @@ export const DataViews = <cx>
                     </div> 
                 </DataProxy>
             </div>
+            {/* <div class="widgets flex-row flex-start" layout={LabelsTopLayout}>  
+                <Slider value-bind="$page.slider" label="Global binding" />
+                <DataProxy
+                    value-bind="$page.slider"
+                    alias="slider"
+                    layout={UseParentLayout}
+                >
+                    <Slider value-bind="slider" label="Alias" />
+                </DataProxy>
+            </div> */}
 
             <CodeSnippet putInto="code">{`
                 <div class="widgets flex-row flex-start">  
