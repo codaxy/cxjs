@@ -16,7 +16,7 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Improve performance by detaching `PrivateStore` subtree from the rest of the page. 
-            Detached contents render in their own render loop and use a `data` declaration to determine which changes can go in or out.
+            Detached content renders in its own render loop and uses a `data` declaration to determine which changes can go in or out.
             Detached render loops break the use of `context`, so some advanced Cx features, such as layouts, may not work.
         </Md></cx>
     },
