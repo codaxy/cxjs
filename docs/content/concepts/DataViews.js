@@ -1,5 +1,5 @@
 import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout, UseParentLayout } from 'cx/ui';
+import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout, UseParentLayout, expr } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -192,60 +192,135 @@ export const DataViews = <cx>
         Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
         `winner` and `$root.$page.results.winner` point to the same object.
        
-        <CodeSplit>
+        <Rescope bind="$page">
 
-            ## DataProxy
-            <ImportPath path="import { DataProxy } from 'cx/ui';" />
+            <CodeSplit>
 
-            The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
-            In the example below, `$page.slider` bindig is made available under the `slider` alias.
-            This createas a simple two-way mapping between the two store values. Changing any one of them will affect the other.
-            
-            <div class="widgets flex-row flex-start">  
-                <div class="flex-column">
-                    <Slider value-bind="$page.slider" label="Global binding" />
+                ## DataProxy
+                <ImportPath path="import { DataProxy } from 'cx/ui';" />
+
+                The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
+                In the example below, `level` binding is also made available as `$level`.
+                This createas a simple two-way mapping between the two store values. Moving one slider will affect the other.
+                
+                <div class="widgets flex-row">
+                    <LabelsTopLayout>
+                        <Slider value-bind="level" label="Level" />
+                    </LabelsTopLayout>  
+                    <DataProxy
+                        value-bind="level"
+                        alias="$level"
+                    >
+                        <LabelsTopLayout>
+                            <Slider value-bind="$level" label="Level alias" />
+                        </LabelsTopLayout>
+                    </DataProxy>
                 </div>
-                <DataProxy
-                    value-bind="$page.slider"
-                    alias="slider"
-                >
-                    <div class="flex-column">
-                        <Slider value-bind="slider" label="Alias" />
-                    </div> 
-                </DataProxy>
-            </div>
-            {/* <div class="widgets flex-row flex-start" layout={LabelsTopLayout}>  
-                <Slider value-bind="$page.slider" label="Global binding" />
-                <DataProxy
-                    value-bind="$page.slider"
-                    alias="slider"
-                    layout={UseParentLayout}
-                >
-                    <Slider value-bind="slider" label="Alias" />
-                </DataProxy>
-            </div> */}
-
-            <CodeSnippet putInto="code">{`
-                <div class="widgets flex-row flex-start">  
-                    <div class="flex-column">
-                        <Slider value-bind="$page.slider" label="Global binding" />
-                        <Slider value-bind="$page.slider" label="Global binding" />
-                    </div>
+                {/* <div class="widgets flex-row flex-start" layout={LabelsTopLayout}>  
+                    <Slider value-bind="$page.slider" label="Global binding" />
                     <DataProxy
                         value-bind="$page.slider"
                         alias="slider"
+                        layout={UseParentLayout}
+                    >
+                        <Slider value-bind="slider" label="Alias" />
+                    </DataProxy>
+                </div> */}
+
+                <CodeSnippet putInto="code">{`
+                    <div class="widgets flex-row">
+                        <LabelsTopLayout>
+                            <Slider value-bind="level" label="Level" />
+                        </LabelsTopLayout>  
+                        <DataProxy
+                            value-bind="level"
+                            alias="$level"
+                        >
+                            <LabelsTopLayout>
+                                <Slider value-bind="$level" label="Level alias" />
+                            </LabelsTopLayout>
+                        </DataProxy>
+                    </div>
+                `}</CodeSnippet>
+            </CodeSplit>
+        </Rescope>
+        ### Defining multiple aliases
+        <Rescope>
+            <CodeSplit>
+                `data` property is used to define multiple mappings. `data` is an object whose property names serve as aliases, 
+                and their values are objects with `expr` and `set` properties that define custom getter and setter logic: 
+                - `expr` defines a getter logic and can be a Cx computable or an expression,
+                - `set` is a function that receives the alias value and the `instance` object as parameters. The `store` can be accessed directly 
+                    with destructuring assignment syntax. Note that the setter function needs to call the `store.set` method explicitly
+                    in order to set the `level` value, as opposed to just returning the calculated value. 
+                    This is because we can use any number of store values to calculate the alias, 
+                    and it's up to us to define the setter logic correctly.
+
+                Omitting the `set` property will make the alias itself a read-only. Attempting to change its value will log 
+                an error to the console, so the UI should not allow it.
+
+                <div class="widgets flex-row flex-start">  
+                    <LabelsTopLayout>
+                        <Slider value-bind="level" label="Level" />
+                    </LabelsTopLayout>
+                    <DataProxy
+                        data={{
+                            $invertedLevel: {
+                                expr: computable("level", v => 100 - v),
+                                set: (value, {store}) => {
+                                    store.set("level", 100 - value);
+                                }
+                            },
+                            // read-only
+                            $level: {
+                                expr: "{level}"
+                            }
+                        }}
                     >
                         <div class="flex-column">
-                            <Slider value-bind="slider" label="Alias" />
-                        </div> 
+                            <Slider value-bind="$invertedLevel" label="Inverted level" />
+                            <Slider value-bind="$level" label="Level (read-only)" />
+                        </div>
                     </DataProxy>
                 </div>
-            `}</CodeSnippet>
-            
-            
-        </CodeSplit>
-        
 
+                <CodeSnippet putInto="code">{`
+                    <div class="widgets flex-row flex-start">  
+                        <LabelsTopLayout>
+                            <Slider value-bind="level" label="Level" />
+                        </LabelsTopLayout>
+                        <DataProxy
+                            data={{
+                                $invertedLevel: {
+                                    expr: computable("level", v => 100 - v),
+                                    set: (value, {store}) => {
+                                        store.set("level", 100 - value);
+                                    }
+                                },
+                                // read-only
+                                $level: {
+                                    expr: "{level}"
+                                }
+                            }}
+                        >
+                            <div class="flex-column">
+                                <Slider value-bind="$invertedLevel" label="Inverted level" />
+                                <Slider value-bind="$level" label="Level (read-only)" />
+                            </div>
+                        </DataProxy>
+                    </div>
+                `}</CodeSnippet>
+
+                If mapping is done in both directions (both getter and setter are used), it is important that both operations are reversible, without any data loss. 
+                This means, for any alias value, we should be able to get back all of the store values that were used to calculate it. 
+                Failing to do so will cause bugs that are hard to detect.
+
+                **Note**: It is good practice to prefix the alias name with a `$` sign in order to avoid unintentional name shadowing 
+                which will cause an infinite get-set loop and a `Maximum call stack exceded` error.
+
+            </CodeSplit>
+        </Rescope>
+       
     </Md>
 </cx>
 
