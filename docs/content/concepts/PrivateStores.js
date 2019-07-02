@@ -41,7 +41,7 @@ export const PrivateStores = <cx>
                     </PrivateStore>
                 </div>
 
-                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
                     <div class="widgets">  
                         <div class="flex-column">
                             <Slider value-bind="slider" label="Global store" />
@@ -93,7 +93,7 @@ export const PrivateStores = <cx>
                     </PrivateStore>
                 </div>
 
-                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
                     <div class="widgets flex-row flex-start">  
                         <div class="flex-column">
                             <strong>Global store</strong>
@@ -145,7 +145,7 @@ export const PrivateStores = <cx>
                     </PrivateStore>
                 </div>
 
-                <CodeSnippet putInto="code" /* fiddle="F3RHqb0x" */>{`
+                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
                      <div class="widgets flex-row flex-start">  
                         <div class="flex-column">
                             <strong>Global store</strong>
