@@ -1,6 +1,6 @@
 import { cx, Section, FlexRow, Repeater, Checkbox, Grid } from 'cx/widgets';
 import { bind, expr, tpl, Controller, KeySelection } from 'cx/ui';
-import { Chart, Legend, Gridlines, LineGraph, CategoryAxis, 
+import { Chart, Legend, LegendScope, Gridlines, LineGraph, CategoryAxis,
     NumericAxis, ColumnGraph, TimeAxis, Range, Marker, Column } from 'cx/charts';
 import { Svg, Line, Rectangle, Text, ClipRect } from 'cx/svg';
 import casual from '../../../util/casual';
@@ -16,7 +16,7 @@ class PageController extends Controller {
          y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
       })));
 
-      var v1 = 100;
+      let v1 = 100;
       this.store.set('$page.points2', Array.from({length: categories.length}, (_, i) => ({
          x: categories[i],
          v1: v1 = (v1 + (Math.random() - 0.5) * 30),
@@ -33,9 +33,9 @@ class PageController extends Controller {
          a3: Math.random() * 30,
       })));
 
-      var v1 = 500;
-      var v2 = 500;
-      var v3 = 500;
+      v1 = 500;
+      let v2 = 500;
+      let v3 = 500;
       this.store.set('$page.points4', Array.from({length: 10}, (_, i) => ({
          x: 2000 + i,
          v1: v1 = v1 + (Math.random() - 0.5) * 100,
@@ -66,7 +66,7 @@ export default <cx>
     <FlexRow wrap spacing='large' target='desktop' controller={PageController} >
         
         <Section mod="well" title="Customized" hLevel={4} >
-            <Legend.Scope>
+            <LegendScope>
                 <Svg style="width:600px; height:400px;">
                    <Chart offset="20 -20 -140 40" axes={{
                       x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
@@ -82,11 +82,11 @@ export default <cx>
                    </Chart>
                 </Svg>
                 <Legend />
-            </Legend.Scope>
+            </LegendScope>
         </Section>
 
         <Section mod="well" title="Normalized" hLevel={4} >
-            <Legend.Scope>
+            <LegendScope>
                 <Svg style="width:600px; height:400px;">
                    <Chart offset="20 -20 -40 40" axes={{
                          x: CategoryAxis,
@@ -122,11 +122,11 @@ export default <cx>
                    </Chart>          
                 </Svg>
                 <Legend />
-            </Legend.Scope>
+            </LegendScope>
         </Section>
 
         <Section mod="well" title="Stacked" hLevel={4} >
-            <Legend.Scope>
+            <LegendScope>
                 <Svg style="width:600px; height:400px;">
                    <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
                       <Gridlines/>
@@ -201,11 +201,11 @@ export default <cx>
                    </Chart>
                 </Svg>
                 <Legend />
-            </Legend.Scope>
+            </LegendScope>
         </Section>
 
         <Section mod="well" title="Auto-calculated Column Widths" hLevel={4} >
-            <Legend.Scope>
+            <LegendScope>
                 <Svg style="width:600px; height:400px;">
                    <Chart offset="20 -20 -40 40" axes={{
                          x: { type: CategoryAxis, uniform: true, labelAnchor: "end", labelRotation: -90, labelDy: '0.35em' },
@@ -283,7 +283,7 @@ export default <cx>
                    </Chart>
                 </Svg>
                 <Legend />
-            </Legend.Scope>
+            </LegendScope>
         </Section>
 
         <Section mod="well" title="Combination" hLevel={4} >

@@ -20,7 +20,7 @@ export default <cx>
             &nbsp;
             <Button>Regular Button</Button>
             &nbsp;
-            <span style={{"margin-left": "10px"}}>Span of text</span>
+            <span style={{ marginLeft: "10px" }}>Span of text</span>
             &nbsp;
             <Menu horizontal style="display:inline-block">
                 <Submenu arrow>

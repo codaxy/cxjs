@@ -12,6 +12,7 @@ module.exports = {
             edge: 12,
             safari: 9
          },
+         corejs: 3,
          modules: false,
          loose: true,
          useBuiltIns: "usage",

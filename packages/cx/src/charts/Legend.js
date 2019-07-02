@@ -134,5 +134,5 @@ Legend.Scope = class extends PureContainer {
    }
 };
 
-
+export const LegendScope = Legend.Scope;
 

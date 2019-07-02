@@ -1,2 +1,3 @@
+import "core-js/stable";
 import 'whatwg-fetch';
-//import "babel-polyfill";
+

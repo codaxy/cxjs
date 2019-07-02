@@ -15,7 +15,7 @@ export default <cx>
     >
         <main
             class="main"
-            onMouseDownCapture={(...args) => {
+            onMouseDownCapture={(...args: any) => {
                 let {controller} = args[1];
                 controller.onMainClick(...args)
             }}
@@ -67,7 +67,7 @@ export default <cx>
                         hamburger: true,
                         open: {bind: 'layout.aside.open'}
                     }}
-                    onClick={(...args) => {
+                    onClick={(...args: any) => {
                         let {store} = args[1];
                         store.toggle('layout.aside.open');
                     }}
