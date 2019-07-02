@@ -1,17 +1,20 @@
-import { Button, HtmlElement, TextField, Checkbox, Grid } from 'cx/widgets';
-import { Content, Controller, LabelsLeftLayout, KeySelection } from 'cx/ui';
+import { Button, HtmlElement, TextField, Checkbox, Grid, DataProxy, Rescope } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout, KeySelection, computable } from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
 import {CodeSnippet} from '../../../components/CodeSnippet';
 
 import {casual} from '../data/casual';
 
-class PageController extends Controller {
-    init() {
-        super.init();
+function uid(len) {
+    len = len || 7;
+    return Math.random().toString(35).substr(2, len);
+}
 
-        this.store.set('$page.records', Array.from({length: 5}).map((v, i)=>({
-            id: i + 1,
+class PageController extends Controller {
+    onInit() {
+        this.store.init('$page.records', Array.from({length: 5}).map((v, i)=>({
+            id: uid(),
             fullName: casual.full_name,
             phone: casual.phone,
             city: casual.city,
@@ -19,35 +22,34 @@ class PageController extends Controller {
         })));
 
         this.addTrigger('$page.form', ['$page.id', '$page.records'], (id, records) => {
-            this.store.set('$page.form', records.find(a => a.id == id));
+            this.store.set('$page.form', records.find(r => r.id == id));
             this.store.set('$page.add', false);
         });
     }
 
     newRecord() {
-        var records = this.store.get('$page.records');
-        this.store.set('$page.add', true);
-        this.store.set('$page.form', {
+        let newRecord = {
+            id: uid(),
             fullName: 'New Entry'
-        });
+        }
+        this.store.update('$page.records', records => [...records, newRecord])
+        this.store.set('$page.id', newRecord.id);
     }
 
     saveRecord() {
-        var page = this.store.get('$page'),
-            newRecords;
-        if (page.add) {
-            var id = page.records.reduce((acc, rec) => Math.max(acc, rec.id), 0) + 1;
-            newRecords = [...page.records, Object.assign({id: id}, page.form)];
-            this.store.set('$page.id', id);
-        } else
-            newRecords = page.records.map(r => r.id == page.id ? page.form : r);
-
-        this.store.set('$page.records', newRecords);
+        let record = this.store.get('$page.form');
+        this.store.update(
+            '$page.records', 
+            records => records.map(r => r.id == record.id ? record : r)
+        );
     }
 
     removeRecord(id) {
-        var newRecords = this.store.get('$page.records').filter(r => r.id != id);
-        this.store.set('$page.records', newRecords);
+        this.store.delete('$page.id');
+        this.store.update(
+            '$page.records', 
+            records => records.filter(r => r.id != id)
+        );
     }
 }
 
@@ -58,28 +60,28 @@ export const FormEdit = <cx>
 
             The following example shows how to connect a form with a grid control.
 
-            <Grid records:bind='$page.records'
-                  style={{width: "100%"}}
-                  selection={{type: KeySelection, bind: '$page.id', keyField: 'id'}}
-                  columns={[
-                      {header: 'Name', field: 'fullName', sortable: true},
-                      {header: 'Phone', field: 'phone'},
-                      {header: 'City', field: 'city', sortable: true},
-                      {
-                          header: 'Notified',
-                          field: 'notified',
-                          sortable: true,
-                          value: {expr: '{$record.notified} ? "Yes" : "No"'}
-                      },
-                      {
-                          header: 'Actions', items: <cx>
-                          <Button data-id:bind='$record.id' onClick={(e, {controller, data}) => {
-                              controller.removeRecord(data.data.id)
-                          }}>Remove
-                          </Button>
-                      </cx>
-                      }
-                  ]}
+            <Grid records-bind='$page.records'
+                style={{width: "100%"}}
+                selection={{type: KeySelection, bind: '$page.id', keyField: 'id'}}
+                columns={[
+                    {header: 'Name', field: 'fullName', sortable: true},
+                    {header: 'Phone', field: 'phone'},
+                    {header: 'City', field: 'city', sortable: true},
+                    {
+                        header: 'Notified',
+                        field: 'notified',
+                        sortable: true,
+                        value: {expr: '{$record.notified} ? "Yes" : "No"'}
+                    },
+                    {
+                        header: 'Actions', items: <cx>
+                        <Button data-id-bind='$record.id' onClick={(e, {controller, data}) => {
+                            controller.removeRecord(data.data.id);
+                        }}>Remove
+                        </Button>
+                    </cx>
+                    }
+                ]}
             />
 
             <Button type="button" onClick={(e, {controller}) => {
@@ -89,97 +91,174 @@ export const FormEdit = <cx>
 
             <hr style={{margin: '30px'}}/>
 
-            <div visible:expr='{$page.form}'>
-                <h4 text:bind="$page.form.fullName"/>
-                <div layout={LabelsLeftLayout}>
-                    <TextField label="Name" value:bind="$page.form.fullName"/>
-                    <TextField label="Phone" value:bind="$page.form.phone"/>
-                    <TextField label="City" value:bind="$page.form.city"/>
-                    <Checkbox label="Notified" value:bind="$page.form.notified"/>
-                    <Button onClick={(e, {controller}) => {
-                        controller.saveRecord()
-                    }}>Save
-                    </Button>
+            <div class='flex-row'>
+                <div visible-expr='{$page.form}' style="flex: 1;">
+                    <h2 text="Normal form"/>
+                    <h4 text-bind="$page.form.fullName"/>
+                    <div layout={LabelsLeftLayout}>
+                        <TextField label="Name" value-bind="$page.form.fullName"/>
+                        <TextField label="Phone" value-bind="$page.form.phone"/>
+                        <TextField label="City" value-bind="$page.form.city"/>
+                        <Checkbox label="Notified" value-bind="$page.form.notified"/>
+                        <Button onClick={(e, {controller}) => {
+                            controller.saveRecord()
+                        }}>Save
+                        </Button>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <Rescope bind="$page">
+                        <DataProxy
+                            value={{
+                                expr: computable("id", "records", (id, records) => {
+                                    if (!id) return;
+                                    return records.find(rec => rec.id == id);
+                                }),
+                                set: (record, {store}) => {
+                                    store.update(
+                                        "records", 
+                                        records => records.map(rec => rec.id === record.id ? { ...record } : rec)
+                                    );
+                                }
+                            }}
+                            alias="$liveForm"
+                        >
+                            <div visible-expr='{$liveForm}'>
+                                <h2 text="Live form"/>
+                                <h4 text-bind="$liveForm.fullName"/>
+                                <div layout={LabelsLeftLayout}>
+                                    <TextField label="Name" value-bind="$liveForm.fullName"/>
+                                    <TextField label="Phone" value-bind="$liveForm.phone"/>
+                                    <TextField label="City" value-bind="$liveForm.city"/>
+                                    <Checkbox label="Notified" value-bind="$liveForm.notified"/>
+                                </div>
+                            </div>
+                        </DataProxy>
+                    </Rescope>
                 </div>
             </div>
 
+
             <Content name="code">
                 <CodeSnippet fiddle="xPjUX9Ad">{`
+                class PageController extends Controller {
+                    onInit() {
+                        this.store.init('$page.records', Array.from({length: 5}).map((v, i)=>({
+                            id: uid(),
+                            fullName: casual.full_name,
+                            phone: casual.phone,
+                            city: casual.city,
+                            notified: casual.coin_flip
+                        })));
+                
+                        this.addTrigger('$page.form', ['$page.id', '$page.records'], (id, records) => {
+                            this.store.set('$page.form', records.find(r => r.id == id));
+                            this.store.set('$page.add', false);
+                        });
+                    }
 
-               class PageController extends Controller {
-                  init() {
-                     super.init();
-
-                     this.store.set('$page.records', Array.from({length: 5}).map((v, i)=>({
-                        id: i + 1,
-                        fullName: casual.full_name,
-                        phone: casual.phone,
-                        city: casual.city,
-                        notified: casual.coin_flip
-                     })));
-
-                     this.addTrigger('$page.form', ['$page.id', '$page.records'], (id, records) => {
-                        this.store.set('$page.form', records.find(a => a.id == id));
-                        this.store.set('$page.add', false);
-                     });
-                  }
-
-                  newRecord() {
-                     var records = this.store.get('$page.records');
-                     this.store.set('$page.add', true);
-                     this.store.set('$page.form', {
-                        fullName: 'New Entry'
-                     });
-                  }
-
-                  saveRecord() {
-                     var page = this.store.get('$page'),
-                        newRecords;
-                     if (page.add) {
-                        var id = page.records.reduce((acc, rec) => Math.max(acc, rec.id), 0) + 1;
-                        newRecords = [...page.records, Object.assign({id: id}, page.form)];
-                        this.store.set('$page.id', id);
-                     } else
-                        newRecords = page.records.map(r => r.id == page.id ? page.form : r);
-
-                     this.store.set('$page.records', newRecords);
-                  }
-
-                  removeRecord(id) {
-                     var newRecords = this.store.get('$page.records').filter(r => r.id != id);
-                     this.store.set('$page.records', newRecords);
-                  }
-               }
-               ...
-               <Grid records:bind='$page.records'
-                     style={{width: "100%"}}
-                     selection={{type: KeySelection, bind: '$page.id', keyField: 'id'}}
-                     columns={[
-                        { header: 'Name', field: 'fullName', sortable: true },
-                        { header: 'Phone', field: 'phone' },
-                        { header: 'City', field: 'city', sortable: true },
-                        { header: 'Notified', field: 'notified', sortable: true, value: { expr: '{$record.notified} ? "Yes" : "No"' } },
-                        { header: 'Actions', items: <cx>
-                              <Button data-id:bind='$record.id' onClick={(e, {controller, data}) => { controller.removeRecord(data.data.id)}}>Remove</Button>
-                           </cx>
+                    newRecord() {
+                        let newRecord = {
+                            id: uid(),
+                            fullName: 'New Entry'
                         }
-                     ]}
-               />
+                        this.store.update('$page.records', records => [...records, newRecord])
+                        this.store.set('$page.id', newRecord.id);
+                    }
 
-               <Button onClick={(e, {controller}) => { controller.newRecord() }}>Add</Button>
+                    saveRecord() {
+                        let record = this.store.get('$page.form');
+                        this.store.update(
+                            '$page.records', 
+                            records => records.map(r => r.id == record.id ? record : r)
+                        );
+                    }
 
-               <hr style={{ margin: '30px'}}/>
+                    removeRecord(id) {
+                        this.store.update(
+                            '$page.records', 
+                            records => records.filter(r => r.id != id)
+                        );
+                    }
+                }
+                ...
+                <Grid records-bind='$page.records'
+                    style={{width: "100%"}}
+                    selection={{type: KeySelection, bind: '$page.id', keyField: 'id'}}
+                    columns={[
+                        {header: 'Name', field: 'fullName', sortable: true},
+                        {header: 'Phone', field: 'phone'},
+                        {header: 'City', field: 'city', sortable: true},
+                        {
+                            header: 'Notified',
+                            field: 'notified',
+                            sortable: true,
+                            value: {expr: '{$record.notified} ? "Yes" : "No"'}
+                        },
+                        {
+                            header: 'Actions', items: <cx>
+                            <Button data-id-bind='$record.id' onClick={(e, {controller, data}) => {
+                                controller.removeRecord(data.data.id);
+                            }}>Remove
+                            </Button>
+                        </cx>
+                        }
+                    ]}
+                />
 
-               <ValidationGroup visible:expr='{$page.form}'>
-                  <h4 text:bind="$page.form.fullName" />
-                  <div layout={LabelsLeftLayout}>
-                     <TextField label="Name" value:bind="$page.form.fullName" />
-                     <TextField label="Phone" value:bind="$page.form.phone" />
-                     <TextField label="City" value:bind="$page.form.city" />
-                     <Checkbox label="Notified" value:bind="$page.form.notified" />
-                     <Button onClick={(e, {controller}) => { controller.saveRecord() }}>Save</Button>
-                  </div>
-               </ValidationGroup>
+                <Button type="button" onClick={(e, {controller}) => {
+                    controller.newRecord()
+                }}>Add
+                </Button>
+
+                <hr style={{margin: '30px'}}/>
+
+                <div class='flex-row'>
+                    <div visible-expr='{$page.form}' style="flex: 1;">
+                        <h2 text="Normal form"/>
+                        <h4 text-bind="$page.form.fullName"/>
+                        <div layout={LabelsLeftLayout}>
+                            <TextField label="Name" value-bind="$page.form.fullName"/>
+                            <TextField label="Phone" value-bind="$page.form.phone"/>
+                            <TextField label="City" value-bind="$page.form.city"/>
+                            <Checkbox label="Notified" value-bind="$page.form.notified"/>
+                            <Button onClick={(e, {controller}) => {
+                                controller.saveRecord()
+                            }}>Save
+                            </Button>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <Rescope bind="$page">
+                            <DataProxy
+                                value={{
+                                    expr: computable("id", "records", (id, records) => {
+                                        if (!id) return;
+                                        return records.find(rec => rec.id == id);
+                                    }),
+                                    set: (record, {store}) => {
+                                        store.update(
+                                            "records", 
+                                            records => records.map(rec => rec.id === record.id ? { ...record } : rec)
+                                        );
+                                    }
+                                }}
+                                alias="$liveForm"
+                            >
+                                <div visible-expr='{$liveForm}'>
+                                    <h2 text="Live form"/>
+                                    <h4 text-bind="$liveForm.fullName"/>
+                                    <div layout={LabelsLeftLayout}>
+                                        <TextField label="Name" value-bind="$liveForm.fullName"/>
+                                        <TextField label="Phone" value-bind="$liveForm.phone"/>
+                                        <TextField label="City" value-bind="$liveForm.city"/>
+                                        <Checkbox label="Notified" value-bind="$liveForm.notified"/>
+                                    </div>
+                                </div>
+                            </DataProxy>
+                        </Rescope>
+                    </div>
+                </div>
 
             `}
                 </CodeSnippet>

@@ -1,5 +1,5 @@
-import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout, UseParentLayout, expr } from 'cx/ui';
+import { Content, HtmlElement, Checkbox, TextField, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
+import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -7,6 +7,7 @@ import {ImportPath} from '../../components/ImportPath';
 import {ConfigTable} from '../../components/ConfigTable';
 
 import configs from '../widgets/configs/Repeater';
+import dataProxyConfig from './configs/DataProxy';
 
 import {store} from '../../app/store';
 
@@ -216,17 +217,6 @@ export const DataViews = <cx>
                         </LabelsTopLayout>
                     </DataProxy>
                 </div>
-                {/* <div class="widgets flex-row flex-start" layout={LabelsTopLayout}>  
-                    <Slider value-bind="$page.slider" label="Global binding" />
-                    <DataProxy
-                        value-bind="$page.slider"
-                        alias="slider"
-                        layout={UseParentLayout}
-                    >
-                        <Slider value-bind="slider" label="Alias" />
-                    </DataProxy>
-                </div> */}
-
                 <CodeSnippet putInto="code">{`
                     <div class="widgets flex-row">
                         <LabelsTopLayout>
@@ -318,8 +308,16 @@ export const DataViews = <cx>
                 **Note**: It is good practice to prefix the alias name with a `$` sign in order to avoid unintentional name shadowing 
                 which will cause an infinite get-set loop and a `Maximum call stack exceded` error.
 
+                ### Advanced example
+
+                [Exposing currently selected Grid record](~/examples/grid/form-edit) for real time editing is a common use case for `DataProxy`.
+
             </CodeSplit>
         </Rescope>
+
+        ### Configuration
+
+        <ConfigTable props={dataProxyConfig} />
        
     </Md>
 </cx>
