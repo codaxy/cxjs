@@ -1,5 +1,5 @@
-import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text } from 'cx/widgets';
-import { LabelsLeftLayout, Rescope } from 'cx/ui';
+import { Content, HtmlElement, Checkbox, TextField, Select, Option, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
+import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout, UseParentLayout, expr } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -39,12 +39,12 @@ export const DataViews = <cx>
 
             <div class="widgets">
                 <div>
-                    <Repeater records:bind="intro.core.items" >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                    <Repeater records-bind="intro.core.items" >
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
@@ -56,12 +56,12 @@ export const DataViews = <cx>
                         { text: 'C', checked: false }
                     ]);
                     ...
-                    <Repeater records:bind="intro.core.items">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                    <Repeater records-bind="intro.core.items">
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -76,30 +76,30 @@ export const DataViews = <cx>
             <div class="widgets">
                 <div>
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet >{`
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"    
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -119,14 +119,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
@@ -150,14 +150,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
@@ -191,6 +191,136 @@ export const DataViews = <cx>
 
         Within the scope, outside data may be accessed by using the `$root.` prefix. For example,
         `winner` and `$root.$page.results.winner` point to the same object.
+       
+        <Rescope bind="$page">
+
+            <CodeSplit>
+
+                ## DataProxy
+                <ImportPath path="import { DataProxy } from 'cx/ui';" />
+
+                The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
+                In the example below, `level` binding is also made available as `$level`.
+                This createas a simple two-way mapping between the two store values. Moving one slider will affect the other.
+                
+                <div class="widgets flex-row">
+                    <LabelsTopLayout>
+                        <Slider value-bind="level" label="Level" />
+                    </LabelsTopLayout>  
+                    <DataProxy
+                        value-bind="level"
+                        alias="$level"
+                    >
+                        <LabelsTopLayout>
+                            <Slider value-bind="$level" label="Level alias" />
+                        </LabelsTopLayout>
+                    </DataProxy>
+                </div>
+                {/* <div class="widgets flex-row flex-start" layout={LabelsTopLayout}>  
+                    <Slider value-bind="$page.slider" label="Global binding" />
+                    <DataProxy
+                        value-bind="$page.slider"
+                        alias="slider"
+                        layout={UseParentLayout}
+                    >
+                        <Slider value-bind="slider" label="Alias" />
+                    </DataProxy>
+                </div> */}
+
+                <CodeSnippet putInto="code">{`
+                    <div class="widgets flex-row">
+                        <LabelsTopLayout>
+                            <Slider value-bind="level" label="Level" />
+                        </LabelsTopLayout>  
+                        <DataProxy
+                            value-bind="level"
+                            alias="$level"
+                        >
+                            <LabelsTopLayout>
+                                <Slider value-bind="$level" label="Level alias" />
+                            </LabelsTopLayout>
+                        </DataProxy>
+                    </div>
+                `}</CodeSnippet>
+            </CodeSplit>
+        </Rescope>
+        ### Defining multiple aliases
+        <Rescope>
+            <CodeSplit>
+                `data` property is used to define multiple mappings. `data` is an object whose property names serve as aliases, 
+                and their values are objects with `expr` and `set` properties that define custom getter and setter logic: 
+                - `expr` defines a getter logic and can be a Cx computable or an expression,
+                - `set` is a function that receives the alias value and the `instance` object as parameters. The `store` can be accessed directly 
+                    with destructuring assignment syntax. Note that the setter function needs to call the `store.set` method explicitly
+                    in order to set the `level` value, as opposed to just returning the calculated value. 
+                    This is because we can use any number of store values to calculate the alias, 
+                    and it's up to us to define the setter logic correctly.
+
+                Omitting the `set` property will make the alias itself a read-only. Attempting to change its value will log 
+                an error to the console, so the UI should not allow it.
+
+                <div class="widgets flex-row flex-start">  
+                    <LabelsTopLayout>
+                        <Slider value-bind="level" label="Level" />
+                    </LabelsTopLayout>
+                    <DataProxy
+                        data={{
+                            $invertedLevel: {
+                                expr: computable("level", v => 100 - v),
+                                set: (value, {store}) => {
+                                    store.set("level", 100 - value);
+                                }
+                            },
+                            // read-only
+                            $level: {
+                                expr: "{level}"
+                            }
+                        }}
+                    >
+                        <div class="flex-column">
+                            <Slider value-bind="$invertedLevel" label="Inverted level" />
+                            <Slider value-bind="$level" label="Level (read-only)" />
+                        </div>
+                    </DataProxy>
+                </div>
+
+                <CodeSnippet putInto="code">{`
+                    <div class="widgets flex-row flex-start">  
+                        <LabelsTopLayout>
+                            <Slider value-bind="level" label="Level" />
+                        </LabelsTopLayout>
+                        <DataProxy
+                            data={{
+                                $invertedLevel: {
+                                    expr: computable("level", v => 100 - v),
+                                    set: (value, {store}) => {
+                                        store.set("level", 100 - value);
+                                    }
+                                },
+                                // read-only
+                                $level: {
+                                    expr: "{level}"
+                                }
+                            }}
+                        >
+                            <div class="flex-column">
+                                <Slider value-bind="$invertedLevel" label="Inverted level" />
+                                <Slider value-bind="$level" label="Level (read-only)" />
+                            </div>
+                        </DataProxy>
+                    </div>
+                `}</CodeSnippet>
+
+                If mapping is done in both directions (both getter and setter are used), it is important that both operations are reversible, without any data loss. 
+                This means, for any alias value, we should be able to get back all of the store values that were used to calculate it. 
+                Failing to do so will cause bugs that are hard to detect.
+
+                **Note**: It is good practice to prefix the alias name with a `$` sign in order to avoid unintentional name shadowing 
+                which will cause an infinite get-set loop and a `Maximum call stack exceded` error.
+
+            </CodeSplit>
+        </Rescope>
+       
     </Md>
 </cx>
 
