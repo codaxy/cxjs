@@ -135,7 +135,7 @@ var common = {
         rules: [{
             test: /\.js$/,
             include: /[\\\/](docs|cx|cx-react)[\\\/]/,
-            exclude: /(babelHelpers)/,
+            //exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',
                 query: babelConfig({production: production})
@@ -152,7 +152,7 @@ var common = {
     },
     entry: {
         app: [
-            path.resolve(__dirname, "../misc/babelHelpers"),
+            //path.resolve(__dirname, "../misc/babelHelpers"),
             path.join(__dirname, 'polyfill'),
             path.join(__dirname, '/index')
         ]
