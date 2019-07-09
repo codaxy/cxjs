@@ -11,6 +11,8 @@ export class Controller {
 
    onCleanup?(context?): void;
 
+   onDestroy?(): void;
+
    init?(): void;
 
    store: View;
