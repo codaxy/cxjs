@@ -1658,24 +1658,36 @@ babel-plugin-jest-hoist@^24.6.0:
     "@types/babel__traverse" "^7.0.6"
 
 babel-plugin-transform-cx-imports@^19.1.0:
-  version "0.0.0"
-  uid ""
+  version "19.1.0"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "^7.2.0"
 
 "babel-plugin-transform-cx-imports@link:./packages/babel-plugin-transform-cx-imports":
-  version "0.0.0"
-  uid ""
+  version "19.1.0"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "^7.2.0"
 
 babel-plugin-transform-cx-jsx@^19.1.0:
-  version "0.0.0"
-  uid ""
+  version "19.1.0"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "^7.2.0"
 
 "babel-plugin-transform-cx-jsx@link:./packages/babel-plugin-transform-cx-jsx":
-  version "0.0.0"
-  uid ""
+  version "19.1.0"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "^7.2.0"
 
 "babel-preset-cx-env@link:./packages/babel-preset-cx-env":
-  version "0.0.0"
-  uid ""
+  version "19.1.0"
+  dependencies:
+    "@babel/plugin-proposal-class-properties" "^7.2.3"
+    "@babel/plugin-proposal-function-bind" "^7.2.0"
+    "@babel/plugin-proposal-object-rest-spread" "^7.2.0"
+    "@babel/plugin-syntax-dynamic-import" "^7.2.0"
+    "@babel/plugin-transform-parameters" "^7.2.0"
+    "@babel/plugin-transform-react-jsx" "^7.2.0"
+    babel-plugin-transform-cx-imports "^19.1.0"
+    babel-plugin-transform-cx-jsx "^19.1.0"
 
 babel-preset-jest@^24.6.0:
   version "24.6.0"
@@ -2861,16 +2873,16 @@ cx-cli@latest:
     cross-spawn "^5.0.0"
 
 "cx-react@link:./packages/cx-react":
-  version "0.0.0"
-  uid ""
+  version "17.10.0"
 
 "cx-redux@link:./packages/cx-redux":
-  version "0.0.0"
-  uid ""
+  version "18.5.2"
 
 "cx@link:./packages/cx":
-  version "0.0.0"
-  uid ""
+  version "19.7.2"
+  dependencies:
+    intl-io "^0.2.11"
+    route-parser "^0.0.5"
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -5751,17 +5763,10 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.3, lodash@^4.3.0, lodash@~4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
-
-lodash@^4.17.10, lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-
-lodash@^4.17.5:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.5, lodash@^4.3.0, lodash@~4.17.4:
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
+  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
 loglevel@^1.6.3:
   version "1.6.3"
