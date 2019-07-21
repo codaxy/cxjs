@@ -1428,7 +1428,7 @@ class GridComponent extends VDOM.Component {
                remaining = Math.max(0, data.totalRecordCount - end);
             }
             this.dom.table.style.marginTop = `${ (-headerHeight + start * rowHeight).toFixed(0) }px`;
-            this.dom.table.style.marginBottom = `${ (remaining * headerHeight - footerHeight).toFixed(0) }px`;
+            this.dom.table.style.marginBottom = `${ (remaining * rowHeight - footerHeight).toFixed(0) }px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
             this.dom.table.style.marginBottom = `${-footerHeight}px`;
