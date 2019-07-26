@@ -1,7 +1,9 @@
 import {VDOM, getContent, contentAppend} from '../Widget';
+import {Container} from '../Container';
 import {PureContainer} from '../PureContainer';
 import {isArray} from '../../util/isArray';
 import {isUndefined} from '../../util/isUndefined';
+import {isNumber} from "../../util/isNumber";
 
 function validContent(r) {
    let content = [];
@@ -11,7 +13,7 @@ function validContent(r) {
    return content;
 }
 
-export class LabelsTopLayout extends PureContainer {
+export class LabelsTopLayout extends Container {
 
    init() {
       if (this.vertical && isUndefined(this.columns))
@@ -21,11 +23,14 @@ export class LabelsTopLayout extends PureContainer {
    }
 
    render(context, instance, key) {
-      let {children} = instance;
-      let {CSS, baseClass} = this;
+      let {children, data} = instance;
 
       let state = {
-         rows: []
+         rows: [],
+         currentRow: 0,
+         labelCells: [],
+         fieldCells: [],
+         rowCapacities: [this.columns]
       };
 
       const processContent = (r) => {
@@ -33,15 +38,17 @@ export class LabelsTopLayout extends PureContainer {
             return;
          if (isArray(r.content) && r.useParentLayout)
             r.content.forEach((x) => processContent(x));
+         else if (r.atomic && r.type == "layout-cell")
+            this.addItem(state, isArray(r.content) && r.content.length == 1 ? r.content[0] : r.content, r.data);
          else
-            this.addItem(state, r);
+            this.addItem(state, r, {});
       };
 
       children.forEach(item => processContent(item.vdom));
 
       this.addRow(state);
 
-      return <table key={key} className={CSS.block(baseClass, this.mod)}>
+      return <table key={key} className={data.classNames} style={data.style}>
          <tbody>
          {state.rows}
          </tbody>
@@ -49,27 +56,48 @@ export class LabelsTopLayout extends PureContainer {
    }
 
    addRow(state) {
-      if (state.labelCells && state.labelCells.length > 0)
+      if (state.labelCells.length > 0)
          state.rows.push(<tr key={state.rows.length}>{state.labelCells}</tr>);
 
-      if (state.fieldCells && state.fieldCells.length > 0)
+      if (state.fieldCells.length > 0)
          state.rows.push(<tr key={state.rows.length}>{state.fieldCells}</tr>);
 
       state.labelCells = [];
       state.fieldCells = [];
+      state.currentRow++;
+      if (state.currentRow == state.rowCapacities.length)
+         state.rowCapacities.push(this.columns);
    }
 
-   addItem(state, item) {
-      if (!state.labelCells || state.labelCells.length + 1 > this.columns)
+
+   addItem(state, item, data) {
+
+      while (state.labelCells.length == state.rowCapacities[state.currentRow])
          this.addRow(state);
 
+      if (data.rowSpan > 1) {
+         for (let row = state.currentRow + 1; row < state.currentRow + data.rowSpan; row++) {
+            if (row == state.rowCapacities.length)
+               state.rowCapacities.push(this.columns);
+            state.rowCapacities[row] -= data.colSpan || 1;
+         }
+      }
+
+      if (data.colSpan > 1)
+         state.rowCapacities[state.currentRow] -= data.colSpan - 1;
+
       state.labelCells.push(
-         <td className={this.CSS.element(this.baseClass, "label")} key={state.labelCells.length}>
+         <td className={this.CSS.element(this.baseClass, "label")} key={state.labelCells.length} colSpan={data.colSpan}>
             {getContent(item.label)}
          </td>
       );
       state.fieldCells.push(
-         <td className={this.CSS.element(this.baseClass, "field")} key={state.fieldCells.length}>
+         <td className={this.CSS.element(this.baseClass, "field")}
+             key={state.fieldCells.length}
+             colSpan={data.colSpan}
+             rowSpan={isNumber(data.rowSpan) ? 2 * data.rowSpan - 1 : undefined}
+             style={data.style}
+         >
             {validContent(item)}
          </td>
       );
@@ -79,3 +107,29 @@ export class LabelsTopLayout extends PureContainer {
 LabelsTopLayout.prototype.baseClass = 'labelstoplayout';
 LabelsTopLayout.prototype.vertical = false;
 LabelsTopLayout.prototype.columns = undefined;
+LabelsTopLayout.prototype.styled = true;
+
+export class LabelsTopLayoutCell extends PureContainer {
+
+   declareData(...args) {
+      super.declareData(...args, {
+         colSpan: undefined,
+         rowSpan: undefined
+      })
+   }
+
+   render(context, instance, key) {
+
+      let { content } = this.renderChildren(context, instance);
+
+      return {
+         atomic: true,
+         type: 'layout-cell',
+         data: instance.data,
+         content
+      }
+   }
+}
+
+LabelsTopLayoutCell.prototype.styled = true;
+LabelsTopLayoutCell.prototype.useParentLayout = true;
