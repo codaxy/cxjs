@@ -65,7 +65,8 @@ import './index.scss';
 //import Demo from './features/typescript/jsx';
 //import Demo from "./bugs/530";
 //import Demo from "./features/restate/DeferredUpdates";
-import Demo from "./features/layout/ComplexLabelsTopLayout";
+//import Demo from "./features/layout/ComplexLabelsTopLayout";
+import Demo from "./features/grid/GroupingCaptions";
 
 
 let store = new Store();

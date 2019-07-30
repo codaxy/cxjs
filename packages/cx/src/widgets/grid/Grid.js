@@ -551,12 +551,88 @@ export class Grid extends Widget {
    renderGroupHeader(context, instance, g, level, group, i, store) {
       let {CSS, baseClass} = this;
       let data = store.getData();
-      let caption = g.caption(data);
-      return <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, 'group-caption', ['level-' + level])}>
-      <tr>
-         <td colSpan={1000}>{caption}</td>
-      </tr>
-      </tbody>;
+      if (g.caption) {
+         let caption = g.caption(data);
+         return <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, 'group-caption', ['level-' + level])}>
+         <tr>
+            <td colSpan={1000}>{caption}</td>
+         </tr>
+         </tbody>;
+      } else if (g.showCaption) {
+         let skip = 0;
+
+         let {header} = instance.components;
+
+         let lines = [];
+         header.children.forEach((line, lineIndex) => {
+
+            let empty = true;
+
+            let cells = line.children.map((ci, i) => {
+               if (--skip >= 0)
+                  return null;
+
+               let v, c = ci.widget, colSpan, pad;
+               if (c.caption) {
+                  v = c.caption.value(data);
+                  pad = c.caption.pad;
+                  colSpan = c.caption.colSpan;
+                  empty = false;
+
+                  if (c.caption.expand) {
+                     colSpan = 1;
+                     for (let ind = i + 1; ind < line.children.length && !line.children[ind].widget.caption && !line.children[ind].widget.aggregate; ind++)
+                        colSpan++;
+                  }
+
+                  if (colSpan > 1)
+                     skip = colSpan - 1;
+               }
+               else if (c.aggregate && c.aggregateField && c.caption !== false) {
+                  empty = false;
+                  v = group[c.aggregateField];
+                  if (isString(ci.data.format))
+                     v = Format.value(v, ci.data.format);
+               }
+
+               let cls = '';
+               if (c.align)
+                  cls += CSS.state('aligned-' + c.align);
+
+               if (pad !== false)
+                  cls += (cls ? ' ' : '') + CSS.state('pad');
+
+               return <td
+                  key={i}
+                  className={cls}
+                  colSpan={colSpan}
+               >
+                  {v}
+               </td>;
+            });
+
+            if (empty)
+               return;
+
+            lines.push(
+               <tr key={lineIndex}>
+                  {cells}
+               </tr>
+            );
+         });
+
+         if (lines.length == 0)
+            return null;
+
+         return (
+            <tbody
+               key={'c' + i}
+               className={CSS.element(baseClass, 'group-caption', ['level-' + level])}
+            >
+            {lines}
+            </tbody>
+         );
+      }
    }
 
    renderGroupFooter(context, instance, g, level, group, i, store, fixed) {
@@ -659,7 +735,7 @@ export class Grid extends Widget {
          if (record.type == 'group-header') {
             record.vdom = [];
             g = record.grouping;
-            if (g.caption)
+            if (g.caption || g.showCaption)
                record.vdom.push(this.renderGroupHeader(context, instance, g, record.level, record.group, record.key + '-caption', record.store));
 
             if (g.showHeader)
@@ -1894,6 +1970,16 @@ class GridColumnHeader extends Widget {
 
       if (this.footer)
          this.footer.value = getSelector(this.footer.value);
+
+      if (this.caption && isSelector(this.caption))
+         this.caption = {
+            value: this.caption,
+            pad: this.pad,
+            format: this.format
+         };
+
+      if (this.caption)
+         this.caption.value = getSelector(this.caption.value);
 
       super.init();
    }

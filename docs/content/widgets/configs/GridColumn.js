@@ -34,6 +34,12 @@ export default {
             Value to be rendered in the footer.
         </Md></cx>
     },
+    caption: {
+        type: 'string',
+        description: <cx><Md>
+            Value to be rendered in the group caption.
+        </Md></cx>
+    },
     aggregate: {
         type: 'string',
         description: <cx><Md>

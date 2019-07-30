@@ -9,9 +9,7 @@ import {casual} from '../data/casual';
 import plural from 'plural';
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
+    onInit() {
         //init grid data
         this.store.set('$page.records', Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
@@ -32,24 +30,27 @@ export const Grouping = <cx>
             An example of a grid control with grouping.
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 scrollable
                 fixedFooter
                 style={{width: "100%", height: '800px'}}
-                grouping={[{ showFooter: true }, {
-                    key: {
-                        name: {bind: '$record.continent'}
-                    },
-                    showFooter: true,
-                    caption: {bind: '$group.name'}
-                }]}
+                grouping={[
+                    { showFooter: true },
+                    {
+                        key: {
+                            name: {bind: '$record.continent'}
+                        },
+                        showCaption: true
+                    }
+                ]}
                 columns={[{
                     header: 'Name',
                     field: 'fullName',
                     sortable: true,
                     aggregate: 'count',
                     aggregateAlias: 'people',
-                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'}
+                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'},
+                    caption: {tpl: '{$group.name} ({$group.people} {$group.people:plural;person})'}
                 },
                 {
                     header: 'Continent',
@@ -57,21 +58,24 @@ export const Grouping = <cx>
                     visible: true,
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'}
+                    footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'},
+                    caption: {tpl: '{$group.continent} {$group.continent:plural;continent}'},
                 },
                 {
                     header: 'Browser',
                     field: 'browser',
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
+                    footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'},
+                    caption: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
                 },
                 {
                     header: 'OS',
                     field: 'os',
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.os} {$group.os:plural;OS}'}
+                    footer: {tpl: '{$group.os} {$group.os:plural;OS}'},
+                    caption: {tpl: '{$group.os} {$group.os:plural;OS}'}
                 },
                 {
                     header: 'Visits',
@@ -86,9 +90,7 @@ export const Grouping = <cx>
             <CodeSnippet putInto="code" fiddle="0Ztcob5B">{`
 
             class PageController extends Controller {
-               init() {
-                  super.init();
-
+               onInit() {
                   //init grid data
                   this.store.set('$page.records', Array.from({length: 100}).map((v, i)=>({
                      id: i + 1,
@@ -104,27 +106,27 @@ export const Grouping = <cx>
             ...
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 scrollable
                 fixedFooter
                 style={{width: "100%", height: '800px'}}
-                grouping={[{ showFooter: true }, {
-                    key: {
-                        name: {
-                            value: {bind: '$record.continent'},
-                            direction: 'ASC'
-                        }
-                    },
-                    showFooter: true,
-                    caption: {bind: '$group.name'}
-                }]}
+                grouping={[
+                    { showFooter: true },
+                    {
+                        key: {
+                            name: {bind: '$record.continent'}
+                        },
+                        showCaption: true
+                    }
+                ]}
                 columns={[{
                     header: 'Name',
                     field: 'fullName',
                     sortable: true,
                     aggregate: 'count',
                     aggregateAlias: 'people',
-                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'}
+                    footer: {tpl: '{$group.name|TOTAL} - {$group.people} {$group.people:plural;person}'},
+                    caption: {tpl: '{$group.name} ({$group.people} {$group.people:plural;person})'}
                 },
                 {
                     header: 'Continent',
@@ -132,21 +134,24 @@ export const Grouping = <cx>
                     visible: true,
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'}
+                    footer: {tpl: '{$group.continent} {$group.continent:plural;continent}'},
+                    caption: {tpl: '{$group.continent} {$group.continent:plural;continent}'},
                 },
                 {
                     header: 'Browser',
                     field: 'browser',
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
+                    footer: {tpl: '{$group.browser} {$group.browser:plural;browser}'},
+                    caption: {tpl: '{$group.browser} {$group.browser:plural;browser}'}
                 },
                 {
                     header: 'OS',
                     field: 'os',
                     sortable: true,
                     aggregate: 'distinct',
-                    footer: {tpl: '{$group.os} {$group.os:plural;OS}'}
+                    footer: {tpl: '{$group.os} {$group.os:plural;OS}'},
+                    caption: {tpl: '{$group.os} {$group.os:plural;OS}'}
                 },
                 {
                     header: 'Visits',
