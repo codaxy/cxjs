@@ -1,5 +1,5 @@
 import {Grid, HtmlElement, Select} from "cx/widgets";
-import {Controller, Format} from "cx/ui";
+import {Controller, Format, KeySelection} from "cx/ui";
 import {casual} from "../../casual";
 
 Format.registerFactory('plural', (format, word) => {
@@ -79,6 +79,10 @@ export default (
                   aggregate: 'sum'
                }
             ]}
+            selection={{
+               type: KeySelection,
+               bind: 'sel'
+            }}
          />
       </div>
    </cx>
