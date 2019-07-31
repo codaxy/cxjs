@@ -52,7 +52,11 @@ export const PieCharts = <cx>
                                       text: {
                                           tpl: "Item {$index}: {$record.value:n;2}"
                                       },
-                                      trackMouse: true
+                                      trackMouse: true,
+                                      globalMouseTracking: true,
+                                      destroyDelay: 50,
+                                      createDelay: 0,
+                                      animate: false
                                   }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
@@ -106,7 +110,11 @@ export const PieCharts = <cx>
                                       text: {
                                           tpl: "Item {$index}: {$record.value:n;2}"
                                       },
-                                      trackMouse: true
+                                      trackMouse: true,
+                                      globalMouseTracking: true,
+                                      destroyDelay: 50,
+                                      createDelay: 0,
+                                      animate: false
                                   }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
@@ -131,9 +139,9 @@ export const PieCharts = <cx>
          </div>
          `}</CodeSnippet>
       </CodeSplit>
-      
+
       ## Examples
-      
+
       * [Multi-level](~/examples/charts/pie/multi-level)
 
       ## `PieChart` Configuration
