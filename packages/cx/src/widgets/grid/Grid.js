@@ -1570,7 +1570,6 @@ class GridComponent extends VDOM.Component {
       }
 
       if (index != this.state.cursor) {
-         console.log("SET CURSOR", index);
          newState.cursor = index;
          newState.cellEdit = false;
       }
@@ -1587,7 +1586,6 @@ class GridComponent extends VDOM.Component {
       if (Object.keys(newState).length > 0) {
          let prevState = this.state;
          this.setState(newState, () => {
-            console.log("STATE APPLIED");
             let wasCellEditing = prevState.focused && prevState.cellEdit;
             if (!this.state.cellEdit && wasCellEditing) {
                FocusManager.focus(this.dom.scroller);
