@@ -141,12 +141,14 @@ export class ColumnBarBase extends PureContainer {
    }
 
    handleClick(e, instance) {
-      if (!this.selection.isDummy) {
-         this.selection.selectInstance(instance);
-         e.stopPropagation();
-         e.preventDefault();
-      }
-   }
+    if (!this.selection.isDummy) {
+       this.selection.selectInstance(instance, {
+          toggle: e.ctrlKey
+       });
+       e.stopPropagation();
+       e.preventDefault();
+    }
+ }
 }
 
 ColumnBarBase.prototype.xAxis = 'x';

@@ -17,7 +17,8 @@ interface TreeNodeProps extends Cx.WidgetProps {
 
    /** Base CSS class to be applied to the element. Defaults to 'treenode'. */
    baseClass?: string,
-   hideIcon?: boolean
+   hideIcon?: boolean,
+   hideArrow?: boolean
 }
 
 export class TreeNode extends Cx.Widget<TreeNodeProps> {

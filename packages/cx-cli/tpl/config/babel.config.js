@@ -8,10 +8,11 @@ module.exports = {
                 targets: {
                     chrome: 50,
                     ie: 11,
-                    ff: 30,
+                    firefox: 30,
                     edge: 12,
                     safari: 9
                 },
+                corejs: 3,
                 modules: false,
                 loose: true,
                 useBuiltIns: 'usage',

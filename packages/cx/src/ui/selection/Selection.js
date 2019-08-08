@@ -38,11 +38,11 @@ export class Selection extends Component {
       return this.declareData();
    }
 
-   selectInstance(instance) {
+   selectInstance(instance, options) {
       var {store, data} = instance;
       if (!data.$selection)
          throw new Error('Selection model not properly configured. Using the selectInstance method without specified record and index bindings.');
-      return this.select(store, data.$selection.record, data.$selection.index);
+      return this.select(store, data.$selection.record, data.$selection.index, options);
    }
 
    isInstanceSelected(instance) {

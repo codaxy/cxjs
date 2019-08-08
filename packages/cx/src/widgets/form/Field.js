@@ -29,6 +29,7 @@ export class Field extends PureContainer {
          visited: undefined,
          autoFocus: undefined,
          tabOnEnterKey: undefined,
+         tabIndex: undefined,
          validationParams: {structured: true},
       }, ...arguments);
    }

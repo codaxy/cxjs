@@ -41,6 +41,12 @@ export default {
             A selector used to calculate group's caption.
         </Md></cx>
     },
+    showCaption: {
+        type: 'boolean',
+        description: <cx><Md>
+            Show group caption. Values shown in the caption should be specified in the column definition.
+        </Md></cx>
+    },
     text: {
         type: 'string',
         description: <cx><Md>

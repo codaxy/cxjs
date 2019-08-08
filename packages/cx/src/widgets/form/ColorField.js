@@ -191,6 +191,7 @@ class ColorInput extends VDOM.Component {
             defaultValue={this.trim(data.value || '')}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
             {...data.inputAttrs}
             onInput={e => this.onChange(e, 'input')}

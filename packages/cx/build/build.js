@@ -36,6 +36,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                default:
                   if (externals && externals.indexOf(id) >= 0)
                      return true;
+
                   //console.log('ISEXTERNAL', id);
                   return id.substring(0, 3) == 'cx/';
             }

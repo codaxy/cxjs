@@ -9,7 +9,7 @@
    $mod: map-get($besm, mod);
 
    .#{$block}labelstoplayout {
-      border-spacing: 0;
+      border-spacing: 0 3px;
 
       &.#{$mod}stretch {
          width: 100%;
@@ -52,6 +52,10 @@
       &:last-child {
          padding-right: 0;
       }
+   }
+
+   .#{$mod}fixed {
+      table-layout: fixed;
    }
 }
 

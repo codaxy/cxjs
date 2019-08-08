@@ -193,7 +193,7 @@ describe('ContentPlaceholder', () => {
       );
 
       let tree = component.toJSON();
-      console.log(tree);
+      //console.log(tree);
 
       assert.deepEqual(tree, {
          type: 'div',

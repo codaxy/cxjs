@@ -25,6 +25,7 @@ var contents = [{
         {title: 'Widgets', url: '~/concepts/widgets'},
         {title: 'Data Binding', url: '~/concepts/data-binding'},
         {title: 'Data Views', url: '~/concepts/data-views'},
+        {title: 'Private Store', url: '~/concepts/private-stores'},
         {title: 'Controllers', url: '~/concepts/controllers'},
         {title: 'Inner Layouts', url: '~/concepts/inner-layouts'},
         {title: 'Functional Components', url: '~/concepts/functional-components'},

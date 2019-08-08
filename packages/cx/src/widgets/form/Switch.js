@@ -68,7 +68,7 @@ export class Switch extends Field {
          className={data.classNames}
          style={data.style}
          id={data.id}
-         tabIndex={data.disabled ? null : 0}
+         tabIndex={data.disabled ? null : data.tabIndex || 0}
          onMouseDown={e=>{
             e.stopPropagation();
             if (!this.focusOnMouseDown)

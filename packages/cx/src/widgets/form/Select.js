@@ -165,6 +165,7 @@ class SelectComponent extends VDOM.Component {
             value={data.value == null ? widget.nullString : String(data.value)}
             multiple={multiple}
             disabled={data.disabled}
+            tabIndex={data.tabIndex}
             {...data.inputAttrs}
             onBlur={::this.onBlur}
             onFocus={e => this.onFocus()}

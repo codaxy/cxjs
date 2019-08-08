@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant} from '../../util/DOM';
+import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest} from '../../util/DOM';
 import {KeyCode} from '../../util/KeyCode';
 import {debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
@@ -335,10 +335,16 @@ class MenuItemComponent extends VDOM.Component {
       if (this.state.focusable) {
          let {itemInfo, itemIndex} = this.props;
          let el = itemInfo[itemIndex].el;
-         let focusedEl = getFocusedElement();
-         let focusedChild = FocusManager.focusFirst(el);
-         if (focusedChild !== focusedEl) {
-            debug(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
+         let focusableSubElement = closest(e.target, domEl => domEl === el || isFocusable(domEl));
+         if (focusableSubElement == el) {
+            //the user clicked on an unfocusable branch of elements
+            //lets find a focusable child element and focus it
+            //TODO: explain why is this really needed
+            let focusedEl = getFocusedElement();
+            let focusedChild = FocusManager.focusFirst(el);
+            if (focusedChild !== focusedEl) {
+               debug(menuFlag, 'MenuItem', 'focusChild', focusedChild, focusedEl);
+            }
          }
       }
    }

@@ -26,7 +26,7 @@ export const BreakingChanges = <cx>
 
             - `"babel-core"` => `"@babel/core": "^7.2.2"`,
             - `"babel-preset-env"` => `"@babel/preset-env": "^7.2.3"`
-            - `"babel-polyfill"` => "@babel/polyfill": "^7.2.5"
+            - `"babel-polyfill"` => `"@babel/polyfill": "^7.2.5"`
 
             In `babel.config`, replace `useBuiltIns: true` with `useBuiltIns: 'usage'`.
 

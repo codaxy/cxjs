@@ -1,4 +1,15 @@
 import * as Cx from '../../core';
-import {PureContainer} from "../PureContainer";
 
-export class LabelsTopLayout extends PureContainer {}
+interface LabelsTopLayoutProps extends Cx.StyledContainerProps {
+   vertical?: boolean,
+   columns?: number
+}
+
+export class LabelsTopLayout extends Cx.Widget<LabelsTopLayoutProps> {}
+
+interface LabelsTopLayoutCellProps extends Cx.StyledContainerProps {
+   colSpan?: boolean,
+   rowSpan?: number
+}
+
+export class LabelsTopLayoutCell extends Cx.Widget<LabelsTopLayoutCellProps> {}

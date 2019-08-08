@@ -32,7 +32,7 @@ Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 // In common for DateField and MonthField
 const dateFieldErrorMessages = {
    ...calendarErrorMessages,
-   inputErrorText: 'Data inválida inserida.' 
+   inputErrorText: 'Data inválida inserida.'
 };
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
@@ -41,10 +41,10 @@ Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 
 // NumberField
 Localization.localize(c, 'cx/widgets/NumberField', {
-   maxValueErrorText: 'Digite {0:n} ou menos.',
-   maxExclusiveErrorText: 'Digite um número menor que {0:n}.',
-   minValueErrorText: 'Digite {0:n} ou mais.',
-   minExclusiveErrorText: 'Digite um número maior que {0:n}.',
+   maxValueErrorText: 'Digite {0} ou menos.',
+   maxExclusiveErrorText: 'Digite um número menor que {0}.',
+   minValueErrorText: 'Digite {0} ou mais.',
+   minExclusiveErrorText: 'Digite um número maior que {0}.',
    inputErrorText: 'Número inválido digitado.'
 });
 

@@ -78,9 +78,7 @@ export default (
                     <div
                       style={
                         {
-                          width: {
-                            tpl: "{[{$record.sales}/{$group.maxSales}]:p;2}"
-                          },
+                          width: { tpl: "{[{$record.sales}/{$group.maxSales}]:p;2}" } as any,
                           height: "10px",
                           background: "rgba(52, 105, 173, 0.64)"
                         }

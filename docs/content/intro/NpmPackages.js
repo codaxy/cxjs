@@ -90,9 +90,9 @@ export const NpmPackages = <cx>
         <table class="dxb-table">
             <tbody>
             <tr>
-                <th><a href="https://www.npmjs.com/package/cx-theme-frost">cx-theme-frost</a></th>
-                <td>Frost theme.</td>
-            </tr>
+                <th><a href="https://www.npmjs.com/package/cx-theme-aquamarine">cx-theme-aquamarine</a></th>
+                <td>Aquamarine theme.</td>
+            </tr>            
             <tr>
                 <th><a href="https://www.npmjs.com/package/cx-theme-dark">cx-theme-dark</a></th>
                 <td>Dark theme.</td>
@@ -102,8 +102,8 @@ export const NpmPackages = <cx>
                 <td>Material theme.</td>
             </tr>
             <tr>
-                <th><a href="https://www.npmjs.com/package/cx-theme-marine">cx-theme-marine</a></th>
-                <td>Material theme.</td>
+                <th><a href="https://www.npmjs.com/package/cx-theme-frost">cx-theme-frost</a></th>
+                <td>Frost theme.</td>
             </tr>
             </tbody>
         </table>

@@ -14,6 +14,7 @@ import {isDefined} from '../../util/isDefined';
 
 import {enableCultureSensitiveFormatting} from "../../ui/Format";
 import {KeyCode} from "../../util/KeyCode";
+
 enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {
@@ -42,7 +43,7 @@ export class NumberField extends Field {
    init() {
       if (isDefined(this.step))
          this.increment = this.step;
-         
+
       if (isDefined(this.hideClear))
          this.showClear = !this.hideClear;
 
@@ -65,7 +66,7 @@ export class NumberField extends Field {
    formatValue(context, {data}) {
       return data.formatted;
    }
-   
+
    validate(context, instance) {
       super.validate(context, instance);
 
@@ -73,16 +74,16 @@ export class NumberField extends Field {
       if (isNumber(data.value) && !data.error) {
          if (isNumber(data.minValue)) {
             if (data.value < data.minValue)
-               data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minValueErrorText, Format.value(data.minValue, data.format));
             else if (data.value == data.minValue && data.minExclusive)
-               data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+               data.error = StringTemplate.format(this.minExclusiveErrorText, Format.value(data.minValue, data.format));
          }
 
          if (isNumber(data.maxValue)) {
             if (data.value > data.maxValue)
-               data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxValueErrorText, Format.value(data.maxValue, data.format));
             else if (data.value == data.maxValue && data.maxExclusive)
-               data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
+               data.error = StringTemplate.format(this.maxExclusiveErrorText, Format.value(data.maxValue, data.format));
          }
       }
    }
@@ -109,10 +110,10 @@ NumberField.prototype.reactOn = "enter blur";
 NumberField.prototype.format = 'n';
 NumberField.prototype.inputType = 'text';
 
-NumberField.prototype.maxValueErrorText = 'Enter {0:n} or less.';
-NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0:n}.';
-NumberField.prototype.minValueErrorText = 'Enter {0:n} or more.';
-NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0:n}.';
+NumberField.prototype.maxValueErrorText = 'Enter {0} or less.';
+NumberField.prototype.maxExclusiveErrorText = 'Enter a number less than {0}.';
+NumberField.prototype.minValueErrorText = 'Enter {0} or more.';
+NumberField.prototype.minExclusiveErrorText = 'Enter a number greater than {0}.';
 NumberField.prototype.inputErrorText = 'Invalid number entered.';
 NumberField.prototype.suppressErrorsUntilVisited = true;
 
@@ -143,20 +144,20 @@ class Input extends VDOM.Component {
       let {CSS, baseClass, suppressErrorsUntilVisited} = widget;
 
       let icon = data.icon && (
-            <div className={CSS.element(baseClass, 'left-icon')}>
-               {
-                  Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
-               }
-            </div>
-         );
+         <div className={CSS.element(baseClass, 'left-icon')}>
+            {
+               Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
+            }
+         </div>
+      );
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
          if (widget.showClear && (((widget.alwaysShowClear || !data.required) && data.value != null) || instance.state.inputError))
             insideButton = (
                <div className={CSS.element(baseClass, 'clear')}
-                  onMouseDown={ e => e.preventDefault() }
-                  onClick={ e => this.onClearClick(e) }
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={e => this.onClearClick(e)}
                >
                   <ClearIcon className={CSS.element(baseClass, 'icon')}/>
                </div>
@@ -176,7 +177,8 @@ class Input extends VDOM.Component {
          style={data.style}
          onMouseDown={stopPropagation}
          onTouchStart={stopPropagation}>
-         <input id={data.id}
+         <input
+            id={data.id}
             type={widget.inputType}
             className={CSS.element(baseClass, "input")}
             defaultValue={data.formatted}
@@ -186,17 +188,18 @@ class Input extends VDOM.Component {
             style={data.inputStyle}
             disabled={data.disabled}
             readOnly={data.readOnly}
+            tabIndex={data.tabIndex}
             placeholder={data.placeholder}
             {...data.inputAttrs}
             onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
             onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
-            onChange={ e => this.onChange(e, 'change') }
+            onChange={e => this.onChange(e, 'change')}
             onKeyDown={::this.onKeyDown}
-            onBlur={ e => {
+            onBlur={e => {
                this.onChange(e, 'blur')
             }}
-            onFocus={ e => this.onFocus() }
-            onWheel={ e => {
+            onFocus={e => this.onFocus()}
+            onWheel={e => {
                this.onChange(e, 'wheel')
             }}
             onClick={stopPropagation}
@@ -315,7 +318,7 @@ class Input extends VDOM.Component {
          return;
 
       if (change == 'blur' || change == 'enter')
-         instance.setState({ visited: true });
+         instance.setState({visited: true});
 
       if (change == 'blur') {
          if (this.state.focus)
@@ -399,7 +402,7 @@ class Input extends VDOM.Component {
       });
    }
 
-   onFocus(){
+   onFocus() {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.trackFocus) {

@@ -3,12 +3,16 @@ import {Store} from '../data/Store';
 import {Cx} from './Cx';
 import {isString} from "../util/isString";
 import {VDOM} from "./VDOM";
+import {isFunction} from "../util/isFunction";
+import {isObject} from "../util/isObject";
+import {isUndefined} from "../util/isUndefined";
+import {Binding} from "../data/Binding";
+import {StructuredSelector} from "../data/StructuredSelector";
 
 export class Restate extends PureContainer {
 
    declareData() {
       return super.declareData(...arguments, {
-         data: {structured: true},
          deferredUntilIdle: undefined,
          idleTimeout: undefined
       })
@@ -24,6 +28,10 @@ export class Restate extends PureContainer {
          useParentLayout: this.useParentLayout,
          ws: this.ws
       });
+      this.privateDataSelector = new StructuredSelector({
+         props: this.data || {},
+         values: this.data
+      });
       delete this.items;
       delete this.children;
       delete this.controller;
@@ -34,15 +42,29 @@ export class Restate extends PureContainer {
    }
 
    initInstance(context, instance) {
-      let bindings = {};
-      for (let key in this.data)
-         if (this.data[key] && isString(this.data[key].bind))
-            bindings[key] = this.data[key].bind;
-
+      this.privateDataSelector.init(instance.store);
       instance.subStore = new RestateStore({
          store: instance.store,
-         bindings,
-         detached: this.detached
+         detached: this.detached,
+         privateData: this.data || {},
+         dataSelector: this.privateDataSelector.create(),
+         onSet: (path, value) => {
+            let config = this.data[path];
+            if (!config || (!config.bind && !config.set))
+               throw new Error(`Cannot change ${path} in Restate as it's read-only. It's not a binding and it doesn't have a set function either.`);
+
+            if (config.bind)
+               return isUndefined(value) ? instance.store.deleteItem(config.bind) : instance.store.setItem(config.bind, value);
+
+            if (isString(config.set))
+               instance.getControllerMethod(config.set)(value, instance);
+            else if (isFunction(config.set))
+               config.set(value, instance);
+            else
+               throw new Error(`Cannot set value for ${path} in Restate as the setter is neither a function or a controller method.`);
+
+            return true;
+         }
       });
 
       instance.setStore = store => {
@@ -52,17 +74,13 @@ export class Restate extends PureContainer {
    }
 
    explore(context, instance) {
+      if (instance.subStore.parentDataCheck())
+         instance.markShouldUpdate();
       if (!this.detached) {
          instance.container = instance.getChild(context, this.container, "container", instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
       }
       super.explore(context, instance);
-   }
-
-   prepareData(context, instance) {
-      let {data, subStore} = instance;
-      subStore.setParentData(data.data);
-      super.prepareData(context, instance);
    }
 
    render(context, instance, key) {
@@ -90,44 +108,51 @@ class RestateStore extends Store {
 
    constructor(config) {
       super(config);
-      this.parentData = {};
+      this.parentDataVersion = -1;
+      this.parentDataCheck();
    }
 
-   setParentData(data) {
-      let changed = this.silently(() => {
-         for (let key in data) {
-            super.setItem(key, data[key]);
+   parentDataCheck() {
+      if (this.parentDataVersion == this.store.meta.version)
+         return false;
+      this.parentDataVersion = this.store.meta.version;
+      this.parentData = this.dataSelector(this.store.getData());
+      return this.batch(() => {
+         for (let key in this.parentData) {
+            super.setItem(key, this.parentData[key]);
          }
       });
-
-      this.parentData = data;
-
-      if (changed && this.detached)
-         this.notify();
    }
 
-   doNotify(path) {
-      super.doNotify(path);
-
-      let changed = this.store.batch(() => {
-         let data = this.getData();
-         for (let key in this.bindings) {
-            let value = data[key];
-
-            //Only values that have actually changed in the RestateStore are propagated to the parent store
-            // to avoid race conditions that can happen due to async functions keeping the reference of the
-            // restate store of an invisible widget
-            if (value !== this.parentData[key]) {
-               if (value === undefined)
-                  this.store.delete(this.bindings[key]);
-               else
-                  this.store.set(this.bindings[key], value);
-            }
-         }
+   setItem(path, value) {
+      let binding = Binding.get(path);
+      let bindingRoot = binding.parts[0];
+      if (!isObject(this.privateData) || !this.privateData.hasOwnProperty(bindingRoot)) {
+         let changed = isUndefined(value)
+            ? super.deleteItem(path)
+            : super.setItem(path, value);
+         return changed;
+      }
+      let newValue = value;
+      if (binding.parts.length > 1)
+         newValue = binding.set(this.getData(), value)[bindingRoot];
+      this.onSet(bindingRoot, newValue);
+      this.batch(() => {
+         super.setItem(bindingRoot, newValue);
+         this.parentDataCheck();
       });
+      return true;
+   }
 
-      //in non-detached mode the parent store triggers a new render cycle
-      if (!this.detached && !changed)
+   deleteItem(path) {
+      return this.setItem(path, undefined);
+   }
+
+   doNotify() {
+      if (!this.detached)
          this.store.notify();
+      super.doNotify();
    }
 }
+
+export class PrivateStore extends Restate {};

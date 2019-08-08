@@ -156,7 +156,7 @@ class CheckboxCmp extends VDOM.Component {
 
       return <span
          key="check"
-         tabIndex={widget.unfocusable || data.disabled ? null : 0}
+         tabIndex={widget.unfocusable || data.disabled ? null : data.tabIndex || 0}
          className={CSS.element(baseClass, "input", {
             checked: check
          })}

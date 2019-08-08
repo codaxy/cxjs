@@ -2,7 +2,7 @@ import {reverseSlice} from "../util/reverseSlice";
 
 let instanceId = 1000;
 import {Controller} from './Controller';
-import {debug, prepareFlag, renderFlag, processDataFlag, cleanupFlag, shouldUpdateFlag, destroyFlag} from '../util/Debug';
+import {debug, renderFlag, processDataFlag, destroyFlag} from '../util/Debug';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {throttle} from '../util/throttle';
 import {debounce} from '../util/debounce';

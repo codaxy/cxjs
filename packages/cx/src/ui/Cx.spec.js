@@ -4,6 +4,7 @@ import {Container} from "./Container";
 import {Store} from '../data/Store';
 import renderer from 'react-test-renderer';
 import assert from 'assert';
+import {HtmlElement} from "../widgets/HtmlElement";
 
 describe('Cx', () => {
 

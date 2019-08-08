@@ -1,15 +1,15 @@
 import {Ref} from "./Ref";
 
 export class ArrayRef<T = any> extends Ref<T[]> {
-   append(...args);
+   append(...args: T[]);
 
-   insert(index, ...args);
+   insert(index, ...args: T[]);
 
-   filter(predicate);
+   filter(predicate: (item: T, index?: number) => boolean);
 
-   move(fromIndex, toIndex);
+   move(fromIndex: number, toIndex: number);
 
    clear();
 
-   sort(compare);
+   sort(compare: (a: T, b: T) => number);
 }

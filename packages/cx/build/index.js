@@ -74,7 +74,6 @@ const externalPaths = {
    console.log("Building cx...");
    await build(resolvePath('../src'), resolvePath('../dist'), entries, externalPaths);
 
-
    console.log("Building cx-redux...");
    await build(
       resolvePath('../../cx-redux/src'),
@@ -86,7 +85,7 @@ const externalPaths = {
          },
          output: {}
       }],
-      {},
+      null,
       ['redux', 'cx/data']
    );
 
@@ -133,7 +132,7 @@ const externalPaths = {
             },
             output: {}
          }],
-         {},
+         null,
          ['cx/ui', 'cx/widgets']
       )
    }
