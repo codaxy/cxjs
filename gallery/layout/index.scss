@@ -213,3 +213,18 @@ $small-device-width: 800px;
        }
     }
  }
+
+ .theme-material-dark {
+   .aside {
+      background: rgba(255, 255, 255, .07);
+      
+      // .cxb-link.cxs-active {
+      //    color: #dce4f8;
+      // }
+   }
+
+   .header {
+      // background-color: #121212;
+      background: rgba(117, 68, 103, .2);
+   }
+}

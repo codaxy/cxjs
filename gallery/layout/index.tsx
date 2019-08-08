@@ -56,6 +56,12 @@ export default <cx>
                                 loadTheme("aquamarine");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
+
+                            case "material-dark":
+                            return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
+                                loadTheme("material-dark");
+                                return <cx><ContentPlaceholder/></cx>;
+                            });
                     }
                 }}
             />
@@ -102,6 +108,7 @@ export default <cx>
                                     <Menu putInto="dropdown">
                                         <Link href={tpl("~/aquamarine{$route.remainder}")}>Aquamarine</Link>
                                         <Link href={tpl("~/material{$route.remainder}")}>Material</Link>
+                                        <Link href={tpl("~/material-dark{$route.remainder}")}>Material Dark</Link>
                                         <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
                                         <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
                                         <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>

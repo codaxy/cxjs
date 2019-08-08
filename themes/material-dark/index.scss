@@ -1,0 +1,8 @@
+
+$cx-include-global-rules: true;
+
+// @import "~cx-theme-material/src/variables";
+// @import "~cx-theme-material/src/index";
+@import "../../packages/cx-theme-material-dark/src/variables.scss";
+@import "../../packages/cx-theme-material-dark/src/index.js";
+@import "../shared/index";
