@@ -215,16 +215,52 @@ $small-device-width: 800px;
  }
 
  .theme-material-dark {
+   .header {
+      background: rgba(117, 68, 103, .2);
+
+      a {
+         color: #03dac4;
+         font-weight: 500;
+      }
+   
+      .tabs {
+         min-height: 3rem;
+         margin-top: 1rem;
+         color: rgba(white, .87);
+   
+   
+         .cxb-tab.cxm-line {
+            color: rgba(white, 0.87);
+
+            &:hover {
+               border-color:rgba(white, .16);
+            }
+   
+            &.cxs-active {
+               border-color: #cfabfd;
+               color: rgba(white, 0.87);
+            }
+         }
+      }
+   
+      h2 {
+         color: rgba(white, 0.87);
+      }
+   }
+
    .aside {
       background: rgba(255, 255, 255, .07);
       
-      // .cxb-link.cxs-active {
-      //    color: #dce4f8;
-      // }
-   }
+      .cxb-link.cxs-active {
+         color: #bb86fc;
+      }
 
-   .header {
-      // background-color: #121212;
-      background: rgba(117, 68, 103, .2);
+      dt {
+         font-weight: 500;
+      }
+
+      dd {
+         color: rgba(#fff, 0.6);
+      }
    }
 }

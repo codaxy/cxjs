@@ -15,12 +15,13 @@ $mod: map-get($cx-besm, mod);
    @for $i from 1 through 6 {
       .#{$element}section-header h#{$i} {
          .#{$mod}card & {
-            // color: $cx-theme-primary-color-light;
+          color: $cx-default-color;
          }
          .#{$mod}primary &,
          .#{$mod}error &,
-         .#{$mod}success & {
-            color: #fff;
+         .#{$mod}success &,
+         .#{$mod}warning & {
+            color: #000000;
          }
       }
    }
@@ -114,6 +115,9 @@ $form-list: (
 @if (cx-included('cx/widgets/LookupField')) {
    .#{$block}lookupfield {
       max-height: none;
+   }
+   .#{$element}lookupfield-tag-clear {
+      color: $cx-default-color-dark
    }
 }
 
@@ -237,10 +241,17 @@ $form-list: (
    .#{$block}calendar {
       .#{$element}calendar-day-names {
          background-color: $cx-theme-primary-color;
-         color: #fff;
+         color: #000000;
+      }
+
+      &.#{$state}disabled {
+         background-color: #121212;    
+         pointer-events: none;
+         opacity: .6;
       }
    }
 }
+
 
 @if (cx-included('cx/widgets/Checkbox')) {
    .#{$element}checkbox-input {
@@ -313,11 +324,12 @@ $form-list: (
       input {
          line-height: $cx-default-box-line-height - 8px;
          box-shadow: none;
-         background-color: #fff;
+         background-color: #323232;
          border-width: 0 0 1px;
-         border-color: darken($cx-default-input-border-color, 5);
+         border-color: #414141;
          border-radius: 0;
-         padding: 2px 6px;
+         color: $cx-medium-emphasis;
+         padding: 2px 4px;
 
          &:focus {
             box-shadow: none;
@@ -336,7 +348,7 @@ $form-list: (
          position: absolute;
          left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
          bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-         background-color: rgba(black, 0.05);
+         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
@@ -358,8 +370,8 @@ $form-list: (
    }
 
    .#{$element}slider-handle[style*="left: 0%;"] {
-      background-color: #fff;
-      border-color: rgba(0, 0, 0, 0.26);
+      background-color: #8a8a8a;
+      border-color: rgba(0, 0, 0, 0.16);
 
       &:focus:after {
          background-color: rgba(0, 0, 0, 0.05);
@@ -647,10 +659,18 @@ $form-list: (
 }
 
 //LIST
+.#{$block}list {
+   color: $cx-default-color
+}
+
 .#{$block}list.#{$state}selectable {
    > .#{$element}list-item {
       border-width: 1px;
-      border-color: transparent transparent rgba(0, 0, 0, 0.09);
+      border-color: transparent transparent rgba(255, 255, 255, 0.09);
+   }
+
+   &.#{$mod}bordered {
+         border-color: #414141;
    }
 
    &.#{$mod}dropdown > .#{$element}list-item {
