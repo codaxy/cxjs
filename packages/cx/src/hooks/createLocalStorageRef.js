@@ -1,7 +1,7 @@
 import {useStore} from "./store";
 import {Ref} from "../data/Ref";
 
-export function useLocalStorage(key) {
+export function createLoacalStorageRef(key) {
    let store = useStore();
 
    return new Ref({
