@@ -1,6 +1,7 @@
-import {useStore} from "cx/hooks";
-import {TextField} from "cx/widgets";
-import {Ref} from "cx/data";
+import { useStore } from "cx/hooks";
+import { TextField } from "cx/widgets";
+import { Ref } from "cx/data";
+import { createFunctionalComponent } from "cx/ui";
 
 function useLocalStorage(key) {
    let store = useStore();
@@ -8,14 +9,14 @@ function useLocalStorage(key) {
    return new Ref({
       get() {
          let json = localStorage.getItem(key);
-         if (!json)
+         if (!json) 
             return localStorage.hasOwnProperty(key) ? null : undefined;
          return JSON.parse(json);
       },
       set(value) {
-         if (value === undefined)
+         if (value === undefined) 
             localStorage.removeItem(key);
-         else
+         else 
             localStorage.setItem(key, JSON.stringify(value));
          store.meta.version++;
          store.notify();
@@ -23,13 +24,21 @@ function useLocalStorage(key) {
    })
 }
 
-const View = () => <cx>
-   <div>
-      <TextField value={useLocalStorage("test")} />
-      <TextField value={useLocalStorage("test")} />
-   </div>
-</cx>
+const View = createFunctionalComponent(() => {
+   let ref = useLocalStorage("test");
 
-export default <cx>
-   <View/>
-</cx>
+   return (
+      <cx>
+         <div>
+            <TextField value={ref} />
+            <TextField value={ref} />
+         </div>
+      </cx>
+   );
+});
+
+export default (
+   <cx>
+      <View />
+   </cx>
+)

@@ -1,12 +1,23 @@
-import {Record} from '../core'
-import {Binding} from './Binding';
-import {Ref} from "./Ref";
+import { Record } from '../core'
+import { Binding } from './Binding';
+import { Ref } from "./Ref";
 
 declare type Path = string | Binding;
 
 interface ViewConfig {
    store?: View,
    sealed?: boolean
+}
+
+export interface StoreMethods {
+   getData(): Record,
+   set(path: Path | Record, value?: any): boolean,
+   get(...paths: Path[]): any,
+   update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean,
+   delete(...paths: Path[]): boolean,
+   toggle(path: Path): boolean,
+   init(path: Path, value: any): boolean,
+   ref<T = any>(path: string, defaultValue?: T): Ref<T>
 }
 
 export class View {
@@ -77,7 +88,7 @@ export class View {
 
    dispatch(action);
 
-   getMethods();
+   getMethods(): StoreMethods;
 
    ref<T = any>(path: string, defaultValue?: T): Ref<T>;
 }
