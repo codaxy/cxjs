@@ -1,3 +1,3 @@
-import { Ref } from "inferno/core/VNodes";
+import { Ref } from "../data";
 
-export function createLoacalStorageRef(key: string): Ref<any>; 
+export function createLoacalStorageRef(key: string): Ref<any>;
