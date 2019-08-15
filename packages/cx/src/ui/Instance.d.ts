@@ -29,14 +29,14 @@ export class Instance {
 
    setState(state: Cx.Record): void;
 
-   set(prop: string, value: any);
+   set(prop: string, value: any, internal?: boolean);
 
    definePropertySetter(prop: string, setter: (value: any) => void) : boolean;
 
    /**
     * @protected
-    * @param prop 
-    * @param value 
+    * @param prop
+    * @param value
     * @returns {boolean}
     */
    protected doSet(prop: string, value: any) : boolean;

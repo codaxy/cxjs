@@ -383,7 +383,14 @@ export class Instance {
       });
    }
 
-   set(prop, value) {
+   set(prop, value, internal = false) {
+
+      //skip re-rendering (used for reading state from uncontrolled components)
+      if (internal && this.rawData) {
+         this.rawData[prop] = value;
+         this.data[prop] = value;
+      }
+
       let setter = this.setters && this.setters[prop];
       if (setter) {
          setter(value);
@@ -394,13 +401,13 @@ export class Instance {
       if (p && typeof p == 'object') {
          if (p.debounce) {
             this.definePropertySetter(prop, debounce(value => this.doSet(prop, value), p.debounce));
-            this.set(prop, value);
+            this.set(prop, value, internal);
             return true;
          }
 
          if (p.throttle) {
             this.definePropertySetter(prop, throttle(value => this.doSet(prop, value), p.throttle));
-            this.set(prop, value);
+            this.set(prop, value, internal);
             return true;
          }
       }
@@ -408,7 +415,7 @@ export class Instance {
       return this.doSet(prop, value);
    }
 
-   definePropertySetter(prop, setter) {
+   definePropertySetter(prop, setter, internal) {
       if (!this.setters)
          this.setters = {};
       this.setters[prop] = setter;
