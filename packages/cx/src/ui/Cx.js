@@ -167,6 +167,7 @@ export class Cx extends VDOM.Component {
    }
 }
 
+let currentInstance = null;
 
 class CxContext extends VDOM.Component {
 

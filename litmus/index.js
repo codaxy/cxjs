@@ -66,7 +66,12 @@ import './index.scss';
 //import Demo from "./bugs/530";
 //import Demo from "./features/restate/DeferredUpdates";
 //import Demo from "./features/layout/ComplexLabelsTopLayout";
-import Demo from "./features/grid/GroupingCaptions";
+//import Demo from "./features/grid/GroupingCaptions";
+//import Demo from "./bugs/519";
+//import Demo from "./features/restate/DeferredUpdates";
+//import Demo from "./features/hooks/Clock";
+//import Demo from "./features/hooks/complex";
+import Demo from "./features/hooks/localStorage";
 
 
 let store = new Store();
@@ -76,7 +81,7 @@ Widget.resetCounter();
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
 Timing.enable('app-loop');
-//Debug.enable("app-data");
+Debug.enable("app-data");
 
 History.connect(store, "url")
 

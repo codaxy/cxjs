@@ -1,7 +1,7 @@
 import {Binding} from './Binding';
 import {isArray} from '../util/isArray';
 import {isDefined} from "../util/isDefined";
-import {Ref} from "./Ref";
+import {StoreRef} from "./StoreRef";
 
 export class View {
 
@@ -176,7 +176,7 @@ export class View {
    ref(path, defaultValue) {
       if (isDefined(defaultValue))
          this.init(path, defaultValue);
-      return Ref.create({
+      return StoreRef.create({
          store: this,
          path
       });

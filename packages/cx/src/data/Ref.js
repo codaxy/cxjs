@@ -5,31 +5,10 @@ export class Ref extends Component {
    constructor(config) {
       super(config);
       this.get = ::this.get;
-      this.set = ::this.set;
    }
 
    get() {
-      return this.store.get(this.path);
-   }
-
-   set(value) {
-      return this.store.set(this.path, value);
-   }
-
-   init(value) {
-      return this.store.init(this.path, value);
-   }
-
-   toggle() {
-      return this.store.toggle(this.path);
-   }
-
-   delete() {
-      return this.store.delete(this.path);
-   }
-
-   update(...args) {
-      return this.store.update(this.path, ...args);
+      throw new Error("Not implemented");
    }
 
    as(config) {
