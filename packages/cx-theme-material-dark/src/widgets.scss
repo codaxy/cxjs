@@ -43,11 +43,11 @@ $mod: map-get($cx-besm, mod);
       @extend .cxm-card;
    }
 
-   .cxm-cover {
-      background-color: rgba(255, 255, 255, .03);
-      border-width: 0 2px 2px 2px;
-      border-color: #cfabfd;
-   }
+   // .cxm-cover {
+   //    background-color: rgba(255, 255, 255, .03);
+   //    border-width: 0 2px 2px 2px;
+   //    // border-color: #cfabfd;
+   // }
 }
 
 //BUTTON
@@ -70,46 +70,54 @@ $form-list: (
    TextField NumberField LookupField DateTimeField MonthField ColorField Select
 );
 
-@each $field in $form-list {
-   @if (cx-included('cx/widgets/#{$field}')) {
+// @if (cx-included('cx/widgets/TextField')) {
+//    .#{$block}textfield {
+//       .#{$element}textfield-input {
+//          padding: 5px 7.5px;
+//       }
+//    }
+// }
 
-      .#{$block}#{to-lower-case($field)} {
-         position: relative;
+// @each $field in $form-list {
+   // @if (cx-included('cx/widgets/#{$field}')) {
 
-         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+//       .#{$block}#{to-lower-case($field)} {
+//          position: relative;
 
-         // disables parent input div height to grow bigger then input in FlexRow
-         max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+//          -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-         // standard field focus effect
-         &:after {
-            display: block;
-            content: '';
-            height: 2px;
-            width: 100%;
-            background-color: $cx-theme-primary-color;
-            transform: scaleX(0);
-            transition: 0s;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-         }
+//          // disables parent input div height to grow bigger then input in FlexRow
+//          max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
 
-         &.#{$state}focus {
-            &:after {
-               transform: scaleX(1);
-               transition: transform 0.3s ease-out;
-            }
-            &.#{$state}error {
-               &:after {
-                  transform: scaleX(1);
-                  background-color: $cx-theme-danger-color;
-               }
-            }
-         }
-      }
-   }
-}
+//          // standard field focus effect
+//          &:after {
+//             display: block;
+//             content: '';
+//             height: 2px;
+//             width: 100%;
+//             background-color: $cx-theme-primary-color;
+//             transform: scaleX(0);
+//             transition: 0s;
+//             position: absolute;
+//             bottom: 0;
+//             left: 0;
+//          }
+
+//          &.#{$state}focus {
+//             &:after {
+//                transform: scaleX(1);
+//                transition: transform 0.3s ease-out;
+//             }
+//             &.#{$state}error {
+//                &:after {
+//                   transform: scaleX(1);
+//                   background-color: $cx-theme-danger-color;
+//                }
+//             }
+//          }
+//       }
+//    }
+// }
 
 // lookupfield
 @if (cx-included('cx/widgets/LookupField')) {
@@ -130,9 +138,13 @@ $form-list: (
 
 @if (cx-included('cx/widgets/Select')) {
    // select
-   .cxb-select option {
+   .#{$block}select option {
       color: $cx-default-color;
       background-color: rgba(0, 0, 0, 0.03);
+
+      &:hover {
+         background-color: $cx-theme-primary-color;
+      }
    }
 }
 
@@ -254,6 +266,13 @@ $form-list: (
 
 
 @if (cx-included('cx/widgets/Checkbox')) {
+   .#{$element}checkbox-checkbox  {
+         &:focus {
+            box-shadow: inset 0 0 1px 1px rgba($cx-theme-primary-color, 0.8), 0 0 2px 2px rgba($cx-theme-primary-color, 0.8);
+            background: rgba($cx-theme-primary-color, 0.8);
+         }
+   }
+   
    .#{$element}checkbox-input {
       &:after {
          content: '';
@@ -281,6 +300,13 @@ $form-list: (
 }
 
 @if (cx-included('cx/widgets/Radio')) {
+
+   .#{$element}radio-radio {
+      &:focus {
+         box-shadow: 0 0 2px 2px rgba($cx-theme-primary-color, .5)
+      }
+   }
+
    // radio focus effect
    .#{$element}radio-input {
       border-width: 2px;
@@ -294,16 +320,16 @@ $form-list: (
          position: absolute;
          left: calc(50% - #{$cx-default-radio-size});
          bottom: calc(50% - #{$cx-default-radio-size});
-         background-color: rgba(black, 0.05);
+         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
          transition: transform 0.2s ease-in-out;
       }
 
-      &:hover {
-         border-color: darken(#dbdbdb, 10);
-      }
+      // &:hover {
+      //    border-color: darken(#dbdbdb, 10);
+      // }
 
       &.#{$state}checked {
          &:after {
@@ -337,6 +363,27 @@ $form-list: (
       }
    }
 }
+
+// Monthpicker 
+@if (cx-included('cx/widgets/MonthPicker')) {
+   .#{$block}monthpicker {
+      
+      .#{$element}monthpicker-year {
+         color: $cx-medium-emphasis;
+      }
+
+      td.#{$state}selected {
+         border-color: $cx-theme-accent-color;
+      }
+
+      &.#{$state}disabled {
+         background-color: transparent;
+         border-color: #636363;
+         color: $cx-disabled-text;
+      } 
+   } 
+}
+
 
 @if (cx-included('cx/widgets/Slider')) {
    // slider focus effect
@@ -411,8 +458,35 @@ $form-list: (
    }
 }
 
+
 @if (cx-included('cx/widgets/Tab')) {
    //TAB
+   // .#{$block}tab {
+   //    position: relative;
+   //       &:after {
+   //          display: block;
+   //          content: '';
+   //          height: 2px;
+   //          z-index: 10;
+   //          width: 100%;
+   //          background-color: $cx-theme-primary-color;
+   //          transform: scaleX(0);
+   //          left: 0;
+   //          transition: 0s;
+   //          position: absolute;
+   //          bottom: 0;
+         
+   //       }
+
+   //       &:focus {
+   //          &:after { 
+   //             left: 0;
+   //             transform: scaleX(1);
+   //             transition: transform .3s ease-out;
+   //          }
+   //       }
+   // }
+
    div.#{$block}classic-tab-container {
       background-color: $cx-theme-primary-color;
       // box-shadow: $cx-theme-box-shadow;
@@ -456,7 +530,6 @@ $form-list: (
    //WINDOW
    // window animation
    .#{$block}window {
-
       //transition: opacity .2s, transform .2s;
 
       &.#{$state}animate {
@@ -466,7 +539,6 @@ $form-list: (
    }
 
    .#{$element}window-shadow {
-
       &.#{$state}animate {
          opacity: 0;
          transition: opacity .2s;
@@ -476,6 +548,11 @@ $form-list: (
          opacity: 1;
       }
    }
+}
+
+//Modal window background
+%cxe-overlay-shadow {
+   background: rgba(128, 128, 128, 0.25);
 }
 
 //PROGRESSBAR
@@ -491,46 +568,46 @@ $form-list: (
 }
 
 //MENU
-.#{$block}menu {
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
+// .#{$block}menu {
+//    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+// }
 
 // menu focus animation
-.#{$block}menuitem {
-   &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.1);
-      opacity: 1;
-      border-radius: $cx-default-border-radius;
-      pointer-events: none;
-      transform: scaleX(0);
-      transform-origin: left;
-   }
-}
+// .#{$block}menuitem {
+//    &:before {
+//       content: '';
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100%;
+//       background-color: rgba(255, 255, 255, 0.1);
+//       opacity: 1;
+//       border-radius: $cx-default-border-radius;
+//       pointer-events: none;
+//       transform: scaleX(0);
+//       transform-origin: left;
+//    }
+// }
 
-.#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
-   background-color: transparent;
+// .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
+//    // background-color: transparent;
 
-   &:before {
-      transform: scaleX(1);
-      transition: transform 0.25s;
-      background-color: rgba(0, 0, 0, 0.1);
-   }
-}
+//    &:before {
+//       transform: scaleX(1);
+//       transition: transform 0.25s;
+//       background-color: rgba(0, 0, 0, 0.1);
+//    }
+// }
 
-.#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
-   // there wasn't any effect on menu hover with bg set to transparent
-   //background-color: transparent;
-}
+// .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
+//    // there wasn't any effect on menu hover with bg set to transparent
+//    //background-color: transparent;
+// }
 
-.#{$block}menu .#{$element}menu-item > hr {
-   margin: $cx-default-padding-medium 0;
-}
+// .#{$block}menu .#{$element}menu-item > hr {
+//    margin: $cx-default-padding-medium 0;
+// }
 
 //GRID
 .#{$block}grid.#{$state}scrollable {
@@ -546,18 +623,18 @@ $form-list: (
 
 .#{$element}grid-fixed-header {
    // shadow added to fixed header
-   box-shadow: $cx-default-grid-header-box-shadow;
+   // box-shadow: $cx-default-grid-header-box-shadow;
 
-   .#{$element}grid-col-header {
-      border-color: #fff;
-   }
+   // .#{$element}grid-col-header {
+   //    border-color: #fff;
+   // }
 
-   .#{$state}sorted-asc, .#{$state}sorted-desc {
-      border-color: darken($cx-default-grid-header-background-color, 2);
-      &:hover {
-         border-color: darken($cx-default-grid-header-background-color, 3);
-      }
-   }
+   // .#{$state}sorted-asc, .#{$state}sorted-desc {
+   //    border-color: darken($cx-default-grid-header-background-color, 2);
+   //    &:hover {
+   //       border-color: darken($cx-default-grid-header-background-color, 3);
+   //    }
+   // }
 }
 
 .#{$element}grid-header {
@@ -596,7 +673,7 @@ $form-list: (
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
 
    td {
-      color: $cx-theme-primary-color;
+      color: #f4ebfe;
       line-height: $cx-default-grid-data-line-height;
       border-top: 1px solid $cx-default-grid-data-border-color;
       font-weight: 500;
@@ -613,16 +690,19 @@ $form-list: (
 .#{$element}grid-group-caption {
 
    td {
-      background-color: rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid $cx-default-grid-data-border-color;
+      // background-color: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid #636363;
+      color: #e2cdfd;
    }
 
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            border-bottom: 1px solid $cx-default-grid-data-border-color;
-            font-weight: 600;
-            background-color: darken(#f7f7f7, $i);
+            border-bottom: 1px solid #8a8a8a;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #cfabfd;
+            // background-color: darken(#f7f7f7, $i);
          }
       }
    }
@@ -634,6 +714,7 @@ $form-list: (
          td {
             border-width: 1px 0;
             border-color: $cx-default-grid-data-border-color;
+            color: #f4ebfe;
          }
       }
    }
@@ -653,10 +734,10 @@ $form-list: (
 }
 
 // grid shadow mod
-.#{$block}grid.#{$mod}shadow {
-   // box-shadow: $cx-theme-box-shadow;
-   border-width: 0 !important;
-}
+// .#{$block}grid.#{$mod}shadow {
+//    // box-shadow: $cx-theme-box-shadow;
+//    border-width: 0 !important;
+// }
 
 //LIST
 .#{$block}list {

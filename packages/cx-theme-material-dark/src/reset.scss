@@ -4,27 +4,27 @@
       ::-webkit-scrollbar {
          width: 10px;
          height: 10px;
-         background-color: rgba(0, 0, 0, 0.05);
+         background-color: rgba(255, 255, 255, 0.03);
       }
       ::-webkit-scrollbar-thumb {
-         -webkit-border-radius: 0;
+         -webkit-border-radius: 50px;
 
          &:vertical {
-            background-color: rgba(0, 0, 0, 0.07);
+            background-color: rgba(255, 255, 255, 0.09);
             &:hover {
-               background-color: rgba(0, 0, 0, 0.12);
+               background-color: rgba(255, 255, 255, 0.2);
             }
          }
 
          &:horizontal {
-            background-color: rgba(0, 0, 0, 0.07);
+            background-color: rgba(255, 255, 255, 0.09);
             &:hover {
-               background-color: rgba(0, 0, 0, 0.12);
+               background-color: rgba(255, 255, 255, 0.2);
             }
          }
       }
       ::-webkit-scrollbar-corner {
-         background-color: rgba(0, 0, 0, 0.02);
+         background-color: rgba(255, 255, 255, 0.2);
       }
    }
 }
