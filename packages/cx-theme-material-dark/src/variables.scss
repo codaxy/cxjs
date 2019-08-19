@@ -12,7 +12,6 @@ $primary-color-indigo: #3f51b5 !default;
 $primary-color-teal: #02eec1 !default;
 
 $cx-theme-primary-color: #80cbc4;
-// $cx-theme-primary-color: #cfabfd !default;
 
 $cx-theme-accent-color: #ffcb82 !default;
 $cx-theme-danger-color: #CF6679 !default;
@@ -88,15 +87,15 @@ $cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-pa
 }
 
 // CHART
-$cx-default-palette-fill-whiten: 20% !default;
+$cx-default-palette-fill-blacken: 30% !default;
+$cx-default-palette-fill-hover-blacken: 20% !default;
+$cx-default-palette-fill-selected-blacken: 20% !default;
+$cx-default-palette-fill-disabled-blacken: 45% !default;
+
+$cx-default-palette-fill-whiten: 10% !default;
 $cx-default-palette-fill-hover-whiten: 0% !default;
 $cx-default-palette-fill-selected-whiten: 0% !default;
 $cx-default-palette-fill-disabled-whiten: 0% !default;
-
-// $cx-default-palette-fill-whiten: 30% !default;
-// $cx-default-palette-fill-hover-whiten: 20% !default;
-// $cx-default-palette-fill-selected-whiten: 15% !default;
-// $cx-default-palette-fill-disabled-whiten: 15% !default;
 
 //TAB
 $cx-default-tab-color: $cx-default-color !default;
@@ -107,7 +106,6 @@ $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
 $cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
 
-// $cx-default-cover-background-color: transparent !default;
 $cx-default-cover-border-color: #414141;
 $cx-default-cover-background-color: #323232 !default;
 
@@ -181,10 +179,8 @@ $cx-default-wheel-clip-background-color: #323232;
 $cx-default-calendar-background-color: #121212 !default;
 $cx-default-calendar-border-width: 0px !default;
 $cx-default-calendar-border-radius: $cx-default-border-radius !default;
-// $cx-default-calendar-box-shadow: 0 0 4px $cx-theme-primary-color !default;
 
 $cx-default-calendar-header-font-size: 16px !default;
-// $cx-default-calendar-header-color: $cx-theme-primary-color !default;
 $cx-default-calendar-header-background-color: #121212 !default;
 
 $cx-default-calendar-day-font-size: 11px !default;
@@ -523,8 +519,7 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
          border-color: $cx-light-background-overlay
       ),
       focus: (
-         border-color: $cx-theme-primary-color,
-         // transition: border-color 0.55s ease-in-out
+         border-color: $cx-theme-primary-color
       ),
       selected: (
          color: $cx-theme-primary-color,
