@@ -216,10 +216,10 @@ $small-device-width: 800px;
 
  .theme-material-dark {
    .header {
-      background: rgba(187, 134, 252, .1);
+      background: rgba(38, 166, 154, .045);
 
       a {
-         color: #03dac4;
+         color: #ffb550;
          font-weight: 500;
       }
    
@@ -237,7 +237,7 @@ $small-device-width: 800px;
             }
    
             &.cxs-active {
-               border-color: #cfabfd;
+               border-color: #4db6ac;
                color: rgba(white, 0.87);
             }
          }
@@ -252,7 +252,7 @@ $small-device-width: 800px;
       background: rgba(255, 255, 255, .07);
       
       .cxb-link.cxs-active {
-         color: #bb86fc;
+         color: #26a69a;
       }
 
       dt {

@@ -70,54 +70,46 @@ $form-list: (
    TextField NumberField LookupField DateTimeField MonthField ColorField Select
 );
 
-// @if (cx-included('cx/widgets/TextField')) {
-//    .#{$block}textfield {
-//       .#{$element}textfield-input {
-//          padding: 5px 7.5px;
-//       }
-//    }
-// }
+@each $field in $form-list {
+   @if (cx-included('cx/widgets/#{$field}')) {
 
-// @each $field in $form-list {
-   // @if (cx-included('cx/widgets/#{$field}')) {
+      .#{$block}#{to-lower-case($field)} {
+         position: relative;
 
-//       .#{$block}#{to-lower-case($field)} {
-//          position: relative;
+         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
-//          -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+         // disables parent input div height to grow bigger then input in FlexRow
+         max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
 
-//          // disables parent input div height to grow bigger then input in FlexRow
-//          max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+         // standard field focus effect
+         &:after {
+            display: block;
+            content: '';
+            height: 2px;
+            width: 100%;
+            background-color: $cx-theme-primary-color;
+            transform: scaleX(0);
+            transition: 0s;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+         }
 
-//          // standard field focus effect
-//          &:after {
-//             display: block;
-//             content: '';
-//             height: 2px;
-//             width: 100%;
-//             background-color: $cx-theme-primary-color;
-//             transform: scaleX(0);
-//             transition: 0s;
-//             position: absolute;
-//             bottom: 0;
-//             left: 0;
-//          }
-
-//          &.#{$state}focus {
-//             &:after {
-//                transform: scaleX(1);
-//                transition: transform 0.3s ease-out;
-//             }
-//             &.#{$state}error {
-//                &:after {
-//                   transform: scaleX(1);
-//                   background-color: $cx-theme-danger-color;
-//                }
-//             }
-//          }
-//       }
-//    }
-// }
+         &.#{$state}focus {
+            &:after {
+               transform: scaleX(1);
+               transition: transform 0.3s ease-out;
+            }
+            &.#{$state}error {
+               &:after {
+                  transform: scaleX(1);
+                  background-color: $cx-theme-danger-color;
+               }
+            }
+         }
+      }
+   }
+}
 
 // lookupfield
 @if (cx-included('cx/widgets/LookupField')) {
@@ -140,11 +132,7 @@ $form-list: (
    // select
    .#{$block}select option {
       color: $cx-default-color;
-      background-color: rgba(0, 0, 0, 0.03);
-
-      &:hover {
-         background-color: $cx-theme-primary-color;
-      }
+      background-color: #323232;
    }
 }
 
@@ -252,8 +240,8 @@ $form-list: (
    // calendar
    .#{$block}calendar {
       .#{$element}calendar-day-names {
-         background-color: $cx-theme-primary-color;
-         color: #000000;
+         // background-color: $cx-theme-primary-color;
+         color: $cx-theme-primary-color;
       }
 
       &.#{$state}disabled {
@@ -300,7 +288,6 @@ $form-list: (
 }
 
 @if (cx-included('cx/widgets/Radio')) {
-
    .#{$element}radio-radio {
       &:focus {
          box-shadow: 0 0 2px 2px rgba($cx-theme-primary-color, .5)
@@ -367,6 +354,7 @@ $form-list: (
 // Monthpicker 
 @if (cx-included('cx/widgets/MonthPicker')) {
    .#{$block}monthpicker {
+      background-color: #121212;
       
       .#{$element}monthpicker-year {
          color: $cx-medium-emphasis;
@@ -552,7 +540,7 @@ $form-list: (
 
 //Modal window background
 %cxe-overlay-shadow {
-   background: rgba(128, 128, 128, 0.25);
+   background: rgba(0, 0, 0, 0.35);
 }
 
 //PROGRESSBAR
@@ -568,46 +556,46 @@ $form-list: (
 }
 
 //MENU
-// .#{$block}menu {
-//    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-// }
+.#{$block}menu {
+   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
 
-// menu focus animation
-// .#{$block}menuitem {
-//    &:before {
-//       content: '';
-//       position: absolute;
-//       top: 0;
-//       left: 0;
-//       width: 100%;
-//       height: 100%;
-//       background-color: rgba(255, 255, 255, 0.1);
-//       opacity: 1;
-//       border-radius: $cx-default-border-radius;
-//       pointer-events: none;
-//       transform: scaleX(0);
-//       transform-origin: left;
-//    }
-// }
+menu focus animation
+.#{$block}menuitem {
+   &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      border-radius: $cx-default-border-radius;
+      pointer-events: none;
+      transform: scaleX(0);
+      transform-origin: left;
+   }
+}
 
-// .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
-//    // background-color: transparent;
+.#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
+   // background-color: transparent;
 
-//    &:before {
-//       transform: scaleX(1);
-//       transition: transform 0.25s;
-//       background-color: rgba(0, 0, 0, 0.1);
-//    }
-// }
+   &:before {
+      transform: scaleX(1);
+      transition: transform 0.25s;
+      background-color: rgba(0, 0, 0, 0.1);
+   }
+}
 
-// .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
-//    // there wasn't any effect on menu hover with bg set to transparent
-//    //background-color: transparent;
-// }
+.#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
+   // there wasn't any effect on menu hover with bg set to transparent
+   //background-color: transparent;
+}
 
-// .#{$block}menu .#{$element}menu-item > hr {
-//    margin: $cx-default-padding-medium 0;
-// }
+.#{$block}menu .#{$element}menu-item > hr {
+   margin: $cx-default-padding-medium 0;
+}
 
 //GRID
 .#{$block}grid.#{$state}scrollable {
@@ -673,7 +661,7 @@ $form-list: (
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
 
    td {
-      color: #f4ebfe;
+      color: #b2dfdb;
       line-height: $cx-default-grid-data-line-height;
       border-top: 1px solid $cx-default-grid-data-border-color;
       font-weight: 500;
@@ -692,7 +680,7 @@ $form-list: (
    td {
       // background-color: rgba(255, 255, 255, 0.03);
       border-bottom: 1px solid #636363;
-      color: #e2cdfd;
+      color: #80cbc4;
    }
 
    @for $i from 2 through 4 {
@@ -701,7 +689,7 @@ $form-list: (
             border-bottom: 1px solid #8a8a8a;
             font-weight: 500;
             text-transform: uppercase;
-            color: #cfabfd;
+            color: #4db6ac;
             // background-color: darken(#f7f7f7, $i);
          }
       }
@@ -714,7 +702,7 @@ $form-list: (
          td {
             border-width: 1px 0;
             border-color: $cx-default-grid-data-border-color;
-            color: #f4ebfe;
+            color: #e0f2f1;
          }
       }
    }

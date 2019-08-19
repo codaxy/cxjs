@@ -13,7 +13,7 @@ export default <cx>
         <Section 
             mod="card"
             title="Material Labels"
-            visible={{expr: "{$root.$route.theme} == 'material'"}}
+            visible={{expr: "{$root.$route.theme} == 'material' || 'material-dark'"}}
             hLevel={4}
         >
             <div style={{ marginTop: "-30px" }}>
