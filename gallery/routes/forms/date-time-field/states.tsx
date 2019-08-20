@@ -22,7 +22,7 @@ export default (
             <Section
                 mod="card"
                 title="Material Labels"
-                visible={{expr: "{$root.$route.theme} == 'material' || 'material-dark'"}}
+                visible={{expr: ("{$root.$route.theme} == 'material' || {$root.$route.theme} == 'material-dark'")}}
                 hLevel={4}
             >
                 <div styles="margin-top: -30px">

@@ -50,7 +50,7 @@ export default <cx>
             title="Material Labels"
             hLevel={4}
             layout={LabelsLeftLayout}
-            visible={{expr: "{$root.$route.theme} == 'material' || 'material-dark'"}}
+            visible={{expr: ("{$root.$route.theme} == 'material' || {$root.$route.theme} == 'material-dark'")}}
         >
             <LookupField 
                 label="Standard" 

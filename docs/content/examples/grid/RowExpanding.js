@@ -56,7 +56,7 @@ export const RowExpanding = <cx>
                 cached
                 row={{
                     style: {
-                        background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' ? '#fff7e6' : null"}
+                        background: {expr: "{$record.showDescription} ? '#fff7e6' : null"}
                     },
                     line1: {
                         columns: [
@@ -248,7 +248,7 @@ export const RowExpanding = <cx>
                         cached
                         row={{
                             style: {
-                                background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' ? '#fff7e6' : null"}
+                                background: {expr: "{$record.showDescription} ? '#fff7e6' : null"}
                             },
                             line1: {
                                 columns: [

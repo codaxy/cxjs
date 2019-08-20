@@ -427,7 +427,7 @@ $form-list: (
          position: absolute;
          left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
          bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-         background-color: rgba(black, 0.05);
+         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
@@ -449,35 +449,8 @@ $form-list: (
 
 @if (cx-included('cx/widgets/Tab')) {
    //TAB
-   // .#{$block}tab {
-   //    position: relative;
-   //       &:after {
-   //          display: block;
-   //          content: '';
-   //          height: 2px;
-   //          z-index: 10;
-   //          width: 100%;
-   //          background-color: $cx-theme-primary-color;
-   //          transform: scaleX(0);
-   //          left: 0;
-   //          transition: 0s;
-   //          position: absolute;
-   //          bottom: 0;
-         
-   //       }
-
-   //       &:focus {
-   //          &:after { 
-   //             left: 0;
-   //             transform: scaleX(1);
-   //             transition: transform .3s ease-out;
-   //          }
-   //       }
-   // }
-
    div.#{$block}classic-tab-container {
       background-color: $cx-theme-primary-color;
-      // box-shadow: $cx-theme-box-shadow;
       height: 2 * $cx-default-box-padding + $cx-default-box-line-height + 2px;
       padding: 0;
       margin-bottom: 3px;
@@ -538,9 +511,9 @@ $form-list: (
    }
 }
 
-//Modal window background
+//Modal window background on dark surface
 %cxe-overlay-shadow {
-   background: rgba(0, 0, 0, 0.35);
+   background: rgba(0, 0, 0, 0.45);
 }
 
 //PROGRESSBAR
