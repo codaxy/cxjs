@@ -42,12 +42,6 @@ $mod: map-get($cx-besm, mod);
    .cxm-well {
       @extend .cxm-card;
    }
-
-   // .cxm-cover {
-   //    background-color: rgba(255, 255, 255, .03);
-   //    border-width: 0 2px 2px 2px;
-   //    // border-color: #cfabfd;
-   // }
 }
 
 //BUTTON
@@ -240,7 +234,6 @@ $form-list: (
    // calendar
    .#{$block}calendar {
       .#{$element}calendar-day-names {
-         // background-color: $cx-theme-primary-color;
          color: $cx-theme-primary-color;
       }
 
@@ -307,16 +300,11 @@ $form-list: (
          position: absolute;
          left: calc(50% - #{$cx-default-radio-size});
          bottom: calc(50% - #{$cx-default-radio-size});
-         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
          transition: transform 0.2s ease-in-out;
       }
-
-      // &:hover {
-      //    border-color: darken(#dbdbdb, 10);
-      // }
 
       &.#{$state}checked {
          &:after {
@@ -400,7 +388,6 @@ $form-list: (
       &:focus:after {
          visibility: visible;
          transform: scale(1.4, 1.4);
-         // background-color: rgba($cx-theme-primary-color-dark, 0.1);
       }
    }
 
@@ -427,7 +414,6 @@ $form-list: (
          position: absolute;
          left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
          bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
@@ -491,11 +477,8 @@ $form-list: (
    //WINDOW
    // window animation
    .#{$block}window {
-      //transition: opacity .2s, transform .2s;
-
       &.#{$state}animate {
          animation: cx-theme-window-appear-animation 0.2s;
-         //transition: opacity .3s, transform .3s;
       }
    }
 
@@ -533,7 +516,7 @@ $form-list: (
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-menu focus animation
+// menu focus animation
 .#{$block}menuitem {
    &:before {
       content: '';
@@ -552,7 +535,6 @@ menu focus animation
 }
 
 .#{$state}focusable.#{$state}cursor > .#{$block}menuitem.#{$state}cursor {
-   // background-color: transparent;
 
    &:before {
       transform: scaleX(1);
@@ -580,22 +562,6 @@ menu focus animation
          }
       }
    }
-}
-
-.#{$element}grid-fixed-header {
-   // shadow added to fixed header
-   // box-shadow: $cx-default-grid-header-box-shadow;
-
-   // .#{$element}grid-col-header {
-   //    border-color: #fff;
-   // }
-
-   // .#{$state}sorted-asc, .#{$state}sorted-desc {
-   //    // border-color: darken($cx-default-grid-header-background-color, 2);
-   //    &:hover {
-   //       border-color: darken($cx-default-grid-header-background-color, 3);
-   //    }
-   // }
 }
 
 .#{$element}grid-header {
@@ -693,12 +659,6 @@ menu focus animation
    }
 
 }
-
-// grid shadow mod
-// .#{$block}grid.#{$mod}shadow {
-//    // box-shadow: $cx-theme-box-shadow;
-//    border-width: 0 !important;
-// }
 
 //LIST
 .#{$block}list {
