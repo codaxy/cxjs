@@ -55,6 +55,22 @@ export function applyThemeOverrides() {
    Icon.register('sort-asc', props => Icon.render('arrow_upward', props));
    Icon.register('folder-open', props => Icon.render('folder_open', props));
    Icon.register('file', props => Icon.render('insert_drive_file', props));
+
+   // Icon.register('forward', props => {
+   //    return <svg
+   //       {...props}
+   //       viewBox="0 0 24 24">
+   //       <path fill="currentColor"
+   //             strokeWidth="0"
+   //             stroke="currentColor"
+   //             d="M11.59 16.34l4.58-4.59-4.58-4.59L13 5.75l6 6-6 6z"/>
+
+   //       <path fill="currentColor"
+   //             strokeWidth="0"
+   //             stroke="currentColor"
+   //             d="M4.59 16.34l4.58-4.59-4.58-4.59L6 5.75l6 6-6 6z"/>
+   //    </svg>
+   // });
 }
 
 applyThemeOverrides();

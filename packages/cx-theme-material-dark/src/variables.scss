@@ -707,7 +707,7 @@ $cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
       background: none,
       color: $cx-default-color,
-      border-color: rgba(255, 255, 255, .87),
+      border-color: #414141,
       outline: none
    ),
    focus: (
@@ -726,7 +726,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
       background: none,
       padding: $cx-theme-input-padding,
-      border-color: transparent transparent $cx-medium-emphasis,
+      border-color: transparent transparent #505050,
       color: $cx-medium-emphasis
    ),
    hover: (
@@ -753,7 +753,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // textarea
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
    default: (
-      border-color: transparent transparent $cx-medium-emphasis,
+      border-color: transparent transparent #505050,
    ),
    focus: (
       background-color: rgba($cx-default-color, 0.015)

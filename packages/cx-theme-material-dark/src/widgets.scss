@@ -254,6 +254,12 @@ $form-list: (
          }
    }
    
+   .#{$element}checkbox-text {
+      .#{$state}disabled > & {
+         opacity: 0.3;
+      }
+   }
+   
    .#{$element}checkbox-input {
       &:after {
          content: '';
@@ -350,6 +356,7 @@ $form-list: (
 
       td.#{$state}selected {
          border-color: $cx-theme-accent-color;
+         color: $cx-theme-accent-color;
       }
 
       &.#{$state}disabled {
