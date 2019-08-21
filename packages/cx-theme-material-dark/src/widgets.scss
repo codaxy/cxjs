@@ -27,7 +27,7 @@ $mod: map-get($cx-besm, mod);
    }
 
    .#{$element}section-header.#{$element}section-header {
-      // color: $cx-theme-primary-color-light;
+      color: inherit;
       font-weight: normal;
       border: none;
       padding: 1em 1em 0;
