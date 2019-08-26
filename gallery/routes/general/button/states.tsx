@@ -24,9 +24,23 @@ export default <cx>
             {buttons("primary")}
             <br/>
 
+            <div visible={{expr: "{$root.$route.theme} == 'queenblue'"}}>
+                <h6>Secondary</h6>
+                {buttons("accent")}
+                <br/>
+
+                <h6>Warning</h6>
+                {buttons("warning")}
+                <br/>
+
+                <h6>Warning Light</h6>
+                {buttons("warning-light")}
+                <br/>
+            </div>
+
             <div visible={{expr: "{$root.$route.theme} == 'material-dark'"}}>
-            <h6>Secondary</h6>
-            {buttons("secondary")}
+                <h6>Secondary</h6>
+                {buttons("secondary")}
             </div>
 
             <h6>Danger</h6>
@@ -35,6 +49,12 @@ export default <cx>
             <br/>
             <h6>Hollow</h6>
             {buttons("hollow")}
+
+            <div visible={{expr: "{$root.$route.theme} == 'queenblue'"}}>
+                <br/>
+                <h6>Hollow Light</h6>
+                {buttons("hollow-light")}
+            </div>
 
             <br />
             <div visible={{expr: "{$root.$route.theme} == 'material-dark'"}}>
@@ -48,8 +68,8 @@ export default <cx>
             </div>
 
             <div visible={{expr: "{$root.$route.theme} == 'aquamarine'"}}>
-					<h6>Rounded</h6>
-					{buttons("rounded")}
+                <h6>Rounded</h6>
+                {buttons("rounded")}
             </div>
         </Section>
     </FlexRow>

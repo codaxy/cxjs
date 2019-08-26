@@ -57,11 +57,18 @@ export default <cx>
                                 return <cx><ContentPlaceholder/></cx>;
                             });
 
-                            case "material-dark":
-                            return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
-                                loadTheme("material-dark");
+                        case "material-dark":
+                        return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
+                            loadTheme("material-dark");
+                            return <cx><ContentPlaceholder/></cx>;
+                        });
+
+                        case "queenblue":
+                            return import(/* webpackChunkName: 'material-dark' */"../themes/queenblue").then(() => {
+                                loadTheme("queenblue");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
+
                     }
                 }}
             />
@@ -112,6 +119,7 @@ export default <cx>
                                         <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
                                         <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
                                         <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
+                                        <Link href={tpl("~/queenblue{$route.remainder}")}>Queenblue</Link>
                                     </Menu>
                                 </Submenu>
                             </Menu>

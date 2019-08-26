@@ -264,3 +264,28 @@ $small-device-width: 800px;
       }
    }
 }
+
+.theme-queenblue {
+   .aside {
+    background: #394853;
+
+      .cxb-link.cxs-active {
+         color: hsl(171, 57%, 55%);
+      }
+   }
+
+   .header {
+      // background-color: #394853;
+      background: linear-gradient(90deg,#394853 0,#455C73);
+      // background: linear-gradient(90deg,#394853 0, #51626f);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
+
+     .title a {
+         color: hsl(165, 55%, 55%);
+      }
+
+      h2 {
+         color: rgba(white, 0.77);
+      }
+   }
+}
