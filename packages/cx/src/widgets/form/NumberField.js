@@ -392,7 +392,9 @@ class Input extends VDOM.Component {
          }
       }
 
-      instance.set('value', value, true);
+      //it's important not to set the old value as it causes weird behavior if debounce is used
+      if (value !== data.value)
+         instance.set('value', value);
 
       instance.setState({
          inputError: false,
