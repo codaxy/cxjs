@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
-    "intl-io": "^0.2.11",
+    "intl-io": "^0.3.0",
     "route-parser": "^0.0.5"
   },
   "peerDependencies": {
