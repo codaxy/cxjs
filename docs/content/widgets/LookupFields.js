@@ -26,7 +26,7 @@ class PageController extends Controller {
 
         var regex = new RegExp(q, 'gi');
         return new Promise((resolve) => {
-            setTimeout(() => resolve(this.cityDb.filter(x => x.text.match(regex))), 100);
+            setTimeout(() => resolve(this.cityDb.filter(x => x.text.match(regex))), 300);
         });
     }
 }
@@ -75,7 +75,9 @@ export const LookupFields = <cx>
                         label="Remote Data"
                         records:bind="$page.selectedCities"
                         onQuery="query"
-                        multiple/>
+                        minQueryLength={2}
+                        multiple
+                    />
 
                     <LookupField
                         label="Local Filter"
