@@ -76,9 +76,7 @@ export const LookupFields = <cx>
                         records:bind="$page.selectedCities"
                         onQuery="query"
                         minQueryLength={2}
-                        multiple
-                    />
-
+                        multiple/>
                     <LookupField
                         label="Local Filter"
                         records:bind="$page.selectedCities2"
@@ -153,7 +151,7 @@ export const LookupFields = <cx>
 
                    var regex = new RegExp(q, 'gi');
                    return new Promise((resolve) => {
-                      setTimeout(()=> resolve(this.cityDb.filter(x=>x.text.match(regex))), 100);
+                      setTimeout(()=> resolve(this.cityDb.filter(x=>x.text.match(regex))), 300);
                    });
                 }
              }
@@ -183,6 +181,7 @@ export const LookupFields = <cx>
                         label="Remote Data"
                         records:bind="$page.selectedCities"
                         onQuery="query"
+                        minQueryLength={2}
                         multiple/>
                     <LookupField
                         label="Local Filter"

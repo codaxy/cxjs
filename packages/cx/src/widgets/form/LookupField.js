@@ -826,7 +826,7 @@ class LookupComponent extends VDOM.Component {
          if (fetchAll)
             queryDelay = 0;
 
-         if (!this.state.dropdownOpen && !this.cachedResult) {
+         if (!this.cachedResult) {
             this.setState({
                status: "loading"
             });
