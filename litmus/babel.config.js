@@ -24,7 +24,7 @@ module.exports = function (production) {
             useBuiltIns: false,
             cx: {
                imports: {
-                  useSrc: false
+                  useSrc: true
                }
             }
          }]

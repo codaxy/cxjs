@@ -210,6 +210,35 @@ describe('ContentPlaceholder', () => {
       });
    });
 
+   it('works in strange order', () => {
+      let store = new Store();
+
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div>
+               <ContentPlaceholder name="footer"/>
+               <PureContainer putInto="footer-content">works</PureContainer>
+               <PureContainer putInto="footer">
+                  It
+                  <ContentPlaceholder name="footer-content">
+                     doesn't work
+                  </ContentPlaceholder>
+               </PureContainer>
+            </div>
+         </Cx>
+      );
+
+      let tree = component.toJSON();
+      //console.log(tree);
+
+      assert.deepEqual(tree, {
+         type: 'div',
+         props: {},
+         children: ['It works']
+      });
+   });
+
    it('inside a complex two-level-deep outer-layout works', () => {
       let store = new Store();
 

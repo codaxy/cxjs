@@ -71,7 +71,8 @@ import './index.scss';
 //import Demo from "./features/restate/DeferredUpdates";
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
-import Demo from "./features/hooks/localStorage";
+//import Demo from "./features/hooks/localStorage";
+import Demo from "./bugs/ContentPlaceholderOrder";
 
 
 let store = new Store();
