@@ -219,6 +219,7 @@ export class Instance {
          if (this.contentPlaceholder)
             context.contentPlaceholder[this.widget.putInto](this);
          else {
+            this.renderList = this.renderList.insertLeft();
             context.pushNamedValue('content', this.widget.putInto, this);
          }
       }

@@ -235,7 +235,7 @@ describe('ContentPlaceholder', () => {
       assert.deepEqual(tree, {
          type: 'div',
          props: {},
-         children: ['It works']
+         children: ['It', 'works']
       });
    });
 
