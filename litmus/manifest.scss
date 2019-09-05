@@ -26,6 +26,8 @@ $cx-include-all: false;
 	"cx/ui/CSS",
 	"cx/ui/CSSHelper",
 	"cx/ui/Container",
+	"cx/ui/ContentPlaceholder",
+	"cx/ui/ContentPlaceholderScope",
 	"cx/ui/Controller",
 	"cx/ui/Cx",
 	"cx/ui/History",
@@ -93,5 +95,13 @@ $cx-include-all: false;
 	"cx/util/throttle",
 	"cx/util/tooltipsFlag",
 	"cx/util/trimFractionZeros",
-	"cx/util/vdomRenderFlag"
+	"cx/util/vdomRenderFlag",
+	"cx/widgets/HtmlElement",
+	"cx/widgets/tooltipMouseLeave",
+	"cx/widgets/tooltipMouseMove",
+	"cx/widgets/tooltipParentDidMount",
+	"cx/widgets/tooltipParentWillReceiveProps",
+	"cx/widgets/tooltipParentWillUnmount",
+	"cx/widgets/urlAttributes",
+	"cx/widgets/wireTooltipOps"
 );

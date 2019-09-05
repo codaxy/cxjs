@@ -5,17 +5,29 @@ export class Ref extends Component {
    constructor(config) {
       super(config);
       this.get = ::this.get;
+      if (this.set)
+         this.set = ::this.set;
    }
 
    get() {
-      throw new Error("Not implemented");
+      throw new Error("Ref's get method is not implemented.");
+   }
+
+   init(value) {
+      if (this.get() === undefined)
+         this.set(value);
+   }
+
+   toggle() {
+      this.set(!this.get())
+   }
+
+   update(cb, ...args) {
+      this.set(cb(this.get(), ...args));
    }
 
    as(config) {
-      return Ref.create(config, {
-         store: this.store,
-         path: this.path
-      });
+      return Ref.create(config);
    }
 
    //allows the function to be passed as a selector, e.g. to computable or addTrigger
@@ -38,14 +50,14 @@ Ref.factory = function(alias, config, more) {
       if (result instanceof Ref)
          return result;
 
-      return Ref.create({
+      return this.create({
          ...config,
          ...more,
          ...result
       });
    }
 
-   return Ref.create({
+   return this.create({
       ...config,
       ...more
    });
