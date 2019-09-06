@@ -161,7 +161,7 @@ Widget.prototype.styled = false;
 Widget.namespace = 'ui.';
 Widget.optimizePrepare = true;
 
-Widget.factory = (type, config, more) => 
+Widget.factory = (type, config, more) =>
 {
    throw new Error(`Invalid widget type: ${type}.`);
 };

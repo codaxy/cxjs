@@ -72,7 +72,8 @@ import './index.scss';
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
-import Demo from "./bugs/ContentPlaceholderOrder";
+//import Demo from "./bugs/ContentPlaceholderOrder";
+import Demo from "./bugs/Spread";
 
 
 let store = new Store();
