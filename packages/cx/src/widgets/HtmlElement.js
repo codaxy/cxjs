@@ -21,8 +21,13 @@ export class HtmlElement extends Container {
    constructor(config) {
       super(config);
 
-      if (isUndefined(this.jsxAttributes) && config)
-         this.jsxAttributes = Object.keys(config).filter(::this.isValidHtmlAttribute);
+      if (config)
+         this.jsxAttributes = isUndefined(this.jsxAttributes)
+            ? Object.keys(config).filter(this.isValidHtmlAttribute)
+            : Array.from(new Set([
+              ...this.jsxAttributes,
+              ...Object.keys(config).filter(this.isValidHtmlAttribute)
+            ]));
    }
 
    declareData() {
