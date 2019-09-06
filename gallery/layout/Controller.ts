@@ -13,6 +13,7 @@ export default class extends Controller {
          switch (theme) {
             case "core": return "Core";
             case "material": return "Material";
+            case "material-dark": return "Material Dark"
             case "frost": return "Frost";
             case "dark": return "Dark";
             case "aquamarine": return "Aquamarine (beta)";

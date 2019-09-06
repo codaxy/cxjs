@@ -5,7 +5,7 @@ import {bind, LabelsLeftLayout, LabelsTopLayout} from 'cx/ui';
 export default <cx>
     <a href="https://github.com/codaxy/cx/tree/master/gallery/routes/forms/slider/states.tsx" target="_blank" putInto="github">Source Code</a>
     <FlexRow wrap spacing="large" target="desktop">
-        <Section mod="card" title="Material Labels" hLevel={4} visible={{expr: "{$root.$route.theme} == 'material'"}} >
+        <Section mod="card" title="Material Labels" hLevel={4} visible={{expr: ("{$root.$route.theme} == 'material' || {$root.$route.theme} == 'material-dark'")}} >
             <Slider label="Standard" value={bind("standard")} labelPlacement="material" />
             <br/>
             <Slider label="Disabled" value={bind("standard")} labelPlacement="material" disabled />

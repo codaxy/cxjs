@@ -46,7 +46,7 @@ export default <cx>
             </List>
         </Section>
 
-        <Section mod="well" title="Bordered" hLevel={4} visible={{expr: "{$root.$route.theme} !== 'material'"}}>
+        <Section mod="well" title="Bordered" hLevel={4} visible={{expr: "{$root.$route.theme} !== 'material' && {$root.$route.theme} !== 'material-dark'"}}>
             <List
                 records={bind('records')}
                 mod="bordered"

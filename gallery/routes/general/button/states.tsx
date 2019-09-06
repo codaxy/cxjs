@@ -23,6 +23,12 @@ export default <cx>
             <h6>Primary</h6>
             {buttons("primary")}
             <br/>
+
+            <div visible={{expr: "{$root.$route.theme} == 'material-dark'"}}>
+            <h6>Secondary</h6>
+            {buttons("secondary")}
+            </div>
+
             <h6>Danger</h6>
             {buttons("danger")}
 
@@ -31,6 +37,16 @@ export default <cx>
             {buttons("hollow")}
 
             <br />
+            <div visible={{expr: "{$root.$route.theme} == 'material-dark'"}}>
+                <h6>Flat Primary</h6>
+                {buttons("flat-primary")}
+                <br/>
+
+                <h6>Flat Secondary</h6>
+                {buttons("flat-accent")}
+                <br/>
+            </div>
+
             <div visible={{expr: "{$root.$route.theme} == 'aquamarine'"}}>
 					<h6>Rounded</h6>
 					{buttons("rounded")}

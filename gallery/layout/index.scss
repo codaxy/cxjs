@@ -213,3 +213,54 @@ $small-device-width: 800px;
        }
     }
  }
+
+ .theme-material-dark {
+   .header {
+      background: rgba(38, 166, 154, .09);
+
+      a {
+         color: #ffb550;
+         font-weight: 500;
+      }
+   
+      .tabs {
+         min-height: 3rem;
+         margin-top: 1rem;
+         color: rgba(white, .87);
+   
+   
+         .cxb-tab.cxm-line {
+            color: rgba(white, 0.87);
+
+            &:hover {
+               border-color:rgba(white, .16);
+            }
+   
+            &.cxs-active {
+               border-color: #4db6ac;
+               color: rgba(white, 0.87);
+            }
+         }
+      }
+   
+      h2 {
+         color: rgba(white, 0.87);
+      }
+   }
+
+   .aside {
+      background: rgba(255, 255, 255, .07);
+      
+      .cxb-link.cxs-active {
+         color: #4db6ac;
+      }
+
+      dt {
+         font-weight: 500;
+      }
+
+      dd {
+         color: rgba(#fff, 0.6);
+      }
+   }
+}

@@ -40,7 +40,7 @@ export default <cx>
             title="Classic"
             hLevel={4}
             style="max-width: 400px"
-            visible={expr("{$root.$route.theme}!='material'")}
+            visible={{expr: ("{$root.$route.theme}!='material' && {$root.$route.theme}!='material-dark'")}}
         >
             <div styles="padding-left:10px;white-space:nowrap;">
                 <Tab tab="tab1" value={bind("$page.t3")} mod="classic" default>Tab 1</Tab>

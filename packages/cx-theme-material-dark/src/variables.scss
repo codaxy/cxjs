@@ -1,0 +1,987 @@
+//THEME SPECIFIC VARIABLES
+// pick theme color scheme
+$primary-color-blue: #8cc8fe !default;
+$primary-color-gray: #607d8b !default;
+$primary-color-brown: #795548 !default;
+$primary-color-pink: #f186c0 !default;
+$primary-color-purple: #bb86fc !default;
+$primary-color-red: #ff7c5d !default;
+$primary-color-black: #212121 !default;
+$primary-color-green: #c6f68d !default;
+$primary-color-indigo: #3f51b5 !default;
+$primary-color-teal: #02eec1 !default;
+
+$cx-theme-primary-color: #80cbc4;
+
+$cx-theme-accent-color: #ffcb82 !default;
+$cx-theme-danger-color: #CF6679 !default;
+
+// pick theme size
+$normal-base-size: 14px !default;
+$small-base-size: 12px !default;
+$cx-theme-base-size: $normal-base-size !default;
+
+//GLOBAL VARIABLES
+$cx-default-container-padding: 5px !default;
+
+$cx-default-font-family: 'Roboto', 'Open Sans', sans-serif !default;
+$cx-default-color: rgba(#fff, 0.87) !default;
+$cx-medium-emphasis: rgba(#fff, 0.6) !default;
+$cx-disabled-text: rgba(#fff, 0.38) !default;
+$cx-default-color-dark: #000000 !default;
+
+$cx-default-font-weight: 450 !default;
+$cx-default-paragraph-line-height: 1.5 !default;
+
+$cx-default-background-color: #121212 !default;
+$cx-default-background-overlay: rgba(255, 255, 255, .07);
+$cx-medium-light-background-overlay: #323232;
+$cx-light-background-overlay: rgba(255, 255, 255, .16);
+
+$cx-default-border-color: transparent !default;
+$cx-default-border-radius: 2px !default;
+
+$cx-default-box-font-size: 13px !default;
+$cx-default-box-line-height: $cx-theme-base-size + 10px !default;
+$cx-default-box-border-width: 1px !default;
+
+@if $cx-theme-base-size < 14px {
+   $cx-default-box-padding: round($cx-theme-base-size/3) !global;
+} @else {
+   $cx-default-box-padding: round($cx-theme-base-size/2) !global;
+}
+
+$cx-use-box-line-height-fix: false !default;
+
+$cx-theme-box-shadow: 0 0 4px $cx-theme-primary-color;
+
+//BUTTON
+$cx-default-button-color: $cx-default-color-dark !default;
+$cx-default-button-font-weight: $cx-default-font-weight !default;
+$cx-default-button-background-color: #e0e0e0 !default;
+$cx-default-button-border-width: 0 !default;
+$cx-default-button-border-radius: $cx-default-border-radius !default;
+$cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
+
+// CHART
+$cx-default-palette-fill-blacken: 30% !default;
+$cx-default-palette-fill-hover-blacken: 10% !default;
+$cx-default-palette-fill-selected-blacken: 20% !default;
+$cx-default-palette-fill-disabled-blacken: 45% !default;
+
+$cx-default-palette-fill-whiten: 10% !default;
+$cx-default-palette-fill-hover-whiten: 10% !default;
+$cx-default-palette-fill-selected-whiten: 45% !default;
+$cx-default-palette-fill-disabled-whiten: 10% !default;
+
+//TAB
+$cx-default-tab-color: $cx-default-color !default;
+$cx-default-tab-font-weight: 500 !default;
+$cx-default-tab-background-color: transparent !default;
+$cx-default-tab-border-width: 0 0 2px !default;
+$cx-default-tab-border-color: transparent !default;
+$cx-default-tab-border-radius: $cx-default-border-radius !default;
+$cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
+
+//SECTION
+$cx-default-section-background: $cx-default-background-overlay;
+
+// TOOLTIP
+$cx-tooltip-background-color: #505050 !default;
+$cx-tooltip-border-color: $cx-default-border-color !default;
+$cx-tooltip-background-color-error: #505050 !default;
+$cx-tooltip-border-color-error: $cx-theme-danger-color !default;
+
+//WINDOW
+$cx-default-window-header-padding: 10px 20px !default;
+$cx-default-window-header-font-size: 18px !default;
+$cx-default-window-header-background: #424242;
+$cx-default-window-background-color: $cx-medium-light-background-overlay !default;
+
+//TOAST
+$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-toast-background-color: $cx-medium-light-background-overlay;
+$cx-default-toast-color: $cx-default-color;
+$cx-default-toast-box-shadow: none;
+
+//GRID
+$cx-default-grid-background-color: $cx-medium-light-background-overlay;
+$cx-default-grid-border-radius: $cx-default-border-radius !default;
+$cx-default-grid-border-color: #505050 !default;
+
+// header
+$cx-default-grid-header-font-size: 14px !default;
+$cx-default-grid-header-line-height: $cx-default-box-line-height + 1px !default;
+$cx-default-grid-header-background-color: $cx-medium-light-background-overlay !default;
+$cx-default-grid-header-font-weight: $cx-default-tab-font-weight !default;
+$cx-default-grid-header-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
+
+// data
+$cx-default-grid-data-alternate-background-color: #2a2a2a !default;
+$cx-default-grid-data-border-color: #2a2a2a !default;
+$cx-default-grid-data-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 7px $cx-default-box-padding !default;
+$cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
+
+
+//LIST
+$cx-default-list-item-padding: $cx-default-box-padding+1 2 * $cx-default-box-padding $cx-default-box-padding !default;
+
+//FORM
+$cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
+$cx-theme-input-padding: $cx-default-box-padding 0 !default;
+
+// label
+$cx-default-label-font-size: 12px !default;
+$cx-default-label-color: $cx-medium-emphasis !default;
+
+// date time picker
+$cx-default-datetimepicker-border-color: #414141 !default;
+$cx-default-datetimepicker-background-color: $cx-medium-light-background-overlay !default;
+$cx-default-wheel-clip-border-color: $cx-theme-primary-color !default;
+$cx-default-wheel-clip-border-radius: 2px !default;
+$cx-default-wheel-clip-background-color: $cx-medium-light-background-overlay;
+
+// calendar
+$cx-default-calendar-background-color: #121212 !default;
+$cx-default-calendar-border-width: 0 !default;
+$cx-default-calendar-border-radius: $cx-default-border-radius !default;
+
+$cx-default-calendar-header-font-size: 16px !default;
+$cx-default-calendar-header-background-color: #121212 !default;
+
+$cx-default-calendar-day-font-size: 11px !default;
+$cx-default-calendar-day-border-radius: 50% !default;
+
+// checkbox
+$cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
+$cx-default-checkbox-border-color: $cx-default-background-overlay !default;
+
+// radio
+$cx-default-radio-background-color: #121212 !default;
+$cx-default-radio-size: $cx-default-box-line-height - 6px !default;
+$cx-default-radio-color: #4db6ac !default;
+
+// lookupfield tag
+$cx-default-input-tag-font-size: 12px !default;
+$cx-default-input-tag-border-radius: 20px !default;
+$cx-default-input-tag-spacing: 4px !default;
+
+// colorpicker
+$cx-default-colorpicker-font-family: $cx-default-font-family !default;
+$cx-default-colorpicker-background-color: $cx-default-calendar-background-color !default;
+$cx-default-colorpicker-border-width: 1px !default;
+$cx-default-colorpicker-box-shadow: none !default;
+
+// slider
+$cx-default-slider-axis-size: 2px !default;
+$cx-default-slider-axis-background-color: $cx-default-background-overlay !default;
+$cx-default-slider-range-background-color: $cx-theme-primary-color !default;
+$cx-default-slider-handle-size: 16px !default;
+$cx-default-slider-handle-background-color: $cx-theme-primary-color !default;
+$cx-default-slider-handle-border-width: 2px !default;
+$cx-default-slider-handle-border-color: $cx-theme-primary-color !default;
+$cx-default-slider-handle-box-shadow: none !default;
+
+// switch
+$cx-default-switch-axis-size: 8px !default;
+$cx-default-switch-axis-background-color: $cx-light-background-overlay !default;
+$cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.2) !default;
+$cx-default-switch-handle-background-color: #8a8a8a !default;
+$cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
+
+// icon
+$cx-default-icon-size: $cx-default-box-line-height !default;
+$cx-default-input-tool-size: $cx-default-icon-size !default;
+$cx-default-clear-size: $cx-default-icon-size !default;
+
+// PROGRESSBAR
+$cx-default-progressbar-height: 8px !default;
+$cx-default-progressbar-font-size: smaller !default;
+$cx-default-progressbar-color: $cx-medium-emphasis !default;
+$cx-default-progressbar-background-color: rgba($cx-theme-primary-color, .2) !default;
+$cx-default-progressbar-border-width: 0 !default;
+
+$cx-default-progressbar-indicator-background-color: $cx-theme-primary-color !default;
+
+
+@import "~cx/src/variables";
+
+//VARIABLE MAPS
+//LIST
+$cx-list-item: cx-deep-map-merge($cx-list-item, (
+   default: (
+      color: $cx-medium-emphasis,
+   ),
+   hover: (
+      background-color: $cx-default-background-overlay
+   ),
+   cursor: (
+      background-color: $cx-default-background-overlay
+   ),
+   selected: (
+      background-color: $cx-light-background-overlay
+   ),
+   selected-hover: (
+      background-color: $cx-light-background-overlay
+   ),
+   selected-cursor: (
+      background-color: $cx-light-background-overlay
+   ),
+   disabled: (
+      background-color: transparent
+   )
+));
+
+//BUTTON
+$cx-button-state-style-map: cx-deep-map-merge($cx-button-state-style-map, (
+   default: (
+      text-transform: uppercase,
+      font-weight: $cx-default-button-font-weight,
+      letter-spacing: .045rem
+   ),
+   hover: (
+      background-color: #d5d5d5
+   ),
+   focus: (
+      background-color: rgba($cx-theme-primary-color, .2),
+   ),
+   active: (
+      box-shadow: 0px 5px 5px 1px rgba(0, 0, 0, 0.9), 
+      top: 0
+   ),
+   disabled: (
+      color: $cx-disabled-text,
+      background-color: rgba(255, 255, 255, 0.12)
+   )
+));
+
+// button mods
+$cx-button-mods: cx-deep-map-merge($cx-button-mods, (
+   primary: (
+      default: (
+         background-color: $cx-theme-primary-color,
+         border-color: $cx-default-border-color,
+         color: $cx-default-color-dark
+      ),
+      hover: (
+         background-color: rgba($cx-theme-primary-color, .9)
+      ),
+      focus: (
+         background-color: lighten($cx-theme-primary-color, 5),
+         box-shadow: none
+      ),
+      active: (
+         background-color: darken($cx-theme-primary-color, 8),
+         top: 0
+      ),
+      disabled: (
+         border-color: transparent,
+         color: rgba($cx-default-color-dark, .5),
+         background-color: rgba($cx-theme-primary-color, .8)
+      )
+   ),
+   secondary: (
+      default: (
+         background-color: $cx-theme-accent-color,
+         border-color: $cx-default-border-color,
+         color: $cx-default-color-dark
+      ),
+      hover: (
+         background-color: rgba($cx-theme-accent-color, .9),
+      ),
+      focus: (
+         background-color: lighten($cx-theme-accent-color, 5),
+         box-shadow: none
+      ),
+      active: (
+         background-color: darken($cx-theme-accent-color, 8),
+         top: 0
+      ),
+      disabled: (
+         border-color: transparent,
+         color: rgba($cx-default-color-dark, .5),
+         background-color: rgba($cx-theme-accent-color, .8)
+      )
+   ),
+   danger: (
+      default: (
+         background-color: $cx-theme-danger-color,
+         color: $cx-default-color-dark,
+         border-color: $cx-default-border-color,
+      ),
+      hover: (
+         background-color: rgba($cx-theme-danger-color, .9)
+      ),
+      focus: (
+         background-color: lighten($cx-theme-danger-color, 2),
+         box-shadow: none
+      ),
+      active: (
+         background-color: darken($cx-theme-danger-color, 3),
+         top: 0
+      ),
+      disabled: (
+         background-color: #d87a8f,
+         opacity: 0.5,
+         color: rgba($cx-default-color-dark, .9)
+      )
+   ),
+   hollow: (
+      default: (
+         color: inherit,  
+      ),   
+      hover: (
+         background-color: rgba($cx-default-color, .1)
+      ),
+      focus: (
+         background-color: rgba($cx-default-color, .15)
+      ),
+      active: (
+         background-color: rgba($cx-default-color, .2)
+      ),
+      disabled: (
+         color: $cx-disabled-text
+      )
+   ),
+   flat-primary: (
+      default: (
+         color: $cx-theme-primary-color,
+         background: transparent,
+         box-shadow: none
+      ),
+      hover: (
+         background-color: rgba($cx-theme-primary-color, .1)
+      ),
+      focus: (
+         background-color: rgba($cx-theme-primary-color, .15)
+      ),
+      active: (
+         background-color: rgba($cx-theme-primary-color, .2)
+      ),
+      disabled: (
+         color: #4db6ac,
+         opacity: .5
+      )
+   ),
+   flat-accent: (
+      default: (
+         color: $cx-theme-accent-color,
+         background: transparent,
+         box-shadow: none
+      ),
+      hover: (
+         background-color: rgba($cx-theme-accent-color, .1)
+      ),
+      focus: (
+         background-color: rgba($cx-theme-accent-color, .15)
+      ),
+      active: (
+         background-color: rgba($cx-theme-accent-color, .2)
+      ),
+      disabled: (
+         color: #ffb550,
+         opacity: .5
+      )
+   ),
+   float: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: $cx-theme-accent-color,
+         border-color: transparent,
+         border-radius: 50%,
+         padding: 0 !important,
+         width: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px,
+         height: $cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px
+      ),
+      hover: (
+         background-color: rgba($cx-theme-accent-color, .9)
+      ),
+      focus: (
+         background-color: lighten($cx-theme-accent-color, 2)
+      ),
+      active: (
+         background-color: darken($cx-theme-accent-color, 3)
+      ),
+      disabled: (
+         background-color: $cx-theme-accent-color,
+         opacity: 0.5,
+         color: rgba($cx-default-color-dark, .9)
+      )
+   )
+));
+
+//TAB
+$cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
+   default: (
+      background-color: $cx-medium-light-background-overlay,
+      text-transform: uppercase,
+      line-height: $cx-default-box-line-height,
+   ),
+   hover: (
+      background-color: rgba($cx-theme-primary-color, .15)
+   ),
+   cursor: (
+      background-color: rgba($cx-theme-primary-color, .2)
+   ),
+   selected: (
+      background-color: $cx-theme-primary-color,
+      color: $cx-default-color-dark
+   ),
+   selected-cursor: (
+      background-color: $cx-theme-primary-color,
+      color: $cx-default-color-dark
+   ),
+   active: (
+      background-color: $cx-theme-primary-color,
+      color: $cx-default-color-dark
+   ),
+   disabled: (
+      background-color: $cx-medium-light-background-overlay,
+      color: $cx-disabled-text
+   )
+));
+
+// tab mods
+$cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
+   classic: (
+      default: (
+         color: $cx-default-color,
+         background-color: $cx-light-background-overlay,
+         border-width: 2px 2px 0 2px,
+         border-radius: 0,
+         padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
+      ),
+      hover: (
+         color: $cx-theme-primary-color,
+         background-color: rgba($cx-theme-primary-color, .1)
+      ),
+      cursor: (
+         color: $cx-default-color,
+         border-color: $cx-theme-primary-color
+      ),
+      selected: (
+         color: $cx-theme-primary-color,
+         background-color: rgba(#fff, .03)
+         ),
+      selected-cursor: (
+         color: $cx-theme-primary-color,
+         background-color: rgba(#fff, .03)
+      ),
+      active: (
+         color: $cx-theme-primary-color,
+         background-color: rgba(#fff, .03)
+      ),
+      disabled: (
+         color: $cx-disabled-text
+      )
+   ),
+   line: (
+      default: (
+         color: $cx-default-color,
+         padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
+      ),
+      hover: (
+         border-color: $cx-light-background-overlay
+      ),
+      focus: (
+         border-color: $cx-theme-primary-color
+      ),
+      selected: (
+         color: $cx-theme-primary-color,
+         border-color: $cx-theme-primary-color,
+      ),
+      selected-cursor: (
+         border-color: $cx-theme-primary-color,
+      ),
+      disabled: (
+         color: $cx-disabled-text
+      ),
+      cursor: (
+         border-color: rgba(0, 0, 0, 0.13)
+      )
+   ),
+   // If a tab is inside a dark-colored container, use mod="line-accent".
+   line-accent: (
+      default: (
+         color:  $cx-default-color,
+         border-left-color: transparent !important,
+         border-right-color: transparent !important,
+         border-top-color: transparent !important,
+         border-left-width: 0,
+         border-right-width: 0,
+         border-bottom-width: 2px,
+         border-top-width: 0,
+         border-bottom-left-radius: 0,
+         border-bottom-right-radius: 0,
+         padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px)
+      ),
+      hover: (
+         border-color: $cx-light-background-overlay,
+         background-color: transparent
+      ),
+      cursor: (
+         background-color: transparent,
+         color: $cx-default-color,
+      ),
+      selected: (
+         color: $cx-default-color,
+         background-color: transparent,
+         border-color: $cx-theme-accent-color
+      ),
+      selected-cursor: (
+         border-color: lighten($cx-theme-accent-color, 10)
+      ),
+      disabled: (
+         color: $cx-disabled-text
+      )
+   )
+));
+
+//SECTION
+$cx-section-mods: cx-deep-map-merge($cx-section-mods, (
+   card: (
+      default: (
+         background-color: $cx-default-section-background
+      )
+   ),
+   primary: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: $cx-theme-primary-color,
+         border-radius: $cx-default-border-radius
+      )
+   ),
+   warning: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: #fbc02d,
+         border-radius: $cx-default-border-radius
+      )   
+   ),
+   success: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: #68ee75,
+         border-radius: $cx-default-border-radius
+      )
+   ),
+   error: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: #CF6679,    
+         border-radius: $cx-default-border-radius
+      )
+   )  
+));
+
+//MENU
+$cx-dropdown-styles: map-merge($cx-dropdown-styles, (
+   color: $cx-medium-emphasis,
+   font-size: $cx-default-box-font-size,
+   font-weight: $cx-default-tab-font-weight,   
+   background-color: #262626
+));
+
+$cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
+   default: (
+      color: $cx-medium-emphasis
+   ),
+   focus: (
+      background-color: $cx-medium-light-background-overlay
+   ),
+   
+));
+
+//WINDOW
+$cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
+   default: (
+      color: $cx-default-color,
+      border-radius: $cx-default-border-radius,
+   )
+));
+
+// header
+$cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
+   default: (
+      border-top-left-radius: $cx-default-border-radius,
+      border-top-right-radius: $cx-default-border-radius,
+      background-color: $cx-default-window-header-background
+   )
+));
+
+// body
+$cx-window-body-state-style-map: cx-deep-map-merge($cx-window-body-state-style-map, (
+   default: (
+      background: null
+   )
+));
+
+// footer
+$cx-window-footer-state-style-map: cx-deep-map-merge($cx-window-footer-state-style-map, (
+   default: (
+      background: null,
+      margin: 0 1.5rem,
+      padding: 1rem 0,
+      border-top: none
+   )
+));
+
+// window mods
+$cx-window-mods: (
+   alert: (
+      frame: (
+         font-size: 16px,
+         color: $cx-default-color
+      ),
+      body: (
+         padding: 24px 24px 20px,
+         text-align: left,
+         color: $cx-default-color
+      ),
+      footer: (
+         border-top: none,
+         padding: 8px 0
+      )
+   )
+);
+
+//TOAST
+$cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
+   dark: (
+      default: (
+         color: $cx-default-color,
+         background-color: rgb(51, 51, 51)
+      )
+   ), 
+   warning: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: #fbc02d
+      )   
+   ),
+   primary: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: $cx-theme-primary-color
+      )
+   ),
+   success: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: #68ee75
+      )
+   ),
+   error: (
+      default: (
+         color: $cx-default-color-dark,
+         background-color: $cx-theme-danger-color       
+      )
+   )     
+));
+
+//GRID  
+$cx-grid-data-state-style-map: cx-deep-map-merge($cx-grid-data-state-style-map, (
+   sorted: (
+      background-color: #b2dfdb
+   )
+));
+
+// pagination
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, (
+   default: (
+      border-radius: $cx-default-border-radius
+   )
+));
+
+//FORM
+// global inputs
+$cx-input-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+   default: (
+      background: none,
+      color: $cx-default-color,
+      border-color: #414141,
+      outline: none
+   ),
+   focus: (
+      border-color:transparent,
+      outline: none,
+      box-shadow: 0 0 4px $cx-theme-primary-color
+   ),
+   disabled: (
+      background-color: #636363,
+      color: $cx-disabled-text
+   )
+));
+
+// standard form field - textfield, numberfield, lookupfield,...
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
+   default: (
+      background: none,
+      padding: $cx-theme-input-padding,
+      border-color: transparent transparent #505050,
+      border-radius: 0,
+      color: $cx-medium-emphasis
+   ),
+   hover: (
+      border-color: transparent transparent lighten(#dbdbdb, 6)
+   ),
+   focus: (
+      border-color: transparent transparent $cx-theme-primary-color,
+      transition: border-color 0.55s ease-in-out,
+      box-shadow: none
+   ),
+   disabled: (
+      color: $cx-disabled-text,
+      background-color: transparent,
+      border-style: dashed
+   ),
+   error: (
+      border-color: transparent transparent $cx-theme-danger-color
+   ),
+   error-focus: (
+      box-shadow: none
+   )
+));
+
+// textarea
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
+   default: (
+      border-color: transparent transparent #505050,
+   ),
+   focus: (
+      background-color: rgba($cx-default-color, 0.015)
+   ),
+   hover: (
+      background-color: rgba($cx-default-color, 0.06)
+   )
+));
+
+// calendar
+$cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
+   focus: (
+      border-color: transparent,
+      box-shadow:  0 0 4px $cx-theme-primary-color
+   )
+));
+
+// calendar days
+$cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style-map, (
+   default: (
+      color: $cx-default-color,
+      height: 32px,
+      line-height: 32px,
+      width: 32px
+   ),
+   today: (
+      background-color: $cx-theme-accent-color,
+      color: $cx-default-color-dark
+   ),
+   hover-focus: (
+      background-color: rgba($cx-theme-primary-color, 0.3)
+   ),
+   hover: (
+      background-color: rgba($cx-theme-primary-color, 0.2),
+      color: $cx-default-color
+   ),
+   selected: (
+      background-color: #26a69a,
+      color: $cx-default-color-dark
+   ),
+   outside: (
+      color: $cx-disabled-text
+   )
+));
+
+// color picker
+$cx-colorpicker-state-style-map: cx-deep-map-merge($cx-colorpicker-state-style-map, (
+   default: (
+      color: $cx-default-color,
+      border-width: 0 0 2px,
+      border-color: #414141
+   ),
+   focus: (
+      border-color: $cx-theme-primary-color
+   )
+));
+
+// date time picker
+$cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state-style-map, (
+   default: (
+      border-color: transparent,
+      background-color: rgba($cx-theme-primary-color, 0.3)
+   ),
+   active: (
+      border-color: transparent,
+      background-color: rgba($cx-theme-primary-color, 0.6)
+   )
+));
+
+
+// checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
+   default: (
+      background-color: $cx-light-background-overlay, 
+   ),
+   focus: (
+      border-color: $cx-theme-primary-color,
+      box-shadow: 0 0 2px rgba($cx-theme-primary-color, 0.8)
+   ),
+   checked: (
+      background-color: $cx-theme-primary-color,
+      color: $cx-default-color-dark
+   ),
+   disabled: (
+      opacity: .2
+   )
+));
+
+// radio
+$cx-radio-state-style-map: cx-deep-map-merge($cx-radio-state-style-map, (
+   checked: (
+      color: $cx-default-radio-color,
+      border-color: $cx-default-radio-color,
+   ),
+   checked-focus: (
+      border-color: $cx-default-radio-color,
+   ),
+   checked-hover: (
+      border-color: $cx-default-radio-color
+   ),
+   focus: (
+      border-color: rgba(38, 166, 154, .5),
+      box-shadow:  0 0 4px $cx-theme-primary-color,
+   ),
+   disabled: (
+      background-color: #505050,
+      border-color: #636363
+   ),
+   disabled-checked: (
+      background-color: transparent,
+      color: rgba(#26a69a, 0.36),
+      border-color: rgba(#26a69a, 0.36)
+   )
+));
+
+// lookupfield tag
+$cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, (
+   default: (
+      background-color: rgba($cx-theme-accent-color, .8),
+      color: $cx-default-color-dark
+   ),
+   hover: (
+       background-color: rgba($cx-theme-accent-color, .6)
+   )
+));
+
+
+// slider
+$cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
+   default: (
+      box-shadow: null
+   ),
+   hover: (
+      box-shadow: null
+   ),
+   focus: (
+      box-shadow: none
+   )
+));
+
+// switch
+$cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
+   active: (
+      background-color: $cx-theme-primary-color,
+      border-color: transparent
+   ),
+   focus: (
+      border-color: transparent
+   ),
+   on: (
+      background-color: $cx-theme-primary-color,
+      border-color: transparent
+   )
+));
+
+// clear icon
+$cx-clear-state-style-map: cx-deep-map-merge($cx-clear-state-style-map, (
+   default: (
+      right: 2px
+   ),
+   hover: (
+      background-color: $cx-default-background-overlay,
+   ),
+   active: (
+      color: $cx-theme-primary-color
+   ),
+   focus: (
+      color: $cx-theme-primary-color
+   ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
+));
+
+// right icon
+$cx-input-right-icon-state-style-map: cx-deep-map-merge($cx-input-right-icon-state-style-map, (
+   default: (
+      color: $cx-default-color,
+      opacity: 1,
+      right: 2px
+   ),
+   focus: (
+      color: $cx-theme-primary-color
+   ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
+));
+
+// left icon
+$cx-input-left-icon-state-style-map: cx-deep-map-merge($cx-input-left-icon-state-style-map, (
+   default: (
+      left: 2px
+   ),
+   error: (
+      color: $cx-default-color,
+      opacity: 0.6
+   )
+));
+
+//GLOBALS
+$cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
+   html: (
+      background: $cx-default-background-color
+   ),
+   h1: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   h2: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   h3: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   h4: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   h5: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   h6: (
+      font-weight: 400,
+      color: $cx-default-color
+   ),
+   a: (
+      color: #4db6ac
+   ),
+   p: (
+      line-height: $cx-default-paragraph-line-height
+   )
+));

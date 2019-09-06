@@ -10,7 +10,7 @@ export default <cx>
             title="Material Labels"
             hLevel={4}
             layout={LabelsLeftLayout}
-            visible={{expr: "{$root.$route.theme} == 'material'"}}
+            visible={{expr: ("{$root.$route.theme} == 'material' || {$root.$route.theme} == 'material-dark'")}}
         >
             <Select value={bind("standard")} label="Standard" labelPlacement="material" >
                <option value={1}>Option 1</option>

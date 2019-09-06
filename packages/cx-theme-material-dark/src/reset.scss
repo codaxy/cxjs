@@ -1,0 +1,30 @@
+//SCROLLBAR
+@if ($cx-include-global-rules) {
+   @media screen and (min-width: 700px) {
+      ::-webkit-scrollbar {
+         width: 10px;
+         height: 10px;
+         background-color: rgba(255, 255, 255, 0.03);
+      }
+      ::-webkit-scrollbar-thumb {
+         -webkit-border-radius: 50px;
+
+         &:vertical {
+            background-color: rgba(255, 255, 255, 0.09);
+            &:hover {
+               background-color: rgba(255, 255, 255, 0.2);
+            }
+         }
+
+         &:horizontal {
+            background-color: rgba(255, 255, 255, 0.09);
+            &:hover {
+               background-color: rgba(255, 255, 255, 0.2);
+            }
+         }
+      }
+      ::-webkit-scrollbar-corner {
+         background-color: rgba(255, 255, 255, 0.2);
+      }
+   }
+}
