@@ -37,7 +37,7 @@ $mod: map-get($cx-besm, mod);
          .#{$mod}error &,
          .#{$mod}success &,
          .#{$mod}warning & {
-            color: #fff;
+            color: $cx-default-color-dark;
          }
       }
    }
@@ -89,7 +89,7 @@ $mod: map-get($cx-besm, mod);
       }
 
       .#{$element}progressbar-indicator {
-         background-image: linear-gradient(to bottom, #85ceff, $primary-text-color);
+         background-image: linear-gradient(to bottom, #85ceff, #1e5f8a);
          border-radius: 25px;
          // box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.3);
          box-shadow: inset 0 -1px 2px rgba(255,255,255, .3);
@@ -110,20 +110,14 @@ $mod: map-get($cx-besm, mod);
 
 //GRID
 .#{$element}grid-data {
-   color: rgba(0,0,0, .77);
-
    .#{$state}selectable & {
-      &:hover {
-         background-color: #f7f7f7;
-      }
    
       &.#{$state}selected {
-        background-color: #ebf5fc;
-        border-color: #8bccfc;
+        background-color: rgba($cx-theme-accent-color, .2);
 
-        &.#{$state}cursor {
-         background-color: #ebf5fc;
-         border-color: #8bccfc;
+         &.#{$state}cursor {
+            background-color: rgba($cx-theme-accent-color, .2);
+            color: lighten($secondary-color, 15);
          }
       }   
    }
@@ -132,8 +126,7 @@ $mod: map-get($cx-besm, mod);
 .#{$element}grid-group-footer, .#{$element}grid-group-caption {
 
    td {
-      color: $accent-color;
-      background-color: #fff;
+      color: $cx-theme-accent-color;
    }
 }
 
@@ -157,7 +150,7 @@ $mod: map-get($cx-besm, mod);
 }
 
 .#{$element}switch-range {
-   background-color: $accent-color;
+   background-color: $cx-theme-accent-color;
 }
 
 .#{$element}switch-handle {

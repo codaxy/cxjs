@@ -267,7 +267,7 @@ $small-device-width: 800px;
 
 .theme-queenblue {
    .aside {
-    background: #394853;
+    background: #303f50;
 
       .cxb-link.cxs-active {
          color: hsl(171, 57%, 55%);
@@ -275,13 +275,11 @@ $small-device-width: 800px;
    }
 
    .header {
-      // background-color: #394853;
-      background: linear-gradient(90deg,#394853 0,#455C73);
-      // background: linear-gradient(90deg,#394853 0, #51626f);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
+      background-color: #33465B;
+      // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
 
      .title a {
-         color: hsl(165, 55%, 55%);
+         color: #4DCBAC;
       }
 
       h2 {
