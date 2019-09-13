@@ -47,7 +47,8 @@ $mod: map-get($cx-besm, mod);
    // calendar
    .#{$block}calendar {
       .#{$element}calendar-day-names {
-         color: $cx-theme-primary-color;
+         // color: $cx-theme-primary-color;
+         color: mix($cx-default-color, $cx-theme-accent-color-dark, 65);
       }
 
       &.#{$state}disabled {

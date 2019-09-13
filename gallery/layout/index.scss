@@ -278,6 +278,14 @@ $small-device-width: 800px;
       background-color: #33465B;
       // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
 
+      .tabs {
+         .cxb-tab.cxm-line {
+            &.cxs-active {
+               border-color: rgba(#4dcbac, .8);
+            }
+         }
+      }
+
      .title a {
          color: #4DCBAC;
       }
