@@ -47,8 +47,7 @@ $mod: map-get($cx-besm, mod);
    // calendar
    .#{$block}calendar {
       .#{$element}calendar-day-names {
-         // color: $cx-theme-primary-color;
-         color: mix($cx-default-color, $cx-theme-accent-color-dark, 65);
+         color: $cx-theme-primary-color;
       }
 
       &.#{$state}disabled {
@@ -137,7 +136,6 @@ $mod: map-get($cx-besm, mod);
    .#{$block}progressbar {
       margin: 10px 0 0;
       border-radius: 25px;
-      // box-shadow: inset 0 -1px 2px rgba(30, 95, 138, 0.3);
       box-shadow: inset 0 -1px 2px rgba(255,255,255, .3);
 
       .#{$element}progressbar-label {
@@ -148,7 +146,6 @@ $mod: map-get($cx-besm, mod);
       .#{$element}progressbar-indicator {
          background-image: linear-gradient(to bottom, #77b6e0, #1e5f8a);
          border-radius: 25px;
-         // box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.3);
          box-shadow: inset 0 -1px 2px rgba(255,255,255, .3);
        }
    }
@@ -174,7 +171,6 @@ $mod: map-get($cx-besm, mod);
 
          &.#{$state}cursor {
             background-color: rgba($cx-theme-accent-color, .2);
-            // color: lighten($secondary-color, 15);
             color: #d0da7a;
          }
       }   
@@ -207,7 +203,7 @@ $mod: map-get($cx-besm, mod);
          td {
             text-transform: uppercase;
             color: $cx-theme-accent-color;
-            border-color: $cx-default-border-color-light;
+            border-color: transparent;
          }
       }
    }
@@ -243,7 +239,6 @@ $mod: map-get($cx-besm, mod);
    &:after {
       content: 'OFF';
       color: rgba(137, 194, 217, .5);
-      // color: rgba($cx-theme-accent-color, .5);
       font-weight: $cx-default-font-weight;
       margin-left: 10px;
    }
@@ -256,7 +251,6 @@ $mod: map-get($cx-besm, mod);
    margin-left: -8px;
    margin-top: -8px;
    background-color: rgba(137, 194, 217, .5);
-   // background-color: rgba($cx-theme-accent-color, .5);
    border-radius: 19px; 
    cursor: pointer;
    -webkit-transition: all .3s .1s, width .1s, top .1s, bottom .1s;
@@ -266,27 +260,24 @@ $mod: map-get($cx-besm, mod);
 .#{$element}switch-axis {
    background-color: $cx-default-section-background;
    border: 2px solid rgba(137, 194, 217, .5);
-   // border: 2px solid rgba($cx-theme-accent-color, .5);
    border-radius: 20px;
    height: 22px;
    transition: border-color .6s ease-out;
 }
 
 .#{$element}switch-range {
-      z-index: 1;
-      right: 3px;
-      border-radius: 23px;
-      background-color: #89c2da;
-      box-shadow: 0 0 10px #4b7a8d;
-      // background-color: lighten($cx-theme-accent-color, 10);
-      // box-shadow: 0 0 10px $cx-theme-accent-color;
-      -webkit-transition: all .2s .1s, right .1s;
-      transition: all .2s .1s, right .1s;
+   z-index: 1;
+   right: 3px;
+   border-radius: 23px;
+   background-color: #89c2da;
+   box-shadow: 0 0 10px #4b7a8d;
+   -webkit-transition: all .2s .1s, right .1s;
+   transition: all .2s .1s, right .1s;
 
-      &:after {
-         content: "ON";
-         font-weight: $cx-default-font-weight;
-         color: #3b6a7d;
-         margin-left: 15px;
-      }
+   &:after {
+      content: "ON";
+      font-weight: $cx-default-font-weight;
+      color: #3b6a7d;
+      margin-left: 15px;
+   }
 }
