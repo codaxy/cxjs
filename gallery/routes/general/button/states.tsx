@@ -32,10 +32,6 @@ export default <cx>
                 <h6>Warning</h6>
                 {buttons("warning")}
                 <br/>
-
-                <h6>Warning Light</h6>
-                {buttons("warning-light")}
-                <br/>
             </div>
 
             <div visible={{expr: "{$root.$route.theme} == 'material-dark'"}}>
@@ -52,8 +48,15 @@ export default <cx>
 
             <div visible={{expr: "{$root.$route.theme} == 'queenblue'"}}>
                 <br/>
-                <h6>Hollow Light</h6>
-                {buttons("hollow-light")}
+                <h6>Primary Hollow</h6>
+                {buttons("primary-hollow")}
+
+                <h6>Secondary Hollow</h6>
+                {buttons("secondary-hollow")}
+
+                <h6>Warning Hollow</h6>
+                {buttons("warning-light")}
+                <br/>
             </div>
 
             <br />
