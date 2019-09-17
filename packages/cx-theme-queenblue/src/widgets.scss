@@ -247,49 +247,6 @@ $mod: map-get($cx-besm, mod);
 
 
 // SWITCH
-.#{$element}switch-space {
-   &:after {
-      content: 'OFF';
-      color: rgba(137, 194, 217, .5);
-      font-weight: $cx-default-font-weight;
-      margin-left: 10px;
-   }
-}
-
-.#{$element}switch-handle {
-   position: absolute;
-   width: 16px;
-   height: 16px;
-   margin-left: -8px;
-   margin-top: -8px;
-   background-color: rgba(137, 194, 217, .5);
-   border-radius: 19px; 
-   cursor: pointer;
-   -webkit-transition: all .3s .1s, width .1s, top .1s, bottom .1s;
-   transition: all .3s .1s, width .1s, top .1s, bottom .1s;
-}
-
-.#{$element}switch-axis {
-   background-color: $cx-default-section-background;
-   border: 2px solid rgba(137, 194, 217, .5);
-   border-radius: 20px;
-   height: 22px;
-   transition: border-color .6s ease-out;
-}
-
-.#{$element}switch-range {
-   z-index: 1;
-   right: 3px;
-   border-radius: 23px;
-   background-color: #89c2da;
-   box-shadow: 0 0 10px #4b7a8d;
-   -webkit-transition: all .2s .1s, right .1s;
-   transition: all .2s .1s, right .1s;
-
-   &:after {
-      content: "ON";
-      font-weight: $cx-default-font-weight;
-      color: #3b6a7d;
-      margin-left: 15px;
-   }
+.cxe-switch-handle:active {
+	background-color: lighten($cx-default-switch-handle-background-color, 5);
 }

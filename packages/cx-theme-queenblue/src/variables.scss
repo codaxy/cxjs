@@ -138,9 +138,11 @@ $cx-default-input-tag-border-radius: 5px !default;
 $cx-default-input-tag-spacing: 4px !default;
 
 //switch
-$cx-default-switch-handle-border-color: rgba(137, 194, 217, 0.1) !default;
+$cx-default-switch-axis-background-color: $cx-default-background-color-dark !default;
+$cx-default-switch-range-background-color: darken($cx-theme-accent-color, 10)!default;
+$cx-default-switch-handle-background-color: $cx-default-background-color-lighter !default;
+$cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
 $cx-default-switch-handle-box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.05) !default;
-$cx-default-switch-width: 54px !default;
 
 //checkbox
 $cx-default-checkbox-size: 18px !default;
