@@ -500,28 +500,28 @@ $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
 //TAB
 $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 	default: (
-			color: $cx-default-color
-		),
-		hover: (
-			background-color: rgba($primary-color-dark, 0.2)
-		),
-		cursor: (
-			background-color: rgba($primary-color-dark, 0.2)
-		),
-		selected: (
-			background-color: $primary-color-dark,
-			color: $cx-default-color-dark
-		),
-		selected-cursor: (
-			background-color:  $primary-color-light
-		),
-		active: (
-			background-color: $primary-color-dark,
-			color: $cx-default-color-dark
-		),
-		disabled: (
-			color: $cx-disabled-text
-		)
+		color: $cx-default-color
+	),
+	hover: (
+		background-color: rgba($primary-color-dark, 0.2)
+	),
+	cursor: (
+		background-color: rgba($primary-color-dark, 0.2)
+	),
+	selected: (
+		background-color: $primary-color-dark,
+		color: $cx-default-color-dark
+	),
+	selected-cursor: (
+		background-color:  $primary-color-light
+	),
+	active: (
+		background-color: $primary-color-dark,
+		color: $cx-default-color-dark
+	),
+	disabled: (
+		color: $cx-disabled-text
+	)
 ));
 
 // tab mods
