@@ -234,19 +234,17 @@ $mod: map-get($cx-besm, mod);
    }
    .#{$element}grid-col-header-tool {
       .#{$block}checkbox {
-         padding: $cx-default-container-padding + 2px;
+         padding: $cx-default-container-padding;
       }
    }
 }
-
 
 // pagination
 .#{$element}pagination-page {
    border-color: transparent;
 }
 
-
-// SWITCH
+// switch
 .cxe-switch-handle:active {
 	background-color: lighten($cx-default-switch-handle-background-color, 5);
 }

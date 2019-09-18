@@ -51,7 +51,7 @@ export default <cx>
          scrollable
          row={{
             style: {
-               background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' && {$root.$route.theme}!='queenblue' ? '#fff7e6' : null"}
+               background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' && {$root.$route.theme}!='space-blue' ? '#fff7e6' : null"}
             },
             line1: {
                columns: [

@@ -5,7 +5,7 @@ $primary-color-dark: darken($cx-theme-primary-color, 3);
 
 $cx-theme-accent-color: #4dcbac !default;
 $cx-theme-accent-color-light: lighten($cx-theme-accent-color, 5);
-$cx-theme-accent-color-dark: darken($cx-theme-accent-color, 3);
+$cx-theme-accent-color-dark: darken($cx-theme-accent-color, 8);
 
 $cx-theme-danger-color: #cc4141 !default;
 $cx-theme-danger-color-light: lighten($cx-theme-danger-color, 3) !default;
@@ -21,14 +21,10 @@ $info-color-dark: darken($info-color, 15);
 $success-color: #3bab73;
 $success-color-dark: #244232;
 
-$cx-default-background-overlay: #303f50;
-
 // pick theme size
 $normal-base-size: 13px !default;
 $small-base-size: 12px !default;
 $cx-theme-base-size: $normal-base-size !default;
-
-$cx-default-highlight-color: $cx-theme-primary-color;
 
 // GLOBAL VARIABLES
 $cx-default-background-color: #263340 !default;
@@ -61,7 +57,7 @@ $cx-default-button-padding: 10px 20px !default;
 $cx-default-button-box-shadow: none !default;
 
 //SECTION
-$cx-default-section-background: $cx-default-background-overlay;
+$cx-default-section-background: $cx-default-background-color-light;
 $cx-default-section-box-shadow: none !default;
 $section-header-font-weight: $cx-default-font-weight;
 
@@ -91,6 +87,8 @@ $grid-secondary-color: darken($cx-default-background-color-dark, 3) !default;
 $grid-editable-cell-background-color: rgba(255, 211, 145, 0.1);
 
 $cx-default-grid-data-alternate-background-color: transparent;
+
+$cx-default-dragclone-background-color: $cx-default-background-color-light !default;
 
 //WINDOW
 $cx-default-window-header-padding: 10px 20px !default;
@@ -271,7 +269,7 @@ $cx-button-mods: cx-deep-map-merge( $cx-button-mods, (
 	),
 	accent: (
 		default: (
-			background-color: $cx-theme-accent-color,
+			background-color: $cx-theme-accent-color-dark,
 			color: $cx-default-color-dark
 		),
 		hover: (
@@ -279,11 +277,11 @@ $cx-button-mods: cx-deep-map-merge( $cx-button-mods, (
 			color: $cx-default-color-dark
 		),
 		active: (
-			background-color: $cx-theme-accent-color-dark,
+			background-color: lighten($cx-theme-accent-color, 2),
 			color: $cx-default-color-dark
 		),
 		disabled: (
-			background-color: $cx-theme-accent-color,
+			background-color: $cx-theme-accent-color-dark,
 			color: $cx-default-color-dark,
 			opacity: 0.6
 		)
@@ -420,33 +418,33 @@ $cx-button-mods: cx-deep-map-merge( $cx-button-mods, (
 	secondary-hollow: (
 		default: (
 			background-color: transparent,
-			color: $cx-theme-accent-color
+			color: $cx-theme-accent-color-dark
 		),
 		hover: (
-			background-color: rgba($cx-theme-accent-color, 0.1),
+			background-color: rgba($cx-theme-accent-color-dark, 0.1),
 			box-shadow: none
 		),
 		cursor: (
-			background-color: rgba($cx-theme-accent-color, 0.2)
+			background-color: rgba($cx-theme-accent-color-dark, 0.2)
 		),
 		selected: (
 			color: $primary-color-light,
-			background-color: rgba($cx-theme-accent-color, 0.1)
+			background-color: rgba($cx-theme-accent-color-dark, 0.1)
 		),
 		selected-hover: (
-			background-color: rgba($cx-theme-accent-color, 0.2)
+			background-color: rgba($cx-theme-accent-color-dark, 0.2)
 		),
 		selected-cursor: (
-			background-color: rgba($cx-theme-accent-color, 0.2)
+			background-color: rgba($cx-theme-accent-color-dark, 0.2)
 		),
 		disabled: (
-			color: rgba($cx-theme-accent-color, 0.5)
+			color: rgba($cx-theme-accent-color-dark, 0.5)
 		),
 		focus: (
-			background-color: rgba($cx-theme-accent-color, 0.2)
+			background-color: rgba($cx-theme-accent-color-dark, 0.2)
 		),
 		active: (
-			background-color: rgba($cx-theme-accent-color, 0.25)
+			background-color: rgba($cx-theme-accent-color-dark, 0.25)
 		)
 	)
 ));

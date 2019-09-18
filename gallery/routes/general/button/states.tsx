@@ -24,7 +24,7 @@ export default <cx>
             {buttons("primary")}
             <br/>
 
-            <div visible={{expr: "{$root.$route.theme} == 'queenblue'"}}>
+            <div visible={{expr: "{$root.$route.theme} == 'space-blue'"}}>
                 <h6>Secondary</h6>
                 {buttons("accent")}
                 <br/>
@@ -46,7 +46,7 @@ export default <cx>
             <h6>Hollow</h6>
             {buttons("hollow")}
 
-            <div visible={{expr: "{$root.$route.theme} == 'queenblue'"}}>
+            <div visible={{expr: "{$root.$route.theme} == 'space-blue'"}}>
                 <br/>
                 <h6>Primary Hollow</h6>
                 {buttons("primary-hollow")}

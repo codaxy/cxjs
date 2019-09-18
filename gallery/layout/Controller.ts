@@ -17,7 +17,7 @@ export default class extends Controller {
             case "frost": return "Frost";
             case "dark": return "Dark";
             case "aquamarine": return "Aquamarine (beta)";
-            case "queenblue": return "Queenblue";
+            case "space-blue": return "Space blue";
             default: return "New theme?";
          }
       });
