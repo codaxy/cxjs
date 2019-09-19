@@ -1,0 +1,251 @@
+@import "~cx/src/index";
+
+$block: map-get($cx-besm, block);
+$element: map-get($cx-besm, element);
+$state: map-get($cx-besm, state);
+$mod: map-get($cx-besm, mod);
+
+// SECTION
+@if (cx-included('cx/widgets/Section')) {
+   $section-mods: primary success warning error;
+   
+   .#{$block}section.#{$mod}card.#{$mod}card {
+      box-shadow: $cx-default-section-box-shadow;
+   }
+   // can be used interchangeably with mod='card'
+   .#{$mod}well {
+      @extend .#{$mod}card;
+   }
+
+   .#{$element}section-header.#{$element}section-header {
+      font-weight: normal;
+      border-bottom: none;
+
+      .#{$mod}pad > & {
+         border: none;
+      }
+   }
+   @for $i from 1 through 6 {
+      .#{$element}section-header h#{$i} {
+         .#{$mod}primary &,
+         .#{$mod}error &,
+         .#{$mod}success &,
+         .#{$mod}warning & {
+            color: $cx-default-color-dark;
+         }
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/Calendar')) {
+   // calendar
+   .#{$block}calendar {
+      .#{$element}calendar-day-names {
+         color: $cx-theme-primary-color;
+      }
+
+      &.#{$state}disabled {
+         background-color: $cx-default-background-color-dark;    
+         pointer-events: none;
+         opacity: .6;
+      }
+   }
+}
+
+@if (cx-included('cx/widgets/DateTimeField')) {
+   .#{$block}datetimefield .#{$block}calendar {
+      border-color: transparent !important;
+   }
+
+   .#{$block}datetimefield .#{$block}datetimepicker {
+      border-color: transparent !important;
+   }
+}
+
+@if (cx-should-include('cx/widgets/DateTimePicker')) {
+   .#{$element}wheel-option {
+      border-color: transparent;
+   }
+}
+
+@if (cx-included('cx/widgets/MonthField')) {
+   .#{$block}monthfield .#{$block}monthpicker {
+      border-color: transparent;
+      box-shadow: none;
+   }
+}
+
+
+// Monthpicker 
+@if (cx-included('cx/widgets/MonthPicker')) {
+   .#{$block}monthpicker {
+      background-color: $cx-default-background-color-dark;
+      border-color: rgba(255,255,255, .4);
+      text-transform: uppercase; 
+
+      td {
+         border-top: 1px solid rgba(255,255,255, .2);
+      }
+
+      tbody:not(:first-child) {
+         tr:first-child {
+            th, td {
+               border-top: 1px solid rgba(255,255,255, .2);
+            }
+         }
+      }
+
+      .#{$element}monthpicker-year {
+         color: $cx-default-color;
+      }
+
+      &.#{$state}disabled {
+         background-color: lighten($cx-default-background-color-dark, 5);
+         border-color: #636363;
+         color: $cx-disabled-text;
+      } 
+   } 
+}
+
+@if (cx-included('cx/widgets/ColorPicker')) {
+   .#{$block}colorfield .#{$block}colorpicker {
+      border-color: transparent !important;
+   }
+}
+
+// lookupfield
+@if (cx-included('cx/widgets/LookupField')) {
+   .#{$element}lookupfield-tag-clear {
+      color: #d0da7a;
+   }
+}
+
+// select
+@if (cx-included('cx/widgets/Select')) {
+   .#{$block}select option {
+      color: $cx-default-color;
+      background-color: $cx-default-background-color-lighter;
+   }
+}
+
+//override for chrome mobile default press effect
+.#{$block}button, .#{$block}tab, .#{$block}menu {
+   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+//Modal window background on dark surface
+%cxe-overlay-shadow {
+   background: rgba(255, 255, 255, 0.075);
+}
+
+//progressbar
+@if (cx-included('cx/widgets/ProgressBar')) {
+   .#{$block}progressbar {
+      margin: 10px 0 0;
+      border-radius: 25px;
+      box-shadow: inset 0 -1px 1px rgba(255,255,255, .2);
+
+      .#{$element}progressbar-label {
+         top: -16px;
+         text-align: right;
+      }
+
+      .#{$element}progressbar-indicator {
+         // background-image: linear-gradient(to bottom, #77b6e0, #1e5f8a);
+         border-radius: 25px;
+         box-shadow: inset 0 -1px 2px rgba(255,255,255, .3);
+       }
+   }
+}
+
+//LIST
+.#{$block}list.#{$state}selectable {
+   &.#{$mod}bordered {
+         border-color: rgba(#d9dfe3, .3);
+
+         & > .#{$element}list-item:not(:first-child) {
+            border-top-color: rgba(#d9dfe3, .3);
+         }
+   }
+}
+
+//GRID
+.#{$element}grid-data {
+   .#{$state}selectable & {
+   
+      &.#{$state}selected {
+        background-color: rgba($cx-theme-primary-color, .2);
+
+         &.#{$state}cursor {
+            background-color: rgba($cx-theme-primary-color, .2);
+            color: #d0da7a;
+         }
+      }   
+   }
+}
+
+.#{$element}grid-group-footer, .#{$element}grid-group-caption {
+
+   td {
+      color: #b2dfdb;
+      line-height: $cx-default-grid-data-line-height;
+     
+   }
+
+   &:not(:first-child) {
+      td {
+         padding-top: cx-top($cx-default-grid-data-padding) + 1px;
+      }
+   }
+}
+
+
+.#{$element}grid-group-caption {
+   td {
+      color: $cx-theme-primary-color-light;
+   }
+
+   @for $i from 2 through 4 {
+      &.#{$state}level-#{$i} {
+         td {
+            text-transform: uppercase;
+            color: $cx-theme-primary-color;
+            border-color: transparent;
+         }
+      }
+   }
+}
+
+.#{$element}grid-group-footer {
+   @for $i from 2 through 4 {
+      &.#{$state}level-#{$i} {
+         td {
+            color: $cx-theme-primary-color-light;
+            border-top: none;
+            border-bottom: 1px solid $cx-default-border-color-light;
+         }
+      }
+   }
+}
+
+// grid checkbox margin corrected
+.#{$block}grid {
+   .#{$block}checkbox {
+      padding: 0;
+   }
+   .#{$element}grid-col-header-tool {
+      .#{$block}checkbox {
+         padding: $cx-default-container-padding;
+      }
+   }
+}
+
+// pagination
+.#{$element}pagination-page {
+   border-color: transparent;
+}
+
+// switch
+.cxe-switch-handle:active {
+	background-color: lighten($cx-default-switch-handle-background-color, 5);
+}

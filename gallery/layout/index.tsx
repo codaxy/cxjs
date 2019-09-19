@@ -56,12 +56,19 @@ export default <cx>
                                 loadTheme("aquamarine");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
+                        
+                        case "material-dark":
+                          return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
+                              loadTheme("material-dark");
+                              return <cx><ContentPlaceholder/></cx>;
+                          });
 
-                            case "material-dark":
-                            return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
-                                loadTheme("material-dark");
+                        case "space-blue":
+                            return import(/* webpackChunkName: 'space-blue' */"../themes/space-blue").then(() => {
+                                loadTheme("space-blue");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
+
                     }
                 }}
             />
@@ -112,6 +119,7 @@ export default <cx>
                                         <Link href={tpl("~/frost{$route.remainder}")}>Frost</Link>
                                         <Link href={tpl("~/core{$route.remainder}")}>Core</Link>
                                         <Link href={tpl("~/dark{$route.remainder}")}>Dark</Link>
+                                        <Link href={tpl("~/space-blue{$route.remainder}")}>Space blue</Link>
                                     </Menu>
                                 </Submenu>
                             </Menu>
