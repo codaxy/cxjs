@@ -56,12 +56,12 @@ export default <cx>
                                 loadTheme("aquamarine");
                                 return <cx><ContentPlaceholder/></cx>;
                             });
-
+                        
                         case "material-dark":
-                        return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
-                            loadTheme("material-dark");
-                            return <cx><ContentPlaceholder/></cx>;
-                        });
+                          return import(/* webpackChunkName: 'material-dark' */"../themes/material-dark").then(() => {
+                              loadTheme("material-dark");
+                              return <cx><ContentPlaceholder/></cx>;
+                          });
 
                         case "space-blue":
                             return import(/* webpackChunkName: 'space-blue' */"../themes/space-blue").then(() => {

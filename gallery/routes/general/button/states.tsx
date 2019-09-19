@@ -23,7 +23,7 @@ export default <cx>
             <h6>Primary</h6>
             {buttons("primary")}
             <br/>
-
+          
             <div visible={{expr: "{$root.$route.theme} == 'space-blue'"}}>
                 <h6>Secondary</h6>
                 {buttons("secondary")}

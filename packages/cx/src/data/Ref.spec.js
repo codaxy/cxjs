@@ -2,6 +2,7 @@ import assert from 'assert';
 import {Store} from './Store';
 import {Ref} from "./Ref";
 import {append} from "./ops/append";
+import {StoreRef} from "./StoreRef";
 
 describe('Ref', () => {
 
@@ -38,7 +39,7 @@ describe('Ref', () => {
    });
 
    it('can cast itself to a ref of another type', () => {
-      class ArrayRef extends Ref {
+      class ArrayRef extends StoreRef {
          append(...args) {
             this.update(append, ...args);
          }

@@ -1,6 +1,6 @@
-import {Record} from '../core'
-import {Binding} from './Binding';
-import {Ref} from "./Ref";
+import { Record } from '../core'
+import { Binding } from './Binding';
+import { Ref } from "./Ref";
 
 declare type Path = string | Binding;
 
@@ -9,7 +9,35 @@ interface ViewConfig {
    sealed?: boolean
 }
 
-export class View {
+export interface ViewMethods {
+   getData(): Record,
+   
+   init(path: Path, value: any): boolean,
+   
+   set(path: Path | Record, value?: any): boolean,
+   
+   get(path: Path): any;
+   get(paths: Path[]): any[];
+   get(...paths: Path[]): any[];
+
+   
+   /**
+    * Removes data from the Store.
+    * @param paths - One or more paths to be deleted.
+    * @return {boolean}
+    */
+   delete(path: Path): boolean;
+   delete(paths: Path[]): boolean;
+   delete(...paths: Path[]): boolean;
+   
+   toggle(path: Path): boolean,
+   
+   update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
+   
+   ref<T = any>(path: string, defaultValue?: T): Ref<T>
+}
+
+export class View implements ViewMethods {
 
    constructor(config?: ViewConfig);
 
@@ -30,18 +58,7 @@ export class View {
 
    /**
     * Removes data from the Store.
-    * @param path - Path to be deleted.
-    * @return {boolean}
-    */
-
-   /**
-    * Removes data from the Store.
-    * @param paths - Array of paths to be deleted.
-    * @return {boolean}
-    */
-   /**
-    * Removes data from the Store.
-    * @param ...paths - Any number of paths to be deleted.
+    * @param paths - Any number or an array of paths to be deleted.
     * @return {boolean}
     */
    delete(path: Path): boolean;
@@ -77,7 +94,7 @@ export class View {
 
    dispatch(action);
 
-   getMethods();
+   getMethods(): ViewMethods;
 
    ref<T = any>(path: string, defaultValue?: T): Ref<T>;
 }
