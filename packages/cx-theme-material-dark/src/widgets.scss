@@ -213,6 +213,10 @@ $form-list: (
 }
 
 // validation error
+.#{$block}validationerror {
+   color: $cx-theme-danger-color;
+}
+
 .#{$mod}help-placement-material {
    .#{$block}validationerror {
       position: absolute;
