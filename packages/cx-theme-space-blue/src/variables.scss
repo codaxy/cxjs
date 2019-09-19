@@ -2,6 +2,7 @@
 $cx-theme-primary-color: #4dcbac !default;
 $cx-theme-primary-color-light: lighten($cx-theme-primary-color, 5);
 $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 8);
+$cx-theme-primary-text-color: hsla(165, 49%, 75%, 0.85);
 
 $cx-theme-secondary-color: #618dd1;
 $secondary-color-light: lighten($cx-theme-secondary-color, 2);
@@ -10,7 +11,8 @@ $secondary-color-dark: darken($cx-theme-secondary-color, 8);
 $cx-theme-danger-color: #cc4141 !default;
 $cx-theme-danger-color-light: lighten($cx-theme-danger-color, 3) !default;
 
-$accent-color: #ffcd78;
+// $accent-color: #ffcd78;
+$accent-color: #d0da7a;
 $accent-color-dark: #fc8c64;
 
 $warning-color: #e2a067;
@@ -20,11 +22,7 @@ $info-color-dark: darken($info-color, 15);
 
 $success-color: #3bab73;
 $success-color-dark: #244232;
-
-// pick theme size
-$normal-base-size: 13px !default;
-$small-base-size: 12px !default;
-$cx-theme-base-size: $normal-base-size !default;
+$cx-default-font-size: 13px;
 
 // GLOBAL VARIABLES
 $cx-default-background-color: #263340 !default;
@@ -69,8 +67,8 @@ $cx-tooltip-box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.3);
 $cx-tooltip-background-color-error: $cx-theme-danger-color-light !default;
 
 //GRID
-$cx-default-grid-header-font-size: 13px !default;
-$cx-default-grid-header-color: mix($cx-default-color, $cx-theme-primary-color-dark, 65);
+$cx-default-grid-header-font-size: $cx-default-font-size !default;
+$cx-default-grid-header-color: $cx-theme-primary-text-color;
 $cx-default-grid-header-font-weight: $cx-default-font-weight !default;
 $cx-default-grid-header-background-color: #3c4a5d !default;
 $cx-default-grid-header-border-color: $cx-default-border-color !default;
@@ -490,7 +488,7 @@ $cx-section-mods: cx-deep-map-merge($cx-section-mods, (
 //MENU
 $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
 	background-color: $cx-default-background-color-lighter,
-	font-size: 13px,
+	font-size: $cx-default-font-size,
 	font-weight: 600,
 	border-color: transparent
 ));
@@ -524,38 +522,6 @@ $cx-tab-state-style-map: cx-deep-map-merge($cx-tab-state-style-map, (
 
 // tab mods
 $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
-	bottom: (
-		default: (
-			border-style: solid,
-			border-width: 2px 0,
-			border-color: transparent,
-			color: $cx-default-color,
-			padding: 1px 10px
-		),
-		hover: (
-			background-color: $bottom-tab-background-color
-		),
-		cursor: (
-			background-color: $bottom-tab-background-color,
-			border-bottom-color: rgba($accent-color, 0.4)
-		),
-		selected: (
-			color: $cx-default-color-light,
-			background-color: darken($bottom-tab-background-color, 4),
-			border-bottom-color: $accent-color
-		),
-		selected-cursor: (
-			background-color: darken($bottom-tab-background-color, 6),
-			border-bottom-color: darken($accent-color, 4)
-		),
-		active: (
-			color: #fff,
-			background-color: darken($bottom-tab-background-color, 2)
-		),
-		disabled: (
-			color: $cx-disabled-text
-		)
-	),
 	line: (
 		default: (
 			text-transform: uppercase,
@@ -580,27 +546,20 @@ $cx-tab-mods: cx-deep-map-merge($cx-tab-mods, (
 		disabled: (
 			color: $cx-disabled-text
 		)
-	),
-	small: (
-		default: (
-			text-transform: inherit,
-			padding: 0 0 5px,
-			margin: 0 10px 0 0
-		)
 	)
 ));
 
 // LIST
 $cx-list-item: cx-deep-map-merge($cx-list-item, (
 	cursor: (
-		background-color: rgba(77, 203, 172, 0.2)
+		background-color: rgba($cx-theme-primary-color, 0.2)
 	),
 	selected: (
-		background-color: rgba(77, 203, 172, 0.2),
-		color: #d0da7a
+		background-color: rgba($cx-theme-primary-color, 0.2),
+		color: $accent-color
 	),
 	selected-cursor: (
-		background-color: rgba(77, 203, 172, 0.2)
+		background-color: rgba($cx-theme-primary-color, 0.2)
 	)
 ));
 
@@ -608,10 +567,10 @@ $cx-list-item: cx-deep-map-merge($cx-list-item, (
 $cx-grid-header-state-style-map: cx-deep-map-merge($cx-grid-header-state-style-map, (
 	hover: (
 		background-color: lighten($cx-default-grid-header-background-color, 0.3),
-		color: rgba(186, 232, 220, 0.9025)
+		color: lighten($cx-theme-primary-text-color, 8)
 	),
 	sorted: (
-		color: rgba(178, 229, 216, 0.9025),
+		color: lighten($cx-theme-primary-text-color, 9),
 		background-color: lighten($cx-default-grid-header-background-color, 4)
 	),
 	sorted-hover: (
@@ -624,8 +583,8 @@ $cx-grid-cell-cursor-style: (
 	top: 0,
 	right: 0,
 	bottom: 0,
-	background-color: rgba($accent-color, 0.05),
-	border: 1px solid rgba($accent-color, 0.5)
+	background-color: rgba(#ffcd78, 0.05),
+	border: 1px solid rgba(#ffcd78, 0.5)
 );
 
 // WINDOW
@@ -641,7 +600,7 @@ $cx-window-state-style-map: cx-deep-map-merge($cx-window-state-style-map, (
 $cx-window-header-state-style-map: cx-deep-map-merge($cx-window-header-state-style-map, (
 	default: (
 		background-color: $cx-default-window-background-color,
-		font-size: 1.2rem,
+		font-size: $cx-default-font-size + 3px,
 		margin: 0,
 		padding: 10px 15px,
 		color: $cx-theme-primary-color,
@@ -674,12 +633,12 @@ $cx-window-mods: (
 		color: rgba(#000, 0.6),
 		max-width: 500px
 	),
-      body: (
+	body: (
 		background-color: lighten($warning-color, 8),
 		padding: 15px,
 		line-height: 1.5rem
 	),
-      footer: (
+	footer: (
 		background-color: lighten($warning-color, 8),
 		border-top: none
 	)
@@ -716,9 +675,9 @@ $cx-toast-mods: cx-deep-map-merge($cx-toast-mods, (
 
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge($cx-calendar-state-style-map, (
-   focus: (
-      box-shadow: none
-   )
+	focus: (
+		box-shadow: none
+	)
 ));
 
 // calendar days
@@ -903,7 +862,7 @@ $cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, 
 	default: (
 		background-color: rgba($cx-theme-primary-color, 0.4),
 		font-weight: $cx-default-font-weight,
-		color: #d0da7a
+		color: $accent-color
 	),
 	hover: (
 		background-color: rgba($cx-theme-primary-color, 0.6)
@@ -913,7 +872,7 @@ $cx-input-tag-state-style-map: cx-deep-map-merge($cx-input-tag-state-style-map, 
 //globals
 $cx-element-style-map: cx-deep-map-merge($cx-element-style-map, (
 	html: (
-		background: #1c232c
+		background: $cx-default-background-color-dark
 	),
 	h1: (
 		font-weight: 600,
