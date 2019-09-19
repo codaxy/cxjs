@@ -70,7 +70,8 @@ $mod: map-get($cx-besm, mod);
 
 @if (cx-included('cx/widgets/MonthField')) {
    .#{$block}monthfield .#{$block}monthpicker {
-      border-color: transparent !important;
+      border-color: transparent;
+      box-shadow: none;
    }
 }
 
@@ -142,7 +143,7 @@ $mod: map-get($cx-besm, mod);
    .#{$block}progressbar {
       margin: 10px 0 0;
       border-radius: 25px;
-      box-shadow: inset 0 -1px 2px rgba(255,255,255, .3);
+      box-shadow: inset 0 -1px 1px rgba(255,255,255, .2);
 
       .#{$element}progressbar-label {
          top: -16px;
@@ -173,10 +174,10 @@ $mod: map-get($cx-besm, mod);
    .#{$state}selectable & {
    
       &.#{$state}selected {
-        background-color: rgba($cx-theme-accent-color, .2);
+        background-color: rgba($cx-theme-primary-color, .2);
 
          &.#{$state}cursor {
-            background-color: rgba($cx-theme-accent-color, .2);
+            background-color: rgba($cx-theme-primary-color, .2);
             color: #d0da7a;
          }
       }   
@@ -201,14 +202,14 @@ $mod: map-get($cx-besm, mod);
 
 .#{$element}grid-group-caption {
    td {
-      color: $cx-theme-accent-color-light;
+      color: $cx-theme-primary-color-light;
    }
 
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
             text-transform: uppercase;
-            color: $cx-theme-accent-color;
+            color: $cx-theme-primary-color;
             border-color: transparent;
          }
       }
@@ -219,7 +220,7 @@ $mod: map-get($cx-besm, mod);
    @for $i from 2 through 4 {
       &.#{$state}level-#{$i} {
          td {
-            color: $primary-color-light;
+            color: $cx-theme-primary-color-light;
             border-top: none;
             border-bottom: 1px solid $cx-default-border-color-light;
          }
