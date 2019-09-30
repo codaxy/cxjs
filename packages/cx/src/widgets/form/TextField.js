@@ -255,8 +255,10 @@ class Input extends VDOM.Component {
 
          //it's important not to set the old value as it causes weird behavior if debounce is used
          if (value !== data.value) {
-            if (!instance.set('value', value))
-               this.input.value = data.value || '';
+            if (!instance.set('value', value)) {
+               if (text != this.input.value)
+                  this.input.value = text;
+            }
             else {
                if (value)
                   instance.setState({visited: true});
