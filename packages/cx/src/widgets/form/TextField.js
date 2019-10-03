@@ -169,13 +169,15 @@ class Input extends VDOM.Component {
    }
 
    onFocus() {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
       let {widget} = instance;
       if (widget.trackFocus) {
          this.setState({
             focus: true
          });
       }
+      if (!data.valid)
+         instance.setState({visited: true});
    }
 
    onBlur(e) {

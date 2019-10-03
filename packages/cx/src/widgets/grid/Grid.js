@@ -1015,7 +1015,8 @@ class GridComponent extends VDOM.Component {
 
       let content = [];
 
-      if (data.totalRecordCount == 0 && data.emptyText) {
+      //instance.records holds the record count after filtering
+      if (data.emptyText && (data.totalRecordCount == 0 || (instance.records && instance.records.length == 0))) {
          children = [
             <tbody
                key="empty"

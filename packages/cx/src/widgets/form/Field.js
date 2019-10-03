@@ -125,6 +125,8 @@ export class Field extends PureContainer {
       if (typeof data.enabled !== 'undefined')
          data._disabled = !data.enabled;
 
+      console.log("PREPARE", {...data});
+
       this.disableOrValidate(context, instance);
 
       data.inputStyle = parseStyle(data.inputStyle);
