@@ -12,13 +12,13 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean
-   
+
    /** A binding used to store the sorting order list. Commonly used for server-side sorting */
    sorters?: Cx.SortersProp,
 
    /** A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not used. */
    sortField?: Cx.StringProp,
-   
+
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
    sortDirection?: Cx.StringProp,
 
@@ -154,6 +154,9 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** A callback function which is executed after a cell has been successfully edited. */
    onCellEdited?: (change, record) => void
+
+   /** A callback function which is executed after a column has been resized. */
+   onColumnResize?: (data: { width: number, column: Cx.Record }, instance: Instance) => void
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

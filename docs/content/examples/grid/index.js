@@ -12,3 +12,4 @@ export * from './InfiniteScrolling';
 export * from './RowExpanding';
 export * from './HeaderMenu';
 export * from './CellEditing';
+export * from './ColumnResizing';

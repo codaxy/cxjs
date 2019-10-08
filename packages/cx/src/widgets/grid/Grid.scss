@@ -486,6 +486,29 @@
       top: 0;
       bottom: 0;
    }
+
+   &.#{$element}#{$name}-col-resizer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+   }
+
+   &.#{$element}#{$name}-resize-overlay {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      border-right: 3px solid $cx-default-grid-border-color;
+      background: rgba($cx-default-grid-border-color, 0.15);
+      box-sizing: border-box;
+   }
+
 }
 
 @if (cx-should-include('cx/widgets/Grid')) {

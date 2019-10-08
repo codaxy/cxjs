@@ -32,7 +32,7 @@ import './index.scss';
 //import Demo from './features/context-menu';
 //import Demo from './features/charts/time-axis/LocalTime';
 
-//import Demo from './features/grid/header-tool';
+import Demo from './features/grid/header-tool';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
@@ -72,7 +72,7 @@ import './index.scss';
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
-import Demo from "./bugs/validation";
+//import Demo from "./bugs/validation";
 
 
 let store = new Store();

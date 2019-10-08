@@ -44,9 +44,22 @@ export default {
     tool: {
         type: 'object',
         description: <cx><Md>
-            This property is used to define a component that will be rendered inside the column header, 
-            which can be used for creating custom header menus for filtering or other options. 
+            This property is used to define a component that will be rendered inside the column header,
+            which can be used for creating custom header menus for filtering or other options.
             [See example](https://fiddle.cxjs.io/?f=Gibc7IUr).
         </Md></cx>
-    }
+    },
+    resizable: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make the column resizable.
+        </Md></cx>
+    },
+    width: {
+        type: 'number',
+        description: <cx><Md>
+            Binding used to store column's width after resize.
+        </Md></cx>
+    },
 };

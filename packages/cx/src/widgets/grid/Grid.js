@@ -37,6 +37,7 @@ import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClien
 import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundingClientRect";
 import {ValidationGroup} from "../form/ValidationGroup";
 import {closest} from "../../util/DOM";
+import {captureMouse, getCursorPos} from "../overlay/captureMouse";
 
 
 export class Grid extends Widget {
@@ -427,6 +428,8 @@ export class Grid extends Widget {
                let header = columnInstance.components[`header${l + 1}`];
                let colSpan, rowSpan, style, cls, mods = [], content, sortIcon, tool;
 
+               let resizer = null;
+
                if (header) {
                   empty[l] = false;
 
@@ -445,6 +448,17 @@ export class Grid extends Widget {
                   }
 
                   style = header.data.style;
+                  let customWidth = columnInstance.assignedWidth || header.data.width;
+                  if (customWidth) {
+                     let s = `${customWidth}px`;
+                     style = {
+                        ...style,
+                        width: s,
+                        minWidth: s,
+                        maxWidth: s
+                     }
+                  }
+
                   if (header.data.classNames)
                      cls = header.data.classNames;
 
@@ -464,6 +478,36 @@ export class Grid extends Widget {
                      for (let r = 0; r < header.data.rowSpan; r++)
                         for (let c = 0; c < header.data.colSpan; c++)
                            skip[`${lineIndex}-${i + c}-${l + r}`] = true;
+                  }
+
+                  if (c.resizable || header.data.resizable) {
+                     resizer = <div
+                        className={CSS.element(baseClass, 'col-resizer')}
+                        onMouseDown={e => {
+                           let resizerEl = document.createElement('div');
+                           let headerCell = e.target.parentElement;
+                           let gridEl = headerCell.parentElement.parentElement.parentElement.parentElement.parentElement;
+                           let initialWidth = headerCell.offsetWidth;
+                           let initialPosition = getCursorPos(e);
+                           resizerEl.className = CSS.element(baseClass, 'resize-overlay');
+                           resizerEl.style.width = `${initialWidth}px`;
+                           resizerEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left - 1}px`;
+                           gridEl.appendChild(resizerEl);
+                           captureMouse(e, e => {
+                              let cursor = getCursorPos(e);
+                              let width = Math.max(30, Math.round(initialWidth + cursor.clientX - initialPosition.clientX));
+                              resizerEl.style.width = `${width}px`;
+                           }, e => {
+                              let width = resizerEl.offsetWidth
+                              columnInstance.assignedWidth = width;
+                              gridEl.removeChild(resizerEl);
+                              instance.setState({ dummy: Math.random()});
+                              if (widget.onColumnResize)
+                                 instance.invoke("onColumnResize", { width, column: c }, columnInstance);
+                              header.set("width", width);
+                           })
+                        }}
+                     />
                   }
                }
 
@@ -486,6 +530,7 @@ export class Grid extends Widget {
                   {getContent(content)}
                   {sortIcon}
                   {tool}
+                  {resizer}
                </th>);
             }
          });
@@ -1931,7 +1976,8 @@ class GridColumnHeader extends Widget {
 
    declareData() {
       return super.declareData(...arguments, {
-         format: undefined
+         format: undefined,
+         width: undefined,
       })
    }
 
@@ -2010,7 +2056,9 @@ class GridColumnHeaderCell extends PureContainer {
       return super.declareData(...arguments, {
          text: undefined,
          colSpan: undefined,
-         rowSpan: undefined
+         rowSpan: undefined,
+         width: undefined,
+         resizable: undefined
       })
    }
 
