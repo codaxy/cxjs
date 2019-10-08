@@ -58,6 +58,7 @@ export class TextField extends Field {
       let {data} = instance;
 
       if (!data.error && data.value) {
+         if (this.validationRegExp) this.validationRegExp.lastIndex = 0;
          if (this.validationRegExp && !this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
          else if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
@@ -176,7 +177,7 @@ class Input extends VDOM.Component {
             focus: true
          });
       }
-      if (!data.valid)
+      if (data.error && data.value)
          instance.setState({visited: true});
    }
 
