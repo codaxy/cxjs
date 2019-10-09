@@ -484,23 +484,24 @@ export class Grid extends Widget {
                      resizer = <div
                         className={CSS.element(baseClass, 'col-resizer')}
                         onMouseDown={e => {
-                           let resizerEl = document.createElement('div');
+                           let resizeOverlayEl = document.createElement('div');
                            let headerCell = e.target.parentElement;
-                           let gridEl = headerCell.parentElement.parentElement.parentElement.parentElement.parentElement;
+                           let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
+                           let gridEl = scrollAreaEl.parentElement;
                            let initialWidth = headerCell.offsetWidth;
                            let initialPosition = getCursorPos(e);
-                           resizerEl.className = CSS.element(baseClass, 'resize-overlay');
-                           resizerEl.style.width = `${initialWidth}px`;
-                           resizerEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left - 1}px`;
-                           gridEl.appendChild(resizerEl);
+                           resizeOverlayEl.className = CSS.element(baseClass, 'resize-overlay');
+                           resizeOverlayEl.style.width = `${initialWidth}px`;
+                           resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - scrollAreaEl.getBoundingClientRect().left}px`;
+                           gridEl.appendChild(resizeOverlayEl);
                            captureMouse(e, e => {
                               let cursor = getCursorPos(e);
                               let width = Math.max(30, Math.round(initialWidth + cursor.clientX - initialPosition.clientX));
-                              resizerEl.style.width = `${width}px`;
+                              resizeOverlayEl.style.width = `${width}px`;
                            }, e => {
-                              let width = resizerEl.offsetWidth
+                              let width = resizeOverlayEl.offsetWidth
                               columnInstance.assignedWidth = width;
-                              gridEl.removeChild(resizerEl);
+                              gridEl.removeChild(resizeOverlayEl);
                               instance.setState({ dummy: Math.random()});
                               if (widget.onColumnResize)
                                  instance.invoke("onColumnResize", { width, column: c }, columnInstance);
