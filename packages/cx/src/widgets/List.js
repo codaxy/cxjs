@@ -8,6 +8,7 @@ import {scrollElementIntoView} from '../util/scrollElementIntoView';
 import {FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch} from '../ui/FocusManager';
 import {isString} from '../util/isString';
 import {isArray} from '../util/isArray';
+import {getAccessor} from "../data/getAccessor";
 
 /*
  - renders list of items
@@ -22,14 +23,14 @@ export class List extends Widget {
    init() {
       if (this.recordAlias)
          this.recordName = this.recordAlias;
-      
+
       if (this.indexAlias)
          this.indexName = this.indexAlias;
-      
+
       this.adapter = GroupAdapter.create(this.adapter || GroupAdapter, {
          recordName: this.recordName,
          indexName: this.indexName,
-         recordsBinding: isBinding(this.records) && Binding.get(this.records.bind),
+         recordsAccessor: getAccessor(this.records),
          keyField: this.keyField
       });
 

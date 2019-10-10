@@ -36,6 +36,8 @@ export class Ref extends Component {
    }
 }
 
+Ref.prototype.isRef = true;
+
 Ref.factory = function(alias, config, more) {
    if (isFunction(alias)) {
       let cfg = {
