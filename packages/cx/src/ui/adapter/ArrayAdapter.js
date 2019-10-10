@@ -30,7 +30,10 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    getRecords(context, instance, records, parentStore) {
-      return this.mapRecords(context, instance, records, parentStore, this.recordsAccessor);
+      if (!instance.recordStoreCache)
+         this.initInstance(context, instance);
+
+      return this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
    }
 
    mapRecords(context, instance, records, parentStore, recordsAccessor) {

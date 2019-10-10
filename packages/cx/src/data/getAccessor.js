@@ -31,7 +31,8 @@ export function getAccessor(accessor, options) {
             bindInstance(instance) {
                return {
                   get: selector,
-                  set: value => accessor.set(value, instance)
+                  set: value => accessor.set(value, instance),
+                  isAccessor: true
                }
             }
          };

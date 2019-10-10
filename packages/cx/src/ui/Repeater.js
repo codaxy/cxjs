@@ -69,7 +69,7 @@ export class Repeater extends Container {
       else if (this.filter)
          filter = item => this.filter(item, data.filterParams);
       this.dataAdapter.setFilter(filter);
-      instance.mappedRecords = this.dataAdapter.mapRecords(context, instance, data.records, instance.store, this.recordsAccessor);
+      instance.mappedRecords = this.dataAdapter.getRecords(context, instance, data.records, instance.store);
       super.prepareData(context, instance);
    }
 
