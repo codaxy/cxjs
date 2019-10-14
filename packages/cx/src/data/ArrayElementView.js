@@ -30,9 +30,7 @@ export class ArrayElementView extends AugmentedViewBase {
 
    embedAugmentData(result, parentStoreData) {
       let array = this.arrayAccessor.get(parentStoreData);
-
       if (!isArray(array)) return;
-
       result[this.recordAlias] = array[this.itemIndex];
       result[this.indexAlias] = this.itemIndex;
       result[this.lengthAlias] = array.length;

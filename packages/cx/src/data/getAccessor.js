@@ -44,6 +44,6 @@ export function getAccessor(accessor, options) {
    }
 
    return {
-      get: () => null
+      get: () => accessor
    }
 }
