@@ -271,9 +271,26 @@ export class Grid extends Widget {
 
       instance.records = this.mapRecords(context, instance);
 
-      //tree adapters can have additional (child) records
-      if (instance.records && instance.records.length > data.totalRecordCount && this.dataAdapter.isTreeAdapter)
+      //tree adapters can have additional (child) records, filtering also affects actual record count
+      if (instance.records && !this.infinite) {
+
+         //apply record count after filtering
          data.totalRecordCount = instance.records.length;
+
+         //recheck if there are any actual records
+         //when grouping is enabled group header/footer are always in
+         if (instance.records.length < 5) {
+            data.empty = true;
+            for (let i = 0; i < instance.records.length; i++)
+               if (instance.records[i].type == "data") {
+                  data.empty = false;
+                  break;
+               }
+         } else
+            data.empty = data.totalRecordCount == 0;
+      }
+      else
+         data.empty = data.totalRecordCount == 0;
    }
 
    initInstance(context, instance) {
@@ -1062,7 +1079,7 @@ class GridComponent extends VDOM.Component {
       let content = [];
 
       //instance.records holds the record count after filtering
-      if (data.emptyText && (data.totalRecordCount == 0 || (instance.records && instance.records.length == 0))) {
+      if (data.emptyText && data.empty) {
          children = [
             <tbody
                key="empty"
@@ -1555,7 +1572,7 @@ class GridComponent extends VDOM.Component {
 
          let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
 
-         if (data.totalRecordCount == 0) {
+         if (data.empty) {
             this.dom.scroller.scrollTop = 0;
          }
 
