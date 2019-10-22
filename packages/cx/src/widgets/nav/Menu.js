@@ -330,7 +330,9 @@ class MenuItemComponent extends VDOM.Component {
 
    onMouseDown(e) {
       e.stopPropagation();
-      e.preventDefault();
+
+      //e.preventDefault(); //Causes problems with focusing menu items. Figure out why is this really needed?
+
       debug(menuFlag, 'MenuItem', 'mouseDown', this.el);
       if (this.state.focusable) {
          let {itemInfo, itemIndex} = this.props;
