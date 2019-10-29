@@ -54,6 +54,7 @@ export default (
                 <Grid
                     records={bind("grid1")}
                     scrollable
+                    style="height: 400px"
                     columns={
                         [
                             {
@@ -81,6 +82,7 @@ export default (
                 <Grid
                     records={bind("grid2")}
                     scrollable
+                    style="height: 400px"
                     columns={[
                         {
                             items: (

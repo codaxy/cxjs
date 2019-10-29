@@ -44,7 +44,7 @@ export default <cx>
       bodyStyle="display:flex; flex-direction:column"
    >
       <Grid
-         records:bind="$page.records"
+         records-bind="$page.records"
          lockColumnWidths
          cached
          style="width: 100%; flex: 1 1 0px"
