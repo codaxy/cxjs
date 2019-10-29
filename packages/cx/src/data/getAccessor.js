@@ -10,6 +10,9 @@ import {isObject} from "../util/isObject";
  */
 
 export function getAccessor(accessor, options) {
+   if (accessor == null)
+      return null;
+
    if (isObject(accessor)) {
       if (accessor.isAccessor || accessor.isRef) return accessor;
       if (isBinding(accessor)) {

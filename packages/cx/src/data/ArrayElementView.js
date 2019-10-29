@@ -14,7 +14,7 @@ export class ArrayElementView extends AugmentedViewBase {
       if (!array)
          return false;
       const newArray = [...array.slice(0, this.itemIndex), ...value.slice(this.itemIndex + 1)];
-      return this.setArray(newArray);
+      return this.arrayAccessor.set(newArray, this.store);
    }
 
    setExtraKeyValue(key, value) {

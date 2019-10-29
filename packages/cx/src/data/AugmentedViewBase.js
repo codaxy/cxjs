@@ -4,7 +4,7 @@ import {Binding} from "./Binding";
 export class AugmentedViewBase extends View {
 
    getData() {
-      if (this.sealed && this.meta.version === this.cache.version && this.cache.data === this.data)
+      if (this.sealed && this.meta.version === this.cache.version)
          return this.cache.result;
       let data = this.store.getData();
       if (this.sealed || this.immutable || this.store.sealed)
@@ -12,7 +12,6 @@ export class AugmentedViewBase extends View {
       this.embedAugmentData(data, data);
       this.cache.result = data;
       this.cache.version = this.meta.version;
-      this.cache.data = this.data;
       return this.cache.result;
    }
 

@@ -10,19 +10,13 @@ import {getAccessor} from "../../data/getAccessor";
 export class ArrayAdapter extends DataAdapter {
 
    init() {
-      if (this.recordsBinding)
-         this.recordsAccessor = getAccessor(this.recordsBinding);
-      else {
-         if (!this.recordsAccessor)
-            throw new Error("Array adapter requires a data accessor.")
-         this.recordsAccessor = getAccessor(this.recordsAccessor);
-      }
+      this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
    }
 
    initInstance(context, instance) {
       if (!instance.recordStoreCache)
          instance.recordStoreCache = new WeakMap();
-      if (!instance.recordsAccessor) {
+      if (!instance.recordsAccessor && this.recordsAccessor) {
          instance.recordsAccessor = this.recordsAccessor.bindInstance
             ? this.recordsAccessor.bindInstance(instance)
             : this.recordsAccessor;
@@ -62,52 +56,36 @@ export class ArrayAdapter extends DataAdapter {
    mapRecord(context, instance, data, parentStore, recordsAccessor, index) {
       let recordStore = instance.recordStoreCache.get(data);
 
-      if (!recordStore)
-         recordStore = new ArrayElementView({
-            store: parentStore,
-            arrayAccessor: recordsAccessor,
-            itemIndex: index,
-            recordAlias: this.recordName,
-            indexAlias: this.indexName,
-            immutable: this.immutable,
-            sealed: this.sealed
-         });
-      else {
-         recordStore.setStore(parentStore);
-         recordStore.setIndex(index);
+      if (recordsAccessor) {
+         if (!recordStore)
+            recordStore = new ArrayElementView({
+               store: parentStore,
+               arrayAccessor: recordsAccessor,
+               itemIndex: index,
+               recordAlias: this.recordName,
+               indexAlias: this.indexName,
+               immutable: this.immutable,
+               sealed: this.sealed
+            });
+         else {
+            recordStore.setStore(parentStore);
+            recordStore.setIndex(index);
+         }
+      } else {
+         if (!recordStore)
+            recordStore = new ReadOnlyDataView({
+               store: parentStore,
+               data: {
+                  [this.recordName]: data,
+                  [this.indexName]: index
+               },
+               immutable: this.immutable,
+               sealed: this.sealed
+            });
+         else {
+            recordStore.setStore(parentStore);
+         }
       }
-
-      // let writable = parentStore && recordsAccessor && !!recordsAccessor.set;
-      // if (writable) {
-      //    if (!recordStore)
-      //       recordStore = new ExposedRecordView({
-      //          store: parentStore,
-      //          collectionBinding: recordsBinding,
-      //          itemIndex: index,
-      //          recordName: this.recordName,
-      //          indexName: this.indexName,
-      //          immutable: this.immutable,
-      //          sealed: this.sealed
-      //       });
-      //    else {
-      //       recordStore.setStore(parentStore);
-      //       recordStore.setIndex(index);
-      //    }
-      // } else {
-      //    if (!recordStore)
-      //       recordStore = new ReadOnlyDataView({
-      //          store: parentStore,
-      //          data: {
-      //             [this.recordName]: data,
-      //             [this.indexName]: index
-      //          },
-      //          immutable: this.immutable,
-      //          sealed: this.sealed
-      //       });
-      //    else {
-      //       recordStore.setStore(parentStore);
-      //    }
-      // }
 
       if (typeof data == 'object')
          instance.recordStoreCache.set(data, recordStore);
