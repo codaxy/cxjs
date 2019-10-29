@@ -112,8 +112,10 @@ $cx-default-grid-border-color: #505050 !default;
 // header
 $cx-default-grid-header-font-size: 14px !default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height + 1px !default;
-$cx-default-grid-header-background-color: $cx-medium-light-background-overlay !default;
+// $cx-default-grid-header-background-color: $cx-medium-light-background-overlay !default;
+$cx-default-grid-header-background-color: $cx-default-background-color;
 $cx-default-grid-header-font-weight: $cx-default-tab-font-weight !default;
+$cx-default-grid-header-color: lighten($cx-theme-primary-color, 15);
 $cx-default-grid-header-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
 // data
@@ -122,12 +124,15 @@ $cx-default-grid-data-border-color: #2a2a2a !default;
 $cx-default-grid-data-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 7px $cx-default-box-padding !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
+// drag-clone
+$cx-default-dragclone-background-color: $cx-default-background-color;
 
 //LIST
 $cx-default-list-item-padding: $cx-default-box-padding+1 2 * $cx-default-box-padding $cx-default-box-padding !default;
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
+$cx-default-input-border-color: rgba(255, 255, 255, .45);
 $cx-theme-input-padding: $cx-default-box-padding 0 !default;
 
 // label
@@ -154,7 +159,9 @@ $cx-default-calendar-day-border-radius: 50% !default;
 
 // checkbox
 $cx-default-checkbox-size: $cx-default-box-line-height - 6px !default;
-$cx-default-checkbox-border-color: $cx-default-background-overlay !default;
+$cx-default-checkbox-background-color: transparent !default;
+$cx-default-checkbox-border-color: #c2c2c2 !default;
+$cx-default-checkbox-border-width: 2px;
 
 // radio
 $cx-default-radio-background-color: #121212 !default;
@@ -185,7 +192,7 @@ $cx-default-slider-handle-box-shadow: none !default;
 // switch
 $cx-default-switch-axis-size: 8px !default;
 $cx-default-switch-axis-background-color: $cx-light-background-overlay !default;
-$cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.2) !default;
+$cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.5) !default;
 $cx-default-switch-handle-background-color: #8a8a8a !default;
 $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
 
@@ -579,7 +586,7 @@ $cx-dropdown-styles: map-merge($cx-dropdown-styles, (
    color: $cx-medium-emphasis,
    font-size: $cx-default-box-font-size,
    font-weight: $cx-default-tab-font-weight,   
-   background-color: #262626
+   background-color:  lighten($cx-medium-light-background-overlay, 3)
 ));
 
 $cx-menu-state-style-map: map-merge($cx-menu-state-style-map, (
@@ -718,7 +725,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
    default: (
       background: none,
       padding: $cx-theme-input-padding,
-      border-color: transparent transparent #505050,
+      border-color: transparent transparent $cx-default-input-border-color,
       border-radius: 0,
       color: $cx-medium-emphasis
    ),
@@ -746,7 +753,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
 // textarea
 $cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, (
    default: (
-      border-color: transparent transparent #505050,
+      border-color: transparent transparent $cx-medium-emphasis,
    ),
    focus: (
       background-color: rgba($cx-default-color, 0.015)
@@ -775,9 +782,6 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge($cx-calendar-day-state-style
    today: (
       background-color: $cx-theme-accent-color,
       color: $cx-default-color-dark
-   ),
-   hover-focus: (
-      background-color: rgba($cx-theme-primary-color, 0.3)
    ),
    hover: (
       background-color: rgba($cx-theme-primary-color, 0.2),
@@ -820,7 +824,7 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge($cx-wheel-selection-state
 // checkbox
 $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    default: (
-      background-color: $cx-light-background-overlay, 
+      background-color: $cx-default-checkbox-background-color, 
    ),
    focus: (
       border-color: $cx-theme-primary-color,
@@ -828,7 +832,8 @@ $cx-checkbox-state-style-map: cx-deep-map-merge($cx-checkbox-state-style-map, (
    ),
    checked: (
       background-color: $cx-theme-primary-color,
-      color: $cx-default-color-dark
+      color: $cx-default-color-dark,
+      border-color: transparent
    ),
    disabled: (
       opacity: .2
@@ -890,14 +895,14 @@ $cx-slider-handle-styles: cx-deep-map-merge($cx-slider-handle-styles, (
 // switch
 $cx-switch-handle-styles: cx-deep-map-merge($cx-switch-handle-styles, (
    active: (
-      background-color: $cx-theme-primary-color,
+      background-color: darken($cx-theme-primary-color, 10),
       border-color: transparent
    ),
    focus: (
       border-color: transparent
    ),
    on: (
-      background-color: $cx-theme-primary-color,
+      background-color: darken($cx-theme-primary-color, 5),
       border-color: transparent
    )
 ));
