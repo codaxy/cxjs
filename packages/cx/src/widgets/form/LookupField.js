@@ -720,6 +720,20 @@ class LookupComponent extends VDOM.Component {
             e.stopPropagation();
             break;
 
+         case KeyCode.enter:
+            if (this.props.instance.widget.submitOnEnterKey) {
+                let instance = this.props.instance.parent;
+                while (instance) {
+                    if (instance.events && instance.events.onSubmit) {
+                        instance.events.onSubmit(e, instance);
+                        break;
+                    } else {
+                        instance = instance.parent;
+                    }
+                }
+                break;
+            }
+
          default:
             this.openDropdown(e);
             break;
@@ -894,5 +908,3 @@ class LookupComponent extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
 }
-
-
