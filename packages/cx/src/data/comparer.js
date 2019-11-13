@@ -18,7 +18,7 @@ export function getComparer(sorters, dataAccessor) {
          bv = d.getter(b);
          if (av == null) {
             if (bv == null)
-               return 0;
+               continue;
             return -d.factor;
          }
          else {

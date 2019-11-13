@@ -73,7 +73,8 @@ import './index.scss';
 //import Demo from "./features/hooks/localStorage";
 //import Demo from "./bugs/validation";
 //import Demo from "./features/repeater/Hooks";
-import Demo from "./bugs/submitOnEnter";
+//import Demo from "./bugs/submitOnEnter";
+import Demo from "./bugs/tree-sorting";
 
 
 let store = new Store();
