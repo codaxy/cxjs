@@ -38,6 +38,7 @@ import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundin
 import {ValidationGroup} from "../form/ValidationGroup";
 import {closest} from "../../util/DOM";
 import {captureMouse, getCursorPos} from "../overlay/captureMouse";
+import {getAccessor} from "../../data/getAccessor";
 
 
 export class Grid extends Widget {
@@ -79,8 +80,7 @@ export class Grid extends Widget {
       if (this.buffered)
          this.scrollable = true;
 
-      if (isBinding(this.records))
-         this.recordsBinding = Binding.get(this.records.bind);
+      this.recordsAccessor = getAccessor(this.records)
 
       if (!this.row)
          this.row = {};
@@ -147,7 +147,7 @@ export class Grid extends Widget {
 
       this.dataAdapter = DataAdapter.create({
          type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
-         recordsBinding: this.recordsBinding,
+         recordsAccessor: this.recordsAccessor,
          keyField: this.keyField,
          aggregates: aggregates,
          recordName: this.recordName,
@@ -864,7 +864,7 @@ export class Grid extends Widget {
    }
 
    mapRecord(context, instance, data, index) {
-      return this.dataAdapter.mapRecord(context, instance, data, instance.store, this.recordsBinding, index);
+      return this.dataAdapter.mapRecord(context, instance, data, instance.store, this.recordsAccessor, index);
    }
 }
 

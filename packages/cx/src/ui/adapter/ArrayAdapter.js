@@ -3,20 +3,34 @@ import {ExposedRecordView} from '../../data/ExposedRecordView';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {sorter} from '../../data/comparer';
 import {isArray} from '../../util/isArray';
+import {ArrayElementView} from "../../data/ArrayElementView";
+import {getAccessor} from "../../data/getAccessor";
 
 
 export class ArrayAdapter extends DataAdapter {
 
+   init() {
+      this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
+   }
+
    initInstance(context, instance) {
       if (!instance.recordStoreCache)
          instance.recordStoreCache = new WeakMap();
+      if (!instance.recordsAccessor && this.recordsAccessor) {
+         instance.recordsAccessor = this.recordsAccessor.bindInstance
+            ? this.recordsAccessor.bindInstance(instance)
+            : this.recordsAccessor;
+      }
    }
 
    getRecords(context, instance, records, parentStore) {
-      return this.mapRecords(context, instance, records, parentStore, this.recordsBinding);
+      if (!instance.recordStoreCache)
+         this.initInstance(context, instance);
+
+      return this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
    }
 
-   mapRecords(context, instance, records, parentStore, recordsBinding) {
+   mapRecords(context, instance, records, parentStore, recordsAccessor) {
       let result = [];
 
       if (!instance.recordStoreCache)
@@ -28,7 +42,7 @@ export class ArrayAdapter extends DataAdapter {
             if (this.filterFn && !this.filterFn(data))
                return;
 
-            let record = this.mapRecord(context, instance, data, parentStore, recordsBinding, index);
+            let record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
 
             result.push(record);
          });
@@ -39,17 +53,17 @@ export class ArrayAdapter extends DataAdapter {
       return result;
    }
 
-   mapRecord(context, instance, data, parentStore, recordsBinding, index) {
+   mapRecord(context, instance, data, parentStore, recordsAccessor, index) {
       let recordStore = instance.recordStoreCache.get(data);
-      let writable = parentStore && recordsBinding;
-      if (writable) {
+
+      if (recordsAccessor) {
          if (!recordStore)
-            recordStore = new ExposedRecordView({
+            recordStore = new ArrayElementView({
                store: parentStore,
-               collectionBinding: recordsBinding,
+               arrayAccessor: recordsAccessor,
                itemIndex: index,
-               recordName: this.recordName,
-               indexName: this.indexName,
+               recordAlias: this.recordName,
+               indexAlias: this.indexName,
                immutable: this.immutable,
                sealed: this.sealed
             });
@@ -125,3 +139,5 @@ export class ArrayAdapter extends DataAdapter {
 
 ArrayAdapter.prototype.immutable = false;
 ArrayAdapter.prototype.sealed = false;
+
+ArrayAdapter.autoInit = true;

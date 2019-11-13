@@ -4,6 +4,7 @@ import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
 import {Binding, isBinding} from '../data/Binding';
 import {UseParentLayout} from "./layout/UseParentLayout";
+import {getAccessor} from "../data/getAccessor";
 
 export class Repeater extends Container {
 
@@ -21,8 +22,7 @@ export class Repeater extends Container {
 
    init() {
 
-      if (isBinding(this.records))
-         this.recordsBinding = Binding.get(this.records.bind);
+      this.recordsAccessor = getAccessor(this.records);
 
       if (this.recordAlias)
          this.recordName = this.recordAlias;
@@ -36,7 +36,8 @@ export class Repeater extends Container {
          indexName: this.indexName,
          keyField: this.keyField,
          immutable: this.immutable,
-         sealed: this.sealed
+         sealed: this.sealed,
+         recordsAccessor: this.recordsAccessor
       });
 
       this.item = PureContainer.create({
@@ -68,14 +69,14 @@ export class Repeater extends Container {
       else if (this.filter)
          filter = item => this.filter(item, data.filterParams);
       this.dataAdapter.setFilter(filter);
-      instance.mappedRecords = this.dataAdapter.mapRecords(context, instance, data.records, instance.store, this.recordsBinding);
+      instance.mappedRecords = this.dataAdapter.getRecords(context, instance, data.records, instance.store);
       super.prepareData(context, instance);
    }
 
    explore(context, instance, data) {
-      var instances = [];
+      let instances = [];
       instance.mappedRecords.forEach((record) => {
-         var subInstance = instance.getChild(context, this.item, record.key, record.store);
+         let subInstance = instance.getChild(context, this.item, record.key, record.store);
          let changed = subInstance.cache('recordData', record.data) || subInstance.cache('key', record.key);
          subInstance.record = record;
          if (this.cached && !changed && subInstance.visible && !subInstance.childStateDirty) {

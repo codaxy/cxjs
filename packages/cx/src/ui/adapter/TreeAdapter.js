@@ -1,11 +1,17 @@
 import {ArrayAdapter} from './ArrayAdapter';
 import {Binding} from '../../data/Binding';
 import {isArray} from '../../util/isArray';
+import {getAccessor} from "../../data/getAccessor";
 
 export class TreeAdapter extends ArrayAdapter {
 
-   mapRecords(context, instance, data, parentStore, recordsBinding) {
-      let nodes = super.mapRecords(context, instance, data, parentStore, recordsBinding);
+   init() {
+      super.init();
+      this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
+   }
+
+   mapRecords(context, instance, data, parentStore, recordsAccessor) {
+      let nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
       let result = [];
       this.processList(context, instance, 0, '', nodes, result);
       return result;
@@ -27,7 +33,7 @@ export class TreeAdapter extends ArrayAdapter {
       if (!data[this.leafField]) {
          if (data[this.expandedField]) {
             if (data[this.childrenField]) {
-               let childNodes = super.mapRecords(context, instance, data[this.childrenField], store, Binding.get(`${this.recordName}.${this.childrenField}`));
+               let childNodes = super.mapRecords(context, instance, data[this.childrenField], store, this.childrenAccessor);
                this.processList(context, instance, level + 1, record.key + ':', childNodes, result);
             }
             else if (!data[this.loadedField]) {
