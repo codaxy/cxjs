@@ -91,11 +91,15 @@ export class Grid extends Widget {
          };
 
       this.hasSortableColumns = false;
+      this.hasResizableColumns = false;
       let aggregates = {};
       let lines = [];
       for (let i = 0; i < 10; i++) {
          let l = this.row['line' + i];
          if (l) {
+            if (isArray(l.columns))
+               for (let c = 0; c < l.columns.length; c++)
+                  l.columns[c].uniqueColumnId = `l${i}-${c}`;
             lines.push(l);
          }
       }
@@ -108,6 +112,9 @@ export class Grid extends Widget {
          line.items.forEach(c => {
             if (c.sortable)
                this.hasSortableColumns = true;
+
+            if (c.resizable || (c.header && c.header.resizable))
+               this.hasResizableColumns = true;
 
             if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
                aggregates[c.aggregateAlias] = {
@@ -170,7 +177,9 @@ export class Grid extends Widget {
    }
 
    initState(context, instance) {
-      instance.state = {};
+      instance.state = {
+         colWidth: {},
+      };
       instance.v = 0;
       if (this.infinite)
          instance.buffer = {
@@ -228,7 +237,7 @@ export class Grid extends Widget {
       let headerMode = this.headerMode;
 
       if (this.headerMode == null) {
-         if (this.scrollable || this.hasSortableColumns)
+         if (this.scrollable || this.hasSortableColumns || this.hasResizableColumns)
             headerMode = "default";
          else
             headerMode = 'plain';
@@ -259,7 +268,8 @@ export class Grid extends Widget {
          border: border,
          vlines: this.vlines,
          ['drag-' + dragMode]: dragMode,
-         ['drop-' + dropMode]: dropMode
+         ['drop-' + dropMode]: dropMode,
+         resizable: this.hasResizableColumns
       };
 
       super.prepareData(context, instance);
@@ -271,9 +281,25 @@ export class Grid extends Widget {
 
       instance.records = this.mapRecords(context, instance);
 
-      //tree adapters can have additional (child) records
-      if (instance.records && instance.records.length > data.totalRecordCount && this.dataAdapter.isTreeAdapter)
+      //tree adapters can have additional (child) records, filtering also affects actual record count
+      if (instance.records && !this.infinite) {
+
+         //apply record count after filtering
          data.totalRecordCount = instance.records.length;
+
+         //recheck if there are any actual records
+         //when grouping is enabled group header/footer are always in
+         if (instance.records.length < 5) {
+            data.empty = true;
+            for (let i = 0; i < instance.records.length; i++)
+               if (instance.records[i].type == "data") {
+                  data.empty = false;
+                  break;
+               }
+         } else
+            data.empty = data.totalRecordCount == 0;
+      } else
+         data.empty = data.totalRecordCount == 0;
    }
 
    initInstance(context, instance) {
@@ -448,8 +474,10 @@ export class Grid extends Widget {
                   }
 
                   style = header.data.style;
-                  let customWidth = columnInstance.assignedWidth || header.data.width;
+                  let customWidth = header.data.width || instance.state.colWidth[c.uniqueColumnId] || header.data.defaultWidth;
                   if (customWidth) {
+                     if (instance.state.colWidth[c.uniqueColumnId] != customWidth)
+                        instance.state.colWidth[c.uniqueColumnId] = customWidth;
                      let s = `${customWidth}px`;
                      style = {
                         ...style,
@@ -483,7 +511,11 @@ export class Grid extends Widget {
                   if (c.resizable || header.data.resizable) {
                      resizer = <div
                         className={CSS.element(baseClass, 'col-resizer')}
-                        onMouseDown={e => {
+                        onClick={e => {
+                           e.stopPropagation();
+                        }}
+                        onMouseMove={e => {
+                           if (e.buttons != 1) return;
                            let resizeOverlayEl = document.createElement('div');
                            let headerCell = e.target.parentElement;
                            let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
@@ -502,11 +534,25 @@ export class Grid extends Widget {
                               let width = resizeOverlayEl.offsetWidth
                               columnInstance.assignedWidth = width;
                               gridEl.removeChild(resizeOverlayEl);
-                              instance.setState({ dummy: Math.random()});
                               if (widget.onColumnResize)
-                                 instance.invoke("onColumnResize", { width, column: c }, columnInstance);
-                              header.set("width", width);
+                                 instance.invoke("onColumnResize", {width, column: c}, columnInstance);
+                              if (!header.set("width", width))
+                                 instance.setState({
+                                    colWidth: {
+                                       ...instance.state.colWidth,
+                                       [c.uniqueColumnId]: width
+                                    }
+                                 });
                            })
+                        }}
+                        onDoubleClick={e => {
+                           header.set("width", null);
+                           instance.setState({
+                              colWidth: {
+                                 ...instance.state.colWidth,
+                                 [c.uniqueColumnId]: null
+                              }
+                           });
                         }}
                      />
                   }
@@ -885,6 +931,7 @@ class GridComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
       let {dragged, start, end, cursor, cursorCellIndex, cellEdit} = this.state;
+      let {colWidth} = instance.state;
 
       if (this.syncBuffering) {
          start = this.start;
@@ -919,6 +966,7 @@ class GridComponent extends VDOM.Component {
             cursorCellIndex={index == cursor && cursorCellIndex}
             cellEdit={index == cursor && cursorCellIndex && cellEdit}
             shouldUpdate={row.shouldUpdate}
+            colWidths={colWidth}
          >
             {children.content.map(({key, data, content}) => (
                <tr
@@ -926,7 +974,7 @@ class GridComponent extends VDOM.Component {
                   className={data.classNames}
                   style={data.style}
                >
-                  {content.map(({key, data, content, instance}, cellIndex) => {
+                  {content.map(({key, data, content, instance, uniqueColumnId}, cellIndex) => {
                      let cellected = index == cursor && cellIndex == cursorCellIndex;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
                      if (cellected && cellEdit) {
@@ -953,10 +1001,19 @@ class GridComponent extends VDOM.Component {
                               </div>
                            </td>
                      }
+                     let width = colWidth[uniqueColumnId];
+                     let style = data.style;
+                     if (width) {
+                        style = {
+                           ...style,
+                           maxWidth: `${width}px`
+                        }
+                     }
+                     ;
                      return <td
                         key={key}
                         className={className}
-                        style={data.style}
+                        style={style}
                         colSpan={data.colSpan}
                         rowSpan={data.rowSpan}
                      >
@@ -1062,7 +1119,7 @@ class GridComponent extends VDOM.Component {
       let content = [];
 
       //instance.records holds the record count after filtering
-      if (data.emptyText && (data.totalRecordCount == 0 || (instance.records && instance.records.length == 0))) {
+      if (data.emptyText && data.empty) {
          children = [
             <tbody
                key="empty"
@@ -1555,7 +1612,7 @@ class GridComponent extends VDOM.Component {
 
          let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
 
-         if (data.totalRecordCount == 0) {
+         if (data.empty) {
             this.dom.scroller.scrollTop = 0;
          }
 
@@ -1979,6 +2036,7 @@ class GridColumnHeader extends Widget {
       return super.declareData(...arguments, {
          format: undefined,
          width: undefined,
+         defaultWidth: undefined
       })
    }
 

@@ -69,9 +69,7 @@ export default (
                     records={bind("$page.records")}
                     style={{
                         "width": "100%",
-                        "max-height": "400px"
                     }}
-                    scrollable
                     selection={{type: KeySelection, bind: "$page.id", keyField: "id"}}
                     columns={[
                         {header: "Name", field: "fullName", sortable: true, style: "white-space: nowrap"},

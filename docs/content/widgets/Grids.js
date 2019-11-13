@@ -56,11 +56,11 @@ export const Grids = <cx>
                       mod="responsive"
                       scrollable
                       columns={[
-                          {header: 'Name', field: 'fullName', sortable: true},
-                          {header: 'Continent', field: 'continent', sortable: true},
-                          {header: 'Browser', field: 'browser', sortable: true},
-                          {header: 'OS', field: 'os', sortable: true},
-                          {header: 'Visits', field: 'visits', sortable: true, align: 'right'}
+                          {header: 'Name', field: 'fullName', sortable: true, resizable: true},
+                          {header: 'Continent', field: 'continent', sortable: true, resizable: true},
+                          {header: 'Browser', field: 'browser', sortable: true, resizable: true},
+                          {header: 'OS', field: 'os', sortable: true, resizable: true},
+                          {header: 'Visits', field: 'visits', sortable: true, align: 'right', resizable: true}
                       ]}
                       selection={{type: KeySelection, bind: '$page.selection'}}
                 />

@@ -179,5 +179,6 @@ export class GridRowComponent extends VDOM.Component {
          || props.cursorIndex !== this.props.cursorIndex
          || props.cursorCellIndex !== this.props.cursorCellIndex
          || props.cellEdit !== this.props.cellEdit
+         || props.colWidths !== this.props.colWidths
    }
 }

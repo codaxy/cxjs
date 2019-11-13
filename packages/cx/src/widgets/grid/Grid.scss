@@ -118,6 +118,32 @@
             overflow-x: auto;
          }
       }
+
+      &.#{$state}resizable {
+         .cxe-grid-data td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+         }
+
+         .cxe-grid-fixed-header .cxe-grid-col-header:last-child {
+            max-width: 100%;
+            width: 100%;
+         }
+      }
+
+      &.#{$mod}fixed-layout {
+         table {
+            table-layout: fixed;
+            width: auto;
+         }
+      }
+
+      &.#{$mod}nowrap {
+         .cxe-grid-data td {
+            white-space: nowrap;
+         }
+      }
    }
 
    .#{$element}#{$name}-empty-text td {

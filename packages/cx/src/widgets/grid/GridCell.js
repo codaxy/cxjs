@@ -55,7 +55,8 @@ export class GridCell extends PureContainer {
          content: v,
          instance,
          data,
-         key
+         key,
+         uniqueColumnId: this.uniqueColumnId
       }
    }
 }

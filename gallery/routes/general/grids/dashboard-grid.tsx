@@ -48,6 +48,8 @@ export default (
         keyField="id"
         defaultSortField="sales"
         defaultSortDirection="DESC"
+        style="flex: 1 1 0%"
+        vlines
         columns={[
             {
               field: "name",
@@ -69,7 +71,7 @@ export default (
               aggregate: "max",
               field: "sales",
               sortable: true,
-              aggregateField: "maxSales",
+              aggregateAlias: "maxSales",
               footer: false,
               style: "min-width: 100px; width: 100px",
               items: (

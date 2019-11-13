@@ -66,6 +66,9 @@ export default (
             lockColumnWidths
             cached
             scrollable
+            style={{
+               flex: '1 1 0%'
+            }}
             row={{
                valid: { bind: "$record.valid" },
                style: {

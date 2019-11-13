@@ -94,7 +94,7 @@ export default (
     >
       <Grid
         records={bind("$page.records")}
-        style={{ width: "100%" }}
+        style={{ width: "100%", flex: '1 1 0%' }}
         mod="bordered"
         scrollable={true}
         lockColumnWidths
