@@ -49,11 +49,15 @@ export class AugmentedViewBase extends View {
    deleteItem(path) {
       let binding = Binding.get(path);
       if (this.isExtraKey(binding.parts[0])) {
+         let bindingRoot = binding.parts[0];
          if (binding.parts.length == 1)
-            return this.deleteExtraKeyValue(binding.parts[0]);
-         return this.setItem(path, value);
+            return this.deleteExtraKeyValue(bindingRoot);
+         let data = {};
+         this.embedAugmentData(data, this.store.getData());
+         let newValue = binding.delete(data)[bindingRoot];
+         return this.setExtraKeyValue(bindingRoot, newValue);
       }
-      return super.deleteItem(path, value);
+      return super.deleteItem(path);
    }
 }
 
