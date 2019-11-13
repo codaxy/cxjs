@@ -33,5 +33,14 @@ export class StoreRef extends Ref {
    memoize() {
       return this.get;
    }
+
+   as(config) {
+      return StoreRef.create(config, {
+         path: this.path,
+         store: this.store,
+         get: this.get,
+         set: this.set
+      });
+   }
 }
 
