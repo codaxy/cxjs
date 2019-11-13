@@ -722,17 +722,19 @@ class LookupComponent extends VDOM.Component {
 
          case KeyCode.enter:
             if (this.props.instance.widget.submitOnEnterKey) {
-                let instance = this.props.instance.parent;
-                while (instance) {
-                    if (instance.events && instance.events.onSubmit) {
-                        instance.events.onSubmit(e, instance);
-                        break;
-                    } else {
-                        instance = instance.parent;
-                    }
-                }
-                break;
+               let instance = this.props.instance.parent;
+               while (instance) {
+                  if (instance.events && instance.events.onSubmit) {
+                     instance.events.onSubmit(e, instance);
+                     break;
+                  } else {
+                     instance = instance.parent;
+                  }
+               }
+            } else {
+               this.openDropdown(e);
             }
+            break;
 
          default:
             this.openDropdown(e);
