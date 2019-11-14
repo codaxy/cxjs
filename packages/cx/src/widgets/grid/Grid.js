@@ -1825,7 +1825,7 @@ class GridComponent extends VDOM.Component {
          return instance.recordInstanceCache.getChild(instance.widget.row, record.store, record.key);
 
       //different signature
-      return instance.getChild(instance.widget.row, record.key, record.store);
+      return instance.getChild(null, instance.widget.row, record.key, record.store);
    }
 
    handleKeyDown(e) {
