@@ -13,6 +13,8 @@ export abstract class AugmentedViewBase extends View {
 
    protected abstract isExtraKey(key: string): boolean;
 
+   protected abstract embedAugmentData(result: Cx.Record, parentStoreData: Cx.Record): void;
+
    immutable: boolean;
    recordAlias: string;
    indexAlias: string;
