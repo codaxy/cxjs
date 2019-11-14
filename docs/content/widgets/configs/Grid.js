@@ -199,5 +199,11 @@ export default {
         description: <cx><Md>
             Set to `true` to add a fixed footer at the bottom of the grid.
         </Md></cx>
+    },
+    sortOptions: {
+        type: "record",
+        description: <cx><Md>
+            Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
+        </Md></cx>
     }
 };

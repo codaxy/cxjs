@@ -37,7 +37,8 @@ export class Repeater extends Container {
          keyField: this.keyField,
          immutable: this.immutable,
          sealed: this.sealed,
-         recordsAccessor: this.recordsAccessor
+         recordsAccessor: this.recordsAccessor,
+         sortOptions: this.sortOptions
       });
 
       this.item = PureContainer.create({

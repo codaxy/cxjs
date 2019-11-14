@@ -31,7 +31,8 @@ export class List extends Widget {
          recordName: this.recordName,
          indexName: this.indexName,
          recordsAccessor: getAccessor(this.records),
-         keyField: this.keyField
+         keyField: this.keyField,
+         sortOptions: this.sortOptions
       });
 
       this.child = Widget.create({

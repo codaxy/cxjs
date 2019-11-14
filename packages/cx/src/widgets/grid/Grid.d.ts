@@ -156,7 +156,10 @@ interface GridProps extends Cx.StyledContainerProps {
    onCellEdited?: (change, record) => void
 
    /** A callback function which is executed after a column has been resized. */
-   onColumnResize?: (data: { width: number, column: Cx.Record }, instance: Instance) => void
+   onColumnResize?: (data: { width: number, column: Cx.Record }, instance: Instance) => void,
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
+   sortOptions?: Cx.CollatorOptions
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

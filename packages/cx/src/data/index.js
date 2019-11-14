@@ -23,3 +23,4 @@ export * from './StoreProxy';
 export * from "./AugmentedViewBase";
 export * from "./ArrayElementView";
 export * from "./getAccessor";
+export * from "./defaultCompare";

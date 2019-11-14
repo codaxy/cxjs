@@ -1,10 +1,10 @@
 import {DataAdapter} from './DataAdapter';
-import {ExposedRecordView} from '../../data/ExposedRecordView';
 import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
 import {sorter} from '../../data/comparer';
 import {isArray} from '../../util/isArray';
 import {ArrayElementView} from "../../data/ArrayElementView";
 import {getAccessor} from "../../data/getAccessor";
+import {Culture} from "../Culture";
 
 
 export class ArrayAdapter extends DataAdapter {
@@ -104,28 +104,35 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    buildSorter(sorters) {
+      let compare = this.sortOptions ? Culture.getComparer(this.sortOptions) : null;
       if (isArray(sorters) && sorters.length > 0) {
          if (sorters.every(x => x.field && x.value == null)) {
             //if all sorters are based on record fields access data directly (faster)
-            this.sorter = sorter(sorters.map(x => {
-               if (x.field)
-                  return {
-                     value: {bind: x.field},
-                     direction: x.direction
-                  };
-               return x;
-            }), x => x.data)
-         }
-         else {
+            this.sorter = sorter(
+               sorters.map(x => {
+                  if (x.field)
+                     return {
+                        value: {bind: x.field},
+                        direction: x.direction
+                     };
+                  return x;
+               }),
+               x => x.data,
+               compare
+            )
+         } else {
             //if some sorters use computed values, use store data object
-            this.sorter = sorter(sorters.map(x => {
-               if (x.field && x.value == null)
-                  return {
-                     value: {bind: this.recordName + '.' + x.field},
-                     direction: x.direction
-                  };
-               return x;
-            }), x => x.store.getData())
+            this.sorter = sorter(
+               sorters.map(x => {
+                  if (x.field && x.value == null)
+                     return {
+                        value: {bind: this.recordName + '.' + x.field},
+                        direction: x.direction
+                     };
+                  return x;
+               }),
+               x => x.store.getData(),
+               compare)
          }
       } else {
          this.sorter = null;

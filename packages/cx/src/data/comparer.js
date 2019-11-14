@@ -1,7 +1,8 @@
 import {getSelector} from './getSelector'
 import {isDefined} from "../util/isDefined";
+import {defaultCompare} from "./defaultCompare";
 
-export function getComparer(sorters, dataAccessor) {
+export function getComparer(sorters, dataAccessor, compare) {
    let data = (sorters || []).map(s => {
       let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? x => x[s.field] : () => null;
       return {
@@ -10,34 +11,25 @@ export function getComparer(sorters, dataAccessor) {
       }
    });
 
+   if (!compare)
+      compare = defaultCompare;
+
    return function (a, b) {
       let d, av, bv;
       for (let i = 0; i < data.length; i++) {
          d = data[i];
          av = d.getter(a);
          bv = d.getter(b);
-         if (av == null) {
-            if (bv == null)
-               continue;
-            return -d.factor;
-         }
-         else {
-            if (bv == null)
-               return d.factor;
-
-            if (av < bv)
-               return -d.factor;
-
-            if (av > bv)
-               return d.factor;
-         }
+         let r = compare(av, bv);
+         if (r == 0) continue;
+         return d.factor * r;
       }
       return 0;
    }
 }
 
-export function indexSorter(sorters, dataAccessor) {
-   let cmp = getComparer(sorters, dataAccessor);
+export function indexSorter(sorters, dataAccessor, compare) {
+   let cmp = getComparer(sorters, dataAccessor, compare);
    return function (data) {
       let result = Array.from({length: data.length}, (v, k) => k);
       result.sort((ia, ib) => cmp(data[ia], data[ib]));
@@ -45,8 +37,8 @@ export function indexSorter(sorters, dataAccessor) {
    }
 }
 
-export function sorter(sorters, dataAccessor) {
-   let cmp = getComparer(sorters, dataAccessor);
+export function sorter(sorters, dataAccessor, compare) {
+   let cmp = getComparer(sorters, dataAccessor, compare);
 
    return function (data) {
       let result = [...data];

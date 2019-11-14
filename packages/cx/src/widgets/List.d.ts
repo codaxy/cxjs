@@ -3,16 +3,16 @@ import {PropertySelection, KeySelection} from '../ui/selection';
 import {Instance} from '../ui/Instance';
 
 interface ListProps extends Cx.StyledContainerProps {
-    
+
    /** An array of records to be displayed in the list. */
    records?: Cx.RecordsProp,
-    
+
    /** Used for sorting the list. */
    sorters?: Cx.SortersProp,
 
    /** A binding used to store the name of the field used for sorting the collection. Available only if `sorters` are not used. */
    sortField?: Cx.StringProp,
-   
+
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
    sortDirection?: Cx.StringProp,
 
@@ -24,9 +24,9 @@ interface ListProps extends Cx.StyledContainerProps {
 
    /** CSS class that will be applied to all list items. */
    itemClassName?: Cx.ClassProp,
-    
+
    emptyText?:  Cx.StringProp,
-   
+
    /** Grouping configuration. */
    grouping?: Cx.Config,
 
@@ -35,7 +35,7 @@ interface ListProps extends Cx.StyledContainerProps {
 
    /** Base CSS class to be applied to the element. Defaults to 'list'. */
    baseClass?: string,
-   
+
    focusable?: boolean,
    focused?: boolean,
    itemPad?: boolean,
@@ -52,6 +52,9 @@ interface ListProps extends Cx.StyledContainerProps {
 
    /** Scrolls selection into the view. Default value is false. */
    scrollSelectionIntoView?: boolean,
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
+   sortOptions?: Cx.CollatorOptions
 }
 
 export class List extends Cx.Widget<ListProps> {}

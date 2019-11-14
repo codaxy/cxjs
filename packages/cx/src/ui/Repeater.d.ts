@@ -28,6 +28,9 @@ interface RepeaterProps extends Cx.PureContainerProps {
 
    /** Callback to create a filter function for given filter params. */
    onCreateFilter?: (filterParams: any, instance: Instance) => (record: Cx.Record) => boolean;
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
+   sortOptions?: Cx.CollatorOptions
 }
 
 export class Repeater extends Cx.Widget<RepeaterProps> {}

@@ -151,7 +151,8 @@ export class Grid extends Widget {
          keyField: this.keyField,
          aggregates: aggregates,
          recordName: this.recordName,
-         indexName: this.indexName
+         indexName: this.indexName,
+         sortOptions: this.sortOptions
       }, this.dataAdapter);
 
       this.selection = Selection.create(this.selection, {
