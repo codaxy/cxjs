@@ -2,8 +2,23 @@ import * as Cx from '../../core';
 import * as React from 'react';
 import {Instance} from "../../ui/Instance";
 import {DragEvent} from '../drag-drop/ops';
+import {View} from "../../data/View";
 
 type FetchRecordsResult = Cx.Record[] | { records: Cx.Record[], lastPage?: boolean, totalRecordCount?: number }
+
+interface MappedGridRecord {
+   data: Cx.Record,
+   store: View
+}
+
+interface GridDragEvent extends DragEvent {
+   target: {
+      recordBefore: MappedGridRecord,
+      recordAfter: MappedGridRecord,
+      insertionIndex: number,
+      totalRecordCount: number
+   }
+}
 
 interface GridProps extends Cx.StyledContainerProps {
 
@@ -120,10 +135,11 @@ interface GridProps extends Cx.StyledContainerProps {
    rowStyle?: Cx.StyleProp
 
    // drag-drop handlers
-   onDrop?: (e: DragEvent, instance: Instance) => void;
+   onDrop?: (e: GridDragEvent, instance: Instance) => void;
    onDropTest?: (e: DragEvent, instance: Instance) => boolean;
    onDragStart?: (e: DragEvent, instance: Instance) => void;
    onDragEnd?: (e: DragEvent, instance: Instance) => void;
+   onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
 
    /** Parameters that affect filtering. */
    filterParams?: Cx.StructuredProp,

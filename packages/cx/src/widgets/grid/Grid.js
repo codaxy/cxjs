@@ -1395,9 +1395,11 @@ class GridComponent extends VDOM.Component {
    onDrop(e) {
       let {instance} = this.props;
       let {widget} = instance;
-      if (widget.onDrop) {
+      if (widget.onDrop && this.state.dragInsertionIndex != null) {
          e.target = {
-            insertionIndex: this.state.dragInsertionIndex
+            insertionIndex: this.state.dragInsertionIndex,
+            recordBefore: this.getRecordAt(this.state.dragInsertionIndex - 1),
+            recordAfter: this.getRecordAt(this.state.dragInsertionIndex),
          };
          instance.invoke("onDrop", e, instance);
       }
@@ -1433,7 +1435,9 @@ class GridComponent extends VDOM.Component {
    }
 
    onDragOver(ev) {
-      let {CSS, baseClass} = this.props.instance.widget;
+      let {instance} = this.props;
+      let {widget, data} = instance;
+      let {CSS, baseClass} = widget;
       let rowClass = CSS.element(baseClass, 'data');
       let nodes = Array
          .from(this.dom.table.children)
@@ -1474,7 +1478,21 @@ class GridComponent extends VDOM.Component {
          }
       }
 
-      if (s != this.state.dragInsertionIndex) {
+      let evt = {
+         ...ev,
+         target: {
+            recordBefore: this.getRecordAt(s - 1),
+            recordAfter: this.getRecordAt(s),
+            insertionIndex: s,
+            totalRecordCount: data.totalRecordCount
+         }
+      };
+      if (widget.onDragOver && instance.invoke("onDragOver", evt, instance) === false) {
+         this.setState({
+            dragInsertionIndex: null
+         });
+      }
+      else if (s != this.state.dragInsertionIndex) {
          this.setState({
             dragInsertionIndex: s,
             dragItemHeight: ev.source.height - 1

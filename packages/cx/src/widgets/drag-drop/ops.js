@@ -7,6 +7,8 @@ import {isObject} from '../../util/isObject';
 import {isString} from '../../util/isString';
 import {ZIndexManager} from "../../ui/ZIndexManager";
 import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
+import {VDOM} from "../../ui/VDOM";
+import {Container} from "../../ui/Container";
 
 let dropZones = new SubscriberList(),
    dragStartedZones,
@@ -18,6 +20,7 @@ let dropZones = new SubscriberList(),
    hscrollParent;
 
 export function registerDropZone(dropZone) {
+   console.log("REGISTER", dropZone);
    return dropZones.subscribe(dropZone);
 }
 
@@ -89,7 +92,12 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    };
 
    if (clone.widget && clone.store && !clone.cloneContent) {
-      puppet.stop = startAppLoop(cloneEl, clone.store, clone.widget, {
+      let content = <cx>
+         <ContextWrap value={{ disabled: true }}>
+            {clone.widget}
+         </ContextWrap>
+      </cx>;
+      puppet.stop = startAppLoop(cloneEl, clone.store, content, {
          removeParentDOMElement: true
       });
    }
@@ -316,3 +324,12 @@ export function isDragHandleEvent(e) {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 
+export const DragDropContext = VDOM.createContext({ disabled: false });
+
+class ContextWrap extends Container {
+   render(context, instance, key) {
+      return <DragDropContext.Provider value={this.value} key={key}>
+         {this.renderChildren(context, instance)}
+      </DragDropContext.Provider>
+   }
+}

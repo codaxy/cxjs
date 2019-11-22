@@ -6,7 +6,8 @@ import {
    Select,
    TreeAdapter,
    TreeNode,
-   ValidationGroup
+   ValidationGroup,
+   DropZone
 } from "cx/widgets";
 import { Controller, KeySelection, LabelsLeftLayout } from "cx/ui";
 
@@ -86,7 +87,8 @@ export default (
          <Grid
             records:bind="data"
             mod="tree"
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: '500px' }}
+            scrollable
             dataAdapter={{
                type: TreeAdapter,
                load: (context, { controller }, node) =>
@@ -100,13 +102,15 @@ export default (
                   sortable: true,
                   items: (
                      <cx>
-                        <TreeNode
-                           expanded:bind="$record.$expanded"
-                           level:bind="$record.$level"
-                           loading:bind="$record.$loading"
-                           text:bind="$record.name"
-                           leaf={false}
-                        />
+                        <DropZone onDropTest={e => true} overStyle="background: red">
+                           <TreeNode
+                              expanded:bind="$record.$expanded"
+                              level:bind="$record.$level"
+                              loading:bind="$record.$loading"
+                              text:bind="$record.name"
+                              leaf={false}
+                           />
+                        </DropZone>
                      </cx>
                   )
                },
@@ -119,6 +123,15 @@ export default (
                   align: "right"
                }
             ]}
+            dragSource={{
+               mode: "copy",
+               data: { type: "record" }
+            }}
+            onDropTest={(e, instance) => e.source.data.type == "record"}
+            onDrop={(e, { store }) => { alert('X')}}
+            onDragOver={e => {
+               return e.target.insertionIndex == e.target.totalRecordCount;
+            }}
          />
       </div>
    </cx>
