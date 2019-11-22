@@ -51,8 +51,6 @@ Widget.alias('dropzone', DropZone);
 
 class DropZoneComponent extends VDOM.Component {
 
-   static contextType = DragDropContext;
-
    constructor(props) {
       super(props);
       this.state = {
@@ -222,3 +220,4 @@ class DropZoneComponent extends VDOM.Component {
    }
 }
 
+DropZoneComponent.contextType = DragDropContext;
