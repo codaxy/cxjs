@@ -38,35 +38,40 @@
 
       &.#{$state}scrollable {
 
+         overflow: hidden;
+         display: flex;
+         flex-direction: column;
+
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
 
             table {
                border: none;
             }
+
+            .cxe-grid-header:first-child {
+               th {
+                  border-top: none;
+               }
+            }
+
+            th {
+               border-left: none;
+            }
+
+            th:last-child {
+               border-right: none;
+            }
          }
-
-         overflow: hidden;
-
-         th {
-            border-top: none;
-            border-left: none;
-         }
-
-         th:last-child {
-            border-right: none;
-         }
-
-         display: flex;
-         flex-direction: column;
 
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
             flex: 1 1 0%;
             -webkit-overflow-scrolling: touch;
 
-            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header {
+            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header:first-child {
                visibility: hidden;
+
             }
 
             //used to cut off the negative margin

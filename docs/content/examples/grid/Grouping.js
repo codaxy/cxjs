@@ -40,7 +40,8 @@ export const Grouping = <cx>
                         key: {
                             name: {bind: '$record.continent'}
                         },
-                        showCaption: true
+                        showCaption: true,
+                        showHeader: true
                     }
                 ]}
                 columns={[{
