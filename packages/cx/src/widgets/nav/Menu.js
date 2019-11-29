@@ -1,6 +1,6 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {HtmlElement} from '../HtmlElement';
-import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest} from '../../util/DOM';
+import {findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest, isFocusedDeep} from '../../util/DOM';
 import {KeyCode} from '../../util/KeyCode';
 import {debug, menuFlag} from '../../util/Debug';
 import {FocusManager, oneFocusOut, offFocusOut} from '../../ui/FocusManager';
@@ -128,7 +128,6 @@ class MenuComponent extends VDOM.Component {
                "pack": this.state.visibleItemCount < children.length - 1
             }))}
             style={data.style}
-            onFocus={::this.onFocus}
             onBlur={FocusManager.nudge()}
             onKeyDown={::this.onKeyDown}
          >
@@ -228,11 +227,12 @@ class MenuComponent extends VDOM.Component {
 
    componentDidMount() {
       let {widget} = this.props.instance;
-      if (widget.autoFocus && this.itemInfo.length > 0)
+      if (widget.autoFocus && this.itemInfo.length > 0 && !isFocusedDeep(this.el))
          FocusManager.focusFirst(this.itemInfo[0].el);
       this.measureOverflow();
       if (widget.overflow)
          this.unsubscribeResize = ResizeManager.trackElement(this.el, ::this.measureOverflow);
+      oneFocusOut(this, this.el, ::this.onFocusOut);
    }
 
    componentDidUpdate() {
@@ -263,10 +263,6 @@ class MenuComponent extends VDOM.Component {
          })
       }
       instance.visibleMenuItemCount = visibleItemCount;
-   }
-
-   onFocus() {
-      oneFocusOut(this, this.el, ::this.onFocusOut);
    }
 
    componentWillUnmount() {

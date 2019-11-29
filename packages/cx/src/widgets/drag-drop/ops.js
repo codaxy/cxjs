@@ -20,7 +20,6 @@ let dropZones = new SubscriberList(),
    hscrollParent;
 
 export function registerDropZone(dropZone) {
-   console.log("REGISTER", dropZone);
    return dropZones.subscribe(dropZone);
 }
 

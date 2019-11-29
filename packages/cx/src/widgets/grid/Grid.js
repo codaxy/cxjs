@@ -223,31 +223,31 @@ export class Grid extends Widget {
       if (state.sorters && !data.sorters)
          data.sorters = state.sorters;
 
-         if (data.sortField && data.sortDirection) {
-            let sorter = {
-               field: data.sortField,
-               direction: data.sortDirection
-            }
+      let sortField = null;
 
-            let defaultSortColumn = this.columns && this.columns.find(c => c.field == data.sortField);
-            if (defaultSortColumn && (defaultSortColumn.sortValue || defaultSortColumn.value))
-               sorter.value = defaultSortColumn.sortValue || defaultSortColumn.value;
+      if (data.sortField && data.sortDirection) {
+         let sorter = {
+            field: data.sortField,
+            direction: data.sortDirection
+         };
+         sortField = data.sortField;
+         data.sorters = [sorter];
+      }
 
-            data.sorters = [sorter];
-         }
+      if ((!data.sorters || data.sorters.length == 0) && this.defaultSortField) {
+         let sorter = {
+            field: this.defaultSortField,
+            direction: this.defaultSortDirection || 'ASC'
+         };
+         sortField = this.defaultSortField;
+         data.sorters = [sorter];
+      }
 
-         if ((!data.sorters || data.sorters.length == 0) && this.defaultSortField) {
-            let sorter = {
-               field: this.defaultSortField,
-               direction: this.defaultSortDirection || 'ASC'
-            }
-
-            let defaultSortColumn = this.columns && this.columns.find(c => c.field == this.defaultSortField);
-            if (defaultSortColumn && (defaultSortColumn.sortValue || defaultSortColumn.value))
-               sorter.value = defaultSortColumn.sortValue || defaultSortColumn.value;
-
-            data.sorters = [sorter];
-         }
+      if (sortField) {
+         let sortColumn = this.columns && this.columns.find(c => c.field == sortField);
+         if (sortColumn && (sortColumn.sortValue || sortColumn.value))
+            data.sorters[0].value = sortColumn.sortValue || sortColumn.value;
+      }
 
       let headerMode = this.headerMode;
 
@@ -623,37 +623,37 @@ export class Grid extends Widget {
    }
 
    onHeaderClick(e, column, instance, headerLine) {
-    e.preventDefault();
-    e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
 
-    let {data} = instance;
-    let header = column.components[`header${headerLine + 1}`];
+      let {data} = instance;
+      let header = column.components[`header${headerLine + 1}`];
 
-    let sortField = column.sortField || column.field;
-    let sortValue = column.sortValue || column.value;
-    if (header && header.allowSorting && column.sortable && (sortField || sortValue)) {
-    let dir = 'ASC';
-    if (data.sorters && (data.sorters[0].field == (sortField || data.sortField) || data.sorters[0].value == sortValue)) {
-        if (data.sorters[0].direction == 'ASC')
-            dir = 'DESC';
-        else if (this.clearableSort && data.sorters[0].direction == 'DESC')
-            dir = null;
-    }
+      let sortField = column.sortField || column.field;
+      let sortValue = column.sortValue || column.value;
+      if (header && header.allowSorting && column.sortable && (sortField || sortValue)) {
+         let dir = 'ASC';
+         if (data.sorters && (data.sorters[0].field == (sortField || data.sortField) || data.sorters[0].value == sortValue)) {
+            if (data.sorters[0].direction == 'ASC')
+               dir = 'DESC';
+            else if (this.clearableSort && data.sorters[0].direction == 'DESC')
+               dir = null;
+         }
 
-    let sorters = dir ? [{
-        field: sortField,
-        direction: dir,
-        value: sortValue
-    }] : null;
+         let sorters = dir ? [{
+            field: sortField,
+            direction: dir,
+            value: sortValue
+         }] : null;
 
-    instance.set('sorters', sorters);
-    instance.set('sortField', sortField);
-    instance.set('sortDirection', dir);
+         instance.set('sorters', sorters);
+         instance.set('sortField', sortField);
+         instance.set('sortDirection', dir);
 
-    if (!this.remoteSort || this.infinite)
-        instance.setState({sorters});
-    }
- }
+         if (!this.remoteSort || this.infinite)
+            instance.setState({sorters});
+      }
+   }
 
    renderGroupHeader(context, instance, g, level, group, i, store) {
       let {CSS, baseClass} = this;
@@ -1506,8 +1506,7 @@ class GridComponent extends VDOM.Component {
          this.setState({
             dragInsertionIndex: null
          });
-      }
-      else if (s != this.state.dragInsertionIndex) {
+      } else if (s != this.state.dragInsertionIndex) {
          this.setState({
             dragInsertionIndex: s,
             dragItemHeight: ev.source.height - 1
