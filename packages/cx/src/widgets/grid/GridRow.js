@@ -9,8 +9,9 @@ import {
 import {isTouchEvent} from '../../util/isTouchEvent';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 import {GridRowLine} from "./GridRowLine";
-import {closest} from "../../util/DOM";
+import {closest, isFocusedDeep} from "../../util/DOM";
 import {KeyCode} from "../../util/KeyCode";
+import {getActiveElement} from "../../util/getActiveElement";
 
 export class GridRow extends ValidationGroup {
    init() {
@@ -109,6 +110,10 @@ export class GridRowComponent extends VDOM.Component {
          if (isDragHandleEvent(e) || instance.dragHandles.length == 0) {
             e.preventDefault();
             e.stopPropagation();
+
+            //close context menu
+            if (!getActiveElement().contains(e.target))
+               document.activeElement.blur();
          }
       }
 
