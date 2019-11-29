@@ -96,6 +96,12 @@ export default {
             A field used for sorting purposes. E.g. sort by month number instead of month name.
         </Md></cx>
     },
+    sortValue: {
+        type: 'text',
+        description: <cx><Md>
+            A value used for sorting purposes. Useful for scenarios not covered by Grid sortOptions.
+        </Md></cx>
+    },
     editable: {
         type: 'bool',
         description: <cx><Md>
