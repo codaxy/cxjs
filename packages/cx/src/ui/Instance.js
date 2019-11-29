@@ -68,6 +68,8 @@ export class Instance {
       let wasVisible = this.visible;
       this.rawData = this.dataSelector(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
+      if (this.visible && !this.detached)
+         this.parent.instanceCache.addChild(this);
       this.explored = false;
       this.prepared = false;
 
@@ -288,6 +290,7 @@ export class Instance {
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
+      this.renderList = null;
       this.childStateDirty = false;
 
       if (this.instanceCache)
@@ -338,7 +341,7 @@ export class Instance {
    destroy() {
       if (this.instanceCache) {
          this.instanceCache.destroy();
-         delete this.instanceCache;
+         this.instanceCache = null;
       }
 
       if (this.destroySubscriptions) {
@@ -357,6 +360,12 @@ export class Instance {
 
          this.destroyTracked = false;
       }
+
+      this.vdom = null;
+      this.renderList = null;
+      this.components = null;
+      this.parent = null;
+      this.children = null;
    }
 
    setState(state) {
@@ -556,8 +565,12 @@ export class InstanceCache {
       }
       if (instance.store !== store)
          instance.setStore(store);
-      this.marked[k] = instance;
+
       return instance;
+   }
+
+   addChild(instance) {
+      this.marked[instance.key] = instance;
    }
 
    mark() {
@@ -571,17 +584,21 @@ export class InstanceCache {
    }
 
    destroy() {
+      for (let key in this.children) {
+         this.children[key].destroy();
+      }
+
       this.children = {};
       this.marked = {};
 
-      if (!this.monitored)
-         return;
-
-      for (let key in this.monitored) {
-         this.monitored[key].destroy();
-      }
-
-      this.monitored = null;
+      // if (!this.monitored)
+      //    return;
+      //
+      // for (let key in this.monitored) {
+      //    this.monitored[key].destroy();
+      // }
+      //
+      // this.monitored = null;
    }
 
    sweep() {

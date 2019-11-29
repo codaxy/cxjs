@@ -74,10 +74,11 @@ import './index.scss';
 //import Demo from "./bugs/validation";
 //import Demo from "./features/repeater/Hooks";
 //import Demo from "./bugs/submitOnEnter";
-import Demo from "./bugs/tree-sorting";
+//import Demo from "./bugs/tree-sorting";
+import Demo from "./bugs/leak";
 
 
-let store = new Store();
+let store = window.store = new Store();
 
 Widget.resetCounter();
 //Widget.optimizePrepare = false;
