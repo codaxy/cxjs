@@ -237,19 +237,18 @@ describe('DataProxy', () => {
    it.only('works with Store refs', () => {
 
     let widget = createFunctionalComponent(() => {
-        let valueRef = useState(true);
+        let valueRef = useState("a");
         return <cx>
             <DataProxy
                 data={{
                     $value: valueRef
                 }}
-                controller={{
-                    onInit() {
-                        this.store.set('$value', false);
-                    }
-                }}
             >
-                <span text-bind="$value"/>
+                <span text-bind="$value" controller={{
+                    onInit() {
+                        valueRef.set("b");
+                    }
+                }}/>
             </DataProxy>
         </cx>;
     });
@@ -268,7 +267,7 @@ describe('DataProxy', () => {
     assert.deepEqual(tree, {
        type: 'span',
        props: {},
-       children: ["false"]
+       children: ["b"]
     })
  });
 });
