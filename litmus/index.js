@@ -75,7 +75,7 @@ import './index.scss';
 //import Demo from "./features/repeater/Hooks";
 //import Demo from "./bugs/submitOnEnter";
 //import Demo from "./bugs/tree-sorting";
-import Demo from "./bugs/563";
+import Demo from "./bugs/587";
 
 
 let store = new Store();
