@@ -20,7 +20,6 @@ let dropZones = new SubscriberList(),
    hscrollParent;
 
 export function registerDropZone(dropZone) {
-   console.log("REGISTER", dropZone);
    return dropZones.subscribe(dropZone);
 }
 
@@ -324,7 +323,7 @@ export function isDragHandleEvent(e) {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 
-export const DragDropContext = VDOM.createContext({ disabled: false });
+export const DragDropContext = VDOM.createContext ? VDOM.createContext({ disabled: false }) : ({children}) => children;
 
 class ContextWrap extends Container {
    render(context, instance, key) {

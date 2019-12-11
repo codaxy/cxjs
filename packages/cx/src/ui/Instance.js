@@ -361,11 +361,11 @@ export class Instance {
          this.destroyTracked = false;
       }
 
-      this.vdom = null;
-      this.renderList = null;
-      this.components = null;
-      this.parent = null;
-      this.children = null;
+      //this.vdom = null;
+      //this.renderList = null;
+      //this.components = null;
+      //this.children = null;
+      //this.cached = {};
    }
 
    setState(state) {
@@ -584,21 +584,21 @@ export class InstanceCache {
    }
 
    destroy() {
-      for (let key in this.children) {
-         this.children[key].destroy();
-      }
+      // for (let key in this.children) {
+      //    this.children[key].destroy();
+      // }
 
       this.children = {};
       this.marked = {};
 
-      // if (!this.monitored)
-      //    return;
-      //
-      // for (let key in this.monitored) {
-      //    this.monitored[key].destroy();
-      // }
-      //
-      // this.monitored = null;
+      if (!this.monitored)
+         return;
+
+      for (let key in this.monitored) {
+         this.monitored[key].destroy();
+      }
+
+      this.monitored = null;
    }
 
    sweep() {
