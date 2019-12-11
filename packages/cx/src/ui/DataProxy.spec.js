@@ -7,6 +7,8 @@ import {Controller} from "./Controller";
 import {DataProxy} from "./DataProxy";
 import {computable} from "../data/computable";
 import {HtmlElement} from "../widgets/HtmlElement";
+import { useState } from '../hooks';
+import {createFunctionalComponent} from "./createFunctionalComponent";
 
 describe('DataProxy', () => {
 
@@ -231,5 +233,41 @@ describe('DataProxy', () => {
          children: ["Jim Smith"]
       })
    });
-});
 
+   it.only('works with Store refs', () => {
+
+    let widget = createFunctionalComponent(() => {
+        let valueRef = useState("a");
+        return <cx>
+            <DataProxy
+                data={{
+                    $value: valueRef
+                }}
+            >
+                <span text-bind="$value" controller={{
+                    onInit() {
+                        valueRef.set("b");
+                    }
+                }}/>
+            </DataProxy>
+        </cx>;
+    });
+
+    let store = new Store({
+       data: {
+          //value: "good"
+       }
+    });
+
+    const component = renderer.create(
+       <Cx widget={widget} store={store} subscribe immediate/>
+    );
+
+    let tree = component.toJSON();
+    assert.deepEqual(tree, {
+       type: 'span',
+       props: {},
+       children: ["b"]
+    })
+ });
+});
