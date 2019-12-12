@@ -1824,7 +1824,7 @@ class GridComponent extends VDOM.Component {
             if (r)
                record = widget.mapRecord(null, instance, r, cursor - offset);
          }
-         if (record) {
+         if (record && record.type == 'data') {
             selection.push(record.data);
             indexes.push(record.index);
          }
@@ -1955,6 +1955,16 @@ class GridComponent extends VDOM.Component {
                e.stopPropagation();
                e.preventDefault();
             }
+            break;
+
+         case 65:
+            if (!e.ctrlKey || !widget.selection.multiple)
+                return;
+
+            this.selectRange(0, data.totalRecordCount);
+
+            e.stopPropagation();
+            e.preventDefault();
             break;
       }
    }
