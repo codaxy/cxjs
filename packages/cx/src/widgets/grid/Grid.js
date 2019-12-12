@@ -2075,13 +2075,13 @@ GridColumnHeaderLine.autoInit = true;
 
 class GridColumnHeader extends Widget {
 
-   declareData() {
-      return super.declareData(...arguments, {
-         format: undefined,
-         width: undefined,
-         defaultWidth: undefined
-      })
-   }
+   // declareData() {
+   //    return super.declareData(...arguments, {
+   //       format: undefined,
+   //       width: undefined,
+   //       defaultWidth: undefined
+   //    })
+   // }
 
    init() {
       delete this.style;
@@ -2094,10 +2094,21 @@ class GridColumnHeader extends Widget {
       if (!this.header1 && this.sortable)
          this.header1 = {text: ''};
 
-      if (this.header1 && isSelector(this.header1))
-         this.header1 = {
-            text: this.header1
-         };
+      if (this.header1) {
+         if (isSelector(this.header1))
+            this.header1 = {
+               text: this.header1
+            };
+
+         if (this.resizable)
+            this.header1.resizable = this.resizable;
+
+         if (this.width)
+            this.header1.width = this.width;
+
+         if (this.defaultWidth)
+            this.header1.defaultWidth = this.defaultWidth;
+      }
 
       if (this.header2 && isSelector(this.header2))
          this.header2 = {
@@ -2160,6 +2171,7 @@ class GridColumnHeaderCell extends PureContainer {
          colSpan: undefined,
          rowSpan: undefined,
          width: undefined,
+         defaultWidth: undefined,
          resizable: undefined
       })
    }

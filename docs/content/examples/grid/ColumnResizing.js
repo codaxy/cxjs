@@ -36,45 +36,37 @@ let MyResizableGrid = <cx>
                 header: {
                     text: "Name",
                     width: bind('$page.colWidth.fullName'),
-                    resizable: true
+                    resizable: true,
+                    defaultWidth: 200
                 },
                 field: "fullName",
                 sortable: true
             },
             {
-                header: {
-                    text: "Continent",
-                    width: bind('$page.colWidth.continent'),
-                    resizable: true
-                },
+                header: "Continent",
+                width: bind('$page.colWidth.continent'),
+                resizable: true,
                 field: "continent",
                 sortable: true
             },
             {
-                header: {
-                    text: "Browser",
-                    width: bind('$page.colWidth.browser'),
-                    resizable: true
-                },
+                header: "Browser",
+                width: bind('$page.colWidth.browser'),
+                resizable: true,
                 field: "browser",
                 sortable: true
             },
             {
-                header: {
-                    text: "OS",
-                    width: bind('$page.colWidth.os'),
-                    resizable: true
-                },
-
+                header: "OS",
+                width: bind('$page.colWidth.os'),
+                resizable: true,
                 field: "os",
                 sortable: true
             },
             {
-                header: {
-                    text: "Visits",
-                    width: bind('$page.colWidth.visits'),
-                    resizable: false
-                },
+                header: "Visits",
+                width: bind('$page.colWidth.visits'),
+                resizable: false,
                 field: "visits",
                 sortable: true,
                 align: "right"
@@ -90,6 +82,9 @@ export const ColumnResizing = <cx>
 
             Grid supports column resizing. To enable resizing on a column set the `resizable` flag to `true`.
             If column widths need to be persisted, add the `width` binding or use `onColumnResize` event to process new measures.
+            Use `defaultWidth` to set the initial width which can is also be restored on resizer double click.
+            These properties should be defined in the `header` object, but they can also be set on the column itself
+            if there is only one header.
 
             <MyResizableGrid/>
 
@@ -139,45 +134,37 @@ export const ColumnResizing = <cx>
                                 header: {
                                     text: "Name",
                                     width: bind('$page.colWidth.fullName'),
-                                    resizable: true
+                                    resizable: true,
+                                    defaultWidth: 200
                                 },
                                 field: "fullName",
                                 sortable: true
                             },
                             {
-                                header: {
-                                    text: "Continent",
-                                    width: bind('$page.colWidth.continent'),
-                                    resizable: true
-                                },
+                                header: "Continent",
+                                width: bind('$page.colWidth.continent'),
+                                resizable: true,
                                 field: "continent",
                                 sortable: true
                             },
                             {
-                                header: {
-                                    text: "Browser",
-                                    width: bind('$page.colWidth.browser'),
-                                    resizable: true
-                                },
+                                header: "Browser",
+                                width: bind('$page.colWidth.browser'),
+                                resizable: true,
                                 field: "browser",
                                 sortable: true
                             },
                             {
-                                header: {
-                                    text: "OS",
-                                    width: bind('$page.colWidth.os'),
-                                    resizable: true
-                                },
-                
+                                header: "OS",
+                                width: bind('$page.colWidth.os'),
+                                resizable: true,
                                 field: "os",
                                 sortable: true
                             },
                             {
-                                header: {
-                                    text: "Visits",
-                                    width: bind('$page.colWidth.visits'),
-                                    resizable: false
-                                },
+                                header: "Visits",
+                                width: bind('$page.colWidth.visits'),
+                                resizable: false,
                                 field: "visits",
                                 sortable: true,
                                 align: "right"
