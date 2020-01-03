@@ -113,9 +113,9 @@
     "plural": "^0.3.0",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
-    "react": "^16.12.0",
+    "react": "^0.0.0-experimental-f42431abe",
     "react-dev-utils": "^5.0.1",
-    "react-dom": "^16.12.0",
+    "react-dom": "^0.0.0-experimental-f42431abe",
     "whatwg-fetch": "^2.0.4"
   },
   "jest": {
