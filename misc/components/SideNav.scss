@@ -1,0 +1,68 @@
+.sidenav {
+    width: 250px;
+    box-sizing: border-box;
+    max-height: 100vh;
+    color: #718096;
+
+    &.gray {
+        background: #eee;
+    }
+
+    .cxb-link {
+        display: block;
+        font-weight: 600;
+        color: inherit;
+        text-decoration: none;
+        padding: 10px 16px 10px 24px;
+        position: relative;
+        left: 0;
+
+        &:hover {
+            //padding-left: 25px;
+            color: #666;
+            //transition: padding 0.15s linear;
+        }
+
+        &.cxs-active {
+            color: #555;
+            //padding-left: 27px;
+            background: rgba(#2795b0, 1);
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            color: rgba(white, 0.8);
+            box-shadow: 0px 1px 2px rgba(black, 0.2);
+            margin-right: 4px;
+        }
+
+        &.cxm-app {
+            border-top: 1px solid rgba(black, 0.1);
+            margin-top: 8px;
+            padding-top: 16px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        &.cxm-subsystem {
+            padding-left: 40px;
+        }
+    }
+}
+
+.sidenav_group {
+    font-weight: 700;
+    padding: 16px 16px 8px;
+    color: #a0aec0;
+}
+
+.sidenav_section {
+    border-top: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+.sidenav_category {
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+    color: #2795b0;
+}
