@@ -4,8 +4,8 @@ let rollup = require("rollup"),
    babel = require("rollup-plugin-babel"),
    babelConfig = require("./babel.config"),
    importAlias = require("./importAlias"),
-   multiEntry = require("rollup-plugin-multi-entry"),
-   scss = require("./rollup-plugin-scss"),
+   multiEntry = require("@rollup/plugin-multi-entry"),
+   scss = require("rollup-plugin-scss"),
    manifestRecorder = require("./manifestRecorder"),
    buble = require("rollup-plugin-buble"),
    getPathResolver = require("./getPathResolver"),
@@ -21,7 +21,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
          {
             treeshake: true,
 
-            external: function(id) {
+            external: function (id) {
                if (id.indexOf("babel") == 0)
                   throw new Error("Babel stuff detected: " + id);
 
@@ -38,43 +38,55 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                      return id.substring(0, 3) == "cx/";
                }
             },
-            plugins: [
-               multiEntry(),
+            plugins: []
+         }, e.options);
 
-               scss({
-                  output: (e.css && dist(e.name + ".css")) || false,
-                  importer: function(name, prev, done) {
-                     if (name.indexOf("~cx/") == 0) {
-                        let resolvedFile = "../../cx/" + name.substring(4);
-                        return {
-                           file: resolvedFile
-                        };
-                     }
+      let hasCSS = options.input.some(e => e.endsWith('.scss'));
+      let hasJS = options.input.some(e => !e.endsWith('.scss'));
+
+      options.plugins.push(multiEntry());
+
+      if (hasCSS) {
+         options.plugins.push(
+            scss({
+               output: (e.css && dist(e.name + ".css")) || false,
+               importer: function (name, prev, done) {
+                  if (name.indexOf("~cx/") == 0) {
+                     let resolvedFile = path.resolve(__dirname, "../cx/" + name.substring(4) + ".scss");
+                     console.log(name, resolvedFile);
+                     return {
+                        file: resolvedFile
+                     };
                   }
-               }),
+               }
+            })
+         );
+      }
 
-               babel({
-                  presets: babelConfig.presets,
-                  plugins: [
-                     ...babelConfig.plugins,
-                     manifestRecorder(manifest, paths, src("."))
-                  ]
-               }),
-               importAlias({
-                  paths: paths,
-                  path: srcPath //src('./' + e.name + '/')
-               }),
-               prettier({
-                  tabWidth: 2,
-                  printWidth: 120,
-                  useTabs: true,
-                  parser: "babel"
-               })
-               //buble(),
-            ]
-         },
-         e.options
-      );
+      if (hasJS) {
+         options.plugins.push(
+            babel({
+               presets: babelConfig.presets,
+               plugins: [
+                  ...babelConfig.plugins,
+                  manifestRecorder(manifest, paths, src("."))
+               ]
+            }),
+            importAlias({
+               paths: paths,
+               path: srcPath //src('./' + e.name + '/')
+            }),
+            prettier({
+               tabWidth: 2,
+               printWidth: 120,
+               useTabs: true,
+               parser: "babel"
+            })
+            //buble(),
+         );
+      }
+
+
 
       try {
          let bundle = await rollup.rollup(options);
