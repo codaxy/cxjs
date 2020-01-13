@@ -24,7 +24,7 @@ export const Layout = <cx>
         <div
             class="dxe-layout-menu"
             onClick={toggleMenu}
-            visible:expr="!{layout.touch}"
+            visible-expr="!{layout.touch}"
         >
             <i class="fa fa-bars"/>
         </div>
@@ -32,7 +32,7 @@ export const Layout = <cx>
         <div
             class="dxe-layout-search"
             onClick={openSearch}
-            visible:expr="!{layout.touch}"
+            visible-expr="!{layout.touch}"
         >
             <i class="fa fa-search"/>
         </div>
