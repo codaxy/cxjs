@@ -1,7 +1,7 @@
 const getPathResolver = require("cx-build-tools/getPathResolver"),
    resolvePath = getPathResolver(__dirname),
    cxSrc = getPathResolver(resolvePath("../cx/src")),
-   build = require("./build"),
+   buildJS = require("./buildJS"),
    buildSCSS = require("./buildSCSS");
 
 module.exports = function buildTheme(path) {
@@ -9,7 +9,7 @@ module.exports = function buildTheme(path) {
    let themeSrc = getPathResolver(theme("src"));
 
    return Promise.all([
-      build(
+      buildJS(
          theme("src"),
          theme("dist"),
          [
@@ -20,31 +20,6 @@ module.exports = function buildTheme(path) {
                },
                output: {}
             }
-            // {
-            //    name: "charts",
-            //    css: true,
-            //    options: {
-            //       input: [
-            //          themeSrc("variables.scss"),
-            //          cxSrc("charts/index.scss")
-            //       ]
-            //    },
-            //    output: {}
-            // },
-            // {
-            //    name: "widgets",
-            //    css: true,
-            //    options: {
-            //       input: [
-            //          themeSrc("variables.scss"),
-            //          cxSrc("variables.scss"),
-            //          cxSrc("widgets/index.scss"),
-            //          //cxSrc("ui/index.scss"),
-            //          //themeSrc("widgets.scss")
-            //       ]
-            //    },
-            //    output: {}
-            // },
          ],
          null,
          ["cx/ui", "cx/widgets"]
