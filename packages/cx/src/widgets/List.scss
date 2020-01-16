@@ -76,6 +76,10 @@
             }
          }
       }
+
+      &.#{$state}disabled {
+         @include cx-add-state-rules($cx-list-item, disabled);
+      }
    }
 
    .#{$element}#{$name}-empty-text {
