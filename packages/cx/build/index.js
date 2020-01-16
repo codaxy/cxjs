@@ -1,4 +1,4 @@
-const build = require("cx-build-tools/build"),
+const buildJS = require("cx-build-tools/buildJS"),
    buildSCSS = require("cx-build-tools/buildSCSS"),
    getPathResolver = require("cx-build-tools/getPathResolver"),
    resolvePath = getPathResolver(__dirname),
@@ -71,7 +71,7 @@ const externalPaths = {
    console.log("Building cx...");
    try {
       await Promise.all([
-         build(
+         buildJS(
             resolvePath("../src"),
             resolvePath("../dist"),
             entries,

@@ -41,12 +41,17 @@
   },
   "homepage": "https://cxjs.io",
   "private": true,
-  "workspaces": ["packages/*", "docs", "gallery", "litmus", "benchmark"],
+  "workspaces": [
+    "packages/*",
+    "docs",
+    "gallery",
+    "litmus",
+    "benchmark"
+  ],
   "devDependencies": {
-    
     "mocha": "^6.2.2"
   },
-  "dependencies": {  },
+  "dependencies": {},
   "jest": {
     "transform": {
       "^.+\\.js$": "./test/jest.transform.js"
