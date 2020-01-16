@@ -13,6 +13,7 @@ import { debug, menuFlag } from "../../util/Debug";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import { MenuItem } from "./MenuItem";
 import { isUndefined } from "../../util/isUndefined";
+import { isDefined } from "../../util/isDefined";
 import { ResizeManager } from "../../ui/ResizeManager";
 
 /*
@@ -91,9 +92,9 @@ export class Menu extends HtmlElement {
             autoClose: true
          };
 
-         if (item.if) mi.if = item.if;
+         if (isDefined(item.if)) mi.if = item.if;
 
-         if (item.visible) mi.visible = item.visible;
+         if (isDefined(item.visible)) mi.visible = item.visible;
 
          super.add(mi);
       } else super.add(...arguments);
