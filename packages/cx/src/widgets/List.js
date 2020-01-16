@@ -9,6 +9,7 @@ import {FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch} from '../ui
 import {isString} from '../util/isString';
 import {isArray} from '../util/isArray';
 import {getAccessor} from "../data/getAccessor";
+import { Container } from '../ui';
 
 /*
  - renders list of items
@@ -35,15 +36,16 @@ export class List extends Widget {
          sortOptions: this.sortOptions
       });
 
-      this.child = Widget.create({
-         type: PureContainer,
+      this.child = ListItem.create({
          layout: this.layout,
          items: this.items,
          children: this.children,
          styled: true,
          class: this.itemClass,
          className: this.itemClassName,
-         style: this.itemStyle
+         style: this.itemStyle,
+         disabled: this.itemDisabled,
+         ...this.item
       });
 
       delete this.children;
@@ -315,7 +317,8 @@ class ListComponent extends VDOM.Component {
             className = CSS.element(baseClass, 'item', {
                selected: selected,
                cursor: ind == this.state.cursor,
-               pad: widget.itemPad
+               pad: widget.itemPad,
+               disabled: data.disabled
             });
 
             return (
@@ -529,5 +532,13 @@ class ListComponent extends VDOM.Component {
             }
             break;
       }
+   }
+}
+
+class ListItem extends Container {
+   declareData(...args) {
+      super.declareData(...args, {
+         disabled: undefined
+      });
    }
 }

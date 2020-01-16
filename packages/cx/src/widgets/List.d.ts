@@ -54,7 +54,10 @@ interface ListProps extends Cx.StyledContainerProps {
    scrollSelectionIntoView?: boolean,
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
-   sortOptions?: Cx.CollatorOptions
+   sortOptions?: Cx.CollatorOptions,
+
+   /** Parameter used for disabling specific items in the list. */
+   itemDisabled?: Cx.BooleanProp
 }
 
 export class List extends Cx.Widget<ListProps> {}
