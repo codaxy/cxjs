@@ -46,11 +46,9 @@
     "docs",
     "gallery",
     "litmus",
-    "benchmark"
+    "benchmark",
+    "fiddle"
   ],
-  "devDependencies": {
-    "mocha": "^6.2.2"
-  },
   "dependencies": {},
   "jest": {
     "transform": {

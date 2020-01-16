@@ -1,0 +1,3 @@
+app/**/*.spec.js
+
+--compilers js:./test/babel
