@@ -9,45 +9,25 @@ import { NavTree } from '../../misc/components/NavTree';
 
 const docsNav = [
     {
-        url: '~/docs/get-started',
+        url: '~/intro',
         text: 'Overview',
         children: [
             {
                 text: 'Intro',
                 children: [
-                    {
-                        text: 'Introduction',
-                        url: '~/docs/get-started/introduction',
-                    },
-                    {
-                        text: 'Welcome',
-                        url: '~/docs/get-started/welcome',
-                    },
-                    {
-                        text: 'Getting Started',
-                        url: '~/docs/get-started/getting-started',
-                    },
+                    {text: 'Introduction', url: '~/intro/welcome'},
+                    {text: 'Getting Started', url: '~/intro/getting-started'}
                 ],
             },
             {
                 text: 'Pre-requsites',
                 children: [
-                    {
-                        text: 'JSX',
-                        url: '~/docs/get-started/jsx',
-                    },
-                    {
-                        text: 'Breaking Changes',
-                        url: '~/docs/get-started/breaking-changes',
-                    },
-                    {
-                        text: 'Step by Step Tutorial',
-                        url: '~/docs/get-started/step-by-step',
-                    },
-                    {
-                        text: 'Feature List',
-                        url: '~/docs/get-started/features',
-                    },
+                    {text: 'JSX', url: '~/intro/jsx'},
+                    {text: 'CLI', url: '~/intro/command-line'},
+                    {text: 'NPM Packages', url: '~/intro/npm-packages'},
+                    {text: 'Breaking Changes', url: '~/intro/breaking-changes'},
+                    {text: 'Step by Step Tutorial', url: '~/intro/step-by-step'},
+                    {text: 'Feature List', url: '~/intro/feature-list'},
                 ],
             },
         ],
@@ -78,19 +58,19 @@ export const Main = <cx>
             <h3>Documentation</h3>
 
             <div class="topbanner_tabs">
-                <Link href="~/docs/get-started" url-bind="url">
+                <Link href="~/intro" url-bind="url">
                     Overview
                 </Link>
-                <Link href="~/docs/concepts" url-bind="url">
+                <Link href="~/concepts" url-bind="url">
                     Concepts
                 </Link>
-                <Link href="~/docs/widgets" url-bind="url">
+                <Link href="~/widgets" url-bind="url">
                     Widgets
                 </Link>
-                <Link href="~/docs/charts" url-bind="url">
+                <Link href="~/charts" url-bind="url">
                     Charts
                 </Link>
-                <Link href="~/docs/examples" url-bind="url">
+                <Link href="~/examples" url-bind="url">
                     Examples
                 </Link>
             </div>
@@ -100,7 +80,7 @@ export const Main = <cx>
                 <NavTree tree={docsNav} url-bind="url" />
             </div>
             <div class="docscontent" style="flex-grow: 1; height: 5000px; padding: 20px">
-                <h1>Documentation</h1>
+                {/* <h1>Documentation</h1> */}
                 <ContentRouter />
             </div>
         </div>
