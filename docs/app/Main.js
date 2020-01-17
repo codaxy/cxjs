@@ -15,19 +15,19 @@ const docsNav = [
             {
                 text: 'Intro',
                 children: [
-                    {text: 'Introduction', url: '~/intro/welcome'},
-                    {text: 'Getting Started', url: '~/intro/getting-started'}
+                    { text: 'Introduction', url: '~/intro/welcome' },
+                    { text: 'Getting Started', url: '~/intro/getting-started'}
                 ],
             },
             {
                 text: 'Pre-requsites',
                 children: [
-                    {text: 'JSX', url: '~/intro/jsx'},
-                    {text: 'CLI', url: '~/intro/command-line'},
-                    {text: 'NPM Packages', url: '~/intro/npm-packages'},
-                    {text: 'Breaking Changes', url: '~/intro/breaking-changes'},
-                    {text: 'Step by Step Tutorial', url: '~/intro/step-by-step'},
-                    {text: 'Feature List', url: '~/intro/feature-list'},
+                    { text: 'JSX', url: '~/intro/jsx' },
+                    { text: 'CLI', url: '~/intro/command-line' },
+                    { text: 'NPM Packages', url: '~/intro/npm-packages' },
+                    { text: 'Breaking Changes', url: '~/intro/breaking-changes' },
+                    { text: 'Step by Step Tutorial', url: '~/intro/step-by-step' },
+                    { text: 'Feature List', url: '~/intro/feature-list' }
                 ],
             },
         ],
@@ -39,40 +39,54 @@ const docsNav = [
             {
                 text: 'G1',
                 children: [
-                    {text: 'Store', url: '~/concepts/store'},
-                    {text: 'Widgets', url: '~/concepts/widgets'},
-                    {text: 'Data Binding', url: '~/concepts/data-binding'},
-                    {text: 'Data Views', url: '~/concepts/data-views'},
-                    {text: 'Private Store', url: '~/concepts/private-stores'},
-                    {text: 'Controllers', url: '~/concepts/controllers'},
-                    {text: 'Inner Layouts', url: '~/concepts/inner-layouts'}
+                    { text: 'Store', url: '~/concepts/store' },
+                    { text: 'Widgets', url: '~/concepts/widgets' },
+                    { text: 'Data Binding', url: '~/concepts/data-binding' },
+                    { text: 'Data Views', url: '~/concepts/data-views' },
+                    { text: 'Private Store', url: '~/concepts/private-stores' },
+                    { text: 'Controllers', url: '~/concepts/controllers' },
+                    { text: 'Inner Layouts', url: '~/concepts/inner-layouts' }
                 ],
             },
             {
                 text: 'G2',
                 children: [
-                    {text: 'Functional Components', url: '~/concepts/functional-components'},
-                    {text: 'Outer Layouts', url: '~/concepts/outer-layouts'},
-                    {text: 'Router', url: '~/concepts/router'},
-                    {text: 'Selection', url: '~/concepts/selections'},
-                    {text: 'CSS', url: '~/concepts/css'},
-                    {text: 'Formatting', url: '~/concepts/formatting'},
-                    {text: 'Localization', url: '~/concepts/localization'},
-                    {text: 'Charts', url: '~/concepts/charts'},
-                    {text: 'Drag & Drop', url: '~/concepts/drag-and-drop'},
+                    { text: 'Functional Components', url: '~/concepts/functional-components' },
+                    { text: 'Outer Layouts', url: '~/concepts/outer-layouts' },
+                    { text: 'Router', url: '~/concepts/router' },
+                    { text: 'Selection', url: '~/concepts/selections' },
+                    { text: 'CSS', url: '~/concepts/css' },
+                    { text: 'Formatting', url: '~/concepts/formatting' },
+                    { text: 'Localization', url: '~/concepts/localization' },
+                    { text: 'Charts', url: '~/concepts/charts' },
+                    { text: 'Drag & Drop', url: '~/concepts/drag-and-drop' }
                 ]
             }
         ]
     },
     {
         url: '~/widgets',
-        text: 'Components',
+        text: 'Widgets',
         children: [
             {
                 text: 'Grid',
                 children: [
-                    {text: 'Simple Grid', url: '~/widgets/grid-simple'},
-                    {text: 'Pagination', url: '~/widgets/grid-pagination'}
+                    { text: 'Simple grid', url: '~/widgets/grid-simple' },
+                    { text: 'Pagination', url: '~/widgets/grid-pagination' },
+                    { text: 'Buffering', url: '~/widgets/grid-buffering' },
+                    { text: 'Multiple selection', url: '~/widgets/grid-multiple-selection' },
+                    { text: 'Grouping', url: '~/widgets/grid-grouping' },
+                    { text: 'Dynamic grouping', url: '~/widgets/grid-dynamic-grouping' },
+                    { text: 'Form editing', url: '~/widgets/grid-form-editing' },
+                    { text: 'Row editing', url: '~/widgets/grid-row-editing' },
+                    { text: 'Cell editing', url: '~/widgets/grid-cell-editing' },
+                    { text: 'Inline editing', url: '~/widgets/grid-inline-editing' },
+                    { text: 'Tree grid', url: '~/widgets/tree-grid' },
+                    { text: 'Header menu', url: '~/widgets/grid-header-menu' },
+                    { text: 'Complex headers', url: '~/widgets/grid-complex-headers' },
+                    { text: 'Infinite scrolling', url: '~/widgets/grid-infinite-scrolling' },
+                    { text: 'Row expanding', url: '~/widgets/grid-row-expanding' },
+                    { text: 'Column resizing', url: '~/widgets/grid-column-resizing' },
                 ]
             }
         ]
@@ -95,7 +109,7 @@ export const Main = <cx>
                     Concepts
                 </Link>
                 <Link href="~/widgets" url-bind="url">
-                    Components
+                    Widgets
                 </Link>
                 <Link href="~/charts" url-bind="url">
                     Charts
