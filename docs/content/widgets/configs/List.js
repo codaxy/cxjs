@@ -92,5 +92,11 @@ export default {
         description: <cx><Md>
             Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
         </Md></cx>
-    }
+    },
+    itemDisabled: {
+        type: 'boolean',
+        description: <cx><Md>
+            Parameter used for disabling specific items in the list.
+        </Md></cx>
+    },
 };
