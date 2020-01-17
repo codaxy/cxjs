@@ -42,9 +42,13 @@ body {
 
 .flex-start {
     align-items: flex-start !important;
-}
+};
 
 @import "app/index";
 @import "content/index";
 @import "components/index";
 @import '../misc/index';
+
+a {
+    color: #b93e8b;
+}
