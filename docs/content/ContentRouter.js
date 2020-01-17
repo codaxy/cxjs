@@ -144,7 +144,7 @@ const getChapterRoutes = chapter => {
 
 export const ContentRouter = <cx>
     <div class={CSS.block("article")}>
-        <ScrollReset class={CSS.element("article", "body")} trigger:bind="url" controller={ContentController}>
+        <ScrollReset class={CSS.element("article", "body")} trigger-bind="url" controller={ContentController}>
             <ContentResolver
                 params={{
                     chapter: {bind: "chapter"},
@@ -154,9 +154,9 @@ export const ContentRouter = <cx>
                 onResolve={p => getChapterRoutes(p.chapter)}
                 mode="prepend"
             >
-                <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>
-                <Loading/>
-                <PageNotFound/>
+                <RedirectRoute url-bind="url" route="~/" redirect="~/intro/about" />
+                <Loading />
+                <PageNotFound />
             </ContentResolver>
         </ScrollReset>
     </div>
