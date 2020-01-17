@@ -154,7 +154,7 @@ export const ContentRouter = <cx>
                 onResolve={p => getChapterRoutes(p.chapter)}
                 mode="prepend"
             >
-                <RedirectRoute url-bind="url" route="~/" redirect="~/get-started/introduction" />
+                <RedirectRoute url-bind="url" route="~/" redirect="~/intro/welcome" />
                 <Loading />
                 <PageNotFound />
             </ContentResolver>

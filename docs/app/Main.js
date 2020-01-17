@@ -33,20 +33,50 @@ const docsNav = [
         ],
     },
     {
-        url: '~/docs/concepts',
+        url: '~/concepts',
         text: 'Concepts',
         children: [
             {
                 text: 'G1',
                 children: [
-                    {
-                        text: 'Concept #1',
-                        url: '~/docs/concepts/concept1',
-                    },
+                    {text: 'Store', url: '~/concepts/store'},
+                    {text: 'Widgets', url: '~/concepts/widgets'},
+                    {text: 'Data Binding', url: '~/concepts/data-binding'},
+                    {text: 'Data Views', url: '~/concepts/data-views'},
+                    {text: 'Private Store', url: '~/concepts/private-stores'},
+                    {text: 'Controllers', url: '~/concepts/controllers'},
+                    {text: 'Inner Layouts', url: '~/concepts/inner-layouts'}
                 ],
             },
-        ],
+            {
+                text: 'G2',
+                children: [
+                    {text: 'Functional Components', url: '~/concepts/functional-components'},
+                    {text: 'Outer Layouts', url: '~/concepts/outer-layouts'},
+                    {text: 'Router', url: '~/concepts/router'},
+                    {text: 'Selection', url: '~/concepts/selections'},
+                    {text: 'CSS', url: '~/concepts/css'},
+                    {text: 'Formatting', url: '~/concepts/formatting'},
+                    {text: 'Localization', url: '~/concepts/localization'},
+                    {text: 'Charts', url: '~/concepts/charts'},
+                    {text: 'Drag & Drop', url: '~/concepts/drag-and-drop'},
+                ]
+            }
+        ]
     },
+    {
+        url: '~/widgets',
+        text: 'Components',
+        children: [
+            {
+                text: 'Grid',
+                children: [
+                    {text: 'Simple Grid', url: '~/widgets/grid-simple'},
+                    {text: 'Pagination', url: '~/widgets/grid-pagination'}
+                ]
+            }
+        ]
+    }
 ];
 
 export const Main = <cx>
@@ -65,7 +95,7 @@ export const Main = <cx>
                     Concepts
                 </Link>
                 <Link href="~/widgets" url-bind="url">
-                    Widgets
+                    Components
                 </Link>
                 <Link href="~/charts" url-bind="url">
                     Charts
