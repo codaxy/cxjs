@@ -1599,7 +1599,7 @@ class GridComponent extends VDOM.Component {
 
          if (this.dom.fixedFooter) {
             let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
-            let srcTableBody = this.dom.table.lastChild;
+            let srcTableBody = this.dom.fixedHeader.firstChild.firstChild;
 
             copyCellWidths(srcTableBody, dstTableBody);
 
