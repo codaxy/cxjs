@@ -2205,10 +2205,10 @@ function copyCellWidths(srcTableBody, dstTableBody) {
       return false;
 
    let changed = false;
-   for (let r = 0; r < srcTableBody.children.length; r++) {
+   for (let r = 0; r < dstTableBody.children.length && r < srcTableBody.children.length; r++) {
       let sr = srcTableBody.children[r];
       let dr = dstTableBody.children[r];
-      for (let c = 0; c < sr.children.length; c++) {
+      for (let c = 0; c < dr.children.length && c < sr.children.length; c++) {
          let dc = dr.children[c];
          let ws = `${sr.children[c].offsetWidth}px`;
          if (!changed && dc.style.width != ws)
