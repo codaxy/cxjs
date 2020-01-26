@@ -22,7 +22,7 @@ var common = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|mjs)$/,
         //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
         loader: "babel-loader",
         query: {
