@@ -23,7 +23,7 @@ var common = {
     rules: [
       {
         test: /\.js$/,
-        include: /(app|cx-react|prettier|jsesc)[\\\/]/,
+        //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
         loader: "babel-loader",
         query: {
           cacheDirectory: true,
