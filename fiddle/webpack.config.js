@@ -121,9 +121,9 @@ if (production) {
           to: "_redirects",
           toType: "file"
         }
-      ]),
+      ])
       //new WebpackCleanupPlugin(),
-      new BundleAnalyzerPlugin()
+      //new BundleAnalyzerPlugin()
     ],
 
     output: {
