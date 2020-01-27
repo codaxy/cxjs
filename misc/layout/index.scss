@@ -2,6 +2,11 @@ body {
     font-family: sans-serif;
     font-size: 14px;
     margin: 0;
+};
+
+.app {
+    height: 100%;
+    overflow: auto;
 }
 
 $master-header-height: 45px;
