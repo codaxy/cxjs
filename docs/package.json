@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack",
+    "build:root": "webpack"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
