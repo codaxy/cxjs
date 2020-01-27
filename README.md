@@ -63,7 +63,7 @@ and become a member of the CxJS community.
 
 ## Install & Start
 
-This is a monolith repository used to develop main npm packages, documentation and gallery. It uses yarn workspaces, so please use `yarn` to install packages and run the applications.
+This is a monolith repository used to develop main npm packages, documentation, widget gallery and fiddle. It uses yarn workspaces, so please use `yarn` to install packages and run the applications.
 
 ```bash
 $ yarn install
@@ -204,5 +204,5 @@ CxJS based TODO app featuring a dark theme, keyboard navigation, markdown suppor
 
 ## License
 
-CxJS is is free for up to two developers per company. Commercial use requires a license. Free commercial licenses are available for startups and open-source contributors upon request.
+CxJS is is free for up to two developers per company. Commercial use requires a license. Additional free commercial licenses are available for startups and open-source contributors upon request.
 Please refer to [the website](https://cxjs.io/) for more information.

@@ -18,7 +18,7 @@
     "template"
   ],
   "dependencies": {
-    "cx-cli": "latest"
+    "cx-cli": "19.7.0"
   },
   "engines": {
     "node": ">=4.0.0"

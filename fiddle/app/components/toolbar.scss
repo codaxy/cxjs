@@ -1,0 +1,24 @@
+.cxb-toolbar {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+.cxe-toolbar-left {
+   flex: 1;
+   align-items: center;
+}
+
+.cxe-toolbar-center {
+   flex: 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.cxe-toolbar-right {
+   flex: 1;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}

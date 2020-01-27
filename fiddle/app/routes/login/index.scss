@@ -1,0 +1,44 @@
+.cxb-app-message {
+   padding: 30px;
+   background: white;
+   width: 300px;
+   border: 3px solid lightgray;
+   border-radius: 10px;
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 100px;
+   text-align: center;
+   position: relative;
+
+   h1 {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      margin: 0 0 1em 0;
+   }
+
+   h3 {
+      margin-top: 0;
+   }
+}
+
+.cxb-loginbutton {
+   height: 40px;
+   display: block;
+   position: relative;
+   text-align: left;
+   padding: 5px;
+   padding-left: 50px;
+   line-height: 40px;
+   font-weight: bold;
+   color: black;
+
+   img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: calc(50% - 15px);
+      left: 10px;
+   }
+}
