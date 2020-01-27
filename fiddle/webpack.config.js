@@ -42,8 +42,6 @@ var common = {
                 },
                 modules: false,
                 loose: true,
-                corejs: 3,
-                useBuiltIns: "usage",
                 cx: {
                   imports: true
                 }
