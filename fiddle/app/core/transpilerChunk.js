@@ -1,4 +1,4 @@
-import { transform } from "@babel/core/lib/transform";
+import { transform } from "@babel/core";
 import env from "@babel/preset-env";
 import cx from "babel-plugin-transform-cx-jsx";
 import jsx from "babel-plugin-transform-react-jsx";
