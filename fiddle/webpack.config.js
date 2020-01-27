@@ -5,8 +5,12 @@ const webpack = require("webpack"),
   ChunkManifestPlugin = require("chunk-manifest-webpack-plugin"),
   WebpackCleanupPlugin = require("webpack-cleanup-plugin"),
   BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-    .BundleAnalyzerPlugin;
-(merge = require("webpack-merge")), (path = require("path"));
+    .BundleAnalyzerPlugin,
+  merge = require("webpack-merge"),
+  path = require("path"),
+  gtm = require("../misc/tracking/gtm.js"),
+  reactScriptsProd = require("../misc/reactScripts"),
+  reactScriptsDev = require("../misc/reactScripts.dev");
 
 let root = process.env.npm_lifecycle_event.indexOf(":root") != -1;
 let production = process.env.npm_lifecycle_event.indexOf("build") == 0;
@@ -75,7 +79,10 @@ var common = {
     //   inlineManifest: true
     // }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "app/index.html")
+      template: path.join(__dirname, "app/index.html"),
+      gtmh: gtm.head,
+      gtmb: gtm.body,
+      reactScripts: production ? reactScriptsProd : reactScriptsDev
     })
   ]
 };
@@ -119,6 +126,11 @@ if (production) {
         {
           from: path.resolve(__dirname, "./netlify.redirects"),
           to: "_redirects",
+          toType: "file"
+        },
+        {
+          from: path.resolve(__dirname, "../misc/netlify.headers"),
+          to: "_headers",
           toType: "file"
         }
       ])
