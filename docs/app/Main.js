@@ -88,6 +88,30 @@ const docsNav = [
                     { text: 'Row expanding', url: '~/widgets/grid-row-expanding' },
                     { text: 'Column resizing', url: '~/widgets/grid-column-resizing' },
                 ]
+            },
+            {
+                text: 'Form',
+                children: [
+                    { text: 'TextField', url: '~/widgets/text-fields' },
+                    { text: 'NumberField', url: '~/widgets/number-fields' },
+                    { text: 'DateField', url: '~/widgets/date-fields' },
+                    { text: 'LookupField', url: '~/widgets/lookup-fields' },
+                    { text: 'Select', url: '~/widgets/select-fields' },
+                    { text: 'TextArea', url: '~/widgets/text-areas' },
+                    { text: 'DateTimeField', url: '~/widgets/date-time-fields' },
+                    { text: 'Calendar', url: '~/widgets/calendars' },
+                    { text: 'MonthField', url: '~/widgets/month-fields' },
+                    { text: 'MonthPicker', url: '~/widgets/month-pickers' },
+                    { text: 'ColorField', url: '~/widgets/color-fields' },
+                    { text: 'ColorPicker', url: '~/widgets/color-pickers' },
+                    { text: 'Sliders', url: '~/widgets/sliders' },
+                    { text: 'Switches', url: '~/widgets/switches' },
+                    { text: 'Labels', url: '~/widgets/labels' },
+                    { text: 'LabeledContainer', url: '~/widgets/labeled-containers' },
+                    { text: 'FieldGroup', url: '~/widgets/field-groups' },
+                    { text: 'Validator', url: '~/widgets/validators' },
+                    { text: 'ValidationGroup', url: '~/widgets/validation-groups' },
+                ]
             }
         ]
     }

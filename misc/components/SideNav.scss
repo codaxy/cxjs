@@ -3,6 +3,7 @@
     box-sizing: border-box;
     max-height: 100vh;
     color: #718096;
+    overflow-x: auto;
 
     &.gray {
         background: #eee;
