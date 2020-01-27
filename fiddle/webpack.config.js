@@ -4,13 +4,15 @@ const webpack = require("webpack"),
   CopyWebpackPlugin = require("copy-webpack-plugin"),
   ChunkManifestPlugin = require("chunk-manifest-webpack-plugin"),
   WebpackCleanupPlugin = require("webpack-cleanup-plugin"),
-  merge = require("webpack-merge"),
-  path = require("path");
+  BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
+(merge = require("webpack-merge")), (path = require("path"));
 
 let root = process.env.npm_lifecycle_event.indexOf(":root") != -1;
 let production = process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 var common = {
+  mode: production ? "production" : "development",
   resolve: {
     alias: {
       fiddle: __dirname,
@@ -105,6 +107,10 @@ if (production) {
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify("production")
       }),
+      new MiniCssExtractPlugin({
+        filename: "app.ltc.[chunkhash].css",
+        chunkFilename: "[id].ltc.[chunkhash].css"
+      }),
       new CopyWebpackPlugin([
         {
           from: path.join(__dirname, "assets"),
@@ -115,8 +121,9 @@ if (production) {
           to: "_redirects",
           toType: "file"
         }
-      ])
-      //new WebpackCleanupPlugin()
+      ]),
+      //new WebpackCleanupPlugin(),
+      new BundleAnalyzerPlugin()
     ],
 
     output: {
@@ -125,6 +132,10 @@ if (production) {
       filename: "[name].ltc.[chunkhash].js",
       chunkFilename: "[name].ltc.[chunkhash].js",
       hashDigestLength: 5
+    },
+
+    optimization: {
+      splitChunks: false
     }
   };
 } else {
