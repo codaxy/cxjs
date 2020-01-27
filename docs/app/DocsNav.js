@@ -1,0 +1,133 @@
+import { Controller } from 'cx/ui';
+import { SideNav } from '../components/SideNav';
+import { updateArray } from 'cx/data';
+
+export const docsNavTree = [
+    {
+        url: '~/intro',
+        text: 'Overview',
+        children: [
+            {
+                text: 'Intro',
+                children: [
+                    { text: 'Introduction', url: '~/intro/welcome' },
+                    { text: 'Getting Started', url: '~/intro/getting-started'}
+                ],
+            },
+            {
+                text: 'Pre-requsites',
+                children: [
+                    { text: 'JSX', url: '~/intro/jsx' },
+                    { text: 'CLI', url: '~/intro/command-line' },
+                    { text: 'NPM Packages', url: '~/intro/npm-packages' },
+                    { text: 'Breaking Changes', url: '~/intro/breaking-changes' },
+                    { text: 'Step by Step Tutorial', url: '~/intro/step-by-step' },
+                    { text: 'Feature List', url: '~/intro/feature-list' }
+                ],
+            },
+        ],
+    },
+    {
+        url: '~/concepts',
+        text: 'Concepts',
+        children: [
+            {
+                text: 'G1',
+                children: [
+                    { text: 'Store', url: '~/concepts/store' },
+                    { text: 'Widgets', url: '~/concepts/widgets' },
+                    { text: 'Data Binding', url: '~/concepts/data-binding' },
+                    { text: 'Data Views', url: '~/concepts/data-views' },
+                    { text: 'Private Store', url: '~/concepts/private-stores' },
+                    { text: 'Controllers', url: '~/concepts/controllers' },
+                    { text: 'Inner Layouts', url: '~/concepts/inner-layouts' }
+                ],
+            },
+            {
+                text: 'G2',
+                children: [
+                    { text: 'Functional Components', url: '~/concepts/functional-components' },
+                    { text: 'Outer Layouts', url: '~/concepts/outer-layouts' },
+                    { text: 'Router', url: '~/concepts/router' },
+                    { text: 'Selection', url: '~/concepts/selections' },
+                    { text: 'CSS', url: '~/concepts/css' },
+                    { text: 'Formatting', url: '~/concepts/formatting' },
+                    { text: 'Localization', url: '~/concepts/localization' },
+                    { text: 'Charts', url: '~/concepts/charts' },
+                    { text: 'Drag & Drop', url: '~/concepts/drag-and-drop' }
+                ]
+            }
+        ]
+    },
+    {
+        url: '~/widgets',
+        text: 'Widgets',
+        children: [
+            {
+                text: 'Grid',
+                children: [
+                    { text: 'Simple grid', url: '~/widgets/grid-simple' },
+                    { text: 'Pagination', url: '~/widgets/grid-pagination' },
+                    { text: 'Buffering', url: '~/widgets/grid-buffering' },
+                    { text: 'Multiple selection', url: '~/widgets/grid-multiple-selection' },
+                    { text: 'Grouping', url: '~/widgets/grid-grouping' },
+                    { text: 'Dynamic grouping', url: '~/widgets/grid-dynamic-grouping' },
+                    { text: 'Form editing', url: '~/widgets/grid-form-editing' },
+                    { text: 'Row editing', url: '~/widgets/grid-row-editing' },
+                    { text: 'Cell editing', url: '~/widgets/grid-cell-editing' },
+                    { text: 'Inline editing', url: '~/widgets/grid-inline-editing' },
+                    { text: 'Tree grid', url: '~/widgets/tree-grid' },
+                    { text: 'Header menu', url: '~/widgets/grid-header-menu' },
+                    { text: 'Complex headers', url: '~/widgets/grid-complex-headers' },
+                    { text: 'Infinite scrolling', url: '~/widgets/grid-infinite-scrolling' },
+                    { text: 'Row expanding', url: '~/widgets/grid-row-expanding' },
+                    { text: 'Column resizing', url: '~/widgets/grid-column-resizing' },
+                ]
+            },
+            {
+                text: 'Form',
+                children: [
+                    { text: 'TextField', url: '~/widgets/text-fields' },
+                    { text: 'NumberField', url: '~/widgets/number-fields' },
+                    { text: 'DateField', url: '~/widgets/date-fields' },
+                    { text: 'LookupField', url: '~/widgets/lookup-fields' },
+                    { text: 'Select', url: '~/widgets/select-fields' },
+                    { text: 'TextArea', url: '~/widgets/text-areas' },
+                    { text: 'DateTimeField', url: '~/widgets/date-time-fields' },
+                    { text: 'Calendar', url: '~/widgets/calendars' },
+                    { text: 'MonthField', url: '~/widgets/month-fields' },
+                    { text: 'MonthPicker', url: '~/widgets/month-pickers' },
+                    { text: 'ColorField', url: '~/widgets/color-fields' },
+                    { text: 'ColorPicker', url: '~/widgets/color-pickers' },
+                    { text: 'Sliders', url: '~/widgets/sliders' },
+                    { text: 'Switches', url: '~/widgets/switches' },
+                    { text: 'Labels', url: '~/widgets/labels' },
+                    { text: 'LabeledContainer', url: '~/widgets/labeled-containers' },
+                    { text: 'FieldGroup', url: '~/widgets/field-groups' },
+                    { text: 'Validator', url: '~/widgets/validators' },
+                    { text: 'ValidationGroup', url: '~/widgets/validation-groups' },
+                ]
+            }
+        ]
+    }
+];
+
+// class CController extends Controller {
+//     init() {
+//         super.init();
+//         this.store.init('docsNavTree', docsNavTree);
+
+//         this.addTrigger('active-topic-expand', ['url'], (url) => {
+//             this.store.update('docsNavTree', updateArray, t => ({
+//                 ...t,
+//                 expanded: true
+//             }), t=>!t.expanded && t.children.some(x=>url.indexOf(x.url) == 0))
+//         }, true);
+//     }
+// };
+
+// export const DocsNav = <cx>
+//     <div class="dxb-contents" controller={CController}>
+//         <SideNav records-bind="docsNavTree"/>
+//     </div>
+// </cx>;
