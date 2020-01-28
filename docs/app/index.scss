@@ -133,5 +133,46 @@
     }
 }
 
+//////////////////////////
+#app {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+};
+.app {
+    overflow: auto;
+    flex: 1;
+};
 
+.docscontent {
+    margin-left: 250px; //TODO: think of a solution to use a variable (standardize content or import misc scss files here on top)
+    flex: 1;
+    padding: 20px;
+    overflow: auto;
+};
 
+// scrollbar
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+
+    &:vertical {
+        background-color: rgba(0, 0, 0, 0.09);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+
+    &:horizontal {
+        background-color: rgba(0, 0, 0, 0.09);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0.02);
+}

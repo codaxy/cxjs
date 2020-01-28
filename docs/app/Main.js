@@ -37,12 +37,12 @@ export const Main = (
                 </div>
             </div>
             <div class="docsmain" style="display: flex">
-                <div class="gray sticky sidenav dxb-contents" style="top: 80px">
+                <div class="gray sidenav">
                     <NavTree tree={docsNavTree} url-bind="url" />
                     {/* <Contents /> */}
                 </div>
                 {/* <SideNav  */}
-                <div class="docscontent" style="flex-grow: 1; padding: 20px">
+                <div class="docscontent">
                     {/* <h1>Documentation</h1> */}
                     <ContentRouter />
                 </div>
