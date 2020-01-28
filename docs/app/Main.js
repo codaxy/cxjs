@@ -1,50 +1,52 @@
-import {DocumentTitle, PureContainer, Content, Link} from 'cx/widgets';
-import {HtmlElement} from 'cx/widgets';
-import {Layout} from './Layout';
-import {Contents} from '../content/Contents';
-import {ContentRouter} from '../content/ContentRouter';
-import {Floater} from '../components/Floater';
-import { MasterLayout } from '../../misc/layout';
-import { NavTree } from '../../misc/components/NavTree';
-import { docsNav, docsNavTree, DocsNav } from './DocsNav';
-import { SideNav } from '../components/SideNav';
+import { DocumentTitle, PureContainer, Content, Link } from "cx/widgets";
+import { HtmlElement } from "cx/widgets";
+import { Layout } from "./Layout";
+import { Contents } from "../content/Contents";
+import { ContentRouter } from "../content/ContentRouter";
+import { Floater } from "../components/Floater";
+import { MasterLayout } from "../../misc/layout";
+import { NavTree } from "../../misc/components/NavTree";
+import { docsNav, docsNavTree, DocsNav } from "./DocsNav";
+import { SideNav } from "../components/SideNav";
 
-export const Main = <cx>
-    <PureContainer outerLayout={MasterLayout}>
-        {/* <DocumentTitle text="Cx Docs"/>
-        <Content name="aside" items={Contents}/>
+export const Main = (
+    <cx>
+        <MasterLayout app="docs">
+            <DocumentTitle text="CxJS Docs" />
+            {/* <Content name="aside" items={Contents}/>
     <Floater if-expr="{layout.touch}"/> */}
-        <div class="sticky topbanner">
-            <h3>Documentation</h3>
+            <div class="sticky topbanner">
+                <h3>Documentation</h3>
 
-            <div class="topbanner_tabs">
-                <Link href="~/intro" url-bind="url">
-                    Overview
-                </Link>
-                <Link href="~/concepts" url-bind="url">
-                    Concepts
-                </Link>
-                <Link href="~/widgets" url-bind="url">
-                    Widgets
-                </Link>
-                <Link href="~/charts" url-bind="url">
-                    Charts
-                </Link>
-                <Link href="~/examples" url-bind="url">
-                    Examples
-                </Link>
+                <div class="topbanner_tabs">
+                    <Link href="~/intro" url-bind="url">
+                        Overview
+                    </Link>
+                    <Link href="~/concepts" url-bind="url">
+                        Concepts
+                    </Link>
+                    <Link href="~/widgets" url-bind="url">
+                        Widgets
+                    </Link>
+                    <Link href="~/charts" url-bind="url">
+                        Charts
+                    </Link>
+                    <Link href="~/examples" url-bind="url">
+                        Examples
+                    </Link>
+                </div>
             </div>
-        </div>
-        <div class="docsmain" style="display: flex">
-            <div class="gray sticky sidenav dxb-contents" style="top: 80px">
-                <NavTree tree={docsNavTree} url-bind="url" />
-                {/* <Contents /> */}
+            <div class="docsmain" style="display: flex">
+                <div class="gray sticky sidenav dxb-contents" style="top: 80px">
+                    <NavTree tree={docsNavTree} url-bind="url" />
+                    {/* <Contents /> */}
+                </div>
+                {/* <SideNav  */}
+                <div class="docscontent" style="flex-grow: 1; padding: 20px">
+                    {/* <h1>Documentation</h1> */}
+                    <ContentRouter />
+                </div>
             </div>
-            {/* <SideNav  */}
-            <div class="docscontent" style="flex-grow: 1; padding: 20px">
-                {/* <h1>Documentation</h1> */}
-                <ContentRouter />
-            </div>
-        </div>
-    </PureContainer>
-</cx>;
+        </MasterLayout>
+    </cx>
+);
