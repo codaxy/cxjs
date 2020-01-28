@@ -1,4 +1,4 @@
-import { DocumentTitle, PureContainer, Content, Link } from "cx/widgets";
+import { DocumentTitle, PureContainer, Content, Link, Button } from "cx/widgets";
 import { HtmlElement } from "cx/widgets";
 import { Layout } from "./Layout";
 import { Contents } from "../content/Contents";
@@ -37,7 +37,8 @@ export const Main = (
                 </div>
             </div>
             <div class="docsmain" style="display: flex">
-                <div class="gray sidenav">
+                <div class="gray sidenav scroll-hidden">
+                    <i class='sidenav_decoricon fa fa-cube' />
                     <NavTree tree={docsNavTree} url-bind="url" />
                     {/* <Contents /> */}
                 </div>

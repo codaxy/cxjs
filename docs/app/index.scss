@@ -151,6 +151,19 @@
     overflow: auto;
 };
 
+.sidenav {
+    .sidenav_decoricon {
+        width: 40px;
+        font-size: 40px;
+        color: rgba(113, 128, 150, 0.2);
+        display: block;
+        text-align: center;
+        background: rgba(217, 217, 217, 0.3);
+        padding: 16px 0 8px;
+        width: 100%;
+    }
+}
+
 // scrollbar
 ::-webkit-scrollbar {
     width: 6px;
@@ -175,4 +188,12 @@
 }
 ::-webkit-scrollbar-corner {
     background-color: rgba(0, 0, 0, 0.02);
+};
+
+.scroll-hidden {
+    ::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+        background-color: transparent;
+    }
 }
