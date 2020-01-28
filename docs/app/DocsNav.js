@@ -109,6 +109,43 @@ export const docsNavTree = [
                 ]
             }
         ]
+    },
+    {
+        url: '~/charts',
+        text: 'Charts',
+        children: [
+            {
+                text: 'Charts',
+                children: [
+                    { text: 'General', url: '~/charts/charts' },
+                    { text: 'PieChart', url: '~/charts/pie-charts' },
+                    { text: 'LineGraph', url: '~/charts/line-graphs' },
+                    { text: 'ColumnGraph', url: '~/charts/column-graphs' },
+                    { text: 'BarGraph', url: '~/charts/bar-graphs' },
+                    { text: 'ScatterGraph', url: '~/charts/scatter-graphs' },
+                    { text: 'Column', url: '~/charts/columns' },
+                    { text: 'Bar', url: '~/charts/bars' },
+                    { text: 'MarkerLine', url: '~/charts/marker-lines' },
+                    { text: 'Range', url: '~/charts/ranges' },
+                ]
+            },
+            {
+                text: 'Misc',
+                children: [
+                    { text: 'NumericAxis', url: '~/charts/numeric-axis' },
+                    { text: 'CategoryAxis', url: '~/charts/category-axis' },
+                    { text: 'TimeAxis', url: '~/charts/time-axis' },
+                    { text: 'ColorMap', url: '~/charts/color-map' },
+                    { text: 'Legend', url: '~/charts/legend' },
+                    { text: 'Gridlines', url: '~/charts/gridlines' },
+                    { text: 'MouseTracker', url: '~/charts/mouse-tracker' },
+                    { text: 'PointReducer', url: '~/charts/point-reducers' },
+                    { text: 'ValueAtFinder', url: '~/charts/value-at-finder' },
+                    { text: 'SnapPointFinder', url: '~/charts/snap-point-finder' },
+                    { text: 'MinMaxFinder', url: '~/charts/min-max-finder' }
+                ]
+            }
+        ]
     }
 ];
 

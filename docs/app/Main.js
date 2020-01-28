@@ -37,9 +37,11 @@ export const Main = (
                 </div>
             </div>
             <div class="docsmain" style="display: flex">
-                <div class="gray sidenav scroll-hidden">
-                    <i class='sidenav_decoricon fa fa-cube' />
-                    <NavTree tree={docsNavTree} url-bind="url" />
+                <div class="gray sidenav" style='overflow: hidden'>
+                    <i class='sidenav_pagetitle fa fa-cube' text-bind='url' />
+                    <div class='navtree_container'>
+                        <NavTree tree={docsNavTree} url-bind="url" />
+                    </div>
                     {/* <Contents /> */}
                 </div>
                 {/* <SideNav  */}
