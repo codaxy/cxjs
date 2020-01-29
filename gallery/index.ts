@@ -1,5 +1,5 @@
 import { Store } from 'cx/data';
-import { Url, History, startHotAppLoop } from 'cx/ui';
+import { Url, History, startHotAppLoop, enableCultureSensitiveFormatting } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 import {enableTooltips} from 'cx/widgets';
 //css
@@ -8,6 +8,7 @@ import Routes from './routes';
 import {registerStore} from './routes/hmr';
 
 enableTooltips();
+enableCultureSensitiveFormatting();
 
 
 export default function() {

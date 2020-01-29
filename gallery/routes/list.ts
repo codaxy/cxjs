@@ -11,41 +11,41 @@ let list: Item[] = [
       items: [
          {
             name: "Button",
-            route: "+/button",
+            route: "+/button/states",
             content: () => import("./general/button/states")
          },
          {
-            route: "+/tab",
+            route: "+/tab/states",
             name: "Tab",
-            content: () => import("./general/tab")
+            content: () => import("./general/tab/states")
          },
          {
-            route: "+/menu",
+            route: "+/menu/states",
             name: "Menu",
             content: () => import("./general/menu/states")
          },
          {
-            route: "+/list",
+            route: "+/list/states",
             name: "List",
             content: () => import("./general/list/states")
          },
          {
-            route: "+/window",
+            route: "+/window/states",
             name: "Window",
             content: () => import("./general/window/states")
          },
          {
-            route: "+/toast",
+            route: "+/toast/states",
             name: "Toast",
             content: () => import("./general/toast/states")
          },
          {
-            route: "+/section",
+            route: "+/section/states",
             name: "Section",
             content: () => import("./general/section/states")
          },
          {
-            route: "+/progressbar",
+            route: "+/progressbar/states",
             name: "ProgressBar",
             content: () => import("./general/progressbar/states")
          }
@@ -61,7 +61,7 @@ let list: Item[] = [
          },
          {
             name: "Multiple Selection",
-            route: "+/grid/basic",
+            route: "+/grid/multi-select",
             content: () => import("./general/grids/multi-select")
          },
          {
@@ -225,9 +225,14 @@ let list: Item[] = [
       name: "Charts",
       items: [
          {
-            route: "+/pie-chart",
-            name: "PieChart",
-            content: () => import("./charts/pie-chart")
+            route: "+/pie-chart/standard",
+            name: "Standard Pie Chart",
+            content: () => import("./charts/pie-chart/standard")
+         },
+         {
+            route: "+/pie-chart/multi-level",
+            name: "Multi-level Pie Chart",
+            content: () => import("./charts/pie-chart/multilevel")
          },
          {
             route: "+/line-graph",
@@ -235,9 +240,14 @@ let list: Item[] = [
             content: () => import("./charts/line-graph")
          },
          {
-            route: "+/column-graph",
-            name: "ColumnGraph",
-            content: () => import("./charts/column-graph")
+            route: "+/column-graph/standard",
+            name: "Standard Column Graph",
+            content: () => import("./charts/column-graph/standard")
+         },
+         {
+            route: "+/column-graph/timeline",
+            name: "Timeline",
+            content: () => import("./charts/column-graph/timeline")
          },
          {
             route: "+/bar-graph",

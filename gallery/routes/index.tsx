@@ -15,44 +15,6 @@ import { NavTree } from "../../misc/components/NavTree";
 import list, { sorted } from "./list";
 import { ThemeLoader } from "../components/ThemeLoader";
 
-const catLink = cat => (
-  <cx>
-    <dl className="major">
-      <dt>
-        <Link
-          href={tpl("~/{$route.theme}" + cat.route.substring(1))}
-          url={bind("url")}
-          match="prefix"
-        >
-          {cat.name}
-        </Link>
-      </dt>
-    </dl>
-  </cx>
-);
-
-const catGroup = cat => (
-  <cx>
-    <dl>
-      <dt>{cat.name}</dt>
-      {cat.items &&
-        cat.items.map(item => (
-          <dd>
-            <Link
-              href={tpl(
-                routeAppend("~/{$route.theme}", item.route.substring(1))
-              )}
-              url={bind("url")}
-              match="prefix"
-            >
-              {item.name}
-            </Link>
-          </dd>
-        ))}
-    </dl>
-  </cx>
-);
-
 export default (
   <cx>
     <MasterLayout app="gallery">
@@ -84,10 +46,10 @@ export default (
       </div>
       <div class="layout">
         <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
-        <Route route="~/:theme" url={bind("url")} prefix>
+        <Route route="~/:theme" url={bind("url")} prefix recordName="$themeRoute">
           <div class="gray sticky sidenav" styles="top: 80px">
             <NavTree
-              tree={computable("$route.theme", theme => [
+              tree={computable("$themeRoute.theme", theme => [
                 {
                   url: `~/${theme}`,
                   text: theme,
@@ -103,20 +65,22 @@ export default (
               url={bind("url")}
             />
           </div>
-          <ThemeLoader theme={bind("$route.theme")}>
+          <RedirectRoute
+              route="+"
+              url={bind("url")}
+              redirect={computable("$themeRoute.remainder", rem => rem || "+/button/states")}
+          />
+          <ThemeLoader theme={bind("$themeRoute.theme")}>
             <main class="main" layout={FirstVisibleChildLayout}>
               {list.map(
                 cat =>
-                  cat.items &&
-                  cat.items.map(item => (
+                  cat.items?.map(item => (
                     <SandboxedAsyncRoute
                       route={item.route}
                       content={item.content}
-                      prefix
                     />
                   ))
               )}
-              <RedirectRoute route="+" url={bind("url")} redirect="+/button" />
               <Section title="Page Not Found" mod="card">
                 This page doesn't exists. Please check your URL.
               </Section>
