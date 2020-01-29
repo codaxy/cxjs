@@ -1,10 +1,12 @@
 {
   "name": "cx",
-  "version": "19.12.1",
+  "version": "19.12.3",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "node build/index"
+  },
   "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {

@@ -1,4 +1,4 @@
-var cx = require('../../babel-plugin-transform-cx-jsx');
+var cx = require('babel-plugin-transform-cx-jsx');
 
 module.exports = {
    "presets": [

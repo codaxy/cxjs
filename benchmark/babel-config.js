@@ -14,12 +14,13 @@ module.exports = function (production) {
             targets: {
                chrome: 50,
                ie: 11,
-               ff: 30,
+               firefox: 30,
                edge: 12,
                safari: 9
             },
             modules: false,
             loose: true,
+            corejs: 3,
             useBuiltIns: "usage",
             cx: {
                imports: {

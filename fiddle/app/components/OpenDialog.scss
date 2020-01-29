@@ -1,0 +1,20 @@
+.cxe-fiddlelist-starmeter {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 10px);
+  height: 20px;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.cxe-fiddlelist-star {
+  color: orange;
+  font-size: 18px;
+}
+
+.cxe-fiddlelist-item {
+  padding: 10px;
+  padding-right: 50px;
+  cursor: pointer;
+  position: relative;
+}

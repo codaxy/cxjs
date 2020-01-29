@@ -1,0 +1,35 @@
+html {
+   height: 100%;
+}
+
+body {
+   margin: 0;
+   height: 100%;
+   font-family: 'Open Sans', sans-serif;
+   font-size: 14px;
+}
+
+#app {
+   height: 100%;
+}
+
+
+a {
+   text-decoration: none;
+}
+
+@import '~cx/src/variables.scss';
+@import '~cx/src/index.scss';
+
+@import 'components/index';
+@import 'routes/login/index';
+@import 'routes/default/index';
+@import 'routes/preview/index';
+
+.cxb-submenu {
+   .cxb-menu {
+      min-width: 150px;
+   }
+}
+
+

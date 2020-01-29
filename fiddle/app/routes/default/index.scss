@@ -1,0 +1,146 @@
+$header-line-height: 20px;
+$header-padding: 0px;
+$toolbar-height: 20px;
+
+.cxb-app {
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+
+   & > header {
+      background: #81cafa;
+      padding: $header-padding;
+      line-height: $header-line-height;
+      position: relative;
+
+      h1 {
+         margin: 0;
+         //padding: 0 10px;
+         //line-height: normal;
+         font-size: 100%;
+         visibility: hidden;
+         //display: inline;
+      }
+
+      .cx-logo {
+         $logo-size: 24px;
+         display: inline-block;
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         width: $logo-size;
+         height: $logo-size;
+         margin-left: -$logo-size/2;
+         margin-top: -$logo-size/2;
+         color: #263c4b;
+      }
+
+      .cxb-menuitem.cxs-medium-padding > a, .cxb-menuitem.cxs-medium-padding > span {
+         padding: 10px 15px;
+      }
+   }
+}
+
+.cxe-app-main {
+   flex: 1;
+   position: relative;
+   display: flex;
+   flex-direction: row;
+}
+
+.cxe-app-toolbar {
+   background: #f7f7f7;
+   border-bottom: 1px solid #ddd;
+   flex-shrink: 0;
+
+   .cxb-tab {
+      background: transparent;
+      border-bottom-width: 3px;
+      padding: 10px 20px;
+
+      &.cxs-active {
+         border-bottom-color: #fa8198;
+      }
+   }
+}
+
+.cxb-menu.cxm-main {
+   display: inline-block;
+
+   & > .cxe-menu-item:hover {
+      background: rgba(255, 255, 255, 0.5);
+   }
+}
+
+.cxe-app-left-pane {
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+   border-right: 1px solid lightgray;
+   width: 50vw;
+
+   .cxs-single-column & {
+      width: 100vw;
+   }
+}
+
+.cxe-app-right-pane {
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+   border-left: 1px solid lightgray;
+   background: white;
+   width: 50vw;
+
+   .cxs-single-column & {
+      width: 100vw;
+   }
+}
+
+.cxe-app-preview-wrap {
+   flex: 1 0 0;
+   overflow: auto;
+}
+
+.cxb-btn-run {
+   background: #6ab76a;
+   padding: 5px 10px;
+   border-radius: 5px;
+   color: white;
+
+   &:active {
+      background: green;
+   }
+}
+
+.cxb-textfield.cxm-fiddle-name {
+   width: calc(100% - 140px);
+   margin-left: 70px;
+   margin-right: 6px;
+
+   .cxe-textfield-input {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      font-weight: bold;
+      text-align: center;
+      font-size: 16px;
+      line-height: 16px;
+      transition: background-color 0.5s ease-in-out;
+
+      &::-webkit-input-placeholder {
+         color: rgba(0, 0, 0, 0.5);
+      }
+
+      &::-moz-placeholder{
+         color: rgba(0, 0, 0, 0.5);
+      }
+
+      &:-ms-input-placeholder{
+         color: rgba(0, 0, 0, 0.5);
+      }
+
+      &:focus, &:hover {
+         background: white;
+      }
+   }
+}

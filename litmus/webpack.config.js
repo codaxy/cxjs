@@ -1,11 +1,10 @@
 const webpack = require('webpack'),
-   ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
    merge = require('webpack-merge'),
    path = require('path'),
-   babelConfig = require('./babel.config');
+   babelConfig = require('./babel-config');
 
 let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf('build') == 0;
 
