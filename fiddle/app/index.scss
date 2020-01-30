@@ -21,6 +21,8 @@ a {
 @import '~cx/src/variables.scss';
 @import '~cx/src/index.scss';
 
+@import "../../misc/layout";
+
 @import 'components/index';
 @import 'routes/login/index';
 @import 'routes/default/index';

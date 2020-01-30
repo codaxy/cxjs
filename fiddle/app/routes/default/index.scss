@@ -4,11 +4,14 @@ $toolbar-height: 20px;
 
 .cxb-app {
    height: 100%;
+   box-sizing: border-box;
+   padding-top: $master-header-height;
    display: flex;
    flex-direction: column;
 
    & > header {
-      background: #81cafa;
+      background: $master-brand-background;
+      color: $master-brand-color;
       padding: $header-padding;
       line-height: $header-line-height;
       position: relative;
@@ -120,12 +123,13 @@ $toolbar-height: 20px;
 
    .cxe-textfield-input {
       background: rgba(255, 255, 255, 0.1);
+      color: white;
       border: none;
       font-weight: bold;
       text-align: center;
       font-size: 16px;
       line-height: 16px;
-      transition: background-color 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
 
       &::-webkit-input-placeholder {
          color: rgba(0, 0, 0, 0.5);
@@ -141,6 +145,7 @@ $toolbar-height: 20px;
 
       &:focus, &:hover {
          background: white;
+         color: black;
       }
    }
 }

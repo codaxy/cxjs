@@ -4,14 +4,13 @@ import {
    Text,
    Button,
    TextField,
-   Icon,
    FlexRow,
    Checkbox,
    MenuItem
 } from "cx/widgets";
-import { HtmlElement, PureContainer, MsgBox } from "cx/widgets";
+import { MsgBox } from "cx/widgets";
 import { FirstVisibleChildLayout } from "cx/ui";
-import { getFiddleStars, addFiddleStar, removeFiddleStar } from "app/api/stars";
+import { addFiddleStar, removeFiddleStar } from "app/api/stars";
 
 function star(e, { store }) {
    if (!store.get("user.email")) {
@@ -84,10 +83,6 @@ function fileMenu(phone) {
             visible:expr="{fiddle.fiddleId} != null"
          >
             Delete
-         </a>
-         <hr />
-         <a class="cxm-menu-pad" href="#">
-            About
          </a>
       </cx>
    );
@@ -169,10 +164,6 @@ function mainMenu(phone) {
                </p>
             </div>
          </Submenu>
-
-         <a href="https://cxjs.io/quickstart" target="_blank">
-            Build
-         </a>
       </cx>
    );
 }
@@ -289,12 +280,6 @@ export const Header = phone => [
       <header class="cxb-toolbar">
          <div class="cxe-toolbar-left">
             <Menu horizontal mod="main" itemPadding="medium">
-               <MenuItem>
-                  <a href="https://cxjs.io/">
-                     <Icon name="cx" class="cx-logo" />
-                     <h1>CxJS</h1>
-                  </a>
-               </MenuItem>
                {mainMenu(phone)}
             </Menu>
          </div>

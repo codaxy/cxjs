@@ -53,6 +53,12 @@ var common = {
             ]
           ]
         }
+      }, {
+        test: /\.(png|jpg|svg)/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].ltc.[hash].[ext]'
+        }
       }
     ]
   },
