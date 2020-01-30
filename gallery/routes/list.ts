@@ -265,24 +265,24 @@ let list: Item[] = [
             content: () => import("./charts/range")
          },
          {
-            route: "+/column/",
-            name: "Column",
-            content: () => import("./charts/column")
+            route: "+/column/customized",
+            name: "Customized Columns",
+            content: () => import("./charts/column/customized")
          },
          {
-            route: "+/bar/",
+            route: "+/bar/standard",
             name: "Bar",
-            content: () => import("./charts/bar")
+            content: () => import("./charts/bar/standard")
          },
          {
             route: "+/marker-line",
             name: "MarkerLine",
-            content: () => import("./charts/marker-line")
+            content: () => import("./charts/marker-line/standard")
          },
          {
-            route: "+/marker/",
+            route: "+/marker/states",
             name: "Marker",
-            content: () => import("./charts/marker")
+            content: () => import("./charts/marker/standard")
          }
       ]
    },
@@ -290,14 +290,14 @@ let list: Item[] = [
       name: "Layout",
       items: [
          {
-            route: "+/flex-row",
+            route: "+/flex-row/options",
             name: "FlexRow",
-            content: () => import("./general/flex-row")
+            content: () => import("./general/flex-row/options")
          },
          {
-            route: "+/flex-col",
+            route: "+/flex-col/options",
             name: "FlexCol",
-            content: () => import("./general/flex-col")
+            content: () => import("./general/flex-col/options")
          }
       ]
    }

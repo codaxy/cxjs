@@ -146,7 +146,7 @@ var common = {
             test: /\.(png|jpg|svg)/,
             loader: 'file-loader',
             options: {
-                name: '[path][name].ltc.[hash].[ext]'
+                name: '[name].ltc.[hash].[ext]'
             }
         }]
     },

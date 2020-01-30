@@ -3,41 +3,41 @@ import {
   Route,
   RedirectRoute,
   Section,
-  PureContainer,
   Link
 } from "cx/widgets";
 import { FirstVisibleChildLayout, bind, tpl, computable } from "cx/ui";
-import { routeAppend } from "cx/util";
-import { AsyncRoute, SandboxedAsyncRoute } from "../components/asyncRoute";
-import { MasterLayout } from "../../misc/layout/index";
+import { SandboxedAsyncRoute } from "../components/asyncRoute";
+import { MasterLayout } from "../../misc/layout";
 import { NavTree } from "../../misc/components/NavTree";
+import { ScrollReset } from "../../misc/components/ScrollReset";
 
-import list, { sorted } from "./list";
+import list from "./list";
 import { ThemeLoader } from "../components/ThemeLoader";
 
 export default (
   <cx>
     <MasterLayout app="gallery">
+      <ScrollReset trigger={bind("url")} />
       <div class="sticky topbanner">
         <h3>Gallery</h3>
         <div class="topbanner_tabs">
           <Link href="~/aquamarine" url={bind("url")} match="subroute">
             Aquamarine
           </Link>
-          <Link href="~/core" url={bind("url")} match="subroute">
-            Core
-          </Link>
           <Link href="~/material" url={bind("url")} match="subroute">
             Material
+          </Link>
+          <Link href="~/frost" url={bind("url")} match="subroute">
+            Frost
+          </Link>
+          <Link href="~/core" url={bind("url")} match="subroute">
+            Core
           </Link>
           <Link href="~/material-dark" url={bind("url")} match="subroute">
             Material Dark
           </Link>
           <Link href="~/space-blue" url={bind("url")} match="subroute">
             Space Blue
-          </Link>
-          <Link href="~/frost" url={bind("url")} match="subroute">
-            Frost
           </Link>
           <Link href="~/dark" url={bind("url")} match="subroute">
             Dark
@@ -46,8 +46,13 @@ export default (
       </div>
       <div class="layout">
         <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
+        <Route route="~/:theme" url={bind("url")}>
+          <RedirectRoute
+              redirect={computable("$themeRoute.remainder", "$route.theme", (remainder, theme) => `~/${theme || 'aquamarine'}${remainder || "/button/states"}`)}
+          />
+        </Route>
         <Route route="~/:theme" url={bind("url")} prefix recordName="$themeRoute">
-          <div class="gray sticky sidenav" styles="top: 80px">
+          <div class="gray sticky sidenav" styles="top: 80px; max-height: calc(100vh - 152px); padding-top: 0">
             <NavTree
               tree={computable("$themeRoute.theme", theme => [
                 {
@@ -65,11 +70,6 @@ export default (
               url={bind("url")}
             />
           </div>
-          <RedirectRoute
-              route="+"
-              url={bind("url")}
-              redirect={computable("$themeRoute.remainder", rem => rem || "+/button/states")}
-          />
           <ThemeLoader theme={bind("$themeRoute.theme")}>
             <main class="main" layout={FirstVisibleChildLayout}>
               {list.map(

@@ -19,19 +19,19 @@ export const Main = (
                 <h3>Documentation</h3>
 
                 <div class="topbanner_tabs">
-                    <Link href="~/intro" url-bind="url">
+                    <Link href="~/intro" url-bind="url" match="subroute">
                         Overview
                     </Link>
-                    <Link href="~/concepts" url-bind="url">
+                    <Link href="~/concepts" url-bind="url" match="subroute">
                         Concepts
                     </Link>
-                    <Link href="~/widgets" url-bind="url">
+                    <Link href="~/widgets" url-bind="url" match="subroute">
                         Widgets
                     </Link>
-                    <Link href="~/charts" url-bind="url">
+                    <Link href="~/charts" url-bind="url" match="subroute">
                         Charts
                     </Link>
-                    <Link href="~/examples" url-bind="url">
+                    <Link href="~/examples" url-bind="url" match="subroute">
                         Examples
                     </Link>
                 </div>

@@ -2,6 +2,10 @@ import { ContentPlaceholder, Link } from "cx/widgets";
 import { Animicon } from "../components/Animicon";
 import { SideDrawer } from "../components/SideDrawer";
 
+import Logo from "./cxjs.svg";
+import CodeSandboxIcon from "./CodeSandbox.svg";
+import GitHubIcon from "./github.svg";
+
 export const MasterLayout = ({ app, children }) => (
    <cx>
       <div class="app">
@@ -26,7 +30,7 @@ export const MasterLayout = ({ app, children }) => (
                      }}
                   />
                </div>
-               <img class="master_logo" src="~/assets/img/cxjs.svg" />
+               <img class="master_logo" src={Logo} />
                <Link
                   href="https://cxjs.io"
                   url-bind="url"
@@ -55,11 +59,15 @@ export const MasterLayout = ({ app, children }) => (
                >
                   Fiddle
                </Link>
-               <a style="margin-left: auto"> GH</a> | <a>CS</a>
+               <a style="margin-left: auto" class="master_iconlink" href="https://github.com/codaxy/cxjs">
+                  <img src={GitHubIcon} alt="GitHub" />
+               </a>
+               <a class="master_iconlink" href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs">
+                  <img src={CodeSandboxIcon} alt="CodeSandbox" />
+               </a>
             </div>
          </header>
          {children}
-         <footer></footer>
          <SideDrawer out-bind="master.drawer.icon">
             <div class="sidenav">
                {/* <NavTree tree={docsTree} url-bind="url" showCategory /> */}
