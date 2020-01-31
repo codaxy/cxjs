@@ -5,11 +5,12 @@ import {SideDrawer} from "../components/SideDrawer";
 import Logo from "./cxjs.svg";
 import CodeSandboxIcon from "./CodeSandbox.svg";
 import GitHubIcon from "./github.svg";
+import {GitHubStarCount} from "../components/GitHubStarCount";
 
 export const MasterLayout = ({app, children, shadow}) => (
    <cx>
       <PureContainer>
-         <header ws class={{"master_header": true, shadow }}>
+         <header ws class={{"master_header": true, shadow}}>
             <div class="master_topbar">
                <div class="master_hamburger">
                   <Animicon
@@ -59,10 +60,13 @@ export const MasterLayout = ({app, children, shadow}) => (
                >
                   Fiddle
                </Link>
-               <a style="margin-left: auto" class="master_iconlink" href="https://github.com/codaxy/cxjs">
-                  <img src={GitHubIcon} alt="GitHub"/>
-               </a>
-               <a class="master_iconlink" href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs">
+
+               <div style="margin-left: auto"/>
+
+              <GitHubStarCount />
+
+               <a className="master_iconlink"
+                  href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs">
                   <img src={CodeSandboxIcon} alt="CodeSandbox"/>
                </a>
             </div>

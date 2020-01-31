@@ -55,15 +55,30 @@ let addRoutes = (path, pages, routes) => {
 
 let chapterExports = {};
 
-class ContentController extends Controller {
-    init() {
-        super.init();
+const defaultChapterArticle = {
+    "intro": "~/intro/welcome",
+    "widgets": "~/widgets/text-fields",
+    "charts": "~/charts/charts",
+    "concepts": "~/concepts/store",
+    "examples": "~/examples/grid-basic",
+};
 
+class ContentController extends Controller {
+    onInit() {
         this.store.set('loading', false);
 
         this.addComputable('chapter', ['url'], url => {
-            var matches = url.match(/^~\/([^/]+)\//);
+            let matches = url.match(/^~\/([^/]+)/);
             return matches && matches[1];
+        });
+
+        this.addTrigger('remember-last-route', ['url'], url => {
+            let matches = url.match(/^~\/([^/]+)\/(.+)/);
+            if (!matches) return;
+            let chapter = matches[1];
+            let remainder = matches[2];
+            if (chapter && remainder)
+                defaultChapterArticle[chapter] = `~/${chapter}/${remainder}`;
         });
 
         this.store.set('contentVersion', getVersion());
@@ -154,7 +169,13 @@ export const ContentRouter = <cx>
                 onResolve={p => getChapterRoutes(p.chapter)}
                 mode="prepend"
             >
-                <RedirectRoute url-bind="url" route="~/" redirect="~/intro/welcome" />
+                <RedirectRoute url-bind="url" route="~/" redirect="~/intro" />
+                <RedirectRoute url-bind="url" route="~/intro" redirect={() => defaultChapterArticle.intro} />
+                <RedirectRoute url-bind="url" route="~/widgets" redirect={() => defaultChapterArticle.widgets} />
+                <RedirectRoute url-bind="url" route="~/charts" redirect={() => defaultChapterArticle.charts} />
+                <RedirectRoute url-bind="url" route="~/concepts" redirect={() => defaultChapterArticle.concepts} />
+                <RedirectRoute url-bind="url" route="~/examples" redirect={() => defaultChapterArticle.examples} />
+
                 <Loading />
                 <PageNotFound />
             </ContentResolver>
