@@ -4,12 +4,12 @@
     flex-shrink: 0;
     width: $sidenav-width;
     box-sizing: border-box;
-//    max-height: calc(100vh - 150px);
+    max-height: calc(100vh - 152px);
     position: fixed;
     overflow: auto;
     top: 0;
     bottom: 0;
-    padding-top: 84px;
+    //padding-top: 84px;
     color: #718096;
     overflow-x: auto;
 
@@ -35,7 +35,7 @@
         &.cxs-active {
             color: #555;
             //padding-left: 27px;
-            background: rgba(#2795b0, 1);
+            background: $master-brand-background;
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
             color: rgba(white, 0.8);

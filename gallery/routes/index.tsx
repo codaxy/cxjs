@@ -16,7 +16,7 @@ import { ThemeLoader } from "../components/ThemeLoader";
 
 export default (
   <cx>
-    <MasterLayout app="gallery">
+    <MasterLayout app="gallery" shadow>
       <ScrollReset trigger={bind("url")} />
       <div class="sticky topbanner">
         <h3>Gallery</h3>

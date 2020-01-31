@@ -38,8 +38,7 @@ export const Main = (
                     </div>
                 </div>
                 <div class="docsmain" style="display: flex">
-                    <div class="gray sidenav" style='overflow: hidden'>
-                        <i class='sidenav_pagetitle fa fa-cube' text-bind='url'/>
+                    <div class="gray sticky sidenav" style='top: 95px'>
                         <div class='navtree_container'>
                             <NavTree tree={docsNavTree} url-bind="url"/>
                         </div>
