@@ -4,14 +4,15 @@
     flex-shrink: 0;
     width: $sidenav-width;
     box-sizing: border-box;
-    max-height: calc(100vh - 152px);
+    height: calc(100vh - 152px);
     position: fixed;
     overflow: auto;
-    top: 0;
-    bottom: 0;
-    //padding-top: 84px;
+    top: 90px;
     color: #718096;
-    overflow-x: auto;
+
+   &.extended {
+      height: calc(100vh - 90px);
+   }
 
     &.gray {
         background: #eee;

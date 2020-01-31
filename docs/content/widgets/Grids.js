@@ -35,7 +35,7 @@ Format.registerFactory('plural', (format, text) => {
     return value => plural(text, value);
 });
 
-export const GridSimple = <cx>
+export const Grids = <cx>
     <Md>
 
         # Grid

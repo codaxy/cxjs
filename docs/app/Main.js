@@ -11,43 +11,49 @@ import {SideNav} from "../components/SideNav";
 
 export const Main = (
     <cx>
-        <div class="app">
-            <MasterLayout app="docs">
-                <DocumentTitle text="CxJS Docs"/>
-                {/* <Content name="aside" items={Contents}/>
-    <Floater if-expr="{layout.touch}"/> */}
-                <div class="sticky topbanner">
-                    <h3>Documentation</h3>
 
-                    <div class="topbanner_tabs">
-                        <Link href="~/intro" url-bind="url" match="subroute">
-                            Overview
-                        </Link>
-                        <Link href="~/concepts" url-bind="url" match="subroute">
-                            Concepts
-                        </Link>
-                        <Link href="~/widgets" url-bind="url" match="subroute">
-                            Widgets
-                        </Link>
-                        <Link href="~/charts" url-bind="url" match="subroute">
-                            Charts
-                        </Link>
-                        <Link href="~/examples" url-bind="url" match="subroute">
-                            Examples
-                        </Link>
+        <MasterLayout app="docs">
+            <DocumentTitle text="CxJS Docs"/>
+            {/* <Content name="aside" items={Contents}/>
+    <Floater if-expr="{layout.touch}"/> */}
+            <div class="sticky topbanner">
+                <h3>Documentation</h3>
+
+                <div class="topbanner_tabs">
+                    <Link href="~/intro" url-bind="url" match="subroute">
+                        Overview
+                    </Link>
+                    <Link href="~/concepts" url-bind="url" match="subroute">
+                        Concepts
+                    </Link>
+                    <Link href="~/widgets" url-bind="url" match="subroute">
+                        Widgets
+                    </Link>
+                    <Link href="~/charts" url-bind="url" match="subroute">
+                        Charts
+                    </Link>
+                    <Link href="~/examples" url-bind="url" match="subroute">
+                        Examples
+                    </Link>
+                </div>
+            </div>
+            <div class="docsmain" style="display: flex">
+                <div
+                    class={{
+                        "gray": true,
+                        "sticky": true,
+                        "sidenav": true,
+                        "extended": () => document.scrollingElement.scrollHeight > document.scrollingElement.clientHeight
+                    }}
+                >
+                    <div class='navtree_container'>
+                        <NavTree tree={docsNavTree} url-bind="url"/>
                     </div>
                 </div>
-                <div class="docsmain" style="display: flex">
-                    <div class="gray sticky sidenav" style='top: 95px'>
-                        <div class='navtree_container'>
-                            <NavTree tree={docsNavTree} url-bind="url"/>
-                        </div>
-                    </div>
-                    <div class="docscontent">
-                        <ContentRouter/>
-                    </div>
+                <div class="docscontent">
+                    <ContentRouter/>
                 </div>
-            </MasterLayout>
-        </div>
+            </div>
+        </MasterLayout>
     </cx>
 );

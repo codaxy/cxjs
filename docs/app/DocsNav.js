@@ -64,24 +64,12 @@ export const docsNavTree = [
         text: 'Widgets',
         children: [
             {
-                text: 'Grid',
+                text: 'Collections',
                 children: [
-                    { text: 'Simple grid', url: '~/widgets/grid-simple' },
-                    { text: 'Pagination', url: '~/widgets/grid-pagination' },
-                    { text: 'Buffering', url: '~/widgets/grid-buffering' },
-                    { text: 'Multiple selection', url: '~/widgets/grid-multiple-selection' },
-                    { text: 'Grouping', url: '~/widgets/grid-grouping' },
-                    { text: 'Dynamic grouping', url: '~/widgets/grid-dynamic-grouping' },
-                    { text: 'Form editing', url: '~/widgets/grid-form-editing' },
-                    { text: 'Row editing', url: '~/widgets/grid-row-editing' },
-                    { text: 'Cell editing', url: '~/widgets/grid-cell-editing' },
-                    { text: 'Inline editing', url: '~/widgets/grid-inline-editing' },
-                    { text: 'Tree grid', url: '~/widgets/tree-grid' },
-                    { text: 'Header menu', url: '~/widgets/grid-header-menu' },
-                    { text: 'Complex headers', url: '~/widgets/grid-complex-headers' },
-                    { text: 'Infinite scrolling', url: '~/widgets/grid-infinite-scrolling' },
-                    { text: 'Row expanding', url: '~/widgets/grid-row-expanding' },
-                    { text: 'Column resizing', url: '~/widgets/grid-column-resizing' },
+                    { text: 'Grid', url: '~/widgets/grids' },
+                    { text: 'Tree Grid', url: '~/widgets/tree-grid' },
+                    { text: 'List', url: '~/widgets/lists' },
+
                 ]
             },
             {
