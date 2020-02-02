@@ -13,7 +13,8 @@ export const NavTree = createFunctionalComponent(
       let urlRef = ref(url);
 
       let visibleNode = computable(treeRef, urlRef, (tree, url) => {
-         let node = tree.find(item => item.url && url.startsWith(item.url));
+         let node =
+            tree && tree.find(item => item.url && url.startsWith(item.url));
          return node || { children: [] };
       });
 

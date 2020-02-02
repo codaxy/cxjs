@@ -4,6 +4,8 @@ $master-brand-background: #2795b0;
 //$master-brand-background: #50637d;
 $master-brand-color: white;
 
+$master-desktop-screen-width: 1000px;
+
 .master_header {
    position: fixed;
    background: white;
@@ -58,11 +60,11 @@ $master-brand-color: white;
 
 .master_logo {
    height: 32px;
-   margin: 0 16px 0 32px;
+   margin: 0 16px 0 24px;
 }
 
 .master_hamburger {
-   margin: 0 0 0 24px;
+   margin: 0 0 0 16px;
    color: #2795b0;
 }
 
@@ -83,11 +85,12 @@ $master-brand-color: white;
    }
 
    h3 {
-      margin: 24px 32px;
+      padding: 24px 24px;
       font-family: inherit;
       font-weight: 400;
       color: inherit;
       line-height: 27px;
+      margin: 0;
    }
 
    .cxb-link {
@@ -126,8 +129,8 @@ $master-brand-color: white;
 }
 
 .topbanner_tabs {
-   margin-left: 12px;
-   margin-top: -16px;
+   margin-left: 6px;
+   margin-top: -20px;
 }
 
 .master_sidedrawer {
@@ -162,5 +165,33 @@ $master-brand-color: white;
    top: 1px;
    a {
       color: transparent !important;
+   }
+}
+
+@media screen and (min-width: $master-desktop-screen-width) {
+   .master_hamburger {
+      display: none;
+   }
+}
+
+@media screen and (max-width: $master-desktop-screen-width) {
+   .standalone.sidenav {
+      display: none;
+   }
+
+   .topbanner {
+      position: static !important;
+   }
+
+   .topbanner_tabs {
+      display: none;
+   }
+
+   .master_header {
+      box-shadow: 0 2px 2px rgba(black, 0.1);
+
+      .cxb-link {
+         display: none;
+      }
    }
 }

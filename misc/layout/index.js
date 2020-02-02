@@ -1,21 +1,46 @@
-import {PureContainer, Link} from "cx/widgets";
-import {Animicon} from "../components/Animicon";
-import {SideDrawer} from "../components/SideDrawer";
+import { PureContainer, Link } from "cx/widgets";
+import { Animicon } from "../components/Animicon";
+import { SideDrawer } from "../components/SideDrawer";
+import { NavTree } from "../components/NavTree";
 
 import Logo from "./cxjs.svg";
 import CodeSandboxIcon from "./CodeSandbox.svg";
-import GitHubIcon from "./github.svg";
-import {GitHubStarCount} from "../components/GitHubStarCount";
+import { GitHubStarCount } from "../components/GitHubStarCount";
 
-export const MasterLayout = ({app, children, shadow}) => (
+const TopLinks = ({ topLinks, mod }) => (
+   <cx>
+      <div>
+         {Object.keys(topLinks || {}).map(url => (
+            <cx>
+               <Link
+                  href={url}
+                  text={topLinks[url]}
+                  url-bind="url"
+                  match="subroute"
+                  mod={mod}
+               />
+            </cx>
+         ))}
+      </div>
+   </cx>
+);
+
+export const MasterLayout = ({
+   app,
+   children,
+   shadow,
+   navTree,
+   title,
+   topLinks
+}) => (
    <cx>
       <PureContainer>
-         <header ws class={{"master_header": true, shadow}}>
+         <header ws class={{ master_header: true, shadow }}>
             <div class="master_topbar">
                <div class="master_hamburger">
                   <Animicon
-                     shape={{bind: "master.drawer.icon", defaultValue: null}}
-                     onClick={(e, {store}) => {
+                     shape={{ bind: "master.drawer.icon", defaultValue: null }}
+                     onClick={(e, { store }) => {
                         store.update("master.drawer.icon", shape => {
                            switch (shape) {
                               case "arrow":
@@ -31,7 +56,7 @@ export const MasterLayout = ({app, children, shadow}) => (
                      }}
                   />
                </div>
-               <img class="master_logo" src={Logo}/>
+               <img class="master_logo" src={Logo} />
                <Link
                   href="https://cxjs.io"
                   url-bind="url"
@@ -61,67 +86,53 @@ export const MasterLayout = ({app, children, shadow}) => (
                   Fiddle
                </Link>
 
-               <div style="margin-left: auto"/>
+               <div style="margin-left: auto" />
 
-              <GitHubStarCount />
+               <GitHubStarCount />
 
-               <a className="master_iconlink"
-                  href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs">
-                  <img src={CodeSandboxIcon} alt="CodeSandbox"/>
+               <a
+                  className="master_iconlink"
+                  href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs"
+               >
+                  <img src={CodeSandboxIcon} alt="CodeSandbox" />
                </a>
             </div>
          </header>
+         <div class="sticky topbanner" visible={!!title}>
+            <h3>{title}</h3>
+
+            <div class="topbanner_tabs">
+               <TopLinks topLinks={topLinks} />
+            </div>
+         </div>
          {children}
          <SideDrawer out-bind="master.drawer.icon">
-            <div class="sidenav">
-               {/* <NavTree tree={docsTree} url-bind="url" showCategory /> */}
+            <div
+               class="sidenav"
+               style="height: 100%;"
+               onClick={(e, { store }) => {
+                  if (e.target.nodeName == "A")
+                     store.delete("master.drawer.icon");
+               }}
+            >
+               <NavTree
+                  tree={navTree}
+                  url-bind="url"
+                  showCategory
+                  visible-expr="{master.drawer.icon} == 'arrow'"
+               />
                <div visible-expr="{master.drawer.icon} == 'close'">
                   <div class="sidenav_section">
-                     <Link href="~/">Home</Link>
+                     <Link href="https://cxjs.io">Home</Link>
                   </div>
                   <div class="sidenav_section">
-                     <Link href="~/docs">Docs</Link>
+                     <Link href="https://docs.cxjs.io">Docs</Link>
 
-                     <Link
-                        href="~/docs/overview"
-                        url-bind="url"
-                        match="subroute"
+                     <TopLinks
+                        visible={(app = "docs")}
+                        topLinks={topLinks}
                         mod="subsystem"
-                     >
-                        Overview
-                     </Link>
-                     <Link
-                        href="~/docs/concepts"
-                        url-bind="url"
-                        match="subroute"
-                        mod="subsystem"
-                     >
-                        Concepts
-                     </Link>
-                     <Link
-                        href="~/docs/widgets"
-                        url-bind="url"
-                        match="subroute"
-                        mod="subsystem"
-                     >
-                        Widgets
-                     </Link>
-                     <Link
-                        href="~/docs/charts"
-                        url-bind="url"
-                        match="subroute"
-                        mod="subsystem"
-                     >
-                        Charts
-                     </Link>
-                     <Link
-                        href="~/docs/examples"
-                        url-bind="url"
-                        match="subroute"
-                        mod="subsystem"
-                     >
-                        Examples
-                     </Link>
+                     />
                   </div>
                   <div class="sidenav_section">
                      <Link href="~/gallery" match="subroute">

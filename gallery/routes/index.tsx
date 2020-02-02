@@ -1,10 +1,4 @@
-import {
-  cx,
-  Route,
-  RedirectRoute,
-  Section,
-  Link
-} from "cx/widgets";
+import { cx, Route, RedirectRoute, Section, Link } from "cx/widgets";
 import { FirstVisibleChildLayout, bind, tpl, computable } from "cx/ui";
 import { SandboxedAsyncRoute } from "../components/asyncRoute";
 import { MasterLayout } from "../../misc/layout";
@@ -48,11 +42,24 @@ export default (
         <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
         <Route route="~/:theme" url={bind("url")}>
           <RedirectRoute
-              redirect={computable("$themeRoute.remainder", "$route.theme", (remainder, theme) => `~/${theme || 'aquamarine'}${remainder || "/button/states"}`)}
+            redirect={computable(
+              "$themeRoute.remainder",
+              "$route.theme",
+              (remainder, theme) =>
+                `~/${theme || "aquamarine"}${remainder || "/button/states"}`
+            )}
           />
         </Route>
-        <Route route="~/:theme" url={bind("url")} prefix recordName="$themeRoute">
-          <div class="gray sticky sidenav" styles="top: 80px; max-height: calc(100vh - 152px); padding-top: 0">
+        <Route
+          route="~/:theme"
+          url={bind("url")}
+          prefix
+          recordName="$themeRoute"
+        >
+          <div
+            class="gray sticky standalone sidenav"
+            styles="top: 80px; max-height: calc(100vh - 152px); padding-top: 0"
+          >
             <NavTree
               tree={computable("$themeRoute.theme", theme => [
                 {
@@ -72,14 +79,13 @@ export default (
           </div>
           <ThemeLoader theme={bind("$themeRoute.theme")}>
             <main class="main" layout={FirstVisibleChildLayout}>
-              {list.map(
-                cat =>
-                  cat.items?.map(item => (
-                    <SandboxedAsyncRoute
-                      route={item.route}
-                      content={item.content}
-                    />
-                  ))
+              {list.map(cat =>
+                cat.items?.map(item => (
+                  <SandboxedAsyncRoute
+                    route={item.route}
+                    content={item.content}
+                  />
+                ))
               )}
               <Section title="Page Not Found" mod="card">
                 This page doesn't exists. Please check your URL.
