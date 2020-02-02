@@ -136,7 +136,7 @@ $master-desktop-screen-width: 1000px;
 .master_sidedrawer {
    position: fixed;
    left: -250px;
-   top: $master-header-height;
+   top: $master-header-height !important;
    bottom: 0;
    width: 250px;
    background: white;

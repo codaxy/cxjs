@@ -8,36 +8,38 @@ import { ScrollReset } from "../../misc/components/ScrollReset";
 import list from "./list";
 import { ThemeLoader } from "../components/ThemeLoader";
 
+let themes = {
+  "~/aquamarine": "Aquamarine",
+  "~/material": "Material",
+  "~/frost": "Frost",
+  "~/core": "Core",
+  "~/material-dark": "Material Dark",
+  "~/space-blue": "Space Blue",
+  "~/dark": "Dark"
+};
+
 export default (
   <cx>
-    <MasterLayout app="gallery" shadow>
+    <MasterLayout
+      app="gallery"
+      shadow
+      navTree={computable("$themeRoute.theme", theme => [
+        {
+          url: `~/${theme}`,
+          text: themes[`~/${theme}`],
+          children: list.map(cat => ({
+            text: cat.name,
+            children: cat.items?.map(item => ({
+              url: item.route.replace("+/", `~/${theme}/`),
+              text: item.name
+            }))
+          }))
+        }
+      ])}
+      title="Gallery"
+      topLinks={themes}
+    >
       <ScrollReset trigger={bind("url")} />
-      <div class="sticky topbanner">
-        <h3>Gallery</h3>
-        <div class="topbanner_tabs">
-          <Link href="~/aquamarine" url={bind("url")} match="subroute">
-            Aquamarine
-          </Link>
-          <Link href="~/material" url={bind("url")} match="subroute">
-            Material
-          </Link>
-          <Link href="~/frost" url={bind("url")} match="subroute">
-            Frost
-          </Link>
-          <Link href="~/core" url={bind("url")} match="subroute">
-            Core
-          </Link>
-          <Link href="~/material-dark" url={bind("url")} match="subroute">
-            Material Dark
-          </Link>
-          <Link href="~/space-blue" url={bind("url")} match="subroute">
-            Space Blue
-          </Link>
-          <Link href="~/dark" url={bind("url")} match="subroute">
-            Dark
-          </Link>
-        </div>
-      </div>
       <div class="layout">
         <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
         <Route route="~/:theme" url={bind("url")}>
@@ -56,10 +58,7 @@ export default (
           prefix
           recordName="$themeRoute"
         >
-          <div
-            class="gray sticky standalone sidenav"
-            styles="top: 80px; max-height: calc(100vh - 152px); padding-top: 0"
-          >
+          <div class="gray sticky standalone sidenav">
             <NavTree
               tree={computable("$themeRoute.theme", theme => [
                 {
