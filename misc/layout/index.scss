@@ -162,15 +162,29 @@ $master-desktop-screen-width: 1000px;
 
 .master_githubstars {
    position: relative;
-   top: 1px;
+   top: 2px;
    a {
       color: transparent !important;
    }
 }
 
+.master_content {
+   position: relative;
+}
+
 @media screen and (min-width: $master-desktop-screen-width) {
    .master_hamburger {
       display: none;
+   }
+
+
+   .master_content {
+      display: flex;
+      flex-direction: row;
+
+      &.fullheight {
+         height: calc(100vh - 147px);
+      }
    }
 }
 
@@ -181,6 +195,16 @@ $master-desktop-screen-width: 1000px;
 
    .topbanner {
       position: static !important;
+   }
+
+   .master_logo {
+      margin-left: 16px;
+   }
+
+   .master_content {
+      &.fullheight {
+         height: calc(100vh - 120px);
+      }
    }
 
    .topbanner_tabs {

@@ -32,7 +32,7 @@ export const Main = (
             <DocumentTitle text="CxJS Docs" />
             {/* <Content name="aside" items={Contents}/>
     <Floater if-expr="{layout.touch}"/> */}
-            <div class="docsmain" style="display: flex">
+            <div class="master_content">
                 <div
                     class={{
                         gray: true,

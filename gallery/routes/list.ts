@@ -303,15 +303,15 @@ let list: Item[] = [
    }
 ];
 
-export let sorted = list.map(section => {
-   if (section.items) {
-      section.items = [...section.items].sort((a, b) => {
-         if (a.name >= b.name) return 1;
-         else return -1;
-      });
-   }
-
-   return section;
-});
+// export let sorted = list.map(section => {
+//    if (section.items) {
+//       section.items = [...section.items].sort((a, b) => {
+//          if (a.name >= b.name) return 1;
+//          else return -1;
+//       });
+//    }
+//
+//    return section;
+// });
 
 export default list;

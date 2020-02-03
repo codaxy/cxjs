@@ -6,17 +6,14 @@ $small-device-width: 800px;
    height: 100%;
 }
 
-.layout {
-   display: flex;
-}
-
 .main {
    flex-grow: 1;
    padding: 1rem;
    transition: all 0.2s linear;
-   height: calc(100vh - 152px);
+   height: 100%;
    box-sizing: border-box;
    display: block;
+   overflow: auto;
 }
 
 .theme-dark {

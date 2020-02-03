@@ -40,7 +40,7 @@ export default (
       topLinks={themes}
     >
       <ScrollReset trigger={bind("url")} />
-      <div class="layout">
+      <div class="fullheight master_content">
         <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
         <Route route="~/:theme" url={bind("url")}>
           <RedirectRoute
