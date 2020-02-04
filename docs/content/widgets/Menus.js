@@ -25,7 +25,7 @@ export const Menus = <cx>
 
             <div class="widgets">
                 <Menu horizontal>
-                    <Submenu keyboardShortcut={KeyCode.esc}>
+                    <Submenu keyboardShortcut={KeyCode.esc} tooltip="Esc">
                         File
                         <Menu putInto="dropdown" icons>
                             <MenuItem
@@ -172,7 +172,7 @@ export const Menus = <cx>
             </Content>
         </CodeSplit>
 
-        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set. 
+        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set.
         The `menu` modifier is used to add margin/padding to menu items.
 
         ## Configuration

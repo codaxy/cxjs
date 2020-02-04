@@ -342,10 +342,14 @@ class MenuItemComponent extends VDOM.Component {
    openDropdown(callback) {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
-         if (!this.state.dropdownOpen)
+         if (!this.state.dropdownOpen) {
             this.setState({
                dropdownOpen: true
             }, callback);
+
+            //hide tooltip if dropdown is open
+            tooltipMouseLeave(null, this.props.instance, widget.tooltip);
+         }
          else if (callback)
             callback(this.state);
       }
