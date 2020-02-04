@@ -1645,7 +1645,7 @@ class GridComponent extends VDOM.Component {
 
          let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
 
-         if (data.empty) {
+         if (data.empty && !widget.infinite) {
             this.dom.scroller.scrollTop = 0;
          }
 
