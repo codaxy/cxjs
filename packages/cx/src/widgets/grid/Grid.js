@@ -244,9 +244,14 @@ export class Grid extends Widget {
       }
 
       if (sortField) {
-         let sortColumn = this.columns && this.columns.find(c => c.field == sortField);
-         if (sortColumn && (sortColumn.sortValue || sortColumn.value))
-            data.sorters[0].value = sortColumn.sortValue || sortColumn.value;
+         for (let l = 1; l < 10; l++) {
+            let line = this.row[`line${l}`];
+            let sortColumn = line && line.columns && line.columns.find(c => c.field == sortField);
+            if (sortColumn && (sortColumn.sortValue || sortColumn.value)) {
+               data.sorters[0].value = sortColumn.sortValue || sortColumn.value;
+               break;
+            }
+         }
       }
 
       let headerMode = this.headerMode;
