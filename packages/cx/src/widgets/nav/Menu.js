@@ -10,7 +10,7 @@ import {
 } from "../../util/DOM";
 import { KeyCode } from "../../util/KeyCode";
 import { debug, menuFlag } from "../../util/Debug";
-import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
+import { FocusManager } from "../../ui/FocusManager";
 import { MenuItem } from "./MenuItem";
 import { isUndefined } from "../../util/isUndefined";
 import { isDefined } from "../../util/isDefined";
@@ -254,7 +254,7 @@ class MenuComponent extends VDOM.Component {
             this.el,
             ::this.measureOverflow
          );
-      oneFocusOut(this, this.el, ::this.onFocusOut);
+      this.unsubscribeFocusOut = FocusManager.onFocusOut(this.el, ::this.onFocusOut);
    }
 
    componentDidUpdate() {
@@ -286,7 +286,7 @@ class MenuComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      offFocusOut(this);
+      this.unsubscribeFocusOut && this.unsubscribeFocusOut();
       this.unsubscribeResize && this.unsubscribeResize();
    }
 }
