@@ -36,7 +36,6 @@ export const Lists = <cx>
                     emptyText="No results found."
                     mod="bordered"
                     onItemDoubleClick={(e, {store}) => { MsgBox.alert(store.get('$record.text')) }}
-                    itemDisabled-expr="{$index}==3"
                 >
                     <div>
                         <strong>Header <Text expr="{$index}+1"/></strong>

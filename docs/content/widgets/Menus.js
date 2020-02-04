@@ -25,7 +25,7 @@ export const Menus = <cx>
 
             <div class="widgets">
                 <Menu horizontal>
-                    <Submenu keyboardShortcut={KeyCode.esc} tooltip="Esc">
+                    <Submenu keyboardShortcut={KeyCode.esc}>
                         File
                         <Menu putInto="dropdown" icons>
                             <MenuItem
