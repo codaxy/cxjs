@@ -31,11 +31,12 @@ export const Lists = <cx>
             <div class="widgets">
                 <List
                     records:bind="$page.records"
-                    selection={PropertySelection}
+                    selection={{ type: PropertySelection, multiple: true }}
                     style="width:200px"
                     emptyText="No results found."
                     mod="bordered"
                     onItemDoubleClick={(e, {store}) => { MsgBox.alert(store.get('$record.text')) }}
+                    itemDisabled-expr="{$index}==3"
                 >
                     <div>
                         <strong>Header <Text expr="{$index}+1"/></strong>

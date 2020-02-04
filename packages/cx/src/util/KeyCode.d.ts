@@ -17,4 +17,5 @@ export class KeyCode {
    static down: 40;
    static insert: 45;
    static "delete": 46;
+   static a: 65;
 }

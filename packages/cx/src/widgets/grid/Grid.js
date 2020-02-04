@@ -1962,7 +1962,7 @@ class GridComponent extends VDOM.Component {
             }
             break;
 
-         case 65:
+         case KeyCode.a:
             if (!e.ctrlKey || !widget.selection.multiple)
                 return;
 

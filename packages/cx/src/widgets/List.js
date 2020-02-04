@@ -436,7 +436,8 @@ class ListComponent extends VDOM.Component {
       for (let cursor = from; cursor <= to; cursor++) {
          let item = items[this.cursorChildIndex[cursor]];
          if (item) {
-            let record = item.instance.record;
+            let {record, data} = item.instance;
+            if (data.disabled) continue;
             selection.push(record.data);
             indexes.push(record.index);
          }
@@ -447,17 +448,19 @@ class ListComponent extends VDOM.Component {
 
    showCursor(focused) {
       if (this.state.cursor == -1) {
-         let index = -1, firstSelected = -1;
+         let index = -1, firstSelected = -1, firstValid = -1;
          for (let i = 0; i < this.props.items.length; i++) {
-            if (this.props.items[i].type == 'data') {
+            let item = this.props.items[i];
+            if (isItemSelectable(item)) {
                index++;
-               if (this.props.items[i].instance.selected) {
+               firstValid = index;
+               if (item.instance.selected) {
                   firstSelected = index;
                   break;
                }
             }
          }
-         this.moveCursor(firstSelected != -1 ? firstSelected : 0, {focused: true});
+         this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {focused: true});
       }
    }
 
@@ -495,7 +498,7 @@ class ListComponent extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             let item = items[this.cursorChildIndex[this.state.cursor]];
-            if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance)===false)
+            if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false)
                return;
             this.moveCursor(this.state.cursor, {
                select: true,
@@ -507,8 +510,11 @@ class ListComponent extends VDOM.Component {
             break;
 
          case KeyCode.down:
-            if (this.state.cursor + 1 < this.cursorChildIndex.length) {
-               this.moveCursor(this.state.cursor + 1, {
+            for (let index = this.state.cursor + 1; index < this.cursorChildIndex.length; index++) {
+               let item = items[this.cursorChildIndex[index]];
+               if (!isItemSelectable(item))
+                  continue;
+               this.moveCursor(index, {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
@@ -516,12 +522,16 @@ class ListComponent extends VDOM.Component {
                });
                e.stopPropagation();
                e.preventDefault();
+               break;
             }
             break;
 
          case KeyCode.up:
-            if (this.state.cursor > 0) {
-               this.moveCursor(this.state.cursor - 1, {
+            for (let index = this.state.cursor - 1; index >= 0; index--) {
+               let item = items[this.cursorChildIndex[index]];
+               if (!isItemSelectable(item))
+                  continue;
+               this.moveCursor(index, {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
@@ -529,7 +539,18 @@ class ListComponent extends VDOM.Component {
                });
                e.stopPropagation();
                e.preventDefault();
+               break;
             }
+            break;
+
+         case KeyCode.a:
+            if (!e.ctrlKey || !widget.selection.multiple)
+               return;
+
+            this.selectRange(0, this.cursorChildIndex.length);
+
+            e.stopPropagation();
+            e.preventDefault();
             break;
       }
    }
@@ -541,4 +562,8 @@ class ListItem extends Container {
          disabled: undefined
       });
    }
+}
+
+function isItemSelectable(item) {
+   return item && item.type == "data" && !item.instance.data.disabled;
 }
