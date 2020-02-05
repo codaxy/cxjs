@@ -45,13 +45,15 @@ export const docsNavTree = [
                     { text: "Data Binding", url: "~/concepts/data-binding" },
                     { text: "Data Views", url: "~/concepts/data-views" },
                     { text: "Controllers", url: "~/concepts/controllers" },
-                    { text: "Inner Layouts", url: "~/concepts/inner-layouts" }
+                    { text: "Inner Layouts", url: "~/concepts/inner-layouts" },
+                    { text: "CSS", url: "~/concepts/css" },
+                    { text: "Formatting", url: "~/concepts/formatting" },
+                    { text: "Selection", url: "~/concepts/selections" },
                 ]
             },
             {
                 text: "Advanced",
                 children: [
-                    { text: "Selection", url: "~/concepts/selections" },
                     { text: "Router", url: "~/concepts/router" },
                     { text: "Outer Layouts", url: "~/concepts/outer-layouts" },
                     {
@@ -59,8 +61,6 @@ export const docsNavTree = [
                         url: "~/concepts/functional-components"
                     },
                     { text: "Private Store", url: "~/concepts/private-stores" },
-                    { text: "CSS", url: "~/concepts/css" },
-                    { text: "Formatting", url: "~/concepts/formatting" },
                     { text: "Localization", url: "~/concepts/localization" },
                     { text: "Charts", url: "~/concepts/charts" },
                     { text: "Drag & Drop", url: "~/concepts/drag-and-drop" }

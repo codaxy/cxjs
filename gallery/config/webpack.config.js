@@ -84,7 +84,7 @@ module.exports = production => ({
    },
    entry: {
       //vendor: ['cx-react', p('polyfill.js')],
-      app: [p("../misc/babelHelpers"), p("entry")]
+      app: [p("../misc/babelHelpers"), p("index")]
    },
    output: {
       path: p("dist"),

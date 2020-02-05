@@ -11,7 +11,7 @@ enableTooltips();
 enableCultureSensitiveFormatting();
 
 
-export default function() {
+function start() {
 
    //store
    const store = new Store();
@@ -29,3 +29,11 @@ export default function() {
    //app loop
    let stop = startHotAppLoop(module, document.getElementById('app'), store, Routes);
 }
+
+if (typeof window["fetch"] === "undefined" || typeof window["Intl"] === "undefined") {
+   import("./polyfill")
+      .then(start);
+} else {
+   start();
+}
+
