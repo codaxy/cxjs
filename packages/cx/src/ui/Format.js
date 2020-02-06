@@ -63,20 +63,16 @@ export function enableCultureSensitiveFormatting() {
       }
    );
 
-   Fmt.registerFactory(['date', 'd'], () => {
+   Fmt.registerFactory(['date', 'd'], (fmt, format = 'yyyyMMdd') => {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter();
       return value => formatter.format(new Date(value));
    });
 
 
-   Fmt.registerFactory(['time', 't'], () => {
+   Fmt.registerFactory(['time', 't'], (fmt, format = 'hhmmss') => {
       let culture = Culture.getDateTimeCulture();
-      let formatter = culture.getFormatter({
-         hour: 'numeric',
-         minute: 'numeric',
-         second: 'numeric'
-      });
+      let formatter = culture.getFormatter(format);
       return value => formatter.format(new Date(value));
    });
 

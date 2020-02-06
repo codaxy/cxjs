@@ -13,6 +13,14 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 20.1.0
+
+            ### Format change for DateTimeField
+
+            `DateTimeField` now expects regular formats, e.g. `datetime;yyyyMMMdd` (previously only `yyyyMMMdd` part was required).
+            This change enables non-standard, custom formats to be used.
+
+
             ## 19.1.0
 
             ### Babel 7

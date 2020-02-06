@@ -23,6 +23,7 @@ import DropdownIcon from '../icons/drop-down';
 import {Icon} from '../Icon';
 import ClearIcon from '../icons/clear';
 import {stopPropagation} from '../../util/eventCallbacks';
+import {Format} from "../../util/Format";
 
 export class DateTimeField extends Field {
 
@@ -53,15 +54,15 @@ export class DateTimeField extends Field {
       if (!this.format) {
          switch (this.segment) {
             case 'datetime':
-               this.format = "YYYYMMddhhmm";
+               this.format = "datetime;YYYYMMddhhmm";
                break;
 
             case 'time':
-               this.format = "hhmm";
+               this.format = "time;hhmm";
                break;
 
             case 'date':
-               this.format = "YYYYMMMdd";
+               this.format = "date;yyyyMMMdd";
                break;
          }
       }
@@ -76,7 +77,7 @@ export class DateTimeField extends Field {
          if (isNaN(date.getTime()))
             data.formatted = String(data.value);
          else
-            data.formatted = Culture.getDateTimeCulture().format(date, data.format);
+            data.formatted = Format.value(date, data.format);
       }
       else
          data.formatted = "";
@@ -154,19 +155,22 @@ export class DateTimeField extends Field {
       return data.value ? data.formatted : null;
    }
 
-   parseDate(date) {
+   parseDate(date, instance) {
       if (!date)
          return null;
       if (date instanceof Date)
          return date;
+      if (this.onParseInput) {
+         let result = instance.invoke("onParseInput", date, instance);
+         if (result != undefined)
+            return date;
+      }
       date = Culture.getDateTimeCulture().parse(date, {useCurrentDateForDefaults: true});
       return date;
    }
 }
 
 DateTimeField.prototype.baseClass = "datetimefield";
-//DateTimeField.prototype.memoize = false;
-
 DateTimeField.prototype.maxValueErrorText = 'Select {0:d} or before.';
 DateTimeField.prototype.maxExclusiveErrorText = 'Select a date before {0:d}.';
 DateTimeField.prototype.minValueErrorText = 'Select {0:d} or later.';
@@ -491,7 +495,7 @@ class DateTimeInput extends VDOM.Component {
       let {instance, data} = this.props;
       let {widget} = instance;
 
-      let date = widget.parseDate(text);
+      let date = widget.parseDate(text, instance);
 
       instance.setState({
          inputError: isNaN(date) && widget.inputErrorText

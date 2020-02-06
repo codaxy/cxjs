@@ -67,6 +67,15 @@ export class NumberField extends Field {
       return data.formatted;
    }
 
+   parseValue(value, instance) {
+      if (this.onParseInput) {
+         let result = instance.invoke("onParseInput", value, instance);
+         if (result !== undefined)
+            return result;
+      }
+      return Culture.getNumberCulture().parse(value);
+   }
+
    validate(context, instance) {
       super.validate(context, instance);
 
@@ -235,10 +244,8 @@ class Input extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   getPreCursorDigits(text, cursor) {
+   getPreCursorDigits(text, cursor, decimalSeparator) {
       let res = '';
-      let culture = Culture.getNumberCulture();
-      let decimalSeparator = culture.decimalSeparator || '.';
       for (let i = 0; i < cursor; i++) {
          if ('0' <= text[i] && text[i] <= '9')
             res += text[i];
@@ -330,7 +337,7 @@ class Input extends VDOM.Component {
       let value = null;
 
       if (e.target.value) {
-         let displayValue = Culture.getNumberCulture().parse(e.target.value);
+         let displayValue = widget.parseValue(e.target.value, instance);
          if (isNaN(displayValue)) {
             instance.setState({
                inputError: instance.widget.inputErrorText
@@ -368,22 +375,23 @@ class Input extends VDOM.Component {
          }
 
          let fmt = data.format;
+         let decimalSeparator = Format.value(1.1, fmt)[1] || Format.value(1.1, "n;1")[1];
 
          let formatted = Format.value(value, fmt);
          //re-parse to avoid differences between formatted value and value in the store
-         let culture = Culture.getNumberCulture();
-         value = culture.parse(formatted) * data.scale + data.offset;
 
-         if (change == 'change' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == culture.decimalSeparator)
+         value = widget.parseValue(formatted, instance) * data.scale + data.offset;
+
+         if (change == 'change' && this.input.selectionStart == this.input.selectionEnd && e.target.value[this.input.selectionEnd - 1] == decimalSeparator)
             return;
 
          if (change != 'blur'
             && (e.target.value[e.target.value.length - 1] != '.' && e.target.value[e.target.value.length - 1] != ',')
             && (e.target.value[e.target.value.length - 1] != '0'
-               || e.target.value.indexOf(culture.decimalSeparator) == -1
+               || e.target.value.indexOf(decimalSeparator) == -1
                || (this.input.selectionStart == this.input.selectionEnd && this.input.selectionStart != e.target.value.length)
             )) {
-            let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart);
+            let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart, decimalSeparator);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
          }
