@@ -235,13 +235,18 @@ let list: Item[] = [
             content: () => import("./charts/pie-chart/multilevel")
          },
          {
-            route: "+/line-graph",
-            name: "LineGraph",
-            content: () => import("./charts/line-graph")
+            route: "+/line-graph/standard",
+            name: "Line Graph",
+            content: () => import("./charts/line-graph/standard")
+         },
+         {
+            route: "+/line-graph/stacked",
+            name: "Stacked Line Graph",
+            content: () => import("./charts/line-graph/stacked")
          },
          {
             route: "+/column-graph/standard",
-            name: "Standard Column Graph",
+            name: "Column Chart",
             content: () => import("./charts/column-graph/standard")
          },
          {
@@ -250,19 +255,14 @@ let list: Item[] = [
             content: () => import("./charts/column-graph/timeline")
          },
          {
-            route: "+/bar-graph",
-            name: "BarGraph",
-            content: () => import("./charts/bar-graph")
+            route: "+/column/stacked",
+            name: "Stacked Columns",
+            content: () => import("./charts/column/stacked")
          },
          {
-            route: "+/scatter-graph",
-            name: "ScatterGraph",
-            content: () => import("./charts/scatter-graph")
-         },
-         {
-            route: "+/range",
-            name: "Range",
-            content: () => import("./charts/range")
+            route: "+/column/auto-column-width",
+            name: "Auto Stacked Columns",
+            content: () => import("./charts/column/auto-column-width")
          },
          {
             route: "+/column/customized",
@@ -270,20 +270,50 @@ let list: Item[] = [
             content: () => import("./charts/column/customized")
          },
          {
-            route: "+/bar/standard",
-            name: "Bar",
-            content: () => import("./charts/bar/standard")
+            route: "+/column/combination",
+            name: "Column Chart + Grid",
+            content: () => import("./charts/column/combination")
          },
          {
-            route: "+/marker-line",
-            name: "MarkerLine",
+            route: "+/column/normalized",
+            name: "Normalized Columns",
+            content: () => import("./charts/column/normalized")
+         },
+         {
+            route: "+/bar-graph/standard",
+            name: "Bar Chart",
+            content: () => import("./charts/bar-graph/standard")
+         },
+         {
+            route: "+/bar/stacked",
+            name: "Stacked Bar Chart",
+            content: () => import("./charts/bar/stacked")
+         },
+         {
+            route: "+/bar/bullets",
+            name: "Bullet Chart",
+            content: () => import("./charts/bar/bullets")
+         },
+         {
+            route: "+/scatter-graph/standard",
+            name: "Scatter Chart",
+            content: () => import("./charts/scatter-graph/standard")
+         },
+         {
+            route: "+/marker-line/standard",
+            name: "Marker Lines",
             content: () => import("./charts/marker-line/standard")
          },
          {
-            route: "+/marker/states",
-            name: "Marker",
+            route: "+/marker/standard",
+            name: "Markers",
             content: () => import("./charts/marker/standard")
-         }
+         },
+         {
+            route: "+/range/standard",
+            name: "Range",
+            content: () => import("./charts/range/standard")
+         },
       ]
    },
    {

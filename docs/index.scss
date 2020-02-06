@@ -1,5 +1,7 @@
-@import "~cx/src/variables";
-@import "~cx/src/index";
+$cx-theme-primary-color: #2795b0;
+
+@import "~cx-theme-aquamarine/src/variables";
+@import "~cx-theme-aquamarine/src/index";
 
 html {
     height: 100%;

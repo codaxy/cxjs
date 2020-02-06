@@ -15,22 +15,22 @@ enableAllInternalDependencies();
 
 export const App = (
    <cx>
-      <MasterLayout app="fiddle">
-         <PureContainer layout={FirstVisibleChildLayout}>
-            <Route route="~/?login=1" url:bind="url">
-               <PickAuthProviderPage/>
-            </Route>
-            <Route route="~/?auth(*splat)" url:bind="url">
-               <WaitScreen/>
-            </Route>
-            <Route route="~/?f=:f" url:bind="url" params:bind="qs">
+      <PureContainer layout={FirstVisibleChildLayout}>
+         <Route route="~/?login=1" url:bind="url">
+            <PickAuthProviderPage/>
+         </Route>
+         <Route route="~/?auth(*splat)" url:bind="url">
+            <WaitScreen/>
+         </Route>
+         <Route route="~/?p=:f" url:bind="url" params:bind="qs">
+            <Preview/>
+         </Route>
+         <Route route="~/?f=:f" url:bind="url" params:bind="qs">
+            <MasterLayout app="fiddle">
                <Default/>
-            </Route>
-            <Route route="~/?p=:f" url:bind="url" params:bind="qs">
-               <Preview/>
-            </Route>
-            <Default/>
-         </PureContainer>
-      </MasterLayout>
+            </MasterLayout>
+         </Route>
+         <Default/>
+      </PureContainer>
    </cx>
 );

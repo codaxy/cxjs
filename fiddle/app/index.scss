@@ -18,8 +18,10 @@ a {
    text-decoration: none;
 }
 
-@import '~cx/src/variables.scss';
-@import '~cx/src/index.scss';
+$cx-theme-primary-color: #2795b0;
+
+@import '~cx-theme-aquamarine/src/variables.scss';
+@import '~cx-theme-aquamarine/src/index.scss';
 
 @import "../../misc/layout";
 
