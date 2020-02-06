@@ -11,10 +11,7 @@ class FunctionalComponent extends PureContainer {
    initInstance(context, instance) {
       this.clear();
       currentInstance = instance;
-      this.add(this.childrenFactory({
-         ...this.props,
-         store: new StoreProxy(() => instance.store)
-      }));
+      this.add(this.childrenFactory(this.props));
       instance.content = this.layout ? this.layout.items : this.items;
       this.clear();
       currentInstance = null;
@@ -47,6 +44,8 @@ export function createFunctionalComponent(factory) {
          delete innerProps.outerLayout;
          delete innerProps.putInto;
          delete innerProps.contentFor;
+         delete innerProps.jsxAttributes;
+         delete innerProps.$type;
 
          return {
             type: FunctionalComponent,

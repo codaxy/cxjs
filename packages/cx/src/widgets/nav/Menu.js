@@ -235,8 +235,8 @@ class MenuComponent extends VDOM.Component {
    }
 
    onFocusOut(elementReceivingFocus) {
-      debug(menuFlag, "Menu", "focusout", this.el, elementReceivingFocus);
-      if (!isSelfOrDescendant(this.el, elementReceivingFocus))
+      debug(menuFlag, 'Menu', 'focusout', this.el, elementReceivingFocus);
+      if (this.el && !isSelfOrDescendant(this.el, elementReceivingFocus))
          this.moveCursor(null);
    }
 

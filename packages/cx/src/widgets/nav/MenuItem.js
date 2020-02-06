@@ -401,7 +401,7 @@ class MenuItemComponent extends VDOM.Component {
    onFocusOut(focusedElement) {
       debug(menuFlag, 'MenuItem', 'focusout', this.el, focusedElement);
       this.clearAutoFocusTimer();
-      if (!isSelfOrDescendant(this.el, focusedElement)) {
+      if (this.el && !isSelfOrDescendant(this.el, focusedElement)) {
          debug(menuFlag, 'MenuItem', 'closing dropdown', this.el, focusedElement);
          this.closeDropdown();
       }

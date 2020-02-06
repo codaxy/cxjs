@@ -71,12 +71,8 @@ import './index.scss';
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
-//import Demo from "./bugs/validation";
-//import Demo from "./features/repeater/Hooks";
-//import Demo from "./bugs/submitOnEnter";
-//import Demo from "./bugs/tree-sorting";
+//import Demo from "./bugs/Spread";
 import Demo from "./bugs/587";
-
 
 let store = new Store();
 
