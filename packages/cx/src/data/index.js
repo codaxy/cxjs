@@ -20,3 +20,7 @@ export * from './diff/index';
 export * from './Ref';
 export * from './ArrayRef';
 export * from './StoreProxy';
+export * from "./AugmentedViewBase";
+export * from "./ArrayElementView";
+export * from "./getAccessor";
+export * from "./defaultCompare";

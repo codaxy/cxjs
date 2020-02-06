@@ -1,0 +1,15 @@
+.cxb-codemirror {
+
+   position: relative;
+
+   & > .CodeMirror {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      box-sizing: border-box;
+   }
+}
+
+.cxe-codemirror-input {
+   @include cxe-field-input($cx-besm, $cx-input-state-style-map);
+}

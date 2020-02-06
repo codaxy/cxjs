@@ -76,7 +76,7 @@ export default {
         key: false,
         type: 'string',
         description: <cx><Md>
-            Add
+            Style to be applied to the overlay's container element.
         </Md></cx>
     },
 

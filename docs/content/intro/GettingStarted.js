@@ -79,7 +79,7 @@ export const GettingStarted = <cx>
 
         ## Advanced Concepts
 
-        In order to put all the pieces together, get familiar with he concepts listed below:
+        In order to put all the pieces together, get familiar with the concepts listed below:
 
         - [Controllers](~/concepts/controllers)
         - [Data Views](~/concepts/data-views)

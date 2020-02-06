@@ -4,6 +4,7 @@ import {Grouper} from '../../data/Grouper';
 import {isArray} from '../../util/isArray';
 import {isDefined} from "../../util/isDefined";
 import {getComparer} from "../../data/comparer";
+import {Culture} from "../Culture";
 
 export class GroupAdapter extends ArrayAdapter {
 
@@ -109,7 +110,7 @@ export class GroupAdapter extends ArrayAdapter {
             g.grouper = new Grouper(key, {...this.aggregates, ...g.aggregates}, r => r.store.getData(), g.text);
             g.comparer = null;
             if (groupSorters.length > 0)
-               g.comparer = getComparer(groupSorters, x => x.key)
+               g.comparer = getComparer(groupSorters, x => x.key, this.sortOptions ? Culture.getComparer(this.sortOptions) : null);
          });
       } else
          throw new Error('Invalid grouping provided.');

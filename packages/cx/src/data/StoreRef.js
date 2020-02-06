@@ -36,8 +36,10 @@ export class StoreRef extends Ref {
 
    as(config) {
       return StoreRef.create(config, {
+         path: this.path,
          store: this.store,
-         path: this.path
+         get: this.get,
+         set: this.set
       });
    }
 }

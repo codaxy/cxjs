@@ -27,7 +27,10 @@ export class Ref extends Component {
    }
 
    as(config) {
-      return Ref.create(config);
+      return Ref.create(config, {
+         get: this.get,
+         set: this.set
+      });
    }
 
    //allows the function to be passed as a selector, e.g. to computable or addTrigger
@@ -35,6 +38,8 @@ export class Ref extends Component {
       return this.get;
    }
 }
+
+Ref.prototype.isRef = true;
 
 Ref.factory = function(alias, config, more) {
    if (isFunction(alias)) {

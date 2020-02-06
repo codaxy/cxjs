@@ -134,9 +134,12 @@ export default (
     <Section
       mod="well"      
       controller={PageController}
+      style="height: 100%"
+      bodyStyle="display: flex; flex-direction: column"
     >
       <Grid
         scrollable
+        style={{ flex: "1 1 0%"}}
         emptyText="No records found matching the given criteria."
         records={bind("filtered")}
         columns={[

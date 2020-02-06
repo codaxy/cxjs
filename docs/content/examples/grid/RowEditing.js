@@ -65,6 +65,7 @@ export const RowEditing = <cx>
 
             <Grid
                 records:bind="$page.records"
+                sortOptions={{ sensitivity: "base" }}
                 lockColumnWidths
                 cached
                 row={{

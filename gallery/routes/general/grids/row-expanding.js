@@ -44,14 +44,14 @@ export default <cx>
       bodyStyle="display:flex; flex-direction:column"
    >
       <Grid
-         records:bind="$page.records"
+         records-bind="$page.records"
          lockColumnWidths
          cached
          style="width: 100%; flex: 1 1 0px"
          scrollable
          row={{
             style: {
-               background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' ? '#fff7e6' : null"}
+               background: {expr: "{$record.showDescription} && {$root.$route.theme}!='material-dark' && {$root.$route.theme}!='space-blue' ? '#fff7e6' : null"}
             },
             line1: {
                columns: [

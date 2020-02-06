@@ -38,35 +38,40 @@
 
       &.#{$state}scrollable {
 
+         overflow: hidden;
+         display: flex;
+         flex-direction: column;
+
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
 
             table {
                border: none;
             }
+
+            .cxe-grid-header:first-child {
+               th {
+                  border-top: none;
+               }
+            }
+
+            th {
+               border-left: none;
+            }
+
+            th:last-child {
+               border-right: none;
+            }
          }
-
-         overflow: hidden;
-
-         th {
-            border-top: none;
-            border-left: none;
-         }
-
-         th:last-child {
-            border-right: none;
-         }
-
-         display: flex;
-         flex-direction: column;
 
          & > .#{$element}#{$name}-scroll-area {
             overflow-y: auto;
             flex: 1 1 0%;
             -webkit-overflow-scrolling: touch;
 
-            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header {
+            &.#{$state}fixed-header > .#{$element}#{$name}-table-wrapper > table > .#{$element}#{$name}-header:first-child {
                visibility: hidden;
+
             }
 
             //used to cut off the negative margin
@@ -116,6 +121,32 @@
 
          & > .#{$element}#{$name}-scroll-area {
             overflow-x: auto;
+         }
+      }
+
+      &.#{$state}resizable {
+         .cxe-grid-data td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+         }
+
+         .cxe-grid-fixed-header .cxe-grid-col-header:last-child {
+            max-width: 100%;
+            width: 100%;
+         }
+      }
+
+      &.#{$mod}fixed-layout {
+         table {
+            table-layout: fixed;
+            width: auto;
+         }
+      }
+
+      &.#{$mod}nowrap {
+         .cxe-grid-data td {
+            white-space: nowrap;
          }
       }
    }
@@ -486,6 +517,29 @@
       top: 0;
       bottom: 0;
    }
+
+   &.#{$element}#{$name}-col-resizer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+   }
+
+   &.#{$element}#{$name}-resize-overlay {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      border-right: 3px solid $cx-default-grid-border-color;
+      background: rgba($cx-default-grid-border-color, 0.15);
+      box-sizing: border-box;
+   }
+
 }
 
 @if (cx-should-include('cx/widgets/Grid')) {

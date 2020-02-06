@@ -20,6 +20,7 @@ export default <cx>
         <Grid
             records={[]}
             scrollable
+            style="height: 200px"
             columns={[
                 {header: "Name", field: "fullName", sortable: true},
                 {header: "Phone", field: "phone"},

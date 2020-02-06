@@ -576,6 +576,8 @@ $form-list: (
 }
 
 .#{$element}grid-header {
+   text-transform: uppercase;
+   
    // if a grid header has two or more rows
    tr:not(:first-child) .#{$element}grid-col-header {
       border-top: 1px solid $cx-default-grid-data-border-color;

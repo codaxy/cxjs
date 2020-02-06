@@ -1,10 +1,11 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Container} from '../../ui/Container';
 import {parseStyle} from '../../util/parseStyle';
-import {registerDropZone} from './ops';
+import {registerDropZone, DragDropContext} from './ops';
 import {findScrollableParent} from '../../util/findScrollableParent'
 import {isNumber} from '../../util/isNumber';
 import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
+
 
 export class DropZone extends Container {
 
@@ -98,11 +99,14 @@ class DropZoneComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      this.unregister = registerDropZone(this);
+      let dragDropOptions = this.context;
+      let disabled = dragDropOptions && dragDropOptions.disabled;
+      if (!disabled)
+         this.unregister = registerDropZone(this);
    }
 
    componentWillUnmount() {
-      this.unregister();
+      this.unregister && this.unregister();
    }
 
    onDropTest(e) {
@@ -216,3 +220,4 @@ class DropZoneComponent extends VDOM.Component {
    }
 }
 
+DropZoneComponent.contextType = DragDropContext;

@@ -264,3 +264,33 @@ $small-device-width: 800px;
       }
    }
 }
+
+.theme-space-blue {
+   .aside {
+    background: #303f50;
+
+      .cxb-link.cxs-active {
+         color: hsl(171, 57%, 55%);
+      }
+   }
+
+   .header {
+      background-color: #33465B;
+
+      .tabs {
+         .cxb-tab.cxm-line {
+            &.cxs-active {
+               border-color: rgba(#4dcbac, .8);
+            }
+         }
+      }
+
+     .title a {
+         color: #ffcd78;
+      }
+
+      h2 {
+         color: rgba(white, 0.77);
+      }
+   }
+}

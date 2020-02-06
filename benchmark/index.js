@@ -1,8 +1,8 @@
-import {Widget, startAppLoop, enableCultureSensitiveFormatting} from 'cx/ui';
+import {Widget, startHotAppLoop, enableCultureSensitiveFormatting} from 'cx/ui';
 import {HtmlElement, Grid} from 'cx/widgets';
 import {Store} from 'cx/data';
 
-import './index.scss';
+//import './index.scss';
 
 enableCultureSensitiveFormatting();
 
@@ -11,9 +11,9 @@ import suite2 from './data/expressions';
 import suite3 from './grid/realtime';
 
 let suites = [
-   suite1,
-   //suite2,
-   suite3
+    suite1,
+    suite2,
+    suite3
 ];
 
 let resultsStore = new Store({
@@ -22,7 +22,7 @@ let resultsStore = new Store({
    }
 });
 
-let stop = startAppLoop(document.getElementById('app'), resultsStore, <cx>
+let stop = startHotAppLoop(module, document.getElementById('app'), resultsStore, <cx>
    <div>
       <h2>Results</h2>
 
@@ -72,27 +72,9 @@ function proceed() {
 
 proceed();
 
-
-
 console.log('Done!');
 //stop();
 
-if (module.hot) {
-
-   // accept itself
-   module.hot.accept();
-
-   // remember data on dispose
-   module.hot.dispose(function (data) {
-      data.state = resultsStore.getData();
-      if (stop)
-         stop();
-   });
-
-   //apply data on hot replace
-   if (module.hot.data)
-      resultsStore.load(module.hot.data.state);
-}
 
 
 

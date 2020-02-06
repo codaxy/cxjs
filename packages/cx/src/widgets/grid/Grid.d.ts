@@ -2,8 +2,23 @@ import * as Cx from '../../core';
 import * as React from 'react';
 import {Instance} from "../../ui/Instance";
 import {DragEvent} from '../drag-drop/ops';
+import {View} from "../../data/View";
 
 type FetchRecordsResult = Cx.Record[] | { records: Cx.Record[], lastPage?: boolean, totalRecordCount?: number }
+
+interface MappedGridRecord {
+   data: Cx.Record,
+   store: View
+}
+
+interface GridDragEvent extends DragEvent {
+   target: {
+      recordBefore: MappedGridRecord,
+      recordAfter: MappedGridRecord,
+      insertionIndex: number,
+      totalRecordCount: number
+   }
+}
 
 interface GridProps extends Cx.StyledContainerProps {
 
@@ -12,13 +27,13 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean
-   
+
    /** A binding used to store the sorting order list. Commonly used for server-side sorting */
    sorters?: Cx.SortersProp,
 
    /** A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not used. */
    sortField?: Cx.StringProp,
-   
+
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
    sortDirection?: Cx.StringProp,
 
@@ -120,10 +135,11 @@ interface GridProps extends Cx.StyledContainerProps {
    rowStyle?: Cx.StyleProp
 
    // drag-drop handlers
-   onDrop?: (e: DragEvent, instance: Instance) => void;
+   onDrop?: (e: GridDragEvent, instance: Instance) => void;
    onDropTest?: (e: DragEvent, instance: Instance) => boolean;
    onDragStart?: (e: DragEvent, instance: Instance) => void;
    onDragEnd?: (e: DragEvent, instance: Instance) => void;
+   onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
 
    /** Parameters that affect filtering. */
    filterParams?: Cx.StructuredProp,
@@ -154,6 +170,12 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** A callback function which is executed after a cell has been successfully edited. */
    onCellEdited?: (change, record) => void
+
+   /** A callback function which is executed after a column has been resized. */
+   onColumnResize?: (data: { width: number, column: Cx.Record }, instance: Instance) => void,
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
+   sortOptions?: Cx.CollatorOptions
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

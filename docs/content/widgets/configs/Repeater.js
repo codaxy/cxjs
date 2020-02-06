@@ -21,7 +21,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            A binding used to store the name of the field used for sorting the collection. 
+            A binding used to store the name of the field used for sorting the collection.
             Available only if `sorters` are not used.
         </Md></cx>
     },
@@ -37,7 +37,7 @@ export default {
         type: 'array',
         key: true,
         description: <cx><Md>
-            A binding used to store the sorting order list. 
+            A binding used to store the sorting order list.
             This should be an array of objects with `field` and `direction` properties
             (equivalent to `sortField` and `sortDirection` properties).
         </Md></cx>
@@ -49,4 +49,10 @@ export default {
             An array of records to be shown.
         </Md></cx>
     },
+    sortOptions: {
+        type: "record",
+        description: <cx><Md>
+            Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
+        </Md></cx>
+    }
 };

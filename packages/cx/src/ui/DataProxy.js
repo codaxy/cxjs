@@ -37,6 +37,7 @@ export class DataProxy extends PureContainer {
    initInstance(context, instance) {
       instance.store = new DataProxyView({
          store: instance.store,
+         cached: this.cached,
          privateData: this.data,
          onSet: (path, value) => {
             let config = this.data[path];
@@ -73,7 +74,7 @@ class DataProxyView extends ReadOnlyDataView {
    }
 
    getAdditionalData(parentStoreData) {
-      if (this.meta.version !== this.cache.version)
+      if (!this.cached || this.meta.version !== this.cache.version)
          this.data = this.dataSelector(parentStoreData);
       return this.data;
    }

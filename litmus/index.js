@@ -31,7 +31,6 @@ import './index.scss';
 //import Demo from './features/caching/IsolatedBoxes';
 //import Demo from './features/context-menu';
 //import Demo from './features/charts/time-axis/LocalTime';
-
 //import Demo from './features/grid/header-tool';
 //import Demo from './features/grid/GridBuffering';
 //import Demo from './features/grid/RowEditing';
@@ -72,9 +71,8 @@ import './index.scss';
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
-//import Demo from "./bugs/ContentPlaceholderOrder";
-import Demo from "./bugs/Spread";
-
+//import Demo from "./bugs/Spread";
+import Demo from "./bugs/587";
 
 let store = new Store();
 
@@ -88,4 +86,3 @@ Debug.enable("app-data");
 History.connect(store, "url")
 
 let stop = startHotAppLoop(module, document.getElementById('app'), store, Demo);
-

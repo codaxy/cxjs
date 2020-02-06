@@ -1,0 +1,6 @@
+- add Notes tab
++ stars
+- anonymous save
++ login provider pick
++ fiddle url
++ publish/unpublish

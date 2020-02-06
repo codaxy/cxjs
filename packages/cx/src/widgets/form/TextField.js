@@ -58,6 +58,7 @@ export class TextField extends Field {
       let {data} = instance;
 
       if (!data.error && data.value) {
+         if (this.validationRegExp) this.validationRegExp.lastIndex = 0;
          if (this.validationRegExp && !this.validationRegExp.test(data.value))
             data.error = this.validationErrorText;
          else if (typeof data.value === 'string' && data.minLength != null && data.value.length < data.minLength)
@@ -169,13 +170,15 @@ class Input extends VDOM.Component {
    }
 
    onFocus() {
-      let {instance} = this.props;
+      let {instance, data} = this.props;
       let {widget} = instance;
       if (widget.trackFocus) {
          this.setState({
             focus: true
          });
       }
+      if (data.error && data.value)
+         instance.setState({visited: true});
    }
 
    onBlur(e) {

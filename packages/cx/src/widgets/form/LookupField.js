@@ -689,12 +689,13 @@ class LookupComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      // switch (e.keyCode) {
-      //    case KeyCode.enter:
-      //       if ( this.state.dropdownOpen)
-      //          e.stopPropagation();
-      //       return;
-      // }
+      switch (e.keyCode) {
+         case KeyCode.pageDown:
+         case KeyCode.pageUp:
+            if (this.state.dropdownOpen)
+               e.preventDefault();
+            break;
+      }
    }
 
    onInputKeyDown(e) {
@@ -713,11 +714,30 @@ class LookupComponent extends VDOM.Component {
          case KeyCode.tab:
          case KeyCode.left:
          case KeyCode.right:
+         case KeyCode.pageUp:
+         case KeyCode.pageDown:
+         case KeyCode.insert:
             break;
 
          case KeyCode.down:
             this.openDropdown(e);
             e.stopPropagation();
+            break;
+
+         case KeyCode.enter:
+            if (this.props.instance.widget.submitOnEnterKey) {
+               let instance = this.props.instance.parent;
+               while (instance) {
+                  if (instance.events && instance.events.onSubmit) {
+                     instance.events.onSubmit(e, instance);
+                     break;
+                  } else {
+                     instance = instance.parent;
+                  }
+               }
+            } else {
+               this.openDropdown(e);
+            }
             break;
 
          default:
@@ -894,5 +914,3 @@ class LookupComponent extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
 }
-
-

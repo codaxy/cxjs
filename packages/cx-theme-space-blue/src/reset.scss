@@ -1,0 +1,30 @@
+//SCROLLBAR
+@if ($cx-include-global-rules) {
+    @media screen and (min-width: 700px) {
+       ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+         background-color: rgba(#000, 0.3);
+       }
+       ::-webkit-scrollbar-thumb {
+          -webkit-border-radius: 50px;
+ 
+          &:vertical {
+            background-color: $cx-default-background-color-lighter;
+             &:hover {
+                background-color: lighten($cx-default-background-color-lighter, 8);
+             }
+          }
+ 
+          &:horizontal {
+            background-color: $cx-default-background-color-lighter;
+             &:hover {
+                background-color: lighten($cx-default-background-color-lighter, 8);
+             }
+          }
+       }
+       ::-webkit-scrollbar-corner {
+          background-color: rgba(32, 40, 50, 0.02);
+       }
+    }
+ }

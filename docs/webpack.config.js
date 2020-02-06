@@ -7,12 +7,12 @@ const webpack = require('webpack'),
     InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
-    babelConfig = require('./babel.config'),
+    babelConfig = require('./babel-config'),
     gtm = require('../misc/tracking/gtm.js'),
     reactScriptsProd = require('../misc/reactScripts'),
     reactScriptsDev = require('../misc/reactScripts.dev');
 
-var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
+var specific, production = process.env.npm_lifecycle_event.indexOf('build') == 0;
 
 if (production) {
 

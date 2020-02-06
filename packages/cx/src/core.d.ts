@@ -2,7 +2,6 @@ export = Cx;
 export as namespace Cx;
 
 import * as React from 'react';
-import {Layout} from './ui/layout/Layout';
 
 declare namespace Cx {
 
@@ -78,7 +77,7 @@ declare namespace Cx {
 
       /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
       mod?: StringProp | Prop<string[]> | StructuredProp,
-      
+
       /** Cache render output. Default is `true`. */
       memoize?: BooleanProp,
 
@@ -87,7 +86,7 @@ declare namespace Cx {
    }
 
    interface PureContainerProps extends WidgetProps {
-      
+
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
       ws?: boolean,
 
@@ -109,14 +108,14 @@ declare namespace Cx {
 
    interface StyledContainerProps extends PureContainerProps {
 
-     /** 
-     * Additional CSS classes to be applied to the element. 
+     /**
+     * Additional CSS classes to be applied to the element.
      * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
      */
       class?: ClassProp,
 
-      /** 
-      * Additional CSS classes to be applied to the element. 
+      /**
+      * Additional CSS classes to be applied to the element.
       * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
       */
       className?: ClassProp,
@@ -144,6 +143,15 @@ declare namespace Cx {
       field?: string;
       value?: (Record) => any;
       direction: 'ASC' | 'DESC';
+   }
+
+   interface CollatorOptions {
+      localeMatcher?: "lookup" | "best fit";
+      usage?: "sort" | "search";
+      sensitivity?: "base" | "accent" | "case" | "variant";
+      ignorePunctuation?: boolean;
+      numeric?: boolean;
+      caseFirst?: "upper" | "lower" | "false";
    }
 
    class Widget<P extends WidgetProps> {

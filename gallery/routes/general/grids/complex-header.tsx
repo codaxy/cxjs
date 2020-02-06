@@ -37,7 +37,7 @@ export default (
         scrollable
         controller={PageController}
         records={bind("$page.records")}
-        style={{ width: "100%" }}
+        style={{ width: "100%", flex: '1 1 0%' }}
         border
         vlines
         columns={

@@ -12,6 +12,10 @@ export class Url {
          return path;
 
       var absBase = this.absoluteBase || '';
+      
+      //handle paths like /app and /app/
+      if (path.length == absBase.length - 1 && absBase == path + "/")
+         return "~/";
 
       if (path.indexOf(absBase) == 0)
          return '~/' + path.substring(absBase.length);

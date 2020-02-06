@@ -314,7 +314,7 @@ class ColorInput extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      let {data, instance} = this.props;
+      let {data, instance} = props;
       let {state} = instance;
       let nv = this.trim(data.value || '');
       if (nv != this.input.value && (this.data.value != data.value || !state.inputError)) {

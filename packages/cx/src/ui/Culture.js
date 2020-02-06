@@ -3,6 +3,7 @@ import {Localization} from './Localization';
 import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
 import {invalidateExpressionCache} from "../data/Expression";
 import {invalidateStringTemplateCache} from "../data/StringTemplate";
+import {defaultCompare} from "../data/defaultCompare";
 
 let culture = 'en';
 let cultureCache = {};
@@ -54,5 +55,11 @@ export class Culture {
 
    static setDefaultDateEncoding(encoding) {
       dateEncoding = encoding;
+   }
+
+   static getComparer(options) {
+      if (typeof Intl.Collator != "undefined")
+         return new Intl.Collator(culture, options).compare;
+      return defaultCompare;
    }
 }
