@@ -2,6 +2,7 @@ $master-header-height: 45px;
 $master-font-family: sans-serif;
 $master-brand-background: #2795b0;
 //$master-brand-background: #50637d;
+//$master-brand-background: #536287 !default;
 $master-brand-color: white;
 
 $master-desktop-screen-width: 1000px;
@@ -71,6 +72,7 @@ $master-desktop-screen-width: 1000px;
 .topbanner {
    font-family: $master-font-family;
    background: $master-brand-background;
+   //background-image: linear-gradient(90deg,#017be6,#00d7eb);
    color: $master-brand-color;
    min-height: 105px;
    padding-top: $master-header-height;
