@@ -34,9 +34,9 @@ export function openOpenDialog(store, callback) {
               controller={OpenDialogController}>
          <FlexRow pad spacing target="desktop">
             <div>
-               <Tab value:bind="open.tab" tab="popular" text="Popular"/>
-               <Tab value:bind="open.tab" tab="starred" text="Starred" disabled:expr="!{user.email}"/>
-               <Tab value:bind="open.tab" tab="mine" text="Saved" disabled:expr="!{user.email}"/>
+               <Tab value:bind="open.tab" tab="popular" text="Popular" mod="line"/>
+               <Tab value:bind="open.tab" tab="starred" text="Starred" mod="line" disabled:expr="!{user.email}"/>
+               <Tab value:bind="open.tab" tab="mine" text="Saved" mod="line" disabled:expr="!{user.email}"/>
             </div>
             <TextField value:bind="$modal.query" placeholder="Search" style="margin-left: auto"/>
          </FlexRow>

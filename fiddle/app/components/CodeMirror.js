@@ -12,10 +12,7 @@ export class CodeMirror extends Widget {
 
    declareData() {
       return super.declareData(...arguments, {
-         code: undefined,
-         className: { structured: true },
-         class: { structured: true },
-         style: { structured: true }
+         code: undefined
       });
    }
 
@@ -25,6 +22,7 @@ export class CodeMirror extends Widget {
 }
 
 CodeMirror.prototype.baseClass = 'codemirror';
+CodeMirror.prototype.styled = true;
 
 class Component extends VDOM.Component {
    render() {

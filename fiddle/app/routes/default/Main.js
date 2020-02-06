@@ -16,9 +16,9 @@ export default phone => <cx>
                   tooltip="Automatically add missing import. Alternatively, use text selection and Ctrl + I."/>
             </div>
             <div class="cxe-toolbar-center" style="flex:3;text-align:center">
-               <Tab value:bind="code.tab" tab="js" text="ES"/>
-               <Tab value:bind="code.tab" tab="css" text="CSS"/>
-               <Tab value:bind="code.tab" tab="data" text="Data"/>
+               <Tab value:bind="code.tab" tab="js" text="ES" mod="line"/>
+               <Tab value:bind="code.tab" tab="css" text="CSS" mod="line"/>
+               <Tab value:bind="code.tab" tab="data" text="Data" mod="line"/>
             </div>
             <div class="cxe-toolbar-right" style="padding:5px" visible={!phone}>
                <Button mod="run" tooltip="Ctrl+R"><i class="fa fa-play" style="color: green"/> Run</Button>
@@ -34,8 +34,8 @@ export default phone => <cx>
             <div class="cxe-toolbar-left">
             </div>
             <div class="cxe-toolbar-center" style="flex:3;text-align:center">
-               <Tab value:bind="preview.tab" tab="result" text="Preview"/>
-               <Tab value:bind="preview.tab" tab="js" text="JS"/>
+               <Tab value:bind="preview.tab" tab="result" text="Preview" mod="line"/>
+               <Tab value:bind="preview.tab" tab="js" text="JS" mod="line"/>
             </div>
             <div class="cxe-toolbar-right">
                <Menu horizontal mod="main" itemPadding="medium">

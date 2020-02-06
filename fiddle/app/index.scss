@@ -24,6 +24,7 @@ $cx-theme-primary-color: #2795b0;
 @import '~cx-theme-aquamarine/src/index.scss';
 
 @import "../../misc/layout";
+@import "../../misc/components";
 
 @import 'components/index';
 @import 'routes/login/index';
