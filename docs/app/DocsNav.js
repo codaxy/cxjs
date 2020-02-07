@@ -218,6 +218,15 @@ export const docsNavTree = [
                 ]
             },
             {
+                text: "List",
+                children: [
+                    {
+                        text: "Grouping",
+                        url: "~/examples/list/grouping"
+                    }
+                ]
+            },
+            {
                 text: "Grid",
                 children: [
                     { text: "Pagination", url: "~/examples/grid/pagination" },
