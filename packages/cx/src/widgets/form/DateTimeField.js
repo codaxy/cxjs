@@ -163,7 +163,7 @@ export class DateTimeField extends Field {
       if (this.onParseInput) {
          let result = instance.invoke("onParseInput", date, instance);
          if (result != undefined)
-            return date;
+            return result;
       }
       date = Culture.getDateTimeCulture().parse(date, {useCurrentDateForDefaults: true});
       return date;
