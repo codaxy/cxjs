@@ -18,8 +18,8 @@ function star(e, { store }) {
       return;
    }
 
-   var star = store.get("star");
-   var starred = star && star.starred;
+   let star = store.get("star");
+   let starred = star && star.starred;
 
    if (!starred)
       addFiddleStar(store.get("fiddle.fiddleId")).then(s =>
@@ -89,7 +89,19 @@ function fileMenu(phone) {
 }
 
 function mainMenu(phone) {
-   if (phone) return null;
+   if (phone) return <cx>
+      <Menu mod="main">
+         <a class="cxm-menu-pad" href="#" onClick={star}>
+            <i
+               class={{
+                  fa: true,
+                  "fa-star": { expr: "{star.starred}" },
+                  "fa-star-o": { expr: "!{star.starred}" }
+               }}
+            />
+         </a>
+      </Menu>
+   </cx>;
 
    return (
       <cx>
@@ -195,16 +207,7 @@ let rightMenu = phone => {
    if (phone) {
       return (
          <cx>
-            <Submenu>
-               <span>
-                  <i class="fa fa-bars" />
-               </span>
-               <Menu putInto="dropdown">
-                  {fileMenu(true)}
-                  <hr />
-                  {userInfo}
-               </Menu>
-            </Submenu>
+            <Button onClick={togglePreviewMode} icon-expr="{preview.on} ? 'play' : 'stop'" mod="hollow" />
          </cx>
       );
    }
@@ -213,16 +216,15 @@ let rightMenu = phone => {
 };
 
 let middle = phone => {
-   if (phone) return null;
-
    return (
       <cx>
          <TextField
             value:bind="fiddle.fiddleName"
             mod="fiddle-name"
             placeholder="Unnamed Fiddle"
+            style={ phone ? "flex:auto;margin:0" : null }
          />
-         <Menu horizonta mod="main">
+         <Menu horizontal mod="main" visible={!phone}>
             <a class="cxm-menu-pad" href="#" onClick={star}>
                <i
                   class={{
@@ -237,59 +239,20 @@ let middle = phone => {
    );
 };
 
-let line2 = phone => {
-   if (!phone) return null;
-   return (
-      <cx>
-         <FlexRow align="center">
-            <Menu horizonta mod="main">
-               <a class="cxm-menu-pad" href="#" onClick={star}>
-                  <i
-                     class={{
-                        fa: true,
-                        "fa-star": { expr: "{star.starred}" },
-                        "fa-star-o": { expr: "!{star.starred}" }
-                     }}
-                  />
-               </a>
-            </Menu>
-            <TextField
-               value:bind="fiddle.fiddleName"
-               mod="fiddle-name"
-               placeholder="Unnamed Fiddle"
-               style="flex:auto;margin:0"
-            />
-            <Menu horizonta mod="main">
-               <a class="cxm-menu-pad" href="#" onClick={togglePreviewMode}>
-                  <i
-                     class={{
-                        fa: true,
-                        "fa-play": { expr: "!{preview.on}" },
-                        "fa-stop": { expr: "!!{preview.on}" }
-                     }}
-                  />
-               </a>
-            </Menu>
-         </FlexRow>
-      </cx>
-   );
-};
-
 export const Header = phone => [
    <cx>
       <header class="cxb-toolbar">
-         <div class="cxe-toolbar-left">
+         <div class="cxe-toolbar-left" style={phone ? "flex: 0 0 auto" : null}>
             <Menu horizontal mod="main" itemPadding="medium">
                {mainMenu(phone)}
             </Menu>
          </div>
          <div class="cxe-toolbar-center">{middle(phone)}</div>
-         <div class="cxe-toolbar-right">
+         <div class="cxe-toolbar-right" style={phone ? "flex: 0 0 auto" : null}>
             <Menu horizontal mod="main" itemPadding="medium">
                {rightMenu(phone)}
             </Menu>
          </div>
       </header>
-   </cx>,
-   line2(phone)
+   </cx>
 ];

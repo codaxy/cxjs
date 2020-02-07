@@ -1,11 +1,10 @@
 $master-header-height: 45px;
 $master-font-family: sans-serif;
-$master-brand-background: #2795b0;
-//$master-brand-background: #50637d;
-//$master-brand-background: #536287 !default;
+$master-brand-highlight-color: #017be6 !default;
+$master-brand-background: linear-gradient(90deg,#017be6,#00d7eb) !default;
 $master-brand-color: white;
-
 $master-desktop-screen-width: 1000px;
+$master-theme-color: #4f7aea;
 
 .master_header {
    position: fixed;
@@ -25,7 +24,7 @@ $master-desktop-screen-width: 1000px;
    font-family: $master-font-family;
    display: flex;
    align-items: center;
-   color: #b93e8b;
+   color: #8d96a2;
    height: $master-header-height;
 
    .cxb-link {
@@ -39,9 +38,13 @@ $master-desktop-screen-width: 1000px;
       position: relative;
       color: inherit;
 
+      &:hover {
+         color: #586475;
+      }
+
       &.cxs-active {
          font-weight: 500;
-         color: #2795b0;
+         color: #b93e8b;
 
          &:after {
             position: absolute;
@@ -66,13 +69,12 @@ $master-desktop-screen-width: 1000px;
 
 .master_hamburger {
    margin: 0 0 0 16px;
-   color: #2795b0;
+   color: inherit;
 }
 
 .topbanner {
    font-family: $master-font-family;
    background: $master-brand-background;
-   //background-image: linear-gradient(90deg,#017be6,#00d7eb);
    color: $master-brand-color;
    min-height: 105px;
    padding-top: $master-header-height;
@@ -80,6 +82,7 @@ $master-desktop-screen-width: 1000px;
    z-index: 1;
    position: relative;
    box-sizing: border-box;
+   //transition: all 0.5s ease-in-out;
 
    &.sticky {
       position: sticky;
@@ -93,6 +96,7 @@ $master-desktop-screen-width: 1000px;
       color: inherit;
       line-height: 27px;
       margin: 0;
+      font-size: 21px;
    }
 
    .cxb-link {

@@ -1,3 +1,6 @@
+$master-sidenav-link-color: #718096;
+$master-sidenav-active-link-color: #666;
+
 .sidenav {
    font-family: sans-serif;
    font-size: 14px;
@@ -6,7 +9,7 @@
    box-sizing: border-box;
    position: fixed;
    overflow: auto;
-   color: #718096;
+   color: $master-sidenav-link-color;
 
    &.sticky {
       top: 90px;
@@ -29,22 +32,17 @@
       padding: 10px 16px 10px 24px;
       position: relative;
       left: 0;
+      border-left: 4px solid rgba(black, 0.075);
 
       &:hover {
-         //padding-left: 25px;
-         color: #666;
-         //transition: padding 0.15s linear;
+         color: $master-sidenav-active-link-color;
+         background: rgba(black, 0.025);
       }
 
       &.cxs-active {
-         color: #555;
-         //padding-left: 27px;
-         background: $master-brand-background;
-         border-top-right-radius: 20px;
-         border-bottom-right-radius: 20px;
-         color: rgba(white, 0.8);
-         box-shadow: 0px 1px 2px rgba(black, 0.2);
-         margin-right: 4px;
+         background: rgba(black, 0.05);
+         border-left: 4px solid $master-brand-highlight-color;
+         color: $master-sidenav-active-link-color;
       }
 
       &.cxm-app {
@@ -66,7 +64,8 @@
 .sidenav_group {
    font-weight: 700;
    padding: 16px 16px 8px;
-   color: #a0aec0;
+   border-left: 4px solid rgba(black, 0.15);
+   opacity: 0.7;
 }
 
 .sidenav_section {
@@ -77,6 +76,10 @@
 .sidenav_category {
    border-bottom: 1px solid #ddd;
    padding: 8px 0;
-   color: #2795b0;
+   color: black;
    pointer-events: none;
+
+   a {
+      border-left-color: rgba(black, 0.3) !important;
+   }
 }

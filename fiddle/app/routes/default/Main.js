@@ -1,5 +1,4 @@
-import {HtmlElement, Button, Checkbox, Tab, Link, Menu, Icon} from 'cx/widgets';
-import {FirstVisibleChildLayout, PureContainer} from 'cx/ui';
+import {HtmlElement, Button, Checkbox, Tab, Link, LinkButton, Icon} from 'cx/widgets';
 
 import {CodeMirror} from 'app/components/CodeMirror';
 import {Preview} from 'app/components/Preview';
@@ -38,11 +37,7 @@ export default phone => <cx>
                <Tab value:bind="preview.tab" tab="js" text="JS" mod="line"/>
             </div>
             <div class="cxe-toolbar-right">
-               <Menu horizontal mod="main" itemPadding="medium">
-                  <Link href:tpl="~/?p={qs.f}">
-                     <i class="fa fa-expand"/>
-                  </Link>
-               </Menu>
+               <LinkButton mod="hollow" href:tpl="~/?p={qs.f}" icon="expand" style="margin-right: 5px" />
             </div>
          </div>
          <div class="cxe-app-preview-wrap" visible:expr="{preview.tab}=='result'">

@@ -129,7 +129,7 @@ export const MasterLayout = ({
                      <Link href="https://docs.cxjs.io">Docs</Link>
 
                      <TopLinks
-                        visible={(app = "docs")}
+                        visible={app == "docs"}
                         topLinks={topLinks}
                         mod="subsystem"
                      />
@@ -138,6 +138,12 @@ export const MasterLayout = ({
                      <Link href="~/gallery" match="subroute">
                         Gallery
                      </Link>
+
+                     <TopLinks
+                        visible={app == "gallery"}
+                        topLinks={topLinks}
+                        mod="subsystem"
+                     />
                   </div>
                   <div class="sidenav_section">
                      <Link href="~/fiddle" match="subroute">

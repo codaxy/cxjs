@@ -9,7 +9,6 @@ import Default from "./default/";
 import Preview from "./preview/";
 import {WaitScreen} from "./login/";
 import {PickAuthProviderPage} from "./login/PickAuthProviderPage";
-import {MasterLayout} from "../../../misc/layout";
 
 enableAllInternalDependencies();
 
@@ -26,9 +25,7 @@ export const App = (
             <Preview/>
          </Route>
          <Route route="~/?f=:f" url:bind="url" params:bind="qs">
-            <MasterLayout app="fiddle">
-               <Default/>
-            </MasterLayout>
+            <Default/>
          </Route>
          <Default/>
       </PureContainer>
