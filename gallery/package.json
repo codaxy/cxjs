@@ -17,7 +17,13 @@
     "react": "^16.12.0",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.12.0",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "cx-theme-material": "^18.7.0",
+    "cx-theme-dark": "^18.7.1",
+    "cx-theme-aquamarine": "^18.7.3",
+    "cx-theme-frost": "^18.7.1",
+    "cx-theme-material-dark": "^20.1.0",
+    "cx-theme-space-blue": "^20.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
