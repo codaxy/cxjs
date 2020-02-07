@@ -1,0 +1,85 @@
+$master-sidenav-link-color: #718096;
+$master-sidenav-active-link-color: #666;
+
+.sidenav {
+   font-family: sans-serif;
+   font-size: 14px;
+   flex-shrink: 0;
+   width: $sidenav-width;
+   box-sizing: border-box;
+   position: fixed;
+   overflow: auto;
+   color: $master-sidenav-link-color;
+
+   &.sticky {
+      top: 90px;
+      height: calc(100vh - 148px);
+   }
+
+   &.extended {
+      height: calc(100vh - 90px);
+   }
+
+   &.gray {
+      background: #eee;
+   }
+
+   .cxb-link {
+      display: block;
+      font-weight: 600;
+      color: inherit;
+      text-decoration: none;
+      padding: 10px 16px 10px 24px;
+      position: relative;
+      left: 0;
+      border-left: 4px solid rgba(black, 0.075);
+
+      &:hover {
+         color: $master-sidenav-active-link-color;
+         background: rgba(black, 0.025);
+      }
+
+      &.cxs-active {
+         background: rgba(black, 0.05);
+         border-left: 4px solid $master-brand-highlight-color;
+         color: $master-sidenav-active-link-color;
+      }
+
+      &.cxm-app {
+         border-top: 1px solid rgba(black, 0.1);
+         margin-top: 8px;
+         padding-top: 16px;
+
+         &:first-child {
+            margin-top: 0;
+         }
+      }
+
+      &.cxm-subsystem {
+         padding-left: 40px;
+      }
+   }
+}
+
+.sidenav_group {
+   font-weight: 700;
+   padding: 16px 16px 8px;
+   border-left: 4px solid rgba(black, 0.15);
+   opacity: 0.7;
+}
+
+.sidenav_section {
+   border-top: 1px solid #ddd;
+   padding: 8px 0;
+}
+
+.sidenav_category {
+   border-bottom: 1px solid #ddd;
+   padding: 8px 0;
+   color: black;
+   pointer-events: none;
+
+   a {
+      border-left-color: rgba(black, 0.3) !important;
+   }
+}

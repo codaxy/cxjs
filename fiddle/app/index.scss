@@ -18,8 +18,13 @@ a {
    text-decoration: none;
 }
 
-@import '~cx/src/variables.scss';
-@import '~cx/src/index.scss';
+@import "../../misc/layout";
+@import "../../misc/components";
+
+$cx-theme-primary-color: $master-theme-color;
+
+@import '~cx-theme-aquamarine/src/variables.scss';
+@import '~cx-theme-aquamarine/src/index.scss';
 
 @import 'components/index';
 @import 'routes/login/index';

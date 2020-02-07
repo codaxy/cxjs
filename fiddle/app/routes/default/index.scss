@@ -4,11 +4,17 @@ $toolbar-height: 20px;
 
 .cxb-app {
    height: 100%;
+   box-sizing: border-box;
    display: flex;
    flex-direction: column;
 
+   .master_header ~ & {
+      padding-top: $master-header-height;
+   }
+
    & > header {
-      background: #81cafa;
+      background: $master-brand-background;
+      color: $master-brand-color;
       padding: $header-padding;
       line-height: $header-line-height;
       position: relative;
@@ -18,7 +24,7 @@ $toolbar-height: 20px;
          //padding: 0 10px;
          //line-height: normal;
          font-size: 100%;
-         visibility: hidden;
+         //visibility: hidden;
          //display: inline;
       }
 
@@ -54,13 +60,8 @@ $toolbar-height: 20px;
    flex-shrink: 0;
 
    .cxb-tab {
-      background: transparent;
-      border-bottom-width: 3px;
-      padding: 10px 20px;
-
-      &.cxs-active {
-         border-bottom-color: #fa8198;
-      }
+      padding: 13px 20px 10px;
+      margin: 0;
    }
 }
 
@@ -120,12 +121,13 @@ $toolbar-height: 20px;
 
    .cxe-textfield-input {
       background: rgba(255, 255, 255, 0.1);
+      color: white;
       border: none;
       font-weight: bold;
       text-align: center;
       font-size: 16px;
       line-height: 16px;
-      transition: background-color 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
 
       &::-webkit-input-placeholder {
          color: rgba(0, 0, 0, 0.5);
@@ -141,6 +143,7 @@ $toolbar-height: 20px;
 
       &:focus, &:hover {
          background: white;
+         color: black;
       }
    }
 }

@@ -1,5 +1,9 @@
-@import "~cx/src/variables";
-@import "~cx/src/index";
+@import '../misc/index';
+
+$cx-theme-primary-color: $master-brand-highlight-color;
+
+@import "~cx-theme-aquamarine/src/variables";
+@import "~cx-theme-aquamarine/src/index";
 
 html {
     height: 100%;
@@ -17,9 +21,7 @@ body {
     color: #414340;
 }
 
-#app {
-    height: 100%;
-}
+#app {}
 
 .transition-appear {
     opacity: 0.1;
@@ -42,8 +44,12 @@ body {
 
 .flex-start {
     align-items: flex-start !important;
-}
+};
 
 @import "app/index";
 @import "content/index";
 @import "components/index";
+
+a {
+    color: #b93e8b;
+}

@@ -1,3 +1,31 @@
+@import "../misc/layout/index";
+@import "../misc/components/index";
 @import "components/index";
 @import "layout/index";
 @import "routes/index";
+
+:root {
+   --master-sidebar-background: rgba(255, 255, 255, 0.5);
+   --master-sidebar-color: #{$master-sidenav-link-color};
+   --master-sidebar-active-color: #{$master-sidenav-active-link-color};
+}
+
+.topbanner {
+   background: var(--master-brand-background);
+}
+
+.sidenav .cxb-link.cxs-active {
+   border-left-color: var(--master-brand-background-color);
+}
+
+.standalone.sidenav {
+   background: var(--master-sidebar-background);
+   color: var(--master-sidebar-color);
+
+   .cxb-link.cxs-active, .cxb-link:hover {
+      color: var(--master-sidebar-active-color);
+   }
+}
+
+
+

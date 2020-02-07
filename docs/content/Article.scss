@@ -2,8 +2,7 @@
     position: relative;
     min-height: 100%;
 
-    background: #343434;
-    background-image: url('img/38fffa06.png');
+    background: #eeeeee;
 
     &:before {
         content: '';
@@ -12,7 +11,7 @@
         top: 0;
         bottom: 0;
         //z-index: -1000;
-        width: calc(50em - 20px);
+        width: 780px;
         background: white;
 
         @media screen and (max-width: 800px) {

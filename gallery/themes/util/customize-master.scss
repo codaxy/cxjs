@@ -1,0 +1,24 @@
+@mixin customize-master(
+   $brand-background: null,
+   $brand-highlight-color: null,
+   $sidebar-background-color: null,
+   $sidebar-link-color: null,
+   $sidebar-active-link-color: null
+) {
+   .topbanner {
+      background: $brand-background;
+   }
+
+   .sidenav .cxb-link.cxs-active {
+      border-left-color: $brand-highlight-color;
+   }
+
+   .standalone.sidenav {
+      background: $sidebar-background-color;
+      color: $sidebar-link-color;
+
+      .cxb-link.cxs-active, .cxb-link:hover {
+         color: $sidebar-active-link-color;
+      }
+   }
+}

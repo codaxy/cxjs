@@ -1,0 +1,140 @@
+$button-size: 24px;
+$color: currentColor;
+$transition: 0.3s;
+
+//common to all three-liners
+.lines-button {
+   padding: $button-size/2 $button-size/4;
+   transition: 0.3s;
+   cursor: pointer;
+   user-select: none;
+   border-radius: $button-size/8;
+   &:active {
+      transition: 0;
+   }
+
+   display: flex;
+   align-items: center;
+}
+
+@mixin line {
+   display: inline-block;
+   width: $button-size;
+   height: $button-size/8;
+   background: $color;
+   border-radius: $button-size/16;
+   transition: $transition;
+}
+
+.lines {
+   @include line;
+   position: relative;
+
+   &:before,
+   &:after {
+      @include line;
+      position: absolute;
+      left: 0;
+      content: "";
+      -webkit-transform-origin: $button-size/16 center;
+      transform-origin: $button-size/16 center;
+   }
+   &:before {
+      top: $button-size/4;
+   }
+   &:after {
+      top: -$button-size/4;
+   }
+}
+
+.lines-button.arrow.close {
+   .lines {
+      &:before,
+      &:after {
+         top: 0;
+         width: $button-size/1.5;
+      }
+      &:before {
+         -webkit-transform: rotate3d(0, 0, 1, 40deg);
+         transform: rotate3d(0, 0, 1, 40deg);
+      }
+      &:after {
+         -webkit-transform: rotate3d(0, 0, 1, -40deg);
+         transform: rotate3d(0, 0, 1, -40deg);
+      }
+   }
+}
+
+.lines-button.arrow-up.close {
+   transform: scale3d(0.8, 0.8, 0.8) rotate3d(0, 0, 1, 90deg);
+}
+
+.lines-button.minus.close {
+   .lines {
+      &:before,
+      &:after {
+         transform: none;
+         top: 0;
+         width: $button-size;
+      }
+   }
+}
+
+.lines-button.x.close {
+   .lines {
+      background: transparent;
+      &:before,
+      &:after {
+         -webkit-transform-origin: 50% 50%;
+         transform-origin: 50% 50%;
+         top: 0;
+         width: $button-size;
+      }
+      &:before {
+         -webkit-transform: rotate3d(0, 0, 1, 45deg);
+         transform: rotate3d(0, 0, 1, 45deg);
+      }
+      &:after {
+         -webkit-transform: rotate3d(0, 0, 1, -45deg);
+         transform: rotate3d(0, 0, 1, -45deg);
+      }
+   }
+}
+
+.lines-button.x2 {
+   .lines {
+      transition: background 0.3s 0.5s ease;
+
+      &:before,
+      &:after {
+         //set transform origin
+         -webkit-transform-origin: 50% 50%;
+         transform-origin: 50% 50%;
+         transition: top 0.3s 0.6s ease, -webkit-transform 0.3s ease;
+         transition: top 0.3s 0.6s ease, transform 0.3s ease;
+      }
+   }
+}
+
+.lines-button.x2.close {
+   .lines {
+      transition: background 0.3s 0s ease;
+      background: transparent;
+
+      &:before,
+      &:after {
+         transition: top 0.3s ease, -webkit-transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
+         transition: top 0.3s ease, transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
+         top: 0;
+         width: $button-size;
+      }
+      &:before {
+         -webkit-transform: rotate3d(0, 0, 1, 45deg);
+         transform: rotate3d(0, 0, 1, 45deg);
+      }
+      &:after {
+         -webkit-transform: rotate3d(0, 0, 1, -45deg);
+         transform: rotate3d(0, 0, 1, -45deg);
+      }
+   }
+}

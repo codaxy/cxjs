@@ -180,6 +180,6 @@ class CController extends Controller {
 
 export const Contents = <cx>
     <div class="dxb-contents" controller={CController}>
-        <SideNav records:bind="contents"/>
+        <SideNav records-bind="contents" />
     </div>
 </cx>;

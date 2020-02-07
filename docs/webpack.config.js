@@ -134,7 +134,7 @@ var common = {
     module: {
         rules: [{
             test: /\.js$/,
-            include: /[\\\/](docs|cx|cx-react)[\\\/]/,
+            include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
             //exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',
@@ -146,7 +146,7 @@ var common = {
             test: /\.(png|jpg|svg)/,
             loader: 'file-loader',
             options: {
-                name: '[path][name].ltc.[hash].[ext]'
+                name: '[name].ltc.[hash].[ext]'
             }
         }]
     },

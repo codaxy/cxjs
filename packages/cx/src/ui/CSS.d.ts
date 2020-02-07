@@ -4,9 +4,9 @@ export class CSS {
 
    static resolve(...args): string[];
 
-   static block(baseClass: string, styleModifiers: any, stateModifiers: any): string;
+   static block(baseClass: string, styleModifiers?: any, stateModifiers?: any): string;
 
-   static element(baseClass: string, elementClass: string, stateModifiers: any): string;
+   static element(baseClass: string, elementClass: string, stateModifiers?: any): string;
 
    static state(stateModifiers: any): string;
 
@@ -16,5 +16,5 @@ export class CSS {
    static parseStyle(str: any): any;
 
    static classPrefix: string;
-   
+
 }

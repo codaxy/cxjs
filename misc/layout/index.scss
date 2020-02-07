@@ -1,0 +1,227 @@
+$master-header-height: 45px;
+$master-font-family: sans-serif;
+$master-brand-highlight-color: #017be6 !default;
+$master-brand-background: linear-gradient(90deg,#017be6,#00d7eb) !default;
+$master-brand-color: white;
+$master-desktop-screen-width: 1000px;
+$master-theme-color: #4f7aea;
+
+.master_header {
+   position: fixed;
+   background: white;
+   left: 0;
+   right: 0;
+   top: 0;
+   z-index: 20000;
+   font-family: sans-serif;
+
+   .shadow {
+      box-shadow: 0 1px 1px rgba(black, 0.1);
+   }
+}
+
+.master_topbar {
+   font-family: $master-font-family;
+   display: flex;
+   align-items: center;
+   color: #8d96a2;
+   height: $master-header-height;
+
+   .cxb-link {
+      display: inline-block;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      position: relative;
+      color: inherit;
+
+      &:hover {
+         color: #586475;
+      }
+
+      &.cxs-active {
+         font-weight: 500;
+         color: #b93e8b;
+
+         &:after {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            height: 3px;
+            bottom: 0;
+            background: currentColor;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            box-sizing: border-box;
+            content: " ";
+         }
+      }
+   }
+}
+
+.master_logo {
+   height: 32px;
+   margin: 0 16px 0 24px;
+}
+
+.master_hamburger {
+   margin: 0 0 0 16px;
+   color: inherit;
+}
+
+.topbanner {
+   font-family: $master-font-family;
+   background: $master-brand-background;
+   color: $master-brand-color;
+   min-height: 105px;
+   padding-top: $master-header-height;
+   box-shadow: 0 0 5px rgba(black, 0.3);
+   z-index: 1;
+   position: relative;
+   box-sizing: border-box;
+   //transition: all 0.5s ease-in-out;
+
+   &.sticky {
+      position: sticky;
+      top: -57px;
+   }
+
+   h3 {
+      padding: 24px 24px;
+      font-family: inherit;
+      font-weight: 400;
+      color: inherit;
+      line-height: 27px;
+      margin: 0;
+      font-size: 21px;
+   }
+
+   .cxb-link {
+      display: inline-block;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      position: relative;
+      color: rgba(white, 0.7);
+
+      &:hover {
+         color: rgba(white, 0.8);
+      }
+
+      &.cxs-active {
+         font-weight: 500;
+         color: white;
+
+         &:after {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            height: 3px;
+            bottom: 0;
+            background: currentColor;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            box-sizing: border-box;
+            content: " ";
+         }
+      }
+   }
+}
+
+.topbanner_tabs {
+   margin-left: 6px;
+   margin-top: -20px;
+}
+
+.master_sidedrawer {
+   position: fixed;
+   left: -250px;
+   top: $master-header-height !important;
+   bottom: 0;
+   width: 250px;
+   background: white;
+   box-shadow: 1px 0 3px rgba(black, 0.1);
+   transition: left 0.1s;
+
+   &.cxs-animate-enter {
+      left: 0;
+   }
+
+   .cxe-overlay-modal-backdrop {
+      left: 100px;
+   }
+}
+
+.master_iconlink {
+   margin: 0 20px;
+   img {
+      height: 20px;
+      vertical-align: top;
+   }
+}
+
+.master_githubstars {
+   position: relative;
+   top: 2px;
+   a {
+      color: transparent !important;
+   }
+}
+
+.master_content {
+   position: relative;
+}
+
+@media screen and (min-width: $master-desktop-screen-width) {
+   .master_hamburger {
+      display: none;
+   }
+
+
+   .master_content {
+      display: flex;
+      flex-direction: row;
+
+      &.fullheight {
+         height: calc(100vh - 147px);
+      }
+   }
+}
+
+@media screen and (max-width: $master-desktop-screen-width) {
+   .standalone.sidenav {
+      display: none;
+   }
+
+   .topbanner {
+      position: static !important;
+   }
+
+   .master_logo {
+      margin-left: 16px;
+   }
+
+   .master_content {
+      &.fullheight {
+         height: calc(100vh - 120px);
+      }
+   }
+
+   .topbanner_tabs {
+      display: none;
+   }
+
+   .master_header {
+      box-shadow: 0 2px 2px rgba(black, 0.1);
+
+      .cxb-link {
+         display: none;
+      }
+   }
+}
