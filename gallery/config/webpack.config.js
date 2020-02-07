@@ -44,7 +44,7 @@ module.exports = production => ({
          {
             test: /\.js$/,
             //add here any ES6 based library
-            include: /[\\\/](cx|cx-react|gallery|misc|cx-theme-material|cx-theme-material-dark|cx-theme-frost|cx-theme-dark)[\\\/]/,
+            include: /[\\\/](cx|cx-react|gallery|misc|cx-theme-.*)[\\\/]/,
             loader: "babel-loader",
             query: babelCfg
          },
