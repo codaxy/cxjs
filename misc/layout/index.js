@@ -135,7 +135,7 @@ export const MasterLayout = ({
                      />
                   </div>
                   <div class="sidenav_section">
-                     <Link href="~/gallery" match="subroute">
+                     <Link href="https://gallery.cxjs.io" match="subroute">
                         Gallery
                      </Link>
 
@@ -146,7 +146,7 @@ export const MasterLayout = ({
                      />
                   </div>
                   <div class="sidenav_section">
-                     <Link href="~/fiddle" match="subroute">
+                     <Link href="https://fiddle.cxjs.io" match="subroute">
                         Fiddle
                      </Link>
                   </div>

@@ -2,7 +2,6 @@ import {Widget} from './Widget';
 import {PureContainer} from './PureContainer';
 import {Container} from './Container';
 import {ArrayAdapter} from './adapter/ArrayAdapter';
-import {Binding, isBinding} from '../data/Binding';
 import {UseParentLayout} from "./layout/UseParentLayout";
 import {getAccessor} from "../data/getAccessor";
 
