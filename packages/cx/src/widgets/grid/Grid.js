@@ -2080,13 +2080,13 @@ GridColumnHeaderLine.autoInit = true;
 
 class GridColumnHeader extends Widget {
 
-   // declareData() {
-   //    return super.declareData(...arguments, {
-   //       format: undefined,
-   //       width: undefined,
-   //       defaultWidth: undefined
-   //    })
-   // }
+   declareData() {
+      return super.declareData(...arguments, {
+         format: undefined,
+         width: undefined,
+         defaultWidth: undefined
+      })
+   }
 
    init() {
       delete this.style;
