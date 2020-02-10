@@ -6,7 +6,7 @@ export default {
     value: {
         type: 'string/number/object',
         description: <cx><Md>
-            Value to be validated. This can a simple binding, an expression or a structured selector containing multiple values.
+            Value to be validated. This can be a simple binding, an expression or a structured selector containing multiple values.
         </Md></cx>
     },
 
