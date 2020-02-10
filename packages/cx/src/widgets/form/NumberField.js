@@ -257,6 +257,18 @@ class Input extends VDOM.Component {
       return res;
    }
 
+   getDecimalSeparator(format) {
+      let text = Format.value(0.11111111, format);
+      for (let i = text.length - 1; i >= 0; i--) {
+         if ('0' <= text[i] && text[i] <= '9')
+            continue;
+         if (text[i] == ',' || text[i] == '.')
+            return text[i];
+         break;
+      }
+      return null;
+   }
+
    updateCursorPosition(preCursorText) {
       if (isString(preCursorText)) {
          let cursor = 0;
@@ -375,7 +387,7 @@ class Input extends VDOM.Component {
          }
 
          let fmt = data.format;
-         let decimalSeparator = Format.value(1.1, fmt)[1] || Format.value(1.1, "n;1")[1];
+         let decimalSeparator = this.getDecimalSeparator(fmt) || Format.value(1.1, "n;1")[1];
 
          let formatted = Format.value(value, fmt);
          //re-parse to avoid differences between formatted value and value in the store
