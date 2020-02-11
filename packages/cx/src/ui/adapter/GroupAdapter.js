@@ -53,17 +53,20 @@ export class GroupAdapter extends ArrayAdapter {
          keys.push(gr.key);
 
          let $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
+         let data = {
+            ...gr.records[0].data,
+            [this.groupName]: $group
+         };
+
          let groupStore = new ReadOnlyDataView({
             store: parentStore,
-            data: {
-               [this.groupName]: $group
-            },
+            data,
             immutable: this.immutable
          });
 
          let group = {
             key: keys.map(key => Object.keys(key).map(k => key[k]).join(':')).join('|'),
-            data: gr.records[0],
+            data,
             group: $group,
             grouping,
             store: groupStore,

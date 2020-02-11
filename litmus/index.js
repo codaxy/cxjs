@@ -72,7 +72,8 @@ import './index.scss';
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
 //import Demo from "./bugs/Spread";
-import Demo from "./bugs/587";
+//import Demo from "./bugs/587";
+import Demo from "./bugs/MultipleSelection";
 
 let store = new Store();
 

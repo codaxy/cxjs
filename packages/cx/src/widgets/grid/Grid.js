@@ -349,13 +349,12 @@ export class Grid extends Widget {
             let record = instance.records[i];
             if (record.type == 'data') {
                let row = record.row = instance.getChild(context, this.row, record.key, record.store);
-               let selected = instance.isSelected(record.data, record.index);
+               row.selected = instance.isSelected(record.data, record.index);
                let changed = false;
                if (row.cache('selected', row.selected))
                   changed = true;
                if (row.cache('recordData', record.data))
                   changed = true;
-               row.selected = selected;
                if (this.cached && !changed && !row.childStateDirty) {
                   row.shouldUpdate = false;
                } else
@@ -401,7 +400,7 @@ export class Grid extends Widget {
          this.showHeader = this.scrollable || !isArray(grouping) || !grouping.some(g => g.showHeader);
 
       if (!this.dataAdapter.groupBy) {
-         Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.")
+         Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.");
          return;
       }
 
@@ -878,7 +877,7 @@ export class Grid extends Widget {
       this.dataAdapter.sort(sorters);
 
       //if no filtering or sorting applied, let the component maps records on demand
-      if (this.buffered && !filter && !isNonEmptyArray(sorters) && !this.dataAdapter.isTreeAdapter)
+      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !this.dataAdapter.isTreeAdapter)
          return null;
 
       return this.dataAdapter.getRecords(context, instance, data.records, store);
@@ -947,7 +946,7 @@ class GridComponent extends VDOM.Component {
    }
 
    render() {
-      let {instance, data} = this.props;
+      let {instance, data, fixedFooter} = this.props;
       let {widget} = instance;
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
@@ -1029,8 +1028,8 @@ class GridComponent extends VDOM.Component {
                            ...style,
                            maxWidth: `${width}px`
                         }
-                     }
-                     ;
+                     };
+
                      return <td
                         key={key}
                         className={className}
@@ -1104,12 +1103,32 @@ class GridComponent extends VDOM.Component {
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
                row.detached = true;
                row.selected = instance.isSelected(record.data, record.index);
-               // if (row.cache('selected', row.selected) || row.cache('recordData', record.data)) {
-               //    //row.markShouldUpdate(context);
-               // }
-               addRow(record, start + i, true);
+
+               if (record.type == "data") {
+                  addRow(record, start + i, true);
+               }
+               else if (record.type == "group-header") {
+                  let g = record.grouping;
+                  if (g.caption || g.showCaption)
+                     children.push(widget.renderGroupHeader(null, instance, g, record.level, record.group, record.key + '-caption', record.store));
+               }
+               else if (record.type == "group-footer") {
+                  let g = record.grouping;
+                  if (g.showFooter && (!widget.fixedFooter || start + i != instance.records.length - 1))
+                     children.push(widget.renderGroupFooter(null, instance, g, record.level, record.group, record.key + '-footer', record.store));
+               }
             }
          });
+
+         if (widget.fixedFooter) {
+            let record = instance.records[instance.records.length - 1];
+            if (record.type == "group-footer") {
+               let g = record.grouping;
+               if (g.showFooter)
+                  fixedFooter = widget.renderGroupFooter(context, instance, g, record.level, record.group, 'fixed-footer', record.store, true);
+            }
+         }
+
          instance.recordInstanceCache.sweep();
       } else {
          instance.records.forEach((record, i) => {
@@ -1198,7 +1217,7 @@ class GridComponent extends VDOM.Component {
             </table>
          </div>);
 
-      if (this.props.fixedFooter)
+      if (fixedFooter)
          content.push(<div
             key="ff"
             ref={el => {
@@ -1210,7 +1229,7 @@ class GridComponent extends VDOM.Component {
             }}
          >
             <table>
-               {this.props.fixedFooter}
+               {fixedFooter}
             </table>
          </div>);
 
@@ -1616,9 +1635,10 @@ class GridComponent extends VDOM.Component {
             footerHeight = this.dom.fixedFooter.offsetHeight;
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;
 
-            //Show the last row if fixed footer is shown without grouping, otherwise hide it
+            //Show the last row if fixed footer is shown without grouping, otherwise hide it.
+            //For buffered grids, footer is never rendered within the body.
             //Hacky: accessing internal adapter property to check if grouping is applied
-            if (!isNonEmptyArray(widget.dataAdapter.groupings))
+            if (!isNonEmptyArray(widget.dataAdapter.groupings) || widget.buffered)
                footerHeight = 0;
          } else {
             this.dom.scroller.style.marginBottom = 0;
