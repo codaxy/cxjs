@@ -59,7 +59,7 @@ let chapterExports = {};
 
 const defaultChapterArticle = {
     intro: "~/intro/welcome",
-    widgets: "~/widgets/text-fields",
+    widgets: "~/widgets/buttons",
     charts: "~/charts/charts",
     concepts: "~/concepts/store",
     examples: "~/examples/form/validation-options"
