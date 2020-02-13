@@ -66,7 +66,7 @@ export class TreeNode extends Container {
          <div
             className={CSS.element(baseClass, 'handle')}
             onClick={e => this.toggle(e, instance)}
-            onMouseDown={!this.hideIcon && stopPropagation}
+            onMouseDown={!this.hideIcon ? stopPropagation : undefined}
          >
             { !data.leaf && !data.hideArrow && Icon.render(arrowIcon, { className: CSS.element(baseClass, 'arrow')}) }
             {
