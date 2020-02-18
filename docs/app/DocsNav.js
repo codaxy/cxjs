@@ -102,6 +102,8 @@ export const docsNavTree = [
                     { text: "NumberField", url: "~/widgets/number-fields" },
                     { text: "DateField", url: "~/widgets/date-fields" },
                     { text: "LookupField", url: "~/widgets/lookup-fields" },
+                    { text: "Checkbox", url: "~/widgets/checkboxes" },
+                    { text: "Radio", url: "~/widgets/radios" },
                     { text: "Select", url: "~/widgets/select-fields" },
                     { text: "TextArea", url: "~/widgets/text-areas" },
                     {

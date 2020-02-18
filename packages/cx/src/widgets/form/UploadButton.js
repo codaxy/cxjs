@@ -10,6 +10,7 @@ export class UploadButton extends Field {
    declareData() {
       super.declareData({
          disabled: undefined,
+         enabled: undefined,
          text: undefined,
          url: undefined,
          icon: undefined
