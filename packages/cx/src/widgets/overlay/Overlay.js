@@ -96,7 +96,7 @@ export class Overlay extends Container {
          if (!el.style.left)
             el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
          if (!el.style.top)
-            el.style.top = `${(window.innerHeight - el.offsetHeight) / 2}px`;
+            el.style.top = `${Math.max(0, (window.innerHeight - el.offsetHeight) / 2)}px`;
       }
    }
 
@@ -447,12 +447,12 @@ export class OverlayComponent extends VDOM.Component {
          instance.dismiss();
       }
    }
-   
+
    onMouseUp(e) {
       ddMouseUp();
       e.stopPropagation();
    }
-   
+
    onMouseMove(e, captureData) {
       // handle dragging
       let {instance} = this.props;
