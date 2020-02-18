@@ -54,7 +54,7 @@ export class GroupAdapter extends ArrayAdapter {
 
          let $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
          let data = {
-            ...(gr.r.length > 0 ? gr.records[0].data : null),
+            ...(gr.records.length > 0 ? gr.records[0].data : null),
             [this.groupName]: $group
          };
 
