@@ -82,13 +82,13 @@ export const ColumnResizing = <cx>
 
             Grid supports column resizing. To enable resizing on a column set the `resizable` flag to `true`.
             If column widths need to be persisted, add the `width` binding or use `onColumnResize` event to process new measures.
-            Use `defaultWidth` to set the initial width which can is also be restored on resizer double click.
-            These properties should be defined in the `header` object, but they can also be set on the column itself
-            if there is only one header.
+            Use `defaultWidth` to set the initial width. These properties should be defined in the `header` object,
+            but they can also be set on the column itself if there is only one header.
 
             <MyResizableGrid/>
 
             Resize columns on the top and observe how changes are applied to the grid below too.
+            Double clicking on a resizer will calculate minimum width required to fit the content of the column.
 
             <MyResizableGrid/>
 
