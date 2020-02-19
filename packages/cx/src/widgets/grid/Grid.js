@@ -1706,6 +1706,7 @@ class GridComponent extends VDOM.Component {
    }
 
    moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex, cellEdit, cancelEdit} = {}) {
+      console.log(...arguments, new Error().stack)
       let {widget} = this.props.instance;
       if (!widget.selectable && !widget.cellEditable)
          return;
@@ -1750,7 +1751,8 @@ class GridComponent extends VDOM.Component {
          this.setState(newState, () => {
             let wasCellEditing = prevState.focused && prevState.cellEdit;
             if (!this.state.cellEdit && wasCellEditing) {
-               FocusManager.focus(this.dom.scroller);
+               if (focused)
+                  FocusManager.focus(this.dom.scroller);
                let record = this.getRecordAt(prevState.cursor);
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                   record.store.set(widget.recordName, this.cellEditUndoData);
@@ -1920,6 +1922,27 @@ class GridComponent extends VDOM.Component {
             }
             break;
 
+         case KeyCode.tab:
+            if (widget.cellEditable) {
+               e.stopPropagation();
+               e.preventDefault();
+               let cellIndex = (this.state.cursorCellIndex + 1) % widget.row.line1.columns.length;
+               let cursor = this.state.cursor + (cellIndex == 0 ? 1 : 0);
+               for (;;cursor++) {
+                  let record = this.getRecordAt(cursor);
+                  if (!record) break;
+                  if (record.type != "data") continue;
+                  this.moveCursor(cursor, {
+                     focused: true,
+                     cellIndex,
+                     scrollIntoView: true,
+                     cellEdit: false
+                  });
+                  break;
+               }
+            }
+            break;
+
          case KeyCode.down:
             for (let cursor = this.state.cursor + 1; ; cursor++) {
                let record = this.getRecordAt(cursor);
@@ -1931,7 +1954,7 @@ class GridComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true
+                  selectRange: true,
                });
                e.stopPropagation();
                e.preventDefault();
