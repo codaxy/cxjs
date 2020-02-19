@@ -461,11 +461,11 @@ export class Grid extends Widget {
          let result = [[], [], []];
 
 
-         line.children.forEach((columnInstance, i) => {
+         line.children.forEach((columnInstance, colIndex) => {
             let c = columnInstance.widget;
             for (let l = 0; l < 3; l++) {
 
-               let colKey = `${lineIndex}-${i}-${l}`;
+               let colKey = `${lineIndex}-${colIndex}-${l}`;
 
                if (skip[colKey])
                   continue;
@@ -524,7 +524,7 @@ export class Grid extends Widget {
 
                      for (let r = 0; r < header.data.rowSpan; r++)
                         for (let c = 0; c < header.data.colSpan; c++)
-                           skip[`${lineIndex}-${i + c}-${l + r}`] = true;
+                           skip[`${lineIndex}-${colIndex + c}-${l + r}`] = true;
                   }
 
                   if (c.resizable || header.data.resizable) {
@@ -565,11 +565,37 @@ export class Grid extends Widget {
                            })
                         }}
                         onDoubleClick={e => {
-                           header.set("width", null);
+                           let headerCell = e.target.parentElement;
+                           let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
+                           let table = scrollAreaEl.firstChild;
+                           let tableClone = table.cloneNode(true);
+                           tableClone.childNodes.forEach(tbody => {
+                              tbody.childNodes.forEach(tr => {
+                                 tr.childNodes.forEach((td, index) => {
+                                    if (index == colIndex) {
+                                       td.style.maxWidth = null;
+                                       td.style.minWidth = null;
+                                       td.style.width = 'auto';
+                                    }
+                                    else {
+                                       td.style.display = "none";
+                                    }
+                                 })
+                              })
+                           });
+                           tableClone.style.position = 'absolute';
+                           tableClone.style.visibility = 'hidden';
+                           tableClone.style.top = 0;
+                           tableClone.style.left = 0;
+                           tableClone.style.width = 'auto';
+                           scrollAreaEl.appendChild(tableClone);
+                           let width = tableClone.offsetWidth;
+                           tableClone.remove();
+                           header.set("width", width);
                            instance.setState({
                               colWidth: {
                                  ...instance.state.colWidth,
-                                 [c.uniqueColumnId]: null
+                                 [c.uniqueColumnId]: width
                               }
                            });
                         }}
@@ -585,7 +611,7 @@ export class Grid extends Widget {
                   onContextMenu = e => instance.invoke('onColumnContextMenu', e, columnInstance);
 
                result[l].push(<th
-                  key={i}
+                  key={colIndex}
                   colSpan={colSpan}
                   rowSpan={rowSpan}
                   className={cls}
@@ -1706,7 +1732,6 @@ class GridComponent extends VDOM.Component {
    }
 
    moveCursor(index, {focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex, cellEdit, cancelEdit} = {}) {
-      console.log(...arguments, new Error().stack)
       let {widget} = this.props.instance;
       if (!widget.selectable && !widget.cellEditable)
          return;
