@@ -1,19 +1,9 @@
-import {
-    DocumentTitle,
-    PureContainer,
-    Content,
-    Link,
-    Button
-} from "cx/widgets";
-import { HtmlElement } from "cx/widgets";
-import { Layout } from "./Layout";
-import { Contents } from "../content/Contents";
+import { DocumentTitle } from "cx/widgets";
 import { ContentRouter } from "../content/ContentRouter";
-import { Floater } from "../components/Floater";
 import { MasterLayout } from "../../misc/layout";
 import { NavTree } from "../../misc/components/NavTree";
-import { docsNav, docsNavTree, DocsNav } from "./DocsNav";
-import { SideNav } from "../components/SideNav";
+import { docsNavTree } from "./DocsNav";
+
 
 export const Main = (
     <cx>
@@ -30,8 +20,6 @@ export const Main = (
             navTree={docsNavTree}
         >
             <DocumentTitle text="CxJS Docs" />
-            {/* <Content name="aside" items={Contents}/>
-    <Floater if-expr="{layout.touch}"/> */}
             <div class="master_content">
                 <div
                     class={{
@@ -39,9 +27,10 @@ export const Main = (
                         sticky: true,
                         sidenav: true,
                         standalone: true,
-                        extended: () =>
-                            document.scrollingElement.scrollHeight >
-                            document.scrollingElement.clientHeight
+                        extended: () => {
+                            let scrollingElement = document.scrollingElement || document.documentElement;
+                            return scrollingElement.scrollHeight > scrollingElement.clientHeight;
+                        }
                     }}
                 >
                     <div class="navtree_container">

@@ -88,6 +88,10 @@ $master-theme-color: #4f7aea;
    &.sticky {
       position: sticky;
       top: -57px;
+
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+         position: static;
+      }
    }
 
    h3 {

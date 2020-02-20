@@ -14,6 +14,12 @@ $master-sidenav-active-link-color: #666;
    &.sticky {
       top: 90px;
       height: calc(100vh - 148px);
+
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+         position: static;
+         min-height: calc(100vh - 148px);
+         height: auto !important;
+      }
    }
 
    &.extended {
