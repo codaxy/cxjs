@@ -570,7 +570,8 @@ export class Grid extends Widget {
                                     });
                               },
                               onDblClick: () => {
-                                 let table = scrollAreaEl.firstChild;
+                                 let table = gridEl.querySelector('table');
+                                 let parentEl = table.parentElement;
                                  let tableClone = table.cloneNode(true);
                                  tableClone.childNodes.forEach(tbody => {
                                     tbody.childNodes.forEach(tr => {
@@ -591,9 +592,9 @@ export class Grid extends Widget {
                                  tableClone.style.top = 0;
                                  tableClone.style.left = 0;
                                  tableClone.style.width = 'auto';
-                                 scrollAreaEl.appendChild(tableClone);
+                                 parentEl.appendChild(tableClone);
                                  let width = tableClone.offsetWidth;
-                                 scrollAreaEl.removeChild(tableClone);
+                                 parentEl.removeChild(tableClone);
                                  header.set("width", width);
                                  instance.setState({
                                     colWidth: {
