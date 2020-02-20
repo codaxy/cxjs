@@ -37,7 +37,7 @@ import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClien
 import {getParentFrameBoundingClientRect} from "../../util/getParentFrameBoundingClientRect";
 import {ValidationGroup} from "../form/ValidationGroup";
 import {closest} from "../../util/DOM";
-import {captureMouse, getCursorPos} from "../overlay/captureMouse";
+import {captureMouse2, getCursorPos} from "../overlay/captureMouse";
 import {getAccessor} from "../../data/getAccessor";
 
 
@@ -533,7 +533,7 @@ export class Grid extends Widget {
                         onClick={e => {
                            e.stopPropagation();
                         }}
-                        onMouseMove={e => {
+                        onMouseDown={e => {
                            if (e.buttons != 1) return;
                            let resizeOverlayEl = document.createElement('div');
                            let headerCell = e.target.parentElement;
@@ -545,59 +545,60 @@ export class Grid extends Widget {
                            resizeOverlayEl.style.width = `${initialWidth}px`;
                            resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - scrollAreaEl.getBoundingClientRect().left}px`;
                            gridEl.appendChild(resizeOverlayEl);
-                           captureMouse(e, e => {
-                              let cursor = getCursorPos(e);
-                              let width = Math.max(30, Math.round(initialWidth + cursor.clientX - initialPosition.clientX));
-                              resizeOverlayEl.style.width = `${width}px`;
-                           }, e => {
-                              let width = resizeOverlayEl.offsetWidth
-                              columnInstance.assignedWidth = width;
-                              gridEl.removeChild(resizeOverlayEl);
-                              if (widget.onColumnResize)
-                                 instance.invoke("onColumnResize", {width, column: c}, columnInstance);
-                              if (!header.set("width", width))
+                           captureMouse2(e, {
+                              onMouseMove: e => {
+                                 let cursor = getCursorPos(e);
+                                 let width = Math.max(30, Math.round(initialWidth + cursor.clientX - initialPosition.clientX));
+                                 resizeOverlayEl.style.width = `${width}px`;
+                              },
+                              onMouseUp: e => {
+                                 let width = resizeOverlayEl.offsetWidth;
+                                 columnInstance.assignedWidth = width;
+                                 gridEl.removeChild(resizeOverlayEl);
+                                 if (widget.onColumnResize)
+                                    instance.invoke("onColumnResize", {width, column: c}, columnInstance);
+                                 if (!header.set("width", width))
+                                    instance.setState({
+                                       colWidth: {
+                                          ...instance.state.colWidth,
+                                          [c.uniqueColumnId]: width
+                                       }
+                                    });
+                              },
+                              onDblClick: () => {
+                                 let table = scrollAreaEl.firstChild;
+                                 let tableClone = table.cloneNode(true);
+                                 tableClone.childNodes.forEach(tbody => {
+                                    tbody.childNodes.forEach(tr => {
+                                       tr.childNodes.forEach((td, index) => {
+                                          if (index == colIndex) {
+                                             td.style.maxWidth = null;
+                                             td.style.minWidth = null;
+                                             td.style.width = 'auto';
+                                          }
+                                          else {
+                                             td.style.display = "none";
+                                          }
+                                       })
+                                    })
+                                 });
+                                 tableClone.style.position = 'absolute';
+                                 tableClone.style.visibility = 'hidden';
+                                 tableClone.style.top = 0;
+                                 tableClone.style.left = 0;
+                                 tableClone.style.width = 'auto';
+                                 scrollAreaEl.appendChild(tableClone);
+                                 let width = tableClone.offsetWidth;
+                                 scrollAreaEl.removeChild(tableClone);
+                                 header.set("width", width);
                                  instance.setState({
                                     colWidth: {
                                        ...instance.state.colWidth,
                                        [c.uniqueColumnId]: width
                                     }
                                  });
-                           })
-                        }}
-                        onDoubleClick={e => {
-                           let headerCell = e.target.parentElement;
-                           let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
-                           let table = scrollAreaEl.firstChild;
-                           let tableClone = table.cloneNode(true);
-                           tableClone.childNodes.forEach(tbody => {
-                              tbody.childNodes.forEach(tr => {
-                                 tr.childNodes.forEach((td, index) => {
-                                    if (index == colIndex) {
-                                       td.style.maxWidth = null;
-                                       td.style.minWidth = null;
-                                       td.style.width = 'auto';
-                                    }
-                                    else {
-                                       td.style.display = "none";
-                                    }
-                                 })
-                              })
-                           });
-                           tableClone.style.position = 'absolute';
-                           tableClone.style.visibility = 'hidden';
-                           tableClone.style.top = 0;
-                           tableClone.style.left = 0;
-                           tableClone.style.width = 'auto';
-                           scrollAreaEl.appendChild(tableClone);
-                           let width = tableClone.offsetWidth;
-                           tableClone.remove();
-                           header.set("width", width);
-                           instance.setState({
-                              colWidth: {
-                                 ...instance.state.colWidth,
-                                 [c.uniqueColumnId]: width
                               }
-                           });
+                           })
                         }}
                      />
                   }
