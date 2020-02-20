@@ -80,6 +80,10 @@ export class Grid extends Widget {
       if (this.buffered)
          this.scrollable = true;
 
+      if (!this.scrollable) {
+         this.fixedFooter = false; //unsupported combination
+      }
+
       this.recordsAccessor = getAccessor(this.records)
 
       if (!this.row)
