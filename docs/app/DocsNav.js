@@ -266,6 +266,14 @@ export const docsNavTree = [
                         url: "~/examples/grid/cell-editing"
                     },
                     {
+                        text: "Row Editing",
+                        url: "~/examples/grid/row-editing"
+                    },
+                    {
+                        text: "Row Expanding",
+                        url: "~/examples/grid/row-expanding"
+                    },
+                    {
                         text: "Buffering",
                         url: "~/examples/grid/buffering"
                     },
