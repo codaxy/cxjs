@@ -39,6 +39,8 @@ import {ValidationGroup} from "../form/ValidationGroup";
 import {closest} from "../../util/DOM";
 import {captureMouse2, getCursorPos} from "../overlay/captureMouse";
 import {getAccessor} from "../../data/getAccessor";
+import {getActiveElement} from "../../util/getActiveElement";
+import {GridCellEditor} from "./GridCellEditor";
 
 
 export class Grid extends Widget {
@@ -580,8 +582,7 @@ export class Grid extends Widget {
                                              td.style.maxWidth = null;
                                              td.style.minWidth = null;
                                              td.style.width = 'auto';
-                                          }
-                                          else {
+                                          } else {
                                              td.style.display = "none";
                                           }
                                        })
@@ -1034,11 +1035,11 @@ class GridComponent extends VDOM.Component {
                         if (column && column.editor && data.editable)
                         //add an inner div with fixed height in order to help IE absolutely position the contents inside
                            return <td key={key} className={CSS.element(baseClass, "cell-editor")}>
-                              <div
-                                 className={CSS.element(baseClass, "cell-editor-wrap")}
-                                 style={this.rowHeight > 0 ? {height: this.rowHeight + 1} : null}
-                              >
-                                 <Cx parentInstance={instance} subscribe>
+                              <Cx parentInstance={instance} subscribe>
+                                 <GridCellEditor
+                                    className={CSS.element(baseClass, "cell-editor-wrap")}
+                                    style={this.rowHeight > 0 ? {height: this.rowHeight + 1} : null}
+                                 >
                                     <ValidationGroup
                                        valid={{
                                           get: () => this.cellEditorValid,
@@ -1049,8 +1050,8 @@ class GridComponent extends VDOM.Component {
                                     >
                                        {column.editor}
                                     </ValidationGroup>
-                                 </Cx>
-                              </div>
+                                 </GridCellEditor>
+                              </Cx>
                            </td>
                      }
                      let width = colWidth[uniqueColumnId];
@@ -1138,13 +1139,11 @@ class GridComponent extends VDOM.Component {
 
                if (record.type == "data") {
                   addRow(record, start + i, true);
-               }
-               else if (record.type == "group-header") {
+               } else if (record.type == "group-header") {
                   let g = record.grouping;
                   if (g.caption || g.showCaption)
                      children.push(widget.renderGroupHeader(null, instance, g, record.level, record.group, record.key + '-caption', record.store));
-               }
-               else if (record.type == "group-footer") {
+               } else if (record.type == "group-footer") {
                   let g = record.grouping;
                   if (g.showFooter && (!widget.fixedFooter || start + i != instance.records.length - 1))
                      children.push(widget.renderGroupFooter(null, instance, g, record.level, record.group, record.key + '-footer', record.store));
@@ -1779,10 +1778,17 @@ class GridComponent extends VDOM.Component {
 
       if (Object.keys(newState).length > 0) {
          let prevState = this.state;
+         let wasCellEditing = prevState.focused && prevState.cellEdit;
+
+         if (wasCellEditing) {
+            //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
+            //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
+            getActiveElement().blur();
+         }
+
          this.setState(newState, () => {
-            let wasCellEditing = prevState.focused && prevState.cellEdit;
             if (!this.state.cellEdit && wasCellEditing) {
-               if (focused)
+               if (this.state.focused)
                   FocusManager.focus(this.dom.scroller);
                let record = this.getRecordAt(prevState.cursor);
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
@@ -1832,8 +1838,13 @@ class GridComponent extends VDOM.Component {
       FocusManager.nudge();
 
       //focus moved within the grid
-      if (this.state.focused)
+      if (this.state.focused) {
+         if (this.state.cellEdit && this.dom.scroller == getActiveElement())
+            this.moveCursor(this.state.cursor, {
+               cellEdit: false
+            });
          return;
+      }
 
       let {widget} = this.props.instance;
 
@@ -1959,7 +1970,7 @@ class GridComponent extends VDOM.Component {
                e.preventDefault();
                let cellIndex = (this.state.cursorCellIndex + 1) % widget.row.line1.columns.length;
                let cursor = this.state.cursor + (cellIndex == 0 ? 1 : 0);
-               for (;;cursor++) {
+               for (; ; cursor++) {
                   let record = this.getRecordAt(cursor);
                   if (!record) break;
                   if (record.type != "data") continue;
@@ -2038,7 +2049,7 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.a:
             if (!e.ctrlKey || !widget.selection.multiple)
-                return;
+               return;
 
             this.selectRange(0, data.totalRecordCount);
 
