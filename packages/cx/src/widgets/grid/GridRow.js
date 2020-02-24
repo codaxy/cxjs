@@ -69,7 +69,7 @@ export class GridRowComponent extends VDOM.Component {
 
    render() {
 
-      let {className, dragSource, instance} = this.props;
+      let {className, dragSource, instance, record} = this.props;
       let {data, widget} = instance;
       let {CSS} = widget;
       let move, up, keyDown;
@@ -96,6 +96,7 @@ export class GridRowComponent extends VDOM.Component {
             onMouseUp={up}
             onKeyDown={keyDown}
             onContextMenu={this.onRowContextMenu}
+            data-record-key={record.key}
          >
          {this.props.children}
          </tbody>

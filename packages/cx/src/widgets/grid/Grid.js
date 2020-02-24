@@ -1808,12 +1808,13 @@ class GridComponent extends VDOM.Component {
                this.cellEditUndoData = this.getRecordAt(this.state.cursor).data;
 
             if (scrollIntoView) {
-               let start = !widget.buffered ? 0 : this.syncBuffering ? this.start : this.state.start;
-               let item = this.dom.table.children[index + 1 - start];
-               if (widget.cellEditable && this.state.cursorCellIndex >= 0 && item)
-                  item = item.firstChild.children[this.state.cursorCellIndex];
-               if (item)
+               let record = this.getRecordAt(index);
+               let item = record && this.dom.table.querySelector(`tbody[data-record-key="${record.key}"]`);
+               if (item) {
+                  if (widget.cellEditable && this.state.cursorCellIndex >= 0)
+                     item = item.firstChild.children[this.state.cursorCellIndex];
                   scrollElementIntoView(item, true, widget.cellEditable);
+               }
             }
          });
       }
