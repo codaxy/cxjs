@@ -40,23 +40,28 @@
     }
 
     h2 {
-        margin: 32px 0 0 0;
-        padding: 0;
+        margin: -82px 0 0 0;
+        padding: 100px 0 0;
 
         color: #414340;
         font-size: 18px;
 
         & ~ h3 {
-            margin-top: 16px;
+            margin-top: -84px;
         }
     }
 
     h3 {
-        margin: 32px 0 0 0;
-        padding: 0;
+        margin: -82px 0 0 0;
+        padding: 100px 0 0;
 
         color: #414340;
         font-size: 14px;
+    }
+
+    h4 {
+        margin: -92px 0 8px 0;
+        padding: 100px 0 0;
     }
 
     code {
