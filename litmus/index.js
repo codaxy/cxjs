@@ -73,9 +73,11 @@ import './index.scss';
 //import Demo from "./features/hooks/localStorage";
 //import Demo from "./bugs/Spread";
 //import Demo from "./bugs/587";
-import Demo from "./bugs/MultipleSelection";
+//import Demo from "./bugs/MultipleSelection";
+//import Demo from "./bugs/tree-sorting";
+import Demo from "./bugs/leak";
 
-let store = new Store();
+let store = window.store = new Store();
 
 Widget.resetCounter();
 //Widget.optimizePrepare = false;

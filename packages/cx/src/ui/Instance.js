@@ -68,6 +68,8 @@ export class Instance {
       let wasVisible = this.visible;
       this.rawData = this.dataSelector(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
+      if (this.visible && !this.detached)
+         this.parent.instanceCache.addChild(this);
       this.explored = false;
       this.prepared = false;
 
@@ -288,6 +290,7 @@ export class Instance {
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
+      this.renderList = null;
       this.childStateDirty = false;
 
       if (this.instanceCache)
@@ -338,7 +341,7 @@ export class Instance {
    destroy() {
       if (this.instanceCache) {
          this.instanceCache.destroy();
-         delete this.instanceCache;
+         this.instanceCache = null;
       }
 
       if (this.destroySubscriptions) {
@@ -556,8 +559,12 @@ export class InstanceCache {
       }
       if (instance.store !== store)
          instance.setStore(store);
-      this.marked[k] = instance;
+
       return instance;
+   }
+
+   addChild(instance) {
+      this.marked[instance.key] = instance;
    }
 
    mark() {
