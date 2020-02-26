@@ -13,7 +13,7 @@ export default <cx>
       <div visible-expr="{tab}=='tab2'">
          <Grid
             records={[{a: 'A', b: 'B'}]}
-            columns={[{field: 'a'}, {field: 'b'}]}
+            columns={[{field: 'a', header: 'A'}, {field: 'b', header: 'B'}]}
          />
       </div>
    </div>

@@ -6593,15 +6593,6 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
-react@^0.0.0-experimental-8d7535e54:
-  version "0.0.0-experimental-8d7535e54"
-  resolved "https://registry.yarnpkg.com/react/-/react-0.0.0-experimental-8d7535e54.tgz#1b64f53fd09069301de30eeae7b4bf4be481d593"
-  integrity sha512-8U2hCWOcI/o6U8x82gss/qUbjo9Bu3t2j3axKIMscPlCUKQoZC5ojVMcVNIQUa6Yi01s2nal5WLrXCfTljDkFA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-
 react@^16.12.0, react@^16.8.6:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"

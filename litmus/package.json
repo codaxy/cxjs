@@ -12,7 +12,7 @@
     "cx": "^19.12.1",
     "cx-react": "^17.10.0",
     "intl": "^1.2.5",
-    "react": "^0.0.0-experimental-8d7535e54",
+    "react": "^16.12.0",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.12.0",
     "whatwg-fetch": "^3.0.0"
