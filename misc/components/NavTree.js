@@ -2,11 +2,6 @@ import { Repeater, Link } from "cx/widgets";
 import { createFunctionalComponent, computable, DataProxy } from "cx/ui";
 import { ref } from "cx/hooks";
 
-function log(x) {
-   console.log(x);
-   return x;
-}
-
 export const NavTree = createFunctionalComponent(
    ({ tree, url, showCategory }) => {
       let treeRef = ref(tree);

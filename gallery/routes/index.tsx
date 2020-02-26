@@ -4,6 +4,7 @@ import { SandboxedAsyncRoute } from "../components/asyncRoute";
 import { MasterLayout } from "../../misc/layout";
 import { NavTree } from "../../misc/components/NavTree";
 import { ScrollReset } from "../../misc/components/ScrollReset";
+import { ScrollIntoView } from "../../misc/components/ScrollIntoView";
 
 import list from "./list";
 import { ThemeLoader } from "../components/ThemeLoader";
@@ -58,7 +59,7 @@ export default (
           prefix
           recordName="$themeRoute"
         >
-          <div class="gray sticky standalone sidenav">
+          <ScrollIntoView {...{ className: "gray sticky standalone sidenav",  selector: ".cxb-link.cxs-active" }}>
             <NavTree
               tree={computable("$themeRoute.theme", theme => [
                 {
@@ -75,7 +76,7 @@ export default (
               ])}
               url={bind("url")}
             />
-          </div>
+          </ScrollIntoView>
           <ThemeLoader theme={bind("$themeRoute.theme")}>
             <main class="main" layout={FirstVisibleChildLayout}>
               {list.map(cat =>

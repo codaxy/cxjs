@@ -3,6 +3,7 @@ import { ContentRouter } from "../content/ContentRouter";
 import { MasterLayout } from "../../misc/layout";
 import { NavTree } from "../../misc/components/NavTree";
 import { docsNavTree } from "./DocsNav";
+import {ScrollIntoView} from "../../misc/components/ScrollIntoView";
 
 
 export const Main = (
@@ -21,7 +22,7 @@ export const Main = (
         >
             <DocumentTitle text="CxJS Docs" />
             <div class="master_content">
-                <div
+                <ScrollIntoView
                     class={{
                         gray: true,
                         sticky: true,
@@ -32,11 +33,12 @@ export const Main = (
                             return scrollingElement.scrollHeight > scrollingElement.clientHeight;
                         }
                     }}
+                    selector=".cxb-link.cxs-active"
                 >
                     <div class="navtree_container">
                         <NavTree tree={docsNavTree} url-bind="url" />
                     </div>
-                </div>
+                </ScrollIntoView>
                 <div class="docscontent">
                     <ContentRouter />
                 </div>
