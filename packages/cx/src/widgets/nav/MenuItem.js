@@ -335,6 +335,10 @@ class MenuItemComponent extends VDOM.Component {
             if (!isFocusedDeep(this.el))
                FocusManager.focus(this.el);
             this.openDropdown();
+
+            //If one of the elements is auto focused prevent stealing focus
+            if (isFocusedDeep(this.el))
+               e.preventDefault();
          }
       }
    }
