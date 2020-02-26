@@ -1607,10 +1607,8 @@ class GridComponent extends VDOM.Component {
 
       offFocusOut(this);
 
-      if (this.unregisterDropZone) {
+      if (this.unregisterDropZone)
          this.unregisterDropZone();
-         this.unregisterDropZone = null;
-      }
 
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", null, instance);

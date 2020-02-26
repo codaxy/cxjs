@@ -360,12 +360,6 @@ export class Instance {
 
          this.destroyTracked = false;
       }
-
-      //this.vdom = null;
-      //this.renderList = null;
-      //this.components = null;
-      //this.children = null;
-      //this.cached = {};
    }
 
    setState(state) {
@@ -584,10 +578,6 @@ export class InstanceCache {
    }
 
    destroy() {
-      // for (let key in this.children) {
-      //    this.children[key].destroy();
-      // }
-
       this.children = {};
       this.marked = {};
 
