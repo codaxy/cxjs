@@ -55,8 +55,8 @@ export const AsyncRoute = createFunctionalComponent(({route, content, prefix} : 
 
 interface SandboxedRouteProps {
     route: string;
-    children: any,
-    prefix?: boolean
+    children: any;
+    prefix?: boolean;
 }
 
 export const SandboxedRoute = createFunctionalComponent(({route, children, prefix}: SandboxedRouteProps) => <cx>

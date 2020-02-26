@@ -22,7 +22,7 @@ export const DateFields = <cx>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
-               <DateField label="Standard" value:bind="$page.date" format="yyyyMMMMdd" autoFocus />
+               <DateField label="Standard" value:bind="$page.date" format="datetime;yyyyMMMMdd" autoFocus />
                <DateField label="Disabled" value:bind="$page.date" disabled />
                <DateField label="Readonly" value:bind="$page.date" readOnly />
                <DateField label="Placeholder" value:bind="$page.date" placeholder="Type something here..." />
@@ -38,7 +38,7 @@ export const DateFields = <cx>
          <Content name="code">
             <CodeSnippet fiddle="oUVatu1E">{`
                <div layout={LabelsLeftLayout}>
-                  <DateField label="Standard" value:bind="$page.date" format="yyyyMMMMdd" autoFocus/>
+                  <DateField label="Standard" value:bind="$page.date" format="datetime;yyyyMMMMdd" autoFocus/>
                   <DateField label="Disabled" value:bind="$page.date" disabled />
                   <DateField label="Readonly" value:bind="$page.date" readOnly />
                   <DateField label="Placeholder" value:bind="$page.date" placeholder="Type something here..." />

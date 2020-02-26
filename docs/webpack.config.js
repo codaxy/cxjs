@@ -7,12 +7,12 @@ const webpack = require('webpack'),
     InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
-    babelConfig = require('./babel.config'),
+    babelConfig = require('./babel-config'),
     gtm = require('../misc/tracking/gtm.js'),
     reactScriptsProd = require('../misc/reactScripts'),
     reactScriptsDev = require('../misc/reactScripts.dev');
 
-var specific, production = process.env.npm_lifecycle_event.indexOf('build:docs') == 0;
+var specific, production = process.env.npm_lifecycle_event.indexOf('build') == 0;
 
 if (production) {
 
@@ -134,7 +134,7 @@ var common = {
     module: {
         rules: [{
             test: /\.js$/,
-            include: /[\\\/](docs|cx|cx-react)[\\\/]/,
+            include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
             //exclude: /(babelHelpers)/,
             loaders: [{
                 loader: 'babel-loader',
@@ -146,7 +146,7 @@ var common = {
             test: /\.(png|jpg|svg)/,
             loader: 'file-loader',
             options: {
-                name: '[path][name].ltc.[hash].[ext]'
+                name: '[name].ltc.[hash].[ext]'
             }
         }]
     },

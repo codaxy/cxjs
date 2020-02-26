@@ -6,9 +6,9 @@ export class Format {
 
    static parse(format: string): Formatter;
 
-   static register(format: string, formatter: Formatter): void;
+   static register(format: string | string[], formatter: Formatter): void;
 
-   static registerFactory(format: string, factory: (...args) => Formatter): void;
+   static registerFactory(format: string | string[], factory: (...args) => Formatter): void;
 }
 
 export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits);

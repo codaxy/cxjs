@@ -2,8 +2,7 @@
     position: relative;
     min-height: 100%;
 
-    background: #343434;
-    background-image: url('img/38fffa06.png');
+    background: #eeeeee;
 
     &:before {
         content: '';
@@ -12,7 +11,7 @@
         top: 0;
         bottom: 0;
         //z-index: -1000;
-        width: calc(50em - 20px);
+        width: 780px;
         background: white;
 
         @media screen and (max-width: 800px) {
@@ -41,23 +40,28 @@
     }
 
     h2 {
-        margin: 32px 0 0 0;
-        padding: 0;
+        margin: -82px 0 0 0;
+        padding: 100px 0 0;
 
         color: #414340;
         font-size: 18px;
 
         & ~ h3 {
-            margin-top: 16px;
+            margin-top: -84px;
         }
     }
 
     h3 {
-        margin: 32px 0 0 0;
-        padding: 0;
+        margin: -82px 0 0 0;
+        padding: 100px 0 0;
 
         color: #414340;
         font-size: 14px;
+    }
+
+    h4 {
+        margin: -92px 0 8px 0;
+        padding: 100px 0 0;
     }
 
     code {

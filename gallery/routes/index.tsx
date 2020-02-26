@@ -1,58 +1,98 @@
-import {cx, Route, RedirectRoute, Section, PureContainer, Link} from 'cx/widgets';
-import {FirstVisibleChildLayout, bind, tpl} from 'cx/ui'
-import {routeAppend} from "cx/util";
-import {AsyncRoute} from "../components/asyncRoute";
-import AppLayout from '../layout';
+import { cx, Route, RedirectRoute, Section, Link } from "cx/widgets";
+import { FirstVisibleChildLayout, bind, tpl, computable } from "cx/ui";
+import { SandboxedAsyncRoute } from "../components/asyncRoute";
+import { MasterLayout } from "../../misc/layout";
+import { NavTree } from "../../misc/components/NavTree";
+import { ScrollReset } from "../../misc/components/ScrollReset";
 
-import list, {sorted} from './list';
+import list from "./list";
+import { ThemeLoader } from "../components/ThemeLoader";
 
-const catLink = cat => <cx>
-    <dl className="major">
-        <dt>
-            <Link href={tpl("~/{$route.theme}" + cat.route.substring(1))} url={bind("url")} match="prefix">
-                {cat.name}
-            </Link>
-        </dt>
-    </dl>
-</cx>
+let themes = {
+  "~/aquamarine": "Aquamarine",
+  "~/material": "Material",
+  "~/frost": "Frost",
+  "~/core": "Core",
+  "~/material-dark": "Material Dark",
+  "~/space-blue": "Space Blue",
+  "~/dark": "Dark"
+};
 
-const catGroup = cat =>
-    <cx>
-        <dl>
-            <dt>
-                {cat.name}
-            </dt>
-            {cat.items && cat.items.map(item =>
-                <dd>
-                    <Link href={tpl(routeAppend("~/{$route.theme}", item.route.substring(1)))} url={bind("url")}
-                        match="prefix">
-                        {item.name}
-                    </Link>
-                </dd>
+export default (
+  <cx>
+    <MasterLayout
+      app="gallery"
+      shadow
+      navTree={computable("$themeRoute.theme", theme => [
+        {
+          url: `~/${theme}`,
+          text: themes[`~/${theme}`],
+          children: list.map(cat => ({
+            text: cat.name,
+            children: cat.items?.map(item => ({
+              url: item.route.replace("+/", `~/${theme}/`),
+              text: item.name
+            }))
+          }))
+        }
+      ])}
+      title="Gallery"
+      topLinks={themes}
+    >
+      <ScrollReset trigger={bind("url")} />
+      <div class="fullheight master_content">
+        <RedirectRoute route="~/" url={bind("url")} redirect="~/aquamarine" />
+        <Route route="~/:theme" url={bind("url")}>
+          <RedirectRoute
+            redirect={computable(
+              "$themeRoute.remainder",
+              "$route.theme",
+              (remainder, theme) =>
+                `~/${theme || "aquamarine"}${remainder || "/button/states"}`
             )}
-        </dl>
-    </cx>
-
-
-export default <cx>
-    <PureContainer>
-        <RedirectRoute route="~/" url={bind("url")} redirect="~/material"/>
-        <Route route="~/:theme" url={bind("url")} prefix outerLayout={AppLayout}>
-            <div putInto="nav">
-                {sorted.map(cat => cat.route ? catLink(cat) : catGroup(cat))}
-            </div>
-
-            <PureContainer layout={FirstVisibleChildLayout}>
-                {list.map(cat => cat.route && <AsyncRoute route={cat.route} content={cat.content} prefix/>)}
-                {list.map(cat => cat.items && cat.items.map(item => <AsyncRoute route={item.route}
-                    content={item.content} prefix/>))}
-
-                <RedirectRoute route="+" url={bind("url")} redirect="+/grid"/>
-                <Section title="Page Not Found" mod="card">
-                    This page doesn't exists. Please check your URL.
-                </Section>
-            </PureContainer>
+          />
         </Route>
-    </PureContainer>
-</cx>
-
+        <Route
+          route="~/:theme"
+          url={bind("url")}
+          prefix
+          recordName="$themeRoute"
+        >
+          <div class="gray sticky standalone sidenav">
+            <NavTree
+              tree={computable("$themeRoute.theme", theme => [
+                {
+                  url: `~/${theme}`,
+                  text: theme,
+                  children: list.map(cat => ({
+                    text: cat.name,
+                    children: cat.items?.map(item => ({
+                      url: item.route,
+                      text: item.name
+                    }))
+                  }))
+                }
+              ])}
+              url={bind("url")}
+            />
+          </div>
+          <ThemeLoader theme={bind("$themeRoute.theme")}>
+            <main class="main" layout={FirstVisibleChildLayout}>
+              {list.map(cat =>
+                cat.items?.map(item => (
+                  <SandboxedAsyncRoute
+                    route={item.route}
+                    content={item.content}
+                  />
+                ))
+              )}
+              <Section title="Page Not Found" mod="card">
+                This page doesn't exists. Please check your URL.
+              </Section>
+            </main>
+          </ThemeLoader>
+        </Route>
+      </div>
+    </MasterLayout>
+  </cx>
+);

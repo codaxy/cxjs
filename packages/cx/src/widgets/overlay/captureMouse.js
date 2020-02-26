@@ -1,58 +1,86 @@
 import { batchUpdates } from '../../ui/batchUpdates';
 import { getParentFrameBoundingClientRect } from '../../util/getParentFrameBoundingClientRect';
 
-export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
+export function captureMouse2(e, { onMouseMove, onMouseUp, onDblClick, captureData, cursor }) {
 
    let surface = document.createElement('div');
    surface.className = 'cxb-mousecapture';
-   if (cursor)
-      surface.style.cursor = cursor;
+   surface.style.cursor = cursor || getComputedStyle(e.currentTarget).cursor;
 
    document.body.appendChild(surface);
 
-   if (surface.setCapture) {
-      e.preventDefault();
-      surface.setCapture(true);
+   let active = true;
+   surface.addEventListener('mousemove', move);
+   surface.addEventListener('mouseup', end);
+   if (onDblClick)
+      surface.addEventListener('dblclick', doubleClick);
+
+   function tear() {
+      if (surface == null) return;
+      surface.removeEventListener('mousemove', move);
+      surface.removeEventListener('mouseup', end);
+      if (onDblClick)
+         surface.removeEventListener('dblclick', onDblClick);
+      document.body.removeChild(surface);
+      surface = null;
    }
 
-   let move = e => {
+   function doubleClick(e) {
+      try {
+         onDblClick(e);
+      } finally {
+         tear();
+      }
+   }
+
+   e.stopPropagation();
+
+   function move(e) {
+      if (!active) {
+         tear();
+         return;
+      }
+
+      //if mouse moves double clicking is off
+      onDblClick = null;
+
       batchUpdates(() => {
          if (onMouseMove)
             onMouseMove(e, captureData);
          e.stopPropagation();
          e.preventDefault(); //disable text selection
       });
-   };
+   }
 
-   let end = e => {
+   function end(e) {
+      active = false;
       batchUpdates(() => {
-         if (surface.releaseCapture)
-            surface.releaseCapture();
-         surface.style.display = "none";
+         // if (surface.releaseCapture)
+         //    surface.releaseCapture();
+
+         if (!onDblClick)
+            surface.style.display = "none";
          try {
             if (onMouseUp)
                onMouseUp(e, captureData);
          } finally {
-            surface.removeEventListener('mousemove', move);
-            surface.removeEventListener('mouseup', end);
-            document.body.removeChild(surface);
+            if (onDblClick) {
+               //keep the surface a little longer to detect double clicks
+               setTimeout(tear, 1500);
+            } else
+               tear();
          }
       });
-   };
-
-   surface.addEventListener('mousemove', move);
-   surface.addEventListener('mouseup', end);
-
-   e.stopPropagation();
+   }
 }
 
-export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, cursor) {
+export function captureMouseOrTouch2(e, { onMouseMove, onMouseUp, onDblClick, captureData, cursor }) {
 
    if (e.type.indexOf('touch') == 0) {
 
-      var el = e.currentTarget;
+      let el = e.currentTarget;
 
-      var move = e => {
+      let move = e => {
          batchUpdates(() => {
             if (onMouseMove)
                onMouseMove(e, captureData);
@@ -60,7 +88,7 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
          })
       };
 
-      var end = e=> {
+      let end = e=> {
          batchUpdates(() => {
             el.removeEventListener('touchmove', move);
             el.removeEventListener('touchend', end);
@@ -78,7 +106,21 @@ export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, curs
       e.stopPropagation();
    }
    else
-      captureMouse(e, onMouseMove, onMouseUp, captureData, cursor || e.target.style.cursor);
+      captureMouse2(e, { onMouseMove, onMouseUp, captureData, onDblClick, cursor });
+}
+
+export function captureMouse(e, onMouseMove, onMouseUp, captureData, cursor) {
+
+   captureMouse2(e, {
+      onMouseMove,
+      onMouseUp,
+      captureData,
+      cursor
+   })
+}
+
+export function captureMouseOrTouch(e, onMouseMove, onMouseUp, captureData, cursor) {
+   captureMouseOrTouch2(e, {onMouseMove, onMouseUp, captureData, cursor});
 }
 
 export function getCursorPos(e) {

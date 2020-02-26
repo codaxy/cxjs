@@ -16,5 +16,6 @@ export const KeyCode = {
    right: 39,
    down: 40,
    insert: 45,
-   "delete": 46
+   "delete": 46,
+   a: 65
 };

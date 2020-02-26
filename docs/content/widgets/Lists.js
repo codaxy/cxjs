@@ -31,7 +31,7 @@ export const Lists = <cx>
             <div class="widgets">
                 <List
                     records:bind="$page.records"
-                    selection={PropertySelection}
+                    selection={{ type: PropertySelection, multiple: true }}
                     style="width:200px"
                     emptyText="No results found."
                     mod="bordered"

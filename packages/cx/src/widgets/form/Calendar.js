@@ -29,6 +29,7 @@ export class Calendar extends Field {
          value: undefined,
          refDate: undefined,
          disabled: undefined,
+         enabled: undefined,
          minValue: undefined,
          minExclusive: undefined,
          maxValue: undefined,
@@ -92,7 +93,7 @@ export class Calendar extends Field {
    }
 
    handleSelect(e, instance, date) {
-      
+
       let {store, data, widget} = instance;
 
       e.stopPropagation();
@@ -135,7 +136,7 @@ Calendar.prototype.suppressErrorsUntilVisited = false;
 Localization.registerPrototype('cx/widgets/Calendar', Calendar);
 
 const validationCheck = (date, data) => {
-   
+
    if (data.maxValue && !upperBoundCheck(date, data.maxValue, data.maxExclusive))
       return false;
 

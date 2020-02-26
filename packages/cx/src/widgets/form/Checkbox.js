@@ -24,6 +24,7 @@ export class Checkbox extends Field {
          text: undefined,
          readOnly: undefined,
          disabled: undefined,
+         enabled: undefined,
          required: undefined
       }, ...arguments);
    }

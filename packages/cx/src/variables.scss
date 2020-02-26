@@ -103,7 +103,7 @@ $cx-list: (
 
 $cx-list-item: (
    default: (
-     
+
    ),
    hover: (
       background-color: rgba(128, 128, 128, 0.1),
@@ -124,9 +124,9 @@ $cx-list-item: (
       outline: none
    ),
    disabled: (
-      color: rgba(128, 128, 128, .5),
-      background-color: rgba(128, 128, 128, .1),
-      cursor: default
+      cursor: default,
+      opacity: 0.5,
+      pointer-events: none
    ),
    active: (
       //causes flickering

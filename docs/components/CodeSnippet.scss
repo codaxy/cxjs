@@ -60,10 +60,31 @@
 
 .dxe-codesplit-right .cxb-tab.cxm-code {
     @extend .cxb-tab.cxm-line;
-    color: white;
+    color: rgba(white, 0.5);
     border-bottom-width: 2px;
     margin-bottom: 10px;
     background: transparent;
+    text-transform: none;
+
+    &:focus {
+        color: rgba(white, 0.7);
+        border-bottom-color: rgba(white, 0.7);
+    }
+
+    &:hover {
+        color: rgba(white, 0.7);
+        border-bottom-color: rgba(white, 0.5);
+    }
+
+    &.cxs-active {
+        color: rgba(white, 0.9);
+        border-bottom-color: rgba(white, 0.9);
+
+        &:focus {
+            color: white;
+            border-bottom-color: white;
+        }
+    }
 
     & > code {
         padding-left: 0;

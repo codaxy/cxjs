@@ -689,12 +689,13 @@ class LookupComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
-      // switch (e.keyCode) {
-      //    case KeyCode.enter:
-      //       if ( this.state.dropdownOpen)
-      //          e.stopPropagation();
-      //       return;
-      // }
+      switch (e.keyCode) {
+         case KeyCode.pageDown:
+         case KeyCode.pageUp:
+            if (this.state.dropdownOpen)
+               e.preventDefault();
+            break;
+      }
    }
 
    onInputKeyDown(e) {
@@ -713,6 +714,9 @@ class LookupComponent extends VDOM.Component {
          case KeyCode.tab:
          case KeyCode.left:
          case KeyCode.right:
+         case KeyCode.pageUp:
+         case KeyCode.pageDown:
+         case KeyCode.insert:
             break;
 
          case KeyCode.down:

@@ -59,7 +59,6 @@ export const CellEditing = (
                                 editor: <cx>
                                     <TextField
                                         value-bind="$record.fullName"
-                                        autoFocus
                                         required
                                         visited
                                     />
@@ -70,7 +69,6 @@ export const CellEditing = (
                                 editor: <cx>
                                     <Select
                                         value-bind="$record.continent"
-                                        autoFocus
                                         required
                                     >
                                         <option value="Africa">Africa</option>
@@ -128,11 +126,9 @@ export const CellEditing = (
                                 editor: <cx>
                                     <NumberField
                                         value-bind="$record.visits"
-                                        autoFocus
                                         required
                                         visited
                                         inputStyle="text-align: right"
-                                        reactOn="change"
                                     />
                                 </cx>
                             }
@@ -162,8 +158,7 @@ export const CellEditing = (
                                 editor: <cx>
                                     <TextField
                                         value-bind="$record.fullName"
-                                        style="position: absolute; width: 100%; height: 100%; top: 0;"
-                                        autoFocus
+                                        style="position: absolute; width: 100%; height: 100%; top: 0;"                                        
                                         required
                                         visited
                                     />
@@ -174,8 +169,7 @@ export const CellEditing = (
                                 editor: <cx>
                                     <Select
                                         value-bind="$record.continent"
-                                        style="position: absolute; width: 100%; height: 100%; top: 0;"
-                                        autoFocus
+                                        style="position: absolute; width: 100%; height: 100%; top: 0;"                                        
                                         required
                                     >
                                         <option value="Africa">Africa</option>
@@ -233,12 +227,10 @@ export const CellEditing = (
                                 editor: <cx>
                                     <NumberField
                                         value-bind="$record.visits"
-                                        style="position: absolute; width: 100%; height: 100%; top: 0;"
-                                        autoFocus
+                                        style="position: absolute; width: 100%; height: 100%; top: 0;"                                       
                                         required
                                         visited
-                                        inputStyle="text-align: right"
-                                        reactOn="change"
+                                        inputStyle="text-align: right"                                        
                                     />
                                 </cx>
                             }

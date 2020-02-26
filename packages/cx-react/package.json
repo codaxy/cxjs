@@ -8,7 +8,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": ">= ^16.0.0",
+    "react-dom": ">= ^16.0.0"
   }
 }

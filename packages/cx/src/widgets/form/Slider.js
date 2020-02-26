@@ -26,6 +26,7 @@ export class Slider extends Field {
          incrementPercentage: undefined,
          wheel: undefined,
          disabled: undefined,
+         enabled: undefined,
          readOnly: undefined,
          rangeStyle: {
             structured: true
@@ -301,7 +302,7 @@ class SliderComponent extends VDOM.Component {
       let {data, widget} = instance;
       if(widget.showFrom && widget.showTo || !data.wheel)
          return;
- 
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -311,7 +312,7 @@ class SliderComponent extends VDOM.Component {
          if (widget.showFrom) {
             let value = this.checkBoundries(data.from + increment);
             if (instance.set('from', value))
-               this.setState({from: value});      
+               this.setState({from: value});
          } else if (widget.showTo) {
             let value = this.checkBoundries(data.to + increment);
             if (instance.set('to', value))

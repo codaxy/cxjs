@@ -2,7 +2,6 @@ import {computable} from '../data/computable';
 import {Component} from '../util/Component';
 import {isArray} from '../util/isArray';
 import {isFunction} from '../util/isFunction';
-import {View} from "../data/View";
 import {StoreProxy} from "../data/StoreProxy";
 
 const computablePrefix = 'computable-';

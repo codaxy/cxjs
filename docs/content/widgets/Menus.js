@@ -172,7 +172,7 @@ export const Menus = <cx>
             </Content>
         </CodeSplit>
 
-        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set. 
+        Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set.
         The `menu` modifier is used to add margin/padding to menu items.
 
         ## Configuration

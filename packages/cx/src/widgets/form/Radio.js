@@ -16,6 +16,7 @@ export class Radio extends Field {
          selection: undefined,
          option: undefined,
          disabled: undefined,
+         enabled: undefined,
          readOnly: undefined,
          required: undefined,
          text: undefined

@@ -18,6 +18,7 @@ export class Switch extends Field {
          off: true,
          value: undefined,
          disabled: undefined,
+         enabled: undefined,
          readOnly: undefined,
          text: undefined,
          rangeStyle: {

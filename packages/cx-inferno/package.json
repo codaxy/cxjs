@@ -8,6 +8,6 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
-    "inferno-compat": "*"
+    "inferno-compat": ">= 1.0"
   }
 }

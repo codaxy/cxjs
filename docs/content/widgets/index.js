@@ -10,6 +10,7 @@ export * from './NumberFields';
 export * from './LookupFields';
 export * from './Menus';
 export * from './Grids';
+export * from './TreeGrid';
 export * from './Overlays';
 export * from './Tooltips';
 export * from './Windows';

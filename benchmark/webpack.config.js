@@ -1,15 +1,10 @@
 const webpack = require('webpack'),
-   ExtractTextPlugin = require("extract-text-webpack-plugin"),
    HtmlWebpackPlugin = require('html-webpack-plugin'),
+   MiniCssExtractPlugin = require("mini-css-extract-plugin"),
    CxScssManifestPlugin = require('../packages/cx-scss-manifest-webpack-plugin/src/index'),
    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
    path = require('path'),
-   babelConfig = require('./babel.config');
-
-let sass = new ExtractTextPlugin({
-   filename: "app.css",
-   allChunks: true
-});
+   babelConfig = require('./babel-config');
 
 let config = {
    mode: 'production',
@@ -33,10 +28,10 @@ let config = {
          query: babelConfig(true)
       }, {
          test: /\.scss$/,
-         loaders: sass.extract(['css-loader', 'sass-loader'])
+         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       }, {
          test: /\.css$/,
-         loaders: sass.extract(['css-loader'])
+         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       }]
    },
    entry: {
@@ -59,10 +54,13 @@ let config = {
       new webpack.DefinePlugin({
          'process.env.NODE_ENV': JSON.stringify('production'),
       }),
+      new MiniCssExtractPlugin({
+         filename: 'app.ltc.[chunkhash].css',
+         chunkFilename: '[id].ltc.[chunkhash].css',
+      }),
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
       }),
-      sass,
    ]
 };
 

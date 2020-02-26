@@ -13,6 +13,14 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 20.1.0
+
+            ### Format change for DateTimeField
+
+            `DateTimeField` now expects regular formats, e.g. `datetime;yyyyMMMdd` (previously only `yyyyMMMdd` part was required).
+            This change enables non-standard, custom formats to be used.
+
+
             ## 19.1.0
 
             ### Babel 7
@@ -44,15 +52,19 @@ export const BreakingChanges = <cx>
             You'll also have to tweak rules in `webpack.config.js` to support `.ts` and `.tsx` files.
 
             Replace
-            <CodeSnippet>
-                test: /\.js$/,
-                loader: 'babel-loader',
-            </CodeSnippet>
+            <CodeSplit>
+                <CodeSnippet>
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                </CodeSnippet>
+            </CodeSplit>
             with:
-            <CodeSnippet>
-                test: /\.(js|ts|tsx)$/,
-                loader: 'babel-loader',
-            </CodeSnippet>
+            <CodeSplit>
+                <CodeSnippet>
+                    test: /\.(js|ts|tsx)$/,
+                    loader: 'babel-loader',
+                </CodeSnippet>
+            </CodeSplit>
 
             You can now mix `.js`, `.ts` and `.tsx` files. However, some of the [JSX in TS related quirks still apply](https://github.com/codaxy/cx-typescript-boilerplate).
 

@@ -133,5 +133,72 @@
     }
 }
 
+//////////////////////////
+#app {
+    //overflow: hidden;
+    //display: flex;
+    //flex-direction: column;
+};
+.app {
+    //overflow: auto;
+    //flex: 1;
+};
 
+.docscontent {
+    //margin-left: 250px; //TODO: think of a solution to use a variable (standardize content or import misc scss files here on top)
+    flex: 1;
+    overflow: hidden;
+    // padding: 20px;
+    // overflow: auto;
+};
 
+//.sidenav {
+//    display: flex;
+//    flex-direction: column;
+//    overflow: hidden;
+//
+//    .sidenav_pagetitle {
+//        width: 40px;
+//        font-size: 40px;
+//        color: rgba(113, 128, 150, 0.2);
+//        display: block;
+//        text-align: center;
+//        // background: rgba(217, 217, 217, 0.3);
+//        padding: 16px 0 8px;
+//        width: 100%;
+//        border-bottom: 1px solid;
+//        overflow: hidden;
+//        text-overflow: ellipsis;
+//        white-space: nowrap;
+//    };
+//    .navtree_container {
+//        flex: 1;
+//        overflow: auto;
+//    }
+//}
+
+// scrollbar
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+
+    &:vertical {
+        background-color: rgba(0, 0, 0, 0.09);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+
+    &:horizontal {
+        background-color: rgba(0, 0, 0, 0.09);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0.02);
+};

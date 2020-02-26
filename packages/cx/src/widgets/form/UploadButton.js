@@ -10,6 +10,7 @@ export class UploadButton extends Field {
    declareData() {
       super.declareData({
          disabled: undefined,
+         enabled: undefined,
          text: undefined,
          url: undefined,
          icon: undefined
@@ -38,9 +39,9 @@ class UploadButtonComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.uploads = {};
-      this.uploadKey = 0;
       this.state = {
          progress: 100,
+         uploadKey: 0
       };
    }
 
@@ -76,9 +77,10 @@ class UploadButtonComponent extends VDOM.Component {
          {children}
          {
             !data.disabled && <input
-               key={this.uploadKey}
+               key={this.state.uploadKey}
                className={CSS.element(baseClass, "input")}
                type="file"
+               title=" "
                multiple={widget.multiple}
                tabIndex={data.tabIndex}
                onChange={::this.onFileSelected}
@@ -134,10 +136,14 @@ class UploadButtonComponent extends VDOM.Component {
       let formData = new FormData();
       formData.append("file", file);
 
+      let key = this.state.uploadKey;
+      this.setState({
+         uploadKey: key + 1
+      });
+
       if (widget.onUploadStarting && instance.invoke("onUploadStarting", xhr, instance, file, formData) === false)
          return;
 
-      let key = this.uploadKey++;
       let upload = this.uploads[key] = {
          progress: 0,
          size: file.size || 1,
@@ -166,9 +172,7 @@ class UploadButtonComponent extends VDOM.Component {
       };
 
       xhr.send(formData);
-
       this.reportProgress();
-      this.forceUpdate();
    }
 
    reportProgress() {

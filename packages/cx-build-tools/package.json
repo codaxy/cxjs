@@ -1,0 +1,33 @@
+{
+  "name": "cx-build-tools",
+  "version": "19.12.1",
+  "description": "Tools and utilities required for building CxJS and related packages.",
+  "main": "index.js",
+  "jsnext:main": "src/index.js",
+  "scripts": {},
+  "author": "Codaxy",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs"
+  },
+  "homepage": "https://github.com/codaxy/cxjs",
+  "dependencies": {
+    "@babel/core": "7.8.3",
+    "@babel/preset-env": "7.8.3",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "babel-preset-cx-env": "18.5.0",
+    "node-sass": "^4.13.1",
+    "rollup": "^1.29.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-prettier": "^0.6.0",
+    "rollup-plugin-scss": "^2.1.0"
+  },
+  "peerDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,9 @@
+/.idea
+/node_modules
+*.hot-update.js
+
+lib/inferno
+npm-debug.log
+*/dist
+
+dist

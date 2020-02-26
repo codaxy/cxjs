@@ -342,10 +342,14 @@ class MenuItemComponent extends VDOM.Component {
    openDropdown(callback) {
       let {widget} = this.props.instance;
       if (widget.dropdown) {
-         if (!this.state.dropdownOpen)
+         if (!this.state.dropdownOpen) {
             this.setState({
                dropdownOpen: true
             }, callback);
+
+            //hide tooltip if dropdown is open
+            tooltipMouseLeave(null, this.props.instance, widget.tooltip);
+         }
          else if (callback)
             callback(this.state);
       }
@@ -397,7 +401,7 @@ class MenuItemComponent extends VDOM.Component {
    onFocusOut(focusedElement) {
       debug(menuFlag, 'MenuItem', 'focusout', this.el, focusedElement);
       this.clearAutoFocusTimer();
-      if (!isSelfOrDescendant(this.el, focusedElement)) {
+      if (this.el && !isSelfOrDescendant(this.el, focusedElement)) {
          debug(menuFlag, 'MenuItem', 'closing dropdown', this.el, focusedElement);
          this.closeDropdown();
       }
