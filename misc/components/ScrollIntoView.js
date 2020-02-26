@@ -3,8 +3,6 @@ import {scrollElementIntoView} from "cx/util";
 
 export class ScrollIntoView extends Container {
 
-   selector = null;
-
    declareData(...args) {
       super.declareData(...args, {
          selector: undefined
