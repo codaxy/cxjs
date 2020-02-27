@@ -290,7 +290,6 @@ export class Instance {
       this.cached.state = this.state;
       this.cached.widgetVersion = this.widget.version;
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
-      this.renderList = null;
       this.childStateDirty = false;
 
       if (this.instanceCache)
