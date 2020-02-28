@@ -8,6 +8,8 @@ interface ScrollerProps extends Cx.StyledContainerProps {
    horizontal?: boolean,
 
    vertical?: boolean
+
+   scrollIntoViewSelector?: string
 }
 
 export class Scroller extends Cx.Widget<ScrollerProps> {}
