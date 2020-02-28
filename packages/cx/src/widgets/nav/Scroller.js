@@ -51,7 +51,11 @@ export class HScrollerComponent extends VDOM.Component {
             widget.horizontal &&
             <div
                className={CSS.element(baseClass, "left-arrow")}
-               onMouseDown={this.scrollLeft}
+               onMouseDownCapture={this.scrollLeft}
+               onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+               }}
                onTouchStart={this.scrollLeft}
                onMouseUp={this.stopScrolling}
                onTouchEnd={this.stopScrolling}
@@ -64,7 +68,11 @@ export class HScrollerComponent extends VDOM.Component {
             widget.horizontal &&
             <div
                className={CSS.element(baseClass, "right-arrow")}
-               onMouseDown={this.scrollRight}
+               onMouseDownCapture={this.scrollRight}
+               onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+               }}
                onTouchStart={this.scrollRight}
                onMouseUp={this.stopScrolling}
                onTouchEnd={this.stopScrolling}
@@ -76,7 +84,11 @@ export class HScrollerComponent extends VDOM.Component {
          {
             widget.vertical && <div
                className={CSS.element(baseClass, "top-arrow")}
-               onMouseDown={this.scrollUp}
+               onMouseDownCapture={this.scrollUp}
+               onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+               }}
                onTouchStart={this.scrollUp}
                onMouseUp={this.stopScrolling}
                onTouchEnd={this.stopScrolling}
@@ -88,7 +100,11 @@ export class HScrollerComponent extends VDOM.Component {
          {
             widget.vertical && <div
                className={CSS.element(baseClass, "bottom-arrow")}
-               onMouseDown={this.scrollDown}
+               onMouseDownCapture={this.scrollDown}
+               onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+               }}
                onTouchStart={this.scrollDown}
                onMouseUp={this.stopScrolling}
                onTouchEnd={this.stopScrolling}
