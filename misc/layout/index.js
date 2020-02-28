@@ -1,4 +1,4 @@
-import { PureContainer, Link } from "cx/widgets";
+import { PureContainer, Link, ContentPlaceholder } from "cx/widgets";
 import { Animicon } from "../components/Animicon";
 import { SideDrawer } from "../components/SideDrawer";
 import { NavTree } from "../components/NavTree";
@@ -99,8 +99,10 @@ export const MasterLayout = ({
             </div>
          </header>
          <div class="sticky topbanner" visible={!!title}>
-            <h3>{title}</h3>
-
+            <div class="topbanner_heading">
+               <h3>{title}</h3>
+               <ContentPlaceholder name="topbanner" />
+            </div>
             <div class="topbanner_tabs">
                <TopLinks topLinks={topLinks} />
             </div>

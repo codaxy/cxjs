@@ -94,16 +94,6 @@ $master-theme-color: #4f7aea;
       }
    }
 
-   h3 {
-      padding: 24px 24px;
-      font-family: inherit;
-      font-weight: 400;
-      color: inherit;
-      line-height: 27px;
-      margin: 0;
-      font-size: 21px;
-   }
-
    .cxb-link {
       display: inline-block;
       padding: 14px 20px;
@@ -139,9 +129,24 @@ $master-theme-color: #4f7aea;
    }
 }
 
+.topbanner_heading {
+   padding: 20px 24px;
+   display: flex;
+
+   h3 {
+      font-family: inherit;
+      font-weight: 400;
+      color: inherit;
+      line-height: 36px;
+      margin: 0;
+      font-size: 21px;
+   }
+}
+
 .topbanner_tabs {
    margin-left: 6px;
    margin-top: -20px;
+   align-items: center;
 }
 
 .master_sidedrawer {

@@ -2,32 +2,32 @@ import {TextField, Text, Repeater, List, Link, Menu, HtmlElement} from 'cx/widge
 import {Controller, History} from 'cx/ui';
 import {Window} from 'cx/widgets';
 import {KeyCode, getSearchQueryPredicate} from 'cx/util';
+import { docsNavTree } from "../app/DocsNav";
 
 
 class SearchController extends Controller {
     init() {
         super.init();
 
-        this.addComputable('search.results', ['search.query', 'contents'], (q, contents) => {
+        this.addComputable('search.results', ['search.query'], (q) => {
             let result = [],
                 filter = a => true;
 
-            if (q)
-            {
+            if (q) {
                 let predicate = getSearchQueryPredicate(q);
-                filter = a => predicate(a.title);
+                filter = a => predicate(a.text);
             }
 
-            contents.forEach(topic => {
-                let articles = topic.articles.filter(filter);
-                if (articles.length > 0)
-                    result.push(...articles.map(a => ({
+            docsNavTree.forEach(chapter => {
+                chapter.children.forEach(topic => {
+                    result.push(...topic.children.filter(filter).map(a => ({
                         ...a,
-                        topic: topic.topic
+                        topic: chapter.text
                     })));
+                });
             });
             return result;
-        }, true);
+        });
     }
 
     pipeKeyDown(cb) {
@@ -66,8 +66,8 @@ export const SearchWindow = <cx>
         header={
             <TextField
                 value:bind="search.query"
-                style="width:100%;height:auto"
-                inputStyle="font-size:20px;height:40px;"
+                style="width: 100%; margin-right: 10px"
+                //inputStyle="font-size:18px;height:40px;"
                 placeholder="Search..."
                 autoFocus
             />
@@ -84,8 +84,8 @@ export const SearchWindow = <cx>
             itemStyle="padding:10px 20px"
         >
             <div style={{fontWeight: {expr: "{$record.url} == {url} ? 'bold': 'normal'"}}}>
-                <div text:bind="$record.topic" style="font-size:9px"/>
-                <Text bind="$record.title"/>
+                <div text-bind="$record.topic" style="font-size: 10px; opacity: 0.8; text-transform: uppercase"/>
+                <span text-bind="$record.text" style="font-size: 14px"/>
             </div>
         </List>
     </Window>
