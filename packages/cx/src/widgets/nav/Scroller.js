@@ -28,10 +28,10 @@ export class HScrollerComponent extends VDOM.Component {
       this.stopScrolling = () => {
          delete this.doScroll;
       };
-      this.scrollLeft = () => this.scroll('left');
-      this.scrollRight = () => this.scroll('right');
-      this.scrollUp = () => this.scroll('up');
-      this.scrollDown = () => this.scroll('down');
+      this.scrollLeft = (e) => this.scroll(e,'left');
+      this.scrollRight = (e) => this.scroll(e,'right');
+      this.scrollUp = (e) => this.scroll(e,'up');
+      this.scrollDown = (e) => this.scroll(e,'down');
       this.state = {scrollable: false};
    }
 
@@ -141,7 +141,10 @@ export class HScrollerComponent extends VDOM.Component {
       this.unsubscribeResize();
    }
 
-   scroll(direction) {
+   scroll(e, direction) {
+      e.stopPropagation();
+      e.preventDefault();
+
       this.doScroll = () => {
          if (!this.scroller)
             return;
