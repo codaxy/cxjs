@@ -21,9 +21,9 @@ export class Scroller extends Container {
    render(context, instance, key) {
       let {data} = instance;
 
-      return <HScrollerComponent key={key} widget={this} data={instance.data} scrollIntoViewSelector={data.scrollIntoViewSelector}>
+      return <HScrollerComponent key={key} widget={this} data={instance.data}>
          {this.renderChildren(context, instance)}
-         </HScrollerComponent>
+      </HScrollerComponent>
    }
 }
 
@@ -49,78 +49,79 @@ export class HScrollerComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
 
       return <div
-      className={CSS.expand(data.classNames, CSS.state({
+         className={CSS.expand(data.classNames, CSS.state({
             scrollable: this.state.scrollable,
             horizontal: widget.horizontal,
             vertical: widget.vertical,
          }))}
-      style={data.style}
-      scrollIntoViewSelector={data.scrollIntoViewSelector}
-      ref = {el => {this.el = el}}
-   >
-      {
-         widget.horizontal &&
-         <div
-         className={CSS.element(baseClass, "left-arrow")}
-         onMouseDown={this.scrollLeft}
-         onTouchStart={this.scrollLeft}
-         onMouseUp={this.stopScrolling}
-         onTouchEnd={this.stopScrolling}
+         style={data.style}
+         ref={el => {
+            this.el = el
+         }}
+      >
+         {
+            widget.horizontal &&
+            <div
+               className={CSS.element(baseClass, "left-arrow")}
+               onMouseDown={this.scrollLeft}
+               onTouchStart={this.scrollLeft}
+               onMouseUp={this.stopScrolling}
+               onTouchEnd={this.stopScrolling}
             >
-            {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
+               {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
             </div>
-      }
+         }
 
-      {
-         widget.horizontal &&
-         <div
-         className={CSS.element(baseClass, "right-arrow")}
-         onMouseDown={this.scrollRight}
-         onTouchStart={this.scrollRight}
-         onMouseUp={this.stopScrolling}
-         onTouchEnd={this.stopScrolling}
+         {
+            widget.horizontal &&
+            <div
+               className={CSS.element(baseClass, "right-arrow")}
+               onMouseDown={this.scrollRight}
+               onTouchStart={this.scrollRight}
+               onMouseUp={this.stopScrolling}
+               onTouchEnd={this.stopScrolling}
             >
-            {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
+               {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
             </div>
-      }
+         }
 
-      {
-         widget.vertical && <div
-         className={CSS.element(baseClass, "top-arrow")}
-         onMouseDown={this.scrollUp}
-         onTouchStart={this.scrollUp}
-         onMouseUp={this.stopScrolling}
-         onTouchEnd={this.stopScrolling}
+         {
+            widget.vertical && <div
+               className={CSS.element(baseClass, "top-arrow")}
+               onMouseDown={this.scrollUp}
+               onTouchStart={this.scrollUp}
+               onMouseUp={this.stopScrolling}
+               onTouchEnd={this.stopScrolling}
             >
-            {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
+               {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
             </div>
-      }
+         }
 
-      {
-         widget.vertical && <div
-         className={CSS.element(baseClass, "bottom-arrow")}
-         onMouseDown={this.scrollDown}
-         onTouchStart={this.scrollDown}
-         onMouseUp={this.stopScrolling}
-         onTouchEnd={this.stopScrolling}
+         {
+            widget.vertical && <div
+               className={CSS.element(baseClass, "bottom-arrow")}
+               onMouseDown={this.scrollDown}
+               onTouchStart={this.scrollDown}
+               onMouseUp={this.stopScrolling}
+               onTouchEnd={this.stopScrolling}
             >
-            {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
+               {Icon.render("drop-down", {className: CSS.element(baseClass, "icon")})}
             </div>
-      }
+         }
 
-   <div className={CSS.element(baseClass, "clip")} ref={el => {
-         this.clip = el;
-      }}>
-   <div className={CSS.element(baseClass, "scroller")} ref={el => {
-         this.scroller = el;
-      }}>
-   <div className={CSS.element(baseClass, "content")} ref={el => {
-         this.content = el;
-      }}>
-      {children}
-   </div>
-      </div>
-      </div>
+         <div className={CSS.element(baseClass, "clip")} ref={el => {
+            this.clip = el;
+         }}>
+            <div className={CSS.element(baseClass, "scroller")} ref={el => {
+               this.scroller = el;
+            }}>
+               <div className={CSS.element(baseClass, "content")} ref={el => {
+                  this.content = el;
+               }}>
+                  {children}
+               </div>
+            </div>
+         </div>
       </div>
    }
 
@@ -187,18 +188,11 @@ export class HScrollerComponent extends VDOM.Component {
    }
 
    scrollIntoView() {
-      let {scrollIntoViewSelector, widget} = this.props;
+      let {data, widget} = this.props;
+      let {scrollIntoViewSelector} = data;
 
-      if (scrollIntoViewSelector && isString(scrollIntoViewSelector)){
-
+      if (isString(scrollIntoViewSelector)) {
          let child = this.el.querySelector(scrollIntoViewSelector);
-
-         if (!child){
-            let childrenForClass = this.el.getElementsByClassName(scrollIntoViewSelector);
-            if (childrenForClass && childrenForClass.length)
-               child = childrenForClass[0];
-         }
-
          if (child)
             scrollElementIntoView(child, widget.vertical, widget.horizontal)
       }
