@@ -1,13 +1,13 @@
-import { PureContainer, Link, ContentPlaceholder } from "cx/widgets";
-import { Animicon } from "../components/Animicon";
-import { SideDrawer } from "../components/SideDrawer";
-import { NavTree } from "../components/NavTree";
+import {PureContainer, Link, ContentPlaceholder} from "cx/widgets";
+import {Animicon} from "../components/Animicon";
+import {SideDrawer} from "../components/SideDrawer";
+import {NavTree} from "../components/NavTree";
 
 import Logo from "./cxjs.svg";
 import CodeSandboxIcon from "./CodeSandbox.svg";
-import { GitHubStarCount } from "../components/GitHubStarCount";
+import {GitHubStarCount} from "../components/GitHubStarCount";
 
-const TopLinks = ({ topLinks, mod }) => (
+const TopLinks = ({topLinks, mod}) => (
    <cx>
       <div>
          {Object.keys(topLinks || {}).map(url => (
@@ -26,21 +26,21 @@ const TopLinks = ({ topLinks, mod }) => (
 );
 
 export const MasterLayout = ({
-   app,
-   children,
-   shadow,
-   navTree,
-   title,
-   topLinks
-}) => (
+                                app,
+                                children,
+                                shadow,
+                                navTree,
+                                title,
+                                topLinks
+                             }) => (
    <cx>
       <PureContainer>
-         <header ws class={{ master_header: true, shadow }}>
+         <header ws class={{master_header: true, shadow}}>
             <div class="master_topbar">
                <div class="master_hamburger">
                   <Animicon
-                     shape={{ bind: "master.drawer.icon", defaultValue: null }}
-                     onClick={(e, { store }) => {
+                     shape={{bind: "master.drawer.icon", defaultValue: null}}
+                     onClick={(e, {store}) => {
                         store.update("master.drawer.icon", shape => {
                            switch (shape) {
                               case "arrow":
@@ -56,7 +56,7 @@ export const MasterLayout = ({
                      }}
                   />
                </div>
-               <img class="master_logo" src={Logo} />
+               <img class="master_logo" src={Logo}/>
                <Link
                   href="https://cxjs.io"
                   url-bind="url"
@@ -86,25 +86,25 @@ export const MasterLayout = ({
                   Fiddle
                </Link>
 
-               <div style="margin-left: auto" />
+               <div style="margin-left: auto"/>
 
-               <GitHubStarCount />
+               <GitHubStarCount/>
 
                <a
                   className="master_iconlink"
                   href="https://codesandbox.io/search?refinementList%5Btemplate%5D%5B0%5D=cxjs"
                >
-                  <img src={CodeSandboxIcon} alt="CodeSandbox" />
+                  <img src={CodeSandboxIcon} alt="CodeSandbox"/>
                </a>
             </div>
          </header>
          <div class="sticky topbanner" visible={!!title}>
             <div class="topbanner_heading">
                <h3>{title}</h3>
-               <ContentPlaceholder name="topbanner" />
+               <ContentPlaceholder name="topbanner"/>
             </div>
             <div class="topbanner_tabs">
-               <TopLinks topLinks={topLinks} />
+               <TopLinks topLinks={topLinks}/>
             </div>
          </div>
          {children}
@@ -112,17 +112,18 @@ export const MasterLayout = ({
             <div
                class="sidenav"
                style="height: 100%;"
-               onClick={(e, { store }) => {
+               onClick={(e, {store}) => {
                   if (e.target.nodeName == "A")
                      store.delete("master.drawer.icon");
                }}
             >
-               <NavTree
-                  tree={navTree}
-                  url-bind="url"
-                  showCategory
-                  visible-expr="{master.drawer.icon} == 'arrow'"
-               />
+               <ContentPlaceholder name="navtree" visible-expr="{master.drawer.icon} == 'arrow'">
+                  <NavTree
+                     tree={navTree}
+                     url-bind="url"
+                     showCategory
+                  />
+               </ContentPlaceholder>
                <div visible-expr="{master.drawer.icon} == 'close'">
                   <div class="sidenav_section">
                      <Link href="https://cxjs.io">Home</Link>

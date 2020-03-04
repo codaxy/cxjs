@@ -106,7 +106,7 @@ function mainMenu(phone) {
    return (
       <cx>
          <Submenu>
-            <a>Fiddle</a>
+            <a>File</a>
             <Menu putInto="dropdown">{fileMenu(false)}</Menu>
          </Submenu>
          <a class="cxm-menu-pad" href="#" onClick="open">
@@ -163,7 +163,6 @@ function mainMenu(phone) {
                   </Button>
                </div>
                <div visible:expr="!!{fiddle.isPublic}">
-                  git
                   <p>This is fiddle is public.</p>
                   <Button onClick="unpublish" focusOnMouseDown>
                      Hide it
@@ -207,7 +206,7 @@ let rightMenu = phone => {
    if (phone) {
       return (
          <cx>
-            <Button onClick={togglePreviewMode} icon-expr="{preview.on} ? 'play' : 'stop'" mod="hollow" />
+            <Button onClick={togglePreviewMode} icon-expr="{preview.on} ? 'stop' : 'play'" mod="hollow" />
          </cx>
       );
    }
