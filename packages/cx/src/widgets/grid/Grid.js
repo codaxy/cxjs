@@ -186,6 +186,7 @@ export class Grid extends Widget {
    initState(context, instance) {
       instance.state = {
          colWidth: {},
+         lockedColWidth: {}
       };
       instance.v = 0;
       if (this.infinite)
@@ -499,7 +500,7 @@ export class Grid extends Widget {
                   }
 
                   style = header.data.style;
-                  let customWidth = header.data.width || instance.state.colWidth[c.uniqueColumnId] || header.data.defaultWidth;
+                  let customWidth = header.data.width || instance.state.colWidth[c.uniqueColumnId] || header.data.defaultWidth || instance.state.lockedColWidth[c.uniqueColumnId];
                   if (customWidth) {
                      if (instance.state.colWidth[c.uniqueColumnId] != customWidth)
                         instance.state.colWidth[c.uniqueColumnId] = customWidth;
@@ -565,6 +566,7 @@ export class Grid extends Widget {
                                     instance.invoke("onColumnResize", {width, column: c}, columnInstance);
                                  if (!header.set("width", width))
                                     instance.setState({
+                                       dimensionsVersion: instance.state.dimensionsVersion + 1,
                                        colWidth: {
                                           ...instance.state.colWidth,
                                           [c.uniqueColumnId]: width
@@ -598,6 +600,7 @@ export class Grid extends Widget {
                                  parentEl.removeChild(tableClone);
                                  header.set("width", width);
                                  instance.setState({
+                                    dimensionsVersion: instance.state.dimensionsVersion + 1,
                                     colWidth: {
                                        ...instance.state.colWidth,
                                        [c.uniqueColumnId]: width
@@ -625,6 +628,7 @@ export class Grid extends Widget {
                   style={style}
                   onClick={e => this.onHeaderClick(e, c, instance, l)}
                   onContextMenu={onContextMenu}
+                  data-unique-col-id={c.uniqueColumnId}
                >
                   {getContent(content)}
                   {sortIcon}
@@ -984,7 +988,7 @@ class GridComponent extends VDOM.Component {
       let {CSS, baseClass} = widget;
       let {dragSource} = data;
       let {dragged, start, end, cursor, cursorCellIndex, cellEdit} = this.state;
-      let {colWidth} = instance.state;
+      let {colWidth, dimensionsVersion} = instance.state;
 
       if (this.syncBuffering) {
          start = this.start;
@@ -1089,6 +1093,7 @@ class GridComponent extends VDOM.Component {
                })}
                params={{
                   ...mod,
+                  dimensionsVersion: dimensionsVersion,
                   cursorIndex: index,
                   data: record.data,
                   cursorCellIndex: index == cursor && cursorCellIndex,
@@ -1447,7 +1452,13 @@ class GridComponent extends VDOM.Component {
       let {instance} = this.props;
       let {widget} = instance;
       if (widget.scrollable)
-         this.offResize = ResizeManager.trackElement(this.dom.scroller, ::this.componentDidUpdate);
+         this.offResize = ResizeManager.trackElement(this.dom.scroller, () => {
+            //update fixed header/footer
+            this.componentDidUpdate();
+            this.setState({
+               lockedColWidth: {}
+            });
+         });
       if (widget.pipeKeyDown)
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
@@ -1626,6 +1637,8 @@ class GridComponent extends VDOM.Component {
                let cell = sr.children[c];
                cell.style.width = cell.style.minWidth = cell.style.maxWidth = `${sr.children[c].offsetWidth}px`;
                cell.style.boxSizing = 'border-box';
+               if (cell.dataset.uniqueColId)
+                  instance.state.lockedColWidth[cell.dataset.uniqueColId] = sr.children[c].offsetWidth;
             }
          }
       }
@@ -1745,7 +1758,7 @@ class GridComponent extends VDOM.Component {
 
       if (cellEdit != null && cellEdit != this.state.cellEdit) {
          newState.cellEdit = cellEdit;
-         if (cellEdit && !widget.row.line1.columns[this.state.cursorCellIndex].editor)
+         if (cellEdit && (!widget.row.line1.columns[this.state.cursorCellIndex] || !widget.row.line1.columns[this.state.cursorCellIndex].editor))
             newState.cellEdit = false;
       }
 

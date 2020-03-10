@@ -39,15 +39,15 @@ export const Buffering = <cx>
                 keyField="id"
                 buffered
                 style="height: 800px"
-                lockColumnWidths
+                mod="fixed-layout"
                 cached
                 columns={[
-                    { header: "#", field: "index", sortable: true, value: { expr: "{$index}+1"} },
-                    { header: "Name", field: "fullName", sortable: true },
-                    { header: "Continent", field: "continent", sortable: true },
-                    { header: "Browser", field: "browser", sortable: true },
-                    { header: "OS", field: "os", sortable: true },
-                    { header: "Visits", field: "visits", sortable: true, align: "right" }
+                    { header: '#', field: "index", sortable: true, value: { expr: "{$index}+1"} },
+                    { header: { text: "Name", style: 'width: 100%' }, field: "fullName", sortable: true, resizable: true },
+                    { header: "Continent", field: "continent", sortable: true, resizable: true, defaultWidth: 150 },
+                    { header: "Browser", field: "browser", sortable: true, resizable: true, defaultWidth: 170 },
+                    { header: "OS", field: "os", sortable: true, resizable: true, defaultWidth: 100 },
+                    { header: "Visits", field: "visits", sortable: true, align: "right", resizable: true, defaultWidth: 70 }
                 ]}
                 selection={{ type: KeySelection, bind: "$page.selection" }}
             />
@@ -76,15 +76,15 @@ export const Buffering = <cx>
                     keyField="id"
                     buffered
                     style="height: 800px"
-                    lockColumnWidths
+                    mod="fixed-layout"
                     cached
                     columns={[
-                        { header: "#", field: "index", sortable: true, value: { bind: "$index"} },
-                        { header: "Name", field: "fullName", sortable: true },
-                        { header: "Continent", field: "continent", sortable: true },
-                        { header: "Browser", field: "browser", sortable: true },
-                        { header: "OS", field: "os", sortable: true },
-                        { header: "Visits", field: "visits", sortable: true, align: "right" }
+                        { header: '#', field: "index", sortable: true, value: { expr: "{$index}+1"} },
+                        { header: { text: "Name", style: 'width: 100%' }, field: "fullName", sortable: true, resizable: true },
+                        { header: "Continent", field: "continent", sortable: true, resizable: true, defaultWidth: 150 },
+                        { header: "Browser", field: "browser", sortable: true, resizable: true, defaultWidth: 170 },
+                        { header: "OS", field: "os", sortable: true, resizable: true, defaultWidth: 100 },
+                        { header: "Visits", field: "visits", sortable: true, align: "right", resizable: true, defaultWidth: 70 }
                     ]}
                     selection={{ type: KeySelection, bind: "$page.selection" }}
                 />
