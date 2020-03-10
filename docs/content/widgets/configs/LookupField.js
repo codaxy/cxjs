@@ -166,14 +166,14 @@ export default {
     listOptions: {
         type: 'config',
         description: <cx><Md>
-            Set to `true` to sort drop-down options.
+            Options that will be passed to the List widget inside the drop-down.
         </Md></cx>
     },
 
     autoOpen: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to sort drop-down options.
+            Set to `true` to auto open the drop-down. Commonly used in cell-editable grids.
         </Md></cx>
     },
 

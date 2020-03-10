@@ -40,7 +40,8 @@ export class DateTimeField extends Field {
          maxValue: undefined,
          maxExclusive: undefined,
          format: undefined,
-         icon: undefined
+         icon: undefined,
+         autoOpen: undefined
       }, ...arguments);
    }
 
@@ -349,9 +350,9 @@ class DateTimeInput extends VDOM.Component {
    onMouseDown(e) {
       e.stopPropagation();
 
-      if (this.state.dropdownOpen)
+      if (this.state.dropdownOpen) {
          this.closeDropdown(e);
-      else {
+      } else {
          this.openDropdownOnFocus = true;
       }
 
@@ -435,12 +436,15 @@ class DateTimeInput extends VDOM.Component {
          callback();
    }
 
-   openDropdown(e) {
+   openDropdown() {
       let {data} = this.props.instance;
       this.openDropdownOnFocus = false;
 
       if (!this.state.dropdownOpen && !(data.disabled || data.readOnly)) {
-         this.setState({dropdownOpen: true});
+         this.setState({
+            dropdownOpen: true,
+            dropdownOpenTime: Date.now()
+         });
       }
    }
 
@@ -465,6 +469,8 @@ class DateTimeInput extends VDOM.Component {
    componentDidMount() {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
+      if (this.props.data.autoOpen)
+         this.openDropdown();
    }
 
    componentDidUpdate() {

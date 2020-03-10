@@ -3,11 +3,11 @@ import field from './Field';
 import calendar from './Calendar';
 
 let {
-    minValue, 
-    minExclusive, 
-    maxValue, 
-    maxExclusive, 
-    value 
+    minValue,
+    minExclusive,
+    maxValue,
+    maxExclusive,
+    value
 } = calendar;
 
 export default {
@@ -72,5 +72,11 @@ export default {
                 Default implementation is `Date.toISOString`. See also [Culture.setDefaultDateEncoding](~/concepts/localization#culture).
             </Md>
         </cx>
-    }
+    },
+    autoOpen: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to auto open the time picker. Commonly used in cell-editable grids.
+        </Md></cx>
+    },
 };
