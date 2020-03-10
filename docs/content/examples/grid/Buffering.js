@@ -42,11 +42,11 @@ export const Buffering = <cx>
                 mod="fixed-layout"
                 cached
                 columns={[
-                    { header: '#', field: "index", sortable: true, value: { expr: "{$index}+1"} },
+                    { header: '#', field: "index", sortable: true, value: { expr: "{$index}+1"}, defaultWidth: 50 },
                     { header: { text: "Name", style: 'width: 100%' }, field: "fullName", sortable: true, resizable: true },
                     { header: "Continent", field: "continent", sortable: true, resizable: true, defaultWidth: 150 },
                     { header: "Browser", field: "browser", sortable: true, resizable: true, defaultWidth: 170 },
-                    { header: "OS", field: "os", sortable: true, resizable: true, defaultWidth: 100 },
+                    { header: "OS", field: "os", sortable: true, resizable: true, defaultWidth: 80 },
                     { header: "Visits", field: "visits", sortable: true, align: "right", resizable: true, defaultWidth: 70 }
                 ]}
                 selection={{ type: KeySelection, bind: "$page.selection" }}

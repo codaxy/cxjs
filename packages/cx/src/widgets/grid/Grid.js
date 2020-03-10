@@ -186,7 +186,8 @@ export class Grid extends Widget {
    initState(context, instance) {
       instance.state = {
          colWidth: {},
-         lockedColWidth: {}
+         lockedColWidth: {},
+         dimensionsVersion: 0
       };
       instance.v = 0;
       if (this.infinite)
@@ -1139,6 +1140,7 @@ class GridComponent extends VDOM.Component {
             } else {
                let record = instance.records ? r : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
                let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key);
+               instance.recordInstanceCache.addChild(row);
                row.detached = true;
                row.selected = instance.isSelected(record.data, record.index);
 
@@ -1455,7 +1457,8 @@ class GridComponent extends VDOM.Component {
          this.offResize = ResizeManager.trackElement(this.dom.scroller, () => {
             //update fixed header/footer
             this.componentDidUpdate();
-            this.setState({
+            instance.setState({
+               dimensionsVersion: instance.state.dimensionsVersion + 1,
                lockedColWidth: {}
             });
          });
@@ -1982,9 +1985,15 @@ class GridComponent extends VDOM.Component {
             if (widget.cellEditable) {
                e.stopPropagation();
                e.preventDefault();
-               let cellIndex = (this.state.cursorCellIndex + 1) % widget.row.line1.columns.length;
-               let cursor = this.state.cursor + (cellIndex == 0 ? 1 : 0);
-               for (; ; cursor++) {
+               let direction = e.shiftKey ? -1 : +1;
+               let cursor = this.state.cursor;
+               let cellIndex = (this.state.cursorCellIndex + direction) % widget.row.line1.columns.length;
+               if (cellIndex == -1) {
+                  cellIndex += widget.row.line1.columns.length;
+                  cursor--;
+               } else if (cellIndex == 0 && direction > 0)
+                  cursor++;
+               for (; ; cursor += direction) {
                   let record = this.getRecordAt(cursor);
                   if (!record) break;
                   if (record.type != "data") continue;
