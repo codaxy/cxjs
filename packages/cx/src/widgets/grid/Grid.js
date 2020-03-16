@@ -374,6 +374,14 @@ export class Grid extends Widget {
 
    exploreCleanup(context, instance) {
       context.pop('parentPositionChangeEvent');
+      let hasFixedColumns = false;
+      instance.components.header.children.forEach(line => {
+         line.children.forEach(col => {
+            if (col.data.fixed)
+               hasFixedColumns = true;
+         })
+      });
+      instance.hasFixedColumns = hasFixedColumns;
    }
 
    applyGrouping(grouping, {autoConfigure} = {}) {
@@ -865,7 +873,7 @@ export class Grid extends Widget {
 
    renderRows(context, instance) {
 
-      let {records} = instance;
+      let {records, hasFixedColumns} = instance;
 
       instance.footerVDOM = null;
 
@@ -876,8 +884,11 @@ export class Grid extends Widget {
 
       for (let i = 0; i < records.length; i++) {
          record = records[i];
-         if (record.type == 'data')
+         if (record.type == 'data') {
             record.vdom = record.row.render(context, record.key);
+            if (hasFixedColumns)
+               record.fixedVdom = record.fixedRow.render(context, record.key);
+         }
 
          if (record.type == 'group-header') {
             record.vdom = [];
@@ -1213,6 +1224,7 @@ class GridComponent extends VDOM.Component {
       }
 
       content.push(
+         <div style={{ width: 300 }}></div>,
          <div
             key="scroller"
             ref={this.scrollerRef}

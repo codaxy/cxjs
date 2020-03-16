@@ -40,7 +40,8 @@
 
          overflow: hidden;
          display: flex;
-         flex-direction: column;
+         flex-direction: row;
+         align-items: stretch;
 
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
