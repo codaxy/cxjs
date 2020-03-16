@@ -1410,6 +1410,9 @@ class GridComponent extends VDOM.Component {
    }
 
    onScroll() {
+      //check if unmounted
+      if (!this.dom.scroller) return;
+
       if (this.dom.fixedHeader) {
          this.dom.fixedHeader.scrollLeft = this.dom.scroller.scrollLeft;
       }
