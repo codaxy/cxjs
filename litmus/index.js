@@ -1,11 +1,10 @@
-import {Widget, startAppLoop, History, startHotAppLoop} from 'cx/ui';
+import { Widget, startAppLoop, History, startHotAppLoop } from "cx/ui";
 //import { HtmlElement } from 'cx/widgets';
-import { Timing, Debug } from 'cx/util';
-import { Store } from 'cx/data';
+import { Timing, Debug } from "cx/util";
+import { Store } from "cx/data";
 import "./error";
 
-
-import './index.scss';
+import "./index.scss";
 
 // import {GridSection as Demo} from './sections/Grid';
 // import {FormSection as Demo} from './sections/Form';
@@ -75,17 +74,18 @@ import './index.scss';
 //import Demo from "./bugs/587";
 //import Demo from "./bugs/MultipleSelection";
 //import Demo from "./bugs/tree-sorting";
-import Demo from "./bugs/leak";
+//import Demo from "./bugs/leak";
+import Demo from "./features/grid/DockedColumns";
 
-let store = window.store = new Store();
+let store = (window.store = new Store());
 
 Widget.resetCounter();
 //Widget.optimizePrepare = false;
 //Widget.prototype.memoize = false;
 //Timing.enable('vdom-render');
-Timing.enable('app-loop');
+Timing.enable("app-loop");
 Debug.enable("app-data");
 
-History.connect(store, "url")
+History.connect(store, "url");
 
-let stop = startHotAppLoop(module, document.getElementById('app'), store, Demo);
+let stop = startHotAppLoop(module, document.getElementById("app"), store, Demo);
