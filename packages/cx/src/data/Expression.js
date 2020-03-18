@@ -189,10 +189,15 @@ export function expression(str) {
    //console.log(body);
    let keys = Object.keys(args);
 
-   let compute = new Function(...formats.map((f, i) => 'fmt' + i), ...keys, ...helperNames, body).bind(Format, ...formats, ...helperValues);
-   let selector = computable(...keys.map(k=>args[k]), compute);
-   expCache[str] = selector;
-   return selector;
+   try {
+      let compute = new Function(...formats.map((f, i) => 'fmt' + i), ...keys, ...helperNames, body).bind(Format, ...formats, ...helperValues);
+      let selector = computable(...keys.map(k => args[k]), compute);
+      expCache[str] = selector;
+      return selector;
+   }
+   catch (err) {
+      throw new Error(`Failed to parse expression: '${str}'. Error: ${err.message}`);
+   }
 }
 
 export const Expression = {
