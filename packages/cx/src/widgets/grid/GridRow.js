@@ -144,7 +144,7 @@ export class GridRowComponent extends VDOM.Component {
    getCellIndex(e) {
       let td = closest(e.target, node => node.tagName == 'TD');
       if (td)
-         return Array.from(td.parentElement.children).indexOf(td);
+         return (this.props.fixed ? 0 : this.props.grid.fixedColumnCount) + Array.from(td.parentElement.children).indexOf(td);
       return -1;
    }
 

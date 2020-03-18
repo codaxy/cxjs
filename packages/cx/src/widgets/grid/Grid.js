@@ -394,13 +394,14 @@ export class Grid extends Widget {
 
    exploreCleanup(context, instance) {
       context.pop("parentPositionChangeEvent");
-      let hasFixedColumns = false;
+      let fixedColumnCount = 0;
       instance.components.header.children.forEach(line => {
          line.children.forEach(col => {
-            if (col.data.fixed) hasFixedColumns = true;
+            if (col.data.fixed) fixedColumnCount++;
          });
       });
-      instance.hasFixedColumns = hasFixedColumns;
+      instance.hasFixedColumns = fixedColumnCount > 0;
+      instance.fixedColumnCount = fixedColumnCount;
    }
 
    applyGrouping(grouping, { autoConfigure } = {}) {
@@ -642,7 +643,7 @@ export class Grid extends Widget {
                               resizeOverlayEl.style.width = `${initialWidth}px`;
                               resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect()
                                  .left -
-                                 scrollAreaEl.getBoundingClientRect().left}px`;
+                              gridEl.getBoundingClientRect().left}px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: e => {
@@ -753,7 +754,7 @@ export class Grid extends Widget {
          result = result.filter((_, i) => !empty[i]);
 
          if (result[0]) {
-            if (fixed) {
+            if (fixed && !fixedColumns) {
                result[0].push(
                   <th
                      key="dummy"
@@ -1177,6 +1178,10 @@ class GridComponent extends VDOM.Component {
       this.scrollerRef = el => {
          this.dom.scroller = el;
       };
+
+      this.fixedScrollerRef = el => {
+         this.dom.fixedScroller = el;
+      };
    }
 
    render() {
@@ -1231,6 +1236,7 @@ class GridComponent extends VDOM.Component {
                cellEdit={index == cursor && cursorCellIndex && cellEdit}
                shouldUpdate={row.shouldUpdate}
                colWidths={colWidth}
+               fixed={fixedColumns}
             >
                {children.content.map(({ key, data, content }) => (
                   <tr key={key} className={data.classNames} style={data.style}>
@@ -1772,6 +1778,10 @@ class GridComponent extends VDOM.Component {
          this.dom.fixedFooter.scrollLeft = this.dom.scroller.scrollLeft;
       }
 
+      if (this.dom.fixedScroller) {
+         this.dom.fixedScroller.scrollTop = this.dom.scroller.scrollTop;
+      }
+
       let { instance, data } = this.props;
       let { widget } = instance;
       if (widget.buffered && !this.pending) {
@@ -2039,6 +2049,21 @@ class GridComponent extends VDOM.Component {
             this.dom.scroller.style.marginTop = 0;
          }
 
+         if (this.dom.fixedColumnsFixedHeader) {
+            let fixedColumnsWidth = `${this.dom.fixedScroller.offsetWidth}px`;
+            this.dom.fixedColumnsFixedHeader.style.right = 'auto';
+            this.dom.fixedColumnsFixedHeader.style.width = fixedColumnsWidth;
+            if (this.dom.fixedHeader)
+               this.dom.fixedHeader.style.left = fixedColumnsWidth;
+
+            let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader.firstChild.firstChild;
+
+            resized = copyCellWidths(
+               this.dom.fixedTable.firstChild,
+               fixedHeaderTBody
+            );
+         }
+
          if (this.dom.fixedFooter) {
             let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
             let srcTableBody = this.dom.table.lastChild;
@@ -2157,7 +2182,7 @@ class GridComponent extends VDOM.Component {
          cancelEdit
       } = {}
    ) {
-      let { widget } = this.props.instance;
+      let {widget} = this.props.instance;
       if (!widget.selectable && !widget.cellEditable) return;
 
       let newState = {};
@@ -2229,12 +2254,12 @@ class GridComponent extends VDOM.Component {
                            column:
                               widget.row.line1.columns[
                                  prevState.cursorCellIndex
-                              ],
+                                 ],
                            newData: record.data,
                            oldData: this.cellEditUndoData,
                            field:
-                              widget.row.line1.columns[
-                                 prevState.cursorCellIndex
+                           widget.row.line1.columns[
+                              prevState.cursorCellIndex
                               ].field
                         },
                         record
@@ -2247,15 +2272,13 @@ class GridComponent extends VDOM.Component {
 
             if (scrollIntoView) {
                let record = this.getRecordAt(index);
-               let item =
-                  record &&
-                  this.dom.table.querySelector(
-                     `tbody[data-record-key="${record.key}"]`
-                  );
+               let useFixedTable = widget.cellEditable && this.state.cursorCellIndex < this.props.instance.fixedColumnCount;
+               let table = useFixedTable ? this.dom.fixedTable : this.dom.table;
+               let item = record && table.querySelector(`tbody[data-record-key="${record.key}"]`);
                if (item) {
-                  if (widget.cellEditable && this.state.cursorCellIndex >= 0)
-                     item =
-                        item.firstChild.children[this.state.cursorCellIndex];
+                  if (widget.cellEditable)
+                     item = item.firstChild.children[this.state.cursorCellIndex - (useFixedTable ? 0 : this.props.instance.fixedColumnCount)];
+
                   scrollElementIntoView(item, true, widget.cellEditable);
                }
             }

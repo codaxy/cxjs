@@ -50,16 +50,18 @@ export default (
             records:bind="$page.records"
             scrollable
             //buffered
-            style="height: 800px;"
+            style="height: 800px; width: 800px"
             lockColumnWidths
             cached
+            mod='fixed-layout'
             columns={[
                {
                   header: "#",
                   field: "index",
                   sortable: true,
                   value: { bind: "$index" },
-                  fixed: true
+                  fixed: true,
+                  resizable: true,
                },
                {
                   header: {
@@ -69,6 +71,7 @@ export default (
                   visible: bind("$page.grid.columns.name.visible"),
                   sortable: true,
                   fixed: true,
+                  resizable: true,
                   editor: (
                      <cx>
                         <TextField
@@ -85,6 +88,7 @@ export default (
                   header: "Continent",
                   field: "continent",
                   sortable: true,
+                  resizable: true,
                   editor: (
                      <cx>
                         <TextField
@@ -95,13 +99,21 @@ export default (
                      </cx>
                   )
                },
-               { header: "Browser", field: "browser", sortable: true },
-               { header: "OS", field: "os", sortable: true },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "Browser", field: "browser", sortable: true, resizable: true, },
+               { header: "OS", field: "os", sortable: true, resizable: true },
                {
                   header: "Visits",
                   field: "visits",
                   sortable: true,
-                  align: "right"
+                  align: "right",
+                  resizable: true
                }
             ]}
             cellEditable
