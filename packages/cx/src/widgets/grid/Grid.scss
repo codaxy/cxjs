@@ -18,6 +18,12 @@
       box-shadow: $cx-default-grid-box-shadow;
       border-radius: $cx-default-grid-border-radius;
 
+      @include cx-add-state-rules($cx-list, default);
+
+      &:focus {
+         @include cx-add-state-rules($cx-list, focus);
+      }
+
       table {
          border-spacing: 0;
          border-collapse: collapse;
@@ -51,7 +57,7 @@
                border: none;
             }
 
-            .cxe-grid-header:first-child {
+            .#{$element}#{$name}-header:first-child {
                th {
                   border-top: none;
                }
@@ -89,24 +95,27 @@
          }
       }
 
-      &.#{$mod}responsive {
-         width: 100%;
-
-         & > .#{$element}#{$name}-scroll-area {
-            overflow-x: auto;
-         }
+      .#{$element}#{$name}-cell-clip {
+         overflow: hidden;
+         text-overflow: ellipsis;
       }
 
       &.#{$state}resizable {
          .cxe-grid-data td {
-            overflow: hidden;
-            text-overflow: ellipsis;
             box-sizing: border-box;
          }
 
          .cxe-grid-fixed-header .cxe-grid-col-header:last-child {
             max-width: 100%;
             width: 100%;
+         }
+      }
+
+      &.#{$mod}responsive {
+         width: 100%;
+
+         & > .#{$element}#{$name}-scroll-area {
+            overflow-x: auto;
          }
       }
 
@@ -474,14 +483,6 @@
          border-right-width: 1px;
          border-right-style: solid;
          border-right-color: $cx-default-grid-border-color;
-      }
-   }
-
-   .#{$element}#{$name}-scroll-area {
-      @include cx-add-state-rules($cx-list, default);
-
-      &:focus {
-         @include cx-add-state-rules($cx-list, focus);
       }
    }
 

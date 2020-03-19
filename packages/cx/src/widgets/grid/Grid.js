@@ -524,9 +524,7 @@ export class Grid extends Widget {
 
                if (skip[colKey]) continue;
 
-               console.log(hdinst, fixedColumns);
                if (Boolean(hdinst.data.fixed) != fixedColumns) continue;
-               console.log("SUCCESS");
 
                let header = hdinst.components[`header${l + 1}`];
                let colSpan,
@@ -643,7 +641,7 @@ export class Grid extends Widget {
                               resizeOverlayEl.style.width = `${initialWidth}px`;
                               resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect()
                                  .left -
-                              gridEl.getBoundingClientRect().left}px`;
+                                 gridEl.getBoundingClientRect().left}px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: e => {
@@ -1182,6 +1180,10 @@ class GridComponent extends VDOM.Component {
       this.fixedScrollerRef = el => {
          this.dom.fixedScroller = el;
       };
+
+      this.gridRef = el => {
+         this.dom.el = el;
+      };
    }
 
    render() {
@@ -1202,6 +1204,17 @@ class GridComponent extends VDOM.Component {
       if (this.syncBuffering) {
          start = this.start;
          end = this.end;
+      }
+
+      let cellWrap = children => children;
+
+      if (
+         widget.cellEditable &&
+         (widget.hasResizableColumns || hasFixedColumns)
+      ) {
+         cellWrap = children => (
+            <div className="cxe-grid-cell-clip">{children}</div>
+         );
       }
 
       let children = [],
@@ -1316,7 +1329,7 @@ class GridComponent extends VDOM.Component {
                                  colSpan={data.colSpan}
                                  rowSpan={data.rowSpan}
                               >
-                                 {content}
+                                 {cellWrap(content)}
                               </td>
                            );
                         }
@@ -1341,7 +1354,7 @@ class GridComponent extends VDOM.Component {
                               : [x.children],
                            data: {}
                         },
-                        fixedColumns
+                        false
                      )
                   }
                   params={{
@@ -1543,18 +1556,10 @@ class GridComponent extends VDOM.Component {
          <div
             key="scroller"
             ref={this.scrollerRef}
-            tabIndex={
-               widget.selectable || widget.cellEditable
-                  ? data.tabIndex || 0
-                  : null
-            }
             onScroll={::this.onScroll}
             className={CSS.element(baseClass, "scroll-area", {
                "fixed-header": !!this.props.header
             })}
-            onKeyDown={::this.handleKeyDown}
-            onFocus={::this.onFocus}
-            onBlur={::this.onBlur}
          >
             <div className={CSS.element(baseClass, "table-wrapper")}>
                <table
@@ -1618,7 +1623,19 @@ class GridComponent extends VDOM.Component {
          );
 
       return (
-         <div className={data.classNames} style={data.style}>
+         <div
+            className={data.classNames}
+            style={data.style}
+            tabIndex={
+               widget.selectable || widget.cellEditable
+                  ? data.tabIndex || 0
+                  : null
+            }
+            ref={this.gridRef}
+            onKeyDown={::this.handleKeyDown}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+         >
             {fixedColumnsContent}
             {content}
          </div>
@@ -2051,12 +2068,13 @@ class GridComponent extends VDOM.Component {
 
          if (this.dom.fixedColumnsFixedHeader) {
             let fixedColumnsWidth = `${this.dom.fixedScroller.offsetWidth}px`;
-            this.dom.fixedColumnsFixedHeader.style.right = 'auto';
+            this.dom.fixedColumnsFixedHeader.style.right = "auto";
             this.dom.fixedColumnsFixedHeader.style.width = fixedColumnsWidth;
             if (this.dom.fixedHeader)
                this.dom.fixedHeader.style.left = fixedColumnsWidth;
 
-            let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader.firstChild.firstChild;
+            let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader.firstChild
+               .firstChild;
 
             resized = copyCellWidths(
                this.dom.fixedTable.firstChild,
@@ -2182,7 +2200,7 @@ class GridComponent extends VDOM.Component {
          cancelEdit
       } = {}
    ) {
-      let {widget} = this.props.instance;
+      let { widget } = this.props.instance;
       if (!widget.selectable && !widget.cellEditable) return;
 
       let newState = {};
@@ -2236,7 +2254,7 @@ class GridComponent extends VDOM.Component {
 
          this.setState(newState, () => {
             if (!this.state.cellEdit && wasCellEditing) {
-               if (this.state.focused) FocusManager.focus(this.dom.scroller);
+               if (this.state.focused) FocusManager.focus(this.dom.el);
                let record = this.getRecordAt(prevState.cursor);
                if (
                   (!this.cellEditorValid || cancelEdit) &&
@@ -2254,12 +2272,12 @@ class GridComponent extends VDOM.Component {
                            column:
                               widget.row.line1.columns[
                                  prevState.cursorCellIndex
-                                 ],
+                              ],
                            newData: record.data,
                            oldData: this.cellEditUndoData,
                            field:
-                           widget.row.line1.columns[
-                              prevState.cursorCellIndex
+                              widget.row.line1.columns[
+                                 prevState.cursorCellIndex
                               ].field
                         },
                         record
@@ -2272,14 +2290,43 @@ class GridComponent extends VDOM.Component {
 
             if (scrollIntoView) {
                let record = this.getRecordAt(index);
-               let useFixedTable = widget.cellEditable && this.state.cursorCellIndex < this.props.instance.fixedColumnCount;
-               let table = useFixedTable ? this.dom.fixedTable : this.dom.table;
-               let item = record && table.querySelector(`tbody[data-record-key="${record.key}"]`);
+               let useFixedTable =
+                  widget.cellEditable &&
+                  this.state.cursorCellIndex <
+                     this.props.instance.fixedColumnCount;
+
+               let item =
+                  record &&
+                  this.dom.table.querySelector(
+                     `tbody[data-record-key="${record.key}"]`
+                  );
+
+               let hscroll = false;
                if (item) {
                   if (widget.cellEditable)
-                     item = item.firstChild.children[this.state.cursorCellIndex - (useFixedTable ? 0 : this.props.instance.fixedColumnCount)];
+                     if (
+                        this.state.cursorCellIndex >=
+                        this.props.instance.fixedColumnCount
+                     ) {
+                        hscroll = true;
+                        item =
+                           item.firstChild.children[
+                              this.state.cursorCellIndex -
+                                 this.props.instance.fixedColumnCount
+                           ];
+                     } else {
+                        let fixedItem = this.dom.fixedTable.querySelector(
+                           `tbody[data-record-key="${record.key}"]`
+                        );
+                        let cell =
+                           fixedItem &&
+                           fixedItem.firstChild.children[
+                              this.state.cursorCellIndex
+                           ];
+                        if (cell) scrollElementIntoView(cell, false, true);
+                     }
 
-                  scrollElementIntoView(item, true, widget.cellEditable);
+                  scrollElementIntoView(item, true, hscroll);
                }
             }
          });
@@ -2304,7 +2351,7 @@ class GridComponent extends VDOM.Component {
 
       //focus moved within the grid
       if (this.state.focused) {
-         if (this.state.cellEdit && this.dom.scroller == getActiveElement())
+         if (this.state.cellEdit && this.dom.el == getActiveElement())
             this.moveCursor(this.state.cursor, {
                cellEdit: false
             });
@@ -2319,9 +2366,9 @@ class GridComponent extends VDOM.Component {
       }, 0);
 
       if (!widget.focused) {
-         if (this.dom.scroller) {
-            //if an inner element is focused first (autoFocus), this.dom.scroller might be undefined
-            oneFocusOut(this, this.dom.scroller, () => {
+         if (this.dom.el) {
+            //if an inner element is focused first (autoFocus), this.dom.el might be undefined
+            oneFocusOut(this, this.dom.el, () => {
                this.moveCursor(-1, { focused: false });
             });
          }
