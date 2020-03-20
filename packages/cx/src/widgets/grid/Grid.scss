@@ -103,6 +103,8 @@
       &.#{$state}resizable {
          .cxe-grid-data td {
             box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
          }
 
          .cxe-grid-fixed-header .cxe-grid-col-header:last-child {
@@ -501,6 +503,7 @@
          &.#{$state}cellected {
             position: relative;
             user-select: none;
+            overflow: visible;
 
             &:after {
                position: absolute;
@@ -513,6 +516,7 @@
          &.#{$element}#{$name}-cell-editor {
             position: relative;
             user-select: none;
+            overflow: visible;
          }
       }
    }

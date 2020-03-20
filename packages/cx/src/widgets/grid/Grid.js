@@ -480,12 +480,6 @@ export class Grid extends Widget {
          hasFixedColumns &&
          this.renderHeader(context, instance, "header", false, true);
 
-      let fixedFooter = false;
-
-      if (instance.footerVDOM) {
-         fixedFooter = instance.footerVDOM;
-      }
-
       return (
          <GridComponent
             key={key}
@@ -496,7 +490,8 @@ export class Grid extends Widget {
             fixedColumnsHeader={fixedColumnsHeader}
             fixedColumnsFixedHeader={fixedColumnsFixedHeader}
             fixedHeader={fixedHeader}
-            fixedFooter={fixedFooter}
+            fixedFooter={instance.fixedFooterVDOM}
+            fixedColumnsFixedFooter={instance.fixedColumnsFooterVDOM}
          />
       );
    }
@@ -919,7 +914,17 @@ export class Grid extends Widget {
       }
    }
 
-   renderGroupFooter(context, instance, g, level, group, i, store, fixed) {
+   renderGroupFooter(
+      context,
+      instance,
+      g,
+      level,
+      group,
+      i,
+      store,
+      fixed,
+      fixedColumns
+   ) {
       let { CSS, baseClass } = this;
       let data = store.getData();
       let skip = 0;
@@ -932,6 +937,8 @@ export class Grid extends Widget {
 
          let cells = line.children.map((ci, i) => {
             if (--skip >= 0) return null;
+
+            if (Boolean(ci.data.fixed) != fixedColumns) return null;
 
             let v,
                c = ci.widget,
@@ -977,7 +984,7 @@ export class Grid extends Widget {
 
          if (empty) return;
 
-         if (fixed)
+         if (fixed && !fixedColumns)
             cells.push(
                <td
                   key="dummy"
@@ -1005,7 +1012,8 @@ export class Grid extends Widget {
    renderRows(context, instance) {
       let { records, hasFixedColumns } = instance;
 
-      instance.footerVDOM = null;
+      instance.fixedFooterVDOM = null;
+      instance.fixedColumnsFixedFooterVDOM = null;
 
       if (!isArray(records)) return null;
 
@@ -1019,6 +1027,7 @@ export class Grid extends Widget {
 
          if (record.type == "group-header") {
             record.vdom = [];
+            record.fixedVdom = [];
             g = record.grouping;
             if (g.caption || g.showCaption)
                record.vdom.push(
@@ -1033,7 +1042,7 @@ export class Grid extends Widget {
                   )
                );
 
-            if (g.showHeader)
+            if (g.showHeader) {
                record.vdom.push(
                   this.renderHeader(
                      context,
@@ -1043,6 +1052,17 @@ export class Grid extends Widget {
                      false
                   )
                );
+               if (hasFixedColumns)
+                  record.fixedVdom.push(
+                     this.renderHeader(
+                        context,
+                        instance,
+                        record.key + "-header",
+                        false,
+                        true
+                     )
+                  );
+            }
          }
 
          if (record.type == "group-footer") {
@@ -1055,13 +1075,27 @@ export class Grid extends Widget {
                   record.level,
                   record.group,
                   record.key + "-footer",
-                  record.store
+                  record.store,
+                  false,
+                  false
                );
+               if (hasFixedColumns)
+                  record.fixedVdom = this.renderGroupFooter(
+                     context,
+                     instance,
+                     g,
+                     record.level,
+                     record.group,
+                     record.key + "-footer",
+                     record.store,
+                     false,
+                     true
+                  );
             }
          }
 
          if (this.fixedFooter && i == records.length - 1) {
-            instance.footerVDOM = this.renderGroupFooter(
+            instance.fixedFooterVDOM = this.renderGroupFooter(
                context,
                instance,
                g,
@@ -1069,8 +1103,22 @@ export class Grid extends Widget {
                record.group,
                record.key + "-footer",
                record.store,
-               true
+               true,
+               false
             );
+
+            if (hasFixedColumns)
+               instance.fixedColumnsFixedFooterVDOM = this.renderGroupFooter(
+                  context,
+                  instance,
+                  g,
+                  record.level,
+                  record.group,
+                  record.key + "-footer",
+                  record.store,
+                  true,
+                  true
+               );
          }
       }
    }
@@ -1187,7 +1235,7 @@ class GridComponent extends VDOM.Component {
    }
 
    render() {
-      let { instance, data, fixedFooter } = this.props;
+      let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
       let { widget, hasFixedColumns } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
@@ -1218,7 +1266,7 @@ class GridComponent extends VDOM.Component {
       }
 
       let children = [],
-         lockedChildren = [];
+         fixedChildren = [];
 
       let addRow = (record, index, standalone) => {
          let { store, key, row } = record;
@@ -1261,7 +1309,9 @@ class GridComponent extends VDOM.Component {
                            if (Boolean(data.fixed) !== fixedColumns)
                               return null;
                            let cellected =
-                              index == cursor && cellIndex == cursorCellIndex;
+                              index == cursor &&
+                              cellIndex == cursorCellIndex &&
+                              widget.cellEditable;
                            let className = cellected
                               ? CSS.expand(
                                    data.classNames,
@@ -1321,6 +1371,8 @@ class GridComponent extends VDOM.Component {
                               };
                            }
 
+                           if (cellected) content = cellWrap(content);
+
                            return (
                               <td
                                  key={key}
@@ -1329,7 +1381,7 @@ class GridComponent extends VDOM.Component {
                                  colSpan={data.colSpan}
                                  rowSpan={data.rowSpan}
                               >
-                                 {cellWrap(content)}
+                                 {content}
                               </td>
                            );
                         }
@@ -1369,7 +1421,7 @@ class GridComponent extends VDOM.Component {
             );
          } else {
             children.push(wrap(record.vdom, false));
-            if (hasFixedColumns) lockedChildren.push(wrap(record.vdom, true));
+            if (hasFixedColumns) fixedChildren.push(wrap(record.vdom, true));
          }
 
          //avoid re-rendering on cursor change
@@ -1470,19 +1522,21 @@ class GridComponent extends VDOM.Component {
 
          if (widget.fixedFooter) {
             let record = instance.records[instance.records.length - 1];
-            if (record.type == "group-footer") {
-               let g = record.grouping;
-               if (g.showFooter)
-                  fixedFooter = widget.renderGroupFooter(
-                     context,
-                     instance,
-                     g,
-                     record.level,
-                     record.group,
-                     "fixed-footer",
-                     record.store,
-                     true
-                  );
+            if (
+               record &&
+               record.type == "group-footer" &&
+               record.grouping.showFooter
+            ) {
+               fixedFooter = widget.renderGroupFooter(
+                  context,
+                  instance,
+                  record.grouping,
+                  record.level,
+                  record.group,
+                  "fixed-footer",
+                  record.store,
+                  true
+               );
             }
          }
 
@@ -1491,7 +1545,10 @@ class GridComponent extends VDOM.Component {
          instance.records.forEach((record, i) => {
             if (record.type == "data") {
                addRow(record, i);
-            } else children.push(record.vdom);
+            } else {
+               children.push(record.vdom);
+               if (hasFixedColumns) fixedChildren.push(record.fixedVdom);
+            }
          });
       }
 
@@ -1545,7 +1602,7 @@ class GridComponent extends VDOM.Component {
                      }}
                   >
                      {this.props.fixedColumnsHeader}
-                     {lockedChildren}
+                     {fixedChildren}
                   </table>
                </div>
             </div>
@@ -1606,7 +1663,7 @@ class GridComponent extends VDOM.Component {
             </div>
          );
 
-      if (fixedFooter)
+      if (fixedFooter || fixedColumnsFixedFooter) {
          content.push(
             <div
                key="ff"
@@ -1621,6 +1678,23 @@ class GridComponent extends VDOM.Component {
                <table>{fixedFooter}</table>
             </div>
          );
+
+         if (hasFixedColumns)
+            fixedColumnsContent.push(
+               <div
+                  key="fcff"
+                  ref={el => {
+                     this.dom.fixedColumnsFixedFooter = el;
+                  }}
+                  className={CSS.element(baseClass, "fixed-footer")}
+                  style={{
+                     display: this.scrollWidth > 0 ? "block" : "none"
+                  }}
+               >
+                  <table>{fixedColumnsFixedFooter}</table>
+               </div>
+            );
+      }
 
       return (
          <div
@@ -2082,20 +2156,41 @@ class GridComponent extends VDOM.Component {
             );
          }
 
-         if (this.dom.fixedFooter) {
-            let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
-            let srcTableBody = this.dom.table.lastChild;
+         if (this.dom.fixedFooter || this.dom.fixedColumnsFixedFooter) {
+            if (this.dom.fixedColumnsFixedFooter) {
+               let fixedColumnsWidth = `${this.dom.fixedScroller.offsetWidth}px`;
+               this.dom.fixedColumnsFixedFooter.style.right = "auto";
+               this.dom.fixedColumnsFixedFooter.style.width = fixedColumnsWidth;
 
-            copyCellWidths(srcTableBody, dstTableBody);
+               let dstTableBody = this.dom.fixedColumnsFixedFooter.firstChild
+                  .firstChild;
+               let srcTableBody = this.dom.fixedTable.lastChild;
+               copyCellWidths(srcTableBody, dstTableBody);
+               this.dom.fixedColumnsFixedFooter.style.display = "block";
+               footerHeight = this.dom.fixedFooter.offsetHeight;
+            }
 
-            let scrollColumnEl = dstTableBody.firstChild.lastChild;
-            if (scrollColumnEl)
-               scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth =
-                  this.scrollWidth + "px";
+            if (this.dom.fixedFooter) {
+               let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
+               let srcTableBody = this.dom.table.lastChild;
 
-            this.dom.fixedFooter.style.display = "block";
-            footerHeight = this.dom.fixedFooter.offsetHeight;
+               copyCellWidths(srcTableBody, dstTableBody);
+
+               let scrollColumnEl = dstTableBody.firstChild.lastChild;
+               if (scrollColumnEl)
+                  scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth =
+                     this.scrollWidth + "px";
+
+               if (this.dom.fixedScroller)
+                  this.dom.fixedFooter.style.left = `${this.dom.fixedScroller.offsetWidth}px`;
+
+               this.dom.fixedFooter.style.display = "block";
+               footerHeight = this.dom.fixedFooter.offsetHeight;
+            }
+
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;
+            if (this.dom.fixedScroller)
+               this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
 
             //Show the last row if fixed footer is shown without grouping, otherwise hide it.
             //For buffered grids, footer is never rendered within the body.
@@ -2107,6 +2202,8 @@ class GridComponent extends VDOM.Component {
                footerHeight = 0;
          } else {
             this.dom.scroller.style.marginBottom = 0;
+            if (this.dom.fixedScroller)
+               this.dom.fixedScroller.style.marginBottom = 0;
          }
 
          if (widget.buffered) {
