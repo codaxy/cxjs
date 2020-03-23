@@ -491,7 +491,7 @@ export class Grid extends Widget {
             fixedColumnsFixedHeader={fixedColumnsFixedHeader}
             fixedHeader={fixedHeader}
             fixedFooter={instance.fixedFooterVDOM}
-            fixedColumnsFixedFooter={instance.fixedColumnsFooterVDOM}
+            fixedColumnsFixedFooter={instance.fixedColumnsFixedFooterVDOM}
          />
       );
    }
@@ -1686,7 +1686,7 @@ class GridComponent extends VDOM.Component {
                   ref={el => {
                      this.dom.fixedColumnsFixedFooter = el;
                   }}
-                  className={CSS.element(baseClass, "fixed-footer")}
+                  className={CSS.element(baseClass, "fixed-fixed-footer")}
                   style={{
                      display: this.scrollWidth > 0 ? "block" : "none"
                   }}
@@ -2420,10 +2420,15 @@ class GridComponent extends VDOM.Component {
                            fixedItem.firstChild.children[
                               this.state.cursorCellIndex
                            ];
-                        if (cell) scrollElementIntoView(cell, false, true);
+                        if (cell) scrollElementIntoView(cell, false, true, 1);
                      }
 
-                  scrollElementIntoView(item, true, hscroll);
+                  scrollElementIntoView(
+                     item,
+                     true,
+                     hscroll,
+                     widget.cellEditable ? 1 : 0
+                  );
                }
             }
          });
