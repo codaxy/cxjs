@@ -2387,10 +2387,6 @@ class GridComponent extends VDOM.Component {
 
             if (scrollIntoView) {
                let record = this.getRecordAt(index);
-               let useFixedTable =
-                  widget.cellEditable &&
-                  this.state.cursorCellIndex <
-                     this.props.instance.fixedColumnCount;
 
                let item =
                   record &&
