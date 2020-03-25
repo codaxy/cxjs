@@ -149,6 +149,21 @@
       }
    }
 
+   .#{$element}#{$name}-fixed-fixed-header {
+      overflow: hidden;
+      position: absolute;
+      display: none;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      border-right: 1px solid $cx-default-grid-border-color;
+
+      & > table {
+         width: auto;
+         table-layout: fixed;
+      }
+   }
+
    .#{$element}#{$name}-fixed-footer {
       overflow: hidden;
       position: absolute;

@@ -471,6 +471,8 @@ export class Grid extends Widget {
 
       if (!this.buffered) this.renderRows(context, instance);
 
+      if (this.fixedFooter) this.renderFixedFooter(context, instance);
+
       let header =
          this.showHeader &&
          this.renderHeader(context, instance, "header", false, false);
@@ -1012,9 +1014,6 @@ export class Grid extends Widget {
    renderRows(context, instance) {
       let { records, hasFixedColumns } = instance;
 
-      instance.fixedFooterVDOM = null;
-      instance.fixedColumnsFixedFooterVDOM = null;
-
       if (!isArray(records)) return null;
 
       let record, g;
@@ -1093,34 +1092,45 @@ export class Grid extends Widget {
                   );
             }
          }
-
-         if (this.fixedFooter && i == records.length - 1) {
-            instance.fixedFooterVDOM = this.renderGroupFooter(
-               context,
-               instance,
-               g,
-               record.level,
-               record.group,
-               record.key + "-footer",
-               record.store,
-               true,
-               false
-            );
-
-            if (hasFixedColumns)
-               instance.fixedColumnsFixedFooterVDOM = this.renderGroupFooter(
-                  context,
-                  instance,
-                  g,
-                  record.level,
-                  record.group,
-                  record.key + "-footer",
-                  record.store,
-                  true,
-                  true
-               );
-         }
       }
+   }
+
+   renderFixedFooter(context, instance) {
+      let { records, hasFixedColumns } = instance;
+
+      instance.fixedFooterVDOM = null;
+      instance.fixedColumnsFixedFooterVDOM = null;
+
+      if (!isArray(records)) return;
+
+      let record = records[records.length - 1];
+
+      if (!record || record.type != "group-footer") return;
+
+      instance.fixedFooterVDOM = this.renderGroupFooter(
+         context,
+         instance,
+         record.grouping,
+         record.level,
+         record.group,
+         record.key + "-footer",
+         record.store,
+         true,
+         false
+      );
+
+      if (hasFixedColumns)
+         instance.fixedColumnsFixedFooterVDOM = this.renderGroupFooter(
+            context,
+            instance,
+            record.grouping,
+            record.level,
+            record.group,
+            record.key + "-footer",
+            record.store,
+            true,
+            true
+         );
    }
 
    mapRecords(context, instance) {
@@ -1419,6 +1429,34 @@ class GridComponent extends VDOM.Component {
                   }}
                />
             );
+            if (hasFixedColumns)
+               fixedChildren.push(
+                  <Cx
+                     key={key}
+                     instance={record.row}
+                     parentInstance={instance}
+                     options={{ name: "grid-row" }}
+                     contentFactory={x =>
+                        wrap(
+                           {
+                              content: Array.isArray(x.children)
+                                 ? x.children
+                                 : [x.children],
+                              data: {}
+                           },
+                           true
+                        )
+                     }
+                     params={{
+                        ...mod,
+                        dimensionsVersion: dimensionsVersion,
+                        cursorIndex: index,
+                        data: record.data,
+                        cursorCellIndex: index == cursor && cursorCellIndex,
+                        cellEdit: index == cursor && cursorCellIndex && cellEdit
+                     }}
+                  />
+               );
          } else {
             children.push(wrap(record.vdom, false));
             if (hasFixedColumns) fixedChildren.push(wrap(record.vdom, true));
@@ -1519,27 +1557,6 @@ class GridComponent extends VDOM.Component {
                }
             }
          });
-
-         if (widget.fixedFooter) {
-            let record = instance.records[instance.records.length - 1];
-            if (
-               record &&
-               record.type == "group-footer" &&
-               record.grouping.showFooter
-            ) {
-               fixedFooter = widget.renderGroupFooter(
-                  context,
-                  instance,
-                  record.grouping,
-                  record.level,
-                  record.group,
-                  "fixed-footer",
-                  record.store,
-                  true
-               );
-            }
-         }
-
          instance.recordInstanceCache.sweep();
       } else {
          instance.records.forEach((record, i) => {
@@ -1654,7 +1671,7 @@ class GridComponent extends VDOM.Component {
                ref={el => {
                   this.dom.fixedColumnsFixedHeader = el;
                }}
-               className={CSS.element(baseClass, "fixed-header")}
+               className={CSS.element(baseClass, "fixed-fixed-header")}
                style={{
                   display: this.scrollWidth > 0 ? "block" : "none"
                }}
@@ -2136,8 +2153,12 @@ class GridComponent extends VDOM.Component {
             this.dom.fixedHeader.style.display = "block";
             headerHeight = this.dom.fixedHeader.offsetHeight;
             this.dom.scroller.style.marginTop = `${headerHeight}px`;
+            if (this.dom.fixedScroller)
+               this.dom.fixedScroller.style.marginTop = `${headerHeight}px`;
          } else {
             this.dom.scroller.style.marginTop = 0;
+            if (this.dom.fixedScroller)
+               this.dom.fixedScroller.style.marginTop = 0;
          }
 
          if (this.dom.fixedColumnsFixedHeader) {
@@ -2150,10 +2171,12 @@ class GridComponent extends VDOM.Component {
             let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader.firstChild
                .firstChild;
 
-            resized = copyCellWidths(
-               this.dom.fixedTable.firstChild,
-               fixedHeaderTBody
-            );
+            if (this.dom.fixedTable.firstChild) {
+               resized = copyCellWidths(
+                  this.dom.fixedTable.firstChild,
+                  fixedHeaderTBody
+               );
+            }
          }
 
          if (this.dom.fixedFooter || this.dom.fixedColumnsFixedFooter) {
@@ -2164,28 +2187,33 @@ class GridComponent extends VDOM.Component {
 
                let dstTableBody = this.dom.fixedColumnsFixedFooter.firstChild
                   .firstChild;
-               let srcTableBody = this.dom.fixedTable.lastChild;
-               copyCellWidths(srcTableBody, dstTableBody);
-               this.dom.fixedColumnsFixedFooter.style.display = "block";
-               footerHeight = this.dom.fixedFooter.offsetHeight;
+               if (dstTableBody) {
+                  let srcTableBody = this.dom.fixedTable.lastChild;
+                  copyCellWidths(srcTableBody, dstTableBody);
+                  this.dom.fixedColumnsFixedFooter.style.display = "block";
+                  footerHeight = this.dom.fixedFooter.offsetHeight;
+               }
             }
 
             if (this.dom.fixedFooter) {
                let dstTableBody = this.dom.fixedFooter.firstChild.firstChild;
-               let srcTableBody = this.dom.table.lastChild;
 
-               copyCellWidths(srcTableBody, dstTableBody);
+               if (dstTableBody) {
+                  let srcTableBody = this.dom.table.lastChild;
 
-               let scrollColumnEl = dstTableBody.firstChild.lastChild;
-               if (scrollColumnEl)
-                  scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth =
-                     this.scrollWidth + "px";
+                  copyCellWidths(srcTableBody, dstTableBody);
+
+                  let scrollColumnEl = dstTableBody.firstChild.lastChild;
+                  if (scrollColumnEl)
+                     scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth =
+                        this.scrollWidth + "px";
+
+                  this.dom.fixedFooter.style.display = "block";
+                  footerHeight = this.dom.fixedFooter.offsetHeight;
+               }
 
                if (this.dom.fixedScroller)
                   this.dom.fixedFooter.style.left = `${this.dom.fixedScroller.offsetWidth}px`;
-
-               this.dom.fixedFooter.style.display = "block";
-               footerHeight = this.dom.fixedFooter.offsetHeight;
             }
 
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;
@@ -2234,6 +2262,11 @@ class GridComponent extends VDOM.Component {
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
             this.dom.table.style.marginBottom = `${-footerHeight}px`;
+         }
+
+         if (this.dom.fixedTable) {
+            this.dom.fixedTable.style.marginTop = this.dom.table.style.marginTop;
+            this.dom.fixedTable.style.marginBottom = this.dom.table.style.marginBottom;
          }
 
          this.rowHeight = rowHeight;

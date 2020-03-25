@@ -82,7 +82,7 @@ export default (
                   <Grid
                      records-bind="$page.records"
                      scrollable
-                     //buffered
+                     buffered={buffered}
                      style="height: 800px; width: 800px"
                      lockColumnWidths
                      fixedFooter={fixedFooter}
