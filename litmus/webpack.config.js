@@ -5,14 +5,11 @@ const webpack = require("webpack"),
       .BundleAnalyzerPlugin,
    merge = require("webpack-merge"),
    path = require("path"),
-   babelConfig = require("./babel-config"),
-   touch = require("touch");
+   babelConfig = require("./babel-config");
 
 let production =
    process.env.npm_lifecycle_event &&
    process.env.npm_lifecycle_event.indexOf("build") == 0;
-
-   touch('')
 
 let common = {
    resolve: {
