@@ -400,8 +400,7 @@ class LookupComponent extends VDOM.Component {
             this.dom.dropdown = el
          }}
          className={CSS.element(baseClass, 'dropdown')}
-         tabIndex={0}
-         onFocus={::this.onDropdownFocus}
+         tabIndex={!searchVisible ? 0 : null}
          onKeyDown={e => this.onDropdownKeyPress(e)}
       >
          {
@@ -431,11 +430,6 @@ class LookupComponent extends VDOM.Component {
          e.preventDefault();
          e.stopPropagation();
       }
-   }
-
-   onDropdownFocus(e) {
-      if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice())
-         FocusManager.focus(this.dom.query);
    }
 
    getPlaceholder(text) {
@@ -799,8 +793,11 @@ class LookupComponent extends VDOM.Component {
          this.setState({
             dropdownOpen: true,
          }, () => {
-            if (this.dom.dropdown)
-               this.dom.dropdown.focus();
+            if (isTouchDevice()) return;
+            if (this.dom.query)
+               FocusManager.focus(this.dom.query);
+            else
+               FocusManager.focusFirst(this.dom.dropdown);
          });
       }
    }
