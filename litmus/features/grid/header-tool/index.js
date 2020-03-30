@@ -11,6 +11,7 @@ import {
 import { Content, Controller, KeySelection, bind } from "cx/ui";
 import { Format } from "cx/util";
 import { casual } from "../../../casual";
+import { buildColumnMenus } from "./buildColumnMenu";
 
 class PageController extends Controller {
    init() {
@@ -22,7 +23,8 @@ class PageController extends Controller {
             continent: { visible: true },
             browser: { visible: true },
             os: { visible: true },
-            visits: { visible: true }
+            visits: { visible: true },
+            date: { visible: true }
          }
       });
 
@@ -35,7 +37,8 @@ class PageController extends Controller {
             continent: casual.continent,
             browser: casual.browser,
             os: casual.operating_system,
-            visits: casual.integer(1, 100)
+            visits: casual.integer(1, 100),
+            date: Date.now() + 100 * Math.random() * 86400 * 1000
          }))
       );
    }
@@ -76,6 +79,59 @@ const visibleColumnsMenu = (
    </cx>
 );
 
+let { columns, filterParams, onCreateFilter } = buildColumnMenus(
+   [
+      {
+         header: "Date",
+         field: "date",
+         format: "date",
+         visible: bind("$page.grid.columns.date.visible"),
+         sortable: true,
+         resizable: true,
+         type: "date"
+      },
+      {
+         header: "Name",
+         field: "fullName",
+         visible: bind("$page.grid.columns.name.visible"),
+         sortable: true,
+         resizable: true
+      },
+      {
+         header: "Continent",
+         field: "continent",
+         sortable: true,
+         visible: bind("$page.grid.columns.continent.visible"),
+         resizable: true
+      },
+      {
+         header: "Browser",
+         field: "browser",
+         sortable: true,
+         visible: bind("$page.grid.columns.browser.visible"),
+         resizable: true
+      },
+      {
+         header: "OS",
+         field: "os",
+         sortable: true,
+         visible: bind("$page.grid.columns.os.visible"),
+         resizable: true
+      },
+      {
+         header: "Visits",
+         field: "visits",
+         sortable: true,
+         align: "right",
+         type: "number",
+         visible: bind("$page.grid.columns.visits.visible")
+      }
+   ],
+   {
+      filterPath: "$page.filter"
+   }
+);
+
 export default (
    <cx>
       <div controller={PageController} style="padding: 20px">
@@ -83,66 +139,11 @@ export default (
             records-bind="$page.records"
             scrollable
             style="height: 400px"
-            columns={[
-               {
-                  header: {
-                     text: "Name",
-                     tool: (
-                        <cx>
-                           <Menu horizontal itemPadding="small">
-                              <Submenu placement="down-left">
-                                 <span style="padding: 4px">
-                                    <Icon name="search" />
-                                 </span>
-                                 <Menu putInto="dropdown">
-                                    <TextField
-                                       mod="menu"
-                                       placeholder="Filter"
-                                    />
-                                    <hr />
-                                    {visibleColumnsMenu}
-                                 </Menu>
-                              </Submenu>
-                           </Menu>
-                        </cx>
-                     )
-                  },
-                  field: "fullName",
-                  visible: bind("$page.grid.columns.name.visible"),
-                  sortable: true,
-                  resizable: true,
-                  width: { bind: "colWidths.fullName" }
-               },
-               {
-                  header: "Continent",
-                  field: "continent",
-                  sortable: true,
-                  visible: bind("$page.grid.columns.continent.visible"),
-                  resizable: true
-               },
-               {
-                  header: "Browser",
-                  field: "browser",
-                  sortable: true,
-                  visible: bind("$page.grid.columns.browser.visible"),
-                  resizable: true
-               },
-               {
-                  header: "OS",
-                  field: "os",
-                  sortable: true,
-                  visible: bind("$page.grid.columns.os.visible"),
-                  resizable: true
-               },
-               {
-                  header: "Visits",
-                  field: "visits",
-                  sortable: true,
-                  align: "right",
-                  visible: bind("$page.grid.columns.visits.visible")
-               }
-            ]}
+            columns={columns}
+            filterParams={filterParams}
+            onCreateFilter={onCreateFilter}
             selection={{ type: KeySelection, bind: "$page.selection" }}
+            lockColumnWidths
             onColumnResize={data => {
                console.log(data);
             }}
