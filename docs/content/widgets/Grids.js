@@ -113,6 +113,7 @@ export const Grids = <cx>
         - [Infinite scrolling](~/examples/grid/infinite-scrolling)
         - [Row Expanding](~/examples/grid/row-expanding)
         - [Column Resizing](~/examples/grid/column-resizing)
+        - [Fixed Columns](~/examples/grid/fixed-columns)
 
         ## Configuration
 
