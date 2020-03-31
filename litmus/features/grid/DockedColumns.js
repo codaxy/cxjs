@@ -87,6 +87,7 @@ export default (
                      lockColumnWidths
                      fixedFooter={fixedFooter}
                      cached
+                     vlines
                      mod="fixed-layout"
                      cellEditable={cellEditing}
                      onCellEdited={(data, record) => {
@@ -100,7 +101,11 @@ export default (
                      }
                      columns={[
                         {
-                           header: "#",
+                           header: {
+                              text: "#",
+                              rowSpan: 2,
+                              width: bind("test")
+                           },
                            field: "index",
                            sortable: true,
                            value: { bind: "$index" },
@@ -110,8 +115,10 @@ export default (
                         },
                         {
                            header: {
-                              text: "Name"
+                              text: "Name",
+                              rowSpan: 2
                            },
+
                            field: "fullName",
                            visible: bind("$page.grid.columns.name.visible"),
                            sortable: true,
@@ -131,6 +138,7 @@ export default (
                         },
                         {
                            header: "Continent",
+                           header2: "Test",
                            field: "continent",
                            sortable: true,
                            resizable: true,

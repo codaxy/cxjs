@@ -308,8 +308,7 @@ export class Grid extends Widget {
          vlines: this.vlines,
          ["drag-" + dragMode]: dragMode,
          ["drop-" + dropMode]: dropMode,
-         resizable: this.hasResizableColumns,
-         "fixed-columns": instance.hasFixedColumns
+         resizable: this.hasResizableColumns
       };
 
       super.prepareData(context, instance);
@@ -402,6 +401,11 @@ export class Grid extends Widget {
       });
       instance.hasFixedColumns = fixedColumnCount > 0;
       instance.fixedColumnCount = fixedColumnCount;
+      if (fixedColumnCount > 0) {
+         instance.data.classNames += ` ${instance.widget.CSS.state(
+            "fixed-columns"
+         )}`;
+      }
    }
 
    applyGrouping(grouping, { autoConfigure } = {}) {
@@ -663,16 +667,15 @@ export class Grid extends Widget {
                                           { width, column: hdwidget },
                                           hdinst
                                        );
-                                    if (!header.set("width", width))
-                                       instance.setState({
-                                          dimensionsVersion:
-                                             instance.state.dimensionsVersion +
-                                             1,
-                                          colWidth: {
-                                             ...instance.state.colWidth,
-                                             [hdwidget.uniqueColumnId]: width
-                                          }
-                                       });
+                                    header.set("width", width);
+                                    instance.setState({
+                                       dimensionsVersion:
+                                          instance.state.dimensionsVersion + 1,
+                                       colWidth: {
+                                          ...instance.state.colWidth,
+                                          [hdwidget.uniqueColumnId]: width
+                                       }
+                                    });
                                  },
                                  onDblClick: () => {
                                     let table = gridEl.querySelector("table");
@@ -1306,7 +1309,7 @@ class GridComponent extends VDOM.Component {
                cursorCellIndex={index == cursor && cursorCellIndex}
                cellEdit={index == cursor && cursorCellIndex && cellEdit}
                shouldUpdate={row.shouldUpdate}
-               colWidths={colWidth}
+               dimensionsVersion={dimensionsVersion}
                fixed={fixedColumns}
             >
                {children.content.map(({ key, data, content }) => (
@@ -1925,6 +1928,11 @@ class GridComponent extends VDOM.Component {
       }
    }
 
+   onFixedColumnsWheel(e) {
+      this.dom.scroller.scrollTop += event.deltaY;
+      e.preventDefault();
+   }
+
    shouldComponentUpdate(props, state) {
       return props.shouldUpdate !== false || state !== this.state;
    }
@@ -1946,6 +1954,14 @@ class GridComponent extends VDOM.Component {
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
       this.unregisterDropZone = registerDropZone(this);
       if (widget.infinite) this.ensureData(0, 0);
+      if (this.dom.fixedScroller) {
+         this.onFixedColumnsWheel = this.onFixedColumnsWheel.bind(this);
+         this.dom.fixedScroller.addEventListener(
+            "wheel",
+            this.onFixedColumnsWheel,
+            { passive: false }
+         );
+      }
    }
 
    onDragStart(e) {
@@ -2106,6 +2122,13 @@ class GridComponent extends VDOM.Component {
       if (this.unregisterDropZone) this.unregisterDropZone();
 
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", null, instance);
+
+      if (this.dom.fixedScroller) {
+         this.dom.fixedScroller.removeEventListener(
+            "wheel",
+            this.onFixedColumnsWheel
+         );
+      }
    }
 
    componentDidUpdate() {
@@ -2140,13 +2163,16 @@ class GridComponent extends VDOM.Component {
             footerHeight = 0,
             rowHeight = 0;
 
+         if (this.dom.fixedTable)
+            syncHeaderHeights(
+               this.dom.table.firstChild,
+               this.dom.fixedTable.firstChild
+            );
+
          if (this.dom.fixedHeader) {
             let fixedHeaderTBody = this.dom.fixedHeader.firstChild.firstChild;
 
-            resized = copyCellWidths(
-               this.dom.table.firstChild,
-               fixedHeaderTBody
-            );
+            resized = copyCellSize(this.dom.table.firstChild, fixedHeaderTBody);
 
             let scrollColumnEl = fixedHeaderTBody.firstChild.lastChild;
             if (scrollColumnEl)
@@ -2171,11 +2197,13 @@ class GridComponent extends VDOM.Component {
             if (this.dom.fixedHeader)
                this.dom.fixedHeader.style.left = fixedColumnsWidth;
 
+            this.dom.fixedColumnsFixedHeader.style.display = "block";
+
             let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader.firstChild
                .firstChild;
 
             if (this.dom.fixedTable.firstChild) {
-               resized = copyCellWidths(
+               resized = copyCellSize(
                   this.dom.fixedTable.firstChild,
                   fixedHeaderTBody
                );
@@ -2192,7 +2220,7 @@ class GridComponent extends VDOM.Component {
                   .firstChild;
                if (dstTableBody) {
                   let srcTableBody = this.dom.fixedTable.lastChild;
-                  copyCellWidths(srcTableBody, dstTableBody);
+                  copyCellSize(srcTableBody, dstTableBody);
                   this.dom.fixedColumnsFixedFooter.style.display = "block";
                   footerHeight = this.dom.fixedFooter.offsetHeight;
                }
@@ -2204,7 +2232,7 @@ class GridComponent extends VDOM.Component {
                if (dstTableBody) {
                   let srcTableBody = this.dom.table.lastChild;
 
-                  copyCellWidths(srcTableBody, dstTableBody);
+                  copyCellSize(srcTableBody, dstTableBody);
 
                   let scrollColumnEl = dstTableBody.firstChild.lastChild;
                   if (scrollColumnEl)
@@ -2477,7 +2505,7 @@ class GridComponent extends VDOM.Component {
             if (cursor == -1) cursor = records.findIndex(x => x.type == "data");
          } else cursor = 0;
       }
-      this.moveCursor(cursor, { focused: true, scrollIntoView: true });
+      this.moveCursor(cursor, { focused: true, scrollIntoView: false });
    }
 
    onFocus() {
@@ -2949,7 +2977,7 @@ function initGrouping(grouping) {
    });
 }
 
-function copyCellWidths(srcTableBody, dstTableBody) {
+function copyCellSize(srcTableBody, dstTableBody) {
    if (!srcTableBody || !dstTableBody) return false;
 
    let changed = false;
@@ -2965,7 +2993,65 @@ function copyCellWidths(srcTableBody, dstTableBody) {
          let ws = `${sr.children[c].offsetWidth}px`;
          if (!changed && dc.style.width != ws) changed = true;
          dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
+         dc.style.height = `${sr.children[c].offsetHeight}px`;
       }
    }
    return changed;
+}
+
+function syncHeaderHeights(header1, header2) {
+   /**
+    * In the first pass measure all row heights.
+    * In the second pass apply those heights
+    */
+
+   if (!header1 || !header2) return;
+   const rowCount = Math.max(header1.children.length, header2.children.length);
+   let rowHeight = [];
+   for (let r = 0; r < rowCount; r++) {
+      rowHeight.push(0);
+      let tr1 = header1.children[r];
+      let tr2 = header2.children[r];
+      if (tr1) {
+         for (let i = 0; i < tr1.children.length; i++) {
+            let td = tr1.children[i];
+            let h = td.offsetHeight;
+            if (td.rowSpan == 1 && h > rowHeight[r]) {
+               rowHeight[r] = h;
+               break;
+            }
+         }
+      }
+      if (tr2) {
+         for (let i = 0; i < tr2.children.length; i++) {
+            let td = tr2.children[i];
+            let h = td.offsetHeight;
+            if (td.rowSpan == 1 && h > rowHeight[r]) {
+               rowHeight[r] = h;
+               break;
+            }
+         }
+      }
+   }
+
+   for (let r = 0; r < rowCount; r++) {
+      let tr1 = header1.children[r];
+      let tr2 = header2.children[r];
+      if (tr1) {
+         for (let i = 0; i < tr1.children.length; i++) {
+            let td = tr1.children[i];
+            let h = 0;
+            for (let x = 0; x < td.rowSpan; x++) h += rowHeight[r + x];
+            td.style.height = `${h}px`;
+         }
+      }
+      if (tr2) {
+         for (let i = 0; i < tr2.children.length; i++) {
+            let td = tr2.children[i];
+            let h = 0;
+            for (let x = 0; x < td.rowSpan; x++) h += rowHeight[r + x];
+            td.style.height = `${h}px`;
+         }
+      }
+   }
 }

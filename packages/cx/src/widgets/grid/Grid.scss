@@ -330,6 +330,11 @@
             default,
             font-weight
          );
+
+         &:empty::after {
+            content: "-";
+            visibility: hidden;
+         }
       }
 
       td.#{$state}pad {
@@ -540,6 +545,11 @@
                pointer-events: none;
                content: " ";
                @include cx-add-rules($cell-cursor-style);
+            }
+
+            &:last-child::after {
+               //prevent horizontal scroll for fixed columns
+               right: 0;
             }
          }
 

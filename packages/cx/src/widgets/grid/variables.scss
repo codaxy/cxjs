@@ -75,12 +75,12 @@ $cx-grid-pagination-state-style-map: cx-deep-map-merge(
 ) !default;
 
 $cx-grid-cell-cursor-style: (
-   left: 1px,
-   top: 0px,
-   right: 1px,
-   bottom: 0px,
+   left: -1px,
+   top: -1px,
+   right: -1px,
+   bottom: -1px,
    background: rgba(green, 0.1),
-   outline: 2px solid rgba(green, 1)
+   border: 2px solid rgba(green, 1)
 );
 
 $cx-dependencies: map-merge(
