@@ -84,7 +84,7 @@ export default (
                      scrollable
                      buffered={buffered}
                      style="height: 800px; width: 800px"
-                     lockColumnWidths
+                     //lockColumnWidths
                      fixedFooter={fixedFooter}
                      cached
                      vlines
