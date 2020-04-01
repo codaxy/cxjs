@@ -1,10 +1,8 @@
-
 // FUNCTIONS
 @import "util/scss/index";
 
-
 // SCREEN SIZE
-$cx-screen-size-small:  400px !default;
+$cx-screen-size-small: 400px !default;
 $cx-screen-size-medium: 800px !default;
 $cx-screen-size-large: 1300px !default;
 $cx-screen-size-extra-large: 1800px !default;
@@ -19,10 +17,10 @@ $cx-screen-size-extra-large: 1800px !default;
 //
 
 $cx-besm: (
-   block: 'cxb-',
-   element: 'cxe-',
-   state: 'cxs-',
-   mod: 'cxm-',
+   block: "cxb-",
+   element: "cxe-",
+   state: "cxs-",
+   mod: "cxm-"
 ) !default;
 
 //
@@ -53,14 +51,12 @@ $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
 
-
 // Borders
 // -------
 
 $cx-default-border-color: #bfbfbf !default;
 $cx-default-border-radius: 0 !default;
 $cx-default-border-width: 1px !default;
-
 
 // Padding
 // -------
@@ -78,14 +74,11 @@ $cx-empty-text: (
    color: $cx-default-empty-text-color
 ) !default;
 
-
 //Icons
 $cx-default-icon-size: 16px !default;
 
-
 //Selection
 $cx-selection-background-color: rgba(135, 206, 250, 0.6);
-
 
 //List
 $cx-default-list-item-padding: 5px 10px !default;
@@ -102,25 +95,24 @@ $cx-list: (
 );
 
 $cx-list-item: (
-   default: (
-
-   ),
+   default: (),
    hover: (
       background-color: rgba(128, 128, 128, 0.1),
-      outline: none
+      outline: none,
+      cursor: pointer
    ),
    cursor: (
-      background-color: rgba(123,190,255, 0.15),
-      outline: none,
+      background-color: rgba(123, 190, 255, 0.15),
+      outline: none
    ),
    selected: (
-      background-color: rgba(123,190,255, 0.4)
+      background-color: rgba(123, 190, 255, 0.4)
    ),
    selected-hover: (
-      background-color: rgba(123,190,255, 0.2)
+      background-color: rgba(123, 190, 255, 0.2)
    ),
    selected-cursor: (
-      background-color: rgba(123,190,255, 0.3),
+      background-color: rgba(123, 190, 255, 0.3),
       outline: none
    ),
    disabled: (
@@ -130,14 +122,11 @@ $cx-list-item: (
    ),
    active: (
       //causes flickering
-      //background: rgba(123,190,255, 0.7)
-   ),
+         //background: rgba(123,190,255, 0.7)
+   )
 ) !default;
 
-$cx-default-font-family: -apple-system,
-   BlinkMacSystemFont,
-   "Segoe UI",
-   "Roboto",
+$cx-default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
    "Helvetica Neue", Arial, sans-serif !default;
 
 $cx-default-font-size: 14px !default;
@@ -150,86 +139,71 @@ $cx-element-style-map: (
       height: 100%,
       background-color: #eee
    ),
-
    body: (
       margin: 0,
       padding: 0,
       height: 100%,
-      color: $cx-default-color,
+      color: $cx-default-color
    ),
-
    h1: (
       font-size: 2rem,
       line-height: 1.1,
       margin: 0 0 0.75rem 0,
       font-weight: 500
    ),
-
    h2: (
       font-size: 1.75rem,
       line-height: 1.1,
       margin: 0 0 0.5rem 0,
       font-weight: 500
    ),
-
    h3: (
       font-size: 1.5rem,
       line-height: 1.1,
       margin: 0 0 0.5rem 0,
       font-weight: 500
    ),
-
    h4: (
       font-size: 1.3rem,
       line-height: 1.1,
       margin: 0 0 0.5rem 0,
       font-weight: 500
    ),
-
    h5: (
       font-size: 1.15rem,
       line-height: 1.1,
       margin: 0 0 0.5rem 0,
       font-weight: 500
    ),
-
    h6: (
       font-size: 1rem,
       line-height: 1.1,
       margin: 0 0 0.5rem 0,
       font-weight: 500
    ),
-
    p: (
-      margin: 0 0 1rem 0,
+      margin: 0 0 1rem 0
    ),
-
    a: (
       text-decoration: none,
       color: #0275d8
    ),
-
-   'a:hover': (
+   "a:hover": (
       text-decoration: underline
    ),
-
    ul: (
-      margin: 0 0 1rem 0,
+      margin: 0 0 1rem 0
    ),
-
    ol: (
-      margin: 0 0 1rem 0,
+      margin: 0 0 1rem 0
    ),
-
    th: (
       font-weight: 500
    ),
-
    text: (
       fill: currentColor,
       stroke: none
    ),
-
    table: (
       font-size: inherit
    )

@@ -343,6 +343,14 @@ export class Grid extends Widget {
                }
          } else data.empty = data.totalRecordCount == 0;
       } else data.empty = data.totalRecordCount == 0;
+
+      if (this.onCreateIsRecordSelectable) {
+         instance.isRecordSelectable = instance.invoke(
+            "onCreateIsRecordSelectable",
+            null,
+            instance
+         );
+      }
    }
 
    initInstance(context, instance) {
@@ -1249,7 +1257,7 @@ class GridComponent extends VDOM.Component {
 
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
-      let { widget, hasFixedColumns } = instance;
+      let { widget, hasFixedColumns, isRecordSelectable } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let {
@@ -1291,6 +1299,12 @@ class GridComponent extends VDOM.Component {
                dragSource && (!row.dragHandles || row.dragHandles.length == 0),
             cursor: widget.selectable && index == cursor
          };
+
+         if (isRecordSelectable) {
+            let selectable = isRecordSelectable(record.data);
+            mod["selectable"] = selectable;
+            mod["non-selectable"] = !selectable;
+         }
 
          let wrap = (children, fixedColumns) => (
             <GridRowComponent
@@ -2480,14 +2494,14 @@ class GridComponent extends VDOM.Component {
                            fixedItem.firstChild.children[
                               this.state.cursorCellIndex
                            ];
-                        if (cell) scrollElementIntoView(cell, false, true, 1);
+                        if (cell) scrollElementIntoView(cell, false, true, 10);
                      }
 
                   scrollElementIntoView(
                      item,
                      true,
                      hscroll,
-                     widget.cellEditable ? 1 : 0
+                     widget.cellEditable ? 10 : 0
                   );
                }
             }
@@ -2568,6 +2582,11 @@ class GridComponent extends VDOM.Component {
                record = widget.mapRecord(null, instance, r, cursor - offset);
          }
          if (record && record.type == "data") {
+            if (
+               instance.isRecordSelectable &&
+               !instance.isRecordSelectable(record.data)
+            )
+               continue;
             selection.push(record.data);
             indexes.push(record.index);
          }
@@ -2875,12 +2894,16 @@ class GridColumnHeader extends Widget {
 
       if (this.header) this.header1 = this.header;
 
-      if (!this.header1 && this.sortable) this.header1 = { text: "" };
-
-      if (this.header1) {
-         if (isSelector(this.header1))
+      if (
+         this.header1 ||
+         this.resizable ||
+         this.width ||
+         this.defaultWidth ||
+         this.sortable
+      ) {
+         if (!isObject(this.header1))
             this.header1 = {
-               text: this.header1
+               text: this.header1 || ""
             };
 
          if (this.resizable) this.header1.resizable = this.resizable;

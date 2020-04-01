@@ -90,6 +90,7 @@ export default (
                      vlines
                      mod="fixed-layout"
                      cellEditable={cellEditing}
+                     onCreateIsRecordSelectable={() => record => record.id == 5}
                      onCellEdited={(data, record) => {
                         console.log(data, record);
                      }}

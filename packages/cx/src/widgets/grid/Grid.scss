@@ -523,12 +523,6 @@
       }
    }
 
-   .#{$block}#{$name}.#{$state}selectable {
-      .#{$element}#{$name}-data {
-         cursor: pointer;
-      }
-   }
-
    .#{$block}#{$name}.#{$state}cell-editable {
       .#{$element}#{$name}-data td {
          &:hover {
