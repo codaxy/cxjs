@@ -1116,7 +1116,9 @@ export class Grid extends Widget {
 
       let record = records[records.length - 1];
 
-      if (!record || record.type != "group-footer") return;
+      //all type of records are allowed here because the footer can be based on pre-computed data
+      //it doesn't make sense to show the footer if the grid is empty though
+      if (!record) return;
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,

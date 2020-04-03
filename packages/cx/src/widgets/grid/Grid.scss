@@ -101,7 +101,9 @@
       }
 
       &.#{$state}resizable {
-         .cxe-grid-data td {
+         .#{$element}#{$name}-data td,
+         .#{$element}#{$name}-group-footer td,
+         .#{$element}#{$name}-group-header td {
             box-sizing: border-box;
             overflow: hidden;
             text-overflow: ellipsis;
