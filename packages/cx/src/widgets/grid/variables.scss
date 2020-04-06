@@ -23,17 +23,17 @@ $cx-grid-header-state-style-map: (
       background-color: $cx-default-grid-header-background-color,
       border-color: $cx-default-grid-header-border-color,
       background-clip: border-box,
-      padding: $cx-default-grid-header-padding,
+      padding: $cx-default-grid-header-padding
    ),
    hover: (
-      background-color: darken($cx-default-grid-header-background-color, 2),
+      background-color: darken($cx-default-grid-header-background-color, 2)
    ),
    sorted: (
-      background-color: darken($cx-default-grid-header-background-color, 7),
+      background-color: darken($cx-default-grid-header-background-color, 7)
    ),
    sorted-hover: (
-      background-color: darken($cx-default-grid-header-background-color, 5),
-   ),
+      background-color: darken($cx-default-grid-header-background-color, 5)
+   )
 ) !default;
 
 // data
@@ -54,11 +54,11 @@ $cx-grid-data-state-style-map: cx-deep-map-merge(
          font-weight: $cx-default-grid-data-font-weight,
          background-color: $cx-default-grid-data-background-color,
          border-color: $cx-default-grid-data-border-color,
-         padding: $cx-default-grid-data-padding,
+         padding: $cx-default-grid-data-padding
       ),
       alternate: (
-         background-color: $cx-default-grid-data-alternate-background-color,
-      ),
+         background-color: $cx-default-grid-data-alternate-background-color
+      )
    )
 ) !default;
 
@@ -80,12 +80,12 @@ $cx-grid-cell-cursor-style: (
    right: -1px,
    bottom: -1px,
    background: rgba(green, 0.1),
-   border: 2px solid rgba(green, 1),
+   border: 2px solid rgba(green, 1)
 );
 
 $cx-dependencies: map-merge(
    $cx-dependencies,
    (
-      'cx/widgets/Grid': 'cx/widgets/DragClone',
+      "cx/widgets/Grid": "cx/widgets/DragClone"
    )
 );

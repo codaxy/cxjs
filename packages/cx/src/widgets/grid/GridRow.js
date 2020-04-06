@@ -1,45 +1,46 @@
-import {ValidationGroup} from '../../widgets/form/ValidationGroup';
-import {VDOM} from '../../ui/Widget';
+import { ValidationGroup } from "../../widgets/form/ValidationGroup";
+import { VDOM } from "../../ui/Widget";
 import {
    ddMouseDown,
    ddMouseUp,
    ddDetect,
    isDragHandleEvent
-} from '../drag-drop/ops';
-import {isTouchEvent} from '../../util/isTouchEvent';
-import {preventFocusOnTouch} from '../../ui/FocusManager';
-import {GridRowLine} from "./GridRowLine";
-import {closest, isFocusedDeep} from "../../util/DOM";
-import {KeyCode} from "../../util/KeyCode";
-import {getActiveElement} from "../../util/getActiveElement";
+} from "../drag-drop/ops";
+import { isTouchEvent } from "../../util/isTouchEvent";
+import { preventFocusOnTouch } from "../../ui/FocusManager";
+import { GridRowLine } from "./GridRowLine";
+import { closest, isFocusedDeep } from "../../util/DOM";
+import { KeyCode } from "../../util/KeyCode";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class GridRow extends ValidationGroup {
    init() {
       this.items = [];
       for (let i = 0; i < 10; i++) {
-         if (this['line' + i])
-            this.items.push(GridRowLine.create(this['line' + i], {
-               recordName: this.recordName
-            }));
+         if (this["line" + i])
+            this.items.push(
+               GridRowLine.create(this["line" + i], {
+                  recordName: this.recordName
+               })
+            );
       }
       super.init();
    }
 
    explore(context, instance) {
-      context.push('dragHandles', instance.dragHandles = []);
+      context.push("dragHandles", (instance.dragHandles = []));
       super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {
       super.exploreCleanup(context, instance);
-      context.pop('dragHandles');
+      context.pop("dragHandles");
    }
 }
 
 GridRow.prototype.styled = true; //styles used on the wrapper component
 
 export class GridRowComponent extends VDOM.Component {
-
    constructor(props) {
       super(props);
       this.onMouseMove = ::this.onMouseMove;
@@ -47,7 +48,7 @@ export class GridRowComponent extends VDOM.Component {
       this.onClick = ::this.onClick;
       this.onKeyDown = ::this.onKeyDown;
 
-      let {grid, instance} = props;
+      let { grid, instance } = props;
 
       if (grid.widget.onRowDoubleClick)
          this.onDoubleClick = e => {
@@ -56,22 +57,22 @@ export class GridRowComponent extends VDOM.Component {
 
       if (grid.widget.cellEditable)
          this.onDoubleClick = e => {
-            this.props.parent.moveCursor(this.props.cursorIndex, { cellEdit: true });
+            this.props.parent.moveCursor(this.props.cursorIndex, {
+               cellEdit: true
+            });
             e.preventDefault(); //prevent text selection
          };
-
 
       if (grid.widget.onRowContextMenu)
          this.onRowContextMenu = e => {
             grid.invoke("onRowContextMenu", e, instance);
-         }
+         };
    }
 
    render() {
-
-      let {className, dragSource, instance, record} = this.props;
-      let {data, widget} = instance;
-      let {CSS} = widget;
+      let { className, dragSource, instance, record } = this.props;
+      let { data, widget } = instance;
+      let { CSS } = widget;
       let move, up, keyDown;
 
       if (dragSource) {
@@ -79,8 +80,7 @@ export class GridRowComponent extends VDOM.Component {
          up = ddMouseUp;
       }
 
-      if (widget.onRowClick)
-         keyDown = this.onKeyDown;
+      if (widget.onRowClick) keyDown = this.onKeyDown;
 
       return (
          <tbody
@@ -98,13 +98,13 @@ export class GridRowComponent extends VDOM.Component {
             onContextMenu={this.onRowContextMenu}
             data-record-key={record.key}
          >
-         {this.props.children}
+            {this.props.children}
          </tbody>
-      )
+      );
    }
 
    onMouseDown(e) {
-      let {grid, record, instance, parent, cursorIndex} = this.props;
+      let { grid, record, instance, parent, cursorIndex } = this.props;
 
       if (this.props.dragSource) {
          ddMouseDown(e);
@@ -118,73 +118,90 @@ export class GridRowComponent extends VDOM.Component {
          }
       }
 
-      let {store, widget} = grid;
+      let { store, widget } = grid;
 
-      if (widget.selectable)
-         preventFocusOnTouch(e);
+      if (widget.selectable) preventFocusOnTouch(e);
 
       parent.moveCursor(cursorIndex, {
-         select: !isTouchEvent() && (e.shiftKey || e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)),
+         select:
+            !isTouchEvent() &&
+            (e.shiftKey ||
+               e.ctrlKey ||
+               !widget.selection.isSelected(store, record.data, record.index)),
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey
          },
-         cellIndex: this.getCellIndex(e),
+         cellIndex: this.getCellIndex(e)
       });
 
-      if (e.shiftKey && !isTouchEvent())
-         e.preventDefault();
+      if (e.shiftKey && !isTouchEvent()) e.preventDefault();
    }
 
    onMouseMove(e) {
-      if (ddDetect(e) && (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0))
+      if (
+         ddDetect(e) &&
+         (isDragHandleEvent(e) || this.props.instance.dragHandles.length == 0)
+      )
          this.props.parent.beginDragDrop(e, this.props.record);
    }
 
    getCellIndex(e) {
-      let td = closest(e.target, node => node.tagName == 'TD');
+      let td = closest(e.target, node => node.tagName == "TD");
       if (td)
-         return Array.from(td.parentElement.children).indexOf(td);
+         return (
+            (this.props.fixed ? 0 : this.props.grid.fixedColumnCount) +
+            Array.from(td.parentElement.children).indexOf(td)
+         );
       return -1;
    }
 
    onKeyDown(e) {
-      let {grid, instance} = this.props;
+      let { grid, instance } = this.props;
 
-      if (e.keyCode == KeyCode.enter && grid.invoke("onRowClick", e, instance) === false) {
+      if (
+         e.keyCode == KeyCode.enter &&
+         grid.invoke("onRowClick", e, instance) === false
+      ) {
          e.stopPropagation();
       }
    }
 
    onClick(e) {
-      let {grid, record, instance, parent, cursorIndex} = this.props;
-      let {store, widget} = grid;
+      let { grid, record, instance, parent, cursorIndex } = this.props;
+      let { store, widget } = grid;
 
       if (grid.widget.onRowClick) {
-         if (grid.invoke("onRowClick", e, instance) === false)
-            return;
+         if (grid.invoke("onRowClick", e, instance) === false) return;
       }
 
       e.stopPropagation();
 
       parent.moveCursor(cursorIndex, {
-         select: isTouchEvent() || (!e.shiftKey && !e.ctrlKey && widget.selection.isSelected(store, record.data, record.index)),
+         select:
+            isTouchEvent() ||
+            (!e.shiftKey &&
+               !e.ctrlKey &&
+               widget.selection.isSelected(store, record.data, record.index)),
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey
          },
-         cellIndex: this.getCellIndex(e),
+         cellIndex: this.getCellIndex(e)
       });
    }
 
    shouldComponentUpdate(props) {
-      return props.shouldUpdate !== false
-         || props.cursor != this.props.cursor
-         || props.selected != this.props.selected
-         || props.isBeingDragged != this.props.isBeingDragged
-         || props.cursorIndex !== this.props.cursorIndex
-         || props.cursorCellIndex !== this.props.cursorCellIndex
-         || props.cellEdit !== this.props.cellEdit
-         || props.colWidths !== this.props.colWidths
+      return (
+         props.shouldUpdate !== false ||
+         props.record != this.props.record ||
+         props.cursor != this.props.cursor ||
+         props.selected != this.props.selected ||
+         props.isBeingDragged != this.props.isBeingDragged ||
+         props.cursorIndex !== this.props.cursorIndex ||
+         props.cursorCellIndex !== this.props.cursorCellIndex ||
+         props.cellEdit !== this.props.cellEdit ||
+         props.dimensionsVersion !== this.props.dimensionsVersion
+      );
    }
 }

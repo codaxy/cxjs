@@ -48,7 +48,7 @@ export const docsNavTree = [
                     { text: "Inner Layouts", url: "~/concepts/inner-layouts" },
                     { text: "CSS", url: "~/concepts/css" },
                     { text: "Formatting", url: "~/concepts/formatting" },
-                    { text: "Selection", url: "~/concepts/selections" },
+                    { text: "Selection", url: "~/concepts/selections" }
                 ]
             },
             {
@@ -244,6 +244,10 @@ export const docsNavTree = [
                     {
                         text: "Column Resizing",
                         url: "~/examples/grid/column-resizing"
+                    },
+                    {
+                        text: "Fixed Columns",
+                        url: "~/examples/grid/fixed-columns"
                     },
                     {
                         text: "Complex Headers",

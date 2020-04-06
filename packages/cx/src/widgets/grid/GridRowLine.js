@@ -1,6 +1,6 @@
-import {Container} from '../../ui/Container';
-import {VDOM, Widget} from '../../ui/Widget';
-import {GridCell} from "./GridCell";
+import { Container } from "../../ui/Container";
+import { VDOM, Widget } from "../../ui/Widget";
+import { GridCell } from "./GridCell";
 
 export class GridRowLine extends Container {
    init() {
@@ -11,7 +11,7 @@ export class GridRowLine extends Container {
    }
 
    render(context, instance, key) {
-      let {data} = instance;
+      let { data } = instance;
       return {
          key,
          data,
