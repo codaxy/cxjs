@@ -157,7 +157,7 @@ export const FixedColumns = (
                         this.store.init(
                             "$page.records",
                             Array
-                                .from({length: 10000})
+                                .from({length: 5000})
                                 .map((v, i) => ({
                                     id: i + 1,
                                     fullName: casual.full_name,
@@ -171,21 +171,124 @@ export const FixedColumns = (
                 }
                 ...
                 <Grid
-                    records:bind="$page.records"
-                    keyField="id"
+                    records-bind="$page.records"
+                    scrollable
                     buffered
-                    style="height: 800px"
-                    mod="fixed-layout"
+                    style="height: 600px;"
+                    lockColumnWidths
+                    fixedFooter
                     cached
+                    mod="fixed-layout"
+                    cellEditable
                     columns={[
-                        { header: '#', field: "index", sortable: true, value: { expr: "{$index}+1"} },
-                        { header: { text: "Name", style: 'width: 100%' }, field: "fullName", sortable: true, resizable: true },
-                        { header: "Continent", field: "continent", sortable: true, resizable: true, defaultWidth: 150 },
-                        { header: "Browser", field: "browser", sortable: true, resizable: true, defaultWidth: 170 },
-                        { header: "OS", field: "os", sortable: true, resizable: true, defaultWidth: 100 },
-                        { header: "Visits", field: "visits", sortable: true, align: "right", resizable: true, defaultWidth: 70 }
+                        {
+                            header: "#",
+                            field: "index",
+                            sortable: true,
+                            value: { bind: "$index" },
+                            fixed: true,
+                            resizable: true,
+                            aggregate: "count"
+                        },
+                        {
+                            header: {
+                                text: "Name"
+                            },
+                            field: "fullName",
+                            sortable: true,
+                            fixed: true,
+                            resizable: true,
+                            defaultWidth: 200,
+                            editor: (
+                                <cx>
+                                    <TextField
+                                        value-bind="$record.fullName"
+                                        style="width: 100%"
+                                        autoFocus
+                                        required
+                                        visited
+                                    />
+                                </cx>
+                            )
+                        },
+                        {
+                            header: "Continent",
+                            field: "continent",
+                            sortable: true,
+                            resizable: true,
+                            aggregate: "count",
+                            editor: (
+                                <cx>
+                                    <TextField
+                                        value-bind="$record.continent"
+                                        style="width: 100%"
+                                        autoFocus
+                                    />
+                                </cx>
+                            )
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Browser",
+                            field: "browser",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "OS",
+                            field: "os",
+                            sortable: true,
+                            resizable: true
+                        },
+                        {
+                            header: "Visits",
+                            field: "visits",
+                            sortable: true,
+                            align: "right",
+                            resizable: true
+                        }
                     ]}
-                    selection={{ type: KeySelection, bind: "$page.selection" }}
                 />
                 `}</CodeSnippet>
             </CodeSplit>
