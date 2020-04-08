@@ -1,14 +1,20 @@
-import { isSelfOrDescendant, findFirst, findFirstChild, isFocusable, closestParent } from '../util/DOM';
-import { batchUpdates } from './batchUpdates';
-import { SubscriberList } from '../util/SubscriberList';
-import {isTouchEvent} from '../util/isTouchEvent';
-import {getActiveElement} from "../util/getActiveElement";
+import {
+   isSelfOrDescendant,
+   findFirst,
+   findFirstChild,
+   isFocusable,
+   closestParent,
+} from "../util/DOM";
+import { batchUpdates } from "./batchUpdates";
+import { SubscriberList } from "../util/SubscriberList";
+import { isTouchEvent } from "../util/isTouchEvent";
+import { getActiveElement } from "../util/getActiveElement";
 
 /*
-*  Purpose of FocusManager is to provide focusout notifications.
-*  IE and Firefox do not provide relatedTarget info in blur events which makes it impossible
-*  to determine if focus went outside or stayed inside the component.
-*/
+ *  Purpose of FocusManager is to provide focusout notifications.
+ *  IE and Firefox do not provide relatedTarget info in blur events which makes it impossible
+ *  to determine if focus went outside or stayed inside the component.
+ */
 
 let subscribers = new SubscriberList(),
    timerInterval = 300,
@@ -18,7 +24,6 @@ let lastActiveElement = null;
 let pending = false;
 
 export class FocusManager {
-
    static subscribe(callback) {
       let unsubscribe = subscribers.subscribe(callback);
       checkTimer();
@@ -27,9 +32,8 @@ export class FocusManager {
 
    static onFocusOut(el, callback) {
       let active = isSelfOrDescendant(el, getActiveElement());
-      return this.subscribe(focusedEl => {
-         if (!active)
-            active = isSelfOrDescendant(el, getActiveElement());
+      return this.subscribe((focusedEl) => {
+         if (!active) active = isSelfOrDescendant(el, getActiveElement());
          else if (!isSelfOrDescendant(el, focusedEl)) {
             active = false;
             callback(focusedEl);
@@ -39,7 +43,7 @@ export class FocusManager {
 
    static oneFocusOut(el, callback) {
       this.nudge();
-      let off = this.subscribe(focusedEl => {
+      let off = this.subscribe((focusedEl) => {
          if (!isSelfOrDescendant(el, focusedEl)) {
             callback(focusedEl);
             off();
@@ -49,7 +53,10 @@ export class FocusManager {
    }
 
    static nudge() {
-      if (typeof document !== "undefined" && getActiveElement() !== lastActiveElement) {
+      if (
+         typeof document !== "undefined" &&
+         getActiveElement() !== lastActiveElement
+      ) {
          if (!pending) {
             pending = true;
             setTimeout(function () {
@@ -73,32 +80,29 @@ export class FocusManager {
 
    static focusFirst(el) {
       let focusable = findFirst(el, isFocusable);
-      if (focusable)
-         this.focus(focusable);
+      if (focusable) this.focus(focusable);
       return focusable;
    }
 
    static focusFirstChild(el) {
       let focusable = findFirstChild(el, isFocusable);
-      if (focusable)
-         this.focus(focusable);
+      if (focusable) this.focus(focusable);
       return focusable;
    }
 
    static focusNext(el) {
-      let next = el, skip = true;
+      let next = el,
+         skip = true;
       do {
          if (!skip) {
             let focusable = this.focusFirst(next);
-            if (focusable)
-               return focusable;
+            if (focusable) return focusable;
          }
 
          if (next.nextSibling) {
             next = next.nextSibling;
             skip = false;
-         }
-         else {
+         } else {
             next = next.parentNode;
             skip = true;
          }
@@ -113,7 +117,7 @@ export class FocusManager {
 
 export function oneFocusOut(component, el, callback) {
    if (!component.oneFocusOut)
-      component.oneFocusOut = FocusManager.oneFocusOut(el, (focus)=> {
+      component.oneFocusOut = FocusManager.oneFocusOut(el, (focus) => {
          delete component.oneFocusOut;
          callback(focus);
       });
@@ -129,20 +133,24 @@ export function offFocusOut(component) {
 export function preventFocus(e) {
    //Focus can be prevented only on mousedown event. On touchstart should not call
    //preventDefault as it prevents scrolling
-   if (e.type !== "mousedown")
-      return;
+   if (e.type !== "mousedown") return;
 
    e.preventDefault();
 
    //unfocus activeElement
    const activeElement = getActiveElement();
-   if (e.currentTarget !== activeElement && !activeElement.contains(e.currentTarget)) {
+   if (
+      e.currentTarget !== activeElement &&
+      !activeElement.contains(e.currentTarget)
+   ) {
       //force field validation on outside click, however, preserve active window or dropdown menu
-      let focusableParent = closestParent(activeElement, isFocusable) || document.body;
-      if (focusableParent === document.body)
-         activeElement.blur();
-      else
-         focusableParent.focus();
+      let focusableParent =
+         closestParent(
+            activeElement,
+            (el) => isFocusable(el) && el.dataset.modal
+         ) || document.body;
+      if (focusableParent === document.body) activeElement.blur();
+      else focusableParent.focus();
 
       FocusManager.nudge();
    }
@@ -153,9 +161,8 @@ function checkTimer() {
 
    if (shouldRun && !timerId)
       timerId = setInterval(() => {
-         FocusManager.nudge()
+         FocusManager.nudge();
       }, timerInterval);
-
 
    if (!shouldRun && timerId) {
       clearInterval(timerId);
@@ -164,6 +171,5 @@ function checkTimer() {
 }
 
 export function preventFocusOnTouch(e, force = false) {
-   if (force || isTouchEvent())
-      preventFocus(e);
+   if (force || isTouchEvent()) preventFocus(e);
 }
