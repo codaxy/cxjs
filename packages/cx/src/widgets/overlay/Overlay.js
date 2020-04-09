@@ -273,7 +273,6 @@ class OverlayContent extends VDOM.Component {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
             onClick={this.props.onClick}
-            data-modal={this.props.modal}
          >
             {this.props.children}
          </div>
@@ -340,7 +339,6 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={::this.onMouseEnter}
             onClick={::this.onClick}
             onDidUpdate={::this.overlayDidUpdate}
-            modal={widget.modal ? 1 : null}
          >
             {widget.modal ||
                (widget.backdrop && (

@@ -1,6 +1,5 @@
-
 @mixin cx-menu(
-   $name: 'menu',
+   $name: "menu",
    $state-style-map: $cx-menu-state-style-map,
    $besm: $cx-besm
 ) {
@@ -16,7 +15,6 @@
       list-style: none;
 
       &.#{$state}horizontal {
-
          white-space: nowrap;
 
          & > .#{$element}#{$name}-item {
@@ -27,11 +25,6 @@
                &.#{$state}size-#{$size} > .#{$mod}#{$name} {
                   margin: 0 cx-right($value) 0 cx-left($value);
                }
-            }
-
-            &.#{$state}hidden {
-               visibility: hidden;
-               position: absolute;
             }
          }
       }
@@ -49,7 +42,12 @@
          & > hr {
             border: none;
             border-top: 1px solid $cx-default-menu-separator-color;
-            margin: map-get($cx-menu-padding-options, medium)
+            margin: map-get($cx-menu-padding-options, medium);
+         }
+
+         &.#{$state}hidden {
+            visibility: hidden;
+            position: absolute;
          }
       }
 
@@ -59,7 +57,6 @@
 
          & > .#{$element}#{$name}-item:last-child {
             visibility: hidden;
-            margin-left: auto;
          }
 
          &.#{$state}pack > .#{$element}#{$name}-item:last-child {
@@ -69,6 +66,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Menu')) {
+@if (cx-should-include("cx/widgets/Menu")) {
    @include cx-menu();
 }
