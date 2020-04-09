@@ -1,4 +1,4 @@
-@import '../misc/index';
+@import "../misc/index";
 
 $cx-theme-primary-color: $master-brand-highlight-color;
 
@@ -13,15 +13,18 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
 .anchor {
-    text-decoration: none;
-    color: #414340;
+    visibility: hidden;
+    display: block;
+    position: relative;
+    top: -100px;
 }
 
-#app {}
+#app {
+}
 
 .transition-appear {
     opacity: 0.1;
@@ -44,7 +47,7 @@ body {
 
 .flex-start {
     align-items: flex-start !important;
-};
+}
 
 @import "app/index";
 @import "content/index";

@@ -5,7 +5,7 @@
     background: #eeeeee;
 
     &:before {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         top: 0;
@@ -40,28 +40,24 @@
     }
 
     h2 {
-        margin: -82px 0 0 0;
-        padding: 100px 0 0;
-
+        margin: 32px 0 0 0;
         color: #414340;
         font-size: 18px;
+        position: relative;
 
         & ~ h3 {
-            margin-top: -84px;
+            margin-top: 16px;
         }
     }
 
     h3 {
-        margin: -82px 0 0 0;
-        padding: 100px 0 0;
-
+        margin: 32px 0 0 0;
         color: #414340;
         font-size: 14px;
     }
 
     h4 {
-        margin: -92px 0 8px 0;
-        padding: 100px 0 0;
+        margin: 8px 0 8px 0;
     }
 
     code {
@@ -86,11 +82,15 @@
         margin: 0.7em 0 1em;
     }
 
-    ul, ol {
+    ul,
+    ol {
         max-width: 46em;
     }
 
-    h1 > a, h2 > a, h3 > a, h4 > a {
+    h1 > a,
+    h2 > a,
+    h3 > a,
+    h4 > a {
         color: inherit;
         text-decoration: none;
 
@@ -127,7 +127,8 @@
         font-family: inherit;
         font-size: 12px;
 
-        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        &::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
             color: lightgray;
         }
         &::-moz-placeholder {
