@@ -39,10 +39,11 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
 
 export class Grid extends Widget {
-   declareData() {
+   declareData(...args) {
       let selection = this.selection.configureWidget(this);
 
       super.declareData(
+         ...args,
          {
             records: undefined,
             sorters: undefined,
@@ -58,8 +59,7 @@ export class Grid extends Widget {
             totalRecordCount: undefined,
             tabIndex: undefined,
          },
-         selection,
-         ...arguments
+         selection
       );
    }
 
@@ -952,6 +952,17 @@ export class Grid extends Widget {
       let skip = 0;
 
       let { header } = instance.components;
+      let rowStyle = {};
+
+      //hide the last group footer if fixedFooter is used
+      //but leave it rendered for column size calculation
+      if (
+         this.fixedFooter &&
+         !fixed &&
+         this.grouping &&
+         level == this.grouping.length
+      )
+         rowStyle.visibility = "hidden";
 
       let lines = [];
       header.children.forEach((line, lineIndex) => {
@@ -1022,6 +1033,7 @@ export class Grid extends Widget {
       return (
          <tbody
             key={"f" + i}
+            style={rowStyle}
             className={CSS.element(baseClass, "group-footer", [
                "level-" + level,
             ])}
@@ -1116,7 +1128,8 @@ export class Grid extends Widget {
    }
 
    renderFixedFooter(context, instance) {
-      let { records, hasFixedColumns } = instance;
+      let { records, hasFixedColumns, data } = instance;
+      if (data.empty) return;
 
       instance.fixedFooterVDOM = null;
       instance.fixedColumnsFixedFooterVDOM = null;
