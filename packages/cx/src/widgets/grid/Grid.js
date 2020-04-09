@@ -1745,7 +1745,7 @@ class GridComponent extends VDOM.Component {
       return (
          <div
             className={data.classNames}
-            style={data.style}
+            style={{ ...data.style, "counter-reset": `cx-row-number ${start}` }}
             tabIndex={
                widget.selectable || widget.cellEditable
                   ? data.tabIndex || 0

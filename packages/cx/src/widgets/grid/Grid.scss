@@ -95,11 +95,6 @@
          }
       }
 
-      .#{$element}#{$name}-cell-clip {
-         overflow: hidden;
-         text-overflow: ellipsis;
-      }
-
       &.#{$state}resizable {
          .#{$element}#{$name}-data td,
          .#{$element}#{$name}-group-footer td,
@@ -135,6 +130,16 @@
             white-space: nowrap;
          }
       }
+   }
+
+   .#{$element}#{$name}-cell-clip {
+      overflow: hidden;
+      text-overflow: ellipsis;
+   }
+
+   .#{$element}#{$name}-row-number::after {
+      counter-increment: cx-row-number;
+      content: counter(cx-row-number);
    }
 
    .#{$element}#{$name}-fixed-header {
