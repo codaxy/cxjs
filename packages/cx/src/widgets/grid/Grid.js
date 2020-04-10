@@ -959,8 +959,8 @@ export class Grid extends Widget {
       if (
          this.fixedFooter &&
          !fixed &&
-         this.grouping &&
-         level == this.grouping.length
+         isArray(this.dataAdapter.groupings) &&
+         level == this.dataAdapter.groupings.length
       )
          rowStyle.visibility = "hidden";
 
