@@ -875,7 +875,15 @@ export class Grid extends Widget {
                   colSpan,
                   pad;
                if (c.caption) {
-                  v = c.caption.value(data);
+                  if (c.caption.children)
+                     v = (
+                        <Cx
+                           widget={c.caption.children}
+                           store={store}
+                           parentInstance={instance}
+                        />
+                     );
+                  else v = c.caption.value(data);
                   pad = c.caption.pad;
                   colSpan = c.caption.colSpan;
                   empty = false;
@@ -2969,7 +2977,13 @@ class GridColumnHeader extends Widget {
             format: this.format,
          };
 
-      if (this.caption) this.caption.value = getSelector(this.caption.value);
+      if (this.caption) {
+         let children = this.caption.children || this.caption.items;
+         if (children) {
+            delete this.caption.items;
+            this.caption.children = Widget.create(children);
+         } else this.caption.value = getSelector(this.caption.value);
+      }
 
       super.init();
    }
