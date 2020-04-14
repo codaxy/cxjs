@@ -5,12 +5,7 @@ import { Binding, isBinding } from "../data/Binding";
 import { Selection } from "../ui/selection/Selection";
 import { KeyCode } from "../util/KeyCode";
 import { scrollElementIntoView } from "../util/scrollElementIntoView";
-import {
-   FocusManager,
-   oneFocusOut,
-   offFocusOut,
-   preventFocusOnTouch,
-} from "../ui/FocusManager";
+import { FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch } from "../ui/FocusManager";
 import { isString } from "../util/isString";
 import { isArray } from "../util/isArray";
 import { getAccessor } from "../data/getAccessor";
@@ -102,21 +97,10 @@ export class List extends Widget {
       this.adapter.sort(data.sorters);
 
       let filter = null;
-      if (this.onCreateFilter)
-         filter = instance.invoke(
-            "onCreateFilter",
-            data.filterParams,
-            instance
-         );
-      else if (this.filter)
-         filter = (item) => this.filter(item, data.filterParams);
+      if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
+      else if (this.filter) filter = (item) => this.filter(item, data.filterParams);
       this.adapter.setFilter(filter);
-      instance.mappedRecords = this.adapter.getRecords(
-         context,
-         instance,
-         data.records,
-         instance.store
-      );
+      instance.mappedRecords = this.adapter.getRecords(context, instance, data.records, instance.store);
 
       data.stateMods = Object.assign(data.stateMods || {}, {
          selectable: !this.selection.isDummy || this.onItemClick,
@@ -131,50 +115,26 @@ export class List extends Widget {
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
       instance.mappedRecords.forEach((record) => {
          if (record.type == "data") {
-            let itemInstance = instance.getChild(
-               context,
-               this.child,
-               record.key,
-               record.store
-            );
+            let itemInstance = instance.getChild(context, this.child, record.key, record.store);
             itemInstance.record = record;
             itemInstance.selected = isSelected(record.data, record.index);
 
             let changed = false;
             if (itemInstance.cache("recordData", record.data)) changed = true;
-            if (itemInstance.cache("selected", itemInstance.selected))
-               changed = true;
+            if (itemInstance.cache("selected", itemInstance.selected)) changed = true;
 
-            if (
-               this.cached &&
-               !changed &&
-               itemInstance.visible &&
-               !itemInstance.childStateDirty
-            ) {
+            if (this.cached && !changed && itemInstance.visible && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
                itemInstance.shouldUpdate = false;
-            } else if (itemInstance.scheduleExploreIfVisible(context))
-               instances.push(itemInstance);
+            } else if (itemInstance.scheduleExploreIfVisible(context)) instances.push(itemInstance);
          } else if (record.type == "group-header" && record.grouping.header) {
-            let itemInstance = instance.getChild(
-               context,
-               record.grouping.header,
-               record.key,
-               record.store
-            );
+            let itemInstance = instance.getChild(context, record.grouping.header, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.scheduleExploreIfVisible(context))
-               instances.push(itemInstance);
+            if (itemInstance.scheduleExploreIfVisible(context)) instances.push(itemInstance);
          } else if (record.type == "group-footer" && record.grouping.footer) {
-            let itemInstance = instance.getChild(
-               context,
-               record.grouping.footer,
-               record.key,
-               record.store
-            );
+            let itemInstance = instance.getChild(context, record.grouping.footer, record.key, record.store);
             itemInstance.record = record;
-            if (itemInstance.scheduleExploreIfVisible(context))
-               instances.push(itemInstance);
+            if (itemInstance.scheduleExploreIfVisible(context)) instances.push(itemInstance);
          }
       });
       instance.instances = instances;
@@ -200,11 +160,8 @@ export class List extends Widget {
    groupBy(grouping) {
       if (grouping) {
          if (!isArray(grouping)) {
-            if (isString(grouping) || typeof grouping == "object")
-               return this.groupBy([grouping]);
-            throw new Error(
-               "DynamicGrouping should be an array of grouping objects"
-            );
+            if (isString(grouping) || typeof grouping == "object") return this.groupBy([grouping]);
+            throw new Error("DynamicGrouping should be an array of grouping objects");
          }
 
          grouping = grouping.map((g, i) => {
@@ -270,14 +227,15 @@ class ListComponent extends VDOM.Component {
          instance.invoke("pipeKeyDown", ::this.handleKeyDown, instance);
          this.showCursor();
       }
+
+      if (widget.autoFocus) FocusManager.focus(this.el);
+
+      this.componentDidUpdate();
    }
 
    componentWillReceiveProps(props) {
       this.setState({
-         cursor: Math.max(
-            Math.min(this.state.cursor, props.items.length - 1),
-            this.state.focused ? 0 : -1
-         ),
+         cursor: Math.max(Math.min(this.state.cursor, props.items.length - 1), this.state.focused ? 0 : -1),
       });
    }
 
@@ -378,11 +336,7 @@ class ListComponent extends VDOM.Component {
          });
 
       if (!children && data.emptyText) {
-         children = (
-            <li className={CSS.element(baseClass, "empty-text")}>
-               {data.emptyText}
-            </li>
-         );
+         children = <li className={CSS.element(baseClass, "empty-text")}>{data.emptyText}</li>;
       }
 
       return (
@@ -390,16 +344,9 @@ class ListComponent extends VDOM.Component {
             ref={(el) => {
                this.el = el;
             }}
-            className={CSS.expand(
-               data.classNames,
-               CSS.state({ focused: this.state.focused })
-            )}
+            className={CSS.expand(data.classNames, CSS.state({ focused: this.state.focused }))}
             style={data.style}
-            tabIndex={
-               widget.focusable && selectable && items.length > 0
-                  ? data.tabIndex || 0
-                  : null
-            }
+            tabIndex={widget.focusable && selectable && items.length > 0 ? data.tabIndex || 0 : null}
             onMouseDown={(e) => preventFocusOnTouch(e)}
             onKeyDown={::this.handleKeyDown}
             onMouseLeave={::this.handleMouseLeave}
@@ -415,10 +362,7 @@ class ListComponent extends VDOM.Component {
       let { widget } = this.props.instance;
       if (widget.scrollSelectionIntoView) {
          let { CSS, baseClass } = widget;
-         let selectedRowSelector = `.${CSS.element(
-            baseClass,
-            "item"
-         )}.${CSS.state("selected")}`;
+         let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
          let firstSelectedRow = this.el.querySelector(selectedRowSelector);
          if (firstSelectedRow != this.selectedEl) {
             if (firstSelectedRow) scrollElementIntoView(firstSelectedRow);
@@ -427,17 +371,7 @@ class ListComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(
-      index,
-      {
-         focused,
-         hover,
-         scrollIntoView,
-         select,
-         selectRange,
-         selectOptions,
-      } = {}
-   ) {
+   moveCursor(index, { focused, hover, scrollIntoView, select, selectRange, selectOptions } = {}) {
       let { instance, selectable } = this.props;
       if (!selectable) return;
 
@@ -445,17 +379,13 @@ class ListComponent extends VDOM.Component {
       let newState = {};
       if (widget.focused) focused = true;
 
-      if (focused != null && this.state.focused != focused)
-         newState.focused = focused;
+      if (focused != null && this.state.focused != focused) newState.focused = focused;
 
       //ignore mouse enter/leave events (support with a flag if a feature request comes)
       if (!hover) newState.cursor = index;
 
       if (select) {
-         let start =
-            selectRange && this.state.selectionStart >= 0
-               ? this.state.selectionStart
-               : index;
+         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
          if (start < 0) start = index;
          this.selectRange(start, index, selectOptions);
          if (!selectRange) newState.selectionStart = index;
@@ -494,12 +424,7 @@ class ListComponent extends VDOM.Component {
          }
       }
 
-      widget.selection.selectMultiple(
-         instance.store,
-         selection,
-         indexes,
-         options
-      );
+      widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
    showCursor(focused) {
@@ -551,18 +476,12 @@ class ListComponent extends VDOM.Component {
       let { instance, items } = this.props;
       let { widget } = instance;
 
-      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
-         return;
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
             let item = items[this.cursorChildIndex[this.state.cursor]];
-            if (
-               item &&
-               widget.onItemClick &&
-               instance.invoke("onItemClick", e, item.instance) === false
-            )
-               return;
+            if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false) return;
             this.moveCursor(this.state.cursor, {
                select: true,
                selectOptions: {
@@ -573,11 +492,7 @@ class ListComponent extends VDOM.Component {
             break;
 
          case KeyCode.down:
-            for (
-               let index = this.state.cursor + 1;
-               index < this.cursorChildIndex.length;
-               index++
-            ) {
+            for (let index = this.state.cursor + 1; index < this.cursorChildIndex.length; index++) {
                let item = items[this.cursorChildIndex[index]];
                if (!isItemSelectable(item)) continue;
                this.moveCursor(index, {

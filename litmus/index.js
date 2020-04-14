@@ -44,7 +44,7 @@ import "./index.scss";
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
-import Demo from "./features/menu/overflow";
+//import Demo from "./features/menu/overflow";
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
 
@@ -76,6 +76,7 @@ import Demo from "./features/menu/overflow";
 //import Demo from "./bugs/tree-sorting";
 //import Demo from "./bugs/leak";
 //import Demo from "./features/grid/DockedColumns";
+import Demo from "./features/time-list";
 
 let store = (window.store = new Store());
 
