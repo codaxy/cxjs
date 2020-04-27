@@ -536,9 +536,7 @@ class DateTimeInput extends VDOM.Component {
 
          let value = date ? encode(date) : null;
 
-         if (value !== data.value) {
-            if (!instance.set("value", value)) this.input.value = text || "";
-         }
+         if (!instance.set("value", value)) this.input.value = text || "";
       }
    }
 }

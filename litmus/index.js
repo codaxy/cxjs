@@ -61,7 +61,7 @@ import "./index.scss";
 
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
-//import Demo from "./bugs/530";
+import Demo from "./bugs/530";
 //import Demo from "./features/restate/DeferredUpdates";
 //import Demo from "./features/layout/ComplexLabelsTopLayout";
 //import Demo from "./features/grid/GroupingCaptions";
@@ -76,7 +76,7 @@ import "./index.scss";
 //import Demo from "./bugs/tree-sorting";
 //import Demo from "./bugs/leak";
 //import Demo from "./features/grid/DockedColumns";
-import Demo from "./features/time-list";
+//import Demo from "./features/time-list";
 
 let store = (window.store = new Store());
 

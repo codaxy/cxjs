@@ -1,18 +1,17 @@
-import {reverseSlice} from "../util/reverseSlice";
+import { Controller } from "./Controller";
+import { debug, renderFlag, processDataFlag, destroyFlag } from "../util/Debug";
+import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
+import { throttle } from "../util/throttle";
+import { validatedDebounce } from "../util/validatedDebounce";
+import { batchUpdates } from "./batchUpdates";
+import { isString } from "../util/isString";
+import { isFunction } from "../util/isFunction";
+import { isDefined } from "../util/isDefined";
+import { isArray } from "../util/isArray";
+import { isObject } from "../util/isObject";
+import { isNonEmptyArray } from "../util/isNonEmptyArray";
 
 let instanceId = 1000;
-import {Controller} from './Controller';
-import {debug, renderFlag, processDataFlag, destroyFlag} from '../util/Debug';
-import {GlobalCacheIdentifier} from '../util/GlobalCacheIdentifier';
-import {throttle} from '../util/throttle';
-import {debounce} from '../util/debounce';
-import {batchUpdates} from './batchUpdates';
-import {isString} from '../util/isString';
-import {isFunction} from '../util/isFunction';
-import {isDefined} from '../util/isDefined';
-import {isArray} from '../util/isArray';
-import {isObject} from '../util/isObject';
-import {isNonEmptyArray} from "../util/isNonEmptyArray";
 
 export class Instance {
    constructor(widget, key, parent, store) {
@@ -29,7 +28,6 @@ export class Instance {
    }
 
    init(context) {
-
       //widget is initialized when first instance is initialized
       if (!this.widget.initialized) {
          this.widget.init(context);
@@ -49,32 +47,33 @@ export class Instance {
          this.controller = Controller.create(this.widget.controller, {
             widget: this.widget,
             instance: this,
-            store: this.store
+            store: this.store,
          });
 
-      if (this.widget.exploreCleanup || this.widget.outerLayout || this.widget.isContent || this.widget.controller || this.widget.prepareCleanup)
+      if (
+         this.widget.exploreCleanup ||
+         this.widget.outerLayout ||
+         this.widget.isContent ||
+         this.widget.controller ||
+         this.widget.prepareCleanup
+      )
          this.needsExploreCleanup = true;
-      if (this.widget.prepare || this.widget.controller)
-         this.needsPrepare = true;
-      if (this.widget.cleanup || this.widget.controller)
-         this.needsCleanup = true;
+      if (this.widget.prepare || this.widget.controller) this.needsPrepare = true;
+      if (this.widget.cleanup || this.widget.controller) this.needsCleanup = true;
       this.initialized = true;
    }
 
    checkVisible(context) {
-      if (!this.initialized)
-         this.init(context);
+      if (!this.initialized) this.init(context);
 
       let wasVisible = this.visible;
       this.rawData = this.dataSelector(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
-      if (this.visible && !this.detached)
-         this.parent.instanceCache.addChild(this);
+      if (this.visible && !this.detached) this.parent.instanceCache.addChild(this);
       this.explored = false;
       this.prepared = false;
 
-      if (!this.visible && wasVisible)
-         this.destroy();
+      if (!this.visible && wasVisible) this.destroy();
 
       return this.visible;
    }
@@ -83,8 +82,7 @@ export class Instance {
       if (this.checkVisible(context)) {
          context.exploreStack.push(this);
 
-         if (this.needsExploreCleanup)
-            context.exploreStack.push(this);
+         if (this.needsExploreCleanup) context.exploreStack.push(this);
 
          return true;
       }
@@ -93,11 +91,9 @@ export class Instance {
 
    cache(key, value) {
       let oldValue = this.cached[key];
-      if (oldValue === value)
-         return false;
+      if (oldValue === value) return false;
 
-      if (!this.cacheList)
-         this.cacheList = {};
+      if (!this.cacheList) this.cacheList = {};
       this.cacheList[key] = value;
       return true;
    }
@@ -119,55 +115,42 @@ export class Instance {
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
-               ? ins.parent.parent
-               : ins.parent;
+            ? ins.parent.parent
+            : ins.parent;
       }
       renderList.reverse();
    }
 
    explore(context) {
-
-      if (!this.visible)
-         throw new Error('Explore invisible!');
+      if (!this.visible) throw new Error("Explore invisible!");
 
       if (this.explored) {
-         if (this.widget.prepareCleanup)
-            context.prepareList.push(this);
+         if (this.widget.prepareCleanup) context.prepareList.push(this);
 
-         if (this.widget.exploreCleanup)
-            this.widget.exploreCleanup(context, this);
+         if (this.widget.exploreCleanup) this.widget.exploreCleanup(context, this);
 
-         if (this.parent.outerLayout === this)
-            context.popNamedValue('content', 'body');
+         if (this.parent.outerLayout === this) context.popNamedValue("content", "body");
 
-
-         if (this.widget.controller)
-            context.pop('controller');
+         if (this.widget.controller) context.pop("controller");
 
          return;
       }
 
       this.explored = true;
 
-      if (this.needsPrepare)
-         context.prepareList.push(this);
-      else
-         this.prepared = true;
+      if (this.needsPrepare) context.prepareList.push(this);
+      else this.prepared = true;
 
-      if (this.needsCleanup)
-         context.cleanupList.push(this);
+      if (this.needsCleanup) context.cleanupList.push(this);
 
-      if (this.instanceCache)
-         this.instanceCache.mark();
+      if (this.instanceCache) this.instanceCache.mark();
 
       //controller may reconfigure the widget and need to go before shouldUpdate calculation
       this.parentOptions = context.parentOptions;
 
       if (!this.controller) {
-         if (context.controller)
-            this.controller = context.controller;
-         else if (this.parent.controller)
-            this.controller = this.parent.controller;
+         if (context.controller) this.controller = context.controller;
+         else if (this.parent.controller) this.controller = this.parent.controller;
       }
 
       this.destroyTracked = false;
@@ -180,34 +163,32 @@ export class Instance {
             }
             context.push("controller", this.controller);
             this.controller.explore(context);
-            if (this.controller.onDestroy && this.controller.widget == this.widget)
-               this.trackDestroy();
+            if (this.controller.onDestroy && this.controller.widget == this.widget) this.trackDestroy();
          }
       }
 
-      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions))
-         this.trackDestroy();
+      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions)) this.trackDestroy();
 
       this.renderList = this.assignedRenderList || this.parent.renderList || context.getRootRenderList();
 
-      let shouldUpdate = this.rawData !== this.cached.rawData
-         || this.state !== this.cached.state
-         || this.widget.version !== this.cached.widgetVersion
-         || this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get();
+      let shouldUpdate =
+         this.rawData !== this.cached.rawData ||
+         this.state !== this.cached.state ||
+         this.widget.version !== this.cached.widgetVersion ||
+         this.cached.globalCacheIdentifier !== GlobalCacheIdentifier.get();
 
       if (shouldUpdate) {
-         this.data = {...this.rawData};
+         this.data = { ...this.rawData };
          this.widget.prepareData(context, this);
          debug(processDataFlag, this.widget);
       }
 
       //onExplore might set the outer layout
-      if (this.widget.onExplore)
-         this.widget.onExplore(context, this);
+      if (this.widget.onExplore) this.widget.onExplore(context, this);
 
       if (this.parent.outerLayout === this) {
          this.renderList = this.renderList.insertRight();
-         context.pushNamedValue('content', 'body', this.parent);
+         context.pushNamedValue("content", "body", this.parent);
       }
 
       if (this.widget.outerLayout) {
@@ -218,17 +199,15 @@ export class Instance {
 
       if (this.widget.isContent) {
          this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
-         if (this.contentPlaceholder)
-            context.contentPlaceholder[this.widget.putInto](this);
+         if (this.contentPlaceholder) context.contentPlaceholder[this.widget.putInto](this);
          else {
             this.renderList = this.renderList.insertLeft();
-            context.pushNamedValue('content', this.widget.putInto, this);
+            context.pushNamedValue("content", this.widget.putInto, this);
          }
       }
 
       this.shouldUpdate = false;
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
-         this.markShouldUpdate(context);
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) this.markShouldUpdate(context);
 
       context.exploreStack.hop();
 
@@ -238,8 +217,7 @@ export class Instance {
             let helper = this.widget.helpers[cmp];
             if (helper) {
                let ins = this.getChild(context, helper);
-               if (ins.scheduleExploreIfVisible(context))
-                  this.helpers[cmp] = ins;
+               if (ins.scheduleExploreIfVisible(context)) this.helpers[cmp] = ins;
             }
          }
       }
@@ -248,40 +226,30 @@ export class Instance {
    }
 
    prepare(context) {
-      if (!this.visible)
-         throw new Error('Prepare invisible!');
+      if (!this.visible) throw new Error("Prepare invisible!");
 
       if (this.prepared) {
-         if (this.widget.prepareCleanup)
-            this.widget.prepareCleanup(context, this);
+         if (this.widget.prepareCleanup) this.widget.prepareCleanup(context, this);
          return;
       }
 
       this.prepared = true;
-      if (this.widget.prepare)
-         this.widget.prepare(context, this);
+      if (this.widget.prepare) this.widget.prepare(context, this);
 
-      if (this.widget.controller && this.controller.prepare)
-         this.controller.prepare(context);
+      if (this.widget.controller && this.controller.prepare) this.controller.prepare(context);
    }
 
    render(context) {
-
-      if (!this.visible)
-         throw new Error('Render invisible!');
+      if (!this.visible) throw new Error("Render invisible!");
 
       if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
          let vdom = renderResultFix(this.widget.render(context, this, this.key));
-         if (this.widget.isContent || this.outerLayout)
-            this.contentVDOM = vdom;
-         else
-            this.vdom = vdom;
+         if (this.widget.isContent || this.outerLayout) this.contentVDOM = vdom;
+         else this.vdom = vdom;
       }
 
-      if (this.cacheList)
-         for (let key in this.cacheList)
-            this.cached[key] = this.cacheList[key];
+      if (this.cacheList) for (let key in this.cacheList) this.cached[key] = this.cacheList[key];
 
       this.cacheList = null;
 
@@ -292,14 +260,12 @@ export class Instance {
       this.cached.globalCacheIdentifier = GlobalCacheIdentifier.get();
       this.childStateDirty = false;
 
-      if (this.instanceCache)
-         this.instanceCache.sweep();
+      if (this.instanceCache) this.instanceCache.sweep();
 
       if (this.parent.outerLayout === this) {
          //if outer layouts are chained we need to find the originating element (last element with OL set)
          let parent = this.parent;
-         while (parent.parent.outerLayout == parent)
-            parent = parent.parent;
+         while (parent.parent.outerLayout == parent) parent = parent.parent;
          parent.vdom = this.vdom;
       }
 
@@ -307,18 +273,15 @@ export class Instance {
    }
 
    cleanup(context) {
-      if (this.widget.controller && this.controller.cleanup)
-         this.controller.cleanup(context);
+      if (this.widget.controller && this.controller.cleanup) this.controller.cleanup(context);
 
-      if (this.widget.cleanup)
-         this.widget.cleanup(context, this);
+      if (this.widget.cleanup) this.widget.cleanup(context, this);
    }
 
    trackDestroy() {
       if (!this.destroyTracked) {
          this.destroyTracked = true;
-         if (this.parent && !this.detached)
-            this.parent.trackDestroyableChild(this);
+         if (this.parent && !this.detached) this.parent.trackDestroyableChild(this);
       }
    }
 
@@ -328,13 +291,12 @@ export class Instance {
    }
 
    subscribeOnDestroy(callback) {
-      if (!this.destroySubscriptions)
-         this.destroySubscriptions = [];
+      if (!this.destroySubscriptions) this.destroySubscriptions = [];
       this.destroySubscriptions.push(callback);
       this.trackDestroy();
       return () => {
-         this.destroySubscriptions && this.destroySubscriptions.filter(cb => cb != callback);
-      }
+         this.destroySubscriptions && this.destroySubscriptions.filter((cb) => cb != callback);
+      };
    }
 
    destroy() {
@@ -344,17 +306,21 @@ export class Instance {
       }
 
       if (this.destroySubscriptions) {
-         this.destroySubscriptions.forEach(cb => cb());
+         this.destroySubscriptions.forEach((cb) => cb());
          this.destroySubscriptions = null;
       }
 
       if (this.destroyTracked) {
          debug(destroyFlag, this);
 
-         if (this.widget.onDestroy)
-            this.widget.onDestroy(this);
+         if (this.widget.onDestroy) this.widget.onDestroy(this);
 
-         if (this.widget.controller && this.controller && this.controller.onDestroy && this.controller.widget == this.widget)
+         if (
+            this.widget.controller &&
+            this.controller &&
+            this.controller.onDestroy &&
+            this.controller.widget == this.widget
+         )
             this.controller.onDestroy();
 
          this.destroyTracked = false;
@@ -371,8 +337,7 @@ export class Instance {
             }
          }
 
-      if (skip)
-         return;
+      if (skip) return;
 
       this.state = Object.assign({}, this.state, state);
       let parent = this.parent;
@@ -386,31 +351,41 @@ export class Instance {
       });
    }
 
-   set(prop, value, internal = false) {
-
+   set(prop, value, options = {}) {
       //skip re-rendering (used for reading state from uncontrolled components)
-      if (internal && this.rawData) {
+      if (options.internal && this.rawData) {
          this.rawData[prop] = value;
          this.data[prop] = value;
       }
 
       let setter = this.setters && this.setters[prop];
       if (setter) {
-         setter(value);
+         if (options.immediate && isFunction(setter.reset)) setter.reset(value);
+         else setter(value);
          return true;
       }
 
       let p = this.widget[prop];
-      if (p && typeof p == 'object') {
+      if (p && typeof p == "object") {
          if (p.debounce) {
-            this.definePropertySetter(prop, debounce(value => this.doSet(prop, value), p.debounce));
-            this.set(prop, value, internal);
+            this.definePropertySetter(
+               prop,
+               validatedDebounce(
+                  (value) => this.doSet(prop, value),
+                  () => this.dataSelector(this.store)[prop],
+                  p.debounce
+               )
+            );
+            this.set(prop, value, options);
             return true;
          }
 
          if (p.throttle) {
-            this.definePropertySetter(prop, throttle(value => this.doSet(prop, value), p.throttle));
-            this.set(prop, value, internal);
+            this.definePropertySetter(
+               prop,
+               throttle((value) => this.doSet(prop, value), p.throttle)
+            );
+            this.set(prop, value, options);
             return true;
          }
       }
@@ -418,9 +393,8 @@ export class Instance {
       return this.doSet(prop, value);
    }
 
-   definePropertySetter(prop, setter, internal) {
-      if (!this.setters)
-         this.setters = {};
+   definePropertySetter(prop, setter) {
+      if (!this.setters) this.setters = {};
       this.setters[prop] = setter;
    }
 
@@ -433,18 +407,15 @@ export class Instance {
                if (isFunction(p.set)) {
                   p.set(value, this);
                   changed = true;
-               }
-               else if (isString(p.set)) {
+               } else if (isString(p.set)) {
                   this.controller[p.set](value, this);
                   changed = true;
                }
-            }
-            else if (p.action) {
+            } else if (p.action) {
                let action = p.action(value, this);
                this.store.dispatch(action);
                changed = true;
-            }
-            else if (isString(p.bind)) {
+            } else if (isString(p.bind)) {
                changed = this.store.set(p.bind, value);
             }
          }
@@ -465,8 +436,7 @@ export class Instance {
    }
 
    clearChildrenCache() {
-      if (this.instanceCache)
-         this.instanceCache.destroy();
+      if (this.instanceCache) this.instanceCache.destroy();
    }
 
    getChild(context, widget, key, store) {
@@ -484,15 +454,13 @@ export class Instance {
    }
 
    getJsxEventProps() {
-      let {widget} = this;
+      let { widget } = this;
 
-      if (!isArray(widget.jsxAttributes))
-         return null;
+      if (!isArray(widget.jsxAttributes)) return null;
 
       let props = {};
-      widget.jsxAttributes.forEach(attr => {
-         if (attr.indexOf('on') == 0 && attr.length > 2)
-            props[attr] = e => this.invoke(attr, e, this);
+      widget.jsxAttributes.forEach((attr) => {
+         if (attr.indexOf("on") == 0 && attr.length > 2) props[attr] = (e) => this.invoke(attr, e, this);
       });
       return props;
    }
@@ -501,10 +469,9 @@ export class Instance {
       let scope = this.widget;
       let callback = scope[methodName];
 
-      if (typeof callback === 'string')
-         return this.getControllerMethod(callback);
+      if (typeof callback === "string") return this.getControllerMethod(callback);
 
-      if (typeof callback !== 'function')
+      if (typeof callback !== "function")
          throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
 
       return callback.bind(scope);
@@ -512,14 +479,17 @@ export class Instance {
 
    getControllerMethod(methodName) {
       if (!this.controller)
-         throw new Error(`Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`);
+         throw new Error(
+            `Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`
+         );
 
       let at = this;
-      while (at != null && at.controller && !at.controller[methodName])
-         at = at.parent;
+      while (at != null && at.controller && !at.controller[methodName]) at = at.parent;
 
       if (!at || !at.controller || !at.controller[methodName])
-         throw new Error(`Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`);
+         throw new Error(
+            `Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`
+         );
 
       return at.controller[methodName].bind(at.controller);
    }
@@ -534,30 +504,27 @@ export class Instance {
 }
 
 function renderResultFix(res) {
-   return res != null && isDefined(res.content) ? res : {content: res};
+   return res != null && isDefined(res.content) ? res : { content: res };
 }
 
 export class InstanceCache {
-
    constructor(parent, keyPrefix) {
       this.children = {};
       this.parent = parent;
       this.marked = {};
       this.monitored = null;
-      this.keyPrefix = keyPrefix != null ? keyPrefix + '-' : '';
+      this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
    }
 
    getChild(widget, store, key) {
       let k = this.keyPrefix + (key != null ? key : widget.widgetId);
       let instance = this.children[k];
 
-
       if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
          instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }
-      if (instance.store !== store)
-         instance.setStore(store);
+      if (instance.store !== store) instance.setStore(store);
 
       return instance;
    }
@@ -571,8 +538,7 @@ export class InstanceCache {
    }
 
    trackDestroy(instance) {
-      if (!this.monitored)
-         this.monitored = {};
+      if (!this.monitored) this.monitored = {};
       this.monitored[instance.key] = instance;
    }
 
@@ -580,8 +546,7 @@ export class InstanceCache {
       this.children = {};
       this.marked = {};
 
-      if (!this.monitored)
-         return;
+      if (!this.monitored) return;
 
       for (let key in this.monitored) {
          this.monitored[key].destroy();
@@ -592,8 +557,7 @@ export class InstanceCache {
 
    sweep() {
       this.children = this.marked;
-      if (!this.monitored)
-         return;
+      if (!this.monitored) return;
       let activeCount = 0;
       for (let key in this.monitored) {
          let monitoredChild = this.monitored[key];
@@ -601,14 +565,9 @@ export class InstanceCache {
          if (child !== monitoredChild || !monitoredChild.visible) {
             monitoredChild.destroy();
             delete this.monitored[key];
-            if (child === monitoredChild)
-               delete this.children[key];
-         }
-         else
-            activeCount++;
+            if (child === monitoredChild) delete this.children[key];
+         } else activeCount++;
       }
-      if (activeCount === 0)
-         this.monitored = null;
+      if (activeCount === 0) this.monitored = null;
    }
 }
-
