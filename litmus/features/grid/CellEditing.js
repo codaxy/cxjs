@@ -1,35 +1,32 @@
-import { Grid, HtmlElement, Button, Submenu, Menu, Icon, Checkbox, TextField} from "cx/widgets";
+import { Grid, HtmlElement, Button, Submenu, Menu, Icon, Checkbox, TextField, LookupField } from "cx/widgets";
 import { Content, Controller, KeySelection, bind } from "cx/ui";
 import { Format } from "cx/util";
-import { casual } from '../../casual';
+import { casual } from "../../casual";
 
 class PageController extends Controller {
    onInit() {
-      this.store.init('$page.grid', {
+      this.store.init("$page.grid", {
          columns: {
-            name: {visible: true},
-            continent: {visible: true}
-         }
+            name: { visible: true },
+            continent: { visible: true },
+         },
       });
 
       //init grid data
-      if (!this.store.get('$page.records'))
-         this.shuffle();
+      if (!this.store.get("$page.records")) this.shuffle();
    }
 
    shuffle() {
       this.store.set(
          "$page.records",
-         Array
-            .from({ length: 1000 })
-            .map((v, i) => ({
-               id: i + 1,
-               fullName: casual.full_name,
-               continent: casual.continent,
-               browser: casual.browser,
-               os: casual.operating_system,
-               visits: casual.integer(1, 100)
-            }))
+         Array.from({ length: 1000 }).map((v, i) => ({
+            id: i + 1,
+            fullName: casual.full_name,
+            continent: casual.continent,
+            browser: casual.browser,
+            os: casual.operating_system,
+            visits: casual.integer(1, 100),
+         }))
       );
    }
 }
@@ -43,41 +40,74 @@ export default (
          <Grid
             records:bind="$page.records"
             scrollable
-            //buffered
+            buffered
             style="height: 800px;"
             lockColumnWidths
             cached
-            columns={
-               [
-                  { header: "#", field: "index", sortable: true, value: {bind: "$index"} },
-                  {
-                     header: {
-                        text: "Name"
-                     },
-                     field: "fullName",
-                     visible: bind('$page.grid.columns.name.visible'),
-                     sortable: true,
-                     editor: <cx>
+            columns={[
+               { header: "#", field: "index", sortable: true, value: { bind: "$index" } },
+               {
+                  header: {
+                     text: "Name",
+                  },
+                  field: "fullName",
+                  visible: bind("$page.grid.columns.name.visible"),
+                  sortable: true,
+                  editor: (
+                     <cx>
                         <TextField value-bind="$record.fullName" style="width: 100%" autoFocus required visited />
                      </cx>
-                  },
-                  { header: "Continent", field: "continent", sortable: true,
-                     editor: <cx>
+                  ),
+               },
+               {
+                  header: "Continent",
+                  field: "continent",
+                  sortable: true,
+                  editor: (
+                     <cx>
                         <TextField value-bind="$record.continent" style="width: 100%" autoFocus />
-                     </cx> },
-                  { header: "Browser", field: "browser", sortable: true },
-                  { header: "OS", field: "os", sortable: true },
-                  {
-                     header: "Visits",
-                     field: "visits",
-                     sortable: true,
-                     align: "right"
-                  }
-               ]
-            }
+                     </cx>
+                  ),
+               },
+               {
+                  header: "Browser",
+                  field: "browser",
+                  sortable: true,
+                  editor: (
+                     <cx>
+                        <LookupField
+                           value-bind="$record.browser"
+                           required
+                           autoOpen
+                           submitOnEnterKey
+                           options={[
+                              { id: "Opera", text: "Opera" },
+                              { id: "Safari", text: "Safari" },
+                              { id: "Chrome", text: "Chrome" },
+                              { id: "Firefox", text: "Firefox" },
+                              { id: "Edge", text: "Edge" },
+                              { id: "Internet Explorer", text: "Internet Explorer" },
+                           ]}
+                        />
+                     </cx>
+                  ),
+               },
+               { header: "OS", field: "os", sortable: true },
+               {
+                  header: "Visits",
+                  field: "visits",
+                  sortable: true,
+                  align: "right",
+               },
+            ]}
             cellEditable
-            onCellEdited={(data, record) => {
-               console.log(data, record);
+            onCellEdited={(...args) => {
+               console.log("EDIT", ...args);
+            }}
+            selection={{
+               type: KeySelection,
+               bind: "selection",
+               multiple: true,
             }}
          />
       </div>

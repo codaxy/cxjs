@@ -2093,36 +2093,34 @@ class GridComponent extends VDOM.Component {
       if (Object.keys(newState).length > 0) {
          let prevState = this.state;
          let wasCellEditing = prevState.focused && prevState.cellEdit;
+         let futureState = { ...this.state, ...newState };
 
-         if (wasCellEditing) {
+         if (!futureState.cellEdit && wasCellEditing) {
             //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
             //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
             getActiveElement().blur();
+            let record = this.getRecordAt(prevState.cursor);
+            if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
+               record.store.set(widget.recordName, this.cellEditUndoData);
+            else {
+               if (widget.onCellEdited && record.data != this.cellEditUndoData)
+                  this.props.instance.invoke(
+                     "onCellEdited",
+                     {
+                        column: widget.row.line1.columns[prevState.cursorCellIndex],
+                        newData: record.data,
+                        oldData: this.cellEditUndoData,
+                        field: widget.row.line1.columns[prevState.cursorCellIndex].field,
+                     },
+                     record
+                  );
+            }
          }
 
-         this.setState(newState, () => {
-            if (!this.state.cellEdit && wasCellEditing) {
-               if (this.state.focused) FocusManager.focus(this.dom.el);
-               let record = this.getRecordAt(prevState.cursor);
-               if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
-                  record.store.set(widget.recordName, this.cellEditUndoData);
-               else {
-                  if (widget.onCellEdited && record.data != this.cellEditUndoData)
-                     this.props.instance.invoke(
-                        "onCellEdited",
-                        {
-                           column: widget.row.line1.columns[prevState.cursorCellIndex],
-                           newData: record.data,
-                           oldData: this.cellEditUndoData,
-                           field: widget.row.line1.columns[prevState.cursorCellIndex].field,
-                        },
-                        record
-                     );
-               }
-            }
+         if (futureState.cellEdit && !wasCellEditing) this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
 
-            if (this.state.cellEdit && !wasCellEditing)
-               this.cellEditUndoData = this.getRecordAt(this.state.cursor).data;
+         this.setState(newState, () => {
+            if (this.state.focused && !this.state.cellEdit && wasCellEditing) FocusManager.focus(this.dom.el);
 
             if (scrollIntoView) {
                let record = this.getRecordAt(index);
@@ -2376,6 +2374,8 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.a:
             if (!e.ctrlKey || !widget.selection.multiple) return;
+
+            if (e.target.nodeName == "INPUT") return;
 
             this.selectRange(0, data.totalRecordCount);
 
