@@ -163,7 +163,7 @@ class Input extends VDOM.Component {
       if (!data.readOnly && !data.disabled) {
          if (
             widget.showClear &&
-            (((widget.alwaysShowClear || !data.required) && data.value != null) || instance.state.inputError)
+            (((widget.alwaysShowClear || !data.required) && !data.empty) || instance.state.inputError)
          )
             insideButton = (
                <div
@@ -292,7 +292,6 @@ class Input extends VDOM.Component {
 
    calculateIncrement(value, strength) {
       if (value == 0) return 0.1;
-
       let absValue = Math.abs(value * strength);
       let log10 = Math.floor(Math.log10(absValue) + 0.001);
       let size = Math.pow(10, log10);
@@ -303,7 +302,8 @@ class Input extends VDOM.Component {
 
    onClearClick(e) {
       this.input.value = "";
-      this.props.instance.set("value", null, { immedate: true });
+      let { instance } = this.props;
+      instance.set("value", instance.widget.emptyValue, { immedate: true });
    }
 
    onKeyDown(e) {

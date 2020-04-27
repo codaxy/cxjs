@@ -3,8 +3,8 @@ import field from './Field';
 import calendar from './Calendar';
 
 let {
-    minExclusive, 
-    maxExclusive, 
+    minExclusive,
+    maxExclusive,
 } = calendar;
 
 export default {
@@ -44,7 +44,7 @@ export default {
         alias: 'step',
         type: 'number',
         description: <cx><Md>
-            Increment/decrement value when using arrow keys or mouse wheel. 
+            Increment/decrement value when using arrow keys or mouse wheel.
             Mouse wheel reaction must be explicitly enabled by setting the [`reactOn`](~/widgets/number-fields#reactOn) property, e.g. `reactOn="enter blur wheel"`.
         </Md></cx>
     },
@@ -107,6 +107,12 @@ export default {
         type: 'number',
         description: <cx><Md>
             Largest allowed number value.
+        </Md></cx>
+    },
+    emptyValue: {
+        type: 'any',
+        description: <cx><Md>
+            Value to be written in the store when the field is empty. Default value is `null`;
         </Md></cx>
     }
 };

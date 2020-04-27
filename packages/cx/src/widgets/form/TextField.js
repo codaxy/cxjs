@@ -106,17 +106,22 @@ class Input extends VDOM.Component {
       );
 
       let insideButton;
-      if (!data.readOnly && !data.disabled) {
-         if (widget.showClear && (widget.alwaysShowClear || !data.required) && data.value != null)
-            insideButton = (
-               <div
-                  className={CSS.element(baseClass, "clear")}
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={(e) => this.onClearClick(e)}
-               >
-                  <ClearIcon className={CSS.element(baseClass, "icon")} />
-               </div>
-            );
+      if (
+         widget.showClear &&
+         !data.empty &&
+         !data.readOnly &&
+         !data.disabled &&
+         (widget.alwaysShowClear || !data.required)
+      ) {
+         insideButton = (
+            <div
+               className={CSS.element(baseClass, "clear")}
+               onMouseDown={(e) => e.preventDefault()}
+               onClick={(e) => this.onClearClick(e)}
+            >
+               <ClearIcon className={CSS.element(baseClass, "icon")} />
+            </div>
+         );
       }
 
       let empty = this.input ? !this.input.value : data.empty;
@@ -189,7 +194,7 @@ class Input extends VDOM.Component {
    }
 
    onClearClick(e) {
-      this.props.instance.set("value", null, { immediate: true });
+      this.props.instance.set("value", this.props.instance.widget.emptyValue, { immediate: true });
    }
 
    onMouseMove(e) {
@@ -253,7 +258,7 @@ class Input extends VDOM.Component {
             this.input.value = text;
          }
 
-         let value = text || null;
+         let value = text || widget.emptyValue;
          if (!instance.set("value", value, { immediate })) {
             if (text != this.input.value) this.input.value = text;
          } else {

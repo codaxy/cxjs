@@ -1,78 +1,73 @@
-import {Widget, VDOM, getContent} from '../../ui/Widget';
-import {HtmlElement} from '../HtmlElement';
-import {Field, getFieldTooltip, autoFocus} from './Field';
+import { Widget, VDOM, getContent } from "../../ui/Widget";
+import { HtmlElement } from "../HtmlElement";
+import { Field, getFieldTooltip, autoFocus } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
-   tooltipParentDidMount
-} from '../overlay/tooltip-ops';
-import {stopPropagation, preventDefault} from '../../util/eventCallbacks';
-import DropdownIcon from '../icons/drop-down';
-import ClearIcon from '../icons/clear';
-import {Icon} from '../Icon';
-import {Localization} from '../../ui/Localization';
-import {isString} from '../../util/isString';
-import {isDefined} from '../../util/isDefined';
-import {KeyCode} from "../../util/KeyCode";
+   tooltipParentDidMount,
+} from "../overlay/tooltip-ops";
+import { stopPropagation, preventDefault } from "../../util/eventCallbacks";
+import DropdownIcon from "../icons/drop-down";
+import ClearIcon from "../icons/clear";
+import { Icon } from "../Icon";
+import { Localization } from "../../ui/Localization";
+import { isString } from "../../util/isString";
+import { isDefined } from "../../util/isDefined";
+import { KeyCode } from "../../util/KeyCode";
 
 export class Select extends Field {
-
    declareData() {
-      super.declareData({
-         value: undefined,
-         disabled: undefined,
-         enabled: undefined,
-         required: undefined,
-         placeholder: undefined,
-         icon: undefined
-      }, ...arguments);
+      super.declareData(
+         {
+            value: undefined,
+            disabled: undefined,
+            enabled: undefined,
+            required: undefined,
+            placeholder: undefined,
+            icon: undefined,
+         },
+         ...arguments
+      );
    }
 
    init() {
-      if (isDefined(this.hideClear))
-         this.showClear = !this.hideClear;
-
-      if (this.alwaysShowClear)
-         this.showClear = true;
-
+      if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
+      if (this.alwaysShowClear) this.showClear = true;
       super.init();
    }
 
    renderInput(context, instance, key) {
-      return <SelectComponent
-         key={key}
-         instance={instance}
-         multiple={this.multiple}
-         select={v => this.select(v, instance)}
-         label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
-         help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}>
-         {this.renderChildren(context, instance)}
-      </SelectComponent>
+      return (
+         <SelectComponent
+            key={key}
+            instance={instance}
+            multiple={this.multiple}
+            select={(v) => this.select(v, instance)}
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+         >
+            {this.renderChildren(context, instance)}
+         </SelectComponent>
+      );
    }
 
    convert(value) {
-      if (value == this.nullString)
-         return null;
-      if (value == 'true')
-         return true;
-      if (value == 'false')
-         return false;
-      if (value.match(/^\d+(\.\d+)?$/))
-         return Number(value);
+      if (value == this.nullString) return null;
+      if (value == "true") return true;
+      if (value == "false") return false;
+      if (value.match(/^\d+(\.\d+)?$/)) return Number(value);
       return value;
    }
 
    select(value, instance) {
-      if (this.convertValues && value != null)
-         value = this.convert(value);
-      instance.set('value', value);
+      if (this.convertValues && value != null) value = this.convert(value);
+      instance.set("value", value);
    }
 
    add(item) {
-      if (isString(item))
-         return;
+      if (isString(item)) return;
       super.add(item);
    }
 }
@@ -80,127 +75,135 @@ export class Select extends Field {
 Select.prototype.baseClass = "select";
 Select.prototype.multiple = false;
 Select.prototype.convertValues = true;
-Select.prototype.nullString = '';
+Select.prototype.nullString = "";
 Select.prototype.suppressErrorsUntilVisited = true;
 Select.prototype.showClear = true;
 Select.prototype.alwaysShowClear = false;
 Select.prototype.icon = null;
 
-Widget.alias('select', Select);
+Widget.alias("select", Select);
 Localization.registerPrototype("cx/widgets/Select", Select);
 
 class SelectComponent extends VDOM.Component {
-
    constructor(props) {
       super(props);
       this.state = {
          visited: false,
-         focus: false
-      }
+         focus: false,
+      };
    }
 
    render() {
-      let {multiple, select, instance, label, help} = this.props;
-      let {data, widget, state} = instance;
-      let {CSS, baseClass} = widget;
+      let { multiple, select, instance, label, help } = this.props;
+      let { data, widget, state } = instance;
+      let { CSS, baseClass } = widget;
 
       let icon = data.icon && (
-         <div className={CSS.element(baseClass, 'left-icon')}>
-            {
-               Icon.render(data.icon, {className: CSS.element(baseClass, 'icon')})
-            }
+         <div className={CSS.element(baseClass, "left-icon")}>
+            {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
          </div>
       );
 
-      let insideButton, readOnly = data.disabled || data.readOnly;
+      let insideButton,
+         readOnly = data.disabled || data.readOnly;
 
-      if (widget.showClear && !readOnly && !this.props.multiple && (widget.alwaysShowClear || !data.required) && data.placeholder && data.value != null) {
+      if (
+         widget.showClear &&
+         !readOnly &&
+         !this.props.multiple &&
+         (widget.alwaysShowClear || !data.required) &&
+         data.placeholder &&
+         !data.empty
+      ) {
          insideButton = (
-            <div onMouseDown={preventDefault}
-                 onClick={e => this.onClearClick(e)}
-                 className={CSS.element(baseClass, 'clear')}>
-               <ClearIcon className={CSS.element(baseClass, 'icon')}/>
+            <div
+               onMouseDown={preventDefault}
+               onClick={(e) => this.onClearClick(e)}
+               className={CSS.element(baseClass, "clear")}
+            >
+               <ClearIcon className={CSS.element(baseClass, "icon")} />
             </div>
-         )
-      }
-      else {
+         );
+      } else {
          insideButton = (
-            <div className={CSS.element(baseClass, 'tool')}>
-               <DropdownIcon className={CSS.element(baseClass, 'icon')}/>
+            <div className={CSS.element(baseClass, "tool")}>
+               <DropdownIcon className={CSS.element(baseClass, "icon")} />
             </div>
          );
       }
 
       let placeholder;
       if (data.placeholder) {
-         placeholder = <option
-            value={widget.nullString}
-            className={CSS.element(baseClass, 'placeholder')}
-            disabled
-            hidden
-         >
-            {data.placeholder}
-         </option>
+         placeholder = (
+            <option value={widget.nullString} className={CSS.element(baseClass, "placeholder")} disabled hidden>
+               {data.placeholder}
+            </option>
+         );
       }
 
-      return <div
-         className={CSS.expand(data.classNames, CSS.state({
-            visited: state.visited,
-            icon: data.icon,
-            focus: this.state.focus,
-            error: state.visited && data.error,
-            empty: data.empty && !data.placeholder
-         }))}
-         style={data.style}
-         onMouseDown={stopPropagation}
-         onTouchStart={stopPropagation}
-      >
-         <select
-            id={data.id}
-            ref={el => {
-               this.select = el
-            }}
-            className={CSS.element(baseClass, 'select')}
-            style={data.inputStyle}
-            value={data.value == null ? widget.nullString : String(data.value)}
-            multiple={multiple}
-            disabled={data.disabled}
-            tabIndex={data.tabIndex}
-            {...data.inputAttrs}
-            onBlur={::this.onBlur}
-            onFocus={e => this.onFocus()}
-            onKeyDown={::this.onKeyDown}
-            onChange={e => {
-               e.preventDefault();
-               select(e.target.value);
-            }}
-            onMouseMove={e => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-            onMouseLeave={e => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+      return (
+         <div
+            className={CSS.expand(
+               data.classNames,
+               CSS.state({
+                  visited: state.visited,
+                  icon: data.icon,
+                  focus: this.state.focus,
+                  error: state.visited && data.error,
+                  empty: data.empty && !data.placeholder,
+               })
+            )}
+            style={data.style}
+            onMouseDown={stopPropagation}
+            onTouchStart={stopPropagation}
          >
-            {placeholder}
-            {this.props.children}
-         </select>
-         {insideButton}
-         {icon}
-         {label}
-         {help}
-      </div>
+            <select
+               id={data.id}
+               ref={(el) => {
+                  this.select = el;
+               }}
+               className={CSS.element(baseClass, "select")}
+               style={data.inputStyle}
+               value={data.value == null ? widget.nullString : String(data.value)}
+               multiple={multiple}
+               disabled={data.disabled}
+               tabIndex={data.tabIndex}
+               {...data.inputAttrs}
+               onBlur={::this.onBlur}
+               onFocus={(e) => this.onFocus()}
+               onKeyDown={::this.onKeyDown}
+               onChange={(e) => {
+                  e.preventDefault();
+                  select(e.target.value);
+               }}
+               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+            >
+               {placeholder}
+               {this.props.children}
+            </select>
+            {insideButton}
+            {icon}
+            {label}
+            {help}
+         </div>
+      );
    }
 
    onBlur() {
-      this.props.instance.setState({visited: true});
+      this.props.instance.setState({ visited: true });
       if (this.state.focus)
          this.setState({
-            focus: false
+            focus: false,
          });
    }
 
    onFocus() {
-      let {instance} = this.props;
-      let {widget} = instance;
+      let { instance } = this.props;
+      let { widget } = instance;
       if (widget.trackFocus) {
          this.setState({
-            focus: true
+            focus: true,
          });
       }
    }
@@ -208,9 +211,9 @@ class SelectComponent extends VDOM.Component {
    onClearClick(e) {
       e.preventDefault();
       e.stopPropagation();
-      let {instance} = this.props;
-      let {widget} = instance;
-      instance.set('value', widget.emptyValue);
+      let { instance } = this.props;
+      let { widget } = instance;
+      instance.set("value", widget.emptyValue);
    }
 
    onKeyDown(e) {
@@ -223,7 +226,7 @@ class SelectComponent extends VDOM.Component {
    }
 
    componentDidMount() {
-      var {select} = this.props;
+      var { select } = this.props;
       select(this.select.value);
       tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
       autoFocus(this.select, this);
@@ -239,29 +242,32 @@ class SelectComponent extends VDOM.Component {
 }
 
 export class Option extends HtmlElement {
-
    declareData() {
-      super.declareData({
-         value: undefined,
-         disabled: undefined,
-         enabled: undefined,
-         selected: undefined,
-         text: undefined
-      }, ...arguments);
+      super.declareData(
+         {
+            value: undefined,
+            disabled: undefined,
+            enabled: undefined,
+            selected: undefined,
+            text: undefined,
+         },
+         ...arguments
+      );
    }
 
-   prepareData(context, {data}) {
+   prepareData(context, { data }) {
       super.prepareData(...arguments);
-      if (data.value != null)
-         data.value = data.value.toString();
+      if (!data.empty) data.value = data.value.toString();
    }
 
    render(context, instance, key) {
-      var {data} = instance;
-      return <option key={key} value={data.value}>
-         {data.text || this.renderChildren(context, instance)}
-      </option>
+      var { data } = instance;
+      return (
+         <option key={key} value={data.value}>
+            {data.text || this.renderChildren(context, instance)}
+         </option>
+      );
    }
 }
 
-Widget.alias('option', Option)
+Widget.alias("option", Option);

@@ -266,7 +266,7 @@ class DateTimeInput extends VDOM.Component {
       if (!data.readOnly && !data.disabled) {
          if (
             widget.showClear &&
-            (((widget.alwaysShowClear || !data.required) && data.value != null) || instance.state.inputError)
+            (((widget.alwaysShowClear || !data.required) && !data.empty) || instance.state.inputError)
          )
             insideButton = (
                <div
@@ -534,7 +534,7 @@ class DateTimeInput extends VDOM.Component {
 
          let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
-         let value = date ? encode(date) : null;
+         let value = date ? encode(date) : widget.emptyValue;
 
          if (!instance.set("value", value)) this.input.value = text || "";
       }

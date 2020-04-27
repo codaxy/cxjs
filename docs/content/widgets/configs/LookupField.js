@@ -182,5 +182,12 @@ export default {
         description: <cx><Md>
             Set to `true` to allow enter key events to be propagated. This is useful for submitting forms and closing grid cell editors.
         </Md></cx>
+    },
+
+    emptyValue: {
+        type: 'any',
+        description: <cx><Md>
+            Value to be written in the store when the field is empty. Default value is `null`;
+        </Md></cx>
     }
 };

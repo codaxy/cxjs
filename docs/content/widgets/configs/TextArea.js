@@ -25,5 +25,11 @@ export default {
       description: <cx><Md>
          Base CSS class to be applied to the field. Defaults to `textarea`.
       </Md></cx>
-   }
+   },
+   emptyValue: {
+    type: 'any',
+    description: <cx><Md>
+        Value to be written in the store when the field is empty. Default value is `null`;
+    </Md></cx>
+    }
 };

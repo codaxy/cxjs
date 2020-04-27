@@ -38,4 +38,10 @@ export default {
             Set to `true` to display the clear button even if `required` is set. Default is `false`.
         </Md></cx>
     },
+    emptyValue: {
+        type: 'any',
+        description: <cx><Md>
+            Value to be written in the store when the field is empty. Default value is `null`;
+        </Md></cx>
+    }
 };

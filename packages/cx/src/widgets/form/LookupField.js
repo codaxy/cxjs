@@ -29,6 +29,7 @@ import { Icon } from "../Icon";
 import { isString } from "../../util/isString";
 import { isDefined } from "../../util/isDefined";
 import { isArray } from "../../util/isArray";
+import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
 
@@ -120,9 +121,7 @@ export class LookupField extends Field {
 
       if (this.multiple) {
          if (isArray(data.values) && isArray(data.options)) {
-            data.selectedKeys = data.values.map((v) =>
-               this.keyBindings.length == 1 ? [v] : v
-            );
+            data.selectedKeys = data.values.map((v) => (this.keyBindings.length == 1 ? [v] : v));
             let map = {};
             data.options.filter(($option) => {
                let optionKey = getOptionKey(this.keyBindings, { $option });
@@ -133,29 +132,17 @@ export class LookupField extends Field {
                   }
             });
             data.records = [];
-            for (let i = 0; i < data.selectedKeys.length; i++)
-               if (map[i]) data.records.push(map[i]);
+            for (let i = 0; i < data.selectedKeys.length; i++) if (map[i]) data.records.push(map[i]);
          } else if (isArray(data.records))
             data.selectedKeys.push(
-               ...data.records.map(($value) =>
-                  this.keyBindings.map((b) =>
-                     Binding.get(b.local).value({ $value })
-                  )
-               )
+               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value })))
             );
       } else {
          let dataViewData = store.getData();
-         data.selectedKeys.push(
-            this.keyBindings.map((b) =>
-               Binding.get(b.local).value(dataViewData)
-            )
-         );
+         data.selectedKeys.push(this.keyBindings.map((b) => Binding.get(b.local).value(dataViewData)));
          if (!this.text && isArray(data.options)) {
             let option = data.options.find(($option) =>
-               areKeysEqual(
-                  getOptionKey(this.keyBindings, { $option }),
-                  data.selectedKeys[0]
-               )
+               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0])
             );
             data.text = (option && option[this.optionTextField]) || "";
          }
@@ -177,14 +164,8 @@ export class LookupField extends Field {
             itemConfig={this.itemConfig}
             bindings={this.bindings}
             baseClass={this.baseClass}
-            label={
-               this.labelPlacement &&
-               getContent(this.renderLabel(context, instance, "label"))
-            }
-            help={
-               this.helpPlacement &&
-               getContent(this.renderHelp(context, instance, "help"))
-            }
+            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
+            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
          />
       );
    }
@@ -192,23 +173,12 @@ export class LookupField extends Field {
    filterOptions(instance, options, query) {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
-      return options.filter(
-         (o) =>
-            isString(o[this.optionTextField]) &&
-            textPredicate(o[this.optionTextField])
-      );
+      return options.filter((o) => isString(o[this.optionTextField]) && textPredicate(o[this.optionTextField]));
    }
 
    isEmpty(data) {
-      if (this.multiple) {
-         if (
-            (isArray(data.values) && data.values.length > 0) ||
-            (isArray(data.records) && data.records.length > 0)
-         )
-            return false;
-      }
-
-      return data.value == null;
+      if (this.multiple) return !isNonEmptyArray(data.values) && !isNonEmptyArray(data.records);
+      return super.isEmpty(data);
    }
 }
 
@@ -220,8 +190,7 @@ LookupField.prototype.minQueryLength = 0;
 LookupField.prototype.hideSearchField = false;
 LookupField.prototype.minOptionsForSearchField = 7;
 LookupField.prototype.loadingText = "Loading...";
-LookupField.prototype.queryErrorText =
-   "Error occurred while querying for lookup data.";
+LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
 LookupField.prototype.noResultsText = "No results found.";
 LookupField.prototype.optionIdField = "id";
 LookupField.prototype.optionTextField = "text";
@@ -233,8 +202,7 @@ LookupField.prototype.cacheAll = false;
 LookupField.prototype.showClear = true;
 LookupField.prototype.alwaysShowClear = false;
 LookupField.prototype.closeOnSelect = true;
-LookupField.prototype.minQueryLengthMessageText =
-   "Type in at least {0} character(s).";
+LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
 LookupField.prototype.icon = null;
 LookupField.prototype.sort = false;
 LookupField.prototype.listOptions = null;
@@ -246,9 +214,7 @@ Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 Widget.alias("lookupfield", LookupField);
 
 function getOptionKey(bindings, data) {
-   return bindings
-      .filter((a) => a.key)
-      .map((b) => Binding.get(b.remote).value(data));
+   return bindings.filter((a) => a.key).map((b) => Binding.get(b.remote).value(data));
 }
 
 function areKeysEqual(key1, key2) {
@@ -303,15 +269,11 @@ class LookupComponent extends VDOM.Component {
    }
 
    getOptionKey(data) {
-      return this.props.bindings
-         .filter((a) => a.key)
-         .map((b) => Binding.get(b.remote).value(data));
+      return this.props.bindings.filter((a) => a.key).map((b) => Binding.get(b.remote).value(data));
    }
 
    getLocalKey(data) {
-      return this.props.bindings
-         .filter((a) => a.key)
-         .map((b) => Binding.get(b.local).value(data));
+      return this.props.bindings.filter((a) => a.key).map((b) => Binding.get(b.local).value(data));
    }
 
    findOption(options, key) {
@@ -370,10 +332,7 @@ class LookupComponent extends VDOM.Component {
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {
-                  height:
-                     this.dom.dropdown.offsetHeight +
-                     this.dom.list.scrollHeight -
-                     this.dom.list.offsetHeight,
+                  height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight,
                };
             }
          },
@@ -391,42 +350,29 @@ class LookupComponent extends VDOM.Component {
       let searchVisible =
          !widget.hideSearchField &&
          (!isArray(data.options) ||
-            (widget.minOptionsForSearchField &&
-               data.options.length >= widget.minOptionsForSearchField));
+            (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField));
 
       if (this.state.status == "loading") {
          content = (
-            <div
-               key="msg"
-               className={CSS.element(baseClass, "message", "loading")}
-            >
+            <div key="msg" className={CSS.element(baseClass, "message", "loading")}>
                {widget.loadingText}
             </div>
          );
       } else if (this.state.status == "error") {
          content = (
-            <div
-               key="msg"
-               className={CSS.element(baseClass, "message", "error")}
-            >
+            <div key="msg" className={CSS.element(baseClass, "message", "error")}>
                {widget.queryErrorText}
             </div>
          );
       } else if (this.state.status == "info") {
          content = (
-            <div
-               key="msg"
-               className={CSS.element(baseClass, "message", "info")}
-            >
+            <div key="msg" className={CSS.element(baseClass, "message", "info")}>
                {this.state.message}
             </div>
          );
       } else if (this.state.options.length == 0) {
          content = (
-            <div
-               key="msg"
-               className={CSS.element(baseClass, "message", "no-results")}
-            >
+            <div key="msg" className={CSS.element(baseClass, "message", "no-results")}>
                {widget.noResultsText}
             </div>
          );
@@ -440,11 +386,7 @@ class LookupComponent extends VDOM.Component {
                className={CSS.element(baseClass, "scroll-container")}
                onWheel={::this.onListWheel}
             >
-               <Cx
-                  widget={this.list}
-                  store={this.itemStore}
-                  options={{ name: "lookupfield-list" }}
-               />
+               <Cx widget={this.list} store={this.itemStore} options={{ name: "lookupfield-list" }} />
             </div>
          );
       }
@@ -484,8 +426,7 @@ class LookupComponent extends VDOM.Component {
    onListWheel(e) {
       let { list } = this.dom;
       if (
-         (list.scrollTop + list.offsetHeight == list.scrollHeight &&
-            e.deltaY > 0) ||
+         (list.scrollTop + list.offsetHeight == list.scrollHeight && e.deltaY > 0) ||
          (list.scrollTop == 0 && e.deltaY < 0)
       ) {
          e.preventDefault();
@@ -494,23 +435,15 @@ class LookupComponent extends VDOM.Component {
    }
 
    onDropdownFocus(e) {
-      if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice())
-         FocusManager.focus(this.dom.query);
+      if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice()) FocusManager.focus(this.dom.query);
    }
 
    getPlaceholder(text) {
       let { CSS, baseClass } = this.props.instance.widget;
 
-      if (text)
-         return (
-            <span className={CSS.element(baseClass, "placeholder")}>
-               {text}
-            </span>
-         );
+      if (text) return <span className={CSS.element(baseClass, "placeholder")}>{text}</span>;
 
-      return (
-         <span className={CSS.element(baseClass, "placeholder")}>&nbsp;</span>
-      );
+      return <span className={CSS.element(baseClass, "placeholder")}>&nbsp;</span>;
    }
 
    render() {
@@ -541,11 +474,7 @@ class LookupComponent extends VDOM.Component {
             $options: this.state.options,
          });
          dropdown = (
-            <Cx
-               widget={this.getDropdown()}
-               store={this.itemStore}
-               options={{ name: "lookupfield-dropdown" }}
-            />
+            <Cx widget={this.getDropdown()} store={this.itemStore} options={{ name: "lookupfield-dropdown" }} />
          );
       }
 
@@ -557,7 +486,7 @@ class LookupComponent extends VDOM.Component {
             !data.disabled &&
             !this.props.multiple &&
             (widget.alwaysShowClear || !data.required) &&
-            data.value != null
+            !data.empty
          ) {
             insideButton = (
                <div
@@ -599,9 +528,7 @@ class LookupComponent extends VDOM.Component {
                      readonly: readOnly,
                   })}
                >
-                  <span className={CSS.element(baseClass, "tag-value")}>
-                     {v[widget.valueTextField]}
-                  </span>
+                  <span className={CSS.element(baseClass, "tag-value")}>{v[widget.valueTextField]}</span>
                   {!readOnly && (
                      <div
                         className={CSS.element(baseClass, "tag-clear")}
@@ -620,10 +547,7 @@ class LookupComponent extends VDOM.Component {
             text = this.getPlaceholder(data.placeholder);
          }
       } else {
-         text =
-            data.value != null
-               ? data.text || this.getPlaceholder()
-               : this.getPlaceholder(data.placeholder);
+         text = !data.empty ? data.text || this.getPlaceholder() : this.getPlaceholder(data.placeholder);
       }
 
       let states = {
@@ -631,9 +555,7 @@ class LookupComponent extends VDOM.Component {
          focus: this.state.focus || this.state.dropdownOpen,
          icon: !!data.icon,
          empty: !data.placeholder && data.empty,
-         error:
-            data.error &&
-            (state.visited || !suppressErrorsUntilVisited || !data.empty),
+         error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty),
       };
 
       return (
@@ -651,12 +573,8 @@ class LookupComponent extends VDOM.Component {
                ref={(el) => {
                   this.dom.input = el;
                }}
-               onMouseMove={(e) =>
-                  tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))
-               }
-               onMouseLeave={(e) =>
-                  tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))
-               }
+               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
                onClick={(e) => this.onClick(e)}
                onInput={(e) => this.onChange(e, "input")}
                onChange={(e) => this.onChange(e, "change")}
@@ -684,8 +602,7 @@ class LookupComponent extends VDOM.Component {
 
    onItemClick(e, { store }) {
       this.select(e, store.getData());
-      if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown")
-         e.stopPropagation();
+      if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
       e.preventDefault();
    }
 
@@ -698,9 +615,7 @@ class LookupComponent extends VDOM.Component {
       if (widget.multiple) {
          if (isArray(data.records)) {
             let itemKey = this.getLocalKey({ $value: value });
-            let newRecords = data.records.filter(
-               (v) => !areKeysEqual(this.getLocalKey({ $value: v }), itemKey)
-            );
+            let newRecords = data.records.filter((v) => !areKeysEqual(this.getLocalKey({ $value: v }), itemKey));
 
             instance.set("records", newRecords);
 
@@ -712,7 +627,7 @@ class LookupComponent extends VDOM.Component {
          }
       } else {
          this.props.bindings.forEach((b) => {
-            store.set(b.local, null);
+            store.set(b.local, widget.emptyValue);
          });
       }
 
@@ -734,16 +649,11 @@ class LookupComponent extends VDOM.Component {
                $value: {},
             };
             bindings.forEach((b) => {
-               valueData = Binding.get(b.local).set(
-                  valueData,
-                  Binding.get(b.remote).value(itemData)
-               );
+               valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
             });
             newRecords = [...(records || []), valueData.$value];
          } else {
-            newRecords = records.filter(
-               (v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v }))
-            );
+            newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
          }
 
          instance.set("records", newRecords);
@@ -863,8 +773,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    onBlur(e) {
-      if (!this.state.dropdownOpen)
-         this.props.instance.setState({ visited: true });
+      if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
 
       if (this.state.focus)
          this.setState({
@@ -922,20 +831,13 @@ class LookupComponent extends VDOM.Component {
       if (q.length < widget.minQueryLength) {
          this.setState({
             status: "info",
-            message: StringTemplate.format(
-               widget.minQueryLengthMessageText,
-               widget.minQueryLength
-            ),
+            message: StringTemplate.format(widget.minQueryLengthMessageText, widget.minQueryLength),
          });
          return;
       }
 
       if (isArray(data.options)) {
-         let results = widget.filterOptions(
-            this.props.instance,
-            data.options,
-            q
-         );
+         let results = widget.filterOptions(this.props.instance, data.options, q);
          this.setState({
             options: results,
             status: "loaded",
@@ -957,8 +859,7 @@ class LookupComponent extends VDOM.Component {
             delete this.queryTimeoutId;
 
             let result = this.tmpCachedResult || this.cachedResult;
-            if (!result)
-               result = instance.invoke("onQuery", fetchAll ? "" : q, instance);
+            if (!result) result = instance.invoke("onQuery", fetchAll ? "" : q, instance);
 
             let query = (this.lastQueryId = Date.now());
 
@@ -973,11 +874,7 @@ class LookupComponent extends VDOM.Component {
                      if (cacheAll) this.cachedResult = results;
                      else this.tmpCachedResult = results;
 
-                     results = widget.filterOptions(
-                        this.props.instance,
-                        results,
-                        q
-                     );
+                     results = widget.filterOptions(this.props.instance, results, q);
                   }
 
                   this.setState({
@@ -994,17 +891,11 @@ class LookupComponent extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      tooltipParentWillReceiveProps(
-         this.dom.input,
-         ...getFieldTooltip(props.instance)
-      );
+      tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
    }
 
    componentDidMount() {
-      tooltipParentDidMount(
-         this.dom.input,
-         ...getFieldTooltip(this.props.instance)
-      );
+      tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.dom.input, this);
       if (this.props.instance.data.autoOpen) this.openDropdown(null);
    }
