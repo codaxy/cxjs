@@ -1,35 +1,30 @@
 import { isString, isObject } from "util";
-import {
-   TextField,
-   NumberField,
-   DateField,
-   Menu,
-   Submenu,
-   Icon
-} from "cx/widgets";
+import { TextField, NumberField, DateField, Menu, Submenu, Icon } from "cx/widgets";
 import { getSearchQueryPredicate, Format } from "cx/util";
 import { computable } from "cx/ui";
 
+const defaultDebounceTimeout = 400;
+
 function getTextFilter(field, filterPath, format) {
    return {
-      predicate: filterParams => {
+      predicate: (filterParams) => {
          let filter = filterParams[field];
          if (!filter || filter.value == null) return null;
          let search = getSearchQueryPredicate(filter.value);
          let formatter = Format.parse(format || "s");
-         return record =>
-            record[field] != null && search(formatter(record[field]));
+         return (record) => record[field] != null && search(formatter(record[field]));
       },
       menu: (
          <cx>
             <TextField
                mod="menu"
                placeholder="Search..."
-               value-bind={filterPath + ".value"}
+               reactOn="change enter blur"
+               value={{ bind: filterPath + ".value", debounce: defaultDebounceTimeout }}
                showClear
             />
          </cx>
-      )
+      ),
    };
 }
 
@@ -38,16 +33,13 @@ function getNumberFilter(field, filterPath, format) {
    let rangePath = filterPath + ".range";
 
    return {
-      predicate: filterParams => {
+      predicate: (filterParams) => {
          let filter = filterParams[field];
          if (!filter) return null;
          let filters = [];
-         if (filter.exact != null)
-            filters.push(record => record[field] == filter.exact);
-         if (filter.range && filter.range.from != null)
-            filters.push(record => record[field] >= filter.range.from);
-         if (filter.range && filter.range.to != null)
-            filters.push(record => record[field] <= filter.range.to);
+         if (filter.exact != null) filters.push((record) => record[field] == filter.exact);
+         if (filter.range && filter.range.from != null) filters.push((record) => record[field] >= filter.range.from);
+         if (filter.range && filter.range.to != null) filters.push((record) => record[field] <= filter.range.to);
          return filters;
       },
       menu: (
@@ -59,14 +51,14 @@ function getNumberFilter(field, filterPath, format) {
                   get: computable(exactPath, isNonEmptyObjectDeep),
                   set: (value, { store }) => {
                      if (!value) store.delete(exactPath);
-                  }
+                  },
                }}
             >
                <Menu putInto="dropdown">
                   <NumberField
                      mod="menu"
                      placeholder="Value..."
-                     value-bind={exactPath}
+                     value={{ bind: exactPath, debounce: defaultDebounceTimeout }}
                      showClear
                   />
                </Menu>
@@ -78,26 +70,26 @@ function getNumberFilter(field, filterPath, format) {
                   get: computable(rangePath, isNonEmptyObjectDeep),
                   set: (value, { store }) => {
                      if (!value) store.delete(rangePath);
-                  }
+                  },
                }}
             >
                <Menu putInto="dropdown">
                   <NumberField
                      mod="menu"
                      placeholder="From..."
-                     value-bind={rangePath + ".from"}
+                     value={{ bind: rangePath + ".from", debounce: defaultDebounceTimeout }}
                      showClear
                   />
                   <NumberField
                      mod="menu"
                      placeholder="To..."
-                     value-bind={rangePath + ".to"}
+                     value={{ bind: rangePath + ".to", debounce: defaultDebounceTimeout }}
                      showClear
                   />
                </Menu>
             </Submenu>
          </cx>
-      )
+      ),
    };
 }
 
@@ -106,21 +98,21 @@ function getDateFilter(field, filterPath, format) {
    let rangePath = filterPath + ".range";
 
    return {
-      predicate: filterParams => {
+      predicate: (filterParams) => {
          let filter = filterParams[field];
          if (!filter) return null;
          let filters = [];
          if (filter.exact != null) {
             let v = new Date(filter.exact).valueOf();
-            filters.push(record => new Date(record[field]).valueOf() == v);
+            filters.push((record) => new Date(record[field]).valueOf() == v);
          }
          if (filter.range && filter.range.from != null) {
             let v = new Date(filter.range.from).valueOf();
-            filters.push(record => new Date(record[field]).valueOf() >= v);
+            filters.push((record) => new Date(record[field]).valueOf() >= v);
          }
          if (filter.range && filter.range.to != null) {
             let v = new Date(filter.range.to).valueOf();
-            filters.push(record => new Date(record[field]).valueOf() <= v);
+            filters.push((record) => new Date(record[field]).valueOf() <= v);
          }
          return filters;
       },
@@ -133,16 +125,11 @@ function getDateFilter(field, filterPath, format) {
                   get: computable(exactPath, isNonEmptyObjectDeep),
                   set: (value, { store }) => {
                      if (!value) store.delete(exactPath);
-                  }
+                  },
                }}
             >
                <Menu putInto="dropdown">
-                  <DateField
-                     mod="menu"
-                     placeholder="Value..."
-                     value-bind={exactPath}
-                     showClear
-                  />
+                  <DateField mod="menu" placeholder="Value..." value-bind={exactPath} showClear />
                </Menu>
             </Submenu>
             <Submenu
@@ -152,26 +139,16 @@ function getDateFilter(field, filterPath, format) {
                   get: computable(rangePath, isNonEmptyObjectDeep),
                   set: (value, { store }) => {
                      if (!value) store.delete(rangePath);
-                  }
+                  },
                }}
             >
                <Menu putInto="dropdown">
-                  <DateField
-                     mod="menu"
-                     placeholder="From..."
-                     value-bind={rangePath + ".from"}
-                     showClear
-                  />
-                  <DateField
-                     mod="menu"
-                     placeholder="To..."
-                     value-bind={rangePath + ".to"}
-                     showClear
-                  />
+                  <DateField mod="menu" placeholder="From..." value-bind={rangePath + ".from"} showClear />
+                  <DateField mod="menu" placeholder="To..." value-bind={rangePath + ".to"} showClear />
                </Menu>
             </Submenu>
          </cx>
-      )
+      ),
    };
 }
 
@@ -187,10 +164,8 @@ function buildColumnMenu(column, state, options) {
    state.filterParams[column.field] = { bind: filterPath };
 
    let filter;
-   if (column.type == "date")
-      filter = getDateFilter(column.field, filterPath, column.format);
-   else if (column.type == "number")
-      filter = getNumberFilter(column.field, filterPath, column.format);
+   if (column.type == "date") filter = getDateFilter(column.field, filterPath, column.format);
+   else if (column.type == "number") filter = getNumberFilter(column.field, filterPath, column.format);
    else filter = getTextFilter(column.field, filterPath, column.format);
 
    let { menu, predicate } = filter;
@@ -199,10 +174,7 @@ function buildColumnMenu(column, state, options) {
 
    result.header.className = getClassNameObject(result.header.className);
 
-   result.header.className["cxs-filtered"] = computable(
-      filterPath,
-      isNonEmptyObjectDeep
-   );
+   result.header.className["cxs-filtered"] = computable(filterPath, isNonEmptyObjectDeep);
 
    result.header.tool = (
       <cx>
@@ -218,7 +190,7 @@ function buildColumnMenu(column, state, options) {
                         get: computable(filterPath, isNonEmptyObjectDeep),
                         set: (value, { store }) => {
                            if (!value) store.delete(filterPath);
-                        }
+                        },
                      }}
                      arrow
                   >
@@ -237,20 +209,16 @@ export function buildColumnMenus(columns, options) {
    let filters = [],
       filterParams = {};
 
-   columns = columns.map(column =>
-      buildColumnMenu(column, { filterParams, filters }, options)
-   );
+   columns = columns.map((column) => buildColumnMenu(column, { filterParams, filters }, options));
 
    return {
       columns,
       filterParams,
-      onCreateFilter: filterParams => {
-         let conditions = filters
-            .flatMap(f => f(filterParams))
-            .filter(f => !!f);
+      onCreateFilter: (filterParams) => {
+         let conditions = filters.flatMap((f) => f(filterParams)).filter((f) => !!f);
          if (conditions.length == 0) return () => true;
-         return record => conditions.every(c => c(record));
-      }
+         return (record) => conditions.every((c) => c(record));
+      },
    };
 }
 
@@ -258,7 +226,7 @@ function getClassNameObject(x) {
    if (isString(x)) {
       let parts = x.split(" ");
       let result = {};
-      parts.forEach(p => {
+      parts.forEach((p) => {
          if (p) result[p] = true;
       });
       return result;

@@ -235,8 +235,10 @@ class Input extends VDOM.Component {
    }
 
    componentWillReceiveProps(props) {
-      let { data } = props.instance;
-      if (data.value != this.input.value) this.input.value = data.value || "";
+      let { data } = props;
+      //the second check is required for debouncing, sometimes the value in the store lags after the input
+      //and update may be caused by some other property, i.e. visited
+      if (data.value != this.input.value && data.value != this.props.data.value) this.input.value = data.value || "";
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
    }
 
