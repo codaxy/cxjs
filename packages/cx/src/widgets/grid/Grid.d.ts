@@ -4,9 +4,7 @@ import { Instance } from "../../ui/Instance";
 import { DragEvent } from "../drag-drop/ops";
 import { View } from "../../data/View";
 
-type FetchRecordsResult =
-   | Cx.Record[]
-   | { records: Cx.Record[]; lastPage?: boolean; totalRecordCount?: number };
+type FetchRecordsResult = Cx.Record[] | { records: Cx.Record[]; lastPage?: boolean; totalRecordCount?: number };
 
 interface MappedGridRecord {
    data: Cx.Record;
@@ -29,8 +27,11 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean;
 
-   /** A binding used to store the sorting order list. Commonly used for server-side sorting */
+   /** A binding used to store the sorting order list. Commonly used for server-side sorting. */
    sorters?: Cx.SortersProp;
+
+   /** A list of sorters to be prepended to the actual list of sorters. */
+   preSorters?: Cx.SortersProp;
 
    /** A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not used. */
    sortField?: Cx.StringProp;
@@ -146,10 +147,7 @@ interface GridProps extends Cx.StyledContainerProps {
    filterParams?: Cx.StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (
-      filterParams: any,
-      instance?: Instance
-   ) => (record: Cx.Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: Cx.Record) => boolean;
 
    /** Enable infinite scrolling */
    infinite?: boolean;
@@ -170,14 +168,10 @@ interface GridProps extends Cx.StyledContainerProps {
    ) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
    /** Callback function to be executed when a row is double-clicked. */
-   onRowDoubleClick?:
-      | string
-      | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+   onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
    /** Callback function to be executed when a row is clicked. */
-   onRowClick?:
-      | string
-      | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+   onRowClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
    /** Set to true to add a fixed footer at the bottom of the grid. */
    fixedFooter?: boolean;
@@ -189,18 +183,12 @@ interface GridProps extends Cx.StyledContainerProps {
    onCellEdited?: (change, record) => void;
 
    /** A callback function which is executed after a column has been resized. */
-   onColumnResize?: (
-      data: { width: number; column: Cx.Record },
-      instance: Instance
-   ) => void;
+   onColumnResize?: (data: { width: number; column: Cx.Record }, instance: Instance) => void;
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: Cx.CollatorOptions;
 
-   onCreateIsRecordSelectable?: (
-      params: any,
-      instance: Instance
-   ) => (record: Cx.Record) => boolean;
+   onCreateIsRecordSelectable?: (params: any, instance: Instance) => (record: Cx.Record) => boolean;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

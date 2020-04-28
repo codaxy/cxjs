@@ -47,6 +47,7 @@ export class Grid extends Widget {
          {
             records: undefined,
             sorters: undefined,
+            preSorters: undefined,
             scrollable: undefined,
             sortField: undefined,
             sortDirection: undefined,
@@ -1005,6 +1006,11 @@ export class Grid extends Widget {
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
 
       let sorters = !this.remoteSort && data.sorters;
+
+      //apply pre-sorters only if some sorting is applied
+      if (isNonEmptyArray(data.sorters) && isNonEmptyArray(data.preSorters)) {
+         sorters = [...data.preSorters, ...data.sorters];
+      }
 
       this.dataAdapter.setFilter(filter);
       this.dataAdapter.sort(sorters);

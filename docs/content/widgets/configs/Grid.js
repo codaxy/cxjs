@@ -205,5 +205,11 @@ export default {
         description: <cx><Md>
             Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
         </Md></cx>
-    }
+    },
+    preSorters: {
+        type: 'array',
+        description: <cx><Md>
+            Additional sorters to be prepended to the actual list of sorters.
+        </Md></cx>
+    },
 };

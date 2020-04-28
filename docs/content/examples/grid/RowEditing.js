@@ -16,7 +16,7 @@ class PageController extends Controller {
         this.store.set(
             "$page.records",
             Array
-                .from({length: 10})
+                .from({length: 8})
                 .map((v, i) => ({
                     fullName: casual.full_name,
                     continent: casual.continent,
@@ -74,6 +74,7 @@ export const RowEditing = <cx>
                     },
                     valid: { bind: '$record.valid' }
                 }}
+                preSorters={[{ direction: "DESC", value: { bind: "$record.$editing.add" } }]}
                 columns={[
                     {
                         header: "Name",
@@ -146,6 +147,7 @@ export const RowEditing = <cx>
                         header: 'Actions',
                         style: "width: 150px",
                         align:"center",
+                        pad: false,
                         items: <cx>
                             <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
                             <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
