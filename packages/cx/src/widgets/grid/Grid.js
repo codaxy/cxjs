@@ -581,9 +581,11 @@ export class Grid extends Widget {
                                     resizeOverlayEl.style.width = `${width}px`;
                                  },
                                  onMouseUp: (e) => {
+                                    if (!resizeOverlayEl) return; //dblclick
                                     let width = resizeOverlayEl.offsetWidth;
                                     hdinst.assignedWidth = width;
                                     gridEl.removeChild(resizeOverlayEl);
+                                    resizeOverlayEl = null;
                                     if (widget.onColumnResize)
                                        instance.invoke("onColumnResize", { width, column: hdwidget }, hdinst);
                                     header.set("width", width);
