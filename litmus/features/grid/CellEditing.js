@@ -1,4 +1,15 @@
-import { Grid, HtmlElement, Button, Submenu, Menu, Icon, Checkbox, TextField, LookupField } from "cx/widgets";
+import {
+   Grid,
+   HtmlElement,
+   Button,
+   Submenu,
+   Menu,
+   Icon,
+   Checkbox,
+   TextField,
+   LookupField,
+   NumberField,
+} from "cx/widgets";
 import { Content, Controller, KeySelection, bind } from "cx/ui";
 import { Format } from "cx/util";
 import { casual } from "../../casual";
@@ -60,6 +71,10 @@ export default (
                   ),
                },
                {
+                  header: "Dummy",
+                  visible: false,
+               },
+               {
                   header: "Continent",
                   field: "continent",
                   sortable: true,
@@ -98,6 +113,11 @@ export default (
                   field: "visits",
                   sortable: true,
                   align: "right",
+                  editor: (
+                     <cx>
+                        <NumberField value-bind="$record.visits" />
+                     </cx>
+                  ),
                },
             ]}
             cellEditable

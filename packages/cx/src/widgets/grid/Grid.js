@@ -362,12 +362,15 @@ export class Grid extends Widget {
 
    exploreCleanup(context, instance) {
       context.pop("parentPositionChangeEvent");
-      let fixedColumnCount = 0;
+      let fixedColumnCount = 0,
+         visibleColumns = [];
       instance.components.header.children.forEach((line) => {
          line.children.forEach((col) => {
             if (col.data.fixed) fixedColumnCount++;
+            visibleColumns.push(col.widget);
          });
       });
+      instance.visibleColumns = visibleColumns;
       instance.hasFixedColumns = fixedColumnCount > 0;
       instance.fixedColumnCount = fixedColumnCount;
       if (fixedColumnCount > 0) {
@@ -1085,7 +1088,7 @@ class GridComponent extends VDOM.Component {
 
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
-      let { widget, hasFixedColumns, isRecordSelectable } = instance;
+      let { widget, hasFixedColumns, isRecordSelectable, visibleColumns } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, start, end, cursor, cursorCellIndex, cellEdit } = this.state;
@@ -1150,7 +1153,7 @@ class GridComponent extends VDOM.Component {
                            ? CSS.expand(data.classNames, CSS.state("cellected"))
                            : data.classNames;
                         if (cellected && cellEdit) {
-                           let column = widget.row.line1.columns[cursorCellIndex];
+                           let column = visibleColumns[cursorCellIndex];
                            if (column && column.editor && data.editable)
                               //add an inner div with fixed height in order to help IE absolutely position the contents inside
                               return (
@@ -2051,7 +2054,7 @@ class GridComponent extends VDOM.Component {
       index,
       { focused, hover, scrollIntoView, select, selectRange, selectOptions, cellIndex, cellEdit, cancelEdit } = {}
    ) {
-      let { widget } = this.props.instance;
+      let { widget, visibleColumns } = this.props.instance;
       if (!widget.selectable && !widget.cellEditable) return;
 
       let newState = {};
@@ -2060,8 +2063,7 @@ class GridComponent extends VDOM.Component {
          newState.cellEdit = cellEdit;
          if (
             cellEdit &&
-            (!widget.row.line1.columns[this.state.cursorCellIndex] ||
-               !widget.row.line1.columns[this.state.cursorCellIndex].editor)
+            (!visibleColumns[this.state.cursorCellIndex] || !visibleColumns[this.state.cursorCellIndex].editor)
          )
             newState.cellEdit = false;
       }
@@ -2107,10 +2109,10 @@ class GridComponent extends VDOM.Component {
                   this.props.instance.invoke(
                      "onCellEdited",
                      {
-                        column: widget.row.line1.columns[prevState.cursorCellIndex],
+                        column: visibleColumns[prevState.cursorCellIndex],
                         newData: record.data,
                         oldData: this.cellEditUndoData,
-                        field: widget.row.line1.columns[prevState.cursorCellIndex].field,
+                        field: visibleColumns[prevState.cursorCellIndex].field,
                      },
                      record
                   );
