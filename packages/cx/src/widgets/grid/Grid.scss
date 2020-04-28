@@ -29,7 +29,6 @@
          border-collapse: collapse;
          width: 100%;
          position: relative;
-         overflow-anchor: none;
       }
 
       .#{$state}aligned-left {
@@ -132,6 +131,10 @@
             white-space: nowrap;
          }
       }
+   }
+
+   .#{$element}#{$name}-table-wrapper {
+      overflow-anchor: none;
    }
 
    .#{$element}#{$name}-cell-clip {

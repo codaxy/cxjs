@@ -31,7 +31,7 @@ import "./index.scss";
 //import Demo from './features/context-menu';
 //import Demo from './features/charts/time-axis/LocalTime';
 //import Demo from "./features/grid/header-tool";
-//import Demo from './features/grid/GridBuffering';
+import Demo from "./features/grid/GridBuffering";
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/grid/FixedFooterNoGrouping';
@@ -61,7 +61,7 @@ import "./index.scss";
 
 //import Demo from './bugs/509';
 //import Demo from './features/typescript/jsx';
-import Demo from "./bugs/530";
+//import Demo from "./bugs/530";
 //import Demo from "./features/restate/DeferredUpdates";
 //import Demo from "./features/layout/ComplexLabelsTopLayout";
 //import Demo from "./features/grid/GroupingCaptions";

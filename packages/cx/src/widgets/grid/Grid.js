@@ -55,6 +55,7 @@ export class Grid extends Widget {
             dropZone: { structured: true },
             filterParams: { structured: true },
             groupingParams: { structured: true },
+            scrollResetParams: { structured: true },
             page: undefined,
             totalRecordCount: undefined,
             tabIndex: undefined,
@@ -1007,7 +1008,7 @@ export class Grid extends Widget {
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
 
       let sorters = !this.remoteSort && data.sorters;
-      
+
       //apply pre-sorters only if some sorting is applied
       if (isNonEmptyArray(data.sorters) && isNonEmptyArray(data.preSorters)) {
          sorters = [...data.preSorters, ...data.sorters];
@@ -2028,9 +2029,14 @@ class GridComponent extends VDOM.Component {
             this.dom.scroller.scrollTop = 0;
          }
 
-         if (sortersChanged || data.filterParams !== this.lastScrollFilterParams) {
+         if (
+            sortersChanged ||
+            data.filterParams !== this.lastScrollFilterParams ||
+            data.scrollResetParams !== this.lastScrollResetParams
+         ) {
             this.dom.scroller.scrollTop = 0;
             this.lastScrollFilterParams = data.filterParams;
+            this.lastScrollResetParams = data.scrollResetParams;
             this.lastSorters = data.sorters;
             if (widget.infinite) {
                this.loadingStartPage = 0;
