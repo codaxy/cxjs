@@ -189,6 +189,9 @@ interface GridProps extends Cx.StyledContainerProps {
    sortOptions?: Cx.CollatorOptions;
 
    onCreateIsRecordSelectable?: (params: any, instance: Instance) => (record: Cx.Record) => boolean;
+
+   /** Parameters whose change will casuse scroll to be reset. */
+   scrollResetParams?: Cx.StructuredProp;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

@@ -13,7 +13,6 @@ import { findScrollableParent } from "../../util/findScrollableParent";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import DropDownIcon from "../icons/sort-asc";
 import { initiateDragDrop, registerDropZone } from "../drag-drop/ops";
-
 import { GridRow, GridRowComponent } from "./GridRow";
 import { Localization } from "../../ui/Localization";
 import { SubscriberList } from "../../util/SubscriberList";
@@ -1008,7 +1007,7 @@ export class Grid extends Widget {
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
 
       let sorters = !this.remoteSort && data.sorters;
-
+      
       //apply pre-sorters only if some sorting is applied
       if (isNonEmptyArray(data.sorters) && isNonEmptyArray(data.preSorters)) {
          sorters = [...data.preSorters, ...data.sorters];
@@ -1152,11 +1151,12 @@ class GridComponent extends VDOM.Component {
                dimensionsVersion={dimensionsVersion}
                fixed={fixedColumns}
             >
-               {children.content.map(({ key, data, content }) => (
+               {children.content.map(({ key, data, content }, line) => (
                   <tr key={key} className={data.classNames} style={data.style}>
                      {content.map(({ key, data, content, instance, uniqueColumnId }, cellIndex) => {
                         if (Boolean(data.fixed) !== fixedColumns) return null;
-                        let cellected = index == cursor && cellIndex == cursorCellIndex && widget.cellEditable;
+                        let cellected =
+                           index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
                         let className = cellected
                            ? CSS.expand(data.classNames, CSS.state("cellected"))
                            : data.classNames;

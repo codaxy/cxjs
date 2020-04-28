@@ -212,4 +212,26 @@ export default {
             Additional sorters to be prepended to the actual list of sorters.
         </Md></cx>
     },
+
+    scrollResetParams: {
+        type: 'object',
+        description: <cx><Md>
+            Parameters whose change will cause the scroll to be reset.
+        </Md></cx>
+    },
+
+    filterParams: {
+        type: 'object',
+        description: <cx><Md>
+            Parameters which will be passed to the onCreateFilter callback.
+        </Md></cx>
+    },
+
+    onCreateFilter: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to create a filter. The function accepts `filterParams` as a first argument and
+             it should return a predicate function used to filter the records.
+        </Md></cx>
+    }
 };
