@@ -2119,12 +2119,13 @@ class GridComponent extends VDOM.Component {
             if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                record.store.set(widget.recordName, this.cellEditUndoData);
             else {
-               if (widget.onCellEdited && record.data != this.cellEditUndoData)
+               let newData = record.store.get(widget.recordName); //record.data might be stale at this point
+               if (widget.onCellEdited && newData != this.cellEditUndoData)
                   this.props.instance.invoke(
                      "onCellEdited",
                      {
                         column: visibleColumns[prevState.cursorCellIndex],
-                        newData: record.data,
+                        newData,
                         oldData: this.cellEditUndoData,
                         field: visibleColumns[prevState.cursorCellIndex].field,
                      },

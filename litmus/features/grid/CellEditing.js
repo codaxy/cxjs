@@ -121,8 +121,9 @@ export default (
                },
             ]}
             cellEditable
-            onCellEdited={(...args) => {
-               console.log("EDIT", ...args);
+            onCellEdited={(data, ...args) => {
+               //console.log("EDIT", data.oldData, data.newData, data.oldData === data.newData);
+               console.log("EDIT", data, ...args);
             }}
             selection={{
                type: KeySelection,
