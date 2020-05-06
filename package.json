@@ -57,5 +57,8 @@
     "transformIgnorePatterns": [
       "node_modules/(?!cx|cx-react)"
     ]
+  },
+  "devDependencies": {
+    "env-test": "^1.0.0"
   }
 }

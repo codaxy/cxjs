@@ -1,10 +1,10 @@
-import {computable} from './computable';
-import {Format} from '../util/Format';
-import {Binding} from './Binding';
+import { computable } from "./computable";
+import { Format } from "../util/Format";
+import { Binding } from "./Binding";
 
-import {quoteStr} from '../util/quote';
-import {isDigit} from '../util/isDigit';
-import {isFunction} from '../util/isFunction';
+import { quoteStr } from "../util/quote";
+import { isDigit } from "../util/isDigit";
+import { isFunction } from "../util/isFunction";
 
 /*
    Helper usage example
@@ -20,24 +20,27 @@ let expCache = {},
    expFatArrows = null;
 
 function getExpr(expr) {
-
-   if (expr.memoize)
-      return expr;
+   if (expr.memoize) return expr;
 
    function memoize() {
-      let lastValue, lastRunBindings = {}, lastRunResults = {}, getters = {}, currentData, len = -1;
+      let lastValue,
+         lastRunBindings = {},
+         lastRunResults = {},
+         getters = {},
+         currentData,
+         len = -1;
 
-      let get = function(bindingWithFormat) {
-
+      let get = function (bindingWithFormat) {
          let getter = getters[bindingWithFormat];
          if (!getter) {
-            let binding = bindingWithFormat, format;
-            let colonIndex = bindingWithFormat.indexOf(':');
+            let binding = bindingWithFormat,
+               format;
+            let colonIndex = bindingWithFormat.indexOf(":");
             if (colonIndex != -1) {
                format = Format.parse(bindingWithFormat.substring(colonIndex + 1));
                binding = bindingWithFormat.substring(0, colonIndex);
             } else {
-               let nullSeparatorIndex = bindingWithFormat.indexOf(':');
+               let nullSeparatorIndex = bindingWithFormat.indexOf(":");
                if (nullSeparatorIndex != -1) {
                   format = Format.parse(bindingWithFormat.substring(nullSeparatorIndex));
                   binding = bindingWithFormat.substring(0, nullSeparatorIndex - 1);
@@ -54,7 +57,7 @@ function getExpr(expr) {
 
             if (format) {
                let valueGetter = getter;
-               getter = data => format(valueGetter(data));
+               getter = (data) => format(valueGetter(data));
             }
 
             getters[bindingWithFormat] = getter;
@@ -64,16 +67,14 @@ function getExpr(expr) {
 
       return function (data) {
          let i = 0;
-         for (; i < len; i++)
-            if (lastRunBindings[i](data) !== lastRunResults[i])
-               break;
+         for (; i < len; i++) if (lastRunBindings[i](data) !== lastRunResults[i]) break;
          if (i !== len) {
             len = 0;
             currentData = data;
             lastValue = expr(get);
          }
          return lastValue;
-      }
+      };
    }
 
    let result = memoize();
@@ -81,14 +82,11 @@ function getExpr(expr) {
    return result;
 }
 
-
 export function expression(str) {
-   if (isFunction(str))
-      return getExpr(str);
+   if (isFunction(str)) return getExpr(str);
 
    let r = expCache[str];
-   if (r)
-      return r;
+   if (r) return r;
 
    let quote = false;
 
@@ -96,7 +94,7 @@ export function expression(str) {
       curlyBrackets = 0,
       percentExpression;
 
-   let fb = ['return ('];
+   let fb = ["return ("];
 
    let args = {};
    let formats = [];
@@ -105,103 +103,90 @@ export function expression(str) {
    for (let i = 0; i < str.length; i++) {
       let c = str[i];
       switch (c) {
-
-         case '{':
-            if (curlyBrackets>0)
-               curlyBrackets++;
+         case "{":
+            if (curlyBrackets > 0) curlyBrackets++;
             else {
-               if (!quote && termStart < 0 && (str[i + 1] != '{' || str[i-1] == '%')) {
+               if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
                   termStart = i + 1;
                   curlyBrackets = 1;
-                  percentExpression = str[i-1] == '%';
-                  if (percentExpression)
-                     fb.pop(); //%
-               }
-               else if (str[i - 1] != '{')
-                  fb.push(c);
+                  percentExpression = str[i - 1] == "%";
+                  if (percentExpression) fb.pop(); //%
+               } else if (str[i - 1] != "{") fb.push(c);
             }
             break;
 
-         case '}':
+         case "}":
             if (termStart >= 0) {
                if (--curlyBrackets == 0) {
                   let term = str.substring(termStart, i);
                   let formatStart = 0;
-                  if (term[0] == '[')
-                     formatStart = term.indexOf(']');
-                  let colon = term.indexOf(':', formatStart > 0 ? formatStart : 0);
+                  if (term[0] == "[") formatStart = term.indexOf("]");
+                  let colon = term.indexOf(":", formatStart > 0 ? formatStart : 0);
                   let binding = colon == -1 ? term : term.substring(0, colon);
                   let format = colon == -1 ? null : term.substring(colon + 1);
                   if (colon == -1) {
-                     let nullSepIndex = binding.indexOf('|');
+                     let nullSepIndex = binding.indexOf("|", formatStart);
                      if (nullSepIndex != -1) {
                         format = binding.substring(nullSepIndex);
                         binding = binding.substring(0, nullSepIndex);
                      }
                   }
-                  let argName = binding.replace(/\./g, '_');
-                  if (isDigit(argName[0]))
-                     argName = '$' + argName;
-                  if (percentExpression || (binding[0] == '[' && binding[binding.length - 1] == ']')) {
-                     argName = 'expr' + (++subExpr);
+                  let argName = binding.replace(/\./g, "_");
+                  if (isDigit(argName[0])) argName = "$" + argName;
+                  if (percentExpression || (binding[0] == "[" && binding[binding.length - 1] == "]")) {
+                     argName = `expr${++subExpr}`;
                      args[argName] = expression(percentExpression ? binding : binding.substring(1, binding.length - 1));
-                  } else
-                     args[argName] = binding;
+                  } else args[argName] = binding;
                   if (format) {
-                     let formatter = 'fmt' + formats.length;
-                     fb.push(formatter, '(', argName, ', ', quoteStr(format), ')');
+                     let formatter = "fmt" + formats.length;
+                     fb.push(formatter, "(", argName, ", ", quoteStr(format), ")");
                      formats.push(Format.parse(format));
-                  } else
-                     fb.push(argName);
+                  } else fb.push(argName);
                   termStart = -1;
                }
-            }
-            else
-               fb.push(c);
+            } else fb.push(c);
 
             break;
 
          case '"':
          case "'":
             if (curlyBrackets == 0) {
-               if (!quote)
-                  quote = c;
-               else if (str[i - 1] != '\\' && quote == c)
-                  quote = false;
+               if (!quote) quote = c;
+               else if (str[i - 1] != "\\" && quote == c) quote = false;
                fb.push(c);
             }
             break;
 
          default:
-            if (termStart < 0)
-               fb.push(c);
+            if (termStart < 0) fb.push(c);
             break;
       }
    }
 
-   fb.push(')');
+   fb.push(")");
 
-   let body = fb.join('');
+   let body = fb.join("");
 
-   if (expFatArrows)
-      body = expFatArrows(body);
+   if (expFatArrows) body = expFatArrows(body);
 
    //console.log(body);
    let keys = Object.keys(args);
 
    try {
-      let compute = new Function(...formats.map((f, i) => 'fmt' + i), ...keys, ...helperNames, body).bind(Format, ...formats, ...helperValues);
-      let selector = computable(...keys.map(k => args[k]), compute);
+      let compute = new Function(...formats.map((f, i) => "fmt" + i), ...keys, ...helperNames, body).bind(
+         Format,
+         ...formats,
+         ...helperValues
+      );
+      let selector = computable(...keys.map((k) => args[k]), compute);
       expCache[str] = selector;
       return selector;
-   }
-   catch (err) {
+   } catch (err) {
       throw new Error(`Failed to parse expression: '${str}'. Error: ${err.message}`);
    }
 }
 
 export const Expression = {
-
    get: function (str) {
       return expression(str);
    },
@@ -213,8 +198,8 @@ export const Expression = {
    registerHelper: function (name, helper) {
       helpers[name] = helper;
       helperNames = Object.keys(helpers);
-      helperValues = helperNames.map(n => helpers[n]);
-   }
+      helperValues = helperNames.map((n) => helpers[n]);
+   },
 };
 
 export function plugFatArrowExpansion(impl) {

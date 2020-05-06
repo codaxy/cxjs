@@ -23,5 +23,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:codaxy/cxjs.git"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.13.1"
   }
 }
