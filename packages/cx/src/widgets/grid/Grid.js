@@ -2342,10 +2342,10 @@ class GridComponent extends VDOM.Component {
                   select: e.shiftKey,
                   selectRange: true,
                });
-               e.stopPropagation();
-               e.preventDefault();
                break;
             }
+            e.stopPropagation();
+            e.preventDefault();
             break;
 
          case KeyCode.up:
@@ -2359,31 +2359,35 @@ class GridComponent extends VDOM.Component {
                   select: e.shiftKey,
                   selectRange: true,
                });
-               e.stopPropagation();
-               e.preventDefault();
                break;
             }
+            e.stopPropagation();
+            e.preventDefault();
             break;
 
          case KeyCode.right:
-            if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
-               this.moveCursor(this.state.cursor, {
-                  focused: true,
-                  cellIndex: this.state.cursorCellIndex + 1,
-                  scrollIntoView: true,
-               });
+            if (widget.cellEditable) {
+               if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
+                  this.moveCursor(this.state.cursor, {
+                     focused: true,
+                     cellIndex: this.state.cursorCellIndex + 1,
+                     scrollIntoView: true,
+                  });
+               }
                e.stopPropagation();
                e.preventDefault();
             }
             break;
 
          case KeyCode.left:
-            if (this.state.cursorCellIndex > 0) {
-               this.moveCursor(this.state.cursor, {
-                  focused: true,
-                  cellIndex: this.state.cursorCellIndex - 1,
-                  scrollIntoView: true,
-               });
+            if (widget.cellEditable) {
+               if (this.state.cursorCellIndex > 0) {
+                  this.moveCursor(this.state.cursor, {
+                     focused: true,
+                     cellIndex: this.state.cursorCellIndex - 1,
+                     scrollIntoView: true,
+                  });
+               }
                e.stopPropagation();
                e.preventDefault();
             }
@@ -2392,7 +2396,7 @@ class GridComponent extends VDOM.Component {
          case KeyCode.a:
             if (!e.ctrlKey || !widget.selection.multiple) return;
 
-            if (e.target.nodeName == "INPUT") return;
+            if (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA") return;
 
             this.selectRange(0, data.totalRecordCount);
 
