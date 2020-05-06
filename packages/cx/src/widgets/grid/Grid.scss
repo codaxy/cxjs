@@ -324,7 +324,7 @@
          line-height: cx-get-state-rule($data-state-style-map, default, line-height);
          font-weight: cx-get-state-rule($data-state-style-map, default, font-weight);
 
-         &:empty::after {
+         &:empty::before {
             content: "-";
             visibility: hidden;
          }
