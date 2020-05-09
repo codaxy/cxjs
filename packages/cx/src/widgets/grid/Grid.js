@@ -227,11 +227,11 @@ export class Grid extends Widget {
 
       if (!isArray(data.records)) data.records = [];
 
-      if (state.sorters && !data.sorters) data.sorters = state.sorters;
+      if (state.sorters && isDefined(this.sorters)) data.sorters = state.sorters;
 
       let sortField = null;
 
-      if (data.sortField && data.sortDirection) {
+      if (isDefined(this.sortField) && isDefined(this.sortDirection)) {
          let sorter = {
             field: data.sortField,
             direction: data.sortDirection,
@@ -240,7 +240,7 @@ export class Grid extends Widget {
          data.sorters = [sorter];
       }
 
-      if ((!data.sorters || data.sorters.length == 0) && this.defaultSortField) {
+      if (!isNonEmptyArray(data.sorters) && this.defaultSortField) {
          let sorter = {
             field: this.defaultSortField,
             direction: this.defaultSortDirection || "ASC",
