@@ -962,18 +962,15 @@ export class Grid extends Widget {
 
    renderFixedFooter(context, instance) {
       let { records, hasFixedColumns, data } = instance;
-      if (data.empty) return;
 
       instance.fixedFooterVDOM = null;
       instance.fixedColumnsFixedFooterVDOM = null;
 
-      if (!isArray(records)) return;
-
-      let record = records[records.length - 1];
+      if (data.empty || !isNonEmptyArray(records)) return;
 
       //all type of records are allowed here because the footer can be based on pre-computed data
       //it doesn't make sense to show the footer if the grid is empty though
-      if (!record) return;
+      let record = records[records.length - 1];
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
