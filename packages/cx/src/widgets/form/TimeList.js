@@ -21,50 +21,58 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                let times = [];
                let today = zeroTime(new Date()).valueOf();
                for (let m = 0; m < max; m += step) {
-                  let time = today + m * 60 * 1000;
+                  let time = m * 60 * 1000;
                   times.push({
-                     id: time,
-                     text: Format.value(time, format || "datetime;HHmm"),
+                     id: m * 60 * 1000,
+                     text: Format.value(today + time, format || "datetime;HHmm"),
                   });
                }
+               let stepMs = step * 60 * 1000;
                return (
                   <cx>
-                     <DataProxy data={{ $selection: value }}>
-                        <List
-                           records={times}
-                           recordAlias="$time"
-                           onItemClick={(e, instance) => {
-                              let { store } = instance;
-                              let value = store.get("$time.id");
-                              let selection = store.get("$selection");
-                              let copy = selection ? new Date(selection) : new Date();
-                              let date = new Date(value);
-                              copy.setHours(date.getHours());
-                              copy.setMinutes(date.getMinutes());
-                              copy.setSeconds(date.getSeconds());
-                              copy.setMilliseconds(0);
-                              let encode = encoding || Culture.getDefaultDateEncoding();
-                              store.set("$selection", encode(copy));
-                              if (onSelect) {
-                                 if (isString(onSelect)) instance.invokeControllerMethod(onSelect, copy, instance);
-                                 else if (isFunction(onSelect)) onSelect(e, instance, copy);
-                              }
-                              return false;
-                           }}
-                           selection={{
-                              type: KeySelection,
-                              selection: { bind: "$selection" },
-                              getIsSelectedDelegate(store) {
-                                 let selection = store.get("$selection");
-                                 if (!selection) return () => false;
-                                 let selectionTime = new Date(selection).valueOf();
-                                 return (record) => record.id % 86400000 == selectionTime % 86400000;
+                     <DataProxy data={{ $value: value }} immutable>
+                        <DataProxy
+                           data={{
+                              $selection: {
+                                 get: ({ $value }) => {
+                                    if ($value == null) return null;
+                                    let selectionDate = new Date($value);
+                                    let selectionTime = selectionDate.valueOf() - zeroTime(selectionDate).valueOf();
+                                    return (Math.round(selectionTime / stepMs) * stepMs) % 86400000;
+                                 },
+                                 set: (value, instance) => {
+                                    let { store } = instance;
+                                    let $value = store.get("$value");
+                                    let copy = $value ? new Date($value) : new Date();
+                                    let today = zeroTime(new Date()).valueOf();
+                                    let date = new Date(today + value);
+                                    copy.setHours(date.getHours());
+                                    copy.setMinutes(date.getMinutes());
+                                    copy.setSeconds(date.getSeconds());
+                                    copy.setMilliseconds(0);
+                                    let encode = encoding || Culture.getDefaultDateEncoding();
+                                    store.set("$value", encode(copy));
+                                 },
                               },
                            }}
-                           {...props}
                         >
-                           <div text-bind="$time.text" />
-                        </List>
+                           <List
+                              records={times}
+                              recordAlias="$time"
+                              selection={{
+                                 type: KeySelection,
+                                 selection: { bind: "$selection" },
+                              }}
+                              {...props}
+                              onItemClick={(e, instance) => {
+                                 if (!onSelect) return;
+                                 if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance);
+                                 else if (isFunction(onSelect)) onSelect(e, instance);
+                              }}
+                           >
+                              <div text-bind="$time.text" />
+                           </List>
+                        </DataProxy>
                      </DataProxy>
                   </cx>
                );
