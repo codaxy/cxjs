@@ -1104,7 +1104,7 @@ class GridComponent extends VDOM.Component {
          end = this.end;
       }
 
-      let cellWrap = (children) => children;
+      let cellWrap = false;
 
       if (widget.cellEditable && (widget.hasResizableColumns || hasFixedColumns)) {
          cellWrap = (children) => <div className="cxe-grid-cell-clip">{children}</div>;
@@ -1199,7 +1199,7 @@ class GridComponent extends VDOM.Component {
                            };
                         }
 
-                        if (cellected) content = cellWrap(content);
+                        if (cellWrap) content = cellWrap(content);
 
                         return (
                            <td
