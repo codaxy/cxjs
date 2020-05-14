@@ -227,7 +227,7 @@ export class Grid extends Widget {
 
       if (!isArray(data.records)) data.records = [];
 
-      if (state.sorters && isDefined(this.sorters)) data.sorters = state.sorters;
+      if (state.sorters && !isDefined(this.sorters)) data.sorters = state.sorters;
 
       let sortField = null;
 
