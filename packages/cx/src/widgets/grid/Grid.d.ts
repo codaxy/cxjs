@@ -192,6 +192,9 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Parameters whose change will casuse scroll to be reset. */
    scrollResetParams?: Cx.StructuredProp;
+
+   /** Enable precise (sub-pixel) measurements. Useful for grids with many columns and better behavior at small zoom factors. */
+   preciseMeasurements?: boolean;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

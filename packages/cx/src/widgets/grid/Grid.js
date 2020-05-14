@@ -1047,6 +1047,7 @@ Grid.prototype.styled = true;
 Grid.prototype.scrollSelectionIntoView = false;
 Grid.prototype.clearableSort = false;
 Grid.prototype.cellEditable = false;
+Grid.prototype.preciseMeasurements = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
@@ -1916,7 +1917,9 @@ class GridComponent extends VDOM.Component {
          if (this.dom.fixedHeader) {
             let fixedHeaderTBody = this.dom.fixedHeader.firstChild.firstChild;
 
-            resized = copyCellSize(this.dom.table.firstChild, fixedHeaderTBody);
+            resized = widget.preciseMeasurements
+               ? copyCellSizePrecise(this.dom.table.firstChild, fixedHeaderTBody)
+               : copyCellSize(this.dom.table.firstChild, fixedHeaderTBody);
 
             let scrollColumnEl = fixedHeaderTBody.firstChild.lastChild;
             if (scrollColumnEl) scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
@@ -2645,10 +2648,29 @@ function copyCellSize(srcTableBody, dstTableBody) {
    return changed;
 }
 
+function copyCellSizePrecise(srcTableBody, dstTableBody) {
+   if (!srcTableBody || !dstTableBody) return false;
+   let changed = false;
+   for (let r = 0; r < dstTableBody.children.length && r < srcTableBody.children.length; r++) {
+      let sr = srcTableBody.children[r];
+      let dr = dstTableBody.children[r];
+      for (let c = 0; c < dr.children.length && c < sr.children.length; c++) {
+         let dc = dr.children[c];
+         let bounds = sr.children[c].getBoundingClientRect();
+         let ws = `${bounds.width}px`;
+         if (!changed && dc.style.width != ws) changed = true;
+         dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
+         dc.style.height = `${bounds.height}px`;
+      }
+   }
+   return changed;
+}
+
 function syncHeaderHeights(header1, header2) {
    /**
     * In the first pass measure all row heights.
-    * In the second pass apply those heights
+    * In the second pass apply those heights.
+    * Use getBoundingClientRect() for sub-pixel accuracy.
     */
 
    if (!header1 || !header2) return;
@@ -2661,7 +2683,7 @@ function syncHeaderHeights(header1, header2) {
       if (tr1) {
          for (let i = 0; i < tr1.children.length; i++) {
             let td = tr1.children[i];
-            let h = td.offsetHeight;
+            let h = td.getBoundingClientRect().height;
             if (td.rowSpan == 1 && h > rowHeight[r]) {
                rowHeight[r] = h;
                break;
@@ -2671,7 +2693,7 @@ function syncHeaderHeights(header1, header2) {
       if (tr2) {
          for (let i = 0; i < tr2.children.length; i++) {
             let td = tr2.children[i];
-            let h = td.offsetHeight;
+            let h = td.getBoundingClientRect().height;
             if (td.rowSpan == 1 && h > rowHeight[r]) {
                rowHeight[r] = h;
                break;
