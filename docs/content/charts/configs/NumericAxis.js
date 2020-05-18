@@ -68,5 +68,12 @@ export default {
         description: <cx><Md>
             Size of a zone reserved for labels near the lower end of the axis.
         </Md></cx>
+    },
+
+    minLabelTickSize: {
+        type: 'number',
+        description: <cx><Md>
+            Specifies minimum value increment between labels. Useful when formatting is not flexible enough, i.e. set to 1 for integer axes to avoid duplicate labels.
+        </Md></cx>
     }
 };
