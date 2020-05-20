@@ -1,20 +1,23 @@
-import {PureContainer} from "./PureContainer";
-import {Store} from '../data/Store';
-import {Cx} from './Cx';
-import {isString} from "../util/isString";
-import {VDOM} from "./VDOM";
-import {isFunction} from "../util/isFunction";
-import {isObject} from "../util/isObject";
-import {isUndefined} from "../util/isUndefined";
-import {Binding} from "../data/Binding";
-import {StructuredSelector} from "../data/StructuredSelector";
+import { PureContainer } from "./PureContainer";
+import { Store } from '../data/Store';
+import { Cx } from './Cx';
+import { isString } from "../util/isString";
+import { VDOM } from "./VDOM";
+import { isFunction } from "../util/isFunction";
+import { isObject } from "../util/isObject";
+import { isUndefined } from "../util/isUndefined";
+import { Binding } from "../data/Binding";
+import { StructuredSelector } from "../data/StructuredSelector";
+
+let persitenceCache = {};
 
 export class Restate extends PureContainer {
 
    declareData() {
       return super.declareData(...arguments, {
          deferredUntilIdle: undefined,
-         idleTimeout: undefined
+         idleTimeout: undefined,
+         cacheKey: undefined
       })
    }
 
@@ -42,6 +45,13 @@ export class Restate extends PureContainer {
    }
 
    initInstance(context, instance) {
+      super.initInstance(context, instance);
+
+      //let cacheKey = instance.data.cacheKey;
+      console.warn('----------------------------------------- initInstance', instance.cacheKey, instance)
+      window.currentInstance = instance.data
+      instance.subscribeOnDestroy(() => console.log('----------------------------- onDestroy', instance.data));
+
       this.privateDataSelector.init(instance.store);
       instance.subStore = new RestateStore({
          store: instance.store,
@@ -64,7 +74,8 @@ export class Restate extends PureContainer {
                throw new Error(`Cannot set value for ${path} in Restate as the setter is neither a function or a controller method.`);
 
             return true;
-         }
+         },
+         //data: persitenceCache[cacheKey]
       });
 
       instance.setStore = store => {
@@ -101,8 +112,9 @@ export class Restate extends PureContainer {
    }
 }
 
-Restate.prototype.detached = false;
-Restate.prototype.waitForIdle = false;
+
+   Restate.prototype.detached = false;
+   Restate.prototype.waitForIdle = false;
 
 class RestateStore extends Store {
 
@@ -155,4 +167,3 @@ class RestateStore extends Store {
    }
 }
 
-export class PrivateStore extends Restate {};

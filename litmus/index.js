@@ -35,12 +35,13 @@ import "./index.scss";
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/grid/FixedFooterNoGrouping';
-import Demo from "./features/grid/CellEditing";
+//import Demo from "./features/grid/CellEditing";
 //import Demo from './features/hscroll';
 //import Demo from './features/grid/InfiniteScroll';
 //import Demo from './features/list/GroupingAndSelection';
 //import Demo from './features/restate/LookupField';
 //import Demo from './features/restate/ErrorMessage';
+import Demo from './features/restate/PersistentRestate';
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
