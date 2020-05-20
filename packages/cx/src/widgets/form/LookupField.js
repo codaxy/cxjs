@@ -180,6 +180,26 @@ export class LookupField extends Field {
       if (this.multiple) return !isNonEmptyArray(data.values) && !isNonEmptyArray(data.records);
       return super.isEmpty(data);
    }
+
+   formatValue(context, instance) {
+      if (!this.multiple) return super.formatValue(context, instance);
+
+      let {records, values, options} = instance.data;
+      if (isArray(records))
+         return records.map(record => record[this.valueTextField] || record[this.valueIdField]).join(", ");
+
+      if (isArray(values)) {
+         if (isArray(options))
+            return values.map(id => {
+               let option = options.find(o => o[this.optionIdField] == id);
+               return option ? option[this.valueTextField] : id
+            }).filter(Boolean).join(", ");
+
+         return values.join(", ");
+      }
+
+      return null;
+   }
 }
 
 LookupField.prototype.baseClass = "lookupfield";
