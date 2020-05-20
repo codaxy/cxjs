@@ -9,7 +9,7 @@ import { isUndefined } from "../util/isUndefined";
 import { Binding } from "../data/Binding";
 import { StructuredSelector } from "../data/StructuredSelector";
 
-let persitenceCache = {};
+let persistenceCache = {};
 
 export class Restate extends PureContainer {
 
@@ -44,19 +44,14 @@ export class Restate extends PureContainer {
       super.init();
    }
 
-   initInstance(context, instance) {
-      super.initInstance(context, instance);
-
-      //let cacheKey = instance.data.cacheKey;
-      console.warn('----------------------------------------- initInstance', instance.cacheKey, instance)
-      window.currentInstance = instance.data
-      instance.subscribeOnDestroy(() => console.log('----------------------------- onDestroy', instance.data));
-
+   initSubStore(context, instance) {
+      let {cacheKey} = instance.data;
       this.privateDataSelector.init(instance.store);
       instance.subStore = new RestateStore({
          store: instance.store,
          detached: this.detached,
          privateData: this.data || {},
+         data: cacheKey ? persistenceCache[cacheKey] || {} : {},
          dataSelector: this.privateDataSelector.create(),
          onSet: (path, value) => {
             let config = this.data[path];
@@ -75,16 +70,23 @@ export class Restate extends PureContainer {
 
             return true;
          },
-         //data: persitenceCache[cacheKey]
       });
 
       instance.setStore = store => {
          instance.store = store;
          instance.subStore.setStore(store);
       };
+
+      if (cacheKey) {
+         instance.subscribeOnDestroy(() => {
+            persistenceCache[cacheKey] = instance.subStore.getData();
+         });
+      }
    }
 
    explore(context, instance) {
+      if (!instance.subStore)
+         this.initSubStore(context, instance);
       if (instance.subStore.parentDataCheck())
          instance.markShouldUpdate();
       if (!this.detached) {
@@ -112,9 +114,8 @@ export class Restate extends PureContainer {
    }
 }
 
-
-   Restate.prototype.detached = false;
-   Restate.prototype.waitForIdle = false;
+Restate.prototype.detached = false;
+Restate.prototype.waitForIdle = false;
 
 class RestateStore extends Store {
 
