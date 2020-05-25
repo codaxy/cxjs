@@ -1,4 +1,4 @@
-import { HtmlElement, Menu, MenuItem, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
+import { HtmlElement, Menu, MenuItem, MenuSpacer, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
 import { Content, computable } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -16,7 +16,7 @@ export const Menus = <cx>
 
             # Menu
 
-            <ImportPath path="import { Menu, Submenu, MenuItem } from 'cx/widgets';" />
+            <ImportPath path="import { Menu, Submenu, MenuItem, MenuSpacer } from 'cx/widgets';" />
 
             The `Menu` widget is used to present a list of options or commands in a horizontal or a vertical form.
             The `Submenu` widget is used when multiple options need to be shown under a single menu item.
@@ -24,7 +24,7 @@ export const Menus = <cx>
             Menus are completely driven by focus. If the menu loses focus, all sub-menus are closed.
 
             <div class="widgets">
-                <Menu horizontal>
+                <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>
                         File
                         <Menu putInto="dropdown" icons>
@@ -93,12 +93,14 @@ export const Menus = <cx>
                             </MenuItem>
                         </Menu>
                     </Submenu>
+                    <MenuSpacer />
+                    <MenuItem text="Right" onClick={() => {}} />
                 </Menu>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="LZFHw09A">{`
-                <Menu horizontal>
+                <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>
                         File
                         <Menu putInto="dropdown" icons>
@@ -165,6 +167,8 @@ export const Menus = <cx>
                             <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
+                            <MenuSpacer />
+                            <MenuItem text="Right" onClick={() => {}} />
                         </Menu>
                     </Submenu>
                 </Menu>
@@ -174,6 +178,9 @@ export const Menus = <cx>
 
         Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set.
         The `menu` modifier is used to add margin/padding to menu items.
+
+        Use `MenuSpacer` to push some items to the right. Use `overflow` to display an overflow menu which will hold
+        items which cannot fit the designated menu area.
 
         ## Configuration
 

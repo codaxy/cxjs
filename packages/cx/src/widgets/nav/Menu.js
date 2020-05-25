@@ -9,6 +9,7 @@ import { isUndefined } from "../../util/isUndefined";
 import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
 import { ResizeManager } from "../../ui/ResizeManager";
+import { MenuSpacer } from "./MenuSpacer";
 
 /*
  Functionality:
@@ -100,6 +101,7 @@ Menu.prototype.icons = false;
 Menu.prototype.overflow = false;
 Menu.prototype.overflowIcon = "drop-down";
 Menu.Item = MenuItem;
+Menu.Spacer = MenuSpacer;
 
 class MenuComponent extends VDOM.Component {
    constructor(props) {
@@ -116,7 +118,7 @@ class MenuComponent extends VDOM.Component {
    render() {
       let { instance, children } = this.props;
       let { data, widget } = instance;
-      let { CSS } = widget;
+      let { CSS, baseClass } = widget;
       this.itemInfo = Array.from({ length: children.length });
 
       let parentNonOverflownItemCount = 0;
@@ -145,26 +147,29 @@ class MenuComponent extends VDOM.Component {
             onBlur={FocusManager.nudge()}
             onKeyDown={::this.onKeyDown}
          >
-            {children.map((c, i) => {
-               let key = i;
+            {children.map((content, index) => {
+               let key = content && typeof content == "object" && content.key ? content.key : index;
 
-               if (c && typeof c == "object" && c.key) key = c.key;
+               if (content && content.spacer) {
+                  return widget.horizontal && index < this.state.nonOverflownItemCount
+                     && <li className={CSS.element(baseClass, "spacer")} key={key} />
+               }
 
                return (
                   <MenuItemComponent
                      key={key}
                      cursor={key === this.state.cursor}
                      hidden={
-                        i < parentNonOverflownItemCount ||
-                        (i >= this.state.nonOverflownItemCount && i + 1 != children.length)
+                        index < parentNonOverflownItemCount ||
+                        (index >= this.state.nonOverflownItemCount && index + 1 != children.length)
                      }
                      instance={instance}
                      itemInfo={this.itemInfo}
                      itemKey={key}
-                     itemIndex={i}
+                     itemIndex={index}
                      moveCursor={::this.moveCursor}
                   >
-                     {c}
+                     {content}
                   </MenuItemComponent>
                );
             })}
@@ -256,15 +261,19 @@ class MenuComponent extends VDOM.Component {
    }
 
    measureOverflow() {
-      if (this.isMeasureOverflowDisabled) return;
+
       let { instance } = this.props;
       let { widget } = instance;
+      let { CSS, baseClass } = widget;
       if (!widget.overflow) return;
+
+      let spacerClass = CSS.element(baseClass, "spacer");
 
       let nonOverflownItemCount = 0;
       let fitItemsWidth = 0;
       let children = Array.from(this.el.children);
       let widths = children.map((c) => {
+         if (c.classList.contains(spacerClass)) return 0;
          let w = c.offsetWidth;
          let style = getComputedStyle(c);
          let marginLeft = style.getPropertyValue("margin-left");
@@ -281,7 +290,10 @@ class MenuComponent extends VDOM.Component {
          nonOverflownItemCount++;
          fitItemsWidth += widths[i];
       }
-      if (this.state.nonOverflownItemCount != nonOverflownItemCount) {
+
+      instance.nonOverflownItemCount = nonOverflownItemCount;
+
+      if (!this.isMeasureOverflowDisabled && this.state.nonOverflownItemCount != nonOverflownItemCount) {
          this.isMeasureOverflowDisabled = true;
          this.setState(
             {
@@ -292,7 +304,6 @@ class MenuComponent extends VDOM.Component {
             }
          );
       }
-      instance.nonOverflownItemCount = nonOverflownItemCount;
    }
 
    componentWillUnmount() {

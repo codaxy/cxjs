@@ -32,12 +32,6 @@ export default {
             and corner values `top-left`, `top-right`, `bottom-left`, `bottom-right`. Default value is `null`.
         </Md></cx>
     },
-    arrow: {
-        type: 'boolean',
-        description: <cx><Md>
-            Set to `true` to use an arrow icon to indicate a Menu with multiple options. Default value is `false`.
-        </Md></cx>
-    },
     icons: {
         type: 'boolean',
         description: <cx><Md>
@@ -51,6 +45,7 @@ export default {
         </Md></cx>
     },
     overflow: {
+        key: true,
         type: 'boolean',
         description: <cx><Md>
             Set to `true` to put overflow menu items into a submenu on the right. Default value is `false`.

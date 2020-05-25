@@ -117,6 +117,8 @@ export class Restate extends PureContainer {
 Restate.prototype.detached = false;
 Restate.prototype.waitForIdle = false;
 
+export const PrivateStore = Restate;
+
 class RestateStore extends Store {
 
    constructor(config) {

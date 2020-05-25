@@ -57,12 +57,19 @@
 
          & > .#{$element}#{$name}-item:last-child {
             visibility: hidden;
+            position: absolute;
+            max-height: 100%;
          }
 
          &.#{$state}pack > .#{$element}#{$name}-item:last-child {
             visibility: visible;
+            position: relative;
          }
       }
+   }
+
+   .#{$element}#{$name}-spacer {
+      flex: 1 1 0%;
    }
 }
 

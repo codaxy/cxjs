@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Resizer, Button } from "cx/widgets";
+import { Menu, MenuItem, MenuSpacer, Resizer, Button } from "cx/widgets";
 
 export default (
    <cx>
@@ -23,9 +23,11 @@ export default (
                <MenuItem
                   icon="search"
                   text="Item 7"
-                  style="border: 1px solid red; margin-left: 5rem"
+                  style="border: 1px solid red; margin-left: 1rem"
                   onClick={() => {}}
                />
+               <MenuSpacer />
+               <MenuItem style="margin-left: auto" onClick={() => {}}>Right</MenuItem>
             </Menu>
          </div>
          <Resizer size-bind="width" />
