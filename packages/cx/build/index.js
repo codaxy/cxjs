@@ -1,6 +1,7 @@
 const buildJS = require("cx-build-tools/buildJS"),
    buildSCSS = require("cx-build-tools/buildSCSS"),
    getPathResolver = require("cx-build-tools/getPathResolver"),
+   fs = require('fs'),
    resolvePath = getPathResolver(__dirname),
    cxSrc = getPathResolver(resolvePath("../src"));
 
@@ -70,6 +71,11 @@ const externalPaths = {
 (async function buildAll() {
    console.log("Building cx...");
    try {
+      let distPath = resolvePath("../dist");
+      if (!fs.existsSync(distPath)) {
+         fs.mkdirSync(distPath);
+      }
+
       await Promise.all([
          buildJS(
             resolvePath("../src"),
