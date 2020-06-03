@@ -1,5 +1,5 @@
 @mixin cx-menuitem(
-   $name: 'menuitem',
+   $name: "menuitem",
    $state-style-map: $cx-list-item,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
@@ -35,9 +35,8 @@
          @include cx-add-state-rules($state-style-map, selected-cursor);
       }
 
-      .#{$state}disabled {
-         opacity: 0.5;
-         pointer-events: none;
+      &.#{$state}disabled {
+         @include cx-add-state-rules($state-style-map, disabled);
       }
 
       & > a {
@@ -50,9 +49,7 @@
       }
 
       @each $size, $value in $cx-menu-padding-options {
-
          &.#{$state}#{$size}-padding {
-
             & > a,
             & > span {
                padding: $value;
@@ -120,9 +117,12 @@
       left: 50%;
       margin-top: -$icon-size/2;
       margin-left: -$icon-size/2;
+      text-align: center;
+      line-height: 1;
+      font-size: $icon-size;
    }
 }
 
-@if (cx-should-include('cx/widgets/MenuItem')) {
+@if (cx-should-include("cx/widgets/MenuItem")) {
    @include cx-menuitem();
 }

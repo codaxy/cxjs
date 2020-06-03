@@ -1,23 +1,22 @@
-@mixin cxb-field(
-   $besm,
-   $state-style-map,
-   $input: true,
-   $box: false,
-   $width: null
-)
-{
+@mixin cxb-field($besm, $state-style-map, $input: true, $box: false, $width: null) {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   $line-height: cx-get-state-rule($state-style-map, default, 'line-height', 1.2em);
-   $padding: cx-get-state-rule($state-style-map, default, 'padding', 0);
-   $border-width: cx-get-state-rule($state-style-map, default, 'border-width', 1px);
+   $line-height: cx-get-state-rule($state-style-map, default, "line-height", 1.2em);
+   $padding: cx-get-state-rule($state-style-map, default, "padding", 0);
+   $border-width: cx-get-state-rule($state-style-map, default, "border-width", 1px);
 
    @if $input {
       width: $width;
       line-height: 0;
-      height: cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
+      height: cx-calc(
+         $line-height,
+         cx-top($padding),
+         cx-bottom($padding),
+         cx-top($border-width),
+         cx-bottom($border-width)
+      );
 
       //font: cx-get-state-rule($state-style-map, default, 'font');
       //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
@@ -33,9 +32,9 @@
       border-color: transparent;
 
       //other optional rules which could affect height
-      font: cx-get-state-rule($state-style-map, default, 'font');
-      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
-      height: cx-get-state-rule($state-style-map, default, 'height');
+      font: cx-get-state-rule($state-style-map, default, "font");
+      font-size: cx-get-state-rule($state-style-map, default, "font-size");
+      height: cx-get-state-rule($state-style-map, default, "height");
    }
 
    $state: map-get($besm, state);
@@ -49,21 +48,14 @@
    }
 }
 
-@mixin cxe-field-input(
-   $besm,
-   $state-style-map,
-   $overrides: null,
-   $placeholder: null,
-   $width: 100%,
-   $input: true
-) {
+@mixin cxe-field-input($besm, $state-style-map, $overrides: null, $placeholder: null, $width: 100%, $input: true) {
    $state: map-get($besm, state);
 
    $styles: cx-deep-map-merge($state-style-map, $overrides);
 
-   $line-height: cx-get-state-rule($styles, default, 'line-height', 1.2em);
-   $padding: cx-get-state-rule($styles, default, 'padding', 0);
-   $border-width: cx-get-state-rule($styles, default, 'border-width', 1px);
+   $line-height: cx-get-state-rule($styles, default, "line-height", 1.2em);
+   $padding: cx-get-state-rule($styles, default, "padding", 0);
+   $border-width: cx-get-state-rule($styles, default, "border-width", 1px);
 
    box-sizing: border-box;
 
@@ -73,12 +65,15 @@
 
       @if ($cx-use-box-line-height-fix) {
          //100% line-height fix - inputs work better in all browser, especially in Firefox
-         $styles: cx-deep-map-merge($styles, (
-            default: (
-               line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)),
-               padding: 0 cx-right($padding) 0 cx-left($padding)
+         $styles: cx-deep-map-merge(
+            $styles,
+            (
+               default: (
+                  line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)),
+                  padding: 0 cx-right($padding) 0 cx-left($padding),
+               ),
             )
-         ));
+         );
       }
    }
 
@@ -96,8 +91,11 @@
       &:disabled {
          @include cx-add-state-rules($styles, disabled);
       }
-   }
-   @else {
+
+      &:read-only {
+         @include cx-add-state-rules($styles, read-only);
+      }
+   } @else {
       .#{$state}disabled > & {
          @include cx-add-state-rules($styles, disabled);
       }
@@ -131,10 +129,7 @@
    }
 }
 
-@mixin cxe-field-button(
-   $besm,
-   $state-style-map
-) {
+@mixin cxe-field-button($besm, $state-style-map) {
    display: block;
    position: absolute;
 
@@ -147,13 +142,9 @@
    &:active {
       @include cx-add-state-rules($state-style-map, active);
    }
-
 }
 
-@mixin cxe-field-button-icon(
-   $besm,
-   $size
-) {
+@mixin cxe-field-button-icon($besm, $size) {
    display: block;
    position: absolute;
    left: 50%;
@@ -165,7 +156,6 @@
    line-height: $size;
    text-align: center;
 }
-
 
 @mixin cxe-field-empty-text($empty-text) {
    @include cx-add-rules($empty-text);

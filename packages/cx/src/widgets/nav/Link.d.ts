@@ -14,6 +14,9 @@ interface LinkProps extends Cx.HtmlElementProps {
 
    tag?: string;
    match?: "equal" | "prefix" | "subroute";
+
+   activeClass?: Cx.ClassProp;
+   activeStyle?: Cx.StyleProp;
 }
 
 export class Link extends Cx.Widget<LinkProps> {}

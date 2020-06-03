@@ -1,5 +1,5 @@
 @mixin cx-dropdown-arrows(
-   $name: 'dropdown',
+   $name: "dropdown",
    $styles: $cx-dropdown-styles,
    $arrow-size: $cx-default-dropdown-arrow-size,
    $besm: $cx-besm
@@ -10,7 +10,8 @@
 
    $border-width: map-get($styles, border-width);
 
-   .#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
+   .#{$element}#{$name}-arrow-border,
+   .#{$element}#{$name}-arrow-fill {
       border-style: solid;
       border-color: transparent;
       content: " ";
@@ -30,7 +31,9 @@
       border-width: $arrow-size;
    }
 
-   .#{$state}place-right, .#{$state}place-right-up, .#{$state}place-right-down {
+   .#{$state}place-right,
+   .#{$state}place-right-up,
+   .#{$state}place-right-down {
       & > .#{$element}#{$name}-arrow-fill {
          right: 100%;
          top: 50%;
@@ -46,7 +49,9 @@
       }
    }
 
-   .#{$state}place-left, .#{$state}place-left-down, .#{$state}place-left-up {
+   .#{$state}place-left,
+   .#{$state}place-left-down,
+   .#{$state}place-left-up {
       & > .#{$element}#{$name}-arrow-fill {
          left: 100%;
          top: 50%;
@@ -62,8 +67,8 @@
       }
    }
 
-
-   .#{$state}place-right-down, .#{$state}place-left-down {
+   .#{$state}place-right-down,
+   .#{$state}place-left-down {
       & > .#{$element}#{$name}-arrow-fill {
          top: $cx-default-dropdown-arrow-offset;
       }
@@ -73,14 +78,17 @@
       }
    }
 
-   .#{$state}place-right-up, .#{$state}place-left-up {
-      & > .#{$element}#{$name}-arrow-fill, & > .#{$element}#{$name}-arrow-border {
+   .#{$state}place-right-up,
+   .#{$state}place-left-up {
+      & > .#{$element}#{$name}-arrow-fill,
+      & > .#{$element}#{$name}-arrow-border {
          top: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
       }
    }
 
-
-   .#{$state}place-up, .#{$state}place-up-left, .#{$state}place-up-right {
+   .#{$state}place-up,
+   .#{$state}place-up-left,
+   .#{$state}place-up-right {
       & > .#{$element}#{$name}-arrow-fill {
          left: 50%;
          top: 100%;
@@ -96,7 +104,9 @@
       }
    }
 
-   .#{$state}place-down, .#{$state}place-down-left, .#{$state}place-down-right {
+   .#{$state}place-down,
+   .#{$state}place-down-left,
+   .#{$state}place-down-right {
       & > .#{$element}#{$name}-arrow-fill {
          left: 50%;
          bottom: 100%;
@@ -112,13 +122,16 @@
       }
    }
 
-   .#{$state}place-down-right, .#{$state}place-up-right {
-      & > .#{$element}#{$name}-arrow-fill, & > .#{$element}#{$name}-arrow-border {
+   .#{$state}place-down-right,
+   .#{$state}place-up-right {
+      & > .#{$element}#{$name}-arrow-fill,
+      & > .#{$element}#{$name}-arrow-border {
          left: $cx-default-dropdown-arrow-offset;
       }
    }
 
-   .#{$state}place-down-left, .#{$state}place-up-left {
+   .#{$state}place-down-left,
+   .#{$state}place-up-left {
       & > .#{$element}#{$name}-arrow-fill {
          left: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
       }
@@ -129,9 +142,8 @@
    }
 }
 
-
 @mixin cx-dropdown(
-   $name: 'dropdown',
+   $name: "dropdown",
    $styles: $cx-dropdown-styles,
    $arrow-size: $cx-default-dropdown-arrow-size,
    $besm: $cx-besm
@@ -160,6 +172,6 @@
    @include cx-dropdown-arrows($name, $styles, $arrow-size, $besm);
 }
 
-@if (cx-should-include('cx/widgets/Dropdown')) {
+@if (cx-should-include("cx/widgets/Dropdown")) {
    @include cx-dropdown();
 }

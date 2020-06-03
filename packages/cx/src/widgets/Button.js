@@ -74,7 +74,7 @@ export class Button extends HtmlElement {
          oldOnClick = props.onClick;
          props.onClick = () => {
             yesNo(data.confirm).then((btn) => {
-               if (btn == "yes") oldOnClick.call(this, null);
+               if (btn == "yes") oldOnClick.call(this, null, instance);
             });
          };
       }

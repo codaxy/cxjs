@@ -24,6 +24,7 @@ export class Field extends PureContainer {
             id: undefined,
             error: undefined,
             inputStyle: { structured: true },
+            inputClass: { structured: true },
             inputAttrs: { structured: true },
             emptyText: undefined,
             visited: undefined,
@@ -115,6 +116,7 @@ export class Field extends PureContainer {
       instance.parentReadOnly = context.parentReadOnly;
       instance.parentViewMode = context.parentViewMode;
       instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+      instance.parentVisited = context.parentVisited;
 
       if (typeof data.enabled !== "undefined") data._disabled = !data.enabled;
 
@@ -128,22 +130,23 @@ export class Field extends PureContainer {
 
       data.empty = this.isEmpty(data);
 
-      if (data.visited && !state.visited) {
-         //feels hacky but it should be ok since we're in the middle of a new render cycle
-         state.visited = true;
-      }
-
       super.prepareData(...arguments);
    }
 
    disableOrValidate(context, instance) {
-      let { data } = instance;
+      let { data, state } = instance;
       data.disabled = data._disabled || context.parentDisabled;
       data.readOnly = data._readOnly || context.parentReadOnly;
       data.viewMode = data._viewMode || context.parentViewMode;
       data.tabOnEnterKey = data._tabOnEnterKey || context.parentTabOnEnterKey;
+      data.visited = data.visited || context.parentVisited;
 
       if (!data.error && !data.disabled && !data.viewMode) this.validate(context, instance);
+
+      if (data.visited && !state.visited) {
+         //feels hacky but it should be ok since we're in the middle of a new render cycle
+         state.visited = true;
+      }
 
       data.stateMods = {
          ...data.stateMods,
@@ -160,12 +163,14 @@ export class Field extends PureContainer {
       instance.parentReadOnly = context.parentReadOnly;
       instance.parentViewMode = context.parentViewMode;
       instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+      instance.parentVisited = context.parentVisited;
 
       if (
          instance.cache("parentDisabled", context.parentDisabled) ||
          instance.cache("parentReadOnly", context.parentReadOnly) ||
          instance.cache("parentViewMode", context.parentViewMode) ||
-         instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey)
+         instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
+         instance.cache("parentVisited", context.parentVisited)
       ) {
          instance.markShouldUpdate(context);
          this.disableOrValidate(context, instance);

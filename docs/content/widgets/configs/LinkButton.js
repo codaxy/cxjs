@@ -38,5 +38,19 @@ export default {
             In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. The `subroute` mode is similar to `prefix` mode, except that the `href` must be followed by a forward slash `/`, indicating 
             a subroute.
         </Md></cx>
+    },
+
+    activeClass: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS class to be applied to the element when it's active.
+        </Md></cx>
+    },
+
+    activeStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS style to be applied to the element when it's active.
+        </Md></cx>
     }
 };

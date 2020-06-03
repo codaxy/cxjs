@@ -37,6 +37,13 @@ export default {
             backgrounds.
         </Md></cx>
     },
+    inputClass: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS class applied to the input element. Used for setting visual elements, such as borders and
+            backgrounds.
+        </Md></cx>
+    },
     required: {
         type: 'boolean',
         description: <cx><Md>

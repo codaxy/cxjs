@@ -28,6 +28,9 @@ export interface FieldProps extends Cx.StyledContainerProps {
    /** Style object applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
    inputStyle?: Cx.StyleProp;
 
+   /** Additional CSS class applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
+   inputClass?: Cx.ClassProp;
+
    /** Additional attributes that should be rendered on the input element. E.g. inputAttrs={{ autoComplete: "off" }}. */
    inputAttrs?: Cx.Config;
 

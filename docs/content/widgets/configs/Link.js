@@ -10,5 +10,5 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied to the element. Default is 'link'.
         </Md></cx>
-    },
+    }
 };
