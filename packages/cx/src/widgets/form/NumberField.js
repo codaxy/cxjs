@@ -392,22 +392,20 @@ class Input extends VDOM.Component {
 
          value = widget.parseValue(formatted, instance) * data.scale + data.offset;
 
+
+         //allow users to type numbers like 1,000.0003 without interruptions
          if (
             change == "change" &&
             this.input.selectionStart == this.input.selectionEnd &&
-            e.target.value[this.input.selectionEnd - 1] == decimalSeparator
+            (e.target.value[this.input.selectionEnd - 1] == '.' ||
+               e.target.value[this.input.selectionEnd - 1] == ',' ||
+               e.target.value[this.input.selectionEnd - 1] == '0')
          )
             return;
 
-         if (
-            change != "blur" &&
-            e.target.value[e.target.value.length - 1] != "." &&
-            e.target.value[e.target.value.length - 1] != "," &&
-            (e.target.value[e.target.value.length - 1] != "0" ||
-               e.target.value.indexOf(decimalSeparator) == -1 ||
-               (this.input.selectionStart == this.input.selectionEnd &&
-                  this.input.selectionStart != e.target.value.length))
-         ) {
+
+         if (change != "blur") {
+            //format, but keep the correct cursor position
             let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart, decimalSeparator);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
