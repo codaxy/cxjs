@@ -844,7 +844,10 @@ class LookupComponent extends VDOM.Component {
       let { widget, data } = instance;
 
       //do not make duplicate queries if fetchAll is enabled
-      if (widget.fetchAll && this.state.status == "loading") return;
+      if (widget.fetchAll && this.state.status == "loading") {
+         this.lastQuery = q;
+         return;
+      }
 
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
 
@@ -894,7 +897,7 @@ class LookupComponent extends VDOM.Component {
                      if (cacheAll) this.cachedResult = results;
                      else this.tmpCachedResult = results;
 
-                     results = widget.filterOptions(this.props.instance, results, q);
+                     results = widget.filterOptions(this.props.instance, results, this.lastQuery);
                   }
 
                   this.setState({
