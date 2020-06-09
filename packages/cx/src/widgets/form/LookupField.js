@@ -843,11 +843,10 @@ class LookupComponent extends VDOM.Component {
       let { instance } = this.props;
       let { widget, data } = instance;
 
+      this.lastQuery = q;
+
       //do not make duplicate queries if fetchAll is enabled
-      if (widget.fetchAll && this.state.status == "loading") {
-         this.lastQuery = q;
-         return;
-      }
+      if (widget.fetchAll && this.state.status == "loading") return;
 
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
 
