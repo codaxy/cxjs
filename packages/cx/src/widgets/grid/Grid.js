@@ -174,7 +174,7 @@ export class Grid extends Widget {
          records: this.records,
       });
 
-      if (!this.selection.isDummy) this.selectable = true;
+      if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
 
       super.init();
 
