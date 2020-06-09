@@ -1,32 +1,31 @@
-
-
-@mixin cx-lookupfield( 
-   $name: 'lookupfield', 
-   $state-style-map: $cx-std-field-state-style-map, 
-   $placeholder: $cx-input-placeholder, 
-   $empty-text: $cx-empty-text, 
-   $left-icon-state-style-map: $cx-input-left-icon-state-style-map, 
-   $clear-state-style-map: $cx-clear-state-style-map, 
-   $tool-state-style-map: $cx-input-right-icon-state-style-map, 
-   $icon-size: $cx-default-input-icon-size, 
-   $width: $cx-default-input-width, 
-   $tag-state-style-map: $cx-input-tag-state-style-map, 
-   $besm: $cx-besm 
+@mixin cx-lookupfield(
+   $name: "lookupfield",
+   $state-style-map: $cx-std-field-state-style-map,
+   $placeholder: $cx-input-placeholder,
+   $empty-text: $cx-empty-text,
+   $left-icon-state-style-map: $cx-input-left-icon-state-style-map,
+   $clear-state-style-map: $cx-clear-state-style-map,
+   $tool-state-style-map: $cx-input-right-icon-state-style-map,
+   $icon-size: $cx-default-input-icon-size,
+   $width: $cx-default-input-width,
+   $tag-state-style-map: $cx-input-tag-state-style-map,
+   $tag-clear-state-style-map: $cx-input-tag-clear-state-style-map,
+   $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius)/4);
+   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius) / 4);
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $input: false);
       cursor: pointer;
       width: $width;
 
-      font: cx-get-state-rule($state-style-map, default, 'font');
-      font-size: cx-get-state-rule($state-style-map, default, 'font-size');
+      font: cx-get-state-rule($state-style-map, default, "font");
+      font-size: cx-get-state-rule($state-style-map, default, "font-size");
 
       &.#{$state}multiple {
          min-width: $cx-default-input-width;
@@ -43,11 +42,18 @@
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input ( 
-         $besm, $state-style-map, 
-         $placeholder: $placeholder, 
-         $input: false, 
-         $overrides: ( default: ( padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding) cx-left($padding) ) )
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
+         $input: false,
+         $overrides: (
+            default: (
+               padding: cx-top($padding)
+                  cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding)
+                  cx-left($padding),
+            )
+         )
       );
 
       height: 100%;
@@ -56,7 +62,8 @@
       align-items: center;
 
       .#{$state}multiple > & {
-         padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) $cx-default-input-tag-spacing 0;
+         padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing)
+            $cx-default-input-tag-spacing 0;
       }
 
       .#{$state}icon > & {
@@ -88,7 +95,10 @@
          display: inline-block;
          margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
          box-sizing: border-box;
-         padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-right($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-bottom($cx-default-input-padding), -$cx-default-input-tag-spacing) cx-calc(cx-left($cx-default-input-padding), -$cx-default-input-tag-spacing);
+         padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing)
+            cx-calc(cx-right($cx-default-input-padding), -$cx-default-input-tag-spacing)
+            cx-calc(cx-bottom($cx-default-input-padding), -$cx-default-input-tag-spacing)
+            cx-calc(cx-left($cx-default-input-padding), -$cx-default-input-tag-spacing);
       }
    }
 
@@ -98,10 +108,7 @@
    }
 
    .#{$element}#{$name}-tag-clear {
-      @include cxe-field-button($besm, $clear-state-style-map);
-      right: $border-radius-offset / 2;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+      @include cxe-field-button($besm, $tag-clear-state-style-map);
    }
 
    .#{$element}#{$name}-lookup-options {
@@ -112,11 +119,18 @@
    }
 
    .#{$element}#{$name}-query {
-      @include cxe-field-input (
-         $besm, $state-style-map, 
-         $placeholder: $placeholder, 
-         $width: calc(100% - 10px), 
-         $overrides: ( default: ( margin: 5px, flex: 0 0 auto, height: auto ) )
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
+         $width: calc(100% - 10px),
+         $overrides: (
+            default: (
+               margin: 5px,
+               flex: 0 0 auto,
+               height: auto,
+            )
+         )
       );
       //put query field down when placed up
       .#{$state}place-up-right &,
@@ -191,6 +205,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/LookupField')) {
+@if (cx-should-include("cx/widgets/LookupField")) {
    @include cx-lookupfield();
 }
