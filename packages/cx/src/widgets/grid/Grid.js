@@ -972,6 +972,8 @@ export class Grid extends Widget {
       //it doesn't make sense to show the footer if the grid is empty though
       let record = records[records.length - 1];
 
+      instance.syncOverlappingFooterHeight = record.type == 'group-footer';
+
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
          instance,
@@ -1884,7 +1886,7 @@ class GridComponent extends VDOM.Component {
 
    componentDidUpdate() {
       let { instance, data } = this.props;
-      let { widget, hasFixedColumns } = instance;
+      let { widget, syncOverlappingFooterHeight } = instance;
 
       if (
          widget.lockColumnWidths &&
@@ -1957,9 +1959,10 @@ class GridComponent extends VDOM.Component {
                let dstTableBody = this.dom.fixedColumnsFixedFooter.firstChild.firstChild;
                if (dstTableBody) {
                   let srcTableBody = this.dom.fixedTable.lastChild;
-                  copyCellSize(srcTableBody, dstTableBody);
+                  copyCellSize(srcTableBody, dstTableBody, syncOverlappingFooterHeight);
                   this.dom.fixedColumnsFixedFooter.style.display = "block";
-                  footerHeight = this.dom.fixedFooter.offsetHeight;
+                  if (syncOverlappingFooterHeight)
+                     footerHeight = this.dom.fixedFooter.offsetHeight;
                }
             }
 
@@ -1969,21 +1972,24 @@ class GridComponent extends VDOM.Component {
                if (dstTableBody) {
                   let srcTableBody = this.dom.table.lastChild;
 
-                  copyCellSize(srcTableBody, dstTableBody);
+                  copyCellSize(srcTableBody, dstTableBody, syncOverlappingFooterHeight);
 
                   let scrollColumnEl = dstTableBody.firstChild.lastChild;
                   if (scrollColumnEl)
                      scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
 
                   this.dom.fixedFooter.style.display = "block";
-                  footerHeight = this.dom.fixedFooter.offsetHeight;
+                  if (syncOverlappingFooterHeight)
+                     footerHeight = this.dom.fixedFooter.offsetHeight;
                }
 
                if (this.dom.fixedScroller) this.dom.fixedFooter.style.left = `${this.dom.fixedScroller.offsetWidth}px`;
             }
 
-            this.dom.scroller.style.marginBottom = `${footerHeight}px`;
-            if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
+            if (syncOverlappingFooterHeight) {
+               this.dom.scroller.style.marginBottom = `${footerHeight}px`;
+               if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
+            }
 
             //Show the last row if fixed footer is shown without grouping, otherwise hide it.
             //For buffered grids, footer is never rendered within the body.
@@ -2630,7 +2636,7 @@ function initGrouping(grouping) {
    });
 }
 
-function copyCellSize(srcTableBody, dstTableBody) {
+function copyCellSize(srcTableBody, dstTableBody, applyHeight = true) {
    if (!srcTableBody || !dstTableBody) return false;
 
    let changed = false;
@@ -2642,13 +2648,14 @@ function copyCellSize(srcTableBody, dstTableBody) {
          let ws = `${sr.children[c].offsetWidth}px`;
          if (!changed && dc.style.width != ws) changed = true;
          dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
-         dc.style.height = `${sr.children[c].offsetHeight}px`;
+         if (applyHeight)
+            dc.style.height = `${sr.children[c].offsetHeight}px`;
       }
    }
    return changed;
 }
 
-function copyCellSizePrecise(srcTableBody, dstTableBody) {
+function copyCellSizePrecise(srcTableBody, dstTableBody, applyHeight = true) {
    if (!srcTableBody || !dstTableBody) return false;
    let changed = false;
    for (let r = 0; r < dstTableBody.children.length && r < srcTableBody.children.length; r++) {
@@ -2660,7 +2667,8 @@ function copyCellSizePrecise(srcTableBody, dstTableBody) {
          let ws = `${bounds.width}px`;
          if (!changed && dc.style.width != ws) changed = true;
          dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
-         dc.style.height = `${bounds.height}px`;
+         if (applyHeight)
+            dc.style.height = `${bounds.height}px`;
       }
    }
    return changed;
