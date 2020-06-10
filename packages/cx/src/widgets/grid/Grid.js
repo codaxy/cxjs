@@ -972,7 +972,7 @@ export class Grid extends Widget {
       //it doesn't make sense to show the footer if the grid is empty though
       let record = records[records.length - 1];
 
-      instance.syncOverlappingFooterHeight = record.type == 'group-footer';
+      instance.fixedFooterOverlap = record.type == 'group-footer';
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
@@ -1886,7 +1886,7 @@ class GridComponent extends VDOM.Component {
 
    componentDidUpdate() {
       let { instance, data } = this.props;
-      let { widget, syncOverlappingFooterHeight } = instance;
+      let { widget, fixedFooterOverlap } = instance;
 
       if (
          widget.lockColumnWidths &&
@@ -1959,10 +1959,9 @@ class GridComponent extends VDOM.Component {
                let dstTableBody = this.dom.fixedColumnsFixedFooter.firstChild.firstChild;
                if (dstTableBody) {
                   let srcTableBody = this.dom.fixedTable.lastChild;
-                  copyCellSize(srcTableBody, dstTableBody, syncOverlappingFooterHeight);
+                  copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
                   this.dom.fixedColumnsFixedFooter.style.display = "block";
-                  if (syncOverlappingFooterHeight)
-                     footerHeight = this.dom.fixedFooter.offsetHeight;
+                  footerHeight = this.dom.fixedFooter.offsetHeight;
                }
             }
 
@@ -1972,24 +1971,21 @@ class GridComponent extends VDOM.Component {
                if (dstTableBody) {
                   let srcTableBody = this.dom.table.lastChild;
 
-                  copyCellSize(srcTableBody, dstTableBody, syncOverlappingFooterHeight);
+                  copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
 
                   let scrollColumnEl = dstTableBody.firstChild.lastChild;
                   if (scrollColumnEl)
                      scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
 
                   this.dom.fixedFooter.style.display = "block";
-                  if (syncOverlappingFooterHeight)
-                     footerHeight = this.dom.fixedFooter.offsetHeight;
+                  footerHeight = this.dom.fixedFooter.offsetHeight;
                }
 
                if (this.dom.fixedScroller) this.dom.fixedFooter.style.left = `${this.dom.fixedScroller.offsetWidth}px`;
             }
 
-            if (syncOverlappingFooterHeight) {
-               this.dom.scroller.style.marginBottom = `${footerHeight}px`;
-               if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
-            }
+            this.dom.scroller.style.marginBottom = `${footerHeight}px`;
+            if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
 
             //Show the last row if fixed footer is shown without grouping, otherwise hide it.
             //For buffered grids, footer is never rendered within the body.
@@ -1999,6 +1995,8 @@ class GridComponent extends VDOM.Component {
             this.dom.scroller.style.marginBottom = 0;
             if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = 0;
          }
+
+         let scrollOverlap = fixedFooterOverlap ? footerHeight : 0;
 
          if (widget.buffered) {
             let { start, end } = this.state;
@@ -2016,10 +2014,10 @@ class GridComponent extends VDOM.Component {
                remaining = Math.max(0, data.totalRecordCount - end);
             }
             this.dom.table.style.marginTop = `${(-headerHeight + start * rowHeight).toFixed(0)}px`;
-            this.dom.table.style.marginBottom = `${(remaining * rowHeight - footerHeight).toFixed(0)}px`;
+            this.dom.table.style.marginBottom = `${(remaining * rowHeight - scrollOverlap).toFixed(0)}px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
-            this.dom.table.style.marginBottom = `${-footerHeight}px`;
+            this.dom.table.style.marginBottom = `${-scrollOverlap}px`;
          }
 
          if (this.dom.fixedTable) {
