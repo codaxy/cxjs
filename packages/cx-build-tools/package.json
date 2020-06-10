@@ -12,8 +12,8 @@
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
-    "@babel/core": "7.8.3",
-    "@babel/preset-env": "7.8.3",
+    "@babel/core": "7.10.2",
+    "@babel/preset-env": "7.10.2",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "babel-preset-cx-env": "18.5.0",
     "node-sass": "^4.13.1",
