@@ -2758,14 +2758,6 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cx@^19.12.1, cx@^19.12.3:
-  version "19.12.4"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-19.12.4.tgz#cdedcf9123fda6189b66ed78725a351b8fd5a077"
-  integrity sha512-+GHz4Sww79Dnzq3N+cOsiTQGmSwBmJcNhu5cOWVYDxIty1xwyh+jMmL02uOlJNhVRe00JAU++/bDoE/nFRDUfA==
-  dependencies:
-    intl-io "^0.3.0"
-    route-parser "^0.0.5"
-
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"

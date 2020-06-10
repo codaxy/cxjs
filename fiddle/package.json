@@ -27,7 +27,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "codemirror": "^5.45.0",
-    "cx": "^19.12.3",
+    "cx": "^20.6.1",
     "cx-react": "^17.4.1",
     "deep-equal": "^1.0.1",
     "deepmerge": "^3.2.0",
