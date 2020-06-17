@@ -184,16 +184,19 @@ export class LookupField extends Field {
    formatValue(context, instance) {
       if (!this.multiple) return super.formatValue(context, instance);
 
-      let {records, values, options} = instance.data;
+      let { records, values, options } = instance.data;
       if (isArray(records))
-         return records.map(record => record[this.valueTextField] || record[this.valueIdField]).join(", ");
+         return records.map((record) => record[this.valueTextField] || record[this.valueIdField]).join(", ");
 
       if (isArray(values)) {
          if (isArray(options))
-            return values.map(id => {
-               let option = options.find(o => o[this.optionIdField] == id);
-               return option ? option[this.valueTextField] : id
-            }).filter(Boolean).join(", ");
+            return values
+               .map((id) => {
+                  let option = options.find((o) => o[this.optionIdField] == id);
+                  return option ? option[this.valueTextField] : id;
+               })
+               .filter(Boolean)
+               .join(", ");
 
          return values.join(", ");
       }
@@ -912,7 +915,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
    }
 

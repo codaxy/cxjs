@@ -236,7 +236,7 @@ class SelectComponent extends VDOM.Component {
       autoFocus(this.select, this);
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance));
    }
 }

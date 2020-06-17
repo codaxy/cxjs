@@ -234,7 +234,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data } = props;
       //the second check is required for debouncing, sometimes the value in the store lags after the input
       //and update may be caused by some other property, i.e. visited

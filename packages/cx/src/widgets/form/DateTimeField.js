@@ -459,7 +459,7 @@ class DateTimeInput extends VDOM.Component {
       e.preventDefault();
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data, state } = props.instance;
       if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || "";

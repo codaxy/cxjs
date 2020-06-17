@@ -233,7 +233,7 @@ class ListComponent extends VDOM.Component {
       this.componentDidUpdate();
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       this.setState({
          cursor: Math.max(Math.min(this.state.cursor, props.items.length - 1), this.state.focused ? 0 : -1),
       });

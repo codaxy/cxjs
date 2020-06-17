@@ -328,7 +328,7 @@ class ColorInput extends VDOM.Component {
       return value.replace(/\s/g, "");
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data, instance } = props;
       let { state } = instance;
       let nv = this.trim(data.value || "");

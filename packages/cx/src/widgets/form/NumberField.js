@@ -229,7 +229,7 @@ class Input extends VDOM.Component {
       );
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data, state } = props.instance;
       if (this.props.data.formatted != data.formatted && !state.inputError) {
          this.input.value = props.data.formatted || "";
@@ -392,17 +392,15 @@ class Input extends VDOM.Component {
 
          value = widget.parseValue(formatted, instance) * data.scale + data.offset;
 
-
          //allow users to type numbers like 1,000.0003 without interruptions
          if (
             change == "change" &&
             this.input.selectionStart == this.input.selectionEnd &&
-            (e.target.value[this.input.selectionEnd - 1] == '.' ||
-               e.target.value[this.input.selectionEnd - 1] == ',' ||
-               e.target.value[this.input.selectionEnd - 1] == '0')
+            (e.target.value[this.input.selectionEnd - 1] == "." ||
+               e.target.value[this.input.selectionEnd - 1] == "," ||
+               e.target.value[this.input.selectionEnd - 1] == "0")
          )
             return;
-
 
          if (change != "blur") {
             //format, but keep the correct cursor position
