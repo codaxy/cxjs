@@ -11,8 +11,8 @@ export const docsNavTree = [
                 text: "Overview",
                 children: [
                     { text: "Welcome", url: "~/intro/welcome" },
-                    { text: "Getting Started", url: "~/intro/getting-started" }
-                ]
+                    { text: "Getting Started", url: "~/intro/getting-started" },
+                ],
             },
             {
                 text: "Pre-requsites",
@@ -22,16 +22,16 @@ export const docsNavTree = [
                     { text: "NPM Packages", url: "~/intro/npm-packages" },
                     {
                         text: "Breaking Changes",
-                        url: "~/intro/breaking-changes"
+                        url: "~/intro/breaking-changes",
                     },
                     {
                         text: "Step by Step Tutorial",
-                        url: "~/intro/step-by-step"
+                        url: "~/intro/step-by-step",
                     },
-                    { text: "Feature List", url: "~/intro/feature-list" }
-                ]
-            }
-        ]
+                    { text: "Feature List", url: "~/intro/feature-list" },
+                ],
+            },
+        ],
     },
     {
         url: "~/concepts",
@@ -48,8 +48,8 @@ export const docsNavTree = [
                     { text: "Inner Layouts", url: "~/concepts/inner-layouts" },
                     { text: "CSS", url: "~/concepts/css" },
                     { text: "Formatting", url: "~/concepts/formatting" },
-                    { text: "Selection", url: "~/concepts/selections" }
-                ]
+                    { text: "Selection", url: "~/concepts/selections" },
+                ],
             },
             {
                 text: "Advanced",
@@ -58,15 +58,15 @@ export const docsNavTree = [
                     { text: "Outer Layouts", url: "~/concepts/outer-layouts" },
                     {
                         text: "Functional Components",
-                        url: "~/concepts/functional-components"
+                        url: "~/concepts/functional-components",
                     },
                     { text: "Private Store", url: "~/concepts/private-stores" },
                     { text: "Localization", url: "~/concepts/localization" },
                     { text: "Charts", url: "~/concepts/charts" },
-                    { text: "Drag & Drop", url: "~/concepts/drag-and-drop" }
-                ]
-            }
-        ]
+                    { text: "Drag & Drop", url: "~/concepts/drag-and-drop" },
+                ],
+            },
+        ],
     },
     {
         url: "~/widgets",
@@ -84,16 +84,16 @@ export const docsNavTree = [
                     { text: "Icon", url: "~/widgets/icons" },
 
                     { text: "ProgressBar", url: "~/widgets/progress-bars" },
-                    { text: "Text", url: "~/widgets/texts" }
-                ]
+                    { text: "Text", url: "~/widgets/texts" },
+                ],
             },
             {
                 text: "Collections",
                 children: [
                     { text: "Grid", url: "~/widgets/grids" },
                     { text: "Tree Grid", url: "~/widgets/tree-grid" },
-                    { text: "List", url: "~/widgets/lists" }
-                ]
+                    { text: "List", url: "~/widgets/lists" },
+                ],
             },
             {
                 text: "Form",
@@ -108,27 +108,27 @@ export const docsNavTree = [
                     { text: "TextArea", url: "~/widgets/text-areas" },
                     {
                         text: "DateTimeField",
-                        url: "~/widgets/date-time-fields"
+                        url: "~/widgets/date-time-fields",
                     },
                     { text: "Calendar", url: "~/widgets/calendars" },
                     { text: "MonthField", url: "~/widgets/month-fields" },
                     { text: "MonthPicker", url: "~/widgets/month-pickers" },
                     { text: "ColorField", url: "~/widgets/color-fields" },
-                    { text: "ColorPicker", url: "~/widgets/color-pickers " },
+                    { text: "ColorPicker", url: "~/widgets/color-pickers" },
                     { text: "Sliders", url: "~/widgets/sliders" },
                     { text: "Switches", url: "~/widgets/switches" },
                     { text: "Labels", url: "~/widgets/labels" },
                     {
                         text: "LabeledContainer",
-                        url: "~/widgets/labeled-containers"
+                        url: "~/widgets/labeled-containers",
                     },
                     { text: "FieldGroup", url: "~/widgets/field-groups" },
                     { text: "Validator", url: "~/widgets/validators" },
                     {
                         text: "ValidationGroup",
-                        url: "~/widgets/validation-groups"
-                    }
-                ]
+                        url: "~/widgets/validation-groups",
+                    },
+                ],
             },
             {
                 text: "Navigation",
@@ -137,8 +137,8 @@ export const docsNavTree = [
                     { text: "Tab", url: "~/widgets/tabs" },
                     { text: "HScroller", url: "~/widgets/hscrollers" },
                     { text: "Link", url: "~/widgets/links" },
-                    { text: "LinkButton", url: "~/widgets/link-buttons" }
-                ]
+                    { text: "LinkButton", url: "~/widgets/link-buttons" },
+                ],
             },
             {
                 text: "Containers",
@@ -147,11 +147,11 @@ export const docsNavTree = [
                     { text: "HtmlElement", url: "~/widgets/html-elements" },
                     {
                         text: "ContentResolver",
-                        url: "~/widgets/content-resolvers"
+                        url: "~/widgets/content-resolvers",
                     },
                     { text: "IsolatedScope", url: "~/widgets/isolated-scope" },
-                    { text: "DetachedScope", url: "~/widgets/detached-scope" }
-                ]
+                    { text: "DetachedScope", url: "~/widgets/detached-scope" },
+                ],
             },
             {
                 text: "Overlays",
@@ -161,10 +161,10 @@ export const docsNavTree = [
                     { text: "MsgBox", url: "~/widgets/msg-boxes" },
                     { text: "Toast", url: "~/widgets/toasts" },
                     { text: "Tooltips", url: "~/widgets/tooltips" },
-                    { text: "ContextMenu", url: "~/widgets/context-menus" }
-                ]
-            }
-        ]
+                    { text: "ContextMenu", url: "~/widgets/context-menus" },
+                ],
+            },
+        ],
     },
     {
         url: "~/charts",
@@ -182,8 +182,8 @@ export const docsNavTree = [
                     { text: "Column", url: "~/charts/columns" },
                     { text: "Bar", url: "~/charts/bars" },
                     { text: "MarkerLine", url: "~/charts/marker-lines" },
-                    { text: "Range", url: "~/charts/ranges" }
-                ]
+                    { text: "Range", url: "~/charts/ranges" },
+                ],
             },
             {
                 text: "Misc",
@@ -199,12 +199,12 @@ export const docsNavTree = [
                     { text: "ValueAtFinder", url: "~/charts/value-at-finder" },
                     {
                         text: "SnapPointFinder",
-                        url: "~/charts/snap-point-finder"
+                        url: "~/charts/snap-point-finder",
                     },
-                    { text: "MinMaxFinder", url: "~/charts/min-max-finder" }
-                ]
-            }
-        ]
+                    { text: "MinMaxFinder", url: "~/charts/min-max-finder" },
+                ],
+            },
+        ],
     },
     {
         url: "~/examples",
@@ -215,18 +215,18 @@ export const docsNavTree = [
                 children: [
                     {
                         text: "Validation Options",
-                        url: "~/examples/form/validation-options"
-                    }
-                ]
+                        url: "~/examples/form/validation-options",
+                    },
+                ],
             },
             {
                 text: "List",
                 children: [
                     {
                         text: "Grouping",
-                        url: "~/examples/list/grouping"
-                    }
-                ]
+                        url: "~/examples/list/grouping",
+                    },
+                ],
             },
             {
                 text: "Grid",
@@ -234,106 +234,106 @@ export const docsNavTree = [
                     { text: "Pagination", url: "~/examples/grid/pagination" },
                     {
                         text: "Multiple Selection",
-                        url: "~/examples/grid/multiple-selection"
+                        url: "~/examples/grid/multiple-selection",
                     },
                     { text: "Grouping", url: "~/examples/grid/grouping" },
                     {
                         text: "Dynamic Grouping",
-                        url: "~/examples/grid/dynamic-grouping"
+                        url: "~/examples/grid/dynamic-grouping",
                     },
                     {
                         text: "Column Resizing",
-                        url: "~/examples/grid/column-resizing"
+                        url: "~/examples/grid/column-resizing",
                     },
                     {
                         text: "Fixed Columns",
-                        url: "~/examples/grid/fixed-columns"
+                        url: "~/examples/grid/fixed-columns",
                     },
                     {
                         text: "Complex Headers",
-                        url: "~/examples/grid/complex-headers"
+                        url: "~/examples/grid/complex-headers",
                     },
                     {
                         text: "Header Menu",
-                        url: "~/examples/grid/header-menu"
+                        url: "~/examples/grid/header-menu",
                     },
                     {
                         text: "Form Editing",
-                        url: "~/examples/grid/form-edit"
+                        url: "~/examples/grid/form-edit",
                     },
                     {
                         text: "Inline Editing",
-                        url: "~/examples/grid/inline-edit"
+                        url: "~/examples/grid/inline-edit",
                     },
                     {
                         text: "Cell Editing",
-                        url: "~/examples/grid/cell-editing"
+                        url: "~/examples/grid/cell-editing",
                     },
                     {
                         text: "Row Editing",
-                        url: "~/examples/grid/row-editing"
+                        url: "~/examples/grid/row-editing",
                     },
                     {
                         text: "Row Expanding",
-                        url: "~/examples/grid/row-expanding"
+                        url: "~/examples/grid/row-expanding",
                     },
                     {
                         text: "Buffering",
-                        url: "~/examples/grid/buffering"
+                        url: "~/examples/grid/buffering",
                     },
                     {
                         text: "Infinite Scrolling",
-                        url: "~/examples/grid/infinite-scrolling"
-                    }
-                ]
+                        url: "~/examples/grid/infinite-scrolling",
+                    },
+                ],
             },
             {
                 text: "Charts",
                 children: [
                     {
                         text: "Stacked Line Chart",
-                        url: "~/examples/charts/line/stacked"
+                        url: "~/examples/charts/line/stacked",
                     },
                     {
                         text: "Bullet Chart",
-                        url: "~/examples/charts/bar/bullets"
+                        url: "~/examples/charts/bar/bullets",
                     },
                     {
                         text: "Multi-level Pie Chart",
-                        url: "~/examples/charts/pie/multi-level"
+                        url: "~/examples/charts/pie/multi-level",
                     },
                     {
                         text: "Bars + Grid Selection",
-                        url: "~/examples/charts/bar/combination"
+                        url: "~/examples/charts/bar/combination",
                     },
                     {
                         text: "Stacked Bars",
-                        url: "~/examples/charts/bar/stacked"
+                        url: "~/examples/charts/bar/stacked",
                     },
                     {
                         text: "Timeline",
-                        url: "~/examples/charts/bar/timeline"
+                        url: "~/examples/charts/bar/timeline",
                     },
                     {
                         text: "Column + Grid Selection",
-                        url: "~/examples/charts/column/combination"
+                        url: "~/examples/charts/column/combination",
                     },
                     {
                         text: "Normalized Columns",
-                        url: "~/examples/charts/column/normalized"
+                        url: "~/examples/charts/column/normalized",
                     },
                     {
                         text: "Stacked Columns",
-                        url: "~/examples/charts/column/stacked"
+                        url: "~/examples/charts/column/stacked",
                     },
                     {
                         text: "Auto-sized Columns",
-                        url: "~/examples/charts/column/auto-width"
-                    }
-                ]
-            }
-        ]
-    }
+                        url: "~/examples/charts/column/auto-width",
+                    },
+                ],
+            },
+        ],
+    },
 ];
 
 // class CController extends Controller {
