@@ -181,7 +181,7 @@ class SliderComponent extends VDOM.Component {
       );
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       this.setState({
          from: props.data.from,
          to: props.data.to,

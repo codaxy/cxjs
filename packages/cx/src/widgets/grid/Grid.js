@@ -972,7 +972,7 @@ export class Grid extends Widget {
       //it doesn't make sense to show the footer if the grid is empty though
       let record = records[records.length - 1];
 
-      instance.fixedFooterOverlap = record.type == 'group-footer';
+      instance.fixedFooterOverlap = record.type == "group-footer";
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
@@ -1858,7 +1858,7 @@ class GridComponent extends VDOM.Component {
       return findScrollableParent(this.dom.table);
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data, widget, records } = props.instance;
       this.setState({
          cursor: Math.max(
@@ -2646,8 +2646,7 @@ function copyCellSize(srcTableBody, dstTableBody, applyHeight = true) {
          let ws = `${sr.children[c].offsetWidth}px`;
          if (!changed && dc.style.width != ws) changed = true;
          dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
-         if (applyHeight)
-            dc.style.height = `${sr.children[c].offsetHeight}px`;
+         if (applyHeight) dc.style.height = `${sr.children[c].offsetHeight}px`;
       }
    }
    return changed;
@@ -2665,8 +2664,7 @@ function copyCellSizePrecise(srcTableBody, dstTableBody, applyHeight = true) {
          let ws = `${bounds.width}px`;
          if (!changed && dc.style.width != ws) changed = true;
          dc.style.width = dc.style.minWidth = dc.style.maxWidth = ws;
-         if (applyHeight)
-            dc.style.height = `${bounds.height}px`;
+         if (applyHeight) dc.style.height = `${bounds.height}px`;
       }
    }
    return changed;

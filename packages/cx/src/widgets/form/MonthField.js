@@ -462,7 +462,7 @@ class MonthInput extends VDOM.Component {
       widget.handleSelect(instance, null, null);
    }
 
-   componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props) {
       var { data, state } = props.instance;
       if (data.formatted != this.input.value && (data.formatted != this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || "";

@@ -137,7 +137,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   componentWillReceiveProps({ data, instance }) {
+   UNSAFE_componentWillReceiveProps({ data, instance }) {
       if (data.value != this.props.data.value) {
          this.input.value = data.value || "";
       }
