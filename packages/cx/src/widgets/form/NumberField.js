@@ -392,13 +392,14 @@ class Input extends VDOM.Component {
 
          value = widget.parseValue(formatted, instance) * data.scale + data.offset;
 
-         //allow users to type numbers like 1,000.0003 without interruptions
+         //allow users to type numbers like 100.0003 without interruptions
+         //if the last typed in character is zero or dot (decimal separator) skip processing it
          if (
             change == "change" &&
             this.input.selectionStart == this.input.selectionEnd &&
-            (e.target.value[this.input.selectionEnd - 1] == "." ||
-               e.target.value[this.input.selectionEnd - 1] == "," ||
-               e.target.value[this.input.selectionEnd - 1] == "0")
+            this.input.selectionEnd == this.input.value.length &&
+            (e.target.value[this.input.selectionEnd - 1] == decimalSeparator ||
+               (e.target.value.indexOf(decimalSeparator) >= 0 && e.target.value[this.input.selectionEnd - 1] == "0"))
          )
             return;
 
