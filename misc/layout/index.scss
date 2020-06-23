@@ -1,7 +1,7 @@
 $master-header-height: 45px;
 $master-font-family: sans-serif;
 $master-brand-highlight-color: #017be6 !default;
-$master-brand-background: linear-gradient(90deg,#017be6,#00d7eb) !default;
+$master-brand-background: linear-gradient(90deg, #017be6, #00d7eb) !default;
 $master-brand-color: white;
 $master-desktop-screen-width: 1000px;
 $master-theme-color: #4f7aea;
@@ -12,7 +12,7 @@ $master-theme-color: #4f7aea;
    left: 0;
    right: 0;
    top: 0;
-   z-index: 20000;
+   z-index: 2000;
    font-family: sans-serif;
 
    .shadow {
@@ -33,8 +33,8 @@ $master-theme-color: #4f7aea;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+         "Helvetica Neue", sans-serif;
       position: relative;
       color: inherit;
 
@@ -100,8 +100,8 @@ $master-theme-color: #4f7aea;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+         "Helvetica Neue", sans-serif;
       position: relative;
       color: rgba(white, 0.7);
 
@@ -192,7 +192,6 @@ $master-theme-color: #4f7aea;
    .master_hamburger {
       display: none;
    }
-
 
    .master_content {
       display: flex;
