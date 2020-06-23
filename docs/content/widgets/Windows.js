@@ -36,9 +36,9 @@ export const Windows = <cx>
                     <TextArea label="Message" value:bind="$page.contact.message" rows={10} style={{width: '100%'}}/>
                     <DateField label="Date" value:bind="$page.contact.date" />
                 </div>
-                <div putInto="footer" style={{float:"right"}} trimWhitespace={false}>
+                <div putInto="footer" style={{float:"right"}} ws>
                     <Button mod="primary">Submit</Button>
-                    <Button 
+                    <Button
                         // this will cause the Window to close
                         dismiss
                     >
@@ -64,9 +64,9 @@ export const Windows = <cx>
                         <TextArea label="Message" value:bind="$page.contact.message" rows={10} style={{width: '100%'}}/>
                         <DateField label="Date" value:bind="$page.contact.date" />
                     </div>
-                    <div putInto="footer" style={{float:"right"}} trimWhitespace={false}>
+                    <div putInto="footer" style={{float:"right"}} ws>
                         <Button mod="primary">Submit</Button>
-                        <Button 
+                        <Button
                             // this will cause the Window to close
                             dismiss
                         >

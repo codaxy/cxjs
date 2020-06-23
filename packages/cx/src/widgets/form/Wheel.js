@@ -2,6 +2,7 @@ import { VDOM } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
+import { addEventListenerWithOptions } from "../../util";
 
 export class Wheel extends PureContainer {
    declareData() {
@@ -103,7 +104,6 @@ export class WheelComponent extends VDOM.Component {
                <div
                   className={CSS.element(baseClass, "vscroll")}
                   ref={this.scrollRef}
-                  onWheel={this.onWheel}
                   onTouchStart={::this.onTouchStart}
                   onTouchEnd={::this.onTouchEnd}
                >
@@ -166,6 +166,8 @@ export class WheelComponent extends VDOM.Component {
    }
 
    componentDidMount() {
+      this.unsubscribeOnWheel = addEventListenerWithOptions(this.wheelEl, "wheel", this.onWheel, { passive: false });
+
       this.setState(
          {
             wheelHeight: this.wheelEl.offsetHeight,
@@ -186,6 +188,7 @@ export class WheelComponent extends VDOM.Component {
 
    componentWillUnmount() {
       this.scrolling = false;
+      this.unsubscribeOnWheel();
    }
 
    onKeyDown(e) {

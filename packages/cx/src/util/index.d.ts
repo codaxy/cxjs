@@ -42,3 +42,4 @@ export * from './getParentFrameBoundingClientRect';
 export * from './getActiveElement';
 export * from './Component';
 export * from './onIdleCallback';
+export * from "./addEventListenerWithOptions";
