@@ -43,4 +43,5 @@ export * from "./getActiveElement";
 export * from "./Component";
 export * from "./onIdleCallback";
 export * from "./TraversalStack";
+export * from "./validatedDebounce";
 export * from "./addEventListenerWithOptions";
