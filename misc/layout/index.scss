@@ -12,8 +12,12 @@ $master-theme-color: #4f7aea;
    left: 0;
    right: 0;
    top: 0;
-   z-index: 20000;
+   z-index: 2000;
    font-family: sans-serif;
+
+   &.elevate {
+      z-index: 20000;
+   }
 
    .shadow {
       box-shadow: 0 1px 1px rgba(black, 0.1);

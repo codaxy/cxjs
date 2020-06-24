@@ -55,6 +55,10 @@
    .#{$element}#{$name}-modal-backdrop {
       @extend %cxe-overlay-modal-backdrop;
    }
+
+   .#{$element}#{$name}-shadow {
+      @extend %cxe-overlay-shadow;
+   }
 }
 
 @if (cx-should-include("cx/widgets/Overlay")) {

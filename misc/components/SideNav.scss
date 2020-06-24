@@ -77,6 +77,9 @@ $master-sidenav-active-link-color: #666;
 .sidenav_section {
    border-top: 1px solid #ddd;
    padding: 8px 0;
+   &:first-child {
+      border-top-color: transparent;
+   }
 }
 
 .sidenav_category {
