@@ -1127,7 +1127,7 @@ class GridComponent extends VDOM.Component {
          };
 
          if (isRecordSelectable) {
-            let selectable = isRecordSelectable(record.data);
+            let selectable = isRecordSelectable(record.data, {});
             mod["selectable"] = selectable;
             mod["non-selectable"] = !selectable;
          }
@@ -2228,6 +2228,13 @@ class GridComponent extends VDOM.Component {
          to = tmp;
       }
 
+      options = {
+         ...options,
+         range: from < to,
+      };
+
+      console.log(options);
+
       let selection = [],
          indexes = [];
 
@@ -2240,7 +2247,7 @@ class GridComponent extends VDOM.Component {
             if (r) record = widget.mapRecord(null, instance, r, cursor - offset);
          }
          if (record && record.type == "data") {
-            if (instance.isRecordSelectable && !instance.isRecordSelectable(record.data)) continue;
+            if (instance.isRecordSelectable && !instance.isRecordSelectable(record.data, options)) continue;
             selection.push(record.data);
             indexes.push(record.index);
          }

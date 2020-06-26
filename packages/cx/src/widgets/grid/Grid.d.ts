@@ -188,12 +188,15 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: Cx.CollatorOptions;
 
-   onCreateIsRecordSelectable?: (params: any, instance: Instance) => (record: Cx.Record) => boolean;
+   onCreateIsRecordSelectable?: (
+      params: any,
+      instance: Instance
+   ) => (record: Cx.Record, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will casuse scroll to be reset. */
    scrollResetParams?: Cx.StructuredProp;
 
-   /** Enable precise (sub-pixel) measurements. Useful for grids with many columns and better behavior at small zoom factors. */
+   /** Enable precise (sub-pixel) measurements. Useful for grids with many columns. Better behavior at small zoom factors. */
    preciseMeasurements?: boolean;
 }
 
