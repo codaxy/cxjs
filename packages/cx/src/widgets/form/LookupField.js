@@ -30,6 +30,7 @@ import { isString } from "../../util/isString";
 import { isDefined } from "../../util/isDefined";
 import { isArray } from "../../util/isArray";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
+import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
 
@@ -321,7 +322,7 @@ class LookupComponent extends VDOM.Component {
                mod="dropdown"
                scrollSelectionIntoView
                {...widget.listOptions}
-               records:bind="$options"
+               records-bind="$options"
                recordName="$option"
                onItemClick={(e, inst) => this.onItemClick(e, inst)}
                pipeKeyDown={(kd) => {
@@ -348,8 +349,8 @@ class LookupComponent extends VDOM.Component {
          ...widget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.dom.input,
-         renderChildren: ::this.renderDropdownContents,
-         onFocusOut: ::this.closeDropdown,
+         renderChildren: () => this.renderDropdownContents(),
+         onFocusOut: (e) => this.closeDropdown(e),
          memoize: false,
          touchFriendly: isTouchDevice(),
          onMeasureDropdownNaturalSize: () => {
@@ -405,9 +406,9 @@ class LookupComponent extends VDOM.Component {
                key="msg"
                ref={(el) => {
                   this.dom.list = el;
+                  this.subscribeListOnWheel(el);
                }}
                className={CSS.element(baseClass, "scroll-container")}
-               onWheel={::this.onListWheel}
             >
                <Cx widget={this.list} store={this.itemStore} options={{ name: "lookupfield-list" }} />
             </div>
@@ -422,7 +423,7 @@ class LookupComponent extends VDOM.Component {
             }}
             className={CSS.element(baseClass, "dropdown")}
             tabIndex={0}
-            onFocus={::this.onDropdownFocus}
+            onFocus={(e) => this.onDropdownFocus(e)}
             onKeyDown={(e) => this.onDropdownKeyPress(e)}
          >
             {searchVisible && (
@@ -932,5 +933,18 @@ class LookupComponent extends VDOM.Component {
    componentWillUnmount() {
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
       tooltipParentWillUnmount(this.props.instance);
+      this.subscribeListOnWheel(null);
+   }
+
+   subscribeListOnWheel(list) {
+      if (this.unsubscribeListOnWheel) {
+         this.unsubscribeListOnWheel();
+         this.unsubscribeListOnWheel = null;
+      }
+      if (list) {
+         this.unsubscribeListOnWheel = addEventListenerWithOptions(list, "wheel", (e) => this.onListWheel(e), {
+            passive: false,
+         });
+      }
    }
 }
