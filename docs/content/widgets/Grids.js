@@ -62,7 +62,7 @@ export const Grids = <cx>
                           {header: 'OS', field: 'os', sortable: true, resizable: true},
                           {header: 'Visits', field: 'visits', sortable: true, align: 'right', resizable: true}
                       ]}
-                      selection={{type: KeySelection, bind: '$page.selection'}}
+                      selection={{type: KeySelection, bind: '$page.selection', multiple: true}}
                 />
             </div>
             <CodeSnippet putInto="code" fiddle="kzHH3vkM">{`

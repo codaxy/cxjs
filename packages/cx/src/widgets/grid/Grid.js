@@ -2233,8 +2233,6 @@ class GridComponent extends VDOM.Component {
          range: from < to,
       };
 
-      console.log(options);
-
       let selection = [],
          indexes = [];
 
