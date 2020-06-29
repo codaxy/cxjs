@@ -78,7 +78,8 @@ import "./index.scss";
 //import Demo from "./bugs/leak";
 //import Demo from "./features/grid/DockedColumns";
 //import Demo from "./features/time-list";
-import Demo from "./features/debounce/NumberField";
+//import Demo from "./features/debounce/NumberField";
+import Demo from "./bugs/656";
 
 let store = (window.store = new Store());
 
