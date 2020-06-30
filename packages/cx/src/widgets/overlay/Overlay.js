@@ -2,7 +2,7 @@ import { Widget, VDOM } from "../../ui/Widget";
 import { Container } from "../../ui/Container";
 import { startAppLoop } from "../../ui/app/startAppLoop";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
-import { isSelfOrDescendant } from "../../util/DOM";
+import { isSelfOrDescendant, closest } from "../../util/DOM";
 import { parseStyle } from "../../util/parseStyle";
 import { captureMouseOrTouch } from "./captureMouse";
 import { ZIndexManager } from "../../ui/ZIndexManager";
@@ -590,11 +590,21 @@ export class OverlayComponent extends VDOM.Component {
             this.shadowEl,
             "wheel",
             (e) => {
-               if (
-                  e.currentTarget.scrollTop >= e.currentTarget.scrollHeight - e.currentTarget.clientHeight &&
-                  e.deltaY > 0
-               )
-                  e.preventDefault();
+               if (e.deltaY == 0) return;
+               //check if there is a scrollable element within the shadow or overlay contents
+               //such that its scrollbar is not at the very end
+               let scrollAllowed = false;
+               closest(e.target, (el) => {
+                  if (
+                     (e.deltaY > 0 && el.scrollTop < el.scrollHeight - el.clientHeight) ||
+                     (e.deltaY < 0 && el.scrollTop > 0)
+                  ) {
+                     scrollAllowed = true;
+                     return true;
+                  }
+                  if (el == e.currentTarget) return true;
+               });
+               if (!scrollAllowed) e.preventDefault();
             },
             { passive: false }
          );
