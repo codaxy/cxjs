@@ -1,5 +1,7 @@
 # CxJS
 
+<img src="https://img.shields.io/npm/v/cx" alt="version" /> <img src="https://img.shields.io/npm/dm/cx" alt="downloads" />
+
 CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools,
 dashboards and admin apps. Modern frameworks such as React and Angular provide an excellent base for building UI components,
 however, component implementation and many other application aspects are left to the developer to figure out. CxJS tries to fill that gap and provide the all necessary ingredients required for modern web applications.
