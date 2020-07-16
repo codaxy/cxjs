@@ -101,6 +101,12 @@ export interface FieldProps extends Cx.StyledContainerProps {
 
    /** Value to be set in the store if the field is empty. Default value is null. */
    emptyValue?: any;
+
+   /** Additional CSS style to be passed to the label object. */
+   labelStyle?: Cx.StyleProp;
+
+   /** Additional CSS class to be passed to the label object. */
+   labelClass?: Cx.ClassProp;
 }
 
 export class Field extends Cx.Widget<FieldProps> {}

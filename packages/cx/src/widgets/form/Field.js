@@ -76,6 +76,8 @@ export class Field extends PureContainer {
             disabled: this.disabled,
             required: this.required,
             asterisk: this.asterisk,
+            style: this.labelStyle,
+            class: this.labelClass
          };
 
          if (this.label.isComponentType) labelConfig = this.label;

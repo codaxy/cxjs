@@ -174,6 +174,18 @@ export default {
             Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels.
         </Md></cx>
     },
+    labelStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS styles to be passed to the label object.
+        </Md></cx>
+    },
+    labelClass: {
+        type: 'string',
+        description: <cx><Md>
+            Additional CSS class to be passed to the label object.
+        </Md></cx>
+    },
     helpPlacement: {
         type: 'string',
         description: <cx><Md>
