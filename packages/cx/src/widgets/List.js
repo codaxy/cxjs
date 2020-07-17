@@ -347,7 +347,7 @@ class ListComponent extends VDOM.Component {
             className={CSS.expand(data.classNames, CSS.state({ focused: this.state.focused }))}
             style={data.style}
             tabIndex={widget.focusable && selectable && items.length > 0 ? data.tabIndex || 0 : null}
-            onMouseDown={(e) => preventFocusOnTouch(e)}
+            onMouseDown={preventFocusOnTouch}
             onKeyDown={::this.handleKeyDown}
             onMouseLeave={::this.handleMouseLeave}
             onFocus={::this.onFocus}
@@ -361,13 +361,20 @@ class ListComponent extends VDOM.Component {
    componentDidUpdate() {
       let { widget } = this.props.instance;
       if (widget.scrollSelectionIntoView) {
-         let { CSS, baseClass } = widget;
-         let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
-         let firstSelectedRow = this.el.querySelector(selectedRowSelector);
-         if (firstSelectedRow != this.selectedEl) {
-            if (firstSelectedRow) scrollElementIntoView(firstSelectedRow);
-            this.selectedEl = firstSelectedRow;
-         }
+         //The timeout is reqired for use-cases when parent needs to do some measuring that affect scrollbars, i.e. LookupField.
+         setTimeout(() => this.scrollElementIntoView(), 0);
+      }
+   }
+
+   scrollElementIntoView() {
+      if (!this.el) return; //unmount
+      let { widget } = this.props.instance;
+      let { CSS, baseClass } = widget;
+      let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
+      let firstSelectedRow = this.el.querySelector(selectedRowSelector);
+      if (firstSelectedRow != this.selectedEl) {
+         if (firstSelectedRow) scrollElementIntoView(firstSelectedRow);
+         this.selectedEl = firstSelectedRow;
       }
    }
 
