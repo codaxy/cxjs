@@ -45,3 +45,4 @@ export * from "./onIdleCallback";
 export * from "./TraversalStack";
 export * from "./validatedDebounce";
 export * from "./addEventListenerWithOptions";
+export * from "./coalesce";

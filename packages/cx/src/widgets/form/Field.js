@@ -12,6 +12,7 @@ import { parseStyle } from "../../util/parseStyle";
 import { FocusManager } from "../../ui/FocusManager";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
+import { coalesce } from "../../util/coalesce";
 
 export class Field extends PureContainer {
    declareData() {
@@ -77,7 +78,7 @@ export class Field extends PureContainer {
             required: this.required,
             asterisk: this.asterisk,
             style: this.labelStyle,
-            class: this.labelClass
+            class: this.labelClass,
          };
 
          if (this.label.isComponentType) labelConfig = this.label;
@@ -112,7 +113,7 @@ export class Field extends PureContainer {
 
       data._disabled = data.disabled;
       data._readOnly = data.readOnly;
-      data._viewMode = data.viewMode || data.mode === "view";
+      data._viewMode = data.mode === "view" || data.viewMode;
       data._tabOnEnterKey = data.tabOnEnterKey;
       instance.parentDisabled = context.parentDisabled;
       instance.parentReadOnly = context.parentReadOnly;
@@ -137,11 +138,11 @@ export class Field extends PureContainer {
 
    disableOrValidate(context, instance) {
       let { data, state } = instance;
-      data.disabled = data._disabled || context.parentDisabled;
-      data.readOnly = data._readOnly || context.parentReadOnly;
-      data.viewMode = data._viewMode || context.parentViewMode;
-      data.tabOnEnterKey = data._tabOnEnterKey || context.parentTabOnEnterKey;
-      data.visited = data.visited || context.parentVisited;
+      data.disabled = coalesce(data._disabled, context.parentDisabled);
+      data.readOnly = coalesce(data._readOnly, context.parentReadOnly);
+      data.viewMode = coalesce(data._viewMode, context.parentViewMode);
+      data.tabOnEnterKey = coalesce(data._tabOnEnterKey, context.parentTabOnEnterKey);
+      data.visited = coalesce(data.visited, context.parentVisited);
 
       if (!data.error && !data.disabled && !data.viewMode) this.validate(context, instance);
 

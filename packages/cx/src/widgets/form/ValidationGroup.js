@@ -2,6 +2,7 @@ import { Widget } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
+import { coalesce } from "../../util/coalesce";
 
 export class ValidationGroup extends PureContainer {
    declareData() {
@@ -26,11 +27,11 @@ export class ValidationGroup extends PureContainer {
          errors: [],
       };
 
-      context.push("parentDisabled", context.parentDisabled || instance.data.disabled);
-      context.push("parentReadOnly", context.parentReadOnly || instance.data.readOnly);
-      context.push("parentViewMode", context.parentViewMode || instance.data.viewMode);
-      context.push("parentTabOnEnterKey", context.parentTabOnEnterKey || instance.data.tabOnEnterKey);
-      context.push("parentVisited", instance.data.visited);
+      context.push("parentDisabled", coalesce(instance.data.disabled, context.parentDisabled));
+      context.push("parentReadOnly", coalesce(instance.data.readOnly, context.parentReadOnly));
+      context.push("parentViewMode", coalesce(instance.data.viewMode, context.parentViewMode));
+      context.push("parentTabOnEnterKey", coalesce(instance.data.tabOnEnterKey, context.parentTabOnEnterKey));
+      context.push("parentVisited", coalesce(instance.data.visited, context.parentVisited));
       context.push("validation", instance.validation);
 
       super.explore(context, instance);

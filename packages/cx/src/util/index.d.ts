@@ -44,3 +44,4 @@ export * from "./Component";
 export * from "./onIdleCallback";
 export * from "./validatedDebounce";
 export * from "./addEventListenerWithOptions";
+export * from "./coalesce";

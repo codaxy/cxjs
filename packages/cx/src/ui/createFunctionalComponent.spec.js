@@ -154,6 +154,7 @@ describe("createFunctionalComponent", () => {
                type: "table",
                props: {
                   className: "cxb-labelsleftlayout",
+                  style: undefined,
                },
                children: [
                   {
@@ -168,6 +169,7 @@ describe("createFunctionalComponent", () => {
                                  type: "td",
                                  props: {
                                     className: "cxe-labelsleftlayout-label",
+                                    style: undefined,
                                  },
                                  children: [
                                     {
@@ -196,6 +198,7 @@ describe("createFunctionalComponent", () => {
                                  type: "td",
                                  props: {
                                     className: "cxe-labelsleftlayout-label",
+                                    style: undefined,
                                  },
                                  children: [
                                     {

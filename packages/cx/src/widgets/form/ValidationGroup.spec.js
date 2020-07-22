@@ -80,4 +80,31 @@ describe("ValidationGroup", () => {
       assert.equal(store.get("invalid1"), true);
       assert.equal(store.get("invalid2"), false);
    });
+
+   it("visited flag is propagated into nested validation groups", () => {
+      let visited = false;
+
+      let widget = (
+         <cx>
+            <div>
+               <ValidationGroup visited>
+                  <ValidationGroup>
+                     <div
+                        onExplore={(context, instance) => {
+                           if (context.parentVisited) visited = true;
+                        }}
+                     />
+                  </ValidationGroup>
+               </ValidationGroup>
+            </div>
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+
+      let tree = component.toJSON();
+      assert(visited);
+   });
 });
