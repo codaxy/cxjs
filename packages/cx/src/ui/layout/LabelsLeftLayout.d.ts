@@ -1,6 +1,6 @@
 import * as Cx from "../../core";
 
-class LabelLeftLayoutProps extends Cx.StyledContainerProps {
+interface LabelLeftLayoutProps extends Cx.StyledContainerProps {
    /** Additional CSS style to be passed to the label object. */
    labelStyle?: Cx.StyleProp;
 
