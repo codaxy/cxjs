@@ -1,5 +1,5 @@
 @mixin cx-calendar(
-   $name: 'calendar',
+   $name: "calendar",
    $state-style-map: $cx-calendar-state-style-map,
    $width: $cx-default-input-width,
    $icon-size: $cx-default-icon-size,
@@ -11,7 +11,7 @@
    $mod: map-get($besm, mod);
 
    .#{$block}calendar {
-      @include cx-add-state-rules($state-style-map, 'default');
+      @include cx-add-state-rules($state-style-map, "default");
 
       display: inline-block;
       vertical-align: middle;
@@ -19,18 +19,18 @@
       box-sizing: border-box;
 
       &:hover {
-        @include cx-add-state-rules($state-style-map, 'hover');
+         @include cx-add-state-rules($state-style-map, "hover");
       }
 
       &:focus {
-        @include cx-add-state-rules($state-style-map, 'focus');
+         @include cx-add-state-rules($state-style-map, "focus");
       }
 
       &.#{$state}error {
-         @include cx-add-state-rules($state-style-map, 'error');
+         @include cx-add-state-rules($state-style-map, "error");
 
          &:focus {
-            @include cx-add-state-rules($state-style-map, 'error-focus');
+            @include cx-add-state-rules($state-style-map, "error-focus");
          }
       }
 
@@ -39,7 +39,8 @@
          width: 100%;
       }
 
-      td, th {
+      td,
+      th {
          text-align: center;
          width: 2em;
          line-height: 2em;
@@ -47,12 +48,12 @@
       }
 
       th {
-        font-weight: cx-get-state-rule($state-style-map, header, font-weight);
+         font-weight: cx-get-state-rule($state-style-map, header, font-weight);
       }
 
       tbody td {
-        @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
-        user-select: none;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
+         user-select: none;
       }
 
       .#{$element}#{$name}-header {
@@ -60,22 +61,23 @@
       }
 
       td.#{$state}today {
-        @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
 
-        &:hover {
-           @include cx-add-state-rules($cx-calendar-day-state-style-map, hover)
-        }
+         &:hover {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
+         }
       }
 
       td.#{$state}outside {
-         @include cx-add-state-rules($cx-calendar-day-state-style-map, outside)
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, outside);
       }
 
       td.#{$state}unselectable {
-         @include cx-add-state-rules($cx-calendar-day-state-style-map, disabled)
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, disabled);
       }
 
-      td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
+      td.#{$state}cursor,
+      .#{$element}#{$name}-header td:hover {
          @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
       }
 
@@ -89,23 +91,24 @@
          }
       }
 
-      td:first-child, td:last-child {
+      td:first-child,
+      td:last-child {
          display: none;
          pointer-events: none;
       }
 
       &:focus {
-
-         td.#{$state}cursor, .#{$element}#{$name}-header td:hover {
+         td.#{$state}cursor,
+         .#{$element}#{$name}-header td:hover {
             @include cx-add-state-rules($cx-calendar-day-state-style-map, hover-focus);
 
             &:active {
-               @include cx-add-state-rules($cx-calendar-day-state-style-map, active)
+               @include cx-add-state-rules($cx-calendar-day-state-style-map, active);
             }
          }
 
          td.#{$state}selected {
-            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected-focus)
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected-focus);
          }
       }
 
@@ -148,8 +151,14 @@
       line-height: 1.5;
       padding: 0.5em;
    }
+
+   .#{$element}#{$name}-toolbar {
+      display: flex;
+      justify-content: center;
+      margin-top: cx-top(cx-get-state-rule($state-style-map, default, "padding", 0));
+   }
 }
 
-@if (cx-should-include('cx/widgets/Calendar')) {
+@if (cx-should-include("cx/widgets/Calendar")) {
    @include cx-calendar();
 }

@@ -122,6 +122,8 @@ Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
 Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
 Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
 Calendar.prototype.suppressErrorsUntilVisited = false;
+Calendar.prototype.showTodayButton = false;
+Calendar.prototype.todayButtonText = "Today";
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -455,6 +457,21 @@ export class CalendarCmp extends VDOM.Component {
                </thead>
                <tbody>{weeks}</tbody>
             </table>
+            {widget.showTodayButton && (
+               <div className={CSS.element(baseClass, "toolbar")}>
+                  <button
+                     className={CSS.expand(CSS.element(baseClass, "today-button"), CSS.block("button", "hollow"))}
+                     data-year={today.getFullYear()}
+                     data-month={today.getMonth() + 1}
+                     data-date={today.getDate()}
+                     onClick={(e) => {
+                        this.handleMouseDown(e);
+                     }}
+                  >
+                     {widget.todayButtonText}
+                  </button>
+               </div>
+            )}
          </div>
       );
    }

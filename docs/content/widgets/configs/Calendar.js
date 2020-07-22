@@ -38,19 +38,19 @@ export default {
         description: <cx><Md>
             Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
         </Md></cx>
-    }, 
+    },
     minExclusive: {
         type: 'boolean',
         description: <cx><Md>
             Set to `true` to disallow the `minValue`. Default value is `false`.
         </Md></cx>
-    }, 
+    },
     maxValue: {
         type: 'string/Date',
         description: <cx><Md>
             Maximum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function.
         </Md></cx>
-    }, 
+    },
     maxExclusive: {
         type: 'boolean',
         description: <cx><Md>
@@ -63,6 +63,22 @@ export default {
             <Md>
                 Sets the function that will be used to convert Date objects before writing data to the store.
                 Default implementation is `Date.toISOString`. See also [Culture.setDefaultDateEncoding](~/concepts/localization#culture).
+            </Md>
+        </cx>
+    },
+    showTodayButton: {
+        type: 'boolean',
+        description: <cx>
+            <Md>
+            Set to `true` to show the button for quickly selecting today's date. Default value is `false`.
+            </Md>
+        </cx>
+    },
+    todayButtonText: {
+        type: 'string',
+        description: <cx>
+            <Md>
+            Localizable text for the todayButton. Defaults to `"Today"`.
             </Md>
         </cx>
     }
