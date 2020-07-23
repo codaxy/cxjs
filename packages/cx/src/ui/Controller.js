@@ -1,24 +1,22 @@
-import {computable} from '../data/computable';
-import {Component} from '../util/Component';
-import {isArray} from '../util/isArray';
-import {isFunction} from '../util/isFunction';
-import {StoreProxy} from "../data/StoreProxy";
+import { computable } from "../data/computable";
+import { Component } from "../util/Component";
+import { isArray } from "../util/isArray";
+import { isFunction } from "../util/isFunction";
+import { StoreProxy } from "../data/StoreProxy";
 
-const computablePrefix = 'computable-';
-const triggerPrefix = 'trigger-';
+const computablePrefix = "computable-";
+const triggerPrefix = "trigger-";
 
 export class Controller extends Component {
-
    init(context) {
       if (!this.initialized) {
          this.initialized = true;
-         if (this.onInit)
-            this.onInit(context);
+         if (this.onInit) this.onInit(context);
       }
    }
 
    explore(context) {
-      let {store} = this.instance;
+      let { store } = this.instance;
       this.store = store; //in rare cases instance may change its store
 
       if (!this.initialized) {
@@ -31,8 +29,7 @@ export class Controller extends Component {
          for (let key in this.computables) {
             let x = this.computables[key];
             let v = x.selector(store.getData());
-            if (x.type == 'computable')
-               store.set(x.name, v);
+            if (x.type == "computable") store.set(x.name, v);
          }
       }
 
@@ -54,31 +51,25 @@ export class Controller extends Component {
    }
 
    addComputable(name, args, callback) {
-      if (!isArray(args))
-         throw new Error('Second argument to the addComputable method should be an array.');
+      if (!isArray(args)) throw new Error("Second argument to the addComputable method should be an array.");
       let selector = computable(...args, callback).memoize();
-      if (!this.computables)
-         this.computables = {};
-      this.computables[computablePrefix + name] = {name, selector, type: 'computable'};
+      if (!this.computables) this.computables = {};
+      this.computables[computablePrefix + name] = { name, selector, type: "computable" };
    }
 
    addTrigger(name, args, callback, autoRun) {
-      if (!isArray(args))
-         throw new Error('Second argument to the addTrigger method should be an array.');
-      let selector = computable(...args, callback).memoize(false, !autoRun && this.store.getData());
-      if (!this.computables)
-         this.computables = {};
-      this.computables[triggerPrefix + name] = {name, selector, type: 'trigger'};
+      if (!isArray(args)) throw new Error("Second argument to the addTrigger method should be an array.");
+      let selector = computable(...args, callback).memoize(!autoRun && this.store.getData());
+      if (!this.computables) this.computables = {};
+      this.computables[triggerPrefix + name] = { name, selector, type: "trigger" };
    }
 
    removeTrigger(name) {
-      if (this.computables)
-         delete this.computables[triggerPrefix + name];
+      if (this.computables) delete this.computables[triggerPrefix + name];
    }
 
    removeComputable(name) {
-      if (this.computables)
-         delete this.computables[computablePrefix + name];
+      if (this.computables) delete this.computables[computablePrefix + name];
    }
 
    invokeParentMethod(methodName, ...args) {
@@ -86,13 +77,13 @@ export class Controller extends Component {
    }
 }
 
-Controller.namespace = 'ui.controller.';
+Controller.namespace = "ui.controller.";
 
-Controller.factory = function(alias, config, more) {
+Controller.factory = function (alias, config, more) {
    if (isFunction(alias)) {
       let cfg = {
          ...config,
-         ...more
+         ...more,
       };
 
       if (cfg.instance) {
@@ -102,18 +93,17 @@ Controller.factory = function(alias, config, more) {
       }
 
       let result = alias(cfg);
-      if (result instanceof Controller)
-         return result;
+      if (result instanceof Controller) return result;
 
       return Controller.create({
          ...config,
          ...more,
-         ...result
+         ...result,
       });
    }
 
    return Controller.create({
       ...config,
-      ...more
+      ...more,
    });
 };
