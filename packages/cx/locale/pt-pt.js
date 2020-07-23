@@ -25,7 +25,10 @@ const calendarErrorMessages = {
    minExclusiveErrorText: 'Selecione uma data após {0:d}.',
 };
 // Calendar
-Localization.localize(c, 'cx/widgets/Calendar', calendarErrorMessages);
+Localization.localize(c, 'cx/widgets/Calendar', {
+   ...calendarErrorMessages,
+   todayButtonText: 'Hoje'
+});
 // MonthPicker
 Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 
