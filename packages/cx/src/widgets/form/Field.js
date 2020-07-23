@@ -351,7 +351,6 @@ export class Field extends PureContainer {
 }
 
 Field.prototype.validationMode = "tooltip";
-Field.prototype.visited = false;
 Field.prototype.suppressErrorsUntilVisited = false;
 Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
@@ -364,6 +363,12 @@ Field.prototype.labelPlacement = false;
 Field.prototype.helpPlacement = false;
 Field.prototype.emptyValue = null;
 Field.prototype.styled = true;
+
+//These flags are inheritable and should not be set to false
+//Field.prototype.visited = null;
+//Field.prototype.disabled = null;
+//Field.prototype.readOnly = null;
+//Field.prototype.viewMode = null;
 
 Localization.registerPrototype("cx/widgets/Field", Field);
 
