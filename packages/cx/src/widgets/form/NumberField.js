@@ -263,6 +263,16 @@ class Input extends VDOM.Component {
       return res;
    }
 
+   getLengthWithoutSuffix(text, decimalSeparator) {
+      let l = text.length;
+      while (l > 0) {
+         if ("0" <= text[l - 1] && text[l - 1] <= "9") break;
+         if (text[l - 1] == decimalSeparator) break;
+         l--;
+      }
+      return l;
+   }
+
    getDecimalSeparator(format) {
       let text = Format.value(0.11111111, format);
       for (let i = text.length - 1; i >= 0; i--) {
@@ -397,7 +407,7 @@ class Input extends VDOM.Component {
          if (
             change == "change" &&
             this.input.selectionStart == this.input.selectionEnd &&
-            this.input.selectionEnd == this.input.value.length &&
+            this.input.selectionEnd >= this.getLengthWithoutSuffix(this.input.value, decimalSeparator) &&
             (e.target.value[this.input.selectionEnd - 1] == decimalSeparator ||
                (e.target.value.indexOf(decimalSeparator) >= 0 && e.target.value[this.input.selectionEnd - 1] == "0"))
          )
