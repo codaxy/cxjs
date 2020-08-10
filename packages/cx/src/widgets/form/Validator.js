@@ -1,13 +1,13 @@
-import {Field} from './Field';
+import { Field } from "./Field";
 
 export class Validator extends Field {
-
    declareData() {
       return super.declareData(...arguments, {
          value: {
-            structured: true
-         }
-      })
+            structured: true,
+         },
+         disabled: undefined,
+      });
    }
 
    isEmpty(data) {

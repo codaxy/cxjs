@@ -5,6 +5,7 @@ import { Icon } from "./Icon";
 import { preventFocus } from "../ui/FocusManager";
 import { isFunction } from "../util/isFunction";
 import { isDefined } from "../util/isDefined";
+import { coalesce } from "../util/coalesce";
 
 export class Button extends HtmlElement {
    declareData() {
@@ -30,7 +31,10 @@ export class Button extends HtmlElement {
 
    explore(context, instance) {
       instance.data.parentDisabled = context.parentDisabled;
+      instance.data.parentStrict = context.parentStrict;
+
       if (instance.cache("parentDisabled", context.parentDisabled)) instance.markShouldUpdate(context);
+      if (instance.cache("parentStrict", context.parentStrict)) instance.markShouldUpdate(context);
 
       super.explore(context, instance);
    }
@@ -68,7 +72,7 @@ export class Button extends HtmlElement {
       let oldOnClick,
          { data } = instance;
 
-      props.disabled = data.disabled || data.parentDisabled;
+      props.disabled = coalesce(data.parentStrict ? data.parentDisabled : null, data.disabled, data.parentDisabled);
 
       if (data.confirm) {
          oldOnClick = props.onClick;

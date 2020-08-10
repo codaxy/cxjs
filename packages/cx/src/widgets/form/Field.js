@@ -138,11 +138,30 @@ export class Field extends PureContainer {
 
    disableOrValidate(context, instance) {
       let { data, state } = instance;
-      data.disabled = coalesce(data._disabled, context.parentDisabled);
-      data.readOnly = coalesce(data._readOnly, context.parentReadOnly);
-      data.viewMode = coalesce(data._viewMode, context.parentViewMode);
-      data.tabOnEnterKey = coalesce(data._tabOnEnterKey, context.parentTabOnEnterKey);
-      data.visited = coalesce(data.visited, context.parentVisited);
+
+      //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
+
+      data.disabled = coalesce(
+         context.parentStrict ? context.parentDisabled : null,
+         data._disabled,
+         context.parentDisabled
+      );
+      data.readOnly = coalesce(
+         context.parentStrict ? context.parentReadOnly : null,
+         data._readOnly,
+         context.parentReadOnly
+      );
+      data.viewMode = coalesce(
+         context.parentStrict ? context.parentViewMode : null,
+         data._viewMode,
+         context.parentViewMode
+      );
+      data.tabOnEnterKey = coalesce(
+         context.parentStrict ? context.parentTabOnEnterKey : null,
+         data._tabOnEnterKey,
+         context.parentTabOnEnterKey
+      );
+      data.visited = coalesce(context.parentStrict ? context.parentVisited : null, data.visited, context.parentVisited);
 
       if (!data.error && !data.disabled && !data.viewMode) this.validate(context, instance);
 

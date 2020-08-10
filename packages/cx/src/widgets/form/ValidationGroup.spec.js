@@ -107,4 +107,42 @@ describe("ValidationGroup", () => {
       let tree = component.toJSON();
       assert(visited);
    });
+
+   it("disabled flag can be overruled by the field props", () => {
+      let widget = (
+         <cx>
+            <div>
+               <ValidationGroup invalid-bind="invalid" disabled>
+                  <Validator onValidate={() => "Something is wrong..."} disabled={false} />
+               </ValidationGroup>
+            </div>
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+
+      let tree = component.toJSON();
+      assert.equal(store.get("invalid"), true);
+   });
+
+   it("strict flag is used to enforce disabled flag", () => {
+      let widget = (
+         <cx>
+            <div>
+               <ValidationGroup invalid-bind="invalid" disabled strict>
+                  <Validator onValidate={() => "Something is wrong..."} disabled={false} />
+               </ValidationGroup>
+            </div>
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+
+      let tree = component.toJSON();
+      assert.equal(store.get("invalid"), false);
+   });
 });
