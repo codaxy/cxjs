@@ -24,6 +24,15 @@ export interface ValidationGroupProps extends Cx.PureContainerProps {
 
    /** Set to `true` to notify all children to report errors. */
    visited?: Cx.BooleanProp;
+
+   /** Set to `true` to tab on Enter key for all children. */
+   tabOnEnterKey?: Cx.BooleanProp;
+
+   /** Set to `true` to set all child fields to view mode. */
+   viewMode?: Cx.BooleanProp;
+
+   /** Set to `true` to force children to respect disabled, readOnly, viewMode and visited flags set on the group level. */
+   strict?: Cx.BooleanProp;
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}

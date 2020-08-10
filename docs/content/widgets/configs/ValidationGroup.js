@@ -59,5 +59,12 @@ export default {
         description: <cx><Md>
             Set to `true` to isolate children from participating in outer validation scopes.
         </Md></cx>
-    }
+    },
+    strict: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to move focus to the next field if `Enter` key is pressed.
+        </Md></cx>
+    },
 };
