@@ -105,6 +105,7 @@ MenuItem.prototype.autoClose = false;
 MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
 MenuItem.prototype.keyboardShortcut = false;
+MenuItem.prototype.openOnFocus = true;
 
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
@@ -390,7 +391,7 @@ class MenuItemComponent extends VDOM.Component {
          oneFocusOut(this, this.el, ::this.onFocusOut);
          debug(menuFlag, "MenuItem", "focus", this.el, document.activeElement);
          this.clearAutoFocusTimer();
-         this.openDropdown();
+         if (widget.openOnFocus) this.openDropdown();
       }
    }
 
