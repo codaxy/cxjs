@@ -101,6 +101,7 @@ MenuItem.prototype.dropdownOptions = null;
 MenuItem.prototype.showCursor = true;
 MenuItem.prototype.pad = true;
 MenuItem.prototype.placement = null; //default dropdown placement
+MenuItem.prototype.placementOrder = null; //allowed menu placements
 MenuItem.prototype.autoClose = false;
 MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
@@ -118,14 +119,18 @@ class MenuItemComponent extends VDOM.Component {
       };
    }
 
+   getDefaultPlacementOrder(horizontal) {
+      return horizontal
+         ? "down-right down down-left up-right up up-left"
+         : "right-down right right-up left-down left left-up";
+   }
+
    getDropdown() {
       let { horizontal, widget, parentPositionChangeEvent } = this.props.instance;
       if (!this.dropdown && widget.dropdown) {
          this.dropdown = Widget.create(Dropdown, {
             matchWidth: false,
-            placementOrder: horizontal
-               ? "down-right down down-left up-right up up-left"
-               : "right-down right right-up left-down left left-up",
+            placementOrder: widget.placementOrder || this.getDefaultPlacementOrder(horizontal),
             trackScroll: true,
             inline: true,
             ...widget.dropdownOptions,

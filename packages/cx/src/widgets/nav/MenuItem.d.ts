@@ -9,14 +9,15 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    hoverToOpen?: boolean;
    horizontal?: boolean;
    arrow?: Cx.BooleanProp;
-   dropdownOptions?: Cx.Config | null;
+   dropdownOptions?: Cx.Config;
    showCursor?: boolean;
    pad?: boolean;
-   placement?: string | null;
+   placement?: string;
+   placementOrder?: string;
    autoClose?: boolean;
    icons?: boolean;
    keyboardShortcut?: KeyboardShortcut;
-   tooltip?: string | Cx.Record;
+   tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
 }
 
