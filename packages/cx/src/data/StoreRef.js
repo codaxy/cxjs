@@ -1,5 +1,4 @@
 import { Ref } from "./Ref";
-import { Store } from "./Store";
 
 export class StoreRef extends Ref {
    constructor(config) {

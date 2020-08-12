@@ -1,6 +1,5 @@
-import {Binding} from './Binding';
-import {View} from './View';
-import {SubscriberList} from '../util/SubscriberList';
+import { View } from "./View";
+import { SubscriberList } from "../util/SubscriberList";
 
 export class SubscribableView extends View {
    constructor(config) {
@@ -18,14 +17,12 @@ export class SubscribableView extends View {
    }
 
    doNotify(path) {
-      if (this.notificationsSuspended)
-         return;
+      if (this.notificationsSuspended) return;
 
       if (!this.async) {
          this.subscribers.notify([path]);
-      }
-      else {
-         this.changes.push(path || '');
+      } else {
+         this.changes.push(path || "");
          if (!this.scheduled) {
             this.scheduled = true;
             setTimeout(() => {
@@ -40,12 +37,12 @@ export class SubscribableView extends View {
 
    silently(callback) {
       this.notificationsSuspended = (this.notificationsSuspended || 0) + 1;
-      let wasDirty = this.dirty, dirty;
+      let wasDirty = this.dirty,
+         dirty;
       this.dirty = false;
       try {
          callback(this);
-      }
-      finally {
+      } finally {
          this.notificationsSuspended--;
          dirty = this.dirty;
          this.dirty = wasDirty;
