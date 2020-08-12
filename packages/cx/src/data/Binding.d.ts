@@ -1,12 +1,13 @@
-import { Record } from '../core';
+import { Record } from "../core";
 
 export class Binding {
-
    constructor(path: string);
 
    set(state: Record, value: any): Record;
 
    delete(state: Record): Record;
+
+   value(state: Record): any;
 
    static get(path: string): Binding;
 }

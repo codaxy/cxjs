@@ -1,12 +1,12 @@
-import {isFunction} from "../util/isFunction";
-import {Component} from "../util/Component";
+import { isFunction } from "../util/isFunction";
+import { Component } from "../util/Component";
+import { Binding } from "./Binding";
 
 export class Ref extends Component {
    constructor(config) {
       super(config);
       this.get = ::this.get;
-      if (this.set)
-         this.set = ::this.set;
+      if (this.set) this.set = ::this.set;
    }
 
    get() {
@@ -14,12 +14,11 @@ export class Ref extends Component {
    }
 
    init(value) {
-      if (this.get() === undefined)
-         this.set(value);
+      if (this.get() === undefined) this.set(value);
    }
 
    toggle() {
-      this.set(!this.get())
+      this.set(!this.get());
    }
 
    update(cb, ...args) {
@@ -29,7 +28,20 @@ export class Ref extends Component {
    as(config) {
       return Ref.create(config, {
          get: this.get,
-         set: this.set
+         set: this.set,
+      });
+   }
+
+   ref(path) {
+      let binding = Binding.get(path);
+      return Ref.create({
+         get: () => binding.value(this.get()),
+         set: (value) => {
+            let data = this.get();
+            let newData = binding.set(data, value);
+            if (data === newData) return false;
+            return this.set(newData);
+         },
       });
    }
 
@@ -41,29 +53,27 @@ export class Ref extends Component {
 
 Ref.prototype.isRef = true;
 
-Ref.factory = function(alias, config, more) {
+Ref.factory = function (alias, config, more) {
    if (isFunction(alias)) {
       let cfg = {
          ...config,
-         ...more
+         ...more,
       };
 
-      if (cfg.store)
-         Object.assign(cfg, cfg.store.getMethods());
+      if (cfg.store) Object.assign(cfg, cfg.store.getMethods());
 
       let result = alias(cfg);
-      if (result instanceof Ref)
-         return result;
+      if (result instanceof Ref) return result;
 
       return this.create({
          ...config,
          ...more,
-         ...result
+         ...result,
       });
    }
 
    return this.create({
       ...config,
-      ...more
+      ...more,
    });
 };

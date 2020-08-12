@@ -1,12 +1,11 @@
-import {View} from './View';
+import { View } from "./View";
 
 interface RefConfig {
-   store: View,
-   path: string
+   store: View;
+   path: string;
 }
 
 export class Ref<T = any> {
-
    constructor(config: RefConfig);
 
    init(value: T): boolean;
@@ -20,4 +19,6 @@ export class Ref<T = any> {
    toggle(): boolean;
 
    update(updateFn: (currentValue: T, ...args) => T, ...args): boolean;
+
+   ref<ST = any>(path: string): Ref<ST>;
 }

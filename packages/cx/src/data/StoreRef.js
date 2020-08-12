@@ -1,4 +1,5 @@
-import {Ref} from "./Ref";
+import { Ref } from "./Ref";
+import { Store } from "./Store";
 
 export class StoreRef extends Ref {
    constructor(config) {
@@ -34,13 +35,19 @@ export class StoreRef extends Ref {
       return this.get;
    }
 
+   ref(path) {
+      return new StoreRef({
+         path: `${this.path}.${path}`,
+         store: this.store,
+      });
+   }
+
    as(config) {
       return StoreRef.create(config, {
          path: this.path,
          store: this.store,
          get: this.get,
-         set: this.set
+         set: this.set,
       });
    }
 }
-
