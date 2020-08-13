@@ -24,9 +24,9 @@ export * from './DetachedScope';
 export * from './Restate';
 export * from './DataProxy';
 export * from './keyboardShortcuts';
-
 export * from './createFunctionalComponent';
 export * from './flattenProps';
+export * from "./StructuredInstanceDataAccessor";
 
 export * from './selection/index';
 export * from './layout/index';
