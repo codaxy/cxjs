@@ -1,5 +1,5 @@
-import {updateTree} from './updateTree';
+import { updateTree } from "./updateTree";
 
-export function removeTreeNodes(array, criteria, childrenField) {
-   return updateTree(array, null, item => false, childrenField, criteria);
+export function removeTreeNodes(array, criteria, childrenField = "$children") {
+   return updateTree(array, null, () => false, childrenField, criteria);
 }
