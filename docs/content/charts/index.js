@@ -24,6 +24,7 @@ export * from './PointReducers';
 export * from './ValueAtFinder';
 export * from './MinMaxFinder';
 export * from './SnapPointFinder';
+export * from './HoverSync';
 
 
 

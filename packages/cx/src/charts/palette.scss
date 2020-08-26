@@ -1,15 +1,13 @@
-
 //https://www.materialui.co/colors
 //normal:200 900
 //hover:100 700
 //selected: 300 900
 //disabled: 0 100
 
-$cx-default-palette-colors: rgba(244,67,54,1) rgba(233,30,99,1) rgba(156,39,176,1)
-rgba(103,58,183,1) rgba(63,81,181,1) rgba(33,150,243,1) rgba(3,169,244,1)
-rgba(0,188,212,1) rgba(0,150,136,1) rgba(76,175,80,1) rgba(139,195,74,1)
-rgba(205,220,57,1) rgba(255,235,59,1) rgba(255,193,7,1) rgba(255,152,0,1)
-rgba(255,87,34,1) !default;
+$cx-default-palette-colors: rgba(244, 67, 54, 1) rgba(233, 30, 99, 1) rgba(156, 39, 176, 1) rgba(103, 58, 183, 1)
+   rgba(63, 81, 181, 1) rgba(33, 150, 243, 1) rgba(3, 169, 244, 1) rgba(0, 188, 212, 1) rgba(0, 150, 136, 1)
+   rgba(76, 175, 80, 1) rgba(139, 195, 74, 1) rgba(205, 220, 57, 1) rgba(255, 235, 59, 1) rgba(255, 193, 7, 1)
+   rgba(255, 152, 0, 1) rgba(255, 87, 34, 1) !default;
 
 $cx-default-palette-fill-whiten: 60% !default;
 $cx-default-palette-fill-hover-whiten: 50% !default;
@@ -43,7 +41,6 @@ $cx-default-palette-stroke-blacken: 10% !default;
    $state: map-get($besm, state);
 
    @for $i from 1 through length($palette-colors) {
-
       $c: nth($palette-colors, 1 + (($i - 1) * 1) % length($palette-colors));
 
       .#{$state}color-#{$i - 1} {
@@ -54,7 +51,10 @@ $cx-default-palette-stroke-blacken: 10% !default;
          background: $fill;
          border-color: $stroke;
 
-         &.#{$state}selectable:hover {
+         &.#{$state}selectable:hover,
+         &.#{$state}selectable.#{$state}hover,
+         .#{$state}color-root:hover &,
+         .#{$state}color-root.#{$state}hover & {
             $fill: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-fill-hover-blacken);
             $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
             fill: $fill;
@@ -63,7 +63,12 @@ $cx-default-palette-stroke-blacken: 10% !default;
             border-color: $stroke;
          }
 
-         &.#{$state}selected, &.#{$state}selected:hover {
+         &.#{$state}selected,
+         &.#{$state}selected:hover,
+         &.#{$state}selected.#{$state}hover,
+         .#{$state}color-root.#{$state}selected &,
+         .#{$state}color-root.#{$state}selected:hover &,
+         .#{$state}color-root.#{$state}selected.#{$state}hover & {
             $fill: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-fill-selected-blacken);
             $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
             fill: $fill;
@@ -72,7 +77,8 @@ $cx-default-palette-stroke-blacken: 10% !default;
             border-color: $stroke;
          }
 
-         &.#{$state}disabled {
+         &.#{$state}disabled,
+         .#{$state}color-root.#{$state}disabled & {
             $fill: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-fill-disabled-blacken);
             $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
             fill: $fill;
@@ -84,6 +90,6 @@ $cx-default-palette-stroke-blacken: 10% !default;
    }
 }
 
-@if (cx-should-include('cx/charts/palette')) {
+@if (cx-should-include("cx/charts/palette")) {
    @include cx-palette();
 }
