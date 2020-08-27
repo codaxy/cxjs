@@ -335,7 +335,8 @@
       }
 
       .#{$state}selectable & {
-         &:hover {
+         &:hover,
+         &.#{$state}hover {
             @include cx-add-state-rules($cx-list-item, hover);
          }
 

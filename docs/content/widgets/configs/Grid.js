@@ -231,7 +231,22 @@ export default {
         type: "function",
         description: <cx><Md>
             Callback function used to create a filter. The function accepts `filterParams` as a first argument and
-             it should return a predicate function used to filter the records.
+            it should return a predicate function used to filter the records.
+        </Md></cx>
+    },
+
+    hoverChannel: {
+        type: 'string',
+        description: <cx><Md>
+            A value used to identify the group of components participating in hover effect synchronization. See [HoverSync](~/charts/hover-sync).
+        </Md></cx>
+    },
+
+    rowHoverId: {
+        type: 'string',
+        description: <cx><Md>
+            A value used to uniquely identify the record within the hover sync group. See [HoverSync](~/charts/hover-sync).
         </Md></cx>
     }
+
 };

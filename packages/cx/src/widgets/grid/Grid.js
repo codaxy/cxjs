@@ -183,6 +183,7 @@ export class Grid extends Widget {
          className: this.rowClass,
          style: this.rowStyle,
          recordName: this.recordName,
+         hoverId: this.rowHoverId,
          ...this.row,
       });
 
@@ -338,6 +339,8 @@ export class Grid extends Widget {
 
    explore(context, instance) {
       context.push("parentPositionChangeEvent", instance.fixedHeaderResizeEvent);
+
+      instance.hoverSync = context.hoverSync;
 
       super.explore(context, instance);
 
@@ -1050,6 +1053,7 @@ Grid.prototype.scrollSelectionIntoView = false;
 Grid.prototype.clearableSort = false;
 Grid.prototype.cellEditable = false;
 Grid.prototype.preciseMeasurements = false;
+Grid.prototype.hoverChannel = "default";
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
