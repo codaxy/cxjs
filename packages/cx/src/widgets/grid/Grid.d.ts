@@ -198,6 +198,12 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Enable precise (sub-pixel) measurements. Useful for grids with many columns. Better behavior at small zoom factors. */
    preciseMeasurements?: boolean;
+
+   /** A value used to identify the group of components participating in hover effect synchronization. */
+   hoverChannel?: string;
+
+   /** A value used to uniquely identify the record within the hover sync group. */
+   rowHoverId?: Cx.StringProp;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}
