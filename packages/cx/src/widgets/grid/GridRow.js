@@ -219,7 +219,6 @@ export class GridRowComponent extends VDOM.Component {
       if (grid.hoverSync) {
          this.unsubscribeHoverSync = grid.hoverSync.subscribe(grid.widget.hoverChannel, (hoverId) => {
             let hover = hoverId === this.props.instance.data.hoverId;
-            console.log(hoverId, hover);
             if (!this.state || hover !== this.state.hover) this.setState({ hover });
          });
       }
