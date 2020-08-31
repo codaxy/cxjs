@@ -21,7 +21,6 @@ export class HoverSync extends PureContainer {
             let state = active && hoverId;
             if (ch.state !== state && (ch.state === hoverId || active)) {
                ch.state = state;
-               console.log(state);
                ch.subscribers.notify(state);
             }
          },
