@@ -1098,6 +1098,79 @@ class GridComponent extends VDOM.Component {
       };
    }
 
+   renderCellEditor(baseClass) {
+      //add an inner div with fixed height in order to help IE absolutely position the contents inside
+      return (
+         <td key={key} className={CSS.element(baseClass, "cell-editor")}>
+            <Cx parentInstance={instance} subscribe>
+               <GridCellEditor
+                  className={CSS.element(baseClass, "cell-editor-wrap")}
+                  style={
+                     this.rowHeight > 0
+                        ? {
+                             height: this.rowHeight + 1,
+                          }
+                        : null
+                  }
+               >
+                  <ValidationGroup
+                     valid={{
+                        get: () => this.cellEditorValid,
+                        set: (value) => {
+                           this.cellEditorValid = value;
+                        },
+                     }}
+                  >
+                     {column.editor}
+                  </ValidationGroup>
+               </GridCellEditor>
+            </Cx>
+         </td>
+      );
+   }
+
+   renderCells(children, index, fixedColumns, cursor, cursorCellIndex, colWidth, cellWrap) {
+      return children.content.map(({ key, data, content }, line) => (
+         <tr key={key} className={data.classNames} style={data.style}>
+            {content.map(({ key, data, content, instance, uniqueColumnId }, cellIndex) => {
+               if (Boolean(data.fixed) !== fixedColumns) return null;
+               let cellected =
+                  index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
+               let className = cellected
+                  ? CSS.expand(data.classNames, CSS.state("cellected"))
+                  : data.classNames;
+               if (cellected && cellEdit) {
+                  let column = visibleColumns[cursorCellIndex];
+                  if (column && column.editor && data.editable)
+                     return this.renderCellEditor(baseClass);
+               }
+               let width = colWidth[uniqueColumnId];
+               let style = data.style;
+               if (width) {
+                  style = {
+                     ...style,
+                     maxWidth: `${width}px`,
+                  };
+               }
+
+               if (cellWrap) content = cellWrap(content);
+
+               return (
+                  <td
+                     key={key}
+                     className={className}
+                     style={style}
+                     colSpan={data.colSpan}
+                     rowSpan={data.rowSpan}
+                  >
+                     {content}
+                  </td>
+               );
+            })}
+         </tr>
+      ))
+   }
+
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
       let { widget, hasFixedColumns, isRecordSelectable, visibleColumns } = instance;
@@ -1156,72 +1229,7 @@ class GridComponent extends VDOM.Component {
                dimensionsVersion={dimensionsVersion}
                fixed={fixedColumns}
             >
-               {children.content.map(({ key, data, content }, line) => (
-                  <tr key={key} className={data.classNames} style={data.style}>
-                     {content.map(({ key, data, content, instance, uniqueColumnId }, cellIndex) => {
-                        if (Boolean(data.fixed) !== fixedColumns) return null;
-                        let cellected =
-                           index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                        let className = cellected
-                           ? CSS.expand(data.classNames, CSS.state("cellected"))
-                           : data.classNames;
-                        if (cellected && cellEdit) {
-                           let column = visibleColumns[cursorCellIndex];
-                           if (column && column.editor && data.editable)
-                              //add an inner div with fixed height in order to help IE absolutely position the contents inside
-                              return (
-                                 <td key={key} className={CSS.element(baseClass, "cell-editor")}>
-                                    <Cx parentInstance={instance} subscribe>
-                                       <GridCellEditor
-                                          className={CSS.element(baseClass, "cell-editor-wrap")}
-                                          style={
-                                             this.rowHeight > 0
-                                                ? {
-                                                     height: this.rowHeight + 1,
-                                                  }
-                                                : null
-                                          }
-                                       >
-                                          <ValidationGroup
-                                             valid={{
-                                                get: () => this.cellEditorValid,
-                                                set: (value) => {
-                                                   this.cellEditorValid = value;
-                                                },
-                                             }}
-                                          >
-                                             {column.editor}
-                                          </ValidationGroup>
-                                       </GridCellEditor>
-                                    </Cx>
-                                 </td>
-                              );
-                        }
-                        let width = colWidth[uniqueColumnId];
-                        let style = data.style;
-                        if (width) {
-                           style = {
-                              ...style,
-                              maxWidth: `${width}px`,
-                           };
-                        }
-
-                        if (cellWrap) content = cellWrap(content);
-
-                        return (
-                           <td
-                              key={key}
-                              className={className}
-                              style={style}
-                              colSpan={data.colSpan}
-                              rowSpan={data.rowSpan}
-                           >
-                              {content}
-                           </td>
-                        );
-                     })}
-                  </tr>
-               ))}
+               {this.renderCells(children, index, fixedColumns, cursor, cursorCellIndex, colWidth, cellWrap)}
             </GridRowComponent>
          );
 
@@ -2424,7 +2432,7 @@ class GridComponent extends VDOM.Component {
       let { widget, store, isSelected } = instance;
       let { CSS, baseClass } = widget;
 
-      let selected = instance.records.filter((record) => isSelected(record.data, record.index));
+      let selected = instance.records ? instance.records.filter((record) => isSelected(record.data, record.index)) : [];
 
       if (selected.length == 0) selected = [record];
 

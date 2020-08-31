@@ -1,9 +1,9 @@
-import {HtmlElement, Grid, FlexRow, DragHandle, Window} from 'cx/widgets';
-import {KeySelection} from 'cx/ui';
+import { HtmlElement, Grid, FlexRow, DragHandle, Window } from 'cx/widgets';
+import { KeySelection } from 'cx/ui';
 
 import Controller from './Controller';
 
-import {insertElement} from '../insertElement';
+import { insertElement } from '../insertElement';
 
 function move(store, target, e) {
 
@@ -24,81 +24,80 @@ export default <cx>
    <div controller={Controller} style="padding:30px">
       <h3>Grid to Grid Drag & Drop</h3>
 
-      <Window title="test" modal center>
+      <FlexRow>
+         <Grid
+            buffered
+            records-bind="grid1"
+            scrollable
+            style="height:400px"
+            columns={[{
+               field: 'name',
+               header: 'Name',
+               sortable: true,
+               style: 'width: 300px'
+            }, {
+               field: 'number',
+               header: 'Number',
+               format: 'n;2',
+               sortable: true,
+               align: 'right'
+            }]}
+            dragSource={{
+               data: {
+                  type: 'record',
+                  source: 'grid1'
+               }
+            }}
+            onDropTest={e => e.source.data.type == 'record'}
+            onDrop={(e, { store }) => move(store, "grid1", e)}
+            selection={{
+               type: KeySelection,
+               multiple: true,
+               bind: 's1'
+            }}
+         />
 
-         <FlexRow>
-            <Grid
-               records:bind="grid1"
-               scrollable
-               style="height:400px"
-               columns={[{
-                  field: 'name',
-                  header: 'Name',
-                  sortable: true,
-                  style: 'width: 300px'
-               }, {
-                  field: 'number',
-                  header: 'Number',
-                  format: 'n;2',
-                  sortable: true,
-                  align: 'right'
-               }]}
-               dragSource={{
-                  data: {
-                     type: 'record',
-                     source: 'grid1'
-                  }
-               }}
-               onDropTest={e => e.source.data.type == 'record'}
-               onDrop={(e, {store}) => move(store, "grid1", e)}
-               selection={{
-                  type: KeySelection,
-                  multiple: true,
-                  bind: 's1'
-               }}
-            />
+         <div style="width:100px" />
 
-            <div style="width:100px"/>
-
-            <Grid
-               records:bind="grid2"
-               scrollable
-               style="height:400px"
-               columns={[{
-                  items: <cx>
-                     <DragHandle style="cursor:move">
-                        &#9776;
+         <Grid
+            records-bind="grid2"
+            buffered
+            scrollable
+            style="height:400px"
+            columns={[{
+               items: <cx>
+                  <DragHandle style="cursor:move">
+                     &#9776;
                      </DragHandle>
-                  </cx>
-               }, {
-                  style: 'width: 300px',
-                  field: 'name',
-                  header: 'Name',
-                  sortable: true
-               }, {
-                  field: 'number',
-                  header: 'Number',
-                  format: 'n;2',
-                  sortable: true,
-                  align: 'right'
-               }]}
-               dragSource={{
-                  mode: 'copy',
-                  data: {
-                     type: 'record',
-                     source: 'grid2'
-                  }
-               }}
-               dropZone={{
-                  mode: 'insertion'
-               }}
-               onDropTest={e => e.source.data.type == 'record'}
-               onDrop={(e, {store}) => move(store, "grid2", e)}
-            />
-         </FlexRow>
+               </cx>
+            }, {
+               style: 'width: 300px',
+               field: 'name',
+               header: 'Name',
+               sortable: true
+            }, {
+               field: 'number',
+               header: 'Number',
+               format: 'n;2',
+               sortable: true,
+               align: 'right'
+            }]}
+            dragSource={{
+               mode: 'copy',
+               data: {
+                  type: 'record',
+                  source: 'grid2'
+               }
+            }}
+            dropZone={{
+               mode: 'insertion'
+            }}
+            onDropTest={e => e.source.data.type == 'record'}
+            onDrop={(e, { store }) => move(store, "grid2", e)}
+         />
+      </FlexRow>
 
-      </Window>
 
-      <div style="height: 1000px"/>
+      <div style="height: 1000px" />
    </div>
 </cx>;

@@ -19,7 +19,7 @@ import "./index.scss";
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-//import Demo from './features/drag-drop/grid-to-grid';
+import Demo from './features/drag-drop/grid-to-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
@@ -80,7 +80,7 @@ import "./index.scss";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
 //import Demo from "./bugs/656";
-import Demo from "./bugs/RestateFirstVisibleChild";
+//import Demo from "./bugs/RestateFirstVisibleChild";
 
 let store = (window.store = new Store());
 
