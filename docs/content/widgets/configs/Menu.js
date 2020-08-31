@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 import container from './HtmlElement';
 
 export default {
@@ -28,8 +28,8 @@ export default {
     placement: {
         type: 'string | null',
         description: <cx><Md>
-            Defines where the Menu/Submenu will be placed. Supported values are `top`, `right`, `bottom` and `left`,
-            and corner values `top-left`, `top-right`, `bottom-left`, `bottom-right`. Default value is `null`.
+            Defines where the Menu/Submenu will be placed. Supported values are `up`, `right`, `down` and `left`,
+            and corner values `down-left`, `down-right`, `down-left`, `down-right`. Default value is `null`.
         </Md></cx>
     },
     icons: {
