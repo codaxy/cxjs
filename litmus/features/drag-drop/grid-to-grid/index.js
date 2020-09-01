@@ -6,7 +6,6 @@ import Controller from './Controller';
 import { insertElement } from '../insertElement';
 
 function move(store, target, e) {
-
    let selection = e.source.records.map(r => r.data);
 
    store.update(e.source.data.source, array => array.filter((a, i) => selection.indexOf(a) == -1));
