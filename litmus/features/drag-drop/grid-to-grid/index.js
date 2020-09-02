@@ -6,16 +6,14 @@ import Controller from './Controller';
 import { insertElement } from '../insertElement';
 
 function move(store, target, e) {
-   let selection = e.source.records.map(r => r.data);
-
-   store.update(e.source.data.source, array => array.filter((a, i) => selection.indexOf(a) == -1));
-
    if (e.source.data.source == target)
       e.source.records.forEach(record => {
          if (record.index < e.target.insertionIndex)
             e.target.insertionIndex--;
       });
 
+   let selection = e.source.records.map(r => r.data);
+   store.update(e.source.data.source, array => array.filter((a, i) => selection.indexOf(a) == -1));
    store.update(target, insertElement, e.target.insertionIndex, ...selection);
 }
 

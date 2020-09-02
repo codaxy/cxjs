@@ -1131,10 +1131,10 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, hasFixedColumns, isRecordSelectable } = instance;
+      let { widget, isRecordSelectable } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
-      let { dragged, start, end, cursor, cursorCellIndex, cellEdit } = this.state;
+      let { dragged, cursor, cursorCellIndex, cellEdit } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
 
       return (record, index, standalone, fixed) => {
@@ -1789,19 +1789,27 @@ class GridComponent extends VDOM.Component {
       let parentOffset = getParentFrameBoundingClientRect(this.dom.scroller);
       let cy = ev.cursor.clientY - parentOffset.top;
 
+      exit:
+
       while (s < e) {
          m = Math.floor((s + e) / 2);
          b = nodes[m].getBoundingClientRect();
 
          //dragged items might be invisible and have no client bounds
          if (b.top == 0 && b.bottom == 0) {
-            if (m > s) m--;
-            else if (m + 1 < e) m = m + 1;
-            else {
-               s = e = m;
-               break;
+            //it's important to go all the way in one direction otherwise infinite loop might occur
+            while (m > s && b.top == 0 && b.bottom == 0) {
+               m--;
+               b = nodes[m].getBoundingClientRect();
             }
-            b = nodes[m].getBoundingClientRect();
+            while (m + 1 < e && b.top == 0 && b.bottom == 0) {
+               m = m + 1;
+               b = nodes[m].getBoundingClientRect();
+            }
+            if (b.top == 0 && b.bottom == 0) {
+               s = e = m;
+               break exit;
+            }
          }
 
          if (cy < b.top) e = m;
@@ -2002,7 +2010,7 @@ class GridComponent extends VDOM.Component {
             let remaining = 0,
                count = Math.min(data.totalRecordCount, end - start);
             if (count > 0) {
-               //do not change the while drag-drop operation is in place
+               //do not change row height while a drag-drop operation is in place
                rowHeight = this.state.dragged ? this.rowHeight : Math.round((this.dom.table.offsetHeight - headerHeight) / count);
                // if (this.rowHeight && this.rowHeight != rowHeight) {
                //    console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
