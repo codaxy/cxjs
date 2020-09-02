@@ -1786,8 +1786,6 @@ class GridComponent extends VDOM.Component {
       let parentOffset = getParentFrameBoundingClientRect(this.dom.scroller);
       let cy = ev.cursor.clientY - parentOffset.top;
 
-      exit:
-
       while (s < e) {
          m = Math.floor((s + e) / 2);
          b = nodes[m].getBoundingClientRect();
@@ -1805,7 +1803,7 @@ class GridComponent extends VDOM.Component {
             }
             if (b.top == 0 && b.bottom == 0) {
                s = e = m;
-               break exit;
+               break;
             }
          }
 
