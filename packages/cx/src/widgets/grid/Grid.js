@@ -175,6 +175,8 @@ export class Grid extends Widget {
       });
 
       if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
+      if (this.focusable == null)
+         this.focusable = !this.selection.isDummy || this.cellEditable;
 
       super.init();
 
@@ -1054,6 +1056,7 @@ Grid.prototype.clearableSort = false;
 Grid.prototype.cellEditable = false;
 Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
+Grid.prototype.focusable = null; // automatically resolved
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
@@ -1506,7 +1509,7 @@ class GridComponent extends VDOM.Component {
          <div
             className={data.classNames}
             style={{ ...data.style, counterReset: `cx-row-number ${start}` }}
-            tabIndex={widget.selectable || widget.cellEditable ? data.tabIndex || 0 : null}
+            tabIndex={widget.focusable ? data.tabIndex || 0 : null}
             ref={this.gridRef}
             onKeyDown={this.handleKeyDown.bind(this)}
             onFocus={this.onFocus.bind(this)}

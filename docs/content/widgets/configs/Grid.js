@@ -247,6 +247,12 @@ export default {
         description: <cx><Md>
             A value used to uniquely identify the record within the hover sync group. See [HoverSync](~/charts/hover-sync).
         </Md></cx>
-    }
+    },
 
+    focusable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` or `false` to explicitly define if grid is allowed to receive focus.
+        </Md></cx>
+    }
 };

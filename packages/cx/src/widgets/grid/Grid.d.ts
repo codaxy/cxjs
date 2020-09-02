@@ -204,6 +204,9 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** A value used to uniquely identify the record within the hover sync group. */
    rowHoverId?: Cx.StringProp;
+
+   /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
+   focusable?: boolean,
 }
 
 export class Grid extends Cx.Widget<GridProps> {}
