@@ -1080,7 +1080,6 @@ class GridComponent extends VDOM.Component {
       if (widget.infinite) {
          this.start = 0;
          this.end = end;
-         this.syncBuffering = false; //control with a flag
          this.loadingStartPage = 0;
          this.loadingEndPage = 0;
       }
@@ -1096,6 +1095,11 @@ class GridComponent extends VDOM.Component {
       this.gridRef = (el) => {
          this.dom.el = el;
       };
+   }
+
+   getBufferStartEnd() {
+      //{start, end};
+      return this.syncBuffering ? this : this.state;
    }
 
    renderCellEditor(baseClass) {
@@ -1244,16 +1248,9 @@ class GridComponent extends VDOM.Component {
 
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
-      let { widget, hasFixedColumns, isRecordSelectable, visibleColumns } = instance;
+      let { widget, hasFixedColumns, } = instance;
       let { CSS, baseClass } = widget;
-      let { dragSource } = data;
-      let { dragged, start, end, cursor, cursorCellIndex, cellEdit } = this.state;
-      let { colWidth, dimensionsVersion } = instance.state;
-
-      if (this.syncBuffering) {
-         start = this.start;
-         end = this.end;
-      }
+      let { start, end } = this.getBufferStartEnd();
 
       let cellWrap = false;
 
@@ -1734,7 +1731,7 @@ class GridComponent extends VDOM.Component {
    onDrop(e) {
       let { instance } = this.props;
       let { widget } = instance;
-      let start = this.syncBuffering ? this.start : this.state.start;
+      let { start }  = this.getBufferStartEnd();
       if (widget.onDrop && this.state.dragInsertionIndex != null) {
          e.target = {
             insertionIndex: start + this.state.dragInsertionIndex,
@@ -1780,7 +1777,7 @@ class GridComponent extends VDOM.Component {
       let nodes = Array.from(this.dom.table.children).filter(
          (node) => node.className && node.className.indexOf(rowClass) != -1
       );
-      let start = this.syncBuffering ? this.start : this.state.start;
+      let { start } = this.getBufferStartEnd();
 
       let s = 0,
          e = nodes.length,
@@ -2002,11 +1999,7 @@ class GridComponent extends VDOM.Component {
          let scrollOverlap = fixedFooterOverlap ? footerHeight : 0;
 
          if (widget.buffered) {
-            let { start, end } = this.state;
-            if (this.syncBuffering) {
-               start = this.start;
-               end = this.end;
-            }
+            let { start, end } = this.getBufferStartEnd();
             let remaining = 0,
                count = Math.min(data.totalRecordCount, end - start);
             if (count > 0) {
@@ -2423,20 +2416,22 @@ class GridComponent extends VDOM.Component {
       let { instance, data } = this.props;
       let { widget, store, isSelected } = instance;
 
-      let selected = instance.records ? instance.records.filter((record) => isSelected(record.data, record.index)) : [];
+      let selected = [];
 
-      if (!instance.records) {
-         this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => {
-            if (!r || !isSelected(r, index)) return;
-            let record = widget.mapRecord(null, instance, r, index);
-            let row = record.row = instance.recordInstanceCache.getChild(widget.row, record.store, "DD:" + record.key);
-            row.detached = true;
-            row.selected = true;
-            selected.push(record);
-         });
+      let add = (r, index, force) => {
+         if (!r || !(force || isSelected(r, index))) return;
+         let record = widget.mapRecord(null, instance, r, index);
+         let row = record.row = instance.getDetachedChild(widget.row, "DD:" + record.key, record.store);
+         row.selected = true;
+         selected.push(record);
       }
 
-      if (selected.length == 0) selected = [record];
+      if (instance.records)
+         instance.records.forEach(r => add(r.data, r.index));
+      else
+         this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(r, index));
+
+      if (selected.length == 0) add(record.data, record.index, true);
 
       let renderRow = this.createRowRenderer(false);
 

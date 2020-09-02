@@ -23,8 +23,8 @@ export default <cx>
 
       <FlexRow>
          <Grid
-            buffered
             records-bind="grid1"
+            buffered
             scrollable
             style="height:400px"
             columns={[{
@@ -52,6 +52,7 @@ export default <cx>
                multiple: true,
                bind: 's1'
             }}
+            keyField="id"
          />
 
          <div style="width:100px" />
@@ -91,6 +92,7 @@ export default <cx>
             }}
             onDropTest={e => e.source.data.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid2", e)}
+            keyField="id"
          />
       </FlexRow>
 
