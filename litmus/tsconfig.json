@@ -1,19 +1,17 @@
--
-  "compilerOptions": {
-    "target": "es6",
-    "jsx": "preserve",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "module": "es2015",
-    "sourceMap": false,
-    "jsxFactory": "cx",
-    "baseUrl": ".",
-    "paths": {
-      "cx": [ "../packages/cx" ],
-      "cx-react": [ "../packages/cx-react" ]
-    }
-  },
-  "exclude": [
-    "node_modules"
-  ]
+{
+   "compilerOptions": {
+      "target": "es6",
+      "jsx": "preserve",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "module": "es2015",
+      "sourceMap": false,
+      "jsxFactory": "cx",
+      "baseUrl": ".",
+      "paths": {
+         "cx": ["../packages/cx"],
+         "cx-react": ["../packages/cx-react"]
+      }
+   },
+   "exclude": ["node_modules", "./babel-config.js", "./webpack.config.js"]
 }
