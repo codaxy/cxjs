@@ -9,7 +9,7 @@ export default {
     baseClass: {
         type: 'string',
         description: <cx><Md>
-            Base CSS class to be applied to the element. Default is 'menuitem'.
+            Base CSS class to be applied to the element. Default is `menuitem`.
         </Md></cx>
     },
     hoverFocusTimeout: {
@@ -40,7 +40,7 @@ export default {
     arrow: {
         type: 'object',
         description: <cx><Md>
-            Set to 'true' to display an arrow on the MenuItem element. Default value is 'false'.
+            Set to `true` to display an arrow on the MenuItem element. Default value is `false`.
         </Md></cx>
     },
     dropdownOptions: {
@@ -52,28 +52,28 @@ export default {
     showCursor: {
         type: 'boolean',
         description: <cx><Md>
-            Set to 'false' to hide cursor. Default value is 'true'.
+            Set to 'false' to hide the cursor. Default value is `true`.
         </Md></cx>
     },
     pad: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `false` to remove padding around the cell value. Default value is 'true'.
+            Set to `false` to remove padding around the cell value. Default value is `true`.
         </Md></cx>
     },
     placement: {
         type: 'string',
         key: true,
         description: <cx><Md>
-             Defines where the MenuItem will be placed. Supported values are `up`, `right`, `down` and `left`,
+            Defines where the MenuItem will be placed. Supported values are `up`, `right`, `down` and `left`,
             and corner values `down-left`, `down-right`, `down-left`, `down-right`. Default value is `null`.
         </Md></cx>
     },
     placementOrder: {
         type: 'string',
         description: <cx><Md>
-            Set custom placement order. Default values are 'down-right down down-left up-right up up-left' 
-            if the horizontal property is set to true, or 'right-down right right-up left-down left left-up' if it is false.
+            Set custom placement order. Default values are `down-right down down-left up-right up up-left` 
+            if the horizontal property is set to true, otherwise are `right-down right right-up left-down left left-up`.
         </Md></cx>
     },
     autoClose: {
@@ -90,9 +90,9 @@ export default {
         </Md></cx>
     },
     keyboardShortcut: {
-        type: 'object',
+        type: 'object/number',
         description: <cx><Md>
-          Add custom keyboard shorcuts. //TODO: Add an example
+          Add custom keyboard shorcuts. 
         </Md></cx>
     },
     tooltip: {
