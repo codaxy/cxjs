@@ -1892,6 +1892,7 @@ class GridComponent extends VDOM.Component {
    onDragLeave(e) {
       this.setState({
          dropInsertionIndex: null,
+         dropTarget: null
       });
    }
 
