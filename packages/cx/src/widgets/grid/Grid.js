@@ -1850,7 +1850,8 @@ class GridComponent extends VDOM.Component {
          let evt = {
             ...ev,
             target: {
-               record: this.getRecordAt(rowOverIndex)
+               record: this.getRecordAt(rowOverIndex),
+               intex: start + rowOverIndex
             }
          }
          if (widget.onRowDragOver && instance.invoke("onRowDragOver", evt, instance) === false) cancel = true;

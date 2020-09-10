@@ -17,6 +17,10 @@ function move(store, target, e) {
    store.update(target, insertElement, e.target.insertionIndex, ...selection);
 }
 
+function drop(store, target, e) {
+   alert('DROP' + JSON.stringify(e.source.data));
+}
+
 export default <cx>
    <div controller={Controller} style="padding:30px">
       <h3>Grid to Grid Drag & Drop</h3>
@@ -57,7 +61,7 @@ export default <cx>
             onDropTest={e => e.source.data.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid1", e)}
             onRowDropTest={e => e.source.data.type == 'record'}
-            onRowDrop={(e, { store }) => move(store, "grid1", e)}
+            onRowDrop={(e, { store }) => drop(store, "grid1", e)}
             selection={{
                type: KeySelection,
                multiple: true,
