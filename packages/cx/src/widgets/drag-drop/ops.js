@@ -1,14 +1,14 @@
-import {SubscriberList} from '../../util/SubscriberList';
-import {getCursorPos, captureMouseOrTouch} from '../overlay/captureMouse';
-import {startAppLoop} from '../../ui/app/startAppLoop';
-import {getScrollerBoundingClientRect} from '../../util/getScrollerBoundingClientRect';
-import {isNumber} from '../../util/isNumber';
-import {isObject} from '../../util/isObject';
-import {isString} from '../../util/isString';
-import {ZIndexManager} from "../../ui/ZIndexManager";
-import {getTopLevelBoundingClientRect} from "../../util/getTopLevelBoundingClientRect";
-import {VDOM} from "../../ui/VDOM";
-import {Container} from "../../ui/Container";
+import { SubscriberList } from '../../util/SubscriberList';
+import { getCursorPos, captureMouseOrTouch } from '../overlay/captureMouse';
+import { startAppLoop } from '../../ui/app/startAppLoop';
+import { getScrollerBoundingClientRect } from '../../util/getScrollerBoundingClientRect';
+import { isNumber } from '../../util/isNumber';
+import { isObject } from '../../util/isObject';
+import { isString } from '../../util/isString';
+import { ZIndexManager } from "../../ui/ZIndexManager";
+import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { VDOM } from "../../ui/VDOM";
+import { Container } from "../../ui/Container";
 
 let dropZones = new SubscriberList(),
    dragStartedZones,
@@ -130,16 +130,18 @@ function notifyDragMove(e, captureData) {
 
    let event = getDragEvent(e, 'dragmove');
    let over = null,
+      overTest = null,
       best = null;
 
    let near = [], away = [];
 
    dropZones.execute(zone => {
-      if (zone.onDropTest && !zone.onDropTest(event))
+      let test = zone.onDropTest && zone.onDropTest(event);
+      if (!test)
          return;
 
       if (zone.onDragMeasure) {
-         let result = zone.onDragMeasure(event) || {};
+         let result = zone.onDragMeasure(event, { test }) || {};
          if (result.near)
             near.push(zone);
          else
@@ -147,6 +149,7 @@ function notifyDragMove(e, captureData) {
 
          if (isNumber(result.over) && (best == null || result.over < best)) {
             over = zone;
+            overTest = test;
             best = result.over;
          }
       }
@@ -190,7 +193,7 @@ function notifyDragMove(e, captureData) {
    activeZone = over;
 
    if (over && over.onDragOver) {
-      over.onDragOver(event);
+      over.onDragOver(event, { test: overTest });
    }
 
    //do it last to avoid forced redraw if nothing changed
@@ -297,7 +300,7 @@ let dragCandidate = {};
 export function ddMouseDown(e) {
    dragCandidate = {
       el: e.currentTarget,
-      start: {...getCursorPos(e)}
+      start: { ...getCursorPos(e) }
    }
 }
 
@@ -323,7 +326,7 @@ export function isDragHandleEvent(e) {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 
-export const DragDropContext = VDOM.createContext ? VDOM.createContext({ disabled: false }) : ({children}) => children;
+export const DragDropContext = VDOM.createContext ? VDOM.createContext({ disabled: false }) : ({ children }) => children;
 
 class ContextWrap extends Container {
    render(context, instance, key) {

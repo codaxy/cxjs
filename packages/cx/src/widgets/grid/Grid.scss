@@ -387,6 +387,10 @@
             box-sizing: border-box;
          }
       }
+
+      &.#{$state}over {
+         background: orange !important;
+      }
    }
 
    &.#{$element}#{$name}-dropzone {

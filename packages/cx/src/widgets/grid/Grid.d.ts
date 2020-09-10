@@ -20,6 +20,13 @@ interface GridDragEvent extends DragEvent {
    };
 }
 
+interface GridRowDragEvent extends DragEvent {
+   target: {
+      record: MappedGridRecord;
+      index: number;
+   };
+}
+
 interface GridProps extends Cx.StyledContainerProps {
    /** An array of records to be displayed in the grid. */
    records?: Cx.Prop<Cx.Record[]>;
@@ -143,6 +150,10 @@ interface GridProps extends Cx.StyledContainerProps {
    onDragEnd?: (e: DragEvent, instance: Instance) => void;
    onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
 
+   onRowDropTest?: (e: DragEvent, instance: Instance) => boolean;
+   onRowDragOver?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
+   onRowDrop?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
+
    /** Parameters that affect filtering. */
    filterParams?: Cx.StructuredProp;
 
@@ -206,7 +217,7 @@ interface GridProps extends Cx.StyledContainerProps {
    rowHoverId?: Cx.StringProp;
 
    /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
-   focusable?: boolean,
+   focusable?: boolean;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}

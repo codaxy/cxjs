@@ -124,16 +124,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             }
@@ -574,7 +574,7 @@ export class Grid extends Widget {
                               resizeOverlayEl.style.width = `${initialWidth}px`;
                               resizeOverlayEl.style.left = `${
                                  headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
+                                 }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -714,12 +714,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-                 {
-                    field: sortField,
-                    direction: dir,
-                    value: sortValue,
-                 },
-              ]
+               {
+                  field: sortField,
+                  direction: dir,
+                  value: sortValue,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1073,7 +1073,7 @@ class GridComponent extends VDOM.Component {
          cursor: widget.focused && widget.selectable ? 0 : -1,
          cursorCellIndex: 0,
          focused: widget.focused,
-         dragInsertionIndex: null,
+         dropInsertionIndex: null,
          start: 0,
          end: end,
       };
@@ -1115,8 +1115,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -1141,7 +1141,7 @@ class GridComponent extends VDOM.Component {
       let { widget, isRecordSelectable } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
-      let { dragged, cursor, cursorCellIndex, cellEdit } = this.state;
+      let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
 
       return (record, index, standalone, fixed) => {
@@ -1152,6 +1152,7 @@ class GridComponent extends VDOM.Component {
             dragged: isDragged,
             draggable: dragSource && (!row.dragHandles || row.dragHandles.length == 0),
             cursor: widget.selectable && index == cursor,
+            over: dropTarget == 'row' && dropInsertionIndex === index
          };
 
          if (isRecordSelectable) {
@@ -1173,6 +1174,7 @@ class GridComponent extends VDOM.Component {
                cursorIndex={index}
                selected={row.selected}
                isBeingDragged={dragged}
+               isDraggedOver={mod.over}
                cursor={mod.cursor}
                cursorCellIndex={index == cursor && cursorCellIndex}
                cellEdit={index == cursor && cursorCellIndex && cellEdit}
@@ -1268,7 +1270,7 @@ class GridComponent extends VDOM.Component {
 
       let addRow = (record, index, standalone) => {
          children.push(renderRow(record, index, standalone, false));
-            if (hasFixedColumns) fixedChildren.push(renderRow(record, index, standalone, true));
+         if (hasFixedColumns) fixedChildren.push(renderRow(record, index, standalone, true));
 
          //avoid re-rendering on cursor change
          record.row.shouldUpdate = false;
@@ -1364,7 +1366,7 @@ class GridComponent extends VDOM.Component {
          });
       }
 
-      if (this.state.dragInsertionIndex != null) {
+      if (this.state.dropTarget == 'grid' && this.state.dropInsertionIndex != null) {
          let dragInsertionRow = (
             <tbody key="dropzone">
                <tr>
@@ -1372,13 +1374,13 @@ class GridComponent extends VDOM.Component {
                      className={CSS.element(baseClass, "dropzone")}
                      colSpan={1000}
                      style={{
-                        height: data.dropMode == "insertion" ? 0 : this.state.dragItemHeight,
+                        height: data.dropMode == "insertion" ? 0 : this.state.dropItemHeight,
                      }}
                   ></td>
                </tr>
             </tbody>
          );
-         children.splice(this.state.dragInsertionIndex, 0, dragInsertionRow);
+         children.splice(this.state.dropInsertionIndex, 0, dragInsertionRow);
       }
 
       let content = [],
@@ -1734,27 +1736,36 @@ class GridComponent extends VDOM.Component {
    onDrop(e) {
       let { instance } = this.props;
       let { widget } = instance;
-      let { start }  = this.getBufferStartEnd();
-      if (widget.onDrop && this.state.dragInsertionIndex != null) {
+      let { start } = this.getBufferStartEnd();
+      let { dropInsertionIndex, dropTarget } = this.state;
+      if (dropTarget == 'grid' && widget.onDrop && dropInsertionIndex != null) {
          e.target = {
-            insertionIndex: start + this.state.dragInsertionIndex,
-            recordBefore: this.getRecordAt(start + this.state.dragInsertionIndex - 1),
-            recordAfter: this.getRecordAt(start + this.state.dragInsertionIndex),
+            insertionIndex: start + dropInsertionIndex,
+            recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
+            recordAfter: this.getRecordAt(start + dropInsertionIndex),
          };
          instance.invoke("onDrop", e, instance);
+      }
+      else if (dropTarget == 'row') {
+         e.target = {
+            index: start + dropInsertionIndex,
+            record: this.getRecordAt(start + dropInsertionIndex - 1),
+         };
+         instance.invoke("onRowDrop", e, instance);
       }
    }
 
    onDropTest(e) {
       let { instance } = this.props;
       let { widget } = instance;
-      return widget.onDropTest && instance.invoke("onDropTest", e, instance);
+      let grid = widget.onDropTest && instance.invoke("onDropTest", e, instance);
+      let row = widget.onRowDropTest && instance.invoke("onRowDropTest", e, instance);
+      return (grid || row) && { grid, row };
    }
 
    onDragEnd(e) {
       this.setState({
-         dragInsertionIndex: null,
-         lastDragInsertionIndex: null,
+         dropInsertionIndex: null
       });
       let { instance } = this.props;
       let { widget } = instance;
@@ -1772,7 +1783,7 @@ class GridComponent extends VDOM.Component {
       };
    }
 
-   onDragOver(ev) {
+   onDragOver(ev, { test: { grid, row } }) {
       let { instance } = this.props;
       let { widget, data } = instance;
       let { CSS, baseClass } = widget;
@@ -1788,6 +1799,8 @@ class GridComponent extends VDOM.Component {
          b;
       let parentOffset = getParentFrameBoundingClientRect(this.dom.scroller);
       let cy = ev.cursor.clientY - parentOffset.top;
+
+      let rowOverIndex = null;
 
       while (s < e) {
          m = Math.floor((s + e) / 2);
@@ -1813,37 +1826,74 @@ class GridComponent extends VDOM.Component {
          if (cy < b.top) e = m;
          else if (cy > b.bottom) s = m + 1;
          else {
-            if (cy > (b.bottom + b.top) / 2) s = e = m + 1;
-            else {
-               s = e = m;
+            //hovering over a row here
+            if (row) {
+               let confirmed = !grid;
+               if (!confirmed) {
+                  let insertionZone = (b.bottom - b.top) / 4;
+                  confirmed = cy > b.top + insertionZone && cy < b.bottom - insertionZone;
+               }
+               if (confirmed) {
+                  rowOverIndex = m;
+                  break;
+               }
             }
+
+            if (cy > (b.bottom + b.top) / 2) s = e = m + 1;
+            else s = e = m;
          }
       }
 
-      let evt = {
-         ...ev,
-         target: {
-            recordBefore: this.getRecordAt(s - 1),
-            recordAfter: this.getRecordAt(s),
-            insertionIndex: start + s,
-            totalRecordCount: data.totalRecordCount,
-         },
-      };
-      if (widget.onDragOver && instance.invoke("onDragOver", evt, instance) === false) {
+      let cancel = false;
+
+      if (rowOverIndex != null) {
+         let evt = {
+            ...ev,
+            target: {
+               record: this.getRecordAt(rowOverIndex),
+               intex: start + rowOverIndex
+            }
+         }
+         if (widget.onRowDragOver && instance.invoke("onRowDragOver", evt, instance) === false) cancel = true;
+         else if (s != this.state.dropInsertionIndex || this.state.dropTarget != 'row') {
+            this.setState({
+               dropInsertionIndex: rowOverIndex,
+               dropItemHeight: ev.source.height - 1,
+               dropTarget: 'row'
+            });
+         }
+      }
+      else if (grid) {
+         let evt = {
+            ...ev,
+            target: {
+               recordBefore: this.getRecordAt(s - 1),
+               recordAfter: this.getRecordAt(s),
+               insertionIndex: start + s,
+               totalRecordCount: data.totalRecordCount,
+            },
+         };
+         if (widget.onDragOver && instance.invoke("onDragOver", evt, instance) === false) cancel = true;
+         else if (s != this.state.dropInsertionIndex || this.state.dropTarget != 'grid') {
+            this.setState({
+               dropInsertionIndex: s,
+               dropItemHeight: ev.source.height - 1,
+               dropTarget: 'grid'
+            });
+         }
+      }
+      if (cancel) {
          this.setState({
-            dragInsertionIndex: null,
-         });
-      } else if (s != this.state.dragInsertionIndex) {
-         this.setState({
-            dragInsertionIndex: s,
-            dragItemHeight: ev.source.height - 1,
+            dropInsertionIndex: null,
+            dropTarget: null
          });
       }
    }
 
    onDragLeave(e) {
       this.setState({
-         dragInsertionIndex: null,
+         dropInsertionIndex: null,
+         dropTarget: null
       });
    }
 
