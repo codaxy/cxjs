@@ -3,11 +3,9 @@ import { Binding } from "./Binding";
 
 export class AugmentedViewBase extends View {
    getData() {
-      let parentStoreData;
-      if (this.meta.version === this.cache.version) {
-         if (this.sealed) return this.cache.result;
-         parentStoreData = this.cache.parentStoreData;
-      } else parentStoreData = this.store.getData();
+      if (this.meta.version === this.cache.version && this.sealed)
+         return this.cache.result;
+      let parentStoreData = this.store.getData();
       let result = this.getBaseData(parentStoreData);
       this.embedAugmentData(result, parentStoreData);
       this.cache.result = result;
