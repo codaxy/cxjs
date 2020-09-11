@@ -24,21 +24,21 @@ export * from './DetachedScope';
 export * from './Restate';
 export * from './DataProxy';
 export * from './keyboardShortcuts';
-export * from './createFunctionalComponent';
-export * from './flattenProps';
 export * from "./StructuredInstanceDataAccessor";
+export * from "./HoverSync";
 
-export * from './selection/index';
-export * from './layout/index';
-export * from './app/index';
-export * from './adapter/index';
+export * from "./createFunctionalComponent";
+export * from "./flattenProps";
 
-export * from './bind';
-export * from './tpl';
-export * from './expr';
+export * from "./selection/index";
+export * from "./layout/index";
+export * from "./app/index";
+export * from "./adapter/index";
+
+export * from "./bind";
+export * from "./tpl";
+export * from "./expr";
 
 //re-export computable here
-import { computable } from '../data/computable';
-export {
-   computable
-}
+import { computable } from "../data/computable";
+export { computable };

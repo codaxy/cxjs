@@ -26,6 +26,7 @@ export * from "./DataProxy";
 export * from "./keyboardShortcuts";
 export * from "./createFunctionalComponent";
 export * from "./StructuredInstanceDataAccessor";
+export * from "./HoverSync";
 
 export * from "./selection/index";
 export * from "./layout/index";

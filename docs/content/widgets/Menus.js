@@ -1,4 +1,4 @@
-import { HtmlElement, Menu, MenuItem, MenuSpacer, Submenu, TextField, DateField, Checkbox } from 'cx/widgets';
+import { HtmlElement, Menu, MenuItem, MenuSpacer, Submenu, TextField, DateField, Checkbox, Tab } from 'cx/widgets';
 import { Content, computable } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -9,6 +9,7 @@ import {KeyCode} from "cx/util";
 
 
 import configs from './configs/Menu';
+import menuItemConfigs from './configs/MenuItem'
 
 export const Menus = <cx>
     <Md>
@@ -183,8 +184,13 @@ export const Menus = <cx>
         items which cannot fit the designated menu area.
 
         ## Configuration
+        <p>
+            <Tab value={{ bind: "$page.configTab", defaultValue: 'menu' }} tab="menu" mod="line">Menu</Tab>
+            <Tab value:bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
+        </p>
 
-        <ConfigTable props={configs}/>
+        <ConfigTable props={configs} visible:expr="{$page.configTab}=='menu'"/>
+        <ConfigTable props={menuItemConfigs} visible:expr="{$page.configTab}=='menuitem'"/>
 
     </Md>
 </cx>

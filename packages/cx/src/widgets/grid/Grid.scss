@@ -335,7 +335,8 @@
       }
 
       .#{$state}selectable & {
-         &:hover {
+         &:hover,
+         &.#{$state}hover {
             @include cx-add-state-rules($cx-list-item, hover);
          }
 
@@ -385,6 +386,10 @@
          td {
             box-sizing: border-box;
          }
+      }
+
+      &.#{$state}over {
+         background: orange !important;
       }
    }
 

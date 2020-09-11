@@ -1,4 +1,4 @@
-import {Md} from 'docs/components/Md';
+import { Md } from 'docs/components/Md';
 
 import classAndStyle from '../../widgets/configs/classAndStyle';
 import legendary from './legendary';
@@ -65,6 +65,20 @@ export default {
         type: 'string/object',
         description: <cx><Md>
             Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
+        </Md></cx>
+    },
+
+    hoverChannel: {
+        type: 'string',
+        description: <cx><Md>
+            A value used to identify the group of components participating in hover effect synchronization. See [HoverSync](~/charts/hover-sync).
+        </Md></cx>
+    },
+
+    hoverId: {
+        type: 'string',
+        description: <cx><Md>
+            A value used to uniquely identify the record within the hover sync group. See [HoverSync](~/charts/hover-sync).
         </Md></cx>
     }
 };

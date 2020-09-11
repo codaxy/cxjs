@@ -28,8 +28,6 @@ export class LabelsLeftLayout extends PureContainer {
       let { children, data } = instance;
       let { CSS, baseClass } = this;
 
-      console.log(this.labelStyle, data.labelStyle, data.style);
-
       let labelClass = CSS.expand(CSS.element(baseClass, "label"), data.labelClass);
 
       const addItem = (r, key) => {

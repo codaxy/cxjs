@@ -5,12 +5,11 @@ $element: map-get($cx-besm, element);
 $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
-@if (cx-included('cx/widgets/Section')) {
+@if (cx-included("cx/widgets/Section")) {
    //SECTION
    $section-mods: primary success error warning;
 
    @for $i from 1 through 6 {
-   
       .#{$element}section-header h#{$i} {
          .#{$mod}card & {
             color: $cx-theme-primary-text-color;
@@ -20,8 +19,8 @@ $mod: map-get($cx-besm, mod);
             .#{$mod}#{$item} & {
                color: #fff;
             }
-         }   
-      }       
+         }
+      }
    }
 
    .#{$element}section-header.#{$element}section-header {
@@ -42,7 +41,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Button')) {
+@if (cx-included("cx/widgets/Button")) {
    //BUTTON
    .#{$block}button {
       // overrides tap color effect for mobile devices
@@ -77,7 +76,7 @@ $mod: map-get($cx-besm, mod);
 //   max-height: none;
 //}
 
-@if (cx-included('cx/widgets/Select')) {
+@if (cx-included("cx/widgets/Select")) {
    // select
    .cxb-select option {
       color: $cx-default-color;
@@ -85,10 +84,8 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Calendar')) {
-
+@if (cx-included("cx/widgets/Calendar")) {
    .#{$block}calendar {
-
       td {
          border-radius: $cx-default-border-radius;
       }
@@ -119,7 +116,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/MonthPicker')) {
+@if (cx-included("cx/widgets/MonthPicker")) {
    // monthpicker
    .#{$block}monthpicker {
       background: white;
@@ -130,7 +127,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/ColorPicker')) {
+@if (cx-included("cx/widgets/ColorPicker")) {
    // colorpicker
    .#{$block}colorpicker {
       input {
@@ -149,8 +146,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Switch')) {
-
+@if (cx-included("cx/widgets/Switch")) {
    // switch focus effect
    .#{$element}switch-axis {
       border: 1px solid $cx-default-input-border-color;
@@ -158,16 +154,15 @@ $mod: map-get($cx-besm, mod);
 
    // switch focus effect
    .#{$element}switch-handle {
-
    }
 }
 
-@if (cx-included('cx/widgets/Tab')) {
+@if (cx-included("cx/widgets/Tab")) {
    //TAB
    .#{$block}tab.#{$mod}classic {
       &:first-child {
          border-left-width: 1px;
-         border-left-color: $cx-default-border-color
+         border-left-color: $cx-default-border-color;
       }
    }
 
@@ -198,25 +193,25 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Window')) {
+@if (cx-included("cx/widgets/Window")) {
    .#{$block}window {
       &.#{$state}animate {
          opacity: 0;
          transform: scale(0.3);
-         transition: opacity .2s, transform .2s;
+         transition: opacity 0.2s, transform 0.2s;
       }
 
       &.#{$state}animated {
          opacity: 1;
          transform: none;
-         transition: opacity .3s, transform .3s;
+         transition: opacity 0.3s, transform 0.3s;
       }
    }
 
    .#{$element}window-shadow {
       &.#{$state}animate {
          opacity: 0;
-         transition: opacity .2s;
+         transition: opacity 0.2s;
       }
 
       &.#{$state}animated {
@@ -225,7 +220,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Menu')) {
+@if (cx-included("cx/widgets/Menu")) {
    .#{$block}menu {
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
@@ -245,20 +240,19 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Grid')) {
+@if (cx-included("cx/widgets/Grid")) {
    .#{$element}grid-fixed-header {
       // shadow added to fixed header
       box-shadow: $cx-default-grid-header-box-shadow;
    }
 
    // grid header border removed
-   .#{$state}header-default .#{$element}grid-col-header {
+   .#{$state}header-default .#{$element}grid-col-header:not(:last-child) {
       border-right-width: 0;
    }
 
    // default grey border color in group grid changed
    .#{$element}grid-group-caption {
-
       td {
          background-color: rgba(0, 0, 0, 0.03);
          border-bottom: 1px solid $cx-default-grid-data-border-color;
@@ -305,7 +299,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/List')) {
+@if (cx-included("cx/widgets/List")) {
    //LIST
    .#{$block}list.#{$state}selectable {
       > .#{$element}list-item {
@@ -346,8 +340,7 @@ $mod: map-get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Dropdown')) {
-
+@if (cx-included("cx/widgets/Dropdown")) {
    .cxb-dropdown {
       animation: drop-appear 0.1s;
    }

@@ -1,5 +1,5 @@
-import { HtmlElement, Grid, FlexRow, DragHandle, Window } from 'cx/widgets';
-import { KeySelection } from 'cx/ui';
+import { HtmlElement, Grid, FlexRow, DragHandle, Window, TreeNode } from 'cx/widgets';
+import { KeySelection, TreeAdapter } from 'cx/ui';
 
 import Controller from './Controller';
 
@@ -17,6 +17,10 @@ function move(store, target, e) {
    store.update(target, insertElement, e.target.insertionIndex, ...selection);
 }
 
+function drop(store, target, e) {
+   alert('DROP' + JSON.stringify(e.source.data));
+}
+
 export default <cx>
    <div controller={Controller} style="padding:30px">
       <h3>Grid to Grid Drag & Drop</h3>
@@ -24,14 +28,20 @@ export default <cx>
       <FlexRow>
          <Grid
             records-bind="grid1"
-            buffered
+            dataAdapter={{
+               type: TreeAdapter,
+               childrenField: 'children',
+            }}
             scrollable
             style="height:400px"
             columns={[{
                field: 'name',
                header: 'Name',
                sortable: true,
-               style: 'width: 300px'
+               style: 'width: 300px',
+               items: <cx>
+                  <TreeNode text-bind="$record.name" expanded-bind="$record.$expanded" leaf-bind="$record.leaf" />
+               </cx>
             }, {
                field: 'number',
                header: 'Number',
@@ -45,8 +55,13 @@ export default <cx>
                   source: 'grid1'
                }
             }}
+            dropZone={{
+               mode: 'insertion'
+            }}
             onDropTest={e => e.source.data.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid1", e)}
+            onRowDropTest={e => e.source.data.type == 'record'}
+            onRowDrop={(e, { store }) => drop(store, "grid1", e)}
             selection={{
                type: KeySelection,
                multiple: true,
