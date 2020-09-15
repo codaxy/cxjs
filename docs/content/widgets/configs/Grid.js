@@ -235,6 +235,13 @@ export default {
         </Md></cx>
     },
 
+    onCreateIsRecordSelectable: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to specify which row is selectable and which not.
+        </Md></cx>
+    },
+
     hoverChannel: {
         type: 'string',
         description: <cx><Md>
