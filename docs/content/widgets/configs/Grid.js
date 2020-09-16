@@ -260,8 +260,8 @@ export default {
         type: 'object',
         description: <cx><Md>
             A parameter that allows defining multiple lines in a row. 
-            Attributes of the `row` object: line1 - defines the first line, line2 - defines the second line, style - style object applied to the wrapper div, 
-            class - additional CSS classes to be applied to the element. If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+            Attributes of the `row` object: `line1` - defines the first line, `line2` - defines the second line, `style` - style object applied to the wrapper div, 
+            `class` - additional CSS classes to be applied to the element. If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
         </Md></cx>
     }
 };
