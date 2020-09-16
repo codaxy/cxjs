@@ -147,7 +147,7 @@
 .docscontent {
     //margin-left: 250px; //TODO: think of a solution to use a variable (standardize content or import misc scss files here on top)
     flex: 1;
-    overflow: hidden;
+    overflow: visible;
     // padding: 20px;
     // overflow: auto;
 };
