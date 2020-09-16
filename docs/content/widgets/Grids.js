@@ -53,7 +53,6 @@ export const Grids = <cx>
             <div controller={PageController}>
                 <Grid records:bind='$page.records'
                       style={{height: '300px'}}
-                      onCreateIsRecordSelectable={(_, { store }) => record => record.id % 2}
                       mod="responsive"
                       scrollable
                       columns={[
@@ -85,7 +84,6 @@ export const Grids = <cx>
             ...
             <Grid records:bind='$page.records'
                   style={{width: "100%"}}
-                  onCreateIsRecordSelectable={(_, { store }) => record => record.id % 2}
                   columns={[
                   { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
                   { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
