@@ -9,7 +9,7 @@ import { computable } from "../data/computable";
 import { HtmlElement } from "../widgets/HtmlElement";
 import { useState } from "../hooks";
 import { createFunctionalComponent } from "./createFunctionalComponent";
-import { Widget } from "../core";
+import { Widget } from "./Widget";
 
 describe("DataProxy", () => {
    it("can calculate values", () => {
