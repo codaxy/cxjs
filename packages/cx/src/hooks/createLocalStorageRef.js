@@ -1,5 +1,5 @@
-import {useStore} from "./store";
-import {Ref} from "../data/Ref";
+import { useStore } from "./store";
+import { Ref } from "../data/Ref";
 
 export function createLoacalStorageRef(key) {
    let store = useStore();
