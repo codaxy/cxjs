@@ -1,10 +1,11 @@
-import * as Cx from '../core';
+import * as Cx from "../core";
 
 interface RestateProps extends Cx.PureContainerProps {
-   data?: Cx.StructuredProp,
-   detached?: boolean,
-   deferredUntilIdle?: Cx.BooleanProp,
-   idleTimeout?: Cx.NumberProp
+   data?: Cx.StructuredProp;
+   detached?: boolean;
+   deferredUntilIdle?: Cx.BooleanProp;
+   idleTimeout?: Cx.NumberProp;
+   cacheKey?: Cx.StringProp;
 }
 
 export class Restate extends Cx.Widget<RestateProps> {}
