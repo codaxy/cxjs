@@ -27,7 +27,7 @@ export class FlyweightTooltipTracker extends Widget {
          });
          instance.tooltip = tooltip;
       }
-      if (!instance.parentEl) tooltipMouseMove(e.target, instance, null);
+      if (!instance.parentEl) tooltipMouseMove(e, instance, null);
       else
          tooltipMouseMove(e, instance, instance.tooltip, {
             target: instance.parentEl,
