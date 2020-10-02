@@ -49,6 +49,10 @@ export const FlyweightTooltipTrackerPage = <cx>
                     }}
                 />
             </div>
+
+            Links:
+            - [Flyweight_pattern](https://en.wikipedia.org/wiki/Flyweight_pattern)
+
             <div putInto="code">
                 <CodeSnippet fiddle="">{`
                 <div class="ellipsis" style="overflow: hidden; text-overflow: ellipsis; width: 30px; white-space: nowrap">
