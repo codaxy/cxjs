@@ -1,5 +1,5 @@
-import {getCurrentInstance} from "../ui/createFunctionalComponent";
-import {Ref} from "../data/Ref";
+import { getCurrentInstance } from "../ui/createFunctionalComponent";
+import { Ref } from "../data/Ref";
 
 let key = 0;
 
@@ -11,6 +11,6 @@ export function useState(defaultValue) {
    });
    return new Ref({
       get: () => instance.state[storeKey],
-      set: value => instance.setState({[storeKey]: value})
+      set: value => instance.setState({ [storeKey]: value })
    });
 }

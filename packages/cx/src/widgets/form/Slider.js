@@ -135,13 +135,12 @@ class SliderComponent extends VDOM.Component {
             className={data.classNames}
             style={data.style}
             id={data.id}
-            onClick={::this.onClick}
-            onWheel={::this.onWheel}
+            onClick={(e) => this.onClick(e)}
+            onWheel={(e) => this.onWheel(e)}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
-            {label}
-            &nbsp;
+            {label}&nbsp;
             <div className={CSS.element(baseClass, "axis")}>
                {rangeSize > 0 && <div key="range" className={CSS.element(baseClass, "range")} style={rangeStyle} />}
                <div key="space" className={CSS.element(baseClass, "space")} ref={(c) => (this.dom.range = c)}>
@@ -271,7 +270,15 @@ class SliderComponent extends VDOM.Component {
          ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
          : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range.offsetWidth));
       let delta = (maxValue - minValue) * pct;
-      if (data.step) delta = Math.round(delta / data.step) * data.step;
+      if (data.step) {
+         let currentValue = Math.round(delta / data.step) * data.step + minValue;
+         let value = this.checkBoundries(currentValue);
+
+         if (maxValue % data.step === 0) delta = Math.round(delta / data.step) * data.step;
+
+         delta = value - minValue;
+      }
+
       return {
          percent: delta / (maxValue - minValue),
          value: minValue + delta,

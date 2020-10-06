@@ -116,8 +116,8 @@ export class Instance {
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
-            ? ins.parent.parent
-            : ins.parent;
+               ? ins.parent.parent
+               : ins.parent;
       }
       renderList.reverse();
    }
