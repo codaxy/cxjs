@@ -35,9 +35,10 @@ export default {
         </Md></cx>
     },
     caption: {
-        type: 'string',
+        type: 'string/config',
         description: <cx><Md>
-            Value to be rendered in the group caption.
+            Text to be shown in the group caption or a group caption configuration object. Use the `items` or `children` property to put stuff
+            inside the group caption. If the group caption configuration object is used set `showCaption` grouping property to `true`.
         </Md></cx>
     },
     aggregate: {
