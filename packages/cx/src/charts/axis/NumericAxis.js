@@ -2,6 +2,7 @@ import { Axis } from "./Axis";
 import { VDOM } from "../../ui/Widget";
 import { Stack } from "./Stack";
 import { Format } from "../../util/Format";
+import { isNumber } from "../../util/isNumber";
 
 export class NumericAxis extends Axis {
    init() {
@@ -38,6 +39,7 @@ export class NumericAxis extends Axis {
          this.snapToTicks,
          this.tickDivisions,
          this.minTickDistance,
+         this.minTickSize,
          this.minLabelDistance,
          this.minLabelTickSize,
          normalized,
@@ -72,11 +74,8 @@ export class NumericAxis extends Axis {
 
 NumericAxis.prototype.baseClass = "numericaxis";
 NumericAxis.prototype.tickDivisions = [
-   [1, 2, 10],
-   [1, 5, 10],
-   [2.5, 5, 10],
-   //[2, 4, 10],
-   [5, 10],
+   [1, 2, 10, 20, 100],
+   [1, 5, 10, 20, 100]
 ];
 
 NumericAxis.prototype.snapToTicks = 1;
@@ -84,6 +83,7 @@ NumericAxis.prototype.normalized = false;
 NumericAxis.prototype.format = "n";
 NumericAxis.prototype.labelDivisor = 1;
 NumericAxis.prototype.minLabelTickSize = 0;
+NumericAxis.prototype.minTickSize = 0;
 
 Axis.alias("numeric", NumericAxis);
 
@@ -94,6 +94,7 @@ class NumericScale {
       snapToTicks,
       tickDivisions,
       minTickDistance,
+      minTickSize,
       minLabelDistance,
       minLabelTickSize,
       normalized,
@@ -109,6 +110,7 @@ class NumericScale {
       this.minLabelDistance = minLabelDistance;
       this.minLabelTickSize = minLabelTickSize;
       this.minTickDistance = minTickDistance;
+      this.minTickSize = minTickSize;
       this.tickSizes = [];
       this.normalized = normalized;
       this.inverted = inverted;
@@ -209,7 +211,7 @@ class NumericScale {
       let smin = min;
       let smax = max;
       let tickSize;
-      if (tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
+      if (tickSizes && isNumber(this.snapToTicks) && tickSizes.length > 0) {
          tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
          smin = Math.floor(smin / tickSize) * tickSize;
          smax = Math.ceil(smax / tickSize) * tickSize;
@@ -229,7 +231,7 @@ class NumericScale {
 
          while (factor * (smax - max) < this.upperDeadZone) smax += this.upperDeadZone / factor;
 
-         if (tickSize > 0) {
+         if (tickSize > 0 && isNumber(this.snapToTicks)) {
             smin = Math.floor(smin / tickSize) * tickSize;
             smax = Math.ceil(smax / tickSize) * tickSize;
          }
@@ -284,24 +286,25 @@ class NumericScale {
       let dist = this.minLabelDistance / Math.abs(this.scale.factor);
       let unit = Math.pow(10, Math.floor(Math.log10(dist)));
 
-      let bestLevel = 100;
+      let bestLabelDistance = Infinity;
       let bestTicks = [];
       let bestScale = this.scale;
 
-      for (let i = 0; i < this.tickDivisions.length && bestLevel > 0; i++) {
+      for (let i = 0; i < this.tickDivisions.length; i++) {
          let divs = this.tickDivisions[i];
-         let tickSizes = divs.map((s) => s * unit);
+         let tickSizes = divs.filter(ts => ts >= this.minTickSize).map((ts) => ts * unit);
          let scale = this.getScale(tickSizes);
          tickSizes.forEach((size, level) => {
-            if (size * Math.abs(scale.factor) >= this.minTickDistance && level < bestLevel) {
+            let labelDistance = size * Math.abs(scale.factor);
+            if (labelDistance >= this.minLabelDistance && labelDistance < bestLabelDistance) {
                bestScale = scale;
                bestTicks = tickSizes;
-               bestLevel = level;
+               bestLabelDistance = labelDistance;
             }
          });
       }
       this.scale = bestScale;
-      this.tickSizes = bestTicks.filter((ts) => ts * Math.abs(bestScale.factor) >= this.minTickDistance);
+      this.tickSizes = bestTicks.filter((ts) => ts >= this.minTickSize && ts * Math.abs(bestScale.factor) >= this.minTickDistance);
       if (this.tickSizes.length > 0) {
          let max = this.tickSizes[this.tickSizes.length - 1];
          this.tickSizes.push(2 * max);
