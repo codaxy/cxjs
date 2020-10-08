@@ -34,7 +34,7 @@ export default (
             <Svg style-tpl="width:{width}px;height:300px;" margin="60 60 60 60">
                <Chart
                   axes={{
-                     x: <NumericAxis snapToTicks={1} minTickDistance={1} minLabelDistance={50} minTickSize={0.1} />,
+                     x: <NumericAxis snapToTicks={2} minTickDistance={1} minLabelDistance={50} minTickSize={0.1} />,
                      y: <NumericAxis vertical />
                   }}
                >
@@ -43,6 +43,7 @@ export default (
                   <ColumnGraph
                      data-bind="$page.data"
                      size={1}
+                     offset={0.5}
                      xField="date"
                      yField="value"
                   />
