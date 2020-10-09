@@ -1105,7 +1105,7 @@ class GridComponent extends VDOM.Component {
       return this.syncBuffering ? this : this.state;
    }
 
-   renderCellEditor(baseClass) {
+   renderCellEditor(key, CSS, baseClass, instance, column) {
       //add an inner div with fixed height in order to help IE absolutely position the contents inside
       return (
          <td key={key} className={CSS.element(baseClass, "cell-editor")}>
@@ -1138,7 +1138,7 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable } = instance;
+      let { widget, isRecordSelectable, visibleColumns } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
@@ -1194,7 +1194,7 @@ class GridComponent extends VDOM.Component {
                         if (cellected && cellEdit) {
                            let column = visibleColumns[cursorCellIndex];
                            if (column && column.editor && data.editable)
-                              return this.renderCellEditor(baseClass);
+                              return this.renderCellEditor(key, CSS, baseClass, instance, column);
                         }
                         let width = colWidth[uniqueColumnId];
                         let style = data.style;
