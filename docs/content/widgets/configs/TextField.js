@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 import field from './Field';
 
 export default {
@@ -100,6 +100,12 @@ export default {
         type: 'any',
         description: <cx><Md>
             Value to be written in the store when the field is empty. Default value is `null`;
+        </Md></cx>
+    },
+    focused: {
+        type: 'any',
+        description: <cx><Md>
+            If `trackFocus` is set, this value will be set when the field recieves focus.
         </Md></cx>
     }
 };

@@ -1,6 +1,6 @@
-import {BoundedObject} from '../../svg/BoundedObject'
-import {VDOM} from '../../ui/Widget';
-import {isUndefined} from '../../util/isUndefined';
+import { BoundedObject } from '../../svg/BoundedObject'
+import { VDOM } from '../../ui/Widget';
+import { isUndefined } from '../../util/isUndefined';
 
 export class Axis extends BoundedObject {
 
@@ -41,8 +41,8 @@ export class Axis extends BoundedObject {
       if (this.hidden)
          return false;
 
-      var {data, calculator} = instance;
-      var {bounds} = data;
+      var { data, calculator } = instance;
+      var { bounds } = data;
       var size = calculator.findTickSize(this.minLabelDistance);
 
       var labelClass = this.CSS.element(this.baseClass, 'label');
@@ -62,15 +62,15 @@ export class Axis extends BoundedObject {
 
       var res = [
          <line key="line"
-               className={this.CSS.element(this.baseClass, "line")}
-               x1={x1} y1={y1} x2={x2} y2={y2}/>,
+            className={this.CSS.element(this.baseClass, "line")}
+            x1={x1} y1={y1} x2={x2} y2={y2} />,
          null
       ];
       var t = [];
       if (size > 0 && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
-         ticks.forEach((serie, si)=> {
-            serie.forEach((v, i)=> {
+         ticks.forEach((serie, si) => {
+            serie.forEach((v, i) => {
                var s = calculator.map(v);
 
                if (this.secondary) {
@@ -97,19 +97,21 @@ export class Axis extends BoundedObject {
                }
 
                var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
-               res.push(<text key={`label-${si}-${i}`}
-                              className={labelClass}
-                              x={x}
-                              y={y}
-                              dx={this.labelDx}
-                              textAnchor={data.labelAnchor}
-                              transform={transform}>
-                  {this.wrapLines(valueFormatter(v), x, this.labelDy, offsetClass)}
-               </text>);
+               res.push(
+                  <text key={`label-${si}-${i}`}
+                     className={labelClass}
+                     x={x}
+                     y={y}
+                     dx={this.labelDx}
+                     textAnchor={data.labelAnchor}
+                     transform={transform}>
+                     {this.wrapLines(valueFormatter(v + 0), x, this.labelDy, offsetClass)}
+                  </text>
+               );
             });
          });
       }
-      res[1] = <path key="ticks" className={this.CSS.element(this.baseClass, "ticks")} d={t.join(' ')}/>;
+      res[1] = <path key="ticks" className={this.CSS.element(this.baseClass, "ticks")} d={t.join(' ')} />;
       return res;
    }
 
@@ -150,7 +152,7 @@ export class Axis extends BoundedObject {
 
    prepare(context, instance) {
       super.prepare(context, instance);
-      var {bounds} = instance.data;
+      var { bounds } = instance.data;
       var [a, b] = !this.vertical ? [bounds.l, bounds.r] : [bounds.b, bounds.t];
       instance.calculator.measure(a, b);
       if (!instance.calculator.isSame(instance.cached.axis))
@@ -158,7 +160,7 @@ export class Axis extends BoundedObject {
    }
 
    cleanup(context, instance) {
-      var {cached, calculator} = instance;
+      var { cached, calculator } = instance;
       cached.axis = calculator.hash();
    }
 }

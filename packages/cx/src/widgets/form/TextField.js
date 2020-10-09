@@ -68,17 +68,17 @@ export class TextField extends Field {
    }
 }
 
-TextField.prototype.baseClass = "textfield";
-TextField.prototype.reactOn = "change input blur";
-TextField.prototype.inputType = "text";
-TextField.prototype.validationErrorText = "The entered value is not valid.";
-TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
-TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.";
-TextField.prototype.suppressErrorsUntilVisited = true;
-TextField.prototype.icon = null;
-TextField.prototype.showClear = false;
-TextField.prototype.alwaysShowClear = false;
-TextField.prototype.keyboardShortcut = false;
+   TextField.prototype.baseClass = "textfield";
+   TextField.prototype.reactOn = "change input blur";
+   TextField.prototype.inputType = "text";
+   TextField.prototype.validationErrorText = "The entered value is not valid.";
+   TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
+   TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.";
+   TextField.prototype.suppressErrorsUntilVisited = true;
+   TextField.prototype.icon = null;
+   TextField.prototype.showClear = false;
+   TextField.prototype.alwaysShowClear = false;
+   TextField.prototype.keyboardShortcut = false;
 
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
@@ -181,15 +181,18 @@ class Input extends VDOM.Component {
          this.setState({
             focus: true,
          });
+         instance.set("focused", true);
       }
       if (data.error && data.value) instance.setState({ visited: true });
    }
 
    onBlur(e) {
-      if (this.state.focus)
+      if (this.state.focus) {
          this.setState({
             focus: false,
          });
+         this.props.instance.set("focused", false);
+      }
       this.onChange(e, "blur");
    }
 
