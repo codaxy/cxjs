@@ -100,6 +100,7 @@ class SvgComponent extends VDOM.Component {
                this.el = el
             }}
             className={data.classNames} style={style}
+            { ...instance.getJsxEventProps()}
          >
             {
                size.width > 0 && size.height > 0 && (

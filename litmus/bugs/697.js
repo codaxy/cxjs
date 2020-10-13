@@ -20,7 +20,7 @@ class PageController extends Controller {
       this.store.set(
          "$page.data",
          Array.from({ length: 5 * 12 }, (x, i) => ({
-            date: Math.random() * 100,
+            date: Math.random() * 95,
             value: Math.random() * 1000
          }))
       );
@@ -34,7 +34,7 @@ export default (
             <Svg style-tpl="width:{width}px;height:300px;" margin="60 60 60 60">
                <Chart
                   axes={{
-                     x: <NumericAxis snapToTicks={2} minTickDistance={1} minLabelDistance={50} minTickSize={0.1} />,
+                     x: <NumericAxis snapToTicks={2} minTickDistance={1} minLabelDistance={50} minTickStep={0.1} />,
                      y: <NumericAxis vertical />
                   }}
                >
