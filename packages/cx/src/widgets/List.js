@@ -198,6 +198,7 @@ List.prototype.itemPad = true;
 List.prototype.cached = false;
 List.prototype.styled = true;
 List.prototype.scrollSelectionIntoView = false;
+List.prototype.selectMode = false;
 
 Widget.alias("list", List);
 
@@ -391,7 +392,7 @@ class ListComponent extends VDOM.Component {
       //ignore mouse enter/leave events (support with a flag if a feature request comes)
       if (!hover) newState.cursor = index;
 
-      if (select) {
+      if (select || widget.selectMode) {
          let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
          if (start < 0) start = index;
          this.selectRange(start, index, selectOptions);
@@ -476,7 +477,9 @@ class ListComponent extends VDOM.Component {
    }
 
    handleMouseLeave() {
-      this.moveCursor(-1, { hover: true });
+      let { widget } = this.props.instance;
+      if (!widget.focused)
+         this.moveCursor(-1, { hover: true });
    }
 
    handleKeyDown(e) {

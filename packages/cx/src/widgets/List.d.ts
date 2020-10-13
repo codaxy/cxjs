@@ -57,7 +57,10 @@ interface ListProps extends Cx.StyledContainerProps {
    sortOptions?: Cx.CollatorOptions,
 
    /** Parameter used for disabling specific items in the list. */
-   itemDisabled?: Cx.BooleanProp
+   itemDisabled?: Cx.BooleanProp,
+
+   /** Lists in this mode perform selection automatically without offering cursor navigation. */
+   selectMode?: boolean
 }
 
 export class List extends Cx.Widget<ListProps> {}

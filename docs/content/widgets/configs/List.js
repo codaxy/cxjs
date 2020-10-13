@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import widget from './Widget';
 import classAndStyle from './classAndStyle';
@@ -97,6 +97,13 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Parameter used for disabling specific items in the list.
+        </Md></cx>
+    },
+
+    selectMode: {
+        type: 'boolean',
+        description: <cx><Md>
+            Lists in this mode perform selection automatically without offering cursor navigation.
         </Md></cx>
     },
 };
