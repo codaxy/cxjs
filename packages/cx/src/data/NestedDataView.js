@@ -17,6 +17,6 @@ export class NestedDataView extends AugmentedViewBase {
    }
 
    deleteExtraKeyValue(key) {
-      this.setExtraKeyValue(undefined);
+      this.setExtraKeyValue(key);
    }
 }
