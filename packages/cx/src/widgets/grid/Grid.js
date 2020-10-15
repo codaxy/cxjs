@@ -2482,7 +2482,7 @@ class GridComponent extends VDOM.Component {
       else
          this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
 
-      if (selected.length == 0) add(record.data, record.index, true);
+      if (selected.length == 0) add(record, record.data, record.index, true);
 
       let renderRow = this.createRowRenderer(false);
 
