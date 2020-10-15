@@ -77,7 +77,7 @@ import "./index.scss";
 //import Demo from "./bugs/tree-sorting";
 //import Demo from "./bugs/leak";
 // import Demo from "./bugs/697";
-import Demo from "./bugs/674";
+import Demo from "./bugs/601";
 //import Demo from "./features/grid/DockedColumns";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";

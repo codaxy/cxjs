@@ -146,7 +146,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
    let tooltipInstance = parentInstance.tooltips[name];
 
-   if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
+   if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip ||  tooltipInstance.parent.data.disabled)) {
       if (tooltipInstance.dismissTooltip)
          tooltipInstance.dismissTooltip();
       delete parentInstance.tooltips[name];
