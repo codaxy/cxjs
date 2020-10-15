@@ -1749,7 +1749,7 @@ class GridComponent extends VDOM.Component {
       else if (dropTarget == 'row') {
          e.target = {
             index: start + dropInsertionIndex,
-            record: this.getRecordAt(start + dropInsertionIndex - 1),
+            record: this.getRecordAt(start + dropInsertionIndex),
          };
          instance.invoke("onRowDrop", e, instance);
       }
@@ -2469,18 +2469,18 @@ class GridComponent extends VDOM.Component {
 
       let selected = [];
 
-      let add = (r, index, force) => {
-         if (!r || !(force || isSelected(r, index))) return;
-         let record = widget.mapRecord(null, instance, r, index);
+      let add = (rec, data, index, force) => {
+         if (!data || !(force || isSelected(data, index))) return;
+         let record = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
          let row = record.row = instance.getDetachedChild(widget.row, "DD:" + record.key, record.store);
          row.selected = true;
          selected.push(record);
       }
 
       if (instance.records)
-         instance.records.forEach(r => add(r.data, r.index));
+         instance.records.forEach(r => add(r, r.data, r.index));
       else
-         this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(r, index));
+         this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
 
       if (selected.length == 0) add(record.data, record.index, true);
 
