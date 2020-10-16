@@ -18,7 +18,7 @@ export default {
             Start angle in degrees. Indicates the starting point of the first stack. Default is `0`.
       </Md></cx>
     },
-    clockWise: {
+    clockwise: {
         key: true,
         type: 'boolean',
         description: <cx><Md>

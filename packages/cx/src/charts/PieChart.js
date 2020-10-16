@@ -13,14 +13,14 @@ export class PieChart extends BoundedObject {
       super.declareData(...arguments, {
          angle: undefined,
          startAngle: 0,
-         clockWise: undefined
+         clockwise: undefined
       });
    }
 
    explore(context, instance) {
       if (!instance.pie) instance.pie = new PieCalculator();
       var { data } = instance;
-      instance.pie.reset(data.angle, data.startAngle, data.clockWise);
+      instance.pie.reset(data.angle, data.startAngle, data.clockwise);
 
       context.push("pie", instance.pie);
       super.explore(context, instance);
@@ -42,13 +42,13 @@ export class PieChart extends BoundedObject {
    }
 }
 
-PieChart.prototype.anchors = "0 1 1 0";
+      PieChart.prototype.anchors = "0 1 1 0";
 
 class PieCalculator {
-   reset(angle, startAngle, clockWise) {
+   reset(angle, startAngle, clockwise) {
       this.angleTotal = (angle / 180) * Math.PI;
       this.startAngle = (startAngle / 180) * Math.PI;
-      this.clockWise = clockWise;
+      this.clockwise = clockwise;
       this.stacks = {};
    }
 
@@ -62,7 +62,7 @@ class PieCalculator {
       return {
          angleTotal: this.angleTotal,
          startAngle: this.startAngle,
-         clockWise: this.clockWise,
+         clockwise: this.clockwise,
          stacks: Object.keys(this.stacks)
             .map((s) => `${this.stacks[s].angleFactor}`)
             .join(":"),
@@ -88,7 +88,7 @@ class PieCalculator {
       var angle = value * s.angleFactor;
       var startAngle = s.lastAngle;
 
-      if (!this.clockWise)
+      if (!this.clockwise)
          s.lastAngle += angle;
       else
          s.lastAngle -= angle;
@@ -354,17 +354,17 @@ export class PieSlice extends Container {
    }
 }
 
-PieSlice.prototype.offset = 0;
-PieSlice.prototype.r0 = 0;
-PieSlice.prototype.r = 50;
-PieSlice.prototype.percentageRadius = true;
-PieSlice.prototype.baseClass = "pieslice";
-PieSlice.prototype.legend = "legend";
-PieSlice.prototype.active = true;
-PieSlice.prototype.stack = "stack";
-PieSlice.prototype.legendAction = "auto";
-PieSlice.prototype.legendShape = "rect";
-PieSlice.prototype.hoverChannel = "default";
-PieSlice.prototype.styled = true;
+   PieSlice.prototype.offset = 0;
+   PieSlice.prototype.r0 = 0;
+   PieSlice.prototype.r = 50;
+   PieSlice.prototype.percentageRadius = true;
+   PieSlice.prototype.baseClass = "pieslice";
+   PieSlice.prototype.legend = "legend";
+   PieSlice.prototype.active = true;
+   PieSlice.prototype.stack = "stack";
+   PieSlice.prototype.legendAction = "auto";
+   PieSlice.prototype.legendShape = "rect";
+   PieSlice.prototype.hoverChannel = "default";
+   PieSlice.prototype.styled = true;
 
 Widget.alias("pie-chart", PieChart);

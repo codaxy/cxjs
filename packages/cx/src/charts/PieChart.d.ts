@@ -10,8 +10,7 @@ interface PieChartProps extends BoundedObjectProps {
    startAngle?: Cx.NumberProp;
 
    /** When set to `true`, stacks are rendered in clock wise direction. */
-   clockWise?: Cx.BooleanProp;
-
+   clockwise?: Cx.BooleanProp;
 }
 
 export class PieChart extends Cx.Widget<PieChartProps> { }
