@@ -2465,22 +2465,27 @@ class GridComponent extends VDOM.Component {
 
    beginDragDrop(e, record) {
       let { instance, data } = this.props;
-      let { widget, store, isSelected } = instance;
+      let { widget, store } = instance;
+
+      //get a fresh isSelected delegate
+      let isSelected = widget.selection.getIsSelectedDelegate(store);
 
       let selected = [];
 
       let add = (rec, data, index, force) => {
          if (!data || !(force || isSelected(data, index))) return;
-         let record = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
-         let row = record.row = instance.getDetachedChild(widget.row, "DD:" + record.key, record.store);
+         let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
+         let row = mappedRecord.row = instance.getDetachedChild(widget.row, "DD:" + mappedRecord.key, mappedRecord.store);
          row.selected = true;
-         selected.push(record);
+         selected.push(mappedRecord);
       }
 
-      if (instance.records)
-         instance.records.forEach(r => add(r, r.data, r.index));
-      else
-         this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
+      if (!record.selected) {
+         if (instance.records)
+            instance.records.forEach(r => add(r, r.data, r.index));
+         else
+            this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
+      }
 
       if (selected.length == 0) add(record, record.data, record.index, true);
 
