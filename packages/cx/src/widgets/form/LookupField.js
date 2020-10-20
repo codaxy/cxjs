@@ -206,33 +206,33 @@ export class LookupField extends Field {
    }
 }
 
-   LookupField.prototype.baseClass = "lookupfield";
-   //LookupField.prototype.memoize = false;
-   LookupField.prototype.multiple = false;
-   LookupField.prototype.queryDelay = 150;
-   LookupField.prototype.minQueryLength = 0;
-   LookupField.prototype.hideSearchField = false;
-   LookupField.prototype.minOptionsForSearchField = 7;
-   LookupField.prototype.loadingText = "Loading...";
-   LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
-   LookupField.prototype.noResultsText = "No results found.";
-   LookupField.prototype.optionIdField = "id";
-   LookupField.prototype.optionTextField = "text";
-   LookupField.prototype.valueIdField = "id";
-   LookupField.prototype.valueTextField = "text";
-   LookupField.prototype.suppressErrorsUntilVisited = true;
-   LookupField.prototype.fetchAll = false;
-   LookupField.prototype.cacheAll = false;
-   LookupField.prototype.showClear = true;
-   LookupField.prototype.alwaysShowClear = false;
-   LookupField.prototype.closeOnSelect = true;
-   LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
-   LookupField.prototype.icon = null;
-   LookupField.prototype.sort = false;
-   LookupField.prototype.listOptions = null;
-   LookupField.prototype.autoOpen = false;
-   LookupField.prototype.submitOnEnterKey = false;
-   LookupField.prototype.submitOnDropdownEnter = false;
+LookupField.prototype.baseClass = "lookupfield";
+//LookupField.prototype.memoize = false;
+LookupField.prototype.multiple = false;
+LookupField.prototype.queryDelay = 150;
+LookupField.prototype.minQueryLength = 0;
+LookupField.prototype.hideSearchField = false;
+LookupField.prototype.minOptionsForSearchField = 7;
+LookupField.prototype.loadingText = "Loading...";
+LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
+LookupField.prototype.noResultsText = "No results found.";
+LookupField.prototype.optionIdField = "id";
+LookupField.prototype.optionTextField = "text";
+LookupField.prototype.valueIdField = "id";
+LookupField.prototype.valueTextField = "text";
+LookupField.prototype.suppressErrorsUntilVisited = true;
+LookupField.prototype.fetchAll = false;
+LookupField.prototype.cacheAll = false;
+LookupField.prototype.showClear = true;
+LookupField.prototype.alwaysShowClear = false;
+LookupField.prototype.closeOnSelect = true;
+LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
+LookupField.prototype.icon = null;
+LookupField.prototype.sort = false;
+LookupField.prototype.listOptions = null;
+LookupField.prototype.autoOpen = false;
+LookupField.prototype.submitOnEnterKey = false;
+LookupField.prototype.submitOnDropdownEnterKey = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -702,7 +702,7 @@ class LookupComponent extends VDOM.Component {
          if (!isTouchEvent(e)) this.dom.input.focus();
       }
 
-      if (e.keyCode == KeyCode.enter && widget.submitOnDropdownEnter) {
+      if (e.keyCode == KeyCode.enter && widget.submitOnDropdownEnterKey) {
          this.submitOnEnter(e);
       }
    }
