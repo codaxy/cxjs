@@ -1855,7 +1855,7 @@ class GridComponent extends VDOM.Component {
             }
          }
          if (widget.onRowDragOver && instance.invoke("onRowDragOver", evt, instance) === false) cancel = true;
-         else if (s != this.state.dropInsertionIndex || this.state.dropTarget != 'row') {
+         else if (rowOverIndex != this.state.dropInsertionIndex || this.state.dropTarget != 'row') {
             this.setState({
                dropInsertionIndex: rowOverIndex,
                dropItemHeight: ev.source.height - 1,
