@@ -62,7 +62,7 @@ export class Calendar extends Field {
 
    validate(context, instance) {
       super.validate(context, instance);
-      let { data } = instance;
+      let { data, widget } = instance;
       if (!data.error && data.date) {
          let d;
          if (data.maxValue) {
@@ -77,6 +77,11 @@ export class Calendar extends Field {
             if (d < 0) data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
             else if (d == 0 && data.minExclusive)
                data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+         }
+
+         if (widget.disabledDaysOfWeek) {
+            if (widget.disabledDaysOfWeek.includes(data.date.getDay()))
+               data.error = this.disabledDaysOfWeekErrorText;
          }
       }
    }
@@ -115,22 +120,25 @@ export class Calendar extends Field {
    }
 }
 
-Calendar.prototype.baseClass = "calendar";
-Calendar.prototype.highlightToday = true;
-Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
-Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
-Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-Calendar.prototype.suppressErrorsUntilVisited = false;
-Calendar.prototype.showTodayButton = false;
-Calendar.prototype.todayButtonText = "Today";
+   Calendar.prototype.baseClass = "calendar";
+   Calendar.prototype.highlightToday = true;
+   Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
+   Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+   Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
+   Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+   Calendar.prototype.disabledDaysOfWeekErrorText = "Invalid date entered.";
+   Calendar.prototype.suppressErrorsUntilVisited = false;
+   Calendar.prototype.showTodayButton = false;
+   Calendar.prototype.todayButtonText = "Today";
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
-const validationCheck = (date, data) => {
+const validationCheck = (date, data, disabledDaysOfWeek) => {
    if (data.maxValue && !upperBoundCheck(date, data.maxValue, data.maxExclusive)) return false;
 
    if (data.minValue && !lowerBoundCheck(date, data.minValue, data.minExclusive)) return false;
+
+   if (disabledDaysOfWeek && disabledDaysOfWeek.includes(date.getDay())) return false;
 
    return true;
 };
@@ -354,7 +362,7 @@ export class CalendarCmp extends VDOM.Component {
 
    render() {
       let { data, widget } = this.props.instance;
-      let { CSS, baseClass } = widget;
+      let { CSS, baseClass, disabledDaysOfWeek } = widget;
 
       let refDate = this.state.refDate;
 
@@ -371,7 +379,7 @@ export class CalendarCmp extends VDOM.Component {
       while (date < refDate || date.getMonth() == month) {
          let days = [];
          for (let i = 0; i < 7; i++) {
-            let unselectable = !validationCheck(date, data);
+            let unselectable = !validationCheck(date, data, disabledDaysOfWeek);
             let classNames = CSS.state({
                outside: month != date.getMonth(),
                unselectable: unselectable,
