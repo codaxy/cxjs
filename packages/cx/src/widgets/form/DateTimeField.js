@@ -99,7 +99,7 @@ export class DateTimeField extends Field {
 
    validate(context, instance) {
       super.validate(context, instance);
-      var { data } = instance;
+      var { data, widget } = instance;
       if (!data.error && data.date) {
          if (isNaN(data.date)) data.error = this.inputErrorText;
          else {
@@ -115,6 +115,10 @@ export class DateTimeField extends Field {
                if (d < 0) data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
                else if (d == 0 && data.minExclusive)
                   data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+            }
+            if (widget.disabledDaysOfWeek) {
+               if (widget.disabledDaysOfWeek.includes(data.date.getDay()))
+                  data.error = this.inputErrorText;
             }
          }
       }
@@ -173,6 +177,8 @@ DateTimeField.prototype.alwaysShowClear = false;
 DateTimeField.prototype.reactOn = "enter blur";
 DateTimeField.prototype.segment = "datetime";
 DateTimeField.prototype.picker = "auto";
+DateTimeField.prototype.disabledDaysOfWeek = null;
+
 
 Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
@@ -200,6 +206,7 @@ class DateTimeInput extends VDOM.Component {
                type: Calendar,
                partial: widget.partial,
                encoding: widget.encoding,
+               disabledDaysOfWeek: widget.disabledDaysOfWeek
             };
             break;
 
