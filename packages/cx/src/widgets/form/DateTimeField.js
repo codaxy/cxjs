@@ -75,9 +75,15 @@ export class DateTimeField extends Field {
       let { data } = instance;
 
       if (data.value) {
-         let date = (data.date = new Date(data.value));
+         let date = new Date(data.value);
          if (isNaN(date.getTime())) data.formatted = String(data.value);
-         else data.formatted = Format.value(date, data.format);
+         else {
+            // handle utc edge cases
+            if (this.segment == "date")
+               date = zeroTime(date);
+            data.formatted = Format.value(date, data.format);
+         }
+         data.date = date;
       } else data.formatted = "";
 
       if (data.refDate) data.refDate = zeroTime(new Date(data.refDate));
