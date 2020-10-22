@@ -79,8 +79,7 @@ export class DateTimeField extends Field {
          if (isNaN(date.getTime())) data.formatted = String(data.value);
          else {
             // handle utc edge cases
-            if (this.segment == "date")
-               date = zeroTime(date);
+            if (this.segment == "date") date = zeroTime(date);
             data.formatted = Format.value(date, data.format);
          }
          data.date = date;
@@ -186,7 +185,6 @@ DateTimeField.prototype.segment = "datetime";
 DateTimeField.prototype.picker = "auto";
 DateTimeField.prototype.disabledDaysOfWeek = null;
 
-
 Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
 
@@ -213,7 +211,7 @@ class DateTimeInput extends VDOM.Component {
                type: Calendar,
                partial: widget.partial,
                encoding: widget.encoding,
-               disabledDaysOfWeek: widget.disabledDaysOfWeek
+               disabledDaysOfWeek: widget.disabledDaysOfWeek,
             };
             break;
 
@@ -336,7 +334,7 @@ class DateTimeInput extends VDOM.Component {
                })
             )}
             style={data.style}
-            onMouseDown={::this.onMouseDown}
+            onMouseDown={this.onMouseDown.bind(this)}
             onTouchStart={stopPropagation}
          >
             <input

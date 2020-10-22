@@ -80,8 +80,7 @@ export class Calendar extends Field {
          }
 
          if (widget.disabledDaysOfWeek) {
-            if (widget.disabledDaysOfWeek.includes(data.date.getDay()))
-               data.error = this.disabledDaysOfWeekErrorText;
+            if (widget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
          }
       }
    }
@@ -120,16 +119,16 @@ export class Calendar extends Field {
    }
 }
 
-   Calendar.prototype.baseClass = "calendar";
-   Calendar.prototype.highlightToday = true;
-   Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
-   Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-   Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
-   Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-   Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
-   Calendar.prototype.suppressErrorsUntilVisited = false;
-   Calendar.prototype.showTodayButton = false;
-   Calendar.prototype.todayButtonText = "Today";
+Calendar.prototype.baseClass = "calendar";
+Calendar.prototype.highlightToday = true;
+Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
+Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
+Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
+Calendar.prototype.suppressErrorsUntilVisited = false;
+Calendar.prototype.showTodayButton = false;
+Calendar.prototype.todayButtonText = "Today";
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -304,7 +303,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleFocus(e) {
-      oneFocusOut(this, this.el, ::this.handleFocusOut);
+      oneFocusOut(this, this.el, this.handleFocusOut.bind(this));
       this.setState({
          focus: true,
       });
