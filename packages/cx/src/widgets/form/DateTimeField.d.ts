@@ -75,7 +75,7 @@ export interface DateTimeFieldProps extends FieldProps {
    encoding?: (date: Date) => any,
 
    /**  Defines which days of week should be displayed as disabled, i.e. `[0, 6]` will make Sunday and Saturday unselectable. */
-   disabledDaysOfWeek?: Array<number[]>
+   disabledDaysOfWeek?: number[]
 
 }
 
