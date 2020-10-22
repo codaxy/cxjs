@@ -118,7 +118,7 @@ export class DateTimeField extends Field {
             }
             if (widget.disabledDaysOfWeek) {
                if (widget.disabledDaysOfWeek.includes(data.date.getDay()))
-                  data.error = this.inputErrorText;
+                  data.error = this.disabledDaysOfWeekErrorText;
             }
          }
       }
@@ -169,6 +169,7 @@ DateTimeField.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
 DateTimeField.prototype.minValueErrorText = "Select {0:d} or later.";
 DateTimeField.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
 DateTimeField.prototype.inputErrorText = "Invalid date entered.";
+DateTimeField.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
 
 DateTimeField.prototype.suppressErrorsUntilVisited = true;
 DateTimeField.prototype.icon = "calendar";

@@ -126,7 +126,7 @@ export class Calendar extends Field {
    Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
    Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
    Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-   Calendar.prototype.disabledDaysOfWeekErrorText = "Invalid date entered.";
+   Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
    Calendar.prototype.suppressErrorsUntilVisited = false;
    Calendar.prototype.showTodayButton = false;
    Calendar.prototype.todayButtonText = "Today";
