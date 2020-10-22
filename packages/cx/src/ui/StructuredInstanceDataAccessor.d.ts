@@ -6,4 +6,4 @@ export interface StructuredInstanceDataAccessorConfig {
    instance: Instance;
 }
 
-export class StructuredInstanceDataAccessor extends StructuredDataAccessor {}
+export class StructuredInstanceDataAccessor implements StructuredDataAccessor {}
