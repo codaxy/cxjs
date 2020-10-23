@@ -311,7 +311,7 @@ class TimeScale {
             default:
                let minOffset = this.getTimezoneOffset(minDate);
                let maxOffset = this.getTimezoneOffset(maxDate);
-               let mondayOffset = 4 * miliSeconds.day;
+               let mondayOffset = 4 * miliSeconds.day; //new Date(0).getDay() => 4
                smin = Math.floor((smin - minOffset - mondayOffset) / tickSize) * tickSize + minOffset + mondayOffset;
                smax = Math.ceil((smax - maxOffset - mondayOffset) / tickSize) * tickSize + maxOffset + mondayOffset;
                break;
@@ -323,7 +323,7 @@ class TimeScale {
                minMonth = Math.floor(minMonth / tickSize) * tickSize;
                maxMonth = Math.ceil(maxMonth / tickSize) * tickSize;
                smin = new Date(Math.floor(minMonth / 12), minMonth % 12, 1).getTime();
-               smax = new Date(Math.floor(maxMonth / 12), (maxMonth % 12) + 1, 1).getTime();
+               smax = new Date(Math.floor(maxMonth / 12), maxMonth % 12, 1).getTime();
                break;
 
             case "year":

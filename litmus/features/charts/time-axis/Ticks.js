@@ -39,7 +39,13 @@ export default (
                >
                   <Rectangle fill="white" />
                   <Gridlines />
-                  <ColumnGraph data-bind="$page.data" size={24 * 60 * 60 * 1000} xField="date" yField="value" />
+                  <ColumnGraph
+                     data-bind="$page.data"
+                     size={24 * 60 * 60 * 1000}
+                     offset={12 * 60 * 60 * 1000}
+                     xField="date"
+                     yField="value"
+                  />
                </Chart>
             </Svg>
             <Resizer size-bind="width" vertical style="background: red" />
