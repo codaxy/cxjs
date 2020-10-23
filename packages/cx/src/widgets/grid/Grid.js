@@ -124,16 +124,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                        ? c.value
-                        : c.aggregateField
-                           ? { bind: this.recordName + "." + c.aggregateField }
-                           : null,
+                     ? c.value
+                     : c.aggregateField
+                     ? { bind: this.recordName + "." + c.aggregateField }
+                     : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                           bind: this.recordName + "." + c.weightField,
-                        },
+                             bind: this.recordName + "." + c.weightField,
+                          },
                   type: c.aggregate,
                };
             }
@@ -175,8 +175,7 @@ export class Grid extends Widget {
       });
 
       if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
-      if (this.focusable == null)
-         this.focusable = !this.selection.isDummy || this.cellEditable;
+      if (this.focusable == null) this.focusable = !this.selection.isDummy || this.cellEditable;
 
       super.init();
 
@@ -574,7 +573,7 @@ export class Grid extends Widget {
                               resizeOverlayEl.style.width = `${initialWidth}px`;
                               resizeOverlayEl.style.left = `${
                                  headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                                 }px`;
+                              }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -714,12 +713,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-               {
-                  field: sortField,
-                  direction: dir,
-                  value: sortValue,
-               },
-            ]
+                 {
+                    field: sortField,
+                    direction: dir,
+                    value: sortValue,
+                 },
+              ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1115,8 +1114,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                           height: this.rowHeight + 1,
-                        }
+                             height: this.rowHeight + 1,
+                          }
                         : null
                   }
                >
@@ -1152,7 +1151,7 @@ class GridComponent extends VDOM.Component {
             dragged: isDragged,
             draggable: dragSource && (!row.dragHandles || row.dragHandles.length == 0),
             cursor: widget.selectable && index == cursor,
-            over: dropTarget == 'row' && dropInsertionIndex === index
+            over: dropTarget == "row" && dropInsertionIndex === index,
          };
 
          if (isRecordSelectable) {
@@ -1194,7 +1193,7 @@ class GridComponent extends VDOM.Component {
                         if (cellected && cellEdit) {
                            let column = visibleColumns[cursorCellIndex];
                            if (column && column.editor && data.editable)
-                              return this.renderCellEditor(key, CSS, baseClass, instance, column);
+                              return this.renderCellEditor(key, CSS, baseClass, row, column);
                         }
                         let width = colWidth[uniqueColumnId];
                         let style = data.style;
@@ -1253,7 +1252,7 @@ class GridComponent extends VDOM.Component {
 
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
-      let { widget, hasFixedColumns, } = instance;
+      let { widget, hasFixedColumns } = instance;
       let { CSS, baseClass } = widget;
       let { start, end } = this.getBufferStartEnd();
 
@@ -1366,7 +1365,7 @@ class GridComponent extends VDOM.Component {
          });
       }
 
-      if (this.state.dropTarget == 'grid' && this.state.dropInsertionIndex != null) {
+      if (this.state.dropTarget == "grid" && this.state.dropInsertionIndex != null) {
          let dragInsertionRow = (
             <tbody key="dropzone">
                <tr>
@@ -1738,15 +1737,14 @@ class GridComponent extends VDOM.Component {
       let { widget } = instance;
       let { start } = this.getBufferStartEnd();
       let { dropInsertionIndex, dropTarget } = this.state;
-      if (dropTarget == 'grid' && widget.onDrop && dropInsertionIndex != null) {
+      if (dropTarget == "grid" && widget.onDrop && dropInsertionIndex != null) {
          e.target = {
             insertionIndex: start + dropInsertionIndex,
             recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
             recordAfter: this.getRecordAt(start + dropInsertionIndex),
          };
          instance.invoke("onDrop", e, instance);
-      }
-      else if (dropTarget == 'row') {
+      } else if (dropTarget == "row") {
          e.target = {
             index: start + dropInsertionIndex,
             record: this.getRecordAt(start + dropInsertionIndex),
@@ -1765,7 +1763,7 @@ class GridComponent extends VDOM.Component {
 
    onDragEnd(e) {
       this.setState({
-         dropInsertionIndex: null
+         dropInsertionIndex: null,
       });
       let { instance } = this.props;
       let { widget } = instance;
@@ -1851,19 +1849,18 @@ class GridComponent extends VDOM.Component {
             ...ev,
             target: {
                record: this.getRecordAt(rowOverIndex),
-               intex: start + rowOverIndex
-            }
-         }
+               intex: start + rowOverIndex,
+            },
+         };
          if (widget.onRowDragOver && instance.invoke("onRowDragOver", evt, instance) === false) cancel = true;
-         else if (rowOverIndex != this.state.dropInsertionIndex || this.state.dropTarget != 'row') {
+         else if (rowOverIndex != this.state.dropInsertionIndex || this.state.dropTarget != "row") {
             this.setState({
                dropInsertionIndex: rowOverIndex,
                dropItemHeight: ev.source.height - 1,
-               dropTarget: 'row'
+               dropTarget: "row",
             });
          }
-      }
-      else if (grid) {
+      } else if (grid) {
          let evt = {
             ...ev,
             target: {
@@ -1874,18 +1871,18 @@ class GridComponent extends VDOM.Component {
             },
          };
          if (widget.onDragOver && instance.invoke("onDragOver", evt, instance) === false) cancel = true;
-         else if (s != this.state.dropInsertionIndex || this.state.dropTarget != 'grid') {
+         else if (s != this.state.dropInsertionIndex || this.state.dropTarget != "grid") {
             this.setState({
                dropInsertionIndex: s,
                dropItemHeight: ev.source.height - 1,
-               dropTarget: 'grid'
+               dropTarget: "grid",
             });
          }
       }
       if (cancel) {
          this.setState({
             dropInsertionIndex: null,
-            dropTarget: null
+            dropTarget: null,
          });
       }
    }
@@ -1893,7 +1890,7 @@ class GridComponent extends VDOM.Component {
    onDragLeave(e) {
       this.setState({
          dropInsertionIndex: null,
-         dropTarget: null
+         dropTarget: null,
       });
    }
 
@@ -2055,7 +2052,9 @@ class GridComponent extends VDOM.Component {
                count = Math.min(data.totalRecordCount, end - start);
             if (count > 0) {
                //do not change row height while a drag-drop operation is in place
-               rowHeight = this.state.dragged ? this.rowHeight : Math.round((this.dom.table.offsetHeight - headerHeight) / count);
+               rowHeight = this.state.dragged
+                  ? this.rowHeight
+                  : Math.round((this.dom.table.offsetHeight - headerHeight) / count);
                // if (this.rowHeight && this.rowHeight != rowHeight) {
                //    console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
                // }
@@ -2475,16 +2474,18 @@ class GridComponent extends VDOM.Component {
       let add = (rec, data, index, force) => {
          if (!data || !(force || isSelected(data, index))) return;
          let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
-         let row = mappedRecord.row = instance.getDetachedChild(widget.row, "DD:" + mappedRecord.key, mappedRecord.store);
+         let row = (mappedRecord.row = instance.getDetachedChild(
+            widget.row,
+            "DD:" + mappedRecord.key,
+            mappedRecord.store
+         ));
          row.selected = true;
          selected.push(mappedRecord);
-      }
+      };
 
       if (!record.selected) {
-         if (instance.records)
-            instance.records.forEach(r => add(r, r.data, r.index));
-         else
-            this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
+         if (instance.records) instance.records.forEach((r) => add(r, r.data, r.index));
+         else this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
       }
 
       if (selected.length == 0) add(record, record.data, record.index, true);
