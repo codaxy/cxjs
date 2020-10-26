@@ -27,7 +27,7 @@ export const HtmlElements = <cx>
                <span>Span</span>
                <hr />
                <br />
-               <input type="text" />
+               <input type="text" onRef={(el) => { console.log(el) }} />
             </div>
          </div>
 
@@ -38,7 +38,7 @@ export const HtmlElements = <cx>
                <span>Span</span>
                <hr />
                <br />
-               <input type="text" />
+               <input type="text" onRef={(el) => { console.log(el) }}  />
             </div>
          `}</CodeSnippet>
       </CodeSplit>
@@ -52,4 +52,3 @@ export const HtmlElements = <cx>
 
    </Md>
 </cx>
-
