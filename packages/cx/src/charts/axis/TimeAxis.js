@@ -338,8 +338,9 @@ class TimeScale {
          }
       }
 
-      let minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-      let maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
+      //padding should be activated only if using min/max obtained from the data
+      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
+      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
 
       let factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
       if (factor > 0 && (upperDeadZone > 0 || lowerDeadZone > 0)) {
@@ -412,22 +413,22 @@ class TimeScale {
             continue;
          }
 
-         let bestLevel = 100;
+         let bestLabelDistance = Infinity;
          let bestTicks = [];
          let bestScale = this.scale;
 
          this.tickMeasure = unit;
 
-         for (let i = 0; i < divisions.length && bestLevel > 0; i++) {
+         for (let i = 0; i < divisions.length; i++) {
             let divs = divisions[i];
             let tickSizes = divs.map((s) => s * unitSize);
             let scale = this.getScale(tickSizes, unit);
             tickSizes.forEach((size, level) => {
                let tickDistance = size * Math.abs(scale.factor);
-               if (tickDistance >= this.minTickDistance && level < bestLevel) {
+               if (tickDistance >= this.minTickDistance && tickDistance < bestLabelDistance) {
                   bestScale = scale;
                   bestTicks = tickSizes;
-                  bestLevel = level;
+                  bestLabelDistance = tickDistance;
                }
             });
          }

@@ -214,8 +214,8 @@ class NumericScale {
          smax = Math.ceil(smax / tickSize) * tickSize;
       }
 
-      let minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-      let maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
+      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
+      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
 
       let sign = this.b > this.a ? 1 : -1;
 
@@ -235,8 +235,8 @@ class NumericScale {
          if (tickSize > 0 && isNumber(this.snapToTicks)) {
             smin = Math.floor(smin / tickSize) * tickSize;
             smax = Math.ceil(smax / tickSize) * tickSize;
-            minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-            maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
+            minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
+            maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
          }
 
          factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
