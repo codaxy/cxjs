@@ -72,18 +72,18 @@ export class NumericAxis extends Axis {
    }
 }
 
-   NumericAxis.prototype.baseClass = "numericaxis";
-   NumericAxis.prototype.tickDivisions =[
-[1, 2, 10, 20, 100],
-[1, 5, 10, 20, 100]
+NumericAxis.prototype.baseClass = "numericaxis";
+NumericAxis.prototype.tickDivisions = [
+   [1, 2, 10, 20, 100],
+   [1, 5, 10, 20, 100],
 ];
 
-   NumericAxis.prototype.snapToTicks = 1;
-   NumericAxis.prototype.normalized = false;
-   NumericAxis.prototype.format = "n";
-   NumericAxis.prototype.labelDivisor = 1;
-   NumericAxis.prototype.minLabelTickSize = 0;
-   NumericAxis.prototype.minTickStep = 0;
+NumericAxis.prototype.snapToTicks = 1;
+NumericAxis.prototype.normalized = false;
+NumericAxis.prototype.format = "n";
+NumericAxis.prototype.labelDivisor = 1;
+NumericAxis.prototype.minLabelTickSize = 0;
+NumericAxis.prototype.minTickStep = 0;
 
 Axis.alias("numeric", NumericAxis);
 
@@ -102,7 +102,6 @@ class NumericScale {
       lowerDeadZone,
       upperDeadZone
    ) {
-      this.padding = 0;
       this.min = min;
       this.max = max;
       this.snapToTicks = snapToTicks;
@@ -150,7 +149,7 @@ class NumericScale {
          min: this.scale.min,
          max: this.scale.max,
          minPadding: this.scale.minPadding,
-         maxPadding: this.scale.maxPadding
+         maxPadding: this.scale.maxPadding,
       };
       r.stacks = Object.keys(this.stacks)
          .map((s) => this.stacks[s].info.join(","))
@@ -177,15 +176,11 @@ class NumericScale {
          this.stacks[s].info = info;
       }
 
-      if (this.minValue != null && this.min == null)
-         // || this.minValue < this.min))
-         this.min = this.minValue;
+      if (this.minValue != null && this.min == null) this.min = this.minValue;
 
       if (this.min == null) this.min = 0;
 
-      if (this.maxValue != null && this.max == null)
-         // || this.maxValue > this.max))
-         this.max = this.maxValue;
+      if (this.maxValue != null && this.max == null) this.max = this.maxValue;
 
       if (this.max == null) this.max = this.normalized ? 1 : 100;
 
@@ -211,23 +206,26 @@ class NumericScale {
       let { min, max } = this;
       let smin = min;
       let smax = max;
-      let minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-      let maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
 
       let tickSize;
       if (tickSizes && isNumber(this.snapToTicks) && tickSizes.length > 0) {
          tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
          smin = Math.floor(smin / tickSize) * tickSize;
          smax = Math.ceil(smax / tickSize) * tickSize;
-         minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-         maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
+      } else {
+         if (this.minValue === min) smin = this.minValuePadded;
+         if (this.maxValue === max) smax = this.maxValuePadded;
       }
+
+      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
+      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
 
       let sign = this.b > this.a ? 1 : -1;
 
       let factor =
          smin < smax
-            ? (Math.abs(this.b - this.a) - this.lowerDeadZone - this.upperDeadZone) / (smax - smin + minPadding + maxPadding)
+            ? (Math.abs(this.b - this.a) - this.lowerDeadZone - this.upperDeadZone) /
+              (smax - smin + minPadding + maxPadding)
             : 0;
 
       if (factor < 0) factor = 0;
@@ -240,8 +238,8 @@ class NumericScale {
          if (tickSize > 0 && isNumber(this.snapToTicks)) {
             smin = Math.floor(smin / tickSize) * tickSize;
             smax = Math.ceil(smax / tickSize) * tickSize;
-            minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-            maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
+            minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
+            maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
          }
 
          factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
@@ -252,7 +250,7 @@ class NumericScale {
          min: smin,
          max: smax,
          minPadding,
-         maxPadding
+         maxPadding,
       };
    }
 
@@ -302,7 +300,7 @@ class NumericScale {
 
       for (let i = 0; i < this.tickDivisions.length; i++) {
          let divs = this.tickDivisions[i];
-         let tickSizes = divs.filter(ts => ts >= this.minTickStep).map((ts) => ts * unit);
+         let tickSizes = divs.filter((ts) => ts >= this.minTickStep).map((ts) => ts * unit);
          let scale = this.getScale(tickSizes);
          tickSizes.forEach((size, level) => {
             let labelDistance = size * Math.abs(scale.factor);
@@ -314,7 +312,9 @@ class NumericScale {
          });
       }
       this.scale = bestScale;
-      this.tickSizes = bestTicks.filter((ts) => ts >= this.minTickStep && ts * Math.abs(bestScale.factor) >= this.minTickDistance);
+      this.tickSizes = bestTicks.filter(
+         (ts) => ts >= this.minTickStep && ts * Math.abs(bestScale.factor) >= this.minTickDistance
+      );
       if (this.tickSizes.length > 0) {
          let max = this.tickSizes[this.tickSizes.length - 1];
          this.tickSizes.push(2 * max);
@@ -322,12 +322,9 @@ class NumericScale {
          this.tickSizes.push(10 * max);
          let min = this.tickSizes[0];
          let dist = min * Math.abs(bestScale.factor) >= this.minTickDistance;
-         if (min / 10 >= this.minTickStep && dist / 10 >= this.minTickDistance)
-            this.tickSizes.splice(0, 0, min / 10);
-         else if (min / 5 >= this.minTickStep && dist / 5 >= this.minTickDistance)
-            this.tickSizes.splice(0, 0, min / 5);
-         else if (min / 2 >= this.minTickStep && dist / 2 >= this.minTickDistance)
-            this.tickSizes.splice(0, 0, min / 2);
+         if (min / 10 >= this.minTickStep && dist / 10 >= this.minTickDistance) this.tickSizes.splice(0, 0, min / 10);
+         else if (min / 5 >= this.minTickStep && dist / 5 >= this.minTickDistance) this.tickSizes.splice(0, 0, min / 5);
+         else if (min / 2 >= this.minTickStep && dist / 2 >= this.minTickDistance) this.tickSizes.splice(0, 0, min / 2);
       }
    }
 
