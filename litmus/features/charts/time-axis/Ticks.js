@@ -14,7 +14,7 @@ class PageController extends Controller {
 
       this.store.set(
          "$page.data",
-         Array.from({ length: 5 * 12 }, (x, i) => {
+         Array.from({ length: 1 }, (x, i) => {
             let date = new Date(2020, 9, 13);
             date.setDate(date.getDate() + i);
             return {

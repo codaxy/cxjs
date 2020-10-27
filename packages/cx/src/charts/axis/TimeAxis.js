@@ -3,6 +3,7 @@ import { VDOM } from "../../ui/Widget";
 import { Stack } from "./Stack";
 import { Format } from "../../ui/Format";
 import { isNumber } from "../../util/isNumber";
+import { zeroTime } from "../../util/date/zeroTime";
 
 Format.registerFactory("yearOrMonth", (format) => {
    let year = Format.parse("datetime;yyyy");
@@ -67,7 +68,8 @@ export class TimeAxis extends Axis {
          inverted,
          this.minTickUnit,
          lowerDeadZone,
-         upperDeadZone
+         upperDeadZone,
+         this.decode
       );
    }
 
@@ -146,7 +148,8 @@ class TimeScale {
       inverted,
       minTickUnit,
       lowerDeadZone,
-      upperDeadZone
+      upperDeadZone,
+      decode
    ) {
       this.dateCache = {};
       this.min = min != null ? this.decodeValue(min) : null;
@@ -166,6 +169,7 @@ class TimeScale {
       delete this.minValuePadded;
       delete this.maxValuePadded;
       this.stacks = {};
+      this.decode = decode;
    }
 
    decodeValue(date) {
@@ -174,7 +178,10 @@ class TimeScale {
       switch (typeof date) {
          case "string":
             let v = this.dateCache[date];
-            if (!v) v = this.dateCache[date] = Date.parse(date);
+            if (!v) {
+               if (this.decode) date = this.decode(date);
+               v = this.dateCache[date] = Date.parse(date);
+            }
             return v;
 
          case "number":
@@ -230,8 +237,7 @@ class TimeScale {
    }
 
    trackValue(v, offset = 0, constrain = false) {
-      let value =
-         (this.decodeValue(v) - this.origin) / this.scale.factor - offset + this.scale.min - this.scale.minPadding;
+      let value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.scale.minPadding;
       if (constrain) value = this.constrainValue(value);
       return value;
    }
@@ -336,6 +342,9 @@ class TimeScale {
                smax = new Date(maxYear, 0, 1).getTime();
                break;
          }
+      } else {
+         if (this.minValue == min) smin = this.minValuePadded;
+         if (this.maxValue == max) smax = this.maxValuePadded;
       }
 
       //padding should be activated only if using min/max obtained from the data
@@ -362,11 +371,11 @@ class TimeScale {
 
    acknowledge(value, width = 0, offset = 0) {
       value = this.decodeValue(value);
-      if (this.minValue == null || value < this.minValue) {
+      if (this.minValue == null || value + offset - width / 2 < this.minValuePadded) {
          this.minValue = value;
          this.minValuePadded = value + offset - width / 2;
       }
-      if (this.maxValue == null || value > this.maxValue) {
+      if (this.maxValue == null || value + offset + width / 2 > this.maxValuePadded) {
          this.maxValue = value;
          this.maxValuePadded = value + offset + width / 2;
       }
@@ -458,6 +467,23 @@ class TimeScale {
             start = Math.ceil(monthNumber(minDate) / size) * size;
             end = Math.floor(monthNumber(maxDate) / size) * size;
             for (let i = start; i <= end; i += size) result.push(new Date(Math.floor(i / 12), i % 12, 1).getTime());
+         } else if (this.tickMeasure == "day" || this.tickMeasure == "week") {
+            let multiplier = this.tickMeasure == "week" ? 7 : 1;
+            size /= miliSeconds.day;
+            minDate = new Date(this.scale.min - this.scale.minPadding);
+            maxDate = new Date(this.scale.max + this.scale.maxPadding);
+            let date = zeroTime(minDate);
+            if (this.tickMeasure == "week") {
+               //start on monday
+               while (date.getDay() != 1) {
+                  date.setDate(date.getDate() + multiplier);
+               }
+            }
+            while (date.getTime() <= maxDate.getTime()) {
+               result.push(date);
+               date = new Date(date);
+               date.setDate(date.getDate() + multiplier);
+            }
          } else {
             let minOffset = this.getTimezoneOffset(new Date(this.scale.min - this.scale.minPadding));
             let mondayOffset = 4 * miliSeconds.day;

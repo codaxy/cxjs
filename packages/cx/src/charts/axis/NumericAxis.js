@@ -212,6 +212,9 @@ class NumericScale {
          tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
          smin = Math.floor(smin / tickSize) * tickSize;
          smax = Math.ceil(smax / tickSize) * tickSize;
+      } else {
+         if (this.minValue === min) smin = this.minValuePadded;
+         if (this.maxValue === max) smax = this.maxValuePadded;
       }
 
       let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
