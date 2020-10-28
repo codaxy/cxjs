@@ -194,6 +194,7 @@ export const docsNavTree = [
                { text: "ScatterGraph", url: "~/charts/scatter-graphs" },
                { text: "Column", url: "~/charts/columns" },
                { text: "Bar", url: "~/charts/bars" },
+               { text: "Marker", url: "~/charts/markers" },
                { text: "MarkerLine", url: "~/charts/marker-lines" },
                { text: "Range", url: "~/charts/ranges" },
             ],

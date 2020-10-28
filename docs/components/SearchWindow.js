@@ -1,4 +1,4 @@
-import { TextField, Text, Repeater, List, Link, Menu, HtmlElement } from "cx/widgets";
+import { TextField, Text, Repeater, List, Link, HighlightedSearchText, HtmlElement } from "cx/widgets";
 import { Controller, History } from "cx/ui";
 import { Window } from "cx/widgets";
 import { KeyCode, getSearchQueryPredicate } from "cx/util";
@@ -63,7 +63,7 @@ export const SearchWindow = (
          autoFocus={false}
          header={
             <TextField
-               value:bind="search.query"
+               value-bind="search.query"
                style="width: 100%; margin-right: 10px"
                //inputStyle="font-size:18px;height:40px;"
                placeholder="Search..."
@@ -76,7 +76,7 @@ export const SearchWindow = (
          controller={SearchController}
       >
          <List
-            records:bind="search.results"
+            records-bind="search.results"
             focused
             pipeKeyDown="pipeKeyDown"
             onItemClick="onItemClick"
@@ -84,7 +84,9 @@ export const SearchWindow = (
          >
             <div style={{ fontWeight: { expr: "{$record.url} == {url} ? 'bold': 'normal'" } }}>
                <div text-bind="$record.topic" style="font-size: 10px; opacity: 0.8; text-transform: uppercase" />
-               <span text-bind="$record.text" style="font-size: 14px" />
+               <span style="font-size: 14px">
+                  <HighlightedSearchText text-bind="$record.text" query-bind="search.query" />
+               </span>
             </div>
          </List>
       </Window>
