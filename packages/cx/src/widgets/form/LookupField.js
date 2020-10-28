@@ -1,7 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip, autoFocus } from "./Field";
-import { Text } from "../../ui/Text";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { HtmlElement } from "../HtmlElement";
 import { Binding } from "../../data/Binding";
@@ -33,6 +32,7 @@ import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
+import { HighlightedSearchText } from "../HighlightedSearchText";
 
 export class LookupField extends Field {
    declareData() {
@@ -97,8 +97,9 @@ export class LookupField extends Field {
 
       if (!this.items && !this.children)
          this.items = {
-            $type: Text,
-            bind: `$option.${this.optionTextField}`,
+            $type: HighlightedSearchText,
+            text: { bind: `$option.${this.optionTextField}` },
+            query: { bind: "$query" },
          };
 
       this.itemConfig = this.children || this.items;
@@ -497,6 +498,7 @@ class LookupComponent extends VDOM.Component {
       if (this.state.dropdownOpen) {
          this.itemStore.setData({
             $options: this.state.options,
+            $query: this.lastQuery,
          });
          dropdown = (
             <Cx widget={this.getDropdown()} store={this.itemStore} options={{ name: "lookupfield-dropdown" }} />

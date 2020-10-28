@@ -48,6 +48,7 @@ export * from './ProgressBars';
 export * from './Texts';
 export * from './Resizers';
 export * from './FlyweightTooltipTracker';
+export * from './HighlightedSearchText';
 
 import { bumpVersion } from '../version';
 

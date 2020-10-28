@@ -1,16 +1,10 @@
-
-@mixin cxb-heading(
-   $name: 'heading',
-   $besm: $cx-besm
-) {
-
+@mixin cxb-heading($name: "heading", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-
       @include cx-add-rules($cx-caption-style-map);
 
       &.#{$state}level-1 {
@@ -39,6 +33,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Caption')) {
+@if (cx-should-include("cx/widgets/Heading")) {
    @include cxb-heading();
 }
