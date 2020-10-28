@@ -33,7 +33,8 @@ export const HighlightedSearchTextPage = <cx>
                 ]}
                 mod="bordered"
                 filterParams-bind="$page.search"
-                onCreateFilter={({query, filter}) => {
+                onCreateFilter={(params) => {
+                    let { query, filter } = params || {};
                     let predicate = getSearchQueryPredicate(query);
                     if (!filter) return () => true;
                     return record => predicate(record.text);
@@ -57,7 +58,8 @@ export const HighlightedSearchTextPage = <cx>
                 ]}
                 mod="bordered"
                 filterParams-bind="$page.search"
-                onCreateFilter={({query, filter}) => {
+                onCreateFilter={(params) => {
+                    let { query, filter } = params || {};
                     let predicate = getSearchQueryPredicate(query);
                     if (!filter) return () => true;
                     return record => predicate(record.text);
