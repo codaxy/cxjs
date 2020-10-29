@@ -1,14 +1,12 @@
 import {Md} from '../../../components/Md';
 
-import overlay from './Overlay';
+import dropdown from './Dropdown';
 
 export default {
-    ...overlay,
-    modal: false,
-    inline: false,
-    center: false,
-    resizable: false,
-    draggable: false,
+    ...dropdown,
+
+    relatedElement: false,
+
     title: {
         key: true,
         type: 'string',

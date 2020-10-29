@@ -163,6 +163,7 @@ export const docsNavTree = [
                { text: "Tooltips", url: "~/widgets/tooltips" },
                { text: "Flyweight Tooltips", url: "~/widgets/flyweight-tooltip-tracker" },
                { text: "ContextMenu", url: "~/widgets/context-menus" },
+               { text: "Dropdown", url: "~/widgets/dropdowns" },
             ],
          },
       ],

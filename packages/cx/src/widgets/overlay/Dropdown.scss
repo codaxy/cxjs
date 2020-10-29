@@ -169,6 +169,13 @@
       }
    }
 
+   .#{$element}#{$name}-beacon {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      visibility: hidden;
+   }
+
    @include cx-dropdown-arrows($name, $styles, $arrow-size, $besm);
 }
 

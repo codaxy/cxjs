@@ -49,6 +49,7 @@ export * from './Texts';
 export * from './Resizers';
 export * from './FlyweightTooltipTracker';
 export * from './HighlightedSearchText';
+export * from './Dropdowns';
 
 import { bumpVersion } from '../version';
 

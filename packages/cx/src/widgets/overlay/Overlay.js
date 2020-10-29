@@ -9,9 +9,9 @@ import { ZIndexManager } from "../../ui/ZIndexManager";
 import { ddMouseDown, ddMouseUp, ddDetect } from "../drag-drop/ops";
 import { isObject } from "../../util/isObject";
 import { isBinding } from "../../data/Binding";
+import { isNumber } from "../../util/isNumber";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
-import { stopPropagation } from "../../util";
 
 /*
  Features:
@@ -30,6 +30,7 @@ export class Overlay extends Container {
          },
          resizable: undefined,
          draggable: undefined,
+         zIndex: undefined,
       });
    }
 
@@ -545,9 +546,9 @@ export class OverlayComponent extends VDOM.Component {
 
    componentDidMount() {
       let { instance, subscribeToBeforeDismiss, parentEl } = this.props;
-      let { widget } = instance;
+      let { widget, data } = instance;
 
-      this.setZIndex(ZIndexManager.next());
+      this.setZIndex(isNumber(data.zIndex) ? data.zIndex : ZIndexManager.next());
 
       this.componentDidUpdate();
       widget.overlayDidMount(instance, this);

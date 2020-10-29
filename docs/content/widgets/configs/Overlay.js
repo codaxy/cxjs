@@ -84,7 +84,7 @@ export default {
         key: false,
         type: 'boolean',
         description: <cx><Md>
-            /** Set to `true` to dismiss the window if the user presses the back button in the browser. */
+            Set to `true` to dismiss the window if the user presses the back button in the browser.
         </Md></cx>
     }
 };
