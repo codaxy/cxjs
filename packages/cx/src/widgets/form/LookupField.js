@@ -358,7 +358,10 @@ class LookupComponent extends VDOM.Component {
          onMeasureDropdownNaturalSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {
-                  height: this.dom.dropdown.offsetHeight + this.dom.list.scrollHeight - this.dom.list.offsetHeight,
+                  height:
+                     this.dom.dropdown.offsetHeight -
+                     this.dom.list.offsetHeight +
+                     (this.dom.list.firstElementChild?.offsetHeight || 0),
                };
             }
          },
