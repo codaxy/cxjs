@@ -46,3 +46,4 @@ export * from "./validatedDebounce";
 export * from "./addEventListenerWithOptions";
 export * from "./coalesce";
 export * from "./dummyCallback";
+export * from "./calculateNaturalElementHeight";

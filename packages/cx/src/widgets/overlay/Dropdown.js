@@ -6,6 +6,7 @@ import { ResizeManager } from "../../ui/ResizeManager";
 import { Localization } from "../../ui/Localization";
 import { SubscriberList } from "../../util/SubscriberList";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
 
 /*
  Dropdown specific features:
@@ -408,7 +409,9 @@ export class Dropdown extends Overlay {
       var { el } = component;
       var size = {
          width: el.offsetWidth,
-         height: el.offsetHeight,
+         height: this.constrain
+            ? calculateNaturalElementHeight(el)
+            : el.offsetHeight - el.clientHeight + el.scrollHeight,
       };
 
       if (this.firstChildDefinesHeight && el.firstChild) {
@@ -419,10 +422,11 @@ export class Dropdown extends Overlay {
          size.width = el.firstChild.offsetWidth;
       }
 
-      if (this.onMeasureDropdownNaturalSize) {
-         var more = instance.invoke("onMeasureDropdownNaturalSize", instance, component);
+      if (this.onMeasureNaturalContentSize) {
+         var more = instance.invoke("onMeasureNaturalContentSize", el, instance, component);
          Object.assign(size, more);
       }
+
       return size;
    }
 

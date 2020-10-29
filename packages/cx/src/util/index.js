@@ -42,8 +42,10 @@ export * from "./getParentFrameBoundingClientRect";
 export * from "./getActiveElement";
 export * from "./Component";
 export * from "./onIdleCallback";
-export * from "./TraversalStack";
 export * from "./validatedDebounce";
 export * from "./addEventListenerWithOptions";
 export * from "./coalesce";
 export * from "./dummyCallback";
+export * from "./calculateNaturalElementHeight";
+
+export * from "./TraversalStack";

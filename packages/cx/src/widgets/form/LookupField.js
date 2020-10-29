@@ -355,7 +355,7 @@ class LookupComponent extends VDOM.Component {
          onFocusOut: (e) => this.closeDropdown(e),
          memoize: false,
          touchFriendly: isTouchDevice(),
-         onMeasureDropdownNaturalSize: () => {
+         onMeasureNaturalContentSize: () => {
             if (this.dom.dropdown && this.dom.list) {
                return {
                   height:
