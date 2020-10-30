@@ -16,7 +16,7 @@ function naturalElementHeight(el) {
    let overflow = el.scrollHeight - el.clientHeight;
    if (overflow <= 0) return h;
    let computedStyle = getComputedStyle(el);
-   let maxH = computedStyle.getPropertyValue("max-height");
-   if (maxH) return Math.min(parseFloat(maxH), h + overflow);
+   let maxH = parseFloat(computedStyle.getPropertyValue("max-height"));
+   if (!isNaN(maxH)) return Math.min(parseFloat(maxH), h + overflow);
    return h + overflow;
 }
