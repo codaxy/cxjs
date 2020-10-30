@@ -1,6 +1,6 @@
 interface TreeItem {
     [key: string]: any,
-    [childrenField: string]: Array<TreeItem>
+    childrenField: Array<TreeItem>
 }
 
 export function updateTree(
