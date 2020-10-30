@@ -476,7 +476,7 @@ class TimeScale {
             if (this.tickMeasure == "week") {
                //start on monday
                while (date.getDay() != 1) {
-                  date.setDate(date.getDate() + multiplier);
+                  date.setDate(date.getDate() + 1);
                }
             }
             while (date.getTime() <= maxDate.getTime()) {
