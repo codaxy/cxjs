@@ -155,6 +155,8 @@ export class Axis extends BoundedObject {
       var { bounds } = instance.data;
       var [a, b] = !this.vertical ? [bounds.l, bounds.r] : [bounds.b, bounds.t];
       instance.calculator.measure(a, b);
+      if (this.onMeasured)
+         instance.invoke("onMeasured", instance.calculator.hash(), instance);
       if (!instance.calculator.isSame(instance.cached.axis))
          instance.markShouldUpdate(context);
    }
@@ -165,27 +167,27 @@ export class Axis extends BoundedObject {
    }
 }
 
-   Axis.prototype.anchors = '0 1 1 0';
-   Axis.prototype.vertical = false;
-   Axis.prototype.secondary = false;
-   Axis.prototype.inverted = false;
-   Axis.prototype.hidden = false;
-   Axis.prototype.hideLabels = false;
+Axis.prototype.anchors = '0 1 1 0';
+Axis.prototype.vertical = false;
+Axis.prototype.secondary = false;
+Axis.prototype.inverted = false;
+Axis.prototype.hidden = false;
+Axis.prototype.hideLabels = false;
 
-   Axis.prototype.tickSize = 3;
-   Axis.prototype.minTickDistance = 25;
-   Axis.prototype.minLabelDistanceVertical = 40;
-   Axis.prototype.minLabelDistanceHorizontal = 50;
-   Axis.prototype.labelOffset = 10;
-   Axis.prototype.labelRotation = 0;
-   Axis.prototype.labelAnchor = 'auto';
-   Axis.prototype.labelDx = 'auto';
-   Axis.prototype.labelDy = 'auto';
-   Axis.prototype.labelWrap = false;
-   Axis.prototype.labelLineCountDyFactor = 'auto';
-   Axis.prototype.labelMaxLineLength = 10;
+Axis.prototype.tickSize = 3;
+Axis.prototype.minTickDistance = 25;
+Axis.prototype.minLabelDistanceVertical = 40;
+Axis.prototype.minLabelDistanceHorizontal = 50;
+Axis.prototype.labelOffset = 10;
+Axis.prototype.labelRotation = 0;
+Axis.prototype.labelAnchor = 'auto';
+Axis.prototype.labelDx = 'auto';
+Axis.prototype.labelDy = 'auto';
+Axis.prototype.labelWrap = false;
+Axis.prototype.labelLineCountDyFactor = 'auto';
+Axis.prototype.labelMaxLineLength = 10;
 
-   Axis.namespace = 'ui.svg.chart.axis';
+Axis.namespace = 'ui.svg.chart.axis';
 
 
 

@@ -1,6 +1,6 @@
-import {Widget, VDOM, getContent} from '../ui/Widget';
-import {BoundedObject} from '../svg/BoundedObject';
-import {Axis} from './axis/Axis';
+import { Widget, VDOM, getContent } from '../ui/Widget';
+import { BoundedObject } from '../svg/BoundedObject';
+import { Axis } from './axis/Axis';
 
 export class Chart extends BoundedObject {
 
@@ -17,7 +17,7 @@ export class Chart extends BoundedObject {
 
    explore(context, instance) {
 
-      instance.calculators = {...context.axes};
+      instance.calculators = { ...context.axes };
 
       context.push('axes', instance.calculators);
       instance.axes = {};
@@ -51,19 +51,27 @@ export class Chart extends BoundedObject {
    render(context, instance, key) {
       let axes = [];
       for (let k in instance.axes) {
-         axes.push(getContent(instance.axes[k].render(context, key+"-axis-"+k)));
+         axes.push(getContent(instance.axes[k].render(context, key + "-axis-" + k)));
       }
 
-      return [
-         axes,
-         this.renderChildren(context, instance)
-      ];
+      let result = [];
+
+      if (!this.axesOnTop)
+         result.push(axes);
+
+      result.push(this.renderChildren(context, instance));
+
+      if (this.axesOnTop)
+         result.push(axes);
+
+      return result;
    }
 }
 
 Chart.prototype.anchors = '0 1 1 0';
 Chart.prototype.styled = true;
 Chart.prototype.isPureContainer = true;
+Chart.prototype.axesOnTop = false;
 
 Widget.alias('chart', Chart);
 
