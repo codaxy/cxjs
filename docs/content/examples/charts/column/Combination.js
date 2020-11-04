@@ -54,10 +54,13 @@ var columnSelection = new KeySelection({
 export const Combination = (
     <cx>
         <Md controller={PageController}>
-            # Column Chart Example This example shows how a chart and a grid can
+            # Column Chart Example 
+    
+            This example shows how a chart and a grid can
             be in sync using the same data. Handles on the chart can be used to
             tweak chart values and changes are automatically reflected in the
             grid.
+    
             <CodeSplit>
                 <div class="widgets">
                     <div>
