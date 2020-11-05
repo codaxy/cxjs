@@ -87,7 +87,7 @@ class HoverSyncChild extends VDOM.Component {
 
 export function withHoverSync(key, hoverSync, hoverChannel, hoverId, render) {
    if (!hoverSync || !hoverChannel || hoverId == null)
-      return render({ hover: false, onMouseLeave: dummyCallback, onMouseMove: dummyCallback });
+      return render({ key, hover: false, onMouseLeave: dummyCallback, onMouseMove: dummyCallback });
    return (
       <HoverSyncChild key={key} hoverSync={hoverSync} hoverChannel={hoverChannel} hoverId={hoverId} render={render} />
    );
