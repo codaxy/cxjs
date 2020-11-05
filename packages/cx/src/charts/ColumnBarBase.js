@@ -108,7 +108,7 @@ export class ColumnBarBase extends PureContainer {
          instance.hoverSync,
          this.hoverChannel,
          data.hoverId,
-         ({ hover, onMouseMove, onMouseLeave }) => {
+         ({ hover, onMouseMove, onMouseLeave, key }) => {
             var stateMods = {
                selected: this.selection.isInstanceSelected(instance),
                disabled: data.disabled,
