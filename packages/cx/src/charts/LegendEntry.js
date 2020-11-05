@@ -65,6 +65,7 @@ export class LegendEntry extends HtmlElement {
       delete props.shape;
       delete props.name;
       delete props.selected;
+      delete props.svgSize;
    }
 
    handleClick(e, instance) {
@@ -107,10 +108,10 @@ export class LegendEntry extends HtmlElement {
    }
 }
 
-LegendEntry.prototype.baseClass = "legendentry";
-LegendEntry.prototype.shape = "square";
-LegendEntry.prototype.legendAction = "auto";
-LegendEntry.prototype.size = 18;
-LegendEntry.prototype.svgSize = 20;
+   LegendEntry.prototype.baseClass = "legendentry";
+   LegendEntry.prototype.shape = "square";
+   LegendEntry.prototype.legendAction = "auto";
+   LegendEntry.prototype.size = 18;
+   LegendEntry.prototype.svgSize = 20;
 
 Widget.alias("legend-entry", LegendEntry);
