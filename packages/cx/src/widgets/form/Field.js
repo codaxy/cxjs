@@ -408,12 +408,10 @@ export function getFieldTooltip(instance) {
 }
 
 export function autoFocus(el, component) {
+   if (isTouchEvent()) return;
    let data = component.props.data || component.props.instance.data;
-   if (el && el !== component.autoFocusEl && data.autoFocus && !isTouchEvent()) {
+   let autoFocusEl = data.autoFocus && el;
+   if (autoFocusEl && autoFocusEl != component.autoFocusEl)
       FocusManager.focus(el);
-      component.autoFocusEl = el;
-   }
-   else {
-      component.autoFocusEl = null;
-   }
+   component.autoFocusEl = autoFocusEl;
 }
