@@ -80,7 +80,7 @@ class HoverSyncChild extends VDOM.Component {
          hover: this.state.hover,
          onMouseLeave: this.onMouseLeave,
          onMouseMove: this.onMouseMove,
-         key: "child"
+         key: "child",
       });
    }
 }
@@ -94,18 +94,17 @@ export function withHoverSync(key, hoverSync, hoverChannel, hoverId, render) {
 }
 
 export class HoverSyncElement extends Container {
-
    declareData(...args) {
       super.declareData(...args, {
          hoverId: undefined,
          hoverClass: { structured: true },
          hoverStyle: { structured: true },
-      })
+      });
    }
 
    prepareData(context, instance) {
       instance.hoverSync = context.hoverSync;
-      instance.inSvg = !!context.parentRect;
+      instance.inSvg = !!context.inSvg;
       let { data } = instance;
       data.hoverStyle = parseStyle(data.hoverStyle);
       super.prepareData(context, instance);
@@ -122,19 +121,22 @@ export class HoverSyncElement extends Container {
          this.hoverChannel,
          data.hoverId,
          ({ hover, onMouseMove, onMouseLeave, key }) => {
-            let style =
-            {
+            let style = {
                ...data.style,
-               ...(hover && data.hoverStyle)
-            }
-            return VDOM.createElement(inSvg ? 'g' : 'div', {
-               key,
-               className: CSS.expand(data.classNames, CSS.state({ hover }), hover && data.hoverClass),
-               style,
-               ...eventHandlers,
-               onMouseLeave,
-               onMouseMove,
-            }, children);
+               ...(hover && data.hoverStyle),
+            };
+            return VDOM.createElement(
+               inSvg ? "g" : "div",
+               {
+                  key,
+                  className: CSS.expand(data.classNames, CSS.state({ hover }), hover && data.hoverClass),
+                  style,
+                  ...eventHandlers,
+                  onMouseLeave,
+                  onMouseMove,
+               },
+               children
+            );
          }
       );
    }

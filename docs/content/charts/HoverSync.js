@@ -1,5 +1,5 @@
 import { Bar, CategoryAxis, Chart, ColorMap, Gridlines, Legend, LegendEntry, NumericAxis, PieChart, PieSlice } from 'cx/charts';
-import { Svg } from 'cx/svg';
+import { Rectangle, Svg } from 'cx/svg';
 import { Controller, HoverSync, KeySelection, HoverSyncElement } from 'cx/ui';
 import { Grid, Repeater } from 'cx/widgets';
 import { CodeSnippet } from 'docs/components/CodeSnippet';
@@ -149,6 +149,11 @@ export const HoverSyncPage = <cx>
                             </HoverSyncElement>
                         </Repeater>
                     </div>
+                    <Svg style="width: 100px; height: 100px;">
+                        <HoverSyncElement hoverId={0} style="--hover-bg: lightgray" hoverStyle="--hover-bg: red">
+                            <Rectangle style="fill: var(--hover-bg); stroke: 1px" />
+                        </HoverSyncElement>
+                    </Svg>
                 </HoverSync>
             </div>
 
@@ -267,9 +272,13 @@ export const HoverSyncPage = <cx>
                     </HoverSyncElement>
                 </Repeater>
             </div>
+            <Svg style="width: 100px; height: 100px;">
+                <HoverSyncElement hoverId={0} style="--hover-bg: lightgray" hoverStyle="--hover-bg: red">
+                    <Rectangle style="fill: var(--hover-bg); stroke: 1px" />
+                </HoverSyncElement>
+            </Svg>
          </HoverSync>
          `}</CodeSnippet>
         </CodeSplit>
     </Md>
 </cx>
-

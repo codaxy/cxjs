@@ -1,17 +1,25 @@
-import { Widget, VDOM } from '../ui/Widget';
-import { BoundedObject } from './BoundedObject';
-import { Rect } from './util/Rect';
-import { ResizeManager } from '../ui/ResizeManager';
-import { addEventListenerWithOptions } from '../util/addEventListenerWithOptions';
+import { Widget, VDOM } from "../ui/Widget";
+import { BoundedObject } from "./BoundedObject";
+import { Rect } from "./util/Rect";
+import { ResizeManager } from "../ui/ResizeManager";
+import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
 
 export class Svg extends BoundedObject {
-
    initState(context, instance) {
       var size = {
          width: 0,
-         height: 0
+         height: 0,
       };
       instance.state = { size };
+   }
+
+   explore(context, instance) {
+      context.push("inSvg", true);
+      super.explore(context, instance);
+   }
+
+   exploreCleanup(context, instance) {
+      context.pop("inSvg");
    }
 
    prepare(context, instance) {
@@ -21,22 +29,24 @@ export class Svg extends BoundedObject {
          l: 0,
          t: 0,
          r: size.width,
-         b: size.height
+         b: size.height,
       });
 
       instance.clipRects = {};
       instance.clipRectId = 0;
-      context.push('addClipRect', rect => {
+      context.push("addClipRect", (rect) => {
          var id = `clip-${instance.id}-${++instance.clipRectId}`;
          instance.clipRects[id] = rect;
          return id;
       });
+      context.push("inSvg", true);
       super.prepare(context, instance);
    }
 
    prepareCleanup(context, instance) {
       super.prepareCleanup(context, instance);
-      context.pop('addClipRect');
+      context.pop("addClipRect");
+      context.pop("inSvg");
    }
 
    render(context, instance, key) {
@@ -55,25 +65,23 @@ export class Svg extends BoundedObject {
          >
             {this.renderChildren(context, instance)}
          </SvgComponent>
-      )
+      );
    }
 }
 
-   Svg.prototype.anchors = '0 1 1 0';
-   Svg.prototype.baseClass = 'svg';
-   Svg.prototype.autoWidth = false;
-   Svg.prototype.autoHeight = false;
-   Svg.prototype.aspectRatio = 1.618;
+Svg.prototype.anchors = "0 1 1 0";
+Svg.prototype.baseClass = "svg";
+Svg.prototype.autoWidth = false;
+Svg.prototype.autoHeight = false;
+Svg.prototype.aspectRatio = 1.618;
 
 function sameSize(a, b) {
-   if (!a || !b)
-      return false;
+   if (!a || !b) return false;
 
    return a.width == b.width && a.height == b.height;
 }
 
 class SvgComponent extends VDOM.Component {
-
    render() {
       var { instance, data, size, children, eventHandlers } = this.props;
       var { widget } = instance;
@@ -81,66 +89,62 @@ class SvgComponent extends VDOM.Component {
       var defs = [];
       for (var k in instance.clipRects) {
          let cr = instance.clipRects[k];
-         defs.push(<clipPath key={k} id={k}>
-            <rect x={cr.l} y={cr.t} width={Math.max(0, cr.width())} height={Math.max(0, cr.height())} />
-         </clipPath>);
+         defs.push(
+            <clipPath key={k} id={k}>
+               <rect x={cr.l} y={cr.t} width={Math.max(0, cr.width())} height={Math.max(0, cr.height())} />
+            </clipPath>
+         );
       }
 
       let style = data.style;
       if (widget.autoHeight)
          style = {
             ...style,
-            height: `${size.height}px`
+            height: `${size.height}px`,
          };
       if (widget.autoWidth)
          style = {
             ...style,
-            width: `${size.width}px`
+            width: `${size.width}px`,
          };
 
       //parent div is needed because clientWidth doesn't work on the svg element in FF
 
       return (
          <div
-            ref={el => {
-               this.el = el
+            ref={(el) => {
+               this.el = el;
             }}
-            className={data.classNames} style={style}
+            className={data.classNames}
+            style={style}
             {...eventHandlers}
          >
-            {
-               size.width > 0 && size.height > 0 && (
-                  <svg>
-                     <defs>
-                        {defs}
-                     </defs>
-                     {children}
-                  </svg>
-               )
-            }
+            {size.width > 0 && size.height > 0 && (
+               <svg>
+                  <defs>{defs}</defs>
+                  {children}
+               </svg>
+            )}
          </div>
-      )
+      );
    }
 
    onResize() {
-
       let { instance } = this.props;
       let { widget } = this.props.instance;
 
       let size = {
          width: this.el.clientWidth,
-         height: this.el.clientHeight
+         height: this.el.clientHeight,
       };
 
-      if (widget.autoHeight)
-         size.height = size.width / widget.aspectRatio;
+      if (widget.autoHeight) size.height = size.width / widget.aspectRatio;
 
-      if (widget.autoWidth)
-         size.width = size.height * widget.aspectRatio;
+      if (widget.autoWidth) size.width = size.height * widget.aspectRatio;
 
       if (!sameSize(instance.state.size, size))
          instance.setState({
-            size: size
+            size: size,
          });
    }
 
@@ -148,10 +152,15 @@ class SvgComponent extends VDOM.Component {
       this.offResize = ResizeManager.trackElement(this.el, this.onResize.bind(this));
       this.onResize();
       if (this.props.instance.widget.onWheelActive) {
-         this.offWheelActive = addEventListenerWithOptions(this.el.parentElement, "wheel", event => {
-            let { instance } = this.props;
-            instance.invoke("onWheelActive", event, instance);
-         }, { passive: false });
+         this.offWheelActive = addEventListenerWithOptions(
+            this.el.parentElement,
+            "wheel",
+            (event) => {
+               let { instance } = this.props;
+               instance.invoke("onWheelActive", event, instance);
+            },
+            { passive: false }
+         );
       }
    }
 
@@ -165,4 +174,4 @@ class SvgComponent extends VDOM.Component {
    }
 }
 
-Widget.alias('svg', Svg);
+Widget.alias("svg", Svg);
