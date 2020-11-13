@@ -604,6 +604,7 @@ class LookupComponent extends VDOM.Component {
                ref={(el) => {
                   this.dom.input = el;
                }}
+               aria-labelledby={data.id + "-label"}
                onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
                onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
                onClick={(e) => this.onClick(e)}
