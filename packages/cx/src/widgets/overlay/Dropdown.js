@@ -51,7 +51,7 @@ export class Dropdown extends Overlay {
       var scrollableParents = (component.scrollableParents = [window]);
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
 
-      var el = this.relatedElement.parentElement;
+      var el = instance.relatedElement.parentElement;
       while (el) {
          scrollableParents.push(el);
          el = el.parentElement;
@@ -94,8 +94,8 @@ export class Dropdown extends Overlay {
 
    updateDropdownPosition(instance, component) {
       var { el } = component;
-      var { data } = instance;
-      var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(this.relatedElement));
+      var { data, relatedElement } = instance;
+      var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(relatedElement));
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
       if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0)
@@ -502,7 +502,7 @@ export class Dropdown extends Overlay {
    handleKeyDown(e, instance) {
       switch (e.keyCode) {
          case 27: //esc
-            var focusable = findFirst(this.relatedElement, isFocusable);
+            var focusable = findFirst(instance.relatedElement, isFocusable);
             if (focusable) focusable.focus();
             e.stopPropagation();
             e.preventDefault();
@@ -529,43 +529,46 @@ export class Dropdown extends Overlay {
       //if relatedElement is not provided, a beacon is rendered to and used to resolve a nearby element as a target
       //if onResolveTarget doesn't provide another element, the beacon itself is used as a target
       let beacon = null;
+      if (this.relatedElement)
+         instance.relatedElement = this.relatedElement;
+
       if (!this.relatedElement || instance.needsBeacon) {
          beacon = (
             <div
                key={`${key}-beacon`}
                className={CSS.element(baseClass, "beacon")}
                ref={(el) => {
-                  if (this.relatedElement) return;
+                  if (instance.relatedElement) return;
                   let target = el;
                   if (this.onResolveRelatedElement) target = instance.invoke("onResolveRelatedElement", el, instance);
                   else target = el.previousElementSibling;
                   if (!target) target = el;
                   if (target == el) instance.needsBeacon = true;
-                  this.relatedElement = target;
+                  instance.relatedElement = target;
                   instance.setState({ dummy: {} });
                }}
             />
          );
       }
-      return [beacon, this.relatedElement && super.render(context, instance, key)];
+      return [beacon, instance.relatedElement && super.render(context, instance, key)];
    }
 }
 
-Dropdown.prototype.offset = 0;
-Dropdown.prototype.baseClass = "dropdown";
-Dropdown.prototype.matchWidth = true;
-Dropdown.prototype.placementOrder = "up down right left";
-Dropdown.prototype.placement = null; //default placement
-Dropdown.prototype.constrain = false;
-Dropdown.prototype.positioning = "fixed";
-Dropdown.prototype.touchFriendly = false;
-Dropdown.prototype.arrow = false;
-Dropdown.prototype.pad = false;
-Dropdown.prototype.elementExplode = 0;
-Dropdown.prototype.screenPadding = 5;
-Dropdown.prototype.firstChildDefinesHeight = false;
-Dropdown.prototype.firstChildDefinesWidth = false;
-Dropdown.prototype.cover = false;
+   Dropdown.prototype.offset = 0;
+   Dropdown.prototype.baseClass = "dropdown";
+   Dropdown.prototype.matchWidth = true;
+   Dropdown.prototype.placementOrder = "up down right left";
+   Dropdown.prototype.placement = null; //default placement
+   Dropdown.prototype.constrain = false;
+   Dropdown.prototype.positioning = "fixed";
+   Dropdown.prototype.touchFriendly = false;
+   Dropdown.prototype.arrow = false;
+   Dropdown.prototype.pad = false;
+   Dropdown.prototype.elementExplode = 0;
+   Dropdown.prototype.screenPadding = 5;
+   Dropdown.prototype.firstChildDefinesHeight = false;
+   Dropdown.prototype.firstChildDefinesWidth = false;
+   Dropdown.prototype.cover = false;
 
 Widget.alias("dropdown", Dropdown);
 Localization.registerPrototype("cx/widgets/Dropdown", Dropdown);
