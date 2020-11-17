@@ -150,12 +150,14 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
 
    let name = options.tooltipName || "tooltip";
 
-   //no tooltips on disabled elements
-   if (parentInstance?.data.disabled) return;
-
    if (!parentInstance.tooltips) parentInstance.tooltips = {};
-
    let tooltipInstance = parentInstance.tooltips[name];
+
+   //no tooltips on disabled elements
+   if (parentInstance?.data.disabled) {
+      if (tooltipInstance && tooltipInstance.dismissTooltip) tooltipInstance.dismissTooltip();
+      return;
+   }
 
    if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
       if (tooltipInstance.dismissTooltip) tooltipInstance.dismissTooltip();
