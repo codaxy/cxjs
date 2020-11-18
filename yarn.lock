@@ -2668,6 +2668,16 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+cx-cli@19.7.0:
+  version "19.7.0"
+  resolved "https://registry.yarnpkg.com/cx-cli/-/cx-cli-19.7.0.tgz#d308c848426ce1e0d90fffede982d27ad2f3b683"
+  integrity sha512-AtwwtS75+KbNp6S9/dDafowyXBoY5oZhkGkUUlE392OHhGX1DPeiPRiq04xgP4j7HFDoTncYSvh2584wVpJ3mw==
+  dependencies:
+    chalk "^2.1.0"
+    commander "^2.9.0"
+    copy-dir "^0.3.0"
+    cross-spawn "^5.0.0"
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
