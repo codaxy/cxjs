@@ -41,5 +41,17 @@ module.exports = {
     ],
     optimization: {
         runtimeChunk: 'single'
+    },
+    cache: {
+        type: 'filesystem',
+
+        buildDependencies: {
+            config: [
+                __filename,
+                p('config/webpack.dev.js'),
+                p('config/webpack.prod.js'),
+                p('config/babel.config.js')
+            ]
+        }
     }
 };

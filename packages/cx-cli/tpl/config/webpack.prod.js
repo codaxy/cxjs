@@ -39,11 +39,13 @@ module.exports = merge(common, {
             filename: "[name].[hash].css",
             chunkFilename: "[name].[hash].css"
         }),
-        new CopyWebpackPlugin([
-            {
-                from: p("./assets"),
-                to: p("./dist/assets")
-            }
-        ])
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: p("./assets"),
+                    to: p("./dist/assets")
+                }
+            ]
+        })
     ]
 });
