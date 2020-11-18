@@ -1,6 +1,6 @@
 const
     webpack = require("webpack"),
-    merge = require("webpack-merge"),
+    { merge } = require("webpack-merge"),
     common = require("./webpack.config");
 
 module.exports = merge(common, {
@@ -10,11 +10,11 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.scss$/,
-                loaders: ["style-loader", "css-loader", "sass-loader"]
+                use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
                 test: /\.css$/,
-                loader: ["style-loader", "css-loader"]
+                use: ["style-loader", "css-loader"]
             }
         ]
     },

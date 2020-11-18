@@ -2,12 +2,12 @@ const
     webpack = require('webpack'),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     CopyWebpackPlugin = require("copy-webpack-plugin"),
-    merge = require("webpack-merge"),
+    { merge } = require("webpack-merge"),
     common = require("./webpack.config"),
     path = require("path"),
     p = p => path.join(__dirname, "../", p || "");
 
-module.exports = merge(common,  {
+module.exports = merge(common, {
     mode: 'production',
 
     output: {
@@ -22,11 +22,11 @@ module.exports = merge(common,  {
         rules: [
             {
                 test: /\.scss$/,
-                loaders: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
             },
             {
                 test: /\.css$/,
-                loaders: [MiniCssExtractPlugin.loader, "css-loader"]
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             }
         ]
     },
