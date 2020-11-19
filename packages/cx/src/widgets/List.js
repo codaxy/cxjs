@@ -9,7 +9,8 @@ import { FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch } from "../
 import { isString } from "../util/isString";
 import { isArray } from "../util/isArray";
 import { getAccessor } from "../data/getAccessor";
-import { Container } from "../ui";
+import { batchUpdates } from "../ui/batchUpdates";
+import { Container } from "../ui/Container";
 
 /*
  - renders list of items
@@ -189,16 +190,16 @@ export class List extends Widget {
    }
 }
 
-List.prototype.recordName = "$record";
-List.prototype.indexName = "$index";
-List.prototype.baseClass = "list";
-List.prototype.focusable = true;
-List.prototype.focused = false;
-List.prototype.itemPad = true;
-List.prototype.cached = false;
-List.prototype.styled = true;
-List.prototype.scrollSelectionIntoView = false;
-List.prototype.selectMode = false;
+   List.prototype.recordName = "$record";
+   List.prototype.indexName = "$index";
+   List.prototype.baseClass = "list";
+   List.prototype.focusable = true;
+   List.prototype.focused = false;
+   List.prototype.itemPad = true;
+   List.prototype.cached = false;
+   List.prototype.styled = true;
+   List.prototype.scrollSelectionIntoView = false;
+   List.prototype.selectMode = false;
 
 Widget.alias("list", List);
 
@@ -235,9 +236,12 @@ class ListComponent extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      this.setState({
-         cursor: Math.max(Math.min(this.state.cursor, props.items.length - 1), this.state.focused ? 0 : -1),
-      });
+      if (this.state.cursor >= props.items.length)
+         this.setState({ cursor: props.items.length - 1 });
+      else if (this.state.focused && this.state.cursor < 0)
+         this.state({
+            cursor: 0
+         })
    }
 
    componentWillUnmount() {
@@ -392,21 +396,23 @@ class ListComponent extends VDOM.Component {
       //ignore mouse enter/leave events (support with a flag if a feature request comes)
       if (!hover) newState.cursor = index;
 
-      if (select || widget.selectMode) {
-         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
-         if (start < 0) start = index;
-         this.selectRange(start, index, selectOptions);
-         if (!selectRange) newState.selectionStart = index;
-      }
-
-      if (Object.keys(newState).length > 0) {
-         this.setState(newState, () => {
-            if (scrollIntoView) {
-               let item = this.el.children[this.cursorChildIndex[index]];
-               if (item) scrollElementIntoView(item);
-            }
-         });
-      }
+      //batch updates to avoid flickering between selection and cursor changes
+      batchUpdates(() => {
+         if (select || widget.selectMode) {
+            let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+            if (start < 0) start = index;
+            this.selectRange(start, index, selectOptions);
+            if (!selectRange) newState.selectionStart = index;
+         }
+         if (Object.keys(newState).length > 0) {
+            this.setState(newState, () => {
+               if (scrollIntoView) {
+                  let item = this.el.children[this.cursorChildIndex[index]];
+                  if (item) scrollElementIntoView(item);
+               }
+            });
+         }
+      })
    }
 
    selectRange(from, to, options) {
@@ -508,7 +514,7 @@ class ListComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                e.stopPropagation();
                e.preventDefault();
@@ -524,7 +530,7 @@ class ListComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                e.stopPropagation();
                e.preventDefault();

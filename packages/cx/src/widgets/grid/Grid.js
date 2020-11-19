@@ -36,6 +36,7 @@ import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
 import { getAccessor } from "../../data/getAccessor";
 import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
+import { batchUpdates } from "../../ui/batchUpdates";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -124,16 +125,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             }
@@ -571,9 +572,8 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${
-                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
+                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                                 }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -713,12 +713,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-                 {
-                    field: sortField,
-                    direction: dir,
-                    value: sortValue,
-                 },
-              ]
+               {
+                  field: sortField,
+                  direction: dir,
+                  value: sortValue,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1114,8 +1114,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -1907,13 +1907,15 @@ class GridComponent extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      let { data, widget, records } = props.instance;
-      this.setState({
-         cursor: Math.max(
-            Math.min(this.state.cursor, (records ? records.length : data.totalRecordCount) - 1),
-            widget.selectable && this.state.focused ? 0 : -1
-         ),
-      });
+      let { data, widget } = props.instance;
+      if (this.state.cursor >= data.totalRecordCount)
+         this.setState({
+            cursor: data.totalRecordCount - 1
+         });
+      else if (widget.selectable && this.state.focused && this.state.cursor < 0)
+         this.setState({
+            cursor: 0
+         })
    }
 
    componentWillUnmount() {
@@ -2150,69 +2152,72 @@ class GridComponent extends VDOM.Component {
          newState.cellEdit = false;
       }
 
-      if (select) {
-         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
-         if (start < 0) start = index;
-         this.selectRange(start, index, selectOptions);
-         if (!selectRange) newState.selectionStart = index;
-      }
+      batchUpdates(() => {
 
-      if (Object.keys(newState).length > 0) {
-         let prevState = this.state;
-         let wasCellEditing = prevState.focused && prevState.cellEdit;
-         let futureState = { ...this.state, ...newState };
-
-         if (!futureState.cellEdit && wasCellEditing) {
-            //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
-            //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
-            getActiveElement().blur();
-            let record = this.getRecordAt(prevState.cursor);
-            if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
-               record.store.set(widget.recordName, this.cellEditUndoData);
-            else {
-               let newData = record.store.get(widget.recordName); //record.data might be stale at this point
-               if (widget.onCellEdited && newData != this.cellEditUndoData)
-                  this.props.instance.invoke(
-                     "onCellEdited",
-                     {
-                        column: visibleColumns[prevState.cursorCellIndex],
-                        newData,
-                        oldData: this.cellEditUndoData,
-                        field: visibleColumns[prevState.cursorCellIndex].field,
-                     },
-                     record
-                  );
-            }
+         if (select) {
+            let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+            if (start < 0) start = index;
+            this.selectRange(start, index, selectOptions);
+            if (!selectRange) newState.selectionStart = index;
          }
 
-         if (futureState.cellEdit && !wasCellEditing) this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
+         if (Object.keys(newState).length > 0) {
+            let prevState = this.state;
+            let wasCellEditing = prevState.focused && prevState.cellEdit;
+            let futureState = { ...this.state, ...newState };
 
-         this.setState(newState, () => {
-            if (this.state.focused && !this.state.cellEdit && wasCellEditing) FocusManager.focus(this.dom.el);
-
-            if (scrollIntoView) {
-               let record = this.getRecordAt(index);
-
-               let item = record && this.dom.table.querySelector(`tbody[data-record-key="${record.key}"]`);
-
-               let hscroll = false;
-               if (item) {
-                  if (widget.cellEditable)
-                     if (this.state.cursorCellIndex >= this.props.instance.fixedColumnCount) {
-                        hscroll = true;
-                        item =
-                           item.firstChild.children[this.state.cursorCellIndex - this.props.instance.fixedColumnCount];
-                     } else {
-                        let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
-                        let cell = fixedItem && fixedItem.firstChild.children[this.state.cursorCellIndex];
-                        if (cell) scrollElementIntoView(cell, false, true, 10);
-                     }
-
-                  scrollElementIntoView(item, true, hscroll, widget.cellEditable ? 10 : 0);
+            if (!futureState.cellEdit && wasCellEditing) {
+               //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
+               //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
+               getActiveElement().blur();
+               let record = this.getRecordAt(prevState.cursor);
+               if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
+                  record.store.set(widget.recordName, this.cellEditUndoData);
+               else {
+                  let newData = record.store.get(widget.recordName); //record.data might be stale at this point
+                  if (widget.onCellEdited && newData != this.cellEditUndoData)
+                     this.props.instance.invoke(
+                        "onCellEdited",
+                        {
+                           column: visibleColumns[prevState.cursorCellIndex],
+                           newData,
+                           oldData: this.cellEditUndoData,
+                           field: visibleColumns[prevState.cursorCellIndex].field,
+                        },
+                        record
+                     );
                }
             }
-         });
-      }
+
+            if (futureState.cellEdit && !wasCellEditing) this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
+
+            this.setState(newState, () => {
+               if (this.state.focused && !this.state.cellEdit && wasCellEditing) FocusManager.focus(this.dom.el);
+
+               if (scrollIntoView) {
+                  let record = this.getRecordAt(index);
+
+                  let item = record && this.dom.table.querySelector(`tbody[data-record-key="${record.key}"]`);
+
+                  let hscroll = false;
+                  if (item) {
+                     if (widget.cellEditable)
+                        if (this.state.cursorCellIndex >= this.props.instance.fixedColumnCount) {
+                           hscroll = true;
+                           item =
+                              item.firstChild.children[this.state.cursorCellIndex - this.props.instance.fixedColumnCount];
+                        } else {
+                           let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
+                           let cell = fixedItem && fixedItem.firstChild.children[this.state.cursorCellIndex];
+                           if (cell) scrollElementIntoView(cell, false, true, 10);
+                        }
+
+                     scrollElementIntoView(item, true, hscroll, widget.cellEditable ? 10 : 0);
+                  }
+               }
+            });
+         }
+      })
    }
 
    showCursor(focused) {
@@ -2396,7 +2401,7 @@ class GridComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                break;
             }
@@ -2413,7 +2418,7 @@ class GridComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                break;
             }
