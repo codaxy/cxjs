@@ -11,13 +11,16 @@ In order to use the theme, install its npm package:
 npm install cx-theme-space-blue
 ```
 
-Import theme's JavaScript. 
+Import theme's JavaScript.
 
 ```
-import "cx-theme-space-blue";
+import { applyThemeOverrides } "cx-theme-space-blue";
+...
+applyThemeOverrides();
 ```
 
 Then, import theme styles from the package by adding the following snippet to one of your SCSS files:
+
 ```
 // theme variables can be overridden here
 
@@ -29,5 +32,6 @@ Then, import theme styles from the package by adding the following snippet to on
 
 // add custom CSS here
 ```
-To learn more about Cx styling and how to customize it, 
+
+To learn more about Cx styling and how to customize it,
 [click here](https://cxjs.io/v/master/docs/concepts/css).

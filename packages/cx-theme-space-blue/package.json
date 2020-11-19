@@ -1,6 +1,6 @@
 {
   "name": "cx-theme-space-blue",
-  "version": "20.1.0",
+  "version": "20.11.0",
   "description": "Space Blue theme CSS styles for Cx applications",
   "main": "./dist/index.js",
   "author": "Codaxy",
