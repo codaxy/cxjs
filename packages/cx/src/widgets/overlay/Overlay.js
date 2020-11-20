@@ -12,6 +12,7 @@ import { isBinding } from "../../data/Binding";
 import { isNumber } from "../../util/isNumber";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
+import { SubscriberList } from "../../util/SubscriberList";
 
 /*
  Features:
@@ -50,6 +51,11 @@ export class Overlay extends Container {
       super.prepareData(context, instance);
    }
 
+   initInstance(context, instance) {
+      instance.positionChangeSubcribers = new SubscriberList();
+      super.initInstance(context, instance);
+   }
+
    explore(context, instance) {
       if (isBinding(this.visible)) {
          if (!instance.dismiss) {
@@ -69,11 +75,14 @@ export class Overlay extends Container {
 
       if (instance.cache("dismiss", instance.dismiss)) instance.markShouldUpdate(context);
 
+      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
+
       super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {
       if (instance.dismiss) context.pop("parentOptions");
+      context.pop("parentPositionChangeEvent");
    }
 
    render(context, instance, key) {
@@ -101,9 +110,9 @@ export class Overlay extends Container {
       }
    }
 
-   overlayDidUpdate(instance, component) {}
+   overlayDidUpdate(instance, component) { }
 
-   overlayWillUnmount(instance, component) {}
+   overlayWillUnmount(instance, component) { }
 
    handleFocusOut(instance, component) {
       if (this.onFocusOut) instance.invoke("onFocusOut", instance, component);
@@ -171,6 +180,7 @@ export class Overlay extends Container {
             }
          });
       }
+      instance.positionChangeSubcribers.notify();
    }
 
    handleResize(e, instance, component) {
@@ -186,26 +196,27 @@ export class Overlay extends Container {
             }
          });
       }
+      instance.positionChangeSubcribers.notify();
    }
 }
 
-Overlay.prototype.styled = true;
-Overlay.prototype.baseClass = "overlay";
-Overlay.prototype.resizable = false;
-Overlay.prototype.resizeWidth = 7;
-Overlay.prototype.center = false;
-Overlay.prototype.modal = false;
-Overlay.prototype.backdrop = false;
-Overlay.prototype.inline = false;
-Overlay.prototype.autoFocus = false;
-Overlay.prototype.autoFocusFirstChild = false;
-Overlay.prototype.animate = false;
-Overlay.prototype.draggable = false;
-Overlay.prototype.destroyDelay = 0;
-Overlay.prototype.dismissOnFocusOut = false;
-Overlay.prototype.focusable = false;
-Overlay.prototype.containerStyle = null;
-Overlay.prototype.dismissOnPopState = false;
+   Overlay.prototype.styled = true;
+   Overlay.prototype.baseClass = "overlay";
+   Overlay.prototype.resizable = false;
+   Overlay.prototype.resizeWidth = 7;
+   Overlay.prototype.center = false;
+   Overlay.prototype.modal = false;
+   Overlay.prototype.backdrop = false;
+   Overlay.prototype.inline = false;
+   Overlay.prototype.autoFocus = false;
+   Overlay.prototype.autoFocusFirstChild = false;
+   Overlay.prototype.animate = false;
+   Overlay.prototype.draggable = false;
+   Overlay.prototype.destroyDelay = 0;
+   Overlay.prototype.dismissOnFocusOut = false;
+   Overlay.prototype.focusable = false;
+   Overlay.prototype.containerStyle = null;
+   Overlay.prototype.dismissOnPopState = false;
 
 Widget.alias("overlay", Overlay);
 
@@ -346,7 +357,7 @@ export class OverlayComponent extends VDOM.Component {
       FocusManager.nudge();
    }
 
-   onFocusIn() {}
+   onFocusIn() { }
 
    onFocusOut() {
       let { widget } = this.props.instance;

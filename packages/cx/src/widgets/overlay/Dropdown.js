@@ -4,7 +4,6 @@ import { findFirst, isFocusable, getFocusedElement } from "../../util/DOM";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { Localization } from "../../ui/Localization";
-import { SubscriberList } from "../../util/SubscriberList";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
 
@@ -30,20 +29,19 @@ export class Dropdown extends Overlay {
    }
 
    initInstance(context, instance) {
-      instance.positionChangeSubcribers = new SubscriberList();
       instance.mousePosition = this.mousePosition;
+      instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
       super.initInstance(context, instance);
    }
 
    explore(context, instance) {
-      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
       context.push("lastDropdown", instance);
       super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {
-      context.pop("parentPositionChangeEvent");
       context.pop("lastDropdown");
+      super.exploreCleanup(context, instance);
    }
 
    overlayDidMount(instance, component) {
@@ -66,8 +64,8 @@ export class Dropdown extends Overlay {
       if (this.pipeValidateDropdownPosition)
          instance.invoke("pipeValidateDropdownPosition", component.updateDropdownPosition, instance);
 
-      if (this.parentPositionChangeEvent)
-         component.offParentPositionChange = this.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
+      if (instance.parentPositionChangeEvent)
+         component.offParentPositionChange = instance.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
    }
 
    overlayDidUpdate(instance, component) {
@@ -131,6 +129,7 @@ export class Dropdown extends Overlay {
 
       var style = {};
       if (this.matchWidth) style.minWidth = `${parentBounds.right - parentBounds.left}px`;
+      if (this.matchMaxWidth) style.maxWidth = `${parentBounds.right - parentBounds.left}px`;
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
       var placement = this.findOptimalPlacement(contentSize, parentBounds, data.placement, component.lastPlacement);
@@ -554,21 +553,22 @@ export class Dropdown extends Overlay {
    }
 }
 
-   Dropdown.prototype.offset = 0;
-   Dropdown.prototype.baseClass = "dropdown";
-   Dropdown.prototype.matchWidth = true;
-   Dropdown.prototype.placementOrder = "up down right left";
-   Dropdown.prototype.placement = null; //default placement
-   Dropdown.prototype.constrain = false;
-   Dropdown.prototype.positioning = "fixed";
-   Dropdown.prototype.touchFriendly = false;
-   Dropdown.prototype.arrow = false;
-   Dropdown.prototype.pad = false;
-   Dropdown.prototype.elementExplode = 0;
-   Dropdown.prototype.screenPadding = 5;
-   Dropdown.prototype.firstChildDefinesHeight = false;
-   Dropdown.prototype.firstChildDefinesWidth = false;
-   Dropdown.prototype.cover = false;
+Dropdown.prototype.offset = 0;
+Dropdown.prototype.baseClass = "dropdown";
+Dropdown.prototype.matchWidth = true;
+Dropdown.prototype.matchMaxWidth = false;
+Dropdown.prototype.placementOrder = "up down right left";
+Dropdown.prototype.placement = null; //default placement
+Dropdown.prototype.constrain = false;
+Dropdown.prototype.positioning = "fixed";
+Dropdown.prototype.touchFriendly = false;
+Dropdown.prototype.arrow = false;
+Dropdown.prototype.pad = false;
+Dropdown.prototype.elementExplode = 0;
+Dropdown.prototype.screenPadding = 5;
+Dropdown.prototype.firstChildDefinesHeight = false;
+Dropdown.prototype.firstChildDefinesWidth = false;
+Dropdown.prototype.cover = false;
 
 Widget.alias("dropdown", Dropdown);
 Localization.registerPrototype("cx/widgets/Dropdown", Dropdown);
