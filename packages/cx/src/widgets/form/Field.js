@@ -369,19 +369,19 @@ export class Field extends PureContainer {
    }
 }
 
-Field.prototype.validationMode = "tooltip";
-Field.prototype.suppressErrorsUntilVisited = false;
-Field.prototype.requiredText = "This field is required.";
-Field.prototype.autoFocus = false;
-Field.prototype.asterisk = false;
-Field.prototype.validatingText = "Validation is in progress...";
-Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
-Field.prototype.helpSpacer = true;
-Field.prototype.trackFocus = false; //add cxs-focus on parent element
-Field.prototype.labelPlacement = false;
-Field.prototype.helpPlacement = false;
-Field.prototype.emptyValue = null;
-Field.prototype.styled = true;
+   Field.prototype.validationMode = "tooltip";
+   Field.prototype.suppressErrorsUntilVisited = false;
+   Field.prototype.requiredText = "This field is required.";
+   Field.prototype.autoFocus = false;
+   Field.prototype.asterisk = false;
+   Field.prototype.validatingText = "Validation is in progress...";
+   Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
+   Field.prototype.helpSpacer = true;
+   Field.prototype.trackFocus = false; //add cxs-focus on parent element
+   Field.prototype.labelPlacement = false;
+   Field.prototype.helpPlacement = false;
+   Field.prototype.emptyValue = null;
+   Field.prototype.styled = true;
 
 //These flags are inheritable and should not be set to false
 //Field.prototype.visited = null;
@@ -410,8 +410,8 @@ export function getFieldTooltip(instance) {
 export function autoFocus(el, component) {
    if (isTouchEvent()) return;
    let data = component.props.data || component.props.instance.data;
-   let autoFocusEl = data.autoFocus && el;
-   if (autoFocusEl && autoFocusEl != component.autoFocusEl)
+   let autoFocusValue = el && data.autoFocus;
+   if (autoFocusValue && autoFocusValue != component.autoFocusValue)
       FocusManager.focus(el);
-   component.autoFocusEl = autoFocusEl;
+   component.autoFocusValue = autoFocusValue;
 }
