@@ -236,12 +236,12 @@ class ListComponent extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      if (this.state.cursor >= props.items.length)
-         this.setState({ cursor: props.items.length - 1 });
+      if (this.state.focused && props.instance.widget.selectMode)
+         this.showCursor(true, props.items);
+      else if (this.state.cursor >= props.items.length)
+         this.moveCursor(props.items.length - 1);
       else if (this.state.focused && this.state.cursor < 0)
-         this.state({
-            cursor: 0
-         })
+         this.moveCursor(0);
    }
 
    componentWillUnmount() {
@@ -441,33 +441,35 @@ class ListComponent extends VDOM.Component {
       widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
-   showCursor(focused) {
-      if (this.state.cursor == -1) {
-         let index = -1,
-            firstSelected = -1,
-            firstValid = -1;
-         for (let i = 0; i < this.props.items.length; i++) {
-            let item = this.props.items[i];
-            if (isItemSelectable(item)) {
-               index++;
-               if (firstValid == -1) firstValid = index;
-               if (item.instance.selected) {
-                  firstSelected = index;
-                  break;
-               }
+   showCursor(force, newItems) {
+      if (!force && this.state.cursor >= 0) return;
+
+      let items = newItems || this.props.items;
+      let index = -1,
+         firstSelected = -1,
+         firstValid = -1;
+      for (let i = 0; i < items.length; i++) {
+         let item = items[i];
+         if (isItemSelectable(item)) {
+            index++;
+            if (firstValid == -1) firstValid = index;
+            if (item.instance.selected) {
+               firstSelected = index;
+               break;
             }
          }
-         this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {
-            focused: true,
-         });
       }
+      this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {
+         focusedport: true,
+      });
    }
 
    onFocus() {
-      FocusManager.nudge();
-      this.showCursor(true);
-
       let { widget } = this.props.instance;
+
+      FocusManager.nudge();
+      this.showCursor(widget.selectMode);
+
       if (!widget.focused)
          oneFocusOut(this, this.el, () => {
             this.moveCursor(-1, { focused: false });
