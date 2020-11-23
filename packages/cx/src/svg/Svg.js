@@ -153,7 +153,7 @@ class SvgComponent extends VDOM.Component {
       this.onResize();
       if (this.props.instance.widget.onWheelActive) {
          this.offWheelActive = addEventListenerWithOptions(
-            this.el.parentElement,
+            this.el,
             "wheel",
             (event) => {
                let { instance } = this.props;
