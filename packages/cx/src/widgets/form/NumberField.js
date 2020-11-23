@@ -197,7 +197,7 @@ class Input extends VDOM.Component {
             <input
                id={data.id}
                type={widget.inputType}
-               className={CSS.element(baseClass, "input")}
+               className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
                defaultValue={data.formatted}
                ref={(el) => {
                   this.input = el;

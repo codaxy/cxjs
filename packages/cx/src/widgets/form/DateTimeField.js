@@ -343,7 +343,7 @@ class DateTimeInput extends VDOM.Component {
                   this.input = el;
                }}
                type="text"
-               className={CSS.element(baseClass, "input")}
+               className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
                style={data.inputStyle}
                defaultValue={data.formatted}
                disabled={data.disabled}
