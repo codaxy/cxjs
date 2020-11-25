@@ -42,14 +42,16 @@ export const DateTimeFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <DateTimeField label="Time" value:bind="$page.time" segment="time"/>
                     <TimeField label="Time" value:bind="$page.time" />
+                    <TimeField label="Time" value:bind="$page.time" picker="list" step={20} />
                 </div>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="oUVatu1E">{`
+                <CodeSnippet fiddle="jCNZu1pp">{`
                 <div layout={LabelsLeftLayout}>
                     <DateTimeField label="Time" value:bind="$page.time" segment="time" />
                     <TimeField label="Time" value:bind="$page.time" />
+                    <TimeField label="Time" value:bind="$page.time" picker="list" step={20} />
                 </div>
             `}</CodeSnippet>
             </Content>
@@ -70,7 +72,7 @@ export const DateTimeFields = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet fiddle="bANd9ALo">{`
                 <div layout={LabelsTopLayout}>
                     <DateField label="Date" value:bind="$page.datetime" partial />
                     <TimeField label="Time" value:bind="$page.datetime" partial />
@@ -82,7 +84,17 @@ export const DateTimeFields = <cx>
 
         ## Configuration
 
-        <ConfigTable props={configs}/>
+        <ConfigTable props={{
+            ...configs,
+            picker: {
+                type: 'string',
+                key: true,
+                description: <cx><Md>
+                    Modifies the appearance of dropdown into a list format. In this case `step` is also configurable.
+                </Md></cx>
+                }
+            }}
+        />
 
     </Md>
 </cx>
