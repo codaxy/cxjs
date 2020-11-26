@@ -8,6 +8,7 @@ import { shallowEquals } from "../../util/shallowEquals";
 import { isSelector } from "../../data/isSelector";
 import { wireTooltipOps } from "./tooltip-ops";
 import { getCursorPos } from "./captureMouse";
+import { RenderingContext } from "../../ui/RenderingContext";
 
 export class Tooltip extends Dropdown {
    declareData() {
@@ -182,7 +183,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       tooltipInstance.config = tooltip;
 
       if (tooltip.alwaysVisible || tooltip.trackMouse || tooltip.trackMouseX || tooltip.trackMouseY) {
-         tooltipInstance.init();
+         tooltipInstance.init(new RenderingContext());
          tooltipInstance.data = tooltipInstance.dataSelector(store);
       }
    }
