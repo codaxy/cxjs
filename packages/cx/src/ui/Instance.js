@@ -431,6 +431,7 @@ export class Instance {
 
       if (config.bind) {
          var store = this.store;
+         //in case of Rescope aor DataProxy, bindings point to the data in the parent store
          if (useParentStore && store.store)
             store = store.store;
          return isUndefined(value) ? store.deleteItem(config.bind) : store.setItem(config.bind, value);

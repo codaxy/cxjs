@@ -25,9 +25,9 @@ export class ZoomIntoPropertyView extends NestedDataView {
    deleteItem(path) {
       if (path.indexOf(this.rootName + ".") == 0) this.store.deleteItem(path.substring(this.rootName.length + 1));
       else if (this.isExtraKey(Binding.get(path).parts[0]))
-         super.deleteItem(path, value);
+         super.deleteItem(path);
       else super.deleteItem(this.binding.path + "." + path);
    }
 }
 
-      ZoomIntoPropertyView.prototype.rootName = "$root";
+ZoomIntoPropertyView.prototype.rootName = "$root";
