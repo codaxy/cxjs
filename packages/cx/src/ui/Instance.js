@@ -424,13 +424,17 @@ export class Instance {
       return changed;
    }
 
-   nestedDataSet(key, value, dataConfig) {
+   nestedDataSet(key, value, dataConfig, useParentStore) {
       let config = dataConfig[key];
       if (!config)
          throw new Error(`Unknown nested data key ${key}. Known keys are ${Object.keys(dataConfig).join(", ")}.`);
 
-      if (config.bind)
-         return isUndefined(value) ? this.store.deleteItem(config.bind) : this.store.setItem(config.bind, value);
+      if (config.bind) {
+         var store = this.store;
+         if (useParentStore && store.store)
+            store = store.store;
+         return isUndefined(value) ? store.deleteItem(config.bind) : store.setItem(config.bind, value);
+      }
 
       if (!config.set)
          throw new Error(

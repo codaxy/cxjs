@@ -1,6 +1,4 @@
-import { View } from "./View";
 import { Binding } from "./Binding";
-import { AugmentedViewBase } from "./AugmentedViewBase";
 import { NestedDataView } from "./NestedDataView";
 
 export class ZoomIntoPropertyView extends NestedDataView {
@@ -19,13 +17,17 @@ export class ZoomIntoPropertyView extends NestedDataView {
 
    setItem(path, value) {
       if (path.indexOf(this.rootName + ".") == 0) this.store.setItem(path.substring(this.rootName.length + 1), value);
+      else if (this.isExtraKey(Binding.get(path).parts[0]))
+         super.setItem(path, value);
       else super.setItem(this.binding.path + "." + path, value);
    }
 
    deleteItem(path) {
       if (path.indexOf(this.rootName + ".") == 0) this.store.deleteItem(path.substring(this.rootName.length + 1));
+      else if (this.isExtraKey(Binding.get(path).parts[0]))
+         super.deleteItem(path, value);
       else super.deleteItem(this.binding.path + "." + path);
    }
 }
 
-ZoomIntoPropertyView.prototype.rootName = "$root";
+      ZoomIntoPropertyView.prototype.rootName = "$root";
