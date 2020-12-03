@@ -4,7 +4,7 @@ export default {
     accept: {
         type: 'string',
         description: <cx><Md>
-            Defines the file types the file input should accept.
+            Defines file types that are accepted for upload.
         </Md></cx>
     },
     disabled: {

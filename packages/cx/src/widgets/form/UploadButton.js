@@ -15,6 +15,7 @@ export class UploadButton extends Field {
             text: undefined,
             url: undefined,
             icon: undefined,
+            accept: undefined
          },
          ...arguments
       );
@@ -85,7 +86,7 @@ class UploadButtonComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "input")}
                   type="file"
                   title=" "
-                  accept={widget.accept}
+                  accept={data.accept}
                   multiple={widget.multiple}
                   tabIndex={data.tabIndex}
                   onChange={this.onFileSelected.bind(this)}

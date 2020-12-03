@@ -17,8 +17,8 @@ interface UploadButtonProps extends FieldProps {
     method?: string,
     uploadInProgressText?: string,
 
-    /** One or more comma separated unique file type specifiers that the FileInput can accept */
-    accept?: string,
+    /** Defines file types that are accepted for upload. */
+    accept?: Cx.StringProp,
 
     /** Defaults to `false`. Set to `true` to abort uploads if the button is destroyed (unmounted). */
     abortOnDestroy: boolean
