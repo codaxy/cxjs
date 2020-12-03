@@ -3,6 +3,7 @@ import { VDOM } from "./Widget";
 import { HtmlElement } from "../widgets/HtmlElement";
 import { Store } from "../data/Store";
 import { Rescope } from "./Rescope";
+import { PureContainer } from "./PureContainer";
 
 import renderer from "react-test-renderer";
 import assert from "assert";
@@ -23,7 +24,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page.data">
-               <div text:bind="name" />
+               <div text-bind="name" />
             </Rescope>
          </cx>
       );
@@ -55,7 +56,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page.data">
-               <div text:bind="$root.layout.title" />
+               <div text-bind="$root.layout.title" />
             </Rescope>
          </cx>
       );
@@ -82,7 +83,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page" data={{ $title: { bind: "layout.title" } }}>
-               <div text:bind="$title" />
+               <div text-bind="$title" />
             </Rescope>
          </cx>
       );
@@ -94,6 +95,38 @@ describe("Rescope", () => {
          type: "div",
          props: {},
          children: ["Title"],
+      });
+   });
+
+   it("nested data mutations are correctly propagated to the parent store", () => {
+      let store = new Store({
+         data: {
+            item: {
+               value: 0
+            }
+         },
+      });
+
+      let widget = (
+         <cx>
+            <Rescope bind="$page" data={{ $value: { bind: "item.value" } }}>
+               <PureContainer controller={{
+                  onInit() {
+                     this.store.set("$value", 2);
+                  }
+               }} />
+            </Rescope>
+            <div text-bind="item.value" />
+         </cx>
+      );
+
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: ["2"],
       });
    });
 
@@ -114,8 +147,8 @@ describe("Rescope", () => {
 
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
-            <Rescope bind="$page.data" visible:bind="visible">
-               <div text:bind="name" />
+            <Rescope bind="$page.data" visible-bind="visible">
+               <div text-bind="name" />
             </Rescope>
          </Cx>
       );
@@ -151,7 +184,7 @@ describe("Rescope", () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <Rescope bind="$page.data" controller={TestController}>
-               <div text:bind="name" />
+               <div text-bind="name" />
             </Rescope>
          </Cx>
       );
