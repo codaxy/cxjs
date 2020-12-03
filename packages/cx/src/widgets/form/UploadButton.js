@@ -85,6 +85,7 @@ class UploadButtonComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "input")}
                   type="file"
                   title=" "
+                  accept={widget.accept}
                   multiple={widget.multiple}
                   tabIndex={data.tabIndex}
                   onChange={this.onFileSelected.bind(this)}

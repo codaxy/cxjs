@@ -14,7 +14,7 @@ import "./index.scss";
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
 //import Demo from './performance/LongList';
-import Demo from "./dev/batchListUpdates";
+// import Demo from "./dev/batchListUpdates";
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
@@ -83,6 +83,7 @@ import Demo from "./dev/batchListUpdates";
 //import Demo from "./features/grid/DockedColumns";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
+import Demo from "./features/uploadButton"
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
