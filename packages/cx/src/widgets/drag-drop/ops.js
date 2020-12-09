@@ -1,10 +1,10 @@
-import { SubscriberList } from '../../util/SubscriberList';
-import { getCursorPos, captureMouseOrTouch } from '../overlay/captureMouse';
-import { startAppLoop } from '../../ui/app/startAppLoop';
-import { getScrollerBoundingClientRect } from '../../util/getScrollerBoundingClientRect';
-import { isNumber } from '../../util/isNumber';
-import { isObject } from '../../util/isObject';
-import { isString } from '../../util/isString';
+import { SubscriberList } from "../../util/SubscriberList";
+import { getCursorPos, captureMouseOrTouch } from "../overlay/captureMouse";
+import { startAppLoop } from "../../ui/app/startAppLoop";
+import { getScrollerBoundingClientRect } from "../../util/getScrollerBoundingClientRect";
+import { isNumber } from "../../util/isNumber";
+import { isObject } from "../../util/isObject";
+import { isString } from "../../util/isString";
 import { ZIndexManager } from "../../ui/ZIndexManager";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { VDOM } from "../../ui/VDOM";
@@ -24,7 +24,6 @@ export function registerDropZone(dropZone) {
 }
 
 export function initiateDragDrop(e, options = {}, onDragEnd) {
-
    if (puppet) {
       //last operation didn't finish properly
       notifyDragDrop(e);
@@ -38,21 +37,16 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       ...options.clone,
    };
 
-   let cloneEl = document.createElement('div');
+   let cloneEl = document.createElement("div");
    cloneEl.classList.add("cxb-dragclone");
-   if (isString(clone["class"]))
-      cloneEl.classList.add(clone["class"]);
-   if (isObject(clone.style))
-      Object.assign(cloneEl.style, clone.style);
+   if (isString(clone["class"])) cloneEl.classList.add(clone["class"]);
+   if (isObject(clone.style)) Object.assign(cloneEl.style, clone.style);
    cloneEl.style.left = `-1000px`;
    cloneEl.style.top = `-1000px`;
 
-   if (clone.matchSize || clone.matchWidth)
-      cloneEl.style.width = `${Math.ceil(sourceBounds.width)}px`;
+   if (clone.matchSize || clone.matchWidth) cloneEl.style.width = `${Math.ceil(sourceBounds.width)}px`;
 
-   if (clone.matchSize || clone.matchHeight)
-      cloneEl.style.height = `${Math.ceil(sourceBounds.height)}px`;
-
+   if (clone.matchSize || clone.matchHeight) cloneEl.style.height = `${Math.ceil(sourceBounds.height)}px`;
 
    cloneEl.style.zIndex = ZIndexManager.next() + 1000;
 
@@ -74,11 +68,11 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       deltaX,
       deltaY,
       margin: [
-         styles.getPropertyValue('margin-top'),
-         styles.getPropertyValue('margin-right'),
-         styles.getPropertyValue('margin-bottom'),
-         styles.getPropertyValue('margin-left'),
-      ]
+         styles.getPropertyValue("margin-top"),
+         styles.getPropertyValue("margin-right"),
+         styles.getPropertyValue("margin-bottom"),
+         styles.getPropertyValue("margin-left"),
+      ],
    };
 
    puppet = {
@@ -87,36 +81,32 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
       el: cloneEl,
       clone,
       source,
-      onDragEnd
+      onDragEnd,
    };
 
    if (clone.widget && clone.store && !clone.cloneContent) {
-      let content = <cx>
-         <ContextWrap value={{ disabled: true }}>
-            {clone.widget}
-         </ContextWrap>
-      </cx>;
+      let content = (
+         <cx>
+            <ContextWrap value={{ disabled: true }}>{clone.widget}</ContextWrap>
+         </cx>
+      );
       puppet.stop = startAppLoop(cloneEl, clone.store, content, {
-         removeParentDOMElement: true
+         removeParentDOMElement: true,
       });
-   }
-   else {
+   } else {
       puppet.stop = () => {
-         document.body.removeChild(cloneEl)
-      }
+         document.body.removeChild(cloneEl);
+      };
    }
 
-   let event = getDragEvent(e, 'dragstart');
+   let event = getDragEvent(e, "dragstart");
 
    dragStartedZones = new WeakMap();
 
-   dropZones.execute(zone => {
+   dropZones.execute((zone) => {
+      if (zone.onDropTest && !zone.onDropTest(event)) return;
 
-      if (zone.onDropTest && !zone.onDropTest(event))
-         return;
-
-      if (zone.onDragStart)
-         zone.onDragStart(event);
+      if (zone.onDragStart) zone.onDragStart(event);
 
       dragStartedZones.set(zone, true);
    });
@@ -127,25 +117,24 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
 }
 
 function notifyDragMove(e, captureData) {
-
-   let event = getDragEvent(e, 'dragmove');
+   let event = getDragEvent(e, "dragmove");
    let over = null,
       overTest = null,
       best = null;
 
-   let near = [], away = [];
+   let near = [],
+      away = [];
 
-   dropZones.execute(zone => {
+   dropZones.execute((zone) => {
       let test = zone.onDropTest && zone.onDropTest(event);
-      if (!test)
-         return;
+      if (!test) return;
 
       if (zone.onDragMeasure) {
          let result = zone.onDragMeasure(event, { test }) || {};
-         if (result.near)
-            near.push(zone);
-         else
-            away.push(zone);
+         console.log(result);
+
+         if (result.near) near.push(zone);
+         else away.push(zone);
 
          if (isNumber(result.over) && (best == null || result.over < best)) {
             over = zone;
@@ -158,13 +147,12 @@ function notifyDragMove(e, captureData) {
    let newNear = new WeakMap();
 
    if (nearZones != null) {
-      away.forEach(z => {
-         if (z.onDragAway && nearZones.has(z))
-            z.onDragAway(z);
+      away.forEach((z) => {
+         if (z.onDragAway && nearZones.has(z)) z.onDragAway(z);
       });
    }
 
-   near.forEach(z => {
+   near.forEach((z) => {
       if (z.onDragNear && z != over && (nearZones == null || !nearZones.has(z))) {
          z.onDragNear(z);
          newNear.set(z, true);
@@ -178,13 +166,10 @@ function notifyDragMove(e, captureData) {
       hscrollParent = null;
    }
 
-   if (over != activeZone && activeZone && activeZone.onDragLeave)
-      activeZone.onDragLeave(event);
-
+   if (over != activeZone && activeZone && activeZone.onDragLeave) activeZone.onDragLeave(event);
 
    if (over != activeZone && over) {
-      if (over.onDragEnter)
-         over.onDragEnter(event);
+      if (over.onDragEnter) over.onDragEnter(event);
 
       vscrollParent = over.onGetVScrollParent && over.onGetVScrollParent();
       hscrollParent = over.onGetHScrollParent && over.onGetHScrollParent();
@@ -202,22 +187,22 @@ function notifyDragMove(e, captureData) {
    puppet.el.style.top = `${cursor.clientY - puppet.deltaY}px`;
 
    if (vscrollParent || hscrollParent) {
-      let scrollX = 0, scrollY = 0;
+      let scrollX = 0,
+         scrollY = 0;
       let vscrollBounds = vscrollParent && getScrollerBoundingClientRect(vscrollParent, true);
-      let hscrollBounds = hscrollParent == vscrollParent ? vscrollBounds : hscrollParent && getScrollerBoundingClientRect(hscrollParent, true);
+      let hscrollBounds =
+         hscrollParent == vscrollParent
+            ? vscrollBounds
+            : hscrollParent && getScrollerBoundingClientRect(hscrollParent, true);
 
       if (vscrollBounds) {
-         if (cursor.clientY < vscrollBounds.top + 20)
-            scrollY = -1;
-         else if (cursor.clientY >= vscrollBounds.bottom - 20)
-            scrollY = 1;
+         if (cursor.clientY < vscrollBounds.top + 20) scrollY = -1;
+         else if (cursor.clientY >= vscrollBounds.bottom - 20) scrollY = 1;
       }
 
       if (hscrollBounds) {
-         if (cursor.clientX < hscrollBounds.left + 20)
-            scrollX = -1;
-         else if (cursor.clientX >= hscrollBounds.right - 20)
-            scrollX = 1;
+         if (cursor.clientX < hscrollBounds.left + 20) scrollX = -1;
+         else if (cursor.clientX >= hscrollBounds.right - 20) scrollX = 1;
       }
 
       if (scrollY || scrollX) {
@@ -225,24 +210,28 @@ function notifyDragMove(e, captureData) {
             let cb = () => {
                if (scrollY) {
                   let current = vscrollParent.scrollTop;
-                  let next = Math.min(vscrollParent.scrollHeight, Math.max(0, current + scrollY * 5 * Math.min(200, Math.max(50, event.source.height)) / 60)); //60 FPS
+                  let next = Math.min(
+                     vscrollParent.scrollHeight,
+                     Math.max(0, current + (scrollY * 5 * Math.min(200, Math.max(50, event.source.height))) / 60)
+                  ); //60 FPS
                   vscrollParent.scrollTop = next;
                }
                if (scrollX) {
                   let current = hscrollParent.scrollLeft;
-                  let next = Math.min(hscrollParent.scrollWidth, Math.max(0, current + scrollX * 5 * Math.min(200, Math.max(50, event.source.width)) / 60)); //60 FPS
+                  let next = Math.min(
+                     hscrollParent.scrollWidth,
+                     Math.max(0, current + (scrollX * 5 * Math.min(200, Math.max(50, event.source.width))) / 60)
+                  ); //60 FPS
                   hscrollParent.scrollLeft = next;
                }
                scrollTimer = requestAnimationFrame(cb);
             };
-            scrollTimer = requestAnimationFrame(cb)
+            scrollTimer = requestAnimationFrame(cb);
          }
       } else {
          clearScrollTimer();
       }
-   }
-   else
-      clearScrollTimer();
+   } else clearScrollTimer();
 }
 
 function clearScrollTimer() {
@@ -255,28 +244,21 @@ function clearScrollTimer() {
 function notifyDragDrop(e) {
    clearScrollTimer();
 
-   let event = getDragEvent(e, 'dragdrop');
+   let event = getDragEvent(e, "dragdrop");
 
-   if (puppet.stop)
-      puppet.stop();
+   if (puppet.stop) puppet.stop();
 
-   if (activeZone && activeZone.onDrop)
-      event.result = activeZone.onDrop(event);
+   if (activeZone && activeZone.onDrop) event.result = activeZone.onDrop(event);
 
-   dropZones.execute(zone => {
+   dropZones.execute((zone) => {
+      if (nearZones != null && zone.onDragAway && nearZones.has(zone)) zone.onDragAway(e);
 
-      if (nearZones != null && zone.onDragAway && nearZones.has(zone))
-         zone.onDragAway(e);
+      if (!dragStartedZones.has(zone)) return;
 
-      if (!dragStartedZones.has(zone))
-         return;
-
-      if (zone.onDragEnd)
-         zone.onDragEnd(event);
+      if (zone.onDragEnd) zone.onDragEnd(event);
    });
 
-   if (puppet.onDragEnd)
-      puppet.onDragEnd(event);
+   if (puppet.onDragEnd) puppet.onDragEnd(event);
 
    nearZones = null;
    activeZone = null;
@@ -284,15 +266,13 @@ function notifyDragDrop(e) {
    dragStartedZones = null;
 }
 
-
 function getDragEvent(e, type) {
-
    return {
       type: type,
       event: e,
       cursor: getCursorPos(e),
-      source: puppet.source
-   }
+      source: puppet.source,
+   };
 }
 
 let dragCandidate = {};
@@ -300,8 +280,8 @@ let dragCandidate = {};
 export function ddMouseDown(e) {
    dragCandidate = {
       el: e.currentTarget,
-      start: { ...getCursorPos(e) }
-   }
+      start: { ...getCursorPos(e) },
+   };
 }
 
 export function ddMouseUp() {
@@ -310,7 +290,11 @@ export function ddMouseUp() {
 
 export function ddDetect(e) {
    let cursor = getCursorPos(e);
-   if (e.currentTarget == dragCandidate.el && Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >= 2) {
+   if (
+      e.currentTarget == dragCandidate.el &&
+      Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >=
+         2
+   ) {
       dragCandidate = {};
       return true;
    }
@@ -326,12 +310,16 @@ export function isDragHandleEvent(e) {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 
-export const DragDropContext = VDOM.createContext ? VDOM.createContext({ disabled: false }) : ({ children }) => children;
+export const DragDropContext = VDOM.createContext
+   ? VDOM.createContext({ disabled: false })
+   : ({ children }) => children;
 
 class ContextWrap extends Container {
    render(context, instance, key) {
-      return <DragDropContext.Provider value={this.value} key={key}>
-         {this.renderChildren(context, instance)}
-      </DragDropContext.Provider>
+      return (
+         <DragDropContext.Provider value={this.value} key={key}>
+            {this.renderChildren(context, instance)}
+         </DragDropContext.Provider>
+      );
    }
 }

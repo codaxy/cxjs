@@ -7,6 +7,7 @@ import { parseStyle } from "../../util/parseStyle";
 export class DragSource extends Container {
    init() {
       this.cloneStyle = parseStyle(this.cloneStyle);
+      this.draggedStyle = parseStyle(this.draggedStyle);
       super.init();
    }
 
@@ -16,6 +17,8 @@ export class DragSource extends Container {
          data: { structured: true },
          cloneStyle: { structured: true },
          cloneClass: { structured: true },
+         draggedClass: { structured: true },
+         draggedStyle: { structured: true },
       });
    }
 
@@ -48,7 +51,6 @@ class DragSourceComponent extends VDOM.Component {
    constructor(props) {
       super(props);
       this.state = { dragged: false };
-
       this.beginDragDrop = this.beginDragDrop.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onMouseDown = this.onMouseDown.bind(this);
@@ -72,6 +74,17 @@ class DragSourceComponent extends VDOM.Component {
          }),
       ];
 
+      let style = data.style;
+
+      if (this.state.dragged) {
+         if (data.draggedClass) classes.push(data.draggedClass);
+         if (data.draggedStyle)
+            style = {
+               ...style,
+               ...data.draggedStyle,
+            };
+      }
+
       let eventHandlers = {
          ...instance.getJsxEventProps(),
          onTouchStart: this.onMouseDown,
@@ -86,7 +99,7 @@ class DragSourceComponent extends VDOM.Component {
       delete eventHandlers.onDragEnd;
 
       return (
-         <div id={data.id} ref={this.setRef} className={CSS.expand(classes)} style={data.style} {...eventHandlers}>
+         <div id={data.id} ref={this.setRef} className={CSS.expand(classes)} style={style} {...eventHandlers}>
             {children}
          </div>
       );
