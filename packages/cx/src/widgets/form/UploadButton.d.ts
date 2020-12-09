@@ -1,27 +1,31 @@
-import * as Cx from '../../core';
-import { FieldProps } from './Field';
+import * as Cx from "../../core";
+import { FieldProps } from "./Field";
 
 interface UploadButtonProps extends FieldProps {
+   /** Text description. */
+   text?: Cx.StringProp;
 
-    /** Text description. */
-    text?: Cx.StringProp,
+   url?: Cx.StringProp;
 
-    url?: Cx.StringProp,
+   /** Base CSS class to be applied to the element. Default is 'uploadbutton'. */
+   baseClass?: string;
 
-    /** Base CSS class to be applied to the element. Default is 'uploadbutton'. */
-    baseClass?: string,
+   /** Defaults to `false`. Set to `true` to enable multiple selection. */
+   multiple?: boolean;
 
-    /** Defaults to `false`. Set to `true` to enable multiple selection. */
-    multiple?: boolean,
+   method?: string;
+   uploadInProgressText?: string;
 
-    method?: string,
-    uploadInProgressText?: string,
+   /** Defaults to `false`. Set to `true` to abort uploads if the button is destroyed (unmounted). */
+   abortOnDestroy: boolean;
 
-    /** Defines file types that are accepted for upload. */
-    accept?: Cx.StringProp,
+   /** Defines file types that are accepted for upload. */
+   accept?: Cx.StringProp;
 
-    /** Defaults to `false`. Set to `true` to abort uploads if the button is destroyed (unmounted). */
-    abortOnDestroy: boolean
+   onUploadStarting?: (xhr: XMLHttpRequest, instance: any, file: File, formData: FormData) => boolean;
+   onUploadComplete?: (xhr: XMLHttpRequest, instance: any, file: File, formData: FormData) => void;
+   onUploadProgress?: (event: ProgressEvent, instance: any, file: File, formData: FormData) => void;
+   onUploadError?: (event: ProgressEvent, instance: any, file: File, formData: FormData) => void;
 }
 
-export class UploadButton extends Cx.Widget<UploadButtonProps> { }
+export class UploadButton extends Cx.Widget<UploadButtonProps> {}

@@ -174,6 +174,7 @@ class UploadButtonComponent extends VDOM.Component {
                if (event.lengthComputable) {
                   upload.progress = event.loaded / event.total;
                   this.reportProgress();
+                  if (widget.onUploadProgress) instance.invoke("onUploadProgress", event, instance, file, formData);
                }
             };
 
