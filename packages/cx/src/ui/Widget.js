@@ -1,14 +1,14 @@
-import {Component} from '../util/Component';
-import {CSSHelper} from './CSSHelper';
+import { Component } from '../util/Component';
+import { CSSHelper } from './CSSHelper';
 import './CSS';
-import {StructuredSelector} from '../data/StructuredSelector';
-import {parseStyle} from '../util/parseStyle';
-import {isString} from '../util/isString';
-import {isDefined} from '../util/isDefined';
-import {isArray} from '../util/isArray';
-import {Console} from '../util/Console';
+import { StructuredSelector } from '../data/StructuredSelector';
+import { parseStyle } from '../util/parseStyle';
+import { isString } from '../util/isString';
+import { isDefined } from '../util/isDefined';
+import { isArray } from '../util/isArray';
+import { Console } from '../util/Console';
 
-import {VDOM as vdom} from './VDOM';
+import { VDOM as vdom } from './VDOM';
 export const VDOM = vdom;
 
 let widgetId = 100;
@@ -34,7 +34,7 @@ export class Widget extends Component {
 
    init() {
       if (this.styles)
-      this.style = this.styles;
+         this.style = this.styles;
 
       if (this.styled)
          this.style = parseStyle(this.style);
@@ -90,7 +90,7 @@ export class Widget extends Component {
       let options = {};
 
       if (this.styled)
-         options.class = options.className = options.style = {structured: true};
+         options.class = options.className = options.style = { structured: true };
 
       var props = {
          visible: undefined,
@@ -101,11 +101,11 @@ export class Widget extends Component {
       };
 
       Object.assign(props, ...arguments);
-      this.selector = new StructuredSelector({props: props, values: this});
+      this.selector = new StructuredSelector({ props: props, values: this });
       this.nameMap = this.selector.nameMap;
    }
 
-   prepareCSS(context, {data}) {
+   prepareCSS(context, { data }) {
       data.classNames = this.CSS.expand(
          this.CSS.block(this.baseClass, data.mod, data.stateMods),
          data.class,
@@ -124,7 +124,7 @@ export class Widget extends Component {
          this.onInit(context, instance)
    }
 
-   initState(context, instance) {}
+   initState(context, instance) { }
 
    checkVisible(context, instance, data) {
       return data.visible;
@@ -141,7 +141,8 @@ export class Widget extends Component {
    }
 
    render(context, instance, key) {
-      throw new Error("Widget's render method should be overridden. This error can happen if you forgot to import the component before using it.");
+      Console.log(this);
+      throw new Error("Widget's render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from 'cx/data'. Please check the console for details about the component configuration.");
    }
 
    update() {
@@ -161,9 +162,9 @@ Widget.prototype.styled = false;
 Widget.namespace = 'ui.';
 Widget.optimizePrepare = true;
 
-Widget.factory = (type, config, more) =>
-{
-   throw new Error(`Invalid widget type: ${type}.`);
+Widget.factory = (type, config, more) => {
+   throw new Error(`Invalid widget type: ${type
+      }.`);
 };
 
 export function contentAppend(result, w, prependSpace) {
