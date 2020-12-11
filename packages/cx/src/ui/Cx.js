@@ -48,12 +48,21 @@ export class Cx extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      //TODO: Switch to new props
+
+      let newStore = props.instance ? props.instance.store : props.store ? props.store : props.parentInstance.store;
+
+      if (newStore != this.store) {
+         this.store = newStore;
+         if (this.unsubscribe) this.unsubscribe();
+         if (props.subscribe)
+            this.unsubscribe = this.store.subscribe(this.update.bind(this));
+      }
+
       if (props.subscribe) {
          let data = this.store.getData();
          if (data !== this.state.data) {
             this.waitForIdle();
-            this.setState({ data: this.store.getData() });
+            this.setState({ data });
          }
       }
    }
@@ -61,7 +70,7 @@ export class Cx extends VDOM.Component {
    getInstance() {
       if (this.props.instance) return this.props.instance;
 
-      if (this.instance) return this.instance;
+      if (this.instance && this.instance.store == this.store && this.instance.widget == this.widget) return this.instance;
 
       if (this.widget && this.parentInstance)
          return (this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store));

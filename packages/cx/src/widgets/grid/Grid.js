@@ -759,7 +759,7 @@ export class Grid extends Widget {
                   pad;
                if (c.caption) {
                   if (c.caption.children)
-                     v = <Cx widget={c.caption.children} store={store} parentInstance={instance} />;
+                     v = <Cx widget={c.caption.children} store={store} parentInstance={instance} subscribe />;
                   else v = c.caption.value(data);
                   pad = c.caption.pad;
                   colSpan = c.caption.colSpan;

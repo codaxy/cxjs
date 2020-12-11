@@ -142,7 +142,7 @@ export class Widget extends Component {
 
    render(context, instance, key) {
       Console.log(this);
-      throw new Error("Widget's render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from 'cx/data'. Please check the console for details about the component configuration.");
+      throw new Error('Widget\'s render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from "cx/data". Please check the console for details about the component configuration.');
    }
 
    update() {
@@ -154,17 +154,17 @@ export class Widget extends Component {
    }
 }
 
-Widget.prototype.visible = true;
-Widget.prototype.memoize = true; //cache rendered content and use it if possible
-Widget.prototype.CSS = 'cx';
-Widget.prototype.styled = false;
+   Widget.prototype.visible = true;
+   Widget.prototype.memoize = true; //cache rendered content and use it if possible
+   Widget.prototype.CSS = 'cx';
+   Widget.prototype.styled = false;
 
-Widget.namespace = 'ui.';
-Widget.optimizePrepare = true;
+   Widget.namespace = 'ui.';
+   Widget.optimizePrepare = true;
 
-Widget.factory = (type, config, more) => {
+   Widget.factory = (type , config, more) => {
    throw new Error(`Invalid widget type: ${type
-      }.`);
+}.`);
 };
 
 export function contentAppend(result, w, prependSpace) {

@@ -1,10 +1,10 @@
-import {Cx} from './Cx';
-import {VDOM} from "./VDOM";
-import {Container} from "./Container";
-import {Store} from '../data/Store';
+import { Cx } from './Cx';
+import { VDOM } from "./VDOM";
+import { Container } from "./Container";
+import { Store } from '../data/Store';
 import renderer from 'react-test-renderer';
 import assert from 'assert';
-import {HtmlElement} from "../widgets/HtmlElement";
+import { HtmlElement } from "../widgets/HtmlElement";
 
 describe('Cx', () => {
 
@@ -16,7 +16,7 @@ describe('Cx', () => {
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
+         <Cx widget={widget} store={store} subscribe immediate />
       );
 
       let tree = component.toJSON();
@@ -76,7 +76,7 @@ describe('Cx', () => {
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
+         <Cx widget={widget} store={store} subscribe immediate />
       );
 
       let tree = component.toJSON();
