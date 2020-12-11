@@ -55,11 +55,17 @@ export class GroupAdapter extends ArrayAdapter {
 
          keys.push(gr.key);
 
-         let $group = { ...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel };
+         let $group = {
+            ...gr.key,
+            ...gr.aggregates,
+            $name: gr.name,
+            $level: inverseLevel,
+            $records: gr.records || []
+         };
+
          let data = {
             [this.recordName]: gr.records.length > 0 ? gr.records[0].data : null,
-            [this.groupName]: $group,
-            [this.groupRecordsName]: gr.records || []
+            [this.groupName]: $group
          };
 
          let groupStore = new ReadOnlyDataView({
@@ -125,4 +131,3 @@ export class GroupAdapter extends ArrayAdapter {
 }
 
    GroupAdapter.prototype.groupName = '$group';
-   GroupAdapter.prototype.groupRecordsName = '$records';
