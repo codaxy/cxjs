@@ -125,16 +125,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                        ? c.value
-                        : c.aggregateField
-                           ? { bind: this.recordName + "." + c.aggregateField }
-                           : null,
+                     ? c.value
+                     : c.aggregateField
+                     ? { bind: this.recordName + "." + c.aggregateField }
+                     : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                           bind: this.recordName + "." + c.weightField,
-                        },
+                             bind: this.recordName + "." + c.weightField,
+                          },
                   type: c.aggregate,
                };
             }
@@ -572,8 +572,9 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                                 }px`;
+                              resizeOverlayEl.style.left = `${
+                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                              }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -713,12 +714,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-               {
-                  field: sortField,
-                  direction: dir,
-                  value: sortValue,
-               },
-            ]
+                 {
+                    field: sortField,
+                    direction: dir,
+                    value: sortValue,
+                 },
+              ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1114,8 +1115,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                           height: this.rowHeight + 1,
-                        }
+                             height: this.rowHeight + 1,
+                          }
                         : null
                   }
                >
@@ -1849,7 +1850,7 @@ class GridComponent extends VDOM.Component {
             ...ev,
             target: {
                record: this.getRecordAt(rowOverIndex),
-               intex: start + rowOverIndex,
+               index: start + rowOverIndex,
             },
          };
          if (widget.onRowDragOver && instance.invoke("onRowDragOver", evt, instance) === false) cancel = true;
@@ -1910,12 +1911,12 @@ class GridComponent extends VDOM.Component {
       let { data, widget } = props.instance;
       if (this.state.cursor >= data.totalRecordCount)
          this.setState({
-            cursor: data.totalRecordCount - 1
+            cursor: data.totalRecordCount - 1,
          });
       else if (widget.selectable && this.state.focused && this.state.cursor < 0)
          this.setState({
-            cursor: 0
-         })
+            cursor: 0,
+         });
    }
 
    componentWillUnmount() {
@@ -2153,7 +2154,6 @@ class GridComponent extends VDOM.Component {
       }
 
       batchUpdates(() => {
-
          if (select) {
             let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
             if (start < 0) start = index;
@@ -2189,7 +2189,8 @@ class GridComponent extends VDOM.Component {
                }
             }
 
-            if (futureState.cellEdit && !wasCellEditing) this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
+            if (futureState.cellEdit && !wasCellEditing)
+               this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
 
             this.setState(newState, () => {
                if (this.state.focused && !this.state.cellEdit && wasCellEditing) FocusManager.focus(this.dom.el);
@@ -2205,7 +2206,9 @@ class GridComponent extends VDOM.Component {
                         if (this.state.cursorCellIndex >= this.props.instance.fixedColumnCount) {
                            hscroll = true;
                            item =
-                              item.firstChild.children[this.state.cursorCellIndex - this.props.instance.fixedColumnCount];
+                              item.firstChild.children[
+                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
                            let cell = fixedItem && fixedItem.firstChild.children[this.state.cursorCellIndex];
@@ -2217,7 +2220,7 @@ class GridComponent extends VDOM.Component {
                }
             });
          }
-      })
+      });
    }
 
    showCursor(focused) {
