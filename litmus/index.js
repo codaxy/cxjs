@@ -84,7 +84,8 @@ import "./index.scss";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
 //import Demo from "./features/uploadButton"
-import Demo from "./bugs/GroupCaptionBug";
+// import Demo from "./bugs/GroupCaptionBug";
+import Demo from "./bugs/invokeParentMethod";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";

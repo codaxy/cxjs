@@ -378,5 +378,38 @@ describe('Controller', () => {
       let tree1 = component.toJSON();
       assert.equal(store.get("y"), 1);
    });
-});
 
+   it('invokeParentMethod is invoked on parent instance', () => {
+
+      let testValid = [];
+
+      const TestController1 = {
+         onInit() {
+            this.test();
+         },
+         test() {
+            testValid.push(1);
+            this.invokeParentMethod('test', 2);
+         }
+      }
+
+      const TestController2 = {
+         test(val) {
+            testValid.push(val)
+         }
+      }
+
+      let store = new Store();
+
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div controller={TestController2}>
+               <div controller={TestController1}/>
+            </div>
+         </Cx>
+      );
+
+      // let tree = component.toJSON();
+      assert.deepStrictEqual(testValid, [1, 2]);
+   });
+});
