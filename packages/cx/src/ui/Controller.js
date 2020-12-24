@@ -73,6 +73,11 @@ export class Controller extends Component {
    }
 
    invokeParentMethod(methodName, ...args) {
+      let parent = this.instance.parent;
+      return parent.invokeControllerMethod(methodName, ...args);
+   }
+
+   invokeMethod(methodName, ...args) {
       return this.instance.invokeControllerMethod(methodName, ...args);
    }
 }
