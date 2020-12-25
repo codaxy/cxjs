@@ -4,6 +4,7 @@ import {casual} from '../data/casual';
 import {CodeSplit} from "../../../components/CodeSplit";
 import {Md} from "../../../components/Md";
 import {CodeSnippet} from "../../../components/CodeSnippet";
+import { KeyCode } from "cx/util";
 
 class PageController extends Controller {
     onInit() {
@@ -40,6 +41,7 @@ export const CellEditing = (
 
                 <Grid
                     cellEditable
+                    onCellKeyDown={(e, {store}) => { if(e.keyCode == KeyCode.delete) { }}}
                     onCellEdited={(change, record) => {
                         console.log(change, record);
                     }}
