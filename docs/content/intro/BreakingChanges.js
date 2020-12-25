@@ -13,6 +13,54 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 20.12.4
+
+            ### Change in invokeParentMethod
+
+            Previously [`invokeParentMethod`](~/concepts/controllers#-code-invokeparentmethod-code-) could be used to invoke Controller's own method. If the specified method was not found on current
+            Controller instance, parent instances would be checked until the one with the specified method is found.
+
+            With this change, `invokeParentMethod` now **skips** the current Controller instance and tries to invoke the specified method
+            in one of the parent instances, as the name suggests.
+            This can cause the code to break if, for example, `invokeParentMethod` was used in one of the inline event handlers:
+            <CodeSplit>
+                <CodeSnippet>
+                {`
+                    <div controller={{
+                        onSubmit(val) {
+                            console.log('val', val)
+                        }
+                    }}>
+                        <Button
+                            onClick={(e, instance) => {
+                                let controller = instance.controller;
+                                // This will cause an error:
+                                // Uncaught Error: Cannot invoke controller method "onSubmit" as controller is not assigned to the widget.
+                                controller.invokeParentMethod('onSubmit', 1);
+                            }}
+                            text="Submit"
+                        />
+                    </div>
+                `}
+                </CodeSnippet>
+            </CodeSplit>
+
+            To fix this, make the following change in the `onClick` handler:
+            <CodeSplit>
+                <CodeSnippet>
+                {`
+                    onClick={(e, instance) => {
+                        let controller = instance.controller;
+                        // use invokeMethod instead of invokeParentMethod
+                        controller.invokeMethod('onSubmit', 1);
+                    }}
+                `}
+                </CodeSnippet>
+            </CodeSplit>
+
+            [`invokeMethod`](~/concepts/controllers#-code-invokemethod-code-) has the same behaviour as the previous implementation of `invokeParentMethod`, hence it can be used as a fail-safe replacement for
+            `invokeParentMethod` in this version of CxJS.
+
             ## 20.1.0
 
             ### Format change for DateTimeField
