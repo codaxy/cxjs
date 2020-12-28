@@ -5,7 +5,6 @@ import {
     HtmlElement,
     Checkbox,
     TextField,
-    NumberField,
     Select,
     Option,
     Repeater,
@@ -65,13 +64,13 @@ class MethodController extends Controller {
 class TodoListController extends Controller {
     onInit() {
         this.store.init("$page.todoList", [
-            { id: 0, text: 'Learn Cx', done: true }, 
+            { id: 0, text: 'Learn Cx', done: true },
             { id: 1, text: "Feed the cat", done: false },
         ])
     }
 
     addNewTask(task) {
-        this.store.update("$page.todoList", todoList => {            
+        this.store.update("$page.todoList", todoList => {
             return [
                 ...todoList,
                 {
@@ -94,7 +93,7 @@ class NewTaskController extends Controller {
 }
 const NewTask = (
     <cx>
-        <div controller={NewTaskController} layout={LabelsTopLayout} >
+        <div layout={LabelsTopLayout} >
             <TextField value-bind="$page.task" label="Task description" />
             <Button onClick="addTask" text="Add task" />
         </div>
@@ -316,20 +315,20 @@ export const Controllers = <cx>
         </CodeSplit>
 
         When using names of callbacks, it's possible to invoke methods defined higher in the ancestor controller tree.
-
         <CodeSplit>
+
 
             ### `invokeParentMethod`
 
             In some cases we might need to call the parent Controller's method from within the child Controller
-            that contains part of the business logic.        
-            
+            that contains part of the business logic.
+
             In such cases, we can use `invokeParentMethod` as shown in the example below.
-            
+
             <div class="widgets" visible={true} >
                 <div controller={TodoListController} layout={LabelsLeftLayout}>
-                    <NewTask />
-                
+                    <NewTask controller={NewTaskController} />
+
                     <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
                     <Repeater records:bind="$page.todoList" >
                         <Checkbox value:bind="$record.done" text:bind="$record.text"/>
@@ -338,42 +337,20 @@ export const Controllers = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
-                // NewTask component
+            <CodeSnippet putInto="code" fiddle="4m9CnnAH">{`
+                // Open fiddle to see the entire code example
+                // https://fiddle.cxjs.io/?f=4m9CnnAH
                 class NewTaskController extends Controller {
                     addTask() {
                         let task = this.store.get("$page.task");
                         this.store.delete("$page.task");
+                        // addNewTask method is defined in TodoListController
                         this.invokeParentMethod("addNewTask", task);
                     }
                 }
-                const NewTask = (
-                    <cx>
-                        <div controller={NewTaskController} layout={LabelsTopLayout} >
-                            <TextField value-bind="$page.task" label="Task description" />
-                            <Button onClick="addTask" text="Add task" />
-                        </div>
-                    </cx>
-                );
-                ...
-                // Main TodoList component
-                class TodoListController extends Controller {                
-                    addNewTask(task) {
-                        this.store.update("$page.todoList", todoList => {            
-                            return [
-                                ...todoList,
-                                {
-                                    id: todoList.length,
-                                    text: task,
-                                    done: false
-                                }
-                            ];
-                        });
-                    }
-                }
+
                 <div controller={TodoListController} layout={LabelsLeftLayout}>
-                    <NewTask />
-                
+                    <NewTask controller={NewTaskController} />
                     <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
                     <Repeater records:bind="$page.todoList" >
                         <Checkbox value:bind="$record.done" text:bind="$record.text"/>
@@ -382,11 +359,58 @@ export const Controllers = <cx>
                 </div>
             `}</CodeSnippet>
 
-            `invokeParentMethod` accepts the name of the parent method, followed by any number
-            of arguments it expects.
+            `invokeParentMethod` accepts the name of the parent method, followed by any number of arguments the method expects.
         </CodeSplit>
 
+        <CodeSplit>
+            ### `invokeMethod`
+
+            `invokeMethod` behaves similarly to `invokeParentMethod` with the difference that the current Controller instance is checked first
+            if it contains the specified method. This is useful if we are invoking the Controller's method from an inline event handler:
+
+            <div class="widgets" visible={true} >
+                <div
+                    controller={{
+                        onSubscribe(email) {
+                            alert("Your email is: " + email);
+                        }
+                    }}
+                    layout={LabelsTopLayout}
+                >
+                  <TextField label="Email" value-bind="$page.email" />
+                  <Button
+                    text="Subscribe"
+                    onClick={(e, {controller, store}) => {
+                        let email = store.get('$page.email')
+                        // do some additional logic...
+                        controller.invokeMethod('onSubscribe', email);
+                    }}
+                  />
+                </div>
+            </div>
+            <CodeSnippet putInto="code" fiddle="AHDmj3eT">{`
+                <div
+                    controller={{
+                        onSubscribe(email) {
+                            alert("Your email is: " + email);
+                        }
+                    }}
+                    layout={LabelsTopLayout}
+                >
+                  <TextField label="Email" value-bind="$page.email" />
+                  <Button
+                    text="Subscribe"
+                    onClick={(e, {controller, store}) => {
+                        let email = store.get('$page.email')
+                        // do some additional logic...
+                        controller.invokeMethod('onSubscribe', email);
+                    }}
+                  />
+                </div>
+            `}</CodeSnippet>
+        </CodeSplit>
+
+        `invokeParent` accepts the name of the method, followed by any number of arguments the method expects.
     </Md>
 
 </cx>;
-
