@@ -13,7 +13,7 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
-            ## 20.12.4
+            ## 21.1.0
 
             ### Change in invokeParentMethod
 
