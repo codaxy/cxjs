@@ -360,8 +360,10 @@ class TimeScale {
          factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
       }
 
+      let sign = this.b > this.a ? 1 : -1;
+
       return {
-         factor: this.inverted ? -factor : factor,
+         factor: sign * (this.inverted ? -factor : factor),
          min: smin,
          max: smax,
          minPadding,
