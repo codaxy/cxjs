@@ -41,7 +41,6 @@ export const CellEditing = (
 
                 <Grid
                     cellEditable
-                    onCellKeyDown={(e, {store}) => { if(e.keyCode == KeyCode.delete) { }}}
                     onCellEdited={(change, record) => {
                         console.log(change, record);
                     }}
