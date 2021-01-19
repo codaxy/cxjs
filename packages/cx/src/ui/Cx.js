@@ -70,7 +70,10 @@ export class Cx extends VDOM.Component {
    getInstance() {
       if (this.props.instance) return this.props.instance;
 
-      if (this.instance && this.instance.store == this.store && this.instance.widget == this.widget) return this.instance;
+      if (this.instance && this.instance.widget === this.widget) {
+         if (this.instance.store != this.store) this.instance.setStore(this.store);
+         return this.instance;
+      }
 
       if (this.widget && this.parentInstance)
          return (this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store));
