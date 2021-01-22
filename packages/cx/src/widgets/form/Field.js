@@ -1,4 +1,4 @@
-import { Widget, VDOM, getContent } from "../../ui/Widget";
+import { VDOM, getContent } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { ValidationError } from "./ValidationError";
 import { HelpText } from "./HelpText";
@@ -13,6 +13,7 @@ import { FocusManager } from "../../ui/FocusManager";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { coalesce } from "../../util/coalesce";
+import { isUndefined } from "../../util/isUndefined";
 
 export class Field extends PureContainer {
    declareData() {
@@ -39,26 +40,28 @@ export class Field extends PureContainer {
    }
 
    init() {
-      switch (this.validationMode) {
-         case "tooltip":
-            this.errorTooltip = {
-               text: { bind: "$error" },
-               mod: "error",
-               ...this.errorTooltip,
-            };
-            break;
+      if (this.validationMode == 'tooltip' && isUndefined(this.errorTooltip)) {
+         this.errorTooltip = {
+            text: { bind: "$error" },
+            mod: "error",
+            ...this.errorTooltip,
+         };
+      }
 
-         case "help":
-         case "help-inline":
-            this.help = ValidationError;
-            break;
+      if (isUndefined(this.help)) {
+         switch (this.validationMode) {
+            case "help":
+            case "help-inline":
+               this.help = ValidationError;
+               break;
 
-         case "help-block":
-            this.help = {
-               type: ValidationError,
-               mod: "block",
-            };
-            break;
+            case "help-block":
+               this.help = {
+                  type: ValidationError,
+                  mod: "block",
+               };
+               break;
+         }
       }
 
       if (this.help != null) {
