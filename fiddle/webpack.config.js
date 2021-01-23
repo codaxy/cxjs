@@ -25,6 +25,11 @@ var common = {
          fs: false,
          module: false,
          net: false,
+         assert: false,
+         util: false,
+         path: false,
+         buffer: false,
+         "safe-buffer": false,
       },
    },
 
