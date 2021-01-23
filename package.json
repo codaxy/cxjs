@@ -49,7 +49,6 @@
     "benchmark",
     "fiddle"
   ],
-  "dependencies": {},
   "jest": {
     "transform": {
       "^.+\\.js$": "./test/jest.transform.js"
@@ -58,10 +57,15 @@
       "node_modules/(?!cx|cx-react)"
     ]
   },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@types/react": "^16.0.5"
+  },
   "devDependencies": {
     "env-test": "^1.0.0",
     "prettier": "^2.0.5",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11"
-  }
+  }  
 }

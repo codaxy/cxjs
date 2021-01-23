@@ -49,7 +49,6 @@
     "babel-plugin-transform-cx-imports": "^19.1.0",
     "babel-plugin-transform-cx-jsx": "^19.1.0",
     "babel-preset-cx-env": "^19.1.0",
-    "chunk-manifest-webpack-plugin": "1.1.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",

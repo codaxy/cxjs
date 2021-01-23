@@ -17,14 +17,14 @@
       "intl-io": "^0.3.0",
       "route-parser": "^0.0.5"
    },
-   "peerDependencies": {
-      "@types/react": "^16.0.5"
+   "peerDependencies": {      
+      "@types/react": "*"
    },
    "repository": {
       "type": "git",
       "url": "git@github.com:codaxy/cxjs.git"
    },
    "devDependencies": {
-      "react-test-renderer": "^16.13.1"
+      "react-test-renderer": "^17.0.1"
    }
 }
