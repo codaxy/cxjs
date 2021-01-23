@@ -4,7 +4,7 @@ const webpack = require("webpack"),
    CopyWebpackPlugin = require("copy-webpack-plugin"),
    WebpackCleanupPlugin = require("webpack-cleanup-plugin"),
    BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
-   merge = require("webpack-merge"),
+   { merge } = require("webpack-merge"),
    path = require("path"),
    gtm = require("../misc/tracking/gtm.js"),
    reactScriptsProd = require("../misc/reactScripts"),
@@ -21,6 +21,11 @@ var common = {
          app: path.join(__dirname, "app/"),
          config: path.join(__dirname, "app/config/dev/"),
       },
+      fallback: {
+         fs: false,
+         module: false,
+         net: false,
+      },
    },
 
    module: {
@@ -29,7 +34,7 @@ var common = {
             test: /\.(js|mjs)$/,
             //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
             loader: "babel-loader",
-            query: {
+            options: {
                cacheDirectory: true,
                presets: [
                   [
@@ -61,11 +66,11 @@ var common = {
          },
       ],
    },
-   node: {
-      fs: "empty",
-      module: "empty",
-      net: "empty",
-   },
+   //  node: {
+   //     fs: "empty",
+   //     module: "empty",
+   //     net: "empty",
+   //  },
    entry: {
       app: __dirname + "/app/index.js",
    },
@@ -157,11 +162,11 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               loaders: ["style-loader", "css-loader", "sass-loader"],
+               use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
-               loader: ["style-loader", "css-loader"],
+               use: ["style-loader", "css-loader"],
             },
          ],
       },
