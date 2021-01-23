@@ -1,6 +1,6 @@
 {
   "name": "cx-build-tools",
-  "version": "19.12.1",
+  "version": "21.1.0",
   "description": "Tools and utilities required for building CxJS and related packages.",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -12,10 +12,10 @@
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "dependencies": {
-    "@babel/core": "7.10.2",
-    "@babel/preset-env": "7.10.2",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@rollup/plugin-multi-entry": "^3.0.0",
-    "babel-preset-cx-env": "18.5.0",
+    "babel-preset-cx-env": "^21.1.0",
     "node-sass": "^4.13.1",
     "rollup": "^1.29.1",
     "rollup-plugin-babel": "^4.3.3",

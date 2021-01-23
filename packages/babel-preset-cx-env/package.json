@@ -1,18 +1,18 @@
 {
   "name": "babel-preset-cx-env",
-  "version": "20.1.0",
+  "version": "21.1.0",
   "description": "Babel preset for CxJS apps",
   "main": "./index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
-  "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+  "dependencies": {    
     "@babel/plugin-proposal-function-bind": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.8.3",
-    "babel-plugin-transform-cx-imports": "^19.1.0",
-    "babel-plugin-transform-cx-jsx": "^19.1.0"
+    "babel-plugin-transform-cx-imports": "^21.1.0",
+    "babel-plugin-transform-cx-jsx": "^21.1.0"
   },
   "peerDependencies": {
-    "@babel/preset-env": "^7.2.3"
+    "@babel/preset-env": "^7.0.0",
+    "@babel/core" :"^7.0.0"
   }
 }

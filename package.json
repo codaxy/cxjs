@@ -60,6 +60,8 @@
   },
   "devDependencies": {
     "env-test": "^1.0.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11"
   }
 }

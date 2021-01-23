@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
-    "cx": "^17.5.4"
+    "cx": "*"
   },
   "repository": {
     "type": "git",

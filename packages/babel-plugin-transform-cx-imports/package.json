@@ -1,18 +1,21 @@
 {
   "name": "babel-plugin-transform-cx-imports",
-  "version": "19.1.0",
+  "version": "21.1.0",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
   "repository": "https://github.com/codaxy/cxjs",
   "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "dependencies": {
-    "@babel/plugin-syntax-jsx": "^7.8.3"
+    "@babel/plugin-syntax-jsx": "^7.12.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "mocha": "^2.3.4"
+  },
+  "peerDependencies": {
+    "@babel/core" :"^7.0.0"
   },
   "scripts": {
     "test": "mocha"
