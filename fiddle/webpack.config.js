@@ -25,7 +25,6 @@ var common = {
          fs: false,
          module: false,
          net: false,
-         assert: false,
          util: false,
          path: false,
          buffer: false,
@@ -37,6 +36,11 @@ var common = {
       rules: [
          {
             test: /\.(js|mjs)$/,
+            include: [
+               path.resolve(__dirname, "./app"),
+               path.resolve(__dirname, "../misc"),
+               /node_modules[\\\/](.*)[\\\/](cx|cx-react)[\\\/]/,
+            ],
             //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
             loader: "babel-loader",
             options: {
