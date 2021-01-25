@@ -36,21 +36,20 @@ export class TreeAdapter extends ArrayAdapter {
                let childNodes = super.mapRecords(context, instance, data[this.childrenField], store, this.childrenAccessor);
                this.processList(context, instance, level + 1, record.key + ':', childNodes, result);
             }
-            else if (!data[this.loadedField]) {
-               if (this.load) {
-                  store.set(`${this.recordName}.${this.loadingField}`, true);
-                  let response = this.load(context, instance, data);
-                  Promise.resolve(response)
-                     .then(children => {
-                        store.set(`${this.recordName}.${this.childrenField}`, children);
-                        store.set(`${this.recordName}.${this.loadedField}`, true);
-                        store.set(`${this.recordName}.${this.loadingField}`, false);
-                     })
-                     .catch(response => {
-                        if (this.onLoadError)
-                           this.onLoadError(response);
-                     })
-               }
+            else if (this.load && !data[this.loadedField] && !data[this.loadingField]) {
+               store.set(`${this.recordName}.${this.loadingField}`, true);
+               let response = this.load(context, instance, data);
+               Promise.resolve(response)
+                  .then(children => {
+                     store.set(`${this.recordName}.${this.childrenField}`, children);
+                     store.set(`${this.recordName}.${this.loadedField}`, true);
+                     store.set(`${this.recordName}.${this.loadingField}`, false);
+                  })
+                  .catch(response => {
+                     store.set(`${this.recordName}.${this.loadingField}`, false);
+                     if (this.onLoadError)
+                        this.onLoadError(response);
+                  });
             }
          } else
             data[this.expandedField] = false;
