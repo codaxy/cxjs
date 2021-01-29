@@ -1,11 +1,11 @@
 import { HtmlElement, Button, NumberField, DateField, Calendar } from 'cx/widgets';
 import { Culture, Controller, LabelsLeftLayout } from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from "../../components/ImportPath";
-import {MethodTable} from "../../components/MethodTable";
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from "../../components/ImportPath";
+import { MethodTable } from "../../components/MethodTable";
 
 function loadCulture(culture) {
     //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
@@ -14,6 +14,8 @@ function loadCulture(culture) {
             return import('cx/locale/de-de');
         case 'nl-nl':
             return import('cx/locale/nl-nl');
+        case 'sr-latn-ba':
+            return import('cx/locale/sr-latn-ba');
         default:
         case 'en-us':
             return import('cx/locale/en-us');
@@ -48,15 +50,16 @@ export const LocalizationPage = <cx>
 
             <div class="widgets" controller={PageController}>
                 <div preserveWhitespace>
-                    <Button onClick={(e, {store}) => {setCulture('de-de', store)}}>de-de</Button>
+                    <Button onClick={(e, { store }) => { setCulture('de-de', store) }}>de-de</Button>
                     <Button onClick={(e, { store }) => { setCulture('nl-nl', store) }}>nl-nl</Button>
-                    <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
+                    <Button onClick={(e, { store }) => { setCulture('en-us', store) }}>en-us</Button>
+                    <Button onClick={(e, { store }) => { setCulture('sr-latn-ba', store) }}>sr-ba</Button>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <NumberField value:bind="$page.number" required />
-                    <DateField value:bind="$page.date" required />
-                    <NumberField value:bind="$page.number" required format="currency"/>
-                    <Calendar value:bind="$page.date" />
+                    <NumberField value-bind="$page.number" required />
+                    <DateField value-bind="$page.date" required />
+                    <NumberField value-bind="$page.number" required format="currency" />
+                    <Calendar value-bind="$page.date" />
                 </div>
             </div>
 
@@ -96,17 +99,17 @@ export const LocalizationPage = <cx>
                     <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <NumberField value:bind="$page.number" required />
-                    <DateField value:bind="$page.date" required />
-                    <NumberField value:bind="$page.number" required format="currency"/>
-                    <Calendar value:bind="$page.date" />
+                    <NumberField value-bind="$page.number" required />
+                    <DateField value-bind="$page.date" required />
+                    <NumberField value-bind="$page.number" required format="currency"/>
+                    <Calendar value-bind="$page.date" />
                 </div>
             </div>
             `}</CodeSnippet>
         </CodeSplit>
 
         ## Culture
-        <ImportPath path="import {Culture} from 'cx/ui';"/>
+        <ImportPath path="import {Culture} from 'cx/ui';" />
 
         The `Culture` object provides methods for selecting a UI culture used for formatting and localizing messages.
 
@@ -138,11 +141,11 @@ export const LocalizationPage = <cx>
 
                     `Culture.setDefaultDateEncoding(encodeDateWithTimezoneOffset);`
                 </Md></cx>
-            }]}/>
+            }]} />
         </CodeSplit>
 
         ## Localization
-        <ImportPath path="import {Localization} from 'cx/ui';"/>
+        <ImportPath path="import {Localization} from 'cx/ui';" />
 
         The `Localization` object offers methods for providing errors messages and other texts that appear in widgets
         in different languages.
@@ -164,7 +167,7 @@ export const LocalizationPage = <cx>
                     Override prototype properties for a given component name. Used for changing defaults and
                     theme adjustments.
                 </Md></cx>
-            }]}/>
+            }]} />
 
 
             <CodeSnippet putInto="code">{`
