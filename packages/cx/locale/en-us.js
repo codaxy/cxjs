@@ -27,7 +27,8 @@ const calendarErrorMessages = {
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', {
    ...calendarErrorMessages,
-   todayButtonText: 'Today'
+   todayButtonText: 'Today',
+   startWithMonday: false
 });
 // MonthPicker
 Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
