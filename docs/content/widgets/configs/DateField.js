@@ -84,5 +84,11 @@ export default {
         description: <cx><Md>
             Defines which days of week should be displayed as disabled, i.e. `[0, 6]` will make Sunday and Saturday unselectable.
         </Md></cx>
+    },
+    focusInputFirst: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to focus the input field instead of the picker first.
+        </Md></cx>
     }
 };
