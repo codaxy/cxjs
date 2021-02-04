@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "21.1.1",
+   "version": "21.1.2",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "main": "index.js",
    "jsnext:main": "src/index.js",
@@ -17,7 +17,7 @@
       "intl-io": "^0.3.0",
       "route-parser": "^0.0.5"
    },
-   "peerDependencies": {      
+   "peerDependencies": {
       "@types/react": "*"
    },
    "repository": {
