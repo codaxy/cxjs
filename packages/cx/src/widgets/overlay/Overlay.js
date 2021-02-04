@@ -602,7 +602,7 @@ export class OverlayComponent extends VDOM.Component {
             this.shadowEl,
             "wheel",
             (e) => {
-               if (e.deltaY == 0) return;
+               if (e.shiftKey) return;
                //check if there is a scrollable element within the shadow or overlay contents
                //such that its scrollbar is not at the very end
                let scrollAllowed = false;
