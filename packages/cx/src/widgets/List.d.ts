@@ -60,7 +60,10 @@ interface ListProps extends Cx.StyledContainerProps {
    itemDisabled?: Cx.BooleanProp,
 
    /** Lists in this mode perform selection automatically without offering cursor navigation. */
-   selectMode?: boolean
+   selectMode?: boolean,
+
+   /** If this field is set to true pressing the Tab key will select the item under cursor. */
+   selectOnTab?: boolean
 }
 
 export class List extends Cx.Widget<ListProps> {}

@@ -200,6 +200,7 @@ export class List extends Widget {
    List.prototype.styled = true;
    List.prototype.scrollSelectionIntoView = false;
    List.prototype.selectMode = false;
+   List.prototype.selectOnTab = false;
 
 Widget.alias("list", List);
 
@@ -496,7 +497,9 @@ class ListComponent extends VDOM.Component {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return;
 
       switch (e.keyCode) {
+         case KeyCode.tab:
          case KeyCode.enter:
+            if (!widget.selectOnTab && e.keyCode == KeyCode.tab) break;
             let item = items[this.cursorChildIndex[this.state.cursor]];
             if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false) return;
             this.moveCursor(this.state.cursor, {

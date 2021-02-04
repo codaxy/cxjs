@@ -207,33 +207,33 @@ export class LookupField extends Field {
    }
 }
 
-   LookupField.prototype.baseClass = "lookupfield";
-   //LookupField.prototype.memoize = false;
-   LookupField.prototype.multiple = false;
-   LookupField.prototype.queryDelay = 150;
-   LookupField.prototype.minQueryLength = 0;
-   LookupField.prototype.hideSearchField = false;
-   LookupField.prototype.minOptionsForSearchField = 7;
-   LookupField.prototype.loadingText = "Loading...";
-   LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
-   LookupField.prototype.noResultsText = "No results found.";
-   LookupField.prototype.optionIdField = "id";
-   LookupField.prototype.optionTextField = "text";
-   LookupField.prototype.valueIdField = "id";
-   LookupField.prototype.valueTextField = "text";
-   LookupField.prototype.suppressErrorsUntilVisited = true;
-   LookupField.prototype.fetchAll = false;
-   LookupField.prototype.cacheAll = false;
-   LookupField.prototype.showClear = true;
-   LookupField.prototype.alwaysShowClear = false;
-   LookupField.prototype.closeOnSelect = true;
-   LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
-   LookupField.prototype.icon = null;
-   LookupField.prototype.sort = false;
-   LookupField.prototype.listOptions = null;
-   LookupField.prototype.autoOpen = false;
-   LookupField.prototype.submitOnEnterKey = false;
-   LookupField.prototype.submitOnDropdownEnterKey = false;
+LookupField.prototype.baseClass = "lookupfield";
+//LookupField.prototype.memoize = false;
+LookupField.prototype.multiple = false;
+LookupField.prototype.queryDelay = 150;
+LookupField.prototype.minQueryLength = 0;
+LookupField.prototype.hideSearchField = false;
+LookupField.prototype.minOptionsForSearchField = 7;
+LookupField.prototype.loadingText = "Loading...";
+LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
+LookupField.prototype.noResultsText = "No results found.";
+LookupField.prototype.optionIdField = "id";
+LookupField.prototype.optionTextField = "text";
+LookupField.prototype.valueIdField = "id";
+LookupField.prototype.valueTextField = "text";
+LookupField.prototype.suppressErrorsUntilVisited = true;
+LookupField.prototype.fetchAll = false;
+LookupField.prototype.cacheAll = false;
+LookupField.prototype.showClear = true;
+LookupField.prototype.alwaysShowClear = false;
+LookupField.prototype.closeOnSelect = true;
+LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
+LookupField.prototype.icon = null;
+LookupField.prototype.sort = false;
+LookupField.prototype.listOptions = null;
+LookupField.prototype.autoOpen = false;
+LookupField.prototype.submitOnEnterKey = false;
+LookupField.prototype.submitOnDropdownEnterKey = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -285,7 +285,6 @@ class LookupComponent extends VDOM.Component {
          formatted: data.formatted,
          value: data.formatted,
          dropdownOpen: false,
-         cursorKey: null,
          focus: false,
       };
 
@@ -330,6 +329,8 @@ class LookupComponent extends VDOM.Component {
                pipeKeyDown={(kd) => {
                   this.listKeyDown = kd;
                }}
+               selectOnTab
+               focusable={false}
                selection={{
                   type: SelectionDelegate,
                   delegate: (data) =>
@@ -628,25 +629,23 @@ class LookupComponent extends VDOM.Component {
 
    onClick(e) {
       //this should run only for touch devices where mouse events are not called
-      if (this.lastMouseDownEventTime > Date.now() - 5000) return;
+      if (!isTouchEvent()) return;
       e.preventDefault();
       e.stopPropagation();
       this.toggleDropdown(e);
    }
 
    onMouseDown(e) {
-      this.lastMouseDownEventTime = Date.now(); //consider making this a global utility
       e.preventDefault();
       e.stopPropagation();
       this.toggleDropdown(e);
    }
 
-
-
    onItemClick(e, { store }) {
       this.select(e, store.getData());
       if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
-      e.preventDefault();
+      if (e.keyCode != KeyCode.tab)
+         e.preventDefault();
    }
 
    onClearClick(e, value) {
@@ -715,8 +714,13 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (widget.closeOnSelect) {
-         this.closeDropdown(e);
-         if (!isTouchEvent(e)) this.dom.input.focus();
+         e.persist();
+         console.log(e, document.activeElement);
+         //Pressing Tab should work it's own thing. Focus will move elsewhere and the dropdown will close.
+         if (e.keyCode != KeyCode.tab) {
+            if (!isTouchEvent(e)) this.dom.input.focus();
+            this.closeDropdown(e);
+         }
       }
 
       if (e.keyCode == KeyCode.enter && widget.submitOnDropdownEnterKey) {
@@ -725,21 +729,10 @@ class LookupComponent extends VDOM.Component {
    }
 
    onDropdownKeyPress(e) {
-      if (e.keyCode == KeyCode.enter) {
-         let index = this.findOption(this.state.options, this.state.cursorKey);
-         if (index != -1) {
-            let itemData = {
-               $option: this.state.options[index],
-            };
-            this.select(e, itemData);
-         }
-      }
-
       if (e.keyCode == KeyCode.esc) {
          this.closeDropdown(e);
          this.dom.input.focus();
       }
-
       if (this.listKeyDown) this.listKeyDown(e);
    }
 
@@ -822,11 +815,9 @@ class LookupComponent extends VDOM.Component {
    }
 
    closeDropdown(e) {
-      console.log("CLOSE", e.target, new Error().stack);
       if (this.state.dropdownOpen) {
          this.setState({
-            dropdownOpen: false,
-            cursorKey: null,
+            dropdownOpen: false
          });
 
          this.props.instance.setState({
@@ -834,12 +825,11 @@ class LookupComponent extends VDOM.Component {
          });
       }
 
-      //delete results valid only while dropdown is open
+      //delete results valid only while the dropdown is open
       delete this.tmpCachedResult;
    }
 
    openDropdown(e) {
-      console.log("OPEN", e.target, new Error().stack);
       let { data } = this.props.instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
          this.query("");
