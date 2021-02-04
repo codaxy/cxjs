@@ -207,33 +207,33 @@ export class LookupField extends Field {
    }
 }
 
-LookupField.prototype.baseClass = "lookupfield";
-//LookupField.prototype.memoize = false;
-LookupField.prototype.multiple = false;
-LookupField.prototype.queryDelay = 150;
-LookupField.prototype.minQueryLength = 0;
-LookupField.prototype.hideSearchField = false;
-LookupField.prototype.minOptionsForSearchField = 7;
-LookupField.prototype.loadingText = "Loading...";
-LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
-LookupField.prototype.noResultsText = "No results found.";
-LookupField.prototype.optionIdField = "id";
-LookupField.prototype.optionTextField = "text";
-LookupField.prototype.valueIdField = "id";
-LookupField.prototype.valueTextField = "text";
-LookupField.prototype.suppressErrorsUntilVisited = true;
-LookupField.prototype.fetchAll = false;
-LookupField.prototype.cacheAll = false;
-LookupField.prototype.showClear = true;
-LookupField.prototype.alwaysShowClear = false;
-LookupField.prototype.closeOnSelect = true;
-LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
-LookupField.prototype.icon = null;
-LookupField.prototype.sort = false;
-LookupField.prototype.listOptions = null;
-LookupField.prototype.autoOpen = false;
-LookupField.prototype.submitOnEnterKey = false;
-LookupField.prototype.submitOnDropdownEnterKey = false;
+   LookupField.prototype.baseClass = "lookupfield";
+   //LookupField.prototype.memoize = false;
+   LookupField.prototype.multiple = false;
+   LookupField.prototype.queryDelay = 150;
+   LookupField.prototype.minQueryLength = 0;
+   LookupField.prototype.hideSearchField = false;
+   LookupField.prototype.minOptionsForSearchField = 7;
+   LookupField.prototype.loadingText = "Loading...";
+   LookupField.prototype.queryErrorText = "Error occurred while querying for lookup data.";
+   LookupField.prototype.noResultsText = "No results found.";
+   LookupField.prototype.optionIdField = "id";
+   LookupField.prototype.optionTextField = "text";
+   LookupField.prototype.valueIdField = "id";
+   LookupField.prototype.valueTextField = "text";
+   LookupField.prototype.suppressErrorsUntilVisited = true;
+   LookupField.prototype.fetchAll = false;
+   LookupField.prototype.cacheAll = false;
+   LookupField.prototype.showClear = true;
+   LookupField.prototype.alwaysShowClear = false;
+   LookupField.prototype.closeOnSelect = true;
+   LookupField.prototype.minQueryLengthMessageText = "Type in at least {0} character(s).";
+   LookupField.prototype.icon = null;
+   LookupField.prototype.sort = false;
+   LookupField.prototype.listOptions = null;
+   LookupField.prototype.autoOpen = false;
+   LookupField.prototype.submitOnEnterKey = false;
+   LookupField.prototype.submitOnDropdownEnterKey = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -535,7 +535,7 @@ class LookupComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "tool")}
                   onMouseDown={preventDefault}
                   onClick={(e) => {
-                     this.openDropdown(e);
+                     this.toggleDropdown(e);
                      e.stopPropagation();
                      e.preventDefault();
                   }}
@@ -627,10 +627,21 @@ class LookupComponent extends VDOM.Component {
    }
 
    onClick(e) {
-      e.stopPropagation();
+      //this should run only for touch devices where mouse events are not called
+      if (this.lastMouseDownEventTime > Date.now() - 5000) return;
       e.preventDefault();
-      this.openDropdown(e);
+      e.stopPropagation();
+      this.toggleDropdown(e);
    }
+
+   onMouseDown(e) {
+      this.lastMouseDownEventTime = Date.now(); //consider making this a global utility
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggleDropdown(e);
+   }
+
+
 
    onItemClick(e, { store }) {
       this.select(e, store.getData());
@@ -780,12 +791,6 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onMouseDown(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.openDropdown(e);
-   }
-
    onQueryBlur(e) {
       FocusManager.nudge();
    }
@@ -809,7 +814,15 @@ class LookupComponent extends VDOM.Component {
          });
    }
 
+   toggleDropdown(e) {
+      if (this.state.dropdownOpen)
+         this.closeDropdown(e);
+      else
+         this.openDropdown(e);
+   }
+
    closeDropdown(e) {
+      console.log("CLOSE", e.target, new Error().stack);
       if (this.state.dropdownOpen) {
          this.setState({
             dropdownOpen: false,
@@ -826,6 +839,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    openDropdown(e) {
+      console.log("OPEN", e.target, new Error().stack);
       let { data } = this.props.instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
          this.query("");
