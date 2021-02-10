@@ -43,6 +43,8 @@ export class Cx extends VDOM.Component {
 
       if (props.onError) this.componentDidCatch = this.componentDidCatchHandler.bind(this);
 
+      this.forceUpdateCallback = this.forceUpdate.bind(this);
+
       this.deferCounter = 0;
       this.waitForIdle();
    }
@@ -91,6 +93,7 @@ export class Cx extends VDOM.Component {
             options={this.props.options}
             buster={++this.renderCount}
             contentFactory={this.props.contentFactory}
+            forceUpdate={this.forceUpdateCallback}
          />
       );
    }
@@ -199,6 +202,7 @@ class CxContext extends VDOM.Component {
 
       do {
          context = new RenderingContext(options);
+         context.forceUpdate = this.props.forceUpdate;
          this.props.flags.dirty = false;
          instance.assignedRenderList = context.getRootRenderList();
          visible = instance.scheduleExploreIfVisible(context);
