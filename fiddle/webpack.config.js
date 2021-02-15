@@ -20,16 +20,17 @@ var common = {
          fiddle: __dirname,
          app: path.join(__dirname, "app/"),
          config: path.join(__dirname, "app/config/dev/"),
+         path: 'path-browserify'
       },
       fallback: {
          fs: false,
          module: false,
          net: false,
          util: false,
-         path: false,
          buffer: false,
          "safe-buffer": false,
       },
+      fullySpecified: false
    },
 
    module: {
@@ -39,7 +40,7 @@ var common = {
             include: [
                path.resolve(__dirname, "./app"),
                path.resolve(__dirname, "../misc"),
-               /node_modules[\\\/](.*)[\\\/](cx|cx-react)[\\\/]/,
+               /node_modules[\\\/](cx|cx-react|@babel\/plugin-.*)[\\\/]/,
             ],
             //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
             loader: "babel-loader",
@@ -99,6 +100,10 @@ var common = {
          gtmb: gtm.body,
          reactScripts: production ? reactScriptsProd : reactScriptsDev,
       }),
+      new webpack.ProvidePlugin({
+         process: 'process/browser',
+         Buffer: ['buffer', 'Buffer'],
+      })
    ],
 };
 
