@@ -138,22 +138,24 @@ if (production) {
             filename: "app.ltc.[chunkhash].css",
             chunkFilename: "[id].ltc.[chunkhash].css",
          }),
-         new CopyWebpackPlugin([
-            {
-               from: path.join(__dirname, "assets"),
-               to: path.join(__dirname, "dist/assets"),
-            },
-            {
-               from: path.resolve(__dirname, "./netlify.redirects"),
-               to: "_redirects",
-               toType: "file",
-            },
-            {
-               from: path.resolve(__dirname, "../misc/netlify.headers"),
-               to: "_headers",
-               toType: "file",
-            },
-         ]),
+         new CopyWebpackPlugin({
+            patterns: [
+               {
+                  from: path.join(__dirname, "assets"),
+                  to: path.join(__dirname, "dist/assets"),
+               },
+               {
+                  from: path.resolve(__dirname, "./netlify.redirects"),
+                  to: "_redirects",
+                  toType: "file",
+               },
+               {
+                  from: path.resolve(__dirname, "../misc/netlify.headers"),
+                  to: "_headers",
+                  toType: "file",
+               },
+            ]
+         }),
          //new WebpackCleanupPlugin(),
          //new BundleAnalyzerPlugin()
       ],
