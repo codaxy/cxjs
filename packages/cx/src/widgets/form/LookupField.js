@@ -715,8 +715,6 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (widget.closeOnSelect) {
-         e.persist();
-         console.log(e, document.activeElement);
          //Pressing Tab should work it's own thing. Focus will move elsewhere and the dropdown will close.
          if (e.keyCode != KeyCode.tab) {
             if (!isTouchEvent(e)) this.dom.input.focus();
@@ -821,9 +819,12 @@ class LookupComponent extends VDOM.Component {
 
    closeDropdown(e) {
       if (this.state.dropdownOpen) {
-         this.setState({
-            dropdownOpen: false
-         });
+         this.setState(
+            {
+               dropdownOpen: false
+            },
+            () => this.dom.input.focus()
+         );
 
          this.props.instance.setState({
             visited: true,
