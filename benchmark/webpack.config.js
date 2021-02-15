@@ -25,7 +25,7 @@ let config = {
          test: /\.js$/,
          include: /(benchmark|cx)/,
          loader: 'babel-loader',
-         query: babelConfig(true)
+         options: babelConfig(true)
       }, {
          test: /\.scss$/,
          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
