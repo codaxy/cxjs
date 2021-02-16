@@ -537,7 +537,7 @@ class LookupComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "tool")}
                   onMouseDown={preventDefault}
                   onClick={(e) => {
-                     this.toggleDropdown(e);
+                     this.toggleDropdown(e, true);
                      e.stopPropagation();
                      e.preventDefault();
                   }}
@@ -630,16 +630,16 @@ class LookupComponent extends VDOM.Component {
 
    onClick(e) {
       //this should run only for touch devices where mouse events are not called
-      if (!isTouchEvent()) return;
       e.preventDefault();
       e.stopPropagation();
-      this.toggleDropdown(e);
+      if (!isTouchEvent()) return;
+      this.toggleDropdown(e, true);
    }
 
    onMouseDown(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.toggleDropdown(e);
+      this.toggleDropdown(e, true);
    }
 
    onItemClick(e, { store }) {
@@ -810,20 +810,20 @@ class LookupComponent extends VDOM.Component {
          });
    }
 
-   toggleDropdown(e) {
+   toggleDropdown(e, keepFocus) {
       if (this.state.dropdownOpen)
-         this.closeDropdown(e);
+         this.closeDropdown(e, keepFocus);
       else
          this.openDropdown(e);
    }
 
-   closeDropdown(e) {
+   closeDropdown(e, keepFocus) {
       if (this.state.dropdownOpen) {
          this.setState(
             {
                dropdownOpen: false
             },
-            () => this.dom.input.focus()
+            () => keepFocus && this.dom.input.focus()
          );
 
          this.props.instance.setState({

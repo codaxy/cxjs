@@ -213,6 +213,7 @@ class DateTimeInput extends VDOM.Component {
                partial: widget.partial,
                encoding: widget.encoding,
                disabledDaysOfWeek: widget.disabledDaysOfWeek,
+               focusable: !widget.focusInputFirst
             };
             break;
 
