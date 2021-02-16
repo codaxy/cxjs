@@ -34,9 +34,17 @@ export class Calendar extends Field {
             minExclusive: undefined,
             maxValue: undefined,
             maxExclusive: undefined,
+            focusable: undefined
          },
          ...arguments
       );
+   }
+
+   init() {
+      if (this.unfocusable)
+         this.focusable = false;
+
+      super.init();
    }
 
    prepareData(context, { data }) {
