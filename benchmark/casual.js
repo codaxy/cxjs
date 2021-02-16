@@ -1,54 +1,54 @@
-import helpers from 'casual/src/helpers';
-import number from  'casual/src/providers/number';
-import person from  'casual/src/providers/person';
-import address from  'casual/src/providers/address';
+// import * as helpers from 'casual/src/helpers';
+// import * as number from 'casual/src/providers/number';
+// import * as person from 'casual/src/providers/person';
+// import * as address from 'casual/src/providers/address';
 
-const browsers = {
-   browsers: ['Chrome', 'Firefox', 'Internet Explorer', 'Opera', 'Safari', 'Edge'],
+// const browsers = {
+//    browsers: ['Chrome', 'Firefox', 'Internet Explorer', 'Opera', 'Safari', 'Edge'],
 
-   browser: function () {
-      return this.random_element(this.browsers);
-   }
-}
+//    browser: function () {
+//       return this.random_element(this.browsers);
+//    }
+// }
 
-const operatingSystems = {
-   operating_systems: ['Windows', 'Mac OS', 'Ubuntu', 'Android', 'iOS', 'Edge'],
+// const operatingSystems = {
+//    operating_systems: ['Windows', 'Mac OS', 'Ubuntu', 'Android', 'iOS', 'Edge'],
 
-   operating_system: function () {
-      return this.random_element(this.operating_systems);
-   }
-}
+//    operating_system: function () {
+//       return this.random_element(this.operating_systems);
+//    }
+// }
 
-const continents = {
-   continents: ['Europe', 'Asia', 'North America', 'Africa', 'South America', 'Australia', 'Antarctica'],
+// const continents = {
+//    continents: ['Europe', 'Asia', 'North America', 'Africa', 'South America', 'Australia', 'Antarctica'],
 
-   continent: function () {
-      return this.random_element(this.continents);
-   }
-}
+//    continent: function () {
+//       return this.random_element(this.continents);
+//    }
+// }
 
-export function build(providers) {
-   var casual = helpers.extend({}, helpers);
+// export function build(providers) {
+//    var casual = helpers.extend({}, helpers);
 
-   casual.functions = function() {
-      var adapter = {};
+//    casual.functions = function () {
+//       var adapter = {};
 
-      Object.keys(this).forEach(function(name) {
-         if (name[0] === '_') {
-            adapter[name.slice(1)] = casual[name];
-         }
-      });
+//       Object.keys(this).forEach(function (name) {
+//          if (name[0] === '_') {
+//             adapter[name.slice(1)] = casual[name];
+//          }
+//       });
 
-      return adapter;
-   };
+//       return adapter;
+//    };
 
-   providers.forEach(function(provider) {
-      //debugger;
-      casual.register_provider(provider);
-   });
+//    providers.forEach(function (provider) {
+//       //debugger;
+//       casual.register_provider(provider);
+//    });
 
 
-   return casual;
-}
+//    return casual;
+// }
 
-export const casual = build([number, person, address, browsers, operatingSystems, continents]);
+// export const casual = build([number, person, address, browsers, operatingSystems, continents]);

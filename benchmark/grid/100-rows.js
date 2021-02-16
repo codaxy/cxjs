@@ -1,9 +1,9 @@
-import {Grid, HtmlElement} from "cx/widgets";
-import {startAppLoop} from "cx/ui";
-import {Store} from "cx/data";
-import {casual} from '../casual';
+import { Grid, HtmlElement } from "cx/widgets";
+import { startAppLoop } from "cx/ui";
+import { Store } from "cx/data";
+import { casual } from '../casual';
 
-let data = Array.from({length: 100}, (_, i) => ({
+let data = Array.from({ length: 100 }, (_, i) => ({
    id: i,
    fullName: casual.full_name,
    continent: casual.continent,
@@ -17,11 +17,11 @@ let Demo = (
       <div>
          <Grid
             columns={[
-               {header: "Name", field: "fullName", sortable: true},
-               {header: "Continent", field: "continent", sortable: true},
-               {header: "Browser", field: "browser", sortable: true},
-               {header: "OS", field: "os", sortable: true},
-               {header: "Visits", field: "visits", sortable: true, align: "right"}
+               { header: "Name", field: "fullName", sortable: true },
+               { header: "Continent", field: "continent", sortable: true },
+               { header: "Browser", field: "browser", sortable: true },
+               { header: "OS", field: "os", sortable: true },
+               { header: "Visits", field: "visits", sortable: true, align: "right" }
             ]}
             records={data}
          />
@@ -33,7 +33,7 @@ let grid100 = () => {
    let store = new Store();
    let stop = startAppLoop(document.getElementById('test'), store, <cx>
       <div>
-         <Demo/>
+         <Demo />
       </div>
    </cx>);
    stop();
@@ -45,7 +45,7 @@ let grid100sealed = () => {
    });
    let stop = startAppLoop(document.getElementById('test'), store, <cx>
       <div>
-         <Demo/>
+         <Demo />
       </div>
    </cx>);
    stop();

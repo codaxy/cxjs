@@ -1,191 +1,216 @@
-const webpack = require('webpack'),
+const webpack = require("webpack"),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    WebpackCleanupPlugin  = require('webpack-cleanup-plugin'),
-    merge = require('webpack-merge'),
-    path = require('path'),
-    InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin'),
-    CopyWebpackPlugin = require('copy-webpack-plugin'),
-    ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
-    babelConfig = require('./babel-config'),
-    gtm = require('../misc/tracking/gtm.js'),
-    reactScriptsProd = require('../misc/reactScripts'),
-    reactScriptsDev = require('../misc/reactScripts.dev');
+    HtmlWebpackPlugin = require("html-webpack-plugin"),
+    { merge } = require("webpack-merge"),
+    path = require("path"),
+    CopyWebpackPlugin = require("copy-webpack-plugin"),
+    { CleanWebpackPlugin } = require('clean-webpack-plugin'),
+    ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
+    babelConfig = require("./babel-config"),
+    gtm = require("../misc/tracking/gtm.js"),
+    reactScriptsProd = require("../misc/reactScripts"),
+    reactScriptsDev = require("../misc/reactScripts.dev");
 
-var specific, production = process.env.npm_lifecycle_event.indexOf('build') == 0;
+var specific,
+    production = process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 if (production) {
-
-    var root = process.env.npm_lifecycle_event.indexOf(':root') != -1;
+    var root = process.env.npm_lifecycle_event.indexOf(":root") != -1;
 
     specific = {
-        mode: 'production',
+        mode: "production",
         module: {
-            rules: [{
-                test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-            }, {
-                test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
-            }]
+            rules: [
+                {
+                    test: /\.scss$/,
+                    use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+                },
+                {
+                    test: /\.css$/,
+                    use: [MiniCssExtractPlugin.loader, "css-loader"],
+                },
+            ],
         },
         plugins: [
             new webpack.LoaderOptionsPlugin({
                 options: {
-                    "if-loader": 'production',
-                }
+                    "if-loader": "production",
+                },
             }),
-            //new WebpackCleanupPlugin(),
             new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify('production')
+                "process.env.NODE_ENV": JSON.stringify("production"),
             }),
             new MiniCssExtractPlugin({
-                filename: 'app.ltc.[chunkhash].css',
-                chunkFilename: '[id].ltc.[chunkhash].css',
+                filename: "app.ltc.[chunkhash].css",
+                chunkFilename: "[id].ltc.[chunkhash].css",
             }),
-            new CopyWebpackPlugin([{
-                from: path.resolve(__dirname, '../misc/netlify.redirects'),
-                to: '_redirects',
-                toType: 'file'
-            }, {
-                from: path.resolve(__dirname, '../misc/netlify.headers'),
-                to: '_headers',
-                toType: 'file'
-            }]),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, "../misc/netlify.redirects"),
+                        to: "_redirects",
+                        toType: "file",
+                    },
+                    {
+                        from: path.resolve(__dirname, "../misc/netlify.headers"),
+                        to: "_headers",
+                        toType: "file",
+                    },
+                ],
+            }),
             new ScriptExtHtmlWebpackPlugin({
                 //async: /\!(app|vendor).js$/,
                 prefetch: {
                     test: /\.js$/,
-                    chunks: 'async'
-                }
-            })
+                    chunks: "async",
+                },
+            }),
+            new CleanWebpackPlugin()
         ],
 
         output: {
-            path: path.join(__dirname, 'dist'),
+            path: path.join(__dirname, "dist"),
             filename: "[name].ltc.[chunkhash].js",
             chunkFilename: "[name].ltc.[chunkhash].js",
             hashDigestLength: 5,
-            publicPath: root ? "/" : "/docs/"
-        }
+            publicPath: root ? "/" : "/docs/",
+        },
     };
-}
-else {
+} else {
     //dev
     specific = {
-        mode: 'development',
+        mode: "development",
         module: {
-            rules: [{
-                test: /\.scss$/,
-                loaders: ["style-loader", "css-loader", "sass-loader"]
-            }, {
-                test: /\.css$/,
-                loader: ["style-loader", "css-loader"]
-            }]
+            rules: [
+                {
+                    test: /\.scss$/,
+                    use: ["style-loader", "css-loader", "sass-loader"],
+                },
+                {
+                    test: /\.css$/,
+                    use: ["style-loader", "css-loader"],
+                },
+            ],
         },
         entry: {
-            app: [
-                'react-dev-utils/webpackHotDevClient',
-                __dirname + '/index.js'
-            ]
+            app: ["react-dev-utils/webpackHotDevClient", __dirname + "/index.js"],
+        },
+        optimization: {
+            moduleIds: "named",
         },
         plugins: [
             new webpack.LoaderOptionsPlugin({
                 options: {
-                    "if-loader": 'development',
-                }
+                    "if-loader": "development",
+                },
             }),
-            new webpack.NamedModulesPlugin(),
-            new webpack.HotModuleReplacementPlugin()
+            new webpack.HotModuleReplacementPlugin(),
         ],
         output: {
-            publicPath: '/'
+            publicPath: "/",
         },
-        devtool: 'eval',
+        devtool: "eval",
         performance: {
-            hints: false
+            hints: false,
         },
         devServer: {
-            contentBase: '/docs',
+            contentBase: "/docs",
             hot: true,
             port: 8065,
             noInfo: false,
             inline: true,
-            historyApiFallback: true
-        }
+            historyApiFallback: true,
+        },
     };
 }
 
 var common = {
-
     resolve: {
         alias: {
-            "cx/src": path.resolve(path.join(__dirname, '../packages/cx/src')),
-            "cx/locale": path.resolve(path.join(__dirname, '../packages/cx/locale')),
-            "cx": path.resolve(path.join(__dirname, '../packages/cx/src')),
-            'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
+            "cx/src": path.resolve(path.join(__dirname, "../packages/cx/src")),
+            "cx/locale": path.resolve(path.join(__dirname, "../packages/cx/locale")),
+            cx: path.resolve(path.join(__dirname, "../packages/cx/src")),
+            "cx-react": path.resolve(path.join(__dirname, "../packages/cx-react")),
             //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
             //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
-            'cx-react-css-transition-group': path.resolve(path.join(__dirname, '../packages/cx-react-css-transition-group')),
-            docs: __dirname
-        }
+            "cx-react-css-transition-group": path.resolve(
+                path.join(__dirname, "../packages/cx-react-css-transition-group")
+            ),
+            docs: __dirname,
+        },
     },
 
     module: {
-        rules: [{
-            test: /\.js$/,
-            include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
-            //exclude: /(babelHelpers)/,
-            loaders: [{
-                loader: 'babel-loader',
-                query: babelConfig({production: production})
-            }, {
-                loader: 'if-loader'
-            }]
-        }, {
-            test: /\.(png|jpg|svg)/,
-            loader: 'file-loader',
-            options: {
-                name: '[name].ltc.[hash].[ext]'
-            }
-        }]
+        rules: [
+            {
+                test: /\.js$/,
+                include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
+                //exclude: /(babelHelpers)/,
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: babelConfig({ production: production }),
+                    },
+                    {
+                        loader: "if-loader",
+                    },
+                ],
+            },
+            {
+                test: /\.(png|jpg|svg)/,
+                loader: "file-loader",
+                options: {
+                    name: "[name].ltc.[hash].[ext]",
+                },
+            },
+        ],
     },
     entry: {
         app: [
             //path.resolve(__dirname, "../misc/babelHelpers"),
-            path.join(__dirname, 'polyfill'),
-            path.join(__dirname, '/index')
-        ]
+            path.join(__dirname, "polyfill"),
+            path.join(__dirname, "/index"),
+        ],
     },
     output: {
         path: __dirname,
-        filename: "[name].js"
+        filename: "[name].js",
     },
     externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
+        react: "React",
+        "react-dom": "ReactDOM",
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'index.html'),
+            template: path.join(__dirname, "index.html"),
             gtmh: gtm.head,
             gtmb: gtm.body,
             reactScripts: production ? reactScriptsProd : reactScriptsDev,
-            favicon: path.join(__dirname, 'img/favicon.png'),
+            favicon: path.join(__dirname, "img/favicon.png"),
             minify: {
-                removeComments: true
-            }
+                removeComments: true,
+            },
         }),
-        new InlineManifestWebpackPlugin("manifest"),
+        //new InlineManifestWebpackPlugin("manifest"),
     ],
 
     optimization: {
         splitChunks: {
-            minChunks: 100
-        },
-        runtimeChunk: {
-            name: "manifest"
+            minChunks: 100,
         }
+    },
+
+    cache: {
+        // 1. Set cache type to filesystem
+        type: 'filesystem',
+
+        buildDependencies: {
+            // 2. Add your config as buildDependency to get cache invalidation on config change
+            config: [__filename],
+
+            // 3. If you have other things the build depends on you can add them here
+            // Note that webpack, loaders and all modules referenced from your config are automatically added
+        },
     }
 };
 

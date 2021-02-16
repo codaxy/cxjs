@@ -3,7 +3,7 @@ const webpack = require("webpack"),
    CxScssManifestPlugin = require("../packages/cx-scss-manifest-webpack-plugin/src/index"),
    BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
       .BundleAnalyzerPlugin,
-   merge = require("webpack-merge"),
+   { merge } = require("webpack-merge"),
    path = require("path"),
    babelConfig = require("./babel-config");
 
@@ -33,7 +33,7 @@ let common = {
             test: /\.(js|ts|tsx)$/,
             include: /(litmus|cx)/,
             loader: "babel-loader",
-            query: babelConfig(production)
+            options: babelConfig(production)
          }
       ]
    },
@@ -57,13 +57,25 @@ let common = {
       new HtmlWebpackPlugin({
          template: path.join(__dirname, "index.html")
       }),
-      new CxScssManifestPlugin({
-         outputPath: path.join(__dirname, "manifest.scss")
-      })
+      // new CxScssManifestPlugin({
+      //    outputPath: path.join(__dirname, "manifest.scss")
+      // })
    ],
    stats: {
       usedExports: true
-   }
+   },
+   cache: {
+      // 1. Set cache type to filesystem
+      type: 'filesystem',
+
+      buildDependencies: {
+         // 2. Add your config as buildDependency to get cache invalidation on config change
+         config: [__filename],
+
+         // 3. If you have other things the build depends on you can add them here
+         // Note that webpack, loaders and all modules referenced from your config are automatically added
+      },
+   },
 };
 
 let specific;
@@ -117,11 +129,11 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               loaders: ["style-loader", "css-loader", "sass-loader"]
+               use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
                test: /\.css$/,
-               loader: ["style-loader", "css-loader"]
+               use: ["style-loader", "css-loader"]
             }
          ]
       },

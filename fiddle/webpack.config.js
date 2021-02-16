@@ -4,7 +4,7 @@ const webpack = require("webpack"),
    CopyWebpackPlugin = require("copy-webpack-plugin"),
    WebpackCleanupPlugin = require("webpack-cleanup-plugin"),
    BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
-   merge = require("webpack-merge"),
+   { merge } = require("webpack-merge"),
    path = require("path"),
    gtm = require("../misc/tracking/gtm.js"),
    reactScriptsProd = require("../misc/reactScripts"),
@@ -20,16 +20,31 @@ var common = {
          fiddle: __dirname,
          app: path.join(__dirname, "app/"),
          config: path.join(__dirname, "app/config/dev/"),
+         path: 'path-browserify'
       },
+      fallback: {
+         fs: false,
+         module: false,
+         net: false,
+         util: false,
+         buffer: false,
+         "safe-buffer": false,
+      },
+      fullySpecified: false
    },
 
    module: {
       rules: [
          {
             test: /\.(js|mjs)$/,
+            include: [
+               path.resolve(__dirname, "./app"),
+               path.resolve(__dirname, "../misc"),
+               /node_modules[\\\/](cx|cx-react|@babel\/plugin-.*)[\\\/]/,
+            ],
             //include: /[\\\/](app|cx-react|prettier|babel|@babel)/,
             loader: "babel-loader",
-            query: {
+            options: {
                cacheDirectory: true,
                presets: [
                   [
@@ -61,11 +76,11 @@ var common = {
          },
       ],
    },
-   node: {
-      fs: "empty",
-      module: "empty",
-      net: "empty",
-   },
+   //  node: {
+   //     fs: "empty",
+   //     module: "empty",
+   //     net: "empty",
+   //  },
    entry: {
       app: __dirname + "/app/index.js",
    },
@@ -85,6 +100,10 @@ var common = {
          gtmb: gtm.body,
          reactScripts: production ? reactScriptsProd : reactScriptsDev,
       }),
+      new webpack.ProvidePlugin({
+         process: 'process/browser',
+         Buffer: ['buffer', 'Buffer'],
+      })
    ],
 };
 
@@ -119,22 +138,24 @@ if (production) {
             filename: "app.ltc.[chunkhash].css",
             chunkFilename: "[id].ltc.[chunkhash].css",
          }),
-         new CopyWebpackPlugin([
-            {
-               from: path.join(__dirname, "assets"),
-               to: path.join(__dirname, "dist/assets"),
-            },
-            {
-               from: path.resolve(__dirname, "./netlify.redirects"),
-               to: "_redirects",
-               toType: "file",
-            },
-            {
-               from: path.resolve(__dirname, "../misc/netlify.headers"),
-               to: "_headers",
-               toType: "file",
-            },
-         ]),
+         new CopyWebpackPlugin({
+            patterns: [
+               {
+                  from: path.join(__dirname, "assets"),
+                  to: path.join(__dirname, "dist/assets"),
+               },
+               {
+                  from: path.resolve(__dirname, "./netlify.redirects"),
+                  to: "_redirects",
+                  toType: "file",
+               },
+               {
+                  from: path.resolve(__dirname, "../misc/netlify.headers"),
+                  to: "_headers",
+                  toType: "file",
+               },
+            ]
+         }),
          //new WebpackCleanupPlugin(),
          //new BundleAnalyzerPlugin()
       ],
@@ -157,11 +178,11 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               loaders: ["style-loader", "css-loader", "sass-loader"],
+               use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
-               loader: ["style-loader", "css-loader"],
+               use: ["style-loader", "css-loader"],
             },
          ],
       },
