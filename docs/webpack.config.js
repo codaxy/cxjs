@@ -211,7 +211,7 @@ var common = {
             // 3. If you have other things the build depends on you can add them here
             // Note that webpack, loaders and all modules referenced from your config are automatically added
         },
-    },
+    }
 };
 
 module.exports = merge(common, specific);
