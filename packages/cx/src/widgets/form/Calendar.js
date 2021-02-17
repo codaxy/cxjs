@@ -34,9 +34,17 @@ export class Calendar extends Field {
             minExclusive: undefined,
             maxValue: undefined,
             maxExclusive: undefined,
+            focusable: undefined
          },
          ...arguments
       );
+   }
+
+   init() {
+      if (this.unfocusable)
+         this.focusable = false;
+
+      super.init();
    }
 
    prepareData(context, { data }) {
@@ -119,17 +127,18 @@ export class Calendar extends Field {
    }
 }
 
-Calendar.prototype.baseClass = "calendar";
-Calendar.prototype.highlightToday = true;
-Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
-Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
-Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
-Calendar.prototype.suppressErrorsUntilVisited = false;
-Calendar.prototype.showTodayButton = false;
-Calendar.prototype.todayButtonText = "Today";
-Calendar.prototype.startWithMonday = false;
+   Calendar.prototype.baseClass = "calendar";
+   Calendar.prototype.highlightToday = true;
+   Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
+   Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+   Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
+   Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+   Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
+   Calendar.prototype.suppressErrorsUntilVisited = false;
+   Calendar.prototype.showTodayButton = false;
+   Calendar.prototype.todayButtonText = "Today";
+   Calendar.prototype.startWithMonday = false;
+   Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -420,9 +429,15 @@ export class CalendarCmp extends VDOM.Component {
       return (
          <div
             className={data.classNames}
-            tabIndex={data.disabled ? null : data.tabIndex || 0}
+            tabIndex={data.disabled || !data.focusable ? null : data.tabIndex || 0}
             onKeyDown={(e) => this.handleKeyPress(e)}
-            onMouseDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+               // prevent losing focus from the input field
+               if (!data.focusable) {
+                  e.preventDefault();
+               }
+               e.stopPropagation();
+            }}
             ref={(el) => {
                this.el = el;
             }}
