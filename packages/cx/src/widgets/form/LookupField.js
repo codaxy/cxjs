@@ -799,6 +799,9 @@ class LookupComponent extends VDOM.Component {
             focus: true,
          });
       }
+
+      if (this.props.instance.data.autoOpen)
+         this.openDropdown(null);
    }
 
    onBlur(e) {
@@ -937,7 +940,6 @@ class LookupComponent extends VDOM.Component {
    componentDidMount() {
       tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.dom.input, this);
-      if (this.props.instance.data.autoOpen) this.openDropdown(null);
    }
 
    componentDidUpdate() {
