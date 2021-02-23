@@ -24,8 +24,7 @@
     "url": "https://gitlab.com/mstijak/cx-fiddle/issues"
   },
   "homepage": "https://gitlab.com/mstijak/cx-fiddle#README",
-  "dependencies": {
-    "@babel/standalone": "^7.12.12",
+  "dependencies": {    
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "casual": "^1.6.2",
