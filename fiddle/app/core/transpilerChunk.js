@@ -1,14 +1,15 @@
 import jsx from "@babel/plugin-transform-react-jsx";
 import fbind from "@babel/plugin-proposal-function-bind";
 
-import { transform } from "@babel/core";
+import { transform } from "@babel/standalone";
 import env from "@babel/preset-env";
 import * as cx from "babel-plugin-transform-cx-jsx";
 
 export function transpile(code) {
+   console.log(env);
    try {
       var doc = transform(code, {
-         presets: [[env, { loose: true }]],
+         //presets: [[env, { loose: true }]],
          plugins: [cx, jsx, fbind],
       });
       return doc.code;

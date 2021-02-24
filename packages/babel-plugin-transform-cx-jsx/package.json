@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.1",
-    "@babel/preset-env": "^7.13.0",
-    "mocha": "^2.3.4"
+    "@babel/preset-env": "^7.13.5",
+    "mocha": "^8.3.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0"

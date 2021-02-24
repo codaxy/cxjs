@@ -64,10 +64,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.1",
+    "@babel/helper-define-map": "^7.12.13",
     "@babel/helper-module-imports": "^7.12.13",
     "@babel/plugin-transform-react-jsx": "^7.12.17",
-    "@babel/preset-env": "^7.13.0",
+    "@babel/preset-env": "^7.13.5",
+    "@babel/register": "^7.13.0",
     "env-test": "^1.0.0",
+    "mocha": "^8.3.0",
     "prettier": "^2.0.5"
   }
 }

@@ -10,22 +10,22 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
     "casual": "^1.6.2",
-    "core-js": "^3.6.4",
+    "core-js": "^3.9.0",
     "cx": "^20.6.1",
     "cx-react": "^17.10.0",
     "intl": "^1.2.5",
     "react": "^17.0.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^17.0.1",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.6.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
-    "@babel/preset-typescript": "^7.8.3",
+    "@babel/core": "^7.13.1",
+    "@babel/preset-env": "^7.13.5",
+    "@babel/preset-typescript": "^7.13.0",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.19",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.2.2",
     "babel-plugin-transform-cx-imports": "^19.1.0",
     "babel-plugin-transform-cx-jsx": "^19.1.0",
     "babel-preset-cx-env": "^19.1.0",
@@ -45,12 +45,12 @@
     "style-loader": "^2.0.0",
     "svg-url-loader": "^7.1.1",
     "url-loader": "^4.1.1",
-    "webpack": "5.17.0",
+    "webpack": "^5.24.1",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-cli": "^3.3.10",
     "webpack-combine-loaders": "^2.0.4",
-    "webpack-dev-server": "^3.10.1",
+    "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
   }
 }
