@@ -46,6 +46,7 @@
     "@babel/core": "^7.13.1",
     "@babel/preset-env": "^7.13.5",
     "@babel/preset-typescript": "^7.13.0",    
+    "@babel/runtime": "^7.13.7",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.19",
     "babel-loader": "^8.2.2",
