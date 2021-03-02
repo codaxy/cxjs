@@ -628,15 +628,17 @@ class LookupComponent extends VDOM.Component {
       );
    }
 
-   onClick(e) {
-      //this should run only for touch devices where mouse events are not called
+   onMouseDown(e) {
+      //skip touch start to allow touch scrolling
+      if (isTouchEvent()) return;
       e.preventDefault();
       e.stopPropagation();
-      if (!isTouchEvent()) return;
       this.toggleDropdown(e, true);
    }
 
-   onMouseDown(e) {
+   onClick(e) {
+      //mouse down will handle it for non-touch events
+      if (!isTouchEvent()) return;
       e.preventDefault();
       e.stopPropagation();
       this.toggleDropdown(e, true);
