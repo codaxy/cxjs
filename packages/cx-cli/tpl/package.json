@@ -10,7 +10,7 @@
   "author": "Not Set",
   "license": "ISC",
   "dependencies": {
-    "core-js": "^3.9.0",
+    "core-js": "^3.9.1",
     "cx": "^20.11.7",
     "cx-react": "^17.10.0",
     "react": "^17.0.1",
@@ -19,8 +19,8 @@
     "whatwg-fetch": "^3.6.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.13.5",
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
     "babel-loader": "^8.2.2",
     "babel-preset-cx-env": "^19.1.0",
     "copy-webpack-plugin": "^6.3.1",

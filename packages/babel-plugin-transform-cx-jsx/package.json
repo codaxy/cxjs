@@ -7,11 +7,11 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "dependencies": {
-    "@babel/plugin-syntax-jsx": "^7.12.1"
+    "@babel/plugin-syntax-jsx": "^7.12.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.1",
-    "@babel/preset-env": "^7.13.5",
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
     "mocha": "^8.3.0"
   },
   "peerDependencies": {
