@@ -2,7 +2,7 @@ const webpack = require("webpack"),
    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
    HtmlWebpackPlugin = require("html-webpack-plugin"),
    CopyWebpackPlugin = require("copy-webpack-plugin"),
-   WebpackCleanupPlugin = require("webpack-cleanup-plugin"),
+   CleanWebpackPlugin = require("clean-webpack-plugin"),
    BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
    { merge } = require("webpack-merge"),
    path = require("path"),
@@ -36,7 +36,7 @@ var common = {
    module: {
       rules: [
          {
-            test: /\.(js|mjs)$/,
+            test: /\.(js)$/,
             include: [
                path.resolve(__dirname, "./app"),
                path.resolve(__dirname, "../misc"),
@@ -158,7 +158,7 @@ if (production) {
                },
             ],
          }),
-         //new WebpackCleanupPlugin(),
+         new CleanWebpackPlugin(),
          //new BundleAnalyzerPlugin()
       ],
 

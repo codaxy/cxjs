@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-cx-env",
-  "version": "21.1.0",
+  "version": "21.1.1",
   "description": "Babel preset for CxJS apps",
   "main": "./index.js",
   "author": "Codaxy",
@@ -12,7 +12,7 @@
     "babel-plugin-transform-cx-jsx": "^21.1.0"
   },
   "peerDependencies": {
-    "@babel/preset-env": "^7.0.0",
-    "@babel/core" :"^7.0.0"
+    "@babel/preset-env": "^7.0.0-0",
+    "@babel/core" :"^7.0.0-0"
   }
 }

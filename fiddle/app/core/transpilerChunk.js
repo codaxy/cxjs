@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime";
+
 import jsx from "@babel/plugin-transform-react-jsx";
 import fbind from "@babel/plugin-proposal-function-bind";
 

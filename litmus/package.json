@@ -14,7 +14,7 @@
     "react": "^17.0.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^17.0.1",
-    "whatwg-fetch": "^3.6.1"
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
@@ -25,7 +25,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-cx-imports": "^19.1.0",
     "babel-plugin-transform-cx-jsx": "^19.1.0",
-    "babel-preset-cx-env": "^19.1.0",
+    "babel-preset-cx-env": "^21.1.1",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.1.1",
     "file-loader": "^6.2.0",

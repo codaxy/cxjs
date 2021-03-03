@@ -22,7 +22,7 @@
     "@babel/core": "^7.13.8",
     "@babel/preset-env": "^7.13.9",
     "babel-loader": "^8.2.2",
-    "babel-preset-cx-env": "^19.1.0",
+    "babel-preset-cx-env": "^21.1.1",
     "copy-webpack-plugin": "^6.3.1",
     "css-loader": "^5.0.2",
     "file-loader": "^6.2.0",
