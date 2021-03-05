@@ -37,6 +37,7 @@ import { getAccessor } from "../../data/getAccessor";
 import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
+import { parseStyle } from "cx/src/util";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -125,16 +126,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             }
@@ -572,9 +573,8 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${
-                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
+                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                                 }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -714,12 +714,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-                 {
-                    field: sortField,
-                    direction: dir,
-                    value: sortValue,
-                 },
-              ]
+               {
+                  field: sortField,
+                  direction: dir,
+                  value: sortValue,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -842,12 +842,18 @@ export class Grid extends Widget {
             let v,
                c = ci.widget,
                colSpan,
-               pad;
+               pad,
+               cls = "",
+               style = null;
             if (c.footer) {
                v = c.footer.value(data);
+               if (c.footer.format)
+                  v = Format.value(v, c.footer.format);
                pad = c.footer.pad;
                colSpan = c.footer.colSpan;
                empty = false;
+               cls = CSS.expand(c.footer.class(data)) || "";
+               style = parseStyle(c.footer.style(data));
 
                if (c.footer.expand) {
                   colSpan = 1;
@@ -868,13 +874,14 @@ export class Grid extends Widget {
                if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
             }
 
-            let cls = "";
+            if (cls)
+               cls += " ";
             if (c.align) cls += CSS.state("aligned-" + c.align);
 
             if (pad !== false) cls += (cls ? " " : "") + CSS.state("pad");
 
             return (
-               <td key={i} className={cls} colSpan={colSpan}>
+               <td key={i} className={cls} colSpan={colSpan} style={style}>
                   {v}
                </td>
             );
@@ -1115,8 +1122,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -2207,7 +2214,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
@@ -2618,7 +2625,12 @@ class GridColumnHeader extends Widget {
             format: this.format,
          };
 
-      if (this.footer) this.footer.value = getSelector(this.footer.value);
+      if (this.footer) {
+         this.footer.value = getSelector(this.footer.value);
+         this.footer.class = getSelector(this.footer.class);
+         this.footer.style = getSelector(this.footer.style);
+      }
+
 
       if (this.caption && isSelector(this.caption))
          this.caption = {
