@@ -19,6 +19,7 @@ if (production) {
 
     specific = {
         mode: "production",
+        target: ['web', 'es5'],
         module: {
             rules: [
                 {

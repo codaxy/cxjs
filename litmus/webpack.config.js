@@ -87,6 +87,7 @@ if (production) {
    });
    specific = {
       mode: "production",
+      target: ['web', 'es5'], //IE 11
       module: {
          rules: [
             {
@@ -138,6 +139,7 @@ if (production) {
          ]
       },
       mode: "development",
+      target: ['web', 'es5'], //Uncomment for IE testing
       plugins: [
          new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin({
@@ -150,7 +152,7 @@ if (production) {
       performance: {
          hints: false
       },
-      devtool: "eval",
+      devtool: false,
       devServer: {
          contentBase: "/",
          hot: true,

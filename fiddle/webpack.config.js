@@ -15,6 +15,7 @@ let production = process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 var common = {
    mode: production ? "production" : "development",
+   target: ['web', 'es5'],
    resolve: {
       alias: {
          fiddle: __dirname,
