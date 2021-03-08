@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-cx-jsx",
-  "version": "21.1.0",
+  "version": "21.3.0",
   "description": "Transpile JSX into Cx config objects",
   "repository": "https://github.com/codaxy/cxjs",
   "author": "Codaxy",
