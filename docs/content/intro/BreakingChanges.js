@@ -1,8 +1,8 @@
-import {HtmlElement, Button, enableMsgBoxAlerts} from 'cx/widgets';
-import {Rescope} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
+import { HtmlElement, Button, enableMsgBoxAlerts } from 'cx/widgets';
+import { Rescope } from 'cx/ui';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
 
 export const BreakingChanges = <cx>
     <Rescope bind="$page">
@@ -12,6 +12,49 @@ export const BreakingChanges = <cx>
             Sometimes we are forced to introduce breaking changes to the framework.
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
+
+            ## 21.3.0
+
+            ### Babel 7
+
+            The source code now uses the optional chaining operator. Please upgrade Babel to the latest version or add this plugin to your existing configuration.
+
+            ### JSX runtime
+
+            This release contains a new version of `babel-preset-cx-env` plugin which uses the new React JSX transform.
+            This should result in slightly smaller bundle sizes and in some cases it's not required to import VDOM for React components.
+            For more information check [this post on the official React blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+
+            The new release also removes Babel plugins which are now part of the @babel/preset-env preset out of the box, i.e. `@babel/transform-object-spread`.
+
+            ### Whitespace trimming on generated `cx` code
+
+            There are new version of `babel-plugin-cx-env` and `babel-plugin-transfrom-cx-jsx` which allow whitespace trimming in the generated code.
+            This might help a bit with the generated bundle sizes.
+
+            You can set this up in your `babel-config.js` file:
+
+            <CodeSplit>
+                <CodeSnippet>{`
+{
+    presets: [
+        ["babel-preset-cx-env", {
+            cx: {
+                jsx: {
+                    trimWhitespace: true,
+                    trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
+                },
+                imports: {
+                    useSrc: true
+                }
+            }
+        }]
+    ]
+}
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            For more information, check the NPM page for [babel-plugin-transform-cx-jsx](https://www.npmjs.com/package/babel-plugin-transform-cx-jsx).
 
             ## 21.1.0
 
@@ -25,7 +68,7 @@ export const BreakingChanges = <cx>
             This can cause the code to break if, for example, `invokeParentMethod` was used in one of the inline event handlers:
             <CodeSplit>
                 <CodeSnippet>
-                {`
+                    {`
                     <div controller={{
                         onSubmit(val) {
                             console.log('val', val)
@@ -48,7 +91,7 @@ export const BreakingChanges = <cx>
             To fix this, make the following change in the `onClick` handler:
             <CodeSplit>
                 <CodeSnippet>
-                {`
+                    {`
                     onClick={(e, instance) => {
                         let controller = instance.controller;
                         // use invokeMethod instead of invokeParentMethod
@@ -222,9 +265,9 @@ export const BreakingChanges = <cx>
                 <div class="widgets">
                     <Button
                         mod="danger"
-                        text={{bind: "$page.showDialogText", defaultValue: "Click Here"}}
+                        text={{ bind: "$page.showDialogText", defaultValue: "Click Here" }}
                         confirm="Would you like to use CxJS based dialogs?"
-                        onClick={(e, {store}) => {
+                        onClick={(e, { store }) => {
                             enableMsgBoxAlerts();
                             store.set('$page.showDialogText', "Click Here Again");
                         }}

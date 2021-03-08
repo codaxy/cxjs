@@ -1,5 +1,5 @@
 module.exports = function (context) {
-   var opts = arguments[1] || {
+   let opts = arguments[1] || {
       modules: false
    };
 
@@ -13,13 +13,14 @@ module.exports = function (context) {
       };
    }
 
-   var imports = !opts.cx || typeof opts.cx.imports == 'undefined' ? true : opts.cx.imports;
-   var plugins = [];
+   let cx = opts.cx || {};
+   let imports = typeof cx.imports == 'undefined' ? true : cx.imports;
+   let plugins = [];
 
    plugins.push(
       '@babel/proposal-class-properties',
       '@babel/proposal-function-bind',
-      'transform-cx-jsx',
+      ['transform-cx-jsx', cx.jsx],
       ["@babel/transform-react-jsx", reactJsxOptions]
    );
 
