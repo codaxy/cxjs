@@ -18,7 +18,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
          {
             treeshake: true,
 
-            external: function(id) {
+            external: function (id) {
                if (id.indexOf("babel") == 0)
                   throw new Error("Babel stuff detected: " + id);
 
@@ -26,6 +26,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                   case "route-parser":
                   case "cx-react":
                   case "intl-io":
+                  case "react/jsx-runtime":
                      return true;
 
                   default:

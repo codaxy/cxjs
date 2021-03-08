@@ -12,7 +12,7 @@ module.exports = {
       '@babel/proposal-function-bind',
       '@babel/proposal-object-rest-spread',
       cx,
-      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      ["@babel/transform-react-jsx", { "runtime": "automatic" }],
 
    ]
 };

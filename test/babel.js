@@ -1,10 +1,10 @@
 require("@babel/register")({
    retainLines: true,
    "presets": [
-      ["@babel/preset-env", {loose: true}]
+      ["@babel/preset-env", { loose: true }]
    ],
    "plugins": [
-      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      ["@babel/transform-react-jsx", { "runtime": "automatic" }],
       [
          "transform-cx-jsx",
          {
@@ -12,8 +12,6 @@ require("@babel/register")({
             transformFunctionalComponents: false  //adds cx/ based imports which cause double imports (dist + src)
          }
       ],
-      '@babel/proposal-object-rest-spread',
       "@babel/proposal-function-bind",
-      '@babel/transform-parameters',
    ]
 });

@@ -102,4 +102,4 @@ Debug.enable("app-data");
 
 History.connect(store, "url");
 
-let stop = startHotAppLoop(module, document.getElementById("app"), store, Demo);
+startHotAppLoop(module, document.getElementById("app"), store, Demo);
