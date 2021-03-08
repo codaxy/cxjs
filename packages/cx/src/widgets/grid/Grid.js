@@ -847,8 +847,9 @@ export class Grid extends Widget {
                style = null;
             if (c.footer) {
                v = c.footer.value(data);
-               if (c.footer.format)
-                  v = Format.value(v, c.footer.format);
+               let fmt = c.footer.format(data);
+               if (fmt)
+                  v = Format.value(v, fmt);
                pad = c.footer.pad;
                colSpan = c.footer.colSpan;
                empty = false;
@@ -2629,6 +2630,7 @@ class GridColumnHeader extends Widget {
          this.footer.value = getSelector(this.footer.value);
          this.footer.class = getSelector(this.footer.class);
          this.footer.style = getSelector(this.footer.style);
+         this.footer.format = getSelector(this.footer.format);
       }
 
 
