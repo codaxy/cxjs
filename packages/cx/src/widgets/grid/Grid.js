@@ -2622,8 +2622,7 @@ class GridColumnHeader extends Widget {
       if (this.footer && isSelector(this.footer))
          this.footer = {
             value: this.footer,
-            pad: this.pad,
-            format: this.format,
+            pad: this.pad
          };
 
       if (this.footer) {
