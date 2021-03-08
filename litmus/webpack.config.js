@@ -152,7 +152,7 @@ if (production) {
       performance: {
          hints: false
       },
-      devtool: false,
+      devtool: 'eval',
       devServer: {
          contentBase: "/",
          hot: true,

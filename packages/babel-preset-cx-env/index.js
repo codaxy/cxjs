@@ -1,20 +1,26 @@
 module.exports = function (context) {
    var opts = arguments[1] || {
-         modules: false
-      };
+      modules: false
+   };
 
-   var pragma = opts.pragma || "VDOM.createElement";
+   let reactJsxOptions = {
+      "runtime": "automatic"
+   };
+
+   if (opts.pragma) {
+      reactJsxOptions = {
+         pragma: opts.pragma
+      };
+   }
+
    var imports = !opts.cx || typeof opts.cx.imports == 'undefined' ? true : opts.cx.imports;
    var plugins = [];
 
    plugins.push(
       '@babel/proposal-class-properties',
-      '@babel/proposal-object-rest-spread',
       '@babel/proposal-function-bind',
       'transform-cx-jsx',
-      '@babel/transform-parameters',
-      '@babel/syntax-dynamic-import',
-      ["@babel/transform-react-jsx", {"pragma": pragma}]
+      ["@babel/transform-react-jsx", reactJsxOptions]
    );
 
    if (imports !== false) {
