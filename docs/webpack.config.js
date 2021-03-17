@@ -106,6 +106,10 @@ if (production) {
                 },
             }),
             new webpack.HotModuleReplacementPlugin(),
+            new webpack.ProvidePlugin({
+                process: "process/browser",
+                Buffer: ["buffer", "Buffer"],
+            }),
         ],
         output: {
             publicPath: "/",
