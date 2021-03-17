@@ -148,7 +148,11 @@ export class Dropdown extends Overlay {
          }
       }
 
-      if (this.onDropdownPositionDidUpdate) instance.invoke("onDropdownPositionDidUpdate", instance, component);
+      let params = {
+         style, placement, parentBounds
+      };
+
+      if (this.onDropdownPositionDidUpdate) instance.invoke("onDropdownPositionDidUpdate", params, instance, component);
 
       instance.positionChangeSubcribers.notify();
    }

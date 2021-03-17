@@ -365,6 +365,16 @@ class LookupComponent extends VDOM.Component {
                };
             }
          },
+         onDropdownPositionDidUpdate: (params) => {
+            let delta = 100;
+            let { parentBounds } = params;
+
+            if (!this.initialScreenPosition)
+               this.initialScreenPosition = params.parentBounds;
+
+            if (Math.abs(parentBounds.top - this.initialScreenPosition.top) > delta || Math.abs(parentBounds.left - this.initialScreenPosition.left) > delta)
+               this.closeDropdown(null, true);
+         }
       };
 
       return (this.dropdown = Widget.create(dropdown));
@@ -836,6 +846,7 @@ class LookupComponent extends VDOM.Component {
 
       //delete results valid only while the dropdown is open
       delete this.tmpCachedResult;
+      delete this.initialScreenPosition;
    }
 
    openDropdown(e) {
