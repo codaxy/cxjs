@@ -14,11 +14,21 @@ const TopLinks = ({ topLinks, mod, alternativeLinks }) => (
       <div>
          {Object.keys(topLinks || {}).map((url) => (
             <cx>
-               <Link href={url} text={topLinks[url]} url-bind="url" match="subroute" mod={mod}
-                  active={!alternativeLinks[url] ? null : computable("url", currentUrl => {
-                     let links = alternativeLinks[url];
-                     return isArray(links) && links.some(link => currentUrl.startsWith(link)) ? true : null;
-                  })} />
+               <Link
+                  href={url}
+                  text={topLinks[url]}
+                  url-bind="url"
+                  match="subroute"
+                  mod={mod}
+                  active={
+                     alternativeLinks &&
+                     alternativeLinks[url] &&
+                     computable("url", (currentUrl) => {
+                        let links = alternativeLinks[url];
+                        return isArray(links) && links.some((link) => currentUrl.startsWith(link)) ? true : null;
+                     })
+                  }
+               />
             </cx>
          ))}
       </div>
