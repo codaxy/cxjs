@@ -12,7 +12,7 @@ import { scrollElementIntoView } from "../../util/scrollElementIntoView";
 import { findScrollableParent } from "../../util/findScrollableParent";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import DropDownIcon from "../icons/sort-asc";
-import { initiateDragDrop, registerDropZone } from "../drag-drop/ops";
+import { ddMouseDown, ddDetect, initiateDragDrop, registerDropZone } from "../drag-drop/ops";
 import { GridRow, GridRowComponent } from "./GridRow";
 import { Localization } from "../../ui/Localization";
 import { SubscriberList } from "../../util/SubscriberList";
@@ -126,16 +126,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                        ? c.value
-                        : c.aggregateField
-                           ? { bind: this.recordName + "." + c.aggregateField }
-                           : null,
+                     ? c.value
+                     : c.aggregateField
+                     ? { bind: this.recordName + "." + c.aggregateField }
+                     : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                           bind: this.recordName + "." + c.weightField,
-                        },
+                             bind: this.recordName + "." + c.weightField,
+                          },
                   type: c.aggregate,
                };
             }
@@ -573,8 +573,9 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                                 }px`;
+                              resizeOverlayEl.style.left = `${
+                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                              }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -656,6 +657,8 @@ export class Grid extends Widget {
                      rowSpan={rowSpan}
                      className={cls}
                      style={style}
+                     onMouseDown={ddMouseDown}
+                     onMouseMove={(e) => this.onHeaderMouseMove(e, hdwidget, hdinst, instance, l)}
                      onClick={(e) => this.onHeaderClick(e, hdwidget, instance, l)}
                      onContextMenu={onContextMenu}
                      data-unique-col-id={hdwidget.uniqueColumnId}
@@ -693,6 +696,39 @@ export class Grid extends Widget {
       return headerRows;
    }
 
+   onHeaderMouseMove(e, column, columnInstance, gridInstance, headerLine) {
+      let { store, data } = columnInstance;
+      let headerInstance = columnInstance.components[`header${headerLine + 1}`];
+      if (ddDetect(e) && e.buttons == 1) {
+         initiateDragDrop(
+            e,
+            {
+               sourceEl: e.currentTarget,
+               source: {
+                  type: "grid-column",
+                  store,
+                  column,
+                  columnInstance,
+                  headerInstance,
+                  gridInstance,
+                  headerLine,
+               },
+               clone: {
+                  store: store,
+                  matchCursorOffset: true,
+                  matchWidth: true,
+                  widget: () => <div className={"cxe-grid-col-header-drag-clone"}>{headerInstance?.data?.text}</div>,
+               },
+            },
+            () => {
+               // this.setState({
+               //    dragged: false,
+               // });
+            }
+         );
+      }
+   }
+
    onHeaderClick(e, column, instance, headerLine) {
       e.preventDefault();
       e.stopPropagation();
@@ -714,12 +750,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-               {
-                  field: sortField,
-                  direction: dir,
-                  value: sortValue,
-               },
-            ]
+                 {
+                    field: sortField,
+                    direction: dir,
+                    value: sortValue,
+                 },
+              ]
             : null;
 
          instance.set("sorters", sorters);
@@ -848,8 +884,7 @@ export class Grid extends Widget {
             if (c.footer) {
                v = c.footer.value(data);
                let fmt = c.footer.format(data);
-               if (fmt)
-                  v = Format.value(v, fmt);
+               if (fmt) v = Format.value(v, fmt);
                pad = c.footer.pad;
                colSpan = c.footer.colSpan;
                empty = false;
@@ -875,8 +910,7 @@ export class Grid extends Widget {
                if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
             }
 
-            if (cls)
-               cls += " ";
+            if (cls) cls += " ";
             if (c.align) cls += CSS.state("aligned-" + c.align);
 
             if (pad !== false) cls += (cls ? " " : "") + CSS.state("pad");
@@ -1123,8 +1157,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                           height: this.rowHeight + 1,
-                        }
+                             height: this.rowHeight + 1,
+                          }
                         : null
                   }
                >
@@ -1515,6 +1549,18 @@ class GridComponent extends VDOM.Component {
             );
       }
 
+      let columnInsertionMarker = null;
+      if (this.state.dropTarget == "column") {
+         columnInsertionMarker = (
+            <div
+               className={CSS.element(baseClass, "col-insertion-marker")}
+               style={{
+                  left: this.state.colDropInsertionLeft,
+               }}
+            />
+         );
+      }
+
       return (
          <div
             className={data.classNames}
@@ -1527,6 +1573,7 @@ class GridComponent extends VDOM.Component {
          >
             {fixedColumnsContent}
             {content}
+            {columnInsertionMarker}
          </div>
       );
    }
@@ -1762,25 +1809,39 @@ class GridComponent extends VDOM.Component {
       }
    }
 
+   onDropColumnTest(e) {
+      let { instance } = this.props;
+      let { widget } = instance;
+      if (widget.onColumnDropTest) return instance.invoke("onColumnDropTest", e, instance);
+      if (e?.source?.type == "grid-column" && e.source.gridInstance == instance) {
+         return true;
+      }
+   }
+
    onDropTest(e) {
       let { instance } = this.props;
       let { widget } = instance;
       let grid = widget.onDropTest && instance.invoke("onDropTest", e, instance);
       let row = widget.onRowDropTest && instance.invoke("onRowDropTest", e, instance);
-      return (grid || row) && { grid, row };
+      let column = this.onDropColumnTest(e);
+      return (grid || row || column) && { grid, row, column };
    }
 
    onDragEnd(e) {
       this.setState({
+         dropTarget: null,
          dropInsertionIndex: null,
+         colDropInsertionIndex: null,
+         colDropInsertionLeft: null,
       });
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.onDragEnd) instance.invoke("onDragEnd", e, instance);
    }
 
-   onDragMeasure(e) {
-      let r = getTopLevelBoundingClientRect(this.dom.scroller);
+   onDragMeasure(e, { test: { grid, row, column } }) {
+      //columns can be dropped anywhere, while rows only in the scrollable area
+      let r = getTopLevelBoundingClientRect(column ? this.dom.el : this.dom.scroller);
       let { clientX, clientY } = e.cursor;
 
       if (clientX < r.left || clientX >= r.right || clientY < r.top || clientY >= r.bottom) return false;
@@ -1790,7 +1851,30 @@ class GridComponent extends VDOM.Component {
       };
    }
 
-   onDragOver(ev, { test: { grid, row } }) {
+   onColumnDragOver(ev) {
+      let headerTBody = this.dom.table.firstChild;
+      let row = headerTBody.children[headerTBody.children.length - 1];
+      let positions = [];
+      let bounds;
+      Array.from(row.children).forEach((child) => {
+         bounds = child.getBoundingClientRect();
+         positions.push(bounds.left);
+      });
+      if (bounds) positions.push(bounds.right);
+      let index = 0;
+      while (index + 1 < positions.length && ev.cursor.clientX > positions[index + 1]) index++;
+      this.setState({
+         colDropInsertionIndex: index,
+         colDropInsertionLeft: positions[index] - positions[0] - this.dom.scroller.scrollLeft,
+         dropTarget: "column",
+      });
+   }
+
+   onDragOver(ev, { test: { grid, row, column } }) {
+      if (column) this.onColumnDragOver(ev);
+
+      if (!grid && !row) return;
+
       let { instance } = this.props;
       let { widget, data } = instance;
       let { CSS, baseClass } = widget;
@@ -2215,7 +2299,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
@@ -2622,7 +2706,7 @@ class GridColumnHeader extends Widget {
       if (this.footer && isSelector(this.footer))
          this.footer = {
             value: this.footer,
-            pad: this.pad
+            pad: this.pad,
          };
 
       if (this.footer) {
@@ -2631,7 +2715,6 @@ class GridColumnHeader extends Widget {
          this.footer.style = getSelector(this.footer.style);
          this.footer.format = getSelector(this.footer.format);
       }
-
 
       if (this.caption && isSelector(this.caption))
          this.caption = {
