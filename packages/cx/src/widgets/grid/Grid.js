@@ -697,9 +697,11 @@ export class Grid extends Widget {
    }
 
    onHeaderMouseMove(e, column, columnInstance, gridInstance, headerLine) {
-      let { store, data } = columnInstance;
+      let { baseClass, CSS } = gridInstance.widget;
       let headerInstance = columnInstance.components[`header${headerLine + 1}`];
-      if (ddDetect(e) && e.buttons == 1) {
+      if (!headerInstance) return;
+      let { store, data } = headerInstance;
+      if (data.draggable && ddDetect(e) && e.buttons == 1) {
          initiateDragDrop(
             e,
             {
@@ -717,14 +719,10 @@ export class Grid extends Widget {
                   store: store,
                   matchCursorOffset: true,
                   matchWidth: true,
-                  widget: () => <div className={"cxe-grid-col-header-drag-clone"}>{headerInstance?.data?.text}</div>,
+                  widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => {
-               // this.setState({
-               //    dragged: false,
-               // });
-            }
+            () => {}
          );
       }
    }
@@ -1806,15 +1804,13 @@ class GridComponent extends VDOM.Component {
             record: this.getRecordAt(start + dropInsertionIndex),
          };
          instance.invoke("onRowDrop", e, instance);
-      }
-   }
-
-   onDropColumnTest(e) {
-      let { instance } = this.props;
-      let { widget } = instance;
-      if (widget.onColumnDropTest) return instance.invoke("onColumnDropTest", e, instance);
-      if (e?.source?.type == "grid-column" && e.source.gridInstance == instance) {
-         return true;
+      } else if (dropTarget == "column" && widget.onColumnDrop) {
+         e.target = {
+            index: this.state.colDropInsertionIndex,
+            grid: widget,
+            instance,
+         };
+         instance.invoke("onColumnDrop", e, instance);
       }
    }
 
@@ -1823,7 +1819,7 @@ class GridComponent extends VDOM.Component {
       let { widget } = instance;
       let grid = widget.onDropTest && instance.invoke("onDropTest", e, instance);
       let row = widget.onRowDropTest && instance.invoke("onRowDropTest", e, instance);
-      let column = this.onDropColumnTest(e);
+      let column = widget.onColumnDropTest && instance.invoke("onColumnDropTest", e, instance);
       return (grid || row || column) && { grid, row, column };
    }
 
@@ -2676,7 +2672,7 @@ class GridColumnHeader extends Widget {
 
       if (this.header) this.header1 = this.header;
 
-      if (this.header1 || this.resizable || this.width || this.defaultWidth || this.sortable) {
+      if (this.header1 || this.resizable || this.width || this.defaultWidth || this.sortable || this.draggable) {
          if (!isObject(this.header1))
             this.header1 = {
                text: this.header1 || "",
@@ -2687,6 +2683,8 @@ class GridColumnHeader extends Widget {
          if (this.width) this.header1.width = this.width;
 
          if (this.defaultWidth) this.header1.defaultWidth = this.defaultWidth;
+
+         if (this.draggable) this.header1.draggable = this.draggable;
       }
 
       if (this.header2 && isSelector(this.header2))
@@ -2759,6 +2757,7 @@ class GridColumnHeaderCell extends PureContainer {
          defaultWidth: undefined,
          resizable: undefined,
          fixed: undefined,
+         draggable: undefined,
       });
    }
 
