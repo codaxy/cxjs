@@ -1,17 +1,15 @@
 {
   "name": "cx-app-tpl",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.0",  
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.js --open",
     "build": "webpack --config config/webpack.prod.js"
   },
-  "author": "Not Set",
-  "license": "ISC",
+  "private": true,
   "dependencies": {
     "core-js": "^3.9.1",
-    "cx": "^20.11.7",
+    "cx": "^21.1.7",
     "cx-react": "^17.10.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
