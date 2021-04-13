@@ -61,6 +61,7 @@ export class Grid extends Widget {
             page: undefined,
             totalRecordCount: undefined,
             tabIndex: undefined,
+            columnParams: { structured: true },
          },
          selection
       );
@@ -84,19 +85,143 @@ export class Grid extends Widget {
 
       this.recordsAccessor = getAccessor(this.records);
 
-      if (!this.row) this.row = {};
+      // let aggregates = {};
+      // let lines = [];
+      // for (let i = 0; i < 10; i++) {
+      //    let l = this.row["line" + i];
+      //    if (l) {
+      //       if (isArray(l.columns))
+      //          for (let c = 0; c < l.columns.length; c++) l.columns[c].uniqueColumnId = `l${i}-${c}`;
+      //       lines.push(l);
+      //    }
+      // }
 
-      if (this.columns)
-         this.row.line1 = {
-            columns: this.columns,
+      // this.header = PureContainer.create({
+      //    items: GridColumnHeaderLine.create(lines),
+      // });
+
+      // this.header.items.forEach((line) => {
+      //    line.items.forEach((c) => {
+      //       if (c.sortable) this.hasSortableColumns = true;
+
+      //       if (
+      //          c.resizable ||
+      //          (c.header && c.header.resizable) ||
+      //          (c.header1 && c.header1.resizable) ||
+      //          (c.header2 && c.header2.resizable) ||
+      //          (c.header3 && c.header3.resizable)
+      //       )
+      //          this.hasResizableColumns = true;
+
+      //       if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
+      //          aggregates[c.aggregateAlias] = {
+      //             value: isDefined(c.aggregateValue)
+      //                ? c.aggregateValue
+      //                : isDefined(c.value)
+      //                ? c.value
+      //                : c.aggregateField
+      //                ? { bind: this.recordName + "." + c.aggregateField }
+      //                : null,
+      //             weight:
+      //                c.weight != null
+      //                   ? c.weight
+      //                   : c.weightField && {
+      //                        bind: this.recordName + "." + c.weightField,
+      //                     },
+      //             type: c.aggregate,
+      //          };
+      //       }
+      //    });
+      // });
+
+      // //add default footer if some columns have aggregates and grouping is not defined
+      // if (!this.grouping && (Object.keys(aggregates).length > 0 || this.fixedFooter))
+      //    this.grouping = [
+      //       {
+      //          key: {},
+      //          showFooter: true,
+      //       },
+      //    ];
+
+      // if (this.fixedFooter && isNonEmptyArray(this.grouping)) {
+      //    this.grouping[0].showFooter = true;
+      //    if (this.grouping[0].key && Object.keys(this.grouping[0].key).length > 0)
+      //       Console.warn(
+      //          "First grouping level in grids with a fixed footer must group all data. The key field should be omitted."
+      //       );
+      // }
+
+      // this.dataAdapter = DataAdapter.create(
+      //    {
+      //       type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
+      //       recordsAccessor: this.recordsAccessor,
+      //       keyField: this.keyField,
+      //       aggregates: aggregates,
+      //       recordName: this.recordName,
+      //       indexName: this.indexName,
+      //       sortOptions: this.sortOptions,
+      //    },
+      //    this.dataAdapter
+      // );
+
+      this.selection = Selection.create(this.selection, {
+         records: this.records,
+      });
+
+      if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
+      if (this.focusable == null) this.focusable = !this.selection.isDummy || this.cellEditable;
+
+      super.init();
+
+      // this.row = Widget.create(GridRow, {
+      //    class: this.CSS.element(this.baseClass, "data"),
+      //    className: this.rowClass,
+      //    style: this.rowStyle,
+      //    recordName: this.recordName,
+      //    hoverId: this.rowHoverId,
+      //    ...this.row,
+      // });
+
+      // if (this.grouping) {
+      //    this.groupBy(this.grouping);
+      // }
+   }
+
+   initState(context, instance) {
+      instance.state = {
+         colWidth: {},
+         lockedColWidth: {},
+         dimensionsVersion: 0,
+      };
+      instance.v = 0;
+      if (this.infinite)
+         instance.buffer = {
+            records: [],
+            totalRecordCount: 0,
+            page: 1,
+         };
+   }
+
+   createRowTemplate(context, columnParams, instance) {
+      var row = this.row || {};
+      let columns = this.columns;
+      if (this.onGetColumns) {
+         let result = instance.invoke("onGetColumns", columnParams, instance);
+         if (isArray(result)) columns = result;
+         else row = result;
+      }
+
+      if (columns)
+         row.line1 = {
+            columns,
          };
 
-      this.hasSortableColumns = false;
-      this.hasResizableColumns = false;
+      row.hasSortableColumns = false;
+      row.hasResizableColumns = false;
       let aggregates = {};
       let lines = [];
       for (let i = 0; i < 10; i++) {
-         let l = this.row["line" + i];
+         let l = row["line" + i];
          if (l) {
             if (isArray(l.columns))
                for (let c = 0; c < l.columns.length; c++) l.columns[c].uniqueColumnId = `l${i}-${c}`;
@@ -104,13 +229,13 @@ export class Grid extends Widget {
          }
       }
 
-      this.header = PureContainer.create({
+      row.header = PureContainer.create({
          items: GridColumnHeaderLine.create(lines),
       });
 
-      this.header.items.forEach((line) => {
+      row.header.items.forEach((line) => {
          line.items.forEach((c) => {
-            if (c.sortable) this.hasSortableColumns = true;
+            if (c.sortable) row.hasSortableColumns = true;
 
             if (
                c.resizable ||
@@ -119,7 +244,7 @@ export class Grid extends Widget {
                (c.header2 && c.header2.resizable) ||
                (c.header3 && c.header3.resizable)
             )
-               this.hasResizableColumns = true;
+               row.hasResizableColumns = true;
 
             if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
                aggregates[c.aggregateAlias] = {
@@ -159,7 +284,7 @@ export class Grid extends Widget {
             );
       }
 
-      this.dataAdapter = DataAdapter.create(
+      instance.dataAdapter = DataAdapter.create(
          {
             type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
             recordsAccessor: this.recordsAccessor,
@@ -172,46 +297,30 @@ export class Grid extends Widget {
          this.dataAdapter
       );
 
-      this.selection = Selection.create(this.selection, {
-         records: this.records,
-      });
+      instance.dataAdapter.initInstance(context, instance);
 
-      if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
-      if (this.focusable == null) this.focusable = !this.selection.isDummy || this.cellEditable;
+      if (this.grouping) {
+         this.groupBy(this.grouping);
+      }
 
-      super.init();
+      instance.getInstanceCache().sweep();
 
-      this.row = Widget.create(GridRow, {
+      return Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, "data"),
          className: this.rowClass,
          style: this.rowStyle,
          recordName: this.recordName,
          hoverId: this.rowHoverId,
-         ...this.row,
+         ...row,
       });
-
-      if (this.grouping) {
-         this.groupBy(this.grouping);
-      }
-   }
-
-   initState(context, instance) {
-      instance.state = {
-         colWidth: {},
-         lockedColWidth: {},
-         dimensionsVersion: 0,
-      };
-      instance.v = 0;
-      if (this.infinite)
-         instance.buffer = {
-            records: [],
-            totalRecordCount: 0,
-            page: 1,
-         };
    }
 
    prepareData(context, instance) {
-      let { data, state, cached } = instance;
+      let { data, state, cached, row } = instance;
+
+      if (instance.cache("columnParams", data.columnParams) || !row) {
+         row = instance.row = this.createRowTemplate(context, data.columnParams, instance);
+      }
 
       data.version = ++instance.v;
 
@@ -255,7 +364,7 @@ export class Grid extends Widget {
 
       if (sortField) {
          for (let l = 1; l < 10; l++) {
-            let line = this.row[`line${l}`];
+            let line = instance.row[`line${l}`];
             let sortColumn = line && line.columns && line.columns.find((c) => c.field == sortField);
             if (sortColumn && (sortColumn.sortValue || sortColumn.value)) {
                data.sorters[0].value = sortColumn.sortValue || sortColumn.value;
@@ -267,7 +376,7 @@ export class Grid extends Widget {
       let headerMode = this.headerMode;
 
       if (this.headerMode == null) {
-         if (this.scrollable || this.hasSortableColumns || this.hasResizableColumns) headerMode = "default";
+         if (this.scrollable || row.hasSortableColumns || row.hasResizableColumns) headerMode = "default";
          else headerMode = "plain";
       }
 
@@ -330,15 +439,14 @@ export class Grid extends Widget {
 
    initInstance(context, instance) {
       instance.fixedHeaderResizeEvent = new SubscriberList();
-      this.dataAdapter.initInstance(context, instance);
       super.initInstance(context, instance);
    }
 
-   initComponents(context, instance) {
-      return super.initComponents(...arguments, {
-         header: this.header,
-      });
-   }
+   // initComponents(context, instance) {
+   //    return super.initComponents(...arguments, {
+   //       header: this.header,
+   //    });
+   // }
 
    explore(context, instance) {
       context.push("parentPositionChangeEvent", instance.fixedHeaderResizeEvent);
@@ -346,6 +454,9 @@ export class Grid extends Widget {
       instance.hoverSync = context.hoverSync;
 
       super.explore(context, instance);
+
+      instance.header = instance.getChild(context, instance.row.header, "header");
+      instance.header.scheduleExploreIfVisible(context);
 
       let { store } = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
@@ -355,7 +466,7 @@ export class Grid extends Widget {
          for (let i = 0; i < instance.records.length; i++) {
             let record = instance.records[i];
             if (record.type == "data") {
-               let row = (record.row = instance.getChild(context, this.row, record.key, record.store));
+               let row = (record.row = instance.getChild(context, instance.row, record.key, record.store));
                row.selected = instance.isSelected(record.data, record.index);
                let changed = false;
                if (row.cache("selected", row.selected)) changed = true;
@@ -371,7 +482,7 @@ export class Grid extends Widget {
       context.pop("parentPositionChangeEvent");
       let fixedColumnCount = 0,
          visibleColumns = [];
-      instance.components.header.children.forEach((line) => {
+      instance.header.children.forEach((line) => {
          line.children.forEach((col) => {
             if (col.data.fixed) fixedColumnCount++;
             visibleColumns.push(col.widget);
@@ -465,8 +576,7 @@ export class Grid extends Widget {
    }
 
    renderHeader(context, instance, key, fixed, fixedColumns) {
-      let { data, widget, components } = instance;
-      let { header } = components;
+      let { data, widget, header } = instance;
 
       let { CSS, baseClass } = widget;
 
@@ -851,17 +961,12 @@ export class Grid extends Widget {
       let data = store.getData();
       let skip = 0;
 
-      let { header } = instance.components;
+      let { header, dataAdapter } = instance;
       let rowStyle = {};
 
       //hide the last group footer if fixedFooter is used
       //but leave it rendered for column size calculation
-      if (
-         this.fixedFooter &&
-         !fixed &&
-         isArray(this.dataAdapter.groupings) &&
-         level == this.dataAdapter.groupings.length
-      )
+      if (this.fixedFooter && !fixed && isArray(dataAdapter.groupings) && level == dataAdapter.groupings.length)
          rowStyle.visibility = "hidden";
 
       let lines = [];
@@ -1046,7 +1151,7 @@ export class Grid extends Widget {
    }
 
    mapRecords(context, instance) {
-      let { data, store } = instance;
+      let { data, store, dataAdapter } = instance;
 
       let filter = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
@@ -1058,18 +1163,18 @@ export class Grid extends Widget {
          sorters = [...data.preSorters, ...data.sorters];
       }
 
-      this.dataAdapter.setFilter(filter);
-      this.dataAdapter.sort(sorters);
+      dataAdapter.setFilter(filter);
+      dataAdapter.sort(sorters);
 
       //if no filtering or sorting applied, let the component maps records on demand
-      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !this.dataAdapter.isTreeAdapter)
+      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !dataAdapter.isTreeAdapter)
          return null;
 
-      return this.dataAdapter.getRecords(context, instance, data.records, store);
+      return dataAdapter.getRecords(context, instance, data.records, store);
    }
 
    mapRecord(context, instance, data, index) {
-      return this.dataAdapter.mapRecord(context, instance, data, instance.store, this.recordsAccessor, index);
+      return instance.dataAdapter.mapRecord(context, instance, data, instance.store, this.recordsAccessor, index);
    }
 }
 
