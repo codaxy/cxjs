@@ -85,85 +85,6 @@ export class Grid extends Widget {
 
       this.recordsAccessor = getAccessor(this.records);
 
-      // let aggregates = {};
-      // let lines = [];
-      // for (let i = 0; i < 10; i++) {
-      //    let l = this.row["line" + i];
-      //    if (l) {
-      //       if (isArray(l.columns))
-      //          for (let c = 0; c < l.columns.length; c++) l.columns[c].uniqueColumnId = `l${i}-${c}`;
-      //       lines.push(l);
-      //    }
-      // }
-
-      // this.header = PureContainer.create({
-      //    items: GridColumnHeaderLine.create(lines),
-      // });
-
-      // this.header.items.forEach((line) => {
-      //    line.items.forEach((c) => {
-      //       if (c.sortable) this.hasSortableColumns = true;
-
-      //       if (
-      //          c.resizable ||
-      //          (c.header && c.header.resizable) ||
-      //          (c.header1 && c.header1.resizable) ||
-      //          (c.header2 && c.header2.resizable) ||
-      //          (c.header3 && c.header3.resizable)
-      //       )
-      //          this.hasResizableColumns = true;
-
-      //       if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
-      //          aggregates[c.aggregateAlias] = {
-      //             value: isDefined(c.aggregateValue)
-      //                ? c.aggregateValue
-      //                : isDefined(c.value)
-      //                ? c.value
-      //                : c.aggregateField
-      //                ? { bind: this.recordName + "." + c.aggregateField }
-      //                : null,
-      //             weight:
-      //                c.weight != null
-      //                   ? c.weight
-      //                   : c.weightField && {
-      //                        bind: this.recordName + "." + c.weightField,
-      //                     },
-      //             type: c.aggregate,
-      //          };
-      //       }
-      //    });
-      // });
-
-      // //add default footer if some columns have aggregates and grouping is not defined
-      // if (!this.grouping && (Object.keys(aggregates).length > 0 || this.fixedFooter))
-      //    this.grouping = [
-      //       {
-      //          key: {},
-      //          showFooter: true,
-      //       },
-      //    ];
-
-      // if (this.fixedFooter && isNonEmptyArray(this.grouping)) {
-      //    this.grouping[0].showFooter = true;
-      //    if (this.grouping[0].key && Object.keys(this.grouping[0].key).length > 0)
-      //       Console.warn(
-      //          "First grouping level in grids with a fixed footer must group all data. The key field should be omitted."
-      //       );
-      // }
-
-      // this.dataAdapter = DataAdapter.create(
-      //    {
-      //       type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
-      //       recordsAccessor: this.recordsAccessor,
-      //       keyField: this.keyField,
-      //       aggregates: aggregates,
-      //       recordName: this.recordName,
-      //       indexName: this.indexName,
-      //       sortOptions: this.sortOptions,
-      //    },
-      //    this.dataAdapter
-      // );
-
       this.selection = Selection.create(this.selection, {
          records: this.records,
       });
@@ -172,19 +93,6 @@ export class Grid extends Widget {
       if (this.focusable == null) this.focusable = !this.selection.isDummy || this.cellEditable;
 
       super.init();
-
-      // this.row = Widget.create(GridRow, {
-      //    class: this.CSS.element(this.baseClass, "data"),
-      //    className: this.rowClass,
-      //    style: this.rowStyle,
-      //    recordName: this.recordName,
-      //    hoverId: this.rowHoverId,
-      //    ...this.row,
-      // });
-
-      // if (this.grouping) {
-      //    this.groupBy(this.grouping);
-      // }
    }
 
    initState(context, instance) {
@@ -224,7 +132,8 @@ export class Grid extends Widget {
          let l = row["line" + i];
          if (l) {
             if (isArray(l.columns))
-               for (let c = 0; c < l.columns.length; c++) l.columns[c].uniqueColumnId = `l${i}-${c}`;
+               for (let c = 0; c < l.columns.length; c++)
+                  l.columns[c].uniqueColumnId = `l${i}-${l.columns[c].key || c}`;
             lines.push(l);
          }
       }
@@ -300,10 +209,8 @@ export class Grid extends Widget {
       instance.dataAdapter.initInstance(context, instance);
 
       if (this.grouping) {
-         this.groupBy(this.grouping);
+         instance.dataAdapter.groupBy(this.grouping);
       }
-
-      instance.getInstanceCache().sweep();
 
       return Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, "data"),
@@ -320,6 +227,17 @@ export class Grid extends Widget {
 
       if (instance.cache("columnParams", data.columnParams) || !row) {
          row = instance.row = this.createRowTemplate(context, data.columnParams, instance);
+      }
+
+      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams)) {
+         let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
+         this.groupBy(grouping, { autoConfigure: true });
+      }
+
+      if (instance.cache("grouping", this.grouping)) {
+         if (instance.dataAdapter.groupBy) instance.dataAdapter.groupBy(this.grouping);
+         else
+            Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.");
       }
 
       data.version = ++instance.v;
@@ -403,15 +321,10 @@ export class Grid extends Widget {
          vlines: this.vlines,
          ["drag-" + dragMode]: dragMode,
          ["drop-" + dropMode]: dropMode,
-         resizable: this.hasResizableColumns,
+         resizable: row.hasResizableColumns,
       };
 
       super.prepareData(context, instance);
-
-      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams)) {
-         let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
-         this.groupBy(grouping, { autoConfigure: true });
-      }
 
       instance.records = this.mapRecords(context, instance);
 
@@ -525,12 +438,7 @@ export class Grid extends Widget {
 
       if (autoConfigure) this.showHeader = !isArray(grouping) || !grouping.some((g) => g.showHeader);
 
-      if (!this.dataAdapter.groupBy) {
-         Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.");
-         return;
-      }
-
-      this.dataAdapter.groupBy(grouping);
+      this.grouping = grouping;
    }
 
    groupBy(grouping, options) {
@@ -889,7 +797,7 @@ export class Grid extends Widget {
       } else if (g.showCaption) {
          let skip = 0;
 
-         let { header } = instance.components;
+         let { header } = instance;
 
          let lines = [];
          header.children.forEach((line, lineIndex) => {
@@ -1461,7 +1369,7 @@ class GridComponent extends VDOM.Component {
                let record = instance.records
                   ? r
                   : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
-               let row = (record.row = instance.recordInstanceCache.getChild(widget.row, record.store, record.key));
+               let row = (record.row = instance.recordInstanceCache.getChild(instance.row, record.store, record.key));
                instance.recordInstanceCache.addChild(row);
                row.detached = true;
                row.selected = instance.isSelected(record.data, record.index);
@@ -2234,7 +2142,7 @@ class GridComponent extends VDOM.Component {
             //Show the last row if fixed footer is shown without grouping, otherwise hide it.
             //For buffered grids, footer is never rendered within the body.
             //Hacky: accessing internal adapter property to check if grouping is applied
-            if (!isNonEmptyArray(widget.dataAdapter.groupings) || widget.buffered) footerHeight = 0;
+            if (!isNonEmptyArray(instance.dataAdapter.groupings) || widget.buffered) footerHeight = 0;
          } else {
             this.dom.scroller.style.marginBottom = 0;
             if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = 0;

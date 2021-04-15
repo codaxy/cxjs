@@ -27,6 +27,14 @@ interface GridRowDragEvent extends DragEvent {
    };
 }
 
+interface GridColumnDropEvent extends DragEvent {
+   target: {
+      grid: any;
+      instance: Instance;
+      index: number;
+   };
+}
+
 interface GridProps extends Cx.StyledContainerProps {
    /** An array of records to be displayed in the grid. */
    records?: Cx.Prop<Cx.Record[]>;
@@ -70,11 +78,17 @@ interface GridProps extends Cx.StyledContainerProps {
    /**An array of columns. Check column configuration options in the section below. */
    columns?: Cx.Record[];
 
+   /** Whenever columnParams change, columns are recalculated using the onGetColumn callback. */
+   columnParams?: Cx.Config;
+
    /** Selection configuration. */
    selection?: Cx.Config;
 
    /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
    grouping?: Cx.Record[];
+
+   /** Params for grouping. Whenever params change grouping is recalculated using the onGetGrouping callback. */
+   groupingParams?: Cx.Config;
 
    /**
     * Determines header appearance. Supported values are `plain` and `default`. Default mode is used if some of the columns are sortable.
@@ -154,6 +168,9 @@ interface GridProps extends Cx.StyledContainerProps {
    onRowDragOver?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
    onRowDrop?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
 
+   onColumnDrop?: (e: GridColumnDropEvent, instance: Instance) => void;
+   onColumnDropTest?: (e: DragEvent, instance: Instance) => boolean;
+
    /** Parameters that affect filtering. */
    filterParams?: Cx.StructuredProp;
 
@@ -218,6 +235,12 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
    focusable?: boolean;
+
+   /** Callback function to retrieve grouping data.  */
+   onGetGrouping?: (params: any, instance: Instance) => Cx.Record[];
+
+   /** Callback function to dynamically calculate columns.  */
+   onGetColumns?: (params: any, instance: Instance) => Cx.Record[];
 }
 
 export class Grid extends Cx.Widget<GridProps> {}
