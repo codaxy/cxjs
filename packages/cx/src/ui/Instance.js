@@ -116,8 +116,8 @@ export class Instance {
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
-               ? ins.parent.parent
-               : ins.parent;
+            ? ins.parent.parent
+            : ins.parent;
       }
       renderList.reverse();
    }
@@ -432,8 +432,7 @@ export class Instance {
       if (config.bind) {
          var store = this.store;
          //in case of Rescope aor DataProxy, bindings point to the data in the parent store
-         if (useParentStore && store.store)
-            store = store.store;
+         if (useParentStore && store.store) store = store.store;
          return isUndefined(value) ? store.deleteItem(config.bind) : store.setItem(config.bind, value);
       }
 
@@ -548,7 +547,11 @@ export class InstanceCache {
       let k = this.keyPrefix + (key != null ? key : widget.widgetId);
       let instance = this.children[k];
 
-      if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
+      if (
+         !instance ||
+         instance.widget !== widget ||
+         (!instance.visible && (instance.widget.controller || instance.widget.onInit))
+      ) {
          instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }

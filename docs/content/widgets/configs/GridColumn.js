@@ -104,7 +104,7 @@ export default {
         </Md></cx>
     },
     editable: {
-        type: 'bool',
+        type: 'boolean',
         description: <cx><Md>
             Indicate if a cell is editable or not. Default value is `true`.
         </Md></cx>
@@ -114,5 +114,11 @@ export default {
         description: <cx><Md>
             Cell editor configuration.
         </Md></cx>
-    }
+    },
+    draggable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Make column draggable.
+        </Md></cx>
+    },
 };

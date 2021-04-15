@@ -131,7 +131,6 @@ function notifyDragMove(e, captureData) {
 
       if (zone.onDragMeasure) {
          let result = zone.onDragMeasure(event, { test }) || {};
-         console.log(result);
 
          if (result.near) near.push(zone);
          else away.push(zone);

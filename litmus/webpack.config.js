@@ -1,15 +1,12 @@
 const webpack = require("webpack"),
    HtmlWebpackPlugin = require("html-webpack-plugin"),
    CxScssManifestPlugin = require("../packages/cx-scss-manifest-webpack-plugin/src/index"),
-   BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-      .BundleAnalyzerPlugin,
+   BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
    { merge } = require("webpack-merge"),
    path = require("path"),
    babelConfig = require("./babel-config");
 
-let production =
-   process.env.npm_lifecycle_event &&
-   process.env.npm_lifecycle_event.indexOf("build") == 0;
+let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 let common = {
    resolve: {
@@ -18,35 +15,36 @@ let common = {
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-react')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
-         litmus: __dirname
+         litmus: __dirname,
+         process: "process/browser",
       },
-      extensions: [".js", ".ts", ".tsx", ".json"]
+      extensions: [".js", ".ts", ".tsx", ".json"],
    },
 
    module: {
       rules: [
          {
             test: /\.json$/,
-            loader: "json-loader"
+            loader: "json-loader",
          },
          {
             test: /\.(js|ts|tsx)$/,
             include: /(litmus|cx)/,
             loader: "babel-loader",
-            options: babelConfig(production)
-         }
-      ]
+            options: babelConfig(production),
+         },
+      ],
    },
    entry: {
       // vendor: [
       //    'babel-polyfill',
       //    'cx-react'
       // ],
-      app: __dirname + "/index.js"
+      app: __dirname + "/index.js",
    },
    output: {
       path: __dirname,
-      filename: "[name].js"
+      filename: "[name].js",
    },
    // externals: {
    //    "react": "React",
@@ -55,18 +53,18 @@ let common = {
    plugins: [
       //new webpack.optimize.CommonsChunkPlugin("vendor"),
       new HtmlWebpackPlugin({
-         template: path.join(__dirname, "index.html")
+         template: path.join(__dirname, "index.html"),
       }),
       // new CxScssManifestPlugin({
       //    outputPath: path.join(__dirname, "manifest.scss")
       // })
    ],
    stats: {
-      usedExports: true
+      usedExports: true,
    },
    cache: {
       // 1. Set cache type to filesystem
-      type: 'filesystem',
+      type: "filesystem",
 
       buildDependencies: {
          // 2. Add your config as buildDependency to get cache invalidation on config change
@@ -83,46 +81,46 @@ let specific;
 if (production) {
    let sass = new ExtractTextPlugin({
       filename: "app.css",
-      allChunks: true
+      allChunks: true,
    });
    specific = {
       mode: "production",
-      target: ['web', 'es5'], //IE 11
+      target: ["web", "es5"], //IE 11
       module: {
          rules: [
             {
                test: /\.scss$/,
-               loaders: sass.extract(["css-loader", "sass-loader"])
+               loaders: sass.extract(["css-loader", "sass-loader"]),
             },
             {
                test: /\.css$/,
-               loaders: sass.extract(["css-loader"])
-            }
-         ]
+               loaders: sass.extract(["css-loader"]),
+            },
+         ],
       },
 
       plugins: [
          new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("production")
+            "process.env.NODE_ENV": JSON.stringify("production"),
          }),
 
          new webpack.optimize.UglifyJsPlugin({
             compress: true,
             mangle: false,
-            beautify: true
+            beautify: true,
          }),
 
          // new BabiliPlugin({ mangle: false }),
 
          //new webpack.optimize.ModuleConcatenationPlugin(),
          sass,
-         new BundleAnalyzerPlugin()
+         new BundleAnalyzerPlugin(),
       ],
 
       output: {
          path: path.join(__dirname, "dist"),
-         publicPath: "."
-      }
+         publicPath: ".",
+      },
    };
 } else {
    specific = {
@@ -130,38 +128,39 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: ["style-loader", "css-loader", "sass-loader"]
+               use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
-               use: ["style-loader", "css-loader"]
-            }
-         ]
+               use: ["style-loader", "css-loader"],
+            },
+         ],
       },
       mode: "development",
-      target: ['web', 'es5'], //Uncomment for IE testing
+      target: ["web", "es5"], //Uncomment for IE testing
       plugins: [
-         new webpack.HotModuleReplacementPlugin(),
+         //new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("development")
-         })
+            "process.env.NODE_ENV": JSON.stringify("development"),
+            "process.env.NODE_DEBUG": JSON.stringify(false),
+         }),
       ],
       output: {
-         publicPath: "/"
+         publicPath: "/",
       },
       performance: {
-         hints: false
+         hints: false,
       },
-      devtool: 'eval',
+      devtool: "eval",
       devServer: {
          contentBase: "/",
          hot: true,
          port: 8085,
          noInfo: false,
          inline: true,
-         historyApiFallback: true
+         historyApiFallback: true,
          //quiet: true
-      }
+      },
    };
 }
 
