@@ -170,8 +170,8 @@ function notifyDragMove(e, captureData) {
    if (over != activeZone && over) {
       if (over.onDragEnter) over.onDragEnter(event);
 
-      vscrollParent = over.onGetVScrollParent && over.onGetVScrollParent();
-      hscrollParent = over.onGetHScrollParent && over.onGetHScrollParent();
+      vscrollParent = over.onGetVScrollParent && over.onGetVScrollParent({ test: overTest });
+      hscrollParent = over.onGetHScrollParent && over.onGetHScrollParent({ test: overTest });
    }
 
    activeZone = over;

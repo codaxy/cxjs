@@ -2002,7 +2002,8 @@ class GridComponent extends VDOM.Component {
       return findScrollableParent(this.dom.table, true);
    }
 
-   onGetVScrollParent() {
+   onGetVScrollParent({ test: { grid, row, column } }) {
+      if (column && !grid && !row) return null;
       let { widget } = this.props.instance;
       if (widget.scrollable) return this.dom.scroller;
       return findScrollableParent(this.dom.table);
