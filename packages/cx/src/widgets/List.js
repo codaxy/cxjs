@@ -11,6 +11,7 @@ import { isArray } from "../util/isArray";
 import { getAccessor } from "../data/getAccessor";
 import { batchUpdates } from "../ui/batchUpdates";
 import { Container } from "../ui/Container";
+import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
 
 /*
  - renders list of items
@@ -190,17 +191,17 @@ export class List extends Widget {
    }
 }
 
-   List.prototype.recordName = "$record";
-   List.prototype.indexName = "$index";
-   List.prototype.baseClass = "list";
-   List.prototype.focusable = true;
-   List.prototype.focused = false;
-   List.prototype.itemPad = true;
-   List.prototype.cached = false;
-   List.prototype.styled = true;
-   List.prototype.scrollSelectionIntoView = false;
-   List.prototype.selectMode = false;
-   List.prototype.selectOnTab = false;
+List.prototype.recordName = "$record";
+List.prototype.indexName = "$index";
+List.prototype.baseClass = "list";
+List.prototype.focusable = true;
+List.prototype.focused = false;
+List.prototype.itemPad = true;
+List.prototype.cached = false;
+List.prototype.styled = true;
+List.prototype.scrollSelectionIntoView = false;
+List.prototype.selectMode = false;
+List.prototype.selectOnTab = false;
 
 Widget.alias("list", List);
 
@@ -232,6 +233,12 @@ class ListComponent extends VDOM.Component {
       }
 
       if (widget.autoFocus) FocusManager.focus(this.el);
+
+      if (widget.onScroll) {
+         this.unsubscribeScroll = addEventListenerWithOptions(this.el, "scroll", event => {
+            instance.invoke("onScroll", event, instance);
+         }, { passive: true });
+      }
 
       this.componentDidUpdate();
    }

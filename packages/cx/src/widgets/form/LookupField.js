@@ -233,6 +233,8 @@ LookupField.prototype.listOptions = null;
 LookupField.prototype.autoOpen = false;
 LookupField.prototype.submitOnEnterKey = false;
 LookupField.prototype.submitOnDropdownEnterKey = false;
+LookupField.prototype.pageSize = 100;
+LookupField.prototype.infinite = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -321,6 +323,7 @@ class LookupComponent extends VDOM.Component {
                sortDirection="ASC"
                mod="dropdown"
                scrollSelectionIntoView
+               cached={widget.infinite}
                {...widget.listOptions}
                records-bind="$options"
                recordName="$option"
@@ -422,6 +425,7 @@ class LookupComponent extends VDOM.Component {
                ref={(el) => {
                   this.dom.list = el;
                   this.subscribeListOnWheel(el);
+                  this.subscribeListOnScroll(el);
                }}
                className={CSS.element(baseClass, "scroll-container")}
             >
@@ -470,6 +474,14 @@ class LookupComponent extends VDOM.Component {
       ) {
          e.preventDefault();
          e.stopPropagation();
+      }
+   }
+
+   onListScroll() {
+      if (!this.dom.list) return;
+      var el = this.dom.list;
+      if (el.scrollTop > el.scrollHeight - 2 * el.offsetHeight) {
+         this.loadAdditionalOptionPages();
       }
    }
 
@@ -899,7 +911,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (widget.onQuery) {
-         let { queryDelay, fetchAll, cacheAll } = widget;
+         let { queryDelay, fetchAll, cacheAll, pageSize } = widget;
 
          if (fetchAll) queryDelay = 0;
 
@@ -913,14 +925,21 @@ class LookupComponent extends VDOM.Component {
             delete this.queryTimeoutId;
 
             let result = this.tmpCachedResult || this.cachedResult;
-            if (!result) result = instance.invoke("onQuery", fetchAll ? "" : q, instance);
+            let query = fetchAll ? "" : q;
+            let params = !widget.infinite ? query : {
+               query,
+               page: 1,
+               pageSize
+            };
 
-            let query = (this.lastQueryId = Date.now());
+            if (!result) result = instance.invoke("onQuery", params, instance);
+
+            let queryId = (this.lastQueryId = Date.now());
 
             Promise.resolve(result)
                .then((results) => {
                   //discard results which do not belong to the last query
-                  if (query !== this.lastQueryId) return;
+                  if (queryId !== this.lastQueryId) return;
 
                   if (!isArray(results)) results = [];
 
@@ -932,8 +951,13 @@ class LookupComponent extends VDOM.Component {
                   }
 
                   this.setState({
+                     page: 1,
+                     query,
                      options: results,
                      status: "loaded",
+                  }, () => {
+                     if (widget.infinite)
+                        this.onListScroll();
                   });
                })
                .catch((err) => {
@@ -942,6 +966,60 @@ class LookupComponent extends VDOM.Component {
                });
          }, queryDelay);
       }
+   }
+
+   loadAdditionalOptionPages() {
+      let { instance } = this.props;
+      let { widget } = instance;
+      if (!widget.infinite) return;
+
+      let { query, page, status, options } = this.state;
+
+      let blockerKey = query;
+
+      if (status != 'loaded') return;
+
+      if (options.length < page * widget.pageSize) return; //some pages were not full which means we reached the end
+
+      if (this.extraPageLoadingBlocker === blockerKey)
+         return;
+
+      this.extraPageLoadingBlocker = blockerKey;
+
+      let params = {
+         page: page + 1,
+         query,
+         pageSize: widget.pageSize
+      }
+
+      var result = instance.invoke("onQuery", params, instance);
+
+      Promise.resolve(result)
+         .then((results) => {
+            //discard results which do not belong to the last query
+            if (this.extraPageLoadingBlocker !== blockerKey)
+               return;
+
+            this.extraPageLoadingBlocker = false;
+
+            if (!isArray(results)) return;
+
+            this.setState({
+               page: params.page,
+               query,
+               options: [...options, ...results],
+            }, () => {
+               this.onListScroll();
+            });
+         })
+         .catch((err) => {
+            if (this.extraPageLoadingBlocker !== blockerKey)
+               return;
+            this.extraPageLoadingBlocker = false;
+            this.setState({ status: "error" });
+            debug("Lookup query error:", err);
+            console.error(err);
+         })
    }
 
    UNSAFE_componentWillReceiveProps(props) {
@@ -970,6 +1048,18 @@ class LookupComponent extends VDOM.Component {
       }
       if (list) {
          this.unsubscribeListOnWheel = addEventListenerWithOptions(list, "wheel", (e) => this.onListWheel(e), {
+            passive: false,
+         });
+      }
+   }
+
+   subscribeListOnScroll(list) {
+      if (this.unsubscribeListOnScroll) {
+         this.unsubscribeListOnScroll();
+         this.unsubscribeListOnScroll = null;
+      }
+      if (list) {
+         this.unsubscribeListOnScroll = addEventListenerWithOptions(list, "scroll", (e) => this.onListScroll(e), {
             passive: false,
          });
       }

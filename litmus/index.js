@@ -33,7 +33,7 @@ import "./index.scss";
 //import Demo from "./features/charts/time-axis/LocalTime";
 //import Demo from "./features/charts/time-axis/Ticks";
 //import Demo from "./features/grid/header-tool";
-import Demo from "./features/grid/column-reorder";
+//import Demo from "./features/grid/column-reorder";
 //import Demo from "./features/grid/GridBuffering";
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
@@ -74,6 +74,7 @@ import Demo from "./features/grid/column-reorder";
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
+import Demo from "./features/lookupfield/Infinite";
 //import Demo from "./bugs/Spread";
 //import Demo from "./bugs/587";
 //import Demo from "./bugs/MultipleSelection";
@@ -91,6 +92,7 @@ import Demo from "./features/grid/column-reorder";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
+
 
 let store = (window.store = new Store());
 
