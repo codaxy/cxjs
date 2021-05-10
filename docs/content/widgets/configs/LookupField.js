@@ -196,5 +196,19 @@ export default {
         description: <cx><Md>
             Value to be written in the store when the field is empty. Default value is `null`;
         </Md></cx>
+    },
+
+    infinite: {
+        type: 'bool',
+        description: <cx><Md>
+            Set to `true` to enable loading of additional lookup options through scrolling.
+        </Md></cx>
+    },
+
+    pageSize: {
+        type: 'number',
+        description: <cx><Md>
+            Number of additional items to be loaded in `infinite` mode. Default is 100.
+        </Md></cx>
     }
 };

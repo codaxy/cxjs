@@ -1,12 +1,12 @@
-import {HtmlElement, Repeater, LookupField} from 'cx/widgets';
-import {Content, Controller, LabelsLeftLayout} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
+import { HtmlElement, Repeater, LookupField } from 'cx/widgets';
+import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
 
-import {casual} from '../examples/data/casual';
+import { casual } from '../examples/data/casual';
 
 import configs from './configs/LookupField';
 
@@ -14,15 +14,15 @@ class PageController extends Controller {
     init() {
         super.init();
 
-        this.store.set('$page.options5', Array.from({length: 5}).map((v, i) => ({id: i, text: `Option ${i + 1}`})));
+        this.store.set('$page.options5', Array.from({ length: 5 }).map((v, i) => ({ id: i, text: `Option ${i + 1}` })));
 
-        this.store.set('$page.options10', Array.from({length: 10}).map((v, i) => ({id: i, text: `Option ${i + 1}`})));
+        this.store.set('$page.options10', Array.from({ length: 10 }).map((v, i) => ({ id: i, text: `Option ${i + 1}` })));
     }
 
     query(q) {
         //fake data
         if (!this.cityDb)
-            this.cityDb = Array.from({length: 100}).map((_, i) => ({id: i, text: casual.city}));
+            this.cityDb = Array.from({ length: 100 }).map((_, i) => ({ id: i, text: casual.city }));
 
         var regex = new RegExp(q, 'gi');
         return new Promise((resolve) => {
@@ -63,12 +63,12 @@ export const LookupFields = <cx>
                         label="MultiSelect"
                         records:bind="$page.s10"
                         options:bind="$page.options10"
-                        multiple/>
+                        multiple />
                     <LookupField
                         label="Records"
                         values:bind="$page.s10ids"
                         options:bind="$page.options10"
-                        multiple/>
+                        multiple />
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
@@ -76,7 +76,7 @@ export const LookupFields = <cx>
                         records:bind="$page.selectedCities"
                         onQuery="query"
                         minQueryLength={2}
-                        multiple/>
+                        multiple />
                     <LookupField
                         label="Local Filter"
                         records:bind="$page.selectedCities2"
@@ -84,13 +84,13 @@ export const LookupFields = <cx>
                         fetchAll
                         cacheAll
                         multiple
-                        closeOnSelect={false}/>
+                        closeOnSelect={false} />
                     <LookupField
                         label="Icon"
                         value:bind="$page.s5.id"
                         text:bind="$page.s5.text"
                         icon="pencil"
-                        options:bind="$page.options5"/>
+                        options:bind="$page.options5" />
                 </div>
             </div>
 
@@ -114,23 +114,23 @@ export const LookupFields = <cx>
 
             The following table shows valid property combinations in different modes.
 
-            <table style={{width: '100%', textAlign: 'center'}}>
+            <table style={{ width: '100%', textAlign: 'center' }}>
                 <tbody>
-                <tr>
-                    <th>Selection/Mode</th>
-                    <th>Local (options)</th>
-                    <th>Remote (onQuery)</th>
-                </tr>
-                <tr>
-                    <td>Single</td>
-                    <td><code>value</code> and/or <code>text</code></td>
-                    <td><code>value</code> and <code>text</code></td>
-                </tr>
-                <tr>
-                    <td>Multiple</td>
-                    <td><code>values</code> and/or <code>records</code></td>
-                    <td><code>records</code></td>
-                </tr>
+                    <tr>
+                        <th>Selection/Mode</th>
+                        <th>Local (options)</th>
+                        <th>Remote (onQuery)</th>
+                    </tr>
+                    <tr>
+                        <td>Single</td>
+                        <td><code>value</code> and/or <code>text</code></td>
+                        <td><code>value</code> and <code>text</code></td>
+                    </tr>
+                    <tr>
+                        <td>Multiple</td>
+                        <td><code>values</code> and/or <code>records</code></td>
+                        <td><code>records</code></td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -206,11 +206,12 @@ export const LookupFields = <cx>
 
         ## Examples:
 
-        - [Custom bindings](~/examples/lookup/custom-bindings) *- for passing additional options to the selection*
+        - [Custom bindings](~/examples/form/custom-lookup-bindings) *- for passing additional options to the selection*
+        - [Infinite lists](~/examples/form/infinite-lookup-list) *- for lookups with large number of options*
 
         ## Configuration
 
-        <ConfigTable props={configs}/>
+        <ConfigTable props={configs} />
 
     </Md>
 </cx>
