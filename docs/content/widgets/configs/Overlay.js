@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import pureContainer from './PureContainer';
 import classAndStyle from './classAndStyle';
@@ -85,6 +85,30 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Set to `true` to dismiss the window if the user presses the back button in the browser.
+        </Md></cx>
+    },
+
+    dismissOnFocusOut: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to dismiss the overlay when it loses focus.
+        </Md></cx>
+    },
+
+    autoFocus: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to automatically focus the dropdown when it's shown.
+        </Md></cx>
+    },
+
+    autoFocusFirstChild: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to automatically find and focus the first chinld in the dropdown when it's shown.
         </Md></cx>
     }
 };
