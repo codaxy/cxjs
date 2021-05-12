@@ -35,11 +35,70 @@ interface GridColumnDropEvent extends DragEvent {
    };
 }
 
+interface GridGroupingKey {
+   key: Cx.StructuredProp;
+   // TODO: add other options for this key
+   //
+}
+
+// TODO: Check Grid config
+// Props are in order based on docs
+interface GridGroupingConfig {
+   keys: GridGroupingKey;
+   aggregates?: Cx.StructuredProp;
+   showCaption: boolean;
+   showFooter?: boolean;
+   showHeader?: boolean;
+   caption?: Cx.StringProp;
+   name?: Cx.StringProp;
+   text?: Cx.StringProp;
+}
+
+// TODO: Check Column config
+// Props are in order based on docs
+
+interface GridColumnConfig {
+   align?: "left" | "right" | "center";
+   field?: string;
+   format?: Cx.StringProp;
+   header: Cx.StringProp;
+   sortable?: boolean;
+   aggregate?: "min" | "max" | "count" | "sum";
+   aggregateAlias?: string;
+   caption?: Cx.StringProp;
+   class?: Cx.StructuredProp;
+   className?: Cx.StructuredProp;
+   draggable?: boolean;
+   editable?: boolean;
+   editor?: Cx.StringProp;
+   footer?: Cx.StringProp;
+   items?: React.ReactNode;
+   children?: React.ReactNode;
+   layout?: Cx.StringProp;
+   key?: string;
+   pad?: boolean;
+   sortField?: string;
+   sortValue?: Cx.Prop<any>;
+   style?: Cx.StructuredProp;
+   trimWhitespace?: boolean;
+   visible?: Cx.BooleanProp;
+   if?: Cx.BooleanProp;
+   weightField?: string;
+
+   // Not in docs
+   value?: Cx.Prop<any>;
+   defaultWidth?: Cx.NumberProp;
+   width?: Cx.NumberProp;
+   resizable?: boolean;
+
+
+}
+
 interface GridProps extends Cx.StyledContainerProps {
    /** An array of records to be displayed in the grid. */
    records?: Cx.Prop<Cx.Record[]>;
 
-   /** Set to `true` to add a vertical scroll and a fixed header to the grid. */
+   /** Set to true to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean;
 
    /** A binding used to store the sorting order list. Commonly used for server-side sorting. */
@@ -48,35 +107,35 @@ interface GridProps extends Cx.StyledContainerProps {
    /** A list of sorters to be prepended to the actual list of sorters. */
    preSorters?: Cx.SortersProp;
 
-   /** A binding used to store the name of the field used for sorting grids. Available only if `sorters` are not used. */
+   /** A binding used to store the name of the field used for sorting grids. Available only if sorters are not used. */
    sortField?: Cx.StringProp;
 
-   /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`. */
+   /** A binding used to store the sort direction. Available only if sorters are not used. Possible values are "ASC" and "DESC". Deafults to "ASC". */
    sortDirection?: Cx.StringProp;
 
-   /** Default sort field. Used if neither `sortField` or `sorters` are set. */
+   /** Default sort field. Used if neither sortField or sorters are set. */
    defaultSortField?: string;
 
    /** Default sort direction. */
    defaultSortDirection?: "ASC" | "DESC";
 
-   /** Set to `true` to add vertical gridlines. */
+   /** Set to true to add vertical gridlines. */
    vlines?: boolean;
 
    /** Text to be displayed instead of an empty table. */
    emptyText?: Cx.StringProp;
 
-   /** Drag source configuration. Define `mode` as 'move' or 'copy` and additional `data`. */
+   /** Drag source configuration. Define mode as 'move' or 'copy` and additional data. */
    dragSource?: Cx.StructuredProp;
 
-   /** Drop zone configuration. Define `mode` as either `preview` or `insertion`. */
+   /** Drop zone configuration. Define mode as either preview or insertion. */
    dropZone?: Cx.StructuredProp;
 
    /** Row configuration. See grid examples. */
    row?: Cx.Config;
 
    /**An array of columns. Check column configuration options in the section below. */
-   columns?: Cx.Record[];
+   columns?: GridColumnConfig[];
 
    /** Whenever columnParams change, columns are recalculated using the onGetColumn callback. */
    columnParams?: Cx.Config;
@@ -85,44 +144,44 @@ interface GridProps extends Cx.StyledContainerProps {
    selection?: Cx.Config;
 
    /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
-   grouping?: Cx.Record[];
+   grouping?: GridGroupingConfig[];
 
    /** Params for grouping. Whenever params change grouping is recalculated using the onGetGrouping callback. */
    groupingParams?: Cx.Config;
 
    /**
-    * Determines header appearance. Supported values are `plain` and `default`. Default mode is used if some of the columns are sortable.
+    * Determines header appearance. Supported values are plain and default. Default mode is used if some of the columns are sortable.
     * Plain mode better suits reports and other scenarios in which users do not interact with the grid.
     */
    headerMode?: Cx.StringProp;
 
-   /** Set to `true` to add default border around the table. Automatically set if grid is `scrollable`. */
+   /** Set to true to add default border around the table. Automatically set if grid is scrollable. */
    border?: Cx.BooleanProp;
 
    /** Base CSS class to be applied to the element. Default is 'grid'. */
    baseClass?: string;
 
-   /** A field used to get the unique identifier of the record. Setting `keyField` improves grid performance on sort operations as the widget is able to identify row movement inside the grid.  */
+   /** A field used to get the unique identifier of the record. Setting keyField improves grid performance on sort operations as the widget is able to identify row movement inside the grid.  */
    keyField?: string;
 
-   /** Show grid header within the group. Useful for long report-like (printable) grids. Defaults to `false`. */
+   /** Show grid header within the group. Useful for long report-like (printable) grids. Defaults to false. */
    showHeader?: boolean;
 
-   /** Show grid footer. Defaults to `false`. */
+   /** Show grid footer. Defaults to false. */
    showFooter?: boolean;
 
-   /** Record alias. Default is `$record`. */
+   /** Record alias. Default is $record. */
    recordName?: string;
 
-   /** Record alias. Default is `$record`. */
+   /** Record alias. Default is $record. */
    recordAlias?: string;
 
-   /** Set to `true` if sorting is done remotely, on the server-side. Default value is `false`. */
+   /** Set to true if sorting is done remotely, on the server-side. Default value is false. */
    remoteSort?: boolean;
 
-   /** Set to `true` to enable row caching. This greatly improves grid performance
-    on subsequent render operations, however, only changes on `records`
-    are allowed. If grid rows display any data outside `records`, changes on that
+   /** Set to true to enable row caching. This greatly improves grid performance
+    on subsequent render operations, however, only changes on records
+    are allowed. If grid rows display any data outside records, changes on that
     data will be ignored. */
    cached?: boolean;
 
@@ -243,4 +302,4 @@ interface GridProps extends Cx.StyledContainerProps {
    onGetColumns?: (params: any, instance: Instance) => Cx.Record[];
 }
 
-export class Grid extends Cx.Widget<GridProps> {}
+export class Grid extends Cx.Widget<GridProps> { }
