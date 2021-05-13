@@ -36,17 +36,20 @@ interface GridColumnDropEvent extends DragEvent {
 }
 
 interface GridGroupingKey {
-   key: Cx.StructuredProp;
-   // TODO: add other options for this key
-   //
+   [key: string]:
+      | Cx.Prop<any>
+      | {
+           value: Cx.Prop<any>;
+           direction: Cx.SortDirection;
+        };
 }
 
-// TODO: Check Grid config
-// Props are in order based on docs
+type GridColumnAlignment = "left" | "right" | "center";
+
 interface GridGroupingConfig {
-   keys: GridGroupingKey;
+   key: GridGroupingKey;
    aggregates?: Cx.StructuredProp;
-   showCaption: boolean;
+   showCaption?: boolean;
    showFooter?: boolean;
    showHeader?: boolean;
    caption?: Cx.StringProp;
@@ -57,21 +60,36 @@ interface GridGroupingConfig {
 // TODO: Check Column config
 // Props are in order based on docs
 
+interface GridColumnHeaderConfig {
+   text?: Cx.StringProp;
+   colSpan?: Cx.NumberProp;
+   rowSpan?: Cx.NumberProp;
+   align?: GridColumnAlignment;
+   allowSorting?: boolean;
+   items?: React.ReactNode;
+   children?: React.ReactNode;
+   tool?: React.ReactNode;
+}
+
 interface GridColumnConfig {
-   align?: "left" | "right" | "center";
+   align?: GridColumnAlignment;
    field?: string;
    format?: Cx.StringProp;
-   header: Cx.StringProp;
+   header?: Cx.StringProp | GridColumnHeaderConfig;
+   header1?: Cx.StringProp | GridColumnHeaderConfig;
+   header2?: Cx.StringProp | GridColumnHeaderConfig;
+   header3?: Cx.StringProp | GridColumnHeaderConfig;
    sortable?: boolean;
-   aggregate?: "min" | "max" | "count" | "sum";
+   aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
+   aggregateField?: string;
    caption?: Cx.StringProp;
-   class?: Cx.StructuredProp;
-   className?: Cx.StructuredProp;
+   class?: Cx.ClassProp;
+   className?: Cx.ClassProp;
    draggable?: boolean;
    editable?: boolean;
-   editor?: Cx.StringProp;
-   footer?: Cx.StringProp;
+   editor?: React.ReactNode;
+   footer?: Cx.StringProp | false;
    items?: React.ReactNode;
    children?: React.ReactNode;
    layout?: Cx.StringProp;
@@ -79,7 +97,7 @@ interface GridColumnConfig {
    pad?: boolean;
    sortField?: string;
    sortValue?: Cx.Prop<any>;
-   style?: Cx.StructuredProp;
+   style?: Cx.StyleProp;
    trimWhitespace?: boolean;
    visible?: Cx.BooleanProp;
    if?: Cx.BooleanProp;
@@ -90,8 +108,22 @@ interface GridColumnConfig {
    defaultWidth?: Cx.NumberProp;
    width?: Cx.NumberProp;
    resizable?: boolean;
+}
 
+interface GridRowLineConfig {
+   visible?: Cx.BooleanProp;
+   columns: GridColumnConfig[];
+}
 
+interface GridRowConfig {
+   invalid?: Cx.BooleanProp;
+   valid?: Cx.BooleanProp;
+   style?: Cx.StyleProp;
+   class?: Cx.ClassProp;
+   className?: Cx.ClassProp;
+   line1?: GridRowLineConfig;
+   line2?: GridRowLineConfig;
+   line3?: GridRowLineConfig;
 }
 
 interface GridProps extends Cx.StyledContainerProps {
@@ -132,7 +164,7 @@ interface GridProps extends Cx.StyledContainerProps {
    dropZone?: Cx.StructuredProp;
 
    /** Row configuration. See grid examples. */
-   row?: Cx.Config;
+   row?: GridRowConfig;
 
    /**An array of columns. Check column configuration options in the section below. */
    columns?: GridColumnConfig[];
@@ -296,10 +328,10 @@ interface GridProps extends Cx.StyledContainerProps {
    focusable?: boolean;
 
    /** Callback function to retrieve grouping data.  */
-   onGetGrouping?: (params: any, instance: Instance) => Cx.Record[];
+   onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
 
    /** Callback function to dynamically calculate columns.  */
-   onGetColumns?: (params: any, instance: Instance) => Cx.Record[];
+   onGetColumns?: (params: any, instance: Instance) => GridColumnConfig[] | GridRowConfig;
 }
 
-export class Grid extends Cx.Widget<GridProps> { }
+export class Grid extends Cx.Widget<GridProps> {}

@@ -8,7 +8,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "core-js": "^3.9.1",
-    "cx": "^20.6.1",
+    "cx": "^21.5.0",
     "cx-react": "^17.10.0",
     "intl": "^1.2.5",
     "react": "^17.0.1",
@@ -36,6 +36,7 @@
     "mini-css-extract-plugin": "^1.3.9",
     "modify-babel-preset": "^3.2.1",
     "node-sass": "^5.0.0",
+    "process": "^0.11.10",
     "sass-loader": "^11.0.1",
     "script-ext-html-webpack-plugin": "^2.1.3",
     "style-loader": "^2.0.0",
@@ -49,7 +50,6 @@
     "webpack-cli": "^3.3.12",
     "webpack-combine-loaders": "^2.0.4",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.7.3",
-    "process": "^0.11.10"
+    "webpack-merge": "^5.7.3"
   }
 }
