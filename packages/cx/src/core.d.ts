@@ -139,10 +139,12 @@ declare namespace Cx {
       tooltip?: StringProp | StructuredProp
    }
 
+   type SortDirection = 'ASC' | 'DESC';
+
    interface Sorter {
       field?: string;
       value?: (Record) => any;
-      direction: 'ASC' | 'DESC';
+      direction: SortDirection;
    }
 
    interface CollatorOptions {

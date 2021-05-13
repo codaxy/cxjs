@@ -7,10 +7,10 @@
     "build": "webpack",
     "build:root": "webpack"
   },
-  "dependencies": {    
+  "dependencies": {
     "casual": "^1.6.2",
     "core-js": "^3.9.1",
-    "cx": "^20.6.1",
+    "cx": "^21.5.0",
     "cx-react": "^17.10.0",
     "illuminate-js": "^0.3.0",
     "intl": "^1.2.5",
