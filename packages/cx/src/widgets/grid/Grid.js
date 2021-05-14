@@ -209,7 +209,7 @@ export class Grid extends Widget {
 
       instance.dataAdapter.initInstance(context, instance);
 
-      if (this.grouping) {
+      if (this.grouping && instance.dataAdapter.groupBy) {
          instance.dataAdapter.groupBy(this.grouping);
       }
 
