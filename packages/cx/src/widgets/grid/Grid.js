@@ -111,7 +111,7 @@ export class Grid extends Widget {
          };
    }
 
-   createRowTemplate(context, columnParams, instance) {
+   createRowTemplate(context, columnParams, instance, groupingData) {
       var row = this.row || {};
       let columns = this.columns;
       if (this.onGetColumns) {
@@ -178,17 +178,21 @@ export class Grid extends Widget {
       });
 
       //add default footer if some columns have aggregates and grouping is not defined
-      if (!this.grouping && (Object.keys(aggregates).length > 0 || this.fixedFooter))
-         this.grouping = [
+      if (!groupingData && (Object.keys(aggregates).length > 0 || this.fixedFooter))
+         groupingData = [
             {
                key: {},
                showFooter: true,
             },
          ];
 
-      if (this.fixedFooter && isNonEmptyArray(this.grouping)) {
-         this.grouping[0].showFooter = true;
-         if (this.grouping[0].key && Object.keys(this.grouping[0].key).length > 0)
+      let { grouping, showHeader } = this.resolveGrouping(groupingData);
+
+      this.showHeader = showHeader;
+
+      if (this.fixedFooter && isNonEmptyArray(grouping)) {
+         grouping[0].showFooter = true;
+         if (grouping[0].key && Object.keys(grouping[0].key).length > 0)
             Console.warn(
                "First grouping level in grids with a fixed footer must group all data. The key field should be omitted."
             );
@@ -203,15 +207,12 @@ export class Grid extends Widget {
             recordName: this.recordName,
             indexName: this.indexName,
             sortOptions: this.sortOptions,
+            groupings: grouping
          },
          this.dataAdapter
       );
 
       instance.dataAdapter.initInstance(context, instance);
-
-      if (this.grouping && instance.dataAdapter.groupBy) {
-         instance.dataAdapter.groupBy(this.grouping);
-      }
 
       return Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, "data"),
@@ -226,19 +227,19 @@ export class Grid extends Widget {
    prepareData(context, instance) {
       let { data, state, cached, row } = instance;
 
-      if (instance.cache("columnParams", data.columnParams) || !row) {
-         row = instance.row = this.createRowTemplate(context, data.columnParams, instance);
-      }
+      let grouping = this.grouping;
 
-      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams)) {
-         let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
-         this.groupBy(grouping, { autoConfigure: true });
-      }
-
-      if (instance.cache("grouping", this.grouping)) {
-         if (instance.dataAdapter.groupBy) instance.dataAdapter.groupBy(this.grouping);
+      if (this.onGetGrouping) {
+         if (!cached.data || cached.data.groupingParams !== data.groupingParams)
+            grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
          else
-            Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.");
+            grouping = cached.grouping;
+      }
+
+      let groupingChanged = instance.cache("grouping", grouping);
+
+      if (instance.cache("columnParams", data.columnParams) || groupingChanged || !row) {
+         row = instance.row = this.createRowTemplate(context, data.columnParams, instance, grouping);
       }
 
       data.version = ++instance.v;
@@ -356,12 +357,6 @@ export class Grid extends Widget {
       super.initInstance(context, instance);
    }
 
-   // initComponents(context, instance) {
-   //    return super.initComponents(...arguments, {
-   //       header: this.header,
-   //    });
-   // }
-
    explore(context, instance) {
       context.push("parentPositionChangeEvent", instance.fixedHeaderResizeEvent);
 
@@ -410,16 +405,17 @@ export class Grid extends Widget {
       }
    }
 
-   applyGrouping(grouping, { autoConfigure } = {}) {
+   resolveGrouping(grouping) {
       if (grouping) {
          if (!isArray(grouping)) {
-            if (isString(grouping) || isObject(grouping)) return this.groupBy([grouping]);
-            throw new Error("DynamicGrouping should be an array or grouping objects");
+            if (isString(grouping) || isObject(grouping)) grouping = [grouping];
+            else throw new Error("DynamicGrouping should be an array or grouping objects");
          }
 
          grouping = grouping.map((g, i) => {
-            if (isString(g)) {
-               return {
+            let group;
+            if (isString(g))
+               group = {
                   key: {
                      [g]: {
                         bind: this.recordName + "." + g,
@@ -430,20 +426,25 @@ export class Grid extends Widget {
                   caption: { bind: `$group.${g}` },
                   text: { bind: `${this.recordName}.${g}` },
                };
-            }
-            return g;
+            else
+               group = {
+                  ...g
+               };
+            if (group.caption) group.caption = getSelector(group.caption);
+            return group;
          });
-
-         initGrouping(grouping);
       }
 
-      if (autoConfigure) this.showHeader = !isArray(grouping) || !grouping.some((g) => g.showHeader);
+      let showHeader = !isArray(grouping) || !grouping.some((g) => g.showHeader);
 
-      this.grouping = grouping;
+      return { showHeader, grouping };
    }
 
-   groupBy(grouping, options) {
-      this.applyGrouping(grouping, options);
+   groupBy(groupingData, options) {
+      let { grouping, showHeader } = this.resolveGrouping(groupingData);
+      this.grouping = grouping;
+      if (options?.autoConfigure)
+         this.showHeader = showHeader;
       this.update();
    }
 
@@ -2796,11 +2797,11 @@ GridColumnHeaderCell.prototype.allowSorting = true;
 GridColumnHeaderCell.prototype.styled = true;
 GridColumnHeaderCell.prototype.fixed = false;
 
-function initGrouping(grouping) {
-   grouping.forEach((g) => {
-      if (g.caption) g.caption = getSelector(g.caption);
-   });
-}
+// function initGrouping(grouping) {
+//    grouping.forEach((g) => {
+//       if (g.caption) g.caption = getSelector(g.caption);
+//    });
+// }
 
 function copyCellSize(srcTableBody, dstTableBody, applyHeight = true) {
    if (!srcTableBody || !dstTableBody) return false;
