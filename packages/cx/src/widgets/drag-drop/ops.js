@@ -292,7 +292,7 @@ export function ddDetect(e) {
    if (
       e.currentTarget == dragCandidate.el &&
       Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >=
-         2
+      2
    ) {
       dragCandidate = {};
       return true;

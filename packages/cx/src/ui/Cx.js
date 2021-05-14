@@ -84,7 +84,7 @@ export class Cx extends VDOM.Component {
    }
 
    render() {
-      if (!this.widget || (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter)) return null;
+      if (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter) return null;
 
       return (
          <CxContext

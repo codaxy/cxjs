@@ -38,6 +38,7 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
 import { parseStyle } from "cx/src/util";
+import { StaticText } from "../../ui/StaticText";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -160,16 +161,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             }
@@ -591,9 +592,8 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${
-                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
+                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                                 }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -740,7 +740,7 @@ export class Grid extends Widget {
                   widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => {}
+            () => { }
          );
       }
    }
@@ -766,12 +766,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-                 {
-                    field: sortField,
-                    direction: dir,
-                    value: sortValue,
-                 },
-              ]
+               {
+                  field: sortField,
+                  direction: dir,
+                  value: sortValue,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1168,8 +1168,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -2309,7 +2309,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
@@ -2585,7 +2585,7 @@ class GridComponent extends VDOM.Component {
          if (!data || !(force || isSelected(data, index))) return;
          let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
          let row = (mappedRecord.row = instance.getDetachedChild(
-            widget.row,
+            instance.row,
             "DD:" + mappedRecord.key,
             mappedRecord.store
          ));
@@ -2602,7 +2602,10 @@ class GridComponent extends VDOM.Component {
 
       let renderRow = this.createRowRenderer(false);
 
-      let contents = selected.map((record, i) => renderRow(record, i, true, false));
+      let contents = selected.map((record, i) => ({
+         type: StaticText,
+         text: renderRow(record, i, true, false)
+      }));
 
       initiateDragDrop(
          e,
@@ -2618,11 +2621,11 @@ class GridComponent extends VDOM.Component {
                store: record.store,
                matchCursorOffset: true,
                matchWidth: true,
-               widget: () => (
+               widget: <cx>
                   <div className={data.classNames}>
                      <table>{contents}</table>
                   </div>
-               ),
+               </cx>
             },
          },
          () => {
