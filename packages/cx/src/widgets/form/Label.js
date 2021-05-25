@@ -2,6 +2,7 @@ import { Widget, VDOM } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
 import { FocusManager } from "../../ui/FocusManager";
 import { isArray } from "../../util/isArray";
+import { coalesce } from "../../util/coalesce";
 
 export class Label extends HtmlElement {
    declareData() {
@@ -18,11 +19,26 @@ export class Label extends HtmlElement {
          ...data.stateMods,
          disabled: data.disabled,
       };
+      data._disabled = data.disabled;
       super.prepareData(context, instance);
    }
 
    explore(context, instance) {
-      if (!instance.data.htmlFor) instance.data.htmlFor = context.lastFieldId;
+      let { data } = instance;
+
+      if (!data.htmlFor) data.htmlFor = context.lastFieldId;
+
+      data.disabled = data.stateMods.disabled = coalesce(
+         context.parentStrict ? context.parentDisabled : null,
+         data._disabled,
+         context.parentDisabled
+      );
+
+      if (instance.cache('disabled', data.disabled)) {
+         instance.markShouldUpdate(context);
+         this.prepareCSS(context, instance);
+      }
+
       super.explore(context, instance);
    }
 
