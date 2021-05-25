@@ -1342,7 +1342,7 @@ class GridComponent extends VDOM.Component {
                      key: "dummy-" + start + i,
                      row: {
                         data: { classNames: dummyDataClass },
-                        widget: widget.row,
+                        widget: instance.row,
                      },
                      vdom: {
                         content: [
@@ -2430,10 +2430,10 @@ class GridComponent extends VDOM.Component {
       if (!record) return null;
       let { instance } = this.props;
       if (instance.recordInstanceCache)
-         return instance.recordInstanceCache.getChild(instance.widget.row, record.store, record.key);
+         return instance.recordInstanceCache.getChild(instance.row, record.store, record.key);
 
       //different signature
-      return instance.getChild(null, instance.widget.row, record.key, record.store);
+      return instance.getChild(null, instance.row, record.key, record.store);
    }
 
    handleKeyDown(e) {
@@ -2478,9 +2478,9 @@ class GridComponent extends VDOM.Component {
                e.preventDefault();
                let direction = e.shiftKey ? -1 : +1;
                let cursor = this.state.cursor;
-               let cellIndex = (this.state.cursorCellIndex + direction) % widget.row.line1.columns.length;
+               let cellIndex = (this.state.cursorCellIndex + direction) % instance.row.line1.columns.length;
                if (cellIndex == -1) {
-                  cellIndex += widget.row.line1.columns.length;
+                  cellIndex += instance.row.line1.columns.length;
                   cursor--;
                } else if (cellIndex == 0 && direction > 0) cursor++;
                for (; ; cursor += direction) {
@@ -2534,7 +2534,7 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.right:
             if (widget.cellEditable) {
-               if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
+               if (this.state.cursorCellIndex + 1 < instance.row.line1.columns.length) {
                   this.moveCursor(this.state.cursor, {
                      focused: true,
                      cellIndex: this.state.cursorCellIndex + 1,
