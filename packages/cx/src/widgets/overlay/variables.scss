@@ -28,7 +28,7 @@ $cx-dropdown-styles: (
    font-weight: normal,
    font-size: $cx-default-font-size,
    text-align: left,
-   line-height: normal
+   line-height: normal,
 ) !default;
 
 // TOAST
@@ -43,37 +43,40 @@ $cx-toast-mods: (
    warning: (
       default: (
          color: #fff,
-         background-color: #f09037
-      )   
+         background-color: #f09037,
+      ),
    ),
    primary: (
       default: (
          color: #fff,
-         background-color: #1f99f8
-      )
+         background-color: #1f99f8,
+      ),
    ),
    success: (
       default: (
          color: #fff,
-         background-color: #5cb85c
-      )
+         background-color: #5cb85c,
+      ),
    ),
    error: (
       default: (
          color: #fff,
-         background-color: #d9534f
-      )
-   )  
+         background-color: #d9534f,
+      ),
+   ),
 ) !default;
 
 // WINDOW
 @import "Window.variables";
 
-$cx-dependencies: map-merge($cx-dependencies, (
-   "cx/widgets/Overlay": "cx/widgets/captureMouse",
-   'cx/widgets/Dropdown': 'cx/widgets/Overlay',
-   'cx/widgets/Window': 'cx/widgets/Overlay',
-   'cx/widgets/Tooltip': 'cx/widgets/Dropdown',
-   'cx/widgets/MsgBox': 'cx/widgets/Window',
-   'cx/widgets/Toast': 'cx/widgets/Overlay',
-));
+$cx-dependencies: map-merge(
+   $cx-dependencies,
+   (
+      "cx/widgets/Overlay": "cx/widgets/captureMouse",
+      "cx/widgets/Dropdown": "cx/widgets/Overlay",
+      "cx/widgets/Window": "cx/widgets/Overlay",
+      "cx/widgets/Tooltip": "cx/widgets/Dropdown",
+      "cx/widgets/MsgBox": "cx/widgets/Window" "cx/widgets/FlexRow",
+      "cx/widgets/Toast": "cx/widgets/Overlay",
+   )
+);
