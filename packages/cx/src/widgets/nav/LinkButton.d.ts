@@ -1,6 +1,5 @@
 import * as Cx from "../../core";
 import { ButtonProps } from "../Button";
-import * as React from "react";
 
 interface LinkButtonProps extends ButtonProps {
    /** Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation. */
@@ -15,6 +14,18 @@ interface LinkButtonProps extends ButtonProps {
     * a subroute.
     */
    match?: "equal" | "prefix" | "subroute";
+
+   /** Additional CSS style to aplied when the link is active. */
+   activeStyle?: Cx.StyleProp;
+
+   /** Additional CSS style to aplied when the link is inactive. */
+   inactiveStyle?: Cx.StyleProp;
+
+   /** Additional CSS class to aplied when the link is active. */
+   activeClass?: Cx.StyleProp;
+
+   /** Additional CSS class to aplied when the link is inactive. */
+   inactiveClass?: Cx.StyleProp;
 }
 
 export class LinkButton extends Cx.Widget<LinkButtonProps> {}
