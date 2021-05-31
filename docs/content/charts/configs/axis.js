@@ -1,4 +1,4 @@
-import {Md} from 'docs/components/Md';
+import { Md } from 'docs/components/Md';
 
 import boundedObject from '../../svg/configs/BoundedObject';
 
@@ -99,7 +99,57 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to hide axis labels. Default value is `false`.
+            Set to `true` to hide the axis labels. Default value is `false`.
         </Md></cx>
-    }
+    },
+    hideTicks: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the axis ticks. Default value is `false`.
+        </Md></cx>
+    },
+    hideLine: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to hide the axis line. Default value is `false`.
+        </Md></cx>
+    },
+    lineStyle: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS style to be applied to the axis line.
+        </Md></cx>
+    },
+    tickStyle: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS style to be applied to the axis ticks.
+        </Md></cx>
+    },
+    labelStyle: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS style to be applied to the axis labels.
+        </Md></cx>
+    },
+    lineClass: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS class to be applied to the axis line.
+        </Md></cx>
+    },
+    tickClass: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS class to be applied to the axis ticks.
+        </Md></cx>
+    },
+    labelClass: {
+        type: "string/object",
+        description: <cx><Md>
+            Additional CSS class to be applied to the axis labels.
+        </Md></cx>
+    },
 };

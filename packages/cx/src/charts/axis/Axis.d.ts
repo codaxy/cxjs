@@ -49,8 +49,32 @@ export interface AxisProps extends BoundedObjectProps {
    /** If `labelWrap` is on, this number is used as a measure to split labels into multiple lines. Default value is `10`. */
    labelMaxLineLength?: number;
 
-   /** Set to true to hide axis labels */
+   /** Set to true to hide the axis labels. */
    hideLabels?: boolean;
+
+   /** Set to true to hide the axis line. */
+   hideLine?: boolean;
+
+   /** Set to true to hide the axis ticks. */
+   hideTicks?: boolean;
+
+   /** Additional CSS style to be applied to the axis line. */
+   lineStyle?: Cx.StyleProp;
+
+   /** Additional CSS style to be applied to the axis ticks. */
+   tickStyle?: Cx.StyleProp;
+
+   /** Additional CSS style to be applied to the axis labels. */
+   labelStyle?: Cx.StyleProp;
+
+   /** Additional CSS class to be applied to the axis line. */
+   lineClass?: Cx.ClassProp;
+
+   /** Additional CSS class to be applied to the axis ticks. */
+   tickClass?: Cx.ClassProp;
+
+   /** Additional CSS class to be applied to the axis labels. */
+   labelClass?: Cx.ClassProp;
 
    onMeasured?: (info: any, instance: Instance) => void;
 }

@@ -95,6 +95,8 @@ export class LinkButton extends Button {
       delete props.active;
       delete props.activeClass;
       delete props.activeStyle;
+      delete props.inactiveClass;
+      delete props.inactiveStyle;
    }
 
    isValidHtmlAttribute(attr) {
