@@ -9,7 +9,7 @@ import { GitHubStarCount } from "../components/GitHubStarCount";
 import { computable } from "cx/ui";
 import { isArray } from "cx/util";
 
-const TopLinks = ({ topLinks, mod, alternativeLinks }) => (
+const TopLinks = ({ topLinks, mod, alternativeLinks, children }) => (
    <cx>
       <div>
          {Object.keys(topLinks || {}).map((url) => (
@@ -31,6 +31,7 @@ const TopLinks = ({ topLinks, mod, alternativeLinks }) => (
                />
             </cx>
          ))}
+         {children}
       </div>
    </cx>
 );
@@ -91,7 +92,10 @@ export const MasterLayout = ({ app, children, shadow, navTree, title, topLinks, 
                <ContentPlaceholder name="topbanner" />
             </div>
             <div class="topbanner_tabs">
-               <TopLinks topLinks={topLinks} alternativeLinks={alternativeLinks} />
+               <TopLinks topLinks={topLinks} alternativeLinks={alternativeLinks}>
+                  <ContentPlaceholder name="topbanner_tabs" />
+               </TopLinks>
+
             </div>
          </div>
          {children}

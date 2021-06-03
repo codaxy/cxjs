@@ -1,4 +1,4 @@
-import { Button, DocumentTitle, PureContainer } from "cx/widgets";
+import { Button, DocumentTitle, Icon, PureContainer } from "cx/widgets";
 import { ContentRouter } from "../content/ContentRouter";
 import { MasterLayout } from "../../misc/layout";
 import { NavTree } from "../../misc/components/NavTree";
@@ -6,6 +6,7 @@ import { docsNavTree } from "./DocsNav";
 import { ScrollIntoView } from "../../misc/components/ScrollIntoView";
 import { SearchWindow } from '../components/SearchWindow';
 import Controller from "./Controller";
+import { DocSearch } from "../components/DocSearch";
 
 
 export const Main = (
@@ -27,13 +28,18 @@ export const Main = (
             controller={Controller}
         >
             <DocumentTitle text="CxJS Docs" />
-            <PureContainer putInto="topbanner">
+            <PureContainer putInto="topbanner_tabs">
                 <Button
-                    icon="binoculars"
+                    visible={false}
+                    icon="search"
                     mod="hollow"
                     style="margin-left: 8px; opacity: 0.9"
                     onClick={(e, { store }) => { store.set("search.visible", true) }}
                 />
+                <div class="docsearchbox">
+                    <Icon name="search" />
+                    <DocSearch />
+                </div>
             </PureContainer>
             <SearchWindow />
             <div class="master_content">
@@ -59,5 +65,5 @@ export const Main = (
                 </div>
             </div>
         </MasterLayout>
-    </cx>
+    </cx >
 );

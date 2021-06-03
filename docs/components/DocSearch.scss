@@ -1,0 +1,14 @@
+.docsearchbox {
+   display: inline-block;
+   position: relative;
+
+   & > .cxb-icon {
+      position: absolute;
+      pointer-events: none;
+   }
+}
+
+.docsearch {
+   font-family: inherit;
+   padding: 10px;
+}

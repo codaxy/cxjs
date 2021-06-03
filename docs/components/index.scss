@@ -7,12 +7,13 @@
 @import "SideNav";
 @import "EditOnGitX";
 @import "Floater";
+@import "Docsearch";
 
 .dxb-table {
-    max-width: 50em;
+   max-width: 50em;
 
-    th {
-        text-align: left;
-        min-width: 150px;
-    }
+   th {
+      text-align: left;
+      min-width: 150px;
+   }
 }
