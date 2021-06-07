@@ -1341,7 +1341,7 @@ ansi-colors@^3.0.0:
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
 
-ansi-escapes@^3.0.0:
+ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
@@ -2091,6 +2091,13 @@ cli-cursor@^2.1.0:
   integrity sha1-s12sN2R5+sw+lHR9QdDQ9SOP/LU=
   dependencies:
     restore-cursor "^2.0.0"
+
+cli-select@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/cli-select/-/cli-select-1.1.2.tgz#456dced464b3346ca661b16a0e37fc4b28db4818"
+  integrity sha512-PSvWb8G0PPmBNDcz/uM2LkZN3Nn5JmhUl465tTfynQAXjKzFpmHbxStM6X/+awKp5DJuAaHMzzMPefT0suGm1w==
+  dependencies:
+    ansi-escapes "^3.2.0"
 
 cli-width@^2.0.0:
   version "2.2.1"

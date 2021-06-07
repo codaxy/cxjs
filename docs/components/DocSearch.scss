@@ -1,14 +1,64 @@
-.docsearchbox {
+.cxb-docsearch {
    display: inline-block;
    position: relative;
 
-   & > .cxb-icon {
-      position: absolute;
-      pointer-events: none;
+   &:focus-within {
+      color: gray;
+   }
+
+   height: 32px;
+   margin-bottom: 6px;
+   vertical-align: bottom;
+}
+
+.cxe-docsearch-icon {
+   position: absolute;
+   pointer-events: none;
+   width: 24px;
+   height: 24px;
+   color: inherit;
+   top: 4px;
+   left: 4px;
+}
+
+.cxe-docsearch-input {
+   font-family: inherit;
+   padding: 8px;
+   border: none;
+   background: transparent;
+   width: 32px;
+   box-sizing: border-box;
+   transition: all 100ms;
+   border-radius: 4px;
+   height: 100%;
+   color: transparent;
+
+   &:hover {
+      background: rgba(white, 0.1);
+   }
+
+   &::placeholder {
+      color: transparent;
+   }
+
+   &:focus {
+      width: 200px;
+      background: white;
+      outline: none;
+      padding-left: 32px;
+      color: black;
+
+      & + * {
+         color: inherit;
+      }
+
+      &::placeholder {
+         color: gray;
+      }
    }
 }
 
-.docsearch {
-   font-family: inherit;
-   padding: 10px;
+.algolia-autocomplete .ds-dropdown-menu {
+   font-family: "Open Sans", sans-serif;
+   font-size: 12px;
 }
