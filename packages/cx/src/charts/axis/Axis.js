@@ -1,6 +1,7 @@
 import { BoundedObject } from '../../svg/BoundedObject'
 import { VDOM } from '../../ui/Widget';
 import { isUndefined } from '../../util/isUndefined';
+import { parseStyle } from '../../util/parseStyle';
 
 export class Axis extends BoundedObject {
 
@@ -20,6 +21,10 @@ export class Axis extends BoundedObject {
       if (this.labelLineCountDyFactor == 'auto')
          this.labelLineCountDyFactor = this.vertical ? -0.5 : this.secondary ? -1 : 0;
 
+      this.lineStyle = parseStyle(this.lineStyle);
+      this.tickStyle = parseStyle(this.tickStyle);
+      this.labelStyle = parseStyle(this.labelStyle);
+
       super.init();
    }
 
@@ -27,8 +32,16 @@ export class Axis extends BoundedObject {
       super.declareData({
          anchors: undefined,
          hideLabels: undefined,
+         hideLine: undefined,
+         hideTicks: undefined,
          labelRotation: undefined,
-         labelAnchor: undefined
+         labelAnchor: undefined,
+         lineStyle: undefined,
+         lineClass: undefined,
+         labelStyle: undefined,
+         labelClass: undefined,
+         tickStyle: undefined,
+         tickClass: undefined
       }, ...arguments)
    }
 
@@ -43,10 +56,11 @@ export class Axis extends BoundedObject {
 
       var { data, calculator } = instance;
       var { bounds } = data;
+      let { CSS, baseClass } = this;
       var size = calculator.findTickSize(this.minLabelDistance);
 
-      var labelClass = this.CSS.element(this.baseClass, 'label');
-      var offsetClass = this.CSS.element(this.baseClass, 'label-offset');
+      var labelClass = CSS.expand(CSS.element(baseClass, 'label'), data.labelClass);
+      var offsetClass = CSS.element(baseClass, 'label-offset');
 
       var x1, y1, x2, y2, tickSize = this.tickSize;
 
@@ -60,12 +74,19 @@ export class Axis extends BoundedObject {
          y1 = y2 = this.secondary ? bounds.t : bounds.b;
       }
 
-      var res = [
-         <line key="line"
-            className={this.CSS.element(this.baseClass, "line")}
-            x1={x1} y1={y1} x2={x2} y2={y2} />,
-         null
-      ];
+      var res = [null, null];
+
+      if (!data.hideLine) {
+         res[0] = (
+            <line
+               key="line"
+               className={CSS.expand(CSS.element(baseClass, "line"), data.lineClass)}
+               style={data.lineStyle}
+               x1={x1} y1={y1} x2={x2} y2={y2}
+            />
+         )
+      }
+
       var t = [];
       if (size > 0 && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
@@ -100,6 +121,7 @@ export class Axis extends BoundedObject {
                res.push(
                   <text key={`label-${si}-${i}`}
                      className={labelClass}
+                     style={data.labelStyle}
                      x={x}
                      y={y}
                      dx={this.labelDx}
@@ -111,7 +133,11 @@ export class Axis extends BoundedObject {
             });
          });
       }
-      res[1] = <path key="ticks" className={this.CSS.element(this.baseClass, "ticks")} d={t.join(' ')} />;
+
+      if (!data.hideTicks) {
+         res[1] = <path key="ticks" className={CSS.expand(CSS.element(baseClass, "ticks"), data.tickClass)} style={data.tickStyle} d={t.join(' ')} />;
+      }
+
       return res;
    }
 
@@ -168,11 +194,14 @@ export class Axis extends BoundedObject {
 }
 
 Axis.prototype.anchors = '0 1 1 0';
+Axis.prototype.styled = true;
 Axis.prototype.vertical = false;
 Axis.prototype.secondary = false;
 Axis.prototype.inverted = false;
 Axis.prototype.hidden = false;
 Axis.prototype.hideLabels = false;
+Axis.prototype.hideTicks = false;
+Axis.prototype.hideLine = false;
 
 Axis.prototype.tickSize = 3;
 Axis.prototype.minTickDistance = 25;

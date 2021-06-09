@@ -38,6 +38,7 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
 import { parseStyle } from "cx/src/util";
+import { StaticText } from "../../ui/StaticText";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -110,7 +111,7 @@ export class Grid extends Widget {
          };
    }
 
-   createRowTemplate(context, columnParams, instance) {
+   createRowTemplate(context, columnParams, instance, groupingData) {
       var row = this.row || {};
       let columns = this.columns;
       if (this.onGetColumns) {
@@ -160,16 +161,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             }
@@ -177,17 +178,21 @@ export class Grid extends Widget {
       });
 
       //add default footer if some columns have aggregates and grouping is not defined
-      if (!this.grouping && (Object.keys(aggregates).length > 0 || this.fixedFooter))
-         this.grouping = [
+      if (!groupingData && (Object.keys(aggregates).length > 0 || this.fixedFooter))
+         groupingData = [
             {
                key: {},
                showFooter: true,
             },
          ];
 
-      if (this.fixedFooter && isNonEmptyArray(this.grouping)) {
-         this.grouping[0].showFooter = true;
-         if (this.grouping[0].key && Object.keys(this.grouping[0].key).length > 0)
+      let { grouping, showHeader } = this.resolveGrouping(groupingData);
+
+      this.showHeader = showHeader;
+
+      if (this.fixedFooter && isNonEmptyArray(grouping)) {
+         grouping[0].showFooter = true;
+         if (grouping[0].key && Object.keys(grouping[0].key).length > 0)
             Console.warn(
                "First grouping level in grids with a fixed footer must group all data. The key field should be omitted."
             );
@@ -202,15 +207,12 @@ export class Grid extends Widget {
             recordName: this.recordName,
             indexName: this.indexName,
             sortOptions: this.sortOptions,
+            groupings: grouping
          },
          this.dataAdapter
       );
 
       instance.dataAdapter.initInstance(context, instance);
-
-      if (this.grouping) {
-         instance.dataAdapter.groupBy(this.grouping);
-      }
 
       return Widget.create(GridRow, {
          class: this.CSS.element(this.baseClass, "data"),
@@ -225,19 +227,19 @@ export class Grid extends Widget {
    prepareData(context, instance) {
       let { data, state, cached, row } = instance;
 
-      if (instance.cache("columnParams", data.columnParams) || !row) {
-         row = instance.row = this.createRowTemplate(context, data.columnParams, instance);
-      }
+      let grouping = this.grouping;
 
-      if (this.onGetGrouping && (!cached.data || cached.data.groupingParams !== data.groupingParams)) {
-         let grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
-         this.groupBy(grouping, { autoConfigure: true });
-      }
-
-      if (instance.cache("grouping", this.grouping)) {
-         if (instance.dataAdapter.groupBy) instance.dataAdapter.groupBy(this.grouping);
+      if (this.onGetGrouping) {
+         if (!cached.data || cached.data.groupingParams !== data.groupingParams)
+            grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
          else
-            Console.warn("Configured grid data adapter does not support grouping. Grouping instructions are ignored.");
+            grouping = cached.grouping;
+      }
+
+      let groupingChanged = instance.cache("grouping", grouping);
+
+      if (instance.cache("columnParams", data.columnParams) || groupingChanged || !row) {
+         row = instance.row = this.createRowTemplate(context, data.columnParams, instance, grouping);
       }
 
       data.version = ++instance.v;
@@ -355,12 +357,6 @@ export class Grid extends Widget {
       super.initInstance(context, instance);
    }
 
-   // initComponents(context, instance) {
-   //    return super.initComponents(...arguments, {
-   //       header: this.header,
-   //    });
-   // }
-
    explore(context, instance) {
       context.push("parentPositionChangeEvent", instance.fixedHeaderResizeEvent);
 
@@ -409,16 +405,17 @@ export class Grid extends Widget {
       }
    }
 
-   applyGrouping(grouping, { autoConfigure } = {}) {
+   resolveGrouping(grouping) {
       if (grouping) {
          if (!isArray(grouping)) {
-            if (isString(grouping) || isObject(grouping)) return this.groupBy([grouping]);
-            throw new Error("DynamicGrouping should be an array or grouping objects");
+            if (isString(grouping) || isObject(grouping)) grouping = [grouping];
+            else throw new Error("DynamicGrouping should be an array or grouping objects");
          }
 
          grouping = grouping.map((g, i) => {
-            if (isString(g)) {
-               return {
+            let group;
+            if (isString(g))
+               group = {
                   key: {
                      [g]: {
                         bind: this.recordName + "." + g,
@@ -429,20 +426,25 @@ export class Grid extends Widget {
                   caption: { bind: `$group.${g}` },
                   text: { bind: `${this.recordName}.${g}` },
                };
-            }
-            return g;
+            else
+               group = {
+                  ...g
+               };
+            if (group.caption) group.caption = getSelector(group.caption);
+            return group;
          });
-
-         initGrouping(grouping);
       }
 
-      if (autoConfigure) this.showHeader = !isArray(grouping) || !grouping.some((g) => g.showHeader);
+      let showHeader = !isArray(grouping) || !grouping.some((g) => g.showHeader);
 
-      this.grouping = grouping;
+      return { showHeader, grouping };
    }
 
-   groupBy(grouping, options) {
-      this.applyGrouping(grouping, options);
+   groupBy(groupingData, options) {
+      let { grouping, showHeader } = this.resolveGrouping(groupingData);
+      this.grouping = grouping;
+      if (options?.autoConfigure)
+         this.showHeader = showHeader;
       this.update();
    }
 
@@ -591,9 +593,8 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${
-                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
+                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                                 }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -740,7 +741,7 @@ export class Grid extends Widget {
                   widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => {}
+            () => { }
          );
       }
    }
@@ -766,12 +767,12 @@ export class Grid extends Widget {
 
          let sorters = dir
             ? [
-                 {
-                    field: sortField,
-                    direction: dir,
-                    value: sortValue,
-                 },
-              ]
+               {
+                  field: sortField,
+                  direction: dir,
+                  value: sortValue,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1168,8 +1169,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -1341,7 +1342,7 @@ class GridComponent extends VDOM.Component {
                      key: "dummy-" + start + i,
                      row: {
                         data: { classNames: dummyDataClass },
-                        widget: widget.row,
+                        widget: instance.row,
                      },
                      vdom: {
                         content: [
@@ -2309,7 +2310,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
@@ -2429,10 +2430,10 @@ class GridComponent extends VDOM.Component {
       if (!record) return null;
       let { instance } = this.props;
       if (instance.recordInstanceCache)
-         return instance.recordInstanceCache.getChild(instance.widget.row, record.store, record.key);
+         return instance.recordInstanceCache.getChild(instance.row, record.store, record.key);
 
       //different signature
-      return instance.getChild(null, instance.widget.row, record.key, record.store);
+      return instance.getChild(null, instance.row, record.key, record.store);
    }
 
    handleKeyDown(e) {
@@ -2477,9 +2478,9 @@ class GridComponent extends VDOM.Component {
                e.preventDefault();
                let direction = e.shiftKey ? -1 : +1;
                let cursor = this.state.cursor;
-               let cellIndex = (this.state.cursorCellIndex + direction) % widget.row.line1.columns.length;
+               let cellIndex = (this.state.cursorCellIndex + direction) % instance.row.line1.columns.length;
                if (cellIndex == -1) {
-                  cellIndex += widget.row.line1.columns.length;
+                  cellIndex += instance.row.line1.columns.length;
                   cursor--;
                } else if (cellIndex == 0 && direction > 0) cursor++;
                for (; ; cursor += direction) {
@@ -2533,7 +2534,7 @@ class GridComponent extends VDOM.Component {
 
          case KeyCode.right:
             if (widget.cellEditable) {
-               if (this.state.cursorCellIndex + 1 < widget.row.line1.columns.length) {
+               if (this.state.cursorCellIndex + 1 < instance.row.line1.columns.length) {
                   this.moveCursor(this.state.cursor, {
                      focused: true,
                      cellIndex: this.state.cursorCellIndex + 1,
@@ -2585,7 +2586,7 @@ class GridComponent extends VDOM.Component {
          if (!data || !(force || isSelected(data, index))) return;
          let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
          let row = (mappedRecord.row = instance.getDetachedChild(
-            widget.row,
+            instance.row,
             "DD:" + mappedRecord.key,
             mappedRecord.store
          ));
@@ -2602,7 +2603,10 @@ class GridComponent extends VDOM.Component {
 
       let renderRow = this.createRowRenderer(false);
 
-      let contents = selected.map((record, i) => renderRow(record, i, true, false));
+      let contents = selected.map((record, i) => ({
+         type: StaticText,
+         text: renderRow(record, i, true, false)
+      }));
 
       initiateDragDrop(
          e,
@@ -2618,11 +2622,11 @@ class GridComponent extends VDOM.Component {
                store: record.store,
                matchCursorOffset: true,
                matchWidth: true,
-               widget: () => (
+               widget: <cx>
                   <div className={data.classNames}>
                      <table>{contents}</table>
                   </div>
-               ),
+               </cx>
             },
          },
          () => {
@@ -2793,11 +2797,11 @@ GridColumnHeaderCell.prototype.allowSorting = true;
 GridColumnHeaderCell.prototype.styled = true;
 GridColumnHeaderCell.prototype.fixed = false;
 
-function initGrouping(grouping) {
-   grouping.forEach((g) => {
-      if (g.caption) g.caption = getSelector(g.caption);
-   });
-}
+// function initGrouping(grouping) {
+//    grouping.forEach((g) => {
+//       if (g.caption) g.caption = getSelector(g.caption);
+//    });
+// }
 
 function copyCellSize(srcTableBody, dstTableBody, applyHeight = true) {
    if (!srcTableBody || !dstTableBody) return false;

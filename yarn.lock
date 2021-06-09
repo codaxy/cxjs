@@ -94,7 +94,7 @@
     "@babel/helper-annotate-as-pure" "^7.12.13"
     regexpu-core "^4.7.1"
 
-"@babel/helper-define-polyfill-provider@^0.1.2", "@babel/helper-define-polyfill-provider@^0.1.5":
+"@babel/helper-define-polyfill-provider@^0.1.2":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-define-polyfill-provider/-/helper-define-polyfill-provider-0.1.5.tgz#3c2f91b7971b9fc11fe779c945c014065dea340e"
   integrity sha512-nXuzCSwlJ/WKr8qxzW816gwyT6VZgiJG17zR40fou70yfAcqjoNyTLl/DQ+FExw5Hx5KNqshmN8Ldl/r2N7cTg==
@@ -1341,7 +1341,7 @@ ansi-colors@^3.0.0:
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
 
-ansi-escapes@^3.0.0:
+ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
@@ -2092,6 +2092,13 @@ cli-cursor@^2.1.0:
   dependencies:
     restore-cursor "^2.0.0"
 
+cli-select@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/cli-select/-/cli-select-1.1.2.tgz#456dced464b3346ca661b16a0e37fc4b28db4818"
+  integrity sha512-PSvWb8G0PPmBNDcz/uM2LkZN3Nn5JmhUl465tTfynQAXjKzFpmHbxStM6X/+awKp5DJuAaHMzzMPefT0suGm1w==
+  dependencies:
+    ansi-escapes "^3.2.0"
+
 cli-width@^2.0.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.1.tgz#b0433d0b4e9c847ef18868a4ef16fd5fc8271c48"
@@ -2458,14 +2465,6 @@ cx-cli@19.7.0:
     commander "^2.9.0"
     copy-dir "^0.3.0"
     cross-spawn "^5.0.0"
-
-cx@^20.6.1:
-  version "20.12.3"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-20.12.3.tgz#d359b93f93ad333ff3a3fe7ea19009a867953c46"
-  integrity sha512-QTFAOeEM9u+ZjbgMVcLcs2CpfP0HOQA4daFOS0m32CP/uzbrMiZ1cnvw/kWfaXVi+kY7GA6Y5PLDAt+SHJp0hQ==
-  dependencies:
-    intl-io "^0.3.0"
-    route-parser "^0.0.5"
 
 dashdash@^1.12.0:
   version "1.14.1"

@@ -19,6 +19,8 @@ export class Dropdown extends Overlay {
          this.trackMouseX = true;
          this.trackMouseY = true;
       }
+      if (this.autoFocus && !this.hasOwnProperty(this.focusable))
+         this.focusable = true;
       super.init();
    }
 

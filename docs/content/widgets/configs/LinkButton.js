@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import button from './Button';
 
@@ -34,13 +34,14 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Accepted values are `equal`, `prefix` and `subroute`. Default is `equal` which means that `url` must exactly match `href` in order to consider the link active. 
-            In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. The `subroute` mode is similar to `prefix` mode, except that the `href` must be followed by a forward slash `/`, indicating 
+            Accepted values are `equal`, `prefix` and `subroute`. Default is `equal` which means that `url` must exactly match `href` in order to consider the link active.
+            In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. The `subroute` mode is similar to `prefix` mode, except that the `href` must be followed by a forward slash `/`, indicating
             a subroute.
         </Md></cx>
     },
 
     activeClass: {
+        key: true,
         type: 'string/object',
         description: <cx><Md>
             Additional CSS class to be applied to the element when it's active.
@@ -48,9 +49,27 @@ export default {
     },
 
     activeStyle: {
+        key: true,
         type: 'string/object',
         description: <cx><Md>
             Additional CSS style to be applied to the element when it's active.
         </Md></cx>
-    }
+    },
+
+    inactiveClass: {
+        key: true,
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS class to be applied to the element when it's not active.
+        </Md></cx>
+    },
+
+    inactiveStyle: {
+        key: true,
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS style to be applied to the element when it's not active.
+        </Md></cx>
+    },
 };
+

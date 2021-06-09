@@ -7,6 +7,7 @@
   "license": "SEE LICENSE.md",
   "dependencies": {
     "chalk": "^2.1.0",
+    "cli-select": "^1.1.2",
     "commander": "^2.9.0",
     "copy-dir": "^0.3.0",
     "cross-spawn": "^5.0.0"
@@ -16,5 +17,8 @@
   },
   "bin": {
     "cx": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }

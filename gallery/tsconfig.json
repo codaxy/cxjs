@@ -9,11 +9,12 @@
     "jsxFactory": "cx",
     "baseUrl": ".",
     "paths": {
-      "cx": [ "../packages/cx" ],
+      "cx": [ "../packages/cx/src" ],
       "cx-react": [ "../packages/cx-react" ]
-    }
+    },
+    "outDir": "./build/"
   },
   "exclude": [
-    "node_modules"
+    "node_modules", "dist"
   ]
 }
