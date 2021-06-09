@@ -274,17 +274,23 @@ function getDragEvent(e, type) {
    };
 }
 
-let dragCandidate = {};
+let dragCandidate = {
+   time: 0
+};
 
 export function ddMouseDown(e) {
+   if (Date.now() - dragCandidate.time < 10) return;
    dragCandidate = {
       el: e.currentTarget,
       start: { ...getCursorPos(e) },
+      time: Date.now()
    };
 }
 
 export function ddMouseUp() {
-   dragCandidate = {};
+   dragCandidate = {
+      time: 0
+   };
 }
 
 export function ddDetect(e) {
