@@ -9,6 +9,7 @@ import { ZIndexManager } from "../../ui/ZIndexManager";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { VDOM } from "../../ui/VDOM";
 import { Container } from "../../ui/Container";
+import { Console } from "../../util";
 
 let dropZones = new SubscriberList(),
    dragStartedZones,
@@ -104,7 +105,14 @@ export function initiateDragDrop(e, options = {}, onDragEnd) {
    dragStartedZones = new WeakMap();
 
    dropZones.execute((zone) => {
-      if (zone.onDropTest && !zone.onDropTest(event)) return;
+      if (zone.onDropTest)
+         try {
+            if (!zone.onDropTest(event)) return;
+         }
+         catch (err) {
+            Console.warn("Drop zone onDropTest failed. Error: ", err, zone);
+            return;
+         }
 
       if (zone.onDragStart) zone.onDragStart(event);
 
@@ -277,9 +285,14 @@ function getDragEvent(e, type) {
 let dragCandidate = {};
 
 export function ddMouseDown(e) {
+   //do not allow that the same event is processed by multiple drag sources
+   //the first (top-level) source should be a drag-candidate
+   if (e.timeStamp <= dragCandidate.timeStamp) return;
+
    dragCandidate = {
       el: e.currentTarget,
       start: { ...getCursorPos(e) },
+      timeStamp: e.timeStamp
    };
 }
 
