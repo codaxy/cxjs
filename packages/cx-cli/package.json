@@ -1,6 +1,6 @@
 {
   "name": "cx-cli",
-  "version": "21.4.1",
+  "version": "21.6.1",
   "description": "Command Line Interface tools for CxJS applications",
   "main": "./bin/index.js",
   "author": "Codaxy",
@@ -9,8 +9,9 @@
     "chalk": "^2.1.0",
     "cli-select": "^1.1.2",
     "commander": "^2.9.0",
-    "copy-dir": "^0.3.0",
-    "cross-spawn": "^5.0.0"
+    "copy-dir": "^0.3.0",    
+    "request": "^2.88.2",    
+    "unzipper": "^0.10.11"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -19,6 +20,6 @@
     "cx": "index.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "test-create": "node index.js create test-create"
   }
 }

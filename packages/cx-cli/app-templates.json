@@ -1,0 +1,27 @@
+[
+    { 
+        "url": "https://github.com/codaxy/cx-app-template-basic/archive/refs/heads/master.zip",
+        "name": "Basic",
+        "srcFolder": "cx-app-template-basic-master"
+    },
+    { 
+        "url": "https://github.com/codaxy/cxjs-tailwindcss-template/archive/refs/heads/master.zip",
+        "name": "CxJS + Tailwind CSS",
+        "srcFolder": "cxjs-tailwindcss-template-master"
+    },
+    { 
+        "url": "https://github.com/codaxy/cxjs-codesandbox-template/archive/refs/heads/master.zip",
+        "name": "Code Sandbox",
+        "srcFolder": "cxjs-codesandbox-template-master"
+    },    
+    { 
+        "url": "https://github.com/codaxy/cx-template-material-sidebar/archive/refs/heads/master.zip",
+        "name": "Sidebar Layout + Material Theme",
+        "srcFolder": "codaxy/cx-template-material-sidebar-master"
+    },   
+    { 
+        "url": "https://github.com/codaxy/cx-app-template-phone-dark/archive/refs/heads/master.zip",
+        "name": "Phone App + Dark Theme",
+        "srcFolder": "codaxy/cx-app-template-phone-dark-master"
+    }
+]
