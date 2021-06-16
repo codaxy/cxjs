@@ -5,8 +5,7 @@ const
    request = require('request'),
    unzip = require('unzipper'),
    chalk = require("chalk"),
-   cliSelect = require("cli-select"),
-   templates = require('./app-templates.json');
+   cliSelect = require("cli-select");
 
 function getAppPath() {
    let at = process.cwd();
@@ -89,10 +88,30 @@ function downloadAndExtractZip(url, extractPath, srcFolder) {
    })
 }
 
+function getTemplates() {
+   return new Promise((resolve, reject) => {
+      request.get(
+         {
+            url: 'https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx-cli/app-templates.json',
+            json: true
+         },
+         function (e, r, data) {
+            if (e) reject(e); else resolve(data);
+         }
+      )
+   });
+}
+
 async function pickAppTemplate() {
    let values = {};
-
-   //TODO: Load application templates from internet.
+   let templates;
+   try {
+      templates = await getTemplates();
+   }
+   catch (err) {
+      console.log("Failed to retrieve the list of app templates.", err);
+      process.exit(-1);
+   }
 
    for (let t of templates)
       values[t.url] = t.name;
@@ -105,7 +124,7 @@ async function pickAppTemplate() {
       valueRenderer: (value, selected) => (selected ? chalk.yellow(value) : value),
    });
 
-   return option;
+   return templates.find(t => t.url == option.id);;
 }
 
 
@@ -119,9 +138,9 @@ async function createNewApp(projectName) {
       return;
    }
    let template = await pickAppTemplate();
-   console.log(`Downloading ${template.value} template into the application folder ${projectName}.`);
+   console.log(`Downloading ${template.name} template into the application folder ${projectName}.`);
    try {
-      await downloadAndExtractZip(templates[0].url, projectName, templates[0].srcFolder);
+      await downloadAndExtractZip(template.url, projectName, template.srcFolder);
    }
    catch (err) {
       console.log("Failed to download and extract the template.", err);
