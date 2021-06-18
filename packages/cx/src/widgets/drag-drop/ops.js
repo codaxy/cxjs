@@ -134,8 +134,14 @@ function notifyDragMove(e, captureData) {
       away = [];
 
    dropZones.execute((zone) => {
-      let test = zone.onDropTest && zone.onDropTest(event);
-      if (!test) return;
+      try {
+         let test = zone.onDropTest && zone.onDropTest(event);
+         if (!test) return;
+      }
+      catch (err) {
+         Console.warn("Drop zone onDropTest failed. Error: ", err, zone);
+         return;
+      }
 
       if (zone.onDragMeasure) {
          let result = zone.onDragMeasure(event, { test }) || {};
