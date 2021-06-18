@@ -1,68 +1,68 @@
-import {Grid, Content, Tab, Repeater, DragSource, DropZone, Button} from "cx/widgets";
-import {Controller, computable} from "cx/ui";
+import { Grid, Content, Tab, Repeater, DragSource, DropZone, Button } from "cx/widgets";
+import { Controller, computable } from "cx/ui";
 import { insertElement } from "cx/data";
-import {casual} from '../data/casual';
-import {Md} from '../../../components/Md';
-import {CodeSplit} from '../../../components/CodeSplit';
-import {CodeSnippet} from '../../../components/CodeSnippet';
+import { casual } from '../data/casual';
+import { Md } from '../../../components/Md';
+import { CodeSplit } from '../../../components/CodeSplit';
+import { CodeSnippet } from '../../../components/CodeSnippet';
 
 let allColumns = [
     {
-       key: "date",
-       header: "Date",
-       field: "date",
-       format: "date",
-       sortable: true,
-       resizable: true,
-       type: "date",
-       defaultWidth: 100,
-       draggable: true,
+        key: "date",
+        header: "Date",
+        field: "date",
+        format: "date",
+        sortable: true,
+        resizable: true,
+        type: "date",
+        defaultWidth: 100,
+        draggable: true,
     },
     {
-       key: "fullName",
-       header: "Name",
-       field: "fullName",
-       sortable: true,
-       resizable: true,
-       defaultWidth: 200,
-       draggable: true,
+        key: "fullName",
+        header: "Name",
+        field: "fullName",
+        sortable: true,
+        resizable: true,
+        defaultWidth: 200,
+        draggable: true,
     },
     {
-       key: "continent",
-       header: "Continent",
-       field: "continent",
-       sortable: true,
-       resizable: true,
-       defaultWidth: 150,
-       draggable: true,
+        key: "continent",
+        header: "Continent",
+        field: "continent",
+        sortable: true,
+        resizable: true,
+        defaultWidth: 150,
+        draggable: true,
     },
     {
-       key: "browser",
-       header: "Browser",
-       field: "browser",
-       sortable: true,
-       resizable: true,
-       defaultWidth: 150,
-       draggable: true,
+        key: "browser",
+        header: "Browser",
+        field: "browser",
+        sortable: true,
+        resizable: true,
+        defaultWidth: 150,
+        draggable: true,
     },
     {
-       key: "os",
-       header: "OS",
-       field: "os",
-       sortable: true,
-       resizable: true,
-       defaultWidth: 150,
-       draggable: true,
+        key: "os",
+        header: "OS",
+        field: "os",
+        sortable: true,
+        resizable: true,
+        defaultWidth: 150,
+        draggable: true,
     },
     {
-       key: "visits",
-       header: "Visits",
-       field: "visits",
-       sortable: true,
-       align: "right",
-       type: "number",
-       defaultWidth: 100,
-       draggable: true,
+        key: "visits",
+        header: "Visits",
+        field: "visits",
+        sortable: true,
+        align: "right",
+        type: "number",
+        defaultWidth: 100,
+        draggable: true,
     },
 ];
 
@@ -72,32 +72,32 @@ class PageController extends Controller {
         this.store.init("$page.records", this.getRandomData());
 
         this.store.init(
-           "$page.columnOrder",
-           allColumns.map((x) => x.key)
+            "$page.columnOrder",
+            allColumns.map((x) => x.key)
         );
 
         this.store.init("$page.unusedColumns", []);
-     }
+    }
 
-     getRandomData() {
+    getRandomData() {
         return Array.from({ length: 100 }).map((v, i) => ({
-           id: i + 1,
-           fullName: casual.full_name,
-           continent: casual.continent,
-           browser: casual.browser,
-           os: casual.operating_system,
-           visits: casual.integer(1, 100),
-           date: Date.now() + 100 * Math.random() * 86400 * 1000,
+            id: i + 1,
+            fullName: casual.full_name,
+            continent: casual.continent,
+            browser: casual.browser,
+            os: casual.operating_system,
+            visits: casual.integer(1, 100),
+            date: Date.now() + 100 * Math.random() * 86400 * 1000,
         }));
-     }
+    }
 
-     onResetColumns() {
+    onResetColumns() {
         this.store.set(
             "$page.columnOrder",
             allColumns.map((x) => x.key)
         );
         this.store.set("$page.unusedColumns", []);
-     }
+    }
 }
 
 export const ColumnReordering = <cx>
@@ -138,18 +138,19 @@ export const ColumnReordering = <cx>
                 </DropZone>
             </div>
 
+
             <Grid
                 records-bind="$page.records"
                 mod="fixed-layout"
                 scrollable
-                buffered={false}
+                buffered={true}
                 style="height: 330px; margin-bottom: 10px"
                 lockColumnWidths
                 columnParams-bind="$page.columnOrder"
                 onGetColumns={(columnOrder) => columnOrder.map((key) => allColumns.find((c) => c.key == key))}
                 onColumnDropTest={(e, instance) =>
-                    (e.source.type == "grid-column" && e.source.gridInstance == instance) ||
-                    e.source?.data.type == "unused-column"
+                    (e.source?.type == "grid-column" && e.source?.gridInstance == instance) ||
+                    e.source?.data?.type == "unused-column"
                 }
                 onColumnDrop={(e, { store }) => {
                     let key = e.source.type == "grid-column" ? e.source.column.key : e.source.data.key;
@@ -227,7 +228,7 @@ export const ColumnReordering = <cx>
                     records-bind="$page.records"
                     mod="fixed-layout"
                     scrollable
-                    buffered={false}
+                    buffered
                     style="height: 500px;"
                     lockColumnWidths
                     columnParams-bind="$page.columnOrder"
@@ -360,8 +361,5 @@ export const ColumnReordering = <cx>
             The logic for changing columns is implemented in `onColumnDrop`. In this example, `columnOrder`
             and `unusedColumns` are modified and after that the grid automatically reflects the updated configuration.
         </CodeSplit>
-
-
-
     </Md>
 </cx>;
