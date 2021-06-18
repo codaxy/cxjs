@@ -139,7 +139,7 @@ function notifyDragMove(e, captureData) {
          if (!test) return;
       }
       catch (err) {
-         Console.warn("Drop zone onDropTest failed. Error: ", err, zone);
+         //the problem is already reported, so here we just swallow the bug to avoid spammming the console too much
          return;
       }
 
