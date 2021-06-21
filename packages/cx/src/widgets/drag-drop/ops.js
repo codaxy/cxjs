@@ -137,23 +137,23 @@ function notifyDragMove(e, captureData) {
       try {
          let test = zone.onDropTest && zone.onDropTest(event);
          if (!test) return;
+
+         if (zone.onDragMeasure) {
+            let result = zone.onDragMeasure(event, { test }) || {};
+   
+            if (result.near) near.push(zone);
+            else away.push(zone);
+   
+            if (isNumber(result.over) && (best == null || result.over < best)) {
+               over = zone;
+               overTest = test;
+               best = result.over;
+            }
+         }
       }
       catch (err) {
          //the problem is already reported, so here we just swallow the bug to avoid spammming the console too much
          return;
-      }
-
-      if (zone.onDragMeasure) {
-         let result = zone.onDragMeasure(event, { test }) || {};
-
-         if (result.near) near.push(zone);
-         else away.push(zone);
-
-         if (isNumber(result.over) && (best == null || result.over < best)) {
-            over = zone;
-            overTest = test;
-            best = result.over;
-         }
       }
    });
 
