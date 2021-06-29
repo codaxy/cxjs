@@ -134,8 +134,9 @@ function notifyDragMove(e, captureData) {
       away = [];
 
    dropZones.execute((zone) => {
+      let test;
       try {
-         let test = zone.onDropTest && zone.onDropTest(event);
+         test = zone.onDropTest && zone.onDropTest(event);
          if (!test) return;
       }
       catch (err) {
