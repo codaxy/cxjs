@@ -536,7 +536,6 @@ class LookupComponent extends VDOM.Component {
          if (
             widget.showClear &&
             !data.disabled &&
-            !this.props.multiple &&
             (widget.alwaysShowClear || !data.required) &&
             !data.empty
          ) {
@@ -544,7 +543,7 @@ class LookupComponent extends VDOM.Component {
                <div
                   key="ib"
                   onMouseDown={preventDefault}
-                  onClick={(e) => this.onClearClick(e)}
+                  onClick={(e) => !this.props.multiple ? this.onClearClick(e) : this.onClearMultipleClick(e)}
                   className={CSS.element(baseClass, "clear")}
                >
                   <ClearIcon className={CSS.element(baseClass, "icon")} />
@@ -697,6 +696,13 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (!isTouchEvent(e)) this.dom.input.focus();
+   }
+
+   onClearMultipleClick(e) {
+      let { instance } = this.props;
+
+      instance.set('records', null);
+      instance.set('values', null);
    }
 
    select(e, itemData) {
