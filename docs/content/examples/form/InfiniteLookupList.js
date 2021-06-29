@@ -51,13 +51,15 @@ export const InfiniteLookupList = <cx>
                 <div layout={{ type: LabelsTopLayout, vertical: true }}>
                     <LookupField
                         label="Infinite Lookup List"
-                        records:bind="$page.selectedCities"
+                        records-bind="$page.selectedCities"
+                        style="width: 200px"
                         onQuery="onQuery"
                         multiple
                         infinite
                         pageSize={100}
                         queryDelay={200}
                         minQueryLength={2}
+                        alwaysShowClear
                     />
                 </div>
             </div>
@@ -94,13 +96,14 @@ export const InfiniteLookupList = <cx>
 
             <LookupField
                 label="Infinite Lookup List"
-                records:bind="$page.selectedCities"
+                records-bind="$page.selectedCities"
                 onQuery="onQuery"
                 multiple
                 infinite
                 pageSize={100}
                 queryDelay={200}
                 minQueryLength={2}
+                alwaysShowClear
             />
 
             `}</CodeSnippet>

@@ -536,7 +536,6 @@ class LookupComponent extends VDOM.Component {
          if (
             widget.showClear &&
             !data.disabled &&
-            // !this.props.multiple &&
             (widget.alwaysShowClear || !data.required) &&
             !data.empty
          ) {
