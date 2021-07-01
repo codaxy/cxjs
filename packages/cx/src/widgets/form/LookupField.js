@@ -374,8 +374,7 @@ class LookupComponent extends VDOM.Component {
             let { instance } = this.props;
             let { initialScreenPosition } = instance;
 
-            if (!initialScreenPosition)
-               initialScreenPosition = instance.initialScreenPosition = params.parentBounds;
+            if (!initialScreenPosition) initialScreenPosition = instance.initialScreenPosition = params.parentBounds;
 
             if (
                Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
@@ -536,9 +535,16 @@ class LookupComponent extends VDOM.Component {
       }
 
       let insideButton = null;
+      let multipleEntries = this.props.multiple && isArray(data.records) && data.records.length > 1;
 
       if (!data.readOnly) {
-         if (widget.showClear && !data.disabled && (widget.alwaysShowClear || !data.required) && !data.empty) {
+         if (
+            widget.showClear &&
+            !data.disabled &&
+            !data.empty &&
+            (widget.alwaysShowClear || (!data.required && !this.props.multiple) || multipleEntries)
+
+         ) {
             insideButton = (
                <div
                   key="ib"
