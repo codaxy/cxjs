@@ -107,6 +107,7 @@ MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
 MenuItem.prototype.keyboardShortcut = false;
 MenuItem.prototype.openOnFocus = true;
+MenuItem.prototype.closeDropdownOnScrollDistance = 100;
 
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
@@ -142,6 +143,20 @@ class MenuItemComponent extends VDOM.Component {
             pipeValidateDropdownPosition: (cb) => {
                this.validateDropdownPosition = cb;
             },
+            onDropdownPositionDidUpdate: (params) => {
+               let { parentBounds } = params;
+               let { instance } = this.props;
+               let { initialScreenPosition } = instance;
+
+               if (!initialScreenPosition)
+                  initialScreenPosition = instance.initialScreenPosition = params.parentBounds;
+
+               if (
+                  Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
+                  Math.abs(parentBounds.left - initialScreenPosition.left) > widget.closeDropdownOnScrollDistance
+               )
+                  this.closeDropdown();
+            }
          });
       }
       return this.dropdown;

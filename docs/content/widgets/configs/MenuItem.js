@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import classAndStyle from './classAndStyle';
 import pureContainer from './PureContainer';
@@ -27,7 +27,7 @@ export default {
     hoverToOpen: {
         type: 'boolean',
         description: <cx><Md>
-              Set to `true`, to expand Submenus on hover. Default value is `false`.
+            Set to `true`, to expand Submenus on hover. Default value is `false`.
         </Md></cx>
     },
     horizontal: {
@@ -72,7 +72,7 @@ export default {
     placementOrder: {
         type: 'string',
         description: <cx><Md>
-            Set custom placement order. Default values are `down-right down down-left up-right up up-left` 
+            Set custom placement order. Default values are `down-right down down-left up-right up up-left`
             if the horizontal property is set to true, otherwise are `right-down right right-up left-down left left-up`.
         </Md></cx>
     },
@@ -92,13 +92,13 @@ export default {
     keyboardShortcut: {
         type: 'object/number',
         description: <cx><Md>
-          Add custom keyboard shorcuts. 
+            Add custom keyboard shorcuts.
         </Md></cx>
     },
     tooltip: {
         type: 'string/object',
         description: <cx><Md>
-           Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
+            Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
         </Md></cx>
     },
     openOnFocus: {
@@ -108,4 +108,10 @@ export default {
             Set to `false`, to prevent dropdown to expand on focus. Default value is `true`.
         </Md></cx>
     },
+    closeDropdownOnScrollDistance: {
+        type: 'number',
+        description: <cx><Md>
+            The dropdown will be automatically closed if the page is scrolled a certain distance. Default value is `100`.
+        </Md></cx>
+    }
 };

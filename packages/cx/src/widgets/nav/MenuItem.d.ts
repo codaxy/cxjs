@@ -19,6 +19,8 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
+   /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
+   closeDropdownOnScrollDistance?: number;
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}
