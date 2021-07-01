@@ -10,6 +10,7 @@ import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { MenuSpacer } from "./MenuSpacer";
+import { isTextInputElement } from "../../util";
 
 /*
  Functionality:
@@ -189,6 +190,9 @@ class MenuComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
+      //ignore the event if it comes from an input element
+      if (isTextInputElement(e.target)) return;
+
       let { instance } = this.props;
       let { widget } = instance;
 

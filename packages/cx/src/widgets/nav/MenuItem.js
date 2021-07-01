@@ -18,6 +18,7 @@ import {
    tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
 import { yesNo } from "../overlay/alerts";
+import { isTextInputElement } from "../../util";
 
 /*
  Functionality:
@@ -260,7 +261,7 @@ class MenuItemComponent extends VDOM.Component {
    onDropdownKeyDown(e) {
       debug(menuFlag, "MenuItem", "dropdownKeyDown");
       let { horizontal } = this.props.instance;
-      if (e.keyCode == KeyCode.esc || (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left)) {
+      if (e.keyCode == KeyCode.esc || (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))) {
          FocusManager.focus(this.el);
          e.preventDefault();
          e.stopPropagation();
