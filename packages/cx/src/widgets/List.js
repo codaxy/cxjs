@@ -267,7 +267,8 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(index, {
          select: true,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          selectRange: e.shiftKey,
       });
@@ -282,7 +283,8 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(index, {
          select: true,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          selectRange: e.shiftKey,
       });
@@ -512,7 +514,8 @@ class ListComponent extends VDOM.Component {
             this.moveCursor(this.state.cursor, {
                select: true,
                selectOptions: {
-                  toggle: e.ctrlKey,
+                  toggle: e.ctrlKey && !e.shiftKey,
+                  add: e.ctrlKey && e.shiftKey
                },
                selectRange: e.shiftKey,
             });
