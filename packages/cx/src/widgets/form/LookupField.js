@@ -705,9 +705,8 @@ class LookupComponent extends VDOM.Component {
 
    onClearMultipleClick(e) {
       let { instance } = this.props;
-
-      instance.set("records", null);
-      instance.set("values", null);
+      instance.set("records", []);
+      instance.set("values", []);
    }
 
    select(e, itemData) {
