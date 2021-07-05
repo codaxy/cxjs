@@ -33,7 +33,7 @@ export const NonOverlappingRects = <cx>
 
         <CodeSplit>
 
-            The `NonOverlappingRect` and `NonOverlappingRectGroup` widgets are commonly for hiding excessive labels on charts.
+            The `NonOverlappingRect` and `NonOverlappingRectGroup` widgets are commonly used for hiding excessive chart labels.
             In the following chart, labels which are overlapping other labels are hidden. Try dragging markers around and see how it behaves.
 
             <div class="widgets" controller={PageController}>
