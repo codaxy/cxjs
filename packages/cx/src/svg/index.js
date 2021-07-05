@@ -9,6 +9,8 @@ export * from './ClipRect';
 export * from './Ellipse';
 export * from './Line';
 export * from './Text';
+export * from './NonOverlappingRect';
+export * from './NonOverlappingRectGroup';
 
 
 

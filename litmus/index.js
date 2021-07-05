@@ -20,7 +20,7 @@ import "./index.scss";
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-import Demo from './features/drag-drop/tree-grid-to-tree-grid';
+//import Demo from './features/drag-drop/tree-grid-to-tree-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
@@ -58,6 +58,8 @@ import Demo from './features/drag-drop/tree-grid-to-tree-grid';
 //import Demo from './features/layout/OuterLayout';
 //import Demo from './features/layout/ComplexLayout';
 //import Demo from './features/resizer';
+
+import Demo from './features/charts/NonOverlappingRect';
 
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
