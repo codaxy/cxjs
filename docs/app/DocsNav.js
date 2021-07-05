@@ -179,6 +179,7 @@ export const docsNavTree = [
                     { text: "Ellipse", url: "~/svg/ellipses" },
                     { text: "Line", url: "~/svg/lines" },
                     { text: "ClipRect", url: "~/svg/clip-rects" },
+                    { text: "NonOverlappingRect", url: "~/svg/non-overlapping-rects" },
                 ],
             },
             {

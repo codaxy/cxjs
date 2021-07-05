@@ -4,6 +4,7 @@ export * from './Rectangles';
 export * from './Lines';
 export * from './Ellipses';
 export * from './ClipRects';
+export * from './NonOverlappingRects';
 
 import { bumpVersion } from '../version';
 
