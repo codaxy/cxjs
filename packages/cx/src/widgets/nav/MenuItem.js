@@ -146,11 +146,10 @@ class MenuItemComponent extends VDOM.Component {
             },
             onDropdownPositionDidUpdate: (params) => {
                let { parentBounds } = params;
-               let { instance } = this.props;
-               let { initialScreenPosition } = instance;
+               let { initialScreenPosition } = this;
 
                if (!initialScreenPosition)
-                  initialScreenPosition = instance.initialScreenPosition = params.parentBounds;
+                  initialScreenPosition = this.initialScreenPosition = params.parentBounds;
 
                if (
                   Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
@@ -424,6 +423,7 @@ class MenuItemComponent extends VDOM.Component {
       this.setState({
          dropdownOpen: false,
       });
+      delete this.initialScreenPosition;
    }
 
    onFocusOut(focusedElement) {

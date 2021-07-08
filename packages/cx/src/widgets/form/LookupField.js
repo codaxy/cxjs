@@ -371,10 +371,8 @@ class LookupComponent extends VDOM.Component {
          },
          onDropdownPositionDidUpdate: (params) => {
             let { parentBounds } = params;
-            let { instance } = this.props;
-            let { initialScreenPosition } = instance;
-
-            if (!initialScreenPosition) initialScreenPosition = instance.initialScreenPosition = params.parentBounds;
+            let { initialScreenPosition } = this;
+            if (!initialScreenPosition) initialScreenPosition = this.initialScreenPosition = params.parentBounds;
 
             if (
                Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
@@ -868,7 +866,8 @@ class LookupComponent extends VDOM.Component {
    }
 
    openDropdown(e) {
-      let { data } = this.props.instance;
+      let { instance } = this.props;
+      let { data } = instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
          this.query("");
          this.setState(
