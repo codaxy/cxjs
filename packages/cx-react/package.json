@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {},
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
     "react": "*",

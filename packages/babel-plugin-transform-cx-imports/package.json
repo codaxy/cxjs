@@ -4,7 +4,7 @@
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
   "repository": "https://github.com/codaxy/cxjs",
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "main": "index.js",
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.12.13"
