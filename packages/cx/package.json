@@ -8,7 +8,7 @@
       "build": "node build/index"
    },
    "author": "Codaxy",
-   "license": "SEE LICENSE IN LICENSE.md",
+   "license": "MIT",
    "bugs": {
       "url": "https://github.com/codaxy/cxjs"
    },
