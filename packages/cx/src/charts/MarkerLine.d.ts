@@ -15,6 +15,15 @@ interface MarkerLineProps extends BoundedObjectProps {
    /** The `y2` value binding or expression. */
    y2?: Cx.NumberProp,
 
+   /** Ignore data for the X-axis. */
+   ignoreX?: Cx.BooleanProp,
+
+   /** Ignore data for the Y-axis. */
+   ignoreY?: Cx.BooleanProp,
+
+   /** Ignore data both for the X and Y-axis. */
+   ignoreXY?: Cx.BooleanProp,
+
    /** Index of a color from the standard palette of colors. 0-15. */
    colorIndex?: Cx.NumberProp,
 

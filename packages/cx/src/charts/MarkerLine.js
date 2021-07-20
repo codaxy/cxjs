@@ -8,9 +8,13 @@ export class MarkerLine extends BoundedObject {
    init() {
       if (isDefined(this.x))
          this.x1 = this.x2 = this.x;
-
+         
       if (isDefined(this.y))
          this.y1 = this.y2 = this.y;
+      if(!!this.ignoreXY){
+         this.ignoreX = true;
+         this.ignoreY = true;
+      }
 
       super.init()
    }
@@ -24,7 +28,10 @@ export class MarkerLine extends BoundedObject {
          colorIndex: undefined,
          active: true,
          name: undefined,
-         legend: undefined
+         legend: undefined,
+         ignoreX: false,
+         ignoreY: false,
+         ignoreXY: false,
       })
    }
 
@@ -36,16 +43,16 @@ export class MarkerLine extends BoundedObject {
 
       if (data.active) {
 
-         if (data.x1 != null)
+         if (data.x1 != null && !data.ignoreX)
             xAxis.acknowledge(data.x1);
 
-         if (data.x2 != null)
+         if (data.x2 != null && !data.ignoreX)
             xAxis.acknowledge(data.x2);
 
-         if (data.y1 != null)
+         if (data.y1 != null && !data.ignoreY)
             yAxis.acknowledge(data.y1);
 
-         if (data.y2 != null)
+         if (data.y2 != null && !data.ignoreY)
             yAxis.acknowledge(data.y2);
 
          super.explore(context, instance);
