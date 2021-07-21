@@ -28,11 +28,6 @@ export class Marker extends BoundedObject {
          this.constrainY = true;
       }
 
-      if(!!this.ignoreXY){
-         this.ignoreX = true;
-         this.ignoreY = true;
-      }
-
       super.init();
    }
 
@@ -51,9 +46,6 @@ export class Marker extends BoundedObject {
          legendColorIndex: undefined,
          name: undefined,
          active: true,
-         ignoreX: false,
-         ignoreY: false,
-         ignoreXY: false,
       });
    }
 
@@ -105,9 +97,11 @@ export class Marker extends BoundedObject {
       if (instance.colorMap && data.colorName) instance.colorMap.acknowledge(data.colorName);
 
       if (data.active) {
-         if (xAxis && data.x != null && !data.ignoreX) xAxis.acknowledge(data.x, 0, this.xOffset);
+         if (this.affectsAxes) {
+            if (xAxis && data.x != null) xAxis.acknowledge(data.x, 0, this.xOffset);
 
-         if (yAxis && data.y != null && !data.ignoreY) yAxis.acknowledge(data.y, 0, this.yOffset);
+            if (yAxis && data.y != null) yAxis.acknowledge(data.y, 0, this.yOffset);
+         }
 
          if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
 
@@ -226,6 +220,7 @@ Marker.prototype.legendAction = "auto";
 Marker.prototype.shape = "circle";
 Marker.prototype.styled = true;
 Marker.prototype.hidden = false;
+Marker.prototype.affectsAxes = true;
 
 BoundedObject.alias("marker", Marker);
 

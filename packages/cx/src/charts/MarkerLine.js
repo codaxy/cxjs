@@ -11,10 +11,6 @@ export class MarkerLine extends BoundedObject {
          
       if (isDefined(this.y))
          this.y1 = this.y2 = this.y;
-      if(!!this.ignoreXY){
-         this.ignoreX = true;
-         this.ignoreY = true;
-      }
 
       super.init()
    }
@@ -28,32 +24,26 @@ export class MarkerLine extends BoundedObject {
          colorIndex: undefined,
          active: true,
          name: undefined,
-         legend: undefined,
-         ignoreX: false,
-         ignoreY: false,
-         ignoreXY: false,
+         legend: undefined
       })
    }
 
    explore(context, instance) {
-      let {data} = instance;
+      let { data } = instance;
 
-      let xAxis = instance.xAxis = context.axes[this.xAxis];
-      let yAxis = instance.yAxis = context.axes[this.yAxis];
+      let xAxis = (instance.xAxis = context.axes[this.xAxis]);
+      let yAxis = (instance.yAxis = context.axes[this.yAxis]);
 
       if (data.active) {
+         if (this.affectsAxes) {
+            if (data.x1 != null) xAxis.acknowledge(data.x1);
 
-         if (data.x1 != null && !data.ignoreX)
-            xAxis.acknowledge(data.x1);
+            if (data.x2 != null) xAxis.acknowledge(data.x2);
 
-         if (data.x2 != null && !data.ignoreX)
-            xAxis.acknowledge(data.x2);
+            if (data.y1 != null) yAxis.acknowledge(data.y1);
 
-         if (data.y1 != null && !data.ignoreY)
-            yAxis.acknowledge(data.y1);
-
-         if (data.y2 != null && !data.ignoreY)
-            yAxis.acknowledge(data.y2);
+            if (data.y2 != null) yAxis.acknowledge(data.y2);
+         }
 
          super.explore(context, instance);
       }
@@ -132,6 +122,7 @@ MarkerLine.prototype.anchors = '0 1 1 0';
 MarkerLine.prototype.baseClass = 'markerline';
 MarkerLine.prototype.legend = 'legend';
 MarkerLine.prototype.legendAction = 'auto';
+MarkerLine.prototype.affectsAxes = true;
 
 BoundedObject.alias('marker-line', MarkerLine);
 
