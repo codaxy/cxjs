@@ -9,6 +9,9 @@ interface MarkerProps extends BoundedObjectProps {
    /** The `y` value binding or expression. */
    y?:  Cx.Prop<string | number>,
 
+   /** Used to indicate if the data should affect axis span. */
+   affectsAxes?: Cx.BooleanProp,
+
    /** Shape kind. `circle`, `square`, `triangle`, etc. */
    shape?: Cx.StringProp,
 
