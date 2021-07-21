@@ -154,7 +154,7 @@ class MenuComponent extends VDOM.Component {
                if (content && content.spacer) {
                   return (
                      widget.horizontal &&
-                     index < this.state.nonOverflownItemCount && (
+                     (
                         <li className={CSS.element(baseClass, "spacer")} key={key} />
                      )
                   );
