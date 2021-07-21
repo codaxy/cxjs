@@ -48,7 +48,7 @@ import "./index.scss";
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
-//import Demo from "./features/menu/overflow";
+import Demo from "./features/menu/overflow";
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
 
@@ -59,7 +59,7 @@ import "./index.scss";
 //import Demo from './features/layout/ComplexLayout';
 //import Demo from './features/resizer';
 
-import Demo from './features/charts/NonOverlappingRect';
+//import Demo from './features/charts/NonOverlappingRect';
 
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
