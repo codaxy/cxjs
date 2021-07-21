@@ -91,5 +91,12 @@ export default {
         description: <cx><Md>
             Set to `true` to make the shape draggable along the X axis.
         </Md></cx>
-    }
+    },
+    affectsAxes:{
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+           Used to indicate if the data should affect axis span.
+           </Md></cx>
+     }
 };
