@@ -48,7 +48,7 @@ import "./index.scss";
 //import Demo from './features/layout/MultiColumnLabelsTopLayout';
 
 //import Demo from './features/menu/icons';
-import Demo from "./features/menu/overflow";
+//import Demo from "./features/menu/overflow";
 //import Demo from './features/window/header-buttons';
 //import Demo from './features/window/persist-position';
 
@@ -94,6 +94,8 @@ import Demo from "./features/menu/overflow";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
+
+import Demo from "./bugs/AsyncValidator";
 
 
 let store = (window.store = new Store());

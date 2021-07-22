@@ -14,6 +14,7 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { coalesce } from "../../util/coalesce";
 import { isUndefined } from "../../util/isUndefined";
+import { shallowEquals } from "../../util/shallowEquals";
 
 export class Field extends PureContainer {
    declareData() {
@@ -237,20 +238,19 @@ export class Field extends PureContainer {
       let { data, state } = instance;
       state = state || {};
 
+      let empty = this.isEmpty(data);
+
       if (!data.error) {
-         if (state.validating) data.error = this.validatingText;
-         else if (data.required) {
-            let required = this.validateRequired(context, instance);
-            if (required) data.error = state.inputError || required;
-         }
+         if (state.validating && !empty) data.error = this.validatingText;
+         else if (data.required) data.error = this.validateRequired(context, instance);
       }
 
       if (
-         !data.error &&
-         !this.isEmpty(data) &&
-         this.onValidate &&
+         !empty &&
          !state.validating &&
-         (!state.previouslyValidated || data.value != state.lastValidatedValue)
+         !data.error &&
+         this.onValidate &&
+         (!state.previouslyValidated || data.value != state.lastValidatedValue || data.validationParams != state.lastValidationParams)
       ) {
          let result = instance.invoke("onValidate", data.value, instance, data.validationParams);
          if (isPromise(result)) {
@@ -259,12 +259,18 @@ export class Field extends PureContainer {
                validating: true,
                lastValidatedValue: data.value,
                previouslyValidated: true,
+               lastValidationParams: data.validationParams
             });
             result
                .then((r) => {
+                  let { data, state } = instance;
+                  let error = data.value == state.lastValidatedValue && shallowEquals(data.validationParams, state.lastValidationParams)
+                     ? r
+                     : this.validatingText; //parameters changed, this will be revalidated
+
                   instance.setState({
                      validating: false,
-                     inputError: r,
+                     inputError: error,
                   });
                })
                .catch((e) => {
@@ -282,7 +288,7 @@ export class Field extends PureContainer {
          }
       }
 
-      if (!data.error && state.inputError) data.error = state.inputError;
+      if (!data.error && state.inputError && !empty) data.error = state.inputError;
    }
 
    renderLabel(context, instance, key) {
@@ -372,19 +378,19 @@ export class Field extends PureContainer {
    }
 }
 
-   Field.prototype.validationMode = "tooltip";
-   Field.prototype.suppressErrorsUntilVisited = false;
-   Field.prototype.requiredText = "This field is required.";
-   Field.prototype.autoFocus = false;
-   Field.prototype.asterisk = false;
-   Field.prototype.validatingText = "Validation is in progress...";
-   Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
-   Field.prototype.helpSpacer = true;
-   Field.prototype.trackFocus = false; //add cxs-focus on parent element
-   Field.prototype.labelPlacement = false;
-   Field.prototype.helpPlacement = false;
-   Field.prototype.emptyValue = null;
-   Field.prototype.styled = true;
+Field.prototype.validationMode = "tooltip";
+Field.prototype.suppressErrorsUntilVisited = false;
+Field.prototype.requiredText = "This field is required.";
+Field.prototype.autoFocus = false;
+Field.prototype.asterisk = false;
+Field.prototype.validatingText = "Validation is in progress...";
+Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
+Field.prototype.helpSpacer = true;
+Field.prototype.trackFocus = false; //add cxs-focus on parent element
+Field.prototype.labelPlacement = false;
+Field.prototype.helpPlacement = false;
+Field.prototype.emptyValue = null;
+Field.prototype.styled = true;
 
 //These flags are inheritable and should not be set to false
 //Field.prototype.visited = null;
