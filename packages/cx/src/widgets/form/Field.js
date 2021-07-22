@@ -247,7 +247,6 @@ export class Field extends PureContainer {
 
       if (
          !data.error &&
-         !this.isEmpty(data) &&
          this.onValidate &&
          !state.validating &&
          (!state.previouslyValidated || data.value != state.lastValidatedValue)
@@ -277,7 +276,7 @@ export class Field extends PureContainer {
                      Console.warn("Unhandled validation exception:", e);
                   }
                });
-         } else {
+         } else if (!this.isEmpty(data)) {
             data.error = result;
          }
       }
