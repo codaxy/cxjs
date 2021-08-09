@@ -241,7 +241,10 @@ export class Field extends PureContainer {
       let empty = this.isEmpty(data);
 
       if (!data.error) {
-         if (state.validating && !empty) data.error = this.validatingText;
+         if (state.inputError) data.error = state.inputError;
+         else if (state.validating && !empty) data.error = this.validatingText;
+         else if (state.validationError && data.value === state.lastValidatedValue && shallowEquals(data.validationParams, state.lastValidationParams))
+            data.error = state.validationError;
          else if (data.required) data.error = this.validateRequired(context, instance);
       }
 
@@ -270,13 +273,13 @@ export class Field extends PureContainer {
 
                   instance.setState({
                      validating: false,
-                     inputError: error,
+                     validationError: error,
                   });
                })
                .catch((e) => {
                   instance.setState({
                      validating: false,
-                     inputError: this.validationExceptionText,
+                     validationError: this.validationExceptionText,
                   });
                   if (this.onValidationException) instance.invoke("onValidationException", e, instance);
                   else {
@@ -287,8 +290,6 @@ export class Field extends PureContainer {
             data.error = result;
          }
       }
-
-      if (!data.error && state.inputError && !empty) data.error = state.inputError;
    }
 
    renderLabel(context, instance, key) {
