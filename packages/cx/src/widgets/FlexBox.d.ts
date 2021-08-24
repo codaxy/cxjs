@@ -54,7 +54,7 @@ interface FlexBoxProps extends Cx.StyledContainerProps {
 
    wrap?: boolean,
    align?: 'start' | 'center' | 'end' | 'baseline',
-   justify?: 'start' | 'center' | 'end',
+   justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around' | 'space-evenly',
    target?: string,
 
    /**
