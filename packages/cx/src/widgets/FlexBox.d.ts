@@ -53,8 +53,8 @@ interface FlexBoxProps extends Cx.StyledContainerProps {
    vpadding?: boolean | string,
 
    wrap?: boolean,
-   align?: string,
-   justify?: string,
+   align?: 'start' | 'center' | 'end' | 'baseline',
+   justify?: 'start' | 'center' | 'end',
    target?: string,
 
    /**
