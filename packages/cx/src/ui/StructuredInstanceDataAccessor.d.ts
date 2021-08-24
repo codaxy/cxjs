@@ -3,11 +3,7 @@ import { Instance } from "./Instance";
 export interface StructuredInstanceDataAccessorConfig {
    data: Cx.StructuredProp;
    instance: Instance;
-}
-
-export interface StructuredInstanceDataAccessorConfig {
-   data: Cx.Config;
-   instance: Instance;
+   useParentStore: boolean;
 }
 
 export class StructuredInstanceDataAccessor {

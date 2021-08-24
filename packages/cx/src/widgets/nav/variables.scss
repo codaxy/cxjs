@@ -1,9 +1,14 @@
-
 // COVER
 $cx-default-cover-border-color: $cx-default-border-color !default;
 $cx-default-cover-background-color: white !default;
 
 $cx-default-scroller-button-size: 20px !default;
+
+$cx-link-state-style-map: (
+   active: (
+      font-weight: bold,
+   ),
+) !default;
 
 //MENU
 @import "Menu.variables";
@@ -11,8 +16,10 @@ $cx-default-scroller-button-size: 20px !default;
 // TAB
 @import "Tab.variables";
 
-
-$cx-dependencies: map-merge($cx-dependencies, (
-   "cx/widgets/HScroller": "cx/widgets/Scroller",
-   "cx/widgets/VScroller": "cx/widgets/Scroller"
-));
+$cx-dependencies: map-merge(
+   $cx-dependencies,
+   (
+      "cx/widgets/HScroller": "cx/widgets/Scroller",
+      "cx/widgets/VScroller": "cx/widgets/Scroller",
+   )
+);

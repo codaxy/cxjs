@@ -18,6 +18,7 @@ export class Legend extends HtmlElement {
    isValidHtmlAttribute(attrName) {
       switch (attrName) {
          case "shapeSize":
+         case "svgSize":
             return false;
 
          default:
@@ -120,7 +121,8 @@ Widget.alias("legend", Legend);
 
 Legend.Scope = class extends PureContainer {
    explore(context, instance) {
-      context.push("legends", (instance.legends = {}));
+      context.push("legends", (instance.legends = {
+      }));
       super.explore(context, instance);
    }
 

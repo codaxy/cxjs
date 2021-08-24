@@ -1,20 +1,12 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
-let execSync = require('child_process').execSync,
-   create = require('cx-cli/commands').create;
+const { createNewApp } = require("cx-cli/commands");
 
-let useYarn = true;
-try {
-   execSync('yarnpkg --version', { stdio: 'ignore' });
-} catch (e) {
-   useYarn = false;
-}
-
-let projectName = process.argv[2];
+const projectName = process.argv[2];
 
 if (!projectName) {
-   console.error('Please specify project name.');
+   console.error('Please specify the project name.');
    process.exit(-1);
 }
 
-create(projectName, useYarn);
+createNewApp(projectName);

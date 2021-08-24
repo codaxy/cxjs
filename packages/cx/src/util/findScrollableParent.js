@@ -1,7 +1,8 @@
-import {closest} from './DOM';
+import { closest } from './DOM';
 
 export function findScrollableParent(sourceEl, horizontal = false) {
-   let scrollParent = sourceEl && closest(sourceEl, el => {
+   if (!sourceEl) return null;
+   let scrollParent = closest(sourceEl, el => {
       if (el.nodeType != Node.ELEMENT_NODE)
          return false;
       if (!horizontal && el.clientHeight >= el.scrollHeight)

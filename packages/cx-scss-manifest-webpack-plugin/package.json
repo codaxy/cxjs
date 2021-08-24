@@ -5,13 +5,13 @@
   "main": "src/index.js",
   "scripts": {},
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/codaxy/cxjs"
   },
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
-    "cx": "^17.5.4"
+    "cx": "*"
   },
   "repository": {
     "type": "git",

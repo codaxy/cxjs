@@ -32,7 +32,7 @@ describe("getSearchQueryHighlighter", function () {
       assert.deepStrictEqual(items, ["", "Jo", "hn ", "Smi", "th"]);
    });
 
-   it.only("detects search parts occuring multiple times", function () {
+   it("detects search parts occuring multiple times", function () {
       var m = getSearchQueryHighlighter("O");
       let items = m("Option 1");
       assert.deepStrictEqual(items, ["", "O", "pti", "o", "n 1"]);

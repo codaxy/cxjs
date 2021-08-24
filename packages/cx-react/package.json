@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {},
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "homepage": "https://github.com/codaxy/cxjs",
   "peerDependencies": {
-    "react": ">= ^16.0.0",
-    "react-dom": ">= ^16.0.0"
+    "react": "*",
+    "react-dom": "*"
   }
 }

@@ -41,7 +41,6 @@ let addRoutes = (path, pages, routes) => {
                                     Report
                                 </a>
                                 <EditOnGitX url={path + name} />
-                                <DocSearch />
                             </div>
                             {/*<CSSTransitionGroup transitionName="transition" transitionAppear transitionLeave firstChild>*/}
                             {pages[name]}

@@ -4,7 +4,6 @@ import { findFirst, isFocusable, getFocusedElement } from "../../util/DOM";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { Localization } from "../../ui/Localization";
-import { SubscriberList } from "../../util/SubscriberList";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
 
@@ -20,6 +19,8 @@ export class Dropdown extends Overlay {
          this.trackMouseX = true;
          this.trackMouseY = true;
       }
+      if (this.autoFocus && !this.hasOwnProperty(this.focusable))
+         this.focusable = true;
       super.init();
    }
 
@@ -30,20 +31,19 @@ export class Dropdown extends Overlay {
    }
 
    initInstance(context, instance) {
-      instance.positionChangeSubcribers = new SubscriberList();
       instance.mousePosition = this.mousePosition;
+      instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
       super.initInstance(context, instance);
    }
 
    explore(context, instance) {
-      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
       context.push("lastDropdown", instance);
       super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {
-      context.pop("parentPositionChangeEvent");
       context.pop("lastDropdown");
+      super.exploreCleanup(context, instance);
    }
 
    overlayDidMount(instance, component) {
@@ -51,7 +51,7 @@ export class Dropdown extends Overlay {
       var scrollableParents = (component.scrollableParents = [window]);
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
 
-      var el = this.relatedElement.parentElement;
+      var el = instance.relatedElement.parentElement;
       while (el) {
          scrollableParents.push(el);
          el = el.parentElement;
@@ -66,8 +66,8 @@ export class Dropdown extends Overlay {
       if (this.pipeValidateDropdownPosition)
          instance.invoke("pipeValidateDropdownPosition", component.updateDropdownPosition, instance);
 
-      if (this.parentPositionChangeEvent)
-         component.offParentPositionChange = this.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
+      if (instance.parentPositionChangeEvent)
+         component.offParentPositionChange = instance.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
    }
 
    overlayDidUpdate(instance, component) {
@@ -94,8 +94,8 @@ export class Dropdown extends Overlay {
 
    updateDropdownPosition(instance, component) {
       var { el } = component;
-      var { data } = instance;
-      var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(this.relatedElement));
+      var { data, relatedElement } = instance;
+      var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(relatedElement));
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
       if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0)
@@ -131,92 +131,85 @@ export class Dropdown extends Overlay {
 
       var style = {};
       if (this.matchWidth) style.minWidth = `${parentBounds.right - parentBounds.left}px`;
+      if (this.matchMaxWidth) style.maxWidth = `${parentBounds.right - parentBounds.left}px`;
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
-
       var placement = this.findOptimalPlacement(contentSize, parentBounds, data.placement, component.lastPlacement);
 
-      switch (this.positioning) {
-         case "absolute":
-            this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
-            break;
-
-         case "auto":
-            if (isTouchDevice())
-               this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
-            else this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
-            break;
-
-         default:
-            this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el);
-            break;
-      }
-
+      this.applyPositioningPlacementStyles(style, placement, contentSize, parentBounds, el, false);
       component.setCustomStyle(style);
       this.setDirectionClass(component, placement);
 
-      if (this.onDropdownPositionDidUpdate) instance.invoke("onDropdownPositionDidUpdate", instance, component);
+      if (this.constrain) {
+         //recheck content size for changes as sometimes when auto is used the size can change
+         let newContentSize = this.measureNaturalDropdownSize(instance, component);
+         if (newContentSize.width != contentSize.width || newContentSize.height != contentSize.height) {
+            let newStyle = {};
+            this.applyPositioningPlacementStyles(newStyle, placement, newContentSize, parentBounds, el, true);
+            component.setCustomStyle(newStyle);
+         }
+      }
+
+      let params = {
+         style, placement, parentBounds
+      };
+
+      if (this.onDropdownPositionDidUpdate) instance.invoke("onDropdownPositionDidUpdate", params, instance, component);
 
       instance.positionChangeSubcribers.notify();
    }
 
-   applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el) {
+   applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
       let viewport = getViewportRect(this.screenPadding);
-      let pad = `${this.screenPadding}px`;
-
       style.position = "fixed";
+
+      if (placement.startsWith("down")) {
+         style.top = `${(this.cover ? rel.top : rel.bottom) + this.offset}px`;
+         let bottom = viewport.bottom - (rel.bottom + this.offset + contentSize.height);
+         style.bottom =
+            this.constrain && (noAuto || bottom < this.screenPadding + 10)
+               ? Math.max(this.screenPadding, bottom) + "px"
+               : "auto";
+      } else if (placement.startsWith("up")) {
+         let top = rel.top - this.offset - contentSize.height - viewport.top;
+         style.top =
+            this.constrain && (noAuto || top < this.screenPadding + 10)
+               ? Math.max(this.screenPadding, top) + "px"
+               : "auto";
+         style.bottom =
+            document.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset + "px";
+      }
 
       switch (placement) {
          case "down":
          case "down-center":
-            style.top = `${(this.cover ? rel.top : rel.bottom) + this.offset}px`;
             style.right = "auto";
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom ? pad : "auto";
             style.left = `${Math.round((rel.left + rel.right - el.offsetWidth) / 2)}px`;
             break;
 
          case "down-right":
-            style.top = `${(this.cover ? rel.top : rel.bottom) + this.offset}px`;
             style.right = "auto";
             style.left = `${rel.left}px`;
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom ? pad : "auto";
             break;
 
          case "down-left":
-            style.top = `${(this.cover ? rel.top : rel.bottom) + this.offset}px`;
             style.right = `${document.documentElement.offsetWidth - rel.right}px`;
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom ? pad : "auto";
             style.left = "auto";
             break;
 
          case "up":
          case "up-center":
-            style.top = this.constrain && rel.top - this.offset - contentSize.height <= viewport.top ? pad : "auto";
             style.right = "auto";
-            style.bottom = `${
-               document.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset
-            }px`;
             style.left = `${Math.round((rel.left + rel.right - el.offsetWidth) / 2)}px`;
             break;
 
          case "up-right":
-            style.top = this.constrain && rel.top - this.offset - contentSize.height <= viewport.top ? pad : "auto";
             style.right = "auto";
-            style.bottom = `${
-               document.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset
-            }px`;
             style.left = `${rel.left}px`;
             break;
 
          case "up-left":
-            style.top = this.constrain && rel.top - this.offset - contentSize.height <= viewport.top ? pad : "auto";
             style.right = `${document.documentElement.offsetWidth - rel.right}px`;
-            style.bottom = `${
-               document.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset
-            }px`;
             style.left = "auto";
             break;
 
@@ -265,8 +258,8 @@ export class Dropdown extends Overlay {
             break;
 
          case "screen-center":
-            var w = Math.min(contentSize.width, document.documentElement.offsetWidth - 2 * this.screenPadding);
-            var h = Math.min(contentSize.height, document.documentElement.offsetHeight - 2 * this.screenPadding);
+            let w = Math.min(contentSize.width, document.documentElement.offsetWidth - 2 * this.screenPadding);
+            let h = Math.min(contentSize.height, document.documentElement.offsetHeight - 2 * this.screenPadding);
             style.top = `${Math.round((document.documentElement.offsetHeight - h) / 2)}px`;
             style.right = `${Math.round((document.documentElement.offsetWidth - w) / 2)}px`;
             style.bottom = `${Math.round((document.documentElement.offsetHeight - h) / 2)}px`;
@@ -275,71 +268,57 @@ export class Dropdown extends Overlay {
       }
    }
 
-   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el) {
+   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
       var viewport = getViewportRect(this.screenPadding);
 
       style.position = "absolute";
 
+      if (placement.startsWith("down")) {
+         style.top = `${rel.bottom - rel.top + this.offset}px`;
+         let room = viewport.bottom - rel.bottom + this.offset;
+         style.bottom =
+            this.constrain && (noAuto || contentSize.height >= room - 10)
+               ? `${-Math.min(room, contentSize.height)}px`
+               : "auto";
+      } else if (placement.startsWith("up")) {
+         let room = rel.top - this.offset - viewport.top;
+         style.top =
+            this.constrain && (noAuto || contentSize.height >= room - 10)
+               ? `${-Math.min(room, contentSize.height)}px`
+               : "auto";
+         style.bottom = `${rel.bottom - rel.top - this.offset}px`;
+      }
+
       switch (placement) {
          case "down":
          case "down-center":
-            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = "auto";
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom
-                  ? `${rel.bottom + this.offset - viewport.bottom}px`
-                  : "auto";
             style.left = `${Math.round((rel.right - rel.left - el.offsetWidth) / 2)}px`;
             break;
 
          case "down-right":
-            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = "auto";
             style.left = `0`;
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom
-                  ? `${rel.bottom + this.offset - viewport.bottom}px`
-                  : "auto";
             break;
 
          case "down-left":
-            style.top = `${rel.bottom - rel.top + this.offset}px`;
             style.right = `0`;
-            style.bottom =
-               this.constrain && rel.bottom + this.offset + contentSize.height >= viewport.bottom
-                  ? `${rel.bottom + this.offset - viewport.bottom}px`
-                  : "auto";
             style.left = "auto";
             break;
 
          case "up":
          case "up-center":
-            style.top =
-               this.constrain && rel.top - this.offset - contentSize.height <= viewport.top
-                  ? `${this.offset - rel.top + viewport.top}px`
-                  : "auto";
             style.right = "auto";
-            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
             style.left = `${Math.round((rel.right - rel.left - el.offsetWidth) / 2)}px`;
             break;
 
          case "up-right":
-            style.top =
-               this.constrain && rel.top - this.offset - contentSize.height <= viewport.top
-                  ? `${this.offset - rel.top + viewport.top}px`
-                  : "auto";
             style.right = "auto";
-            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
             style.left = `0`;
             break;
 
          case "up-left":
-            style.top =
-               this.constrain && rel.top - this.offset - contentSize.height <= viewport.top
-                  ? `${this.offset - rel.top + viewport.top}px`
-                  : "auto";
             style.right = `0`;
-            style.bottom = `${rel.bottom - rel.top - this.offset}px`;
             style.left = "auto";
             break;
 
@@ -385,6 +364,24 @@ export class Dropdown extends Overlay {
             style.right = `${rel.right - rel.left + this.offset}px`;
             style.bottom = `0`;
             style.left = "auto";
+            break;
+      }
+   }
+
+   applyPositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto) {
+      switch (this.positioning) {
+         case "absolute":
+            this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
+            break;
+
+         case "auto":
+            if (isTouchDevice())
+               this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
+            else this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
+            break;
+
+         default:
+            this.applyFixedPositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
             break;
       }
    }
@@ -510,7 +507,7 @@ export class Dropdown extends Overlay {
    handleKeyDown(e, instance) {
       switch (e.keyCode) {
          case 27: //esc
-            var focusable = findFirst(this.relatedElement, isFocusable);
+            var focusable = findFirst(instance.relatedElement, isFocusable);
             if (focusable) focusable.focus();
             e.stopPropagation();
             e.preventDefault();
@@ -537,31 +534,35 @@ export class Dropdown extends Overlay {
       //if relatedElement is not provided, a beacon is rendered to and used to resolve a nearby element as a target
       //if onResolveTarget doesn't provide another element, the beacon itself is used as a target
       let beacon = null;
+      if (this.relatedElement)
+         instance.relatedElement = this.relatedElement;
+
       if (!this.relatedElement || instance.needsBeacon) {
          beacon = (
             <div
                key={`${key}-beacon`}
                className={CSS.element(baseClass, "beacon")}
                ref={(el) => {
-                  if (this.relatedElement) return;
+                  if (instance.relatedElement) return;
                   let target = el;
                   if (this.onResolveRelatedElement) target = instance.invoke("onResolveRelatedElement", el, instance);
                   else target = el.previousElementSibling;
                   if (!target) target = el;
                   if (target == el) instance.needsBeacon = true;
-                  this.relatedElement = target;
+                  instance.relatedElement = target;
                   instance.setState({ dummy: {} });
                }}
             />
          );
       }
-      return [beacon, this.relatedElement && super.render(context, instance, key)];
+      return [beacon, instance.relatedElement && super.render(context, instance, key)];
    }
 }
 
 Dropdown.prototype.offset = 0;
 Dropdown.prototype.baseClass = "dropdown";
 Dropdown.prototype.matchWidth = true;
+Dropdown.prototype.matchMaxWidth = false;
 Dropdown.prototype.placementOrder = "up down right left";
 Dropdown.prototype.placement = null; //default placement
 Dropdown.prototype.constrain = false;

@@ -9,7 +9,9 @@ import { FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch } from "../
 import { isString } from "../util/isString";
 import { isArray } from "../util/isArray";
 import { getAccessor } from "../data/getAccessor";
-import { Container } from "../ui";
+import { batchUpdates } from "../ui/batchUpdates";
+import { Container } from "../ui/Container";
+import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
 
 /*
  - renders list of items
@@ -199,6 +201,7 @@ List.prototype.cached = false;
 List.prototype.styled = true;
 List.prototype.scrollSelectionIntoView = false;
 List.prototype.selectMode = false;
+List.prototype.selectOnTab = false;
 
 Widget.alias("list", List);
 
@@ -231,13 +234,22 @@ class ListComponent extends VDOM.Component {
 
       if (widget.autoFocus) FocusManager.focus(this.el);
 
+      if (widget.onScroll) {
+         this.unsubscribeScroll = addEventListenerWithOptions(this.el, "scroll", event => {
+            instance.invoke("onScroll", event, instance);
+         }, { passive: true });
+      }
+
       this.componentDidUpdate();
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      this.setState({
-         cursor: Math.max(Math.min(this.state.cursor, props.items.length - 1), this.state.focused ? 0 : -1),
-      });
+      if (this.state.focused && props.instance.widget.selectMode)
+         this.showCursor(true, props.items);
+      else if (this.state.cursor >= props.items.length)
+         this.moveCursor(props.items.length - 1);
+      else if (this.state.focused && this.state.cursor < 0)
+         this.moveCursor(0);
    }
 
    componentWillUnmount() {
@@ -255,7 +267,8 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(index, {
          select: true,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          selectRange: e.shiftKey,
       });
@@ -270,7 +283,8 @@ class ListComponent extends VDOM.Component {
       this.moveCursor(index, {
          select: true,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          selectRange: e.shiftKey,
       });
@@ -392,21 +406,23 @@ class ListComponent extends VDOM.Component {
       //ignore mouse enter/leave events (support with a flag if a feature request comes)
       if (!hover) newState.cursor = index;
 
-      if (select || widget.selectMode) {
-         let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
-         if (start < 0) start = index;
-         this.selectRange(start, index, selectOptions);
-         if (!selectRange) newState.selectionStart = index;
-      }
-
-      if (Object.keys(newState).length > 0) {
-         this.setState(newState, () => {
-            if (scrollIntoView) {
-               let item = this.el.children[this.cursorChildIndex[index]];
-               if (item) scrollElementIntoView(item);
-            }
-         });
-      }
+      //batch updates to avoid flickering between selection and cursor changes
+      batchUpdates(() => {
+         if (select || widget.selectMode) {
+            let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+            if (start < 0) start = index;
+            this.selectRange(start, index, selectOptions);
+            if (!selectRange) newState.selectionStart = index;
+         }
+         if (Object.keys(newState).length > 0) {
+            this.setState(newState, () => {
+               if (scrollIntoView) {
+                  let item = this.el.children[this.cursorChildIndex[index]];
+                  if (item) scrollElementIntoView(item);
+               }
+            });
+         }
+      })
    }
 
    selectRange(from, to, options) {
@@ -435,33 +451,35 @@ class ListComponent extends VDOM.Component {
       widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
-   showCursor(focused) {
-      if (this.state.cursor == -1) {
-         let index = -1,
-            firstSelected = -1,
-            firstValid = -1;
-         for (let i = 0; i < this.props.items.length; i++) {
-            let item = this.props.items[i];
-            if (isItemSelectable(item)) {
-               index++;
-               if (firstValid == -1) firstValid = index;
-               if (item.instance.selected) {
-                  firstSelected = index;
-                  break;
-               }
+   showCursor(force, newItems) {
+      if (!force && this.state.cursor >= 0) return;
+
+      let items = newItems || this.props.items;
+      let index = -1,
+         firstSelected = -1,
+         firstValid = -1;
+      for (let i = 0; i < items.length; i++) {
+         let item = items[i];
+         if (isItemSelectable(item)) {
+            index++;
+            if (firstValid == -1) firstValid = index;
+            if (item.instance.selected) {
+               firstSelected = index;
+               break;
             }
          }
-         this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {
-            focused: true,
-         });
       }
+      this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {
+         focusedport: true,
+      });
    }
 
    onFocus() {
-      FocusManager.nudge();
-      this.showCursor(true);
-
       let { widget } = this.props.instance;
+
+      FocusManager.nudge();
+      this.showCursor(widget.selectMode);
+
       if (!widget.focused)
          oneFocusOut(this, this.el, () => {
             this.moveCursor(-1, { focused: false });
@@ -488,13 +506,16 @@ class ListComponent extends VDOM.Component {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return;
 
       switch (e.keyCode) {
+         case KeyCode.tab:
          case KeyCode.enter:
+            if (!widget.selectOnTab && e.keyCode == KeyCode.tab) break;
             let item = items[this.cursorChildIndex[this.state.cursor]];
             if (item && widget.onItemClick && instance.invoke("onItemClick", e, item.instance) === false) return;
             this.moveCursor(this.state.cursor, {
                select: true,
                selectOptions: {
-                  toggle: e.ctrlKey,
+                  toggle: e.ctrlKey && !e.shiftKey,
+                  add: e.ctrlKey && e.shiftKey
                },
                selectRange: e.shiftKey,
             });
@@ -508,7 +529,7 @@ class ListComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                e.stopPropagation();
                e.preventDefault();
@@ -524,7 +545,7 @@ class ListComponent extends VDOM.Component {
                   focused: true,
                   scrollIntoView: true,
                   select: e.shiftKey,
-                  selectRange: true,
+                  selectRange: e.shiftKey,
                });
                e.stopPropagation();
                e.preventDefault();

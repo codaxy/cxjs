@@ -1,52 +1,53 @@
 @import "../misc/index";
 
 $cx-theme-primary-color: $master-brand-highlight-color;
+$cx-link-state-style-map: ();
 
 @import "~cx-theme-aquamarine/src/variables";
 @import "~cx-theme-aquamarine/src/index";
 
 html {
-    height: 100%;
+   height: 100%;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: "Open Sans", sans-serif;
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: "Open Sans", sans-serif;
 }
 
 .anchor {
-    visibility: hidden;
-    display: block;
-    position: relative;
-    top: -100px;
+   visibility: hidden;
+   display: block;
+   position: relative;
+   top: -100px;
 }
 
 #app {
 }
 
 .transition-appear {
-    opacity: 0.1;
-    transition: opacity 0.2s ease-in;
+   opacity: 0.1;
+   transition: opacity 0.2s ease-in;
 }
 
 .transition-appear-active {
-    opacity: 1;
+   opacity: 1;
 }
 
 .flex-column {
-    display: flex;
-    flex-direction: column;
+   display: flex;
+   flex-direction: column;
 }
 
 .flex-row {
-    display: flex;
-    flex-direction: row;
+   display: flex;
+   flex-direction: row;
 }
 
 .flex-start {
-    align-items: flex-start !important;
+   align-items: flex-start !important;
 }
 
 @import "app/index";
@@ -54,5 +55,5 @@ body {
 @import "components/index";
 
 a {
-    color: #b93e8b;
+   color: #b93e8b;
 }

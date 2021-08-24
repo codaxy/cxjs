@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Framework for enterprise JavaScript applications",
   "scripts": {
     "start": "webpack-dev-server --config docs/webpack.config.js --open",
@@ -35,7 +35,7 @@
     "UI"
   ],
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/codaxy/cxjs/issues"
   },
@@ -49,7 +49,6 @@
     "benchmark",
     "fiddle"
   ],
-  "dependencies": {},
   "jest": {
     "transform": {
       "^.+\\.js$": "./test/jest.transform.js"
@@ -58,8 +57,21 @@
       "node_modules/(?!cx|cx-react)"
     ]
   },
+  "dependencies": {
+    "@types/react": "^16.0.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
   "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-transform-react-jsx": "^7.12.17",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/register": "^7.13.0",
     "env-test": "^1.0.0",
+    "mocha": "^8.3.0",
     "prettier": "^2.0.5"
+  },
+  "resolutions": {
+    "@babel/helper-define-polyfill-provider": "^0.1.5"
   }
 }

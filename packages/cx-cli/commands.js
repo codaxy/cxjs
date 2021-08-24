@@ -1,141 +1,34 @@
-#! /usr/bin/env node
-let
+const
    path = require('path'),
    fs = require('fs'),
-   spawn = require('cross-spawn'),
    copydir = require('copy-dir'),
-   chalk = require('chalk');
-
-let tplPath = path.join(__dirname, './tpl/'),
-   tplPackagePath = path.join(tplPath, 'package.json');
+   request = require('request'),
+   unzip = require('unzipper'),
+   chalk = require("chalk"),
+   cliSelect = require("cli-select");
 
 function getAppPath() {
-   return process.cwd();
-}
-
-function getAppPackagePath() {
-   return path.join(getAppPath(), 'package.json')
-}
-
-function validateAppPackage() {
-   if (!fs.existsSync(getAppPackagePath())) {
-      console.warn('package.json could not be found in the current directory.');
-      return false;
+   let at = process.cwd();
+   let cnt = 0;
+   do {
+      if (fs.existsSync(path.join(at, 'package.json'))) return at;
+      if (++cnt == 20 || at.lastIndexOf(path.sep) <= 0)
+         throw new Error("Could not find package.json in any of the parent folders.");
+      at = path.resolve(at, "..");
+      cnt++;
    }
-   return true;
-}
-
-function install(useYarn) {
-   if (!validateAppPackage())
-      return;
-
-   console.log('Installing necessary packages using ' + (useYarn ? 'yarn' : 'npm') + '.');
-   let appPkgPath = getAppPackagePath();
-
-   let appPkg = require(appPkgPath);
-   let tplPkg = require(tplPackagePath);
-
-   if (tplPkg.scripts) {
-      if (!appPkg.scripts)
-         appPkg.scripts = {};
-
-      for (let name in tplPkg.scripts) {
-         if (appPkg.scripts[name]) {
-            console.warn('Script ' + name + ' skipped as it is already in package.json.');
-         } else {
-            appPkg.scripts[name] = tplPkg.scripts[name];
-         }
-      }
-   }
-
-   if (tplPkg.dependencies) {
-      if (!appPkg.dependencies)
-         appPkg.dependencies = {};
-
-      for (let name in tplPkg.dependencies) {
-         if (appPkg.dependencies[name]) {
-            console.warn('Dependency ' + name + ' skipped as it is already in package.json.');
-         } else {
-            appPkg.dependencies[name] = tplPkg.dependencies[name];
-         }
-      }
-   }
-
-   if (tplPkg.devDependencies) {
-      if (!appPkg.devDependencies)
-         appPkg.devDependencies = {};
-
-      for (let name in tplPkg.devDependencies) {
-         if (appPkg.devDependencies[name]) {
-            console.warn('Dev-dependency ' + name + ' skipped as it is already in package.json.');
-         } else {
-            appPkg.devDependencies[name] = tplPkg.devDependencies[name];
-         }
-      }
-   }
-
-   fs.writeFileSync(appPkgPath, JSON.stringify(appPkg, null, 2));
-
-   console.log('Scripts and dependencies added to package.json! Installing...');
-
-   if (useYarn) {
-      return spawn.sync('yarn', [], {stdio: 'inherit'});
-   } else {
-      return spawn.sync('npm', ['install'], {stdio: 'inherit'});
-   }
-}
-
-function scaffold(useYarn) {
-   let appPath = getAppPath();
-   let files = fs.readdirSync(appPath);
-   let test = ["index.js", "index.html", "index.scss"];
-   for (let i = 0; i < test.length; i++) {
-      if (files.indexOf(test[i]) != -1) {
-         console.error('App files detected. Aborting to prevent overwrites...');
-         return -1;
-      }
-   }
-
-   let err = copydir.sync(tplPath, appPath, function (stat, filepath, filename) {
-      //skip package.json and _template folder
-      if (filepath.indexOf('_template') != -1 || filename == 'package.json')
-         return false;
-      return true;
-   });
-
-   if (err) {
-      console.error('Copy error.', err);
-      return -1;
-   }
-
-   return install(useYarn);
-}
-
-function create(projectName, useYarn) {
-   let root = path.resolve(projectName);
-
-   // check if project directory already exists
-   if (fs.existsSync(root)) {
-      console.error("Folder '" + chalk.green(root) + "' already exists. Aborting to prevent overwrites...");
-      console.log();
-      return;
-   }
-
-   fs.mkdirSync(projectName);
-   process.chdir(root);
-
-   // init package.json
-   spawn.sync('npm', ['init', '-y'], {stdio: 'inherit'});
-   return scaffold(useYarn);
+   while (true);
 }
 
 function addRoute(routeName) {
    let appPath = getAppPath();
    let newRoute = routeName.split('/');
-   let tplDir = path.join(tplPath, './app/routes/_template');
+   let tplDir = path.join(__dirname, './tpl/', 'route');
 
    // initial route parent folder
    let parentDir = path.join(appPath, './app/routes/');
+   if (!fs.existsSync(parentDir))
+      throw new Error("Could not find the app/routes folder.");
 
    // loop through newRoute sub dirs array
    // for each sub, check if it exists and create it if it doesn't
@@ -163,9 +56,101 @@ function addRoute(routeName) {
    }, parentDir);
 }
 
+function downloadAndExtractZip(url, extractPath, srcFolder) {
+
+   if (fs.existsSync(extractPath))
+      throw new Error(`The folder ${extractPath} already exists.`);
+
+   var appName = extractPath.match(/([^\/]*)\/*$/)[1];
+   let extractFolder = extractPath;
+   if (srcFolder) {
+      extractFolder = extractFolder.substring(0, extractPath.length - appName.length - 1);
+   }
+
+   return new Promise((resolve, reject) => {
+      request
+         .get(url)
+         .pipe(unzip.Extract({
+            path: extractFolder
+         }))
+         .on('close', function () {
+            if (srcFolder) {
+               fs.renameSync(
+                  path.join(extractFolder, srcFolder),
+                  path.join(extractFolder, appName)
+               );
+            }
+            resolve();
+         })
+         .on('error', function (error) {
+            reject(error);
+         });
+   })
+}
+
+function getTemplates() {
+   return new Promise((resolve, reject) => {
+      request.get(
+         {
+            url: 'https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx-cli/app-templates.json',
+            json: true
+         },
+         function (e, r, data) {
+            if (e) reject(e); else resolve(data);
+         }
+      )
+   });
+}
+
+async function pickAppTemplate() {
+   let values = {};
+   let templates;
+   try {
+      templates = await getTemplates();
+   }
+   catch (err) {
+      console.log("Failed to retrieve the list of app templates.", err);
+      process.exit(-1);
+   }
+
+   for (let t of templates)
+      values[t.url] = t.name;
+
+   console.log("Please select the desired application template:");
+
+   let option = await cliSelect({
+      values,
+      defaultValue: 0,
+      valueRenderer: (value, selected) => (selected ? chalk.yellow(value) : value),
+   });
+
+   return templates.find(t => t.url == option.id);;
+}
+
+
+async function createNewApp(projectName) {
+   if (!projectName) {
+      console.error("Please specify the project directory:");
+      console.log(
+         `  ${chalk.cyan(useYarn ? "yarn create cx-app" : "create-cx-app")} ${chalk.green("<project-directory>")}`
+      );
+      console.log();
+      return;
+   }
+   let template = await pickAppTemplate();
+   console.log(`Downloading ${template.name} template into the application folder ${projectName}.`);
+   try {
+      await downloadAndExtractZip(template.url, projectName, template.srcFolder);
+   }
+   catch (err) {
+      console.log("Failed to download and extract the template.", err);
+      return;
+   }
+   console.log(`The application has been succesfully set up in the folder ${projectName}. You should now go into the folder and install NPM packages.`);
+}
+
+
 module.exports = {
-   scaffold: scaffold,
-   install: install,
-   create: create,
-   addRoute: addRoute
+   addRoute,
+   createNewApp
 };

@@ -619,6 +619,21 @@
       background: rgba($cx-default-grid-border-color, 0.15);
       box-sizing: border-box;
    }
+
+   .#{$element}#{$name}-col-header-drag-clone {
+      border: 1px solid $cx-default-grid-border-color;
+      padding: cx-get-state-rule($data-state-style-map, default, padding);
+      @include cx-add-state-rules($header-state-style-map, default);
+      box-sizing: border-box;
+      font-size: $cx-default-grid-font-size;
+   }
+
+   .#{$element}#{$name}-col-insertion-marker {
+      border: 1px solid black;
+      position: absolute;
+      top: 0;
+      height: calc(100% - 1px);
+   }
 }
 
 @if (cx-should-include("cx/widgets/Grid")) {

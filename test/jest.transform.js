@@ -3,10 +3,10 @@
 
 module.exports = require('babel-jest').createTransformer({
    "presets": [
-      ["@babel/preset-env", {loose: true}]
+      ["@babel/preset-env", { loose: true }]
    ],
    "plugins": [
-      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      ["@babel/transform-react-jsx", { "runtime": "automatic" }],
       [
          "transform-cx-jsx",
          {

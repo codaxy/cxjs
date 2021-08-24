@@ -34,9 +34,17 @@ export class Calendar extends Field {
             minExclusive: undefined,
             maxValue: undefined,
             maxExclusive: undefined,
+            focusable: undefined
          },
          ...arguments
       );
+   }
+
+   init() {
+      if (this.unfocusable)
+         this.focusable = false;
+
+      super.init();
    }
 
    prepareData(context, { data }) {
@@ -119,16 +127,18 @@ export class Calendar extends Field {
    }
 }
 
-Calendar.prototype.baseClass = "calendar";
-Calendar.prototype.highlightToday = true;
-Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
-Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
-Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
-Calendar.prototype.suppressErrorsUntilVisited = false;
-Calendar.prototype.showTodayButton = false;
-Calendar.prototype.todayButtonText = "Today";
+   Calendar.prototype.baseClass = "calendar";
+   Calendar.prototype.highlightToday = true;
+   Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
+   Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+   Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
+   Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+   Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
+   Calendar.prototype.suppressErrorsUntilVisited = false;
+   Calendar.prototype.showTodayButton = false;
+   Calendar.prototype.todayButtonText = "Today";
+   Calendar.prototype.startWithMonday = false;
+   Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -361,7 +371,7 @@ export class CalendarCmp extends VDOM.Component {
 
    render() {
       let { data, widget } = this.props.instance;
-      let { CSS, baseClass, disabledDaysOfWeek } = widget;
+      let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = widget;
 
       let refDate = this.state.refDate;
 
@@ -369,7 +379,7 @@ export class CalendarCmp extends VDOM.Component {
       let year = refDate.getFullYear();
 
       let startDate = new Date(year, month, 1);
-      startDate.setDate(1 - startDate.getDay());
+      startDate.setDate(1 - startDate.getDay() + (startWithMonday ? 1 : 0));
 
       let weeks = [];
       let date = startDate;
@@ -414,13 +424,20 @@ export class CalendarCmp extends VDOM.Component {
       let culture = Culture.getDateTimeCulture();
       let monthNames = culture.getMonthNames("long");
       let dayNames = culture.getWeekdayNames("short").map((x) => x.substr(0, 2));
+      if (startWithMonday) dayNames = [...dayNames.slice(1), dayNames[0]];
 
       return (
          <div
             className={data.classNames}
-            tabIndex={data.disabled ? null : data.tabIndex || 0}
+            tabIndex={data.disabled || !data.focusable ? null : data.tabIndex || 0}
             onKeyDown={(e) => this.handleKeyPress(e)}
-            onMouseDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+               // prevent losing focus from the input field
+               if (!data.focusable) {
+                  e.preventDefault();
+               }
+               e.stopPropagation();
+            }}
             ref={(el) => {
                this.el = el;
             }}

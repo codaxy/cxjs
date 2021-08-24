@@ -106,4 +106,11 @@ export default {
             Lists in this mode perform selection automatically without offering cursor navigation.
         </Md></cx>
     },
+
+    selectOnTab: {
+        type: 'boolean',
+        description: <cx><Md>
+            If this field is set to `true` pressing the `Tab` key will select the item under cursor.
+        </Md></cx>
+    },
 };

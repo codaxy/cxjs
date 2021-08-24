@@ -1,6 +1,12 @@
 import {Md} from '../../../components/Md';
 
 export default {
+    accept: {
+        type: 'string',
+        description: <cx><Md>
+            Defines file types that are accepted for upload.
+        </Md></cx>
+    },
     disabled: {
         type: 'boolean',
         description: <cx><Md>

@@ -15,6 +15,7 @@ export class UploadButton extends Field {
             text: undefined,
             url: undefined,
             icon: undefined,
+            accept: undefined
          },
          ...arguments
       );
@@ -85,6 +86,7 @@ class UploadButtonComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "input")}
                   type="file"
                   title=" "
+                  accept={data.accept}
                   multiple={widget.multiple}
                   tabIndex={data.tabIndex}
                   onChange={this.onFileSelected.bind(this)}
@@ -172,6 +174,7 @@ class UploadButtonComponent extends VDOM.Component {
                if (event.lengthComputable) {
                   upload.progress = event.loaded / event.total;
                   this.reportProgress();
+                  if (widget.onUploadProgress) instance.invoke("onUploadProgress", event, instance, file, formData);
                }
             };
 

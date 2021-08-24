@@ -51,7 +51,7 @@ export const FlyweightTooltipTrackerPage = <cx>
             </div>
 
             Links:
-            - [Flyweight_pattern](https://en.wikipedia.org/wiki/Flyweight_pattern)
+            - [Flyweight pattern](https://en.wikipedia.org/wiki/Flyweight_pattern)
 
             <div putInto="code">
                 <CodeSnippet fiddle="">{`

@@ -134,7 +134,8 @@ export class GridRowComponent extends VDOM.Component {
             (e.shiftKey || e.ctrlKey || !widget.selection.isSelected(store, record.data, record.index)),
          selectRange: e.shiftKey,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          cellIndex: this.getCellIndex(e),
       });
@@ -189,7 +190,8 @@ export class GridRowComponent extends VDOM.Component {
             (!e.shiftKey && !e.ctrlKey && widget.selection.isSelected(store, record.data, record.index)),
          selectRange: e.shiftKey,
          selectOptions: {
-            toggle: e.ctrlKey,
+            toggle: e.ctrlKey && !e.shiftKey,
+            add: e.ctrlKey && e.shiftKey
          },
          cellIndex: this.getCellIndex(e),
       });

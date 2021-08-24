@@ -43,17 +43,28 @@ export class Cx extends VDOM.Component {
 
       if (props.onError) this.componentDidCatch = this.componentDidCatchHandler.bind(this);
 
+      this.forceUpdateCallback = this.forceUpdate.bind(this);
+
       this.deferCounter = 0;
       this.waitForIdle();
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      //TODO: Switch to new props
+
+      let newStore = props.instance ? props.instance.store : props.store ? props.store : props.parentInstance.store;
+
+      if (newStore != this.store) {
+         this.store = newStore;
+         if (this.unsubscribe) this.unsubscribe();
+         if (props.subscribe)
+            this.unsubscribe = this.store.subscribe(this.update.bind(this));
+      }
+
       if (props.subscribe) {
          let data = this.store.getData();
          if (data !== this.state.data) {
             this.waitForIdle();
-            this.setState({ data: this.store.getData() });
+            this.setState({ data });
          }
       }
    }
@@ -61,7 +72,10 @@ export class Cx extends VDOM.Component {
    getInstance() {
       if (this.props.instance) return this.props.instance;
 
-      if (this.instance) return this.instance;
+      if (this.instance && this.instance.widget === this.widget) {
+         if (this.instance.store != this.store) this.instance.setStore(this.store);
+         return this.instance;
+      }
 
       if (this.widget && this.parentInstance)
          return (this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store));
@@ -70,7 +84,7 @@ export class Cx extends VDOM.Component {
    }
 
    render() {
-      if (!this.widget || (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter)) return null;
+      if (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter) return null;
 
       return (
          <CxContext
@@ -79,6 +93,7 @@ export class Cx extends VDOM.Component {
             options={this.props.options}
             buster={++this.renderCount}
             contentFactory={this.props.contentFactory}
+            forceUpdate={this.forceUpdateCallback}
          />
       );
    }
@@ -187,6 +202,7 @@ class CxContext extends VDOM.Component {
 
       do {
          context = new RenderingContext(options);
+         context.forceUpdate = this.props.forceUpdate;
          this.props.flags.dirty = false;
          instance.assignedRenderList = context.getRootRenderList();
          visible = instance.scheduleExploreIfVisible(context);

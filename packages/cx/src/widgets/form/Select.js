@@ -162,7 +162,7 @@ class SelectComponent extends VDOM.Component {
                ref={(el) => {
                   this.select = el;
                }}
-               className={CSS.element(baseClass, "select")}
+               className={CSS.expand(CSS.element(baseClass, "select"), data.inputClass)}
                style={data.inputStyle}
                value={data.value == null ? widget.nullString : String(data.value)}
                multiple={multiple}

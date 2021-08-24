@@ -22,7 +22,7 @@ if (module.hot) {
    module.hot.accept();
 
    // remember data on dispose
-   module.hot.dispose(function(data) {
+   module.hot.dispose(function (data) {
       data.state = store.getData();
       if (stop) stop();
    });

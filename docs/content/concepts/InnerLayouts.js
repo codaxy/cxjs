@@ -53,7 +53,7 @@ export const InnerLayouts = <cx>
 
         Inner layouts are set using the `layout` attribute.
 
-        ### Default Layout (No Layout)
+        ## Default Layout (No Layout)
 
         In this layout, no special arrangement on the children is made. Elements are laid out in the same
         order as they are specified.
@@ -85,7 +85,7 @@ export const InnerLayouts = <cx>
 
         This layout does not work very well for form elements.
 
-        ### LabelsLeftLayout
+        ## LabelsLeftLayout
 
         <ImportPath path="import {LabelsLeftLayout} from 'cx/ui';" />
 
@@ -127,7 +127,7 @@ export const InnerLayouts = <cx>
 
         <CodeSplit>
 
-            ### LabelsTopLayout
+            ## LabelsTopLayout
 
             <ImportPath path="import {LabelsTopLayout, LabelsTopLayoutCell} from 'cx/ui';" />
 
@@ -183,7 +183,7 @@ export const InnerLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        #### Vertical Mode
+        ### Vertical Mode
 
         `LabelsTopLayout` can also be used in `vertical` mode where each field takes one row.
 
@@ -214,7 +214,7 @@ export const InnerLayouts = <cx>
             `}</CodeSnippet>
         </CodeSplit>
 
-        #### Multiple Columns
+        ### Multiple Columns
 
         `LabelsTopLayout` can render fields in multiple `columns`.
 
@@ -297,7 +297,7 @@ export const InnerLayouts = <cx>
 
         <CodeSplit>
 
-            ### FirstVisibleChildLayout
+            ## FirstVisibleChildLayout
 
             <ImportPath path="import {FirstVisibleChildLayout} from 'cx/ui';" />
 
@@ -362,7 +362,7 @@ export const InnerLayouts = <cx>
         That happens because the layout stops processing content after the first child is rendered,
         in this case it being the loading message `div`.
 
-        ### UseParentLayout
+        ## UseParentLayout
 
         <ImportPath path="import {UseParentLayout} from 'cx/ui';" />
 

@@ -1,15 +1,18 @@
-import {ArrayAdapter} from './ArrayAdapter';
-import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
-import {Grouper} from '../../data/Grouper';
-import {isArray} from '../../util/isArray';
-import {isDefined} from "../../util/isDefined";
-import {getComparer} from "../../data/comparer";
-import {Culture} from "../Culture";
+import { ArrayAdapter } from './ArrayAdapter';
+import { ReadOnlyDataView } from '../../data/ReadOnlyDataView';
+import { Grouper } from '../../data/Grouper';
+import { isArray } from '../../util/isArray';
+import { isDefined } from "../../util/isDefined";
+import { getComparer } from "../../data/comparer";
+import { Culture } from "../Culture";
 
 export class GroupAdapter extends ArrayAdapter {
 
    init() {
       super.init();
+
+      if (this.groupRecordsAlias)
+         this.groupRecordsName = this.groupRecordsAlias;
 
       if (this.groupings)
          this.groupBy(this.groupings);
@@ -41,7 +44,7 @@ export class GroupAdapter extends ArrayAdapter {
       }
 
       let grouping = this.groupings[level];
-      let {grouper} = grouping;
+      let { grouper } = grouping;
       grouper.reset();
       grouper.processAll(records);
       let results = grouper.getResults();
@@ -52,7 +55,14 @@ export class GroupAdapter extends ArrayAdapter {
 
          keys.push(gr.key);
 
-         let $group = {...gr.key, ...gr.aggregates, $name: gr.name, $level: inverseLevel};
+         let $group = {
+            ...gr.key,
+            ...gr.aggregates,
+            $name: gr.name,
+            $level: inverseLevel,
+            $records: gr.records || []
+         };
+
          let data = {
             [this.recordName]: gr.records.length > 0 ? gr.records[0].data : null,
             [this.groupName]: $group
@@ -103,14 +113,14 @@ export class GroupAdapter extends ArrayAdapter {
             let key = {};
             for (let name in g.key) {
                if (!g.key[name] || !isDefined(g.key[name].direction) || !isDefined(g.key[name].value))
-                  g.key[name] = {value: g.key[name], direction: 'ASC'};
+                  g.key[name] = { value: g.key[name], direction: 'ASC' };
                key[name] = g.key[name].value;
                groupSorters.push({
                   field: name,
                   direction: g.key[name].direction
                });
             }
-            g.grouper = new Grouper(key, {...this.aggregates, ...g.aggregates}, r => r.store.getData(), g.text);
+            g.grouper = new Grouper(key, { ...this.aggregates, ...g.aggregates }, r => r.store.getData(), g.text);
             g.comparer = null;
             if (groupSorters.length > 0)
                g.comparer = getComparer(groupSorters, x => x.key, this.sortOptions ? Culture.getComparer(this.sortOptions) : null);
@@ -120,4 +130,4 @@ export class GroupAdapter extends ArrayAdapter {
    }
 }
 
-GroupAdapter.prototype.groupName = '$group';
+   GroupAdapter.prototype.groupName = '$group';

@@ -1,27 +1,28 @@
 # CxJS
 
-This is the main package of the [CxJS](https://cxjs.io/) framework. 
+This is the main package of the [CxJS](https://cxjs.io/) framework.
 
 Cx is a feature-rich framework for building data-oriented web applications.
 
 Cx is inspired by React and Angular and tries to offer the best features from both worlds.
 Out of the box, Cx provides:
-- a complete set of widgets 
-- charts
-- two-way data-binding options
-- controllers
-- layouts
-- customizable appearance (Sass)
 
-Cx is based on ES6 and JSX and requires `babel-plugin-transform-cx-jsx`. 
+-  a complete set of widgets
+-  charts
+-  two-way data-binding options
+-  controllers
+-  layouts
+-  customizable appearance (Sass)
+
+Cx is based on ES6 and JSX and requires `babel-plugin-transform-cx-jsx`.
 Cx widgets use React to render and update the DOM.
 
 ### Getting Started
 
-- [Examples](https://cxjs.io/examples)
-- [Documentation](https://cxjs.io/docs)
-- [Themes](https://cxjs.io/themes)
-- [Fiddle](https://cxjs.io/fiddle)
+-  [Examples](https://cxjs.io/examples)
+-  [Documentation](https://cxjs.io/docs)
+-  [Themes](https://cxjs.io/themes)
+-  [Fiddle](https://cxjs.io/fiddle)
 
 ## Demo Applications
 
@@ -37,11 +38,9 @@ Cx widgets use React to render and update the DOM.
 
 ### Installation
 
-The easiest way to set up a new Cx project is to use 
+The easiest way to set up a new Cx project is to use
 the [Cx Command Line Interface](https://cxjs.io/v/master/docs/intro/command-line).
 
 ### License
 
-Cx is free for to use for non-commercial purposes.
-Commercial use requires a license.
-Please refer to [our website](https://cxjs.io/pricing) for more information.
+[MIT License](./LICENSE.md)

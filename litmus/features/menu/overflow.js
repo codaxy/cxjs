@@ -15,19 +15,19 @@ export default (
                      <a href="#">Test</a>
                   </Menu>
                </MenuItem>
-               <MenuItem icon="search" text="Item 2" onClick={() => {}} />
-               <MenuItem icon="search" text="Item 3" onClick={() => {}} />
-               <MenuItem icon="search" text="Item 4" onClick={() => {}} />
-               <MenuItem icon="search" text="Item 5" onClick={() => {}} />
-               <MenuItem icon="search" text="Item 6" onClick={() => {}} />
+               <MenuItem icon="search" text="Item 2" onClick={() => { }} />
+               <MenuItem icon="search" text="Item 3" onClick={() => { }} />
+               <MenuItem icon="search" text="Item 4" onClick={() => { }} />
+               <MenuItem icon="search" text="Item 5" onClick={() => { }} />
+               <MenuItem icon="search" text="Item 6" onClick={() => { }} />
                <MenuItem
                   icon="search"
                   text="Item 7"
                   style="border: 1px solid red; margin-left: 1rem"
-                  onClick={() => {}}
+                  onClick={() => { }}
                />
                <MenuSpacer />
-               <MenuItem style="margin-left: auto" onClick={() => {}}>Right</MenuItem>
+               <MenuItem onClick={() => { }}>Right</MenuItem>
             </Menu>
          </div>
          <Resizer size-bind="width" />

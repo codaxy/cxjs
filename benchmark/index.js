@@ -1,19 +1,19 @@
-import {Widget, startHotAppLoop, enableCultureSensitiveFormatting} from 'cx/ui';
-import {HtmlElement, Grid} from 'cx/widgets';
-import {Store} from 'cx/data';
+import { Widget, startHotAppLoop, enableCultureSensitiveFormatting } from 'cx/ui';
+import { HtmlElement, Grid } from 'cx/widgets';
+import { Store } from 'cx/data';
 
 //import './index.scss';
 
 enableCultureSensitiveFormatting();
 
-import suite1 from './grid/100-rows';
+//import suite1 from './grid/100-rows';
 import suite2 from './data/expressions';
-import suite3 from './grid/realtime';
+//import suite3 from './grid/realtime';
 
 let suites = [
-    suite1,
-    suite2,
-    suite3
+   //suite1,
+   suite2,
+   //suite3
 ];
 
 let resultsStore = new Store({
@@ -27,7 +27,7 @@ let stop = startHotAppLoop(module, document.getElementById('app'), resultsStore,
       <h2>Results</h2>
 
       <Grid
-         records:bind="results"
+         records-bind="results"
          columns={[
             { field: 'name', header: 'Test' },
             { field: 'samples', header: 'Samples', align: 'right', format: 'n;0', value: { expr: '{$record.sample.length}' } },
