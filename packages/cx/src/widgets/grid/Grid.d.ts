@@ -108,6 +108,10 @@ interface GridColumnConfig {
    defaultWidth?: Cx.NumberProp;
    width?: Cx.NumberProp;
    resizable?: boolean;
+   comparer?: (a: any, b: any) => number;
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
+   sortOptions?: Cx.CollatorOptions;
 }
 
 interface GridRowLineConfig {
