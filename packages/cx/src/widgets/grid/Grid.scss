@@ -109,6 +109,21 @@
          }
       }
 
+      &.#{$state}border {
+         table {
+            border: 1px solid $cx-default-grid-border-color;
+         }
+      }
+
+      &.#{$state}vlines {
+         td:not(:last-child),
+         th:not(:last-child) {
+            border-right-width: 1px;
+            border-right-style: solid;
+            border-right-color: $cx-default-grid-border-color;
+         }
+      }
+
       &.#{$mod}responsive {
          width: 100%;
 
@@ -393,7 +408,7 @@
       }
    }
 
-   &.#{$element}#{$name}-dropzone {
+   .#{$element}#{$name}-dropzone {
       position: relative;
       padding: 0;
 
@@ -503,21 +518,6 @@
          td {
             border-top: 1px solid grey;
          }
-      }
-   }
-
-   &.#{$state}border {
-      table {
-         border: 1px solid $cx-default-grid-border-color;
-      }
-   }
-
-   &.#{$state}vlines {
-      td:not(:last-child),
-      th:not(:last-child) {
-         border-right-width: 1px;
-         border-right-style: solid;
-         border-right-color: $cx-default-grid-border-color;
       }
    }
 
