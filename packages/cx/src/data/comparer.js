@@ -2,13 +2,13 @@ import { getSelector } from './getSelector'
 import { isDefined } from "../util/isDefined";
 import { defaultCompare } from "./defaultCompare";
 
-export function getComparer(sorters, dataAccessor, compare) {
+export function getComparer(sorters, dataAccessor, comparer) {
    let data = (sorters || []).map(s => {
       let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? x => x[s.field] : () => null;
       return {
          getter: dataAccessor ? x => selector(dataAccessor(x)) : selector,
          factor: s.direction && s.direction[0].toLowerCase() == 'd' ? -1 : 1,
-         compare: s.compare || compare || defaultCompare
+         compare: s.comparer || comparer || defaultCompare
       }
    });
 
