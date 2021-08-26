@@ -1,4 +1,4 @@
-import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content} from 'cx/widgets';
+import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content, Tab} from 'cx/widgets';
 import {Controller, PropertySelection, KeySelection} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, Gridlines, ScatterGraph, NumericAxis} from 'cx/charts';
@@ -36,7 +36,16 @@ export const Selections = <cx>
             be handled and `Cx` offers commonly used methods out of the box.
 
             <Content name="code">
-               <CodeSnippet>{`
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
+                        <code>Controller</code>
+                    </Tab>
+
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" default>
+                        <code>Chart</code>
+                    </Tab>
+                </div>
+               <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
                class PageController extends Controller {
                   init() {
                      super.init();
@@ -50,6 +59,35 @@ export const Selections = <cx>
                      })));
                   }
                }
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="eINrAOlQ">{`
+                <div class="widgets" controller={PageController}>
+                    <Svg style={{ width: "400px", height: "400px" }}>
+                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                            <Rectangle
+                                anchors="0 1 1 0"
+                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
+                            />
+                            <Gridlines />
+                            <ScatterGraph
+                                data:bind="$page.bubbles"
+                                selection={{ type: PropertySelection, multiple: true }}
+                                sizeField="d"
+                                colorIndex={0}
+                            />
+                        </Chart>
+                    </Svg>
+                    <div>
+                        <Repeater records:bind="$page.bubbles">
+                            <div>
+                                <Checkbox
+                                    checked:bind="$record.selected"
+                                    text:bind="$record.name"
+                                />
+                            </div>
+                        </Repeater>
+                    </div>
+                </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -91,38 +129,6 @@ export const Selections = <cx>
                     </Repeater>
                 </div>
             </div>
-
-            <Content name="code">
-                <CodeSnippet fiddle="eINrAOlQ">{`
-                <div class="widgets" controller={PageController}>
-                    <Svg style={{ width: "400px", height: "400px" }}>
-                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                            <Rectangle
-                                anchors="0 1 1 0"
-                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
-                            />
-                            <Gridlines />
-                            <ScatterGraph
-                                data:bind="$page.bubbles"
-                                selection={{ type: PropertySelection, multiple: true }}
-                                sizeField="d"
-                                colorIndex={0}
-                            />
-                        </Chart>
-                    </Svg>
-                    <div>
-                        <Repeater records:bind="$page.bubbles">
-                            <div>
-                                <Checkbox
-                                    checked:bind="$record.selected"
-                                    text:bind="$record.name"
-                                />
-                            </div>
-                        </Repeater>
-                    </div>
-                </div>
-            `}</CodeSnippet>
-            </Content>
         </CodeSplit>
 
         The `Ctrl` key can be used to toggle bubble selection.
