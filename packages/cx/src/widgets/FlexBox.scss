@@ -116,6 +116,18 @@
          justify-content: flex-end;
       }
 
+      &.#{$state}justify-space-between {
+         justify-content: space-between;
+      }
+
+      &.#{$state}justify-space-around {
+         justify-content: space-around;
+      }
+
+      &.#{$state}justify-space-evenly {
+         justify-content: space-evenly;
+      }
+
       &.#{$state}target-phone {
          @media not screen and (min-width: $cx-screen-size-small) {
             display: block;
