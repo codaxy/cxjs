@@ -55,7 +55,7 @@ export const InfiniteScrolling = <cx>
                 })}
             />
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="T9B7s62E">{`
                 <Grid
                     infinite
                     style="height: 800px"
