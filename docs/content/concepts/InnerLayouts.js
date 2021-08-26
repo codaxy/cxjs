@@ -234,7 +234,7 @@ export const InnerLayouts = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
+            <CodeSnippet putInto="code" fiddle="KDv9Bvao">{`
                 <div layout={{type: LabelsTopLayout, columns: 3}}>
                     <TextField label="Field1" value:bind="$page.field1" />
                     <TextField label="Field2" value:bind="$page.field2" />
@@ -272,7 +272,7 @@ export const InnerLayouts = <cx>
                 </LabelsTopLayout>
             </div>
 
-        <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
+        <CodeSnippet putInto="code" fiddle="q6e8DVQV">{`
             <div class="widgets">
                 <LabelsTopLayout columns={2} mod="fixed" style="width: 300px">
                     <TextField label="Field1" value-bind="$page.field1" style="width: 100%"/>
