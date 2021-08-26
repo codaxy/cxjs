@@ -217,7 +217,7 @@ export const DataViews = <cx>
                         </LabelsTopLayout>
                     </DataProxy>
                 </div>
-                <CodeSnippet putInto="code">{`
+                <CodeSnippet putInto="code" fiddle="YwPbwL8u">{`
                     <div class="widgets flex-row">
                         <LabelsTopLayout>
                             <Slider value-bind="level" label="Level" />

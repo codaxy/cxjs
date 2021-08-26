@@ -64,7 +64,7 @@ export const FunctionalComponents = <cx>
                 />
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="EjLrADci">{`
                 //first define a component
                 const LineChart = ({ data, chartStyle, lineStyle }) => <cx>
                     <Svg style={chartStyle}>
