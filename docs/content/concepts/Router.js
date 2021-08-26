@@ -221,7 +221,7 @@ export const Router = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fidget="Vb7zpMzq">{`
                 <Button
                     onClick={(e, {store}) => {
                         History.addNavigateConfirmation(
