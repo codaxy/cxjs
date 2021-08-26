@@ -134,7 +134,7 @@ export const Controllers = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="TDfO9C3g">{`
                 class TabController extends Controller {
                     onInit() {
                         this.store.set('$page.tabOpenTime', 0);
