@@ -7,29 +7,27 @@ import {CodeSnippet} from "../../../components/CodeSnippet";
 
 class PageController extends Controller {
     onInit() {
-        //init grid data
-        if (!this.store.get('$page.records')) {
-            this.store.set(
-                "$page.records",
-                Array
-                    .from({length: 1000})
-                    .map((v, i) => ({
-                        id: i + 1,
-                        fullName: casual.full_name,
-                        continent: casual.continent,
-                        browser: casual.browser,
-                        os: casual.operating_system,
-                        visits: casual.integer(1, 100)
-                    }))
-            );
-        }
+        //init grid data        
+        this.store.init(
+            "$page.records",
+            Array
+                .from({length: 1000})
+                .map((v, i) => ({
+                    id: i + 1,
+                    fullName: casual.full_name,
+                    continent: casual.continent,
+                    browser: casual.browser,
+                    os: casual.operating_system,
+                    visits: casual.integer(1, 100)
+                }))
+        );        
     }
 }
 
 export const CellEditing = (
     <cx>
         <Md controller={PageController}>
-            <CodeSplit>
+            <CodeSplit fiddle="3I266OKV">
                 # Cell Editing
 
                 To setup cell editing set the `cellEditable` flag on the grid
