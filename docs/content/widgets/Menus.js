@@ -95,7 +95,43 @@ export const Menus = <cx>
                         </Menu>
                     </Submenu>
                     <MenuSpacer />
-                    <MenuItem text="Right" onClick={() => {}} />
+                    <Submenu keyboardShortcut={KeyCode.esc}>
+                        Right
+                        <Menu putInto="dropdown" icons>
+                            <MenuItem
+                                autoClose
+                                text="Action"
+                                onClick={() => { alert('Action')}}
+                            />
+                            <MenuItem icon="search" autoClose>
+                                <a href="#">Link</a>
+                            </MenuItem>
+                            <MenuItem icon="search" disabled onClick={() => { alert('Disabled')}}>
+                                Disabled
+                            </MenuItem>
+                            <MenuItem checked={{bind: '$page.checked', defaultValue: true}}>
+                                Checkbox
+                            </MenuItem>
+                            <hr/>
+                            <MenuItem hideCursor>
+                                <TextField value:bind="$page.text" mod="menu"/>
+                            </MenuItem>
+                            <Submenu arrow icon="calendar" placement="top">
+                                Submenu
+                                <Menu putInto="dropdown">
+                                    <a href="#">Item 1</a>
+                                    <a href="#">Item 2</a>
+                                </Menu>
+                            </Submenu>
+                            <Submenu checked={{bind: '$page.checked', defaultValue: true}} arrow>
+                                Submenu + Check
+                                <Menu putInto="dropdown">
+                                    <a href="#">Item 1</a>
+                                    <a href="#">Item 2</a>
+                                </Menu>
+                            </Submenu>
+                        </Menu>
+                    </Submenu>
                 </Menu>
             </div>
 
