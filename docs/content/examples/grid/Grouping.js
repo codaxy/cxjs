@@ -1,4 +1,4 @@
-import {HtmlElement, Grid, LookupField} from 'cx/widgets';
+import {HtmlElement, Grid, LookupField, Tab} from 'cx/widgets';
 import {Content, Controller} from 'cx/ui';
 import {Format} from 'cx/util';
 import {Md} from '../../../components/Md';
@@ -86,8 +86,16 @@ export const Grouping = <cx>
                     format: 'n;0'
                 }]}
             />
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default>
+                        <code>Controller</code>
+                    </Tab>
 
-            <CodeSnippet putInto="code" fiddle="0Ztcob5B">{`
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code">
+                        <code>Grid</code>
+                    </Tab>
+                </div>
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" putInto="code" fiddle="0Ztcob5B">{`
 
             class PageController extends Controller {
                onInit() {
@@ -102,9 +110,8 @@ export const Grouping = <cx>
                   })));
                }
             }
-
-            ...
-
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" putInto="code" fiddle="0Ztcob5B">{`
             <Grid
                 records-bind='$page.records'
                 scrollable
