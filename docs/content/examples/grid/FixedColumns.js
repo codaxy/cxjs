@@ -1,4 +1,4 @@
-import { HtmlElement, Checkbox, Grid, TextField } from "cx/widgets";
+import { HtmlElement, Checkbox, Grid, TextField, Content, Tab } from "cx/widgets";
 import { Controller, KeySelection } from "cx/ui";
 import { Md } from "../../../components/Md";
 import { CodeSplit } from "../../../components/CodeSplit";
@@ -29,7 +29,8 @@ export const FixedColumns = (
             <CodeSplit>
                 The `Grid` widget supports fixing columns to the left hand side
                 for grids which have many columns. Simply, set `fixed: true` on
-                the column and it will appear on the left. > The grid with fixed
+                the column and it will appear on the left. 
+                > The grid with fixed
                 columns does not support grouping.
                 <Grid
                     records-bind="$page.records"
@@ -151,7 +152,17 @@ export const FixedColumns = (
                         }
                     ]}
                 />
-                <CodeSnippet putInto="code">{`
+                <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default>
+                        <code>Controller</code>
+                    </Tab>
+
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code">
+                        <code>Grid</code>
+                    </Tab>
+                </div>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'">{`
                 class PageController extends Controller {
                     onInit() {
                         this.store.init(
@@ -169,7 +180,8 @@ export const FixedColumns = (
                         );
                     }
                 }
-                ...
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'">{`
                 <Grid
                     records-bind="$page.records"
                     scrollable
@@ -291,6 +303,7 @@ export const FixedColumns = (
                     ]}
                 />
                 `}</CodeSnippet>
+                </Content>
             </CodeSplit>
         </Md>
     </cx>
