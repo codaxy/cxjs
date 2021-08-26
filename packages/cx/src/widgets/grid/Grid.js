@@ -717,10 +717,11 @@ export class Grid extends Widget {
 
    onHeaderMouseMove(e, column, columnInstance, gridInstance, headerLine) {
       let { baseClass, CSS } = gridInstance.widget;
+      if (columnInstance.data.fixed) return;
       let headerInstance = columnInstance.components[`header${headerLine + 1}`];
       if (!headerInstance) return;
       let { store, data } = headerInstance;
-      if (data.draggable && ddDetect(e) && e.buttons == 1) {
+      if (data.draggable && !data.fixed && ddDetect(e) && e.buttons == 1) {
          initiateDragDrop(
             e,
             {
@@ -1873,9 +1874,12 @@ class GridComponent extends VDOM.Component {
       if (bounds) positions.push(bounds.right);
       let index = 0;
       while (index + 1 < positions.length && ev.cursor.clientX > positions[index + 1]) index++;
+
+      let { fixedColumnCount } = this.props.instance;
+
       this.setState({
-         colDropInsertionIndex: index,
-         colDropInsertionLeft: positions[index] - positions[0] - this.dom.scroller.scrollLeft,
+         colDropInsertionIndex: fixedColumnCount + index,
+         colDropInsertionLeft: positions[index] - positions[0] - this.dom.scroller.scrollLeft + this.dom.scroller.offsetLeft,
          dropTarget: "column",
       });
    }

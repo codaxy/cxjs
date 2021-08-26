@@ -14,6 +14,7 @@ let allColumns = [
       type: "date",
       defaultWidth: 100,
       draggable: true,
+      fixed: true
    },
    {
       key: "fullName",
@@ -22,7 +23,7 @@ let allColumns = [
       sortable: true,
       resizable: true,
       defaultWidth: 200,
-      draggable: true,
+      draggable: true
    },
    {
       key: "continent",

@@ -1,5 +1,5 @@
 @mixin cx-window(
-   $name: 'window',
+   $name: "window",
    $state-style-map: $cx-window-state-style-map,
    $header-state-style-map: $cx-window-header-state-style-map,
    $body-state-style-map: $cx-window-body-state-style-map,
@@ -86,7 +86,7 @@
    }
 
    @each $modname, $config in $mods {
-      &.#{$mod}#{$modname} {
+      .#{$block}#{$name}.#{$mod}#{$modname} {
          @include cx-add-state-rules($config, frame);
 
          .#{$element}#{$name}-body {
@@ -107,7 +107,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Window')) {
+@if (cx-should-include("cx/widgets/Window")) {
    @include cx-window();
 }
-

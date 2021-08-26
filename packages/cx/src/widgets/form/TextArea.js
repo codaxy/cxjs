@@ -99,6 +99,7 @@ class Input extends VDOM.Component {
                }}
                onFocus={(e) => this.onFocus()}
                onClick={stopPropagation}
+               onKeyDown={(e) => this.onKeyDown(e)}
                onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
                onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
             />
@@ -126,10 +127,8 @@ class Input extends VDOM.Component {
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
-         case KeyCode.enter:
-            this.onChange(e, "enter");
-            break;
-
+         case KeyCode.down:
+         case KeyCode.up:
          case KeyCode.left:
          case KeyCode.right:
             e.stopPropagation();
