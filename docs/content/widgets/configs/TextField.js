@@ -41,7 +41,7 @@ export default {
         </Md></cx>
     },
     validationErrorText: {
-        type: 'RegExp',
+        type: 'string',
         description: <cx><Md>
             Message to be shown to the user if validation fails.
         </Md></cx>

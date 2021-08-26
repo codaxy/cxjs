@@ -126,7 +126,7 @@ export const ColumnResizing = <cx>
                     }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle="1q59A8u3">{`                
+                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle="DaBDyiCf">{`                
                     <Grid
                         records-bind="$page.records"        
                         columns={[
