@@ -102,7 +102,7 @@ export const ColumnResizing = <cx>
                     </Tab>
                 </div>
 
-                <CodeSnippet visible:expr="{$page.code.tab}=='controller'" fiddle="1q59A8u3">{`
+                <CodeSnippet visible:expr="{$page.code.tab}=='controller'" fiddle="DaBDyiCf">{`
                 class PageController extends Controller {
                     onInit() {
                         //init grid data
