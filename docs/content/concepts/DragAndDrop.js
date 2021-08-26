@@ -83,7 +83,7 @@ export const DragAndDrop = <cx>
                 </DropZone>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="n2jBS1zV">{`
                 <DragSource
                     style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
                     data={{text: 'B1', type: 'b1'}}
@@ -207,7 +207,7 @@ export const DragAndDrop = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="UOWooZeW">{`
                 <DropZone
                     mod="inline-block"
                     onDropTest={({source}) => source.data.type == 'hbox'}
