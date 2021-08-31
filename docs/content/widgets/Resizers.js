@@ -1,4 +1,4 @@
-import { Resizer } from 'cx/widgets';
+import { Content, Resizer, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -40,27 +40,32 @@ export const Resizers = <cx>
                     }}/>
                 </div>
             </div>
-            <CodeSnippet putInto="code">{`
-                <div class="widgets">
-                    <div style="width: 300px; height: 100px; display: flex;">
-                        <div style={{
-                            border: "1px solid gray",
-                            background: "lightgray",
-                            width: {expr: "{width} || '150px'"},
-                            boxSizing: "border-box",
-                            padding: 5
-                        }}>
-                            <span text-expr="{width} ? 'Width: ' + {width} + 'px' : 'Width: not set'" style="font-size: 11px;"/>
-                        </div>
-                        <Resizer size-bind="width" minSize={50} maxSize={250} />
-                        <div style={{
-                            border: "1px solid gray",
-                            background: "lightgray",
-                            flex: '1 1 0'
-                        }}/>
-                    </div>
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="resized" mod="code" default><code>Resizer</code></Tab>
                 </div>
-            `}</CodeSnippet>
+                <CodeSnippet fiddle="rG05184t" visible-expr="{$page.code.tab}=='resized'">{`
+                    <div class="widgets">
+                        <div style="width: 300px; height: 100px; display: flex;">
+                            <div style={{
+                                border: "1px solid gray",
+                                background: "lightgray",
+                                width: {expr: "{width} || '150px'"},
+                                boxSizing: "border-box",
+                                padding: 5
+                            }}>
+                                <span text-expr="{width} ? 'Width: ' + {width} + 'px' : 'Width: not set'" style="font-size: 11px;"/>
+                            </div>
+                            <Resizer size-bind="width" minSize={50} maxSize={250} />
+                            <div style={{
+                                border: "1px solid gray",
+                                background: "lightgray",
+                                flex: '1 1 0'
+                            }}/>
+                        </div>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
         
         To use the Resizer, hover the space between two elements.
