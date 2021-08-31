@@ -41,6 +41,8 @@ export const NumberFields = <cx>
                                  showClear/>
                     <NumberField label="View" value:bind="$page.number" mode="view"/>
                     <NumberField label="EmptyText" value:bind="$page.number" mode="view" emptyText="N/A"/>
+                    <NumberField label="Offset" offset={273.15} format="suffix; Kelvin" value-bind="$page.number"
+      />
                 </div>
             </div>
 
