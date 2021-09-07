@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Framework for enterprise JavaScript applications",
   "scripts": {
     "start": "webpack-dev-server --config docs/webpack.config.js --open",
