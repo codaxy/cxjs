@@ -116,11 +116,11 @@ export class ArrayAdapter extends DataAdapter {
          //if all sorters are based on record fields access data directly (faster)
          if (sorters.every(x => x.field && x.value == null)) {
             dataAccessor = x => x.data;
-            fieldValueMapper = x => { bind: x.field };
+            fieldValueMapper = x => ({ bind: x.field });
          }
          else {
             dataAccessor = x => x.store.getData();
-            fieldValueMapper = x => { bind: this.recordName + '.' + x.field };
+            fieldValueMapper = x => ({ bind: this.recordName + '.' + x.field });
          }
          this.sorter = sorter(
             sorters.map(x => {
