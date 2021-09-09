@@ -72,7 +72,7 @@ export const Dropdowns = <cx>
                 </Dropdown>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="Hm36fwDX">{`
                 <Button
                     onClick={(e, {store}) => {
                         store.toggle("$page.showDropdown")
