@@ -36,7 +36,7 @@ export const DetachedScopePage = <cx>
                 </DetachedScope>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="0bBHNtfs">{`
                 <DetachedScope bind="$page.scope1">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 1
