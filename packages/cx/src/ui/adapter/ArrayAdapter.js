@@ -1,10 +1,11 @@
-import {DataAdapter} from './DataAdapter';
-import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
-import {sorter} from '../../data/comparer';
-import {isArray} from '../../util/isArray';
-import {ArrayElementView} from "../../data/ArrayElementView";
-import {getAccessor} from "../../data/getAccessor";
-import {Culture} from "../Culture";
+import { DataAdapter } from './DataAdapter';
+import { ReadOnlyDataView } from '../../data/ReadOnlyDataView';
+import { sorter } from '../../data/comparer';
+import { isArray } from '../../util/isArray';
+import { ArrayElementView } from "../../data/ArrayElementView";
+import { getAccessor } from "../../data/getAccessor";
+import { Culture } from "../Culture";
+import { isDefined } from '../../util';
 
 
 export class ArrayAdapter extends DataAdapter {
@@ -103,37 +104,35 @@ export class ArrayAdapter extends DataAdapter {
       this.filterFn = filterFn;
    }
 
+   getComparer(sortOptions) {
+      return sortOptions ? Culture.getComparer(sortOptions) : null;
+   }
+
    buildSorter(sorters) {
-      let compare = this.sortOptions ? Culture.getComparer(this.sortOptions) : null;
       if (isArray(sorters) && sorters.length > 0) {
+         let fieldValueMapper;
+         let dataAccessor;
+
+         //if all sorters are based on record fields access data directly (faster)
          if (sorters.every(x => x.field && x.value == null)) {
-            //if all sorters are based on record fields access data directly (faster)
-            this.sorter = sorter(
-               sorters.map(x => {
-                  if (x.field)
-                     return {
-                        value: {bind: x.field},
-                        direction: x.direction
-                     };
-                  return x;
-               }),
-               x => x.data,
-               compare
-            )
-         } else {
-            //if some sorters use computed values, use store data object
-            this.sorter = sorter(
-               sorters.map(x => {
-                  if (x.field && x.value == null)
-                     return {
-                        value: {bind: this.recordName + '.' + x.field},
-                        direction: x.direction
-                     };
-                  return x;
-               }),
-               x => x.store.getData(),
-               compare)
+            dataAccessor = x => x.data;
+            fieldValueMapper = x => ({ bind: x.field });
          }
+         else {
+            dataAccessor = x => x.store.getData();
+            fieldValueMapper = x => ({ bind: this.recordName + '.' + x.field });
+         }
+         this.sorter = sorter(
+            sorters.map(x => {
+               let s = Object.assign({}, x);
+               if (s.field && s.value == null)
+                  s.value = fieldValueMapper(s);
+               if (!s.comparer)
+                  s.comparer = this.getComparer(isDefined(s.sortOptions) ? s.sortOptions : this.sortOptions)
+               return s;
+            }),
+            dataAccessor
+         );
       } else {
          this.sorter = null;
       }
