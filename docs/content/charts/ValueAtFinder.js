@@ -105,7 +105,7 @@ export const ValueAtFinderPage = <cx>
                 <Legend/>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="hqzog4YJ">{`
                 class ChartController extends Controller {
                     onInit() {
                         this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
