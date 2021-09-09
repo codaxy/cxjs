@@ -49,7 +49,7 @@ export const Hscrollers = <cx>
             </div>
 
 
-            <CodeSnippet putInto="code" fiddle="NK72YwmO">{`
+            <CodeSnippet putInto="code" fiddle="SF8kOx9C">{`
                 <HScroller scrollIntoViewSelector=".cxb-tab.cxs-active">
                     <Tab tab="tab1" value:bind="$page.tab" default>Tab 1</Tab>
                     <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>

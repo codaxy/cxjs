@@ -207,7 +207,11 @@ export const RowExpanding = <cx>
             />
 
             <Content name="code">
-                <CodeSnippet>{`
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                </div>
+                <CodeSnippet fiddle="puN3fVm4" visible-expr="{$page.code.tab}=='controller'">{`
                     class PageController extends Controller {
                         onInit() {
                             //init grid data
@@ -238,10 +242,8 @@ export const RowExpanding = <cx>
                                 y: y = y + Math.random() - 0.5
                             }))
                         }
-                    }
-
-                    ...
-
+                    }`}</CodeSnippet>
+                <CodeSnippet fiddle="puN3fVm4" visible-expr="{$page.code.tab}=='grid'">{`
                     <Grid
                         records:bind="$page.records"
                         lockColumnWidths

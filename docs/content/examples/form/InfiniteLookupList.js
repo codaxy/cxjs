@@ -64,7 +64,7 @@ export const InfiniteLookupList = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="42I6i5pJ">{`
 
             class PageController extends Controller {
                 onQuery({ query, pageSize, page }) {

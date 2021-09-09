@@ -54,7 +54,7 @@ export const FlyweightTooltipTrackerPage = <cx>
             - [Flyweight pattern](https://en.wikipedia.org/wiki/Flyweight_pattern)
 
             <div putInto="code">
-                <CodeSnippet fiddle="">{`
+                <CodeSnippet fiddle="hHCQlfL2">{`
                 <div class="ellipsis" style="overflow: hidden; text-overflow: ellipsis; width: 30px; white-space: nowrap">
                     This is a long text that doesn't fit its designated space.
                 </div>

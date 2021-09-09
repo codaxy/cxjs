@@ -1,4 +1,4 @@
-import {HtmlElement, Repeater, Grid} from 'cx/widgets';
+import {HtmlElement, Repeater, Grid, Content, Tab} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, NumericAxis, MouseTracker, Gridlines, LineGraph, ValueAtFinder, MinMaxFinder, Range} from 'cx/charts';
@@ -44,30 +44,39 @@ export const MinMaxFinderPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code">{`
-            class ChartController extends Controller {
-                onInit() {
-                    let y = 100;
-                    this.store.set('$page.data', Array.from({length: 101}, (_, x) => ({
-                        x: x * 4,
-                        y: (y = y + Math.random() * 50 - 25)
-                    })));
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code">
+                    <code>Grid</code>
+                </Tab>
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" default>
+                    <code>Chart</code>
+                </Tab>
+                <CodeSnippet  fiddle="rKnjVn5i" visible-expr="{$page.code.tab}=='controller'">{`
+                class ChartController extends Controller {
+                    onInit() {
+                        let y = 100;
+                        this.store.set('$page.data', Array.from({length: 101}, (_, x) => ({
+                            x: x * 4,
+                            y: (y = y + Math.random() * 50 - 25)
+                        })));
+                    }
                 }
-            }
-            ...
-            <Svg style="width:600px;height:500px;" margin="60 60 60 60" controller={ChartController}>
-                <Chart axes={{
-                    x: <NumericAxis />,
-                    y: <NumericAxis vertical/>,
-                }}>
-                    <Gridlines />
-                    <MinMaxFinder minY:bind="$page.min" maxY:bind="$page.max">
-                        <Range y1:bind="$page.min" y2:bind="$page.max" colorIndex={5} />
-                        <LineGraph data:bind="$page.data" colorIndex={5} />
-                    </MinMaxFinder>
-                </Chart>
-            </Svg>
-            `}</CodeSnippet>
+                `}</CodeSnippet>
+                <CodeSnippet  fiddle="rKnjVn5i" visible-expr="{$page.code.tab}=='chart'">{`
+                <Svg style="width:600px;height:500px;" margin="60 60 60 60" controller={ChartController}>
+                    <Chart axes={{
+                        x: <NumericAxis />,
+                        y: <NumericAxis vertical/>,
+                    }}>
+                        <Gridlines />
+                        <MinMaxFinder minY:bind="$page.min" maxY:bind="$page.max">
+                            <Range y1:bind="$page.min" y2:bind="$page.max" colorIndex={5} />
+                            <LineGraph data:bind="$page.data" colorIndex={5} />
+                        </MinMaxFinder>
+                    </Chart>
+                </Svg>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -286,8 +286,10 @@ export class Grid extends Widget {
          for (let l = 1; l < 10; l++) {
             let line = instance.row[`line${l}`];
             let sortColumn = line && line.columns && line.columns.find((c) => c.field == sortField);
-            if (sortColumn && (sortColumn.sortValue || sortColumn.value)) {
+            if (sortColumn) {
                data.sorters[0].value = sortColumn.sortValue || sortColumn.value;
+               data.sorters[0].comparer = sortColumn.comparer;
+               data.sorters[0].sortOptions = sortColumn.sortOptions;
                break;
             }
          }
@@ -754,31 +756,34 @@ export class Grid extends Widget {
       let { data } = instance;
       let header = column.components[`header${headerLine + 1}`];
 
-      let sortField = column.sortField || column.field;
-      let sortValue = column.sortValue || column.value;
-      if (header && header.allowSorting && column.sortable && (sortField || sortValue)) {
-         let dir = "ASC";
+      let field = column.sortField || column.field;
+      let value = column.sortValue || column.value;
+      let compare = column.compare;
+      let sortOptions = column.sortOptions;
+
+      if (header && header.allowSorting && column.sortable && (field || value)) {
+         let direction = "ASC";
          if (
             data.sorters &&
-            (data.sorters[0].field == (sortField || data.sortField) || data.sorters[0].value == sortValue)
+            (data.sorters[0].field == (field || data.sortField) || data.sorters[0].value == value)
          ) {
-            if (data.sorters[0].direction == "ASC") dir = "DESC";
-            else if (this.clearableSort && data.sorters[0].direction == "DESC") dir = null;
+            if (data.sorters[0].direction == "ASC") direction = "DESC";
+            else if (this.clearableSort && data.sorters[0].direction == "DESC") direction = null;
          }
 
-         let sorters = dir
-            ? [
-               {
-                  field: sortField,
-                  direction: dir,
-                  value: sortValue,
-               },
-            ]
+         let sorters = direction
+            ? [{
+               field,
+               direction,
+               value,
+               compare,
+               sortOptions
+            }]
             : null;
 
          instance.set("sorters", sorters);
-         instance.set("sortField", sortField);
-         instance.set("sortDirection", dir);
+         instance.set("sortField", field);
+         instance.set("sortDirection", direction);
 
          if (!this.remoteSort || this.infinite) instance.setState({ sorters });
       }

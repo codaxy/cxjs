@@ -90,7 +90,7 @@ export const DataViews = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet >{`
+                <CodeSnippet fiddle="wQzsdIx1">{`
                     <Repeater 
                         records-bind="intro.core.items" 
                         sortField="text"
