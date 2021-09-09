@@ -206,7 +206,7 @@ export const RowExpanding = <cx>
                 }}
             />
 
-            <Content name="code">
+            <Content name="code" fiddle="puN3fVm4">
                 <CodeSnippet>{`
                     class PageController extends Controller {
                         onInit() {
