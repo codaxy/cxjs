@@ -77,7 +77,7 @@ export const ContentResolvers = <cx>
                 </table>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="RcY5ebiO>{`
+            <CodeSnippet putInto="code" fiddle="RcY5ebiO">{`
                 class PageController extends Controller {
                     onInit() {
                         this.store.init('$page.items', [{
@@ -89,7 +89,7 @@ export const ContentResolvers = <cx>
                         }, {
                             type: 'switch'
                         }])
-                    }                    
+                    }
                 }
                 ...
 
@@ -112,16 +112,16 @@ export const ContentResolvers = <cx>
                                             switch (type) {
                                                 case 'textfield':
                                                     return <cx><TextField value:bind="$record.text"/></cx>;
-    
+
                                                 case 'datefield':
                                                     return <cx><DateField value:bind="$record.date"/></cx>;
-    
+
                                                 case 'checkbox':
                                                     return <cx><Checkbox value:bind="$record.checked"/></cx>;
-    
+
                                                 case 'switch':
                                                     return <cx><Switch value:bind="$record.checked"/></cx>;
-    
+
                                                 default:
                                                     return null;
                                             }
@@ -132,7 +132,6 @@ export const ContentResolvers = <cx>
                         </Repeater>
                     </tbody>
                 </table>
-
             `}</CodeSnippet>
         </CodeSplit>
 
