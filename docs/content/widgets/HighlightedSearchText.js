@@ -1,4 +1,4 @@
-import { HtmlElement, Text, TextField, List, HighlightedSearchText, Checkbox } from 'cx/widgets';
+import { HtmlElement, Text, TextField, List, HighlightedSearchText, Checkbox, Content, Tab } from 'cx/widgets';
 import { LabelsLeftLayout, bind, LabelsTopLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -44,30 +44,34 @@ export const HighlightedSearchTextPage = <cx>
             </List>
          </div>
 
-         <CodeSnippet putInto="code" >{`
-            <LabelsTopLayout columns={1}>
-                <TextField label="Search" value-bind="$page.search.query" />
-                <Checkbox value-bind="$page.search.filter">Filter</Checkbox>
-            </LabelsTopLayout>
-            <List
-                records={[
-                    { text: 'Belgrade'},
-                    { text: 'Zagreb'},
-                    { text: 'Sarajevo'},
-                    { text: 'Banja Luka'}
-                ]}
-                mod="bordered"
-                filterParams-bind="$page.search"
-                onCreateFilter={(params) => {
-                    let { query, filter } = params || {};
-                    let predicate = getSearchQueryPredicate(query);
-                    if (!filter) return () => true;
-                    return record => predicate(record.text);
-                }}
-            >
-                <HighlightedSearchText text-bind="$record.text" query-bind="$page.search.query" />
-            </List>
-         `}</CodeSnippet>
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" tab="list" mod="code" default><code>List</code></Tab>
+
+            <CodeSnippet fiddle="jF9CqiXr" visible-expr="{$page.code.tab}=='list'">{`
+                <LabelsTopLayout columns={1}>
+                    <TextField label="Search" value-bind="$page.search.query" />
+                    <Checkbox value-bind="$page.search.filter">Filter</Checkbox>
+                </LabelsTopLayout>
+                <List
+                    records={[
+                        { text: 'Belgrade'},
+                        { text: 'Zagreb'},
+                        { text: 'Sarajevo'},
+                        { text: 'Banja Luka'}
+                    ]}
+                    mod="bordered"
+                    filterParams-bind="$page.search"
+                    onCreateFilter={(params) => {
+                        let { query, filter } = params || {};
+                        let predicate = getSearchQueryPredicate(query);
+                        if (!filter) return () => true;
+                        return record => predicate(record.text);
+                    }}
+                >
+                    <HighlightedSearchText text-bind="$record.text" query-bind="$page.search.query" />
+                </List>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       ## Configuration
