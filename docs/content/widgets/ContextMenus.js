@@ -47,7 +47,7 @@ export const ContextMenus = <cx>
             * `contents`: Cx widget configuration. Usually a menu. Required.
             * `store`: A store to be used inside the menu. Optional.
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="ZLepRQdp">{`
                 <a
                     href="#"
                     onContextMenu={(e, {store}) => openContextMenu(e, <cx>
@@ -104,7 +104,7 @@ export const ContextMenus = <cx>
                 </cx>, store)}
             />
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="v78Gj7fZ">{`
                 <Grid
                     records={[
                         { name: 'Row 1', visits: 10 },
