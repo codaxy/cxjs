@@ -37,7 +37,7 @@ export const IsolatedScopePage = <cx>
                 </IsolatedScope>
             </div>
 
-            <CodeSnippet putInto="code" fiddler="Kw4NTOJf">{`
+            <CodeSnippet putInto="code" fiddle="Kw4NTOJf">{`
                 <IsolatedScope bind="$page.scope1">
                     <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
                         Heavy duty contents 1
