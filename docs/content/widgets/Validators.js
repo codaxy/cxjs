@@ -55,7 +55,7 @@ export const Validators = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="0MyopqEE">{`
                 <div class="widgets"
                     style={{
                         display: "block",
