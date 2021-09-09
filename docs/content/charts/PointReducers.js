@@ -76,7 +76,7 @@ export const PointReducers = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
+            <CodeSnippet putInto="code" fiddle="Yit7I9BN">{`
                 <Svg style="width:600px;height:600px;" margin="30 30 30 30">
                     <Chart axes={{
                         x: <NumericAxis min={0} max={300}/>,
