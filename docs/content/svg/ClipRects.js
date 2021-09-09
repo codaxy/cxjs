@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Rectangle, ClipRect, Ellipse, Text } from 'cx/svg';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -31,15 +31,20 @@ export const ClipRects = <cx>
 
             * [Timeline](~/examples/charts/bar/timeline)
 
-            <CodeSnippet putInto="code" fiddle="fc1P9AaB">{`
-            <div class="widgets">
-                <Svg style="width:200px;height:200px;background:white;margin:5px">
-                    <ClipRect margin={15}>
-                        <Ellipse margin={-10} fill="red" />
-                    </ClipRect>
-                </Svg>
-            </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="rect" mod="code" default><code>Rect</code></Tab>
+                </div>
+                <CodeSnippet fiddle="fc1P9AaB" visible-expr="{$page.code.tab}=='rect'">{`
+                <div class="widgets">
+                    <Svg style="width:200px;height:200px;background:white;margin:5px">
+                        <ClipRect margin={15}>
+                            <Ellipse margin={-10} fill="red" />
+                        </ClipRect>
+                    </Svg>
+                </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Line, Text } from 'cx/svg';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -28,14 +28,19 @@ export const Lines = <cx>
                     </Line>
                 </Svg>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="iCLI9BMb">{`
-            <Svg style="width:200px;height:200px;background:white" padding={5}>
-               <Line stroke="blue">
-                  <Text dx="5px">Line</Text>
-               </Line>
-            </Svg>
-         `}</CodeSnippet>
+            
+            <Content name="code" >
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="line" mod="code" default><code>Line</code></Tab>
+                </div>
+                <CodeSnippet  fiddle="iCLI9BMb" visible-expr="{$page.code.tab}=='line'">{`
+                <Svg style="width:200px;height:200px;background:white" padding={5}>
+                <Line stroke="blue">
+                    <Text dx="5px">Line</Text>
+                </Line>
+                </Svg>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration
