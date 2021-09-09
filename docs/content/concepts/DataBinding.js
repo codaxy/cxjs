@@ -240,22 +240,20 @@ export const DataBinding = <cx>
 
             <CodeSnippet putInto="code" fiddle="RAVD9CLT">{`
                 <div>
-                    <div style="text-align:center">Direct</div>
-                    <Slider value:bind='$page.slider.direct' />
-                    <br/>
-                    <Slider value:bind='$page.slider.direct' />
-                </div>
-                <div>
-                    <div style="text-align:center">Throttle: 300ms</div>
-                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300 }} />
-                    <br/>
-                    <Slider value={{ bind: '$page.slider.throttled', throttle: 300}} />
-                </div>
-                <div>
-                    <div style="text-align:center">Debounce: 300ms</div>
-                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
-                    <br/>
-                    <Slider value={{ bind: '$page.slider.debounced', debounce: 300}} />
+                  <Section class="well" title="Direct">
+                    <Slider value-bind="$page.slider.direct" />
+                    <Slider value-bind="$page.slider.direct" />
+                  </Section>
+                  <Section class="well" title="Throttle: 300ms">
+                    <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
+                    <br />
+                    <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
+                  </Section>
+                  <Section class="well" title="Debounce: 300ms">
+                    <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
+                    <br />
+                    <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
+                  </Section>
                 </div>
             `}</CodeSnippet>
 
