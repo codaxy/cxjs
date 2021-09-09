@@ -50,7 +50,7 @@ export const MouseTrackerPage = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
+            <CodeSnippet putInto="code" fiddle="mpP7bCxe">{`
                 <Svg style="width:600px;height:500px;" margin="60 60 60 60">
                     <Chart axes={{
                         x: <NumericAxis min={0} max={100} />,
