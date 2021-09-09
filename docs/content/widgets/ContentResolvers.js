@@ -77,7 +77,7 @@ export const ContentResolvers = <cx>
                 </table>
             </div>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" fiddle="RcY5ebiO>{`
                 class PageController extends Controller {
                     onInit() {
                         this.store.init('$page.items', [{
