@@ -1,67 +1,78 @@
-# CxJS
+<br />
+<br />
 
+<p align="center">
+  <a href="https://cxjs.io">
+    <img src="misc/logo/cx.svg" alt="cxjs logo" height="140">
+  </a>
+</p>
+
+<br />
+
+<p align="center">
 <img src="https://img.shields.io/npm/v/cx" alt="version" /> <img src="https://img.shields.io/npm/dm/cx" alt="downloads" />
+</p>
 
 CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools,
 dashboards and admin apps. Modern frameworks such as React and Angular provide an excellent base for building UI components,
 however, component implementation and many other application aspects are left to the developer to figure out. CxJS tries to fill that gap and provide the all necessary ingredients required for modern web applications.
 
-## Features
-
-CxJS uses React (or a React compatible library like Preact) for DOM manipulation and offers many high-level, UI related, features on top of it.
-
-### Widgets
-
-- form elements ([DateTimeField](https://cxjs.io/docs/widgets/date-time-fields), [LookupField](https://cxjs.io/docs/widgets/lookup-fields), [ColorField](https://cxjs.io/docs/widgets/color-fields))
-- advanced [grid control](https://cxjs.io/gallery/material/grid)
-- navigation ([Menu](https://cxjs.io/gallery/material/menu/states), [Tab](https://cxjs.io/docs/widgets/tabs), [Link](https://cxjs.io/docs/widgets/links))
-- overlays ([Window](https://cxjs.io/docs/widgets/windows), [MsgBox](https://cxjs.io/docs/widgets/msg-boxes), [Tooltip](https://cxjs.io/docs/widgets/tooltips), [Toast](https://cxjs.io/docs/widgets/toasts))
-
-### Charts
-
-- various chart types ([PieChart](https://cxjs.io/docs/charts/pie-charts), [LineGraph](https://cxjs.io/docs/charts/line-graphs), [ColumnGraph](https://cxjs.io/docs/charts/column-graphs), [BarGraph](https://cxjs.io/docs/charts/bar-graphs))
-- axis types ([CategoryAxis](https://cxjs.io/docs/charts/category-axis), [NumericAxis](https://cxjs.io/docs/charts/numeric-axis), [TimeAxis](https://cxjs.io/docs/charts/time-axis))
-- help elements ([Legend](https://cxjs.io/docs/charts/legend), [Marker](https://cxjs.io/docs/charts/markers), [Range](https://cxjs.io/docs/charts/ranges))
-
-### State management
-
-- [two-way data-binding](https://cxjs.io/docs/concepts/data-binding)
-- [optional Redux integration](https://www.npmjs.com/package/cx-redux)
-- [controllers](https://cxjs.io/docs/concepts/controllers)
-- [computed values](https://cxjs.io/docs/concepts/controllers#computed-values)
-- [triggers](https://cxjs.io/docs/concepts/controllers#triggers)
-- [data views](https://cxjs.io/docs/concepts/data-views)
-
-### Layout
-
-- [inner (form) layouts](https://cxjs.io/docs/concepts/inner-layouts)
-- [outer (page) layouts](https://cxjs.io/docs/concepts/outer-layouts)
-
-### UI Concepts
-
-- [form validation](https://cxjs.io/docs/widgets/validation-groups)
-- [culture sensitive formatting and localization](https://cxjs.io/docs/concepts/localization)
-- [client-side routing](https://cxjs.io/docs/concepts/router)
-- [selection models](https://cxjs.io/docs/concepts/selections)
-
-### Theming
-
-- [SCSS variables and mixins](https://cxjs.io/docs/concepts/css)
-- ready to use themes ([Material](https://cxjs.io/gallery/material), [Frost](https://cxjs.io/gallery/frost), [Dark](https://cxjs.io/gallery/dark))
-
 ## Learn CxJS
 
-There are many examples and learning materials available:
+There are many online learning materials available:
 
-- [Documentation](https://cxjs.io/docs)
-- [Examples](https://cxjs.io/examples)
-- [Gallery of Widgets & Themes ](https://cxjs.io/gallery)
-- [Fiddle](https://cxjs.io/fiddle)
+-  [Documentation](https://cxjs.io/docs)
+-  [Gallery of Widgets & Themes ](https://cxjs.io/gallery)
+-  [Fiddle](https://cxjs.io/fiddle)
+-  [Examples](https://cxjs.io/examples)
 
 If you need help, ask a question on [StackOverflow](https://stackoverflow.com/questions/tagged/cxjs).
 If you find a bug, please [raise an issue](https://github.com/codaxy/cxjs/issues).
 [Request an invite to our Slack channel](https://cxjs.io/support)
 and become a member of the CxJS community.
+
+## Features
+
+CxJS uses React for DOM manipulation and offers many high-level, UI related, features on top of it.
+
+### Widgets
+
+-  form elements ([DateTimeField](https://cxjs.io/docs/widgets/date-time-fields), [LookupField](https://cxjs.io/docs/widgets/lookup-fields), [ColorField](https://cxjs.io/docs/widgets/color-fields))
+-  advanced [grid control](https://cxjs.io/gallery/material/grid)
+-  navigation ([Menu](https://cxjs.io/gallery/material/menu/states), [Tab](https://cxjs.io/docs/widgets/tabs), [Link](https://cxjs.io/docs/widgets/links))
+-  overlays ([Window](https://cxjs.io/docs/widgets/windows), [MsgBox](https://cxjs.io/docs/widgets/msg-boxes), [Tooltip](https://cxjs.io/docs/widgets/tooltips), [Toast](https://cxjs.io/docs/widgets/toasts))
+
+### Charts
+
+-  various chart types ([PieChart](https://cxjs.io/docs/charts/pie-charts), [LineGraph](https://cxjs.io/docs/charts/line-graphs), [ColumnGraph](https://cxjs.io/docs/charts/column-graphs), [BarGraph](https://cxjs.io/docs/charts/bar-graphs))
+-  axis types ([CategoryAxis](https://cxjs.io/docs/charts/category-axis), [NumericAxis](https://cxjs.io/docs/charts/numeric-axis), [TimeAxis](https://cxjs.io/docs/charts/time-axis))
+-  help elements ([Legend](https://cxjs.io/docs/charts/legend), [Marker](https://cxjs.io/docs/charts/markers), [Range](https://cxjs.io/docs/charts/ranges))
+
+### State management
+
+-  [two-way data-binding](https://cxjs.io/docs/concepts/data-binding)
+-  [optional Redux integration](https://www.npmjs.com/package/cx-redux)
+-  [controllers](https://cxjs.io/docs/concepts/controllers)
+-  [computed values](https://cxjs.io/docs/concepts/controllers#computed-values)
+-  [triggers](https://cxjs.io/docs/concepts/controllers#triggers)
+-  [data views](https://cxjs.io/docs/concepts/data-views)
+
+### Layout
+
+-  [inner (form) layouts](https://cxjs.io/docs/concepts/inner-layouts)
+-  [outer (page) layouts](https://cxjs.io/docs/concepts/outer-layouts)
+
+### UI Concepts
+
+-  [form validation](https://cxjs.io/docs/widgets/validation-groups)
+-  [culture sensitive formatting and localization](https://cxjs.io/docs/concepts/localization)
+-  [client-side routing](https://cxjs.io/docs/concepts/router)
+-  [selection models](https://cxjs.io/docs/concepts/selections)
+
+### Theming
+
+-  [SCSS variables and mixins](https://cxjs.io/docs/concepts/css)
+-  ready to use themes ([Material](https://cxjs.io/gallery/material), [Frost](https://cxjs.io/gallery/frost), [Dark](https://cxjs.io/gallery/dark))
 
 ## Install & Start
 
@@ -110,13 +121,13 @@ npm start
 
 Alternatively, you can download the files from one of the CodeSandbox template projects:
 
-- https://codesandbox.io/s/github/codaxy/cxjs-codesandbox-template
+-  https://codesandbox.io/s/github/codaxy/cxjs-codesandbox-template
 
 Once you create a new project, you may want to try our ready-to-use themes:
 
-- [cx-theme-material](https://www.npmjs.com/package/cx-theme-material) ([Demo](https://cxjs.io/gallery/material))
-- [cx-theme-frost](https://www.npmjs.com/package/cx-theme-frost) ([Demo](https://cxjs.io/gallery/frost))
-- [cx-theme-dark](https://www.npmjs.com/package/cx-theme-dark) ([Demo](https://cxjs.io/gallery/dark))
+-  [cx-theme-material](https://www.npmjs.com/package/cx-theme-material) ([Demo](https://cxjs.io/gallery/material))
+-  [cx-theme-frost](https://www.npmjs.com/package/cx-theme-frost) ([Demo](https://cxjs.io/gallery/frost))
+-  [cx-theme-dark](https://www.npmjs.com/package/cx-theme-dark) ([Demo](https://cxjs.io/gallery/dark))
 
 Install a theme using `npm` or `yarn`.
 
@@ -144,9 +155,9 @@ Please read theme documentation to learn how to enable theme specific features.
 
 Alternatively, start by forking one of the available boilerplate projects:
 
-- [cx-starter-kit](https://github.com/codaxy/cx-starter-kit) - Full-blown admin and dashboard app
-- [cx-redux-examples](https://github.com/codaxy/cx-redux-examples) - CxJS application with Redux based state management
-- [cx-typescript-boilerplate](https://github.com/codaxy/cx-typescript-boilerplate) - CxJS with TypeScript
+-  [cx-starter-kit](https://github.com/codaxy/cx-starter-kit) - Full-blown admin and dashboard app
+-  [cx-redux-examples](https://github.com/codaxy/cx-redux-examples) - CxJS application with Redux based state management
+-  [cx-typescript-boilerplate](https://github.com/codaxy/cx-typescript-boilerplate) - CxJS with TypeScript
 
 ## Demo Applications
 
