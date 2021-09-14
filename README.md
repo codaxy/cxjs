@@ -6,8 +6,6 @@
   </a>
 </p>
 
-<br />
-
 <p align="center">
     <img src="https://img.shields.io/npm/v/cx" alt="version" /> 
     <img src="https://img.shields.io/npm/dm/cx" alt="downloads" />
