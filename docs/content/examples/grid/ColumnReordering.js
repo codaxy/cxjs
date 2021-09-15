@@ -169,11 +169,11 @@ export const ColumnReordering = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
                         <code>Controller</code>
                     </Tab>
 
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code">
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default>
                         <code>Grid</code>
                     </Tab>
 
@@ -186,7 +186,7 @@ export const ColumnReordering = <cx>
                     </Tab>
                 </div>
 
-                <CodeSnippet visible-expr="{$page.code.tab}=='controller'">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle='w6G2aFy9'>{`
                 class PageController extends Controller {
                     onInit() {
                         //init grid data
@@ -223,7 +223,7 @@ export const ColumnReordering = <cx>
                      }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible:expr="{$page.code.tab}=='grid'">{`
+                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle='w6G2aFy9'>{`
                 <Grid
                     records-bind="$page.records"
                     mod="fixed-layout"
@@ -251,7 +251,7 @@ export const ColumnReordering = <cx>
                 />
                 `}
                 </CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='toolbar'">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='toolbar'" fiddle='w6G2aFy9'>{`
                 <div style="margin-bottom: 10px; display: flex">
                     <Repeater
                         records={computable("$page.unusedColumns", (columns) =>
@@ -284,7 +284,7 @@ export const ColumnReordering = <cx>
                 </div>
                 `}
                 </CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='columns'">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='columns'" fiddle='w6G2aFy9'>{`
                 let allColumns = [
                     {
                        key: "date",
