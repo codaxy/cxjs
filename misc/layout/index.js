@@ -76,7 +76,14 @@ export const MasterLayout = ({ app, children, shadow, navTree, title, topLinks, 
 
                <div style="margin-left: auto" />
 
-               <GitHubStarCount />
+               <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.npmjs.com/package/cx"
+                  class="master_npmversion"
+               >
+                  <img src="https://img.shields.io/npm/v/cx" alt="version" />
+               </a>
 
                <a
                   className="master_iconlink"
@@ -84,6 +91,8 @@ export const MasterLayout = ({ app, children, shadow, navTree, title, topLinks, 
                >
                   <img src={CodeSandboxIcon} alt="CodeSandbox" />
                </a>
+
+               <GitHubStarCount />
             </div>
          </header>
          <div class="sticky topbanner" visible={!!title}>
@@ -95,7 +104,6 @@ export const MasterLayout = ({ app, children, shadow, navTree, title, topLinks, 
                <TopLinks topLinks={topLinks} alternativeLinks={alternativeLinks}>
                   <ContentPlaceholder name="topbanner_tabs" />
                </TopLinks>
-
             </div>
          </div>
          {children}

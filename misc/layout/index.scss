@@ -183,9 +183,14 @@ $master-theme-color: #4f7aea;
 .master_githubstars {
    position: relative;
    top: 2px;
+   margin-right: 8px;
    a {
       color: transparent !important;
    }
+}
+
+.master_npmversion {
+   margin-top: 4px;
 }
 
 .master_content {
