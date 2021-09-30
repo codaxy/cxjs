@@ -44,7 +44,7 @@ export class MonthField extends Field {
          };
       } else {
          values = {
-            value: null,
+            value: this.emptyValue,
          };
       }
 

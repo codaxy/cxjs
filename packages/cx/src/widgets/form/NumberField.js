@@ -27,7 +27,7 @@ export class NumberField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,

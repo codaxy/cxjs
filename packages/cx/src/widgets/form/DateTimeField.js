@@ -30,7 +30,7 @@ export class DateTimeField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,
@@ -168,23 +168,23 @@ export class DateTimeField extends Field {
    }
 }
 
-   DateTimeField.prototype.baseClass = "datetimefield";
-   DateTimeField.prototype.maxValueErrorText = "Select {0:d} or before.";
-   DateTimeField.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-   DateTimeField.prototype.minValueErrorText = "Select {0:d} or later.";
-   DateTimeField.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-   DateTimeField.prototype.inputErrorText = "Invalid date entered.";
-   DateTimeField.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
+DateTimeField.prototype.baseClass = "datetimefield";
+DateTimeField.prototype.maxValueErrorText = "Select {0:d} or before.";
+DateTimeField.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+DateTimeField.prototype.minValueErrorText = "Select {0:d} or later.";
+DateTimeField.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+DateTimeField.prototype.inputErrorText = "Invalid date entered.";
+DateTimeField.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
 
-   DateTimeField.prototype.suppressErrorsUntilVisited = true;
-   DateTimeField.prototype.icon = "calendar";
-   DateTimeField.prototype.showClear = true;
-   DateTimeField.prototype.alwaysShowClear = false;
-   DateTimeField.prototype.reactOn = "enter blur";
-   DateTimeField.prototype.segment = "datetime";
-   DateTimeField.prototype.picker = "auto";
-   DateTimeField.prototype.disabledDaysOfWeek = null;
-   DateTimeField.prototype.focusInputFirst = false;
+DateTimeField.prototype.suppressErrorsUntilVisited = true;
+DateTimeField.prototype.icon = "calendar";
+DateTimeField.prototype.showClear = true;
+DateTimeField.prototype.alwaysShowClear = false;
+DateTimeField.prototype.reactOn = "enter blur";
+DateTimeField.prototype.segment = "datetime";
+DateTimeField.prototype.picker = "auto";
+DateTimeField.prototype.disabledDaysOfWeek = null;
+DateTimeField.prototype.focusInputFirst = false;
 
 Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
