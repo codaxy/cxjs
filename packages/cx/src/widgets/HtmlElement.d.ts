@@ -15,6 +15,9 @@ interface HtmlElementProps extends Cx.HtmlElementProps {
 
    styled?: boolean;
 
+   //** Set to true to automatically focus the element when mounted. */
+   autoFocus?: Cx.BooleanProp;
+
    /** Allow any prop if HtmlElement is used directly.
     * e.g. `<HtmlElement tag="form" onSubmit="submit" />`*/
    [key: string]: any;

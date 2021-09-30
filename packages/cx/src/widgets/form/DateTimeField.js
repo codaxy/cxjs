@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { DateTimePicker } from "./DateTimePicker";
 import { Calendar } from "./Calendar";
 import { Culture } from "../../ui/Culture";
@@ -25,6 +25,7 @@ import ClearIcon from "../icons/clear";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
 import { TimeList } from "./TimeList";
+import { autoFocus } from "../autoFocus";
 
 export class DateTimeField extends Field {
    declareData() {

@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { HtmlElement } from "../HtmlElement";
 import { Binding } from "../../data/Binding";
@@ -33,6 +33,7 @@ import { addEventListenerWithOptions } from "../../util/addEventListenerWithOpti
 import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
 import { HighlightedSearchText } from "../HighlightedSearchText";
+import { autoFocus } from "../autoFocus";
 
 export class LookupField extends Field {
    declareData() {

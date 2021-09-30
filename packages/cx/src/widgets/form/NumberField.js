@@ -1,5 +1,5 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { Format } from "../../ui/Format";
 import { Culture } from "../../ui/Culture";
 import { StringTemplate } from "../../data/StringTemplate";
@@ -20,6 +20,7 @@ import { isDefined } from "../../util/isDefined";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
 
 enableCultureSensitiveFormatting();
 

@@ -13,6 +13,7 @@ import { isString } from "../util/isString";
 import { isUndefined } from "../util/isUndefined";
 import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
+import { autoFocus } from "./autoFocus";
 
 let isDataAttribute = (attr) => (attr.indexOf("data-") == 0 ? attr.substring(5) : false);
 
@@ -40,6 +41,7 @@ export class HtmlElement extends Container {
          data: {
             structured: true,
          },
+         autoFocus: undefined
       };
 
       let name;
@@ -112,6 +114,7 @@ export class HtmlElement extends Container {
          case "jsxSpread":
          case "instance":
          case "store":
+         case "autoFocus":
             return false;
 
          default:
@@ -184,7 +187,7 @@ export class HtmlElement extends Container {
 
       this.attachProps(context, instance, props);
 
-      if (this.tooltip || this.onRef)
+      if (this.tooltip || this.onRef || this.autoFocus)
          return (
             <ContainerComponent key={key} tag={this.tag} props={props} instance={instance} data={data}>
                {props.children}
@@ -242,6 +245,7 @@ class ContainerComponent extends VDOM.Component {
 
    componentDidMount() {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+      autoFocus(this.el, this);
    }
 }
 
