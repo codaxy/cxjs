@@ -16,6 +16,12 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    /** Set to `true` to initially place the overlay in the center of the page. */
    center?: boolean;
 
+   /** Set to `true` to initially place the overlay in the center of the page horizontally. */
+   centerX?: boolean;
+
+   /** Set to `true` to initially place the overlay in the center of the page vertically. */
+   centerY?: boolean;
+
    /** Set to `true` to add a modal backdrop which masks mouse events for the rest of the page. */
    modal?: boolean;
 

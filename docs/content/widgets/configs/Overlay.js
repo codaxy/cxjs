@@ -25,7 +25,21 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to initially place the overlay in the center of the page.
+            Set to `true` to initially place the overlay in the center of the page. This has the same effect as setting both `centerX` and `centerY` to `true`.
+        </Md></cx>
+    },
+    centerX: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to initially place the overlay in the center of the page horizontally.
+        </Md></cx>
+    },
+    centerY: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to initially place the overlay in the center of the page vertically.
         </Md></cx>
     },
     animate: {
