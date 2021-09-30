@@ -247,6 +247,10 @@ class ContainerComponent extends VDOM.Component {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
       autoFocus(this.el, this);
    }
+
+   componentDidUpdate() {
+      autoFocus(this.el, this);
+   }
 }
 
 let originalWidgetFactory = Widget.factory;
