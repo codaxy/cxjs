@@ -6,6 +6,7 @@ import classAndStyle from './classAndStyle';
 export default {
     ...pureContainer,
     ...classAndStyle,
+
     resizable: {
         key: false,
         type: 'boolean',
@@ -110,5 +111,14 @@ export default {
         description: <cx><Md>
             Set to `true` to automatically find and focus the first chinld in the dropdown when it's shown.
         </Md></cx>
-    }
+    },
+
+    closeOnEscape: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make the window automatically close if the Esc key is pressed on the keyboard.
+            Default value is `false`.
+        </Md></cx>
+    },
 };

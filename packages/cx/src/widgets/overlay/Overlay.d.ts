@@ -55,6 +55,9 @@ export interface OverlayProps extends Cx.StyledContainerProps {
 
    /** zIndex */
    zIndex?: Cx.NumberProp;
+
+   /** Set to `true` to make the window automatically close if Esc is pressed on the keyboard. Default value is false.*/
+   closeOnEscape?: boolean;
 }
 
 export class Overlay extends Cx.Widget<OverlayProps> {}

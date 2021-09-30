@@ -13,6 +13,7 @@ import { isNumber } from "../../util/isNumber";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 import { SubscriberList } from "../../util/SubscriberList";
+import { KeyCode } from "../../util/KeyCode";
 
 /*
  Features:
@@ -121,7 +122,12 @@ export class Overlay extends Container {
    }
 
    handleKeyDown(e, instance, component) {
-      return this.onKeyDown && instance.invoke("onKeyDown", e, instance, component);
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance, component) === false) return false;
+
+      if (this.closeOnEscape && e.keyCode == KeyCode.esc && instance.dismiss) {
+         instance.dismiss();
+         e.stopPropagation();
+      }
    }
 
    handleMouseLeave(instance, component) {
@@ -200,23 +206,24 @@ export class Overlay extends Container {
    }
 }
 
-   Overlay.prototype.styled = true;
-   Overlay.prototype.baseClass = "overlay";
-   Overlay.prototype.resizable = false;
-   Overlay.prototype.resizeWidth = 7;
-   Overlay.prototype.center = false;
-   Overlay.prototype.modal = false;
-   Overlay.prototype.backdrop = false;
-   Overlay.prototype.inline = false;
-   Overlay.prototype.autoFocus = false;
-   Overlay.prototype.autoFocusFirstChild = false;
-   Overlay.prototype.animate = false;
-   Overlay.prototype.draggable = false;
-   Overlay.prototype.destroyDelay = 0;
-   Overlay.prototype.dismissOnFocusOut = false;
-   Overlay.prototype.focusable = false;
-   Overlay.prototype.containerStyle = null;
-   Overlay.prototype.dismissOnPopState = false;
+Overlay.prototype.styled = true;
+Overlay.prototype.baseClass = "overlay";
+Overlay.prototype.resizable = false;
+Overlay.prototype.resizeWidth = 7;
+Overlay.prototype.center = false;
+Overlay.prototype.modal = false;
+Overlay.prototype.backdrop = false;
+Overlay.prototype.inline = false;
+Overlay.prototype.autoFocus = false;
+Overlay.prototype.autoFocusFirstChild = false;
+Overlay.prototype.animate = false;
+Overlay.prototype.draggable = false;
+Overlay.prototype.destroyDelay = 0;
+Overlay.prototype.dismissOnFocusOut = false;
+Overlay.prototype.focusable = false;
+Overlay.prototype.containerStyle = null;
+Overlay.prototype.dismissOnPopState = false;
+Overlay.prototype.closeOnEscape = false;
 
 Widget.alias("overlay", Overlay);
 
