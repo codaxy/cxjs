@@ -17,7 +17,7 @@ export class ColorPicker extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             format: undefined,
          },
          ...arguments
@@ -35,15 +35,13 @@ export class ColorPicker extends Field {
          switch (data.format) {
             default:
             case "rgba":
-               value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${
-                  Math.round(color.a * 100) / 100
-               })`;
+               value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${Math.round(color.a * 100) / 100
+                  })`;
                break;
 
             case "hsla":
-               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)}%,${color.l.toFixed(0)}%,${
-                  Math.round(color.a * 100) / 100
-               })`;
+               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)}%,${color.l.toFixed(0)}%,${Math.round(color.a * 100) / 100
+                  })`;
                break;
 
             case "hex":

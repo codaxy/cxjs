@@ -1,5 +1,5 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -13,6 +13,7 @@ import { Icon } from "../Icon";
 import { KeyCode } from "../../util/KeyCode";
 import { Localization } from "../../ui/Localization";
 import ClearIcon from "../icons/clear";
+import { autoFocus } from "../autoFocus";
 
 export class TextField extends Field {
    init() {
@@ -26,7 +27,7 @@ export class TextField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,

@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { DateTimeCulture } from "intl-io";
 import { Format } from "../../util/Format";
@@ -26,6 +26,7 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { Localization } from "../../ui/Localization";
 import { isDefined } from "../../util/isDefined";
+import { autoFocus } from "../autoFocus";
 
 export class MonthField extends Field {
    declareData() {
@@ -44,7 +45,7 @@ export class MonthField extends Field {
          };
       } else {
          values = {
-            value: null,
+            value: this.emptyValue,
          };
       }
 

@@ -17,10 +17,10 @@ interface WindowProps extends OverlayProps {
 
    /** A custom style which will be applied to the footer. */
    footerStyle?: Cx.StyleProp
-   
+
    /** Base CSS class to be applied to the field. Defaults to `window`. */
    baseClass?: string,
-   
+
    /** Set to `true` to enable resizing. */
    resizable?: boolean,
 
@@ -29,9 +29,6 @@ interface WindowProps extends OverlayProps {
 
    /** Set to `false` to prevent the window itself to be focusable. Default value is true.*/
    focusable?: boolean,
-
-   /** Set to `true` to make the window automatically close if Esc is pressed on the keyboard. Default value is false.*/
-   closeOnEscape?: boolean,
 
    /** Set to `true` to disable moving the window by dragging the header. */
    fixed?: boolean,

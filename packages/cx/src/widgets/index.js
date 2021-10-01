@@ -45,6 +45,7 @@ export * from "./Icon";
 export * from "./ProgressBar";
 export * from "./Resizer";
 export * from "./HighlightedSearchText";
+export * from "./autoFocus";
 
 export * from "./icons/index";
 export * from "./overlay/index";

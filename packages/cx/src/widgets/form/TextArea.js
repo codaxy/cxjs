@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { TextField } from "./TextField";
-import { getFieldTooltip, autoFocus } from "./Field";
+import { getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -10,6 +10,7 @@ import {
 } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
 
 export class TextArea extends TextField {
    declareData() {
