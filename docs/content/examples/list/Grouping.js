@@ -1,4 +1,4 @@
-import {HtmlElement, Checkbox, Grid, List} from 'cx/widgets';
+import {HtmlElement, Checkbox, Grid, List, Tab} from 'cx/widgets';
 import {Content, Controller, KeySelection} from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
@@ -60,7 +60,13 @@ export const Grouping = <cx>
                 City: <span text:bind="$record.city" />
             </List>
 
-            <CodeSnippet putInto="code" fiddle="LHlJu3zb">{`
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="list" mod="code" default><code>List</code></Tab>
+                </div>
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'"  fiddle="LHlJu3zb">{`
 
             class PageController extends Controller {
                 init() {
@@ -78,6 +84,8 @@ export const Grouping = <cx>
                 }
             }
 
+            `}</CodeSnippet>
+             <CodeSnippet visible-expr="{$page.code.tab}=='list'"  fiddle="LHlJu3zb">{`
             <List
                 records:bind='$page.records'
                 selection={{
@@ -107,6 +115,7 @@ export const Grouping = <cx>
                 City: <span text:bind="$record.city" />
             </List>
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
     </Md>
