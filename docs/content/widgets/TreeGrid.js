@@ -1,5 +1,5 @@
 import { Controller, KeySelection, TreeAdapter } from 'cx/ui';
-import { Grid, TreeNode } from 'cx/widgets';
+import { Content, Grid, Tab, TreeNode } from 'cx/widgets';
 import { ConfigTable } from '../../components/ConfigTable';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -68,8 +68,13 @@ export const TreeGrid = <cx>
                 ]}
             />
 
-            <CodeSnippet putInto="code" fiddle="riuObfzq">{`
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                </div>
 
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="riuObfzq">{`
             class PageController extends Controller {
                 onInit() {
                     this.idSeq = 0;
@@ -89,8 +94,8 @@ export const TreeGrid = <cx>
                         }));
                 }
             }
-            ...
-
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="riuObfzq">{`
             <Grid
                 buffered
                 records:bind='$page.data'
@@ -126,6 +131,7 @@ export const TreeGrid = <cx>
             />
 
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## `TreeNode` Configuration
