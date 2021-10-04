@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater, LookupField } from 'cx/widgets';
+import { HtmlElement, Repeater, LookupField, Tab } from 'cx/widgets';
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -134,7 +134,13 @@ export const LookupFields = <cx>
                 </tbody>
             </table>
 
-            <CodeSnippet putInto="code" fiddle="y9CHlIUn">{`
+            <Content name="code">
+                <div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                <Tab value-bind="$page.code.tab" tab="lookupfield" mod="code" default><code>LookupField</code></Tab>
+                </div>
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="y9CHlIUn">{`
             class PageController extends Controller {
                 init() {
                    super.init();
@@ -155,7 +161,8 @@ export const LookupFields = <cx>
                    });
                 }
              }
-             ...
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='lookupfield'" fiddle="y9CHlIUn">{`
             <div class="widgets" controller={PageController}>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
@@ -201,7 +208,7 @@ export const LookupFields = <cx>
                 </div>
             </div>
             `}</CodeSnippet>
-
+            </Content>
         </CodeSplit>
 
         ## Examples:
