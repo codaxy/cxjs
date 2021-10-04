@@ -65,35 +65,44 @@ export const Grids = <cx>
                       selection={{type: KeySelection, bind: '$page.selection', multiple: true}}
                 />
             </div>
-            <CodeSnippet putInto="code" fiddle="kzHH3vkM">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-
-                  //init grid data
-                  this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
-                     id: i + 1,
-                     fullName: casual.full_name,
-                     continent: casual.continent,
-                     browser: casual.browser,
-                     os: casual.operating_system,
-                     visits: casual.integer(1, 100)
-                  })));
-               }
-            }
-            ...
-            <Grid records:bind='$page.records'
-                  style={{width: "100%"}}
-                  columns={[
-                  { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
-                  { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
-                  { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', aggregateField: 'browsers', footer: { tpl: '{$group.browsers} {$group.browsers:plural;browser}' }  },
-                  { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', aggregateField: 'oss', footer: { tpl: '{$group.oss} {$group.oss:plural;OS}' } },
-                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
-               ]}
-               selection={{type: KeySelection, bind:'$page.selection'}}
-            />
-         `}</CodeSnippet>
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                </div>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="kzHH3vkM">
+                    {`
+                        class PageController extends Controller {
+                            init() {
+                               super.init();
+                         
+                               //init grid data
+                               this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
+                                  id: i + 1,
+                                  fullName: casual.full_name,
+                                  continent: casual.continent,
+                                  browser: casual.browser,
+                                  os: casual.operating_system,
+                                  visits: casual.integer(1, 100)
+                               })));
+                            }
+                         }
+                        `}</CodeSnippet>
+                        <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="kzHH3vkM">{`
+                        <Grid records:bind='$page.records'
+                            style={{width: "100%"}}
+                            columns={[
+                            { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
+                            { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
+                            { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', aggregateField: 'browsers', footer: { tpl: '{$group.browsers} {$group.browsers:plural;browser}' }  },
+                            { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', aggregateField: 'oss', footer: { tpl: '{$group.oss} {$group.oss:plural;OS}' } },
+                            { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
+                        ]}
+                        selection={{type: KeySelection, bind:'$page.selection'}}
+                        />
+                    `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Examples:
