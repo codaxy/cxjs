@@ -578,7 +578,7 @@ export class Grid extends Widget {
                            skip[`${lineIndex}-${colIndex + c}-${l + r}`] = true;
                   }
 
-                  if (hdwidget.resizable || header.data.resizable) {
+                  if ((hdwidget.resizable || header.data.resizable) && header.data.colSpan < 2) {
                      resizer = (
                         <div
                            className={CSS.element(baseClass, "col-resizer")}
@@ -1869,14 +1869,26 @@ class GridComponent extends VDOM.Component {
 
    onColumnDragOver(ev) {
       let headerTBody = this.dom.table.firstChild;
-      let row = headerTBody.children[headerTBody.children.length - 1];
       let positions = [];
       let bounds;
-      Array.from(row.children).forEach((child) => {
-         bounds = child.getBoundingClientRect();
-         positions.push(bounds.left);
-      });
-      if (bounds) positions.push(bounds.right);
+
+      let exists = {};
+
+      for (let r = 0; r < headerTBody.children.length; r++) {
+         let cells = headerTBody.children[r].children;
+         for (let c = 0; c < cells.length; c++) {
+            bounds = cells[c].getBoundingClientRect();
+            let key = bounds.left.toFixed(0);
+            if (exists[key]) continue;
+            positions.push(bounds.left);
+            exists[key] = true;
+         }
+         if (r == 0)
+            positions.push(bounds.right);
+      }
+
+      //due to the order of enumeration it's possible that positions are out of order
+      positions.sort((a, b) => (a - b));
       let index = 0;
       while (index + 1 < positions.length && ev.cursor.clientX > positions[index + 1]) index++;
 

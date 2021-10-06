@@ -5,7 +5,7 @@ import { casual } from "../../../casual";
 
 let allColumns = [
    {
-      header: "Date",
+      header: { text: "Date", rowSpan: 2 },
       key: "date",
       field: "date",
       format: "date",
@@ -14,11 +14,16 @@ let allColumns = [
       type: "date",
       defaultWidth: 100,
       draggable: true,
-      fixed: true
+      fixed: false
    },
    {
       key: "fullName",
-      header: "Name",
+      header2: { text: "Name", draggable: true },
+      header1: {
+         colSpan: 2,
+         text: 'Group',
+         draggable: false
+      },
       field: "fullName",
       sortable: true,
       resizable: true,
@@ -27,7 +32,7 @@ let allColumns = [
    },
    {
       key: "continent",
-      header: "Continent",
+      header2: "Continent",
       field: "continent",
       sortable: true,
       resizable: true,
@@ -131,7 +136,8 @@ export default (
             records-bind="$page.records"
             mod="fixed-layout"
             scrollable
-            buffered={false}
+            cached
+            buffered={true}
             style="height: 400px;"
             selection={{ type: KeySelection, bind: "$page.selection" }}
             lockColumnWidths
@@ -142,6 +148,7 @@ export default (
                e.source?.data.type == "unused-column"
             }
             onColumnDrop={(e, { store }) => {
+               console.log(e);
                let key = e.source.type == "grid-column" ? e.source.column.key : e.source.data.key;
                let { index } = e.target;
                let columnOrder = store.get("$page.columnOrder");
