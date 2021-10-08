@@ -1,4 +1,4 @@
-import { HtmlElement, DetachedScope } from 'cx/widgets';
+import { HtmlElement, DetachedScope, Content, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg, Rectangle, ClipRect } from 'cx/svg';
 import { Chart, TimeAxis, NumericAxis, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
@@ -110,7 +110,13 @@ export const Timeline = <cx>
                 </Svg>
             </DetachedScope>
 
-            <CodeSnippet putInto="code" fiddle="XzIyI8pv">{`
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+                </div>
+
+                <CodeSnippet fiddle="XzIyI8pv" visible-expr="{$page.code.tab}=='controller'">{`
             class PageController extends Controller {
                 init() {
                     super.init();
@@ -128,7 +134,8 @@ export const Timeline = <cx>
                     })));
                 }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet fiddle="XzIyI8pv" visible-expr="{$page.code.tab}=='chart'">{`
             <div controller={PageController}>
                 <Svg style="width:100%;height:600px;" margin="60 10 60 60">
                     <Chart
@@ -207,6 +214,7 @@ export const Timeline = <cx>
                 </Svg>
             </div>
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
     </Md>
 </cx>;
