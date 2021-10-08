@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from "cx/widgets";
+import { HtmlElement, Grid, Repeater, Tab, Content } from "cx/widgets";
 import { Controller, KeySelection } from "cx/ui";
 import { Svg, Rectangle, Text } from "cx/svg";
 import {
@@ -180,8 +180,12 @@ export const Combination = (
                         />
                     </div>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="wG2zDoWE">{`
+                <Content name="code">
+                    <div>
+                        <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                        <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+                    </div>
+                    <CodeSnippet fiddle="wG2zDoWE " visible-expr="{$page.code.tab}=='controller'">{`
          var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
          class PageController extends Controller {
@@ -203,9 +207,14 @@ export const Combination = (
             record: { bind: '$point' },
             index: { bind: '$index' }
          });
-         ...
+         `}</CodeSnippet>
+          <CodeSnippet fiddle="wG2zDoWE " visible-expr="{$page.code.tab}=='chart'">{`
          <Svg style="width:600px; height:400px;">
-            <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
+            <Chart offset="20 -20 -40 40" 
+                   axes={{ 
+                       x: { type: CategoryAxis }, 
+                       y: { type: NumericAxis, vertical: true, snapToTicks: 0 } 
+                    }}>
                <Gridlines/>
                <Repeater records:bind="$page.points" recordAlias="$point">
                   <Column colorIndex:expr="{$index}"
@@ -263,6 +272,7 @@ export const Combination = (
                ]}
                selection={{type: KeySelection, keyField: 'x', bind: '$page.selection' }}/>
          `}</CodeSnippet>
+                </Content>           
             </CodeSplit>
         </Md>
     </cx>
