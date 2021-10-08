@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Column, Legend } from 'cx/charts';
@@ -72,7 +72,12 @@ export const Normalized = <cx>
                </div>
          </div>
 
-         <CodeSnippet putInto="code" fiddle="a26d4raK">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
+            <CodeSnippet fiddle="a26d4raK" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -87,7 +92,8 @@ export const Normalized = <cx>
                })));
             }
          }
-         ...
+         `}</CodeSnippet>
+         <CodeSnippet fiddle="a26d4raK" visible-expr="{$page.code.tab}=='chart'">{`
          <Svg style="width:600px; height:400px;">
             <Chart offset="20 -20 -40 40" axes={{
                   x: CategoryAxis,
@@ -124,6 +130,7 @@ export const Normalized = <cx>
          </Svg>
          <Legend />
           `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;
