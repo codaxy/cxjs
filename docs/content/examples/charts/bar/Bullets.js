@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, PropertySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, Legend, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
@@ -69,7 +69,13 @@ export const Bullets = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code" fiddle="Z9CYf1Ph">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
+
+            <CodeSnippet fiddle="Z9CYf1Ph" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -83,7 +89,8 @@ export const Bullets = <cx>
                })));
             }
          }
-         ...
+        `}</CodeSnippet>
+        <CodeSnippet fiddle="Z9CYf1Ph" visible-expr="{$page.code.tab}=='chart'">{`
           <Svg style="width:600px; height:600px;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
                   <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
@@ -118,6 +125,7 @@ export const Bullets = <cx>
                </Chart>
             </Svg>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;
