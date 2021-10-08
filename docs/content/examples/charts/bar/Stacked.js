@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Tab, Content } from 'cx/widgets';
 import { Controller, PropertySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, Legend, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
@@ -107,8 +107,12 @@ export const Stacked = <cx>
                <Legend />
             </div>
          </div>
-
-         <CodeSnippet putInto="code" fiddle="omfsUyZA">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
+            <CodeSnippet fiddle="omfsUyZA" visible-expr="{$page.code.tab}=='controller'">{`
             class PageController extends Controller {
                init() {
                   super.init();
@@ -127,7 +131,8 @@ export const Stacked = <cx>
                   })));
                }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet fiddle="omfsUyZA" visible-expr="{$page.code.tab}=='chart'">{`
             <Svg style="width:600px; height:600px;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
                   <Gridlines/>
@@ -196,6 +201,7 @@ export const Stacked = <cx>
             </Svg>
             <Legend />
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;
