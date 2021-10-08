@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, PropertySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
@@ -114,7 +114,13 @@ export const Combination = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code" fiddle="mQSxhSAU">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
+
+            <CodeSnippet fiddle="mQSxhSAU" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -138,7 +144,8 @@ export const Combination = <cx>
             index: { bind: '$index' },
             records: { bind: '$page.points' }
          });
-
+         `}</CodeSnippet>
+         <CodeSnippet fiddle="mQSxhSAU" visible-expr="{$page.code.tab}=='chart'">{`
          var legendStyle = "border-width:1px;border-style:solid;display:inline-block;width:20px;height:10px;";
          <Svg style="width:600px; height:600px;">
             <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
@@ -207,6 +214,7 @@ export const Combination = <cx>
                ]}
                selection={{type: PropertySelection, keyField: 'id', bind: '$page.selection' }}/>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;
