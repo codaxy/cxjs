@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
+import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Text, Rectangle, Line } from 'cx/svg';
 import { PieChart, PieSlice, Legend } from 'cx/charts';
@@ -81,8 +81,14 @@ export const MultiLevel = <cx>
                </Svg>
                <Legend name="slice" vertical />
          </div>
+         
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
 
-         <CodeSnippet putInto="code" fiddle="kn9A3wlj">{`
+            <CodeSnippet fiddle="kn9A3wlj" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -96,7 +102,8 @@ export const MultiLevel = <cx>
                }));
             }
          }
-         ...
+         `}</CodeSnippet>
+         <CodeSnippet fiddle="kn9A3wlj" visible-expr="{$page.code.tab}=='chart'">{`
          <div class="widgets" controller={PageController}>
             <Legend />
                <Svg style="width:400px; height:400px;">
@@ -147,6 +154,7 @@ export const MultiLevel = <cx>
                <Legend name="slice" vertical />
          </div>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>
