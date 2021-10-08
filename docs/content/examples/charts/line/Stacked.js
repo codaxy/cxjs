@@ -1,4 +1,4 @@
-import { HtmlElement, Checkbox } from 'cx/widgets';
+import { HtmlElement, Checkbox, Content, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
@@ -44,8 +44,13 @@ export const Stacked = <cx>
             <Legend />
             <Checkbox value:bind="$page.stack">Stack</Checkbox>
          </div>
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
 
-         <CodeSnippet putInto="code" fiddle="gMRNqvJB">{`
+            <CodeSnippet fiddle="gMRNqvJB" visible-expr="{$page.code.tab}=='controller'">{`
             class PageController extends Controller {
                init() {
                   super.init();
@@ -59,7 +64,8 @@ export const Stacked = <cx>
                   })));
                }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet fiddle="gMRNqvJB" visible-expr="{$page.code.tab}=='chart'">{`
             <div class="widgets" controller={PageController}>
                <Svg style="width:600px; height:400px;">
                   <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
@@ -73,6 +79,7 @@ export const Stacked = <cx>
                <Checkbox value:bind="$page.stack">Stack</Checkbox>
             </div>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
 
