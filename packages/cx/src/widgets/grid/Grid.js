@@ -795,7 +795,11 @@ export class Grid extends Widget {
       if (g.caption) {
          let caption = g.caption(data);
          return (
-            <tbody key={`g-${level}-${i}`} className={CSS.element(baseClass, "group-caption", ["level-" + level])}>
+            <tbody
+               key={`g-${level}-${group.$key}`}
+               className={CSS.element(baseClass, "group-caption", ["level-" + level])}
+               data-group-key={group.$key} data-group-element={`group-caption-${level}`}
+            >
                <tr>
                   <td colSpan={1000}>{caption}</td>
                </tr>
@@ -864,7 +868,7 @@ export class Grid extends Widget {
          if (lines.length == 0) return null;
 
          return (
-            <tbody key={"c" + i} className={CSS.element(baseClass, "group-caption", ["level-" + level])}>
+            <tbody key={"c" + group.$key} className={CSS.element(baseClass, "group-caption", ["level-" + level])} data-group-key={group.$key} data-group-element={`group-caption-${level}`}>
                {lines}
             </tbody>
          );
@@ -1082,7 +1086,7 @@ export class Grid extends Widget {
       dataAdapter.sort(sorters);
 
       //if no filtering or sorting applied, let the component maps records on demand
-      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !dataAdapter.isTreeAdapter)
+      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !dataAdapter.isTreeAdapter && !instance.dataAdapter.groupings)
          return null;
 
       return dataAdapter.getRecords(context, instance, data.records, store);
@@ -1770,7 +1774,7 @@ class GridComponent extends VDOM.Component {
    }
 
    onFixedColumnsWheel(e) {
-      this.dom.scroller.scrollTop += event.deltaY;
+      this.dom.scroller.scrollTop += e.deltaY;
       e.preventDefault();
    }
 
@@ -2177,6 +2181,25 @@ class GridComponent extends VDOM.Component {
             let { start, end } = this.getBufferStartEnd();
             let remaining = 0,
                count = Math.min(data.totalRecordCount, end - start);
+
+            if (widget.measureRowHeights) {
+               if (!this.rowHeights) this.rowHeights = {};
+               if (!this.heightCalcs) this.heightCalcs = new AvgHeight();
+               for (let i = 0; i < this.dom.table.children.length; i++) {
+                  let body = this.dom.table.children[i];
+                  if (body.dataset.recordKey != null) {
+                     if (!(body.dataset.recordKey in this.rowHeights))
+                        this.heightCalcs.add('record', body.offsetHeight);
+                     this.rowHeights[body.dataset.recordKey] = body.offsetHeight;
+                  } else if (body.dataset.groupKey) {
+                     let key = body.dataset.groupElement + "-" + body.dataset.groupKey;
+                     this.rowHeights[key] = body.offsetHeight;
+                     if (!(body.dataset.recordKey in this.rowHeights))
+                        this.heightCalcs.add(key, body.offsetHeight);
+                  }
+               }
+            }
+
             if (count > 0) {
                //do not change row height while a drag-drop operation is in place
                rowHeight = this.state.dragged
@@ -2916,5 +2939,24 @@ function syncHeaderHeights(header1, header2) {
             td.style.height = `${h}px`;
          }
       }
+   }
+}
+
+class AvgHeight {
+
+   groups = {};
+
+   add(group, height) {
+      let g = this.groups[group];
+      if (!g)
+         g = this.groups[group] = { sum: 0, count: 0 };
+      g.sum += height;
+      g.count++;
+   }
+
+   estimate(group) {
+      let g = this.groups[group];
+      if (!g || g.count == 0) return null;
+      return Math.round(g.sum / g.count);
    }
 }
