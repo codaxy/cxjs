@@ -13,7 +13,7 @@ class PageController extends Controller {
       this.store.set("$page.resetScroll", Math.random());
       this.store.set(
          "$page.records",
-         Array.from({ length: 10000 }).map((v, i) => ({
+         Array.from({ length: 2000 }).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
@@ -84,7 +84,8 @@ export default (
                   key: {
                      name: { bind: '$record.continent' }
                   },
-                  showCaption: true
+                  showCaption: true,
+                  showFooter: true,
                }
             ]}
          />

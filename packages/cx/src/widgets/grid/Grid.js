@@ -207,7 +207,7 @@ export class Grid extends Widget {
             recordName: this.recordName,
             indexName: this.indexName,
             sortOptions: this.sortOptions,
-            groupings: grouping
+            groupings: grouping,
          },
          this.dataAdapter
       );
@@ -232,8 +232,7 @@ export class Grid extends Widget {
       if (this.onGetGrouping) {
          if (!cached.data || cached.data.groupingParams !== data.groupingParams)
             grouping = instance.invoke("onGetGrouping", data.groupingParams, instance);
-         else
-            grouping = cached.grouping;
+         else grouping = cached.grouping;
       }
 
       let groupingChanged = instance.cache("grouping", grouping);
@@ -430,7 +429,7 @@ export class Grid extends Widget {
                };
             else
                group = {
-                  ...g
+                  ...g,
                };
             if (group.caption) group.caption = getSelector(group.caption);
             return group;
@@ -445,8 +444,7 @@ export class Grid extends Widget {
    groupBy(groupingData, options) {
       let { grouping, showHeader } = this.resolveGrouping(groupingData);
       this.grouping = grouping;
-      if (options?.autoConfigure)
-         this.showHeader = showHeader;
+      if (options?.autoConfigure) this.showHeader = showHeader;
       this.update();
    }
 
@@ -763,22 +761,21 @@ export class Grid extends Widget {
 
       if (header && header.allowSorting && column.sortable && (field || value)) {
          let direction = "ASC";
-         if (
-            data.sorters &&
-            (data.sorters[0].field == (field || data.sortField) || data.sorters[0].value == value)
-         ) {
+         if (data.sorters && (data.sorters[0].field == (field || data.sortField) || data.sorters[0].value == value)) {
             if (data.sorters[0].direction == "ASC") direction = "DESC";
             else if (this.clearableSort && data.sorters[0].direction == "DESC") direction = null;
          }
 
          let sorters = direction
-            ? [{
-               field,
-               direction,
-               value,
-               compare,
-               sortOptions
-            }]
+            ? [
+               {
+                  field,
+                  direction,
+                  value,
+                  compare,
+                  sortOptions,
+               },
+            ]
             : null;
 
          instance.set("sorters", sorters);
@@ -798,7 +795,8 @@ export class Grid extends Widget {
             <tbody
                key={`g-${level}-${group.$key}`}
                className={CSS.element(baseClass, "group-caption", ["level-" + level])}
-               data-group-key={group.$key} data-group-element={`group-caption-${level}`}
+               data-group-key={group.$key}
+               data-group-element={`group-caption-${level}`}
             >
                <tr>
                   <td colSpan={1000}>{caption}</td>
@@ -868,7 +866,12 @@ export class Grid extends Widget {
          if (lines.length == 0) return null;
 
          return (
-            <tbody key={"c" + group.$key} className={CSS.element(baseClass, "group-caption", ["level-" + level])} data-group-key={group.$key} data-group-element={`group-caption-${level}`}>
+            <tbody
+               key={"c" + group.$key}
+               className={CSS.element(baseClass, "group-caption", ["level-" + level])}
+               data-group-key={group.$key}
+               data-group-element={`group-caption-${level}`}
+            >
                {lines}
             </tbody>
          );
@@ -955,7 +958,13 @@ export class Grid extends Widget {
       if (lines.length == 0) return null;
 
       return (
-         <tbody key={"f" + i} style={rowStyle} className={CSS.element(baseClass, "group-footer", ["level-" + level])}>
+         <tbody
+            key={"f" + i}
+            style={rowStyle}
+            className={CSS.element(baseClass, "group-footer", ["level-" + level])}
+            data-group-key={group.$key}
+            data-group-element={`group-footer-${level}`}
+         >
             {lines}
          </tbody>
       );
@@ -1086,7 +1095,14 @@ export class Grid extends Widget {
       dataAdapter.sort(sorters);
 
       //if no filtering or sorting applied, let the component maps records on demand
-      if (this.buffered && !this.fixedFooter && !filter && !isNonEmptyArray(sorters) && !dataAdapter.isTreeAdapter && !instance.dataAdapter.groupings)
+      if (
+         this.buffered &&
+         !this.fixedFooter &&
+         !filter &&
+         !isNonEmptyArray(sorters) &&
+         !dataAdapter.isTreeAdapter &&
+         !instance.dataAdapter.groupings
+      )
          return null;
 
       return dataAdapter.getRecords(context, instance, data.records, store);
@@ -1398,7 +1414,7 @@ class GridComponent extends VDOM.Component {
                            record.level,
                            record.group,
                            record.key + "-caption",
-                           record.store
+                           record.store,
                         )
                      );
                } else if (record.type == "group-footer") {
@@ -1412,7 +1428,9 @@ class GridComponent extends VDOM.Component {
                            record.level,
                            record.group,
                            record.key + "-footer",
-                           record.store
+                           record.store,
+                           false,
+                           false
                         )
                      );
                }
@@ -1887,12 +1905,11 @@ class GridComponent extends VDOM.Component {
             positions.push(bounds.left);
             exists[key] = true;
          }
-         if (r == 0)
-            positions.push(bounds.right);
+         if (r == 0) positions.push(bounds.right);
       }
 
       //due to the order of enumeration it's possible that positions are out of order
-      positions.sort((a, b) => (a - b));
+      positions.sort((a, b) => a - b);
       let index = 0;
       while (index + 1 < positions.length && ev.cursor.clientX > positions[index + 1]) index++;
 
@@ -1900,7 +1917,8 @@ class GridComponent extends VDOM.Component {
 
       this.setState({
          colDropInsertionIndex: fixedColumnCount + index,
-         colDropInsertionLeft: positions[index] - positions[0] - this.dom.scroller.scrollLeft + this.dom.scroller.offsetLeft,
+         colDropInsertionLeft:
+            positions[index] - positions[0] - this.dom.scroller.scrollLeft + this.dom.scroller.offsetLeft,
          dropTarget: "column",
       });
    }
@@ -2063,6 +2081,43 @@ class GridComponent extends VDOM.Component {
       }
    }
 
+   estimateHeight(records, start, end) {
+      let avgDataRowHeight = this.heightStats.estimate("data");
+      let totalHeight = 0;
+      for (let i = start; i < end; i++) {
+         let record = records[i];
+         switch (record.type) {
+            case "data":
+               if (record.key in this.rowHeights) totalHeight += this.rowHeights[record.key];
+               else totalHeight += avgDataRowHeight;
+               break;
+
+            case "group-header":
+               if (record.grouping.showCaption) {
+                  let captionKey = "group-caption-" + record.level;
+                  if (`${captionKey}-${record.group.$key}` in this.rowHeights)
+                     totalHeight += this.rowHeights[`${captionKey}-${record.group.$key}`];
+                  else totalHeight += this.heightStats.estimate(captionKey) || avgDataRowHeight;
+               }
+               break;
+
+            case "group-footer":
+               if (record.grouping.showFooter) {
+                  let captionKey = "group-footer-" + record.level;
+                  if (`${captionKey}-${record.group.$key}` in this.rowHeights)
+                     totalHeight += this.rowHeights[`${captionKey}-${record.group.$key}`];
+                  else totalHeight += this.heightStats.estimate(captionKey) || avgDataRowHeight;
+               }
+               break;
+
+            default:
+               console.log("UNPROCESSED RECORD", record);
+               break;
+         }
+      }
+      return totalHeight;
+   }
+
    componentDidUpdate() {
       let { instance, data } = this.props;
       let { widget, fixedFooterOverlap } = instance;
@@ -2184,18 +2239,17 @@ class GridComponent extends VDOM.Component {
 
             if (widget.measureRowHeights) {
                if (!this.rowHeights) this.rowHeights = {};
-               if (!this.heightCalcs) this.heightCalcs = new AvgHeight();
+               if (!this.heightStats) this.heightStats = new AvgHeight();
                for (let i = 0; i < this.dom.table.children.length; i++) {
                   let body = this.dom.table.children[i];
                   if (body.dataset.recordKey != null) {
-                     if (!(body.dataset.recordKey in this.rowHeights))
-                        this.heightCalcs.add('record', body.offsetHeight);
+                     if (!(body.dataset.recordKey in this.rowHeights)) this.heightStats.add("data", body.offsetHeight);
                      this.rowHeights[body.dataset.recordKey] = body.offsetHeight;
                   } else if (body.dataset.groupKey) {
                      let key = body.dataset.groupElement + "-" + body.dataset.groupKey;
                      this.rowHeights[key] = body.offsetHeight;
                      if (!(body.dataset.recordKey in this.rowHeights))
-                        this.heightCalcs.add(key, body.offsetHeight);
+                        this.heightStats.add(body.dataset.groupElement, body.offsetHeight);
                   }
                }
             }
@@ -2210,8 +2264,21 @@ class GridComponent extends VDOM.Component {
                // }
                remaining = Math.max(0, data.totalRecordCount - end);
             }
-            this.dom.table.style.marginTop = `${(-headerHeight + start * rowHeight).toFixed(0)}px`;
-            this.dom.table.style.marginBottom = `${(remaining * rowHeight - scrollOverlap).toFixed(0)}px`;
+
+            let upperMargin = 0,
+               lowerMargin = 0;
+            if (widget.measureRowHeights && instance.records) {
+               upperMargin = this.estimateHeight(instance.records, 0, start);
+               lowerMargin = this.estimateHeight(instance.records, end, instance.records.length);
+            } else {
+               upperMargin = start * rowHeight;
+               lowerMargin = remaining * rowHeight;
+            }
+
+            //console.log(upperMargin, start * rowHeight, this.rowHeights, this.heightStats);
+
+            this.dom.table.style.marginTop = `${(-headerHeight + upperMargin).toFixed(0)}px`;
+            this.dom.table.style.marginBottom = `${(lowerMargin - scrollOverlap).toFixed(0)}px`;
          } else {
             this.dom.table.style.marginTop = `${-headerHeight}px`;
             this.dom.table.style.marginBottom = `${-scrollOverlap}px`;
@@ -2495,7 +2562,7 @@ class GridComponent extends VDOM.Component {
                select: true,
                selectOptions: {
                   toggle: e.ctrlKey && !e.shiftKey,
-                  add: e.ctrlKey && e.shiftKey
+                  add: e.ctrlKey && e.shiftKey,
                },
                selectRange: e.shiftKey,
                cellEdit: widget.cellEditable && !this.state.cellEdit,
@@ -2650,7 +2717,7 @@ class GridComponent extends VDOM.Component {
 
       let contents = selected.map((record, i) => ({
          type: StaticText,
-         text: renderRow(record, i, true, false)
+         text: renderRow(record, i, true, false),
       }));
 
       initiateDragDrop(
@@ -2667,11 +2734,13 @@ class GridComponent extends VDOM.Component {
                store: record.store,
                matchCursorOffset: true,
                matchWidth: true,
-               widget: <cx>
-                  <div className={data.classNames}>
-                     <table>{contents}</table>
-                  </div>
-               </cx>
+               widget: (
+                  <cx>
+                     <div className={data.classNames}>
+                        <table>{contents}</table>
+                     </div>
+                  </cx>
+               ),
             },
          },
          () => {
@@ -2943,13 +3012,13 @@ function syncHeaderHeights(header1, header2) {
 }
 
 class AvgHeight {
-
-   groups = {};
+   constructor() {
+      this.groups = {};
+   }
 
    add(group, height) {
       let g = this.groups[group];
-      if (!g)
-         g = this.groups[group] = { sum: 0, count: 0 };
+      if (!g) g = this.groups[group] = { sum: 0, count: 0 };
       g.sum += height;
       g.count++;
    }
