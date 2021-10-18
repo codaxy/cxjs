@@ -786,7 +786,7 @@ export class Grid extends Widget {
       }
    }
 
-   renderGroupHeader(context, instance, g, level, group, i, store) {
+   renderGroupHeader(context, instance, g, level, group, i, store, fixedColumns) {
       let { CSS, baseClass } = this;
       let data = store.getData();
       if (g.caption) {
@@ -814,6 +814,8 @@ export class Grid extends Widget {
 
             let cells = line.children.map((ci, i) => {
                if (--skip >= 0) return null;
+
+               if (Boolean(ci.data.fixed) != fixedColumns) return null;
 
                let v,
                   c = ci.widget,
@@ -996,9 +998,25 @@ export class Grid extends Widget {
                      record.level,
                      record.group,
                      record.key + "-caption",
-                     record.store
+                     record.store,
+                     false
                   )
                );
+
+            if (hasFixedColumns)
+               record.fixedVdom.push(
+                  this.renderGroupHeader(
+                     context,
+                     instance,
+                     g,
+                     record.level,
+                     record.group,
+                     record.key + "-caption",
+                     record.store,
+                     true
+                  )
+               );
+
 
             if (g.showHeader) {
                record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, false));
@@ -1405,7 +1423,7 @@ class GridComponent extends VDOM.Component {
                   addRow(record, start + i, true);
                } else if (record.type == "group-header") {
                   let g = record.grouping;
-                  if (g.caption || g.showCaption)
+                  if (g.caption || g.showCaption) {
                      children.push(
                         widget.renderGroupHeader(
                            null,
@@ -1415,11 +1433,27 @@ class GridComponent extends VDOM.Component {
                            record.group,
                            record.key + "-caption",
                            record.store,
+                           false
                         )
                      );
+
+                     if (hasFixedColumns)
+                        fixedChildren.push(
+                           widget.renderGroupHeader(
+                              null,
+                              instance,
+                              g,
+                              record.level,
+                              record.group,
+                              record.key + "-caption",
+                              record.store,
+                              true
+                           )
+                        );
+                  }
                } else if (record.type == "group-footer") {
                   let g = record.grouping;
-                  if (g.showFooter && (!widget.fixedFooter || start + i != instance.records.length - 1))
+                  if (g.showFooter && (!widget.fixedFooter || start + i != instance.records.length - 1)) {
                      children.push(
                         widget.renderGroupFooter(
                            null,
@@ -1433,6 +1467,24 @@ class GridComponent extends VDOM.Component {
                            false
                         )
                      );
+
+                     if (hasFixedColumns)
+                        fixedChildren.push(
+                           widget.renderGroupFooter(
+                              null,
+                              instance,
+                              g,
+                              record.level,
+                              record.group,
+                              record.key + "-footer",
+                              record.store,
+                              false,
+                              true
+                           )
+                        );
+
+
+                  }
                }
             }
          });
@@ -1458,7 +1510,7 @@ class GridComponent extends VDOM.Component {
                      style={{
                         height: data.dropMode == "insertion" ? 0 : this.state.dropItemHeight,
                      }}
-                  ></td>
+                  />
                </tr>
             </tbody>
          );
@@ -1768,11 +1820,13 @@ class GridComponent extends VDOM.Component {
       let { widget } = instance;
       if (widget.buffered && !this.pending) {
          let start = 0;
-         if (this.rowHeight > 0) {
+         if (widget.measureRowHeights && instance.records)
+            start = Math.max(0, this.estimateStart(instance.records, this.dom.scroller.scrollTop) - widget.bufferStep);
+         else if (this.rowHeight > 0)
             start = Math.round(this.dom.scroller.scrollTop / this.rowHeight - widget.bufferStep);
-            start = Math.round(start / widget.bufferStep) * widget.bufferStep;
-            start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
-         }
+
+         start = Math.round(start / widget.bufferStep) * widget.bufferStep;
+         start = Math.max(0, Math.min(start, data.totalRecordCount - widget.bufferSize));
          let end = Math.min(data.totalRecordCount, start + widget.bufferSize);
 
          if (widget.infinite) {
@@ -2081,7 +2135,7 @@ class GridComponent extends VDOM.Component {
       }
    }
 
-   estimateHeight(records, start, end) {
+   estimateHeight(records, start, end, breakCondition) {
       let avgDataRowHeight = this.heightStats.estimate("data");
       let totalHeight = 0;
       for (let i = start; i < end; i++) {
@@ -2111,11 +2165,23 @@ class GridComponent extends VDOM.Component {
                break;
 
             default:
-               console.log("UNPROCESSED RECORD", record);
+               console.log("UNPROCESSED RECORD TYPE", record);
                break;
          }
+
+         if (breakCondition && breakCondition(i, totalHeight) === false) break;
       }
       return totalHeight;
+   }
+
+   estimateStart(records, height) {
+      let start = 0;
+      if (height == 0) return 0;
+      this.estimateHeight(records, 0, records.length, (index, h) => {
+         start = index;
+         return h < height;
+      });
+      return start;
    }
 
    componentDidUpdate() {
