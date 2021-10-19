@@ -156,6 +156,15 @@ export default {
             Number of rows to be scrolled before buffer adjustment. Default value is 15.
         </Md></cx>
     },
+
+    measureRowHeights: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Used when rows have variable heights to improve buffered rendering by measuring and caching rendered row heights. Default value is `false`.
+        </Md></cx>
+    },
+
     pageSize: {
         type: 'number',
         key: true,

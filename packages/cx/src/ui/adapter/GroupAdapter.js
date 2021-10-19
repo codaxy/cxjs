@@ -55,12 +55,15 @@ export class GroupAdapter extends ArrayAdapter {
 
          keys.push(gr.key);
 
+         let key = keys.map(key => Object.keys(key).map(k => key[k]).join(':')).join('|');
+
          let $group = {
             ...gr.key,
             ...gr.aggregates,
             $name: gr.name,
             $level: inverseLevel,
-            $records: gr.records || []
+            $records: gr.records || [],
+            $key: key
          };
 
          let data = {
@@ -75,7 +78,7 @@ export class GroupAdapter extends ArrayAdapter {
          });
 
          let group = {
-            key: keys.map(key => Object.keys(key).map(k => key[k]).join(':')).join('|'),
+            key,
             data,
             group: $group,
             grouping,
@@ -130,4 +133,4 @@ export class GroupAdapter extends ArrayAdapter {
    }
 }
 
-   GroupAdapter.prototype.groupName = '$group';
+GroupAdapter.prototype.groupName = '$group';

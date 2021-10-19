@@ -230,6 +230,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Specifies how many rows needs to be scrolled in order to recalculate buffer */
    bufferStep?: number;
 
+   /** Used when rows have variable heights to improve buffered rendering by measuring and caching rendered row heights. Default value is false. */
+   measureRowHeights?: boolean;
+
    /** Scrolls selection into the view. Default value is false. */
    scrollSelectionIntoView?: boolean;
 
