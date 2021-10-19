@@ -410,7 +410,7 @@ export class Grid extends Widget {
       if (grouping) {
          if (!isArray(grouping)) {
             if (isString(grouping) || isObject(grouping)) grouping = [grouping];
-            else throw new Error("DynamicGrouping should be an array or grouping objects");
+            else throw new Error("Dynamic grouping should be an array of grouping objects.");
          }
 
          grouping = grouping.map((g, i) => {
@@ -2165,7 +2165,7 @@ class GridComponent extends VDOM.Component {
                break;
 
             default:
-               console.log("UNPROCESSED RECORD TYPE", record);
+               Console.warn("UNPROCESSED RECORD TYPE", record);
                break;
          }
 

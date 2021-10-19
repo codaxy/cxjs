@@ -24,6 +24,8 @@ class PageController extends Controller {
    }
 }
 
+let fixed = false;
+
 export default (
    <cx>
       <div controller={PageController} style="padding: 10px">
@@ -42,12 +44,12 @@ export default (
             row={{
                line1: {
                   columns: [
-                     { header: "#", field: "index", sortable: true, value: { bind: "$index" }, fixed: true, width: 100 },
+                     { header: "#", field: "index", sortable: true, value: { bind: "$index" }, fixed, width: 100 },
                      {
                         header: {
                            text: "Name",
                         },
-                        fixed: true,
+                        fixed,
                         field: "fullName",
                         sortable: true,
                         aggregate: 'count',
