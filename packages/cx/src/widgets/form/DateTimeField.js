@@ -258,11 +258,19 @@ class DateTimeInput extends VDOM.Component {
             autoFocus: !widget.focusInputFirst,
             tabIndex: widget.focusInputFirst ? -1 : 0,
             onKeyDown: (e) => this.onKeyDown(e),
-            onSelect: (e) => {
+            onSelect: (e, calendar, date) => {
                e.stopPropagation();
                e.preventDefault();
                let touch = isTouchEvent(e);
                this.closeDropdown(e, () => {
+                  if (date) {
+                     // If a blur event occurs before we re-render the input,
+                     // the old input value is parsed and written to the store.
+                     // We want to prevent that by eagerly updating the input value.
+                     // This can happen if the date field is within a menu.
+                     let newFormattedValue = Format.value(date, this.props.data.format);
+                     this.input.value = newFormattedValue;
+                  }
                   if (!touch) this.input.focus();
                });
             },
