@@ -12,7 +12,7 @@ class PageController extends Controller {
       this.store.set("$page.resetScroll", Math.random());
       this.store.set(
          "$page.records",
-         Array.from({ length: 200 }).map((v, i) => ({
+         Array.from({ length: 20000 }).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
@@ -24,7 +24,7 @@ class PageController extends Controller {
    }
 }
 
-let fixed = false;
+let fixed = true;
 
 export default (
    <cx>
@@ -74,6 +74,90 @@ export default (
                         header: "OS", field: "os", sortable: true, aggregate: 'distinct',
                         footer: { tpl: '{$group.os} {$group.os:plural;OS}' },
                         caption: { tpl: '{$group.os} {$group.os:plural;OS}' }
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
+                     },
+                     {
+                        header: "Visits",
+                        field: "visits",
+                        sortable: true,
+                        align: "right",
+                        aggregate: "sum",
                      },
                      {
                         header: "Visits",
