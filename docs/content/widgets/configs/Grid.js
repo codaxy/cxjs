@@ -28,6 +28,14 @@ export default {
             used.
         </Md></cx>
     },
+    sortValue: {
+        type: 'string/config',
+        key: true,
+        description: <cx><Md>
+            A binding used to store the value of the field used for sorting grids. Available only if `sorters` are not
+            used.
+        </Md></cx>
+    },
     sortDirection: {
         type: 'string',
         key: true,
