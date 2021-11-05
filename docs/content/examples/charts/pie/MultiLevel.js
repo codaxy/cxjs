@@ -36,9 +36,9 @@ export const MultiLevel = <cx>
             <Legend />
                <Svg style="width:400px; height:400px;">
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.v'
-                                   active:bind='$record.active'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.v'
+                                   active-bind='$record.active'
                                     colorIndex:expr='{$index} * 3 % 16'
                                     r:expr='55'
                                     r0:expr='20'
@@ -53,9 +53,9 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
-                           <PieSlice value:bind='$slice.sv'
-                                      active:bind='$record.active'
+                        <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
+                           <PieSlice value-bind='$slice.sv'
+                                      active-bind='$record.active'
                                       colorIndex:expr='{$index} * 3 % 16'
                                       r:expr='90'
                                       r0:expr='58'
@@ -108,9 +108,9 @@ export const MultiLevel = <cx>
             <Legend />
                <Svg style="width:400px; height:400px;">
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.v'
-                                   active:bind='$record.active'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.v'
+                                   active-bind='$record.active'
                                     colorIndex:expr='{$index} * 3 % 16'
                                     r:expr='55'
                                     r0:expr='20'
@@ -125,9 +125,9 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
-                           <PieSlice value:bind='$slice.sv'
-                                      active:bind='$record.active'
+                        <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
+                           <PieSlice value-bind='$slice.sv'
+                                      active-bind='$record.active'
                                       colorIndex:expr='{$index} * 3 % 16'
                                       r:expr='90'
                                       r0:expr='58'

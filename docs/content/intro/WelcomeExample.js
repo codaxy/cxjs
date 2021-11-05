@@ -56,13 +56,13 @@ export default (
                     }
                 >
                     <Gridlines />
-                    <Repeater records:bind="points" recordAlias="$point">
+                    <Repeater records-bind="points" recordAlias="$point">
                         <Column
                             colorIndex:expr="{$index}"
                             width={0.5}
                             offset={0}
-                            x:bind="$point.x"
-                            y:bind="$point.v1"
+                            x-bind="$point.x"
+                            y-bind="$point.v1"
                             tooltip:tpl="{$point.x} {$point.v1:n}"
                             selection={columnSelection}
                         />
@@ -70,15 +70,15 @@ export default (
                             colorIndex:expr="{$index}+2"
                             width={0.5}
                             offset={0}
-                            x:bind="$point.x"
-                            y0:bind="$point.v1"
-                            y:bind="$point.v2"
+                            x-bind="$point.x"
+                            y0-bind="$point.v1"
+                            y-bind="$point.v2"
                             tooltip="X2"
                             selection={columnSelection}
                         />
                         <Marker
-                            x:bind="$point.x"
-                            y:bind="$point.v1"
+                            x-bind="$point.x"
+                            y-bind="$point.v1"
                             xOffset={0}
                             size={10}
                             colorIndex:expr="{$index}"
@@ -96,8 +96,8 @@ export default (
                             </Rectangle>
                         </Marker>
                         <Marker
-                            x:bind="$point.x"
-                            y:bind="$point.v2"
+                            x-bind="$point.x"
+                            y-bind="$point.v2"
                             xOffset={0}
                             size={10}
                             colorIndex:expr="{$index}+2"
@@ -119,7 +119,7 @@ export default (
             </Svg>
             </div>
             <Grid
-                records:bind="points"
+                records-bind="points"
                 cached
                 columns={
                     [
@@ -127,7 +127,7 @@ export default (
                         {
                             header: "V1", field: "v1", format: "n;2", align: "right",
                             items: <NumberField
-                                value:bind="$record.v1"
+                                value-bind="$record.v1"
                                 format="n;2"
                                 style="width: 65px"
                                 inputStyle="text-align: right"
@@ -136,7 +136,7 @@ export default (
                         {
                             header: "V2", field: "v2", format: "n;2", align: "right",
                             items: <NumberField
-                                value:bind="$record.v2"
+                                value-bind="$record.v2"
                                 format="n;2"
                                 style="width: 65px"
                                 inputStyle="text-align: right"

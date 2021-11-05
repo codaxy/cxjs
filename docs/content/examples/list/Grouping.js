@@ -32,7 +32,7 @@ export const Grouping = <cx>
             List control supports grouping.
 
             <List
-                records:bind='$page.records'
+                records-bind='$page.records'
                 selection={{
                     type: KeySelection,
                     bind: '$page.selection'
@@ -48,16 +48,16 @@ export const Grouping = <cx>
                         }
                     },
                     header: <div style="padding-top: 25px" >
-                        <strong text:bind="$group.firstLetter"/>
+                        <strong text-bind="$group.firstLetter"/>
                     </div>,
                     footer: <strong text:tpl="{$group.count} item(s)"/>
                 }}
             >
-                <strong text:bind="$record.fullName"></strong>
+                <strong text-bind="$record.fullName"></strong>
                 <br/>
-                Phone: <span text:bind="$record.phone" />
+                Phone: <span text-bind="$record.phone" />
                 <br/>
-                City: <span text:bind="$record.city" />
+                City: <span text-bind="$record.city" />
             </List>
 
             <Content name="code">
@@ -87,7 +87,7 @@ export const Grouping = <cx>
             `}</CodeSnippet>
              <CodeSnippet visible-expr="{$page.code.tab}=='list'"  fiddle="LHlJu3zb">{`
             <List
-                records:bind='$page.records'
+                records-bind='$page.records'
                 selection={{
                     type: KeySelection,
                     bind: '$page.selection'
@@ -103,16 +103,16 @@ export const Grouping = <cx>
                         }
                     },
                     header: <div style="padding-top: 25px" >
-                        <strong text:bind="$group.firstLetter"/>
+                        <strong text-bind="$group.firstLetter"/>
                     </div>,
                     footer: <strong text:tpl="{$group.count} item(s)"/>
                 }}
             >
-                <strong text:bind="$record.fullName"></strong>
+                <strong text-bind="$record.fullName"></strong>
                 <br/>
-                Phone: <span text:bind="$record.phone" />
+                Phone: <span text-bind="$record.phone" />
                 <br/>
-                City: <span text:bind="$record.city" />
+                City: <span text-bind="$record.city" />
             </List>
             `}</CodeSnippet>
             </Content>

@@ -39,23 +39,23 @@ export const Bars = <cx>
                         y: { type: CategoryAxis, vertical: true, snapToTicks: 1 }
                     }}>
                         <Gridlines />
-                        <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+                        <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                      <Bar colorIndex={0}
                             name="Value 1"
                             height={0.3}
                             offset={-0.15}
-                            active:bind="$page.v1"
-                          x:bind="$point.v1"
-                          y:bind="$point.key"
+                            active-bind="$page.v1"
+                          x-bind="$point.v1"
+                          y-bind="$point.key"
                           tooltip:tpl="{$point.v1:n;0}" />
 
                      <Bar colorIndex={5}
                             name="Value 2"
                             height={0.3}
                             offset={0.15}
-                            active:bind="$page.v2"
-                          x:bind="$point.v2"
-                          y:bind="$point.key"
+                            active-bind="$page.v2"
+                          x-bind="$point.v2"
+                          y-bind="$point.key"
                           tooltip:tpl="{$point.v2:n;0}" />
                   </Repeater>
                </Chart>
@@ -81,23 +81,23 @@ export const Bars = <cx>
                   y: { type: CategoryAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+                  <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                      <Bar colorIndex={0}
                           name="Value 1"
                           height={0.3}
                           offset={-0.15}
-                          active:bind="$page.v1"
-                          x:bind="$point.v1"
-                          y:bind="$point.key"
+                          active-bind="$page.v1"
+                          x-bind="$point.v1"
+                          y-bind="$point.key"
                           tooltip:tpl="{$point.v1:n;0}" />
 
                      <Bar colorIndex={5}
                           name="Value 2"
                           height={0.3}
                           offset={0.15}
-                          active:bind="$page.v2"
-                          x:bind="$point.v2"
-                          y:bind="$point.key"
+                          active-bind="$page.v2"
+                          x-bind="$point.v2"
+                          y-bind="$point.key"
                           tooltip:tpl="{$point.v2:n;0}" />
                   </Repeater>
                </Chart>

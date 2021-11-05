@@ -21,28 +21,28 @@ export const TextAreas = <cx>
 
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
-               <TextArea label="Standard" value:bind="$page.text" rows={5} autoFocus />
-               <TextArea label="Disabled" value:bind="$page.text" disabled />
-               <TextArea label="Readonly" value:bind="$page.text" readOnly />
-               <TextArea label="Placeholder" value:bind="$page.text" placeholder="Type something here..." />
-               <TextArea label="Tooltip" value:bind="$page.text" tooltip='This is a tooltip.' />
-               <TextArea label="Required" value:bind="$page.text" required />
-               <TextArea label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} />
-               <TextArea label="View" value:bind="$page.text" mode="view" />
-               <TextArea label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A" />
+               <TextArea label="Standard" value-bind="$page.text" rows={5} autoFocus />
+               <TextArea label="Disabled" value-bind="$page.text" disabled />
+               <TextArea label="Readonly" value-bind="$page.text" readOnly />
+               <TextArea label="Placeholder" value-bind="$page.text" placeholder="Type something here..." />
+               <TextArea label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.' />
+               <TextArea label="Required" value-bind="$page.text" required />
+               <TextArea label="Styled" value-bind="$page.text" inputStyle={{border: '1px solid green'}} />
+               <TextArea label="View" value-bind="$page.text" mode="view" />
+               <TextArea label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A" />
             </div>
          </div>
          <CodeSnippet putInto="code" fiddle="KCwMQoPf">{`
             <div layout={LabelsLeftLayout}>
-               <TextArea label="Standard" value:bind="$page.text" rows={5} autoFocus />
-               <TextArea label="Disabled" value:bind="$page.text" disabled />
-               <TextArea label="Readonly" value:bind="$page.text" readOnly />
-               <TextArea label="Placeholder" value:bind="$page.text" placeholder="Type something here..." />
-               <TextArea label="Tooltip" value:bind="$page.text" tooltip='This is a tooltip.' />
-               <TextArea label="Required" value:bind="$page.text" required />
-               <TextArea label="Styled" value:bind="$page.text" inputStyle={{border: '1px solid green'}} />
-               <TextArea label="View" value:bind="$page.text" mode="view" />
-               <TextArea label="EmptyText" value:bind="$page.text" mode="view" emptyText="N/A" />
+               <TextArea label="Standard" value-bind="$page.text" rows={5} autoFocus />
+               <TextArea label="Disabled" value-bind="$page.text" disabled />
+               <TextArea label="Readonly" value-bind="$page.text" readOnly />
+               <TextArea label="Placeholder" value-bind="$page.text" placeholder="Type something here..." />
+               <TextArea label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.' />
+               <TextArea label="Required" value-bind="$page.text" required />
+               <TextArea label="Styled" value-bind="$page.text" inputStyle={{border: '1px solid green'}} />
+               <TextArea label="View" value-bind="$page.text" mode="view" />
+               <TextArea label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A" />
             </div>
          `}</CodeSnippet>
       </CodeSplit>

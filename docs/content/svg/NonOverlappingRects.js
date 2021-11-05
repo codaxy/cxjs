@@ -47,12 +47,12 @@ export const NonOverlappingRects = <cx>
                     >
                         <NonOverlappingRectGroup>
                             <Gridlines />
-                            <Repeater records:bind="$page.data" recordName="$point">
+                            <Repeater records-bind="$page.data" recordName="$point">
                                 <Marker
                                     colorIndex={0}
                                     size={10}
-                                    x:bind="$point.x"
-                                    y:bind="$point.y"
+                                    x-bind="$point.x"
+                                    y-bind="$point.y"
                                     style={{ fillOpacity: 0.5 }}
                                     draggableX
                                     draggableY
@@ -101,12 +101,12 @@ export const NonOverlappingRects = <cx>
                         >
                             <NonOverlappingRectGroup>
                                 <Gridlines />
-                                <Repeater records:bind="$page.data" recordName="$point">
+                                <Repeater records-bind="$page.data" recordName="$point">
                                     <Marker
                                         colorIndex={0}
                                         size={10}
-                                        x:bind="$point.x"
-                                        y:bind="$point.y"
+                                        x-bind="$point.x"
+                                        y-bind="$point.y"
                                         style={{ fillOpacity: 0.5 }}
                                         draggableX
                                         draggableY

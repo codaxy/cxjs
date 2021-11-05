@@ -40,17 +40,17 @@ export const Ranges = <cx>
             <Svg style="width:600px; height:400px;">
                <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
-                  <Range x1:bind="$page.p1.x" x2:bind="$page.p2.x" colorIndex={11} name="X Range" active:bind="$page.yrange">
+                  <Range x1-bind="$page.p1.x" x2-bind="$page.p2.x" colorIndex={11} name="X Range" active-bind="$page.yrange">
                      <Text anchors="0 0.5 0 0.5" offset="5 0 0 0" ta="middle" dy="0.8em">X Range</Text>
                   </Range>
-                  <Range y1:bind="$page.p1.y" y2:bind="$page.p2.y" colorIndex={8} name="Y Range" active:bind="$page.xrange">
+                  <Range y1-bind="$page.p1.y" y2-bind="$page.p2.y" colorIndex={8} name="Y Range" active-bind="$page.xrange">
                      <Text anchors="0.5 0 0.5 0" dy="0.4em" dx={5}>Y Range</Text>
                   </Range>
-                  <LineGraph data:bind="$page.points" colorIndex={0}  />
-                  <Marker colorIndex={11} x:bind="$page.p1.x" size={10} draggableX  />
-                  <Marker colorIndex={11} x:bind="$page.p2.x" size={10} draggableX  />
-                  <Marker colorIndex={8} y:bind="$page.p1.y" size={10} draggableY />
-                  <Marker colorIndex={8} y:bind="$page.p2.y" size={10} draggableY />
+                  <LineGraph data-bind="$page.points" colorIndex={0}  />
+                  <Marker colorIndex={11} x-bind="$page.p1.x" size={10} draggableX  />
+                  <Marker colorIndex={11} x-bind="$page.p2.x" size={10} draggableX  />
+                  <Marker colorIndex={8} y-bind="$page.p1.y" size={10} draggableY />
+                  <Marker colorIndex={8} y-bind="$page.p2.y" size={10} draggableY />
                </Chart>
             </Svg>
             <Legend />
@@ -75,17 +75,17 @@ export const Ranges = <cx>
                <Svg style="width:600px; height:400px;">
                   <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
-                     <Range x1:bind="$page.p1.x" x2:bind="$page.p2.x" colorIndex={11} name="X Range" active:bind="$page.yrange">
+                     <Range x1-bind="$page.p1.x" x2-bind="$page.p2.x" colorIndex={11} name="X Range" active-bind="$page.yrange">
                         <Text anchors="0 0.5 0 0.5" offset="5 0 0 0" ta="middle" dy="0.8em">X Range</Text>
                      </Range>
-                     <Range y1:bind="$page.p1.y" y2:bind="$page.p2.y" colorIndex={8} name="Y Range" active:bind="$page.xrange">
+                     <Range y1-bind="$page.p1.y" y2-bind="$page.p2.y" colorIndex={8} name="Y Range" active-bind="$page.xrange">
                         <Text anchors="0.5 0 0.5 0" dy="0.4em" dx={5}>Y Range</Text>
                      </Range>
-                     <LineGraph data:bind="$page.points" colorIndex={0}  />
-                     <Marker colorIndex={11} x:bind="$page.p1.x" size={10} draggableX  />
-                     <Marker colorIndex={11} x:bind="$page.p2.x" size={10} draggableX  />
-                     <Marker colorIndex={8} y:bind="$page.p1.y" size={10} draggableY />
-                     <Marker colorIndex={8} y:bind="$page.p2.y" size={10} draggableY />
+                     <LineGraph data-bind="$page.points" colorIndex={0}  />
+                     <Marker colorIndex={11} x-bind="$page.p1.x" size={10} draggableX  />
+                     <Marker colorIndex={11} x-bind="$page.p2.x" size={10} draggableX  />
+                     <Marker colorIndex={8} y-bind="$page.p1.y" size={10} draggableY />
+                     <Marker colorIndex={8} y-bind="$page.p2.y" size={10} draggableY />
                   </Chart>
                </Svg>
                <Legend />

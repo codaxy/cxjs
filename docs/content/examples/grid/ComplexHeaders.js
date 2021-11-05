@@ -35,7 +35,7 @@ export const ComplexHeaders = <cx>
             attributes, similar to how tables work in HTML.
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 style={{width: "100%"}}
                 border
                 vlines
@@ -78,7 +78,7 @@ export const ComplexHeaders = <cx>
                         sortable: true
                     },
                 ]}
-                sorters:bind="$page.sorters"
+                sorters-bind="$page.sorters"
             />
 
             <CodeSnippet putInto="code" fiddle="Qq5LHNJc">{`
@@ -100,7 +100,7 @@ export const ComplexHeaders = <cx>
                     }
                 };
                 ...
-                <Grid records:bind='$page.records'
+                <Grid records-bind='$page.records'
                       style={{width: "100%"}}
                       columns={[
                           {
@@ -141,7 +141,7 @@ export const ComplexHeaders = <cx>
                               sortable: true
                           },
                       ]}
-                      sorters:bind="$page.sorters"
+                      sorters-bind="$page.sorters"
                 />
                 `}</CodeSnippet>
         </CodeSplit>

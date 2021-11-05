@@ -40,28 +40,28 @@ export const Normalized = <cx>
                         x: CategoryAxis,
                         y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                      }}>
-                     <Repeater records:bind="$page.points" recordAlias="$point">
+                     <Repeater records-bind="$page.points" recordAlias="$point">
                         <Column name="V1"
-                                active:bind="$page.v1"
+                                active-bind="$page.v1"
                                 colorIndex={0}
-                                x:bind="$point.x"
-                                y:bind="$point.v1"
+                                x-bind="$point.x"
+                                y-bind="$point.v1"
                                 tooltip:tpl="V1 {$point.x} {$point.v1:n}"
                                 stacked />
 
                         <Column name="V2"
-                                active:bind="$page.v2"
+                                active-bind="$page.v2"
                                 colorIndex={2}
-                                x:bind="$point.x"
-                                y:bind="$point.v2"
+                                x-bind="$point.x"
+                                y-bind="$point.v2"
                                 tooltip:tpl="V2 {$point.x} {$point.v2:n}"
                                 stacked />
 
                         <Column name="V3"
-                                active:bind="$page.v3"
+                                active-bind="$page.v3"
                                 colorIndex={4}
-                                x:bind="$point.x"
-                                y:bind="$point.v3"
+                                x-bind="$point.x"
+                                y-bind="$point.v3"
                                 tooltip:tpl="V3 {$point.x} {$point.v3:n}"
                                 stacked />
 
@@ -100,28 +100,28 @@ export const Normalized = <cx>
                   y: { type: NumericAxis, vertical: true, normalized: true, format: 'p' }
                }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordAlias="$point">
+               <Repeater records-bind="$page.points" recordAlias="$point">
                   <Column name="V1"
-                          active:bind="$page.v1"
+                          active-bind="$page.v1"
                           colorIndex={0}
-                          x:bind="$point.x"
-                          y:bind="$point.v1"
+                          x-bind="$point.x"
+                          y-bind="$point.v1"
                           tooltip:tpl="V1 {$point.x} {$point.v1:n}"
                           stacked />
 
                   <Column name="V2"
-                          active:bind="$page.v2"
+                          active-bind="$page.v2"
                           colorIndex={2}
-                          x:bind="$point.x"
-                          y:bind="$point.v2"
+                          x-bind="$point.x"
+                          y-bind="$point.v2"
                           tooltip:tpl="V2 {$point.x} {$point.v2:n}"
                           stacked />
 
                   <Column name="V3"
-                          active:bind="$page.v3"
+                          active-bind="$page.v3"
                           colorIndex={4}
-                          x:bind="$point.x"
-                          y:bind="$point.v3"
+                          x-bind="$point.x"
+                          y-bind="$point.v3"
                           tooltip:tpl="V3 {$point.x} {$point.v3:n}"
                           stacked />
 

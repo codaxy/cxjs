@@ -43,7 +43,7 @@ export const BarGraphs = <cx>
                         y: { type: CategoryAxis, vertical: true }
                     }}>
                         <Gridlines />
-                        <BarGraph data:bind="$page.points"
+                        <BarGraph data-bind="$page.points"
                                colorIndex={0}
                                name="V1"
                                size={0.3}
@@ -56,7 +56,7 @@ export const BarGraphs = <cx>
                         }}
                   />
 
-                  <BarGraph data:bind="$page.points"
+                  <BarGraph data-bind="$page.points"
                                colorIndex={6}
                                name="V2"
                                size={0.3}
@@ -97,7 +97,7 @@ export const BarGraphs = <cx>
                   y: { type: CategoryAxis, vertical: true }
                }}>
                   <Gridlines/>
-                  <BarGraph data:bind="$page.points"
+                  <BarGraph data-bind="$page.points"
                                colorIndex={0}
                                name="V1"
                                size={0.3}
@@ -110,7 +110,7 @@ export const BarGraphs = <cx>
                                }}
                   />
 
-                  <BarGraph data:bind="$page.points"
+                  <BarGraph data-bind="$page.points"
                                colorIndex={6}
                                name="V2"
                                size={0.3}

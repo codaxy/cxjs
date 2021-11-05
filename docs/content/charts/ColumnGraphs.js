@@ -61,9 +61,9 @@ export const ColumnGraphs = <cx>
                     >
                         <Gridlines/>
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={0}
-                            active:bind="$page.showV1"
+                            active-bind="$page.showV1"
                             name="V1"
                             size={0.3}
                             offset={-0.15}
@@ -82,9 +82,9 @@ export const ColumnGraphs = <cx>
                         />
 
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={6}
-                            active:bind="$page.showV2"
+                            active-bind="$page.showV2"
                             name="V2"
                             size={0.3}
                             offset={+0.15}
@@ -143,9 +143,9 @@ export const ColumnGraphs = <cx>
                     >
                         <Gridlines/>
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={0}
-                            active:bind="$page.showV1"
+                            active-bind="$page.showV1"
                             name="V1"
                             size={0.3}
                             offset={-0.15}
@@ -158,9 +158,9 @@ export const ColumnGraphs = <cx>
                         />
 
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={6}
-                            active:bind="$page.showV2"
+                            active-bind="$page.showV2"
                             name="V2"
                             size={0.3}
                             offset={+0.15}

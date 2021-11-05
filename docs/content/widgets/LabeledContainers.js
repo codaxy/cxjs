@@ -24,12 +24,12 @@ export const LabeledContainers = <cx>
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
                <LabeledContainer label="Name" trimWhitespace={false}>
-                  <TextField value:bind="$page.person.firstName" placeholder="First Name" />
-                  <TextField value:bind="$page.person.lastName" placeholder="Last Name" />
+                  <TextField value-bind="$page.person.firstName" placeholder="First Name" />
+                  <TextField value-bind="$page.person.lastName" placeholder="Last Name" />
                </LabeledContainer>
                <LabeledContainer label="Origin" trimWhitespace={false}>
-                  <DateField value:bind="$page.person.dob" placeholder="DOB" />
-                  <TextField value:bind="$page.person.country" placeholder="Country" />
+                  <DateField value-bind="$page.person.dob" placeholder="DOB" />
+                  <TextField value-bind="$page.person.country" placeholder="Country" />
                </LabeledContainer>
             </div>
          </div>
@@ -37,12 +37,12 @@ export const LabeledContainers = <cx>
          <CodeSnippet putInto="code" fiddle="Ax68dwot">{`
             <div layout={LabelsLeftLayout}>
                <LabeledContainer label="Name" trimWhitespace={false}>
-                  <TextField value:bind="$page.person.firstName" placeholder="First Name" />
-                  <TextField value:bind="$page.person.lastName" placeholder="Last Name" />
+                  <TextField value-bind="$page.person.firstName" placeholder="First Name" />
+                  <TextField value-bind="$page.person.lastName" placeholder="Last Name" />
                </LabeledContainer>
                <LabeledContainer label="Origin" trimWhitespace={false}>
-                  <DateField value:bind="$page.person.dob" placeholder="DOB" />
-                  <TextField value:bind="$page.person.country" placeholder="Country" />
+                  <DateField value-bind="$page.person.dob" placeholder="DOB" />
+                  <TextField value-bind="$page.person.country" placeholder="Country" />
                </LabeledContainer>
             </div>
          `}</CodeSnippet>
