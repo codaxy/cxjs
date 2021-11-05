@@ -50,7 +50,7 @@ export const Grouping = <cx>
                     header: <div style="padding-top: 25px" >
                         <strong text:bind="$group.firstLetter"/>
                     </div>,
-                    footer: <strong text:tpl="{$group.count} item(s)"/>
+                    footer: <strong text-tpl="{$group.count} item(s)"/>
                 }}
             >
                 <strong text:bind="$record.fullName"></strong>
@@ -105,7 +105,7 @@ export const Grouping = <cx>
                     header: <div style="padding-top: 25px" >
                         <strong text:bind="$group.firstLetter"/>
                     </div>,
-                    footer: <strong text:tpl="{$group.count} item(s)"/>
+                    footer: <strong text-tpl="{$group.count} item(s)"/>
                 }}
             >
                 <strong text:bind="$record.fullName"></strong>

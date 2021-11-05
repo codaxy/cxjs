@@ -49,7 +49,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.v1"
-                                tooltip:tpl="V1 {$point.x} {$point.v1:n}"
+                                tooltip-tpl="V1 {$point.x} {$point.v1:n}"
                                 stack="v"
                                 stacked
                                 autoSize />
@@ -60,7 +60,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.v2"
-                                tooltip:tpl="V2 {$point.x} {$point.v2:n}"
+                                tooltip-tpl="V2 {$point.x} {$point.v2:n}"
                                 stack="v"
                                 stacked
                                 autoSize />
@@ -71,7 +71,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.v3"
-                                tooltip:tpl="V3 {$point.x} {$point.v3:n}"
+                                tooltip-tpl="V3 {$point.x} {$point.v3:n}"
                                 stack="z"
                                 stacked
                                 autoSize />
@@ -82,7 +82,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.a1"
-                                tooltip:tpl="A1 {$point.x} {$point.a1:n}"
+                                tooltip-tpl="A1 {$point.x} {$point.a1:n}"
                                 stack="x"
                                 stacked
                                 autoSize />
@@ -93,7 +93,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.a2"
-                                tooltip:tpl="A2 {$point.x} {$point.a2:n}"
+                                tooltip-tpl="A2 {$point.x} {$point.a2:n}"
                                 stack="a"
                                 stacked
                                 autoSize />
@@ -104,7 +104,7 @@ export const AutoWidth = <cx>
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.a3"
-                                tooltip:tpl="A3 {$point.x} {$point.a3:n}"
+                                tooltip-tpl="A3 {$point.x} {$point.a3:n}"
                                 stack="a"
                                 stacked
                                 autoSize />
@@ -156,7 +156,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.v1"
-                          tooltip:tpl="V1 {$point.x} {$point.v1:n}"
+                          tooltip-tpl="V1 {$point.x} {$point.v1:n}"
                           stack="v"
                           stacked
                           autoSize />
@@ -167,7 +167,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.v2"
-                          tooltip:tpl="V2 {$point.x} {$point.v2:n}"
+                          tooltip-tpl="V2 {$point.x} {$point.v2:n}"
                           stack="v"
                           stacked
                           autoSize />
@@ -178,7 +178,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.v3"
-                          tooltip:tpl="V3 {$point.x} {$point.v3:n}"
+                          tooltip-tpl="V3 {$point.x} {$point.v3:n}"
                           stack="z"
                           stacked
                           autoSize />
@@ -189,7 +189,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.a1"
-                          tooltip:tpl="A1 {$point.x} {$point.a1:n}"
+                          tooltip-tpl="A1 {$point.x} {$point.a1:n}"
                           stack="x"
                           stacked
                           autoSize />
@@ -200,7 +200,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.a2"
-                          tooltip:tpl="A2 {$point.x} {$point.a2:n}"
+                          tooltip-tpl="A2 {$point.x} {$point.a2:n}"
                           stack="a"
                           stacked
                           autoSize />
@@ -211,7 +211,7 @@ export const AutoWidth = <cx>
                           width={0.8}
                           x:bind="$point.x"
                           y:bind="$point.a3"
-                          tooltip:tpl="A3 {$point.x} {$point.a3:n}"
+                          tooltip-tpl="A3 {$point.x} {$point.a3:n}"
                           stack="a"
                           stacked
                           autoSize />

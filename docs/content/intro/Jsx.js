@@ -60,7 +60,7 @@ export const JsxPage = <cx>
 
         ### Data-binding Attributes
 
-        CxJS supports declarative data-binding using `:bind`, `:tpl` and `:expr` attribute suffixes.
+        CxJS supports declarative data-binding using `-bind`, `-tpl` and `-expr` attribute suffixes.
         Bindings establish connections between widget properties and values in the Store[~/concepts/store]
         pointed by the binding's path. Whenever data changes, widgets are automatically updated.
         Special binding syntax enables very readable and developer-friendly view code.

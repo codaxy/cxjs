@@ -56,7 +56,7 @@ export const Markers = <cx>
                             size:bind="$point.size"
                             x:bind="$point.x"
                             y:bind="$point.y"
-                            tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
+                            tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY
                      />
@@ -69,7 +69,7 @@ export const Markers = <cx>
                             size:bind="$point.size"
                             x:bind="$point.x"
                             y:bind="$point.y"
-                            tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
+                            tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY/>
                   </Repeater>
@@ -112,7 +112,7 @@ export const Markers = <cx>
                                size:bind="$point.size"
                                x:bind="$point.x"
                                y:bind="$point.y"
-                               tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
+                               tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                                style={{fillOpacity: 0.5}}
                                draggableX draggableY
                         />
@@ -125,7 +125,7 @@ export const Markers = <cx>
                                size:bind="$point.size"
                                x:bind="$point.x"
                                y:bind="$point.y"
-                               tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
+                               tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                                style={{fillOpacity: 0.5}}
                                draggableX draggableY/>
                      </Repeater>

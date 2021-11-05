@@ -46,7 +46,7 @@ export const Normalized = <cx>
                                 colorIndex={0}
                                 x:bind="$point.x"
                                 y:bind="$point.v1"
-                                tooltip:tpl="V1 {$point.x} {$point.v1:n}"
+                                tooltip-tpl="V1 {$point.x} {$point.v1:n}"
                                 stacked />
 
                         <Column name="V2"
@@ -54,7 +54,7 @@ export const Normalized = <cx>
                                 colorIndex={2}
                                 x:bind="$point.x"
                                 y:bind="$point.v2"
-                                tooltip:tpl="V2 {$point.x} {$point.v2:n}"
+                                tooltip-tpl="V2 {$point.x} {$point.v2:n}"
                                 stacked />
 
                         <Column name="V3"
@@ -62,7 +62,7 @@ export const Normalized = <cx>
                                 colorIndex={4}
                                 x:bind="$point.x"
                                 y:bind="$point.v3"
-                                tooltip:tpl="V3 {$point.x} {$point.v3:n}"
+                                tooltip-tpl="V3 {$point.x} {$point.v3:n}"
                                 stacked />
 
                      </Repeater>
@@ -106,7 +106,7 @@ export const Normalized = <cx>
                           colorIndex={0}
                           x:bind="$point.x"
                           y:bind="$point.v1"
-                          tooltip:tpl="V1 {$point.x} {$point.v1:n}"
+                          tooltip-tpl="V1 {$point.x} {$point.v1:n}"
                           stacked />
 
                   <Column name="V2"
@@ -114,7 +114,7 @@ export const Normalized = <cx>
                           colorIndex={2}
                           x:bind="$point.x"
                           y:bind="$point.v2"
-                          tooltip:tpl="V2 {$point.x} {$point.v2:n}"
+                          tooltip-tpl="V2 {$point.x} {$point.v2:n}"
                           stacked />
 
                   <Column name="V3"
@@ -122,7 +122,7 @@ export const Normalized = <cx>
                           colorIndex={4}
                           x:bind="$point.x"
                           y:bind="$point.v3"
-                          tooltip:tpl="V3 {$point.x} {$point.v3:n}"
+                          tooltip-tpl="V3 {$point.x} {$point.v3:n}"
                           stacked />
 
                </Repeater>

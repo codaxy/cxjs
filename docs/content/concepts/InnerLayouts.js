@@ -314,7 +314,7 @@ export const InnerLayouts = <cx>
                             loading data.
                         </div>
                         <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}}
-                            text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
+                            text-tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                     </div>
                     <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>
@@ -344,7 +344,7 @@ export const InnerLayouts = <cx>
                      <div layout={FirstVisibleChildLayout}>
                         <div visible:expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
                         <div visible:expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while loading data.</div>
-                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
+                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text-tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                      </div>
                      <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch</Button>

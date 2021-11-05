@@ -43,7 +43,7 @@ export const MultiLevel = <cx>
                                     r:expr='55'
                                     r0:expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -60,7 +60,7 @@ export const MultiLevel = <cx>
                                       r:expr='90'
                                       r0:expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
+                                      name-tpl="Slice {$sliceIndex}"
                                       legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{
@@ -115,7 +115,7 @@ export const MultiLevel = <cx>
                                     r:expr='55'
                                     r0:expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -132,7 +132,7 @@ export const MultiLevel = <cx>
                                       r:expr='90'
                                       r0:expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
+                                      name-tpl="Slice {$sliceIndex}"
                                       legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{

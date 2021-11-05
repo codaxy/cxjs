@@ -55,7 +55,7 @@ export const Combination = <cx>
                              x:bind="$point.v1"
                              y:bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v1:n;0}" />
+                             tooltip-tpl="{$point.v1:n;0}" />
 
                         <Bar colorIndex={2}
                              height={0.2}
@@ -63,7 +63,7 @@ export const Combination = <cx>
                              x:bind="$point.v2"
                              y:bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v2:n;0}" />
+                             tooltip-tpl="{$point.v2:n;0}" />
 
                         <Bar colorIndex={4}
                              height={0.2}
@@ -71,7 +71,7 @@ export const Combination = <cx>
                              x:bind="$point.v3"
                              y:bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v3:n;0}" />
+                             tooltip-tpl="{$point.v3:n;0}" />
                      </Repeater>
                   </Chart>
                </Svg>
@@ -157,7 +157,7 @@ export const Combination = <cx>
                        x:bind="$point.v1"
                        y:bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v1:n;0}" />
+                       tooltip-tpl="{$point.v1:n;0}" />
 
                   <Bar colorIndex={2}
                        height={0.2}
@@ -165,7 +165,7 @@ export const Combination = <cx>
                        x:bind="$point.v2"
                        y:bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v2:n;0}" />
+                       tooltip-tpl="{$point.v2:n;0}" />
 
                   <Bar colorIndex={4}
                        height={0.2}
@@ -173,7 +173,7 @@ export const Combination = <cx>
                        x:bind="$point.v3"
                        y:bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v3:n;0}" />
+                       tooltip-tpl="{$point.v3:n;0}" />
                </Repeater>
             </Chart>
          </Svg>
