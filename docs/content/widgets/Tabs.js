@@ -41,10 +41,10 @@ export const Tabs = <cx>
                   <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
                </div>
                <div style="border: 1px solid lightgray; background: white; padding: 20px">
-                  <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
-                  <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
-                  <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
-                  <div visible:expr="{$page.tab}=='tab4'">Tab 4</div>
+                  <div visible-expr="{$page.tab}=='tab1'">Tab 1</div>
+                  <div visible-expr="{$page.tab}=='tab2'">Tab 2</div>
+                  <div visible-expr="{$page.tab}=='tab3'">Tab 3</div>
+                  <div visible-expr="{$page.tab}=='tab4'">Tab 4</div>
                </div>
             </div>
          </div>
@@ -70,10 +70,10 @@ export const Tabs = <cx>
                   <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
                </div>
                <div style="border: 1px solid lightgray; background: white; padding: 20px">
-                  <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
-                  <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
-                  <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
-                  <div visible:expr="{$page.tab}=='tab4'">Tab 4</div>
+                  <div visible-expr="{$page.tab}=='tab1'">Tab 1</div>
+                  <div visible-expr="{$page.tab}=='tab2'">Tab 2</div>
+                  <div visible-expr="{$page.tab}=='tab3'">Tab 3</div>
+                  <div visible-expr="{$page.tab}=='tab4'">Tab 4</div>
                </div>
             </div>`}
          </CodeSnippet>

@@ -134,13 +134,13 @@ export const Grids = <cx>
             <Tab value:bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
         </p>
 
-        <ConfigTable props={configs} visible:expr="{$page.configTab}=='grid'"/>
+        <ConfigTable props={configs} visible-expr="{$page.configTab}=='grid'"/>
 
-        <ConfigTable props={columnConfigs} visible:expr="{$page.configTab}=='column'"/>
+        <ConfigTable props={columnConfigs} visible-expr="{$page.configTab}=='column'"/>
 
-        <ConfigTable props={columnHeaderConfigs} visible:expr="{$page.configTab}=='header'"/>
+        <ConfigTable props={columnHeaderConfigs} visible-expr="{$page.configTab}=='header'"/>
 
-        <ConfigTable props={groupingConfigs} visible:expr="{$page.configTab}=='grouping'"/>
+        <ConfigTable props={groupingConfigs} visible-expr="{$page.configTab}=='grouping'"/>
 
     </Md>
 </cx>

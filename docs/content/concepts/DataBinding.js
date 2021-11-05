@@ -50,14 +50,14 @@ export const DataBinding = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <TextField value:bind='intro.core.text' enabled:expr='!{intro.core.checked}'/>
+                <TextField value:bind='intro.core.text' enabled-expr='!{intro.core.checked}'/>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="csRQr9CA">{`
                     <TextField
                         value:bind='intro.core.text'
-                        enabled:expr='!{intro.core.checked}'
+                        enabled-expr='!{intro.core.checked}'
                     />
                 `}</CodeSnippet>
             </Content>
@@ -67,7 +67,7 @@ export const DataBinding = <cx>
         are both using the value `intro.core.checked`.
         Try clicking the checkbox and you will see how it works together with the text field.
 
-        > Suffix `:expr` or `-expr` is used on attributes to define data expressions.
+        > Suffix `-expr` or `-expr` is used on attributes to define data expressions.
 
         > Curly brackets denote data bindings.
 
@@ -86,7 +86,7 @@ export const DataBinding = <cx>
                     <TextField value:bind='intro.core.lastName' label="Last Name"/>
                     <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template"
                                mode="view"/>
-                    <TextField value:expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"'
+                    <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"'
                                label="Expression" mode="view"/>
                 </div>
             </div>
@@ -97,7 +97,7 @@ export const DataBinding = <cx>
                   <TextField value:bind='intro.core.firstName' label="First Name" />
                   <TextField value:bind='intro.core.lastName' label="Last Name"/>
                   <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template" mode="view"/>
-                  <TextField value:expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"' label="Expression" mode="view"/>
+                  <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"' label="Expression" mode="view"/>
                </div>
             `}</CodeSnippet>
             </Content>

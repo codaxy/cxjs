@@ -51,7 +51,7 @@ export const Todo = <cx>
                            placeholder="Type a task name here"
                            required
                 />
-                <Button type="button" onClick="onAdd" disabled:expr="!{$page.text}">Add</Button>
+                <Button type="button" onClick="onAdd" disabled-expr="!{$page.text}">Add</Button>
             </div>
 
             <ul class="csb-task-list">

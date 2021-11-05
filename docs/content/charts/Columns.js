@@ -45,7 +45,7 @@ export const Columns = <cx>
                      y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
                      <Repeater records:bind="$page.points" recordAlias="$point">
-                        <Column colorIndex:expr="15 - Math.round({$point.y}*6/50)"
+                        <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
                                 width={0.8}
                                 x:bind="$point.x"
                                 y:bind="$point.y"
@@ -75,7 +75,7 @@ export const Columns = <cx>
                   y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
                   <Repeater records:bind="$page.points" recordAlias="$point">
-                     <Column colorIndex:expr="15 - Math.round({$point.y}*6/50)"
+                     <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
                              width={0.8}
                              x:bind="$point.x"
                              y:bind="$point.y"

@@ -79,7 +79,7 @@ export const ValueAtFinderPage = <cx>
                                 trackMouse: true
                             }}
                         >
-                            <MarkerLine visible:expr="!!{$page.cursor}" x:bind="$page.cursor.x" />
+                            <MarkerLine visible-expr="!!{$page.cursor}" x:bind="$page.cursor.x" />
 
                             <ColorMap onGetCache="getColorMapCache" />
 
