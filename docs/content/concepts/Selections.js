@@ -70,7 +70,7 @@ export const Selections = <cx>
                             />
                             <Gridlines />
                             <ScatterGraph
-                                data:bind="$page.bubbles"
+                                data-bind="$page.bubbles"
                                 selection={{ type: PropertySelection, multiple: true }}
                                 sizeField="d"
                                 colorIndex={0}
@@ -78,11 +78,11 @@ export const Selections = <cx>
                         </Chart>
                     </Svg>
                     <div>
-                        <Repeater records:bind="$page.bubbles">
+                        <Repeater records-bind="$page.bubbles">
                             <div>
                                 <Checkbox
-                                    checked:bind="$record.selected"
-                                    text:bind="$record.name"
+                                    checked-bind="$record.selected"
+                                    text-bind="$record.name"
                                 />
                             </div>
                         </Repeater>
@@ -111,7 +111,7 @@ export const Selections = <cx>
                         />
                         <Gridlines />
                         <ScatterGraph
-                            data:bind="$page.bubbles"
+                            data-bind="$page.bubbles"
                             selection={{ type: PropertySelection, multiple: true }}
                             sizeField="d"
                             colorIndex={0}
@@ -119,11 +119,11 @@ export const Selections = <cx>
                     </Chart>
                 </Svg>
                 <div>
-                    <Repeater records:bind="$page.bubbles">
+                    <Repeater records-bind="$page.bubbles">
                         <div>
                             <Checkbox
-                                checked:bind="$record.selected"
-                                text:bind="$record.name"
+                                checked-bind="$record.selected"
+                                text-bind="$record.name"
                             />
                         </div>
                     </Repeater>
@@ -149,7 +149,7 @@ export const Selections = <cx>
 
             <div class="widgets">
 
-                <Grid records:bind="$page.bubbles"
+                <Grid records-bind="$page.bubbles"
                       style={{width: "400px"}}
                       columns={[
                           {header: 'Name', field: 'name'},
@@ -161,9 +161,9 @@ export const Selections = <cx>
                 />
 
                 <div>
-                    <Select value:bind="$page.selection">
-                        <Repeater records:bind="$page.bubbles"> <Option value:bind="$record.name"
-                                                                        text:bind="$record.name"/>
+                    <Select value-bind="$page.selection">
+                        <Repeater records-bind="$page.bubbles"> <Option value-bind="$record.name"
+                                                                        text-bind="$record.name"/>
                         </Repeater>
                     </Select>
                 </div>
@@ -171,7 +171,7 @@ export const Selections = <cx>
 
             <Content name="code">
                 <CodeSnippet fiddle="j8o4HZQV">{`
-               <Grid records:bind="$page.bubbles"
+               <Grid records-bind="$page.bubbles"
                      style={{width: "400px"}}
                      columns={[
                         { header: 'Name', field: 'name', sortable: true },
@@ -182,9 +182,9 @@ export const Selections = <cx>
                      selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
                />
                <div>
-                  <Select value:bind="$page.selection">
-                     <Repeater records:bind="$page.bubbles">
-                        <Option value:bind="$record.name" text:bind="$record.name" />
+                  <Select value-bind="$page.selection">
+                     <Repeater records-bind="$page.bubbles">
+                        <Option value-bind="$record.name" text-bind="$record.name" />
                      </Repeater>
                   </Select>
                </div>

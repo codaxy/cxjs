@@ -189,7 +189,7 @@ export const DragAndDrop = <cx>
                             data={{index: {bind: "$index"}, type: 'hbox'}}
                             hideOnDrag
                         >
-                            <div text:bind="$record.text" style="padding:5px"/>
+                            <div text-bind="$record.text" style="padding:5px"/>
                         </DragSource>
                         <DropZone
                             mod="inline-block"
@@ -234,7 +234,7 @@ export const DragAndDrop = <cx>
                         data={{index: {bind: "$index"}, type: 'hbox'}}
                         hideOnDrag
                     >
-                        <div text:bind="$record.text" style="padding:5px"/>
+                        <div text-bind="$record.text" style="padding:5px"/>
                     </DragSource>
                     <DropZone
                         mod="inline-block"
@@ -264,9 +264,9 @@ export const DragAndDrop = <cx>
         ## Configuration
 
         <p>
-            <Tab value:bind="$page.configTab" tab="drag-source" mod="line" default>DragSource</Tab>
-            <Tab value:bind="$page.configTab" tab="drop-zone" mod="line">DropZone</Tab>
-            <Tab value:bind="$page.configTab" tab="drag-event" mod="line">DragDropEvent</Tab>
+            <Tab value-bind="$page.configTab" tab="drag-source" mod="line" default>DragSource</Tab>
+            <Tab value-bind="$page.configTab" tab="drop-zone" mod="line">DropZone</Tab>
+            <Tab value-bind="$page.configTab" tab="drag-event" mod="line">DragDropEvent</Tab>
         </p>
 
         <ConfigTable props={dragSourceConfig} visible:expr="{$page.configTab}=='drag-source'"/>

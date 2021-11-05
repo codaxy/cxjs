@@ -41,7 +41,7 @@ export const CellEditing = (
                     onCellEdited={(change, record) => {
                         console.log(change, record);
                     }}
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     scrollable
                     buffered
                     style="height: 600px;"
@@ -140,7 +140,7 @@ export const CellEditing = (
                     onCellEdited={(change, record) => {
                         console.log(change, record);
                     }}
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     scrollable
                     buffered
                     style="height: 600px;"

@@ -20,8 +20,8 @@ export const Calendars = <cx>
          Calendar is used for selecting dates.
 
          <div class="widgets">
-               <Calendar value:bind="$page.date" />
-               <Calendar value:bind="$page.date"
+               <Calendar value-bind="$page.date" />
+               <Calendar value-bind="$page.date"
                          minValue="2016-05-10"
                          maxValue="2016-05-20"
                          maxExclusive
@@ -31,8 +31,8 @@ export const Calendars = <cx>
          <Content name="code">
             <CodeSnippet fiddle="op5dUaHh">{`
                 <div class="widgets">
-                   <Calendar value:bind="$page.date" />
-                   <Calendar value:bind="$page.date"
+                   <Calendar value-bind="$page.date" />
+                   <Calendar value-bind="$page.date"
                          minValue="2016-05-10"
                          maxValue="2016-05-20"
                          maxExclusive

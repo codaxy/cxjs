@@ -22,29 +22,29 @@ export const SelectFields = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Select value:bind="$page.selection" label="Standard">
+                    <Select value-bind="$page.selection" label="Standard">
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
-                    <Select value:bind="$page.selection" label="Disabled" disabled>
+                    <Select value-bind="$page.selection" label="Disabled" disabled>
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
-                    <Select value:bind="$page.selection2" label="Required" required placeholder>
+                    <Select value-bind="$page.selection2" label="Required" required placeholder>
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Select value:bind="$page.selection" label="Tooltip" tooltip="Tooltip">
+                    <Select value-bind="$page.selection" label="Tooltip" tooltip="Tooltip">
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
-                    <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
+                    <Select value-bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
-                    <Select value:bind="$page.selection2" label="Clear" emptyValue={null} placeholder="Please select..." >
+                    <Select value-bind="$page.selection2" label="Clear" emptyValue={null} placeholder="Please select..." >
                         <option value={1}>Option 1</option>
                         <option value={2}>Option 2</option>
                     </Select>
@@ -53,30 +53,30 @@ export const SelectFields = <cx>
 
             <CodeSnippet putInto="code" fiddle="hCnG2Ror">{`
             <div layout={LabelsLeftLayout}>
-               <Select value:bind="$page.selection" label="Standard">
+               <Select value-bind="$page.selection" label="Standard">
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
-               <Select value:bind="$page.selection" label="Disabled" disabled>
+               <Select value-bind="$page.selection" label="Disabled" disabled>
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
-               <Select value:bind="$page.selection" label="Required" required>
+               <Select value-bind="$page.selection" label="Required" required>
                   <option />
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
             </div>
             <div layout={LabelsLeftLayout}>
-               <Select value:bind="$page.selection" label="Tooltip" tooltip="Tooltip">
+               <Select value-bind="$page.selection" label="Tooltip" tooltip="Tooltip">
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
-               <Select value:bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
+               <Select value-bind="$page.selection" label="Styled" inputStyle={{border: '1px solid green'}} icon="pencil">
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>
-               <Select value:bind="$page.selection2" label="Clear" emptyValue={null} placeholder="Please select...">
+               <Select value-bind="$page.selection2" label="Clear" emptyValue={null} placeholder="Please select...">
                   <option value={1}>Option 1</option>
                   <option value={2}>Option 2</option>
                </Select>

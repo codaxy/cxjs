@@ -36,9 +36,9 @@ export const MinMaxFinderPage = <cx>
                         y: <NumericAxis vertical/>,
                     }}>
                         <Gridlines />
-                        <MinMaxFinder minY:bind="$page.min" maxY:bind="$page.max">
-                            <Range y1:bind="$page.min" y2:bind="$page.max" colorIndex={5} />
-                            <LineGraph data:bind="$page.data" colorIndex={5} />
+                        <MinMaxFinder minY-bind="$page.min" maxY-bind="$page.max">
+                            <Range y1-bind="$page.min" y2-bind="$page.max" colorIndex={5} />
+                            <LineGraph data-bind="$page.data" colorIndex={5} />
                         </MinMaxFinder>
                     </Chart>
                 </Svg>
@@ -69,9 +69,9 @@ export const MinMaxFinderPage = <cx>
                         y: <NumericAxis vertical/>,
                     }}>
                         <Gridlines />
-                        <MinMaxFinder minY:bind="$page.min" maxY:bind="$page.max">
-                            <Range y1:bind="$page.min" y2:bind="$page.max" colorIndex={5} />
-                            <LineGraph data:bind="$page.data" colorIndex={5} />
+                        <MinMaxFinder minY-bind="$page.min" maxY-bind="$page.max">
+                            <Range y1-bind="$page.min" y2-bind="$page.max" colorIndex={5} />
+                            <LineGraph data-bind="$page.data" colorIndex={5} />
                         </MinMaxFinder>
                     </Chart>
                 </Svg>

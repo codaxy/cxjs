@@ -20,13 +20,13 @@ export const ColorPickers = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <ColorPicker value:bind="$page.color"/>
+                <ColorPicker value-bind="$page.color"/>
                 <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
             </div>
 
             <CodeSnippet putInto="code" fiddle="9B8Xyzfj">{`
             <div class="widgets">
-                <ColorPicker value:bind="$page.color"/>
+                <ColorPicker value-bind="$page.color"/>
                 <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
             </div>
          `}</CodeSnippet>

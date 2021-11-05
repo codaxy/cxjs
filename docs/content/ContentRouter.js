@@ -34,8 +34,8 @@ let addRoutes = (path, pages, routes) => {
         if (name[0] == name[0].toUpperCase()) {
             routes.push(
                 <cx>
-                    <Route url:bind="url" route={path + getPageName(name)}>
-                        <Sandbox storage:bind="pages" key:bind="url">
+                    <Route url-bind="url" route={path + getPageName(name)}>
+                        <Sandbox storage-bind="pages" key-bind="url">
                             <div class="dxe-article-tools">
                                 <a href="https://github.com/codaxy/cxjs/issues/new">
                                     Report

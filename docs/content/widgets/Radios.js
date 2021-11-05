@@ -29,28 +29,28 @@ export const Radios = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native default />
-                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio" />
-                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
+                    <Radio label="Native" value-bind="$page.option" option="0" text="Radio" native default />
+                    <Radio label="Standard" value-bind="$page.option" option="1" text="Radio" />
+                    <Radio label="Disabled" value-bind="$page.option" option="2" disabled text="Radio"/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio"/>
-                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio"/>
-                    <Radio label="Styled" value:bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
+                    <Radio label="Required" value-bind="$page.option" option="4" required text="Radio"/>
+                    <Radio label="Readonly" value-bind="$page.option" option="3" readOnly text="Radio"/>
+                    <Radio label="Styled" value-bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="w0Hk6JJo">{`
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Native" value:bind="$page.option" option="0" text="Radio" native default />
-                    <Radio label="Standard" value:bind="$page.option" option="1" text="Radio"/>
-                    <Radio label="Disabled" value:bind="$page.option" option="2" disabled text="Radio"/>
+                    <Radio label="Native" value-bind="$page.option" option="0" text="Radio" native default />
+                    <Radio label="Standard" value-bind="$page.option" option="1" text="Radio"/>
+                    <Radio label="Disabled" value-bind="$page.option" option="2" disabled text="Radio"/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Radio label="Required" value:bind="$page.option" option="4" required text="Radio"/>
-                    <Radio label="Readonly" value:bind="$page.option" option="3" readOnly text="Radio"/>
-                    <Radio label="Styled" value:bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
+                    <Radio label="Required" value-bind="$page.option" option="4" required text="Radio"/>
+                    <Radio label="Readonly" value-bind="$page.option" option="3" readOnly text="Radio"/>
+                    <Radio label="Styled" value-bind="$page.option" option="5" inputStyle="color:red" text="Radio"/>
                 </div>
                 `}</CodeSnippet>
             </Content>
@@ -66,8 +66,8 @@ export const Radios = <cx>
 
             <div class="widgets">
                 <div controller={RadioController}>
-                    <Repeater records:bind="$page.options">
-                        <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text"
+                    <Repeater records-bind="$page.options">
+                        <Radio value-bind="$page.option" option-bind="$record.id" text-bind="$record.text"
                             style={{float: 'left', width: '130px'}}/>
                     </Repeater>
                 </div>
@@ -86,8 +86,8 @@ export const Radios = <cx>
                     }
                     ...
                     <div controller={RadioController}>
-                        <Repeater records:bind="$page.options">
-                            <Radio value:bind="$page.option" option:bind="$record.id" text:bind="$record.text" style={{float: 'left', width: '130px'}} />
+                        <Repeater records-bind="$page.options">
+                            <Radio value-bind="$page.option" option-bind="$record.id" text-bind="$record.text" style={{float: 'left', width: '130px'}} />
                         </Repeater>
                     </div>
                 `}

@@ -21,37 +21,37 @@ export const FieldGroups = <cx>
             is just an alias for it.
 
             <div class="widgets">
-                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
-                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
-                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
+                <Checkbox value-bind="$page.enabled">Enabled</Checkbox>
+                <Checkbox value-bind="$page.readOnly">ReadOnly</Checkbox>
+                <Checkbox value-bind="$page.viewMode">ViewMode</Checkbox>
                 <FieldGroup
                     layout={LabelsLeftLayout}
-                    enabled:bind="$page.enabled"
-                    readOnly:bind="$page.readOnly"
-                    viewMode:bind="$page.viewMode"
+                    enabled-bind="$page.enabled"
+                    readOnly-bind="$page.readOnly"
+                    viewMode-bind="$page.viewMode"
                     tabOnEnterKey
                 >
-                    <TextField label="First Name" value:bind="$page.firstName" required/>
-                    <TextField label="Last Name" value:bind="$page.lastName" required/>
-                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
+                    <TextField label="First Name" value-bind="$page.firstName" required/>
+                    <TextField label="Last Name" value-bind="$page.lastName" required/>
+                    <Checkbox label="Status" value-bind="$page.active" text="Active" emptyText="Inactive" />
                     <Button text="Button" />
                 </FieldGroup>
             </div>
 
             <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
-                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
-                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
+                <Checkbox value-bind="$page.enabled">Enabled</Checkbox>
+                <Checkbox value-bind="$page.readOnly">ReadOnly</Checkbox>
+                <Checkbox value-bind="$page.viewMode">ViewMode</Checkbox>
                 <FieldGroup
                     layout={LabelsLeftLayout}
-                    enabled:bind="$page.enabled"
-                    readOnly:bind="$page.readOnly"
-                    viewMode:bind="$page.viewMode"
+                    enabled-bind="$page.enabled"
+                    readOnly-bind="$page.readOnly"
+                    viewMode-bind="$page.viewMode"
                     tabOnEnterKey
                 >
-                    <TextField label="First Name" value:bind="$page.firstName" required/>
-                    <TextField label="Last Name" value:bind="$page.lastName" required/>
-                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
+                    <TextField label="First Name" value-bind="$page.firstName" required/>
+                    <TextField label="Last Name" value-bind="$page.lastName" required/>
+                    <Checkbox label="Status" value-bind="$page.active" text="Active" emptyText="Inactive" />
                     <Button text="Button" />
                 </FieldGroup>
             `}</CodeSnippet>

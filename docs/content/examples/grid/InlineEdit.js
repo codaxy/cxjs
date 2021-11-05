@@ -28,7 +28,7 @@ export const InlineEdit = <cx>
             Grid supports arbitrary content inside its cells. Any widget or even a chart can be put inside it.
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 style={{width: "100%"}}
                 columns={[
                     {
@@ -37,14 +37,14 @@ export const InlineEdit = <cx>
                         sortable: true,
                         style: 'border:none',
                         items: <cx>
-                            <TextField value:bind="$record.fullName" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.fullName" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'Phone',
                         field: 'phone',
                         style: 'border:none',
                         items: <cx>
-                            <TextField value:bind="$record.phone" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.phone" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'City',
@@ -52,7 +52,7 @@ export const InlineEdit = <cx>
                         style: 'border:none',
                         sortable: true,
                         items: <cx>
-                            <TextField value:bind="$record.city" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.city" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'Notified',
@@ -62,7 +62,7 @@ export const InlineEdit = <cx>
                         align: 'center',
                         pad: false,
                         items: <cx>
-                            <Checkbox value:bind="$record.notified"/>
+                            <Checkbox value-bind="$record.notified"/>
                         </cx>
                     }
                 ]}
@@ -85,7 +85,7 @@ export const InlineEdit = <cx>
                 }
                 ...
                 <Grid
-                    records:bind='$page.records'
+                    records-bind='$page.records'
                     style={{width: "100%"}}
                     columns={[
                         {
@@ -94,14 +94,14 @@ export const InlineEdit = <cx>
                             sortable: true,
                             style: 'border:none',
                             items: <cx>
-                                <TextField value:bind="$record.fullName" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.fullName" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'Phone',
                             field: 'phone',
                             style: 'border:none',
                             items: <cx>
-                                <TextField value:bind="$record.phone" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.phone" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'City',
@@ -109,7 +109,7 @@ export const InlineEdit = <cx>
                             style: 'border:none',
                             sortable: true,
                             items: <cx>
-                                <TextField value:bind="$record.city" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.city" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'Notified',
@@ -119,7 +119,7 @@ export const InlineEdit = <cx>
                             align: 'center',
                             pad: false,
                             items: <cx>
-                                <Checkbox value:bind="$record.notified"/>
+                                <Checkbox value-bind="$record.notified"/>
                             </cx>
                         }
                     ]}

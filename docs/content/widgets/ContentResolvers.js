@@ -38,10 +38,10 @@ export const ContentResolvers = <cx>
             <div class="widgets">
                 <table controller={PageController}>
                     <tbody>
-                    <Repeater records:bind="$page.items">
+                    <Repeater records-bind="$page.items">
                         <tr>
                             <td>
-                                <Select value:bind="$record.type" style="width: 120px">
+                                <Select value-bind="$record.type" style="width: 120px">
                                     <option value="textfield">TextField</option>
                                     <option value="datefield">DateField</option>
                                     <option value="checkbox">Checkbox</option>
@@ -50,20 +50,20 @@ export const ContentResolvers = <cx>
                             </td>
                             <td>
                                 <ContentResolver
-                                    params:bind="$record.type"
+                                    params-bind="$record.type"
                                     onResolve={type => {
                                         switch (type) {
                                             case 'textfield':
-                                                return <cx><TextField value:bind="$record.text"/></cx>;
+                                                return <cx><TextField value-bind="$record.text"/></cx>;
 
                                             case 'datefield':
-                                                return <cx><DateField value:bind="$record.date"/></cx>;
+                                                return <cx><DateField value-bind="$record.date"/></cx>;
 
                                             case 'checkbox':
-                                                return <cx><Checkbox value:bind="$record.checked"/></cx>;
+                                                return <cx><Checkbox value-bind="$record.checked"/></cx>;
 
                                             case 'switch':
-                                                return <cx><Switch value:bind="$record.checked"/></cx>;
+                                                return <cx><Switch value-bind="$record.checked"/></cx>;
 
                                             default:
                                                 return null;
@@ -100,10 +100,10 @@ export const ContentResolvers = <cx>
                 <CodeSnippet fiddle="RcY5ebiO" visible-expr="{$page.code.tab}=='code'">{`
                     <table controller={PageController}>
                         <tbody>
-                            <Repeater records:bind="$page.items">
+                            <Repeater records-bind="$page.items">
                                 <tr>
                                     <td>
-                                        <Select value:bind="$record.type" style="width: 120px">
+                                        <Select value-bind="$record.type" style="width: 120px">
                                             <option value="textfield">TextField</option>
                                             <option value="datefield">DateField</option>
                                             <option value="checkbox">Checkbox</option>
@@ -112,20 +112,20 @@ export const ContentResolvers = <cx>
                                     </td>
                                     <td>
                                         <ContentResolver
-                                            params:bind="$record.type"
+                                            params-bind="$record.type"
                                             onResolve={type => {
                                                 switch (type) {
                                                     case 'textfield':
-                                                        return <cx><TextField value:bind="$record.text"/></cx>;
+                                                        return <cx><TextField value-bind="$record.text"/></cx>;
         
                                                     case 'datefield':
-                                                        return <cx><DateField value:bind="$record.date"/></cx>;
+                                                        return <cx><DateField value-bind="$record.date"/></cx>;
         
                                                     case 'checkbox':
-                                                        return <cx><Checkbox value:bind="$record.checked"/></cx>;
+                                                        return <cx><Checkbox value-bind="$record.checked"/></cx>;
         
                                                     case 'switch':
-                                                        return <cx><Switch value:bind="$record.checked"/></cx>;
+                                                        return <cx><Switch value-bind="$record.checked"/></cx>;
         
                                                     default:
                                                         return null;

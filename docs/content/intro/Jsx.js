@@ -29,7 +29,7 @@ export const JsxPage = <cx>
                 <cx>
                     <div>
                         <TextField
-                            value:bind="person.name"
+                            value-bind="person.name"
                             required
                             label="Label" />
                     </div>
@@ -60,7 +60,7 @@ export const JsxPage = <cx>
 
         ### Data-binding Attributes
 
-        CxJS supports declarative data-binding using `:bind`, `:tpl` and `:expr` attribute suffixes.
+        CxJS supports declarative data-binding using `-bind`, `:tpl` and `:expr` attribute suffixes.
         Bindings establish connections between widget properties and values in the Store[~/concepts/store]
         pointed by the binding's path. Whenever data changes, widgets are automatically updated.
         Special binding syntax enables very readable and developer-friendly view code.
@@ -140,8 +140,8 @@ export const JsxPage = <cx>
             on all HTML container elements to set the inner content of the element.
 
             <CodeSnippet putInto="code">{`
-                <h2 text:bind="person.name" />
-                <div innerHtml:bind="html" />
+                <h2 text-bind="person.name" />
+                <div innerHtml-bind="html" />
             `}</CodeSnippet>
 
             The `innerHtml` property is very convenient for setting the inner content obtained through Markdown

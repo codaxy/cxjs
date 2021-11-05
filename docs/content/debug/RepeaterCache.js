@@ -12,7 +12,7 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 export const RepeaterCache = <cx>
 
    <div class="widgets">
-      <NumberField value:bind="$page.v" />
+      <NumberField value-bind="$page.v" />
       <Repeater records={Array.from({length: 10}).map(()=>({}))}>
          <div visible:expr="{$index} < {$page.v}">
             <Repeater records={Array.from({length: 10}).map(()=>({}))}>
