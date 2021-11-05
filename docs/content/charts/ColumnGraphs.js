@@ -1,5 +1,5 @@
-import {HtmlElement} from 'cx/widgets';
-import {Controller, KeySelection} from 'cx/ui';
+import {HtmlElement, Tab} from 'cx/widgets';
+import {Content, Controller, KeySelection} from 'cx/ui';
 import {Svg} from 'cx/svg';
 import {Gridlines, NumericAxis, CategoryAxis, Chart, ColumnGraph, Legend} from 'cx/charts';
 import {Md} from 'docs/components/Md';
@@ -61,9 +61,9 @@ export const ColumnGraphs = <cx>
                     >
                         <Gridlines/>
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={0}
-                            active:bind="$page.showV1"
+                            active-bind="$page.showV1"
                             name="V1"
                             size={0.3}
                             offset={-0.15}
@@ -82,9 +82,9 @@ export const ColumnGraphs = <cx>
                         />
 
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={6}
-                            active:bind="$page.showV2"
+                            active-bind="$page.showV2"
                             name="V2"
                             size={0.3}
                             offset={+0.15}
@@ -104,7 +104,12 @@ export const ColumnGraphs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="m9BtpNbW">{`
+            <Content name="code">
+            <div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+            </div>
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="m9BtpNbW">{`
             class PageController extends Controller {
                 init() {
                    super.init();
@@ -117,7 +122,8 @@ export const ColumnGraphs = <cx>
                    })));
                 }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="m9BtpNbW">{`
             <div class="widgets" controller={PageController}>
                <Legend />
                <Svg style="width:600px; height:400px;">
@@ -143,9 +149,9 @@ export const ColumnGraphs = <cx>
                     >
                         <Gridlines/>
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={0}
-                            active:bind="$page.showV1"
+                            active-bind="$page.showV1"
                             name="V1"
                             size={0.3}
                             offset={-0.15}
@@ -158,9 +164,9 @@ export const ColumnGraphs = <cx>
                         />
 
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={6}
-                            active:bind="$page.showV2"
+                            active-bind="$page.showV2"
                             name="V2"
                             size={0.3}
                             offset={+0.15}
@@ -174,6 +180,7 @@ export const ColumnGraphs = <cx>
                 </Svg>
             </div>
         `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Examples:
