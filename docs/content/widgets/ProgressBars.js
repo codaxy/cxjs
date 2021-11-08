@@ -19,7 +19,7 @@ export const ProgressBars = <cx>
 
       <CodeSplit>
          <div class="widgets">
-            <ProgressBar text:tpl="{$page.value:p;0}" value-bind='$page.value' />
+            <ProgressBar text-tpl="{$page.value:p;0}" value-bind='$page.value' />
             <Slider value-bind='$page.value' maxValue={1} />
          </div>
 
@@ -28,7 +28,7 @@ export const ProgressBars = <cx>
                <Tab value-bind="$page.code.tab" tab="progressbar" mod="code" default><code>ProgressBar</code></Tab>
             </div>
             <CodeSnippet fiddle="JSuNm76v" visible-expr="{$page.code.tab}=='progressbar'" >{`
-               <ProgressBar text:tpl="{$page.value:p;0}" value-bind='$page.value' />
+               <ProgressBar text-tpl="{$page.value:p;0}" value-bind='$page.value' />
                <Slider value-bind='$page.value' maxValue={1} />
             `}</CodeSnippet>
          </Content>

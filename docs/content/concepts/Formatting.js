@@ -146,7 +146,7 @@ export const Formatting = <cx>
                 StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
 
                 //string template assigned to a widget property
-                <span text:tpl="{person.height:suffix; cm|N/A}" />
+                <span text-tpl="{person.height:suffix; cm|N/A}" />
 
                 //multiple formats
                 Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"

@@ -118,7 +118,7 @@ export const PieCharts = <cx>
                                   }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
-                                  name:tpl="Item {$index}"
+                                  name-tpl="Item {$index}"
                                   selection={{
                                      type: KeySelection,
                                      bind: '$page.selection',

@@ -73,7 +73,7 @@ export const DataBinding = <cx>
 
         > Data bindings pointing to invalid locations will be reported as `undefined`.
 
-        ### Templates (`-tpl` or `:tpl`)
+        ### Templates (`-tpl` or `-tpl`)
 
         Templates are data expressions which return strings. They are a convenient option to avoid using both types of
         quotes within data expressions.
@@ -84,7 +84,7 @@ export const DataBinding = <cx>
                 <div layout={LabelsLeftLayout}>
                     <TextField value-bind='intro.core.firstName' label="First Name"/>
                     <TextField value-bind='intro.core.lastName' label="Last Name"/>
-                    <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template"
+                    <TextField value-tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template"
                                mode="view"/>
                     <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"'
                                label="Expression" mode="view"/>
@@ -96,7 +96,7 @@ export const DataBinding = <cx>
                 <div layout={LabelsLeftLayout}>
                   <TextField value-bind='intro.core.firstName' label="First Name" />
                   <TextField value-bind='intro.core.lastName' label="Last Name"/>
-                  <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template" mode="view"/>
+                  <TextField value-tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template" mode="view"/>
                   <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"' label="Expression" mode="view"/>
                </div>
             `}</CodeSnippet>

@@ -63,7 +63,7 @@ export default (
                             offset={0}
                             x-bind="$point.x"
                             y-bind="$point.v1"
-                            tooltip:tpl="{$point.x} {$point.v1:n}"
+                            tooltip-tpl="{$point.x} {$point.v1:n}"
                             selection={columnSelection}
                         />
                         <Column

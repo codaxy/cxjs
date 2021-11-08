@@ -47,7 +47,7 @@ export const Bars = <cx>
                             active-bind="$page.v1"
                           x-bind="$point.v1"
                           y-bind="$point.key"
-                          tooltip:tpl="{$point.v1:n;0}" />
+                          tooltip-tpl="{$point.v1:n;0}" />
 
                      <Bar colorIndex={5}
                             name="Value 2"
@@ -56,7 +56,7 @@ export const Bars = <cx>
                             active-bind="$page.v2"
                           x-bind="$point.v2"
                           y-bind="$point.key"
-                          tooltip:tpl="{$point.v2:n;0}" />
+                          tooltip-tpl="{$point.v2:n;0}" />
                   </Repeater>
                </Chart>
             </Svg>
@@ -89,7 +89,7 @@ export const Bars = <cx>
                           active-bind="$page.v1"
                           x-bind="$point.v1"
                           y-bind="$point.key"
-                          tooltip:tpl="{$point.v1:n;0}" />
+                          tooltip-tpl="{$point.v1:n;0}" />
 
                      <Bar colorIndex={5}
                           name="Value 2"
@@ -98,7 +98,7 @@ export const Bars = <cx>
                           active-bind="$page.v2"
                           x-bind="$point.v2"
                           y-bind="$point.key"
-                          tooltip:tpl="{$point.v2:n;0}" />
+                          tooltip-tpl="{$point.v2:n;0}" />
                   </Repeater>
                </Chart>
                <Legend />

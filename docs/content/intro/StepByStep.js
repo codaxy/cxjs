@@ -385,7 +385,7 @@ export const StepByStep = <cx>
                                     <Repeater records-bind="$page.todos">
                                         <li class="csb-task">
                                             <Checkbox class={{ "css-task-done": {bind: '$record.done'} }}
-                                                    text:tpl="{$record.text}" value-bind="$record.done"/>
+                                                    text-tpl="{$record.text}" value-bind="$record.done"/>
 
                                             <button onClick="onRemove" text="x"/>
                                         </li>

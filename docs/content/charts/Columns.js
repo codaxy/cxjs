@@ -49,7 +49,7 @@ export const Columns = <cx>
                                 width={0.8}
                                 x-bind="$point.x"
                                 y-bind="$point.y"
-                                tooltip:tpl="{$point.x} {$point.y:n;0}" />
+                                tooltip-tpl="{$point.x} {$point.y:n;0}" />
                      </Repeater>
                   </Chart>
                </Svg>
@@ -79,7 +79,7 @@ export const Columns = <cx>
                              width={0.8}
                              x-bind="$point.x"
                              y-bind="$point.y"
-                             tooltip:tpl="{$point.x} {$point.y:n;0}" />
+                             tooltip-tpl="{$point.x} {$point.y:n;0}" />
                   </Repeater>
                </Chart>
             </Svg>

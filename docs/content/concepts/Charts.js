@@ -157,7 +157,7 @@ export const Charts = <cx>
 
       <div>
          <Repeater records={Array.from({length:16}).map(x=>{})}>
-            <div style="padding:10px 15px;display:inline-block" class:tpl="cxs-color-{$index}" text-bind="$index"></div>
+            <div style="padding:10px 15px;display:inline-block" class-tpl="cxs-color-{$index}" text-bind="$index"></div>
          </Repeater>
       </div>
 
