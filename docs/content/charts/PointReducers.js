@@ -57,18 +57,18 @@ export const PointReducers = <cx>
                                 }
                             }}
                         >
-                            <Repeater records:bind="$page.points" recordAlias="$point">
-                                <Marker colorIndex:bind="$point.color"
-                                    size:bind="$point.size"
-                                    x:bind="$point.x"
-                                    y:bind="$point.y"
+                            <Repeater records-bind="$page.points" recordAlias="$point">
+                                <Marker colorIndex-bind="$point.color"
+                                    size-bind="$point.size"
+                                    x-bind="$point.x"
+                                    y-bind="$point.y"
                                     style={{fillOpacity: 0.5}}
                                     draggableX draggableY
                                 />
                             </Repeater>
 
-                            <MarkerLine x:bind="$page.avgX" />
-                            <MarkerLine y:bind="$page.avgY" />
+                            <MarkerLine x-bind="$page.avgX" />
+                            <MarkerLine y-bind="$page.avgY" />
 
                         </PointReducer>
 
@@ -101,18 +101,18 @@ export const PointReducers = <cx>
                                 }
                             }}
                         >
-                            <Repeater records:bind="$page.points" recordAlias="$point">
-                                <Marker colorIndex:bind="$point.color"
-                                    size:bind="$point.size"
-                                    x:bind="$point.x"
-                                    y:bind="$point.y"
+                            <Repeater records-bind="$page.points" recordAlias="$point">
+                                <Marker colorIndex-bind="$point.color"
+                                    size-bind="$point.size"
+                                    x-bind="$point.x"
+                                    y-bind="$point.y"
                                     style={{fillOpacity: 0.5}}
                                     draggableX draggableY
                                 />
                             </Repeater>
 
-                            <MarkerLine x:bind="$page.avgX" />
-                            <MarkerLine y:bind="$page.avgY" />
+                            <MarkerLine x-bind="$page.avgX" />
+                            <MarkerLine y-bind="$page.avgY" />
 
                         </PointReducer>
 

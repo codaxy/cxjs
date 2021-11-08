@@ -61,7 +61,7 @@ export const PaginationPage = <cx>
 
             Grid control is commonly combined with server-side sorting, filtering and pagination.
 
-            <Grid records:bind='$page.records'
+            <Grid records-bind='$page.records'
                 style={{width: "100%"}}
                 mod="bordered"
                 lockColumnWidths
@@ -72,14 +72,14 @@ export const PaginationPage = <cx>
                         header1: 'Name',
                         header2: {
                             allowSorting: false,
-                            items: <TextField value:bind="$page.filter.name" reactOn="enter blur"
+                            items: <TextField value-bind="$page.filter.name" reactOn="enter blur"
                                 style="width:100%"/>
                         }
                     },
                     {
                         header1: 'Phone',
                         header2: {
-                            items: <TextField value:bind="$page.filter.phone" reactOn="enter blur"
+                            items: <TextField value-bind="$page.filter.phone" reactOn="enter blur"
                                 style="width:100%"/>
                         },
                         field: 'phone'
@@ -88,20 +88,20 @@ export const PaginationPage = <cx>
                         header1: 'City',
                         header2: {
                             allowSorting: false,
-                            items: <TextField value:bind="$page.filter.city" reactOn="enter blur"
+                            items: <TextField value-bind="$page.filter.city" reactOn="enter blur"
                                 style="width:100%"/>
                         },
                         field: 'city',
                         sortable: true
                     }
                 ]}
-                sorters:bind="$page.sorters"
+                sorters-bind="$page.sorters"
                 remoteSort
             />
 
             <div style={{marginTop: '20px'}}>
-                <Pagination page:bind="$page.page" pageCount:bind="$page.pageCount"/>
-                <Select value:bind="$page.pageSize" style={{float: 'right'}}>
+                <Pagination page-bind="$page.page" pageCount-bind="$page.pageCount"/>
+                <Select value-bind="$page.pageSize" style={{float: 'right'}}>
                     <option value="5">5</option>
                     <option value={10}>10</option>
                     <option value="20">20</option>
@@ -155,7 +155,7 @@ export const PaginationPage = <cx>
                 }
             }
             ...
-            <Grid records:bind='$page.records'
+            <Grid records-bind='$page.records'
                   style={{width: "100%"}}
                   mod="bordered"
                   lockColumnWidths
@@ -166,14 +166,14 @@ export const PaginationPage = <cx>
                           header1: 'Name',
                           header2: {
                               allowSorting: false,
-                              items: <TextField value:bind="$page.filter.name" reactOn="enter blur"
+                              items: <TextField value-bind="$page.filter.name" reactOn="enter blur"
                                                 style="width:100%"/>
                           }
                       },
                       {
                           header1: 'Phone',
                           header2: {
-                              items: <TextField value:bind="$page.filter.phone" reactOn="enter blur"
+                              items: <TextField value-bind="$page.filter.phone" reactOn="enter blur"
                                                 style="width:100%"/>
                           },
                           field: 'phone'
@@ -182,20 +182,20 @@ export const PaginationPage = <cx>
                           header1: 'City',
                           header2: {
                               allowSorting: false,
-                              items: <TextField value:bind="$page.filter.city" reactOn="enter blur"
+                              items: <TextField value-bind="$page.filter.city" reactOn="enter blur"
                                                 style="width:100%"/>
                           },
                           field: 'city',
                           sortable: true
                       }
                   ]}
-                  sorters:bind="$page.sorters"
+                  sorters-bind="$page.sorters"
                   remoteSort
             />
 
             <div style={{marginTop: '20px'}}>
-                <Pagination page:bind="$page.page" pageCount:bind="$page.pageCount"/>
-                <Select value:bind="$page.pageSize" style={{float: 'right'}}>
+                <Pagination page-bind="$page.page" pageCount-bind="$page.pageCount"/>
+                <Select value-bind="$page.pageSize" style={{float: 'right'}}>
                     <option value="5">5</option>
                     <option value={10}>10</option>
                     <option value="20">20</option>

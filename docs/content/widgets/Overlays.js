@@ -47,8 +47,8 @@ export const Overlays = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-                <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
+                <Checkbox value-bind="$page.overlay">Show Overlay</Checkbox>
+                <Overlay visible-bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                     This is a draggable overlay.
                 </Overlay>
             </div>
@@ -56,8 +56,8 @@ export const Overlays = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="4OdI5hlw">{`
                <div class="widgets">
-                  <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-                  <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
+                  <Checkbox value-bind="$page.overlay">Show Overlay</Checkbox>
+                  <Overlay visible-bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                      This is a draggable overlay.
                   </Overlay>
                </div>

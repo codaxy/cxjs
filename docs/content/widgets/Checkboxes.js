@@ -27,32 +27,32 @@ export const Checkboxes = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox label="Native" value:bind="$page.checked" text="Checkbox" native/>
-                    <Checkbox label="Standard" value:bind="$page.checked" text="Checkbox"/>
-                    <Checkbox label="Disabled" value:bind="$page.checked" disabled text="Checkbox"/>
-                    <Checkbox label="Readonly" value:bind="$page.checked" readOnly text="Checkbox"/>
+                    <Checkbox label="Native" value-bind="$page.checked" text="Checkbox" native/>
+                    <Checkbox label="Standard" value-bind="$page.checked" text="Checkbox"/>
+                    <Checkbox label="Disabled" value-bind="$page.checked" disabled text="Checkbox"/>
+                    <Checkbox label="Readonly" value-bind="$page.checked" readOnly text="Checkbox"/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox"/>
-                    <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
-                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
-                    <Checkbox label="Three State" value:bind="$page.checked2" text="Checkbox" indeterminate />
+                    <Checkbox label="Required" value-bind="$page.checked" required text="Checkbox"/>
+                    <Checkbox label="Styled" value-bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
+                    <Checkbox label="View" value-bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
+                    <Checkbox label="Three State" value-bind="$page.checked2" text="Checkbox" indeterminate />
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="7n19Cczs">{`
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox label="Native" value:bind="$page.checked" text="Checkbox" native/>
-                    <Checkbox label="Standard" value:bind="$page.checked" text="Checkbox" />
-                    <Checkbox label="Disabled" value:bind="$page.checked" disabled text="Checkbox" />
-                    <Checkbox label="Readonly" value:bind="$page.checked" readOnly text="Checkbox" />
+                    <Checkbox label="Native" value-bind="$page.checked" text="Checkbox" native/>
+                    <Checkbox label="Standard" value-bind="$page.checked" text="Checkbox" />
+                    <Checkbox label="Disabled" value-bind="$page.checked" disabled text="Checkbox" />
+                    <Checkbox label="Readonly" value-bind="$page.checked" readOnly text="Checkbox" />
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox label="Required" value:bind="$page.checked" required text="Checkbox"/>
-                    <Checkbox label="Styled" value:bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
-                    <Checkbox label="View" value:bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
-                    <Checkbox label="Three State" value:bind="$page.checked2" text="Checkbox" indeterminate />
+                    <Checkbox label="Required" value-bind="$page.checked" required text="Checkbox"/>
+                    <Checkbox label="Styled" value-bind="$page.checked" inputStyle="color:red" text="Checkbox"/>
+                    <Checkbox label="View" value-bind="$page.checked" mode="view" text="Checkbox" emptyText="N/A" />
+                    <Checkbox label="Three State" value-bind="$page.checked2" text="Checkbox" indeterminate />
                 </div>
             `}</CodeSnippet>
             </Content>
@@ -72,8 +72,8 @@ export const Checkboxes = <cx>
 
             <div class="widgets">
                 <div controller={CbController}>
-                    <Repeater records:bind="$page.options">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                    <Repeater records-bind="$page.options">
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
                 </div>
@@ -92,8 +92,8 @@ export const Checkboxes = <cx>
                     }
                     ...
                     <div controller={CbController}>
-                        <Repeater records:bind="$page.options">
-                            <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <Repeater records-bind="$page.options">
+                            <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                             <br/>
                         </Repeater>
                     </div>

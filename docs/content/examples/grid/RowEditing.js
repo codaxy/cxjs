@@ -64,7 +64,7 @@ export const RowEditing = <cx>
             Grid supports arbitrary content inside its cells and this can be used to implement row editing.
 
             <Grid
-                records:bind="$page.records"
+                records-bind="$page.records"
                 sortOptions={{ sensitivity: "base" }}
                 lockColumnWidths
                 cached
@@ -82,7 +82,7 @@ export const RowEditing = <cx>
                         sortable: true,
                         items: <cx>
                             <TextField
-                                value:bind="$record.fullName"
+                                value-bind="$record.fullName"
                                 viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 autoFocus
@@ -96,7 +96,7 @@ export const RowEditing = <cx>
                         sortable: true,
                         items: <cx>
                             <TextField
-                                value:bind="$record.continent"
+                                value-bind="$record.continent"
                                 viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
@@ -109,7 +109,7 @@ export const RowEditing = <cx>
                         sortable: true,
                         items: <cx>
                             <TextField
-                                value:bind="$record.browser"
+                                value-bind="$record.browser"
                                 viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
@@ -122,7 +122,7 @@ export const RowEditing = <cx>
                         sortable: true,
                         items: <cx>
                             <TextField
-                                value:bind="$record.os"
+                                value-bind="$record.os"
                                 viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
@@ -136,7 +136,7 @@ export const RowEditing = <cx>
                         align: "right",
                         items: <cx>
                             <NumberField
-                                value:bind="$record.visits"
+                                value-bind="$record.visits"
                                 viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 inputStyle="text-align: right"
@@ -166,7 +166,7 @@ export const RowEditing = <cx>
                     <Tab value={{bind:"$page.code.tab", defaultValue: "grid"}} tab="grid" mod="code" >
                         <code>Grid</code>
                     </Tab>
-                    <Tab value:bind="$page.code.tab" tab="controller" mod="code">
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
                         <code>Controller</code>
                     </Tab>
                 </div>
@@ -225,7 +225,7 @@ export const RowEditing = <cx>
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="1q59A8u3">{`
                 <Grid
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     lockColumnWidths
                     cached
                     row={{
@@ -241,7 +241,7 @@ export const RowEditing = <cx>
                             sortable: true,
                             items: <cx>
                                 <TextField
-                                    value:bind="$record.fullName"
+                                    value-bind="$record.fullName"
                                     viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     autoFocus
@@ -255,7 +255,7 @@ export const RowEditing = <cx>
                             sortable: true,
                             items: <cx>
                                 <TextField
-                                    value:bind="$record.continent"
+                                    value-bind="$record.continent"
                                     viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
@@ -268,7 +268,7 @@ export const RowEditing = <cx>
                             sortable: true,
                             items: <cx>
                                 <TextField
-                                    value:bind="$record.browser"
+                                    value-bind="$record.browser"
                                     viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
@@ -281,7 +281,7 @@ export const RowEditing = <cx>
                             sortable: true,
                             items: <cx>
                                 <TextField
-                                    value:bind="$record.os"
+                                    value-bind="$record.os"
                                     viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
@@ -295,7 +295,7 @@ export const RowEditing = <cx>
                             align: "right",
                             items: <cx>
                                 <NumberField
-                                    value:bind="$record.visits"
+                                    value-bind="$record.visits"
                                     viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     inputStyle="text-align: right"

@@ -37,16 +37,16 @@ export const GettingStarted = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div>
-                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <Checkbox value-bind="enabled">Enable</Checkbox>
                     <br/>
-                    <TextField value:bind="text" disabled-expr="!{enabled}"/>
+                    <TextField value-bind="text" disabled-expr="!{enabled}"/>
                 </div>
             </div>
             <CodeSnippet putInto="code" fiddle="HkcFZwXT">{`
                 <div>
-                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <Checkbox value-bind="enabled">Enable</Checkbox>
                     <br/>
-                    <TextField value:bind="text" disabled-expr="!{enabled}"/>
+                    <TextField value-bind="text" disabled-expr="!{enabled}"/>
                 </div>
             `}</CodeSnippet>
         </CodeSplit>

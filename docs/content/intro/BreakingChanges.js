@@ -237,7 +237,7 @@ export const BreakingChanges = <cx>
             ### `-bind`, `-tpl`, `-expr` syntax
 
             Data-binding attributes can now be written in an alternative syntax with a dash instead of a colon, for
-            example `value-bind` instead of `value:bind`. Although not necessarily a breaking change, both methods are
+            example `value:bind` instead of `value-bind`. Although not necessarily a breaking change, both methods are
             supported which solves a long standing problem of syntax errors that [Visual Studio
             Code](https://code.visualstudio.com) reports if XML namespaces are used inside JSX.
 

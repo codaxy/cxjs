@@ -19,13 +19,13 @@ export const MonthPickers = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <MonthPicker range from:bind="$page.from" to:bind="$page.to" style="height:30em"/>
-                <MonthPicker value:bind="$page.date" style="height:30em" />
+                <MonthPicker range from-bind="$page.from" to-bind="$page.to" style="height:30em"/>
+                <MonthPicker value-bind="$page.date" style="height:30em" />
             </div>
 
             <CodeSnippet putInto="code" fiddle="2v6MgcUT">{`
-                <MonthPicker range from:bind="$page.from" to:bind="$page.to" style="height:30em"/>
-                <MonthPicker value:bind="$page.date" style="height:30em" />
+                <MonthPicker range from-bind="$page.from" to-bind="$page.to" style="height:30em"/>
+                <MonthPicker value-bind="$page.date" style="height:30em" />
             `}</CodeSnippet>
         </CodeSplit>
 

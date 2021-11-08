@@ -45,7 +45,7 @@ export const Menus = <cx>
                             </MenuItem>
                             <hr/>
                             <MenuItem hideCursor>
-                                <TextField value:bind="$page.text" mod="menu"/>
+                                <TextField value-bind="$page.text" mod="menu"/>
                             </MenuItem>
                             <Submenu arrow icon="calendar" placement="top">
                                 Submenu
@@ -71,9 +71,9 @@ export const Menus = <cx>
                                 document.activeElement.blur();
                             }}>Link</a>
                             <hr/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <Checkbox value-bind="$page.checked" mod="menu">Checkbox</Checkbox>
                             <Submenu arrow>
                                 Submenu
                                 <Menu putInto="dropdown">
@@ -88,7 +88,7 @@ export const Menus = <cx>
                                     <a href="#">Item 2</a>
                                 </Menu>
                             </Submenu>
-                            <DateField value:bind="$page.date" mod="menu"/>
+                            <DateField value-bind="$page.date" mod="menu"/>
                             <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
@@ -114,7 +114,7 @@ export const Menus = <cx>
                             </MenuItem>
                             <hr/>
                             <MenuItem hideCursor>
-                                <TextField value:bind="$page.text" mod="menu"/>
+                                <TextField value-bind="$page.text" mod="menu"/>
                             </MenuItem>
                             <Submenu arrow icon="calendar" placement="top">
                                 Submenu
@@ -157,7 +157,7 @@ export const Menus = <cx>
                             </MenuItem>
                             <hr/>
                             <MenuItem hideCursor>
-                                <TextField value:bind="$page.text" mod="menu"/>
+                                <TextField value-bind="$page.text" mod="menu"/>
                             </MenuItem>
                             <Submenu arrow icon="calendar">
                                 Submenu
@@ -183,9 +183,9 @@ export const Menus = <cx>
                                 document.activeElement.blur();
                             }}>Link</a>
                             <hr/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <Checkbox value-bind="$page.checked" mod="menu">Checkbox</Checkbox>
                             <Submenu arrow>
                                 Submenu 1
                                 <Menu putInto="dropdown">
@@ -200,7 +200,7 @@ export const Menus = <cx>
                                     <a href="#">Item 2</a>
                                 </Menu>
                             </Submenu>
-                            <DateField value:bind="$page.date" mod="menu"/>
+                            <DateField value-bind="$page.date" mod="menu"/>
                             <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
@@ -222,7 +222,7 @@ export const Menus = <cx>
         ## Configuration
         <p>
             <Tab value={{ bind: "$page.configTab", defaultValue: 'menu' }} tab="menu" mod="line">Menu</Tab>
-            <Tab value:bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
+            <Tab value-bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
         </p>
 
         <ConfigTable props={configs} visible-expr="{$page.configTab}=='menu'"/>

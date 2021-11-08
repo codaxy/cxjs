@@ -47,8 +47,8 @@ export const Columns = <cx>
                      <Repeater records:bind="$page.points" recordAlias="$point">
                         <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
                                 width={0.8}
-                                x:bind="$point.x"
-                                y:bind="$point.y"
+                                x-bind="$point.x"
+                                y-bind="$point.y"
                                 tooltip:tpl="{$point.x} {$point.y:n;0}" />
                      </Repeater>
                   </Chart>
@@ -77,8 +77,8 @@ export const Columns = <cx>
                   <Repeater records:bind="$page.points" recordAlias="$point">
                      <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
                              width={0.8}
-                             x:bind="$point.x"
-                             y:bind="$point.y"
+                             x-bind="$point.x"
+                             y-bind="$point.y"
                              tooltip:tpl="{$point.x} {$point.y:n;0}" />
                   </Repeater>
                </Chart>

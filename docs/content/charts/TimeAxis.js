@@ -42,7 +42,7 @@ export const TimeAxisPage = <cx>
                     }}>
                         <Rectangle fill="white"/>
                         <Gridlines />
-                        <ColumnGraph data:bind="$page.data"
+                        <ColumnGraph data-bind="$page.data"
                                      size={30 * 24 * 60 * 60 * 1000}
                                      offset={15 * 24 * 60 * 60 * 1000}
                                      xField="date"
@@ -71,7 +71,7 @@ export const TimeAxisPage = <cx>
                     }}>
                         <Rectangle fill="white"/>
                         <Gridlines />
-                        <ColumnGraph data:bind="$page.data"
+                        <ColumnGraph data-bind="$page.data"
                                      size={30 * 24 * 60 * 60 * 1000}
                                      offset={15 * 24 * 60 * 60 * 1000}
                                      xField="date"

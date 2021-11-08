@@ -51,7 +51,7 @@ export const Grids = <cx>
 
 
             <div controller={PageController}>
-                <Grid records:bind='$page.records'
+                <Grid records-bind='$page.records'
                       style={{height: '300px'}}
                       mod="responsive"
                       scrollable
@@ -89,7 +89,7 @@ export const Grids = <cx>
                          }
                         `}</CodeSnippet>
                         <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="kzHH3vkM">{`
-                        <Grid records:bind='$page.records'
+                        <Grid records-bind='$page.records'
                             style={{width: "100%"}}
                             columns={[
                             { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
@@ -129,9 +129,9 @@ export const Grids = <cx>
 
         <p>
             <Tab value={{ bind: "$page.configTab", defaultValue: 'grid' }} tab="grid" mod="line">Grid</Tab>
-            <Tab value:bind="$page.configTab" tab="column" mod="line">Column</Tab>
-            <Tab value:bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
-            <Tab value:bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
+            <Tab value-bind="$page.configTab" tab="column" mod="line">Column</Tab>
+            <Tab value-bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
+            <Tab value-bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
         </p>
 
         <ConfigTable props={configs} visible-expr="{$page.configTab}=='grid'"/>

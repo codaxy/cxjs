@@ -36,13 +36,13 @@ export const Stacked = <cx>
             <Svg style="width:600px; height:400px;">
                <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                   <Gridlines/>
-                  <LineGraph name="Line 1" data:bind="$page.points" colorIndex={0} area:bind="$page.stack" yField="y1" active:bind="$page.line1" stacked:bind="$page.stack" />
-                  <LineGraph name="Line 2" data:bind="$page.points" colorIndex={5} area:bind="$page.stack" yField="y2" active:bind="$page.line2" stacked:bind="$page.stack" />
-                  <LineGraph name="Line 3" data:bind="$page.points" colorIndex={10} area:bind="$page.stack" yField="y3" active:bind="$page.line3" stacked:bind="$page.stack" />
+                  <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area-bind="$page.stack" yField="y1" active-bind="$page.line1" stacked-bind="$page.stack" />
+                  <LineGraph name="Line 2" data-bind="$page.points" colorIndex={5} area-bind="$page.stack" yField="y2" active-bind="$page.line2" stacked-bind="$page.stack" />
+                  <LineGraph name="Line 3" data-bind="$page.points" colorIndex={10} area-bind="$page.stack" yField="y3" active-bind="$page.line3" stacked-bind="$page.stack" />
                </Chart>
             </Svg>
             <Legend />
-            <Checkbox value:bind="$page.stack">Stack</Checkbox>
+            <Checkbox value-bind="$page.stack">Stack</Checkbox>
          </div>
          <Content name="code">
             <div>
@@ -70,13 +70,13 @@ export const Stacked = <cx>
                <Svg style="width:600px; height:400px;">
                   <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
-                     <LineGraph name="Line 1" data:bind="$page.points" colorIndex={0} area:bind="$page.stack" yField="y1" active:bind="$page.line1" stacked:bind="$page.stack" />
-                     <LineGraph name="Line 2" data:bind="$page.points" colorIndex={5} area:bind="$page.stack" yField="y2" active:bind="$page.line2" stacked:bind="$page.stack" />
-                     <LineGraph name="Line 3" data:bind="$page.points" colorIndex={10} area:bind="$page.stack" yField="y3" active:bind="$page.line3" stacked:bind="$page.stack" />
+                     <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area-bind="$page.stack" yField="y1" active-bind="$page.line1" stacked-bind="$page.stack" />
+                     <LineGraph name="Line 2" data-bind="$page.points" colorIndex={5} area-bind="$page.stack" yField="y2" active-bind="$page.line2" stacked-bind="$page.stack" />
+                     <LineGraph name="Line 3" data-bind="$page.points" colorIndex={10} area-bind="$page.stack" yField="y3" active-bind="$page.line3" stacked-bind="$page.stack" />
                   </Chart>
                </Svg>
                <Legend />
-               <Checkbox value:bind="$page.stack">Stack</Checkbox>
+               <Checkbox value-bind="$page.stack">Stack</Checkbox>
             </div>
          `}</CodeSnippet>
          </Content>

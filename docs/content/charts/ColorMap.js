@@ -53,10 +53,10 @@ export const ColorMapPage = <cx>
                         <Gridlines/>
                         <ColorMap />
 
-                        <Repeater records:bind="$page.series">
-                            <LineGraph name:bind="$record.name"
-                                active:bind="$record.active"
-                                data:bind="$record.points"
+                        <Repeater records-bind="$page.series">
+                            <LineGraph name-bind="$record.name"
+                                active-bind="$record.active"
+                                data-bind="$record.points"
                                 colorMap="lines"/>
                         </Repeater>
                     </Chart>
@@ -91,10 +91,10 @@ export const ColorMapPage = <cx>
                                }}>
                             <Gridlines/>
                             <ColorMap />
-                            <Repeater records:bind="$page.series">
-                                <LineGraph name:bind="$record.name"
-                                           active:bind="$record.active"
-                                           data:bind="$record.points"
+                            <Repeater records-bind="$page.series">
+                                <LineGraph name-bind="$record.name"
+                                           active-bind="$record.active"
+                                           data-bind="$record.points"
                                            colorMap="lines" />
                             </Repeater>
                         </Chart>

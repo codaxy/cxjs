@@ -48,27 +48,27 @@ export const Markers = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.reds" recordAlias="$point">
-                     <Marker colorIndex:bind="$point.color"
+                  <Repeater records-bind="$page.reds" recordAlias="$point">
+                     <Marker colorIndex-bind="$point.color"
                             legendColorIndex={1}
-                            active:bind="$page.showReds"
+                            active-bind="$page.showReds"
                             name="Reds"
-                            size:bind="$point.size"
-                            x:bind="$point.x"
-                            y:bind="$point.y"
+                            size-bind="$point.size"
+                            x-bind="$point.x"
+                            y-bind="$point.y"
                             tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY
                      />
                   </Repeater>
-                  <Repeater records:bind="$page.blues" recordAlias="$point">
-                     <Marker colorIndex:bind="$point.color"
+                  <Repeater records-bind="$page.blues" recordAlias="$point">
+                     <Marker colorIndex-bind="$point.color"
                             legendColorIndex={5}
-                            active:bind="$page.showBlues"
+                            active-bind="$page.showBlues"
                             name="Blues"
-                            size:bind="$point.size"
-                            x:bind="$point.x"
-                            y:bind="$point.y"
+                            size-bind="$point.size"
+                            x-bind="$point.x"
+                            y-bind="$point.y"
                             tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY/>
@@ -104,27 +104,27 @@ export const Markers = <cx>
                      y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                   }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.reds" recordAlias="$point">
-                        <Marker colorIndex:bind="$point.color"
+                     <Repeater records-bind="$page.reds" recordAlias="$point">
+                        <Marker colorIndex-bind="$point.color"
                                legendColorIndex={1}
-                               active:bind="$page.showReds"
+                               active-bind="$page.showReds"
                                name="Reds"
-                               size:bind="$point.size"
-                               x:bind="$point.x"
-                               y:bind="$point.y"
+                               size-bind="$point.size"
+                               x-bind="$point.x"
+                               y-bind="$point.y"
                                tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                                style={{fillOpacity: 0.5}}
                                draggableX draggableY
                         />
                      </Repeater>
-                     <Repeater records:bind="$page.blues" recordAlias="$point">
-                        <Marker colorIndex:bind="$point.color"
+                     <Repeater records-bind="$page.blues" recordAlias="$point">
+                        <Marker colorIndex-bind="$point.color"
                                legendColorIndex={5}
-                               active:bind="$page.showBlues"
+                               active-bind="$page.showBlues"
                                name="Blues"
-                               size:bind="$point.size"
-                               x:bind="$point.x"
-                               y:bind="$point.y"
+                               size-bind="$point.size"
+                               x-bind="$point.x"
+                               y-bind="$point.y"
                                tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                                style={{fillOpacity: 0.5}}
                                draggableX draggableY/>
