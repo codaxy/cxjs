@@ -23,7 +23,7 @@ export const Sliders = <cx>
                 <div layout={LabelsLeftLayout}>
                     <Slider
                         label="Standard"
-                        value:bind="$page.to"
+                        value-bind="$page.to"
                         valueTooltip={{
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
@@ -32,30 +32,30 @@ export const Sliders = <cx>
                         increment={2.5}
                         tooltip="This is a slider tooltip."
                     />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel increment={10} />
-                    <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
-                    <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
+                    <Slider label="Stepped" from-bind="$page.from" step={10} wheel increment={10} />
+                    <Slider label="Range" from-bind="$page.from" to-bind="$page.to" />
+                    <Slider label="Disabled" from-bind="$page.from" to-bind="$page.to" disabled />
                 </div>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightyellow"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightgreen"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightyellow"/>
             </div>
 
             <CodeSnippet putInto="code" fiddle="NvE9CD9C">{`
                 <div layout={LabelsLeftLayout}>
-                    <Slider label="Standard" value:bind="$page.to" valueTooltip={{
+                    <Slider label="Standard" value-bind="$page.to" valueTooltip={{
                             text:{tpl: '{$page.to:n;2}' },
                             placement: 'up'
                         }}
                         wheel
                         increment={2.5} />
-                    <Slider label="Stepped" from:bind="$page.from" step={10} wheel increment={10} />
-                    <Slider label="Range" from:bind="$page.from" to:bind="$page.to" />
-                    <Slider label="Disabled" from:bind="$page.from" to:bind="$page.to" disabled />
+                    <Slider label="Stepped" from-bind="$page.from" step={10} wheel increment={10} />
+                    <Slider label="Range" from-bind="$page.from" to-bind="$page.to" />
+                    <Slider label="Disabled" from-bind="$page.from" to-bind="$page.to" disabled />
                 </div>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightgreen"/>
-                <Slider vertical from:bind="$page.from" to:bind="$page.to" rangeStyle="background:lightyellow"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightgreen"/>
+                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightyellow"/>
             `}</CodeSnippet>
         </CodeSplit>
 

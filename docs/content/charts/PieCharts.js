@@ -41,9 +41,9 @@ export const PieCharts = <cx>
                <Svg style="width:600px; height:400px;">
                   <ColorMap />
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.value'
-                                  active:bind='$record.active'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.value'
+                                  active-bind='$record.active'
                                   colorMap="pie"
                                   r={80}
                                   r0={20}
@@ -60,7 +60,7 @@ export const PieCharts = <cx>
                                   }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
-                                  name:bind="$record.name"
+                                  name-bind="$record.name"
                                   selection={{
                                      type: KeySelection,
                                      bind: '$page.selection',
@@ -99,9 +99,9 @@ export const PieCharts = <cx>
                <Svg style="width:600px; height:400px;">
                   <ColorMap />
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.value'
-                                  active:bind='$record.active'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.value'
+                                  active-bind='$record.active'
                                   colorMap="pie"
                                   r:expr='80'
                                   r0:expr='20'

@@ -22,23 +22,23 @@ export const Tabs = <cx>
 
          <div class="widgets">
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab" default>Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
+               <Tab tab="tab1" value-bind="$page.tab" default>Tab 1</Tab>
+               <Tab tab="tab2" value-bind="$page.tab">Tab 2</Tab>
+               <Tab tab="tab3" value-bind="$page.tab">Tab 3</Tab>
+               <Tab tab="tab4" value-bind="$page.tab" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Tab 4</Tab>
+               <Tab tab="tab1" value-bind="$page.tab" mod="line">Tab 1</Tab>
+               <Tab tab="tab2" value-bind="$page.tab" mod="line">Tab 2</Tab>
+               <Tab tab="tab3" value-bind="$page.tab" mod="line">Tab 3</Tab>
+               <Tab tab="tab4" value-bind="$page.tab" mod="line" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
                <div style="padding-left:10px;white-space:nowrap;">
-                  <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
-                  <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-                  <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-                  <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
+                  <Tab tab="tab1" value-bind="$page.tab" mod="classic">Tab 1</Tab>
+                  <Tab tab="tab2" value-bind="$page.tab" mod="classic">Tab 2</Tab>
+                  <Tab tab="tab3" value-bind="$page.tab" mod="classic">Tab 3</Tab>
+                  <Tab tab="tab4" value-bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
                </div>
                <div style="border: 1px solid lightgray; background: white; padding: 20px">
                   <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
@@ -51,23 +51,23 @@ export const Tabs = <cx>
 
          <CodeSnippet putInto="code" fiddle="NK72YwmO">{`
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab" default>Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" disabled>Tab 4</Tab>
+               <Tab tab="tab1" value-bind="$page.tab" default>Tab 1</Tab>
+               <Tab tab="tab2" value-bind="$page.tab">Tab 2</Tab>
+               <Tab tab="tab3" value-bind="$page.tab">Tab 3</Tab>
+               <Tab tab="tab4" value-bind="$page.tab" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
-               <Tab tab="tab1" value:bind="$page.tab" mod="line">Tab 1</Tab>
-               <Tab tab="tab2" value:bind="$page.tab" mod="line">Tab 2</Tab>
-               <Tab tab="tab3" value:bind="$page.tab" mod="line">Tab 3</Tab>
-               <Tab tab="tab4" value:bind="$page.tab" mod="line" disabled>Tab 4</Tab>
+               <Tab tab="tab1" value-bind="$page.tab" mod="line">Tab 1</Tab>
+               <Tab tab="tab2" value-bind="$page.tab" mod="line">Tab 2</Tab>
+               <Tab tab="tab3" value-bind="$page.tab" mod="line">Tab 3</Tab>
+               <Tab tab="tab4" value-bind="$page.tab" mod="line" disabled>Tab 4</Tab>
             </div>
             <div style="margin:10px">
                <div style="padding-left:10px;white-space:nowrap;">
-                  <Tab tab="tab1" value:bind="$page.tab" mod="classic">Tab 1</Tab>
-                  <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-                  <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-                  <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
+                  <Tab tab="tab1" value-bind="$page.tab" mod="classic">Tab 1</Tab>
+                  <Tab tab="tab2" value-bind="$page.tab" mod="classic">Tab 2</Tab>
+                  <Tab tab="tab3" value-bind="$page.tab" mod="classic">Tab 3</Tab>
+                  <Tab tab="tab4" value-bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
                </div>
                <div style="border: 1px solid lightgray; background: white; padding: 20px">
                   <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>

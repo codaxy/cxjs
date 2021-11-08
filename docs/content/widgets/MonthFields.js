@@ -21,15 +21,15 @@ export const MonthFields = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" autoFocus/>
-                    <MonthField value:bind="$page.date" label="Single"/>
+                    <MonthField range from-bind="$page.from" to-bind="$page.to" label="Range" autoFocus/>
+                    <MonthField value-bind="$page.date" label="Single"/>
                 </div>
             </div>
 
             <CodeSnippet putInto="code" fiddle="3Tm7m9Cz">{`
                 <div layout={LabelsLeftLayout}>
-                    <MonthField range from:bind="$page.from" to:bind="$page.to" label="Range" autoFocus/>
-                    <MonthField value:bind="$page.date" label="Single"/>
+                    <MonthField range from-bind="$page.from" to-bind="$page.to" label="Range" autoFocus/>
+                    <MonthField value-bind="$page.date" label="Single"/>
                 </div>
             `}</CodeSnippet>
         </CodeSplit>

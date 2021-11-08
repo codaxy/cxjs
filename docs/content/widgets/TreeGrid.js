@@ -36,7 +36,7 @@ export const TreeGrid = <cx>
 
             <Grid
                 buffered
-                records:bind='$page.data'
+                records-bind='$page.data'
                 mod="tree"
                 style={{width: "100%", height: '500px'}}
                 scrollable={true}
@@ -48,12 +48,12 @@ export const TreeGrid = <cx>
                 columns={[
                     {
                         header: 'Name', field: 'fullName', sortable: true, items: <cx>
-                            <TreeNode expanded:bind="$record.$expanded"
-                                      leaf:bind="$record.$leaf"
-                                      level:bind="$record.$level"
-                                      loading:bind="$record.$loading"
-                                      text:bind="$record.fullName"
-                                      icon:bind="$record.icon"
+                            <TreeNode expanded-bind="$record.$expanded"
+                                      leaf-bind="$record.$leaf"
+                                      level-bind="$record.$level"
+                                      loading-bind="$record.$loading"
+                                      text-bind="$record.fullName"
+                                      icon-bind="$record.icon"
                             />
                         </cx>
                     },
@@ -98,7 +98,7 @@ export const TreeGrid = <cx>
             <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="riuObfzq">{`
             <Grid
                 buffered
-                records:bind='$page.data'
+                records-bind='$page.data'
                 mod="tree"
                 style={{width: "100%", height: '500px'}}
                 scrollable={true}
@@ -110,12 +110,12 @@ export const TreeGrid = <cx>
                 columns={[
                     {
                         header: 'Name', field: 'fullName', sortable: true, items: <cx>
-                        <TreeNode expanded:bind="$record.$expanded"
-                            leaf:bind="$record.$leaf"
-                            level:bind="$record.$level"
-                            loading:bind="$record.$loading"
-                            text:bind="$record.fullName"
-                            icon:bind="$record.icon"
+                        <TreeNode expanded-bind="$record.$expanded"
+                            leaf-bind="$record.$leaf"
+                            level-bind="$record.$level"
+                            loading-bind="$record.$loading"
+                            text-bind="$record.fullName"
+                            icon-bind="$record.icon"
                         />
                     </cx>
                     },

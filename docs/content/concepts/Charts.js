@@ -102,8 +102,8 @@ export const Charts = <cx>
                         {name: 'B', value: 20},
                         {name: 'C', value: 15}
                      ]}>
-                        <PieSlice name:bind="$record.name"
-                                   value:bind="$record.value"
+                        <PieSlice name-bind="$record.name"
+                                   value-bind="$record.value"
                                    colorMap="pie"
                                    r={90}
                                    selection={{
@@ -129,8 +129,8 @@ export const Charts = <cx>
                      {name: 'B', value: 20},
                      {name: 'C', value: 15}
                   ]}>
-                     <PieSlice name:bind="$record.name"
-                                value:bind="$record.value"
+                     <PieSlice name-bind="$record.name"
+                                value-bind="$record.value"
                                 colorMap="pie"
                                 r={90}
                                 selection={{
@@ -157,7 +157,7 @@ export const Charts = <cx>
 
       <div>
          <Repeater records={Array.from({length:16}).map(x=>{})}>
-            <div style="padding:10px 15px;display:inline-block" class-tpl="cxs-color-{$index}" text:bind="$index"></div>
+            <div style="padding:10px 15px;display:inline-block" class-tpl="cxs-color-{$index}" text-bind="$index"></div>
          </Repeater>
       </div>
 

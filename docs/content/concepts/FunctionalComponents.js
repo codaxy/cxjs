@@ -23,8 +23,8 @@ const MyForm = createFunctionalComponent(({vertical}) => {
     let layout = !vertical ? LabelsLeftLayout : { type: LabelsTopLayout, vertical: true };
     return <cx>
         <div layout={layout}>
-            <TextField value:bind="$page.form.firstName" label="First Name" />
-            <TextField value:bind="$page.form.lastName" label="Last Name" />
+            <TextField value-bind="$page.form.firstName" label="First Name" />
+            <TextField value-bind="$page.form.lastName" label="Last Name" />
         </div>
     </cx>;
 });
@@ -120,8 +120,8 @@ export const FunctionalComponents = <cx>
                     let layout = !vertical ? LabelsLeftLayout : { type: LabelsTopLayout, vertical: true };
                     return <cx>
                         <div layout={layout}>
-                            <TextField value:bind="$page.form.firstName" label="First Name" />
-                            <TextField value:bind="$page.form.lastName" label="Last Name" />
+                            <TextField value-bind="$page.form.firstName" label="First Name" />
+                            <TextField value-bind="$page.form.lastName" label="Last Name" />
                         </div>
                     </cx>;
                 });

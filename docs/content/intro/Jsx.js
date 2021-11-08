@@ -29,7 +29,7 @@ export const JsxPage = <cx>
                 <cx>
                     <div>
                         <TextField
-                            value:bind="person.name"
+                            value-bind="person.name"
                             required
                             label="Label" />
                     </div>
@@ -140,8 +140,8 @@ export const JsxPage = <cx>
             on all HTML container elements to set the inner content of the element.
 
             <CodeSnippet putInto="code">{`
-                <h2 text:bind="person.name" />
-                <div innerHtml:bind="html" />
+                <h2 text-bind="person.name" />
+                <div innerHtml-bind="html" />
             `}</CodeSnippet>
 
             The `innerHtml` property is very convenient for setting the inner content obtained through Markdown

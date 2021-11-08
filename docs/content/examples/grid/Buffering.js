@@ -35,7 +35,7 @@ export const Buffering = <cx>
             Set grid to `buffered` mode and tweak `bufferSize` and `bufferStep` parameters for the best scrolling experience.
 
             <Grid
-                records:bind="$page.records"
+                records-bind="$page.records"
                 keyField="id"
                 buffered
                 style="height: 650px"
@@ -72,7 +72,7 @@ export const Buffering = <cx>
                 }
                 ...
                 <Grid
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     keyField="id"
                     buffered
                     style="height: 650px"

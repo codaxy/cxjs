@@ -40,9 +40,9 @@ export const LineGraphs = <cx>
                 <Svg style="width:600px; height:400px;">
                     <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis, lineStyle: "stroke: transparent" }, y: { type: NumericAxis, vertical: true } }}>
                         <Gridlines />
-                        <LineGraph data:bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active:bind="$page.line2" line={false} area />
-                        <LineGraph name="Line 1" data:bind="$page.points" colorIndex={0} area active:bind="$page.line1" />
-                        <LineGraph name="Line 2" data:bind="$page.points" colorIndex={8} yField="y2" active:bind="$page.line2" />
+                        <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area />
+                        <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1" />
+                        <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2" />
                     </Chart>
                 </Svg>
                 <Legend />
@@ -67,9 +67,9 @@ export const LineGraphs = <cx>
                <Svg style="width:600px; height:400px;">
                   <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
-                     <LineGraph data:bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active:bind="$page.line2" line={false} area/>
-                     <LineGraph name="Line 1" data:bind="$page.points" colorIndex={0} area active:bind="$page.line1"/>
-                     <LineGraph name="Line 2" data:bind="$page.points" colorIndex={8} yField="y2" active:bind="$page.line2"/>
+                     <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area/>
+                     <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1"/>
+                     <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2"/>
                   </Chart>
                </Svg>
                <Legend />

@@ -54,32 +54,32 @@ export const LookupFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
                         label="Select"
-                        value:bind="$page.s5.id"
-                        text:bind="$page.s5.text"
-                        options:bind="$page.options5"
+                        value-bind="$page.s5.id"
+                        text-bind="$page.s5.text"
+                        options-bind="$page.options5"
                         autoFocus
                     />
                     <LookupField
                         label="MultiSelect"
-                        records:bind="$page.s10"
-                        options:bind="$page.options10"
+                        records-bind="$page.s10"
+                        options-bind="$page.options10"
                         multiple />
                     <LookupField
                         label="Records"
-                        values:bind="$page.s10ids"
-                        options:bind="$page.options10"
+                        values-bind="$page.s10ids"
+                        options-bind="$page.options10"
                         multiple />
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
                         label="Remote Data"
-                        records:bind="$page.selectedCities"
+                        records-bind="$page.selectedCities"
                         onQuery="query"
                         minQueryLength={2}
                         multiple />
                     <LookupField
                         label="Local Filter"
-                        records:bind="$page.selectedCities2"
+                        records-bind="$page.selectedCities2"
                         onQuery="query"
                         fetchAll
                         cacheAll
@@ -87,10 +87,10 @@ export const LookupFields = <cx>
                         closeOnSelect={false} />
                     <LookupField
                         label="Icon"
-                        value:bind="$page.s5.id"
-                        text:bind="$page.s5.text"
+                        value-bind="$page.s5.id"
+                        text-bind="$page.s5.text"
                         icon="pencil"
-                        options:bind="$page.options5" />
+                        options-bind="$page.options5" />
                 </div>
             </div>
 
@@ -167,32 +167,32 @@ export const LookupFields = <cx>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
                         label="Select"
-                        value:bind="$page.s5.id"
-                        text:bind="$page.s5.text"
-                        options:bind="$page.options5"
+                        value-bind="$page.s5.id"
+                        text-bind="$page.s5.text"
+                        options-bind="$page.options5"
                         autoFocus
                     />
                     <LookupField
                         label="MultiSelect"
-                        records:bind="$page.s10"
-                        options:bind="$page.options10"
+                        records-bind="$page.s10"
+                        options-bind="$page.options10"
                         multiple/>
                     <LookupField
                         label="Records"
-                        values:bind="$page.s10ids"
-                        options:bind="$page.options10"
+                        values-bind="$page.s10ids"
+                        options-bind="$page.options10"
                         multiple/>
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <LookupField
                         label="Remote Data"
-                        records:bind="$page.selectedCities"
+                        records-bind="$page.selectedCities"
                         onQuery="query"
                         minQueryLength={2}
                         multiple/>
                     <LookupField
                         label="Local Filter"
-                        records:bind="$page.selectedCities2"
+                        records-bind="$page.selectedCities2"
                         onQuery="query"
                         fetchAll
                         cacheAll
@@ -201,10 +201,10 @@ export const LookupFields = <cx>
                         closeOnSelect={false} />
                     <LookupField
                         label="Icon"
-                        value:bind="$page.s5.id"
-                        text:bind="$page.s5.text"
+                        value-bind="$page.s5.id"
+                        text-bind="$page.s5.text"
                         icon="pencil"
-                        options:bind="$page.options5"/>
+                        options-bind="$page.options5"/>
                 </div>
             </div>
             `}</CodeSnippet>

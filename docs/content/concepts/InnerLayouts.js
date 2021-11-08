@@ -67,8 +67,8 @@ export const InnerLayouts = <cx>
             <div class="widgets">
                 <div trimWhitespace={false}>
                     First some text.
-                    <TextField value:bind="$page.text" label="Label 1"/>
-                    <Checkbox value:bind="$page.check" label="Label 2">Checkbox</Checkbox>
+                    <TextField value-bind="$page.text" label="Label 1"/>
+                    <Checkbox value-bind="$page.check" label="Label 2">Checkbox</Checkbox>
                 </div>
             </div>
 
@@ -76,8 +76,8 @@ export const InnerLayouts = <cx>
                 <CodeSnippet fiddle="BSktMPwa">{`
                <div trimWhitespace={false}>
                   First some text.
-                  <TextField value:bind="$page.text" label="Label 1" />
-                  <Checkbox value:bind="$page.check" label="Label 2">Checkbox</Checkbox>
+                  <TextField value-bind="$page.text" label="Label 1" />
+                  <Checkbox value-bind="$page.check" label="Label 2">Checkbox</Checkbox>
                </div>
             `}</CodeSnippet>
             </Content>
@@ -98,11 +98,11 @@ export const InnerLayouts = <cx>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     First some text.
-                    <TextField value:bind="$page.text" label="Label 1"/>
-                    <Checkbox value:bind="$page.check" label="Label 2">Checkbox</Checkbox>
+                    <TextField value-bind="$page.text" label="Label 1"/>
+                    <Checkbox value-bind="$page.check" label="Label 2">Checkbox</Checkbox>
                     <LabeledContainer label="Label 3" trimWhitespace={false}>
-                        <TextField value:bind="$page.text"/>
-                        <TextField value:bind="$page.text"/>
+                        <TextField value-bind="$page.text"/>
+                        <TextField value-bind="$page.text"/>
                     </LabeledContainer>
                 </div>
             </div>
@@ -114,11 +114,11 @@ export const InnerLayouts = <cx>
                 <CodeSnippet fiddle="48FYzkPT">{`
                <div layout={LabelsLeftLayout}>
                   First some text.
-                  <TextField value:bind="$page.text" label="Label 1" />
-                  <Checkbox value:bind="$page.check" label="Label 2">Checkbox</Checkbox>
+                  <TextField value-bind="$page.text" label="Label 1" />
+                  <Checkbox value-bind="$page.check" label="Label 2">Checkbox</Checkbox>
                   <LabeledContainer label="Label 3" trimWhitespace={false}>
-                     <TextField value:bind="$page.text" />
-                     <TextField value:bind="$page.text" />
+                     <TextField value-bind="$page.text" />
+                     <TextField value-bind="$page.text" />
                   </LabeledContainer>
                </div>
             `}</CodeSnippet>
@@ -141,19 +141,19 @@ export const InnerLayouts = <cx>
             <div class="widgets">
                 <div>
                     <div layout={LabelsTopLayout}>
-                        <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                        <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
                             <option value="Mr">Mr.</option>
                             <option value="Mrs">Mrs.</option>
                         </Select>
-                        <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
+                        <TextField value-bind="$page.firstName" label="Name" placeholder="First Name"
                             style={{width: '150px'}}/>
-                        <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                        <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                     </div>
                     <div layout={LabelsTopLayout}>
-                        <TextField value:bind="$page.street" label="Address" placeholder="Street"
+                        <TextField value-bind="$page.street" label="Address" placeholder="Street"
                             style={{width: '150px'}}/>
-                        <TextField value:bind="$page.city" placeholder="City" style={{width: '150px'}}/>
-                        <TextField value:bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
+                        <TextField value-bind="$page.city" placeholder="City" style={{width: '150px'}}/>
+                        <TextField value-bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
                     </div>
                 </div>
             </div>
@@ -166,17 +166,17 @@ export const InnerLayouts = <cx>
                 <CodeSnippet fiddle="as225Fml">{`
                 <div>
                     <div layout={LabelsTopLayout}>
-                        <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                        <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
                             <option value="Mr">Mr.</option>
                             <option value="Mrs">Mrs.</option>
                         </Select>
-                        <TextField value:bind="$page.firstName" label="Name" placeholder="First Name" style={{width: '150px'}} />
-                        <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                        <TextField value-bind="$page.firstName" label="Name" placeholder="First Name" style={{width: '150px'}} />
+                        <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                     </div>
                     <div layout={LabelsTopLayout}>
-                        <TextField value:bind="$page.street" label="Address" placeholder="Street" style={{width: '150px'}} />
-                        <TextField value:bind="$page.city" placeholder="City" style={{width: '150px'}}/>
-                        <TextField value:bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
+                        <TextField value-bind="$page.street" label="Address" placeholder="Street" style={{width: '150px'}} />
+                        <TextField value-bind="$page.city" placeholder="City" style={{width: '150px'}}/>
+                        <TextField value-bind="$page.zip" placeholder="Zip" style={{width: '70px'}}/>
                     </div>
                 </div>
             `}</CodeSnippet>
@@ -191,25 +191,25 @@ export const InnerLayouts = <cx>
 
             <div class="widgets">
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
-                    <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                    <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
                         <option value="Mr">Mr.</option>
                         <option value="Mrs">Mrs.</option>
                     </Select>
-                    <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
+                    <TextField value-bind="$page.firstName" label="Name" placeholder="First Name"
                         style={{width: '150px'}}/>
-                    <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                    <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                 </div>
             </div>
 
             <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
                 <div layout={{ type: LabelsTopLayout, vertical: true }}>
-                    <Select value:bind="$page.title" label="Title" style={{width: "70px"}}>
+                    <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
                         <option value="Mr">Mr.</option>
                         <option value="Mrs">Mrs.</option>
                     </Select>
-                    <TextField value:bind="$page.firstName" label="Name" placeholder="First Name"
+                    <TextField value-bind="$page.firstName" label="Name" placeholder="First Name"
                         style={{width: '150px'}}/>
-                    <TextField value:bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                    <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                 </div>
             `}</CodeSnippet>
         </CodeSplit>
@@ -222,29 +222,29 @@ export const InnerLayouts = <cx>
 
             <div class="widgets">
                 <div layout={{type: LabelsTopLayout, columns: 3}}>
-                    <TextField label="Field1" value:bind="$page.field1" />
-                    <TextField label="Field2" value:bind="$page.field2" />
-                    <TextField label="Field3" value:bind="$page.field3" />
-                    <TextField label="Field4" value:bind="$page.field4" />
-                    <TextField label="Field5" value:bind="$page.field5" />
-                    <TextField label="Field6" value:bind="$page.field6" />
-                    <TextField label="Field7" value:bind="$page.field7" />
-                    <TextField label="Field8" value:bind="$page.field8" />
-                    <TextField label="Field9" value:bind="$page.field9" />
+                    <TextField label="Field1" value-bind="$page.field1" />
+                    <TextField label="Field2" value-bind="$page.field2" />
+                    <TextField label="Field3" value-bind="$page.field3" />
+                    <TextField label="Field4" value-bind="$page.field4" />
+                    <TextField label="Field5" value-bind="$page.field5" />
+                    <TextField label="Field6" value-bind="$page.field6" />
+                    <TextField label="Field7" value-bind="$page.field7" />
+                    <TextField label="Field8" value-bind="$page.field8" />
+                    <TextField label="Field9" value-bind="$page.field9" />
                 </div>
             </div>
 
             <CodeSnippet putInto="code" fiddle="KDv9Bvao">{`
                 <div layout={{type: LabelsTopLayout, columns: 3}}>
-                    <TextField label="Field1" value:bind="$page.field1" />
-                    <TextField label="Field2" value:bind="$page.field2" />
-                    <TextField label="Field3" value:bind="$page.field3" />
-                    <TextField label="Field4" value:bind="$page.field4" />
-                    <TextField label="Field5" value:bind="$page.field5" />
-                    <TextField label="Field6" value:bind="$page.field6" />
-                    <TextField label="Field7" value:bind="$page.field7" />
-                    <TextField label="Field8" value:bind="$page.field8" />
-                    <TextField label="Field9" value:bind="$page.field9" />
+                    <TextField label="Field1" value-bind="$page.field1" />
+                    <TextField label="Field2" value-bind="$page.field2" />
+                    <TextField label="Field3" value-bind="$page.field3" />
+                    <TextField label="Field4" value-bind="$page.field4" />
+                    <TextField label="Field5" value-bind="$page.field5" />
+                    <TextField label="Field6" value-bind="$page.field6" />
+                    <TextField label="Field7" value-bind="$page.field7" />
+                    <TextField label="Field8" value-bind="$page.field8" />
+                    <TextField label="Field9" value-bind="$page.field9" />
                 </div>
             `}</CodeSnippet>
         </CodeSplit>
@@ -374,15 +374,15 @@ export const InnerLayouts = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <TextField value:bind="$page.text" label="Label 1"/>
-                    <Checkbox value:bind="$page.showSection1">Show More</Checkbox>
-                    <PureContainer layout={UseParentLayout} visible:bind="$page.showSection1">
-                        <TextField value:bind="$page.text" label="Label 1"/>
-                        <TextField value:bind="$page.text" label="Label 2"/>
-                        <Checkbox value:bind="$page.showSection2">Show More</Checkbox>
-                        <PureContainer layout={UseParentLayout} visible:bind="$page.showSection2">
-                            <TextField value:bind="$page.text" label="Label 3"/>
-                            <TextField value:bind="$page.text" label="Label 4"/>
+                    <TextField value-bind="$page.text" label="Label 1"/>
+                    <Checkbox value-bind="$page.showSection1">Show More</Checkbox>
+                    <PureContainer layout={UseParentLayout} visible-bind="$page.showSection1">
+                        <TextField value-bind="$page.text" label="Label 1"/>
+                        <TextField value-bind="$page.text" label="Label 2"/>
+                        <Checkbox value-bind="$page.showSection2">Show More</Checkbox>
+                        <PureContainer layout={UseParentLayout} visible-bind="$page.showSection2">
+                            <TextField value-bind="$page.text" label="Label 3"/>
+                            <TextField value-bind="$page.text" label="Label 4"/>
                         </PureContainer>
                     </PureContainer>
                 </div>
@@ -390,14 +390,14 @@ export const InnerLayouts = <cx>
 
             <CodeSnippet putInto="code" fiddle="l31l5PN9">{`
                 <div layout={LabelsLeftLayout}>
-                    <Checkbox value:bind="$page.showSection1">Section 1</Checkbox>
-                    <PureContainer layout={UseParentLayout} visible:bind="$page.showSection1">
-                        <TextField value:bind="$page.text" label="Label 1"/>
-                        <TextField value:bind="$page.text" label="Label 2"/>
-                        <Checkbox value:bind="$page.showSection2">Section 2</Checkbox>
-                        <PureContainer layout={UseParentLayout} visible:bind="$page.showSection2">
-                            <TextField value:bind="$page.text" label="Label 3"/>
-                            <TextField value:bind="$page.text" label="Label 4"/>
+                    <Checkbox value-bind="$page.showSection1">Section 1</Checkbox>
+                    <PureContainer layout={UseParentLayout} visible-bind="$page.showSection1">
+                        <TextField value-bind="$page.text" label="Label 1"/>
+                        <TextField value-bind="$page.text" label="Label 2"/>
+                        <Checkbox value-bind="$page.showSection2">Section 2</Checkbox>
+                        <PureContainer layout={UseParentLayout} visible-bind="$page.showSection2">
+                            <TextField value-bind="$page.text" label="Label 3"/>
+                            <TextField value-bind="$page.text" label="Label 4"/>
                         </PureContainer>
                     </PureContainer>
                 </div>`}

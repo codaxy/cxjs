@@ -51,7 +51,7 @@ export const ValueAtFinderPage = <cx>
                     }}>
                         <Gridlines />
                         <MouseTracker
-                            x:bind="$page.cursor.x"
+                            x-bind="$page.cursor.x"
                             tooltip={{
                                 destroyDelay: 5,
                                 createDelay: 5,
@@ -60,13 +60,13 @@ export const ValueAtFinderPage = <cx>
                                     <Grid
                                         defaultSortField="trackedValue"
                                         defaultSortDirection="DESC"
-                                        records:bind="$page.series"
+                                        records-bind="$page.series"
                                         columns={[
                                             { field: 'name', items: <cx>
                                                 <LegendEntry
-                                                    name:bind="$record.name"
-                                                    text:bind="$record.name"
-                                                    active:bind="$record.active"
+                                                    name-bind="$record.name"
+                                                    text-bind="$record.name"
+                                                    active-bind="$record.active"
                                                     shape="circle"
                                                     colorMap="lines"
                                                     size={10}
@@ -79,22 +79,22 @@ export const ValueAtFinderPage = <cx>
                                 trackMouse: true
                             }}
                         >
-                            <MarkerLine visible:expr="!!{$page.cursor}" x:bind="$page.cursor.x" />
+                            <MarkerLine visible:expr="!!{$page.cursor}" x-bind="$page.cursor.x" />
 
                             <ColorMap onGetCache="getColorMapCache" />
 
-                            <Repeater records:bind="$page.series">
-                                <ValueAtFinder at:bind="$page.cursor.x" value:bind="$record.trackedValue">
-                                    <LineGraph name:bind="$record.name"
-                                        active:bind="$record.active"
-                                        data:bind="$record.points"
+                            <Repeater records-bind="$page.series">
+                                <ValueAtFinder at-bind="$page.cursor.x" value-bind="$record.trackedValue">
+                                    <LineGraph name-bind="$record.name"
+                                        active-bind="$record.active"
+                                        data-bind="$record.points"
                                         colorMap="lines"/>
                                 </ValueAtFinder>
                                 <Marker
-                                    name:bind="$record.name"
-                                    active:bind="$record.active"
-                                    x:bind="$page.cursor.x"
-                                    y:bind="$record.trackedValue"
+                                    name-bind="$record.name"
+                                    active-bind="$record.active"
+                                    x-bind="$page.cursor.x"
+                                    y-bind="$record.trackedValue"
                                     colorMap="lines"
                                     size={10}
                                 />
@@ -129,18 +129,18 @@ export const ValueAtFinderPage = <cx>
                 }
                 ...
                 //Full source code could not displayed due to formatting problems. Please refer to GitHub.
-                <Repeater records:bind="$page.series">
-                    <ValueAtFinder at:bind="$page.cursor.x" value:bind="$record.trackedValue">
-                        <LineGraph name:bind="$record.name"
-                            active:bind="$record.active"
-                            data:bind="$record.points"
+                <Repeater records-bind="$page.series">
+                    <ValueAtFinder at-bind="$page.cursor.x" value-bind="$record.trackedValue">
+                        <LineGraph name-bind="$record.name"
+                            active-bind="$record.active"
+                            data-bind="$record.points"
                             colorMap="lines"/>
                     </ValueAtFinder>
                     <Marker
-                        name:bind="$record.name"
-                        active:bind="$record.active"
-                        x:bind="$page.cursor.x"
-                        y:bind="$record.trackedValue"
+                        name-bind="$record.name"
+                        active-bind="$record.active"
+                        x-bind="$page.cursor.x"
+                        y-bind="$record.trackedValue"
                         colorMap="lines"
                         size={10}
                     />

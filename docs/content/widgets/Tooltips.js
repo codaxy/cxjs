@@ -57,12 +57,12 @@ export const Tooltips = <cx>
                 </div>
 
                 <TextField
-                    value:bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
+                    value-bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
                     tooltip="Tooltips are commonly used to show validation errors on form elements."
                 />
 
                 <TextField
-                    value:bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
+                    value-bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
                     errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}}
                 />
 
@@ -89,7 +89,7 @@ export const Tooltips = <cx>
                         <Grid columns={[
                             {field: 'fullName', header: 'Name', sortable: true},
                             {field: 'phone', header: 'Phone'}
-                        ]} records:bind="$page.records"/>
+                        ]} records-bind="$page.records"/>
                     </cx>
                 }}>
                     Component inside
@@ -100,7 +100,7 @@ export const Tooltips = <cx>
                     placement: 'down',
                     text: "Tooltips can be set to be always visible."
                 }} style="margin: 50px">
-                    <Checkbox value:bind="$page.showTooltip">Always visible</Checkbox>
+                    <Checkbox value-bind="$page.showTooltip">Always visible</Checkbox>
                 </div>
 
                 <div tooltip={{
@@ -109,7 +109,7 @@ export const Tooltips = <cx>
                     placement: 'down',
                     text: "This tooltip is visible only while the checkbox is checked."
                 }} style="margin: 50px">
-                    <Checkbox value:bind="$page.tooltipVisible">Controlled visibility</Checkbox>
+                    <Checkbox value-bind="$page.tooltipVisible">Controlled visibility</Checkbox>
                 </div>
 
                 <div tooltip={{text: "I'm right behind you.", trackMouse: true, offset: 20}}>
@@ -143,12 +143,12 @@ export const Tooltips = <cx>
                </div>
 
                <TextField
-                    value:bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
+                    value-bind="$page.text" required visited placeholder="Validation" style="margin: 50px"
                     tooltip="Tooltips are commonly used to show validation errors on form elements."
                 />
 
                <TextField
-                   value:bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
+                   value-bind="$page.text" required visited placeholder="More Validation" style="margin: 50px"
                    errorTooltip={{placement: 'up', alwaysVisible: true, title: "Validation Error"}}
                />
 
@@ -168,17 +168,17 @@ export const Tooltips = <cx>
                      <Grid columns={[
                      { field: 'fullName', header: 'Name', sortable: true },
                      { field: 'phone', header: 'Phone' }
-                     ]} records:bind="$page.records"/>
+                     ]} records-bind="$page.records"/>
                   </cx>}}>
                   Component inside
                </div>
 
                <div tooltip={{ alwaysVisible: { bind: '$page.showTooltip'}, placement: 'down', text: "Tooltips can be set to be always visible." }} style="margin: 50px">
-                  <Checkbox value:bind="$page.showTooltip">Always visible</Checkbox>
+                  <Checkbox value-bind="$page.showTooltip">Always visible</Checkbox>
                </div>
 
                <div tooltip={{ visible: { bind: '$page.tooltipVisible'}, alwaysVisible: { bind: '$page.tooltipVisible'}, placement: 'down', text: "This tooltip is visible only while the checkbox is checked." }} style="margin: 50px">
-                  <Checkbox value:bind="$page.tooltipVisible">Controlled visibility</Checkbox>
+                  <Checkbox value-bind="$page.tooltipVisible">Controlled visibility</Checkbox>
                </div>
                <div tooltip={{text: "I'm right behind you.", trackMouse: true, offset: 20}}>
                     Mouse tracking

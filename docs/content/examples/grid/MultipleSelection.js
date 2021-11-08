@@ -48,20 +48,20 @@ export const MultipleSelection = <cx>
             To select all rows click the checkbox in the header.
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 style={{width: "100%"}}
                 columns={[{
-                    header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate unfocusable /></cx>},
+                    header: {items: <cx><Checkbox value-bind="$page.selectAll" indeterminate unfocusable /></cx>},
                     field: 'selected',
                     style: 'width: 1px',
-                    items: <cx><Checkbox value:bind="$record.selected" unfocusable /></cx>
+                    items: <cx><Checkbox value-bind="$record.selected" unfocusable /></cx>
                 },
                     {header: 'Name', field: 'fullName', sortable: true},
                     {header: 'Phone', field: 'phone'},
                     {header: 'City', field: 'city', sortable: true}
                 ]}
                 selection={{type: PropertySelection, bind: "$page.selection", multiple: true}}
-                sorters:bind="$page.sorters"
+                sorters-bind="$page.sorters"
             />
 
             See also:
@@ -100,20 +100,20 @@ export const MultipleSelection = <cx>
                ...
 
                <Grid
-                   records:bind='$page.records'
+                   records-bind='$page.records'
                    tyle={{width: "100%"}}
                    columns={[{
-                       header: {items: <cx><Checkbox value:bind="$page.selectAll" indeterminate unfocusable/></cx>},
+                       header: {items: <cx><Checkbox value-bind="$page.selectAll" indeterminate unfocusable/></cx>},
                        field: 'selected',
                        style: 'width: 1px',
-                       items: <cx><Checkbox value:bind="$record.selected" unfocusable/></cx>
+                       items: <cx><Checkbox value-bind="$record.selected" unfocusable/></cx>
                    },
                        {header: 'Name', field: 'fullName', sortable: true},
                        {header: 'Phone', field: 'phone'},
                        {header: 'City', field: 'city', sortable: true}
                    ]}
                    selection={{type: PropertySelection, bind: "$page.selection", multiple: true}}
-                   sorters:bind="$page.sorters"
+                   sorters-bind="$page.sorters"
                 />`}
                 </CodeSnippet>
             </Content>

@@ -182,7 +182,7 @@ export const Store = <cx>
                     ...
 
                     <div layout={LabelsTopLayout} controller={PageController}>
-                        <TextField label="Name" value:bind="$page.name" />
+                        <TextField label="Name" value-bind="$page.name" />
                         <Button onClick="greet">Greet</Button>
                     </div>
                 `}
@@ -204,7 +204,7 @@ export const Store = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div layout={LabelsTopLayout} controller={PageController}>
-                    <TextField label="Name" value:bind='$page.name'/>
+                    <TextField label="Name" value-bind='$page.name'/>
                     <Button onClick="greet">Greet</Button>
                 </div>
             </div>
@@ -222,7 +222,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled"/>
+                    <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled"/>
                     <Button onClick={(e, instance) => {
                         let {store} = instance;
                         store.set('$page.disabled', !store.get('$page.disabled'));
@@ -238,7 +238,7 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="RzBoFq52">{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
+                        <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled" />
                         <Button onClick={(e, instance) => {
                                 let {store} = instance;
                                 store.set('$page.disabled', !store.get('$page.disabled'));
@@ -261,7 +261,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled"/>
+                    <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled"/>
                     <Button
                         onClick={(e, {store}) => {
                             store.toggle('$page.disabled');
@@ -276,7 +276,7 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="tBnXbiZo">{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
+                        <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled" />
                         <Button
                             onClick={(e, {store}) => {
                                 store.toggle('$page.disabled');
@@ -299,7 +299,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField value:bind="$page.name" label="Name"/>
+                    <TextField value-bind="$page.name" label="Name"/>
                     <Button onClick={(e, {store}) =>
                         store.delete('$page.name')
                     }>
@@ -311,7 +311,7 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="d8JViIoe">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField value:bind="$page.name" label="Name" />
+                        <TextField value-bind="$page.name" label="Name" />
                         <Button onClick={(e, {store}) =>
                             store.delete('$page.name')
                         }>
@@ -333,8 +333,8 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.name"/>
-                    <TextField label="Copied text" value:bind="$page.copyDestination" placeholder="click Copy"/>
+                    <TextField label="Text" value-bind="$page.name"/>
+                    <TextField label="Copied text" value-bind="$page.copyDestination" placeholder="click Copy"/>
                     <Button onClick={(e, {store}) => {
                         store.copy('$page.name', '$page.copyDestination');
                     }}>Copy</Button>
@@ -344,8 +344,8 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="vKZrbYe4">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.name" />
-                        <TextField label="Destination" value:bind="$page.copyDestination" placeholder="click Copy" />
+                        <TextField label="Origin" value-bind="$page.name" />
+                        <TextField label="Destination" value-bind="$page.copyDestination" placeholder="click Copy" />
                         <Button onClick={(e, {store}) => {
                             store.copy('$page.name', '$page.copyDestination');    
                         }}>Copy</Button>
@@ -365,8 +365,8 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.name"/>
-                    <TextField label="Moved text" value:bind="$page.moveDestination" placeholder="click Move"/>
+                    <TextField label="Text" value-bind="$page.name"/>
+                    <TextField label="Moved text" value-bind="$page.moveDestination" placeholder="click Move"/>
                     <Button onClick={(e, {store}) => {
                         store.move('$page.name', '$page.moveDestination');
                     }}>Move</Button>
@@ -376,8 +376,8 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="E4BOtF4S">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.name" />
-                        <TextField label="Destination" value:bind="$page.moveDestination" placeholder="click Move" />
+                        <TextField label="Origin" value-bind="$page.name" />
+                        <TextField label="Destination" value-bind="$page.moveDestination" placeholder="click Move" />
                         <Button onClick={(e, {store}) => {
                             store.move('$page.name', '$page.moveDestination'); 
                         }}>Move</Button>
@@ -405,7 +405,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <NumberField label="Count" value:bind="$page.count" style="width: 50px"/>
+                    <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                     <Button onClick={(e, {store}) => {
                         store.update('$page.count', count => count + 1);
                     }}>+1</Button>
@@ -421,7 +421,7 @@ export const Store = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="t5fbQpxq">{`
                     <div layout={LabelsTopLayout}>
-                        <NumberField label="Count" value:bind="$page.count" style="width: 50px"/>
+                        <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                         <Button onClick={(e, {store}) => {
                             store.update('$page.count', count => count + 1); 
                         }}>+1</Button>
@@ -451,8 +451,8 @@ export const Store = <cx>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     <strong>Todo List</strong>
-                    <Repeater records:bind="$page.todoList">
-                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                    <Repeater records-bind="$page.todoList">
+                        <Checkbox value-bind="$record.done" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
                     <Button
@@ -478,8 +478,8 @@ export const Store = <cx>
                     <div class="widgets">
                         <div layout={LabelsLeftLayout}>
                             <strong>Todo List</strong>
-                            <Repeater records:bind="$page.todoList">
-                                <Checkbox value:bind="$record.done" text:bind="$record.text" />
+                            <Repeater records-bind="$page.todoList">
+                                <Checkbox value-bind="$record.done" text-bind="$record.text" />
                                 <br />
                             </Repeater>
                             <Button

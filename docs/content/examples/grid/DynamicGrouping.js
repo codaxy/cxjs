@@ -44,16 +44,16 @@ export const DynamicGrouping = <cx>
             <div style="margin-bottom: 10px" ws>
                 Group by:
                 <LookupField
-                    records:bind="$page.grouping"
-                    options:bind="$page.groupableFields"
+                    records-bind="$page.grouping"
+                    options-bind="$page.groupableFields"
                     multiple={true}
                 />
             </div>
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 style={{width: "100%"}}
-                groupingParams:bind="$page.grouping"
+                groupingParams-bind="$page.grouping"
                 onGetGrouping={(groupingParams) => [
                     {key: {}, showFooter: true},
                     ...(groupingParams || []).map(x => x.id)
@@ -126,16 +126,16 @@ export const DynamicGrouping = <cx>
                 <div style="margin-bottom: 10px" ws>
                     Group by:
                     <LookupField
-                        records:bind="$page.grouping"
-                        options:bind="$page.groupableFields"
+                        records-bind="$page.grouping"
+                        options-bind="$page.groupableFields"
                         multiple={true}
                     />
                 </div>
 
                 <Grid
-                    records:bind='$page.records'
+                    records-bind='$page.records'
                     style={{width: "100%"}}
-                    groupingParams:bind="$page.grouping"
+                    groupingParams-bind="$page.grouping"
                     onGetGrouping={(groupingParams) => [
                         {key: {}, showFooter: true},
                         ...(groupingParams || []).map(x => x.id)

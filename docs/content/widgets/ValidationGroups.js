@@ -26,9 +26,9 @@ export const ValidationGroups = <cx>
                 borderLeftStyle: 'solid',
                 borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
             }}>
-                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-                    <TextField label="First Name" value:bind="$page.firstName" required />
-                    <TextField label="Last Name" value:bind="$page.lastName" required />
+                <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
+                    <TextField label="First Name" value-bind="$page.firstName" required />
+                    <TextField label="Last Name" value-bind="$page.lastName" required />
                 </ValidationGroup>
             </div>
 
@@ -38,9 +38,9 @@ export const ValidationGroups = <cx>
                    borderLeftStyle: 'solid',
                    borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
                 }}>
-                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-                   <TextField label="First Name" value:bind="$page.firstName" required />
-                   <TextField label="Last Name" value:bind="$page.lastName" required />
+                <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
+                   <TextField label="First Name" value-bind="$page.firstName" required />
+                   <TextField label="Last Name" value-bind="$page.lastName" required />
                 </ValidationGroup>
              </div>
              `}</CodeSnippet>
