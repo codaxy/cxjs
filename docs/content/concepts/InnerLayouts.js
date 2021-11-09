@@ -309,15 +309,15 @@ export const InnerLayouts = <cx>
             <div class="widgets">
                 <div controller={FetchController}>
                     <div layout={FirstVisibleChildLayout}>
-                        <div visible:expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
-                        <div visible:expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while
+                        <div visible-expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
+                        <div visible-expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while
                             loading data.
                         </div>
-                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}}
-                            text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
+                        <div visible-expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}}
+                            text-tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                     </div>
-                    <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>
+                    <Button onClick="fetch" disabled-expr='{$page.fetch.status} == "LOADING"'>
                         Fetch
                     </Button>
                 </div>
@@ -342,12 +342,12 @@ export const InnerLayouts = <cx>
                <div controller={FetchController}>
                   <div controller={FetchController}>
                      <div layout={FirstVisibleChildLayout}>
-                        <div visible:expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
-                        <div visible:expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while loading data.</div>
-                        <div visible:expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text:tpl="Success! Result: {$page.fetch.result:n;2}."></div>
+                        <div visible-expr='{$page.fetch.status} == "LOADING"' style={{color: 'gray'}}>Loading...</div>
+                        <div visible-expr='{$page.fetch.status} == "ERROR"' style={{color: 'red'}}>Error occurred while loading data.</div>
+                        <div visible-expr='{$page.fetch.status} == "SUCCESS"' style={{color: 'green'}} text-tpl="Success! Result: {$page.fetch.result:n;2}."></div>
                         <div style={{color: 'gray'}}>Data not loaded yet.</div>
                      </div>
-                     <Button onClick="fetch" disabled:expr='{$page.fetch.status} == "LOADING"'>Fetch</Button>
+                     <Button onClick="fetch" disabled-expr='{$page.fetch.status} == "LOADING"'>Fetch</Button>
                   </div>
             `}</CodeSnippet>
             </Content>
@@ -358,7 +358,7 @@ export const InnerLayouts = <cx>
 
         After you click Fetch, the default message disappears and the loading message will display until the result is
         fetched.
-        The default message will disappear even if it does not have `visible:expr` set.
+        The default message will disappear even if it does not have `visible-expr` set.
         That happens because the layout stops processing content after the first child is rendered,
         in this case it being the loading message `div`.
 

@@ -58,16 +58,16 @@ export default (
                     <Gridlines />
                     <Repeater records-bind="points" recordAlias="$point">
                         <Column
-                            colorIndex:expr="{$index}"
+                            colorIndex-expr="{$index}"
                             width={0.5}
                             offset={0}
                             x-bind="$point.x"
                             y-bind="$point.v1"
-                            tooltip:tpl="{$point.x} {$point.v1:n}"
+                            tooltip-tpl="{$point.x} {$point.v1:n}"
                             selection={columnSelection}
                         />
                         <Column
-                            colorIndex:expr="{$index}+2"
+                            colorIndex-expr="{$index}+2"
                             width={0.5}
                             offset={0}
                             x-bind="$point.x"
@@ -81,7 +81,7 @@ export default (
                             y-bind="$point.v1"
                             xOffset={0}
                             size={10}
-                            colorIndex:expr="{$index}"
+                            colorIndex-expr="{$index}"
                             style="cursor:move;"
                             draggableY
                             constrain
@@ -100,7 +100,7 @@ export default (
                             y-bind="$point.v2"
                             xOffset={0}
                             size={10}
-                            colorIndex:expr="{$index}+2"
+                            colorIndex-expr="{$index}+2"
                             style="cursor:move;"
                             draggableY
                             constrain

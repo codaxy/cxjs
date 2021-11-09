@@ -83,7 +83,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <TextField
                                 value-bind="$record.fullName"
-                                viewMode:expr="!{$record.$editing}"
+                                viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 autoFocus
                                 required
@@ -97,7 +97,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <TextField
                                 value-bind="$record.continent"
-                                viewMode:expr="!{$record.$editing}"
+                                viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
                             />
@@ -110,7 +110,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <TextField
                                 value-bind="$record.browser"
-                                viewMode:expr="!{$record.$editing}"
+                                viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
                             />
@@ -123,7 +123,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <TextField
                                 value-bind="$record.os"
-                                viewMode:expr="!{$record.$editing}"
+                                viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 required
                             />
@@ -137,7 +137,7 @@ export const RowEditing = <cx>
                         items: <cx>
                             <NumberField
                                 value-bind="$record.visits"
-                                viewMode:expr="!{$record.$editing}"
+                                viewMode-expr="!{$record.$editing}"
                                 style="width: 100%"
                                 inputStyle="text-align: right"
                                 required
@@ -149,10 +149,10 @@ export const RowEditing = <cx>
                         align:"center",
                         pad: false,
                         items: <cx>
-                            <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
-                            <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                            <Button mod="primary" onClick="saveRow" disabled:expr="!{$record.valid}" visible:expr="!!{$record.$editing}">Save</Button>
-                            <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
+                            <Button mod="hollow" onClick="editRow" visible-expr="!{$record.$editing}">Edit</Button>
+                            <Button mod="hollow" onClick="deleteRow" visible-expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
+                            <Button mod="primary" onClick="saveRow" disabled-expr="!{$record.valid}" visible-expr="!!{$record.$editing}">Save</Button>
+                            <Button mod="hollow" onClick="cancelRowEditing" visible-expr="!!{$record.$editing}">Cancel</Button>
                         </cx>
                     }
                 ]}
@@ -171,7 +171,7 @@ export const RowEditing = <cx>
                     </Tab>
                 </div>
 
-                <CodeSnippet visible:expr="{$page.code.tab}=='controller'" fiddle="1q59A8u3">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="1q59A8u3">{`
                 class PageController extends Controller {
                     onInit() {
                         //init grid data
@@ -223,7 +223,7 @@ export const RowEditing = <cx>
                     }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle="1q59A8u3">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="1q59A8u3">{`
                 <Grid
                     records-bind="$page.records"
                     lockColumnWidths
@@ -242,7 +242,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <TextField
                                     value-bind="$record.fullName"
-                                    viewMode:expr="!{$record.$editing}"
+                                    viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     autoFocus
                                     required
@@ -256,7 +256,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <TextField
                                     value-bind="$record.continent"
-                                    viewMode:expr="!{$record.$editing}"
+                                    viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
                                 />
@@ -269,7 +269,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <TextField
                                     value-bind="$record.browser"
-                                    viewMode:expr="!{$record.$editing}"
+                                    viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
                                 />
@@ -282,7 +282,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <TextField
                                     value-bind="$record.os"
-                                    viewMode:expr="!{$record.$editing}"
+                                    viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     required
                                 />
@@ -296,7 +296,7 @@ export const RowEditing = <cx>
                             items: <cx>
                                 <NumberField
                                     value-bind="$record.visits"
-                                    viewMode:expr="!{$record.$editing}"
+                                    viewMode-expr="!{$record.$editing}"
                                     style="width: 100%"
                                     inputStyle="text-align: right"
                                     required
@@ -307,10 +307,10 @@ export const RowEditing = <cx>
                             style: "width: 150px",
                             align:"center",
                             items: <cx>
-                                <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
-                                <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
-                                <Button mod="primary" onClick="saveRow" disabled:expr="!{$record.valid}" visible:expr="!!{$record.$editing}">Save</Button>
-                                <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
+                                <Button mod="hollow" onClick="editRow" visible-expr="!{$record.$editing}">Edit</Button>
+                                <Button mod="hollow" onClick="deleteRow" visible-expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
+                                <Button mod="primary" onClick="saveRow" disabled-expr="!{$record.valid}" visible-expr="!!{$record.$editing}">Save</Button>
+                                <Button mod="hollow" onClick="cancelRowEditing" visible-expr="!!{$record.$editing}">Cancel</Button>
                             </cx>
                         }
                     ]}

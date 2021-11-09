@@ -40,10 +40,10 @@ export const Validators = <cx>
                         <NumberField label="Y" value-bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
                         =
                         <LabeledContainer label="X + Y">
-                            <span text:expr="{$page.x} + {$page.y}" />
+                            <span text-expr="{$page.x} + {$page.y}" />
                         </LabeledContainer>
                         <Validator
-                            value:expr="{$page.x} + {$page.y}"
+                            value-expr="{$page.x} + {$page.y}"
                             onValidate={(value) => value != 20 && 'X + Y != 20'}
                         />
                     </ValidationGroup>
@@ -78,10 +78,10 @@ export const Validators = <cx>
                             <NumberField label="Y" value-bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
                             =
                             <LabeledContainer label="X + Y">
-                                <span text:expr="{$page.x} + {$page.y}" />
+                                <span text-expr="{$page.x} + {$page.y}" />
                             </LabeledContainer>
                             <Validator
-                                value:expr="{$page.x} + {$page.y}"
+                                value-expr="{$page.x} + {$page.y}"
                                 onValidate={(value) => value != 20 && 'X + Y != 20'}
                             />
                         </ValidationGroup>

@@ -39,11 +39,11 @@ export const MultiLevel = <cx>
                      <Repeater records-bind="$page.points">
                         <PieSlice value-bind='$record.v'
                                    active-bind='$record.active'
-                                    colorIndex:expr='{$index} * 3 % 16'
-                                    r:expr='55'
-                                    r0:expr='20'
+                                    colorIndex-expr='{$index} * 3 % 16'
+                                    r-expr='55'
+                                    r0-expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -56,12 +56,12 @@ export const MultiLevel = <cx>
                         <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
                            <PieSlice value-bind='$slice.sv'
                                       active-bind='$record.active'
-                                      colorIndex:expr='{$index} * 3 % 16'
-                                      r:expr='90'
-                                      r0:expr='58'
+                                      colorIndex-expr='{$index} * 3 % 16'
+                                      r-expr='90'
+                                      r0-expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
-                                      legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
+                                      name-tpl="Slice {$sliceIndex}"
+                                      legend-expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{
                                        fillOpacity: {expr: '0.3 + 0.7 * ({$sliceIndex} / 4)'}
@@ -111,11 +111,11 @@ export const MultiLevel = <cx>
                      <Repeater records-bind="$page.points">
                         <PieSlice value-bind='$record.v'
                                    active-bind='$record.active'
-                                    colorIndex:expr='{$index} * 3 % 16'
-                                    r:expr='55'
-                                    r0:expr='20'
+                                    colorIndex-expr='{$index} * 3 % 16'
+                                    r-expr='55'
+                                    r0-expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -128,12 +128,12 @@ export const MultiLevel = <cx>
                         <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
                            <PieSlice value-bind='$slice.sv'
                                       active-bind='$record.active'
-                                      colorIndex:expr='{$index} * 3 % 16'
-                                      r:expr='90'
-                                      r0:expr='58'
+                                      colorIndex-expr='{$index} * 3 % 16'
+                                      r-expr='90'
+                                      r0-expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
-                                      legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
+                                      name-tpl="Slice {$sliceIndex}"
+                                      legend-expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{
                                        fillOpacity: {expr: '0.3 + 0.7 * ({$sliceIndex} / 4)'}

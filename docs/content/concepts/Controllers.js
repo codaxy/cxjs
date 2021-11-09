@@ -225,7 +225,7 @@ export const Controllers = <cx>
                             <Option value-bind='$record.id' text-bind='$record.text'/>
                         </Repeater>
                     </Select>
-                    <p visible:expr='{$page.cityId}'>
+                    <p visible-expr='{$page.cityId}'>
                         <Text tpl='{$page.city.text} has {$page.city.population} people.'/>
                     </p>
                 </div>
@@ -249,7 +249,7 @@ export const Controllers = <cx>
                          <Option value-bind='$record.id' text-bind='$record.text' />
                       </Repeater>
                    </Select>
-                   <p visible:expr='{$page.cityId}'>
+                   <p visible-expr='{$page.cityId}'>
                       <Text tpl='{$page.city.text} has {$page.city.population} people.' />
                    </p>
                 </div>

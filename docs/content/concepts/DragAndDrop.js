@@ -269,9 +269,9 @@ export const DragAndDrop = <cx>
             <Tab value-bind="$page.configTab" tab="drag-event" mod="line">DragDropEvent</Tab>
         </p>
 
-        <ConfigTable props={dragSourceConfig} visible:expr="{$page.configTab}=='drag-source'"/>
-        <ConfigTable props={dropZoneConfig} visible:expr="{$page.configTab}=='drop-zone'"/>
-        <ConfigTable props={dragDropEventConfig} visible:expr="{$page.configTab}=='drag-event'"/>
+        <ConfigTable props={dragSourceConfig} visible-expr="{$page.configTab}=='drag-source'"/>
+        <ConfigTable props={dropZoneConfig} visible-expr="{$page.configTab}=='drop-zone'"/>
+        <ConfigTable props={dragDropEventConfig} visible-expr="{$page.configTab}=='drag-event'"/>
 
 
     </Md>

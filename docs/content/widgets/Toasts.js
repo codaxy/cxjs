@@ -61,7 +61,7 @@ export const Toasts = <cx>
                 <Toast visible={{bind:"$page.complex.visible", defaultValue: false}}>
                     <div preserveWhitespace>
                         <TextField value-bind="$page.name" label="Quick Reply:" />
-                        <Button icon="envelope-o" dismiss disabled:expr="{$page.name} == null">Send</Button>
+                        <Button icon="envelope-o" dismiss disabled-expr="{$page.name} == null">Send</Button>
                         <Button icon="close" dismiss />
                     </div>
                 </Toast>
@@ -102,7 +102,7 @@ export const Toasts = <cx>
                 <Toast visible-bind="$page.complex.visible" preserveWhitespace>
                     <div preserveWhitespace>
                         <TextField value-bind="$page.name" label="Quick Reply:" />
-                        <Button icon="envelope-o" dismiss disabled:expr="{$page.name} == null">Send</Button>
+                        <Button icon="envelope-o" dismiss disabled-expr="{$page.name} == null">Send</Button>
                         <Button icon="close" dismiss />
                     </div>
                 </Toast>

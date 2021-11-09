@@ -225,8 +225,8 @@ export const Menus = <cx>
             <Tab value-bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
         </p>
 
-        <ConfigTable props={configs} visible:expr="{$page.configTab}=='menu'"/>
-        <ConfigTable props={menuItemConfigs} visible:expr="{$page.configTab}=='menuitem'"/>
+        <ConfigTable props={configs} visible-expr="{$page.configTab}=='menu'"/>
+        <ConfigTable props={menuItemConfigs} visible-expr="{$page.configTab}=='menuitem'"/>
 
     </Md>
 </cx>

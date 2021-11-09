@@ -82,17 +82,17 @@ export const Combination = (
                                     recordAlias="$point"
                                 >
                                     <Column
-                                        colorIndex:expr="{$index}"
+                                        colorIndex-expr="{$index}"
                                         width={0.5}
                                         offset={0}
                                         x-bind="$point.x"
                                         y-bind="$point.v1"
-                                        tooltip:tpl="{$point.x} {$point.v1:n}"
+                                        tooltip-tpl="{$point.x} {$point.v1:n}"
                                         selection={columnSelection}
                                     />
 
                                     <Column
-                                        colorIndex:expr="{$index}+2"
+                                        colorIndex-expr="{$index}+2"
                                         width={0.5}
                                         offset={0}
                                         x-bind="$point.x"
@@ -107,7 +107,7 @@ export const Combination = (
                                         y-bind="$point.v1"
                                         xOffset={0}
                                         size={10}
-                                        colorIndex:expr="{$index}"
+                                        colorIndex-expr="{$index}"
                                         style="cursor:move;"
                                         draggableY
                                     >
@@ -128,7 +128,7 @@ export const Combination = (
                                         y-bind="$point.v2"
                                         xOffset={0}
                                         size={10}
-                                        colorIndex:expr="{$index}+2"
+                                        colorIndex-expr="{$index}+2"
                                         style="cursor:move;"
                                         draggableY
                                     >
@@ -217,15 +217,15 @@ export const Combination = (
                     }}>
                <Gridlines/>
                <Repeater records-bind="$page.points" recordAlias="$point">
-                  <Column colorIndex:expr="{$index}"
+                  <Column colorIndex-expr="{$index}"
                           width={0.5}
                           offset={0}
                           x-bind="$point.x"
                           y-bind="$point.v1"
-                          tooltip:tpl="{$point.x} {$point.v1:n}"
+                          tooltip-tpl="{$point.x} {$point.v1:n}"
                           selection={columnSelection} />
 
-                  <Column colorIndex:expr="{$index}+2"
+                  <Column colorIndex-expr="{$index}+2"
                           width={0.5}
                           offset={0}
                           x-bind="$point.x"
@@ -238,7 +238,7 @@ export const Combination = (
                           y-bind="$point.v1"
                           xOffset={0}
                           size={10}
-                          colorIndex:expr="{$index}"
+                          colorIndex-expr="{$index}"
                           style="cursor:move;"
                           draggableY>
                      <Rectangle anchors="0 1 0 0"
@@ -251,7 +251,7 @@ export const Combination = (
                           y-bind="$point.v2"
                           xOffset={0}
                           size={10}
-                          colorIndex:expr="{$index}+2"
+                          colorIndex-expr="{$index}+2"
                           style="cursor:move;"
                           draggableY >
                      <Rectangle anchors="0 1 0 0"

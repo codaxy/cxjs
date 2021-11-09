@@ -135,7 +135,7 @@ export const StepByStep = <cx>
                     </Tab>
                 </div>
 
-                <CodeSnippet visible:expr="{$page.entryPoint.tab} === 'html'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'html'">{`
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -147,7 +147,7 @@ export const StepByStep = <cx>
                     </html>
                 `}</CodeSnippet>
 
-                <CodeSnippet visible:expr="{$page.entryPoint.tab} === 'js'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'js'">{`
                     import { startAppLoop } from 'cx/ui';
                     import { Store } from 'cx/data';
                     import { HtmlElement } from 'cx/widgets';
@@ -378,14 +378,14 @@ export const StepByStep = <cx>
                                             placeholder="Type a task name here"
                                             required
                                     />
-                                    <Button type="button" onClick="onAdd" disabled:expr="!{$page.text}">Add</Button>
+                                    <Button type="button" onClick="onAdd" disabled-expr="!{$page.text}">Add</Button>
                                 </div>
 
                                 <ul class="csb-task-list">
                                     <Repeater records-bind="$page.todos">
                                         <li class="csb-task">
                                             <Checkbox class={{ "css-task-done": {bind: '$record.done'} }}
-                                                    text:tpl="{$record.text}" value-bind="$record.done"/>
+                                                    text-tpl="{$record.text}" value-bind="$record.done"/>
 
                                             <button onClick="onRemove" text="x"/>
                                         </li>

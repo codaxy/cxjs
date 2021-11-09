@@ -50,7 +50,7 @@ export const Stacked = <cx>
                              x-bind="$point.v1"
                              y-bind="$point.city"
                              stacked
-                             tooltip:tpl="{$point.v1:n;0}" />
+                             tooltip-tpl="{$point.v1:n;0}" />
 
                         <Bar name="V2"
                              colorIndex={9}
@@ -59,7 +59,7 @@ export const Stacked = <cx>
                              x-bind="$point.v2"
                              y-bind="$point.city"
                              stacked
-                             tooltip:tpl="{$point.v2:n;0}" />
+                             tooltip-tpl="{$point.v2:n;0}" />
 
 
                         <Bar name="V3"
@@ -69,7 +69,7 @@ export const Stacked = <cx>
                              x-bind="$point.v3"
                              y-bind="$point.city"
                              stacked
-                             tooltip:tpl="{$point.v3:n;0}" />
+                             tooltip-tpl="{$point.v3:n;0}" />
                         
 
                         <Bar name="W1"
@@ -80,7 +80,7 @@ export const Stacked = <cx>
                              y-bind="$point.city"
                              stacked
                              stack="left"
-                             tooltip:tpl="{$point.w1:n;0}" />
+                             tooltip-tpl="{$point.w1:n;0}" />
 
                         <Bar name="W2"
                              colorIndex={1}
@@ -90,7 +90,7 @@ export const Stacked = <cx>
                              y-bind="$point.city"
                              stacked
                              stack="left"
-                             tooltip:tpl="{$point.w2:n;0}" />
+                             tooltip-tpl="{$point.w2:n;0}" />
 
                         <Bar name="W3"
                              colorIndex={0}
@@ -100,7 +100,7 @@ export const Stacked = <cx>
                              y-bind="$point.city"
                              stacked
                              stack="left"
-                             tooltip:tpl="{$point.w3:n;0}" />
+                             tooltip-tpl="{$point.w3:n;0}" />
                      </Repeater>
                   </Chart>
                </Svg>
@@ -145,7 +145,7 @@ export const Stacked = <cx>
                           x-bind="$point.v1"
                           y-bind="$point.city"
                           stacked
-                          tooltip:tpl="{$point.v1:n;0}" />
+                          tooltip-tpl="{$point.v1:n;0}" />
 
                      <Bar name="V2"
                           colorIndex={9}
@@ -154,7 +154,7 @@ export const Stacked = <cx>
                           x-bind="$point.v2"
                           y-bind="$point.city"
                           stacked
-                          tooltip:tpl="{$point.v2:n;0}" />
+                          tooltip-tpl="{$point.v2:n;0}" />
 
 
                      <Bar name="V3"
@@ -164,7 +164,7 @@ export const Stacked = <cx>
                           x-bind="$point.v3"
                           y-bind="$point.city"
                           stacked
-                          tooltip:tpl="{$point.v3:n;0}" />
+                          tooltip-tpl="{$point.v3:n;0}" />
 
 
                      <Bar name="W1"
@@ -175,7 +175,7 @@ export const Stacked = <cx>
                           y-bind="$point.city"
                           stacked
                           stack="left"
-                          tooltip:tpl="{$point.w1:n;0}" />
+                          tooltip-tpl="{$point.w1:n;0}" />
 
                      <Bar name="W2"
                           colorIndex={1}
@@ -185,7 +185,7 @@ export const Stacked = <cx>
                           y-bind="$point.city"
                           stacked
                           stack="left"
-                          tooltip:tpl="{$point.w2:n;0}" />
+                          tooltip-tpl="{$point.w2:n;0}" />
 
                      <Bar name="W3"
                           colorIndex={0}
@@ -195,7 +195,7 @@ export const Stacked = <cx>
                           y-bind="$point.city"
                           stacked
                           stack="left"
-                          tooltip:tpl="{$point.w3:n;0}" />
+                          tooltip-tpl="{$point.w3:n;0}" />
                   </Repeater>
                </Chart>
             </Svg>

@@ -43,12 +43,12 @@ export const Bullets = <cx>
 
                         <Bar colorIndex={8}
                              style="stroke:none;opacity:0.3"
-                             x:expr="0.8*{$point.max}"
+                             x-expr="0.8*{$point.max}"
                              y-bind="$point.city" />
 
                         <Bar colorIndex={4}
                              style="stroke:none;opacity:0.3"
-                             x:expr="0.6*{$point.max}"
+                             x-expr="0.6*{$point.max}"
                              y-bind="$point.city" />
 
                         <Bar style="fill:#555"
@@ -58,8 +58,8 @@ export const Bullets = <cx>
 
                         <Bar style="stroke:red;stroke-width:1px"
                              height={0.5}
-                             x:expr="0.7*{$point.max}"
-                             x0:expr="0.7*{$point.max}"
+                             x-expr="0.7*{$point.max}"
+                             x0-expr="0.7*{$point.max}"
                              y-bind="$point.city" />
 
                      </Repeater>
@@ -101,12 +101,12 @@ export const Bullets = <cx>
 
                      <Bar colorIndex={8}
                           style="stroke:none;opacity:0.3"
-                          x:expr="0.8*{$point.max}"
+                          x-expr="0.8*{$point.max}"
                           y-bind="$point.city" />
 
                      <Bar colorIndex={4}
                           style="stroke:none;opacity:0.3"
-                          x:expr="0.6*{$point.max}"
+                          x-expr="0.6*{$point.max}"
                           y-bind="$point.city" />
 
                      <Bar style="fill:#555"
@@ -116,8 +116,8 @@ export const Bullets = <cx>
 
                      <Bar style="stroke:red;stroke-width:1px"
                           height={0.5}
-                          x:expr="0.7*{$point.max}"
-                          x0:expr="0.7*{$point.max}"
+                          x-expr="0.7*{$point.max}"
+                          x0-expr="0.7*{$point.max}"
                           y-bind="$point.city" />
 
                   </Repeater>

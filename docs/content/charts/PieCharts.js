@@ -103,8 +103,8 @@ export const PieCharts = <cx>
                         <PieSlice value-bind='$record.value'
                                   active-bind='$record.active'
                                   colorMap="pie"
-                                  r:expr='80'
-                                  r0:expr='20'
+                                  r-expr='80'
+                                  r0-expr='20'
                                   offset={5}
                                   tooltip={{
                                       text: {
@@ -118,7 +118,7 @@ export const PieCharts = <cx>
                                   }}
                                   innerPointRadius={80}
                                   outerPointRadius={90}
-                                  name:tpl="Item {$index}"
+                                  name-tpl="Item {$index}"
                                   selection={{
                                      type: KeySelection,
                                      bind: '$page.selection',

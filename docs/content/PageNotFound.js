@@ -4,7 +4,7 @@ import {Md} from '../components/Md';
 
 export const PageNotFound = <cx>
     <PureContainer layout={FirstVisibleChildLayout}>
-        <Md visible:expr="{error}">
+        <Md visible-expr="{error}">
             # Error
 
             Something went wrong. The content could not be loaded. This sometimes happens when the site is being updated.
