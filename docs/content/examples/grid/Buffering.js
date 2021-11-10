@@ -1,17 +1,17 @@
 import { HtmlElement, Checkbox, Grid } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
-import {Md} from '../../../components/Md';
-import {CodeSplit} from '../../../components/CodeSplit';
-import {CodeSnippet} from '../../../components/CodeSnippet';
+import { Md } from '../../../components/Md';
+import { CodeSplit } from '../../../components/CodeSplit';
+import { CodeSnippet } from '../../../components/CodeSnippet';
 
-import {casual} from '../data/casual';
+import { casual } from '../data/casual';
 
 class PageController extends Controller {
     onInit() {
         this.store.init(
             "$page.records",
             Array
-                .from({length: 5000})
+                .from({ length: 5000 })
                 .map((v, i) => ({
                     id: i + 1,
                     fullName: casual.full_name,
@@ -39,7 +39,7 @@ export const Buffering = <cx>
                 keyField="id"
                 buffered
                 style="height: 650px"
-                mod="fixed-layout"
+                mod={["fixed-layout", "contain"]}
                 cached
                 columns={[
                     { header: '#', defaultWidth: 50, items: <cx><div class="cxe-grid-row-number" /></cx> },

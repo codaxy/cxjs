@@ -49,10 +49,6 @@
          flex-direction: row;
          align-items: stretch;
 
-         table {
-            contain: layout paint;
-         }
-
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
 
@@ -140,6 +136,12 @@
          table {
             table-layout: fixed;
             width: auto;
+         }
+      }
+
+      &.#{$mod}contain {
+         table {
+            contain: layout paint;
          }
       }
 
