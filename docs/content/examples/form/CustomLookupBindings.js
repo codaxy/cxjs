@@ -45,8 +45,8 @@ export const CustomLookupBindings = <cx>
                 <div layout={{ type: LabelsTopLayout, vertical: true }}>
                     <LookupField
                         label="Select"
-                        value:bind="$page.city.id"
-                        text:bind="$page.city.name"
+                        value-bind="$page.city.id"
+                        text-bind="$page.city.name"
                         onQuery="query"
                         bindings={[
                             { key: true, local: "$page.city.id", remote: "$option.id" },
@@ -123,8 +123,8 @@ export const CustomLookupBindings = <cx>
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
                     <LookupField
                         label="Select"
-                        value:bind="$page.city.id"
-                        text:bind="$page.city.name"
+                        value-bind="$page.city.id"
+                        text-bind="$page.city.name"
                         onQuery="query"
                         bindings={[
                             { key: true, local: "$page.city.id", remote: "$option.id" },

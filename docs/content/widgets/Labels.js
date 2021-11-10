@@ -19,20 +19,20 @@ export const Labels = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value:bind="$page.text" />
-                    <TextField label="Asterisk" value:bind="$page.text" required asterisk />
+                    <TextField label="Standard" value-bind="$page.text" autoFocus/>
+                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value-bind="$page.text" />
+                    <TextField label="Asterisk" value-bind="$page.text" required asterisk />
                     <TextField
-                        label={<Checkbox value:bind="$page.enabled">Enabled</Checkbox>}
-                        value:bind="$page.text"
-                        enabled:bind="$page.enabled"
+                        label={<Checkbox value-bind="$page.enabled">Enabled</Checkbox>}
+                        value-bind="$page.text"
+                        enabled-bind="$page.enabled"
                     />
                     <TextField
                         label={{
                             text: 'Tooltips',
                             tooltip: 'This tooltip is related to the label.'
                         }}
-                        value:bind="$page.text"
+                        value-bind="$page.text"
                         tooltip="This tooltip is related to the field."
                     />
                 </div>
@@ -40,20 +40,20 @@ export const Labels = <cx>
 
             <CodeSnippet putInto="code" fiddle="HcJ9CpKT">{`
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value:bind="$page.text" />
-                    <TextField label="Asterisk" value:bind="$page.text" required asterisk />
+                    <TextField label="Standard" value-bind="$page.text" autoFocus/>
+                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value-bind="$page.text" />
+                    <TextField label="Asterisk" value-bind="$page.text" required asterisk />
                     <TextField
-                        label={<Checkbox value:bind="$page.enabled">Enabled</Checkbox>}
-                        value:bind="$page.text"
-                        enabled:bind="$page.enabled"
+                        label={<Checkbox value-bind="$page.enabled">Enabled</Checkbox>}
+                        value-bind="$page.text"
+                        enabled-bind="$page.enabled"
                     />
                     <TextField
                         label={{
                             text: 'Tooltips',
                             tooltip: 'This tooltip is related to the label.'
                         }}
-                        value:bind="$page.text"
+                        value-bind="$page.text"
                         tooltip="This tooltip is related to the field."
                     />
                 </div>

@@ -20,7 +20,7 @@ export const DataBinding = <cx>
         data changes will be reflected in the UI and user actions will be properly executed.
         There are multiple ways of applying data to the widgets.
 
-        ### Two-way Data Binding (`:bind` or `-bind`)
+        ### Two-way Data Binding (`-bind` or `-bind`)
 
         Two-way data binding is commonly used in forms as it supports both read and write operations.
         Let's use a checkbox for illustration. To display a checkbox we need to know whether it's checked or not.
@@ -30,19 +30,19 @@ export const DataBinding = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <Checkbox value:bind='intro.core.checked'>Checkbox</Checkbox>
+                <Checkbox value-bind='intro.core.checked'>Checkbox</Checkbox>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="csRQr9CA">{`
-                <Checkbox value:bind='intro.core.checked'>Checkbox</Checkbox>
+                <Checkbox value-bind='intro.core.checked'>Checkbox</Checkbox>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
-        > Suffix `:bind` or `-bind` is used on attributes to define two-way bindings.
+        > Suffix `-bind` or `:bind` is used on attributes to define two-way bindings.
 
-        ### Data Expressions (`:expr` or `-expr`)
+        ### Data Expressions (`-expr` or `:expr`)
 
         Data expressions are string attributes that are compiled into JavaScript methods used to calculate dynamic
         values at runtime. Let's add a new text field and use a data expression in the `enabled` property.
@@ -50,14 +50,14 @@ export const DataBinding = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <TextField value:bind='intro.core.text' enabled:expr='!{intro.core.checked}'/>
+                <TextField value-bind='intro.core.text' enabled-expr='!{intro.core.checked}'/>
             </div>
 
             <Content name="code">
                 <CodeSnippet fiddle="csRQr9CA">{`
                     <TextField
-                        value:bind='intro.core.text'
-                        enabled:expr='!{intro.core.checked}'
+                        value-bind='intro.core.text'
+                        enabled-expr='!{intro.core.checked}'
                     />
                 `}</CodeSnippet>
             </Content>
@@ -67,13 +67,13 @@ export const DataBinding = <cx>
         are both using the value `intro.core.checked`.
         Try clicking the checkbox and you will see how it works together with the text field.
 
-        > Suffix `:expr` or `-expr` is used on attributes to define data expressions.
+        > Suffix `-expr` or `:expr` is used on attributes to define data expressions.
 
         > Curly brackets denote data bindings.
 
         > Data bindings pointing to invalid locations will be reported as `undefined`.
 
-        ### Templates (`:tpl` or `-tpl`)
+        ### Templates (`-tpl` or `-tpl`)
 
         Templates are data expressions which return strings. They are a convenient option to avoid using both types of
         quotes within data expressions.
@@ -82,11 +82,11 @@ export const DataBinding = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <TextField value:bind='intro.core.firstName' label="First Name"/>
-                    <TextField value:bind='intro.core.lastName' label="Last Name"/>
-                    <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template"
+                    <TextField value-bind='intro.core.firstName' label="First Name"/>
+                    <TextField value-bind='intro.core.lastName' label="Last Name"/>
+                    <TextField value-tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template"
                                mode="view"/>
-                    <TextField value:expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"'
+                    <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"'
                                label="Expression" mode="view"/>
                 </div>
             </div>
@@ -94,10 +94,10 @@ export const DataBinding = <cx>
             <Content name="code">
                 <CodeSnippet fiddle="M60J0cyg">{`
                 <div layout={LabelsLeftLayout}>
-                  <TextField value:bind='intro.core.firstName' label="First Name" />
-                  <TextField value:bind='intro.core.lastName' label="Last Name"/>
-                  <TextField value:tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template" mode="view"/>
-                  <TextField value:expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"' label="Expression" mode="view"/>
+                  <TextField value-bind='intro.core.firstName' label="First Name" />
+                  <TextField value-bind='intro.core.lastName' label="Last Name"/>
+                  <TextField value-tpl='Hello {intro.core.firstName} {intro.core.lastName}!' label="Template" mode="view"/>
+                  <TextField value-expr='"Hello "+{intro.core.firstName:s}+" "+{intro.core.lastName:s}+"!"' label="Expression" mode="view"/>
                </div>
             `}</CodeSnippet>
             </Content>
@@ -114,7 +114,7 @@ export const DataBinding = <cx>
 
             <div class="widgets">
                 <div>
-                    <TextField value:bind='intro.core.letterCount' placeholder="Type here"/>
+                    <TextField value-bind='intro.core.letterCount' placeholder="Type here"/>
                     <p>
                         <Text
                             value={(storeData) => `You typed letter A ${((storeData.intro.core.letterCount || '').match(/A/g) || []).length} times.`}/>
@@ -126,7 +126,7 @@ export const DataBinding = <cx>
                 <CodeSnippet fiddle="dfT9CWn4">{`
                store.set('intro.core.letterCount', '');
                ...
-               <TextField value:bind='intro.core.letterCount' placeholder="Type here" />
+               <TextField value-bind='intro.core.letterCount' placeholder="Type here" />
                <p>
                   <Text value={(storeData) => \`You typed letter A
                   \${((storeData.intro.core.letterCount || '').match(/A/g) || []).length} times.\` } />
@@ -155,9 +155,9 @@ export const DataBinding = <cx>
 
             <div class="widgets">
                 <div preserveWhitespace>
-                    <NumberField value:bind='intro.core.a' placeholder="A" style="width:50px"/>
+                    <NumberField value-bind='intro.core.a' placeholder="A" style="width:50px"/>
                     +
-                    <NumberField value:bind='intro.core.b' placeholder="B" style="width:50px"/>
+                    <NumberField value-bind='intro.core.b' placeholder="B" style="width:50px"/>
                     =
                     <Text
                         value={computable('intro.core.a', 'intro.core.b', (a, b) => a == null || b == null ? "ERR" : a + b)}/>
@@ -166,9 +166,9 @@ export const DataBinding = <cx>
 
             <CodeSnippet putInto="code" fiddle="9CxYWdfS">{`
                 <div preserveWhitespace>
-                    <NumberField value:bind='intro.core.a' placeholder="A" />
+                    <NumberField value-bind='intro.core.a' placeholder="A" />
                     +
-                    <NumberField value:bind='intro.core.b' placeholder="B" />
+                    <NumberField value-bind='intro.core.b' placeholder="B" />
                     =
                     <Text value={computable('intro.core.a', 'intro.core.b', (a, b) => a==null || b==null ? "ERR" : a + b )} />
                 </div>
@@ -220,9 +220,9 @@ export const DataBinding = <cx>
             <div class="widgets">
                 <div>
                     <div style="text-align:center">Direct</div>
-                    <Slider value:bind='$page.slider.direct'/>
+                    <Slider value-bind='$page.slider.direct'/>
                     <br/>
-                    <Slider value:bind='$page.slider.direct'/>
+                    <Slider value-bind='$page.slider.direct'/>
                 </div>
                 <div>
                     <div style="text-align:center">Throttle: 300ms</div>

@@ -39,12 +39,12 @@ export const DataViews = <cx>
 
             <div class="widgets">
                 <div>
-                    <Repeater records:bind="intro.core.items" >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                    <Repeater records-bind="intro.core.items" >
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
@@ -56,12 +56,12 @@ export const DataViews = <cx>
                         { text: 'C', checked: false }
                     ]);
                     ...
-                    <Repeater records:bind="intro.core.items">
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                    <Repeater records-bind="intro.core.items">
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -76,30 +76,30 @@ export const DataViews = <cx>
             <div class="widgets">
                 <div>
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text"/>
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length'/> item(s).
                 </div>
             </div>
 
             <Content name="code">
                 <CodeSnippet >{`
                     <Repeater 
-                        records:bind="intro.core.items" 
+                        records-bind="intro.core.items" 
                         sortField="text"
                         sortDirection="DESC"    
                     >
-                        <Checkbox value:bind="$record.checked" text:bind="$record.text" />
+                        <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
                     </Repeater>
 
-                    You checked <Text value:expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
+                    You checked <Text value-expr='{intro.core.items}.filter(a=>a.checked).length' /> item(s).
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -119,14 +119,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>
@@ -150,14 +150,14 @@ export const DataViews = <cx>
                 <div>
                     <div preserveWhitespace>
                         <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value:bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value:bind="$page.place" option="third">3rd Place</Radio>
+                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
                     </div>
                     <hr/>
-                    <Sandbox key:bind="$page.place" storage:bind="$page.results" recordAlias="$contestant">
+                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
                         <div layout={LabelsLeftLayout}>
-                            <TextField value:bind="$contestant.firstName" label="First Name"/>
-                            <TextField value:bind="$contestant.lastName" label="Last Name"/>
+                            <TextField value-bind="$contestant.firstName" label="First Name"/>
+                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
                         </div>
                     </Sandbox>
                 </div>

@@ -87,13 +87,13 @@ export const Router = <cx>
         <CodeSplit>
             <ConfigTable props={routeConfigs}/>
             <CodeSnippet putInto="code">{`
-            <Route url:bind="url" route="~/about">
+            <Route url-bind="url" route="~/about">
                About
             </Route>
-            <Route url:bind="url" route="~/intro" prefix>
+            <Route url-bind="url" route="~/intro" prefix>
                Intro
 
-               <Route url:bind="url" route="+/nested">
+               <Route url-bind="url" route="+/nested">
                     Nested (~/intro/nested)
                </Route>
             </Route>
@@ -111,7 +111,7 @@ export const Router = <cx>
         <CodeSplit>
             Redirect routes redirect to another page when matched.
             <CodeSnippet putInto="code">{`
-            <RedirectRoute url:bind="url" route="~/" redirect="~/intro/about"/>
+            <RedirectRoute url-bind="url" route="~/" redirect="~/intro/about"/>
          `}</CodeSnippet>
         </CodeSplit>
 
@@ -128,9 +128,9 @@ export const Router = <cx>
         <CodeSplit>
             <ConfigTable props={sandboxConfigs}/>
             <CodeSnippet putInto="code">{`
-            <Sandbox key:bind="url" storage:bind="pages">
-               <Route url:bind="url" route="~/about">
-                  <TextField value:bind="$page.text" />
+            <Sandbox key-bind="url" storage-bind="pages">
+               <Route url-bind="url" route="~/about">
+                  <TextField value-bind="$page.text" />
                </Route>
             </Sandbox>
          `}
@@ -215,7 +215,7 @@ export const Router = <cx>
                     >
                         Add Confirmation
                     </Button>
-                    <p ws visible:expr="!!{$page.confirmation}">
+                    <p ws visible-expr="!!{$page.confirmation}">
                         Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
                     </p>
                 </div>
@@ -234,7 +234,7 @@ export const Router = <cx>
                 >
                     Add Confirmation
                 </Button>
-                <p ws visible:expr="!!{$page.confirmation}">
+                <p ws visible-expr="!!{$page.confirmation}">
                     Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
                 </p>
             `}</CodeSnippet>

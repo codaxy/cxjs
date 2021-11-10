@@ -46,19 +46,19 @@ export const ScatterGraphs = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <ScatterGraph data:bind="$page.reds"
+                  <ScatterGraph data-bind="$page.reds"
                                 name="Reds"
                                 colorIndex={1}
                                 shape="square"
                                 sizeField="size"
-                                active:bind="$page.showReds"
+                                active-bind="$page.showReds"
                   />
 
-                  <ScatterGraph data:bind="$page.blues"
+                  <ScatterGraph data-bind="$page.blues"
                                 name="Blues"
                                 colorIndex={5}
                                 sizeField="size"
-                                active:bind="$page.showBlues"
+                                active-bind="$page.showBlues"
                   />
 
                </Chart>
@@ -90,19 +90,19 @@ export const ScatterGraphs = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <ScatterGraph data:bind="$page.reds"
+                  <ScatterGraph data-bind="$page.reds"
                                 name="Reds"
                                 colorIndex={1}
                                 shape="square"
                                 sizeField="size"
-                                active:bind="$page.showReds"
+                                active-bind="$page.showReds"
                   />
 
-                  <ScatterGraph data:bind="$page.blues"
+                  <ScatterGraph data-bind="$page.blues"
                                 name="Blues"
                                 colorIndex={5}
                                 sizeField="size"
-                                active:bind="$page.showBlues"
+                                active-bind="$page.showBlues"
                   />
 
                </Chart>

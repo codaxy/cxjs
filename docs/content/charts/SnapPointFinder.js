@@ -37,20 +37,20 @@ export const SnapPointFinderPage = <cx>
                         x: <NumericAxis />,
                         y: <NumericAxis vertical min={0} max={400} />,
                     }}>
-                        <MouseTracker x:bind="$page.cursor.x" y:bind="$page.cursor.y">
+                        <MouseTracker x-bind="$page.cursor.x" y-bind="$page.cursor.y">
                             <Gridlines />
                             <SnapPointFinder
-                                cursorX:bind="$page.cursor.x"
-                                snapX:bind="$page.snapX"
-                                snapY:bind="$page.snapY"
+                                cursorX-bind="$page.cursor.x"
+                                snapX-bind="$page.snapX"
+                                snapY-bind="$page.snapY"
                                 maxDistance={Infinity}
                             >
-                                <LineGraph data:bind="$page.data" colorIndex={5} />
+                                <LineGraph data-bind="$page.data" colorIndex={5} />
                             </SnapPointFinder>
-                            <MarkerLine x:bind="$page.snapX" />
+                            <MarkerLine x-bind="$page.snapX" />
                             <Marker
-                                x:bind="$page.snapX"
-                                y:bind="$page.snapY"
+                                x-bind="$page.snapX"
+                                y-bind="$page.snapY"
                                 colorIndex={5} size={10}
                                 tooltip={{
                                     alwaysVisible: true,
@@ -62,7 +62,7 @@ export const SnapPointFinderPage = <cx>
                             />
                             <Marker
                                 style="visibility: hidden"
-                                x:bind="$page.snapX"
+                                x-bind="$page.snapX"
                                 tooltip={{
                                     alwaysVisible: true,
                                     text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},
@@ -100,20 +100,20 @@ export const SnapPointFinderPage = <cx>
                         x: <NumericAxis />,
                         y: <NumericAxis vertical min={0} max={400} />,
                     }}>
-                        <MouseTracker x:bind="$page.cursor.x" y:bind="$page.cursor.y">
+                        <MouseTracker x-bind="$page.cursor.x" y-bind="$page.cursor.y">
                             <Gridlines />
                             <SnapPointFinder
-                                cursorX:bind="$page.cursor.x"
-                                snapX:bind="$page.snapX"
-                                snapY:bind="$page.snapY"
+                                cursorX-bind="$page.cursor.x"
+                                snapX-bind="$page.snapX"
+                                snapY-bind="$page.snapY"
                                 maxDistance={Infinity}
                             >
-                                <LineGraph data:bind="$page.data" colorIndex={5} />
+                                <LineGraph data-bind="$page.data" colorIndex={5} />
                             </SnapPointFinder>
-                            <MarkerLine x:bind="$page.snapX" />
+                            <MarkerLine x-bind="$page.snapX" />
                             <Marker
-                                x:bind="$page.snapX"
-                                y:bind="$page.snapY"
+                                x-bind="$page.snapX"
+                                y-bind="$page.snapY"
                                 colorIndex={5} size={10}
                                 tooltip={{
                                     alwaysVisible: true,
@@ -125,7 +125,7 @@ export const SnapPointFinderPage = <cx>
                             />
                             <Marker
                                 style="visibility: hidden"
-                                x:bind="$page.snapX"
+                                x-bind="$page.snapX"
                                 tooltip={{
                                     alwaysVisible: true,
                                     text: { tpl: "({$page.snapX:n;2}, {$page.snapY:n;2})"},

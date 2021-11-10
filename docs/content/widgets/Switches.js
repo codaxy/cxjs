@@ -22,12 +22,12 @@ export const Switches = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <Switch label="Default" on:bind="$page.check" text:expr="{$page.check} ? 'ON' : 'OFF'" />
-                    <Switch label="Disabled" value:bind="$page.check" disabled/>
-                    <Switch label="Read-only" off:bind="$page.check" readOnly/>
+                    <Switch label="Default" on-bind="$page.check" text-expr="{$page.check} ? 'ON' : 'OFF'" />
+                    <Switch label="Disabled" value-bind="$page.check" disabled/>
+                    <Switch label="Read-only" off-bind="$page.check" readOnly/>
                     <Switch
                         label="Styled"
-                        off:bind="$page.check"
+                        off-bind="$page.check"
                         handleStyle="background:white"
                         rangeStyle="background:lightsteelblue"
                     >
@@ -37,12 +37,12 @@ export const Switches = <cx>
             </div>
             <CodeSnippet putInto="code" fiddle="2kT3rmdr">{`
                 <div layout={LabelsLeftLayout}>
-                    <Switch label="Default" on:bind="$page.check" text:expr="{$page.check} ? 'ON' : 'OFF'" />
-                    <Switch label="Disabled" value:bind="$page.check" disabled/>
-                    <Switch label="Read-only" off:bind="$page.check" readOnly/>
+                    <Switch label="Default" on-bind="$page.check" text-expr="{$page.check} ? 'ON' : 'OFF'" />
+                    <Switch label="Disabled" value-bind="$page.check" disabled/>
+                    <Switch label="Read-only" off-bind="$page.check" readOnly/>
                     <Switch
                         label="Styled"
-                        off:bind="$page.check"
+                        off-bind="$page.check"
                         handleStyle="background:white"
                         rangeStyle="background:lightsteelblue"
                     >

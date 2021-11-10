@@ -20,8 +20,8 @@ export const Inferno = <cx>
 
          ### 123123
 
-         <TextField value:bind="$page.text" />
-         <TextField value:bind="$page.text"/>
+         <TextField value-bind="$page.text" />
+         <TextField value-bind="$page.text"/>
 
          <ConfigTable props={{
             className: {

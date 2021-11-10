@@ -50,7 +50,7 @@
          align-items: stretch;
 
          table {
-            contain: strict;
+            contain: layout paint;
          }
 
          &.#{$state}border {

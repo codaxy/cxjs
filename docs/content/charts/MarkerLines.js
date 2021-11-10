@@ -61,13 +61,13 @@ export const MarkerLines = <cx>
                         }}
                     >
                         <Gridlines/>
-                        <MarkerLine y:bind="$page.extremes.min" colorIndex={6}>
+                        <MarkerLine y-bind="$page.extremes.min" colorIndex={6}>
                             <Text anchors="0 0 0 0" offset="5 0 0 5" dy="0.8em">Min</Text>
                         </MarkerLine>
-                        <MarkerLine y:bind="$page.extremes.max" colorIndex={3}>
+                        <MarkerLine y-bind="$page.extremes.max" colorIndex={3}>
                             <Text anchors="0 0 0 0" offset="-5 0 0 5">Max</Text>
                         </MarkerLine>
-                        <LineGraph data:bind="$page.points" colorIndex={0}/>
+                        <LineGraph data-bind="$page.points" colorIndex={0}/>
                     </Chart>
                 </Svg>
                 <Legend/>
@@ -117,13 +117,13 @@ export const MarkerLines = <cx>
                         }}
                     >
                         <Gridlines/>
-                        <MarkerLine y:bind="$page.extremes.min" colorIndex={6}>
+                        <MarkerLine y-bind="$page.extremes.min" colorIndex={6}>
                             <Text anchors="0 0 0 0" offset="5 0 0 5" dy="0.8em">Min</Text>
                         </MarkerLine>
-                        <MarkerLine y:bind="$page.extremes.max" colorIndex={3}>
+                        <MarkerLine y-bind="$page.extremes.max" colorIndex={3}>
                             <Text anchors="0 0 0 0" offset="-5 0 0 5">Max</Text>
                         </MarkerLine>
-                        <LineGraph data:bind="$page.points" colorIndex={0}/>
+                        <LineGraph data-bind="$page.points" colorIndex={0}/>
                     </Chart>
                 </Svg>
                 <Legend />

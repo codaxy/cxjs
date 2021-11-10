@@ -30,7 +30,7 @@ export const Lists = <cx>
 
             <div class="widgets">
                 <List
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     selection={{ type: PropertySelection, multiple: true }}
                     style="width:200px"
                     emptyText="No results found."
@@ -65,7 +65,7 @@ export const Lists = <cx>
             `}</CodeSnippet>
             <CodeSnippet visible-expr="{$page.code.tab}=='list'" fiddle="WBK5QrGZ">{`
             <List
-                records:bind="$page.records"
+                records-bind="$page.records"
                 selection={PropertySelection}
                 style="width:200px"
                 emptyText="No results found."

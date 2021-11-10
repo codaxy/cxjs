@@ -223,7 +223,7 @@ export const ColumnReordering = <cx>
                      }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle='w6G2aFy9'>{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle='w6G2aFy9'>{`
                 <Grid
                     records-bind="$page.records"
                     mod="fixed-layout"

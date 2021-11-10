@@ -39,13 +39,13 @@ export const Svgs = <cx>
                <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
                   <Rectangle anchors="0 1 1 0" style={{fill: 'rgba(100, 100, 100, 0.1)'}} />
                   <Gridlines />
-                  <Bubbles data:bind='$page.bubbles' selection={{type: PropertySelection, multiple: true}}/>
+                  <Bubbles data-bind='$page.bubbles' selection={{type: PropertySelection, multiple: true}}/>
                </Chart>
             </Svg>
             <div>
-               <Repeater records:bind="$page.bubbles">
+               <Repeater records-bind="$page.bubbles">
                   <div>
-                     <Checkbox checked:bind="$record.selected" text:bind="$record.name" />
+                     <Checkbox checked-bind="$record.selected" text-bind="$record.name" />
                   </div>
                </Repeater>
             </div>

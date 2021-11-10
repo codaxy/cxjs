@@ -32,24 +32,24 @@ export const Validators = <cx>
                     </p>
                     <ValidationGroup
                         layout={LabelsTopLayout}
-                        valid:bind="$page.valid"
-                        errors:bind="$page.errors"
+                        valid-bind="$page.valid"
+                        errors-bind="$page.errors"
                     >
-                        <NumberField label="X" value:bind="$page.x" required requiredText="Please enter X." style="width: 50px"/>
+                        <NumberField label="X" value-bind="$page.x" required requiredText="Please enter X." style="width: 50px"/>
                         +
-                        <NumberField label="Y" value:bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
+                        <NumberField label="Y" value-bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
                         =
                         <LabeledContainer label="X + Y">
-                            <span text:expr="{$page.x} + {$page.y}" />
+                            <span text-expr="{$page.x} + {$page.y}" />
                         </LabeledContainer>
                         <Validator
-                            value:expr="{$page.x} + {$page.y}"
+                            value-expr="{$page.x} + {$page.y}"
                             onValidate={(value) => value != 20 && 'X + Y != 20'}
                         />
                     </ValidationGroup>
                     <ul>
-                        <Repeater records:bind="$page.errors">
-                            <li text:bind="$record.message" style="color: red;"/>
+                        <Repeater records-bind="$page.errors">
+                            <li text-bind="$record.message" style="color: red;"/>
                         </Repeater>
                     </ul>
                 </div>
@@ -70,24 +70,24 @@ export const Validators = <cx>
                         </p>
                         <ValidationGroup
                             layout={LabelsTopLayout}
-                            valid:bind="$page.valid"
-                            errors:bind="$page.errors"
+                            valid-bind="$page.valid"
+                            errors-bind="$page.errors"
                         >
-                            <NumberField label="X" value:bind="$page.x" required requiredText="Please enter X." style="width: 50px"/>
+                            <NumberField label="X" value-bind="$page.x" required requiredText="Please enter X." style="width: 50px"/>
                             +
-                            <NumberField label="Y" value:bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
+                            <NumberField label="Y" value-bind="$page.y" required requiredText="Please enter Y."  style="width: 50px"/>
                             =
                             <LabeledContainer label="X + Y">
-                                <span text:expr="{$page.x} + {$page.y}" />
+                                <span text-expr="{$page.x} + {$page.y}" />
                             </LabeledContainer>
                             <Validator
-                                value:expr="{$page.x} + {$page.y}"
+                                value-expr="{$page.x} + {$page.y}"
                                 onValidate={(value) => value != 20 && 'X + Y != 20'}
                             />
                         </ValidationGroup>
                         <ul>
-                            <Repeater records:bind="$page.errors">
-                                <li text:bind="$record.message" style="color: red;"/>
+                            <Repeater records-bind="$page.errors">
+                                <li text-bind="$record.message" style="color: red;"/>
                             </Repeater>
                         </ul>
                     </div>

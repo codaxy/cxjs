@@ -28,18 +28,18 @@ export const PureContainer = <cx>
       <CodeSplit>
 
          <div class="widgets">
-            <ValidationGroup layout={LabelsLeftLayout} invalid:bind="$page.invalid">
-               <TextField label="Text" value:bind="$page.text" required />
-               <NumberField label="Number" value:bind="$page.number" required minValue={10} />
-               <Text value="Please correct the errors." visible:bind="$page.invalid" />
+            <ValidationGroup layout={LabelsLeftLayout} invalid-bind="$page.invalid">
+               <TextField label="Text" value-bind="$page.text" required />
+               <NumberField label="Number" value-bind="$page.number" required minValue={10} />
+               <Text value="Please correct the errors." visible-bind="$page.invalid" />
             </ValidationGroup>
          </div>
 
          <CodeSnippet putInto="code" fiddle="IsLloM4H">{`
-            <ValidationGroup layout={LabelsLeftLayout} invalid:bind="$page.invalid">
-               <TextField label="Text" value:bind="$page.text" required />
-               <NumberField label="Number" value:bind="$page.number" required minValue={10} />
-               <Text value="Please correct the errors." visible:bind="$page.invalid" />
+            <ValidationGroup layout={LabelsLeftLayout} invalid-bind="$page.invalid">
+               <TextField label="Text" value-bind="$page.text" required />
+               <NumberField label="Number" value-bind="$page.number" required minValue={10} />
+               <Text value="Please correct the errors." visible-bind="$page.invalid" />
             </ValidationGroup>
          `}</CodeSnippet>
       </CodeSplit>

@@ -122,14 +122,14 @@ export const Controllers = <cx>
             <div class="widgets">
                 <div>
                     <div>
-                        <Tab value:bind="$page.tab" tab="1" default>Tab 1</Tab>
-                        <Tab value:bind="$page.tab" tab="2">Tab 2</Tab>
+                        <Tab value-bind="$page.tab" tab="1" default>Tab 1</Tab>
+                        <Tab value-bind="$page.tab" tab="2">Tab 2</Tab>
                     </div>
-                    <div visible:bind="$page.tab=='1'" controller={TabController}>
-                        Tab 1 is open <span text:bind="$page.tabOpenTime"/> seconds.
+                    <div visible-bind="$page.tab=='1'" controller={TabController}>
+                        Tab 1 is open <span text-bind="$page.tabOpenTime"/> seconds.
                     </div>
-                    <div visible:bind="$page.tab=='2'" controller={TabController}>
-                        Tab 2 is open <span text:bind="$page.tabOpenTime"/> seconds.
+                    <div visible-bind="$page.tab=='2'" controller={TabController}>
+                        Tab 2 is open <span text-bind="$page.tabOpenTime"/> seconds.
                     </div>
                 </div>
             </div>
@@ -148,14 +148,14 @@ export const Controllers = <cx>
                 }
                 ...
                 <div>
-                    <Tab value:bind="$page.tab" tab="1" default>Tab 1</Tab>
-                    <Tab value:bind="$page.tab" tab="2">Tab 2</Tab>
+                    <Tab value-bind="$page.tab" tab="1" default>Tab 1</Tab>
+                    <Tab value-bind="$page.tab" tab="2">Tab 2</Tab>
                 </div>
-                <div visible:bind="$page.tab=='1'" controller={TabController}>
-                    Tab 1 is open <span text:bind="$page.tabOpenTime"/> seconds.
+                <div visible-bind="$page.tab=='1'" controller={TabController}>
+                    Tab 1 is open <span text-bind="$page.tabOpenTime"/> seconds.
                 </div>
-                <div visible:bind="$page.tab=='2'" controller={TabController}>
-                    Tab 2 is open <span text:bind="$page.tabOpenTime"/> seconds.
+                <div visible-bind="$page.tab=='2'" controller={TabController}>
+                    Tab 2 is open <span text-bind="$page.tabOpenTime"/> seconds.
                 </div>
 
             `}</CodeSnippet>
@@ -170,9 +170,9 @@ export const Controllers = <cx>
 
             <div class="widgets">
                 <div controller={CbController}>
-                    <Checkbox value:bind="$page.cb1">Checkbox 1</Checkbox>
+                    <Checkbox value-bind="$page.cb1">Checkbox 1</Checkbox>
                     <br/>
-                    <Checkbox value:bind="$page.cb2">Checkbox 2</Checkbox>
+                    <Checkbox value-bind="$page.cb2">Checkbox 2</Checkbox>
                 </div>
             </div>
 
@@ -203,9 +203,9 @@ export const Controllers = <cx>
                }
                ...
                <div controller={CbController}>
-                  <Checkbox value:bind="$page.cb1">Checkbox 1</Checkbox>
+                  <Checkbox value-bind="$page.cb1">Checkbox 1</Checkbox>
                   <br/>
-                  <Checkbox value:bind="$page.cb2">Checkbox 2</Checkbox>
+                  <Checkbox value-bind="$page.cb2">Checkbox 2</Checkbox>
                </div>
             `}</CodeSnippet>
             </Content>
@@ -220,12 +220,12 @@ export const Controllers = <cx>
 
             <div class="widgets">
                 <div controller={InfoController}>
-                    <Select value:bind="$page.cityId">
-                        <Repeater records:bind='$page.cities'>
-                            <Option value:bind='$record.id' text:bind='$record.text'/>
+                    <Select value-bind="$page.cityId">
+                        <Repeater records-bind='$page.cities'>
+                            <Option value-bind='$record.id' text-bind='$record.text'/>
                         </Repeater>
                     </Select>
-                    <p visible:expr='{$page.cityId}'>
+                    <p visible-expr='{$page.cityId}'>
                         <Text tpl='{$page.city.text} has {$page.city.population} people.'/>
                     </p>
                 </div>
@@ -244,12 +244,12 @@ export const Controllers = <cx>
                 }
                 ...
                 <div controller={InfoController}>
-                   <Select value:bind="$page.cityId">
-                      <Repeater records:bind='$page.cities'>
-                         <Option value:bind='$record.id' text:bind='$record.text' />
+                   <Select value-bind="$page.cityId">
+                      <Repeater records-bind='$page.cities'>
+                         <Option value-bind='$record.id' text-bind='$record.text' />
                       </Repeater>
                    </Select>
-                   <p visible:expr='{$page.cityId}'>
+                   <p visible-expr='{$page.cityId}'>
                       <Text tpl='{$page.city.text} has {$page.city.population} people.' />
                    </p>
                 </div>
@@ -330,8 +330,8 @@ export const Controllers = <cx>
                     <NewTask controller={NewTaskController} />
 
                     <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
-                    <Repeater records:bind="$page.todoList" >
-                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                    <Repeater records-bind="$page.todoList" >
+                        <Checkbox value-bind="$record.done" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
                 </div>
@@ -352,8 +352,8 @@ export const Controllers = <cx>
                 <div controller={TodoListController} layout={LabelsLeftLayout}>
                     <NewTask controller={NewTaskController} />
                     <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
-                    <Repeater records:bind="$page.todoList" >
-                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                    <Repeater records-bind="$page.todoList" >
+                        <Checkbox value-bind="$record.done" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
                 </div>
