@@ -55,7 +55,7 @@ export function createFunctionalComponent(factory) {
             controller: props.controller,
             outerLayout: props.outerLayout,
             putInto: props.contentFor || props.putInto,
-            widgetKey: props.widgetKey,
+            vdomKey: props.vdomKey,
             childrenFactory: factory,
             props: innerProps
          };
