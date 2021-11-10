@@ -1,9 +1,9 @@
-import {createComponentFactory, isComponentFactory} from '../util/Component';
-import {flattenProps} from '../ui/flattenProps';
-import {PureContainer} from "./PureContainer";
-import {UseParentLayout} from "./layout/UseParentLayout";
-import {StoreProxy} from "../data/StoreProxy";
-import {isDefined} from "../util/isDefined";
+import { createComponentFactory, isComponentFactory } from '../util/Component';
+import { flattenProps } from '../ui/flattenProps';
+import { PureContainer } from "./PureContainer";
+import { UseParentLayout } from "./layout/UseParentLayout";
+import { StoreProxy } from "../data/StoreProxy";
+import { isDefined } from "../util/isDefined";
 
 let currentInstance = null;
 
@@ -46,14 +46,16 @@ export function createFunctionalComponent(factory) {
          delete innerProps.contentFor;
          delete innerProps.jsxAttributes;
          delete innerProps.$type;
+         delete innerProps.vdomKey;
 
          return {
             type: FunctionalComponent,
-            visible: isDefined(props.if) ? props.if : isDefined(props.visible) ? props.visible: true,
+            visible: isDefined(props.if) ? props.if : isDefined(props.visible) ? props.visible : true,
             layout: props.layout || UseParentLayout,
             controller: props.controller,
             outerLayout: props.outerLayout,
             putInto: props.contentFor || props.putInto,
+            widgetKey: props.widgetKey,
             childrenFactory: factory,
             props: innerProps
          };
