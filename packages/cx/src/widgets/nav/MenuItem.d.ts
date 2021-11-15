@@ -21,6 +21,14 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    openOnFocus?: boolean;
    /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
    closeDropdownOnScrollDistance?: number;
+
+   /**
+    * Click handler.
+    *
+    * @param e - Event.
+    * @param instance - Cx widget instance that fired the event.
+    */
+   onClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}
