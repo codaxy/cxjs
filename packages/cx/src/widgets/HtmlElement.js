@@ -115,6 +115,7 @@ export class HtmlElement extends Container {
          case "instance":
          case "store":
          case "autoFocus":
+         case "vdomKey":
             return false;
 
          default:
