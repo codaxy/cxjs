@@ -10,6 +10,7 @@ export function createStructuredSelector(selector, constants) {
 
       keys.forEach(key => {
          memoizedSelectors[key] = selector[key].memoize ? selector[key].memoize() : selector[key];
+         lastResult[key] = undefined;
       });
 
       return function (data) {
