@@ -293,5 +293,12 @@ export default {
         description: <cx><Md>
             Whenever `groupingParams` change, columns are recalculated using the `onGetGrouping` callback.
         </Md></cx>
-    }
+    },
+
+    allowsFileDrops: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true`` to allow the grid to receive drag and drop operations containing files.
+        </Md></cx>
+    },
 };

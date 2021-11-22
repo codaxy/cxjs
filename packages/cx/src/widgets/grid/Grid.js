@@ -1155,6 +1155,7 @@ Grid.prototype.cellEditable = false;
 Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
+Grid.prototype.allowsFileDrops = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
@@ -1662,6 +1663,10 @@ class GridComponent extends VDOM.Component {
             onKeyDown={this.handleKeyDown.bind(this)}
             onFocus={this.onFocus.bind(this)}
             onBlur={this.onBlur.bind(this)}
+            onDragEnter={this.onFileDragEnter.bind(this)}
+            onDragOver={this.onFileDragOver.bind(this)}
+            onDragLeave={this.onFileDragLeave.bind(this)}
+            onDrop={this.onFileDrop.bind(this)}
          >
             {fixedColumnsContent}
             {content}
@@ -2820,6 +2825,45 @@ class GridComponent extends VDOM.Component {
          dragged: record,
       });
    }
+
+   onFileDragEnter(ev) {
+      if (!this.props.instance.widget.allowsFileDrops) return;
+      let event = getDragDropEvent(ev);
+      var test = this.onDropTest(event);
+      if (test) {
+         ev.preventDefault();
+         ev.stopPropagation();
+         this.onDragStart(ev);
+      }
+   }
+   onFileDragOver(ev) {
+      if (!this.props.instance.widget.allowsFileDrops) return;
+      let event = getDragDropEvent(ev);
+      var test = this.onDropTest(event);
+      if (test) {
+         ev.preventDefault();
+         ev.stopPropagation();
+         this.onDragOver(event, { test });
+      }
+   }
+   onFileDragLeave(ev) {
+      if (!this.props.instance.widget.allowsFileDrops) return;
+      let event = getDragDropEvent(ev);
+      var test = this.onDropTest(event);
+      if (test) {
+         this.onDragLeave(event);
+      }
+   }
+   onFileDrop(ev) {
+      if (!this.props.instance.widget.allowsFileDrops) return;
+      let event = getDragDropEvent(ev);
+      var test = this.onDropTest(event);
+      if (test) {
+         ev.preventDefault();
+         ev.stopPropagation();
+         this.onDrop(event);
+      }
+   }
 }
 
 class GridColumnHeaderLine extends PureContainer {
@@ -3094,4 +3138,18 @@ class AvgHeight {
       if (!g || g.count == 0) return null;
       return Math.round(g.sum / g.count);
    }
+}
+
+
+function getDragDropEvent(ev) {
+   return {
+      event: ev,
+      cursor: getCursorPos(ev),
+      dataTransfer: ev.dataTransfer,
+      source: {
+         width: 32,
+         height: 32,
+         margin: []
+      }
+   };
 }

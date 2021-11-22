@@ -339,6 +339,9 @@ interface GridProps extends Cx.StyledContainerProps {
 
    /** Callback function to dynamically calculate columns.  */
    onGetColumns?: (params: any, instance: Instance) => GridColumnConfig[] | GridRowConfig;
+
+   /** Allow grid to receive drag and drop operations containing files. */
+   allowsFileDrops?: boolean;
 }
 
 export class Grid extends Cx.Widget<GridProps> {}
