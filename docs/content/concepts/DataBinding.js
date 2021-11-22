@@ -20,7 +20,7 @@ export const DataBinding = <cx>
         data changes will be reflected in the UI and user actions will be properly executed.
         There are multiple ways of applying data to the widgets.
 
-        ### Two-way Data Binding (`-bind` or `-bind`)
+        ### Two-way Data Binding (`-bind` or `:bind`)
 
         Two-way data binding is commonly used in forms as it supports both read and write operations.
         Let's use a checkbox for illustration. To display a checkbox we need to know whether it's checked or not.
@@ -73,7 +73,7 @@ export const DataBinding = <cx>
 
         > Data bindings pointing to invalid locations will be reported as `undefined`.
 
-        ### Templates (`-tpl` or `-tpl`)
+        ### Templates (`-tpl` or `:tpl`)
 
         Templates are data expressions which return strings. They are a convenient option to avoid using both types of
         quotes within data expressions.
