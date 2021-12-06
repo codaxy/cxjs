@@ -70,7 +70,7 @@ export class TextField extends Field {
 }
 
 TextField.prototype.baseClass = "textfield";
-TextField.prototype.reactOn = "change input blur";
+TextField.prototype.reactOn = "change input blur enter";
 TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = "The entered value is not valid.";
 TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
