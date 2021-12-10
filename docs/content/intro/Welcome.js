@@ -71,11 +71,10 @@ export const Welcome = <cx>
                 <div class="widgets">
                     <div ws style="width: 300px">
                         <h2>Welcome!</h2>
-                        <p>
-                            What is your name? <TextField value-bind="$page.name"/>
-                        </p>
+                        <p style="margin-bottom: 0">What is your name?</p>
+                        <TextField value-bind="$page.name"/>
                         <div visible-expr="!!{$page.name}">
-                            <p>
+                            <p class="">
                                 Hello <strong text-tpl="{$page.name}"/>!
                             </p>
                             <p ws>
