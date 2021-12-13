@@ -1,0 +1,36 @@
+//
+// Boxes
+// -----
+//
+// Boxes are inline-block elements which are likely to appear in the same row, such as buttons and form elements.
+// These elements should have the same height in order to avoid problems when put together in a toolbar
+// or a complex form.
+//
+// To ensure the height consistency, all box models should use the same line-height, top/bottom padding and border-width;
+//
+// For elements which do not have a natural border, such as checkboxes, radios and buttons,
+// border-color should be set to transparent.
+//
+//  box height = line-height + padding-top + padding-bottom + border-width-top + border-width-bottom
+//
+// Some browsers do not respect the line-height being set and therefore explicit height value is
+// calculated and set on all box elements.
+//
+// Hint: Use em units to make the box height grow with the font-size, but note that the elements
+//       will not be aligned in case of pixel boundaries and icons may appear blurry in some desktop browsers.
+//
+
+$cx-default-box-font-size: 13px !default;
+$cx-default-box-font-family: inherit !default;
+$cx-default-box-line-height: 16px !default;
+$cx-default-box-padding: 5px !default; //should not be a list
+$cx-default-box-border-width: 1px !default;
+
+// Borders
+// -------
+
+$cx-default-border-color: #bfbfbf !default;
+$cx-default-border-radius: 0 !default;
+$cx-default-border-width: 1px !default;
+
+$cx-default-icon-size: 16px !default;

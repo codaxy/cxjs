@@ -36,8 +36,8 @@ $toolbar-height: 20px;
          top: 50%;
          width: $logo-size;
          height: $logo-size;
-         margin-left: -$logo-size/2;
-         margin-top: -$logo-size/2;
+         margin-left: -$logo-size* 0.5;
+         margin-top: -$logo-size* 0.5;
          color: #263c4b;
       }
 

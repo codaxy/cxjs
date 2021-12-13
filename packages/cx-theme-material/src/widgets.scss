@@ -4,8 +4,7 @@ $state: map-get($cx-besm, state);
 $mod: map-get($cx-besm, mod);
 
 //SECTION
-@if (cx-included('cx/widgets/Section')) {
-
+@if (cx-included("cx/widgets/Section")) {
    .#{$block}section.#{$state}pad {
       > .#{$element}section-body {
          padding: 1em;
@@ -44,40 +43,40 @@ $mod: map-get($cx-besm, mod);
 }
 
 //BUTTON
-@if (cx-included('cx/widgets/Button')) {
-
+@if (cx-included("cx/widgets/Button")) {
    .#{$block}button {
       // overrides tap color effect for mobile devices
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
       // aligns float button icon in the center
       &.cxm-float .#{$element}button-icon {
-         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size) * 0.5;
       }
    }
 }
 
 //FORM
 // standard field
-$form-list: (
-   TextField NumberField LookupField DateTimeField MonthField ColorField Select
-);
+$form-list: (TextField NumberField LookupField DateTimeField MonthField ColorField Select);
 
 @each $field in $form-list {
-   @if (cx-included('cx/widgets/#{$field}')) {
-
+   @if (cx-included("cx/widgets/#{$field}")) {
       .#{$block}#{to-lower-case($field)} {
          position: relative;
 
          -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
          // disables parent input div height to grow bigger then input in FlexRow
-         max-height: $cx-default-box-line-height + 2 * cx-top($cx-default-box-padding) + 2 * cx-top($cx-default-border-width);
+         max-height: $cx-default-box-line-height +
+            2 *
+            cx-top($cx-default-box-padding) +
+            2 *
+            cx-top($cx-default-border-width);
 
          // standard field focus effect
          &:after {
             display: block;
-            content: '';
+            content: "";
             height: 2px;
             width: 100%;
             background-color: $cx-theme-primary-color;
@@ -105,7 +104,7 @@ $form-list: (
 }
 
 // lookupfield
-@if (cx-included('cx/widgets/LookupField')) {
+@if (cx-included("cx/widgets/LookupField")) {
    .#{$block}lookupfield {
       max-height: none;
    }
@@ -115,10 +114,13 @@ $form-list: (
 .#{$element}datefield-input,
 .#{$element}monthfield-input,
 .#{$element}colorfield-input {
-   padding: cx-top($cx-theme-input-padding) cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size) cx-bottom($cx-theme-input-padding) cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size)
+   padding: cx-top($cx-theme-input-padding)
+      cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size)
+      cx-bottom($cx-theme-input-padding)
+      cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size);
 }
 
-@if (cx-included('cx/widgets/Select')) {
+@if (cx-included("cx/widgets/Select")) {
    // select
    .cxb-select option {
       color: $cx-default-color;
@@ -126,13 +128,13 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/TextArea')) {
+@if (cx-included("cx/widgets/TextArea")) {
    // textarea
    .#{$block}textarea {
       // textarea focus effect
       &:after {
          display: block;
-         content: '';
+         content: "";
          height: 2px;
          width: 100%;
          background-color: $cx-theme-primary-color;
@@ -179,7 +181,7 @@ $form-list: (
    &:not(.#{$state}empty) {
       & > .#{$block}label {
          pointer-events: auto;
-         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) / 2 + 2px;
+         margin-top: -$cx-default-box-line-height - cx-top($cx-default-box-padding) * 0.5 + 2px;
          color: rgba($cx-default-label-color, 0.6);
          font-size: $cx-default-label-font-size;
          padding-bottom: 0;
@@ -198,7 +200,7 @@ $form-list: (
    }
 
    &.#{$state}error > .#{$block}label {
-      color: $cx-theme-danger-color
+      color: $cx-theme-danger-color;
    }
 
    &.#{$state}icon {
@@ -226,7 +228,7 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Calendar')) {
+@if (cx-included("cx/widgets/Calendar")) {
    // calendar
    .#{$block}calendar {
       .#{$element}calendar-day-names {
@@ -236,10 +238,10 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Checkbox')) {
+@if (cx-included("cx/widgets/Checkbox")) {
    .#{$element}checkbox-input {
       &:after {
-         content: '';
+         content: "";
          width: 2 * $cx-default-checkbox-size;
          height: 2 * $cx-default-checkbox-size;
          position: absolute;
@@ -258,12 +260,12 @@ $form-list: (
       }
       &:focus:after {
          visibility: visible;
-         transform: scale(.9, .9)
+         transform: scale(0.9, 0.9);
       }
    }
 }
 
-@if (cx-included('cx/widgets/Radio')) {
+@if (cx-included("cx/widgets/Radio")) {
    // radio focus effect
    .#{$element}radio-input {
       border-width: 2px;
@@ -271,7 +273,7 @@ $form-list: (
       color: $cx-theme-primary-color;
 
       &:after {
-         content: '';
+         content: "";
          width: 2 * $cx-default-radio-size;
          height: 2 * $cx-default-radio-size;
          position: absolute;
@@ -296,12 +298,12 @@ $form-list: (
 
       &:focus:after {
          visibility: visible;
-         transform: scale(.9, .9)
+         transform: scale(0.9, 0.9);
       }
    }
 }
 
-@if (cx-included('cx/widgets/ColorPicker')) {
+@if (cx-included("cx/widgets/ColorPicker")) {
    // colorpicker
    .#{$block}colorpicker {
       input {
@@ -320,7 +322,7 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Slider')) {
+@if (cx-included("cx/widgets/Slider")) {
    // slider focus effect
    .#{$element}slider-handle {
       &:after {
@@ -337,7 +339,8 @@ $form-list: (
          transition: transform 0.15s ease-out, background-color 0.15s ease-out;
       }
 
-      &:active, &:active:focus {
+      &:active,
+      &:active:focus {
          &:after {
             visibility: visible;
             transform: scale(1, 1);
@@ -364,7 +367,7 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Switch')) {
+@if (cx-included("cx/widgets/Switch")) {
    // switch focus effect
    .#{$element}switch-handle {
       &:after {
@@ -393,7 +396,7 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Tab')) {
+@if (cx-included("cx/widgets/Tab")) {
    //TAB
    div.#{$block}classic-tab-container {
       background-color: $cx-theme-primary-color;
@@ -422,7 +425,7 @@ $form-list: (
    }
 }
 
-@if (cx-included('cx/widgets/Window')) {
+@if (cx-included("cx/widgets/Window")) {
    @keyframes cx-theme-window-appear-animation {
       from {
          opacity: 0;
@@ -438,7 +441,6 @@ $form-list: (
    //WINDOW
    // window animation
    .#{$block}window {
-
       //transition: opacity .2s, transform .2s;
 
       &.#{$state}animate {
@@ -448,10 +450,9 @@ $form-list: (
    }
 
    .#{$element}window-shadow {
-
       &.#{$state}animate {
          opacity: 0;
-         transition: opacity .2s;
+         transition: opacity 0.2s;
       }
 
       &.#{$state}animate-enter {
@@ -461,7 +462,7 @@ $form-list: (
 }
 
 //PROGRESSBAR
-@if (cx-included('cx/widgets/ProgressBar')) {
+@if (cx-included("cx/widgets/ProgressBar")) {
    .#{$block}progressbar {
       margin: 12px 0 0;
 
@@ -480,7 +481,7 @@ $form-list: (
 // menu focus animation
 .#{$block}menuitem {
    &:before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -518,7 +519,8 @@ $form-list: (
 .#{$block}grid.#{$state}scrollable {
    // border removed from a first row of grid with fixed header
    .#{$element}grid-header {
-      + .#{$element}grid-data, + .#{$element}grid-group-caption {
+      + .#{$element}grid-data,
+      + .#{$element}grid-group-caption {
          td {
             border-top-color: transparent;
          }
@@ -534,7 +536,8 @@ $form-list: (
       border-color: #fff;
    }
 
-   .#{$state}sorted-asc, .#{$state}sorted-desc {
+   .#{$state}sorted-asc,
+   .#{$state}sorted-desc {
       border-color: darken($cx-default-grid-header-background-color, 2);
       &:hover {
          border-color: darken($cx-default-grid-header-background-color, 3);
@@ -568,15 +571,15 @@ $form-list: (
 .#{$element}grid-col-header-tool {
    > .#{$block}menu > li > div {
       > span {
-         padding: 0 $cx-theme-base-size/2 !important;
-         line-height: $cx-default-grid-header-line-height + 2*(cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+         padding: 0 $cx-theme-base-size * 0.5 !important;
+         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
       }
    }
 }
 
 // group grid styles
-.#{$element}grid-group-footer, .#{$element}grid-group-caption {
-
+.#{$element}grid-group-footer,
+.#{$element}grid-group-caption {
    td {
       color: $cx-theme-primary-color;
       line-height: $cx-default-grid-data-line-height;
@@ -593,7 +596,6 @@ $form-list: (
 
 // default grey border color in group grid changed
 .#{$element}grid-group-caption {
-
    td {
       background-color: rgba(0, 0, 0, 0.03);
       border-bottom: 1px solid $cx-default-grid-data-border-color;
@@ -631,7 +633,6 @@ $form-list: (
          padding: $cx-default-container-padding + 2px;
       }
    }
-
 }
 
 // grid shadow mod
@@ -653,11 +654,12 @@ $form-list: (
 }
 
 //RIPPLE EFFECT
-.#{$block}button, .#{$block}tab {
+.#{$block}button,
+.#{$block}tab {
    overflow: hidden;
 
    &:before {
-      content: '';
+      content: "";
       position: absolute;
       top: calc(50% - 3px);
       left: calc(50% - 3px);
@@ -684,7 +686,7 @@ $form-list: (
 
 //MATERIAL ICONS
 .material-icons {
-   font-family: 'Material Icons';
+   font-family: "Material Icons";
    font-weight: normal;
    font-style: normal;
    font-size: $cx-default-box-line-height; // Preferred icon size
@@ -705,7 +707,7 @@ $form-list: (
    -moz-osx-font-smoothing: grayscale;
 
    // Support for IE.
-   font-feature-settings: 'liga';
+   font-feature-settings: "liga";
 
    user-select: none;
 }

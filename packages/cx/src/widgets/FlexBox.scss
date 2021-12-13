@@ -1,43 +1,40 @@
-@mixin cx-flexbox-spacing(
-   $divider,
-   $besm: $cx-besm
-) {
+@use "sass:math";
+@use "./core.scss" as *;
+@use "./pad-size.scss" as *;
+@use "../screen-size.scss" as *;
+
+@mixin cx-flexbox-spacing($divider, $besm: $besm) {
    $state: map-get($besm, state);
-   @each $pad, $size in $cx-pad-size
-   {
+   @each $pad, $size in $pad-size {
       &.#{$state}#{$pad}-hspacing {
-         margin-left: -$size / $divider;
-         margin-right: -$size / $divider;
+         margin-left: -(math.div($size, $divider));
+         margin-right: -(math.div($size, $divider));
 
          & > * {
-            margin-left: $size / $divider;
-            margin-right: $size / $divider;
+            margin-left: math.div($size, $divider);
+            margin-right: math.div($size, $divider);
          }
       }
 
       &.#{$state}#{$pad}-vspacing {
-         margin-top: -$size / $divider;
-         margin-bottom: -$size / $divider;
+         margin-top: -(math.div($size, $divider));
+         margin-bottom: -(math.div($size, $divider));
 
          & > * {
-            margin-top: $size / $divider;
-            margin-bottom: $size / $divider;
+            margin-top: math.div($size, $divider);
+            margin-bottom: math.div($size, $divider);
          }
       }
    }
 }
 
-@mixin cx-flexbox(
-   $name: 'flexbox',
-   $besm: $cx-besm
-) {
+@mixin cx-flexbox($name: "flexbox", $besm: $besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-
       box-sizing: border-box;
       position: relative;
       display: flex;
@@ -51,8 +48,7 @@
          }
       }
 
-      @each $pad, $size in $cx-pad-size
-      {
+      @each $pad, $size in $pad-size {
          &.#{$state}#{$pad}-hpad {
             padding-left: $size;
             padding-right: $size;
@@ -66,7 +62,6 @@
    }
 
    .#{$element}#{$name}-flexbox {
-
       display: flex;
       flex: 1 1 auto;
 
@@ -129,21 +124,21 @@
       }
 
       &.#{$state}target-phone {
-         @media not screen and (min-width: $cx-screen-size-small) {
+         @media not screen and (min-width: $screen-size-small) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-tablet {
-         @media not screen and (min-width: $cx-screen-size-medium) {
+         @media not screen and (min-width: $screen-size-medium) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-desktop {
-         @media not screen and (min-width: $cx-screen-size-large) {
+         @media not screen and (min-width: $screen-size-large) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }
@@ -151,6 +146,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/FlexBox')) {
+@if (cx-should-include("cx/widgets/FlexBox")) {
    @include cx-flexbox();
 }

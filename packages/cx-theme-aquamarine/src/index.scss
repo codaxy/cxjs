@@ -49,7 +49,7 @@ $mod: map-get($cx-besm, mod);
 
       // aligns float button icon in the center
       &.cxm-float .#{$element}button-icon {
-         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size)/2;
+         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size) * 0.5;
       }
    }
 }

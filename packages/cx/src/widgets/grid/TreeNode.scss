@@ -1,6 +1,5 @@
-
 @mixin cx-treenode(
-   $name: 'treenode',
+   $name: "treenode",
    $icon-size: $cx-default-icon-size,
    $handle-size: $cx-default-input-tool-size,
    $handle-state-style-map: $cx-input-right-icon-state-style-map,
@@ -12,10 +11,10 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      padding-left: $handle-size + $icon-size / 4;
+      padding-left: $handle-size + $icon-size * 0.25;
 
       &.#{$state}icon {
-         padding-left: $handle-size + $icon-size + $icon-size / 4;
+         padding-left: $handle-size + $icon-size + $icon-size * 0.25;
       }
 
       position: relative;
@@ -34,7 +33,7 @@
 
       left: 0;
       top: 50%;
-      margin-top: -$handle-size/2;
+      margin-top: -$handle-size * 0.5;
       bottom: 0;
       width: $handle-size + $icon-size;
       height: $handle-size;
@@ -53,8 +52,8 @@
       position: absolute;
       left: 0;
       top: 50%;
-      margin-top: -$icon-size / 2;
-      margin-left: ($handle-size - $icon-size) / 2;
+      margin-top: -$icon-size * 0.5;
+      margin-left: ($handle-size - $icon-size) * 0.5;
       height: $icon-size;
       width: $icon-size;
       line-height: $icon-size;
@@ -71,8 +70,8 @@
       position: absolute;
       left: 0;
       top: 50%;
-      margin-top: -$icon-size / 2;
-      margin-left: ($handle-size + $icon-size) / 2;
+      margin-top: -$icon-size * 0.5;
+      margin-left: ($handle-size + $icon-size) * 0.5;
       height: $icon-size;
       width: $icon-size;
       line-height: $icon-size;
@@ -85,7 +84,6 @@
    }
 }
 
-
-@if (cx-should-include('cx/widgets/TreeNode')) {
+@if (cx-should-include("cx/widgets/TreeNode")) {
    @include cx-treenode();
 }

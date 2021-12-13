@@ -149,8 +149,8 @@
    position: absolute;
    left: 50%;
    top: 50%;
-   margin-top: -$size / 2;
-   margin-left: -$size / 2;
+   margin-top: -0.5 * $size;
+   margin-left: -0.5 * $size;
    height: $size;
    width: $size;
    line-height: $size;

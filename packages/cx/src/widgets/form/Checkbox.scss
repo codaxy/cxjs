@@ -1,6 +1,5 @@
-
 @mixin cx-checkbox(
-   $name: 'checkbox',
+   $name: "checkbox",
    $state-style-map: $cx-checkbox-state-style-map,
    $width: $cx-default-input-width,
    $empty-text: $cx-empty-text,
@@ -14,11 +13,14 @@
    $padding: cx-get-state-rule($state-style-map, default, padding);
    $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
-   $outer-styles: cx-deep-map-merge($state-style-map, (
-      default: (
-         border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0
+   $outer-styles: cx-deep-map-merge(
+      $state-style-map,
+      (
+         default: (
+            border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0,
+         ),
       )
-   ));
+   );
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $outer-styles, $input: false, $box: true);
@@ -30,7 +32,7 @@
       margin: 0 !important;
       width: $size;
       height: $size;
-      top: calc(50% - #{$size / 2});
+      top: calc(50% - #{$size * 0.5});
       left: 0;
       display: inline-block;
       position: absolute;
@@ -76,14 +78,14 @@
          $overrides: (
             default: (
                padding: 0,
-               margin: 0 !important
+               margin: 0 !important,
             )
          )
       );
       width: $size;
       height: $size;
 
-      top: calc(50% - #{$size / 2});
+      top: calc(50% - #{$size * 0.5});
       left: 0;
       display: inline-block;
       position: absolute;
@@ -92,12 +94,12 @@
          @include cx-add-state-rules($state-style-map, checked);
 
          &:focus {
-           @include cx-add-state-rules($state-style-map, checked-focus);
+            @include cx-add-state-rules($state-style-map, checked-focus);
          }
 
-        .#{$state}disabled > & {
-          @include cx-add-state-rules($state-style-map, disabled-checked);
-        }
+         .#{$state}disabled > & {
+            @include cx-add-state-rules($state-style-map, disabled-checked);
+         }
       }
    }
 
@@ -118,6 +120,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Checkbox')) {
+@if (cx-should-include("cx/widgets/Checkbox")) {
    @include cx-checkbox();
 }

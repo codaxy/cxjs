@@ -1,0 +1,15 @@
+//
+// BESM
+//
+// B - block - top level HTML element
+// E - element - part of the component (block)
+// S - state - indicator of the component state which affects the appearance
+// M - mod - user supplied instruction which overrides default appearance
+//
+
+$besm: (
+   block: "cxb-",
+   element: "cxe-",
+   state: "cxs-",
+   mod: "cxm-",
+) !default;

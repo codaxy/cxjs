@@ -1,18 +1,26 @@
-@import "../packages/cx/src/variables";
+//@import "../packages/cx/src/variables";
 
 //@import "manifest";
 
-@import "../packages/cx/src/index";
+//@import "../packages/cx/src/index";
+
+@use "../packages/cx/src/widgets/FlexBox.scss";
+@use "../packages/cx/src/widgets/Button.scss";
+
+@use "features/drag-drop/trello/index" as *;
+@use "features/wheel/index" as *;
+@use "features/hscroll/index" as *;
+@use "features/logo/index" as *;
 
 html {
-  height: 100%;
+   height: 100%;
 }
 
 body {
    margin: 0;
    padding: 0;
    height: 100%;
-   font-family: 'Open Sans', sans-serif;
+   font-family: "Open Sans", sans-serif;
 }
 
 #app {
@@ -32,8 +40,3 @@ section {
       margin: 10px 0 20px 0;
    }
 }
-
-@import "features/drag-drop/trello/index";
-@import "features/wheel/index";
-@import "features/hscroll/index";
-@import "features/logo/index";

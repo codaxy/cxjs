@@ -1,6 +1,5 @@
-
 @mixin cx-switch(
-   $name: 'switch',
+   $name: "switch",
    $state-style-map: $cx-input-state-style-map,
    $styles: $cx-switch-handle-styles,
    $width: $cx-default-switch-width,
@@ -18,12 +17,15 @@
    $padding: cx-get-state-rule($state-style-map, default, padding);
    $border-width: cx-get-state-rule($state-style-map, default, border-width);
 
-   $outer-styles: cx-deep-map-merge($state-style-map, (
-      default: (
-         border-width: cx-top($border-width) 0 cx-bottom($border-width) 0,
-         padding: cx-top($padding) 0 cx-bottom($padding) 0
+   $outer-styles: cx-deep-map-merge(
+      $state-style-map,
+      (
+         default: (
+            border-width: cx-top($border-width) 0 cx-bottom($border-width) 0,
+            padding: cx-top($padding) 0 cx-bottom($padding) 0,
+         ),
       )
-   ));
+   );
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $outer-styles, $input: false, $box: true);
@@ -52,21 +54,19 @@
       @include cxe-field-empty-text($empty-text);
    }
 
-
-
    .#{$element}#{$name}-axis {
       user-select: none;
       position: absolute;
       background-color: $axis-background-color;
-      border-radius: $axis-size / 2;
+      border-radius: $axis-size * 0.5;
       box-sizing: border-box;
       width: $width;
 
-      left: $handle-size / 2;
-      right: $handle-size / 2;
-      top: calc(50% - #{$axis-size / 2});
+      left: $handle-size * 0.5;
+      right: $handle-size * 0.5;
+      top: calc(50% - #{$axis-size * 0.5});
       height: $axis-size;
-      padding: 0 $axis-size / 2;
+      padding: 0 $axis-size * 0.5;
    }
 
    .#{$element}#{$name}-space {
@@ -79,7 +79,7 @@
    .#{$element}#{$name}-range {
       position: absolute;
       background-color: $range-background-color;
-      border-radius: $axis-size / 2;
+      border-radius: $axis-size * 0.5;
       height: 100%;
       left: 0;
       width: 0;
@@ -100,8 +100,8 @@
       box-sizing: border-box;
       width: $handle-size;
       height: $handle-size;
-      margin-left: -$handle-size / 2;
-      margin-top: -$handle-size / 2;
+      margin-left: -$handle-size * 0.5;
+      margin-top: -$handle-size * 0.5;
       left: 0;
       top: 50%;
       transition: left 200ms;
@@ -135,6 +135,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Switch')) {
+@if (cx-should-include("cx/widgets/Switch")) {
    @include cx-switch();
 }
