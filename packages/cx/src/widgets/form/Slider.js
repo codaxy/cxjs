@@ -291,8 +291,14 @@ class SliderComponent extends VDOM.Component {
       if (!data.disabled && !data.readOnly) {
          let { value } = this.getValues(e);
          this.props.instance.set("value", value, { immediate: true });
-         if (widget.showFrom) this.setState({ from: value });
-         if (widget.showTo) this.setState({ to: value });
+         if (widget.showFrom) {
+            this.setState({ from: value });
+            this.props.instance.set("from", value, { immediate: true });
+         }
+         if (widget.showTo) {
+            this.setState({ to: value });
+            this.props.instance.set("to", value, { immediate: true });
+         }
       }
    }
 
