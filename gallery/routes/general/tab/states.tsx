@@ -49,10 +49,10 @@ export default <cx>
                 <Tab tab="tab4" value={bind("$page.t3")} mod="classic" disabled>Tab 4</Tab>
             </div>
             <div mod="cover" styles="border-width: 1px; padding: 20px">
-                <p visible={expr("{$page.t2}=='tab1'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet cursus diam. Proin ultricies congue vehicula. In at felis id.</p>
-                <p visible={expr("{$page.t2}=='tab2'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ex magna, maximus in venenatis at, iaculis eu augue. Vestibulum id.</p>
-                <p visible={expr("{$page.t2}=='tab3'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dolor arcu, hendrerit ultrasonic cursus eget, efficitur quis erat. Donec dui.</p>
-                <p visible={expr("{$page.t2}=='tab4'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta ultricies arcu nec auctor. Nullam felis nibh, accumsan a ultrices.</p>
+                <p visible={expr("{$page.t3}=='tab1'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet cursus diam. Proin ultricies congue vehicula. In at felis id.</p>
+                <p visible={expr("{$page.t3}=='tab2'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ex magna, maximus in venenatis at, iaculis eu augue. Vestibulum id.</p>
+                <p visible={expr("{$page.t3}=='tab3'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dolor arcu, hendrerit ultrasonic cursus eget, efficitur quis erat. Donec dui.</p>
+                <p visible={expr("{$page.t3}=='tab4'")}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta ultricies arcu nec auctor. Nullam felis nibh, accumsan a ultrices.</p>
             </div>
         </Section>
     </FlexRow>
