@@ -1,5 +1,6 @@
-@use "./box.scss" as *;
-@use "./list-item.scss" as *;
+@use "core" as *;
+@use "./box" as *;
+@use "./list-item" as *;
 
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;

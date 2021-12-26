@@ -1,3 +1,5 @@
+@use "core" as *;
+@use "../core" as *;
 
 $cx-default-window-background-color: transparent !default;
 $cx-default-window-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.29) !default;
@@ -19,50 +21,40 @@ $cx-window-state-style-map: (
    default: (
       box-shadow: $cx-default-window-box-shadow,
       background-color: $cx-default-window-background-color,
-      border-radius: $cx-default-window-border-radius
+      border-radius: $cx-default-window-border-radius,
    ),
    resizable: (
-      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.29)
-   )
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.29),
+   ),
 ) !default;
-
 
 $cx-window-header-state-style-map: (
    default: (
       color: $cx-default-window-header-color,
       background: $cx-default-window-header-background-color,
       padding: $cx-default-window-header-padding,
-      font-size: $cx-default-window-header-font-size
+      font-size: $cx-default-window-header-font-size,
    ),
-   active: (
-
-   )
+   active: (),
 ) !default;
 
 $cx-window-footer-state-style-map: (
    default: (
       background: $cx-default-window-footer-background-color,
-      padding: $cx-default-window-footer-padding
-   )
+      padding: $cx-default-window-footer-padding,
+   ),
 ) !default;
 
 $cx-window-body-state-style-map: (
    default: (
-      background: white
-   )
+      background: white,
+   ),
 ) !default;
 
-
 $cx-window-mods: (
-  alert: (
-    frame: (
-      
-    ),
-    body: (
-     
-    ),
-    footer: (
-  
-    )
-  )   
+   alert: (
+      frame: (),
+      body: (),
+      footer: (),
+   ),
 );

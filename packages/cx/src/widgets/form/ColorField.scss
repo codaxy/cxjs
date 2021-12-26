@@ -1,6 +1,14 @@
+@use "../../util/call-once.scss";
+
+@if cx-call-once("cx/widgets/checker-background") {
+   %cx-checker-bg {
+      background-repeat: repeat;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAfSURBVChTY9i5Y89/dAwEDOh4SCjEJohN8+BXuOc/AOttNBKJWD4sAAAAAElFTkSuQmCC");
+   }
+}
 
 @mixin cx-colorfield(
-   $name: 'colorfield',
+   $name: "colorfield",
    $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -19,7 +27,7 @@
       @include cxb-field($besm, $state-style-map, $width: $width, $input: true);
    }
 
-   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+   $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
@@ -30,7 +38,8 @@
             default: (
                font-family: $cx-default-colorfield-font-family,
                font-size: 11px,
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(cx-left($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing)
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding)
+                  cx-calc(cx-left($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing),
             )
          )
       );
@@ -40,10 +49,10 @@
       @include cxe-field-button($besm, $clear-state-style-map);
 
       .#{$state}focus > & {
-        @include cx-add-state-rules($clear-state-style-map, focus);
+         @include cx-add-state-rules($clear-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($clear-state-style-map, error);
+         @include cx-add-state-rules($clear-state-style-map, error);
       }
    }
 
@@ -51,19 +60,25 @@
       @include cxe-field-button($besm, $right-icon-state-style-map);
 
       .#{$state}focus > & {
-        @include cx-add-state-rules($right-icon-state-style-map, focus);
+         @include cx-add-state-rules($right-icon-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($right-icon-state-style-map, error);
+         @include cx-add-state-rules($right-icon-state-style-map, error);
       }
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, cx-deep-map-merge($left-icon-state-style-map, (
-         default: (
-            cursor: pointer
+      @include cxe-field-button(
+         $besm,
+         cx-deep-map-merge(
+            $left-icon-state-style-map,
+            (
+               default: (
+                  cursor: pointer,
+               ),
+            )
          )
-      )));
+      );
 
       @include cx-checker-background();
       box-sizing: border-box;
@@ -84,9 +99,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/ColorField')) {
+@if (cx-should-include("cx/widgets/ColorField")) {
    @include cx-colorfield();
 }
-
-
-

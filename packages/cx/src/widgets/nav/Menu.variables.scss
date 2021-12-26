@@ -1,3 +1,9 @@
+@use "core" as *;
+@use "../lists" as *;
+@use "../padding" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/include" as *;
+
 // MENU
 $cx-menu-state-style-map: $cx-list !default;
 $cx-default-menu-separator-color: lightgray !default;
@@ -11,8 +17,11 @@ $cx-menu-padding-options: (
    xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
 ) !default;
 
-$cx-dependencies: map-merge($cx-dependencies, (
-   'cx/widgets/Menu': 'cx/widgets/MenuItem',
-   'cx/widgets/MenuItem': 'cx/widgets/Dropdown',
-   'cx/widgets/SubMenu': 'cx/widgets/MenuItem'
-));
+$cx-dependencies: map-merge(
+   $cx-dependencies,
+   (
+      "cx/widgets/Menu": "cx/widgets/MenuItem",
+      "cx/widgets/MenuItem": "cx/widgets/Dropdown",
+      "cx/widgets/SubMenu": "cx/widgets/MenuItem",
+   )
+);

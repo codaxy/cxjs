@@ -1,3 +1,8 @@
+@use "core" as *;
+@use "../core" as *;
+@use "../box" as *;
+@use "../lists" as *;
+@use "../../util/scss/deep-merge" as *;
 
 $cx-default-tab-color: inherit !default;
 $cx-default-tab-font-size: null !default;
@@ -9,31 +14,34 @@ $cx-default-tab-border-radius: $cx-default-border-radius !default;
 $cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
 $cx-default-tab-box-shadow: none !default;
 
-$cx-tab-state-style-map: cx-deep-map-merge($cx-list-item, (
-   default: (
-      color: $cx-default-tab-color,
-      font-size: $cx-default-tab-font-size,
-      line-height: $cx-default-box-line-height,
-      font-weight: $cx-default-tab-font-weight,
-      text-decoration: none,
-      cursor: pointer,
-      text-align: center,
-      background-color: $cx-default-tab-background-color,
-      border-radius: $cx-default-tab-border-radius,
-      padding: $cx-default-tab-padding,
-      border-width: $cx-default-tab-border-width,
-      border-color: $cx-default-tab-border-color,
-      border-style: solid,
-      box-shadow: $cx-default-tab-box-shadow
-   ),
-   hover: (
-      text-decoration: none
-   ),
-   disabled: (
-      background-color: transparent,
-      pointer-events: none
+$cx-tab-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         color: $cx-default-tab-color,
+         font-size: $cx-default-tab-font-size,
+         line-height: $cx-default-box-line-height,
+         font-weight: $cx-default-tab-font-weight,
+         text-decoration: none,
+         cursor: pointer,
+         text-align: center,
+         background-color: $cx-default-tab-background-color,
+         border-radius: $cx-default-tab-border-radius,
+         padding: $cx-default-tab-padding,
+         border-width: $cx-default-tab-border-width,
+         border-color: $cx-default-tab-border-color,
+         border-style: solid,
+         box-shadow: $cx-default-tab-box-shadow,
+      ),
+      hover: (
+         text-decoration: none,
+      ),
+      disabled: (
+         background-color: transparent,
+         pointer-events: none,
+      ),
    )
-)) !default;
+) !default;
 
 $cx-tab-mods: (
    classic: (
@@ -45,8 +53,8 @@ $cx-tab-mods: (
       ),
       selected: (
          border-color: $cx-default-border-color,
-         background-color: $cx-default-cover-background-color
-      )
+         background-color: $cx-default-cover-background-color,
+      ),
    ),
    line: (
       default: (
@@ -65,17 +73,17 @@ $cx-tab-mods: (
          border-color: rgba(128, 128, 128, 0.2),
       ),
       cursor: (
-         border-color: rgba(123,190,255, 0.3),
+         border-color: rgba(123, 190, 255, 0.3),
       ),
       selected: (
          border-color: rgba(128, 128, 128, 0.4),
       ),
       selected-cursor: (
-         border-color: rgba(123,190,255, 0.7),
+         border-color: rgba(123, 190, 255, 0.7),
       ),
       active: (),
       disabled: (
-         border-color: transparent
-      )
-   )
+         border-color: transparent,
+      ),
+   ),
 ) !default;

@@ -26,11 +26,17 @@ $cx-default-box-line-height: 16px !default;
 $cx-default-box-padding: 5px !default; //should not be a list
 $cx-default-box-border-width: 1px !default;
 
-// Borders
-// -------
 
-$cx-default-border-color: #bfbfbf !default;
-$cx-default-border-radius: 0 !default;
-$cx-default-border-width: 1px !default;
 
+//Icons
 $cx-default-icon-size: 16px !default;
+
+// Empty Texts
+// ------------
+// Displayed instead of whitespace
+
+$cx-default-empty-text-color: rgba(128, 128, 128, 0.7) !default;
+
+$cx-empty-text: (
+   color: $cx-default-empty-text-color,
+) !default;

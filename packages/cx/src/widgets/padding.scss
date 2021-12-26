@@ -1,0 +1,14 @@
+// Padding
+$cx-default-padding-extra-small: 3px !default;
+$cx-default-padding-small: 5px !default;
+$cx-default-padding-medium: 10px !default;
+$cx-default-padding-large: 15px !default;
+$cx-default-padding-extra-large: 20px !default;
+
+$cx-pad-size: (
+   xsmall: $cx-default-padding-extra-small,
+   small: $cx-default-padding-small,
+   medium: $cx-default-padding-medium,
+   large: $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large,
+) !default;

@@ -1,3 +1,9 @@
+@use "../box" as *;
+@use "../core" as *;
+@use "../lists" as *;
+@use "core" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/add-rules" as *;
 
 $cx-default-calendar-font-size: $cx-default-box-font-size !default;
 $cx-default-calendar-background-color: $cx-default-input-background-color !default;
@@ -18,47 +24,49 @@ $cx-default-calendar-day-font-size: $cx-default-calendar-font-size !default;
 $cx-default-calendar-day-border-radius: $cx-default-calendar-border-radius !default;
 
 // CALENDAR
-$cx-calendar-state-style-map: cx-deep-map-merge($cx-input-state-style-map, (
-  default: (
-    font-size: $cx-default-calendar-font-size,
-    background-color: $cx-default-calendar-background-color,
-    border-style: solid,
-    border-width: $cx-default-calendar-border-width,
-    border-color: $cx-default-calendar-border-color,
-    border-radius: $cx-default-calendar-border-radius,
-    box-shadow: $cx-default-calendar-box-shadow,
-    padding: $cx-default-calendar-padding
-  ),
-  hover: (
-    
-  ),
-  header: (
-    font-size: $cx-default-calendar-header-font-size,
-    font-weight: $cx-default-calendar-header-font-weight,
-    color: $cx-default-calendar-header-color,
-    background-color: $cx-default-calendar-header-background-color, 
-  ),
-  focus: (
-    border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
-    box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
-    outline: none
-  )
-)) !default;
+$cx-calendar-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         font-size: $cx-default-calendar-font-size,
+         background-color: $cx-default-calendar-background-color,
+         border-style: solid,
+         border-width: $cx-default-calendar-border-width,
+         border-color: $cx-default-calendar-border-color,
+         border-radius: $cx-default-calendar-border-radius,
+         box-shadow: $cx-default-calendar-box-shadow,
+         padding: $cx-default-calendar-padding,
+      ),
+      hover: (),
+      header: (
+         font-size: $cx-default-calendar-header-font-size,
+         font-weight: $cx-default-calendar-header-font-weight,
+         color: $cx-default-calendar-header-color,
+         background-color: $cx-default-calendar-header-background-color,
+      ),
+      focus: (
+         border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+         box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
+         outline: none,
+      ),
+   )
+) !default;
 
 // calendar day field styles
-$cx-calendar-day-state-style-map: cx-deep-map-merge($cx-list-item, (
-  default: (
-    font-size: $cx-default-calendar-day-font-size,
-    background-color: transparent,
-    border-radius: $cx-default-calendar-day-border-radius
-  ),
-  today: (
-    background-color: rgba(220, 250, 183, 0.5),
-  ),
-  outside: (
-    color: rgba(0, 0, 0, 0.3)
-  ), 
-  today-hover: (
-      
-  )
-));
+$cx-calendar-day-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         font-size: $cx-default-calendar-day-font-size,
+         background-color: transparent,
+         border-radius: $cx-default-calendar-day-border-radius,
+      ),
+      today: (
+         background-color: rgba(220, 250, 183, 0.5),
+      ),
+      outside: (
+         color: rgba(0, 0, 0, 0.3),
+      ),
+      today-hover: (),
+   )
+);

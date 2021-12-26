@@ -52,7 +52,7 @@ $transition: 0.3s;
       &:before,
       &:after {
          top: 0;
-         width: $button-size/1.5;
+         width: $button-size * 0.666;
       }
       &:before {
          -webkit-transform: rotate3d(0, 0, 1, 40deg);

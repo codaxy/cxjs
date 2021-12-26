@@ -1,24 +1,15 @@
-// Padding
-$cx-default-padding-extra-small: 3px !default;
-$cx-default-padding-small: 5px !default;
-$cx-default-padding-medium: 10px !default;
-$cx-default-padding-large: 15px !default;
-$cx-default-padding-extra-large: 20px !default;
+@use "core" as *;
+@use "padding" as *;
 
-$cx-pad-size: (
-   xsmall: $cx-default-padding-extra-small,
-   small: $cx-default-padding-small,
-   medium: $cx-default-padding-medium,
-   large: $cx-default-padding-large,
-   xlarge: $cx-default-padding-extra-large,
-) !default;
+@use "form/variables"  as *;
+@use "grid/variables"  as *;
+@use "nav/variables" as *;
+@use "overlay/variables" as *;
+@use "drag-drop/variables" as *;
+@use "Button.variables" as *;
 
-@import "form/variables";
-@import "grid/variables";
-@import "nav/variables";
-@import "overlay/variables";
-@import "drag-drop/variables";
-@import "Button.variables";
+@use "../util/scss/deep-merge" as *;
+@use "../util/scss/include" as *;
 
 // HEADING
 $cx-caption-style-map: () !default;

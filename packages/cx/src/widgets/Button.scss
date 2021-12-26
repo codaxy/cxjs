@@ -1,6 +1,9 @@
 @use "sass:math";
-@use "./Button.variables.scss" as *;
-@use "./box.scss" as *;
+@use "./Button.variables" as *;
+@use "./box" as *;
+@use "./core" as *;
+@use "../util/scss/add-rules" as *;
+@use "../util/scss/clockwise" as *;
 
 @mixin cx-button(
    $name: "button",
@@ -110,8 +113,8 @@
       padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $icon-size);
 
       &.#{$state}empty {
-         padding: cx-top($padding) math.div(cx-right($padding), 2) cx-bottom($padding)
-            cx-calc(math.div(cx-left($padding), 2), $icon-size);
+         padding: cx-top($padding) 0.5 * cx-right($padding) cx-bottom($padding)
+            cx-calc(0.5 * cx-left($padding), $icon-size);
       }
    }
 }

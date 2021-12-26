@@ -1,3 +1,11 @@
+@use "../core" as *;
+@use "../box" as *;
+@use "../lists" as *;
+@use "../../util/scss/include" as *;
+@use "../../util/scss/add-rules" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/clockwise" as *;
+
 // GRID
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
 $cx-default-grid-border-color: $cx-default-border-color !default;

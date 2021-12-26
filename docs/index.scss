@@ -1,10 +1,15 @@
-@import "../misc/index";
+@use "../misc/index" as *;
 
-$cx-theme-primary-color: $master-brand-highlight-color;
-$cx-link-state-style-map: ();
+@use "~cx-theme-aquamarine/src/variables" as * with (
+   $cx-theme-primary-color: $master-brand-highlight-color,
+   $cx-link-state-style-map: ()
+);
 
-@import "~cx-theme-aquamarine/src/variables";
-@import "~cx-theme-aquamarine/src/index";
+@use "~cx-theme-aquamarine/src/index" as *;
+
+@use "app/index" as *;
+@use "content/index" as *;
+@use "components/index" as *;
 
 html {
    height: 100%;
@@ -22,9 +27,6 @@ body {
    display: block;
    position: relative;
    top: -100px;
-}
-
-#app {
 }
 
 .transition-appear {
@@ -49,10 +51,6 @@ body {
 .flex-start {
    align-items: flex-start !important;
 }
-
-@import "app/index";
-@import "content/index";
-@import "components/index";
 
 a {
    color: #b93e8b;

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
 $primary-color-blue: #47ccde !default; //#00BFFF !default;//lighten(#0587DD, 12) !default;//
@@ -16,29 +18,6 @@ $cx-theme-primary-color-light: lighten($cx-theme-primary-color, 8) !default;
 $cx-theme-primary-color-dark: darken($cx-theme-primary-color, 7) !default;
 
 $cx-theme-primary-text-color: darken($cx-theme-primary-color, 15) !default;
-
-@function get-accent-color($primary-color) {
-   $accent-color: null;
-   @if green($primary-color) <= 80 {
-      $accent-color: #ffeb3b;
-   } @else if green($primary-color) >= 150 and red($primary-color) < 20 and saturation($primary-color) > 90% {
-      $accent-color: #cddc39;
-   } @else if
-      green($primary-color) >
-      80 and
-      green($primary-color) <=
-      175 and
-      saturation($primary-color) <
-      50% and
-      saturation($primary-color) >
-      20%
-   {
-      $accent-color: #ff9800;
-   } @else {
-      $accent-color: #ffc107;
-   }
-   @return $accent-color;
-}
 
 $cx-theme-accent-color: #ffffb0 !default;
 $cx-theme-danger-color: #ec695f !default;
@@ -63,26 +42,30 @@ $small-base-size: 12px !default;
 $cx-theme-base-size: $normal-base-size !default;
 
 //GLOBAL VARIABLES
-$cx-default-container-padding: 5px !default;
 
-$cx-default-font-family: "Open Sans", "Roboto", sans-serif !default;
-$cx-default-color: rgba(0, 0, 0, 0.7) !default;
-$cx-default-color-light: rgba($cx-default-color, 0.6) !default;
+@forward "~cx/src/variables" with (
+   
+   $cx-default-container-padding: 5px !default,
+
+   $cx-default-font-family: ("Open Sans", "Roboto", sans-serif) !default,
+   $cx-default-color: rgba(0, 0, 0, 0.7) !default,
+
+   $cx-default-border-color: #d3d8d6 !default,
+   $cx-default-border-radius: 4px !default,
+
+   $cx-default-icon-size: 16px !default,
+
+   $cx-default-box-font-size: 14px !default,
+   $cx-default-box-line-height: 24px !default,
+   $cx-default-box-border-width: 1px !default,
+   $cx-default-box-padding: 5px !default,
+);
+
+$cx-default-color-light: rgba(0, 0, 0, 0.6) !default;
 $cx-default-font-weight: 400 !default;
 $cx-default-paragraph-line-height: 1.5 !default;
-
 $cx-default-background-color: #fff !default;
-
-$cx-default-border-color: #d3d8d6 !default;
-$cx-default-border-color-light: lighten($cx-default-border-color, 10) !default;
-$cx-default-border-radius: 4px !default;
-
-$cx-default-icon-size: 16px !default;
-
-$cx-default-box-font-size: 14px !default;
-$cx-default-box-line-height: 24px !default;
-$cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: 5px !global;
+$cx-default-border-color-light: lighten(#d3d8d6, 10) !default;
 
 //$cx-default-padding-extra-small: 5px !default;
 //$cx-default-padding-small: $cx-default-box-padding !default;
@@ -280,7 +263,28 @@ $cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color
 //list
 $cx-default-list-item-padding: 8px 12px !default;
 
-@import "~cx/src/variables";
+@function get-accent-color($primary-color) {
+   $accent-color: null;
+   @if green($primary-color) <= 80 {
+      $accent-color: #ffeb3b;
+   } @else if green($primary-color) >= 150 and red($primary-color) < 20 and saturation($primary-color) > 90% {
+      $accent-color: #cddc39;
+   } @else if
+      green($primary-color) >
+      80 and
+      green($primary-color) <=
+      175 and
+      saturation($primary-color) <
+      50% and
+      saturation($primary-color) >
+      20%
+   {
+      $accent-color: #ff9800;
+   } @else {
+      $accent-color: #ffc107;
+   }
+   @return $accent-color;
+}
 
 //VARIABLE MAPS
 //LIST
@@ -358,11 +362,11 @@ $cx-button-mods: cx-deep-map-merge(
          hover: (
             // background-color: darken($cx-theme-primary-color, 5),
             //box-shadow: 0 2px 12px rgba($cx-theme-primary-color, 0.7),
-            //background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 4), darken($cx-theme-primary-color, 4)),,,,
+            //background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 4), darken($cx-theme-primary-color, 4)),,,,,,,,,,,,,
          ),
          focus: (
             //background-color: darken($cx-theme-primary-color, 10),
-            //box-shadow: 0 2px 6px rgba(darken($cx-theme-primary-color, 30), 0.5) ,,,,,
+            //box-shadow: 0 2px 6px rgba(darken($cx-theme-primary-color, 30), 0.5) ,,,,,,,,,,,,,,
          ),
          active: (
             background-color: darken($cx-theme-primary-color, 9),
@@ -396,7 +400,7 @@ $cx-button-mods: cx-deep-map-merge(
          hover: (
             //background-color: darken($cx-theme-danger-color, 5),
             //background: linear-gradient(to top right, darken($cx-theme-danger-color-dark, 6), darken($cx-theme-danger-color, 6)),
-            //box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4),,,,
+            //box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4),,,,,,,,,,,,,
          ),
          focus: (
             background-color: darken($cx-theme-danger-color, 10),
@@ -494,7 +498,7 @@ $cx-button-mods: cx-deep-map-merge(
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.45),
             padding: 0,
             // width: $cx-default-box-line-height + 2 * (cx-left($cx-default-box-padding) + 1px) + 10px,
-            // height: $cx-default-box-line-height + 2 * (cx-top($cx-default-box-padding) + 1px) + 10px,,,,
+            // height: $cx-default-box-line-height + 2 * (cx-top($cx-default-box-padding) + 1px) + 10px,,,,,,,,,,,,,
          ),
          hover: (
             background-color: $cx-theme-accent-color,
@@ -825,7 +829,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
       hover: (
          //color: rgba($cx-default-grid-header-color, 0.45),
          background-color: darken($cx-default-grid-header-background-color, 3)
-            //border-color: $cx-default-grid-header-border-color,,,,
+            //border-color: $cx-default-grid-header-border-color,,,,,,,,,,,,,
       ),
       sorted: (
          color: $cx-theme-primary-text-color,
@@ -945,7 +949,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge(
       ),
       focus: (
          box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5)
-            // background-color: rgba($cx-default-color, 0.015),,,,
+            // background-color: rgba($cx-default-color, 0.015),,,,,,,,,,,,,
       ),
       hover: (
          // background-color: rgba($cx-default-color, 0.009)
