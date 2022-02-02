@@ -1888,31 +1888,39 @@ class GridComponent extends VDOM.Component {
    }
 
    onDrop(e) {
-      let { instance } = this.props;
-      let { widget } = instance;
-      let { start } = this.getBufferStartEnd();
-      let { dropInsertionIndex, dropTarget } = this.state;
-      if (dropTarget == "grid" && widget.onDrop && dropInsertionIndex != null) {
-         e.target = {
-            insertionIndex: start + dropInsertionIndex,
-            recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
-            recordAfter: this.getRecordAt(start + dropInsertionIndex),
-         };
-         instance.invoke("onDrop", e, instance);
-      } else if (dropTarget == "row") {
-         e.target = {
-            index: start + dropInsertionIndex,
-            record: this.getRecordAt(start + dropInsertionIndex),
-         };
-         instance.invoke("onRowDrop", e, instance);
-      } else if (dropTarget == "column" && widget.onColumnDrop) {
-         e.target = {
-            index: this.state.colDropInsertionIndex,
-            grid: widget,
-            instance,
-         };
-         instance.invoke("onColumnDrop", e, instance);
+      try {
+         let { instance } = this.props;
+         let { widget } = instance;
+         let { start } = this.getBufferStartEnd();
+         let { dropInsertionIndex, dropTarget } = this.state;
+         if (dropTarget == "grid" && widget.onDrop && dropInsertionIndex != null) {
+            e.target = {
+               insertionIndex: start + dropInsertionIndex,
+               recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
+               recordAfter: this.getRecordAt(start + dropInsertionIndex),
+            };
+            instance.invoke("onDrop", e, instance);
+         } else if (dropTarget == "row") {
+            e.target = {
+               index: start + dropInsertionIndex,
+               record: this.getRecordAt(start + dropInsertionIndex),
+            };
+            instance.invoke("onRowDrop", e, instance);
+         } else if (dropTarget == "column" && widget.onColumnDrop) {
+            e.target = {
+               index: this.state.colDropInsertionIndex,
+               grid: widget,
+               instance,
+            };
+            instance.invoke("onColumnDrop", e, instance);
+         }
       }
+      catch (err) {
+         console.error("Grid drop operation failed. Please fix this error:", err);
+      }
+
+      //in some cases drop operation is not followed by leave
+      this.onDragLeave(e);
    }
 
    onDropTest(e) {
@@ -2848,6 +2856,12 @@ class GridComponent extends VDOM.Component {
    }
    onFileDragLeave(ev) {
       if (!this.props.instance.widget.allowsFileDrops) return;
+      if (ev.target != this.dom.el) {
+         //The dragleave event fires when the cursor leave any of the child elements.
+         //We need to be sure that the cursor left the top element too.
+         let el = document.elementFromPoint(ev.clientX, ev.clientY);
+         if (el == this.dom.el || this.dom.el.contains(el)) return;
+      }
       let event = getDragDropEvent(ev);
       var test = this.onDropTest(event);
       if (test) {

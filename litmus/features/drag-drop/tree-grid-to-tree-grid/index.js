@@ -36,6 +36,7 @@ export default <cx>
                childrenField: 'children',
             }}
             allowsFileDrops
+            buffered
             scrollable
             style="height:400px"
             columns={[{
@@ -60,9 +61,9 @@ export default <cx>
                }
             }}
             dropZone={{
-               mode: 'insertion'
+               //mode: 'insertion'
             }}
-            onDropTest={e => e.source?.data?.type == 'record'}
+            onDropTest={e => !!e.dataTransfer || e.source?.data?.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid1", e)}
             onRowDropTest={e => !!e.dataTransfer || e.source.data.type == 'record'}
             onRowDrop={(e, { store }) => drop(store, "grid1", e)}
