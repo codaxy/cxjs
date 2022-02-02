@@ -756,7 +756,7 @@ export class Grid extends Widget {
 
       let field = column.sortField || column.field;
       let value = column.sortValue || column.value;
-      let compare = column.compare;
+      let comparer = column.comparer;
       let sortOptions = column.sortOptions;
 
       if (header && header.allowSorting && column.sortable && (field || value)) {
@@ -772,7 +772,7 @@ export class Grid extends Widget {
                   field,
                   direction,
                   value,
-                  compare,
+                  comparer,
                   sortOptions,
                },
             ]

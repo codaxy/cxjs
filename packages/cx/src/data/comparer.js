@@ -8,7 +8,7 @@ export function getComparer(sorters, dataAccessor, comparer) {
       return {
          getter: dataAccessor ? x => selector(dataAccessor(x)) : selector,
          factor: s.direction && s.direction[0].toLowerCase() == 'd' ? -1 : 1,
-         compare: s.comparer || comparer || defaultCompare
+         compare: s.comparer || s.compare || comparer || defaultCompare
       }
    });
 
