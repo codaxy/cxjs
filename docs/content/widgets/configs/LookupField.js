@@ -199,7 +199,7 @@ export default {
     },
 
     infinite: {
-        type: 'bool',
+        type: 'boolean',
         description: <cx><Md>
             Set to `true` to enable loading of additional lookup options through scrolling.
         </Md></cx>
@@ -217,5 +217,12 @@ export default {
         description: <cx><Md>
             The dropdown will be automatically closed if the page is scrolled a certain distance. Default value is `100`.
         </Md></cx>
-    }
+    },
+
+    quickSelectAll: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to allow quick selection of all displayed lookup items on `ctrl + a` keys combination.
+        </Md></cx>
+    },
 };

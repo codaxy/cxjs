@@ -10,6 +10,8 @@ import { casual } from '../examples/data/casual';
 
 import configs from './configs/LookupField';
 
+LookupField.prototype.quickSelectAll = true;
+
 class PageController extends Controller {
     init() {
         super.init();
@@ -136,8 +138,8 @@ export const LookupFields = <cx>
 
             <Content name="code">
                 <div>
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                <Tab value-bind="$page.code.tab" tab="lookupfield" mod="code" default><code>LookupField</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="lookupfield" mod="code" default><code>LookupField</code></Tab>
                 </div>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="y9CHlIUn">{`
@@ -162,7 +164,7 @@ export const LookupFields = <cx>
                 }
              }
             `}</CodeSnippet>
-            <CodeSnippet visible-expr="{$page.code.tab}=='lookupfield'" fiddle="y9CHlIUn">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='lookupfield'" fiddle="y9CHlIUn">{`
             <div class="widgets" controller={PageController}>
                 <div layout={LabelsLeftLayout}>
                     <LookupField

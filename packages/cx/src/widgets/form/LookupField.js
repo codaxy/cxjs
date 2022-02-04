@@ -237,6 +237,7 @@ LookupField.prototype.submitOnDropdownEnterKey = false;
 LookupField.prototype.pageSize = 100;
 LookupField.prototype.infinite = false;
 LookupField.prototype.closeDropdownOnScrollDistance = 100;
+LookupField.prototype.quickSelectAll = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -708,7 +709,7 @@ class LookupComponent extends VDOM.Component {
       instance.set("values", []);
    }
 
-   select(e, itemData) {
+   select(e, itemsData) {
       let { instance } = this.props;
       let { store, data, widget } = instance;
       let { bindings, keyBindings } = widget;
@@ -716,16 +717,23 @@ class LookupComponent extends VDOM.Component {
       if (widget.multiple) {
          let { selectedKeys, records } = data;
 
-         let optionKey = this.getOptionKey(itemData);
-         let newRecords = records;
-         if (!selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
-            let valueData = {
-               $value: {},
-            };
-            bindings.forEach((b) => {
-               valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
+         let newRecords = [...(records || [])];
+         let selectMultiple = itemsData.length > 1;
+         let optionKey = null;
+         if (!selectMultiple)
+            optionKey = this.getOptionKey(itemsData[0]);
+
+         // if we receive more than 1 item for selection, it cannot be a deselection
+         if (selectMultiple || !selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
+            itemsData.forEach(itemData => {
+               let valueData = {
+                  $value: {},
+               };
+               bindings.forEach((b) => {
+                  valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
+               });
+               newRecords.push(valueData.$value);
             });
-            newRecords = [...(records || []), valueData.$value];
          } else {
             newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
          }
@@ -739,7 +747,7 @@ class LookupComponent extends VDOM.Component {
          instance.set("values", newValues);
       } else {
          bindings.forEach((b) => {
-            let v = Binding.get(b.remote).value(itemData);
+            let v = Binding.get(b.remote).value(itemsData[0]);
             if (b.set) b.set(v, instance);
             else store.set(b.local, v);
          });
@@ -774,6 +782,21 @@ class LookupComponent extends VDOM.Component {
          case KeyCode.pageDown:
          case KeyCode.pageUp:
             if (this.state.dropdownOpen) e.preventDefault();
+            break;
+
+         case KeyCode.a:
+            if (!e.ctrlKey) return;
+
+            let { quickSelectAll, multiple } = this.props.instance.widget;
+            if (!quickSelectAll || !multiple) return;
+
+            let options = this.state.options;
+            let optionsToSelect = options.map(o => ({
+               $option: o
+            }));
+            this.select(e, optionsToSelect);
+            e.stopPropagation();
+            e.preventDefault();
             break;
       }
    }
