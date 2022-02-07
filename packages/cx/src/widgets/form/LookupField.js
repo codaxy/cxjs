@@ -670,7 +670,7 @@ class LookupComponent extends VDOM.Component {
    }
 
    onItemClick(e, { store }) {
-      this.select(e, store.getData());
+      this.select(e, [store.getData()]);
       if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
       if (e.keyCode != KeyCode.tab) e.preventDefault();
    }
@@ -709,7 +709,7 @@ class LookupComponent extends VDOM.Component {
       instance.set("values", []);
    }
 
-   select(e, itemsData) {
+   select(e, itemsData, reset) {
       let { instance } = this.props;
       let { store, data, widget } = instance;
       let { bindings, keyBindings } = widget;
@@ -717,14 +717,17 @@ class LookupComponent extends VDOM.Component {
       if (widget.multiple) {
          let { selectedKeys, records } = data;
 
-         let newRecords = [...(records || [])];
-         let selectMultiple = itemsData.length > 1;
+         let newRecords = reset ? [] : [...(records || [])];
+         let singleSelect = itemsData.length == 1;
          let optionKey = null;
-         if (!selectMultiple)
+         if (singleSelect)
             optionKey = this.getOptionKey(itemsData[0]);
 
-         // if we receive more than 1 item for selection, it cannot be a deselection
-         if (selectMultiple || !selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
+         // deselect
+         if (singleSelect && selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
+            newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
+         }
+         else {
             itemsData.forEach(itemData => {
                let valueData = {
                   $value: {},
@@ -734,8 +737,6 @@ class LookupComponent extends VDOM.Component {
                });
                newRecords.push(valueData.$value);
             });
-         } else {
-            newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
          }
 
          instance.set("records", newRecords);
@@ -767,21 +768,15 @@ class LookupComponent extends VDOM.Component {
    }
 
    onDropdownKeyPress(e) {
-      if (e.keyCode == KeyCode.esc) {
-         this.closeDropdown(e);
-         this.dom.input.focus();
-      }
-      if (this.listKeyDown) this.listKeyDown(e);
-
-      // if next focusable element is disabled, recalculate and update the dom before switching focus
-      if (e.keyCode == KeyCode.tab) this.props.forceUpdate();
-   }
-
-   onKeyDown(e) {
       switch (e.keyCode) {
-         case KeyCode.pageDown:
-         case KeyCode.pageUp:
-            if (this.state.dropdownOpen) e.preventDefault();
+         case KeyCode.esc:
+            this.closeDropdown(e);
+            this.dom.input.focus();
+            break;
+
+         case KeyCode.tab:
+            // if next focusable element is disabled, recalculate and update the dom before switching focus
+            this.props.forceUpdate();
             break;
 
          case KeyCode.a:
@@ -790,13 +785,26 @@ class LookupComponent extends VDOM.Component {
             let { quickSelectAll, multiple } = this.props.instance.widget;
             if (!quickSelectAll || !multiple) return;
 
-            let options = this.state.options;
-            let optionsToSelect = options.map(o => ({
+            let optionsToSelect = this.state.options.map(o => ({
                $option: o
             }));
-            this.select(e, optionsToSelect);
+            this.select(e, optionsToSelect, true);
             e.stopPropagation();
             e.preventDefault();
+            break;
+
+         default:
+            if (this.listKeyDown) this.listKeyDown(e);
+            break;
+
+      }
+   }
+
+   onKeyDown(e) {
+      switch (e.keyCode) {
+         case KeyCode.pageDown:
+         case KeyCode.pageUp:
+            if (this.state.dropdownOpen) e.preventDefault();
             break;
       }
    }
