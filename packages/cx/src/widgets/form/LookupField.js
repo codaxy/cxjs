@@ -775,6 +775,8 @@ class LookupComponent extends VDOM.Component {
             break;
 
          case KeyCode.tab:
+            // if tab needs to do a list selection, we have to first call List's handleKeyDown
+            if (this.listKeyDown) this.listKeyDown(e);
             // if next focusable element is disabled, recalculate and update the dom before switching focus
             this.props.forceUpdate();
             break;
