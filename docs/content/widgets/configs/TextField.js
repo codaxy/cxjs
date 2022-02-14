@@ -107,5 +107,11 @@ export default {
         description: <cx><Md>
             If `trackFocus` is set, this value will be set when the field recieves focus.
         </Md></cx>
+    },
+    trim: {
+        type: 'boolean',
+        description: <cx><Md>
+            Trim text to remove whitespace. Default is `false``.
+        </Md></cx>
     }
 };

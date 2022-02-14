@@ -14,6 +14,7 @@ import { KeyCode } from "../../util/KeyCode";
 import { Localization } from "../../ui/Localization";
 import ClearIcon from "../icons/clear";
 import { autoFocus } from "../autoFocus";
+import { isString } from "../../util/isString";
 
 export class TextField extends Field {
    init() {
@@ -36,6 +37,7 @@ export class TextField extends Field {
             minLength: undefined,
             maxLength: undefined,
             icon: undefined,
+            trim: undefined
          },
          ...arguments
       );
@@ -80,6 +82,7 @@ TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 TextField.prototype.alwaysShowClear = false;
 TextField.prototype.keyboardShortcut = false;
+TextField.prototype.trim = false;
 
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
@@ -125,7 +128,7 @@ class Input extends VDOM.Component {
          );
       }
 
-      let empty = this.input ? !this.input.value : data.empty;
+      let empty = this.input ? !this.trimmed(this.input.value) : data.empty;
 
       return (
          <div
@@ -258,7 +261,7 @@ class Input extends VDOM.Component {
       let { widget } = instance;
 
       if (widget.reactOn.indexOf(change) != -1) {
-         let text = e.target.value;
+         let text = this.trimmed(e.target.value);
          if (data.maxLength != null && text.length > data.maxLength) {
             text = text.substring(0, data.maxLength);
             this.input.value = text;
@@ -266,11 +269,17 @@ class Input extends VDOM.Component {
 
          let value = text || widget.emptyValue;
          if (!instance.set("value", value, { immediate })) {
-            if (text != this.input.value) this.input.value = text;
+            if (text != this.trimmed(this.input.value)) this.input.value = text;
          } else {
             if (value) instance.setState({ visited: true });
          }
       }
+   }
+
+   trimmed(value) {
+      if (this.props.data.trim && isString(value))
+         return value.trim();
+      return value;
    }
 }
 
