@@ -111,7 +111,7 @@ export default {
     trim: {
         type: 'boolean',
         description: <cx><Md>
-            Trim text to remove whitespace. Default is `false``.
+            Trim text to remove whitespace. Default is `false`.
         </Md></cx>
     }
 };
