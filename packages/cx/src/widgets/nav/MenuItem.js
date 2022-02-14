@@ -19,6 +19,7 @@ import {
 } from "../overlay/tooltip-ops";
 import { yesNo } from "../overlay/alerts";
 import { isTextInputElement } from "../../util";
+import { unfocusElement } from "../../ui/FocusManager";
 
 /*
  Functionality:
@@ -309,7 +310,7 @@ class MenuItemComponent extends VDOM.Component {
          debug(menuFlag, "MenuItem", "mouseLeave", this.el);
          this.clearAutoFocusTimer();
 
-         if (widget.hoverToOpen && document.activeElement == this.el) this.el.blur();
+         if (widget.hoverToOpen && document.activeElement == this.el) unfocusElement(this.el);
       }
 
       tooltipMouseLeave(e, this.props.instance, widget.tooltip);
@@ -402,7 +403,7 @@ class MenuItemComponent extends VDOM.Component {
          }
       }
 
-      if (widget.autoClose) getActiveElement().blur();
+      if (widget.autoClose) unfocusElement(this.el);
    }
 
    onFocus() {

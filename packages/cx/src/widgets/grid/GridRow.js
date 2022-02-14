@@ -1,12 +1,11 @@
-import { ValidationGroup } from "../../widgets/form/ValidationGroup";
+import { preventFocusOnTouch, unfocusElement } from "../../ui/FocusManager";
 import { VDOM } from "../../ui/Widget";
-import { ddMouseDown, ddMouseUp, ddDetect, isDragHandleEvent } from "../drag-drop/ops";
+import { closest } from "../../util/DOM";
 import { isTouchEvent } from "../../util/isTouchEvent";
-import { preventFocusOnTouch } from "../../ui/FocusManager";
-import { GridRowLine } from "./GridRowLine";
-import { closest, isFocusedDeep } from "../../util/DOM";
 import { KeyCode } from "../../util/KeyCode";
-import { getActiveElement } from "../../util/getActiveElement";
+import { ValidationGroup } from "../../widgets/form/ValidationGroup";
+import { ddDetect, ddMouseDown, ddMouseUp, isDragHandleEvent } from "../drag-drop/ops";
+import { GridRowLine } from "./GridRowLine";
 
 export class GridRow extends ValidationGroup {
    declareData(...args) {
@@ -120,7 +119,7 @@ export class GridRowComponent extends VDOM.Component {
             e.stopPropagation();
 
             //close context menu
-            if (!getActiveElement().contains(e.target)) document.activeElement.blur();
+            unfocusElement(e.target);
          }
       }
 

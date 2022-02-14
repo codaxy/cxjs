@@ -39,6 +39,7 @@ import { GridCellEditor } from "./GridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
 import { parseStyle } from "cx/src/util";
 import { StaticText } from "../../ui/StaticText";
+import { unfocusElement } from "../../ui/FocusManager";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -2462,7 +2463,7 @@ class GridComponent extends VDOM.Component {
             if (!futureState.cellEdit && wasCellEditing) {
                //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
                //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
-               getActiveElement().blur();
+               unfocusElement();
                let record = this.getRecordAt(prevState.cursor);
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                   record.store.set(widget.recordName, this.cellEditUndoData);
