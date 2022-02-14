@@ -48,7 +48,7 @@ export const TextFields = <cx>
                     <TextField label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.'/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Required" value-bind="$page.text" required />
+                    <TextField label="Required" value-bind="$page.text" required trim />
                     <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8}/>
                     <TextField label="Styled" value-bind="$page.text"
                         inputStyle={{border: '1px solid green'}}
