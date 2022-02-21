@@ -28,7 +28,7 @@ export class PieLabel extends BoundedObject {
       let { originalBounds, actualBounds } = instance;
 
       return (
-         <g>
+         <g key={key}>
             <line
                x1={actualBounds.l < originalBounds.l ? actualBounds.r : actualBounds.l}
                y1={(actualBounds.t + actualBounds.b) / 2}
@@ -36,7 +36,7 @@ export class PieLabel extends BoundedObject {
                y2={(originalBounds.t + originalBounds.b) / 2}
                stroke="gray"
             />
-            <g key={key} transform={`translate(${instance.actualBounds.l} ${instance.actualBounds.t})`}>
+            <g transform={`translate(${instance.actualBounds.l} ${instance.actualBounds.t})`}>
                {this.renderChildren(context, instance)}
             </g>
          </g>
