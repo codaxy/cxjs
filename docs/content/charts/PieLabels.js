@@ -41,8 +41,8 @@ export const PieLabels = <cx>
 
          <ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
 
-         Pie Labels are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values. 
-         Pie Labels must be used inside of `PieLabelsContainer` component.
+         `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values. 
+         `PieLabel`s must be used inside of a `PieLabelsContainer` component.
 
          <div class="widgets" controller={PageController} style="padding: 20px">
          <Legend />
