@@ -1,5 +1,6 @@
 export * from './Charts';
 export * from './PieCharts';
+export * from "./PieLabels";
 
 export * from './LineGraphs';
 export * from './ColumnGraphs';
