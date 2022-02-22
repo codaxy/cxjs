@@ -205,7 +205,7 @@ export const docsNavTree = [
                { text: "TimeAxis", url: "~/charts/time-axis" },
                { text: "ColorMap", url: "~/charts/color-map" },
                { text: "Legend", url: "~/charts/legend" },
-               { text: "PieLabelsContainer", url: "~/charts/pie-labels-containers" },
+               { text: "PieLabels", url: "~/charts/pie-labels" },
                { text: "Gridlines", url: "~/charts/gridlines" },
                { text: "MouseTracker", url: "~/charts/mouse-tracker" },
                { text: "PointReducer", url: "~/charts/point-reducers" },
