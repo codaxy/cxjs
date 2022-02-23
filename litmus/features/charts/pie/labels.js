@@ -1,8 +1,7 @@
 import { Line, Rectangle, Svg, Text } from "cx/svg";
-import { ColorMap, Legend, PieChart, PieSlice } from "cx/charts";
+import { ColorMap, Legend, PieChart, PieSlice, PieLabel, PieLabelsContainer } from "cx/charts";
 import { Controller, KeySelection, LabelsTopLayout, Repeater } from "cx/ui";
 import { HtmlElement, Slider } from "cx/widgets";
-import { PieLabel, PieLabelsContainer } from "./PieLabels";
 
 class PageController extends Controller {
    onInit() {

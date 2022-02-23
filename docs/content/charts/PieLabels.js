@@ -7,7 +7,7 @@ import { CodeSplit } from 'docs/components/CodeSplit';
 import { ConfigTable } from 'docs/components/ConfigTable';
 import { ImportPath } from 'docs/components/ImportPath';
 import { Md } from 'docs/components/Md';
-import pieConfigs from './configs/PieLabels';
+import pieConfigs from './configs/PieLabel';
 
 class PageController extends Controller {
    onInit() {
@@ -17,7 +17,7 @@ class PageController extends Controller {
 
       this.addTrigger(
          "points",
-         ["count"], 
+         ["count"],
          (count) => {
             this.store.set(
                "points",
@@ -41,7 +41,7 @@ export const PieLabels = <cx>
 
          <ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
 
-         `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values. 
+         `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values.
          `PieLabel`s must be used inside of a `PieLabelsContainer` component.
 
          <div class="widgets" controller={PageController} style="padding: 20px">
@@ -71,7 +71,7 @@ export const PieLabels = <cx>
                            }}
                            innerPointRadius={60}
                            outerPointRadius={70}
-                           name:bind="$record.name"
+                           name-bind="$record.name"
                            selection={{
                               type: KeySelection,
                               bind: "selection",
@@ -91,7 +91,7 @@ export const PieLabels = <cx>
                               <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
                            </Rectangle>
 
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance">
+                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance" lineStroke="gray">
                               <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
                            </PieLabel>
                         </PieSlice>
@@ -178,7 +178,7 @@ export const PieLabels = <cx>
                               <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
                            </Rectangle>
 
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance">
+                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance"  lineStroke="gray">
                               <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
                            </PieLabel>
                         </PieSlice>
@@ -195,7 +195,7 @@ export const PieLabels = <cx>
             onInit() {
                this.store.init("count", 10);
                this.store.init('distance', 85);
-         
+
                this.addTrigger(
                   "points",
                   ["count"],
@@ -215,7 +215,7 @@ export const PieLabels = <cx>
          }`}</CodeSnippet>
       </Content>
 
-         
+
       </CodeSplit>
 
       ## Configuration

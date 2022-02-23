@@ -1,11 +1,21 @@
 import { VDOM } from "../ui/Widget";
 import { BoundedObject } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
+import { parseStyle } from "../util/parseStyle";
 
 export class PieLabel extends BoundedObject {
+   init() {
+      this.lineStyle = parseStyle(this.lineStyle);
+      super.init();
+   }
+
    declareData(...args) {
       super.declareData(...args, {
          distance: undefined,
+         lineStyle: { structured: true },
+         lineStroke: undefined,
+         lineClass: { structured: true },
+         lineColorIndex: undefined,
       });
    }
 
@@ -25,16 +35,22 @@ export class PieLabel extends BoundedObject {
    }
 
    render(context, instance, key) {
-      let { originalBounds, actualBounds } = instance;
+      let { originalBounds, actualBounds, data } = instance;
 
       return (
-         <g key={key}>
+         <g key={key} className={data.classNames}>
             <line
+               className={this.CSS.element(
+                  this.baseClass,
+                  "line",
+                  data.lineColorIndex != null && "color-" + data.lineColorIndex
+               )}
                x1={actualBounds.l < originalBounds.l ? actualBounds.r : actualBounds.l}
                y1={(actualBounds.t + actualBounds.b) / 2}
                x2={(originalBounds.l + originalBounds.r) / 2}
                y2={(originalBounds.t + originalBounds.b) / 2}
-               stroke="gray"
+               stroke={data.lineStroke}
+               style={data.lineStyle}
             />
             <g transform={`translate(${instance.actualBounds.l} ${instance.actualBounds.t})`}>
                {this.renderChildren(context, instance)}
@@ -45,3 +61,5 @@ export class PieLabel extends BoundedObject {
 }
 
 PieLabel.prototype.distance = 100;
+PieLabel.prototype.baseClass = "pielabel";
+PieLabel.prototype.styled = true;

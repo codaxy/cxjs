@@ -2944,6 +2944,14 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+cx@^21.5.0, cx@^21.6.3:
+  version "21.12.4"
+  resolved "https://registry.yarnpkg.com/cx/-/cx-21.12.4.tgz#98e8cf2e3d06192af4b0bb2b58be068692399018"
+  integrity sha512-ERvL+DdgAS1vlBxCLIm5MadfAnAO6Z9d4EBDmaWuDQbLfMhLCWxhOc/WsqPAAB8rTzL0cXAlUIKFNQzO7udvng==
+  dependencies:
+    intl-io "^0.3.0"
+    route-parser "^0.0.5"
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
