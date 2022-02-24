@@ -305,6 +305,9 @@ interface GridProps extends Cx.StyledContainerProps {
    /** Set to true to enable cell editing. Please note that all editable columns should specify the editor field. */
    cellEditable?: boolean;
 
+   /** A callback function which is executed before a cell editor is initalized. Return false from the callback to prevent the cell from going into the edit mode. */
+   onBeforeCellEdit?: (change, record) => any;
+
    /** A callback function which is executed after a cell has been successfully edited. */
    onCellEdited?: (change, record) => void;
 

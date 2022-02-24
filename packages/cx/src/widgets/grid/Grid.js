@@ -162,16 +162,16 @@ export class Grid extends Widget {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                        ? c.value
-                        : c.aggregateField
-                           ? { bind: this.recordName + "." + c.aggregateField }
-                           : null,
+                     ? c.value
+                     : c.aggregateField
+                     ? { bind: this.recordName + "." + c.aggregateField }
+                     : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                           bind: this.recordName + "." + c.weightField,
-                        },
+                             bind: this.recordName + "." + c.weightField,
+                          },
                   type: c.aggregate,
                };
             }
@@ -594,8 +594,9 @@ export class Grid extends Widget {
                               let initialPosition = getCursorPos(e);
                               resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                               resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                                 }px`;
+                              resizeOverlayEl.style.left = `${
+                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                              }px`;
                               gridEl.appendChild(resizeOverlayEl);
                               captureMouse2(e, {
                                  onMouseMove: (e) => {
@@ -743,7 +744,7 @@ export class Grid extends Widget {
                   widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => { }
+            () => {}
          );
       }
    }
@@ -769,14 +770,14 @@ export class Grid extends Widget {
 
          let sorters = direction
             ? [
-               {
-                  field,
-                  direction,
-                  value,
-                  comparer,
-                  sortOptions,
-               },
-            ]
+                 {
+                    field,
+                    direction,
+                    value,
+                    comparer,
+                    sortOptions,
+                 },
+              ]
             : null;
 
          instance.set("sorters", sorters);
@@ -1018,7 +1019,6 @@ export class Grid extends Widget {
                   )
                );
 
-
             if (g.showHeader) {
                record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, false));
                if (hasFixedColumns)
@@ -1076,7 +1076,7 @@ export class Grid extends Widget {
          instance,
          record.grouping,
          record.level,
-         record.group || { "$key": "fixed-footer" },
+         record.group || { $key: "fixed-footer" },
          record.key + "-footer",
          record.store,
          true,
@@ -1089,7 +1089,7 @@ export class Grid extends Widget {
             instance,
             record.grouping,
             record.level,
-            record.group || { "$key": "fixed-footer" },
+            record.group || { $key: "fixed-footer" },
             record.key + "-footer",
             record.store,
             true,
@@ -1215,8 +1215,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                           height: this.rowHeight + 1,
-                        }
+                             height: this.rowHeight + 1,
+                          }
                         : null
                   }
                >
@@ -1484,8 +1484,6 @@ class GridComponent extends VDOM.Component {
                               true
                            )
                         );
-
-
                   }
                }
             }
@@ -1915,8 +1913,7 @@ class GridComponent extends VDOM.Component {
             };
             instance.invoke("onColumnDrop", e, instance);
          }
-      }
-      catch (err) {
+      } catch (err) {
          console.error("Grid drop operation failed. Please fix this error:", err);
       }
 
@@ -2483,8 +2480,26 @@ class GridComponent extends VDOM.Component {
                }
             }
 
-            if (futureState.cellEdit && !wasCellEditing)
-               this.cellEditUndoData = this.getRecordAt(futureState.cursor).data;
+            if (futureState.cellEdit && !wasCellEditing) {
+               let record = this.getRecordAt(futureState.cursor);
+               let cellEditUndoData = record.data;
+
+               if (
+                  widget.onBeforeCellEdit &&
+                  this.props.instance.invoke(
+                     "onBeforeCellEdit",
+                     {
+                        column: visibleColumns[futureState.cursorCellIndex],
+                        data: cellEditUndoData,
+                        field: visibleColumns[futureState.cursorCellIndex].field,
+                     },
+                     record
+                  ) === false
+               )
+                  return;
+
+               this.cellEditUndoData = cellEditUndoData;
+            }
 
             this.setState(newState, () => {
                if (this.state.focused && !this.state.cellEdit && wasCellEditing) FocusManager.focus(this.dom.el);
@@ -2501,7 +2516,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
@@ -3155,7 +3170,6 @@ class AvgHeight {
    }
 }
 
-
 function getDragDropEvent(ev) {
    return {
       event: ev,
@@ -3164,7 +3178,7 @@ function getDragDropEvent(ev) {
       source: {
          width: 32,
          height: 32,
-         margin: []
-      }
+         margin: [],
+      },
    };
 }
