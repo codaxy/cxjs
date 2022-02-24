@@ -146,7 +146,7 @@
     "@babel/helper-annotate-as-pure" "^7.12.13"
     regexpu-core "^4.7.1"
 
-"@babel/helper-define-polyfill-provider@^0.1.2", "@babel/helper-define-polyfill-provider@^0.1.5":
+"@babel/helper-define-polyfill-provider@^0.1.2":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-define-polyfill-provider/-/helper-define-polyfill-provider-0.1.5.tgz#3c2f91b7971b9fc11fe779c945c014065dea340e"
   integrity sha512-nXuzCSwlJ/WKr8qxzW816gwyT6VZgiJG17zR40fou70yfAcqjoNyTLl/DQ+FExw5Hx5KNqshmN8Ldl/r2N7cTg==
@@ -2943,14 +2943,6 @@ currently-unhandled@^0.4.1:
   integrity sha1-mI3zP+qxke95mmE2nddsF635V+o=
   dependencies:
     array-find-index "^1.0.1"
-
-cx@^21.5.0, cx@^21.6.3:
-  version "21.12.4"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-21.12.4.tgz#98e8cf2e3d06192af4b0bb2b58be068692399018"
-  integrity sha512-ERvL+DdgAS1vlBxCLIm5MadfAnAO6Z9d4EBDmaWuDQbLfMhLCWxhOc/WsqPAAB8rTzL0cXAlUIKFNQzO7udvng==
-  dependencies:
-    intl-io "^0.3.0"
-    route-parser "^0.0.5"
 
 dashdash@^1.12.0:
   version "1.14.1"
