@@ -143,6 +143,7 @@ export const PieCharts = <cx>
       ## Examples
 
       * [Multi-level](~/examples/charts/pie/multi-level)
+      * [Labels](~/charts/pie-labels)
 
       ## `PieChart` Configuration
 
