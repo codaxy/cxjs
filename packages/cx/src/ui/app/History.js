@@ -39,10 +39,7 @@ export class History {
    }
 
    static confirm(continueCallback, state) {
-      if (!navigateConfirmationCallback) {
-         continueCallback();
-         return;
-      }
+      if (!navigateConfirmationCallback) return continueCallback();
 
       let result = navigateConfirmationCallback(state);
       Promise.resolve(result).then((value) => {
@@ -51,13 +48,12 @@ export class History {
             continueCallback();
          }
       });
+
+      return false;
    }
 
    static confirmAndNavigate(state, title, url, replace) {
-      this.confirm(() => {
-         this.navigate(state, title, url, replace);
-      }, url);
-      return false;
+      return this.confirm(() => this.navigate(state, title, url, replace), url);
    }
 
    static navigate(state, title, url, replace = false) {
