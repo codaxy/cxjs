@@ -604,13 +604,22 @@
       bottom: 0;
    }
 
-   .#{$element}#{$name}-col-resizer {
+   %col-resizer {
       position: absolute;
       right: 0;
       top: 0;
       bottom: 0;
       width: 5px;
       cursor: col-resize;
+   }
+
+   .#{$element}#{$name}-col-resizer {
+      @extend %col-resizer;
+      &-left {
+         @extend %col-resizer;
+         left: 0;
+         right: unset;
+      }
    }
 
    .#{$element}#{$name}-resize-overlay {

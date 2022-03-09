@@ -520,7 +520,7 @@ export class Grid extends Widget {
                   sortIcon,
                   tool;
 
-               let resizer = null;
+               let getResizer = null;
 
                if (header) {
                   empty[l] = false;
@@ -578,90 +578,102 @@ export class Grid extends Widget {
                   }
 
                   if ((hdwidget.resizable || header.data.resizable) && header.data.colSpan < 2) {
-                     resizer = (
-                        <div
-                           className={CSS.element(baseClass, "col-resizer")}
-                           onClick={(e) => {
-                              e.stopPropagation();
-                           }}
-                           onMouseDown={(e) => {
-                              if (e.buttons != 1) return;
-                              let resizeOverlayEl = document.createElement("div");
-                              let headerCell = e.target.parentElement;
-                              let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
-                              let gridEl = scrollAreaEl.parentElement;
-                              let initialWidth = headerCell.offsetWidth;
-                              let initialPosition = getCursorPos(e);
-                              resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
-                              resizeOverlayEl.style.width = `${initialWidth}px`;
-                              resizeOverlayEl.style.left = `${
-                                 headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-                              }px`;
-                              gridEl.appendChild(resizeOverlayEl);
-                              captureMouse2(e, {
-                                 onMouseMove: (e) => {
-                                    let cursor = getCursorPos(e);
-                                    let width = Math.max(
-                                       30,
-                                       Math.round(initialWidth + cursor.clientX - initialPosition.clientX)
-                                    );
-                                    resizeOverlayEl.style.width = `${width}px`;
-                                 },
-                                 onMouseUp: (e) => {
-                                    if (!resizeOverlayEl) return; //dblclick
-                                    let width = resizeOverlayEl.offsetWidth;
-                                    hdinst.assignedWidth = width;
-                                    gridEl.removeChild(resizeOverlayEl);
-                                    resizeOverlayEl = null;
-                                    if (widget.onColumnResize)
-                                       instance.invoke("onColumnResize", { width, column: hdwidget }, hdinst);
-                                    header.set("width", width);
-                                    instance.setState({
-                                       dimensionsVersion: instance.state.dimensionsVersion + 1,
-                                       colWidth: {
-                                          ...instance.state.colWidth,
-                                          [hdwidget.uniqueColumnId]: width,
-                                       },
-                                    });
-                                 },
-                                 onDblClick: () => {
-                                    let table = gridEl.querySelector("table");
-                                    let parentEl = table.parentElement;
-                                    let tableClone = table.cloneNode(true);
-                                    tableClone.childNodes.forEach((tbody) => {
-                                       tbody.childNodes.forEach((tr) => {
-                                          tr.childNodes.forEach((td, index) => {
-                                             if (index == colIndex) {
-                                                td.style.maxWidth = null;
-                                                td.style.minWidth = null;
-                                                td.style.width = "auto";
-                                             } else {
-                                                td.style.display = "none";
-                                             }
+                     getResizer = (forPreviousColumn) => {
+                        let resizerClassName = "col-resizer";
+                        if (forPreviousColumn) resizerClassName += "-left";
+
+                        if (forPreviousColumn) {
+                           hdinst = line.children[colIndex - 1];
+                           header = hdinst.components[`header${l + 1}`];
+                        }
+
+                        return (
+                           <div
+                              className={CSS.element(baseClass, resizerClassName)}
+                              onClick={(e) => {
+                                 e.stopPropagation();
+                              }}
+                              onMouseDown={(e) => {
+                                 if (e.buttons != 1) return;
+                                 let resizeOverlayEl = document.createElement("div");
+                                 let headerCell = e.target.parentElement;
+                                 if (forPreviousColumn) headerCell = headerCell.previousSibling;
+
+                                 let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
+                                 let gridEl = scrollAreaEl.parentElement;
+                                 let initialWidth = headerCell.offsetWidth;
+                                 let initialPosition = getCursorPos(e);
+                                 resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
+                                 resizeOverlayEl.style.width = `${initialWidth}px`;
+                                 resizeOverlayEl.style.left = `${
+                                    headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                                 }px`;
+                                 gridEl.appendChild(resizeOverlayEl);
+                                 captureMouse2(e, {
+                                    onMouseMove: (e) => {
+                                       let cursor = getCursorPos(e);
+                                       let width = Math.max(
+                                          30,
+                                          Math.round(initialWidth + cursor.clientX - initialPosition.clientX)
+                                       );
+                                       resizeOverlayEl.style.width = `${width}px`;
+                                    },
+                                    onMouseUp: (e) => {
+                                       if (!resizeOverlayEl) return; //dblclick
+                                       let width = resizeOverlayEl.offsetWidth;
+                                       hdinst.assignedWidth = width;
+                                       gridEl.removeChild(resizeOverlayEl);
+                                       resizeOverlayEl = null;
+                                       if (widget.onColumnResize)
+                                          instance.invoke("onColumnResize", { width, column: hdwidget }, hdinst);
+                                       header.set("width", width);
+                                       instance.setState({
+                                          dimensionsVersion: instance.state.dimensionsVersion + 1,
+                                          colWidth: {
+                                             ...instance.state.colWidth,
+                                             [hdwidget.uniqueColumnId]: width,
+                                          },
+                                       });
+                                    },
+                                    onDblClick: () => {
+                                       let table = gridEl.querySelector("table");
+                                       let parentEl = table.parentElement;
+                                       let tableClone = table.cloneNode(true);
+                                       tableClone.childNodes.forEach((tbody) => {
+                                          tbody.childNodes.forEach((tr) => {
+                                             tr.childNodes.forEach((td, index) => {
+                                                if (index == colIndex) {
+                                                   td.style.maxWidth = null;
+                                                   td.style.minWidth = null;
+                                                   td.style.width = "auto";
+                                                } else {
+                                                   td.style.display = "none";
+                                                }
+                                             });
                                           });
                                        });
-                                    });
-                                    tableClone.style.position = "absolute";
-                                    tableClone.style.visibility = "hidden";
-                                    tableClone.style.top = 0;
-                                    tableClone.style.left = 0;
-                                    tableClone.style.width = "auto";
-                                    parentEl.appendChild(tableClone);
-                                    let width = tableClone.offsetWidth;
-                                    parentEl.removeChild(tableClone);
-                                    header.set("width", width);
-                                    instance.setState({
-                                       dimensionsVersion: instance.state.dimensionsVersion + 1,
-                                       colWidth: {
-                                          ...instance.state.colWidth,
-                                          [hdwidget.uniqueColumnId]: width,
-                                       },
-                                    });
-                                 },
-                              });
-                           }}
-                        />
-                     );
+                                       tableClone.style.position = "absolute";
+                                       tableClone.style.visibility = "hidden";
+                                       tableClone.style.top = 0;
+                                       tableClone.style.left = 0;
+                                       tableClone.style.width = "auto";
+                                       parentEl.appendChild(tableClone);
+                                       let width = tableClone.offsetWidth;
+                                       parentEl.removeChild(tableClone);
+                                       header.set("width", width);
+                                       instance.setState({
+                                          dimensionsVersion: instance.state.dimensionsVersion + 1,
+                                          colWidth: {
+                                             ...instance.state.colWidth,
+                                             [hdwidget.uniqueColumnId]: width,
+                                          },
+                                       });
+                                    },
+                                 });
+                              }}
+                           />
+                        );
+                     };
                   }
                }
 
@@ -670,6 +682,14 @@ export class Grid extends Widget {
                let onContextMenu;
 
                if (this.onColumnContextMenu) onContextMenu = (e) => instance.invoke("onColumnContextMenu", e, hdinst);
+
+               let resizer = null,
+                  prevColumnResizer = null;
+
+               if (getResizer) {
+                  resizer = getResizer();
+                  if (colIndex > 0) prevColumnResizer = getResizer(true);
+               }
 
                result[l].push(
                   <th
@@ -687,6 +707,7 @@ export class Grid extends Widget {
                      {getContent(content)}
                      {sortIcon}
                      {tool}
+                     {prevColumnResizer}
                      {resizer}
                   </th>
                );
