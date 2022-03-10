@@ -613,6 +613,15 @@
       cursor: col-resize;
    }
 
+   .#{$element}#{$name}-col-resizer-prev-col {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+   }
+
    .#{$element}#{$name}-resize-overlay {
       position: absolute;
       display: block;
