@@ -236,7 +236,6 @@ LookupField.prototype.submitOnEnterKey = false;
 LookupField.prototype.submitOnDropdownEnterKey = false;
 LookupField.prototype.pageSize = 100;
 LookupField.prototype.infinite = false;
-LookupField.prototype.closeDropdownOnScrollDistance = 100;
 LookupField.prototype.quickSelectAll = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);

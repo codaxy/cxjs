@@ -109,7 +109,6 @@ MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
 MenuItem.prototype.keyboardShortcut = false;
 MenuItem.prototype.openOnFocus = true;
-MenuItem.prototype.closeDropdownOnScrollDistance = 100;
 
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
