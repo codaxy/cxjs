@@ -371,17 +371,7 @@ class LookupComponent extends VDOM.Component {
                };
             }
          },
-         onDropdownPositionDidUpdate: (params) => {
-            let { parentBounds } = params;
-            let { initialScreenPosition } = this;
-            if (!initialScreenPosition) initialScreenPosition = this.initialScreenPosition = params.parentBounds;
-
-            if (
-               Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
-               Math.abs(parentBounds.left - initialScreenPosition.left) > widget.closeDropdownOnScrollDistance
-            )
-               this.closeDropdown(null, true);
-         },
+         onDismiss: () => this.closeDropdown(null, true),
       };
 
       return (this.dropdown = Widget.create(dropdown));
@@ -543,7 +533,6 @@ class LookupComponent extends VDOM.Component {
             !data.disabled &&
             !data.empty &&
             (widget.alwaysShowClear || (!data.required && !this.props.multiple) || multipleEntries)
-
          ) {
             insideButton = (
                <div
@@ -720,15 +709,13 @@ class LookupComponent extends VDOM.Component {
          let newRecords = reset ? [] : [...(records || [])];
          let singleSelect = itemsData.length == 1;
          let optionKey = null;
-         if (singleSelect)
-            optionKey = this.getOptionKey(itemsData[0]);
+         if (singleSelect) optionKey = this.getOptionKey(itemsData[0]);
 
          // deselect
          if (singleSelect && selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
             newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
-         }
-         else {
-            itemsData.forEach(itemData => {
+         } else {
+            itemsData.forEach((itemData) => {
                let valueData = {
                   $value: {},
                };
@@ -787,8 +774,8 @@ class LookupComponent extends VDOM.Component {
             let { quickSelectAll, multiple } = this.props.instance.widget;
             if (!quickSelectAll || !multiple) return;
 
-            let optionsToSelect = this.state.options.map(o => ({
-               $option: o
+            let optionsToSelect = this.state.options.map((o) => ({
+               $option: o,
             }));
             this.select(e, optionsToSelect, true);
             e.stopPropagation();
@@ -798,7 +785,6 @@ class LookupComponent extends VDOM.Component {
          default:
             if (this.listKeyDown) this.listKeyDown(e);
             break;
-
       }
    }
 
@@ -968,10 +954,10 @@ class LookupComponent extends VDOM.Component {
             let params = !widget.infinite
                ? query
                : {
-                  query,
-                  page: 1,
-                  pageSize,
-               };
+                    query,
+                    page: 1,
+                    pageSize,
+                 };
 
             if (!result) result = instance.invoke("onQuery", params, instance);
 

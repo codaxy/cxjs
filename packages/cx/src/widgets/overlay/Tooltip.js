@@ -119,6 +119,10 @@ export class Tooltip extends Dropdown {
       }
    }
 
+   onDismiss(instance) {
+      this.dismissTooltip(instance);
+   }
+
    checkVisible(context, instance, data) {
       if (!isNonEmptyArray(this.items) && !data.title && !data.text) return false;
       return super.checkVisible(context, instance, data);
