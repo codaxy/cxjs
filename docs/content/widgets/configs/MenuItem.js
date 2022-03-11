@@ -108,10 +108,4 @@ export default {
             Set to `false`, to prevent dropdown to expand on focus. Default value is `true`.
         </Md></cx>
     },
-    closeDropdownOnScrollDistance: {
-        type: 'number',
-        description: <cx><Md>
-            The dropdown will be automatically closed if the page is scrolled a certain distance. Default value is `100`.
-        </Md></cx>
-    }
 };

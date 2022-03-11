@@ -109,7 +109,6 @@ MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
 MenuItem.prototype.keyboardShortcut = false;
 MenuItem.prototype.openOnFocus = true;
-MenuItem.prototype.closeDropdownOnScrollDistance = 100;
 
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
@@ -145,19 +144,10 @@ class MenuItemComponent extends VDOM.Component {
             pipeValidateDropdownPosition: (cb) => {
                this.validateDropdownPosition = cb;
             },
-            onDropdownPositionDidUpdate: (params) => {
-               let { parentBounds } = params;
-               let { initialScreenPosition } = this;
-
-               if (!initialScreenPosition)
-                  initialScreenPosition = this.initialScreenPosition = params.parentBounds;
-
-               if (
-                  Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
-                  Math.abs(parentBounds.left - initialScreenPosition.left) > widget.closeDropdownOnScrollDistance
-               )
-                  this.closeDropdown();
-            }
+            onDismissAfterScroll: () => {
+               this.closeDropdown();
+               return false;
+            },
          });
       }
       return this.dropdown;
@@ -261,7 +251,10 @@ class MenuItemComponent extends VDOM.Component {
    onDropdownKeyDown(e) {
       debug(menuFlag, "MenuItem", "dropdownKeyDown");
       let { horizontal } = this.props.instance;
-      if (e.keyCode == KeyCode.esc || (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))) {
+      if (
+         e.keyCode == KeyCode.esc ||
+         (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))
+      ) {
          FocusManager.focus(this.el);
          e.preventDefault();
          e.stopPropagation();
