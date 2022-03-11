@@ -9,6 +9,8 @@ import { ImportPath } from 'docs/components/ImportPath';
 import { Md } from 'docs/components/Md';
 import pieConfigs from './configs/PieLabel';
 
+const fiddleCode = 'vkbZc5Cw';
+
 class PageController extends Controller {
    onInit() {
       super.init();
@@ -130,7 +132,7 @@ export const PieLabels = <cx>
             <code>Chart</code>
          </Tab>
          </div>
-      <CodeSnippet fiddle="9C63P156"  visible-expr="{$page.code.tab}=='chart'">{`
+      <CodeSnippet fiddle={fiddleCode}  visible-expr="{$page.code.tab}=='chart'">{`
          <div class="widgets" controller={PageController} style="padding: 20px">
          <Legend />
          <div>
@@ -190,7 +192,7 @@ export const PieLabels = <cx>
       </div>
          `}</CodeSnippet>
 
-         <CodeSnippet fiddle="9C63P156"  visible-expr="{$page.code.tab}=='controller'">{`
+         <CodeSnippet fiddle={fiddleCode}  visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             onInit() {
                this.store.init("count", 10);
