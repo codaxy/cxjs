@@ -144,7 +144,10 @@ class MenuItemComponent extends VDOM.Component {
             pipeValidateDropdownPosition: (cb) => {
                this.validateDropdownPosition = cb;
             },
-            onDismiss: () => this.closeDropdown(),
+            onDismissAfterScroll: () => {
+               this.closeDropdown();
+               return false;
+            },
          });
       }
       return this.dropdown;

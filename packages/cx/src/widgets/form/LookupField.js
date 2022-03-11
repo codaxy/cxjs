@@ -370,7 +370,10 @@ class LookupComponent extends VDOM.Component {
                };
             }
          },
-         onDismiss: () => this.closeDropdown(null, true),
+         onDismissAfterScroll: () => {
+            this.closeDropdown(null, true);
+            return false;
+         },
       };
 
       return (this.dropdown = Widget.create(dropdown));
@@ -881,7 +884,6 @@ class LookupComponent extends VDOM.Component {
 
       //delete results valid only while the dropdown is open
       delete this.tmpCachedResult;
-      delete this.initialScreenPosition;
    }
 
    openDropdown(e) {

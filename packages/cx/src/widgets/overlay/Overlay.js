@@ -26,8 +26,7 @@ import { KeyCode } from "../../util/KeyCode";
 
 export class Overlay extends Container {
    init() {
-      if (this.center)
-         this.centerX = this.centerY = this.center;
+      if (this.center) this.centerX = this.centerY = this.center;
 
       super.init();
    }
@@ -60,7 +59,7 @@ export class Overlay extends Container {
    }
 
    initInstance(context, instance) {
-      instance.positionChangeSubcribers = new SubscriberList();
+      instance.positionChangeSubscribers = new SubscriberList();
       super.initInstance(context, instance);
    }
 
@@ -83,7 +82,7 @@ export class Overlay extends Container {
 
       if (instance.cache("dismiss", instance.dismiss)) instance.markShouldUpdate(context);
 
-      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
+      context.push("parentPositionChangeEvent", instance.positionChangeSubscribers);
 
       super.explore(context, instance);
    }
@@ -112,15 +111,14 @@ export class Overlay extends Container {
 
    overlayDidMount(instance, component) {
       let { el } = component;
-      if (this.centerX)
-         if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+      if (this.centerX) if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
       if (this.centerY)
          if (!el.style.top) el.style.top = `${Math.max(0, (window.innerHeight - el.offsetHeight) / 2)}px`;
    }
 
-   overlayDidUpdate(instance, component) { }
+   overlayDidUpdate(instance, component) {}
 
-   overlayWillUnmount(instance, component) { }
+   overlayWillUnmount(instance, component) {}
 
    handleFocusOut(instance, component) {
       if (this.onFocusOut) instance.invoke("onFocusOut", instance, component);
@@ -193,7 +191,7 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 
    handleResize(e, instance, component) {
@@ -209,7 +207,7 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 }
 
@@ -373,7 +371,7 @@ export class OverlayComponent extends VDOM.Component {
       FocusManager.nudge();
    }
 
-   onFocusIn() { }
+   onFocusIn() {}
 
    onFocusOut() {
       let { widget } = this.props.instance;

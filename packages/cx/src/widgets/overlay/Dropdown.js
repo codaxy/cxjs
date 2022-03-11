@@ -50,6 +50,8 @@ export class Dropdown extends Overlay {
       var scrollableParents = (component.scrollableParents = [window]);
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
 
+      instance.initialScreenPosition = null;
+
       var el = instance.relatedElement.parentElement;
       while (el) {
          scrollableParents.push(el);
@@ -91,11 +93,18 @@ export class Dropdown extends Overlay {
       if (component.offParentPositionChange) component.offParentPositionChange();
 
       delete component.parentBounds;
+      delete component.initialScreenPosition;
+   }
+
+   dismissAfterScroll(data, instance, component) {
+      if (this.onDismissAfterScroll && instance.invoke("onDismissAfterScroll", data, instance, component) === false)
+         return;
+      if (instance.dismiss) instance.dismiss();
    }
 
    updateDropdownPosition(instance, component) {
-      var { el } = component;
-      var { data, relatedElement, initialScreenPosition } = instance;
+      var { el, initialScreenPosition } = component;
+      var { data, relatedElement } = instance;
       var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(relatedElement));
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
@@ -151,15 +160,15 @@ export class Dropdown extends Overlay {
          }
       }
 
-      if (!initialScreenPosition) initialScreenPosition = instance.initialScreenPosition = parentBounds;
+      if (!initialScreenPosition) initialScreenPosition = component.initialScreenPosition = parentBounds;
 
       if (
          Math.abs(parentBounds.top - initialScreenPosition.top) > this.closeOnScrollDistance ||
          Math.abs(parentBounds.left - initialScreenPosition.left) > this.closeOnScrollDistance
       )
-         instance.invoke("onDismiss", instance);
+         this.dismissAfterScroll({ parentBounds, initialScreenPosition }, instance, component);
 
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 
    applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
