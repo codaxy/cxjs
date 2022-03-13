@@ -1,6 +1,7 @@
 let bindingCache = {};
 import { isString } from "../util/isString";
 import { isObject } from "../util/isObject";
+import { isFunction } from "../util/isFunction";
 
 export class Binding {
    constructor(path) {
@@ -72,11 +73,14 @@ export class Binding {
 
       if (path instanceof Binding) return path;
 
+      if (path.isPathChain) return this.get(path.path());
+
       throw new Error("Invalid binding definition provided.");
    }
 }
 
 export function isBinding(value) {
    if (isObject(value) && isString(value.bind)) return true;
+   if (value && value.isPathChain) return true;
    return value instanceof Binding;
 }

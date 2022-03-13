@@ -2,7 +2,7 @@ import * as Cx from '../core';
 
 import {View} from '../data/View';
 
-export class Controller {
+export class Controller<D = any> {
    onInit?(): void;
 
    onExplore?(context?): void;
@@ -15,7 +15,7 @@ export class Controller {
 
    init?(): void;
 
-   store: View;
+   store: View<D>;
    widget: any;
 
    addTrigger(name: string, args: string[], callback: (...args) => void, autoRun?: boolean) : void;

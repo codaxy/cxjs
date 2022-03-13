@@ -9,12 +9,13 @@ export interface ViewConfig {
    sealed?: boolean;
 }
 
-export interface ViewMethods {
-   getData(): Record;
+export interface ViewMethods<D = Record> {
+   getData(): D;
 
    init(path: Path, value: any): boolean;
 
-   set(path: Path | Record, value?: any): boolean;
+   set(path: Path, value: any): boolean;
+   set(path: Record, value: Record): boolean;
 
    get(path: Path): any;
    get(paths: Path[]): any[];
@@ -36,23 +37,24 @@ export interface ViewMethods {
    ref<T = any>(path: string, defaultValue?: T): Ref<T>;
 }
 
-export class View implements ViewMethods {
+export class View<D = any> implements ViewMethods<D> {
    constructor(config?: ViewConfig);
 
-   getData(): Record;
+   getData(): D;
 
    init(path: Path, value: any): boolean;
 
-   set(path: Path | Record, value?: any): boolean;
+   set(path: Path, value: any): boolean;
+   set(path: Record, value: Record): boolean;
 
    /**
     * Copies the value stored under the `from` path and saves it under the `to` path.
     * @param from - Origin path.
     * @param to - Destination path.
     */
-   copy(from: Path, to: Path);
+   copy(from: Path, to: Path): boolean;
 
-   move(from: Path, to: Path);
+   move(from: Path, to: Path): boolean;
 
    /**
     * Removes data from the Store.
@@ -84,9 +86,9 @@ export class View implements ViewMethods {
 
    silently(callback: () => void): boolean;
 
-   notify(path?: string);
+   notify(path?: string): void;
 
-   subscribe(callback: (changes?) => void);
+   subscribe(callback: (changes?) => void): () => void;
 
    load(data: Record): boolean;
 
