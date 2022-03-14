@@ -1,20 +1,14 @@
-import {
-   isSelfOrDescendant,
-   findFirst,
-   findFirstChild,
-   isFocusable,
-   closestParent,
-} from "../util/DOM";
+import { isSelfOrDescendant, findFirst, findFirstChild, isFocusable, closestParent } from "../util/DOM";
 import { batchUpdates } from "./batchUpdates";
 import { SubscriberList } from "../util/SubscriberList";
 import { isTouchEvent } from "../util/isTouchEvent";
 import { getActiveElement } from "../util/getActiveElement";
 
 /*
-*  Purpose of FocusManager is to provide focusout notifications.
-*  IE and Firefox do not provide relatedTarget info in blur events which makes it impossible
-*  to determine if focus went outside or stayed inside the component.
-*/
+ *  Purpose of FocusManager is to provide focusout notifications.
+ *  IE and Firefox do not provide relatedTarget info in blur events which makes it impossible
+ *  to determine if focus went outside or stayed inside the component.
+ */
 
 let subscribers = new SubscriberList(),
    timerInterval = 300,
@@ -53,10 +47,7 @@ export class FocusManager {
    }
 
    static nudge() {
-      if (
-         typeof document !== "undefined" &&
-         getActiveElement() !== lastActiveElement
-      ) {
+      if (typeof document !== "undefined" && getActiveElement() !== lastActiveElement) {
          if (!pending) {
             pending = true;
             setTimeout(function () {
@@ -160,15 +151,11 @@ export function preventFocusOnTouch(e, force = false) {
 
 export function unfocusElement(target = null, forceBlur = true) {
    const activeElement = getActiveElement();
-
    if (!target) target = activeElement;
-   else if (target != activeElement && !target.contains(activeElement))
-      return;
 
    //find the closest focusable parent of the target element and focus it instead
-   let focusableParent = !forceBlur &&
-      closestParent(target, (el) => isFocusable(el)) ||
-      document.body;
+   let focusableParent = (!forceBlur && closestParent(target, (el) => isFocusable(el))) || document.body;
+
    if (focusableParent === document.body) activeElement.blur();
    else focusableParent.focus();
 
