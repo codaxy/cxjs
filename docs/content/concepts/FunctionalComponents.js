@@ -114,8 +114,11 @@ export const FunctionalComponents = <cx>
                 <MyForm />
                 <MyForm vertical />
             </div>
+            <Content name="code">
+            <Tab value-bind="$page.code2.tab" mod="code" tab="component" text="Component" default/>
+            <Tab value-bind="$page.code2.tab" mod="code" tab="widget" text="Widget" default/>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet visible-expr="{$page.code2.tab}=='component'">{`
                 const MyForm = createFunctionalComponent(({vertical}) => {
                     let layout = !vertical ? LabelsLeftLayout : { type: LabelsTopLayout, vertical: true };
                     return <cx>
@@ -125,14 +128,14 @@ export const FunctionalComponents = <cx>
                         </div>
                     </cx>;
                 });
-
-                ...
-
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code2.tab}=='widget'">{`
                 <div class="widgets">
                     <MyForm />
                     <MyForm vertical />
                 </div>
             `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
