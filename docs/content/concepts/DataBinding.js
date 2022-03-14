@@ -1,4 +1,4 @@
-import {Content, HtmlElement, Checkbox, TextField, NumberField, Select, Option, Repeater, Text, Slider} from 'cx/widgets';
+import {Content, HtmlElement, Checkbox, TextField, NumberField, Select, Option, Repeater, Text, Slider, Tab} from 'cx/widgets';
 import {LabelsLeftLayout, Controller} from 'cx/ui';
 import {computable} from 'cx/data';
 import {Md} from '../../components/Md';
@@ -34,7 +34,8 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="csRQr9CA">{`
+                <Tab value-bind="$page.code1.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='code'" fiddle="csRQr9CA">{`
                 <Checkbox value-bind='intro.core.checked'>Checkbox</Checkbox>
             `}</CodeSnippet>
             </Content>
@@ -54,7 +55,8 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="csRQr9CA">{`
+                <Tab value-bind="$page.code2.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code2.tab}=='code'" fiddle="csRQr9CA">{`
                     <TextField
                         value-bind='intro.core.text'
                         enabled-expr='!{intro.core.checked}'
@@ -92,7 +94,8 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="M60J0cyg">{`
+                <Tab value-bind="$page.code3.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code3.tab}=='code'" fiddle="M60J0cyg">{`
                 <div layout={LabelsLeftLayout}>
                   <TextField value-bind='intro.core.firstName' label="First Name" />
                   <TextField value-bind='intro.core.lastName' label="Last Name"/>
@@ -123,7 +126,8 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="dfT9CWn4">{`
+                 <Tab value-bind="$page.code4.tab"  mod="code" tab="code" text="Code" default />
+                <CodeSnippet visible-expr="{$page.code4.tab}=='code'" fiddle="dfT9CWn4">{`
                store.set('intro.core.letterCount', '');
                ...
                <TextField value-bind='intro.core.letterCount' placeholder="Type here" />
@@ -164,16 +168,18 @@ export const DataBinding = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="9CxYWdfS">{`
-                <div preserveWhitespace>
-                    <NumberField value-bind='intro.core.a' placeholder="A" />
-                    +
-                    <NumberField value-bind='intro.core.b' placeholder="B" />
-                    =
-                    <Text value={computable('intro.core.a', 'intro.core.b', (a, b) => a==null || b==null ? "ERR" : a + b )} />
-                </div>
-            `}</CodeSnippet>
-
+            <Content name="code">
+                <Tab value-bind="$page.code5.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code5.tab}=='code'" fiddle="9CxYWdfS">{`
+                    <div preserveWhitespace>
+                        <NumberField value-bind='intro.core.a' placeholder="A" />
+                        +
+                        <NumberField value-bind='intro.core.b' placeholder="B" />
+                        =
+                        <Text value={computable('intro.core.a', 'intro.core.b', (a, b) => a==null || b==null ? "ERR" : a + b )} />
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ### Setters
@@ -196,18 +202,22 @@ export const DataBinding = <cx>
                     A = <Text bind="intro.core.a"/>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="9CxYWdfS">{`
-                <div preserveWhitespace>
-                    A + 2 = <NumberField style="width:50px"
-                                         value={{
-                                            expr: '{intro.core.a}+2',
-                                             set: (value, {store}) => { store.set('intro.core.a', value - 2) }
-                                         }}/>
-                    <br/>
-                    A = <Text bind="intro.core.a" />
-                </div>
-            `}</CodeSnippet>
+            
+            <Content name="code">
+                <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="9CxYWdfS">{`
+                    <div preserveWhitespace>
+                        A + 2 = <NumberField style="width:50px"
+                                            value={{
+                                                expr: '{intro.core.a}+2',
+                                                set: (value, {store}) => { store.set('intro.core.a', value - 2) }
+                                            }}/>
+                        <br/>
+                        A = <Text bind="intro.core.a" />
+                    </div>
+                `}</CodeSnippet>
+            </Content>
+            
         </CodeSplit>
 
         ### Throttle / Debounce
@@ -237,25 +247,28 @@ export const DataBinding = <cx>
                     <Slider value={{bind: '$page.slider.debounced', debounce: 300}}/>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="RAVD9CLT">{`
-                <div>
-                  <Section class="well" title="Direct">
-                    <Slider value-bind="$page.slider.direct" />
-                    <Slider value-bind="$page.slider.direct" />
-                  </Section>
-                  <Section class="well" title="Throttle: 300ms">
-                    <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
-                    <br />
-                    <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
-                  </Section>
-                  <Section class="well" title="Debounce: 300ms">
-                    <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
-                    <br />
-                    <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
-                  </Section>
-                </div>
-            `}</CodeSnippet>
+            
+            <Content name="code">
+                <Tab value-bind="$page.code7.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code7.tab}=='code'" fiddle="RAVD9CLT">{`
+                    <div>
+                    <Section class="well" title="Direct">
+                        <Slider value-bind="$page.slider.direct" />
+                        <Slider value-bind="$page.slider.direct" />
+                    </Section>
+                    <Section class="well" title="Throttle: 300ms">
+                        <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
+                        <br />
+                        <Slider value={{ bind: "$page.slider.throttled", throttle: 300 }} />
+                    </Section>
+                    <Section class="well" title="Debounce: 300ms">
+                        <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
+                        <br />
+                        <Slider value={{ bind: "$page.slider.debounced", debounce: 300 }} />
+                    </Section>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
     </Md>
