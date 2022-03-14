@@ -1,5 +1,5 @@
-import { computable } from 'cx/ui';
-import { PrivateStore, Rescope, Slider } from 'cx/widgets';
+import { computable, Content } from 'cx/ui';
+import { PrivateStore, Rescope, Slider, Tab } from 'cx/widgets';
 import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { CodeSplit } from 'docs/components/CodeSplit';
 import { ImportPath } from 'docs/components/ImportPath';
@@ -40,27 +40,30 @@ export const PrivateStores = <cx>
                         </div> 
                     </PrivateStore>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
-                    <div class="widgets">  
-                        <div class="flex-column">
-                            <Slider value-bind="slider" label="Global store" />
-                            <Slider value-bind="slider" label="Global store" />
+                <Content name="code">
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Widget" default/> 
+                    <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="p2BVmDBX">{`
+                        <div class="widgets">  
+                            <div class="flex-column">
+                                <Slider value-bind="slider" label="Global store" />
+                                <Slider value-bind="slider" label="Global store" />
+                            </div>
+                            <PrivateStore>
+                                <div class="flex-column">
+                                    <Slider value-bind="slider" label="Private store A" />
+                                    <Slider value-bind="slider" label="Private store A" />
+                                </div> 
+                            </PrivateStore>
+                            <PrivateStore>
+                                <div class="flex-column">
+                                    <Slider value-bind="slider" label="Private store B" />
+                                    <Slider value-bind="slider" label="Private store B" />
+                                </div> 
+                            </PrivateStore>
                         </div>
-                        <PrivateStore>
-                            <div class="flex-column">
-                                <Slider value-bind="slider" label="Private store A" />
-                                <Slider value-bind="slider" label="Private store A" />
-                            </div> 
-                        </PrivateStore>
-                        <PrivateStore>
-                            <div class="flex-column">
-                                <Slider value-bind="slider" label="Private store B" />
-                                <Slider value-bind="slider" label="Private store B" />
-                            </div> 
-                        </PrivateStore>
-                    </div>
-                `}</CodeSnippet>
+                    `}</CodeSnippet>
+                </Content>
+                
             </CodeSplit>
 
             Private stores have the lifespan of the `PrivateStore` component, meaning each time 
@@ -92,26 +95,28 @@ export const PrivateStores = <cx>
                         </div> 
                     </PrivateStore>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
-                    <div class="widgets flex-row flex-start">  
-                        <div class="flex-column">
-                            <strong>Global store</strong>
-                            <Slider value-bind="slider" label="Global value" />
-                        </div>
-                        <PrivateStore
-                            data={{
-                                globalValue: { bind: "slider" },
-                            }}
-                        >
+                <Content name="code">
+                    <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Widget" default/>
+                    <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="p2BVmDBX">{`
+                        <div class="widgets flex-row flex-start">  
                             <div class="flex-column">
-                                <strong>Private store</strong>
-                                <Slider value-bind="globalValue" label="Global value" />
-                                <Slider value-bind="slider" label="Private value" />
-                            </div> 
-                        </PrivateStore>
-                    </div>
-                `}</CodeSnippet>
+                                <strong>Global store</strong>
+                                <Slider value-bind="slider" label="Global value" />
+                            </div>
+                            <PrivateStore
+                                data={{
+                                    globalValue: { bind: "slider" },
+                                }}
+                            >
+                                <div class="flex-column">
+                                    <strong>Private store</strong>
+                                    <Slider value-bind="globalValue" label="Global value" />
+                                    <Slider value-bind="slider" label="Private value" />
+                                </div> 
+                            </PrivateStore>
+                        </div>
+                    `}</CodeSnippet>
+                </Content>
 
             </CodeSplit>
             Property values can be primitives, bindings, expressions or computables.
@@ -144,30 +149,32 @@ export const PrivateStores = <cx>
                         </div> 
                     </PrivateStore>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="p2BVmDBX">{`
-                     <div class="widgets flex-row flex-start">  
-                        <div class="flex-column">
-                            <strong>Global store</strong>
-                            <Slider value-bind="slider" label="Global value" />
-                        </div>
-                        <PrivateStore
-                            data={{
-                                // read-only values
-                                globalValueExpr: { expr: "{slider}" },
-                                primitiveValue: 33,
-                                computedValue: computable("slider", (slider) => 100 - slider)
-                            }}
-                        >
+                <Content name="code">
+                    <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                    <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="p2BVmDBX">{`
+                        <div class="widgets flex-row flex-start">  
                             <div class="flex-column">
-                                <strong>Private store</strong>
-                                <Slider value-bind="globalValueExpr" label="Global value" />
-                                <Slider value-bind="primitiveValue" label="Primitive value" />
-                                <Slider value-bind="computedValue" label="Computed value" />
-                            </div> 
-                        </PrivateStore>
-                    </div>
-                `}</CodeSnippet>
+                                <strong>Global store</strong>
+                                <Slider value-bind="slider" label="Global value" />
+                            </div>
+                            <PrivateStore
+                                data={{
+                                    // read-only values
+                                    globalValueExpr: { expr: "{slider}" },
+                                    primitiveValue: 33,
+                                    computedValue: computable("slider", (slider) => 100 - slider)
+                                }}
+                            >
+                                <div class="flex-column">
+                                    <strong>Private store</strong>
+                                    <Slider value-bind="globalValueExpr" label="Global value" />
+                                    <Slider value-bind="primitiveValue" label="Primitive value" />
+                                    <Slider value-bind="computedValue" label="Computed value" />
+                                </div> 
+                            </PrivateStore>
+                        </div>
+                    `}</CodeSnippet>
+                </Content>
             </CodeSplit>
 
             Attempting to change `PrivateStore's` read-only values will log an error to the console, so the UI should prevent it.
