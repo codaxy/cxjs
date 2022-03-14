@@ -428,7 +428,8 @@ export const Store = <cx>
             should be a pure function, without any side effects, e.g. direct object or array mutations.
 
             <Content name="code">
-                <CodeSnippet fiddle="t5fbQpxq">{`
+            <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="t5fbQpxq">{`
                     <div layout={LabelsTopLayout}>
                         <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                         <Button onClick={(e, {store}) => {
@@ -483,7 +484,8 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="u89Crydo">{`
+            <Tab value-bind="$page.code8.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code8.tab}=='code'" fiddle="u89Crydo">{`
                     <div class="widgets">
                         <div layout={LabelsLeftLayout}>
                             <strong>Todo List</strong>
