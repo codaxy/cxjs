@@ -25,7 +25,7 @@ export const ProgressBars = <cx>
 
          <Content name="code">
             <div>
-               <Tab value-bind="$page.code.tab" tab="progressbar" mod="code" default><code>ProgressBar</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="progressbar" mod="code" text="ProgressBar" default />
             </div>
             <CodeSnippet fiddle="JSuNm76v" visible-expr="{$page.code.tab}=='progressbar'" >{`
                <ProgressBar text-tpl="{$page.value:p;0}" value-bind='$page.value' />
