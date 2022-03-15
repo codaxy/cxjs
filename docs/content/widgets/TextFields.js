@@ -1,5 +1,5 @@
 import { Content, LabelsLeftLayout } from 'cx/ui';
-import { TextField } from 'cx/widgets';
+import { Tab, TextField } from 'cx/widgets';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { CodeSplit } from '../../components/CodeSplit';
 import { ConfigTable } from '../../components/ConfigTable';
@@ -39,6 +39,7 @@ export const TextFields = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="wrap" text="Index" default/>
                 <CodeSnippet fiddle="drqgvlX1">{`
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Standard" value-bind="$page.text" autoFocus tabOnEnterKey />
