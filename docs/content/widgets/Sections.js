@@ -1,4 +1,4 @@
-import { HtmlElement, MsgBox, Button, Heading, Section, FlexRow } from 'cx/widgets';
+import { HtmlElement, MsgBox, Button, Heading, Section, FlexRow, Tab } from 'cx/widgets';
 import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -41,29 +41,32 @@ export const Sections = <cx>
                     Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
                 </Section>
             </div>
-            <CodeSnippet putInto="code" fiddle="SJ9BRvXE">{`
-                <Section mod="card" title="Section 1">
-                    Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
-                </Section>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="SJ9BRvXE">{`
+                    <Section mod="card" title="Section 1">
+                        Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
+                    </Section>
 
-                <Section title="Section 2">
-                    Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
+                    <Section title="Section 2">
+                        Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
 
-                    <FlexRow putInto="footer">
-                        <Button mod="hollow" icon="calendar"/>
-                        <Button mod="hollow" icon="calculator"/>
-                        <Button mod="hollow" icon="search"/>
-                    </FlexRow>
-                </Section>
+                        <FlexRow putInto="footer">
+                            <Button mod="hollow" icon="calendar"/>
+                            <Button mod="hollow" icon="calculator"/>
+                            <Button mod="hollow" icon="search"/>
+                        </FlexRow>
+                    </Section>
 
-                <Section mod="card">
-                    <FlexRow align="center" putInto="header">
-                        <Heading level="4" style="color:lightblue">Custom Header</Heading>
-                        <Button mod="hollow" icon="close" style="margin-left: auto"/>
-                    </FlexRow>
-                    Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
-                </Section>
-         `}</CodeSnippet>
+                    <Section mod="card">
+                        <FlexRow align="center" putInto="header">
+                            <Heading level="4" style="color:lightblue">Custom Header</Heading>
+                            <Button mod="hollow" icon="close" style="margin-left: auto"/>
+                        </FlexRow>
+                        Aenean quis ullamcorper dolor. Phasellus ullamcorper sapien elit, ac pharetra nibh mollis sed.
+                    </Section>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         > FlexRow is commonly used to either arrange multiple sections horizontally or to arrange inner contents
