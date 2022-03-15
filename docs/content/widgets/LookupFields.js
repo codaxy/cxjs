@@ -137,32 +137,28 @@ export const LookupFields = <cx>
             </table>
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="lookupfield" mod="code" default><code>LookupField</code></Tab>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                <Tab value-bind="$page.code.tab" tab="lookupfield" mod="code" text='LookupField' default/>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="y9CHlIUn">{`
-            class PageController extends Controller {
-                init() {
-                   super.init();
+                    class PageController extends Controller {
+                        init() {
+                            super.init();
+                            this.store.set('$page.options5', Array.from({length: 5}).map((v, i)=>({ id: i, text: \`Option \${i+1}\`})));
+                            this.store.set('$page.options10', Array.from({length: 10}).map((v, i)=>({ id: i, text: \`Option \${i+1}\`})));
+                        }
 
-                   this.store.set('$page.options5', Array.from({length: 5}).map((v, i)=>({ id: i, text: \`Option \${i+1}\`})));
+                        query(q) {
+                            //fake data
+                            if (!this.cityDb)
+                                this.cityDb = Array.from({ length: 100 }).map((_, i) => ({ id: i, text: casual.city }));
 
-                   this.store.set('$page.options10', Array.from({length: 10}).map((v, i)=>({ id: i, text: \`Option \${i+1}\`})));
-                }
-
-                query(q) {
-                   //fake data
-                   if (!this.cityDb)
-                      this.cityDb = Array.from({ length: 100 }).map((_, i) => ({ id: i, text: casual.city }));
-
-                   var regex = new RegExp(q, 'gi');
-                   return new Promise((resolve) => {
-                      setTimeout(()=> resolve(this.cityDb.filter(x=>x.text.match(regex))), 300);
-                   });
-                }
-             }
+                            var regex = new RegExp(q, 'gi');
+                            return new Promise((resolve) => {
+                                setTimeout(()=> resolve(this.cityDb.filter(x=>x.text.match(regex))), 300);
+                            });
+                        }
+                    }
             `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='lookupfield'" fiddle="y9CHlIUn">{`
             <div class="widgets" controller={PageController}>
