@@ -1,4 +1,4 @@
-import { HtmlElement, Checkbox, Repeater } from 'cx/widgets';
+import { HtmlElement, Checkbox, Repeater, Tab } from 'cx/widgets';
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -41,6 +41,7 @@ export const Checkboxes = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="wrap" text="Index" default/>
                 <CodeSnippet fiddle="7n19Cczs">{`
                 <div layout={LabelsLeftLayout}>
                     <Checkbox label="Native" value-bind="$page.checked" text="Checkbox" native/>
@@ -82,7 +83,9 @@ export const Checkboxes = <cx>
             Please note that, in order to avoid multiple instances, controller should not be assigned to the Repeater.
 
             <Content name="code">
-                <CodeSnippet fiddle="Bhi9Crdc">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="Bhi9Crdc">
                 {`
                     class CbController extends Controller {
                         init() {
@@ -90,7 +93,10 @@ export const Checkboxes = <cx>
                             this.store.set('$page.options', options);
                         }
                     }
-                    ...
+                `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="Bhi9Crdc">
+                {`
                     <div controller={CbController}>
                         <Repeater records-bind="$page.options">
                             <Checkbox value-bind="$record.checked" text-bind="$record.text" />
