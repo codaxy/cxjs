@@ -161,50 +161,50 @@ export const LookupFields = <cx>
                     }
             `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='lookupfield'" fiddle="y9CHlIUn">{`
-            <div class="widgets" controller={PageController}>
-                <div layout={LabelsLeftLayout}>
-                    <LookupField
-                        label="Select"
-                        value-bind="$page.s5.id"
-                        text-bind="$page.s5.text"
-                        options-bind="$page.options5"
-                        autoFocus
-                    />
-                    <LookupField
-                        label="MultiSelect"
-                        records-bind="$page.s10"
-                        options-bind="$page.options10"
-                        multiple/>
-                    <LookupField
-                        label="Records"
-                        values-bind="$page.s10ids"
-                        options-bind="$page.options10"
-                        multiple/>
-                </div>
-                <div layout={LabelsLeftLayout}>
-                    <LookupField
-                        label="Remote Data"
-                        records-bind="$page.selectedCities"
-                        onQuery="query"
-                        minQueryLength={2}
-                        multiple/>
-                    <LookupField
-                        label="Local Filter"
-                        records-bind="$page.selectedCities2"
-                        onQuery="query"
-                        fetchAll
-                        cacheAll
-                        multiple
-                        icon="filter"
-                        closeOnSelect={false} />
-                    <LookupField
-                        label="Icon"
-                        value-bind="$page.s5.id"
-                        text-bind="$page.s5.text"
-                        icon="pencil"
-                        options-bind="$page.options5"/>
-                </div>
-            </div>
+                    <div class="widgets" controller={PageController}>
+                        <div layout={LabelsLeftLayout}>
+                            <LookupField
+                                label="Select"
+                                value-bind="$page.s5.id"
+                                text-bind="$page.s5.text"
+                                options-bind="$page.options5"
+                                autoFocus
+                            />
+                            <LookupField
+                                label="MultiSelect"
+                                records-bind="$page.s10"
+                                options-bind="$page.options10"
+                                multiple/>
+                            <LookupField
+                                label="Records"
+                                values-bind="$page.s10ids"
+                                options-bind="$page.options10"
+                                multiple/>
+                        </div>
+                        <div layout={LabelsLeftLayout}>
+                            <LookupField
+                                label="Remote Data"
+                                records-bind="$page.selectedCities"
+                                onQuery="query"
+                                minQueryLength={2}
+                                multiple/>
+                            <LookupField
+                                label="Local Filter"
+                                records-bind="$page.selectedCities2"
+                                onQuery="query"
+                                fetchAll
+                                cacheAll
+                                multiple
+                                icon="filter"
+                                closeOnSelect={false} />
+                            <LookupField
+                                label="Icon"
+                                value-bind="$page.s5.id"
+                                text-bind="$page.s5.text"
+                                icon="pencil"
+                                options-bind="$page.options5"/>
+                        </div>
+                    </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
