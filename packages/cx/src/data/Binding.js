@@ -7,19 +7,19 @@ export class Binding {
    constructor(path) {
       this.path = path;
       this.parts = path.split(".");
-      let fstr = "return (x";
-      let cpath = "x";
+      let body = "return (x";
+      let selector = "x";
 
       for (let i = 0; i < this.parts.length; i++) {
-         if (this.parts[i][0] >= "0" && this.parts[i][0] <= "9") cpath += "[" + this.parts[i] + "]";
-         else cpath += "." + this.parts[i];
+         if (this.parts[i][0] >= "0" && this.parts[i][0] <= "9") selector += "[" + this.parts[i] + "]";
+         else selector += "." + this.parts[i];
 
-         if (i + 1 < this.parts.length) fstr += " && " + cpath;
-         else fstr += " ? " + cpath + " : undefined";
+         if (i + 1 < this.parts.length) body += " && " + selector;
+         else body += " ? " + selector + " : undefined";
       }
 
-      fstr += ")";
-      this.value = new Function("x", fstr);
+      body += ")";
+      this.value = new Function("x", body);
    }
 
    set(state, value) {
@@ -73,7 +73,7 @@ export class Binding {
 
       if (path instanceof Binding) return path;
 
-      if (path.isPathChain) return this.get(path.path());
+      if (path.isAccessorChain) return this.get(path.toString());
 
       throw new Error("Invalid binding definition provided.");
    }
@@ -81,6 +81,6 @@ export class Binding {
 
 export function isBinding(value) {
    if (isObject(value) && isString(value.bind)) return true;
-   if (value && value.isPathChain) return true;
+   if (value && value.isAccessorChain) return true;
    return value instanceof Binding;
 }

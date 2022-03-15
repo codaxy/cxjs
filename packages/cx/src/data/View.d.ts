@@ -1,5 +1,6 @@
 import { Record } from "../core";
 import { Binding } from "./Binding";
+import { AccessorChain } from "./createAccessorModelProxy";
 import { Ref } from "./Ref";
 
 declare type Path = string | Binding;
@@ -16,10 +17,12 @@ export interface ViewMethods<D = Record> {
 
    set(path: Path, value: any): boolean;
    set(path: Record, value: Record): boolean;
+   set<V>(path: AccessorChain<V>, value: V): boolean;
 
    get(path: Path): any;
    get(paths: Path[]): any[];
    get(...paths: Path[]): any[];
+   get<V>(path: AccessorChain<V>): V;
 
    /**
     * Removes data from the Store.
@@ -46,6 +49,7 @@ export class View<D = any> implements ViewMethods<D> {
 
    set(path: Path, value: any): boolean;
    set(path: Record, value: Record): boolean;
+   set<V>(path: AccessorChain<V>, value: V): boolean;
 
    /**
     * Copies the value stored under the `from` path and saves it under the `to` path.
@@ -65,15 +69,18 @@ export class View<D = any> implements ViewMethods<D> {
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
 
-   clear();
+   clear(): void;
 
-   get(path: Path);
-   get(paths: Path[]);
-   get(...paths: Path[]);
+   get(path: Path): any;
+   get(paths: Path[]): any;
+   get(...paths: Path[]): any;
+   get<V>(path: AccessorChain<V>): V;
 
    toggle(path: Path): boolean;
+   toggle(path: AccessorChain<boolean>): boolean;
 
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
+   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
 
    /**
     * `batch` method can be used to perform multiple Store operations silently
@@ -92,7 +99,7 @@ export class View<D = any> implements ViewMethods<D> {
 
    load(data: Record): boolean;
 
-   dispatch(action);
+   dispatch(action): void;
 
    getMethods(): ViewMethods;
 
