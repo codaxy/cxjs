@@ -1,4 +1,4 @@
-import { HtmlElement, ValidationGroup, TextField } from 'cx/widgets';
+import { HtmlElement, ValidationGroup, TextField, Content, Tab } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -31,19 +31,21 @@ export const ValidationGroups = <cx>
                     <TextField label="Last Name" value-bind="$page.lastName" required />
                 </ValidationGroup>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="lWZjS9Cb">{`
-            <div class="widgets" style={{
-                   borderLeftWidth: '3px',
-                   borderLeftStyle: 'solid',
-                   borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
-                }}>
-                <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
-                   <TextField label="First Name" value-bind="$page.firstName" required />
-                   <TextField label="Last Name" value-bind="$page.lastName" required />
-                </ValidationGroup>
-             </div>
-             `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="ValidatorGroups" default/>
+                <CodeSnippet fiddle="lWZjS9Cb">{`
+                <div class="widgets" style={{
+                    borderLeftWidth: '3px',
+                    borderLeftStyle: 'solid',
+                    borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
+                    }}>
+                    <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
+                    <TextField label="First Name" value-bind="$page.firstName" required />
+                    <TextField label="Last Name" value-bind="$page.lastName" required />
+                    </ValidationGroup>
+                </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Examples:
