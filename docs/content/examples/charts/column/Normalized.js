@@ -74,8 +74,8 @@ export const Normalized = <cx>
 
          <Content name="code">
             <div>
-               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
             </div>
             <CodeSnippet fiddle="a26d4raK" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {

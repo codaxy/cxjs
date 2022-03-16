@@ -1,4 +1,4 @@
-import {HtmlElement, Repeater, Grid} from 'cx/widgets';
+import {HtmlElement, Repeater, Grid, Content, Tab} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine, ColorMap, LineGraph, ValueAtFinder, LegendEntry, Legend} from 'cx/charts';
@@ -104,48 +104,102 @@ export const ValueAtFinderPage = <cx>
                 </Svg>
                 <Legend/>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns"/>
 
-            <CodeSnippet putInto="code" fiddle="hqzog4YJ">{`
-                class ChartController extends Controller {
-                    onInit() {
-                        this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
-                            var y = 100 + Math.random() * 200;
-                            return {
-                                name: 'Series ' + (i + 1),
-                                trackedValue: null,
-                                points: Array.from({length: 26}, (_, x) => ({
-                                    x: x * 4,
-                                    y: (y = y + Math.random() * 100 - 50)
-                                }))
-                            }
-                        }));
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="hqzog4YJ">{`
+                    class ChartController extends Controller {
+                        onInit() {
+                            this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
+                                var y = 100 + Math.random() * 200;
+                                return {
+                                    name: 'Series ' + (i + 1),
+                                    trackedValue: null,
+                                    points: Array.from({length: 26}, (_, x) => ({
+                                        x: x * 4,
+                                        y: (y = y + Math.random() * 100 - 50)
+                                    }))
+                                }
+                            }));
 
-                        this.colorMapCache = {};
+                            this.colorMapCache = {};
+                        }
+
+                        getColorMapCache() {
+                            return this.colorMapCache;
+                        }
                     }
-
-                    getColorMapCache() {
-                        return this.colorMapCache;
-                    }
-                }
-                ...
-                //Full source code could not displayed due to formatting problems. Please refer to GitHub.
-                <Repeater records-bind="$page.series">
-                    <ValueAtFinder at-bind="$page.cursor.x" value-bind="$record.trackedValue">
-                        <LineGraph name-bind="$record.name"
-                            active-bind="$record.active"
-                            data-bind="$record.points"
-                            colorMap="lines"/>
-                    </ValueAtFinder>
-                    <Marker
-                        name-bind="$record.name"
-                        active-bind="$record.active"
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="hqzog4YJ">{`
+                <Svg style="width:600px;height:500px;" margin="60 60 60 60">
+                <Chart axes={{
+                    x: <NumericAxis />,
+                    y: <NumericAxis vertical/>,
+                }}>
+                    <Gridlines />
+                    <MouseTracker
                         x-bind="$page.cursor.x"
-                        y-bind="$record.trackedValue"
-                        colorMap="lines"
-                        size={10}
-                    />
-                </Repeater>
-            `}</CodeSnippet>
+                        tooltip={{
+                            destroyDelay: 5,
+                            createDelay: 5,
+                            items: <cx>
+                                <ColorMap onGetCache="getColorMapCache"/>
+                                <Grid
+                                    defaultSortField="trackedValue"
+                                    defaultSortDirection="DESC"
+                                    records-bind="$page.series"
+                                    columns={columns}
+                                />
+                            </cx>,
+                            trackMouse: true
+                        }}
+                    >
+                        <MarkerLine visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" />
+
+                        <ColorMap onGetCache="getColorMapCache" />
+
+                        <Repeater records-bind="$page.series">
+                            <ValueAtFinder at-bind="$page.cursor.x" value-bind="$record.trackedValue">
+                                <LineGraph name-bind="$record.name"
+                                    active-bind="$record.active"
+                                    data-bind="$record.points"
+                                    colorMap="lines"/>
+                            </ValueAtFinder>
+                            <Marker
+                                name-bind="$record.name"
+                                active-bind="$record.active"
+                                x-bind="$page.cursor.x"
+                                y-bind="$record.trackedValue"
+                                colorMap="lines"
+                                size={10}
+                            />
+                        </Repeater>
+                    </MouseTracker>
+                </Chart>
+            </Svg>
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='columns'" fiddle="hqzog4YJ">{`
+                    let columns = [
+                        { 
+                            field: 'name', 
+                            items: (
+                                <cx>
+                                <LegendEntry
+                                    name-bind="$record.name"
+                                    text-bind="$record.name"
+                                    active-bind="$record.active"
+                                    shape="circle"
+                                    colorMap="lines"
+                                    size={10}
+                                    />
+                                </cx>) 
+                        },
+                        { field: 'trackedValue', format: 'n;2' }
+                    ];
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -1,4 +1,4 @@
-import {HtmlElement, Tab, DragSource, DropZone, DragHandle, MsgBox, Repeater} from 'cx/widgets';
+import {HtmlElement, Tab, DragSource, DropZone, DragHandle, MsgBox, Repeater, Content} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSnippet} from '../../components/CodeSnippet';
 import {ConfigTable} from '../../components/ConfigTable';
@@ -82,35 +82,37 @@ export const DragAndDrop = <cx>
                     Z1
                 </DropZone>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="n2jBS1zV">{`
-                <DragSource
-                    style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
-                    data={{text: 'B1', type: 'b1'}}
-                >
-                    B1
-                </DragSource>
-                <DragSource
-                    style="width:80px;height:80px;background:Coral;cursor:move"
-                    data={{text: 'B2', type: 'b2'}}
-                    cloneStyle="border: 1px solid gray; padding: 10px; transform: scale(0.5)"
-                >
-                    B2
-                </DragSource>
-                <DropZone
-                    style="width:80px;height:80px;background:gold;opacity:0.3;transition: all 0.2s"
-                    overStyle="background:lightgreen;opacity:1"
-                    farStyle="opacity:1"
-                    onDropTest={({source}) => source.data.type == 'b1'}
-                    onDrop={({source}) => {
-                        MsgBox.alert(\`Dropped: \${source.data.text}.\`);
-                    }}
-                    inflate={20}
-                >
-                    Z1
-                </DropZone>
-            `}
-            </CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="n2jBS1zV">{`
+                    <DragSource
+                        style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
+                        data={{text: 'B1', type: 'b1'}}
+                    >
+                        B1
+                    </DragSource>
+                    <DragSource
+                        style="width:80px;height:80px;background:Coral;cursor:move"
+                        data={{text: 'B2', type: 'b2'}}
+                        cloneStyle="border: 1px solid gray; padding: 10px; transform: scale(0.5)"
+                    >
+                        B2
+                    </DragSource>
+                    <DropZone
+                        style="width:80px;height:80px;background:gold;opacity:0.3;transition: all 0.2s"
+                        overStyle="background:lightgreen;opacity:1"
+                        farStyle="opacity:1"
+                        onDropTest={({source}) => source.data.type == 'b1'}
+                        onDrop={({source}) => {
+                            MsgBox.alert(\`Dropped: \${source.data.text}.\`);
+                        }}
+                        inflate={20}
+                    >
+                        Z1
+                    </DropZone>
+                `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         During drag & drop operations drop zones should make visual changes to indicate
@@ -133,18 +135,20 @@ export const DragAndDrop = <cx>
                     </DragHandle>
                 </DragSource>
             </div>
-
-            <CodeSnippet putInto="code">{`
-                <DragSource
-                    style="width: 180px;height:180px;background:moccasin;padding:15px"
-                    data={{type: 'b1', text: 'Box with a drag handle'}}
-                    handled
-                >
-                    <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
-                        DRAG USING THIS HANDLE
-                    </DragHandle>
-                </DragSource>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'">{`
+                    <DragSource
+                        style="width: 180px;height:180px;background:moccasin;padding:15px"
+                        data={{type: 'b1', text: 'Box with a drag handle'}}
+                        handled
+                    >
+                        <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
+                            DRAG USING THIS HANDLE
+                        </DragHandle>
+                    </DragSource>
+                `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
@@ -206,41 +210,14 @@ export const DragAndDrop = <cx>
                     </Repeater>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="UOWooZeW">{`
-                <DropZone
-                    mod="inline-block"
-                    onDropTest={({source}) => source.data.type == 'hbox'}
-                    onDrop={(e, {store}) => {
-                        store.update('items', moveElement, e.source.data.index, 0);
-                    }}
-                    matchWidth
-                    matchHeight
-                    matchMargin
-                    inflate={50}
-                >
-                </DropZone>
-                <Repeater
-                    keyField="id"
-                    records={{
-                        bind: 'items', defaultValue: Array.from({length: 7}, (_, i) => ({
-                            id: i + 1,
-                            text: \`Item \${i + 1}\`
-                        }))
-                    }}
-                >
-                    <DragSource
-                        style="display:inline-block; margin: 5px; background: #ddf; cursor: move"
-                        data={{index: {bind: "$index"}, type: 'hbox'}}
-                        hideOnDrag
-                    >
-                        <div text-bind="$record.text" style="padding:5px"/>
-                    </DragSource>
+            <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="UOWooZeW">{`
                     <DropZone
                         mod="inline-block"
                         onDropTest={({source}) => source.data.type == 'hbox'}
                         onDrop={(e, {store}) => {
-                            store.update('items', moveElement, e.source.data.index, store.get('$index') + 1);
+                            store.update('items', moveElement, e.source.data.index, 0);
                         }}
                         matchWidth
                         matchHeight
@@ -248,8 +225,37 @@ export const DragAndDrop = <cx>
                         inflate={50}
                     >
                     </DropZone>
-                </Repeater>
-            `}</CodeSnippet>
+                    <Repeater
+                        keyField="id"
+                        records={{
+                            bind: 'items', defaultValue: Array.from({length: 7}, (_, i) => ({
+                                id: i + 1,
+                                text: \`Item \${i + 1}\`
+                            }))
+                        }}
+                    >
+                        <DragSource
+                            style="display:inline-block; margin: 5px; background: #ddf; cursor: move"
+                            data={{index: {bind: "$index"}, type: 'hbox'}}
+                            hideOnDrag
+                        >
+                            <div text-bind="$record.text" style="padding:5px"/>
+                        </DragSource>
+                        <DropZone
+                            mod="inline-block"
+                            onDropTest={({source}) => source.data.type == 'hbox'}
+                            onDrop={(e, {store}) => {
+                                store.update('items', moveElement, e.source.data.index, store.get('$index') + 1);
+                            }}
+                            matchWidth
+                            matchHeight
+                            matchMargin
+                            inflate={50}
+                        >
+                        </DropZone>
+                    </Repeater>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ### Advanced Examples

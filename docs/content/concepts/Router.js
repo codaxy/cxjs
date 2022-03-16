@@ -1,4 +1,4 @@
-import {HtmlElement, Button, MsgBox, Link} from 'cx/widgets';
+import {HtmlElement, Button, MsgBox, Link, Tab, Content} from 'cx/widgets';
 import {History} from "cx/ui";
 import {Md} from '../../components/Md';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -66,16 +66,19 @@ export const Router = <cx>
                     Checks if the given path is local.
                 </Md></cx>
             }]}/>
-            <CodeSnippet putInto="code">{`
-            Url.setBase('/docs/');
-            Url.setBaseFromScript('~/app.js');
-            Url.isLocal('/docs/'); //true
-            Url.isLocal('/app/'); //false
-            Url.resolve('~/page'); // /docs/page
-            Url.unresolve('/docs/page'); // ~/page
-            Url.unresolve('https://cxjs.io/docs/page'); // ~/page
-         `}
-            </CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Routes" default/>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'">{`
+                Url.setBase('/docs/');
+                Url.setBaseFromScript('~/app.js');
+                Url.isLocal('/docs/'); //true
+                Url.isLocal('/app/'); //false
+                Url.resolve('~/page'); // /docs/page
+                Url.unresolve('/docs/page'); // ~/page
+                Url.unresolve('https://cxjs.io/docs/page'); // ~/page
+            `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Route
@@ -86,19 +89,22 @@ export const Router = <cx>
 
         <CodeSplit>
             <ConfigTable props={routeConfigs}/>
-            <CodeSnippet putInto="code">{`
-            <Route url-bind="url" route="~/about">
-               About
-            </Route>
-            <Route url-bind="url" route="~/intro" prefix>
-               Intro
+            <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'">{`
+                <Route url-bind="url" route="~/about">
+                About
+                </Route>
+                <Route url-bind="url" route="~/intro" prefix>
+                Intro
 
-               <Route url-bind="url" route="+/nested">
-                    Nested (~/intro/nested)
-               </Route>
-            </Route>
-         `}
-            </CodeSnippet>
+                <Route url-bind="url" route="+/nested">
+                        Nested (~/intro/nested)
+                </Route>
+                </Route>
+            `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         Routes support parameters, splats and optional parts. For more details, check the
@@ -110,9 +116,12 @@ export const Router = <cx>
 
         <CodeSplit>
             Redirect routes redirect to another page when matched.
-            <CodeSnippet putInto="code">{`
-            <RedirectRoute url-bind="url" route="~/" redirect="~/intro/about"/>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="RedirectRoute" default/>
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'">{`
+                    <RedirectRoute url-bind="url" route="~/" redirect="~/intro/about"/>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         Redirect routes use the `replaceState` method of the `History` interface, so navigating back after redirection
@@ -127,14 +136,17 @@ export const Router = <cx>
 
         <CodeSplit>
             <ConfigTable props={sandboxConfigs}/>
-            <CodeSnippet putInto="code">{`
-            <Sandbox key-bind="url" storage-bind="pages">
-               <Route url-bind="url" route="~/about">
-                  <TextField value-bind="$page.text" />
-               </Route>
-            </Sandbox>
-         `}
-            </CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Sandbox" default/>
+                <CodeSnippet visible-expr="{$page.code4.tab}=='index'">{`
+                <Sandbox key-bind="url" storage-bind="pages">
+                <Route url-bind="url" route="~/about">
+                    <TextField value-bind="$page.text" />
+                </Route>
+                </Sandbox>
+            `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## History
@@ -181,17 +193,20 @@ export const Router = <cx>
                     argument is set to `true`. See the example below.
                 </Md></cx>
             }]}/>
-            <CodeSnippet putInto="code">{`
-            History.connect(store, 'url');
+            <Content name="code">
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="History" default/>
+                <CodeSnippet visible-expr="{$page.code5.tab}=='index'">{`
+                History.connect(store, 'url');
 
-            History.subscribe(url => {
-                if (window.ga) {
-                    ga('set', 'page', url);
-                    ga('send', 'pageview');
-                }
-            });
-         `}
-            </CodeSnippet>
+                History.subscribe(url => {
+                    if (window.ga) {
+                        ga('set', 'page', url);
+                        ga('send', 'pageview');
+                    }
+                });
+            `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         <CodeSplit>
@@ -220,24 +235,26 @@ export const Router = <cx>
                     </p>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="Vb7zpMzq">{`
-                <Button
-                    onClick={(e, {store}) => {
-                        History.addNavigateConfirmation(
-                            url => MsgBox
-                                .yesNo('Are you sure you want to leave this page?')
-                                .then(result => result == 'yes')
-                        );
-                        store.set('$page.confirmation', true);
-                    }}
-                >
-                    Add Confirmation
-                </Button>
-                <p ws visible-expr="!!{$page.confirmation}">
-                    Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
-                </p>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code6.tab" mod="code" tab="index" text="Confirmation" default/>
+                <CodeSnippet visible-expr="{$page.code6.tab}=='index'"fiddle="Vb7zpMzq">{`
+                    <Button
+                        onClick={(e, {store}) => {
+                            History.addNavigateConfirmation(
+                                url => MsgBox
+                                    .yesNo('Are you sure you want to leave this page?')
+                                    .then(result => result == 'yes')
+                            );
+                            store.set('$page.confirmation', true);
+                        }}
+                    >
+                        Add Confirmation
+                    </Button>
+                    <p ws visible-expr="!!{$page.confirmation}">
+                        Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
+                    </p>
+                `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 

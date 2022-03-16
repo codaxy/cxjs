@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
@@ -47,34 +47,42 @@ export const LineGraphs = <cx>
                 </Svg>
                 <Legend />
             </div>
+            <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="g33HXn2r">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-                  var y1 = 150, y2 = 250;
-                  this.store.set('$page.points', Array.from({length: 101}, (_, i) => ({
-                     x: i * 4,
-                     y: i % 20 == 3 ? null : (y1 = (y1 + (Math.random() - 0.5) * 30)),
-                     y2: y2 = (y2 + (Math.random() - 0.5) * 30),
-                     y2l: y2 - 50,
-                     y2h: y2 + 50
-                  })));
-               }
-            }
-            ...
-            <div class="widgets" controller={PageController}>
-               <Svg style="width:600px; height:400px;">
-                  <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-                     <Gridlines/>
-                     <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area/>
-                     <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1"/>
-                     <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2"/>
-                  </Chart>
-               </Svg>
-               <Legend />
-            </div>
-         `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="g33HXn2r">{`
+                class PageController extends Controller {
+                    init() {
+                        super.init();
+                        var y1 = 150, y2 = 250;
+                        this.store.set(
+                                '$page.points', 
+                                Array.from({length: 101}, 
+                                (_, i) => ({
+                                    x: i * 4,
+                                    y: i % 20 == 3 ? null : (y1 = (y1 + (Math.random() - 0.5) * 30)),
+                                    y2: y2 = (y2 + (Math.random() - 0.5) * 30),
+                                    y2l: y2 - 50,
+                                    y2h: y2 + 50
+                        })));
+                    }
+                }
+            `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="g33HXn2r">{`
+                <div class="widgets" controller={PageController}>
+                <Svg style="width:600px; height:400px;">
+                    <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                        <Gridlines/>
+                        <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area/>
+                        <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1"/>
+                        <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2"/>
+                    </Chart>
+                </Svg>
+                <Legend />
+                </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
       ## Examples

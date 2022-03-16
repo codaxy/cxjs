@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, NumericAxis, Gridlines } from 'cx/charts';
 import {Md} from '../../components/Md';
@@ -38,21 +38,23 @@ export const NumericAxisPage = <cx>
                     </Chart>
                 </Svg>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="SZdftaUc">{`
-                <Svg style="width:400px;height:300px;" margin="60 60 60 60">
-                    <Chart axes={{
-                        x: <NumericAxis min={100} max={500} />,
-                        y: <NumericAxis vertical max={5000} />,
-                        x2: <NumericAxis secondary inverted />,
-                        y2: <NumericAxis vertical secondary />
-                    }}>
-                        <Rectangle fill="white" margin={1}/>
-                        <Gridlines />
-                        <Gridlines xAxis="x2" yAxis="y2" />
-                    </Chart>
-                </Svg>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="SZdftaUc">{`
+                    <Svg style="width:400px;height:300px;" margin="60 60 60 60">
+                        <Chart axes={{
+                            x: <NumericAxis min={100} max={500} />,
+                            y: <NumericAxis vertical max={5000} />,
+                            x2: <NumericAxis secondary inverted />,
+                            y2: <NumericAxis vertical secondary />
+                        }}>
+                            <Rectangle fill="white" margin={1}/>
+                            <Gridlines />
+                            <Gridlines xAxis="x2" yAxis="y2" />
+                        </Chart>
+                    </Svg>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         > Be careful with gridlines when using secondary axes.

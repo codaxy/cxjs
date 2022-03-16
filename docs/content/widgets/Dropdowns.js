@@ -1,5 +1,5 @@
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
-import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, FlexRow, Toast, Dropdown } from 'cx/widgets';
+import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, FlexRow, Toast, Dropdown, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -71,60 +71,63 @@ export const Dropdowns = <cx>
                     Display search results here.
                 </Dropdown>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="Hm36fwDX">{`
-                <Button
-                    onClick={(e, {store}) => {
-                        store.toggle("$page.showDropdown")
-                    }}
-                >
-                    Toggle Dropdown
-                </Button>
+                <CodeSnippet fiddle="Hm36fwDX">{`
+                    <Button
+                        onClick={(e, {store}) => {
+                            store.toggle("$page.showDropdown")
+                        }}
+                    >
+                        Toggle Dropdown
+                    </Button>
 
-                <Dropdown
-                    visible-bind="$page.showDropdown"
-                    arrow
-                    offset={10}
-                    placementOrder="down-right up-right"
-                    style="padding: 20px;"
-                    zIndex={1000}
-                >
-                    Dropdown placed next to the previous sibling (button).
-                </Dropdown>
+                    <Dropdown
+                        visible-bind="$page.showDropdown"
+                        arrow
+                        offset={10}
+                        placementOrder="down-right up-right"
+                        style="padding: 20px;"
+                        zIndex={1000}
+                    >
+                        Dropdown placed next to the previous sibling (button).
+                    </Dropdown>
 
-                <Button
-                    onClick={(e, {store}) => {
-                        store.toggle("$page.showParentDropdown")
-                    }}
-                >
-                    Toggle Parent Dropdown
-                </Button>
+                    <Button
+                        onClick={(e, {store}) => {
+                            store.toggle("$page.showParentDropdown")
+                        }}
+                    >
+                        Toggle Parent Dropdown
+                    </Button>
 
-                <Dropdown
-                    visible-bind="$page.showParentDropdown"
-                    arrow
-                    offset={10}
-                    placement="up"
-                    onResolveRelatedElement={el => el.parentElement}
-                    style="padding: 20px; max-width: 300px"
-                    zIndex={1000}
-                >
-                    Dropdown placed next to the element returned by the onResolveRelatedElement target.
-                </Dropdown>
+                    <Dropdown
+                        visible-bind="$page.showParentDropdown"
+                        arrow
+                        offset={10}
+                        placement="up"
+                        onResolveRelatedElement={el => el.parentElement}
+                        style="padding: 20px; max-width: 300px"
+                        zIndex={1000}
+                    >
+                        Dropdown placed next to the element returned by the onResolveRelatedElement target.
+                    </Dropdown>
 
-                <TextField value-bind="$page.query" focused-bind="$page.showSuggestions" trackFocus icon="search" />
+                    <TextField value-bind="$page.query" focused-bind="$page.showSuggestions" trackFocus icon="search" />
 
-                <Dropdown
-                    visible-bind="$page.showSuggestions"
-                    offset={1}
-                    placementOrder="down-right up-right"
-                    style="padding: 20px;"
-                    zIndex={1000}
-                    matchWidth
-                >
-                    Display search results here.
-                </Dropdown>
-            `}</CodeSnippet>
+                    <Dropdown
+                        visible-bind="$page.showSuggestions"
+                        offset={1}
+                        placementOrder="down-right up-right"
+                        style="padding: 20px;"
+                        zIndex={1000}
+                        matchWidth
+                    >
+                        Display search results here.
+                    </Dropdown>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         Positioning of the dropdown is controlled by the `relatedElement` and the `placement` property. Default `relatedElement` is the element

@@ -50,8 +50,8 @@ export const Lists = <cx>
 
             <Content name="code">
                 <div>
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                <Tab value-bind="$page.code.tab" tab="list" mod="code" default><code>List</code></Tab>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code.tab" tab="list" mod="code"  text="List" default/>
                 </div>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="WBK5QrGZ">{`

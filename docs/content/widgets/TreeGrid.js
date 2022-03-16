@@ -70,8 +70,8 @@ export const TreeGrid = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
                 </div>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="riuObfzq">{`

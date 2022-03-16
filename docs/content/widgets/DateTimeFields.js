@@ -1,5 +1,5 @@
 import { Content, LabelsLeftLayout, LabelsTopLayout } from 'cx/ui';
-import { HtmlElement, DateTimeField, DateField, TimeField } from 'cx/widgets';
+import { HtmlElement, DateTimeField, DateField, TimeField, Tab } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -27,6 +27,7 @@ export const DateTimeFields = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="DateTimeField" default/>
                 <CodeSnippet fiddle="oUVatu1E">{`
                <div layout={LabelsLeftLayout}>
                    <DateTimeField label="Date & Time" value-bind="$page.date" />
@@ -47,6 +48,7 @@ export const DateTimeFields = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="DateTimeField" default/>
                 <CodeSnippet fiddle="jCNZu1pp">{`
                 <div layout={LabelsLeftLayout}>
                     <DateTimeField label="Time" value-bind="$page.time" segment="time" />
@@ -72,6 +74,7 @@ export const DateTimeFields = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="DateTimeField" default/>
                 <CodeSnippet fiddle="bANd9ALo">{`
                 <div layout={LabelsTopLayout}>
                     <DateField label="Date" value-bind="$page.datetime" partial />

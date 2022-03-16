@@ -1,4 +1,4 @@
-import { HtmlElement, MsgBox, Button, enableMsgBoxAlerts } from 'cx/widgets';
+import { HtmlElement, MsgBox, Button, enableMsgBoxAlerts, Content, Tab } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -32,7 +32,8 @@ export const Buttons = <cx>
                 <Button mod="hollow" icon="pencil">Icon + Text</Button>
                 <Button mod="hollow" icon="refresh" />
             </div>
-            <div putInto="code">
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
                 <CodeSnippet fiddle="ciFZc3eZ">{`
                     <Button onClick={() => { MsgBox.alert('Regular')}}>Regular</Button>
                     <Button pressed>Pressed</Button>
@@ -55,7 +56,7 @@ export const Buttons = <cx>
                     import {enableMsgBoxAlerts} from 'cx/widgets';
                     enableMsgBoxAlerts();
                 `}</CodeSnippet>
-            </div>
+            </Content>
         </CodeSplit>
 
         > To enable Cx based message box alerts, call `enableMsgBoxAlerts()` at startup of your application.

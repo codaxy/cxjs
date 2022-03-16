@@ -136,6 +136,7 @@ export const Menus = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Menus" default/>
                 <CodeSnippet fiddle="LZFHw09A">{`
                 <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>

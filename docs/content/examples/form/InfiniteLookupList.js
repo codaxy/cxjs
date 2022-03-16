@@ -1,4 +1,4 @@
-import { HtmlElement, LookupField, Repeater, PureContainer, TextField, NumberField } from 'cx/widgets';
+import { HtmlElement, LookupField, Repeater, PureContainer, TextField, NumberField, Tab, Content } from 'cx/widgets';
 import { Controller, LabelsTopLayout, UseParentLayout } from 'cx/ui';
 import { Md } from '../../../components/Md';
 import { CodeSplit } from '../../../components/CodeSplit';
@@ -63,50 +63,52 @@ export const InfiniteLookupList = <cx>
                     />
                 </div>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="42I6i5pJ">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="42I6i5pJ">{`
 
-            class PageController extends Controller {
-                onQuery({ query, pageSize, page }) {
-                    //fake database
-                    if (!this.cityDb) {
-                        this.cityDb = Array.from({ length: 10000 }).map((_, i) => ({
-                            id: i,
-                            text: casual.city
-                        }));
-                        this.cityDb.sort((a, b) => a.text.localeCompare(b.text));
+                class PageController extends Controller {
+                    onQuery({ query, pageSize, page }) {
+                        //fake database
+                        if (!this.cityDb) {
+                            this.cityDb = Array.from({ length: 10000 }).map((_, i) => ({
+                                id: i,
+                                text: casual.city
+                            }));
+                            this.cityDb.sort((a, b) => a.text.localeCompare(b.text));
+                        }
+
+                        //filtering
+                        var regex = new RegExp(query, "gi");
+                        let filteredList = this.cityDb.filter(x => x.text.match(regex));
+                        let data = filteredList.slice((page - 1) * pageSize, page * pageSize);
+
+                        //simulated network latency
+                        return new Promise(resolve => {
+                            setTimeout(
+                                () => resolve(data),
+                                150
+                            );
+                        });
                     }
-
-                    //filtering
-                    var regex = new RegExp(query, "gi");
-                    let filteredList = this.cityDb.filter(x => x.text.match(regex));
-                    let data = filteredList.slice((page - 1) * pageSize, page * pageSize);
-
-                    //simulated network latency
-                    return new Promise(resolve => {
-                        setTimeout(
-                            () => resolve(data),
-                            150
-                        );
-                    });
                 }
-            }
-
-            ...
-
-            <LookupField
-                label="Infinite Lookup List"
-                records-bind="$page.selectedCities"
-                onQuery="onQuery"
-                multiple
-                infinite
-                pageSize={100}
-                queryDelay={200}
-                minQueryLength={2}
-                alwaysShowClear
-            />
-
-            `}</CodeSnippet>
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="42I6i5pJ">{`
+                <LookupField
+                    label="Infinite Lookup List"
+                    records-bind="$page.selectedCities"
+                    onQuery="onQuery"
+                    multiple
+                    infinite
+                    pageSize={100}
+                    queryDelay={200}
+                    minQueryLength={2}
+                    alwaysShowClear
+                />
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
     </Md>

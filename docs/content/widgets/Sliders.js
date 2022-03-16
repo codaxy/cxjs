@@ -1,4 +1,4 @@
-import { HtmlElement, Slider, PrivateStore, IsolatedScope } from 'cx/widgets';
+import { HtmlElement, Slider, PrivateStore, IsolatedScope, Content, Tab } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -40,23 +40,25 @@ export const Sliders = <cx>
                 <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightgreen"/>
                 <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightyellow"/>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="NvE9CD9C">{`
-                <div layout={LabelsLeftLayout}>
-                    <Slider label="Standard" value-bind="$page.to" valueTooltip={{
-                            text:{tpl: '{$page.to:n;2}' },
-                            placement: 'up'
-                        }}
-                        wheel
-                        increment={2.5} />
-                    <Slider label="Stepped" from-bind="$page.from" step={10} wheel increment={10} />
-                    <Slider label="Range" from-bind="$page.from" to-bind="$page.to" />
-                    <Slider label="Disabled" from-bind="$page.from" to-bind="$page.to" disabled />
-                </div>
-                <Slider vertical from-bind="$page.from" to-bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
-                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightgreen"/>
-                <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightyellow"/>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Sliders" default/>
+                <CodeSnippet fiddle="NvE9CD9C">{`
+                    <div layout={LabelsLeftLayout}>
+                        <Slider label="Standard" value-bind="$page.to" valueTooltip={{
+                                text:{tpl: '{$page.to:n;2}' },
+                                placement: 'up'
+                            }}
+                            wheel
+                            increment={2.5} />
+                        <Slider label="Stepped" from-bind="$page.from" step={10} wheel increment={10} />
+                        <Slider label="Range" from-bind="$page.from" to-bind="$page.to" />
+                        <Slider label="Disabled" from-bind="$page.from" to-bind="$page.to" disabled />
+                    </div>
+                    <Slider vertical from-bind="$page.from" to-bind="$page.to" step={10} rangeStyle="background:lightsteelblue"/>
+                    <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightgreen"/>
+                    <Slider vertical from-bind="$page.from" to-bind="$page.to" rangeStyle="background:lightyellow"/>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

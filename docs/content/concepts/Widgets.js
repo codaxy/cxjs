@@ -1,7 +1,7 @@
-import {HtmlElement, Content} from 'cx/widgets';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
+import { Content, Tab } from 'cx/widgets';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { Md } from 'docs/components/Md';
 
 
 export const Widgets = <cx>
@@ -24,7 +24,8 @@ export const Widgets = <cx>
             in the next code snippet.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Widgets" default />
+                <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                 export const Main = <cx>
                     <main outerLayout={Layout}>
                         <Content name="aside" items={Contents} />
@@ -60,6 +61,7 @@ export const Widgets = <cx>
 
         <CodeSplit>
             <Content name="code">
+                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="app/index.js" default />
                 <CodeSnippet>{`
                let store = new Store();
                let appEl = document.getElementById('app');
@@ -67,7 +69,6 @@ export const Widgets = <cx>
             `}
                 </CodeSnippet>
             </Content>
-
         </CodeSplit>
 
         Application loop consists of three steps:
@@ -92,7 +93,7 @@ export const Widgets = <cx>
             Note that the`&lt;cx&gt;` wrapper is not used inside the `render` method.
 
             <Content name="code">
-
+                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Rectangle.js" default />
                 <CodeSnippet>{`
                export class Rectangle extends BoundedObject {
 

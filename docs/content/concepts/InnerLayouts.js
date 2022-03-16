@@ -1,4 +1,4 @@
-import {Button, Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer, Radio, TextArea} from 'cx/widgets';
+import {Button, Content, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer, Radio, TextArea, Tab} from 'cx/widgets';
 import {
     ContentPlaceholder,
     Controller,
@@ -73,7 +73,8 @@ export const InnerLayouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="BSktMPwa">{`
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="BSktMPwa">{`
                <div trimWhitespace={false}>
                   First some text.
                   <TextField value-bind="$page.text" label="Label 1" />
@@ -84,7 +85,7 @@ export const InnerLayouts = <cx>
         </CodeSplit>
 
         This layout does not work very well for form elements.
-
+``
         ## LabelsLeftLayout
 
         <ImportPath path="import {LabelsLeftLayout} from 'cx/ui';" />
@@ -111,7 +112,8 @@ export const InnerLayouts = <cx>
             widgets need to be placed on the right side.
 
             <Content name="code">
-                <CodeSnippet fiddle="48FYzkPT">{`
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="48FYzkPT">{`
                <div layout={LabelsLeftLayout}>
                   First some text.
                   <TextField value-bind="$page.text" label="Label 1" />
@@ -163,7 +165,8 @@ export const InnerLayouts = <cx>
             Again, you may use the LabeledContainer control to group multiple widgets under a single label.
 
             <Content name="code">
-                <CodeSnippet fiddle="as225Fml">{`
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="as225Fml">{`
                 <div>
                     <div layout={LabelsTopLayout}>
                         <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
@@ -200,18 +203,20 @@ export const InnerLayouts = <cx>
                     <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="A8jOOZEn">{`
-                <div layout={{ type: LabelsTopLayout, vertical: true }}>
-                    <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
-                        <option value="Mr">Mr.</option>
-                        <option value="Mrs">Mrs.</option>
-                    </Select>
-                    <TextField value-bind="$page.firstName" label="Name" placeholder="First Name"
-                        style={{width: '150px'}}/>
-                    <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
-                </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code4.tab}=='index'" fiddle="A8jOOZEn">{`
+                    <div layout={{ type: LabelsTopLayout, vertical: true }}>
+                        <Select value-bind="$page.title" label="Title" style={{width: "70px"}}>
+                            <option value="Mr">Mr.</option>
+                            <option value="Mrs">Mrs.</option>
+                        </Select>
+                        <TextField value-bind="$page.firstName" label="Name" placeholder="First Name"
+                            style={{width: '150px'}}/>
+                        <TextField value-bind="$page.lastName" placeholder="Last Name" style={{width: '150px'}}/>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ### Multiple Columns
@@ -233,20 +238,22 @@ export const InnerLayouts = <cx>
                     <TextField label="Field9" value-bind="$page.field9" />
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="KDv9Bvao">{`
-                <div layout={{type: LabelsTopLayout, columns: 3}}>
-                    <TextField label="Field1" value-bind="$page.field1" />
-                    <TextField label="Field2" value-bind="$page.field2" />
-                    <TextField label="Field3" value-bind="$page.field3" />
-                    <TextField label="Field4" value-bind="$page.field4" />
-                    <TextField label="Field5" value-bind="$page.field5" />
-                    <TextField label="Field6" value-bind="$page.field6" />
-                    <TextField label="Field7" value-bind="$page.field7" />
-                    <TextField label="Field8" value-bind="$page.field8" />
-                    <TextField label="Field9" value-bind="$page.field9" />
-                </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code5.tab}=='index'" fiddle="KDv9Bvao">{`
+                    <div layout={{type: LabelsTopLayout, columns: 3}}>
+                        <TextField label="Field1" value-bind="$page.field1" />
+                        <TextField label="Field2" value-bind="$page.field2" />
+                        <TextField label="Field3" value-bind="$page.field3" />
+                        <TextField label="Field4" value-bind="$page.field4" />
+                        <TextField label="Field5" value-bind="$page.field5" />
+                        <TextField label="Field6" value-bind="$page.field6" />
+                        <TextField label="Field7" value-bind="$page.field7" />
+                        <TextField label="Field8" value-bind="$page.field8" />
+                        <TextField label="Field9" value-bind="$page.field9" />
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         Use `LabelsTopLayoutCell` to achieve complex layouts in which some fields span across multiple columns or rows.
@@ -271,27 +278,29 @@ export const InnerLayouts = <cx>
                     <TextField label="Field6" value-bind="$page.field6" style="width: 100%"/>
                 </LabelsTopLayout>
             </div>
-
-        <CodeSnippet putInto="code" fiddle="q6e8DVQV">{`
-            <div class="widgets">
-                <LabelsTopLayout columns={2} mod="fixed" style="width: 300px">
-                    <TextField label="Field1" value-bind="$page.field1" style="width: 100%"/>
-                    <LabelsTopLayoutCell rowSpan={2} style="padding-left: 16px">
-                        <LabeledContainer label="Field2">
-                            <Radio value-bind="$page.field2" option={1}>Option 1</Radio>
-                            <Radio value-bind="$page.field2" option={2}>Option 2</Radio>
-                            <Radio value-bind="$page.field2" option={3}>Option 3</Radio>
-                        </LabeledContainer>
-                    </LabelsTopLayoutCell>
-                    <TextField label="Field3" value-bind="$page.field3" style="width: 100%"/>
-                    <LabelsTopLayoutCell colSpan={2}>
-                        <TextArea label="Field4" value-bind="$page.field8" style="width: 100%" rows={5}/>
-                    </LabelsTopLayoutCell>
-                    <TextField label="Field5" value-bind="$page.field5" style="width: 100%"/>
-                    <TextField label="Field6" value-bind="$page.field6" style="width: 100%"/>
-                </LabelsTopLayout>
-            </div>
-        `}</CodeSnippet>
+        <Content name="code">
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="Index" default/>
+            <CodeSnippet visible-expr="{$page.code5.tab}=='index'" fiddle="q6e8DVQV">{`
+                <div class="widgets">
+                    <LabelsTopLayout columns={2} mod="fixed" style="width: 300px">
+                        <TextField label="Field1" value-bind="$page.field1" style="width: 100%"/>
+                        <LabelsTopLayoutCell rowSpan={2} style="padding-left: 16px">
+                            <LabeledContainer label="Field2">
+                                <Radio value-bind="$page.field2" option={1}>Option 1</Radio>
+                                <Radio value-bind="$page.field2" option={2}>Option 2</Radio>
+                                <Radio value-bind="$page.field2" option={3}>Option 3</Radio>
+                            </LabeledContainer>
+                        </LabelsTopLayoutCell>
+                        <TextField label="Field3" value-bind="$page.field3" style="width: 100%"/>
+                        <LabelsTopLayoutCell colSpan={2}>
+                            <TextArea label="Field4" value-bind="$page.field8" style="width: 100%" rows={5}/>
+                        </LabelsTopLayoutCell>
+                        <TextField label="Field5" value-bind="$page.field5" style="width: 100%"/>
+                        <TextField label="Field6" value-bind="$page.field6" style="width: 100%"/>
+                    </LabelsTopLayout>
+                </div>
+            `}</CodeSnippet>
+        </Content>
         </CodeSplit>
 
 
@@ -324,7 +333,9 @@ export const InnerLayouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="swXFJlhe">{`
+                <Tab value-bind="$page.code6.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code6.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='controller'" fiddle="swXFJlhe">{`
                class FetchController extends Controller {
                   fetch() {
                      this.store.set('$page.fetch.status', 'LOADING');
@@ -338,7 +349,8 @@ export const InnerLayouts = <cx>
                      }, 1000);
                   }
                }
-               ...
+            `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code6.tab}=='index'" fiddle="swXFJlhe">{`
                <div controller={FetchController}>
                   <div controller={FetchController}>
                      <div layout={FirstVisibleChildLayout}>
@@ -387,21 +399,23 @@ export const InnerLayouts = <cx>
                     </PureContainer>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="l31l5PN9">{`
-                <div layout={LabelsLeftLayout}>
-                    <Checkbox value-bind="$page.showSection1">Section 1</Checkbox>
-                    <PureContainer layout={UseParentLayout} visible-bind="$page.showSection1">
-                        <TextField value-bind="$page.text" label="Label 1"/>
-                        <TextField value-bind="$page.text" label="Label 2"/>
-                        <Checkbox value-bind="$page.showSection2">Section 2</Checkbox>
-                        <PureContainer layout={UseParentLayout} visible-bind="$page.showSection2">
-                            <TextField value-bind="$page.text" label="Label 3"/>
-                            <TextField value-bind="$page.text" label="Label 4"/>
+            <Content name="code">
+                <Tab value-bind="$page.code7.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code7.tab}=='index'" fiddle="l31l5PN9">{`
+                    <div layout={LabelsLeftLayout}>
+                        <Checkbox value-bind="$page.showSection1">Section 1</Checkbox>
+                        <PureContainer layout={UseParentLayout} visible-bind="$page.showSection1">
+                            <TextField value-bind="$page.text" label="Label 1"/>
+                            <TextField value-bind="$page.text" label="Label 2"/>
+                            <Checkbox value-bind="$page.showSection2">Section 2</Checkbox>
+                            <PureContainer layout={UseParentLayout} visible-bind="$page.showSection2">
+                                <TextField value-bind="$page.text" label="Label 3"/>
+                                <TextField value-bind="$page.text" label="Label 4"/>
+                            </PureContainer>
                         </PureContainer>
-                    </PureContainer>
-                </div>`}
-            </CodeSnippet>
+                    </div>`}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         Notice how the widget tree being deeply nested still renders as a simple list of elements that share the
