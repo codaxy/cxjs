@@ -1,5 +1,5 @@
 import {Content, Controller, LabelsLeftLayout} from 'cx/ui';
-import {HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, MsgBox} from 'cx/widgets';
+import {HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, MsgBox, Tab} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -49,29 +49,32 @@ export const MsgBoxes = <cx>
             * `yesText` - custom `yes` text, default value: `Yes`,
             * `noText` - custom `no` text, default value: `No`,
             * `okText` - custom `OK` text, default value: `OK`.
+            
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="MsgBoxes" default/>
+                <CodeSnippet fiddle="g1Z5Q4QH">{`
+                    <Button
+                        onClick={() => {
+                            MsgBox.alert({ message: 'This is an alert!', title: 'Title' })
+                        }}
+                    >
+                        Alert
+                    </Button>
 
-            <CodeSnippet fiddle="g1Z5Q4QH" putInto="code">{`
-                <Button
-                    onClick={() => {
-                        MsgBox.alert({ message: 'This is an alert!', title: 'Title' })
-                    }}
-                >
-                    Alert
-                </Button>
-
-                <Button
-                    onClick={() => {
-                        MsgBox
-                            .yesNo({ message: 'Would you like to see another alert?', yesText: "Yes, please", noText: "No, thanks" })
-                            .then((btn) => {
-                                if (btn == 'yes')
-                                    MsgBox.alert('Here it is.')
-                            });
-                    }}
-                >
-                    Custom Yes or No
-                </Button>
-            `}</CodeSnippet>
+                    <Button
+                        onClick={() => {
+                            MsgBox
+                                .yesNo({ message: 'Would you like to see another alert?', yesText: "Yes, please", noText: "No, thanks" })
+                                .then((btn) => {
+                                    if (btn == 'yes')
+                                        MsgBox.alert('Here it is.')
+                                });
+                        }}
+                    >
+                        Custom Yes or No
+                    </Button>
+                `}</CodeSnippet>
+            </Content>
 
 
         </CodeSplit>

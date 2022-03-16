@@ -1,5 +1,5 @@
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
-import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, Window, MsgBox } from 'cx/widgets';
+import { HtmlElement, Checkbox, TextField, DateField, TextArea, Button, Repeater, Window, MsgBox, Tab } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -51,6 +51,7 @@ export const Windows = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Windows" default/>
                 <CodeSnippet fiddle="5GzabX9A">{`
                 <Button onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</Button>
                 <Window
