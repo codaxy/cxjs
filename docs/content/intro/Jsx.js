@@ -80,7 +80,7 @@ export const JsxPage = <cx>
             <Content name="code">
                 <Tab value-bind="$page.code.tab" tab="code" mod="code" text="Conditional rendering" default/>
                 <CodeSnippet fiddle="pXZnFu2N" visible-expr="{$page.code.tab}=='code'">{`
-                <div visible:expr="!{form.valid}">
+                <div visible-expr="!{form.valid}">
                     Please correct all errors in the form and try again.
                 </div>
             `}</CodeSnippet>  
