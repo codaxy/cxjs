@@ -3,6 +3,7 @@ import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
 import { StoreRef } from "./StoreRef";
 import { isObject } from "../../../../packages/cx/src/util/isObject";
+import { isFunction } from "../util/isFunction";
 
 export class View {
    constructor(config) {
@@ -93,6 +94,8 @@ export class View {
    }
 
    update(path, updateFn, ...args) {
+      if (arguments.length == 1 && isFunction(path))
+         return this.load(path.apply(null, [this.getData(), updateFn, ...args]));
       return this.set(path, updateFn.apply(null, [this.get(path), ...args]));
    }
 
@@ -164,8 +167,16 @@ export class View {
          toggle: this.toggle.bind(this),
          init: this.init.bind(this),
          ref: this.ref.bind(this),
+         mutate: this.ref.bind(this),
       };
    }
 }
 
 View.prototype.sealed = false; //indicate that data should be copied before virtual items are added
+
+//Immer integration point
+View.prototype.mutate = function () {
+   throw new Error(
+      "Mutate requires Immer. Please install 'immer' and 'cx-immer' packages and enable store mutation by calling enableImmerMutate()."
+   );
+};

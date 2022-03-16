@@ -1,6 +1,5 @@
-import { Record } from "../core";
+import { Record, AccessorChain } from "../core";
 import { Binding } from "./Binding";
-import { AccessorChain } from "./createAccessorModelProxy";
 import { Ref } from "./Ref";
 
 declare type Path = string | Binding;
@@ -35,7 +34,16 @@ export interface ViewMethods<D = Record> {
 
    toggle(path: Path): boolean;
 
+   update(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
+   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+
+   /**
+    *  Mutates the content of the store using Immer
+    */
+   mutate(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
+   mutate(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
+   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
 
    ref<T = any>(path: string, defaultValue?: T): Ref<T>;
 }
@@ -79,8 +87,13 @@ export class View<D = any> implements ViewMethods<D> {
    toggle(path: Path): boolean;
    toggle(path: AccessorChain<boolean>): boolean;
 
+   update(updateFn: (currentValue: D, ...args) => any, ...args): boolean;
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
    update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+
+   mutate(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
+   mutate(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
+   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
 
    /**
     * `batch` method can be used to perform multiple Store operations silently

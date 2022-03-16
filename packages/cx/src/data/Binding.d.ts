@@ -1,5 +1,4 @@
-import { AccessorChain } from "./createAccessorModelProxy.d";
-import { Record } from "../core";
+import { Record, AccessorChain } from "../core";
 
 export class Binding<V = any> {
    constructor(path: string);
