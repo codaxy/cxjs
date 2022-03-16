@@ -93,7 +93,7 @@ export const ScrollableBars = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" text='Chart' default/>
                 </div>
 
                 <CodeSnippet fiddle="9CmNf7Ez" visible-expr="{$page.code.tab}=='chart'">{`

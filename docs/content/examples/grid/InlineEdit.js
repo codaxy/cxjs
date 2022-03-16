@@ -1,4 +1,4 @@
-import {HtmlElement, TextField, Checkbox, Grid} from 'cx/widgets';
+import {HtmlElement, TextField, Checkbox, Grid, Tab} from 'cx/widgets';
 import {Content, Controller} from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
@@ -69,7 +69,10 @@ export const InlineEdit = <cx>
             />
 
             <Content name="code">
-                <CodeSnippet fiddle="wK09BHnM">{`
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="wK09BHnM">{`
                 class PageController extends Controller {
                     init() {
                         super.init();
@@ -83,7 +86,9 @@ export const InlineEdit = <cx>
                         })));
                     }
                 }
-                ...
+            `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="wK09BHnM">{`
                 <Grid
                     records-bind='$page.records'
                     style={{width: "100%"}}

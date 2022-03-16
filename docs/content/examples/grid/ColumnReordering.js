@@ -168,23 +168,10 @@ export const ColumnReordering = <cx>
             <Button onClick="onResetColumns">Reset Columns</Button>
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
-                        <code>Controller</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default>
-                        <code>Grid</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="toolbar" mod="code">
-                        <code>Toolbar</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="columns" mod="code">
-                        <code>Columns</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
+                <Tab value-bind="$page.code.tab" tab="toolbar" mod="code" text="Toolbar" />
+                <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle='w6G2aFy9'>{`
                 class PageController extends Controller {

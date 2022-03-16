@@ -71,8 +71,8 @@ export const Bullets = <cx>
 
          <Content name="code">
             <div>
-               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller"/>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text="Chart"/>
             </div>
 
             <CodeSnippet fiddle="Z9CYf1Ph" visible-expr="{$page.code.tab}=='controller'">{`

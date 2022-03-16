@@ -8,7 +8,8 @@ import {
     Icon,
     Repeater,
     FlexRow,
-    Slider
+    Slider,
+    Tab
 } from 'cx/widgets';
 import {
     Content,
@@ -225,7 +226,9 @@ export const HeaderMenu = <cx>
             </Rescope>
 
             <Content name="code">
-                <CodeSnippet fiddle="Gibc7IUr" >{`
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="Gibc7IUr" >{`
                // utility functions
                function unique(data, field) {
                   let values = {};
@@ -286,8 +289,91 @@ export const HeaderMenu = <cx>
                      }, true);
                   }
                };
+            `}
+                </CodeSnippet>
+                    <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="Gibc7IUr" >{`
+                <Grid
+                    scrollable
+                    emptyText="No records found matching the given criteria."
+                    records={bind("filtered")}
+                    columns={[
+                        {
+                            header: {
+                            text: "Name",
+                            tool: columnMenu(
+                                <cx>
+                                    <TextField
+                                    mod="menu"
+                                    placeholder="Filter"
+                                    value={bind("filter.name")}
+                                    />
+                                </cx>
+                            )
+                            },
+                            field: "fullName",
+                            visible: bind("visibility.name"),
+                            sortable: true
+                        },
+                        {
+                            header: {
+                            text: "Continent",
+                            tool: stdColumnMenu("filter.continents")
+                            },
+                            field: "continent",
+                            sortable: true,
+                            visible: bind("visibility.continent")
+                        },
+                        {
+                            header: {
+                            text: "Browser",
+                            tool: stdColumnMenu("filter.browsers")
+                            },
+                            field: "browser",
+                            sortable: true,
+                            visible: bind("visibility.browser")
+                        },
+                        {
+                            header: {
+                            text: "OS",
+                            tool: stdColumnMenu("filter.OSes")
+                            },
+                            field: "OS",
+                            sortable: true,
+                            visible: bind("visibility.OS")
+                        },
+                        {
+                            header: {
+                            text: "Visits",
+                            tool: columnMenu(
+                                <cx>
+                                    <FlexRow mod="menu">
+                                        <TextField
+                                        value={bind("filter.visits.from")}
+                                        style="width: 40px"
+                                        />
+                                        <Slider
+                                        from={bind("filter.visits.from")}
+                                        to={bind("filter.visits.to")}
+                                        step={1}
+                                        />
+                                        <TextField
+                                        value={bind("filter.visits.to")}
+                                        style="width: 40px"
+                                        />
+                                    </FlexRow>
+                                </cx>
+                            )
+                            },
+                            field: "visits",
+                            sortable: true,
+                            align: "right",
+                            visible: bind("visibility.visits")
+                        }
+                    ]}
+                    selection={{ type: KeySelection, bind: "selection" }}
+                />
 
-               // header menu components
+                // header menu components
                const visibleColumnsMenu = (
                   <cx>
                      <Submenu arrow>
@@ -338,90 +424,8 @@ export const HeaderMenu = <cx>
                      </Repeater>
                   </cx >
                );
-
-               // grid
-               <Grid
-                  scrollable
-                  emptyText="No records found matching the given criteria."
-                  records={bind("filtered")}
-                  columns={[
-                     {
-                        header: {
-                           text: "Name",
-                           tool: columnMenu(
-                              <cx>
-                                 <TextField
-                                 mod="menu"
-                                 placeholder="Filter"
-                                 value={bind("filter.name")}
-                                 />
-                              </cx>
-                           )
-                        },
-                        field: "fullName",
-                        visible: bind("visibility.name"),
-                        sortable: true
-                     },
-                     {
-                        header: {
-                           text: "Continent",
-                           tool: stdColumnMenu("filter.continents")
-                        },
-                        field: "continent",
-                        sortable: true,
-                        visible: bind("visibility.continent")
-                     },
-                     {
-                        header: {
-                           text: "Browser",
-                           tool: stdColumnMenu("filter.browsers")
-                        },
-                        field: "browser",
-                        sortable: true,
-                        visible: bind("visibility.browser")
-                     },
-                     {
-                        header: {
-                           text: "OS",
-                           tool: stdColumnMenu("filter.OSes")
-                        },
-                        field: "OS",
-                        sortable: true,
-                        visible: bind("visibility.OS")
-                     },
-                     {
-                        header: {
-                           text: "Visits",
-                           tool: columnMenu(
-                              <cx>
-                                 <FlexRow mod="menu">
-                                    <TextField
-                                       value={bind("filter.visits.from")}
-                                       style="width: 40px"
-                                    />
-                                    <Slider
-                                       from={bind("filter.visits.from")}
-                                       to={bind("filter.visits.to")}
-                                       step={1}
-                                    />
-                                    <TextField
-                                       value={bind("filter.visits.to")}
-                                       style="width: 40px"
-                                    />
-                                 </FlexRow>
-                              </cx>
-                           )
-                        },
-                        field: "visits",
-                        sortable: true,
-                        align: "right",
-                        visible: bind("visibility.visits")
-                     }
-                  ]}
-                  selection={{ type: KeySelection, bind: "selection" }}
-               />
-            `}
-                </CodeSnippet>
+                `}
+                    </CodeSnippet>
             </Content>
         </CodeSplit>
     </Md>
