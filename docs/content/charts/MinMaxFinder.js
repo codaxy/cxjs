@@ -45,12 +45,8 @@ export const MinMaxFinderPage = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code">
-                    <code>Grid</code>
-                </Tab>
-                <Tab value-bind="$page.code.tab" tab="chart" mod="code" default>
-                    <code>Chart</code>
-                </Tab>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Grid" />
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text='Chart' default />
                 <CodeSnippet  fiddle="rKnjVn5i" visible-expr="{$page.code.tab}=='controller'">{`
                 class ChartController extends Controller {
                     onInit() {

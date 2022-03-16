@@ -124,14 +124,9 @@ export const PieLabels = <cx>
 
 
       <Content name="code">
-         <div>
-         <Tab value-bind="$page.code.tab" tab="controller" mod="code">
-            <code>Controller</code>
-         </Tab>
-         <Tab value-bind="$page.code.tab" tab="chart" mod="code" default>
-            <code>Chart</code>
-         </Tab>
-         </div>
+         <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+         <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default />
+
       <CodeSnippet fiddle={fiddleCode}  visible-expr="{$page.code.tab}=='chart'">{`
          <div class="widgets" controller={PageController} style="padding: 20px">
          <Legend />

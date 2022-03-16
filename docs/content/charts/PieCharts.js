@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
+import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Text, Rectangle, Line } from 'cx/svg';
 import { PieChart, PieSlice, Legend, ColorMap } from 'cx/charts';
@@ -79,65 +79,71 @@ export const PieCharts = <cx>
                </Svg>
             </div>
          </div>
+         
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="PieChart" default/>
 
-         <CodeSnippet putInto="code" fiddle="9C63P156">{`
-         class PageController extends Controller {
-            init() {
-               super.init();
-               var value = 100;
-               this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
-                  id: i,
-                  name: 'Item ' + (i+1),
-                  value: value = (value + (Math.random() - 0.5) * 30),
-               })));
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="9C63P156">{`
+            class PageController extends Controller {
+               init() {
+                  super.init();
+                  var value = 100;
+                  this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
+                     id: i,
+                     name: 'Item ' + (i+1),
+                     value: value = (value + (Math.random() - 0.5) * 30),
+                  })));
+               }
             }
-         }
-         ...
-         <div class="widgets" controller={PageController}>
-            <Legend />
-            <div>
-               <Svg style="width:600px; height:400px;">
-                  <ColorMap />
-                  <PieChart angle={360}>
-                     <Repeater records-bind="$page.points">
-                        <PieSlice value-bind='$record.value'
-                                  active-bind='$record.active'
-                                  colorMap="pie"
-                                  r-expr='80'
-                                  r0-expr='20'
-                                  offset={5}
-                                  tooltip={{
-                                      text: {
-                                          tpl: "Item {$index}: {$record.value:n;2}"
-                                      },
-                                      trackMouse: true,
-                                      globalMouseTracking: true,
-                                      destroyDelay: 50,
-                                      createDelay: 0,
-                                      animate: false
-                                  }}
-                                  innerPointRadius={80}
-                                  outerPointRadius={90}
-                                  name-tpl="Item {$index}"
-                                  selection={{
-                                     type: KeySelection,
-                                     bind: '$page.selection',
-                                     records: {bind: '$page.points'},
-                                     record: {bind: '$record'},
-                                     index: {bind: '$index'},
-                                     keyField: 'id'
-                                  }}>
-                              <Line style="stroke:gray" />
-                              <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
-                                 <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                              </Rectangle>
-                           </PieSlice>
-                     </Repeater>
-                  </PieChart>
-               </Svg>
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="9C63P156">{`
+            <div class="widgets" controller={PageController}>
+               <Legend />
+               <div>
+                  <Svg style="width:600px; height:400px;">
+                     <ColorMap />
+                     <PieChart angle={360}>
+                        <Repeater records-bind="$page.points">
+                           <PieSlice value-bind='$record.value'
+                                    active-bind='$record.active'
+                                    colorMap="pie"
+                                    r-expr='80'
+                                    r0-expr='20'
+                                    offset={5}
+                                    tooltip={{
+                                       text: {
+                                             tpl: "Item {$index}: {$record.value:n;2}"
+                                       },
+                                       trackMouse: true,
+                                       globalMouseTracking: true,
+                                       destroyDelay: 50,
+                                       createDelay: 0,
+                                       animate: false
+                                    }}
+                                    innerPointRadius={80}
+                                    outerPointRadius={90}
+                                    name-tpl="Item {$index}"
+                                    selection={{
+                                       type: KeySelection,
+                                       bind: '$page.selection',
+                                       records: {bind: '$page.points'},
+                                       record: {bind: '$record'},
+                                       index: {bind: '$index'},
+                                       keyField: 'id'
+                                    }}>
+                                 <Line style="stroke:gray" />
+                                 <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
+                                    <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
+                                 </Rectangle>
+                              </PieSlice>
+                        </Repeater>
+                     </PieChart>
+                  </Svg>
+               </div>
             </div>
-         </div>
-         `}</CodeSnippet>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       ## Examples
