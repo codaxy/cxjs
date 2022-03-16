@@ -1,3 +1,4 @@
+import { Binding } from "../data/Binding";
 import { isString } from "../util/isString";
 
 export function expr(text) {
@@ -6,10 +7,11 @@ export function expr(text) {
          expr: text,
       };
 
-   let args = Array.from(arguments);
+   let getters = [];
+   let compute = arguments[arguments.length - 1];
+   for (let i = 0; i < arguments.length - 1; i++) getters.push(Binding.get(arguments[i]).value);
    return (data) => {
-      let argv = [];
-      for (let i = 0; i < args.length - 1; i++) argv.push(args[i](data));
-      return args[args.length - 1].apply(this, argv);
+      let argv = getters.map((g) => g(data));
+      return compute.apply(this, argv);
    };
 }

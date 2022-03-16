@@ -13,13 +13,13 @@ declare namespace Cx {
 
    type Tpl = {
       tpl: string;
-      defaultValue?: any;
    };
 
    type Expr = {
       expr: string;
-      defaultValue?: any;
    };
+
+   export interface AccessorChain<V> {}
 
    type Binding = Bind | Tpl | Expr;
 
@@ -29,7 +29,7 @@ declare namespace Cx {
       [prop: string]: Selector<any>;
    }
 
-   type Prop<T> = Binding | T | Selector<T>;
+   type Prop<T> = T | Binding | Selector<T> | AccessorChain<T>;
 
    interface Record {
       [prop: string]: any;
@@ -122,7 +122,7 @@ declare namespace Cx {
       style?: StyleProp;
 
       /** Style object applied to the element */
-      styles?: Cx.StyleProp;
+      styles?: StyleProp;
    }
 
    interface HtmlElementProps extends StyledContainerProps {
@@ -130,7 +130,7 @@ declare namespace Cx {
       id?: string | number | Binding | Selector<string | number>;
 
       /** Inner text contents. */
-      text?: string | number | Binding | Selector<string | number>;
+      text?: Prop<string | number>;
 
       /** Tooltip configuration. */
       tooltip?: StringProp | StructuredProp;
