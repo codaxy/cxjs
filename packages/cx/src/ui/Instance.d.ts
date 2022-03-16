@@ -1,15 +1,15 @@
-import * as Cx from "../core";
+import { Record } from "../core";
 import { RenderingContext } from "./RenderingContext";
 import { View } from "../data/View";
-import { Widget, VDOM } from "./Widget";
+import { Widget } from "./Widget";
 
-export class Instance {
-   store: View;
-   data: Cx.Record;
+export class Instance<ViewModel = any, Controller = any> {
+   store: View<ViewModel>;
+   data: Record;
    widget: Widget;
    key: number;
    id: string;
-   controller: any;
+   controller: Controller;
    parentOptions: any;
 
    constructor(widget: Widget, key: string | number, parent?: Instance, store?: View);

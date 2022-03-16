@@ -1,6 +1,6 @@
 {
    "name": "cx-immer",
-   "version": "21.3.0",
+   "version": "22.3.0",
    "description": "CxJS intergration for Immer.",
    "main": "index.js",
    "scripts": {},

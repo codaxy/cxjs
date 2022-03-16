@@ -1,7 +1,7 @@
 let bindingCache = {};
 import { isString } from "../util/isString";
 import { isObject } from "../util/isObject";
-import { isFunction } from "../util/isFunction";
+import { isAccessorChain } from "./createAccessorModelProxy";
 
 export class Binding {
    constructor(path) {
@@ -73,7 +73,7 @@ export class Binding {
 
       if (path instanceof Binding) return path;
 
-      if (path.isAccessorChain) return this.get(path.toString());
+      if (isAccessorChain(path)) return this.get(path.toString());
 
       throw new Error("Invalid binding definition provided.");
    }

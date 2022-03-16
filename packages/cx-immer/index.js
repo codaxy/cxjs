@@ -6,6 +6,7 @@ export function enableImmerMutate() {
    setAutoFreeze(false);
 
    View.prototype.mutate = function (path, callback) {
-      this.update(path, (draft) => produce(draft, callback));
+      if (arguments.length == 1) this.update((draft) => produce(draft, path));
+      else this.update(path, (draft) => produce(draft, callback));
    };
 }

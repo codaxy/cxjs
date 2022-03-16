@@ -91,9 +91,9 @@ export class View<D = any> implements ViewMethods<D> {
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
    update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
 
-   mutate(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
-   mutate(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
-   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+   mutate(updateFn: (currentValue: D, ...args) => void, ...args): boolean;
+   mutate(path: Path, updateFn: (currentValue: any, ...args) => void, ...args): boolean;
+   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => void, ...args): boolean;
 
    /**
     * `batch` method can be used to perform multiple Store operations silently

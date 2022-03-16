@@ -1,20 +1,13 @@
 export function createAccessorModelProxy(chain = "") {
-   let op = null;
    const proxy = new Proxy(() => {}, {
       get: (target, name) => {
+         if (name === "isAccessorChain") return true;
          if (typeof name !== "string") return this;
-         if (name == "toString") {
-            op = name;
-            return proxy;
-         }
+         if (name === "toString") return proxy;
+
          let newChain = chain;
          if (newChain.length > 0) newChain += ".";
-         if (op != null) {
-            newChain += op;
-            newChain += ".";
-         }
          newChain += name;
-         op = null;
          return createAccessorModelProxy(newChain);
       },
 
@@ -27,5 +20,5 @@ export function createAccessorModelProxy(chain = "") {
 }
 
 export function isAccessorChain(value) {
-   return !!value.isAccessorChain;
+   return value != null && !!value.isAccessorChain;
 }

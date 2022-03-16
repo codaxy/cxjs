@@ -20,7 +20,8 @@ export function getSelector(config) {
             return (data) => selectors.map((elementSelector) => elementSelector(data));
          }
 
-         if (config.bind) return Binding.get(config.bind).value;
+         //toString converts accessor chains to binding paths
+         if (config.bind) return Binding.get(config.bind.toString()).value;
 
          if (config.tpl) return StringTemplate.get(config.tpl);
 
