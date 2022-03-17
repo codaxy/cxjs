@@ -21,7 +21,7 @@ export class TreeAdapter extends ArrayAdapter {
       let nonLeafs = [], leafs = [];
       nodes.forEach(record => {
          record.key = parentKey + record.key;
-         this.processNode(context, instance, level, record.data.$leaf ? leafs : nonLeafs, record)
+         this.processNode(context, instance, level, record.data[this.leafField] ? leafs : nonLeafs, record)
       });
       result.push(...nonLeafs, ...leafs);
    }
