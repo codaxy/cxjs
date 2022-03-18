@@ -58,10 +58,7 @@ export class TreeAdapter extends ArrayAdapter {
    sort(sorters) {
       if (this.foldersFirst) {
          if (!sorters || !isArray(sorters)) sorters = [];
-
-         if (this.foldersFirst) {
-            sorters = [{ field: this.leafField, direction: "ASC" }, ...sorters];
-         }
+         sorters = [{ field: this.leafField, direction: "ASC" }, ...sorters];
       }
       super.sort(sorters);
    }

@@ -36,7 +36,7 @@
     "deep-equal": "^1.0.1",
     "deepmerge": "^3.2.0",
     "path-browserify": "^1.0.1",
-    "prettier": "git://github.com/prettier/prettier#1.7.4",
+    "prettier": "^2.6.0",
     "process": "^0.11.10",
     "query-string": "^6.10.1",
     "react": "^17.0.1",
