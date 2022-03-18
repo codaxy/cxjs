@@ -1,7 +1,7 @@
 import { enableImmerMutate } from "cx-immer";
 import { createAccessorModelProxy } from "cx/src/data/createAccessorModelProxy";
-import { expr, Instance, Repeater } from "cx/ui";
-import { Button, TextField } from "cx/widgets";
+import { expr, Instance, KeySelection, Repeater } from "cx/ui";
+import { Button, List, TextField } from "cx/widgets";
 
 enableImmerMutate();
 
@@ -13,6 +13,7 @@ interface Record {
 interface Model {
    a: number;
    records: Record[];
+   selection: number;
 }
 
 interface WithRecord extends Model {
@@ -25,7 +26,7 @@ let { $record } = createAccessorModelProxy<WithRecord>();
 
 export default (
    <cx>
-      <div>
+      <div styles="display: flex">
          Hello
          <Button
             text={m.a}
@@ -40,12 +41,23 @@ export default (
                });
             }}
          />
-         <Repeater records={m.records}>
-            <div>
-               <div text={expr($record, (r) => `Item ${r.id} - ${r.text}`)} />
-               <TextField value={{ bind: $record.text }} />
-            </div>
-         </Repeater>
+         <div>
+            <Repeater records={m.records}>
+               <div>
+                  <div text={expr($record, (r) => `Item ${r.id} - ${r.text}`)} />
+                  <TextField value={{ bind: $record.text }} />
+               </div>
+            </Repeater>
+         </div>
+         <List
+            records={m.records}
+            selection={{
+               type: KeySelection,
+               bind: m.selection,
+            }}
+         >
+            <div text={$record.text} />
+         </List>
       </div>
    </cx>
 );

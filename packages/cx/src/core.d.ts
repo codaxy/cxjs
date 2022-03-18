@@ -19,8 +19,6 @@ declare namespace Cx {
       expr: string;
    };
 
-   export interface AccessorChain<V> {}
-
    type Binding = Bind | Tpl | Expr;
 
    type Selector<T> = (data: any) => T;
@@ -28,6 +26,12 @@ declare namespace Cx {
    interface StructuredSelector {
       [prop: string]: Selector<any>;
    }
+
+   type AccessorChain<M> = {
+      toString(): string;
+   } & {
+      [prop in keyof M]: AccessorChain<M[prop]>;
+   };
 
    type Prop<T> = T | Binding | Selector<T> | AccessorChain<T>;
 
@@ -130,7 +134,7 @@ declare namespace Cx {
       id?: string | number | Binding | Selector<string | number>;
 
       /** Inner text contents. */
-      text?: Prop<string | number>;
+      text?: Cx.StringProp | Cx.NumberProp;
 
       /** Tooltip configuration. */
       tooltip?: StringProp | StructuredProp;
@@ -183,7 +187,7 @@ declare module "react" {
    interface ClassAttributes<T> extends Cx.PureContainerProps {
       class?: Cx.ClassProp;
       styles?: Cx.StyleProp;
-      text?: Cx.StringProp;
+      text?: Cx.StringProp | Cx.NumberProp;
       innerText?: Cx.StringProp;
       html?: Cx.StringProp;
       innerHtml?: Cx.StringProp;
