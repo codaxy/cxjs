@@ -49,7 +49,7 @@ export const NumberFields = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="filed" mod="code" default><code>NumberField</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="filed" mod="code" text="NumberField" default />
                 </div>
                 <CodeSnippet fiddle="PokioWF7" visible-expr="{$page.code.tab}=='filed'">{`
                 <div layout={LabelsLeftLayout}>

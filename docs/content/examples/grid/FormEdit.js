@@ -140,19 +140,9 @@ export const FormEdit = <cx>
 
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default>
-                        <code>Controller</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code">
-                        <code>Grid</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="form" mod="code">
-                        <code>Form</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code"  text='Controller' default />
+                <Tab value-bind="$page.code.tab" tab="grid" mod="code" text='Grid' />
+                <Tab value-bind="$page.code.tab" tab="form" mod="code" text='Form' />
                 <CodeSnippet fiddle="xPjUX9Ad" visible-expr="{$page.code.tab} == 'controller'">{`
                 class PageController extends Controller {
                     onInit() {

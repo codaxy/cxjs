@@ -1,4 +1,4 @@
-import { HtmlElement, Calendar } from 'cx/widgets';
+import { HtmlElement, Calendar, Tab } from 'cx/widgets';
 import { Content } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -29,6 +29,7 @@ export const Calendars = <cx>
          </div>
 
          <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Calendar" default/>
             <CodeSnippet fiddle="op5dUaHh">{`
                 <div class="widgets">
                    <Calendar value-bind="$page.date" />

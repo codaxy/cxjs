@@ -99,6 +99,7 @@ import "./index.scss";
 //import Demo from "./bugs/AsyncValidator";
 
 //import Demo from "./features/charts/pie/labels";
+//import Demo from "./bugs/BlurBug";
 import Demo from "./features/immer";
 
 let store = (window.store = new Store());

@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, NumericAxis, TimeAxis, Gridlines, ColumnGraph } from 'cx/charts';
@@ -50,36 +50,41 @@ export const TimeAxisPage = <cx>
                     </Chart>
                 </Svg>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
-            class PageController extends Controller {
-                init() {
-                    super.init();
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="B8fcC7VF">{`
+                class PageController extends Controller {
+                    init() {
+                        super.init();
 
-                    this.store.set('$page.data', Array.from({length: 5 * 12}, (x, i)=>({
-                        date: new Date(2010, i, 1),
-                        value: Math.random() * 1000
-                    })));
+                        this.store.set('$page.data', Array.from({length: 5 * 12}, (x, i)=>({
+                            date: new Date(2010, i, 1),
+                            value: Math.random() * 1000
+                        })));
+                    }
                 }
-            }
-            ...
-            <div class="widgets" controller={PageController}>
-                <Svg style="width:600px;height:300px;" margin="60 60 60 60">
-                    <Chart axes={{
-                        x: <TimeAxis />,
-                        y: <NumericAxis vertical />,
-                    }}>
-                        <Rectangle fill="white"/>
-                        <Gridlines />
-                        <ColumnGraph data-bind="$page.data"
-                                     size={30 * 24 * 60 * 60 * 1000}
-                                     offset={15 * 24 * 60 * 60 * 1000}
-                                     xField="date"
-                                     yField="value" />
-                    </Chart>
-                </Svg>
-            </div>
-            `}</CodeSnippet>
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="B8fcC7VF">{`
+                <div class="widgets" controller={PageController}>
+                    <Svg style="width:600px;height:300px;" margin="60 60 60 60">
+                        <Chart axes={{
+                            x: <TimeAxis />,
+                            y: <NumericAxis vertical />,
+                        }}>
+                            <Rectangle fill="white"/>
+                            <Gridlines />
+                            <ColumnGraph data-bind="$page.data"
+                                        size={30 * 24 * 60 * 60 * 1000}
+                                        offset={15 * 24 * 60 * 60 * 1000}
+                                        xField="date"
+                                        yField="value" />
+                        </Chart>
+                    </Svg>
+                </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

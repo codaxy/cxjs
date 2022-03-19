@@ -89,9 +89,9 @@ export const Grouping = <cx>
             
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="columns" mod="code"><code>Columns</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
+                    <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
                 </div>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="0Ztcob5B">{`
 

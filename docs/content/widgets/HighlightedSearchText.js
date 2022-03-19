@@ -45,8 +45,7 @@ export const HighlightedSearchTextPage = <cx>
          </div>
 
          <Content name="code">
-            <Tab value-bind="$page.code.tab" tab="list" mod="code" default><code>List</code></Tab>
-
+            <Tab value-bind="$page.code.tab" tab="list" mod="code" text="List" default />
             <CodeSnippet fiddle="jF9CqiXr" visible-expr="{$page.code.tab}=='list'">{`
                 <LabelsTopLayout columns={1}>
                     <TextField label="Search" value-bind="$page.search.query" />

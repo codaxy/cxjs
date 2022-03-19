@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, NumericAxis, Gridlines } from 'cx/charts';
 import {Md} from '../../components/Md';
@@ -32,18 +32,21 @@ export const Charts = <cx>
                </Chart>
             </Svg>
          </div>
-
-         <CodeSnippet putInto="code" fiddle="XrmQTDYs">{`
-             <Svg style="width:300px;height:200px" margin="10 20 30 50">
-               <Chart axes={{
-                  x: <NumericAxis />,
-                  y: <NumericAxis vertical/>
-               }}>
-                  <Rectangle fill="white" />
-                  <Gridlines />
-               </Chart>
-            </Svg>
-         `}</CodeSnippet>
+            
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Charts" default/>
+            <CodeSnippet fiddle="XrmQTDYs">{`
+               <Svg style="width:300px;height:200px" margin="10 20 30 50">
+                  <Chart axes={{
+                     x: <NumericAxis />,
+                     y: <NumericAxis vertical/>
+                  }}>
+                     <Rectangle fill="white" />
+                     <Gridlines />
+                  </Chart>
+               </Svg>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       The most important part is axis configuration. Numeric, category and date axis types are supported.

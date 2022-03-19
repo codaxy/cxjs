@@ -1,4 +1,4 @@
-import { HtmlElement, Heading } from 'cx/widgets';
+import { HtmlElement, Heading, Tab, Content } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -28,16 +28,19 @@ export const Headings = <cx>
                     <Heading level="6">Heading 6</Heading>
                 </div>
             </div>
-            <CodeSnippet putInto="code" fiddle="c0RsAXHh">{`
-                <div>
-                    <Heading level="1">Heading 1</Heading>
-                    <Heading level="2">Heading 2</Heading>
-                    <Heading level="3">Heading 3</Heading>
-                    <Heading level="4">Heading 4</Heading>
-                    <Heading level="5">Heading 5</Heading>
-                    <Heading level="6">Heading 6</Heading>
-                </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="c0RsAXHh">{`
+                    <div>
+                        <Heading level="1">Heading 1</Heading>
+                        <Heading level="2">Heading 2</Heading>
+                        <Heading level="3">Heading 3</Heading>
+                        <Heading level="4">Heading 4</Heading>
+                        <Heading level="5">Heading 5</Heading>
+                        <Heading level="6">Heading 6</Heading>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -41,9 +41,7 @@ export const Resizers = <cx>
                 </div>
             </div>
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="resized" mod="code" default><code>Resizer</code></Tab>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="resized" mod="code" text="Resizer" default />
                 <CodeSnippet fiddle="rG05184t" visible-expr="{$page.code.tab}=='resized'">{`
                     <div class="widgets">
                         <div style="width: 300px; height: 100px; display: flex;">

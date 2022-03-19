@@ -1,4 +1,4 @@
-import {HtmlElement, LinkButton} from 'cx/widgets';
+import {HtmlElement, LinkButton, Tab} from 'cx/widgets';
 import {Content} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -22,12 +22,15 @@ export const LinkButtons = <cx>
                 <LinkButton mod="primary" href="~/widgets/links">See Links</LinkButton>
                 <LinkButton mod="danger" href="~/widgets/buttons">See Buttons</LinkButton>
             </div>
-            <CodeSnippet putInto="code" fiddle="4WlDkLBS">{`
-             <div class="widgets">
-                <LinkButton mod="primary" href="~/widgets/links">See Links</LinkButton>
-                <LinkButton mod="danger" href="~/widgets/buttons">See Buttons</LinkButton>
-             </div>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="LinkButton" default/>
+                <CodeSnippet fiddle="4WlDkLBS">{`
+                <div class="widgets">
+                    <LinkButton mod="primary" href="~/widgets/links">See Links</LinkButton>
+                    <LinkButton mod="danger" href="~/widgets/buttons">See Buttons</LinkButton>
+                </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

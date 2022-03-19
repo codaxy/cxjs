@@ -40,16 +40,12 @@ export const Texts = <cx>
             </div>
          </div>
 
-            <Content name="code">
-            <div>
-            <Tab value-bind="$page.code.tab" tab="style" mod="code">
-                <code>Style</code>
-            </Tab>
+        <Content name="code">
+           
+            <Tab value-bind="$page.code.tab" tab="style" mod="code" text="Style"/>
 
-            <Tab value-bind="$page.code.tab" tab="text" mod="code" default>
-                <code>Text</code>
-            </Tab>
-            </div>
+            <Tab value-bind="$page.code.tab" tab="text" mod="code" text="Text" default />
+            
         <CodeSnippet visible-expr="{$page.code.tab}=='style'" fiddle="qgxBwygW" >{`
             const style = { 
                 backgroundColor: "darkseagreen",

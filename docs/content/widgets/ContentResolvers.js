@@ -79,8 +79,8 @@ export const ContentResolvers = <cx>
             
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="code" mod="code" default><code>Code</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                    <Tab value-bind="$page.code.tab" tab="code" mod="code" text='Code' default/>
                 </div>
                 <CodeSnippet fiddle="RcY5ebiO" visible-expr="{$page.code.tab}=='controller'">{`
                     class PageController extends Controller {

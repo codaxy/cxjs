@@ -36,15 +36,8 @@ export const Selections = <cx>
             be handled and `Cx` offers commonly used methods out of the box.
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
-                        <code>Controller</code>
-                    </Tab>
-
-                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" default>
-                        <code>Chart</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller"/>
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default/>
                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
                class PageController extends Controller {
                   init() {
@@ -162,15 +155,16 @@ export const Selections = <cx>
 
                 <div>
                     <Select value-bind="$page.selection">
-                        <Repeater records-bind="$page.bubbles"> <Option value-bind="$record.name"
-                                                                        text-bind="$record.name"/>
+                        <Repeater records-bind="$page.bubbles"> 
+                            <Option value-bind="$record.name" text-bind="$record.name"/>
                         </Repeater>
                     </Select>
                 </div>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="j8o4HZQV">{`
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
                <Grid records-bind="$page.bubbles"
                      style={{width: "400px"}}
                      columns={[

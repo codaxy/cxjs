@@ -208,8 +208,8 @@ export const RowExpanding = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" default><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
                 </div>
                 <CodeSnippet fiddle="puN3fVm4" visible-expr="{$page.code.tab}=='controller'">{`
                     class PageController extends Controller {

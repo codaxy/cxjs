@@ -1,4 +1,4 @@
-import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text} from 'cx/widgets';
+import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text, Tab} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -137,24 +137,29 @@ export const Formatting = <cx>
             Use `:` to use chain multiple formats. Formats are applied from left to right.
 
             Use `|` to provide null text; Default null text is empty string.
+            <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default/>
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
 
-            <CodeSnippet putInto="code">{`
-                //single value
-                Format.value(2, 'n;2'); //"2.00"
+                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
+                    //single value
+                    Format.value(2, 'n;2'); //"2.00"
 
-                //string template
-                StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
+                    //string template
+                    StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
 
-                //string template assigned to a widget property
-                <span text-tpl="{person.height:suffix; cm|N/A}" />
+                    //multiple formats
+                    Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"
+                    Format.value(null, 'n;2:wrap;(;)'); //""
 
-                //multiple formats
-                Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"
-                Format.value(null, 'n;2:wrap;(;)'); //""
-
-                //null
-                Format.value(null, 'n;2:wrap;(;)|N/A'); //"N/A"
-            `}</CodeSnippet>
+                    //null
+                    Format.value(null, 'n;2:wrap;(;)|N/A'); //"N/A"
+                `}</CodeSnippet>
+                <CodeSnippet  visible-expr="{$page.code1.tab}=='index'">{`
+                    //string template assigned to a widget property
+                    <span text-tpl="{person.height:suffix; cm|N/A}" />
+                `}</CodeSnippet>
+            </Content>
 
             ### Format Specifiers
 
@@ -180,7 +185,6 @@ export const Formatting = <cx>
 
         <CodeSplit>
             `Format.register` can be used to register formats which do not need any parameters.
-
             <CodeSnippet putInto="code">{`
                 Format.register('brackets', value => \`(\$\{value\})\`);
                 Format.value('test', 'brackets'); //'(test)'
@@ -189,7 +193,6 @@ export const Formatting = <cx>
 
         <CodeSplit>
             `Format.registerFactory` can be used to define formats which take parameters.
-
             <CodeSnippet putInto="code">{`
                 Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
                 Format.value(10, 'suffix; kg'); //'10 kg'
