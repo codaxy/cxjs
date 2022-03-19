@@ -69,6 +69,9 @@ interface GridColumnHeaderConfig {
    items?: React.ReactNode;
    children?: React.ReactNode;
    tool?: React.ReactNode;
+   style?: Cx.StyleProp;
+   class?: Cx.ClassProp;
+   className?: Cx.ClassProp;
 }
 
 interface GridColumnConfig {
@@ -92,7 +95,6 @@ interface GridColumnConfig {
    footer?: Cx.StringProp | false;
    items?: React.ReactNode;
    children?: React.ReactNode;
-   layout?: Cx.StringProp;
    key?: string;
    pad?: boolean;
    sortField?: string;

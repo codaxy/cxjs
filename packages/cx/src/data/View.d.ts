@@ -31,6 +31,7 @@ export interface ViewMethods<D = Record> {
    delete(path: Path): boolean;
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
+   delete<V>(path: AccessorChain<V>): boolean;
 
    toggle(path: Path): boolean;
 
@@ -76,6 +77,7 @@ export class View<D = any> implements ViewMethods<D> {
    delete(path: Path): boolean;
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
+   delete<V>(path: AccessorChain<V>): boolean;
 
    clear(): void;
 
