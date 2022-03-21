@@ -34,6 +34,7 @@ export const FieldGroups = <cx>
                     <TextField label="First Name" value-bind="$page.firstName" required/>
                     <TextField label="Last Name" value-bind="$page.lastName" required/>
                     <Checkbox label="Status" value-bind="$page.active" text="Active" emptyText="Inactive" />
+                    <Checkbox label="Active" value-bind="$page.active" viewText-expr='{$page.active} ? "Yes" : "No"' />
                     <Button text="Button" />
                 </FieldGroup>
             </div>

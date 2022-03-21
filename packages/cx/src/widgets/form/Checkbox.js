@@ -22,6 +22,7 @@ export class Checkbox extends Field {
             disabled: undefined,
             enabled: undefined,
             required: undefined,
+            viewText: undefined,
          },
          ...arguments
       );
@@ -92,6 +93,11 @@ export class Checkbox extends Field {
             </span>
          ),
       ]);
+   }
+
+   renderValue(context, { data }) {
+      if (!data.viewText) return super.renderValue(...arguments);
+      return <span className={this.CSS.element(this.baseClass, "view-text")}>{data.viewText}</span>;
    }
 
    formatValue(context, instance) {

@@ -1,39 +1,43 @@
-import * as Cx from '../../core';
-import { FieldProps } from './Field';
+import * as Cx from "../../core";
+import { FieldProps } from "./Field";
 
 interface CheckboxProps extends FieldProps {
-
    /** Value of the checkbox. `true` makes the checkbox checked. */
-   value?: Cx.BooleanProp,
+   value?: Cx.BooleanProp;
 
    /** efaults to `false`. Used to make the field read-only. */
-   readOnly?: Cx.BooleanProp,
+   readOnly?: Cx.BooleanProp;
 
    /** Base CSS class to be applied to the field. Defaults to `checkbox`. */
-   baseClass?: string,
+   baseClass?: string;
 
-   /** 
-    * Use native checkbox HTML element (`<input type="checkbox"/>`). Default is `false`. 
-    * Native checkboxes are difficult to style. 
+   /**
+    * Use native checkbox HTML element (`<input type="checkbox"/>`). Default is `false`.
+    * Native checkboxes are difficult to style.
     */
-   native?: boolean,
+   native?: boolean;
 
-   /** 
-    * Set to true to instruct the widget to indicate indeterminate state 
-    * (null or undefined value) with a square icon instead of appearing unchecked. 
+   /**
+    * Set to true to instruct the widget to indicate indeterminate state
+    * (null or undefined value) with a square icon instead of appearing unchecked.
     */
-   indeterminate?: boolean,
+   indeterminate?: boolean;
 
    /** Value of the checkbox. `true` makes the checkbox checked. */
-   checked?: Cx.BooleanProp,
+   checked?: Cx.BooleanProp;
 
    /** Text property. */
-   text?: Cx.StringProp,
+   text?: Cx.StringProp;
 
    /** Prevent moving focus on the checkbox. This is useful when checkboxes are found
     inside other focusable elements, such as grids or lists. */
-   unfocusable?: boolean
-    
+   unfocusable?: boolean;
+
+   /**
+    * Text to be displayed when checkobx is in the view mode.
+    * Useful to describe state of the checkbox in `viewMode` in a form of text, i.e. `Active/Inactive`.
+    */
+   viewText?: Cx.StringProp;
 }
 
 export class Checkbox extends Cx.Widget<CheckboxProps> {}
