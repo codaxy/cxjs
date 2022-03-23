@@ -589,12 +589,36 @@
       }
    }
 
+   .#{$element}#{$name}-scroll-area {
+      &.#{$state}fixed-footer
+         > .#{$element}#{$name}-table-wrapper
+         > table
+         > .#{$element}#{$name}-group-footer:last-child {
+         visibility: hidden;
+
+         td {
+            border: none;
+         }
+      }
+   }
+
    .#{$element}#{$name}-fixed-scroll-area {
       overflow-x: scroll;
       overflow-y: hidden;
       border-color: $cx-default-grid-border-color;
       border-right-style: solid;
       border-right-width: 1px;
+
+      &.#{$state}fixed-footer
+         > .#{$element}#{$name}-fixed-table-wrapper
+         > table
+         > .#{$element}#{$name}-group-footer:last-child {
+         visibility: hidden;
+
+         td {
+            border: none;
+         }
+      }
    }
 
    .#{$element}#{$name}-col-header-tool {
