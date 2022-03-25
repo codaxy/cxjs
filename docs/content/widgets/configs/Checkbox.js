@@ -45,4 +45,10 @@ export default {
             inside other focusable elements, such as grids or lists.
         </Md></cx>
     },
+    viewText: {
+        type: 'string',
+        description: <cx><Md>
+            Text to be displayed when the checkbox is in the `viewMode`. Useful to describe state of the checkbox in `viewMode` in a form of text, i.e. `Active/Inactive`.
+        </Md></cx>
+    }
 };

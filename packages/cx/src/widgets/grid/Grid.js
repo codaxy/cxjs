@@ -674,9 +674,15 @@ export class Grid extends Widget {
 
                   if ((hdwidget.resizable || header.data.resizable) && header.data.colSpan < 2) {
                      resizer = this.renderResizer(instance, hdinst, header, colIndex);
-                     if (colIndex > 0) {
-                        let hdinstPrev = line.children[colIndex - 1];
-                        let headerPrev = hdinstPrev.components[`header${l + 1}`];
+                  }
+
+                  if (colIndex > 0) {
+                     let hdinstPrev = line.children[colIndex - 1];
+                     let headerPrev = hdinstPrev.components[`header${l + 1}`];
+                     if (
+                        (hdinstPrev.widget.resizable || (headerPrev && headerPrev.data.resizable)) &&
+                        headerPrev.data.colSpan < 2
+                     ) {
                         prevColumnResizer = this.renderResizer(instance, hdinstPrev, headerPrev, colIndex, true);
                      }
                   }
