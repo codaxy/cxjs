@@ -1552,6 +1552,8 @@ class GridComponent extends VDOM.Component {
          }
       }
 
+      let shouldRenderFixedFooter = widget.scrollable && (fixedFooter || fixedColumnsFixedFooter);
+
       if (hasFixedColumns) {
          fixedColumnsContent.push(
             <div
@@ -1559,7 +1561,7 @@ class GridComponent extends VDOM.Component {
                ref={this.fixedScrollerRef}
                className={CSS.element(baseClass, "fixed-scroll-area", {
                   "fixed-header": !!this.props.header,
-                  "fixed-footer": widget.buffered && (fixedFooter || fixedColumnsFixedFooter),
+                  "fixed-footer": shouldRenderFixedFooter,
                })}
             >
                <div className={CSS.element(baseClass, "fixed-table-wrapper")}>
@@ -1583,7 +1585,7 @@ class GridComponent extends VDOM.Component {
             onScroll={this.onScroll.bind(this)}
             className={CSS.element(baseClass, "scroll-area", {
                "fixed-header": !!this.props.header,
-               "fixed-footer": widget.buffered && (fixedFooter || fixedColumnsFixedFooter),
+               "fixed-footer": shouldRenderFixedFooter,
             })}
          >
             <div className={CSS.element(baseClass, "table-wrapper")}>
@@ -1631,7 +1633,7 @@ class GridComponent extends VDOM.Component {
             </div>
          );
 
-      if (fixedFooter || fixedColumnsFixedFooter) {
+      if (shouldRenderFixedFooter) {
          content.push(
             <div
                key="ff"
@@ -1639,9 +1641,6 @@ class GridComponent extends VDOM.Component {
                   this.dom.fixedFooter = el;
                }}
                className={CSS.element(baseClass, "fixed-footer")}
-               style={{
-                  display: this.scrollWidth > 0 ? "block" : "none",
-               }}
             >
                <table>{fixedFooter}</table>
             </div>
@@ -1655,9 +1654,6 @@ class GridComponent extends VDOM.Component {
                      this.dom.fixedColumnsFixedFooter = el;
                   }}
                   className={CSS.element(baseClass, "fixed-fixed-footer")}
-                  style={{
-                     display: this.scrollWidth > 0 ? "block" : "none",
-                  }}
                >
                   <table>{fixedColumnsFixedFooter}</table>
                </div>
