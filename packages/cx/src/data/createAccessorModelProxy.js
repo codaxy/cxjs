@@ -3,7 +3,7 @@ export function createAccessorModelProxy(chain = "") {
       get: (target, name) => {
          if (name === "isAccessorChain") return true;
          if (typeof name !== "string") return this;
-         if (name === "toString") return proxy;
+         if (name === "toString" || name === "valueOf") return proxy;
 
          let newChain = chain;
          if (newChain.length > 0) newChain += ".";

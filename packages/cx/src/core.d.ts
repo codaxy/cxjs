@@ -55,6 +55,8 @@ declare namespace Cx {
    type RecordsProp = Prop<Record[]>;
    type SortersProp = Prop<Sorter[]>;
 
+   type RecordAlias<V = any> = string | AccessorChain<V[]>;
+
    interface WidgetProps {
       /** Inner layout used to display children inside the widget. */
       layout?: any;

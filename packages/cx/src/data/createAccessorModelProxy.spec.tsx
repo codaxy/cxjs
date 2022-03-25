@@ -15,4 +15,9 @@ describe("createAccessorModelProxy", () => {
       assert.strictEqual(model.address.toString(), "address");
       assert.strictEqual(model.address.city.toString(), "address.city");
    });
+
+   it("can be used in string templates", () => {
+      var model = createAccessorModelProxy<Model>();
+      assert.strictEqual("address.city", `${model.address.city}`);
+   });
 });
