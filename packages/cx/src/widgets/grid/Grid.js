@@ -1084,13 +1084,14 @@ export class Grid extends Widget {
       //it doesn't make sense to show the footer if the grid is empty though
       let record = records[records.length - 1];
 
-      instance.fixedFooterOverlap = record.type == "group-footer";
+      instance.fixedFooterOverlap = true;
+      instance.fixedFooterIsGroupFooter = record.type == "group-footer";
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
          instance,
          record.grouping,
-         record.level,
+         record.level || 1,
          record.group || { $key: "fixed-footer" },
          record.key + "-footer",
          record.store,
@@ -1544,7 +1545,7 @@ class GridComponent extends VDOM.Component {
                </tr>
             </tbody>,
          ];
-      } else if (widget.buffered) {
+      } else if (widget.fixedFooter && (widget.buffered || !instance.fixedFooterIsGroupFooter)) {
          //add fixed footer content for buffered grids
          if (fixedFooter || fixedColumnsFixedFooter) {
             children.push(fixedFooter);
