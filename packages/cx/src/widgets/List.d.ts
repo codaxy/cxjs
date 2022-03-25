@@ -1,4 +1,18 @@
-import { BooleanProp, CollatorOptions, RecordAlias, RecordsProp, StructuredProp, StyledContainerProps } from "../core";
+import {
+   BooleanProp,
+   ClassProp,
+   CollatorOptions,
+   Config,
+   Record,
+   RecordAlias,
+   RecordsProp,
+   SortersProp,
+   StringProp,
+   StructuredProp,
+   StyledContainerProps,
+   StyleProp,
+   Widget,
+} from "../core";
 import { Instance } from "./../ui/Instance";
 
 interface ListProps extends StyledContainerProps {
