@@ -2,7 +2,7 @@ import { Binding } from "./Binding";
 import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
 import { StoreRef } from "./StoreRef";
-import { isObject } from "../../../../packages/cx/src/util/isObject";
+import { isObject } from "../util/isObject";
 import { isFunction } from "../util/isFunction";
 
 export class View {
