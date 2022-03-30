@@ -81,10 +81,6 @@ export class Grid extends Widget {
 
       if (this.buffered) this.scrollable = true;
 
-      if (!this.scrollable) {
-         this.fixedFooter = false; //unsupported combination
-      }
-
       this.recordsAccessor = getAccessor(this.records);
 
       this.selection = Selection.create(this.selection, {
@@ -911,13 +907,8 @@ export class Grid extends Widget {
       let data = store.getData();
       let skip = 0;
 
-      let { header, dataAdapter } = instance;
+      let { header } = instance;
       let rowStyle = {};
-
-      //hide the last group footer if fixedFooter is used
-      //but leave it rendered for column size calculation
-      if (this.fixedFooter && !fixed && isArray(dataAdapter.groupings) && level == dataAdapter.groupings.length)
-         rowStyle.visibility = "hidden";
 
       let lines = [];
       header.children.forEach((line, lineIndex) => {
@@ -1093,13 +1084,14 @@ export class Grid extends Widget {
       //it doesn't make sense to show the footer if the grid is empty though
       let record = records[records.length - 1];
 
-      instance.fixedFooterOverlap = record.type == "group-footer";
+      instance.fixedFooterOverlap = true;
+      instance.fixedFooterIsGroupFooter = record.type == "group-footer";
 
       instance.fixedFooterVDOM = this.renderGroupFooter(
          context,
          instance,
          record.grouping,
-         record.level,
+         record.level || 1,
          record.group || { $key: "fixed-footer" },
          record.key + "-footer",
          record.store,
@@ -1553,7 +1545,15 @@ class GridComponent extends VDOM.Component {
                </tr>
             </tbody>,
          ];
+      } else if (widget.fixedFooter && (widget.buffered || !instance.fixedFooterIsGroupFooter)) {
+         //add fixed footer content for buffered grids
+         if (fixedFooter || fixedColumnsFixedFooter) {
+            children.push(fixedFooter);
+            if (hasFixedColumns) fixedChildren.push(fixedColumnsFixedFooter);
+         }
       }
+
+      let shouldRenderFixedFooter = widget.scrollable && (fixedFooter || fixedColumnsFixedFooter);
 
       if (hasFixedColumns) {
          fixedColumnsContent.push(
@@ -1562,6 +1562,7 @@ class GridComponent extends VDOM.Component {
                ref={this.fixedScrollerRef}
                className={CSS.element(baseClass, "fixed-scroll-area", {
                   "fixed-header": !!this.props.header,
+                  "fixed-footer": shouldRenderFixedFooter,
                })}
             >
                <div className={CSS.element(baseClass, "fixed-table-wrapper")}>
@@ -1585,6 +1586,7 @@ class GridComponent extends VDOM.Component {
             onScroll={this.onScroll.bind(this)}
             className={CSS.element(baseClass, "scroll-area", {
                "fixed-header": !!this.props.header,
+               "fixed-footer": shouldRenderFixedFooter,
             })}
          >
             <div className={CSS.element(baseClass, "table-wrapper")}>
@@ -1632,7 +1634,7 @@ class GridComponent extends VDOM.Component {
             </div>
          );
 
-      if (fixedFooter || fixedColumnsFixedFooter) {
+      if (shouldRenderFixedFooter) {
          content.push(
             <div
                key="ff"
@@ -1640,9 +1642,6 @@ class GridComponent extends VDOM.Component {
                   this.dom.fixedFooter = el;
                }}
                className={CSS.element(baseClass, "fixed-footer")}
-               style={{
-                  display: this.scrollWidth > 0 ? "block" : "none",
-               }}
             >
                <table>{fixedFooter}</table>
             </div>
@@ -1656,9 +1655,6 @@ class GridComponent extends VDOM.Component {
                      this.dom.fixedColumnsFixedFooter = el;
                   }}
                   className={CSS.element(baseClass, "fixed-fixed-footer")}
-                  style={{
-                     display: this.scrollWidth > 0 ? "block" : "none",
-                  }}
                >
                   <table>{fixedColumnsFixedFooter}</table>
                </div>
@@ -2321,11 +2317,6 @@ class GridComponent extends VDOM.Component {
 
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;
             if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = `${footerHeight}px`;
-
-            //Show the last row if fixed footer is shown without grouping, otherwise hide it.
-            //For buffered grids, footer is never rendered within the body.
-            //Hacky: accessing internal adapter property to check if grouping is applied
-            if (!isNonEmptyArray(instance.dataAdapter.groupings) || widget.buffered) footerHeight = 0;
          } else {
             this.dom.scroller.style.marginBottom = 0;
             if (this.dom.fixedScroller) this.dom.fixedScroller.style.marginBottom = 0;
