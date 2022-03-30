@@ -167,7 +167,7 @@ export const Formatting = <cx>
         </CodeSplit>
 
         ### Culture Sensitive Formatting
-        <ImportPath path="import { enableCultureSensitiveFormatting() } from 'cx/ui';"/>
+        <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';"/>
 
         Date, currency and number formats are dependent on an external library and must be enabled
         before use. This is slightly inconvenient but ensures small bundle sizes for applications that do
