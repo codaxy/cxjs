@@ -20,6 +20,7 @@ export function getComparer(sorters, dataAccessor, comparer) {
          bv = d.getter(b);
 
          // show nulls always on the bottom
+         if (av == null && bv == null) return 0;
          if (av == null) return 1;
          if (bv == null) return -1;
 
