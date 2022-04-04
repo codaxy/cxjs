@@ -19,9 +19,8 @@ export function getComparer(sorters, dataAccessor, comparer) {
          av = d.getter(a);
          bv = d.getter(b);
 
-         // show nulls always on the bottom
-         if (av == null && bv == null) return 0;
-         if (av == null) return 1;
+         // show nulls always on the bottom         
+         if (av == null) return bv == null ? 0 : 1;
          if (bv == null) return -1;
 
          let r = d.compare(av, bv);
