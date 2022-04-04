@@ -679,7 +679,7 @@ export class Grid extends Widget {
                         (hdinstPrev.widget.resizable || (headerPrev && headerPrev.data.resizable)) &&
                         headerPrev.data.colSpan < 2
                      ) {
-                        prevColumnResizer = this.renderResizer(instance, hdinstPrev, headerPrev, colIndex, true);
+                        prevColumnResizer = this.renderResizer(instance, hdinstPrev, headerPrev, colIndex - 1, true);
                      }
                   }
                }
