@@ -10,7 +10,7 @@ export const ImmerJsIntegration = <cx>
    <Md>
         # Immer.js Integration
 
-        CxJS requires all data be immutable. Each change (`update`) operation is required to return a new object.
+        CxJS requires all data to be immutable. Each change (`update`) operation is required to return a new object.
         This can be very challenging with common with complex and deeply nested data models, especially for developers who
         are not used to that.
 
