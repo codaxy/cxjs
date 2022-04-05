@@ -1,7 +1,8 @@
-import {Binding, isBinding} from "./Binding";
-import {isSelector} from "./isSelector";
-import {getSelector} from "./getSelector";
-import {isObject} from "../util/isObject";
+import { Binding, isBinding } from "./Binding";
+import { isSelector } from "./isSelector";
+import { getSelector } from "./getSelector";
+import { isObject } from "../util/isObject";
+import { isAccessorChain } from "./createAccessorModelProxy";
 
 /*
    Accessor provides a common ground between refs and bindings.
@@ -10,8 +11,7 @@ import {isObject} from "../util/isObject";
  */
 
 export function getAccessor(accessor, options) {
-   if (accessor == null)
-      return null;
+   if (accessor == null) return null;
 
    if (isObject(accessor)) {
       if (accessor.isAccessor || accessor.isRef) return accessor;
@@ -20,9 +20,18 @@ export function getAccessor(accessor, options) {
          return {
             get: binding.value,
             set: (v, store) => store.set(binding.path, v),
-            isAccessor: true
-         }
+            isAccessor: true,
+         };
       }
+   }
+
+   if (isAccessorChain(accessor)) {
+      let binding = Binding.get(accessor);
+      return {
+         get: binding.value,
+         set: (v, store) => store.set(binding.path, v),
+         isAccessor: true,
+      };
    }
 
    if (isSelector(accessor)) {
@@ -34,19 +43,19 @@ export function getAccessor(accessor, options) {
             bindInstance(instance) {
                return {
                   get: selector,
-                  set: value => accessor.set(value, instance),
-                  isAccessor: true
-               }
-            }
+                  set: (value) => accessor.set(value, instance),
+                  isAccessor: true,
+               };
+            },
          };
 
       return {
          get: selector,
-         isAccessor: true
+         isAccessor: true,
       };
    }
 
    return {
-      get: () => accessor
-   }
+      get: () => accessor,
+   };
 }

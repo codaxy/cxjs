@@ -1,3 +1,4 @@
-import * as Cx from '../core';
+import { Binding, AccessorChain } from "../core";
 
-export function bind(path: string, defaultValue?: any) : Cx.Binding;
+export function bind(path: string, defaultValue?: any): Binding;
+export function bind(chain: AccessorChain<any>, defaultValue?: any): Binding;

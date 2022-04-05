@@ -11,7 +11,7 @@ interface HtmlElementProps extends Cx.HtmlElementProps {
    tag?: string;
 
    /** HTML to be injected into the element. */
-   html?: string;
+   html?: Cx.StringProp;
 
    styled?: boolean;
 

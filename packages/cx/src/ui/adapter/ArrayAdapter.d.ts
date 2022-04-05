@@ -1,17 +1,16 @@
-import {DataAdapter} from './DataAdapter';
-import {Binding} from "../../data/Binding";
-import {Ref} from "../../data/Ref";
+import { AccessorChain, Prop } from "../../core";
+import { Accessor } from "../../data/getAccessor";
+import { DataAdapter } from "./DataAdapter";
 
-interface Accessor {
-   binding: Binding,
-   ref: Ref
-}
-
-interface Config {
+interface ArrayAdapterConfig {
    immutable?: boolean;
    sealed?: boolean;
+   recordsBinding?: Prop<any[]>;
+   recordsAccessor?: Accessor;
+   recordName: string | AccessorChain<any>;
+   indexName: string | AccessorChain<any>;
 }
 
 export class ArrayAdapter extends DataAdapter {
-   constructor(config: Config);
+   constructor(config: ArrayAdapterConfig);
 }

@@ -1,6 +1,7 @@
 export function bind(path, defaultValue) {
    return {
-      bind: path,
-      defaultValue
-   }
+      //toString will ensure chain accessors are converted to strings
+      bind: path.toString(),
+      defaultValue,
+   };
 }

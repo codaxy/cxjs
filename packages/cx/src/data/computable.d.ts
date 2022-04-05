@@ -1,8 +1,9 @@
-import * as Cx from "../core";
+import { AccessorChain, Record } from "../core";
+import { AccessorModel } from "./createAccessorModelProxy";
 
-interface Computable {
-   (data: Cx.Record): any;
-   memoize(warmupData?: Cx.Record): (data: Cx.Record) => any;
+interface Computable<V = any> {
+   (data: Record): V;
+   memoize(warmupData?: Record): (data: Record) => any;
 }
 
 export function computable(callback: () => any): Computable;
@@ -21,3 +22,25 @@ export function computable(
    p4: string,
    computeFn: (v1: any, v2: any, v3: any, v4: any) => any
 ): Computable;
+
+export function computable<V1, R>(arg1: AccessorChain<V1>, compute: (v1: V1) => R): Computable<R>;
+export function computable<V1, V2, R>(
+   arg1: AccessorChain<V1> | AccessorModel<V1>,
+   arg2: AccessorChain<V2> | AccessorModel<V2>,
+   compute: (v1: V1, v2: V2) => R
+): Computable<R>;
+
+export function computable<V1, V2, V3, R>(
+   arg1: AccessorChain<V1> | AccessorModel<V1>,
+   arg2: AccessorChain<V2> | AccessorModel<V2>,
+   arg3: AccessorChain<V3> | AccessorModel<V3>,
+   compute: (v1: V1, v2: V2, v3: V3) => R
+): Computable<R>;
+
+export function computable<V1, V2, V3, V4, R>(
+   arg1: AccessorChain<V1>,
+   arg2: AccessorChain<V2>,
+   arg3: AccessorChain<V3>,
+   arg4: AccessorChain<V4>,
+   compute: (v1: V1, v2: V2, v3: V3, v4: V4) => R
+): Computable<R>;

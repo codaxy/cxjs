@@ -4,6 +4,7 @@ import { StringTemplate } from "./StringTemplate";
 import { isArray } from "../util/isArray";
 import { createStructuredSelector } from "./createStructuredSelector";
 import { isSelector } from "./isSelector";
+import { isAccessorChain } from "./createAccessorModelProxy";
 
 var undefinedF = () => undefined;
 var nullF = () => null;
@@ -19,7 +20,8 @@ export function getSelector(config) {
             return (data) => selectors.map((elementSelector) => elementSelector(data));
          }
 
-         if (config.bind) return Binding.get(config.bind).value;
+         //toString converts accessor chains to binding paths
+         if (config.bind) return Binding.get(config.bind.toString()).value;
 
          if (config.tpl) return StringTemplate.get(config.tpl);
 
@@ -37,6 +39,7 @@ export function getSelector(config) {
          return createStructuredSelector(selectors, constants);
 
       case "function":
+         if (isAccessorChain(config)) return Binding.get(config.toString()).value;
          return config;
 
       default:
