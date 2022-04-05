@@ -60,6 +60,8 @@ export const docsNavTree = [
                { text: "Localization", url: "~/concepts/localization" },
                { text: "Charts", url: "~/concepts/charts" },
                { text: "Drag & Drop", url: "~/concepts/drag-and-drop" },
+               { text: "Typed Models", url: "~/concepts/typed-models" },
+               { text: "Immer.js Integration", url: "~/concepts/immer-js-integration" },
             ],
          },
       ],
