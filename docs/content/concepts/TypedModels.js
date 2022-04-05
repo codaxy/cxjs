@@ -166,7 +166,7 @@ export const TypedModels = <cx>
 
         With strong typing you also get great auto-complete support in modern editors such as VS Code.
 
-        That's all. You should also check [Immer.js integration](~/concepts/immer-js),
+        That's all. You should also check [Immer.js integration](~/concepts/immer-js-integration),
          which can help greatly with complex store operations.
 
    </Md>
