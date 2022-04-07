@@ -18,7 +18,7 @@ import {
    tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
 import { yesNo } from "../overlay/alerts";
-import { isTextInputElement } from "../../util";
+import { isTextInputElement, stopPropagation } from "../../util";
 import { unfocusElement } from "../../ui/FocusManager";
 
 /*
@@ -135,6 +135,7 @@ class MenuItemComponent extends VDOM.Component {
             placementOrder: widget.placementOrder || this.getDefaultPlacementOrder(horizontal),
             trackScroll: true,
             inline: true,
+            onClick: stopPropagation,
             ...widget.dropdownOptions,
             relatedElement: this.el.parentElement,
             placement: widget.placement,
@@ -314,6 +315,7 @@ class MenuItemComponent extends VDOM.Component {
       let { horizontal, widget } = this.props.instance;
       if (widget.dropdown) {
          if (
+            !this.state.dropdownOpen &&
             e.target == this.el &&
             (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))
          ) {
