@@ -90,6 +90,14 @@ declare namespace Cx {
 
       /** Key that will be used as the key when rendering the React component.  */
       vdomKey?: string;
+
+      onExplore?(context?: any, instance?: any): void;
+
+      onPrepare?(context?: any, instance?: any): void;
+
+      onCleanup?(context?: any, instance?: any): void;
+
+      onDestroy?(): void;
    }
 
    interface PureContainerProps extends WidgetProps {
