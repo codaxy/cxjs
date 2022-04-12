@@ -29,6 +29,8 @@ declare namespace Cx {
 
    type AccessorChain<M> = {
       toString(): string;
+      valueOf(): string;
+      nameOf(): string;
    } & {
       [prop in keyof M]: AccessorChain<M[prop]>;
    };
