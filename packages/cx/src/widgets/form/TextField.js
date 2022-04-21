@@ -37,7 +37,7 @@ export class TextField extends Field {
             minLength: undefined,
             maxLength: undefined,
             icon: undefined,
-            trim: undefined
+            trim: undefined,
          },
          ...arguments
       );
@@ -269,7 +269,7 @@ class Input extends VDOM.Component {
 
          let value = text || widget.emptyValue;
          if (!instance.set("value", value, { immediate })) {
-            if (text != this.trimmed(this.input.value)) this.input.value = text;
+            if (text != this.input.value && immediate) this.input.value = text;
          } else {
             if (value) instance.setState({ visited: true });
          }
@@ -277,8 +277,7 @@ class Input extends VDOM.Component {
    }
 
    trimmed(value) {
-      if (this.props.data.trim && isString(value))
-         return value.trim();
+      if (this.props.data.trim && isString(value)) return value.trim();
       return value;
    }
 }
