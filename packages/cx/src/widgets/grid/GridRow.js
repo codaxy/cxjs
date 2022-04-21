@@ -119,7 +119,7 @@ export class GridRowComponent extends VDOM.Component {
             e.stopPropagation();
 
             //close context menu
-            unfocusElement(e.target);
+            unfocusElement(e.target, false);
          }
       }
 
@@ -134,7 +134,7 @@ export class GridRowComponent extends VDOM.Component {
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          cellIndex: this.getCellIndex(e),
       });
@@ -190,7 +190,7 @@ export class GridRowComponent extends VDOM.Component {
          selectRange: e.shiftKey,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          cellIndex: this.getCellIndex(e),
       });
