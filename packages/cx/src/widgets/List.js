@@ -235,21 +235,23 @@ class ListComponent extends VDOM.Component {
       if (widget.autoFocus) FocusManager.focus(this.el);
 
       if (widget.onScroll) {
-         this.unsubscribeScroll = addEventListenerWithOptions(this.el, "scroll", event => {
-            instance.invoke("onScroll", event, instance);
-         }, { passive: true });
+         this.unsubscribeScroll = addEventListenerWithOptions(
+            this.el,
+            "scroll",
+            (event) => {
+               instance.invoke("onScroll", event, instance);
+            },
+            { passive: true }
+         );
       }
 
       this.componentDidUpdate();
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      if (this.state.focused && props.instance.widget.selectMode)
-         this.showCursor(true, props.items);
-      else if (this.state.cursor >= props.items.length)
-         this.moveCursor(props.items.length - 1);
-      else if (this.state.focused && this.state.cursor < 0)
-         this.moveCursor(0);
+      if (this.state.focused && props.instance.widget.selectMode) this.showCursor(true, props.items);
+      else if (this.state.cursor >= props.items.length) this.moveCursor(props.items.length - 1);
+      else if (this.state.focused && this.state.cursor < 0) this.moveCursor(0);
    }
 
    componentWillUnmount() {
@@ -268,7 +270,7 @@ class ListComponent extends VDOM.Component {
          select: true,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          selectRange: e.shiftKey,
       });
@@ -284,7 +286,7 @@ class ListComponent extends VDOM.Component {
          select: true,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          selectRange: e.shiftKey,
       });
@@ -388,7 +390,7 @@ class ListComponent extends VDOM.Component {
       let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
       let firstSelectedRow = this.el.querySelector(selectedRowSelector);
       if (firstSelectedRow != this.selectedEl) {
-         if (firstSelectedRow) scrollElementIntoView(firstSelectedRow);
+         if (firstSelectedRow) scrollElementIntoView(firstSelectedRow, true, false, 0, this.el);
          this.selectedEl = firstSelectedRow;
       }
    }
@@ -422,7 +424,7 @@ class ListComponent extends VDOM.Component {
                }
             });
          }
-      })
+      });
    }
 
    selectRange(from, to, options) {
@@ -515,7 +517,7 @@ class ListComponent extends VDOM.Component {
                select: true,
                selectOptions: {
                   toggle: e.ctrlKey && !e.shiftKey,
-                  add: e.ctrlKey && e.shiftKey
+                  add: e.ctrlKey && e.shiftKey,
                },
                selectRange: e.shiftKey,
             });
