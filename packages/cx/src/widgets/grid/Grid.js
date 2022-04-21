@@ -907,7 +907,7 @@ export class Grid extends Widget {
       let data = store.getData();
       let skip = 0;
 
-      let { header } = instance;
+      let { header, state } = instance;
       let rowStyle = {};
 
       let lines = [];
@@ -921,7 +921,7 @@ export class Grid extends Widget {
 
             let v,
                c = ci.widget,
-               colSpan,
+               colSpan = 1,
                pad,
                cls = "",
                style = null;
@@ -934,7 +934,6 @@ export class Grid extends Widget {
                empty = false;
                cls = CSS.expand(c.footer.class(data)) || "";
                style = parseStyle(c.footer.style(data));
-
                if (c.footer.expand) {
                   colSpan = 1;
                   for (
@@ -958,6 +957,16 @@ export class Grid extends Widget {
             if (c.align) cls += CSS.state("aligned-" + c.align);
 
             if (pad !== false) cls += (cls ? " " : "") + CSS.state("pad");
+
+            // apply column width to footers too, but only if colSpan == 1,
+            //  otherwise set 1px so that the footer is not participating in the layout
+
+            let maxWidth = 1;
+            if (colSpan == 1) maxWidth = state.colWidth[c.uniqueColumnId];
+            style = {
+               ...style,
+               maxWidth,
+            };
 
             return (
                <td key={i} className={cls} colSpan={colSpan} style={style}>
