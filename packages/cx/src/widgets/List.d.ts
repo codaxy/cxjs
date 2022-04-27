@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
    BooleanProp,
    ClassProp,
@@ -11,7 +12,7 @@ import {
    StructuredProp,
    StyledContainerProps,
    StyleProp,
-   Widget,
+   Widget
 } from "../core";
 import { Instance } from "./../ui/Instance";
 
@@ -79,6 +80,8 @@ interface ListProps extends StyledContainerProps {
 
    /** Callback to be invoked when the list is being scrolled. Useful for loading additional items. */
    onScroll?: (event: Event, instance: Instance) => void;
+
+   onItemClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 }
 
 export class List extends Widget<ListProps> {}
