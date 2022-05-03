@@ -1,8 +1,9 @@
 import * as React from "react";
 import * as Cx from "../../core";
 import { Instance } from "../../ui/Instance";
+import { LinkButtonProps } from "./LinkButton";
 
-interface LinkProps extends Cx.HtmlElementProps {
+interface LinkProps extends LinkButtonProps {
    /** Set to `true` to disable the link. */
    disabled?: Cx.BooleanProp;
 
