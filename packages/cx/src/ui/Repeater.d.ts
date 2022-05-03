@@ -41,6 +41,10 @@ interface RepeaterProps extends PureContainerProps {
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
+
+
+   /** Key used as an index field in repeater. Default name is `index`, with incremental value, starting from 0. */
+   keyField: StringProp;
 }
 
 export class Repeater extends Widget<RepeaterProps> {}
