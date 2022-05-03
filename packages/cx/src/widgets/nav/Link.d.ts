@@ -1,4 +1,6 @@
+import * as React from "react";
 import * as Cx from "../../core";
+import { Instance } from "../../ui/Instance";
 
 interface LinkProps extends Cx.HtmlElementProps {
    /** Set to `true` to disable the link. */
@@ -17,6 +19,7 @@ interface LinkProps extends Cx.HtmlElementProps {
 
    activeClass?: Cx.ClassProp;
    activeStyle?: Cx.StyleProp;
+   onClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 }
 
 export class Link extends Cx.Widget<LinkProps> {}
