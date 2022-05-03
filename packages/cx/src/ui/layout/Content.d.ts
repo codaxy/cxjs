@@ -2,8 +2,10 @@ import * as Cx from '../../core';
 
 interface ContentProps extends Cx.PureContainerProps {
 
+
+   /** Placeholder name where the content is rendered. */
    name?: string,
-   putInto?: string,
+
    isContent?: boolean
 
 }
