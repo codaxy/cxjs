@@ -1,5 +1,5 @@
-import { browserSupportsPassiveEventHandlers } from './browserSupportsPassiveEventHandlers';
-import { isTouchDevice } from './isTouchDevice';
+import { browserSupportsPassiveEventHandlers } from "./browserSupportsPassiveEventHandlers";
+import { isTouchDevice } from "./isTouchDevice";
 
 // This is primarily used for tooltips which behave differently on touch.
 // For example, tooltips are commonly toggled on touch or disabled completely.
@@ -15,38 +15,50 @@ let isTouchDetectionEnabled = false;
 
 export function enableTouchEventDetection() {
    if (isTouchDevice() && !isTouchDetectionEnabled) {
-      let options;
+      let options = true; //capture
 
       if (browserSupportsPassiveEventHandlers())
          options = {
-            passive: true
+            passive: true,
+            capture: true,
          };
 
-      document.addEventListener('touchstart', () => {
-         insideTouchEvent++;
-         //console.log('TOUCHSTART');
-         lastTouchEvent = new Date().getTime();
-      }, options);
+      document.addEventListener(
+         "touchstart",
+         () => {
+            insideTouchEvent++;
+            //console.log('TOUCHSTART');
+            lastTouchEvent = new Date().getTime();
+         },
+         options
+      );
 
-      document.addEventListener('touchmove', () => {
-         //console.log('TOUCHMOVE');
-         lastTouchEvent = new Date().getTime();
-      }, options);
+      document.addEventListener(
+         "touchmove",
+         () => {
+            //console.log('TOUCHMOVE');
+            lastTouchEvent = new Date().getTime();
+         },
+         options
+      );
 
-      document.addEventListener('touchend', () => {
-         insideTouchEvent--;
-         lastTouchEvent = new Date().getTime();
-         //console.log('TOUCHEND');
-      }, options);
+      document.addEventListener(
+         "touchend",
+         () => {
+            insideTouchEvent--;
+            lastTouchEvent = new Date().getTime();
+            //console.log('TOUCHEND');
+         },
+         options
+      );
 
       isTouchDetectionEnabled = true;
    }
 }
 
 export function isTouchEvent() {
-   return isTouchDevice() && (!isTouchDetectionEnabled || (new Date().getTime() - lastTouchEvent) < 1000);
+   return isTouchDevice() && (!isTouchDetectionEnabled || new Date().getTime() - lastTouchEvent < 1000);
 }
 
 //enable touch event detection if there is no performance penalty on scrolling
-if (isTouchDevice() && browserSupportsPassiveEventHandlers())
-   enableTouchEventDetection();
+if (isTouchDevice() && browserSupportsPassiveEventHandlers()) enableTouchEventDetection();
