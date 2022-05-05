@@ -28,7 +28,7 @@ export function enableTouchEventDetection() {
          () => {
             insideTouchEvent++;
             //console.log('TOUCHSTART');
-            lastTouchEvent = new Date().getTime();
+            lastTouchEvent = Date.now();
          },
          options
       );
@@ -37,7 +37,7 @@ export function enableTouchEventDetection() {
          "touchmove",
          () => {
             //console.log('TOUCHMOVE');
-            lastTouchEvent = new Date().getTime();
+            lastTouchEvent = Date.now();
          },
          options
       );
@@ -46,7 +46,7 @@ export function enableTouchEventDetection() {
          "touchend",
          () => {
             insideTouchEvent--;
-            lastTouchEvent = new Date().getTime();
+            lastTouchEvent = Date.now();
             //console.log('TOUCHEND');
          },
          options
@@ -57,7 +57,7 @@ export function enableTouchEventDetection() {
 }
 
 export function isTouchEvent() {
-   return isTouchDevice() && (!isTouchDetectionEnabled || new Date().getTime() - lastTouchEvent < 1000);
+   return isTouchDevice() && (!isTouchDetectionEnabled || Date.now() - lastTouchEvent < 1000);
 }
 
 //enable touch event detection if there is no performance penalty on scrolling
