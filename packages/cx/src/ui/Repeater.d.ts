@@ -43,7 +43,7 @@ interface RepeaterProps extends PureContainerProps {
    sortOptions?: CollatorOptions;
 
    /** A field used to get the unique identifier of the record. Setting keyField improves performance on sort operations as the widget is able to movement of records inside the collection.  */
-   keyField: StringProp;
+   keyField?: StringProp;
 }
 
 export class Repeater extends Widget<RepeaterProps> {}
