@@ -51,7 +51,10 @@ interface CalendarProps extends FieldProps {
    todayButtonText?: string;
 
    /**  Defines which days of week should be displayed as disabled, i.e. `[0, 6]` will make Sunday and Saturday unselectable. */
-   disabledDaysOfWeek?: number[]
+   disabledDaysOfWeek?: number[];
+
+   /** Set to true to show weeks starting from Monday. */
+   startWithMonday?: boolean;
 }
 
 export class Calendar extends Cx.Widget<CalendarProps> {}

@@ -100,7 +100,8 @@ import "./index.scss";
 
 //import Demo from "./features/charts/pie/labels";
 //import Demo from "./bugs/BlurBug";
-import Demo from "./features/immer";
+//import Demo from "./features/immer";
+import Demo from "./bugs/971";
 
 let store = (window.store = new Store());
 

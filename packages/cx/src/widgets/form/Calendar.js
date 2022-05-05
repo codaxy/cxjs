@@ -34,15 +34,14 @@ export class Calendar extends Field {
             minExclusive: undefined,
             maxValue: undefined,
             maxExclusive: undefined,
-            focusable: undefined
+            focusable: undefined,
          },
          ...arguments
       );
    }
 
    init() {
-      if (this.unfocusable)
-         this.focusable = false;
+      if (this.unfocusable) this.focusable = false;
 
       super.init();
    }
@@ -127,18 +126,18 @@ export class Calendar extends Field {
    }
 }
 
-   Calendar.prototype.baseClass = "calendar";
-   Calendar.prototype.highlightToday = true;
-   Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
-   Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
-   Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
-   Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
-   Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
-   Calendar.prototype.suppressErrorsUntilVisited = false;
-   Calendar.prototype.showTodayButton = false;
-   Calendar.prototype.todayButtonText = "Today";
-   Calendar.prototype.startWithMonday = false;
-   Calendar.prototype.focusable = true;
+Calendar.prototype.baseClass = "calendar";
+Calendar.prototype.highlightToday = true;
+Calendar.prototype.maxValueErrorText = "Select a date not after {0:d}.";
+Calendar.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
+Calendar.prototype.minValueErrorText = "Select a date not before {0:d}.";
+Calendar.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not allowed.";
+Calendar.prototype.suppressErrorsUntilVisited = false;
+Calendar.prototype.showTodayButton = false;
+Calendar.prototype.todayButtonText = "Today";
+Calendar.prototype.startWithMonday = false;
+Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -175,13 +174,18 @@ export class CalendarCmp extends VDOM.Component {
    getPage(refDate) {
       refDate = monthStart(refDate); //make a copy
 
+      let startWithMonday = this.props.instance.widget.startWithMonday;
+
+      let startDay = startWithMonday ? 1 : 0;
       let startDate = new Date(refDate);
-      startDate.setDate(1 - startDate.getDay());
+      while (startDate.getDay() != startDay) startDate.setDate(startDate.getDate() - 1);
 
       let endDate = new Date(refDate);
       endDate.setMonth(refDate.getMonth() + 1);
       endDate.setDate(endDate.getDate() - 1);
-      endDate.setDate(endDate.getDate() + 6 - endDate.getDay());
+
+      let endDay = startWithMonday ? 0 : 6;
+      while (endDate.getDay() != endDay) endDate.setDate(endDate.getDate() + 1);
 
       return {
          refDate,
@@ -373,19 +377,15 @@ export class CalendarCmp extends VDOM.Component {
       let { data, widget } = this.props.instance;
       let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = widget;
 
-      let refDate = this.state.refDate;
+      let { refDate, startDate, endDate } = this.getPage(this.state.refDate);
 
       let month = refDate.getMonth();
       let year = refDate.getFullYear();
-
-      let startDate = new Date(year, month, 1);
-      startDate.setDate(1 - startDate.getDay() + (startWithMonday ? 1 : 0));
-
       let weeks = [];
       let date = startDate;
 
       let today = zeroTime(new Date());
-      while (date < refDate || date.getMonth() == month) {
+      while (date >= startDate && date <= endDate) {
          let days = [];
          for (let i = 0; i < 7; i++) {
             let unselectable = !validationCheck(date, data, disabledDaysOfWeek);
