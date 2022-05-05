@@ -41,6 +41,9 @@ interface RepeaterProps extends PureContainerProps {
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
+
+   /** A field used to get the unique identifier of the record. Setting keyField improves performance on sort operations as the widget is able to movement of records inside the collection.  */
+   keyField: StringProp;
 }
 
 export class Repeater extends Widget<RepeaterProps> {}
