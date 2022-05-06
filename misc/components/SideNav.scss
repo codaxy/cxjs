@@ -74,6 +74,10 @@ $master-sidenav-active-link-color: #666;
    opacity: 0.7;
 }
 
+.sidenav_group-text {
+   display: none;
+}
+
 .sidenav_section {
    border-top: 1px solid #ddd;
    padding: 8px 0;

@@ -23,13 +23,9 @@ export const NavTree = createFunctionalComponent(({ tree, url, showCategory }) =
          <Repeater records={(data) => visibleNode(data).children} recordAlias="$group">
             <div text-bind="$group.text" class="sidenav_group" />
             <Repeater records-bind="$group.children" recordAlias="$item">
-               <Link
-                  href-bind="$item.url"
-                  url={url}
-                  text-bind="$item.text"
-                  attrs={{ "data-group": { bind: "$group.text" } }}
-               />
+               <Link href-bind="$item.url" url={url} text-bind="$item.text" />
             </Repeater>
+            <div text-bind="$group.text" class="sidenav_group-text" />
          </Repeater>
       </cx>
    );
