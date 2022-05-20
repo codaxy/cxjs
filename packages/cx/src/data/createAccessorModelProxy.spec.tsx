@@ -29,6 +29,7 @@ describe("createAccessorModelProxy", () => {
       assert.strictEqual(model.firstName.nameOf(), "firstName");
       assert.strictEqual(model.address.nameOf(), "address");
       assert.strictEqual(model.address.city.nameOf(), "city");
+      assert.strictEqual(model.address.nameOf(), "address");
 
       let { streetNumber, city } = model.address;
       assert.strictEqual(streetNumber.nameOf(), "streetNumber");

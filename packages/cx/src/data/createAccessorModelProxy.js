@@ -2,7 +2,6 @@ const emptyFn = () => {};
 
 export function createAccessorModelProxy(chain = "") {
    let lastOp = null;
-   let lastName = null;
 
    const proxy = new Proxy(emptyFn, {
       get: (_, name) => {
@@ -22,14 +21,12 @@ export function createAccessorModelProxy(chain = "") {
          let newChain = chain;
          if (newChain.length > 0) newChain += ".";
          newChain += name;
-         lastName = name;
          return createAccessorModelProxy(newChain);
       },
 
       apply() {
          switch (lastOp) {
             case "nameOf":
-               if (lastName != null) return lastName;
                const lastDotIndex = chain.lastIndexOf(".");
                return lastDotIndex > 0 ? chain.substring(lastDotIndex + 1) : chain;
 

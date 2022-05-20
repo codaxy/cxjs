@@ -220,6 +220,9 @@ declare global {
 
          /** Cache render output. Default is `true`. */
          memoize?: Cx.BooleanProp;
+
+         /** Tooltip configuration. */
+         tooltip?: Cx.StringProp | Cx.StructuredProp;
       }
    }
 }
@@ -232,6 +235,7 @@ declare module "react" {
       innerText?: Cx.StringProp;
       html?: Cx.StringProp;
       innerHtml?: Cx.StringProp;
+      tooltip?: Cx.StringProp | Cx.StructuredProp;
    }
 
    //this doesn't work, however, it would be nice if it does

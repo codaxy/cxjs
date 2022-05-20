@@ -13,6 +13,7 @@ export interface ViewMethods<D = Record> {
    getData(): D;
 
    init(path: Path, value: any): boolean;
+   init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
    set(path: Record, value: Record): boolean;
@@ -55,6 +56,7 @@ export class View<D = any> implements ViewMethods<D> {
    getData(): D;
 
    init(path: Path, value: any): boolean;
+   init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
    set(path: Record, value: Record): boolean;
@@ -66,8 +68,10 @@ export class View<D = any> implements ViewMethods<D> {
     * @param to - Destination path.
     */
    copy(from: Path, to: Path): boolean;
+   copy<V>(from: AccessorChain<V>, to: AccessorChain<V>): boolean;
 
    move(from: Path, to: Path): boolean;
+   move<V>(from: AccessorChain<V>, to: AccessorChain<V>): boolean;
 
    /**
     * Removes data from the Store.
