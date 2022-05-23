@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui";
 import { KeyboardShortcut } from "../../ui/keyboardShortcuts";
 
 export interface MenuItemProps extends Cx.HtmlElementProps {
@@ -20,6 +21,7 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
+   disabled: Cx.BooleanProp;
 
    /**
     * Click handler.
