@@ -40,6 +40,7 @@ import { batchUpdates } from "../../ui/batchUpdates";
 import { parseStyle } from "cx/src/util";
 import { StaticText } from "../../ui/StaticText";
 import { unfocusElement } from "../../ui/FocusManager";
+import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 
 export class Grid extends Widget {
    declareData(...args) {
@@ -699,6 +700,7 @@ export class Grid extends Widget {
                      style={style}
                      onMouseDown={ddMouseDown}
                      onMouseMove={(e) => this.onHeaderMouseMove(e, hdwidget, hdinst, instance, l)}
+                     onMouseLeave={(e) => this.onHeaderMouseLeave(e, hdinst, l)}
                      onClick={(e) => this.onHeaderClick(e, hdwidget, instance, l)}
                      onContextMenu={onContextMenu}
                      data-unique-col-id={hdwidget.uniqueColumnId}
@@ -743,6 +745,9 @@ export class Grid extends Widget {
       let headerInstance = columnInstance.components[`header${headerLine + 1}`];
       if (!headerInstance) return;
       let { store, data } = headerInstance;
+      if (headerInstance.widget?.tooltip) {
+         tooltipMouseMove(e, headerInstance, headerInstance.widget.tooltip);
+      }
       if (data.draggable && !data.fixed && ddDetect(e) && e.buttons == 1) {
          initiateDragDrop(
             e,
@@ -766,6 +771,14 @@ export class Grid extends Widget {
             },
             () => {}
          );
+      }
+   }
+
+   onHeaderMouseLeave(e, columnInstance, headerLine) {
+      let headerInstance = columnInstance.components[`header${headerLine + 1}`];
+      if (!headerInstance) return;
+      if (headerInstance.widget?.tooltip) {
+         tooltipMouseLeave(e, headerInstance, headerInstance.widget.tooltip);
       }
    }
 
