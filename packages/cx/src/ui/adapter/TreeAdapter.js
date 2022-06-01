@@ -27,6 +27,11 @@ export class TreeAdapter extends ArrayAdapter {
       let { data, store } = record;
       data.$level = level;
       if (!data[this.leafField]) {
+         if (this.restoreExpandedNodesOnLoad) {
+            if (data[this.expandedField] == null && this.expandedNodes[data.id]) {
+               data[this.expandedField] = true;
+            }
+         }
          if (data[this.expandedField]) {
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(
@@ -71,3 +76,5 @@ TreeAdapter.prototype.loadingField = "$loading";
 TreeAdapter.prototype.loadedField = "$loaded";
 TreeAdapter.prototype.foldersFirst = true;
 TreeAdapter.prototype.isTreeAdapter = true;
+TreeAdapter.prototype.expandedNodes = {};
+TreeAdapter.prototype.restoreExpandedNodesOnLoad = false;
