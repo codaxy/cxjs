@@ -1,5 +1,4 @@
 import { AccessorChain, Record } from "../core";
-import { AccessorModel } from "./createAccessorModelProxy";
 
 interface Computable<V = any> {
    (data: Record): V;
@@ -25,15 +24,15 @@ export function computable(
 
 export function computable<V1, R>(arg1: AccessorChain<V1>, compute: (v1: V1) => R): Computable<R>;
 export function computable<V1, V2, R>(
-   arg1: AccessorChain<V1> | AccessorModel<V1>,
-   arg2: AccessorChain<V2> | AccessorModel<V2>,
+   arg1: AccessorChain<V1>,
+   arg2: AccessorChain<V2>,
    compute: (v1: V1, v2: V2) => R
 ): Computable<R>;
 
 export function computable<V1, V2, V3, R>(
-   arg1: AccessorChain<V1> | AccessorModel<V1>,
-   arg2: AccessorChain<V2> | AccessorModel<V2>,
-   arg3: AccessorChain<V3> | AccessorModel<V3>,
+   arg1: AccessorChain<V1>,
+   arg2: AccessorChain<V2>,
+   arg3: AccessorChain<V3>,
    compute: (v1: V1, v2: V2, v3: V3) => R
 ): Computable<R>;
 
