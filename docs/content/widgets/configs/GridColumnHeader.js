@@ -62,4 +62,10 @@ export default {
             Binding used to store column's width after resize.
         </Md></cx>
     },
+    tooltip: {
+        type: 'string/object',
+        description: <cx><Md>
+            Tooltip configuration. For more info see [Tooltips](~/widgets/tooltips).
+        </Md></cx>
+    }
 };

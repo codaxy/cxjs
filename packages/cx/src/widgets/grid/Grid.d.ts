@@ -88,6 +88,7 @@ interface GridColumnHeaderConfig {
    style?: StyleProp;
    class?: ClassProp;
    className?: ClassProp;
+   tooltip?: Cx.StringProp | Cx.StructuredProp;
 }
 
 interface GridColumnConfig {
