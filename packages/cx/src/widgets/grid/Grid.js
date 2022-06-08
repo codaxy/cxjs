@@ -1315,7 +1315,7 @@ class GridComponent extends VDOM.Component {
                isDraggedOver={mod.over}
                cursor={mod.cursor}
                cursorCellIndex={index == cursor && cursorCellIndex}
-               cellEdit={index == cursor && cursorCellIndex && cellEdit}
+               cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
                shouldUpdate={row.shouldUpdate}
                dimensionsVersion={dimensionsVersion}
                fixed={fixed}
@@ -1382,7 +1382,7 @@ class GridComponent extends VDOM.Component {
                   cursorIndex: index,
                   data: record.data,
                   cursorCellIndex: index == cursor && cursorCellIndex,
-                  cellEdit: index == cursor && cursorCellIndex && cellEdit,
+                  cellEdit: index == cursor && cursorCellIndex != null && cellEdit,
                }}
             />
          );
@@ -2495,15 +2495,15 @@ class GridComponent extends VDOM.Component {
             let futureState = { ...this.state, ...newState };
 
             if (!futureState.cellEdit && wasCellEditing) {
-               //If cell editing is in progress, moving the cursor may cause that the cell editor is unmounted before
-               //the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
+               // If cell editing is in progress, moving the cursor may cause that the cell editor to unmount before
+               // the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
                unfocusElement(null, false);
                let record = this.getRecordAt(prevState.cursor);
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                   record.store.set(widget.recordName, this.cellEditUndoData);
                else {
                   let newData = record.store.get(widget.recordName); //record.data might be stale at this point
-                  if (widget.onCellEdited && newData != this.cellEditUndoData)
+                  if (widget.onCellEdited && newData != this.cellEditUndoData) {
                      this.props.instance.invoke(
                         "onCellEdited",
                         {
@@ -2514,6 +2514,8 @@ class GridComponent extends VDOM.Component {
                         },
                         record
                      );
+                     this.cellEditUndoData = newData;
+                  }
                }
             }
 
