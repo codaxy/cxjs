@@ -34,6 +34,8 @@ import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
 import { HighlightedSearchText } from "../HighlightedSearchText";
 import { autoFocus } from "../autoFocus";
+import { bind } from "../../ui";
+import { isAccessorChain } from "../../data/createAccessorModelProxy";
 
 export class LookupField extends Field {
    declareData() {
@@ -64,20 +66,27 @@ export class LookupField extends Field {
 
       if (!this.bindings) {
          let b = [];
-         if (this.value && this.value.bind)
-            b.push({
-               key: true,
-               local: this.value.bind,
-               remote: `$option.${this.optionIdField}`,
-               set: this.value.set,
-            });
+         if (this.value) {
+            if (isAccessorChain(this.value)) this.value = bind(this.value);
+            if (this.value.bind)
+               b.push({
+                  key: true,
+                  local: this.value.bind,
+                  remote: `$option.${this.optionIdField}`,
+                  set: this.value.set,
+               });
+         }
 
-         if (this.text && this.text.bind)
-            b.push({
-               local: this.text.bind,
-               remote: `$option.${this.optionTextField}`,
-               set: this.text.set,
-            });
+         if (this.text) {
+            if (isAccessorChain(this.text)) this.value = bind(this.text);
+            if (this.text.bind)
+               b.push({
+                  local: this.text.bind,
+                  remote: `$option.${this.optionTextField}`,
+                  set: this.text.set,
+               });
+         }
+
          this.bindings = b;
       }
 
