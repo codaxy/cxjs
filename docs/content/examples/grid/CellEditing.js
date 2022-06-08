@@ -7,7 +7,7 @@ import {CodeSnippet} from "../../../components/CodeSnippet";
 
 class PageController extends Controller {
     onInit() {
-        //init grid data        
+        //init grid data
         this.store.init(
             "$page.records",
             Array
@@ -20,14 +20,14 @@ class PageController extends Controller {
                     os: casual.operating_system,
                     visits: casual.integer(1, 100)
                 }))
-        );        
+        );
     }
 }
 
 export const CellEditing = (
     <cx>
         <Md controller={PageController}>
-            <CodeSplit fiddle="3I266OKV">
+            <CodeSplit>
                 # Cell Editing
 
                 To setup cell editing set the `cellEditable` flag on the grid
@@ -135,7 +135,7 @@ export const CellEditing = (
                 />
                 <Content name="code">
                     <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
-                    <CodeSnippet>{`
+                    <CodeSnippet fiddle="3I266OKV">{`
                     <Grid
                         cellEditable
                         onCellEdited={(change, record) => {
@@ -157,7 +157,7 @@ export const CellEditing = (
                                     editor: <cx>
                                         <TextField
                                             value-bind="$record.fullName"
-                                            style="position: absolute; width: 100%; height: 100%; top: 0;"                                        
+                                            style="position: absolute; width: 100%; height: 100%; top: 0;"
                                             required
                                             visited
                                         />
@@ -168,7 +168,7 @@ export const CellEditing = (
                                     editor: <cx>
                                         <Select
                                             value-bind="$record.continent"
-                                            style="position: absolute; width: 100%; height: 100%; top: 0;"                                        
+                                            style="position: absolute; width: 100%; height: 100%; top: 0;"
                                             required
                                         >
                                             <option value="Africa">Africa</option>
@@ -226,10 +226,10 @@ export const CellEditing = (
                                     editor: <cx>
                                         <NumberField
                                             value-bind="$record.visits"
-                                            style="position: absolute; width: 100%; height: 100%; top: 0;"                                       
+                                            style="position: absolute; width: 100%; height: 100%; top: 0;"
                                             required
                                             visited
-                                            inputStyle="text-align: right"                                        
+                                            inputStyle="text-align: right"
                                         />
                                     </cx>
                                 }
