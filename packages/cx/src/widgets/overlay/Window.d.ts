@@ -1,38 +1,39 @@
-import * as Cx from '../../core';
-import { OverlayProps } from './Overlay';
+import * as Cx from "../../core";
+import { OverlayProps } from "./Overlay";
 
 interface WindowProps extends OverlayProps {
-
    /** Text to be displayed in the header. */
-   title?: Cx.StringProp,
+   title?: Cx.StringProp;
 
    /** Controls the close button visibility. Defaults to `true`. */
-   closable?: Cx.BooleanProp,
+   closable?: Cx.BooleanProp;
 
    /** A custom style which will be applied to the body. */
-   bodyStyle?: Cx.StyleProp,
+   bodyStyle?: Cx.StyleProp;
 
    /** A custom style which will be applied to the header. */
-   headerStyle?: Cx.StyleProp,
+   headerStyle?: Cx.StyleProp;
 
    /** A custom style which will be applied to the footer. */
-   footerStyle?: Cx.StyleProp
+   footerStyle?: Cx.StyleProp;
 
    /** Base CSS class to be applied to the field. Defaults to `window`. */
-   baseClass?: string,
+   baseClass?: string;
+
+   /** Additional CSS class to be applied to the section body. */
+   bodyClass?: Cx.ClassProp;
 
    /** Set to `true` to enable resizing. */
-   resizable?: boolean,
+   resizable?: boolean;
 
    /** Set to `true` to automatically focus the field, after it renders for the first time. */
-   autoFocus?: boolean,
+   autoFocus?: boolean;
 
    /** Set to `false` to prevent the window itself to be focusable. Default value is true.*/
-   focusable?: boolean,
+   focusable?: boolean;
 
    /** Set to `true` to disable moving the window by dragging the header. */
-   fixed?: boolean,
-
+   fixed?: boolean;
 }
 
 export class Window extends Cx.Widget<WindowProps> {}
