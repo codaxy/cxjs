@@ -462,9 +462,10 @@ class ListComponent extends VDOM.Component {
          firstValid = -1;
       for (let i = 0; i < items.length; i++) {
          let item = items[i];
-         if (isItemSelectable(item)) {
+         if (isDataItem(item)) {
             index++;
-            if (firstValid == -1) firstValid = index;
+
+            if (!isItemDisabled(item) && firstValid == -1) firstValid = index;
             if (item.instance.selected) {
                firstSelected = index;
                break;
@@ -576,5 +577,13 @@ class ListItem extends Container {
 }
 
 function isItemSelectable(item) {
-   return item && item.type == "data" && !item.instance.data.disabled;
+   return isDataItem(item) && !isItemDisabled(item);
+}
+
+function isDataItem(item) {
+   return item?.type == "data";
+}
+
+function isItemDisabled(item) {
+   return item?.instance.data.disabled;
 }
