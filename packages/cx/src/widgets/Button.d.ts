@@ -41,6 +41,8 @@ export interface ButtonProps extends Cx.HtmlElementProps {
     */
    onClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
+   onMouseDown?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
    /** Button type. */
    type?: "submit" | "button";
 
