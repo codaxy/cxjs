@@ -21,7 +21,7 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
-   disabled: Cx.BooleanProp;
+   disabled?: Cx.BooleanProp;
 
    /**
     * Click handler.
