@@ -1,3 +1,4 @@
+import { isBinding } from "../../data";
 import { getAccessor } from "../../data/getAccessor";
 import { isArray } from "../../util/isArray";
 import { ArrayAdapter } from "./ArrayAdapter";
@@ -6,12 +7,28 @@ export class TreeAdapter extends ArrayAdapter {
    init() {
       super.init();
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
+
+      if (this.restoreExpandedNodesOnLoad) {
+         if (isBinding(this.expandedNodesIdsMap))
+            this.expandedNodesMapAccessor = getAccessor({ bind: this.expandedNodesIdsMap.bind, default: {} });
+
+         if (!this.keyField)
+            console.warn("Using id as unique identifier of the record since Grid keyField is not specified.");
+      }
    }
 
    mapRecords(context, instance, data, parentStore, recordsAccessor) {
       let nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
       let result = [];
+
+      if (this.restoreExpandedNodesOnLoad) {
+         this.expandedNodesIds = this.expandedNodesMapAccessor.get(parentStore.getData());
+         this.newExpandedNodesIds = {};
+      }
+
       this.processList(context, instance, 0, "", nodes, result);
+
+      this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore);
       return result;
    }
 
@@ -27,7 +44,15 @@ export class TreeAdapter extends ArrayAdapter {
       let { data, store } = record;
       data.$level = level;
       if (!data[this.leafField]) {
+         let identifierField = this.keyField || "id";
+         if (this.restoreExpandedNodesOnLoad && this.expandedNodesIds) {
+            let expand = this.expandedNodesIds[data[identifierField]];
+            if (data[this.expandedField] == null && expand) data[this.expandedField] = true;
+         }
+
          if (data[this.expandedField]) {
+            this.newExpandedNodesIds[data[identifierField]] = true;
+
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(
                   context,
@@ -71,3 +96,4 @@ TreeAdapter.prototype.loadingField = "$loading";
 TreeAdapter.prototype.loadedField = "$loaded";
 TreeAdapter.prototype.foldersFirst = true;
 TreeAdapter.prototype.isTreeAdapter = true;
+// TreeAdapter.prototype.restoreExpandedNodesOnLoad = false;
