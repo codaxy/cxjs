@@ -22,12 +22,13 @@ export class TreeAdapter extends ArrayAdapter {
       });
    }
 
-   processNode(context, instance, level, result, record) {
-      result.push(record);
+processNode(context, instance, level, result, record) {
+      let isHiddenRootNode = level == 0 && this.hideRootNodes;
+      if (!isHiddenRootNode) result.push(record);
       let { data, store } = record;
-      data.$level = level;
+      data.$level = this.hideRootNodes ? level - 1 : level;
       if (!data[this.leafField]) {
-         if (data[this.expandedField]) {
+         if (data[this.expandedField] || isHiddenRootNode) {
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(
                   context,
@@ -71,3 +72,4 @@ TreeAdapter.prototype.loadingField = "$loading";
 TreeAdapter.prototype.loadedField = "$loaded";
 TreeAdapter.prototype.foldersFirst = true;
 TreeAdapter.prototype.isTreeAdapter = true;
+TreeAdapter.prototype.hideRootNodes = false;
