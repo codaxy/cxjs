@@ -7,4 +7,5 @@ export * from './removeTreeNodes';
 export * from './findTreeNode';
 export * from './moveElement';
 export * from './insertElement';
+export * from './findTreePath';
 
