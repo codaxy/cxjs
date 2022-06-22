@@ -2,6 +2,20 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.6.3`
+
+**New Features**
+
+-  TreeAdapter now support the flag `hideRootNodes`
+-  Added the function `findTreePath` to `cx/data`.
+
+**Fixes**
+
+-  Typings for MenuItem
+-  Typings for PieSlice
+-  Skip focusing disabled LookupField options
+-  Typings for Window
+
 ## `cx@22.6.0`
 
 **Fixes**
