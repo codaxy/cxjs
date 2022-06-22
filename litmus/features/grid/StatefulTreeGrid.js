@@ -1,60 +1,55 @@
 import { removeTreeNodes, updateTree } from "cx/data";
 import { bind, Controller, KeySelection, TreeAdapter } from "cx/ui";
-import { Button, Grid, Menu, openContextMenu, TreeNode } from "cx/widgets";
+import { Button, FlexRow, Grid, Menu, MenuItem, openContextMenu, TreeNode } from "cx/widgets";
 
 class PageController extends Controller {
    onInit() {
-      this.idSeq = 0;
-      let records = getRecords();
-      this.store.set("$page.data", records);
+      this.load();
+      this.store.init("expanded", false);
    }
 
-   reload() {
+   load() {
       this.store.set("$page.data", getRecords());
    }
 
-   deleteRecord(record) {
-      const records = this.store.get("$page.data");
-      const filtered = removeTreeNodes(records, (r) => r.id === record.id);
-
-      this.store.set("$page.data", filtered);
+   deleteRecordFromContextMenu(e, { store }) {
+      store.delete("$record");
    }
 
-   expandNodes(expand) {
-      const records = this.store.get("$page.data");
+   deleteRecord() {
+      let selection = this.store.get("$page.selection");
+      this.store.update("$page.data", (records) => removeTreeNodes(records, (r) => r.id === selection));
+   }
 
-      const filtered = updateTree(
-         records,
-         (node) => ({
-            ...node,
-            $expanded: expand,
-         }),
-         (node) => !node.leaf
+   expandCollapseTree() {
+      this.store.toggle("expanded");
+      let expanded = this.store.get("expanded");
+
+      this.store.update("$page.data", (records) =>
+         updateTree(
+            records,
+            (node) => ({
+               ...node,
+               $expanded: expanded,
+            }),
+            (node) => !node.leaf
+         )
       );
-
-      this.store.set("$page.data", filtered);
    }
 }
 
 export default (
    <cx>
       <div controller={PageController} style="padding: 10px">
-         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <Button onClick="reload" text="Reload" mod="primary" />
-            <div>
-               <Button
-                  onClick={(e, { store, controller }) => controller.expandNodes(true)}
-                  text="Expand All"
-                  mod="danger"
-                  style="margin-right: 10px"
-               />
-               <Button
-                  onClick={(e, { store, controller }) => controller.expandNodes(false)}
-                  text="Collapse All"
-                  mod="danger"
-               />
-            </div>
-         </div>
+         <FlexRow spacing style="margin-bottom: 10px">
+            <Button onClick="load" text="Reload" mod="primary" />
+            <Button
+               onClick="expandCollapseTree"
+               text="Expand All"
+               text-expr="{expanded} ? 'Collapse All' : 'Expand All'"
+            />
+            <Button onClick="deleteRecord" text="Delete" mod="danger" disabled-expr="!{$page.selection}" />
+         </FlexRow>
          <Grid
             // buffered
             records-bind="$page.data"
@@ -63,10 +58,8 @@ export default (
             scrollable={true}
             dataAdapter={{
                type: TreeAdapter,
-               //    load: (context, { controller }, node) => controller.generateRecords(node),
                restoreExpandedNodesOnLoad: true,
-               expandedNodesIdsMap: bind("expandedNodesIds"),
-               //    expandedNodesIdsStorePath: 'expandedNodesIds'
+               expandedNodesIdsMap: bind("$page.expandedNodesIds"),
             }}
             selection={{ type: KeySelection, bind: "$page.selection" }}
             columns={[
@@ -96,20 +89,14 @@ export default (
                   value: { expr: '{$record.notified} ? "Yes" : "No"' },
                },
             ]}
-            expandedFolderIdsMap-bind="expandedFolderIdsMap"
             onRowContextMenu={(e, { store, controller }) =>
                openContextMenu(
                   e,
                   <cx>
                      <Menu>
-                        <a
-                           onClick={() => {
-                              const record = store.get("$record");
-                              controller.deleteRecord(record);
-                           }}
-                        >
+                        <MenuItem onClick={controller.deleteRecordFromContextMenu} autoClose>
                            Delete
-                        </a>
+                        </MenuItem>
                      </Menu>
                   </cx>,
                   store

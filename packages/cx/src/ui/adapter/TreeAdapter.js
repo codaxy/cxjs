@@ -28,7 +28,8 @@ export class TreeAdapter extends ArrayAdapter {
 
       this.processList(context, instance, 0, "", nodes, result);
 
-      this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore);
+      if (this.restoreExpandedNodesOnLoad) this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore);
+
       return result;
    }
 
@@ -51,7 +52,7 @@ export class TreeAdapter extends ArrayAdapter {
          }
 
          if (data[this.expandedField]) {
-            this.newExpandedNodesIds[data[identifierField]] = true;
+            if (this.restoreExpandedNodesOnLoad) this.newExpandedNodesIds[data[identifierField]] = true;
 
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(
@@ -96,4 +97,3 @@ TreeAdapter.prototype.loadingField = "$loading";
 TreeAdapter.prototype.loadedField = "$loaded";
 TreeAdapter.prototype.foldersFirst = true;
 TreeAdapter.prototype.isTreeAdapter = true;
-// TreeAdapter.prototype.restoreExpandedNodesOnLoad = false;
