@@ -17,7 +17,7 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    placementOrder?: string;
    autoClose?: boolean;
    icons?: boolean;
-   icon: Cx.StringProp;
+   icon?: Cx.StringProp;
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
