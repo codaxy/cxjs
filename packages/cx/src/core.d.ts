@@ -150,6 +150,14 @@ declare namespace Cx {
 
       /** Tooltip configuration. */
       tooltip?: StringProp | StructuredProp;
+
+      onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
+      onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
+      onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
+      onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
+      onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
+      onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
+      onClick?: string | ((event: MouseEvent, instance: any) => void);
    }
 
    type SortDirection = "ASC" | "DESC";
