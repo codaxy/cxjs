@@ -313,6 +313,10 @@ export const docsNavTree = [
                   text: "Infinite Scrolling",
                   url: "~/examples/grid/infinite-scrolling",
                },
+               {
+                  text: "Stateful Tree Grid",
+                  url: "~/examples/grid/stateful-tree-grid",
+               },
             ],
          },
          {

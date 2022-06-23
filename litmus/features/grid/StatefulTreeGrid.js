@@ -1,6 +1,7 @@
 import { removeTreeNodes, updateTree } from "cx/data";
 import { bind, Controller, KeySelection, TreeAdapter } from "cx/ui";
 import { Button, FlexRow, Grid, Menu, MenuItem, openContextMenu, TreeNode } from "cx/widgets";
+import { casual } from "../../casual";
 
 class PageController extends Controller {
    onInit() {
@@ -36,6 +37,11 @@ class PageController extends Controller {
          )
       );
    }
+
+   addFolder() {
+      const randomId = Math.floor(Math.random() * 100);
+      console.log(casual[randomId]);
+   }
 }
 
 export default (
@@ -51,7 +57,6 @@ export default (
             <Button onClick="deleteRecord" text="Delete" mod="danger" disabled-expr="!{$page.selection}" />
          </FlexRow>
          <Grid
-            // buffered
             records-bind="$page.data"
             mod="tree"
             style={{ width: "100%" }}
