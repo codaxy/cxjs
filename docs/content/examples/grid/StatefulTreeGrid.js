@@ -76,6 +76,8 @@ class PageController extends Controller {
                 '$children'
             )
         );
+
+        this.load();
     }
 
     getNewEntry(leaf) {
@@ -234,7 +236,7 @@ export const StatefulTreeGrid = <cx>
                         style={{ width: "100%" }}
                         scrollable={true}
                         dataAdapter={{
-                        type: TreeAdapter,
+                            type: TreeAdapter,
                             restoreExpandedNodesOnLoad: true,
                             expandedNodesIdsMap: bind("$page.expandedNodesIds")
                         }}
@@ -247,12 +249,12 @@ export const StatefulTreeGrid = <cx>
                             items: (
                             <cx>
                                 <TreeNode
-                                expanded-bind="$record.$expanded"
-                                leaf-bind="$record.$leaf"
-                                level-bind="$record.$level"
-                                loading-bind="$record.$loading"
-                                text-bind="$record.fullName"
-                                icon-bind="$record.icon"
+                                    expanded-bind="$record.$expanded"
+                                    leaf-bind="$record.$leaf"
+                                    level-bind="$record.$level"
+                                    loading-bind="$record.$loading"
+                                    text-bind="$record.fullName"
+                                    icon-bind="$record.icon"
                                 />
                             </cx>
                             )
