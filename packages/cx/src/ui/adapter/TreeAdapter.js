@@ -28,7 +28,8 @@ export class TreeAdapter extends ArrayAdapter {
 
       this.processList(context, instance, 0, "", nodes, result);
 
-      if (this.restoreExpandedNodesOnLoad) this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore);
+      if (this.restoreExpandedNodesOnLoad)
+         parentStore.silently(() => this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore));
 
       return result;
    }
@@ -78,7 +79,8 @@ export class TreeAdapter extends ArrayAdapter {
                      if (this.onLoadError) this.onLoadError(response);
                   });
             }
-         } else data[this.expandedField] = false;
+         }
+         data[this.expandedField] = false;
       }
    }
 

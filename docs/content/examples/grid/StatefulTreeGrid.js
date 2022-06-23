@@ -1,90 +1,103 @@
-import { Controller, KeySelection, TreeAdapter, bind, expr, computable } from 'cx/ui';
-import { Button, Content, FlexRow, Grid, Menu, MenuItem, openContextMenu, Tab, TreeNode } from 'cx/widgets';
 import { removeTreeNodes, updateTree } from "cx/data";
+import { bind, Controller, expr, KeySelection, TreeAdapter } from 'cx/ui';
+import { Button, Content, FlexRow, Grid, Menu, MenuItem, openContextMenu, Tab, TreeNode } from 'cx/widgets';
 import { CodeSnippet } from '../../../components/CodeSnippet';
 import { CodeSplit } from '../../../components/CodeSplit';
-import { casual } from '../data/casual';
 import { Md } from '../../../components/Md';
+import { casual } from '../data/casual';
+
+let idSeq = 0;
+let records = getRecords();
 
 class PageController extends Controller {
     onInit() {
         this.load();
-        this.store.init("expanded", false);
-     }
-  
+        this.store.init("$page.treeExpanded", false);
+  }
+
     async load() {
-        const records = this.store.get("$page.data") ?? getRecords();
         this.store.set("loading", true);
         // fake loading
         await waitFor(500);
 
         this.store.set("loading", false);
-        this.store.set("$page.data", records);
+         let newRecords = structuredClone(records);
+        this.store.set("$page.data", newRecords);
     }
 
     async reset() {
-        this.store.delete("$page.data");
-        this.load();
+      this.store.delete("$page.data");
+      records = getRecords();
+      this.load();
     }
 
     deleteRecordFromContextMenu(e, { store }) {
-        store.delete("$record");
+      let recordId = store.get("$record.id");
+      this.doDelete(recordId);
     }
 
     deleteRecord() {
         let selection = this.store.get("$page.selection");
-        this.store.update("$page.data", (records) => removeTreeNodes(records, (r) => r.id === selection));
+        this.doDelete(selection);
+    }
+
+    doDelete(id) {
+      records = removeTreeNodes(records, (r) => r.id === id);
+      this.load();
     }
 
     expandCollapseTree() {
-        this.store.toggle("expanded");
-        let expanded = this.store.get("expanded");
+        this.store.toggle("$page.treeExpanded");
+        let expanded = this.store.get("$page.treeExpanded");
 
-        this.store.update("$page.data", (records) =>
-            updateTree(
-                records,
-                (node) => ({
-                    ...node,
-                    $expanded: expanded,
-                }),
-                (node) => !node.leaf,
-                '$children'
-            )
-        );
+        records = updateTree(
+            records,
+            (node) => ({
+               ...node,
+               $expanded: expanded,
+            }),
+            (node) => !node.leaf,
+            '$children'
+         );
+
+         this.load();
+    }
+
+    addFolder() {
+      this.addEntry(false);
+    }
+
+    addLeaf() {
+      this.addEntry(true);
     }
 
     addEntry(leaf) {
-        const newFolder = this.getNewEntry(leaf);
-
-        this.store.update("$page.data", records => [...records, newFolder]);
+        const newEntry = this.getNewEntry(leaf);
+        records = [...records, newEntry];
         this.load();
     }
 
     addEntryFromContextMenu(e, {store}, leaf) {
-        const record = store.get("$record");
-        const newFolder = this.getNewEntry(leaf);
+        const recordId = store.get("$record.id");
+        const newEntry = this.getNewEntry(leaf);
 
-        this.store.update("$page.data", (records) =>
-            updateTree(
-                records,
-                (node) => ({
-                    ...node,
-                    $expanded: true,
-                    $children: node?.$children?.length > 0 ? [...node.$children, newFolder] : [newFolder]
-                }),
-                (node) =>  node.id == record.id,
-                '$children'
-            )
-        );
+         records = updateTree(
+            records,
+            (node) => ({
+               ...node,
+               $expanded: true,
+               $children: node?.$children?.length > 0 ? [...node.$children, newEntry] : [newEntry]
+            }),
+            (node) => node.id == recordId,
+            '$children'
+         );
 
         this.load();
     }
 
     getNewEntry(leaf) {
-        const randomId = 1000 + Math.floor(Math.random() * 10000);
-
         return {
-            id: randomId,
+            id: ++idSeq,
             fullName: casual.full_name,
             phone: casual.phone,
             city: casual.city,
@@ -107,17 +120,17 @@ export const StatefulTreeGrid = <cx>
             <Button
                onClick="expandCollapseTree"
                text="Expand All"
-               text-expr="{expanded} ? 'Collapse All' : 'Expand All'"
+               text-expr="{$page.treeExpanded} ? 'Collapse All' : 'Expand All'"
             />
-            <Button onClick={(e, { store, controller }) => controller.addEntry(false)} text="Add Folder"/>
-            <Button onClick={(e, { store, controller }) => controller.addEntry(true)} text="Add File"/>
+            <Button onClick='addFolder' text="Add Folder"/>
+            <Button onClick='addLeaf' text="Add File"/>
             <Button onClick="deleteRecord" text="Delete" mod="danger" disabled-expr="!{$page.selection}" />
          </FlexRow>
          <Grid
             // buffered
             records-bind="$page.data"
             mod="tree"
-            style={{ width: "100%", opacity: computable('loading', (loading) => loading ? 0.2 : 1)}}
+            style={{ width: "100%", opacity: expr('{loading} ? 0.4 : 1'), height: 500}}
             scrollable={true}
             dataAdapter={{
                type: TreeAdapter,
@@ -152,25 +165,26 @@ export const StatefulTreeGrid = <cx>
                   value: { expr: '{$record.notified} ? "Yes" : "No"' },
                },
             ]}
-            onRowContextMenu={(e, { store, controller }) =>
+            onRowContextMenu={(e, instance) => {
+               let { store, controller } = instance;
                openContextMenu(
                   e,
                   <cx>
                      <Menu>
-                        <MenuItem onClick={controller.deleteRecordFromContextMenu} autoClose>
+                        <MenuItem onClick='deleteRecordFromContextMenu' autoClose>
                            Delete
                         </MenuItem>
-                        <MenuItem onClick={() => controller.addEntryFromContextMenu(e, { store }, false)} autoClose>
+                        <MenuItem onClick={(e) => controller.addEntryFromContextMenu(e, { store }, false)} autoClose>
                            Add Folder
                         </MenuItem>
-                        <MenuItem onClick={() => controller.addEntryFromContextMenu(e, { store }, true)} autoClose>
+                        <MenuItem onClick={(e) => controller.addEntryFromContextMenu(e, { store }, true)} autoClose>
                            Add File
                         </MenuItem>
                      </Menu>
                   </cx>,
-                  store
+                  instance
                )
-            }
+            }}
          />
 
         <Content name="code">
@@ -180,34 +194,34 @@ export const StatefulTreeGrid = <cx>
                     class PageController extends Controller {
                         onInit() {
                             this.load();
-                            this.store.init("expanded", false);
+                            this.store.init("$page.treeExpanded", false);
                           }
-                        
+
                           load() {
                             this.store.set("$page.data", getRecords());
                           }
-                        
+
                           deleteRecordFromContextMenu(e, { store }) {
                             store.delete("$record");
                           }
-                        
+
                           deleteRecord() {
                             let selection = this.store.get("$page.selection");
                             this.store.update("$page.data", (records) =>
                               removeTreeNodes(records, (r) => r.id === selection)
                             );
                           }
-                        
+
                           expandCollapseTree() {
-                            this.store.toggle("expanded");
-                            let expanded = this.store.get("expanded");
-                        
+                            this.store.toggle("$page.treeExpanded");
+                            let treeExpanded = this.store.get("$page.treeExpanded");
+
                             this.store.update("$page.data", (records) =>
                               updateTree(
                                 records,
                                 (node) => ({
                                   ...node,
-                                  $expanded: expanded
+                                  $expanded: $page.treeExpanded
                                 }),
                                 (node) => !node.leaf
                               )
@@ -221,7 +235,7 @@ export const StatefulTreeGrid = <cx>
                         <Button
                             onClick="expandCollapseTree"
                             text="Expand All"
-                            text-expr="{expanded} ? 'Collapse All' : 'Expand All'"
+                            text-expr="{$page.treeExpanded} ? 'Collapse All' : 'Expand All'"
                         />
                         <Button
                             onClick="deleteRecord"
@@ -286,15 +300,28 @@ export const StatefulTreeGrid = <cx>
                 </CodeSnippet>
             </Content>
         </CodeSplit>
-
     </Md>
 </cx>
+
+function generateRecords(node) {
+   if (!node || node.$level < 5)
+      return Array.from({length: 20}).map(() => ({
+         id: ++idSeq,
+         fullName: casual.full_name,
+         phone: casual.phone,
+         city: casual.city,
+         notified: casual.coin_flip,
+         $leaf: casual.coin_flip,
+         //icon: 'circle'
+      })
+   );
+}
 
 
 function getRecords() {
     return [
        {
-          id: 1,
+          id: ++idSeq,
           fullName: "Cristian Strosin",
           phone: "495-726-3417",
           city: "Dejahview",
@@ -302,7 +329,7 @@ function getRecords() {
           $leaf: false,
           $children: [
              {
-                id: 6,
+                id: ++idSeq,
                 fullName: "Madelyn Hoppe",
                 phone: "348-923-4635",
                 city: "Ednabury",
@@ -310,7 +337,7 @@ function getRecords() {
                 $leaf: false,
                 $children: [
                    {
-                      id: 15,
+                      id: ++idSeq,
                       fullName: "Orlo Larson",
                       phone: "673-856-0106",
                       city: "Creminborough",
@@ -318,7 +345,7 @@ function getRecords() {
                       $leaf: false,
                    },
                    {
-                      id: 16,
+                      id: ++idSeq,
                       fullName: "Geovanni Crona",
                       phone: "876-299-5445",
                       city: "East Trenton",
@@ -326,7 +353,7 @@ function getRecords() {
                       $leaf: false,
                    },
                    {
-                      id: 17,
+                      id: ++idSeq,
                       fullName: "Ferne Schulist",
                       phone: "194-070-1267",
                       city: "Lefflerfort",
@@ -334,7 +361,7 @@ function getRecords() {
                       $leaf: false,
                    },
                    {
-                      id: 18,
+                      id: ++idSeq,
                       fullName: "Brian Littel",
                       phone: "798-857-5198",
                       city: "New Dagmarshire",
@@ -344,7 +371,7 @@ function getRecords() {
                 ],
              },
              {
-                id: 7,
+                id: ++idSeq,
                 fullName: "Terence Cormier",
                 phone: "786-784-9637",
                 city: "Port Erika",
@@ -352,7 +379,7 @@ function getRecords() {
                 $leaf: false,
              },
              {
-                id: 8,
+                id: ++idSeq,
                 fullName: "Harmon Bode",
                 phone: "698-306-7094",
                 city: "Rebecaview",
@@ -362,7 +389,7 @@ function getRecords() {
           ],
        },
        {
-          id: 2,
+          id: ++idSeq,
           fullName: "Erick Tremblay",
           phone: "541-671-9860",
           city: "Letitiaberg",
@@ -370,7 +397,7 @@ function getRecords() {
           $leaf: false,
           $children: [
              {
-                id: 9,
+                id: ++idSeq,
                 fullName: "Timmothy Gislason",
                 phone: "980-211-5716",
                 city: "Rhettport",
@@ -378,7 +405,7 @@ function getRecords() {
                 $leaf: true,
              },
              {
-                id: 10,
+                id: ++idSeq,
                 fullName: "Easter Gleason",
                 phone: "936-701-9452",
                 city: "Fannieport",
@@ -386,7 +413,7 @@ function getRecords() {
                 $leaf: false,
              },
              {
-                id: 11,
+                id: ++idSeq,
                 fullName: "Claudie Barton",
                 phone: "716-884-5573",
                 city: "Konopelskiburgh",
@@ -394,7 +421,7 @@ function getRecords() {
                 $leaf: false,
              },
              {
-                id: 12,
+                id: ++idSeq,
                 fullName: "Kory Prosacco",
                 phone: "914-802-7593",
                 city: "Lake Elise",
@@ -404,7 +431,7 @@ function getRecords() {
           ],
        },
        {
-          id: 3,
+          id: ++idSeq,
           fullName: "Leatha Crist",
           phone: "176-418-7449",
           city: "Angelicahaven",
@@ -412,7 +439,7 @@ function getRecords() {
           $leaf: false,
           $children: [
              {
-                id: 13,
+                id: ++idSeq,
                 fullName: "Jaiden Hamill",
                 phone: "028-962-9298",
                 city: "Shieldsbury",
@@ -420,7 +447,7 @@ function getRecords() {
                 $leaf: false,
              },
              {
-                id: 14,
+                id: ++idSeq,
                 fullName: "Leda Langosh",
                 phone: "340-448-2466",
                 city: "New Clementinashire",
@@ -430,7 +457,7 @@ function getRecords() {
           ],
        },
        {
-          id: 4,
+          id: ++idSeq,
           fullName: "Rebeka Ankunding",
           phone: "968-349-1333",
           city: "Bergstrommouth",
@@ -438,7 +465,7 @@ function getRecords() {
           $leaf: true,
        },
        {
-          id: 5,
+          id: ++idSeq,
           fullName: "Carter Sauer",
           phone: "316-209-2080",
           city: "Adriannaton",
@@ -446,7 +473,7 @@ function getRecords() {
           $leaf: false,
           $children: [
              {
-                id: 19,
+                id: ++idSeq,
                 fullName: "Arthur Stiedemann",
                 phone: "266-374-6645",
                 city: "South Tyra",
@@ -454,7 +481,7 @@ function getRecords() {
                 $leaf: false,
              },
              {
-                id: 20,
+                id: ++idSeq,
                 fullName: "Cyril Satterfield",
                 phone: "577-374-4808",
                 city: "New Brooke",
@@ -465,7 +492,7 @@ function getRecords() {
        },
     ];
 }
- 
+
 function waitFor(time) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
