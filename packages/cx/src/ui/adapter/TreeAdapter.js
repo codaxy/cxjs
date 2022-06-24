@@ -79,8 +79,7 @@ export class TreeAdapter extends ArrayAdapter {
                      if (this.onLoadError) this.onLoadError(response);
                   });
             }
-         }
-         data[this.expandedField] = false;
+         } else data[this.expandedField] = false;
       }
    }
 
