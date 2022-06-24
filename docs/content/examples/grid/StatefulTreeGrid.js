@@ -103,7 +103,15 @@ export const StatefulTreeGrid = (
    <cx>
       <Md controller={PageController}>
          <CodeSplit>
-            # Stateful Tree Grid The following example shows how to make a tree out of grid control.
+         # Stateful Tree Grid
+
+          The following example shows how to make a stateful tree grid component with some common tree functionalities.
+          This way, the state (expanded folders) of the grid will be preserved, even if we reload grid data.
+          Keep in mind that a record's state will be preserved only if the value of the record's `expanded` property after reload is nullish (null or undefined).
+
+          To make grid stateful, `restoreExpandedNodesOnLoad` property should be set to `true`, and `expandedNodesIdsMap` should be defined as a `binding` on `TreeAdapter`.
+
+          The Code also includes some builtin Cx functions for easier tree manipulation, like `updateTree` and `removeTreeNodes`.
             <FlexRow spacing style="margin-bottom: 10px">
                <Button onClick="load" text="Reload" mod="primary" />
                <Button
@@ -122,7 +130,7 @@ export const StatefulTreeGrid = (
                style={{
                   width: "100%",
                   opacity: expr("{$page.loading} ? 0.4 : 1"),
-                  height: 500,
+                  height: 400,
                }}
                scrollable={true}
                dataAdapter={{
@@ -197,7 +205,7 @@ export const StatefulTreeGrid = (
 
 function generateRecords(level = 0) {
    let array = [];
-   for (let i = 0; i < 15 - 5 * level; i++) {
+   for (let i = 0; i < 12 - 4 * level; i++) {
       const leaf = Math.floor(Math.random() * 10) < 4;
       array.push(getNewEntry(leaf));
 

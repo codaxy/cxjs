@@ -9,8 +9,12 @@ export class TreeAdapter extends ArrayAdapter {
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
 
       if (this.restoreExpandedNodesOnLoad) {
-         if (isBinding(this.expandedNodesIdsMap))
-            this.expandedNodesMapAccessor = getAccessor({ bind: this.expandedNodesIdsMap.bind, default: {} });
+         if (!isBinding(this.expandedNodesIdsMap)) {
+            this.restoreExpandedNodesOnLoad = false;
+            return;
+         }
+
+         this.expandedNodesMapAccessor = getAccessor({ bind: this.expandedNodesIdsMap.bind });
 
          if (!this.keyField)
             console.warn("Using id as unique identifier of the record since Grid keyField is not specified.");
