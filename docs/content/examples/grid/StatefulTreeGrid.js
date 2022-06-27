@@ -110,8 +110,9 @@ export const StatefulTreeGrid = (
           Keep in mind that a record's state will be preserved only if the value of the record's `expanded` property after reload is nullish (null or undefined).
 
           To make grid stateful, `restoreExpandedNodesOnLoad` property should be set to `true`, and `expandedNodesIdsMap` should be defined as a `binding` on `TreeAdapter`.
+          We can add a trigger that listens to changes of the map store and preserve it permanently if needed.
 
-          The Code also includes some builtin Cx functions for easier tree manipulation, like `updateTree` and `removeTreeNodes`.
+          The Code also showcases usage of some builtin Cx functions for easier tree manipulation, like `updateTree` and `removeTreeNodes`.
             <FlexRow spacing style="margin-bottom: 10px">
                <Button onClick="load" text="Reload" mod="primary" />
                <Button
