@@ -26,7 +26,7 @@ class PageController extends Controller {
    }
 
    deleteRecordFromContextMenu(e, { store }) {
-      let recordId = store.get("$record.id");
+      let recordId = store.get("$record.recordId");
       this.doDelete(recordId);
    }
 
@@ -36,7 +36,7 @@ class PageController extends Controller {
    }
 
    doDelete(id) {
-      records = removeTreeNodes(records, (r) => r.id === id);
+      records = removeTreeNodes(records, (r) => r.recordId === id);
       this.load();
    }
 
@@ -72,12 +72,12 @@ class PageController extends Controller {
    }
 
    addFolderFromContextMenu(e, { store }) {
-      const recordId = store.get("$record.id");
+      const recordId = store.get("$record.recordId");
       this.addEntryFromContextMenu(recordId, false);
    }
 
    addLeafFromContextMenu(e, { store }) {
-      const recordId = store.get("$record.id");
+      const recordId = store.get("$record.recordId");
       this.addEntryFromContextMenu(recordId, true);
    }
 
@@ -91,7 +91,7 @@ class PageController extends Controller {
             $expanded: true,
             $children: node?.$children?.length > 0 ? [...node.$children, newEntry] : [newEntry],
          }),
-         (node) => node.id == parentId,
+         (node) => node.recordId == parentId,
          "$children"
       );
 
@@ -110,6 +110,8 @@ export const StatefulTreeGrid = (
           Keep in mind that a record's state will be preserved only if the value of the record's `expanded` property after reload is nullish (null or undefined).
 
           To make grid stateful, `restoreExpandedNodesOnLoad` property should be set to `true`, and `expandedNodesIdsMap` should be defined as a `binding` on `TreeAdapter`.
+          The map is a JavaScript object whose properties are unique identifiers of the records, with value set to `true`.
+          By default, value of the record's `id` property is picked as a unique identifier, but if needed this can be overridden through `keyField` Grid property.
           We can add a trigger that listens to changes of the map store and preserve it permanently if needed.
 
           The Code also showcases usage of some builtin Cx functions for easier tree manipulation, like `updateTree` and `removeTreeNodes`.
@@ -139,6 +141,7 @@ export const StatefulTreeGrid = (
                   restoreExpandedNodesOnLoad: true,
                   expandedNodesIdsMap: bind("$page.expandedNodesIds"),
                }}
+               keyField='recordId'
                selection={{ type: KeySelection, bind: "$page.selection" }}
                columns={[
                   {
@@ -220,7 +223,7 @@ function generateRecords(level = 0) {
 
 function getNewEntry(leaf) {
    return {
-      id: ++idSeq,
+      recordId: ++idSeq,
       fullName: casual.full_name,
       phone: casual.phone,
       city: casual.city,
