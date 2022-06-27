@@ -1,6 +1,4 @@
-import { isBinding } from "../../data";
 import { getAccessor } from "../../data/getAccessor";
-import { Console } from "../../util/Console";
 import { isArray } from "../../util/isArray";
 import { ArrayAdapter } from "./ArrayAdapter";
 
