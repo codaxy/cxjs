@@ -142,7 +142,6 @@ export const StatefulTreeGrid = (
                dataAdapter={{
                   type: TreeAdapter,
                   restoreExpandedNodesOnLoad: true,
-                  expandedNodesIdsMap: bind("$page.expandedNodesIds"),
                }}
                keyField='recordId'
                selection={{ type: KeySelection, bind: "$page.selection" }}
@@ -412,7 +411,7 @@ export const StatefulTreeGrid = (
                            instance
                         );
                      }}
-                  /> 
+                  />
                   `}
                </CodeSnippet>
             </Content>

@@ -1,5 +1,6 @@
 import { isBinding } from "../../data";
 import { getAccessor } from "../../data/getAccessor";
+import { Console } from "../../util/Console";
 import { isArray } from "../../util/isArray";
 import { ArrayAdapter } from "./ArrayAdapter";
 
@@ -9,15 +10,11 @@ export class TreeAdapter extends ArrayAdapter {
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
 
       if (this.restoreExpandedNodesOnLoad) {
-         if (!isBinding(this.expandedNodesIdsMap)) {
-            this.restoreExpandedNodesOnLoad = false;
-            return;
-         }
+         if (!this.keyField) throw new Error("Stateful tree adapter requires Grid keyField to be specified.");
 
-         this.expandedNodesMapAccessor = getAccessor({ bind: this.expandedNodesIdsMap.bind });
-
-         if (!this.keyField)
-            console.warn("Using id as unique identifier of the record since Grid keyField is not specified.");
+         this.expandedState = {
+            next: new Set(),
+         };
       }
    }
 
@@ -26,14 +23,13 @@ export class TreeAdapter extends ArrayAdapter {
       let result = [];
 
       if (this.restoreExpandedNodesOnLoad) {
-         this.expandedNodesIds = this.expandedNodesMapAccessor.get(parentStore.getData());
-         this.newExpandedNodesIds = {};
+         this.expandedState = {
+            current: this.expandedState.next,
+            next: new Set(),
+         };
       }
 
       this.processList(context, instance, 0, "", nodes, result);
-
-      if (this.restoreExpandedNodesOnLoad)
-         parentStore.silently(() => this.expandedNodesMapAccessor.set(this.newExpandedNodesIds, parentStore));
 
       return result;
    }
@@ -51,14 +47,11 @@ export class TreeAdapter extends ArrayAdapter {
       let { data, store } = record;
       data.$level = this.hideRootNodes ? level - 1 : level;
       if (!data[this.leafField]) {
-         let identifierField = this.keyField || "id";
-         if (this.restoreExpandedNodesOnLoad && this.expandedNodesIds) {
-            let expand = this.expandedNodesIds[data[identifierField]];
-            if (data[this.expandedField] == null && expand) data[this.expandedField] = true;
-         }
+         if (this.restoreExpandedNodesOnLoad && data[this.expandedField] == null)
+            data[this.expandedField] = this.expandedState.current.has(data[this.keyField]);
 
          if (data[this.expandedField] || isHiddenRootNode) {
-            if (this.restoreExpandedNodesOnLoad) this.newExpandedNodesIds[data[identifierField]] = true;
+            if (this.restoreExpandedNodesOnLoad) this.expandedState.next.add(data[this.keyField]);
 
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(

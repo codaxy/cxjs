@@ -9,6 +9,7 @@ interface ArrayAdapterConfig {
    recordsAccessor?: Accessor;
    recordName: string | AccessorChain<any>;
    indexName: string | AccessorChain<any>;
+   keyField?: string;
 }
 
 export class ArrayAdapter extends DataAdapter {
