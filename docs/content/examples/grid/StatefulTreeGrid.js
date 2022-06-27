@@ -14,12 +14,15 @@ class PageController extends Controller {
       this.store.init("$page.treeExpanded", false);
    }
 
-   async load() {
-      this.store.set("$page.loading", true);
-      // fake loading
-      await waitFor(500);
+   async load(addDelay = true) {
 
-      this.store.set("$page.loading", false);
+     // fake loading
+     if (addDelay)  {
+       this.store.set("$page.loading", true);
+       await waitFor(500);
+       this.store.set("$page.loading", false);
+      }
+
       let newRecords = structuredClone(records);
 
       this.store.set("$page.data", newRecords);
@@ -54,7 +57,7 @@ class PageController extends Controller {
          "$children"
       );
 
-      this.load();
+      this.load(false);
    }
 
    addFolder() {
