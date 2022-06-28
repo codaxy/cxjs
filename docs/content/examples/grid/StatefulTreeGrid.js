@@ -15,7 +15,6 @@ class PageController extends Controller {
    }
 
    async load(addDelay = true) {
-
      // fake loading
      if (addDelay)  {
        this.store.set("$page.loading", true);
@@ -207,15 +206,15 @@ export const StatefulTreeGrid = (
                         for (let i = 0; i < 12 - 4 * level; i++) {
                            const leaf = Math.floor(Math.random() * 10) < 4;
                            array.push(getNewEntry(leaf));
-                     
+
                            if (!leaf && level < 3) {
                               array[i].$children = generateRecords(level + 1);
                            }
                         }
-                     
+
                         return array;
                      }
-                     
+
                      function getNewEntry(leaf) {
                         return {
                            recordId: ++idSeq,
@@ -227,7 +226,6 @@ export const StatefulTreeGrid = (
                            $leaf: leaf,
                         };
                      }
-                     
                      function waitFor(time) {
                         return new Promise((resolve, reject) => {
                            setTimeout(() => {
@@ -235,47 +233,47 @@ export const StatefulTreeGrid = (
                            }, time);
                         });
                      }
-                     
+
 
                      class PageController extends Controller {
                         onInit() {
                            this.load();
                            this.store.init("$page.treeExpanded", false);
                         }
-                     
+
                         async load(addDelay = true) {
-                     
+
                           // fake loading
                           if (addDelay)  {
                             this.store.set("$page.loading", true);
                             await waitFor(500);
                             this.store.set("$page.loading", false);
                            }
-                     
+
                            let newRecords = structuredClone(records);
-                     
+
                            this.store.set("$page.data", newRecords);
                         }
-                     
+
                         deleteRecordFromContextMenu(e, { store }) {
                            let recordId = store.get("$record.recordId");
                            this.doDelete(recordId);
                         }
-                     
+
                         deleteRecord() {
                            let selection = this.store.get("$page.selection");
                            this.doDelete(selection);
                         }
-                     
+
                         doDelete(id) {
                            records = removeTreeNodes(records, (r) => r.recordId === id);
                            this.load();
                         }
-                     
+
                         expandCollapseTree() {
                            this.store.toggle("$page.treeExpanded");
                            let expanded = this.store.get("$page.treeExpanded");
-                     
+
                            records = updateTree(
                               records,
                               (node) => ({
@@ -285,37 +283,37 @@ export const StatefulTreeGrid = (
                               (node) => !node.$leaf,
                               "$children"
                            );
-                     
+
                            this.load(false);
                         }
-                     
+
                         addFolder() {
                            this.addEntry(false);
                         }
-                     
+
                         addLeaf() {
                            this.addEntry(true);
                         }
-                     
+
                         addEntry(leaf) {
                            const newEntry = getNewEntry(leaf);
                            records = [...records, newEntry];
                            this.load();
                         }
-                     
+
                         addFolderFromContextMenu(e, { store }) {
                            const recordId = store.get("$record.recordId");
                            this.addEntryFromContextMenu(recordId, false);
                         }
-                     
+
                         addLeafFromContextMenu(e, { store }) {
                            const recordId = store.get("$record.recordId");
                            this.addEntryFromContextMenu(recordId, true);
                         }
-                     
+
                         addEntryFromContextMenu(parentId, leaf) {
                            const newEntry = getNewEntry(leaf);
-                     
+
                            records = updateTree(
                               records,
                               (node) => ({
@@ -326,7 +324,7 @@ export const StatefulTreeGrid = (
                               (node) => node.recordId == parentId,
                               "$children"
                            );
-                     
+
                            this.load();
                         }
                      }
