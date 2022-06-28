@@ -1,5 +1,5 @@
 import { removeTreeNodes, updateTree } from "cx/data";
-import { bind, Controller, expr, KeySelection, PureContainer, TreeAdapter } from "cx/ui";
+import { Controller, expr, KeySelection, PureContainer, TreeAdapter } from "cx/ui";
 import { Button, Content, FlexRow, Grid, Menu, MenuItem, openContextMenu, Tab, TreeNode } from "cx/widgets";
 import { CodeSnippet } from "../../../components/CodeSnippet";
 import { CodeSplit } from "../../../components/CodeSplit";
@@ -144,7 +144,7 @@ export const StatefulTreeGrid = (
                   restoreExpandedNodesOnLoad: true,
                }}
                keyField='recordId'
-               selection={{ type: KeySelection, bind: "$page.selection" }}
+               selection={{ type: KeySelection, bind: "$page.selection", keyField: 'recordId' }}
                columns={[
                   {
                      header: "Name",
