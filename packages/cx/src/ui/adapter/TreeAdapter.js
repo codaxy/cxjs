@@ -6,12 +6,29 @@ export class TreeAdapter extends ArrayAdapter {
    init() {
       super.init();
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
+
+      if (this.restoreExpandedNodesOnLoad) {
+         if (!this.keyField) throw new Error("Stateful tree adapter requires Grid keyField to be specified.");
+
+         this.expandedState = {
+            next: new Set(),
+         };
+      }
    }
 
    mapRecords(context, instance, data, parentStore, recordsAccessor) {
       let nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
       let result = [];
+
+      if (this.restoreExpandedNodesOnLoad) {
+         this.expandedState = {
+            current: this.expandedState.next,
+            next: new Set(),
+         };
+      }
+
       this.processList(context, instance, 0, "", nodes, result);
+
       return result;
    }
 
@@ -22,13 +39,18 @@ export class TreeAdapter extends ArrayAdapter {
       });
    }
 
-processNode(context, instance, level, result, record) {
+   processNode(context, instance, level, result, record) {
       let isHiddenRootNode = level == 0 && this.hideRootNodes;
       if (!isHiddenRootNode) result.push(record);
       let { data, store } = record;
       data.$level = this.hideRootNodes ? level - 1 : level;
       if (!data[this.leafField]) {
+         if (this.restoreExpandedNodesOnLoad && data[this.expandedField] == null)
+            data[this.expandedField] = this.expandedState.current.has(data[this.keyField]);
+
          if (data[this.expandedField] || isHiddenRootNode) {
+            if (this.restoreExpandedNodesOnLoad) this.expandedState.next.add(data[this.keyField]);
+
             if (data[this.childrenField]) {
                let childNodes = super.mapRecords(
                   context,
