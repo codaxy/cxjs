@@ -226,6 +226,7 @@ export const StatefulTreeGrid = (
                            $leaf: leaf,
                         };
                      }
+
                      function waitFor(time) {
                         return new Promise((resolve, reject) => {
                            setTimeout(() => {
@@ -233,7 +234,6 @@ export const StatefulTreeGrid = (
                            }, time);
                         });
                      }
-
 
                      class PageController extends Controller {
                         onInit() {
@@ -243,15 +243,15 @@ export const StatefulTreeGrid = (
 
                         async load(addDelay = true) {
 
-                          // fake loading
-                          if (addDelay)  {
-                            this.store.set("$page.loading", true);
-                            await waitFor(500);
-                            this.store.set("$page.loading", false);
+                           // fake loading
+                           if (addDelay)  {
+                              this.store.set("$page.loading", true);
+                              await waitFor(500);
+                              this.store.set("$page.loading", false);
                            }
-
+ 
                            let newRecords = structuredClone(records);
-
+ 
                            this.store.set("$page.data", newRecords);
                         }
 
@@ -359,7 +359,7 @@ export const StatefulTreeGrid = (
                            restoreExpandedNodesOnLoad: true,
                         }}
                         keyField='recordId'
-                        selection={{ type: KeySelection, bind: "$page.selection" }}
+                        selection={{ type: KeySelection, bind: "$page.selection", keyField: 'recordId' }}
                         columns={[
                            {
                               header: "Name",
