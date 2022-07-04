@@ -8,7 +8,10 @@ export class TreeAdapter extends ArrayAdapter {
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
 
       if (this.restoreExpandedNodesOnLoad) {
-         if (!this.keyField) throw new Error("Stateful tree adapter requires Grid keyField to be specified.");
+         if (!this.keyField)
+            throw new Error(
+               "Stateful tree adapter requires keyField property to be specified on either Grid or data adapter."
+            );
 
          this.expandedState = {
             next: new Set(),
