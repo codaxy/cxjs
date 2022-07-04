@@ -242,10 +242,13 @@ export const StatefulTreeGrid = (
                         onInit() {
                            this.load();
                            this.store.init("$page.treeExpanded", false);
+                     
+                           this.addTrigger('on-expanded-change', ['$page.data'], updatedRecords => {
+                              records = updatedRecords;
+                           });
                         }
 
                         async load(addDelay = true) {
-
                            // fake loading
                            if (addDelay)  {
                               this.store.set("$page.loading", true);
@@ -270,6 +273,7 @@ export const StatefulTreeGrid = (
 
                         doDelete(id) {
                            records = removeTreeNodes(records, (r) => r.recordId === id);
+                           this.store.delete('$page.selection');
                            this.load();
                         }
 
