@@ -12,14 +12,18 @@ class PageController extends Controller {
    onInit() {
       this.load();
       this.store.init("$page.treeExpanded", false);
+
+      this.addTrigger('on-expanded-change', ['$page.data'], updatedRecords => {
+         records = updatedRecords;
+      });
    }
 
    async load(addDelay = true) {
-     // fake loading
-     if (addDelay)  {
-       this.store.set("$page.loading", true);
-       await waitFor(500);
-       this.store.set("$page.loading", false);
+      // fake loading
+      if (addDelay)  {
+         this.store.set("$page.loading", true);
+         await waitFor(500);
+         this.store.set("$page.loading", false);
       }
 
       let newRecords = structuredClone(records);
@@ -39,6 +43,7 @@ class PageController extends Controller {
 
    doDelete(id) {
       records = removeTreeNodes(records, (r) => r.recordId === id);
+      this.store.delete('$page.selection');
       this.load();
    }
 
@@ -111,10 +116,8 @@ export const StatefulTreeGrid = (
           This way, the state (expanded folders) of the grid will be preserved, even if we reload grid data.
           Keep in mind that a record's state will be preserved only if the value of the record's `expanded` property after reload is nullish (null or undefined).
 
-          To make grid stateful, `restoreExpandedNodesOnLoad` property should be set to `true`, and `expandedNodesIdsMap` should be defined as a `binding` on `TreeAdapter`.
-          The map is a JavaScript object whose properties are unique identifiers of the records, with value set to `true`.
-          By default, value of the record's `id` property is picked as a unique identifier, but if needed this can be overridden through `keyField` Grid property.
-          We can add a trigger that listens to changes of the map store and preserve it permanently if needed.
+          To make grid stateful, `restoreExpandedNodesOnLoad` property should be set to `true` on `TreeAdapter`.
+          Additionally, `keyField` property on either Grid or data adapter has to be specified.
 
           The Code also showcases usage of some builtin Cx functions for easier tree manipulation, like `updateTree` and `removeTreeNodes`.
             <FlexRow spacing style="margin-bottom: 10px">
@@ -239,19 +242,22 @@ export const StatefulTreeGrid = (
                         onInit() {
                            this.load();
                            this.store.init("$page.treeExpanded", false);
+                     
+                           this.addTrigger('on-expanded-change', ['$page.data'], updatedRecords => {
+                              records = updatedRecords;
+                           });
                         }
 
                         async load(addDelay = true) {
-
                            // fake loading
                            if (addDelay)  {
                               this.store.set("$page.loading", true);
                               await waitFor(500);
                               this.store.set("$page.loading", false);
                            }
- 
+
                            let newRecords = structuredClone(records);
- 
+
                            this.store.set("$page.data", newRecords);
                         }
 
@@ -267,6 +273,7 @@ export const StatefulTreeGrid = (
 
                         doDelete(id) {
                            records = removeTreeNodes(records, (r) => r.recordId === id);
+                           this.store.delete('$page.selection');
                            this.load();
                         }
 
