@@ -102,7 +102,8 @@ import "./index.scss";
 //import Demo from "./bugs/BlurBug";
 //import Demo from "./features/immer";
 // import Demo from "./bugs/971";
-import Demo from "./bugs/LookupFieldListItemFocus";
+// import Demo from "./bugs/LookupFieldListItemFocus";
+import Demo from "./bugs/SliderValue";
 
 let store = (window.store = new Store());
 

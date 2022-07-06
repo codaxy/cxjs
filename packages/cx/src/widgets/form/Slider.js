@@ -111,22 +111,29 @@ class SliderComponent extends VDOM.Component {
       to = Math.min(maxValue, Math.max(minValue, to));
 
       let handleStyle = CSS.parseStyle(data.handleStyle);
-
-      let fromHandleStyle = {
-         ...handleStyle,
-         [widget.vertical ? "top" : "left"]: `${(100 * (from - minValue)) / (maxValue - minValue)}%`,
-      };
-      let toHandleStyle = {
-         ...handleStyle,
-         [widget.vertical ? "top" : "left"]: `${(100 * (to - minValue)) / (maxValue - minValue)}%`,
-      };
-
+      let verticalPosition = "top";
       let rangeStart = (from - minValue) / (maxValue - minValue);
       let rangeSize = (to - from) / (maxValue - minValue);
 
+      if (widget.vertical && widget.showFrom && !widget.showTo) {
+         verticalPosition = "bottom";
+         rangeStart = 0;
+         rangeSize = (from - minValue) / (maxValue - minValue);
+      }
+
+      let fromHandleStyle = {
+         ...handleStyle,
+         [widget.vertical ? verticalPosition : "left"]: `${(100 * (from - minValue)) / (maxValue - minValue)}%`,
+      };
+
+      let toHandleStyle = {
+         ...handleStyle,
+         [widget.vertical ? verticalPosition : "left"]: `${(100 * (to - minValue)) / (maxValue - minValue)}%`,
+      };
+
       let rangeStyle = {
          ...CSS.parseStyle(data.rangeStyle),
-         [widget.vertical ? "top" : "left"]: `${100 * rangeStart}%`,
+         [widget.vertical ? verticalPosition : "left"]: `${100 * rangeStart}%`,
          [widget.vertical ? "height" : "width"]: `${100 * rangeSize}%`,
       };
 
@@ -238,7 +245,12 @@ class SliderComponent extends VDOM.Component {
          (e) => {
             let { value } = this.getValues(e, widget.vertical ? dy : dx);
             if (handle === "from") {
-               if (instance.set("from", value)) this.setState({ from: value });
+               if (widget.vertical && widget.showFrom && !widget.showTo) {
+                  const fromValue = widget.maxValue + widget.minValue - value;
+                  if (instance.set("from", fromValue)) this.setState({ from: fromValue });
+               } else {
+                  if (instance.set("from", value)) this.setState({ from: value });
+               }
                if (value > this.state.to) {
                   if (instance.set("to", value)) this.setState({ to: value });
                }
@@ -292,8 +304,12 @@ class SliderComponent extends VDOM.Component {
          let { value } = this.getValues(e);
          this.props.instance.set("value", value, { immediate: true });
          if (widget.showFrom) {
-            this.setState({ from: value });
-            this.props.instance.set("from", value, { immediate: true });
+            let fromValue = value;
+            if (widget.vertical && !widget.showTo) {
+               fromValue = widget.maxValue + widget.minValue - value;
+            }
+            this.setState({ from: fromValue });
+            this.props.instance.set("from", fromValue, { immediate: true });
          }
          if (widget.showTo) {
             this.setState({ to: value });
@@ -314,7 +330,11 @@ class SliderComponent extends VDOM.Component {
 
       if (!data.disabled && !data.readOnly) {
          if (widget.showFrom) {
-            let value = this.checkBoundries(data.from + increment);
+            let fromValue = data.from + increment;
+            if (widget.vertical && !widget.showTo) {
+               fromValue = data.from - increment;
+            }
+            let value = this.checkBoundries(fromValue);
             if (instance.set("from", value)) this.setState({ from: value });
          } else if (widget.showTo) {
             let value = this.checkBoundries(data.to + increment);
@@ -325,6 +345,14 @@ class SliderComponent extends VDOM.Component {
 
    checkBoundries(value) {
       let { data } = this.props.instance;
+
+      if (data.vertical && data.showFrom && !data.showTo) {
+         const verticalValue = data.minValue + value;
+         if (verticalValue > data.maxValue) value = data.maxValue;
+         else if (verticalValue < data.minValue) value = data.minValue;
+         return value;
+      }
+
       if (value > data.maxValue) value = data.maxValue;
       else if (value < data.minValue) value = data.minValue;
       return value;
