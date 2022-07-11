@@ -2,6 +2,13 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.7.0`
+
+**New Features**
+
+-  TreeAdapter now supports preserving expanded state through a flag `restoreExpandedNodesOnLoad`
+-  Added an example for stateful tree grids
+
 ## `cx@22.6.3`
 
 **New Features**
