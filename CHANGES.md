@@ -2,6 +2,10 @@
 
 <!--- ## Unreleased -->
 
+**Fixes**
+
+-  Render overlay backdrop before the body and allow propagation of `mousedown` event to the body to allow integration with other libraries (i.e. prosemirror).
+
 ## `cx@22.7.0`
 
 **New Features**
