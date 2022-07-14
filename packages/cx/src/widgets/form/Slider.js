@@ -34,6 +34,7 @@ export class Slider extends Field {
             handleStyle: {
                structured: true,
             },
+            invert: false,
          },
          ...arguments
       );
@@ -86,6 +87,7 @@ Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
 Slider.prototype.incrementPercentage = 0.01;
 Slider.prototype.wheel = false;
+Slider.prototype.invert = false;
 
 Widget.alias("slider", Slider);
 
@@ -112,13 +114,29 @@ class SliderComponent extends VDOM.Component {
 
       let handleStyle = CSS.parseStyle(data.handleStyle);
       let verticalPosition = "top";
-      let rangeStart = (from - minValue) / (maxValue - minValue);
-      let rangeSize = (to - from) / (maxValue - minValue);
+      let rangeStart = from - minValue;
+      let rangeSize = to - from;
 
-      if (widget.vertical && widget.showFrom && !widget.showTo) {
-         verticalPosition = "bottom";
-         rangeStart = 0;
-         rangeSize = (from - minValue) / (maxValue - minValue);
+      if (widget.vertical && !this.isRangeSlider(widget.showFrom, widget.showTo)) {
+         rangeStart = minValue;
+
+         if (!widget.invert) {
+            verticalPosition = "bottom";
+
+            if (widget.showFrom) {
+               rangeSize = from - minValue;
+            } else {
+               rangeSize = to;
+            }
+         } else {
+            verticalPosition = "top";
+
+            if (widget.showFrom) {
+               rangeSize = from + minValue;
+            } else {
+               rangeSize = to;
+            }
+         }
       }
 
       let fromHandleStyle = {
@@ -133,8 +151,8 @@ class SliderComponent extends VDOM.Component {
 
       let rangeStyle = {
          ...CSS.parseStyle(data.rangeStyle),
-         [widget.vertical ? verticalPosition : "left"]: `${100 * rangeStart}%`,
-         [widget.vertical ? "height" : "width"]: `${100 * rangeSize}%`,
+         [widget.vertical ? verticalPosition : "left"]: `${(100 * rangeStart) / (maxValue - minValue)}%`,
+         [widget.vertical ? "height" : "width"]: `${(100 * rangeSize) / (maxValue - minValue)}%`,
       };
 
       return (
@@ -244,13 +262,12 @@ class SliderComponent extends VDOM.Component {
          e,
          (e) => {
             let { value } = this.getValues(e, widget.vertical ? dy : dx);
+            if (widget.vertical && !this.isRangeSlider(widget.showFrom, widget.showTo) && !widget.invert) {
+               value = widget.maxValue - value;
+            }
+
             if (handle === "from") {
-               if (widget.vertical && widget.showFrom && !widget.showTo) {
-                  const fromValue = widget.maxValue + widget.minValue - value;
-                  if (instance.set("from", fromValue)) this.setState({ from: fromValue });
-               } else {
-                  if (instance.set("from", value)) this.setState({ from: value });
-               }
+               if (instance.set("from", value)) this.setState({ from: value });
                if (value > this.state.to) {
                   if (instance.set("to", value)) this.setState({ to: value });
                }
@@ -303,13 +320,14 @@ class SliderComponent extends VDOM.Component {
       if (!data.disabled && !data.readOnly) {
          let { value } = this.getValues(e);
          this.props.instance.set("value", value, { immediate: true });
+
+         if (widget.vertical && !this.isRangeSlider(widget.showFrom, widget.showTo) && !widget.invert) {
+            value = widget.maxValue + widget.minValue - value;
+         }
+
          if (widget.showFrom) {
-            let fromValue = value;
-            if (widget.vertical && !widget.showTo) {
-               fromValue = widget.maxValue + widget.minValue - value;
-            }
-            this.setState({ from: fromValue });
-            this.props.instance.set("from", fromValue, { immediate: true });
+            this.setState({ from: value });
+            this.props.instance.set("from", value, { immediate: true });
          }
          if (widget.showTo) {
             this.setState({ to: value });
@@ -330,14 +348,16 @@ class SliderComponent extends VDOM.Component {
 
       if (!data.disabled && !data.readOnly) {
          if (widget.showFrom) {
-            let fromValue = data.from + increment;
-            if (widget.vertical && !widget.showTo) {
-               fromValue = data.from - increment;
+            let value = this.checkBoundries(data.from + increment);
+            if (widget.vertical && !this.isRangeSlider(widget.showFrom, widget.showTo) && !widget.invert) {
+               value = this.checkBoundries(data.from - increment);
             }
-            let value = this.checkBoundries(fromValue);
             if (instance.set("from", value)) this.setState({ from: value });
          } else if (widget.showTo) {
             let value = this.checkBoundries(data.to + increment);
+            if (widget.vertical && !this.isRangeSlider(widget.showFrom, widget.showTo) && !widget.invert) {
+               value = this.checkBoundries(data.to - increment);
+            }
             if (instance.set("to", value)) this.setState({ to: value });
          }
       }
@@ -346,7 +366,7 @@ class SliderComponent extends VDOM.Component {
    checkBoundries(value) {
       let { data } = this.props.instance;
 
-      if (data.vertical && data.showFrom && !data.showTo) {
+      if (data.vertical) {
          const verticalValue = data.minValue + value;
          if (verticalValue > data.maxValue) value = data.maxValue;
          else if (verticalValue < data.minValue) value = data.minValue;
@@ -363,5 +383,9 @@ class SliderComponent extends VDOM.Component {
       let { data } = instance;
       let increment = data.increment || (data.maxValue - data.minValue) * data.incrementPercentage;
       return increment;
+   }
+
+   isRangeSlider(from, to) {
+      return !isUndefined(from) && !isUndefined(to);
    }
 }

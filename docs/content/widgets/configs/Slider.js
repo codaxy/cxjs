@@ -95,5 +95,11 @@ export default {
         description: <cx><Md>
             Configuration of the tooltip shown on the `to` handle. For more info see [Tooltips](~/widgets/tooltips).
         </Md></cx>
+    },
+    invert: {
+        type: 'boolean',
+        description: <cx><Md>
+            Invert vertical slider behavior. Set this to `true` if you want the slider to go from `top` to `bottom`.
+        </Md></cx>
     }
 };
