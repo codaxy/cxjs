@@ -34,6 +34,7 @@ export class Slider extends Field {
             handleStyle: {
                structured: true,
             },
+            invert: false,
          },
          ...arguments
       );
@@ -86,6 +87,7 @@ Slider.prototype.maxValue = 100;
 Slider.prototype.vertical = false;
 Slider.prototype.incrementPercentage = 0.01;
 Slider.prototype.wheel = false;
+Slider.prototype.invert = false;
 
 Widget.alias("slider", Slider);
 
@@ -111,23 +113,24 @@ class SliderComponent extends VDOM.Component {
       to = Math.min(maxValue, Math.max(minValue, to));
 
       let handleStyle = CSS.parseStyle(data.handleStyle);
+      let anchor = widget.vertical ? (widget.invert ? "top" : "bottom") : "left";
+      let rangeStart = from - minValue;
+      let rangeSize = to - from;
 
       let fromHandleStyle = {
          ...handleStyle,
-         [widget.vertical ? "top" : "left"]: `${(100 * (from - minValue)) / (maxValue - minValue)}%`,
-      };
-      let toHandleStyle = {
-         ...handleStyle,
-         [widget.vertical ? "top" : "left"]: `${(100 * (to - minValue)) / (maxValue - minValue)}%`,
+         [anchor]: `${(100 * (from - minValue)) / (maxValue - minValue)}%`,
       };
 
-      let rangeStart = (from - minValue) / (maxValue - minValue);
-      let rangeSize = (to - from) / (maxValue - minValue);
+      let toHandleStyle = {
+         ...handleStyle,
+         [anchor]: `${(100 * (to - minValue)) / (maxValue - minValue)}%`,
+      };
 
       let rangeStyle = {
          ...CSS.parseStyle(data.rangeStyle),
-         [widget.vertical ? "top" : "left"]: `${100 * rangeStart}%`,
-         [widget.vertical ? "height" : "width"]: `${100 * rangeSize}%`,
+         [anchor]: `${(100 * rangeStart) / (maxValue - minValue)}%`,
+         [widget.vertical ? "height" : "width"]: `${(100 * rangeSize) / (maxValue - minValue)}%`,
       };
 
       return (
@@ -267,12 +270,14 @@ class SliderComponent extends VDOM.Component {
       let b = getTopLevelBoundingClientRect(this.dom.range);
       let pos = getCursorPos(e);
       let pct = widget.vertical
-         ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
+         ? widget.invert
+            ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
+            : Math.max(0, Math.min(1, (b.bottom - pos.clientY + d) / this.dom.range.offsetHeight))
          : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range.offsetWidth));
       let delta = (maxValue - minValue) * pct;
       if (data.step) {
          let currentValue = Math.round(delta / data.step) * data.step + minValue;
-         let value = this.checkBoundries(currentValue);
+         let value = this.checkBoundaries(currentValue);
 
          if (maxValue % data.step === 0) delta = Math.round(delta / data.step) * data.step;
 
@@ -291,6 +296,7 @@ class SliderComponent extends VDOM.Component {
       if (!data.disabled && !data.readOnly) {
          let { value } = this.getValues(e);
          this.props.instance.set("value", value, { immediate: true });
+
          if (widget.showFrom) {
             this.setState({ from: value });
             this.props.instance.set("from", value, { immediate: true });
@@ -314,16 +320,16 @@ class SliderComponent extends VDOM.Component {
 
       if (!data.disabled && !data.readOnly) {
          if (widget.showFrom) {
-            let value = this.checkBoundries(data.from + increment);
+            let value = this.checkBoundaries(data.from + increment);
             if (instance.set("from", value)) this.setState({ from: value });
          } else if (widget.showTo) {
-            let value = this.checkBoundries(data.to + increment);
+            let value = this.checkBoundaries(data.to + increment);
             if (instance.set("to", value)) this.setState({ to: value });
          }
       }
    }
 
-   checkBoundries(value) {
+   checkBoundaries(value) {
       let { data } = this.props.instance;
       if (value > data.maxValue) value = data.maxValue;
       else if (value < data.minValue) value = data.minValue;
