@@ -9,9 +9,8 @@ export default (
                vertical
                wheel
                increment={1}
-               invert
                max={30}
-               from-bind="$page.vertical.from1"
+               value-bind="$page.vertical.from1"
                step={1}
                rangeStyle="background:red"
             />
@@ -21,7 +20,7 @@ export default (
                increment={1}
                invert
                max={50}
-               to-bind="$page.vertical.to"
+               value-bind="$page.vertical.to"
                step={1}
                rangeStyle="background:green"
             />
@@ -36,6 +35,7 @@ export default (
                vertical
                min={123}
                max={1234}
+               invert
                from-bind="$page.vertical.range3"
                to-bind="$page.vertical.range4"
                step={1}
@@ -103,6 +103,7 @@ export default (
                to-bind="$page.invert.range4"
                step={1}
                rangeStyle="background:yellow"
+               invert
             />
          </div>
 
