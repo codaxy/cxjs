@@ -165,6 +165,7 @@ declare namespace Cx {
       onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
       onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
       onClick?: string | ((event: MouseEvent, instance: any) => void);
+      onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
    }
 
    type SortDirection = "ASC" | "DESC";
