@@ -23,6 +23,13 @@ declare namespace Cx {
 
    type Selector<T> = (data: any) => T;
 
+   type GetSet<T> = {
+      get: Selector<T>;
+      set?: (value: T, instance?: any) => boolean;
+      throttle?: number;
+      debounce?: number;
+   };
+
    interface StructuredSelector {
       [prop: string]: Selector<any>;
    }
@@ -35,7 +42,7 @@ declare namespace Cx {
       [prop in keyof M]: AccessorChain<M[prop]>;
    };
 
-   type Prop<T> = T | Binding | Selector<T> | AccessorChain<T>;
+   type Prop<T> = T | Binding | Selector<T> | AccessorChain<T> | GetSet<T>;
 
    interface Record {
       [prop: string]: any;
