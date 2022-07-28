@@ -153,11 +153,19 @@ export function unfocusElement(target = null, forceBlur = true) {
    const activeElement = getActiveElement();
    if (!target) target = activeElement;
 
-   //find the closest focusable parent of the target element and focus it instead
-   let focusableParent = (!forceBlur && closestParent(target, (el) => isFocusable(el))) || document.body;
+   if (forceBlur) {
+      let focusableOverlayContainer = closestParent(target, (el) => el.dataset.focusableOverlayContainer);
+      if (focusableOverlayContainer) target = focusableOverlayContainer;
+   }
 
-   if (focusableParent === document.body) activeElement.blur();
-   else focusableParent.focus();
+   //find the closest focusable parent of the target element and focus it instead
+   let focusableParent = closestParent(
+      target,
+      (el) => isFocusable(el) && (!forceBlur || el.dataset.focusableOverlayContainer)
+   );
+
+   if (focusableParent && focusableParent !== document.body) focusableParent.focus();
+   else activeElement.blur();
 
    FocusManager.nudge();
 }

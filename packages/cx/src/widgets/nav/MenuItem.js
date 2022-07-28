@@ -398,7 +398,7 @@ class MenuItemComponent extends VDOM.Component {
          }
       }
 
-      if (widget.autoClose) unfocusElement(this.el);
+      if (widget.autoClose) unfocusElement(this.el, true);
    }
 
    onFocus() {

@@ -1,11 +1,11 @@
-import { Widget, VDOM } from "../../ui/Widget";
-import { Overlay } from "./Overlay";
-import { findFirst, isFocusable, getFocusedElement } from "../../util/DOM";
-import { isTouchDevice } from "../../util/isTouchDevice";
-import { ResizeManager } from "../../ui/ResizeManager";
 import { Localization } from "../../ui/Localization";
-import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { ResizeManager } from "../../ui/ResizeManager";
+import { Widget } from "../../ui/Widget";
 import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
+import { closestParent, findFirst, isFocusable } from "../../util/DOM";
+import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { isTouchDevice } from "../../util/isTouchDevice";
+import { Overlay } from "./Overlay";
 
 /*
  Dropdown specific features:
@@ -567,6 +567,15 @@ export class Dropdown extends Overlay {
          );
       }
       return [beacon, instance.relatedElement && super.render(context, instance, key)];
+   }
+
+   getOverlayContainer() {
+      // this should be instance.relatedElement
+      if (this.relatedElement) {
+         let container = closestParent(this.relatedElement, (el) => el.dataset && el.dataset.focusableOverlayContainer);
+         if (container) return container;
+      }
+      return super.getOverlayContainer();
    }
 }
 

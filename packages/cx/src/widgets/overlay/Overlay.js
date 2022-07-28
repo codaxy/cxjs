@@ -143,9 +143,14 @@ export class Overlay extends Container {
       if (this.onMouseEnter) instance.invoke("onMouseEnter", instance, component);
    }
 
+   getOverlayContainer() {
+      return document.body;
+   }
+
    containerFactory() {
       let el = document.createElement("div");
-      document.body.appendChild(el);
+      let container = this.getOverlayContainer();
+      container.appendChild(el);
       el.style.position = "absolute";
       if (this.containerStyle) Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -255,6 +260,7 @@ class OverlayContent extends VDOM.Component {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
             onClick={this.props.onClick}
+            data-focusable-overlay-container={this.props.focusableOverlayContainer}
          >
             {this.props.children}
          </div>
@@ -320,6 +326,7 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={this.onMouseEnter.bind(this)}
             onClick={this.onClick.bind(this)}
             onDidUpdate={this.overlayDidUpdate.bind(this)}
+            focusableOverlayContainer={widget.dismissOnFocusOut}
          >
             {this.renderOverlayBody()}
          </OverlayContent>
