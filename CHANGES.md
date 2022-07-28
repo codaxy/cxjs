@@ -2,6 +2,16 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.8.0`
+
+**Fixes**
+
+-  Allow onContextMenu on all HTML elements in TypeScript
+-  Properly handle context menus within windows and dropdowns
+-  Allow get/set props in TypeScript
+-  Allow accessor chains for the Sandbox.storage prop
+-  Orient vertical Sliders to be bottom up, instead of top to bottom with the invert flag to control the behavior
+
 ## `cx@22.7.1`
 
 **Fixes**
