@@ -425,7 +425,11 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
-      let { data } = this.props.instance;
+      let { instance } = this.props;
+      let { widget, data } = instance;
+
+      if (widget.onMouseDown && instance.invoke("onMouseDown", e, instance) === false) return;
+
       let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();

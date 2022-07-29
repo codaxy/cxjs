@@ -140,6 +140,7 @@ class MenuItemComponent extends VDOM.Component {
             relatedElement: this.el.parentElement,
             placement: widget.placement,
             onKeyDown: this.onDropdownKeyDown.bind(this),
+            onMouseDown: stopPropagation,
             items: widget.dropdown,
             parentPositionChangeEvent,
             pipeValidateDropdownPosition: (cb) => {

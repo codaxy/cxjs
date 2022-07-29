@@ -149,11 +149,11 @@ export function preventFocusOnTouch(e, force = false) {
    if (force || isTouchEvent()) preventFocus(e);
 }
 
-export function unfocusElement(target = null, forceBlur = true) {
+export function unfocusElement(target = null, unfocusParentOverlay = true) {
    const activeElement = getActiveElement();
    if (!target) target = activeElement;
 
-   if (forceBlur) {
+   if (unfocusParentOverlay) {
       let focusableOverlayContainer = closestParent(target, (el) => el.dataset.focusableOverlayContainer);
       if (focusableOverlayContainer) target = focusableOverlayContainer;
    }
@@ -161,7 +161,7 @@ export function unfocusElement(target = null, forceBlur = true) {
    //find the closest focusable parent of the target element and focus it instead
    let focusableParent = closestParent(
       target,
-      (el) => isFocusable(el) && (!forceBlur || el.dataset.focusableOverlayContainer)
+      (el) => isFocusable(el) && (!unfocusParentOverlay || el.dataset.focusableOverlayContainer)
    );
 
    if (focusableParent && focusableParent !== document.body) focusableParent.focus();

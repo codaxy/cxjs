@@ -1,6 +1,6 @@
 import { Localization } from "../../ui/Localization";
 import { ResizeManager } from "../../ui/ResizeManager";
-import { Widget } from "../../ui/Widget";
+import { Widget, VDOM } from "../../ui/Widget";
 import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
 import { closestParent, findFirst, isFocusable } from "../../util/DOM";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
