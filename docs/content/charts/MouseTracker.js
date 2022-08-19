@@ -58,7 +58,16 @@ export const MouseTrackerPage = <cx>
                             y: <NumericAxis min={0} max={100} vertical/>,
                         }}>
                             <Gridlines />
-                            <MouseTracker x-bind="$page.cursor.x" y-bind="$page.cursor.y">
+                            <MouseTracker 
+                                x-bind="$page.cursor.x" 
+                                y-bind="$page.cursor.y"   
+                                tooltip={{
+                                  destroyDelay: 5,
+                                  createDelay: 5,
+                                  text: { tpl: "({$page.cursor.x:n;1}, {$page.cursor.y:n;1})" },
+                                  trackMouse: true
+                                }}
+                            >
                                 <Marker visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" y-bind="$page.cursor.y" size={10}/>
                                 <MarkerLine visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" y2-bind="$page.cursor.y" y1={0}/>
                                 <MarkerLine visible-expr="!!{$page.cursor}" y-bind="$page.cursor.y" x2-bind="$page.cursor.x"/>
