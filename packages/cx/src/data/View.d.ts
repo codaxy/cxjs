@@ -21,6 +21,7 @@ export interface ViewMethods<D = Record> {
    get(path: Path): any;
    get(paths: Path[]): any[];
    get(...paths: Path[]): any[];
+   get<V>(path: AccessorChain<V>): V;
 
    /**
     * Removes data from the Store.
