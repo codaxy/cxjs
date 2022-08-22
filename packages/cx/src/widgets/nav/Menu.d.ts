@@ -18,7 +18,7 @@ interface MenuProps extends Cx.HtmlElementProps {
    overflow?: boolean,
 
    /** Icon to be used for the overflow menu. */
-   overflowIcon?: boolean,
+   overflowIcon?: string,
 
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string
