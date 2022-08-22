@@ -16,6 +16,7 @@ export interface ViewMethods<D = Record> {
    init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
+   set(changes: Record): boolean;
    set<V>(path: AccessorChain<V>, value: V): boolean;
 
    get(path: Path): any;
@@ -58,6 +59,7 @@ export class View<D = any> implements ViewMethods<D> {
    init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
+   set(changes: Record): boolean;
    set<V>(path: AccessorChain<V>, value: V): boolean;
 
    /**
